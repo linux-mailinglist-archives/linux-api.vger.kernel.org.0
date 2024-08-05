@@ -1,186 +1,244 @@
-Return-Path: <linux-api+bounces-2121-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2122-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5539483D3
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 23:07:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 027059484E0
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 23:35:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4FDAB2165D
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 21:07:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 268691C2218F
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 21:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5794616B388;
-	Mon,  5 Aug 2024 21:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8E1F16DC35;
+	Mon,  5 Aug 2024 21:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="P+jmOc0c";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WDxg+tG/"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IR0gQkiL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D6414BFB0;
-	Mon,  5 Aug 2024 21:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9720E172BBC
+	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 21:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722892060; cv=none; b=L98manGbmeXYjc7gyGdnDBDN+DiuKSph8AbzKoXC5xU4brVvBMotOMPAypAAd9MjmQUyDLlXIjowv4igARUnG48reE6izAgRkMK6ftmsFiQOcZFF0q4qtIR1hEy0xT4Dj1+jKFez25GlFkYu3RUpUZev/l7GFfmXvjVUj77/TkM=
+	t=1722893390; cv=none; b=fAMkXs2NNfn8XXtRJs07GdJjBi2uW4BhxJV3zdb5w+7lopmpxAL3nNdCFN+5DsQFKRMtV221q7aDKI07kcbF8bPLzSy+rwemVh7gQkDfh40ZNHNpyZLnLPIbpRol6hcua2sIcDBIy7dg7CHgblnGC94dEFO35ikbmtAIACk86nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722892060; c=relaxed/simple;
-	bh=skS/AJncNxLqI2yM6gOMemlUYOTiAl+DGcXfyQzOzDg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=bghlk/YiYWcgLUJEzVuXynLvUeUr/tShTJjuA/IFogquUlzuzVwoVfgjhGNnmraNArcoNXKW/cpTP43xUyQ1g/ry/U6suQI1zdukl+kUuj+WutEWce7rJu8xU4sLZ8f8WYQSJWcCs/uq8HeOwLHWgO2mZb8BkTG+YuCNCOphDrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=P+jmOc0c; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WDxg+tG/; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 300101382F9A;
-	Mon,  5 Aug 2024 17:07:37 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute4.internal (MEProxy); Mon, 05 Aug 2024 17:07:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1722892057;
-	 x=1722978457; bh=tXBWfo0rLBVvDIsHuehFdN8/T8xi3wWv1m9UP4W8yWY=; b=
-	P+jmOc0c0Tzk6v8capJcythtt4MaUpvQYSuCmOIPAGiMG1TondoP+HKMhomRMkt4
-	Q8ibhZRhrVqtSZITHUfGtBez7mWTFYXYmgV0cC19H/FCXuDulEydRmkcNzORXx57
-	IXxqrkLiRWemLnE3hRSbzHIdR+PI90Bi1w7+WQHYknqDENekl0ykyVsZu3m17msh
-	sD+YIE3LaKkboQFtuCEcBWYRxlrgKfmOG60RrBt7UzgihApSeq102bioDnZPDmSi
-	zedyrKqGhngozlajJ7NVtb1y80f8QZNGFUwHVxsLSMCsAb18Bl+YzpaCCEAfCp0f
-	U3yCBiNzSwE2yNMdtXf75w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1722892057; x=
-	1722978457; bh=tXBWfo0rLBVvDIsHuehFdN8/T8xi3wWv1m9UP4W8yWY=; b=W
-	Dxg+tG/JQZqtE2/7EolizRLTJw5KRIURzRXjgkn4MWkBnLxi38e646cG6uYai9BM
-	/jCCdNf+G0FmzS2it3fmJbRbAqFEMJjOOW2Ka+hAr+EvZWioFgDZ8M8urlv+mimG
-	48TZDo4guKnY07FlK57tkIxbrZ5Ym3emPcJeG8SvpHpDIXqvjOyPPWM9v++rsKHs
-	GBOlIblje5jAdLTLjmvd3efiS+W1BxZ7D2oFrJgcGpNK5OgZ1YsbHyUf88TdXnO7
-	oYZ/TmmiHJAOEMiBDFFfNZii9r1CIFgkGWIBtRaQ4fDgxzbVGdrUIFNgUxu/YD7J
-	x+tEzAQ6HkAviwm792baQ==
-X-ME-Sender: <xms:GD-xZhlTazEV78QF7P2ssFyXR4GeyuauPkXazKWJYaT2GGFwIv1djA>
-    <xme:GD-xZs3zXAjyB8w9wbkoNoMLbW_ZHdY_0FPz7Z9LnmGMpqoJQiIR8pNMgNiNtFG5J
-    4FNOl0f33TX5lmO0dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeeigdduiedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepledtjeekkedtgeeiudduveekgfeugeeftdeigfejtedufefggfekvefgtdeu
-    ieffnecuffhomhgrihhnpehrvgguhhgrthdrtghomhenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggp
-    rhgtphhtthhopedt
-X-ME-Proxy: <xmx:GD-xZnpU-pB2lUFdnhqLAzDNRSeZZEpAxfR0E_aQ4fIeTFfXtJJ1Lw>
-    <xmx:GD-xZhkA15N-6py0-a3WOfPg-FxmWi9QqX8H8jErBTICHH18t-qNmw>
-    <xmx:GD-xZv1E8R30rYIg2oKAhUddV4jLdn92NUambpFYg_deRBNt1FDv5w>
-    <xmx:GD-xZgtK2AOHou5A95thS82BJ0wmc2xZcK--yfvwZPoxAqXLm4bQjA>
-    <xmx:GT-xZj48glhUhQptunOq1eCXotrnbEhVuaak-YDbCeNvpXlwAWPeptf3>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E5835B6008D; Mon,  5 Aug 2024 17:07:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1722893390; c=relaxed/simple;
+	bh=f4gATws6BsDpnv+whFd/nT2RtFoVIT7P8QJCgccSmgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KnRAYDGKn5lSadaoLjUDGL/j2v4YWPFKn3WVuoDq3ElaeDIehzx0/Wptp+fmdrvJYh1HprLdzCEZNymu44SM0n+ysP/mdzCnwVfBTh5lLm3DH+RoKhYl3DOrXbfQpXJ599eQgKtCGzoGEZwLSScXMFaPU1jyU11JbLH1K8xJkQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IR0gQkiL; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-38252b3a90eso233665ab.0
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 14:29:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1722893388; x=1723498188; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=77vUSIhEXolQ7LP/swg34WCGlFiT86L+fvCS5JakSjE=;
+        b=IR0gQkiLIwzJeXxqZpk8+ykB5oDvFy9axQnXufnJUqqks8bPwfoqZoCElb+tRtONUM
+         N3fsAyRu3bHTTjYSHOyICnpmJXEctI2PBZUnSj8MzkV+O9yxC2yA6uhX3Ut/kq6m1xBl
+         N1ASuKdrrjXHiPvDf9URhJ6jfnXq7v7p/TzH4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722893388; x=1723498188;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=77vUSIhEXolQ7LP/swg34WCGlFiT86L+fvCS5JakSjE=;
+        b=oeYBfoV7lsKcyoVtAigqdBnx1x/RCPccrDe9dI1zpp+e6Uk2nPgsKlGmRgOsfrsdMT
+         3YL4GvNYad9fFpmCO7GVYOtcdHIXmPCB4ix08+gQvc3cB+P0LFazQJXom4PYZoDft2PN
+         7DQ2mZ0pfK2YgBROCmN8MzDCBdoSs9FTwAjO//oXCKa5xh/Vlta0ceU6Xn+tRRYJrp98
+         l8vQn27HtHCmsqpFvwL5T08w9L57mBOzfXLkzFNNbAQAAeSUrR28WU0Plz+0vyFsTq+C
+         YJpyHzXjCfP6Suo2EWplnEBk5JiodzkJkYhBtq0EoPNfMz3HgJUatxLOBx+GR4W+HNxt
+         /pkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwYVGUIm5D279EJa2lrl0T8c1Jkj15W1L5UBtocscJhqKU+eRwZk6X/4EXGMP5i2G5FpW9v3MJdTHn30/thNK2t2EA5z3CIDTl
+X-Gm-Message-State: AOJu0Yx+PaidBsboOK+8Ik6IrxuV7eMhnduZCffodUvNgZX29IArOb1G
+	2DJ3UkEpJ7pfw7pEf/hRl3mkgqY1I5LyxuoMvFSb5s3AouweFK/+n2Tt30vHEwY=
+X-Google-Smtp-Source: AGHT+IHaD5F3UB86KedRRHTA+tJQV3ceKsNfMpZP7mnoDYE8YjQUmsCzQ3zy37i0Pc0NnOXGdSO4eA==
+X-Received: by 2002:a92:ca47:0:b0:376:3918:c50 with SMTP id e9e14a558f8ab-39b1f780a14mr81387545ab.0.1722893387639;
+        Mon, 05 Aug 2024 14:29:47 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4c8d6987eaesm1925178173.20.2024.08.05.14.29.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Aug 2024 14:29:47 -0700 (PDT)
+Message-ID: <f7ffadc4-16ed-4d11-8baf-ea2887305d18@linuxfoundation.org>
+Date: Mon, 5 Aug 2024 15:29:45 -0600
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 05 Aug 2024 23:07:15 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jakub Jelinek" <jakub@redhat.com>
-Cc: "Rudi Heitbaum" <rudi@heitbaum.com>, "Arnd Bergmann" <arnd@kernel.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Andreas Schwab" <schwab@suse.de>, "Florian Weimer" <fweimer@redhat.com>,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-api@vger.kernel.org, "WANG Xuerui" <kernel@xen0n.name>,
- "Masami Hiramatsu" <mhiramat@kernel.org>, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev
-Message-Id: <d56f8ba8-21b5-43bc-9726-bd24346ef16a@app.fastmail.com>
-In-Reply-To: <ZrEtyJd2qydKcWxQ@tucnak>
-References: <20240801123305.2392874-1-arnd@kernel.org>
- <Zq28wejX3U9J1_JV@faede8dcc269> <Zq3jqeq6USL066k+@tucnak>
- <c78916da-ee59-4ecb-9886-7bbc7f077fa5@app.fastmail.com>
- <ZrEtyJd2qydKcWxQ@tucnak>
-Subject: Re: [PATCH] syscalls: fix syscall macros for newfstat/newfstatat
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v7 0/9] fork: Support shadow stacks in clone3()
+To: Mark Brown <broonie@kernel.org>,
+ "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira
+ <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, jannh@google.com,
+ linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+ Kees Cook <kees@kernel.org>, David Hildenbrand <david@redhat.com>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 5, 2024, at 21:53, Jakub Jelinek wrote:
-> On Sat, Aug 03, 2024 at 10:12:47AM +0200, Arnd Bergmann wrote:
->> > Probably it would be useful to check
->> > echo '#include <asm/unistd.h>' | gcc -E -dD -xc - | grep '#define __NR_' | sort
->> > for all arches between 6.10 and the latest git, diff them and resolve any
->> > unintended differences.
->> 
->> Right, I should have done that before the original series really:
->> I spent a lot of time validating the kernel's internal changes for
->> consistency (which found a dozen bugs that were unrelated to my
->> series) but missed the unintended changes to the external header
->> contents.
->> 
->> I'll do that now and send another fixup.
->
-> I've done 6.10 to 6.11-rc2 <asm/unistd.h> comparison just for the Fedora
-> arches (x86_64, aarch64, ppc64le, s390x, i686).  Full details in
-> https://bugzilla.redhat.com/show_bug.cgi?id=2301919#c8
-> On i686, ppc64le and s390x there are no changes.
-> On x86_64
-> #define __NR_uretprobe 335
+On 7/31/24 06:14, Mark Brown wrote:
+> The kernel has recently added support for shadow stacks, currently
+> x86 only using their CET feature but both arm64 and RISC-V have
+> equivalent features (GCS and Zicfiss respectively), I am actively
+> working on GCS[1].  With shadow stacks the hardware maintains an
+> additional stack containing only the return addresses for branch
+> instructions which is not generally writeable by userspace and ensures
+> that any returns are to the recorded addresses.  This provides some
+> protection against ROP attacks and making it easier to collect call
+> stacks.  These shadow stacks are allocated in the address space of the
+> userspace process.
+> 
+> Our API for shadow stacks does not currently offer userspace any
+> flexiblity for managing the allocation of shadow stacks for newly
+> created threads, instead the kernel allocates a new shadow stack with
+> the same size as the normal stack whenever a thread is created with the
+> feature enabled.  The stacks allocated in this way are freed by the
+> kernel when the thread exits or shadow stacks are disabled for the
+> thread.  This lack of flexibility and control isn't ideal, in the vast
+> majority of cases the shadow stack will be over allocated and the
+> implicit allocation and deallocation is not consistent with other
+> interfaces.  As far as I can tell the interface is done in this manner
+> mainly because the shadow stack patches were in development since before
+> clone3() was implemented.
+> 
+> Since clone3() is readily extensible let's add support for specifying a
+> shadow stack when creating a new thread or process in a similar manner
+> to how the normal stack is specified, keeping the current implicit
+> allocation behaviour if one is not specified either with clone3() or
+> through the use of clone().  The user must provide a shadow stack
+> address and size, this must point to memory mapped for use as a shadow
+> stackby map_shadow_stack() with a shadow stack token at the top of the
+> stack.
+> 
+> Please note that the x86 portions of this code are build tested only, I
+> don't appear to have a system that can run CET avaible to me, I have
+> done testing with an integration into my pending work for GCS.  There is
+> some possibility that the arm64 implementation may require the use of
+> clone3() and explicit userspace allocation of shadow stacks, this is
+> still under discussion.
+> 
+> Please further note that the token consumption done by clone3() is not
+> currently implemented in an atomic fashion, Rick indicated that he would
+> look into fixing this if people are OK with the implementation.
+> 
+> A new architecture feature Kconfig option for shadow stacks is added as
+> here, this was suggested as part of the review comments for the arm64
+> GCS series and since we need to detect if shadow stacks are supported it
+> seemed sensible to roll it in here.
+> 
+> [1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+> Changes in v7:
+> - Rebase onto v6.11-rc1.
+> - Typo fixes.
+> - Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
+> 
+> Changes in v6:
+> - Rebase onto v6.10-rc3.
+> - Ensure we don't try to free the parent shadow stack in error paths of
+>    x86 arch code.
+> - Spelling fixes in userspace API document.
+> - Additional cleanups and improvements to the clone3() tests to support
+>    the shadow stack tests.
+> - Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+> 
+> Changes in v5:
+> - Rebase onto v6.8-rc2.
+> - Rework ABI to have the user allocate the shadow stack memory with
+>    map_shadow_stack() and a token.
+> - Force inlining of the x86 shadow stack enablement.
+> - Move shadow stack enablement out into a shared header for reuse by
+>    other tests.
+> - Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+> 
+> Changes in v4:
+> - Formatting changes.
+> - Use a define for minimum shadow stack size and move some basic
+>    validation to fork.c.
+> - Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+> 
+> Changes in v3:
+> - Rebase onto v6.7-rc2.
+> - Remove stale shadow_stack in internal kargs.
+> - If a shadow stack is specified unconditionally use it regardless of
+>    CLONE_ parameters.
+> - Force enable shadow stacks in the selftest.
+> - Update changelogs for RISC-V feature rename.
+> - Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+> 
+> Changes in v2:
+> - Rebase onto v6.7-rc1.
+> - Remove ability to provide preallocated shadow stack, just specify the
+>    desired size.
+> - Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+> 
+> ---
+> Mark Brown (9):
+>        Documentation: userspace-api: Add shadow stack API documentation
+>        selftests: Provide helper header for shadow stack testing
+>        mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+>        fork: Add shadow stack support to clone3()
+>        selftests/clone3: Remove redundant flushes of output streams
+>        selftests/clone3: Factor more of main loop into test_clone3()
+>        selftests/clone3: Explicitly handle child exits due to signals
+>        selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+>        selftests/clone3: Test shadow stack support
+> 
+>   Documentation/userspace-api/index.rst             |   1 +
+>   Documentation/userspace-api/shadow_stack.rst      |  41 ++++
+>   arch/x86/Kconfig                                  |   1 +
+>   arch/x86/include/asm/shstk.h                      |  11 +-
+>   arch/x86/kernel/process.c                         |   2 +-
+>   arch/x86/kernel/shstk.c                           | 104 +++++++---
+>   fs/proc/task_mmu.c                                |   2 +-
+>   include/linux/mm.h                                |   2 +-
+>   include/linux/sched/task.h                        |  13 ++
+>   include/uapi/linux/sched.h                        |  13 +-
+>   kernel/fork.c                                     |  76 ++++++--
+>   mm/Kconfig                                        |   6 +
+>   tools/testing/selftests/clone3/clone3.c           | 224 ++++++++++++++++++----
+>   tools/testing/selftests/clone3/clone3_selftests.h |  40 +++-
+>   tools/testing/selftests/ksft_shstk.h              |  63 ++++++
+>   15 files changed, 511 insertions(+), 88 deletions(-)
+> ---
+> base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+> change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+> 
+> Best regards,
 
-This was a bit of a wild ride, but I think this number one should be
-final, and only exist on x86-64.
 
-> has been added, perhaps that is intentional, haven't checked.
-> On aarch64 when going just after __NR_ defined macros and their values,
-> I see:
-> #define __NR_nfsservctl 42
-> #define __NR_fstat 80
+For selftests:
 
-__NR_fstat was a very embarrassing bug that I introduced
-while trying to fix __NR_newfstatat. I got confused by the
-the way that the kernel internally uses newfstat() and
-newfstatat() as the name, while the only macro name
-for fstat() is missing the 'new'.
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-I also added a patch to add back __NR_nfsservctl to avoid
-the unintended change, but this one is less clear since we
-already dropped that macro on some architectures while
-converting them to the new format but left the macro on
-other architectures.
+thanks,
+-- Shuah
 
-The syscall itself was removed in linux-3.2.
 
-> #define __NR_arch_specific_syscall 244
-> #define __NR_syscalls 463
-> #define __NR3264_fcntl 25
-> #define __NR3264_statfs 43
-> #define __NR3264_fstatfs 44
-> #define __NR3264_truncate 45
-> #define __NR3264_ftruncate 46
-> #define __NR3264_lseek 62
-> #define __NR3264_sendfile 71
-> #define __NR3264_fstatat 79
-> #define __NR3264_fstat 80
-> #define __NR3264_mmap 222
-> #define __NR3264_fadvise64 223
-> macros are removed as well (let's hope it is an implementation detail and
-> nothing uses those macros, but some search would be helpful).
-
-I did a Debian codesearch search for these and did not find
-anything other than a couple of language bindings that copied
-these from the kernel headers but nothing actually using them.
-
-All of the above are implementation details that only
-existed on arm64/riscv/loongarch/arc/openrisc/xtensa/nios2
-because they were still using the old unistd.h format, and
-they don't exist on any architecture that generates the
-files from syscall.tbl.
-
-      Arnd
 
