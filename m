@@ -1,161 +1,346 @@
-Return-Path: <linux-api+bounces-2113-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2114-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FAA94816F
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 20:11:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A06F19481C4
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 20:37:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C6901F2378B
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 18:11:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FDF61F2382C
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 18:37:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A75315F3F2;
-	Mon,  5 Aug 2024 18:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D54165F02;
+	Mon,  5 Aug 2024 18:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dInRZRRX"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nxLGEbTL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903E415DBB2
-	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 18:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937E416C694
+	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 18:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722881494; cv=none; b=VdLvBUefXGEeCYcWXlBef13MP7jwHcCOGHZVPdtyIhDB3u8mbE/xBe8vwuawH3UG53mx7jCsj3zTJ4HdDrZGZ9ZoTPzO/wTH2HS9jd7isqYD8IQe6VE+8pP1Fnx5tOQn1j8v4qRHkZ79upXTPSwPynPQ5dOkUsWGxEYF+ACZNwk=
+	t=1722882950; cv=none; b=Sv089tXoeXZIxxK1cVTLltrgPPbkF6ykGyHGO1BGOqOFnyyqO6/Cm9R9DIgHRtiyj3VGNGC0lGL6KCA1kDRRhzamzfKL7dv2QrPqaZdgBpq5DUJx2Yg3eWGxouGKSSblSKXfKfEH9ElGb8atD7jbcMj1zWRv0x3P2tOzQvMt8fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722881494; c=relaxed/simple;
-	bh=IT6rj+N8w+2hUYnj1MvwmIb1amJCyMYhdpB43jZbqJI=;
+	s=arc-20240116; t=1722882950; c=relaxed/simple;
+	bh=D0mzlxssOH0u5bsVp6DTAXsAQf1X/UzcQAxdRN9MG+c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I6Zra3RvSMio9uZvhoT8CDthfe+Q1bTankowhtV2SKxYtBcKOBr4ElcSEzVDLldkhN8zqGRHr+KF5jvjCM5/HsMuH2AVs19SZWQKHQeqpJ7z9nYz+bc9ZT3LM9AImIpl1BuSzRXwJSPa0ddx7nBOrG4eS2qTOEhMjxwiFiU8Ncg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dInRZRRX; arc=none smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=NNQ6pRo2+24jXimuHj1VWOzwsWtPNilyMuNZWD/yNbBaGmKXypOhCeK5kQqKuhGSi97MNgKwQnq/htsFvO+d0xq4eSw6Zes1yimYYrWazJ2exUQS9zEE5P1GfUwaU1CGRKB2k6v4epJ+Dr+jFFXDZOZfMRmdsUOkpGseACzcW5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nxLGEbTL; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5b9fe5ea355so2174a12.0
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 11:11:31 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5a1b073d7cdso3090a12.0
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 11:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722881490; x=1723486290; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722882947; x=1723487747; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1hnQGBE87+KnmPa4Bs70BMJXJl5MSqY0q2M1s2nGpdw=;
-        b=dInRZRRXJHqW9U9qI9zH0Z+D5QAM5vdDuazzByGCea7S1/9ulqE3xnuEKiqQcyVeIp
-         QzXjkz1soCR7zHIGUz4DluEwxHP35rBnSoU7iwU0YyNjbaTYF0IChN7XDnTarXb1Pqrx
-         ia0CvE0t7CUwfTWEI+3HKeQD6WSXpQpxKzN9U+n5vSjNZSY3hBmUBhHV46DccAJLlKTB
-         bMFeqMwzvNJRGmOSz4DT2yXSs0WpVFbOzwi1n2D2ElChGK2ahdMdKHhoYVoXdf0JQ1fH
-         m8qHiIyiAILud5nW5vVdo59ltUAlJ9Cckmbkbp5RUDUjZI+dq5NzvhsRu/CnzG36ZZyG
-         YGcg==
+        bh=bThA5FjCHLI5cTw21zmhlv/WBFyj5sN+HqnnHYmexPA=;
+        b=nxLGEbTL7qXrq437ORm+j09CVWyA/0V3JX9uWk/tJ0L5+/QpkWG7rcjiIW2wKa+Br1
+         OTBGaLKzVmDHhto6yTBsZ7w1wNfX8w5AqNZEwYDFYXGEyTiDCmO2BhKok1T8grdRbsFJ
+         0vG8apgZKForvb73AIjFPUesqTCtmO058B1RF+31hzmdcs3wHyei9QIXqnIKGtLIx91E
+         wu34kRi/JWWeswaUh/w7jnWBfrGV8xqIqPxXV62udf2opKamPA8cuLW4vuwywTRo4quX
+         frJ3CrMVMktewu6rCPuV4zmlzP7g99HTfYRGH3XOS4FelAuuqWFx5pSyUGNOc/oJr5UX
+         wIbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722881490; x=1723486290;
+        d=1e100.net; s=20230601; t=1722882947; x=1723487747;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1hnQGBE87+KnmPa4Bs70BMJXJl5MSqY0q2M1s2nGpdw=;
-        b=qk4S8GGJSB4BKMLPGRa3oIiwmDAKGizfNdh3kzH3KjDraG8PbF8oIkiVlw6hdWW8vR
-         XL7L2CxhcRmk0Yclb33iisRwL+HYOa9mlsOw9kNSMOZ9C4CxuQLyeR0nIJ4Xx56GP9al
-         hNfVPA/5dtPFv1N+CEvinEyL72gl7kUk/aey/N9cc91cJwPVFJk7ZDnO/zjU1gMfDyi1
-         PIvjUh1qwPWwkgZAKdOb3qqDDr/cEF+AiUFNpGA+0KLFFQPCCJq+9qyX13vVx+yj97hv
-         rN71MI+eX+3CwBiKj2tjP+twL7sX8DRb+f/S2nPSbj+3iK3KGLrurpi8b8jat5HzYX+W
-         khFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGVEt09lR9o4iLwad/T3K66NI9V34pp1Ic5e1Z05ct6Cu9JeaKh7YkTeeTorWEmLtO6AEPH9Gia7uuNLMp+ouVRt3HB/fYc0x3
-X-Gm-Message-State: AOJu0YxRKAZw356rh1WV9jtiwZ3d2SlWQTgwbtRbANr7xyui48zyO/Kd
-	DTTcuSBryjXwk4JQF04CKIRNOyMD+Xr6GYixKfE5dc8YCPzIs9m418FTF0NxRduZHOTKOcZAm19
-	BMLx98Rlzwl5J6GQ40LYBPpRl57xmTxQYj8JW
-X-Google-Smtp-Source: AGHT+IHOh15hiLMYv55kABw3lnkiR4f9+1YSJisRrpIM2LvSrRhIYzH6Y0g9dC77hX8fJN2A9rRSSiJUQoJUICoipCI=
-X-Received: by 2002:a05:6402:35cd:b0:5aa:19b1:ffc7 with SMTP id
- 4fb4d7f45d1cf-5bb98174dddmr8049a12.2.1722881489512; Mon, 05 Aug 2024 11:11:29
- -0700 (PDT)
+        bh=bThA5FjCHLI5cTw21zmhlv/WBFyj5sN+HqnnHYmexPA=;
+        b=fqAT7NE2dmqSYeejceZlNzswhOelhFz/Z7lFMqoYHfuUc3tRlnQbcLhnghlRnXn2hb
+         2VaG3acSTiY5ZvrLlM3R9BJQnEeZJVNW4bEADrK+afPQCoSVx6bD/bIxY+lJ4eY1J+JP
+         pmtvgu1qz6ee2vCc6IYGOIvdqShx6po54zuvQ2bBeABPCqMJ8SiNgsa1vc5Zu02IkMcN
+         ubuN7fDaviPplh1riIAMQmXYSSpwKVQdzV/x29GDcubEt6kUaruAFgeCe7yrFKgG8LLi
+         ueqbqYu8AQRv6s4LfShSXmLDOq4wxD6AVSSYZwXEZodHOIbWebJUsimZk43VKNEBOlMD
+         YmXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXN+pSfpEk/GBxZ5FFK1HaBbJoLtF6UJRqooJc7x/A3ktA6yejW85hzHOYLyeOHcG5NjxFrjO66B3hS/d6XnzuM9WxN3ACLHLa5
+X-Gm-Message-State: AOJu0YwXmuq1ByJXYdZXCiEBsXZHn/lhEfXC3FV1sldyLMlYQDlqPhBT
+	FL3mUj6vcK1wvP72WGr6AXVyB6DGo+w+kHuXds0em8v7pS/zRdz8qjum5vYAje3UMBdWO+JX1AI
+	7l+hFN5iWO4KuTr6RILAuU2jHXi3u5Hdfs9bm
+X-Google-Smtp-Source: AGHT+IFHW0w+23cEWxRQdQ9i9nzl0CE9JhDT4Dih8izAVQFFjdvtpnnaKmKW0lj5aOxSe7NS6C8BNabcazoemesr9i0=
+X-Received: by 2002:a05:6402:34c7:b0:58b:93:b624 with SMTP id
+ 4fb4d7f45d1cf-5bb98241683mr12298a12.1.1722882946512; Mon, 05 Aug 2024
+ 11:35:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202408041602.caa0372-oliver.sang@intel.com> <CAHk-=whbxLj0thXPzN9aW4CcX1D2_dntNu+x9-8uBakamBggLA@mail.gmail.com>
- <CAKbZUD3B03Zjex4STW8J_1VJhpsYb=1mnZL2-vSaW-CaZdzLiA@mail.gmail.com>
-In-Reply-To: <CAKbZUD3B03Zjex4STW8J_1VJhpsYb=1mnZL2-vSaW-CaZdzLiA@mail.gmail.com>
+References: <20240704190137.696169-2-mic@digikod.net> <CALmYWFss7qcpR9D_r3pbP_Orxs55t3y3yXJsac1Wz=Hk9Di0Nw@mail.gmail.com>
+ <20240717.neaB5Aiy2zah@digikod.net> <CALmYWFt=yXpzhS=HS9FjwVMvx6U1MoR31vK79wxNLhmJm9bBoA@mail.gmail.com>
+ <20240718.kaePhei9Ahm9@digikod.net> <CALmYWFto4sw-Q2+J0Gc54POhnM9C8YpnJ44wMz=fd_K3_+dWmw@mail.gmail.com>
+ <20240719.shaeK6PaiSie@digikod.net> <CALmYWFsd-=pOPZZmiKvYJ8pOhACsTvW_d+pRjG_C4jD6+Li0AQ@mail.gmail.com>
+ <20240719.sah7oeY9pha4@digikod.net> <CALmYWFsAZjU5sMcXTT23Mtw2Y30ewc94FAjKsnuSv1Ex=7fgLQ@mail.gmail.com>
+ <20240723.beiTu0qui2ei@digikod.net>
+In-Reply-To: <20240723.beiTu0qui2ei@digikod.net>
 From: Jeff Xu <jeffxu@google.com>
-Date: Mon, 5 Aug 2024 11:10:52 -0700
-Message-ID: <CALmYWFuXVCvAfrcDOCAR72z2_rmnm09QeVVqdhzqjF-fZ9ndUA@mail.gmail.com>
-Subject: Re: [linus:master] [mseal] 8be7258aad: stress-ng.pagemove.page_remaps_per_sec
- -4.4% regression
-To: Pedro Falcato <pedro.falcato@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	kernel test robot <oliver.sang@intel.com>, Jeff Xu <jeffxu@chromium.org>, oe-lkp@lists.linux.dev, 
-	lkp@intel.com, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Dave Hansen <dave.hansen@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+Date: Mon, 5 Aug 2024 11:35:09 -0700
+Message-ID: <CALmYWFtHQY41PbRwGxge1Wo=8D4ocZfQgRUO47-PF1eJCEr0Sw@mail.gmail.com>
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Kees Cook <keescook@chromium.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Paul Moore <paul@paul-moore.com>, "Theodore Ts'o" <tytso@mit.edu>, Alejandro Colomar <alx@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, 
 	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jorge Lucangeli Obes <jorgelo@chromium.org>, Matthew Wilcox <willy@infradead.org>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Amer Al Shanawany <amer.shanawany@gmail.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	linux-api@vger.kernel.org, linux-mm@kvack.org, ying.huang@intel.com, 
-	feng.tang@intel.com, fengwei.yin@intel.com
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
+	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
+	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Elliott Hughes <enh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 5, 2024 at 6:33=E2=80=AFAM Pedro Falcato <pedro.falcato@gmail.c=
-om> wrote:
+On Tue, Jul 23, 2024 at 6:15=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
 >
-> On Sun, Aug 4, 2024 at 9:33=E2=80=AFPM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Sun, 4 Aug 2024 at 01:59, kernel test robot <oliver.sang@intel.com> =
-wrote:
+> On Fri, Jul 19, 2024 at 08:27:18AM -0700, Jeff Xu wrote:
+> > On Fri, Jul 19, 2024 at 8:04=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@d=
+igikod.net> wrote:
 > > >
-> > > kernel test robot noticed a -4.4% regression of stress-ng.pagemove.pa=
-ge_remaps_per_sec on
-> > > commit 8be7258aad44 ("mseal: add mseal syscall")
-> >
-> > Ok, it's basically just the vma walk in can_modify_mm():
-> >
-> > >       1.06            +0.1        1.18        perf-profile.self.cycle=
-s-pp.mas_next_slot
-> > >       1.50            +0.5        1.97        perf-profile.self.cycle=
-s-pp.mas_find
-> > >       0.00            +1.4        1.35        perf-profile.self.cycle=
-s-pp.can_modify_mm
-> > >       3.13            +2.0        5.13        perf-profile.self.cycle=
-s-pp.mas_walk
-> >
-> > and looks like it's two different pathways. We have __do_sys_mremap ->
-> > mremap_to -> do_munmap -> do_vmi_munmap -> can_modify_mm for the
-> > destination mapping, but we also have mremap_to() calling
-> > can_modify_mm() directly for the source mapping.
-> >
-> > And then do_vmi_munmap() will do it's *own* vma_find() after having
-> > done arch_unmap().
-> >
-> > And do_munmap() will obviously do its own vma lookup as part of
-> > calling vma_to_resize().
-> >
-> > So it looks like a large portion of this regression is because the
-> > mseal addition just ends up walking the vma list way too much.
+> > > On Fri, Jul 19, 2024 at 07:16:55AM -0700, Jeff Xu wrote:
+> > > > On Fri, Jul 19, 2024 at 1:45=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <m=
+ic@digikod.net> wrote:
+> > > > >
+> > > > > On Thu, Jul 18, 2024 at 06:29:54PM -0700, Jeff Xu wrote:
+> > > > > > On Thu, Jul 18, 2024 at 5:24=E2=80=AFAM Micka=C3=ABl Sala=C3=BC=
+n <mic@digikod.net> wrote:
+> > > > > > >
+> > > > > > > On Wed, Jul 17, 2024 at 07:08:17PM -0700, Jeff Xu wrote:
+> > > > > > > > On Wed, Jul 17, 2024 at 3:01=E2=80=AFAM Micka=C3=ABl Sala=
+=C3=BCn <mic@digikod.net> wrote:
+> > > > > > > > >
+> > > > > > > > > On Tue, Jul 16, 2024 at 11:33:55PM -0700, Jeff Xu wrote:
+> > > > > > > > > > On Thu, Jul 4, 2024 at 12:02=E2=80=AFPM Micka=C3=ABl Sa=
+la=C3=BCn <mic@digikod.net> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > Add a new AT_CHECK flag to execveat(2) to check if a =
+file would be
+> > > > > > > > > > > allowed for execution.  The main use case is for scri=
+pt interpreters and
+> > > > > > > > > > > dynamic linkers to check execution permission accordi=
+ng to the kernel's
+> > > > > > > > > > > security policy. Another use case is to add context t=
+o access logs e.g.,
+> > > > > > > > > > > which script (instead of interpreter) accessed a file=
+.  As any
+> > > > > > > > > > > executable code, scripts could also use this check [1=
+].
+> > > > > > > > > > >
+> > > > > > > > > > > This is different than faccessat(2) which only checks=
+ file access
+> > > > > > > > > > > rights, but not the full context e.g. mount point's n=
+oexec, stack limit,
+> > > > > > > > > > > and all potential LSM extra checks (e.g. argv, envp, =
+credentials).
+> > > > > > > > > > > Since the use of AT_CHECK follows the exact kernel se=
+mantic as for a
+> > > > > > > > > > > real execution, user space gets the same error codes.
+> > > > > > > > > > >
+> > > > > > > > > > So we concluded that execveat(AT_CHECK) will be used to=
+ check the
+> > > > > > > > > > exec, shared object, script and config file (such as se=
+ccomp config),
+> > > > >
+> > > > > > > > > > I think binfmt_elf.c in the kernel needs to check the l=
+d.so to make
+> > > > > > > > > > sure it passes AT_CHECK, before loading it into memory.
+> > > > > > > > >
+> > > > > > > > > All ELF dependencies are opened and checked with open_exe=
+c(), which
+> > > > > > > > > perform the main executability checks (with the __FMODE_E=
+XEC flag).
+> > > > > > > > > Did I miss something?
+> > > > > > > > >
+> > > > > > > > I mean the ld-linux-x86-64.so.2 which is loaded by binfmt i=
+n the kernel.
+> > > > > > > > The app can choose its own dynamic linker path during build=
+, (maybe
+> > > > > > > > even statically link one ?)  This is another reason that re=
+lying on a
+> > > > > > > > userspace only is not enough.
+> > > > > > >
+> > > > > > > The kernel calls open_exec() on all dependencies, including
+> > > > > > > ld-linux-x86-64.so.2, so these files are checked for executab=
+ility too.
+> > > > > > >
+> > > > > > This might not be entirely true. iiuc, kernel  calls open_exec =
+for
+> > > > > > open_exec for interpreter, but not all its dependency (e.g. lib=
+c.so.6)
+> > > > >
+> > > > > Correct, the dynamic linker is in charge of that, which is why it=
+ must
+> > > > > be enlighten with execveat+AT_CHECK and securebits checks.
+> > > > >
+> > > > > > load_elf_binary() {
+> > > > > >    interpreter =3D open_exec(elf_interpreter);
+> > > > > > }
+> > > > > >
+> > > > > > libc.so.6 is opened and mapped by dynamic linker.
+> > > > > > so the call sequence is:
+> > > > > >  execve(a.out)
+> > > > > >   - open exec(a.out)
+> > > > > >   - security_bprm_creds(a.out)
+> > > > > >   - open the exec(ld.so)
+> > > > > >   - call open_exec() for interruptor (ld.so)
+> > > > > >   - call execveat(AT_CHECK, ld.so) <-- do we want ld.so going t=
+hrough
+> > > > > > the same check and code path as libc.so below ?
+> > > > >
+> > > > > open_exec() checks are enough.  LSMs can use this information (op=
+en +
+> > > > > __FMODE_EXEC) if needed.  execveat+AT_CHECK is only a user space
+> > > > > request.
+> > > > >
+> > > > Then the ld.so doesn't go through the same security_bprm_creds() ch=
+eck
+> > > > as other .so.
+> > >
+> > > Indeed, but...
+> > >
+> > My point is: we will want all the .so going through the same code
+> > path, so  security_ functions are called consistently across all the
+> > objects, And in the future, if we want to develop additional LSM
+> > functionality based on AT_CHECK, it will be applied to all objects.
 >
-> Can we rollback the upfront checks "funny business" and just call
-> can_modify_vma directly in relevant places? I still don't believe in
-> the partial mprotect/munmap "security risks" that were stated in the
-> mseal thread (and these operations can already fail for many other
-> reasons than mseal) :)
+> I'll extend the doc to encourage LSMs to check for __FMODE_EXEC, which
+> already is the common security check for all executable dependencies.
+> As extra information, they can get explicit requests by looking at
+> execveat+AT_CHECK call.
 >
-In-place check and extra loop, implemented properly, will both prevent
-changing to the sealed memory.
+I agree that security_file_open + __FMODE_EXEC for checking all
+the .so (e.g for executable memfd) is a better option  than checking at
+security_bprm_creds_for_exec.
 
-However, extra loop will make attacker difficult to call munmap(0,
-random large-size), because  if one of vma in the range is sealed, the
-whole operation will be no-op.
+But then maybe execveat( AT_CHECK) can return after  calling alloc_bprm ?
+See below call graph:
 
-> I don't mind taking a look myself, just want to make sure I'm not
-> stepping on anyone's toes here.
+do_execveat_common (AT_CHECK)
+-> alloc_bprm
+->->do_open_execat
+->->-> do_filp_open (__FMODE_EXEC)
+->->->->->->> security_file_open
+-> bprm_execve
+->-> prepare_exec_creds
+->->-> prepare_creds
+->->->-> security_prepare_creds
+->-> security_bprm_creds_for_exec
+
+What is the consideration to mark the end at
+security_bprm_creds_for_exec ? i.e. including brpm_execve,
+prepare_creds, security_prepare_creds, security_bprm_creds_for_exec.
+
+Since dynamic linker doesn't load ld.so (it is by kernel),  ld.so
+won't go through those  security_prepare_creds and
+security_bprm_creds_for_exec checks like other .so do.
+
+> >
+> > Another thing to consider is:  we are asking userspace to make
+> > additional syscall before  loading the file into memory/get executed,
+> > there is a possibility for future expansion of the mechanism, without
+> > asking user space to add another syscall again.
 >
-One thing that you can't walk around is that can_modify_mm must be
-called prior to arch_unmap, that means in-place check for the munmap
-is not possible.
-( There are recent patch / refactor by Liam R. Howlett in this area,
-but I am not sure if this restriction is removed)
+> AT_CHECK is defined with a specific semantic.  Other mechanisms (e.g.
+> LSM policies) could enforce other restrictions following the same
+> semantic.  We need to keep in mind backward compatibility.
+>
+> >
+> > I m still not convinced yet that execveat(AT_CHECK) fits more than
+> > faccessat(AT_CHECK)
+>
+> faccessat2(2) is dedicated to file permission/attribute check.
+> execveat(2) is dedicated to execution, which is a superset of file
+> permission for executability, plus other checks (e.g. noexec).
+>
+That sounds reasonable, but if execveat(AT_CHECK) changes behavior of
+execveat(),  someone might argue that faccessat2(EXEC_CHECK) can be
+made for the executability.
 
-> --
-> Pedro
+I think the decision might depend on what this PATCH intended to
+check, i.e. where we draw the line.
+
+do_open_execat() seems to cover lots of checks for executability, if
+we are ok with the thing that do_open_execat() checks, then
+faccessat(AT_CHECK) calling do_open_execat() is an option, it  won't
+have those "unrelated" calls  in execve path, e.g.  bprm_stack_limits,
+copy argc/env .
+
+However, you mentioned superset of file permission for executability,
+can you elaborate on that ? Is there something not included in
+do_open_execat() but still necessary for execveat(AT_CHECK)? maybe
+security_bprm_creds_for_exec? (this goes back to my  question above)
+
+Thanks
+Best regards,
+-Jeff
+
+
+
+
+
+
+
+
+
+
+
+> >
+> >
+> > > >
+> > > > As my previous email, the ChromeOS LSM restricts executable mfd
+> > > > through security_bprm_creds(), the end result is that ld.so can sti=
+ll
+> > > > be executable memfd, but not other .so.
+> > >
+> > > The chromeOS LSM can check that with the security_file_open() hook an=
+d
+> > > the __FMODE_EXEC flag, see Landlock's implementation.  I think this
+> > > should be the only hook implementation that chromeOS LSM needs to add=
+.
+> > >
+> > > >
+> > > > One way to address this is to refactor the necessary code from
+> > > > execveat() code patch, and make it available to call from both kern=
+el
+> > > > and execveat() code paths., but if we do that, we might as well use
+> > > > faccessat2(AT_CHECK)
+> > >
+> > > That's why I think it makes sense to rely on the existing __FMODE_EXE=
+C
+> > > information.
+> > >
+> > > >
+> > > >
+> > > > > >   - transfer the control to ld.so)
+> > > > > >   - ld.so open (libc.so)
+> > > > > >   - ld.so call execveat(AT_CHECK,libc.so) <-- proposed by this =
+patch,
+> > > > > > require dynamic linker change.
+> > > > > >   - ld.so mmap(libc.so,rx)
+> > > > >
+> > > > > Explaining these steps is useful. I'll include that in the next p=
+atch
+> > > > > series.
+> >
 
