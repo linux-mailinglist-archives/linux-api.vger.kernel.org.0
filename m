@@ -1,67 +1,67 @@
-Return-Path: <linux-api+bounces-2110-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2111-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA63947C47
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 15:56:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA48947FC7
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 18:58:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B9CE281BAE
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 13:56:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DED2A1C20C80
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 16:58:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5428762D2;
-	Mon,  5 Aug 2024 13:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F001515D5C5;
+	Mon,  5 Aug 2024 16:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VjsBJxyB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C/UnRtfd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D3B73467
-	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 13:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E27B15B57B
+	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 16:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722866191; cv=none; b=GADL1sLY06khZaXo8KuFeVbhhhpVhJiD4iMWzc4peweeqRRG2sq9G/7waZlXVRPBIDzQP+f9DQEvQe2I9hv2pucYmuy7s39+caxzT6pyTMpfGJKYGGCnN6wxV0cKoif7HSlo82dxxxrRrCsC5Gj+J4j6LrmkJ8f8tnsu3y3ncFU=
+	t=1722877129; cv=none; b=O0qdy3jyrQ+A6IngUhIJEJkI9PryfITsQvWCvImT86Uf7ZUoYtl1ajtns095LnhDrEeyYOwYvP+9wIEMwDjWBg1MMogjZtLD62XyTur8L1w3+dizIRpNyPat5NuUAEanIvnX7t3KJaE2acV/k4TLf6qI2lWr+0jWyVrbCA98cro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722866191; c=relaxed/simple;
-	bh=qMZmmFKfgUh/4u7eiX5zf6/54NRJE/8eb8tiuNq5Wvc=;
+	s=arc-20240116; t=1722877129; c=relaxed/simple;
+	bh=6P7RATJtfpr4x9vwPooxcpS9WQT23cQ9BkDDETt9dHg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=auxWAQVZeP60RigvKbEJD1ji6PrfAAE4R+bwQLnYgni0jdJolLfAK38Y8nPc6m4eb6Zu09b7e3kwX/HOXquISKq4yBMFL8wMQSkxvUTmctAqtHZvCQt4rRJXkY2wGOHXafCfxJCDRAyOnjJsIxz8YADVUP8ZtHNehDdfvB3wmKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VjsBJxyB; arc=none smtp.client-ip=209.85.160.45
+	 To:Cc:Content-Type; b=ky5Fw2wutIhXSYuRhfuy5/FCF+Q0ec22Itfg1nwMV8Bb2SdRTQVDyjP2eaMK+DAobkcZyLcIKkfplGQFMzyhbha8u/+cWkZQ2HkPlTmLqwSfxpEp+4+3Iwzbybtu/C9AIgclf5d7xghtUNY1Qk3EGqMjSJJa8tT/F6pC1/Ejxz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C/UnRtfd; arc=none smtp.client-ip=209.85.161.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-260e12aac26so6878730fac.0
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 06:56:27 -0700 (PDT)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5d5d4d07babso5584425eaf.3
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 09:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1722866187; x=1723470987; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1722877126; x=1723481926; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YuVJ4LawaHPZOrDIj/fWzPJvIjOhg8ROZilCjC4yrAU=;
-        b=VjsBJxyBBtmAqIxEa2Q3ys/k/lKglOpGggzq9S+O59WXQ+WwPcyJxo8FNdTmL0X4ML
-         UsyToiuQ+NcM4DjmBDHJ/NSYMgDeO4Lx+wXAVRgHUTEdBzgjL/a/bKnLnOr3boJckexh
-         9M6fpqVSzILF9+VuJ+tTYqGqAijg6XIFkREiY=
+        bh=DmZFGw6x2XnauggBIOWGJH6eCk7i2++PahpN20+gqWc=;
+        b=C/UnRtfdF0tZ4c0cub6yuWHj04aiRCPna3/vTrSE6BgycSiaNQazHLwQ5s/6d7ywZd
+         RGbRKyCw6ai9XWDIB2aXsI5Ti3NvSUqdHTs+JsjhNzoeTyYUtW5/ViB8VB6V1No0nP4n
+         SXGpiu6FoBpRajd0sstWp7NSkMMhwKS70F7L0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722866187; x=1723470987;
+        d=1e100.net; s=20230601; t=1722877126; x=1723481926;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YuVJ4LawaHPZOrDIj/fWzPJvIjOhg8ROZilCjC4yrAU=;
-        b=MOWRQxnriYcB/swoPuRFk3LkSeGL9BP3zmbmPFIzCyCseeBCOBTleIYpKi01NLkCfr
-         ZfbxpYEq6Ks4+nD2TY/e9HBNbTDdBj5jiL+yaeCP2gLB9OzowJCI3uy3fF48IPCqk/ri
-         gANFRl21aRLykXWxLILwlBAlICNMCZeccA06aW4n8C7xZhbQI13j9KlbBjK0SsyztIem
-         H7hAEY0eXuzPgPLUYdehNcQ9PXfsNB/KN8uPaB/0xdWT/D7BwQu4Q1KgVQIAKxMzrwHC
-         Dyzvuhw/xn/yEj+n0uQ9KB/U3/Nc9082Na7McWrhh+0GNAT9YQFE9AVA/xwy5FyZorTI
-         UEGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7KqZ8bdC1qmTCseKQesjD5+j5x3HRDpUdXz+pxCbQcBiclghjylDLmBKsRUxYr+XxGdtnx3KY1W2FYbEI3DTHZs6qaMsWu2al
-X-Gm-Message-State: AOJu0YzJ6oUaBLc0J22fToadiQnvF2YEdw+8LcUODRITen1Ia1v+vraQ
-	3esIhDFD1614sSapr6KYREJp5tl+Oqsbi6z8lYoCBu94qwlslg3iUUh9VJBOre/r2EekNdsESpe
-	aooNQhmRyf/by5xosV6lFG28Wb6Jzp8VwcNr41eK4meC59MxH1g==
-X-Google-Smtp-Source: AGHT+IGeMYulT05u4/apPqsJ3h1kW+uuHrps8e6flG6PkeUlcxrLi+fgHkb74vrUjOUyQ3X+qY9U4ooweqEfEJ7IGUY=
-X-Received: by 2002:a05:6870:7011:b0:25e:1aec:1949 with SMTP id
- 586e51a60fabf-26891f3eedcmr13505967fac.44.1722866186712; Mon, 05 Aug 2024
- 06:56:26 -0700 (PDT)
+        bh=DmZFGw6x2XnauggBIOWGJH6eCk7i2++PahpN20+gqWc=;
+        b=cZNL1XoMgNg0KsS+SqY19po6GcNw6mnDimORTzEDfPADXZSL0UbktLXe/HDP7A30J9
+         U6ggROzv2VCKwopmi1xKV/5aHc9AI4h+lDkbMo4E9HewUbu1fHZTFSnk8qxLCRqW9Nze
+         ZKr5UI2TiexlP5LcX9wSNSZPFzYbTMUpbQgU8bVgYCgKpnx3JMc+3kB6TawxHsuORnPB
+         IQmpqj6bGqmLIbgFXLW+T2xelhi0GTVtQ4hQgK1TU9dYc0uHMV54g2kxEwqbaIRG3pF9
+         LhfPqWFbVqmvHkxv1O0P74f45+egEqGe1IY0KWcPCAetOFAWDZBCPMLW1VnN+WmrK+iW
+         7V+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVOQY1qk6kue35OPRBxouvR+eKLs3OhqfNl4U+1ZMHUXUM5PQq+gxvL2pj9hSO+zkTFMHxx+x600k0Cx3SG7qeeC5J4PGQNbCOI
+X-Gm-Message-State: AOJu0YzQuZx7Oy5BNq7EmcmQkmXLGdlllzGwPWN/wxIsg7Gwru/ecIVF
+	ngMiBohFongOmUscb4gDL1hy+var9WGAGdrTszPyox8903sTWfiXrHYiCUzmlSGAlr+AgtWTZVe
+	6wRVtPoIjQq1mD7U9rRaD8hDOn/zroBGOIBHG
+X-Google-Smtp-Source: AGHT+IFcdU/4JUja9dNJXSdzgyNGDhy8xKgDIQ5dwkjqraypTDTRgJEs1nqq5gfan2k/x7ao6JFtLMDOxFOVYz7JrDQ=
+X-Received: by 2002:a05:6870:c192:b0:261:1339:1cb8 with SMTP id
+ 586e51a60fabf-26891e6789cmr16009079fac.35.1722877125503; Mon, 05 Aug 2024
+ 09:58:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -71,8 +71,8 @@ MIME-Version: 1.0
 References: <202408041602.caa0372-oliver.sang@intel.com>
 In-Reply-To: <202408041602.caa0372-oliver.sang@intel.com>
 From: Jeff Xu <jeffxu@chromium.org>
-Date: Mon, 5 Aug 2024 06:56:14 -0700
-Message-ID: <CABi2SkUyvMhiZBWFJwYCB+Loyat0ioffD5vtYjUhgwb49D5+9g@mail.gmail.com>
+Date: Mon, 5 Aug 2024 09:58:33 -0700
+Message-ID: <CABi2SkWco0svzUqCK8OsTmivXTvoWUHrE6AJxpm=NaT2uMb=WA@mail.gmail.com>
 Subject: Re: [linus:master] [mseal] 8be7258aad: stress-ng.pagemove.page_remaps_per_sec
  -4.4% regression
 To: kernel test robot <oliver.sang@intel.com>
@@ -101,9 +101,6 @@ On Sun, Aug 4, 2024 at 1:59=E2=80=AFAM kernel test robot <oliver.sang@intel=
 > kernel test robot noticed a -4.4% regression of stress-ng.pagemove.page_r=
 emaps_per_sec on:
 >
-Looking.
-I'm setting up the environment so I can repro. .
-
 >
 > commit: 8be7258aad44b5e25977a98db136f677fa6f4370 ("mseal: add mseal sysca=
 ll")
@@ -158,6 +155,31 @@ ion of
 > https://download.01.org/0day-ci/archive/20240804/202408041602.caa0372-oli=
 ver.sang@intel.com
 >
+There is an error when I try to reproduce the test:
+
+bin/lkp install job.yaml
+
+--------------------------------------------------------
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ libdw1 : Depends: libelf1 (=3D 0.190-1+b1)
+ libdw1t64 : Breaks: libdw1 (< 0.191-2)
+E: Unable to correct problems, you have held broken packages.
+Cannot install some packages of perf-c2c depends
+---------------------------------------------------------------------------=
+--------------
+
+And where is stress-ng.pagemove.page_remaps_per_sec test implemented,
+is that part of lkp-tests ?
+
+Thanks
+-Jeff
+
 > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
