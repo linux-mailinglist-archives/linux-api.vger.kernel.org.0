@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-2137-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2138-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBA0949439
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 17:10:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AE39498D4
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 22:10:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 974D52880DB
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 15:10:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D18E9B20FA2
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 20:10:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB5421EA0DC;
-	Tue,  6 Aug 2024 15:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64497E591;
+	Tue,  6 Aug 2024 20:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xhi5IqTc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ss93FVLv"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E93A1D54D1;
-	Tue,  6 Aug 2024 15:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741938DD8;
+	Tue,  6 Aug 2024 20:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722957011; cv=none; b=JKNTt2GlDzW0swusLbtNHRKHToWzE+ouiu8MFPeK8YAi1cHPo2uNjPxkzxBlvP+H6cNJehZf/RQBr+34Pew0vXxCPKIJHq7p20aQPD3lEsIKfRBpCbykoLlxAsEzAHTdZ4Jv/CFYwT4KAw+ukAUDt5Exbv7dUWroii0q36fDjWg=
+	t=1722975037; cv=none; b=Gejqt7cBrnUNJwWOCGUUuZ9iL74c0mFL42s1gmbP3xpTbeh2E4u/d+3JisS3i1sgv2BakmibINouJme2ZdtbwHRb8Meok2KceGj6anBt2Z3aWrDMZVR7BOcMYiz0Jj2VTdy7fG3jAdUJe8Uu7GAZQtd+TjpAW9A4CZVHfIQZdNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722957011; c=relaxed/simple;
-	bh=czja/tbq0SHQMKQ+vQgV5ZRFDFLhH3Fj3Pwk4oEqX80=;
+	s=arc-20240116; t=1722975037; c=relaxed/simple;
+	bh=SSiLomxL//zY67+OfrSfJCKDltG7KAmpSaLz5hXWlqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSJNSl8POo4yhtc97Q78Iv0iE4TpoVNKyto/qi8okuNuDrQQUnSFeG8ug4TQf5fTdbo1FrTjQ8I7sGTQ2WUt3d5l8UwMw/C5RI0Yw+1ZgszCxTsKustWmr6gEnHU5SrAxv7F9Udffb9fuEF66jL3WWvdUq+X2YHvHcLvF+i8Cuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xhi5IqTc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5876C32786;
-	Tue,  6 Aug 2024 15:10:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOpUTN7sfx/COEib+LiOD/DKofr5reJD44BfBkv8PQ1MA/h/o2N3OgAYXHMeR4fWHNgr2hOsu0VEFPdngccFpqQNBx8dgL/gY3fz2yEtPrz+E0r2X6bBdQaQE05oOT23gjYmbzn5y0ihAcpWeGCVgdb56+9ebbbtH2/CHnsF3Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ss93FVLv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD94BC32786;
+	Tue,  6 Aug 2024 20:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722957011;
-	bh=czja/tbq0SHQMKQ+vQgV5ZRFDFLhH3Fj3Pwk4oEqX80=;
+	s=k20201202; t=1722975037;
+	bh=SSiLomxL//zY67+OfrSfJCKDltG7KAmpSaLz5hXWlqs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xhi5IqTcLEmPb3yCUSErtGHsGWbGVpsHxVMrNaPFf6Y8C0uHwLElSzECtFilpe4Km
-	 lvFh2e3mGM/xlhLl10OMah7mcaGYqs+6vOlLGecpFmXe99te2mZSuwKzWKyAoRfh6M
-	 YCDqycLJmWpyloUXigN/byaFhBPvfAtXFtjKP+jO6Wev+wKGX7S+JmC2NLGx4KdfKe
-	 zs2PNoKoEaCiRLwTyZ3G7y0YQu9JX1GW1PyT0qcpZ5s1BqkNpKjhcJ1fHihLG8sGbf
-	 ORO36tBBifmWNGc1R3kY47aqYnuutkTMVDvG0wYTZix408IbSJ2bOjRc0u/1d+eRno
-	 89daTAzZtjd7A==
-Date: Tue, 6 Aug 2024 16:10:02 +0100
+	b=ss93FVLv34StJ+xuJI6MJltQ2GcdU2Etb2vuw+r1BM+KEW1PgHFl+Z2OctLjEoA9y
+	 IGI7Ox6GVVB1AHVRC6hqRfuTi5NuqXLVFOhyJiQKOmI9DteEvT7WADraJBZW5uc2Z1
+	 GpqWX1VuyA/m2mlNBTJBHgSv5hRi5MPau+3fVx4z6wjoUBvo2Sacd86I28v5AEYFn/
+	 wE2HRR7hbV4kKWABcgIUJPPF3nE5BlH3PBgTg1ZT1RJ46bb3WWoi7bQ1FHR6whAh8X
+	 0yI4xPaMfcGSZeAgqq3phenE6XpCe0lpCjNuZw1voIH3VtXW+//7d38Tga56O+Qr0O
+	 AKcF9NUpy5zmw==
+Date: Tue, 6 Aug 2024 21:10:28 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Kees Cook <kees@kernel.org>
 Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
@@ -66,7 +66,7 @@ Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	Will Deacon <will@kernel.org>, jannh@google.com,
 	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCH RFT v7 9/9] selftests/clone3: Test shadow stack support
-Message-ID: <19ee6fc9-94d7-4420-abd3-7cfdf612df0c@sirena.org.uk>
+Message-ID: <b172c2c1-42d3-4c50-8065-9bd4ae21ffea@sirena.org.uk>
 References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
  <20240731-clone3-shadow-stack-v7-9-a9532eebfb1d@kernel.org>
  <202408052046.00BC7CBC@keescook>
@@ -77,24 +77,18 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="E5K4oNFhFrjnR+eW"
+	protocol="application/pgp-signature"; boundary="A4C5k1PZaqbvidwo"
 Content-Disposition: inline
 In-Reply-To: <202408052046.00BC7CBC@keescook>
 X-Cookie: One picture is worth 128K words.
 
 
---E5K4oNFhFrjnR+eW
+--A4C5k1PZaqbvidwo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 On Mon, Aug 05, 2024 at 08:54:54PM -0700, Kees Cook wrote:
-> On Wed, Jul 31, 2024 at 01:14:15PM +0100, Mark Brown wrote:
-
-> > +	case CLONE3_ARGS_SHADOW_STACK:
-> > +		/* We need to specify a normal stack too to avoid corruption */
-> > +		args.shadow_stack = get_shadow_stack_page(SHADOW_STACK_SET_TOKEN);
-> > +		args.shadow_stack_size = getpagesize();
-> > +		break;
 
 >   # Running test 'Shadow stack on system with shadow stack'
 >   # [5496] Trying clone3() with flags 0 (size 0)
@@ -106,69 +100,47 @@ On Mon, Aug 05, 2024 at 08:54:54PM -0700, Kees Cook wrote:
 
 > The child segfaults immediately, it seems?
 
-That's what I'd expect if we either didn't manage to create the shadow
-stack token in the page we mapped or we messed up in
-arch_shstk_post_fork() somehow, probably getting the wrong pointer for
-the token or not mapping things correctly.  I'll have done something
-silly, it'll doubtless be very obvious and embarrassing when I see it
-but I'm not seeing it right now...
+Does this help:
 
-> > +	case CLONE3_ARGS_SHADOW_STACK_NO_POINTER:
-> > +		args.shadow_stack_size = getpagesize();
-> > +		break;
+diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+index 1755fa21e6fb..27acbdf44c5f 100644
+--- a/arch/x86/kernel/shstk.c
++++ b/arch/x86/kernel/shstk.c
+@@ -198,13 +198,14 @@ int arch_shstk_post_fork(struct task_struct *t, struc=
+t kernel_clone_args *args)
+ 	 * the token 64-bit.
+ 	 */
+ 	struct mm_struct *mm;
+-	unsigned long addr;
++	unsigned long addr, ssp;
+ 	u64 expected;
+ 	u64 val;
+-	int ret =3D -EINVAL;;
++	int ret =3D -EINVAL;
+=20
+-	addr =3D args->shadow_stack + args->shadow_stack_size - sizeof(u64);
+-	expected =3D (addr - SS_FRAME_SIZE) | BIT(0);
++	ssp =3D args->shadow_stack + args->shadow_stack_size;
++	addr =3D ssp - SS_FRAME_SIZE;
++	expected =3D ssp | BIT(0);
+=20
+ 	mm =3D get_task_mm(t);
+ 	if (!mm)
 
->   # Running test 'Shadow stack with no pointer'
->   # [5496] Trying clone3() with flags 0 (size 0)
->   # Invalid argument - Failed to create new process
->   # [5496] clone3() with flags says: -22 expected -22
->   ok 21 Shadow stack with no pointer
-
-> This seems like it misses the failure and reports ok
-
-No, this is testing to make sure we get the failure - if we have
-arguments that can't possibly be valid then we should reject them with
-an error code during validation prior to trying to create the new
-thread.  The "expected -22" in the output says it's looking for an
-error.  Same for the other similar expected error code.
-
-> > +	case CLONE3_ARGS_SHADOW_STACK_NO_TOKEN:
-> > +		args.shadow_stack = get_shadow_stack_page(0);
-> > +		args.shadow_stack_size = getpagesize();
-> > +		break;
-
-> This actually segfaults the parent:
-
->   # Running test 'Shadow stack with no token'
->   # [5496] Trying clone3() with flags 0x100 (size 0)
->   # I am the parent (5496). My child's pid is 5507
->   Segmentation fault
-
-Oh dear.  We possibly manage to corrupt the parent's shadow stack
-somehow?  I don't think I managed to do that in my arm64 testing.  This
-should also be something going wrong in arch_shstk_post_fork().
-
-> Let me know what would be most helpful to dig into more...
-
-It'll almost certianly be something in arch_shstk_post_fork(), that's
-the bit I couldn't test.  Just making that always return success should
-avoid the first fault, the second ought to not crash but will report a
-fail as we should be rejecting the shadow stack when we try to consume
-the token.
-
---E5K4oNFhFrjnR+eW
+--A4C5k1PZaqbvidwo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmayPMoACgkQJNaLcl1U
-h9AK+Af/dnTytFfO/mCKL2dX+g5P0Gg01KnQrH51RKYyd1RhRAc3iDigelulFDJD
-45pyvz6GZnK37WUn2qFlgyyq7eTn8LfAkU2ARo1YuJFOJuyeNZap8Zt5nuaO8V4+
-A7dvRiahLV64ZbTIKezt+XJyK2d0gtHGg19RQjVFwyP3LhzCRQ41hLbDS4BHLBFi
-4hpeIGqjMTkyC/buDuLkqcQn+v6mt9VgyB1ExKXWkDSwfgKgcgDuabHgPmMJKEEc
-gSzsDRoxmT5F8FQtpdFObpIJRRHlJrmHhUANThYR/lOXeU2Fnvn9VC03hNs7f02l
-wAk1gnhNtWjgU8d4jwHBeLdQJjqQkw==
-=04Ib
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaygzQACgkQJNaLcl1U
+h9B6Xwf/UaYSzrSa86cliyUv9R+kMDZyJtEseOLNm/iYYkVCDJsd9eDaXt2NIaLj
+BvGnXKy8+G7KT6n4qkCHFFajGljl9yKWMchEyF2R9St1XWH8rcu4YXfoOxpy4Axo
+BbQFDUVksmQg+/+NsuTOrd9mWDKfh+tOFN4yuImGcR5prKaXEnP8+wWcJrkswdxD
+kl0AnUXB1cW6a5tMmdgIuA4csSQIFWQjiKg2BBqd29otKX58tM1zReYV+46v1CsP
+l7B811tIonjJncQlRdD+XQWiJZk+VNTE0+u6qWhulrAqRIMp99lugsN1Z7Puv8WN
+e9MAhZDjlEAOppyR3AuZgrZCrp9/jA==
+=2dt8
 -----END PGP SIGNATURE-----
 
---E5K4oNFhFrjnR+eW--
+--A4C5k1PZaqbvidwo--
 
