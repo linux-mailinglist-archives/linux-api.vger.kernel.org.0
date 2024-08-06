@@ -1,146 +1,148 @@
-Return-Path: <linux-api+bounces-2138-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2139-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AE39498D4
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 22:10:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E50949A4B
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 23:37:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D18E9B20FA2
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 20:10:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B4B81F27578
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 21:37:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64497E591;
-	Tue,  6 Aug 2024 20:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1086A16190C;
+	Tue,  6 Aug 2024 21:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ss93FVLv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHtt3XHr"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741938DD8;
-	Tue,  6 Aug 2024 20:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7945D14F9D7;
+	Tue,  6 Aug 2024 21:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722975037; cv=none; b=Gejqt7cBrnUNJwWOCGUUuZ9iL74c0mFL42s1gmbP3xpTbeh2E4u/d+3JisS3i1sgv2BakmibINouJme2ZdtbwHRb8Meok2KceGj6anBt2Z3aWrDMZVR7BOcMYiz0Jj2VTdy7fG3jAdUJe8Uu7GAZQtd+TjpAW9A4CZVHfIQZdNo=
+	t=1722980242; cv=none; b=lCmSmd+YBMXaCsZ/KiGTIwZlnpQSGva9eaDf0xjkPQImp8AnH7Y8xAPHgF4fuF/6MN/sFyY3n1XtgOVwVs+Ib1xU2DBeJRN00RAfKT/j1znDnl4cPr1B8psmr2d8jdXZbgIxaxZccMiBi6QV/N0aloAfIYcnGnn2jvbS0NdTb7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722975037; c=relaxed/simple;
-	bh=SSiLomxL//zY67+OfrSfJCKDltG7KAmpSaLz5hXWlqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EOpUTN7sfx/COEib+LiOD/DKofr5reJD44BfBkv8PQ1MA/h/o2N3OgAYXHMeR4fWHNgr2hOsu0VEFPdngccFpqQNBx8dgL/gY3fz2yEtPrz+E0r2X6bBdQaQE05oOT23gjYmbzn5y0ihAcpWeGCVgdb56+9ebbbtH2/CHnsF3Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ss93FVLv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD94BC32786;
-	Tue,  6 Aug 2024 20:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722975037;
-	bh=SSiLomxL//zY67+OfrSfJCKDltG7KAmpSaLz5hXWlqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ss93FVLv34StJ+xuJI6MJltQ2GcdU2Etb2vuw+r1BM+KEW1PgHFl+Z2OctLjEoA9y
-	 IGI7Ox6GVVB1AHVRC6hqRfuTi5NuqXLVFOhyJiQKOmI9DteEvT7WADraJBZW5uc2Z1
-	 GpqWX1VuyA/m2mlNBTJBHgSv5hRi5MPau+3fVx4z6wjoUBvo2Sacd86I28v5AEYFn/
-	 wE2HRR7hbV4kKWABcgIUJPPF3nE5BlH3PBgTg1ZT1RJ46bb3WWoi7bQ1FHR6whAh8X
-	 0yI4xPaMfcGSZeAgqq3phenE6XpCe0lpCjNuZw1voIH3VtXW+//7d38Tga56O+Qr0O
-	 AKcF9NUpy5zmw==
-Date: Tue, 6 Aug 2024 21:10:28 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, jannh@google.com,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH RFT v7 9/9] selftests/clone3: Test shadow stack support
-Message-ID: <b172c2c1-42d3-4c50-8065-9bd4ae21ffea@sirena.org.uk>
-References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
- <20240731-clone3-shadow-stack-v7-9-a9532eebfb1d@kernel.org>
- <202408052046.00BC7CBC@keescook>
+	s=arc-20240116; t=1722980242; c=relaxed/simple;
+	bh=8kHm+ac+kygNQxYV5Z1B1h2y1ADNWsDkiwXd93UvjBw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MBfMT3YfFk4XX8RdcIHi6Xdo2yZwK0untn2J94fFq2rhClsTV/5JfnNwqzNwt3PiKp6cCG55BbcBXQSBPOk2UP8kLgph7PM57SCBvMNuPpDMt3EsWiuD+2tOJAPDQAEg4Bi+7jDnz39HnWdMDYLcYyAlYFDqQ8YnJyxaRFbxb9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MHtt3XHr; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4f8b5e5671bso475558e0c.0;
+        Tue, 06 Aug 2024 14:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722980240; x=1723585040; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uFsMpJ+I7X97hoFlRtZ+H2DXn3COcJ95N+qj7lA/TOQ=;
+        b=MHtt3XHrmQfg/E2uIr1756uvqbVbGmPNOCpcLRoMzCmKNpYFQBzPFfTaSnmkM4Hee2
+         wMhd2igiwxKMC+BAfEyIEFSSVMZhVttSC08Ucz+Aw3yUbuB0gtnBSEO81zPO9TuCZ2R5
+         //3EBsExp06CJ16aNblX2rJffB18vkKjClYln0mCiUsTvJial6IrLqkD597zxCknhnre
+         akvMAKWCVY7+2lYbQVxWfs/mErEFp3IsvhPvMSnQDejZI76VUFsLXP2Uhk9A4R5kw+Yf
+         1tkf9MedoE38vl01D9/KBVcf7BL5skihtjswC7R9tFjAdJoMKnPnu/QuvSumaFRtO1pe
+         KQ4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722980240; x=1723585040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uFsMpJ+I7X97hoFlRtZ+H2DXn3COcJ95N+qj7lA/TOQ=;
+        b=wmuQ+E5zz2TVfOHpynbrB1SCPh/cUUZobmYnnJSgF7pg6UtuQHqIjcNkO3C0sDr31b
+         oGARr1i566DrB6BYXkIPJ7t3yDsOdtbe73xMSxOqwvSn+7WuSUPRnpGu7zHhiASgrZBJ
+         Zbk1j1KZqj+aZ5FD8ESMCzCB4DubSNnfCQ/Pfevvgg1653M2T03c1aYksl/OIs4OeetC
+         K6rPeCkuKPe7Kb1OwsoXDFZOrrrXr2eTkrOTlqLmdswRfsyf9ey5ys94xbkbKt3ZWYVR
+         GrMu0SqJ4tpB3Vq2rofXAuc/rqQY0AQu+Edzv1qArjHygbhJlK9DmMUWLIQ1lO1aviCe
+         arQw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/A6m4Yjjxdm6soTnisO6MuYWHe/A/xWAAvhJioqq2KCy+pQQs6zlT1/DL7gxxBd6Guyec07OQa2PsQVvtHEBbPHdUhyDkbkcYqXr39WjF007R/onsW1okfXHagX+qb6xF2uAhs4wS
+X-Gm-Message-State: AOJu0YyS5zYXWmhRj+OWaNGqm/h63pTDtXairLh9yrRrvwh5xgVHtSom
+	PwGuSlNUmiIoLUXtwBB0RHAGpEcFNykhPoiraJzgY9Uy8j9JVlxxrQxqiiPuVnbk2QEIKTSU7Ga
+	d8Ow7KiXMTaGzzLqw2FFhBYynwJ4=
+X-Google-Smtp-Source: AGHT+IFrQ8JTwjxVQvgV4t1UWu1mNosEjtPutyaa5+3W6qYS/JH+h8DUFz1dPxmoFFh/1Vhlg23Q+IHOeKLj0hAoGlA=
+X-Received: by 2002:a05:6122:2191:b0:4f5:1b58:acd9 with SMTP id
+ 71dfb90a1353d-4f89ff4c58fmr14470832e0c.2.1722980240246; Tue, 06 Aug 2024
+ 14:37:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A4C5k1PZaqbvidwo"
-Content-Disposition: inline
-In-Reply-To: <202408052046.00BC7CBC@keescook>
-X-Cookie: One picture is worth 128K words.
-
-
---A4C5k1PZaqbvidwo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202408041602.caa0372-oliver.sang@intel.com> <CAHk-=whbxLj0thXPzN9aW4CcX1D2_dntNu+x9-8uBakamBggLA@mail.gmail.com>
+ <CAKbZUD3B03Zjex4STW8J_1VJhpsYb=1mnZL2-vSaW-CaZdzLiA@mail.gmail.com>
+ <CALmYWFuXVCvAfrcDOCAR72z2_rmnm09QeVVqdhzqjF-fZ9ndUA@mail.gmail.com>
+ <CAHk-=wgPHCJ0vZMfEP50VPjSVi-CzL0fhTGXgNLQn=Pp9W0DVA@mail.gmail.com>
+ <CAHk-=wgdTWpCqTMgM9SJxG2=oYwhAueU_fDHMPifjpH5eHG8qw@mail.gmail.com> <ZrG8+/1YjxN/Hsb7@xsang-OptiPlex-9020>
+In-Reply-To: <ZrG8+/1YjxN/Hsb7@xsang-OptiPlex-9020>
+From: Pedro Falcato <pedro.falcato@gmail.com>
+Date: Tue, 6 Aug 2024 22:37:08 +0100
+Message-ID: <CAKbZUD1278Bq+5QwjH=LeYSgcugZ3JbvkLeoB3whei_gkEXV+w@mail.gmail.com>
+Subject: Re: [linus:master] [mseal] 8be7258aad: stress-ng.pagemove.page_remaps_per_sec
+ -4.4% regression
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jeff Xu <jeffxu@google.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Jeff Xu <jeffxu@chromium.org>, 
+	oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Dave Hansen <dave.hansen@intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jorge Lucangeli Obes <jorgelo@chromium.org>, Matthew Wilcox <willy@infradead.org>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Amer Al Shanawany <amer.shanawany@gmail.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-api@vger.kernel.org, linux-mm@kvack.org, ying.huang@intel.com, 
+	feng.tang@intel.com, fengwei.yin@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 05, 2024 at 08:54:54PM -0700, Kees Cook wrote:
+On Tue, Aug 6, 2024 at 7:05=E2=80=AFAM Oliver Sang <oliver.sang@intel.com> =
+wrote:
+>
+> hi, Linus,
+>
+> On Mon, Aug 05, 2024 at 12:33:58PM -0700, Linus Torvalds wrote:
+> > On Mon, 5 Aug 2024 at 11:55, Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > So please consider this a "maybe something like this" patch, but that
+> > > 'arch_unmap()' really is pretty nasty
+> >
+> > Actually, the whole powerpc vdso code confused me. It's not the vvar
+> > thing that wants this close thing, it's the other ones that have the
+> > remap thing.
+> >
+> > .. and there were two of those error cases that needed to reset the
+> > vdso pointer.
+> >
+> > That all shows just how carefully I was reading this code.
+> >
+> > New version - still untested, but now I've read through it one more
+> > time - attached.
+>
+> we tested this version by applying it directly upon 8be7258aad,  but seem=
+s it
+> have little impact to performance. still similar regression if comparing =
+to
+> ff388fe5c4.
 
->   # Running test 'Shadow stack on system with shadow stack'
->   # [5496] Trying clone3() with flags 0 (size 0)
->   # I am the parent (5496). My child's pid is 5505
->   # Child exited with signal 11
->   # [5496] clone3() with flags says: 11 expected 0
->   # [5496] Result (11) is different than expected (0)
->   not ok 20 Shadow stack on system with shadow stack
+Hi,
 
-> The child segfaults immediately, it seems?
+I've just sent out a patch set[1] that should alleviate (or hopefully
+totally fix) these performance regressions. It'd be great if you could
+test it.
 
-Does this help:
+For everyone: Apologies if you're in the CC list and I didn't CC you,
+but I tried to keep my patch set's CC list relatively short and clean
+(and I focused on the active participants).
+Everyone's comments are very welcome.
 
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 1755fa21e6fb..27acbdf44c5f 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -198,13 +198,14 @@ int arch_shstk_post_fork(struct task_struct *t, struc=
-t kernel_clone_args *args)
- 	 * the token 64-bit.
- 	 */
- 	struct mm_struct *mm;
--	unsigned long addr;
-+	unsigned long addr, ssp;
- 	u64 expected;
- 	u64 val;
--	int ret =3D -EINVAL;;
-+	int ret =3D -EINVAL;
-=20
--	addr =3D args->shadow_stack + args->shadow_stack_size - sizeof(u64);
--	expected =3D (addr - SS_FRAME_SIZE) | BIT(0);
-+	ssp =3D args->shadow_stack + args->shadow_stack_size;
-+	addr =3D ssp - SS_FRAME_SIZE;
-+	expected =3D ssp | BIT(0);
-=20
- 	mm =3D get_task_mm(t);
- 	if (!mm)
-
---A4C5k1PZaqbvidwo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaygzQACgkQJNaLcl1U
-h9B6Xwf/UaYSzrSa86cliyUv9R+kMDZyJtEseOLNm/iYYkVCDJsd9eDaXt2NIaLj
-BvGnXKy8+G7KT6n4qkCHFFajGljl9yKWMchEyF2R9St1XWH8rcu4YXfoOxpy4Axo
-BbQFDUVksmQg+/+NsuTOrd9mWDKfh+tOFN4yuImGcR5prKaXEnP8+wWcJrkswdxD
-kl0AnUXB1cW6a5tMmdgIuA4csSQIFWQjiKg2BBqd29otKX58tM1zReYV+46v1CsP
-l7B811tIonjJncQlRdD+XQWiJZk+VNTE0+u6qWhulrAqRIMp99lugsN1Z7Puv8WN
-e9MAhZDjlEAOppyR3AuZgrZCrp9/jA==
-=2dt8
------END PGP SIGNATURE-----
-
---A4C5k1PZaqbvidwo--
+[1]: https://lore.kernel.org/all/20240806212808.1885309-1-pedro.falcato@gma=
+il.com/
+--=20
+Pedro
 
