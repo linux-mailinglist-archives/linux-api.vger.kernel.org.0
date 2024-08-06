@@ -1,148 +1,134 @@
-Return-Path: <linux-api+bounces-2139-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2140-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E50949A4B
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 23:37:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7986949A57
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 23:43:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B4B81F27578
-	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 21:37:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D93351C2179A
+	for <lists+linux-api@lfdr.de>; Tue,  6 Aug 2024 21:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1086A16190C;
-	Tue,  6 Aug 2024 21:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B64216A943;
+	Tue,  6 Aug 2024 21:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHtt3XHr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJj6fYZH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7945D14F9D7;
-	Tue,  6 Aug 2024 21:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC22149C74;
+	Tue,  6 Aug 2024 21:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722980242; cv=none; b=lCmSmd+YBMXaCsZ/KiGTIwZlnpQSGva9eaDf0xjkPQImp8AnH7Y8xAPHgF4fuF/6MN/sFyY3n1XtgOVwVs+Ib1xU2DBeJRN00RAfKT/j1znDnl4cPr1B8psmr2d8jdXZbgIxaxZccMiBi6QV/N0aloAfIYcnGnn2jvbS0NdTb7c=
+	t=1722980603; cv=none; b=LMrRo+UciaCkQyNhyuDiovPGoQ8A8OoDjc+Eq9lxtpVEE/bko5QG4oOgRW+S/mjuARfBtsiVzcU7Qd5I1oPb8NQd81Wk1G+bB+KltZI14k+BaKkcaOORzQ4+jQH1+o9hd1sWgyP91bP2JF6k8ybTFmrPt7ufFJ3jZ66QTRttQSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722980242; c=relaxed/simple;
-	bh=8kHm+ac+kygNQxYV5Z1B1h2y1ADNWsDkiwXd93UvjBw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MBfMT3YfFk4XX8RdcIHi6Xdo2yZwK0untn2J94fFq2rhClsTV/5JfnNwqzNwt3PiKp6cCG55BbcBXQSBPOk2UP8kLgph7PM57SCBvMNuPpDMt3EsWiuD+2tOJAPDQAEg4Bi+7jDnz39HnWdMDYLcYyAlYFDqQ8YnJyxaRFbxb9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MHtt3XHr; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4f8b5e5671bso475558e0c.0;
-        Tue, 06 Aug 2024 14:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722980240; x=1723585040; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uFsMpJ+I7X97hoFlRtZ+H2DXn3COcJ95N+qj7lA/TOQ=;
-        b=MHtt3XHrmQfg/E2uIr1756uvqbVbGmPNOCpcLRoMzCmKNpYFQBzPFfTaSnmkM4Hee2
-         wMhd2igiwxKMC+BAfEyIEFSSVMZhVttSC08Ucz+Aw3yUbuB0gtnBSEO81zPO9TuCZ2R5
-         //3EBsExp06CJ16aNblX2rJffB18vkKjClYln0mCiUsTvJial6IrLqkD597zxCknhnre
-         akvMAKWCVY7+2lYbQVxWfs/mErEFp3IsvhPvMSnQDejZI76VUFsLXP2Uhk9A4R5kw+Yf
-         1tkf9MedoE38vl01D9/KBVcf7BL5skihtjswC7R9tFjAdJoMKnPnu/QuvSumaFRtO1pe
-         KQ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722980240; x=1723585040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uFsMpJ+I7X97hoFlRtZ+H2DXn3COcJ95N+qj7lA/TOQ=;
-        b=wmuQ+E5zz2TVfOHpynbrB1SCPh/cUUZobmYnnJSgF7pg6UtuQHqIjcNkO3C0sDr31b
-         oGARr1i566DrB6BYXkIPJ7t3yDsOdtbe73xMSxOqwvSn+7WuSUPRnpGu7zHhiASgrZBJ
-         Zbk1j1KZqj+aZ5FD8ESMCzCB4DubSNnfCQ/Pfevvgg1653M2T03c1aYksl/OIs4OeetC
-         K6rPeCkuKPe7Kb1OwsoXDFZOrrrXr2eTkrOTlqLmdswRfsyf9ey5ys94xbkbKt3ZWYVR
-         GrMu0SqJ4tpB3Vq2rofXAuc/rqQY0AQu+Edzv1qArjHygbhJlK9DmMUWLIQ1lO1aviCe
-         arQw==
-X-Forwarded-Encrypted: i=1; AJvYcCX/A6m4Yjjxdm6soTnisO6MuYWHe/A/xWAAvhJioqq2KCy+pQQs6zlT1/DL7gxxBd6Guyec07OQa2PsQVvtHEBbPHdUhyDkbkcYqXr39WjF007R/onsW1okfXHagX+qb6xF2uAhs4wS
-X-Gm-Message-State: AOJu0YyS5zYXWmhRj+OWaNGqm/h63pTDtXairLh9yrRrvwh5xgVHtSom
-	PwGuSlNUmiIoLUXtwBB0RHAGpEcFNykhPoiraJzgY9Uy8j9JVlxxrQxqiiPuVnbk2QEIKTSU7Ga
-	d8Ow7KiXMTaGzzLqw2FFhBYynwJ4=
-X-Google-Smtp-Source: AGHT+IFrQ8JTwjxVQvgV4t1UWu1mNosEjtPutyaa5+3W6qYS/JH+h8DUFz1dPxmoFFh/1Vhlg23Q+IHOeKLj0hAoGlA=
-X-Received: by 2002:a05:6122:2191:b0:4f5:1b58:acd9 with SMTP id
- 71dfb90a1353d-4f89ff4c58fmr14470832e0c.2.1722980240246; Tue, 06 Aug 2024
- 14:37:20 -0700 (PDT)
+	s=arc-20240116; t=1722980603; c=relaxed/simple;
+	bh=ZGkkvxdzIsgtwHZd32zcWU29Y4Hg+7l4aRKBuBmrEs8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jalGHuAA6TzpOy5NTfaoii0LMghB/2kXElHeyk5g+mdikNuOFrhDh5sBNka0LC+fuHvEBPUtMTLfA6OOOOwyLSYDYBYpBii/KLmKDXdwn8/QtvyAkTUJFfO4uZNA4pbWeitO4z5njZw6rKO4qVRIfS9qhsjKisuw7rCg7VEso3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJj6fYZH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EB7C32786;
+	Tue,  6 Aug 2024 21:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722980603;
+	bh=ZGkkvxdzIsgtwHZd32zcWU29Y4Hg+7l4aRKBuBmrEs8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DJj6fYZHnNcB0wDMLUpKRx/5yAIa6IEavtlewKA4HrplCIcF+C33AG1uE2ftedYGi
+	 CrH+O96GjHIkYLKv2ocexgEPOGI7obhwnF7cOGET9kahd3cbm+4KiXqNG6lLfFyb9r
+	 e6Ch16eSS+DVbCSBsbLPGdM8zomYACAOGsfzP6i4XKL6fQQ2BkyUH3Y6rL3eqIZCPq
+	 6GwCfF/fKtlvKGO7khVBKGPXzdQ6HYPSDkE3+0Wo5D+LTUCW98X0TLvMPg5Aod2eiY
+	 mYeDUp9tHFaLirXaAobY514UX5sYlvk8Vib/jnXIiIixjmbr+SlDgs1GVsU4PVzljL
+	 YiY9kfAVhOkjQ==
+Date: Tue, 6 Aug 2024 14:43:22 -0700
+From: Kees Cook <kees@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, jannh@google.com,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFT v7 9/9] selftests/clone3: Test shadow stack support
+Message-ID: <202408061434.1B746423@keescook>
+References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
+ <20240731-clone3-shadow-stack-v7-9-a9532eebfb1d@kernel.org>
+ <202408052046.00BC7CBC@keescook>
+ <b172c2c1-42d3-4c50-8065-9bd4ae21ffea@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202408041602.caa0372-oliver.sang@intel.com> <CAHk-=whbxLj0thXPzN9aW4CcX1D2_dntNu+x9-8uBakamBggLA@mail.gmail.com>
- <CAKbZUD3B03Zjex4STW8J_1VJhpsYb=1mnZL2-vSaW-CaZdzLiA@mail.gmail.com>
- <CALmYWFuXVCvAfrcDOCAR72z2_rmnm09QeVVqdhzqjF-fZ9ndUA@mail.gmail.com>
- <CAHk-=wgPHCJ0vZMfEP50VPjSVi-CzL0fhTGXgNLQn=Pp9W0DVA@mail.gmail.com>
- <CAHk-=wgdTWpCqTMgM9SJxG2=oYwhAueU_fDHMPifjpH5eHG8qw@mail.gmail.com> <ZrG8+/1YjxN/Hsb7@xsang-OptiPlex-9020>
-In-Reply-To: <ZrG8+/1YjxN/Hsb7@xsang-OptiPlex-9020>
-From: Pedro Falcato <pedro.falcato@gmail.com>
-Date: Tue, 6 Aug 2024 22:37:08 +0100
-Message-ID: <CAKbZUD1278Bq+5QwjH=LeYSgcugZ3JbvkLeoB3whei_gkEXV+w@mail.gmail.com>
-Subject: Re: [linus:master] [mseal] 8be7258aad: stress-ng.pagemove.page_remaps_per_sec
- -4.4% regression
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jeff Xu <jeffxu@google.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Jeff Xu <jeffxu@chromium.org>, 
-	oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Dave Hansen <dave.hansen@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jorge Lucangeli Obes <jorgelo@chromium.org>, Matthew Wilcox <willy@infradead.org>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Amer Al Shanawany <amer.shanawany@gmail.com>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	linux-api@vger.kernel.org, linux-mm@kvack.org, ying.huang@intel.com, 
-	feng.tang@intel.com, fengwei.yin@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b172c2c1-42d3-4c50-8065-9bd4ae21ffea@sirena.org.uk>
 
-On Tue, Aug 6, 2024 at 7:05=E2=80=AFAM Oliver Sang <oliver.sang@intel.com> =
-wrote:
->
-> hi, Linus,
->
-> On Mon, Aug 05, 2024 at 12:33:58PM -0700, Linus Torvalds wrote:
-> > On Mon, 5 Aug 2024 at 11:55, Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > >
-> > > So please consider this a "maybe something like this" patch, but that
-> > > 'arch_unmap()' really is pretty nasty
-> >
-> > Actually, the whole powerpc vdso code confused me. It's not the vvar
-> > thing that wants this close thing, it's the other ones that have the
-> > remap thing.
-> >
-> > .. and there were two of those error cases that needed to reset the
-> > vdso pointer.
-> >
-> > That all shows just how carefully I was reading this code.
-> >
-> > New version - still untested, but now I've read through it one more
-> > time - attached.
->
-> we tested this version by applying it directly upon 8be7258aad,  but seem=
-s it
-> have little impact to performance. still similar regression if comparing =
-to
-> ff388fe5c4.
+On Tue, Aug 06, 2024 at 09:10:28PM +0100, Mark Brown wrote:
+> On Mon, Aug 05, 2024 at 08:54:54PM -0700, Kees Cook wrote:
+> 
+> >   # Running test 'Shadow stack on system with shadow stack'
+> >   # [5496] Trying clone3() with flags 0 (size 0)
+> >   # I am the parent (5496). My child's pid is 5505
+> >   # Child exited with signal 11
+> >   # [5496] clone3() with flags says: 11 expected 0
+> >   # [5496] Result (11) is different than expected (0)
+> >   not ok 20 Shadow stack on system with shadow stack
+> 
+> > The child segfaults immediately, it seems?
+> 
+> Does this help:
+> 
+> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> index 1755fa21e6fb..27acbdf44c5f 100644
+> --- a/arch/x86/kernel/shstk.c
+> +++ b/arch/x86/kernel/shstk.c
+> @@ -198,13 +198,14 @@ int arch_shstk_post_fork(struct task_struct *t, struct kernel_clone_args *args)
+>  	 * the token 64-bit.
+>  	 */
+>  	struct mm_struct *mm;
+> -	unsigned long addr;
+> +	unsigned long addr, ssp;
+>  	u64 expected;
+>  	u64 val;
+> -	int ret = -EINVAL;;
+> +	int ret = -EINVAL;
+>  
+> -	addr = args->shadow_stack + args->shadow_stack_size - sizeof(u64);
+> -	expected = (addr - SS_FRAME_SIZE) | BIT(0);
+> +	ssp = args->shadow_stack + args->shadow_stack_size;
+> +	addr = ssp - SS_FRAME_SIZE;
+> +	expected = ssp | BIT(0);
+>  
+>  	mm = get_task_mm(t);
+>  	if (!mm)
 
-Hi,
+Yes indeed! This passes now.
 
-I've just sent out a patch set[1] that should alleviate (or hopefully
-totally fix) these performance regressions. It'd be great if you could
-test it.
+"Shadow stack with no token" still crashes the parent. It seems to
+crash in waitpid(). Under gdb it hangs instead, showing it's in glibc's
+__GI___wait4(). Ah, it's crashing at c3 (ret), so shadow stack problem,
+I imagine.
 
-For everyone: Apologies if you're in the CC list and I didn't CC you,
-but I tried to keep my patch set's CC list relatively short and clean
-(and I focused on the active participants).
-Everyone's comments are very welcome.
+Does waitpid() need to be open-coded like the clone3() call too?
 
-[1]: https://lore.kernel.org/all/20240806212808.1885309-1-pedro.falcato@gma=
-il.com/
---=20
-Pedro
+-- 
+Kees Cook
 
