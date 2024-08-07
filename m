@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-2147-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2148-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5332A94AF9A
-	for <lists+linux-api@lfdr.de>; Wed,  7 Aug 2024 20:23:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D8494B068
+	for <lists+linux-api@lfdr.de>; Wed,  7 Aug 2024 21:23:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4BF61F232D9
-	for <lists+linux-api@lfdr.de>; Wed,  7 Aug 2024 18:23:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E71921F22C7C
+	for <lists+linux-api@lfdr.de>; Wed,  7 Aug 2024 19:23:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B991411FD;
-	Wed,  7 Aug 2024 18:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFD0614386B;
+	Wed,  7 Aug 2024 19:23:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSMXXN5W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCbAdkJG"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FCA13BC12;
-	Wed,  7 Aug 2024 18:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEDB1097B;
+	Wed,  7 Aug 2024 19:23:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723054985; cv=none; b=B1Zz8BQtjG4bp71a4bZJs62oGLa/8Xd8NorEdZCNK8qmEtmdtlXcmNvfVigWnha6YdFe7ePQ93XvQm7rIOMPADVYU0JTYBkRYCIx4wYXxYjG5Q3Sx80I7RCsFhzih4vh/qXr72vp8kOxaDHx2vPh40CsV9xkyAtnvr2XxgBnALE=
+	t=1723058582; cv=none; b=YlG3xrWXKapQfwpXw8VtvI6OZ7z2HvkN5l/GPtjpd0d4rGsebWGic+9jreT+e7+ImR2xCvHwIiS+pqUqlVaFhL6+zD/+ygm+etDD7b1WWAJpB9XS4ZhRTm3KxHSiuqjSV2njKtmETVxVYxgQpceL2JnqdpxrWdB1ydqzu0e17Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723054985; c=relaxed/simple;
-	bh=GIIg4NFIrWlEe7X4kkyZwtgzGRqAM7FVGbehXNHySJM=;
+	s=arc-20240116; t=1723058582; c=relaxed/simple;
+	bh=jUm8i8bjALaxFOLz/0xZKPvQWkIL1u3ppQR8VOmNogc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XGIpKMFk9VXImc8/xx1dUWNz6NDGFhzrhueKaKdeNt3u0LQz93BOmbitHDR4+Ox4zrWLEZrALK1EoOexg/rgDKlAoPrg0hdvhYzwiMELDl3BC1cFM7qj7iZzVQDJtuxJwXnWTivnSlcFaBQtK1UauU497MYp7NlWNwpU4kzxt3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSMXXN5W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C88C32781;
-	Wed,  7 Aug 2024 18:23:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LkXNkgJdcT+ffKUMoZTU0PfS20jKlsvbUhT1JA0lciLIHkxSp4M0ZuOAA0VRDXXToo3TEk5/xmZv9LfEjHYQbqXwnjHYjrwSiczMAnvutt/b+eKkuCp1EvYrytq23atVt4dh1e5M5Mks9leGM+r1JVxYaLP3umxyWQ2/rNMQrU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCbAdkJG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F35E9C32781;
+	Wed,  7 Aug 2024 19:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723054985;
-	bh=GIIg4NFIrWlEe7X4kkyZwtgzGRqAM7FVGbehXNHySJM=;
+	s=k20201202; t=1723058582;
+	bh=jUm8i8bjALaxFOLz/0xZKPvQWkIL1u3ppQR8VOmNogc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hSMXXN5WZgmqR5swHaeSWo+Yrd3zD8zgE3QW9R5c7BKFe/hdDsHjtUVoWfZfNfk6L
-	 FcEC+vd01QZ9i3zQ4f8/x2hhaa2DUKqd86l7iKQgypCapFRehb7nPE4x72kbeht9/Y
-	 pwbgZh0pB4GJSwH/wqkkOKFl8ADQ1B+stF0HJ7PKezKHyIRv5WnQBEzmG6UyWW6Byx
-	 boD5JmBlopWVG/yvTqCrKFI95TRF7RE7OBJuOsgOS5IEhGbQEwOVeeYyElNGDwu3FF
-	 VdarA/uixhVskB8FMrdWaftoeG4Y8tDfNLaCZ+g6Bezq7xsYvH1DpGrrQmie/V7v8F
-	 +5RpRABVtRgYg==
-Date: Wed, 7 Aug 2024 11:23:04 -0700
+	b=cCbAdkJGqM1yUW0BcF/oCnO68jUYMM93S2GDpC+f38BB4cJuefrXF3n1ElMBzgpiI
+	 //c6Oet/7XYavLEeZSS7UKmCS4uGE271LcuB043tUwTy+7WaWXTEi27pdiI+ybw72W
+	 ZxmwDZOttqfty0gxQIJs+b2WTVAdRnZUta33TtQ/lwm6/YREAvCuiSVQiG53qfw4br
+	 XdjoigZGMpEX2/bLWyN7FvV3+7gKmgB734mUrQz9WPwOn8QRt6rgiuO1fEhLsq8gUn
+	 Qtl/Wd5r/EVJwVJNFYgAoxaS4SSUT/TupqnE0O8w/OP/qrzitNu7In0i8Gbyp0jT9m
+	 yn9pM2g7yoiYg==
+Date: Wed, 7 Aug 2024 12:23:01 -0700
 From: Kees Cook <kees@kernel.org>
 To: Mark Brown <broonie@kernel.org>
 Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
@@ -66,7 +66,7 @@ Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	Will Deacon <will@kernel.org>, jannh@google.com,
 	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCH RFT v7 9/9] selftests/clone3: Test shadow stack support
-Message-ID: <202408071118.0C8A04C42@keescook>
+Message-ID: <202408071221.92B6E385C@keescook>
 References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
  <20240731-clone3-shadow-stack-v7-9-a9532eebfb1d@kernel.org>
  <202408052046.00BC7CBC@keescook>
@@ -149,35 +149,7 @@ On Wed, Aug 07, 2024 at 01:39:27PM +0100, Mark Brown wrote:
 > I'd only expect to see one update, my understanding is that that update
 > is for the child but happening in the context of the parent as the hild
 > is not yet started.
-
-What's weird here that I don't understand is that the parent is 4943, so
-this report makes sense:
-
-> > [  569.153288] shstk_setup: clone3[4943] ssp:7272d2200000
-
-The child is 4944, yet I see:
-
-> > [  569.153998] process: copy_thread: clone3[4943] new_ssp:7272d2530000
-> > [  569.154002] update_fpu_shstk: clone3[4943] ssp:7272d2530000
-
-These map to my logging:
-
-copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
-	...
-	new_ssp = shstk_alloc_thread_stack(p, args);
-	pr_err("%s: %s[%d] new_ssp:%lx\n", __func__, p->comm, task_pid_nr(p), new_ssp);
-
-and
-
-update_fpu_shstk(struct task_struct *dst, unsigned long ssp)
-	...
-        xstate->user_ssp = (u64)ssp;
-	pr_err("%s: %s[%d] ssp:%lx\n", __func__, dst->comm, task_pid_nr(dst), ssp);
-
-The child should be "p" (and "dst") here -- stuff is being copied from
-current to p, but p is reporting itself as 4943 here? (Oh, this is
-reporting pid, not tid... I bet that's what I've got wrong.)
-
+> 
 > Does this help:
 > 
 > diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
@@ -194,9 +166,11 @@ reporting pid, not tid... I bet that's what I've got wrong.)
 >  		/*
 >  		 * For CLONE_VFORK the child will share the parents
 
-I'll fix my reporting and give this patch a try too. Thanks!
+Yup, that fixes it!
 
--Kees
+  # Totals: pass:23 fail:0 xfail:0 xpass:0 skip:1 error:0
+
+(The skip is "Shadow stack on system without shadow stack")
 
 -- 
 Kees Cook
