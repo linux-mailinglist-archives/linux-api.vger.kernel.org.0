@@ -1,110 +1,229 @@
-Return-Path: <linux-api+bounces-2151-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2152-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA3894B399
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2024 01:22:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD6D94B8BD
+	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2024 10:16:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F5ED2829A9
-	for <lists+linux-api@lfdr.de>; Wed,  7 Aug 2024 23:22:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 706AF1C240F7
+	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2024 08:16:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8157156250;
-	Wed,  7 Aug 2024 23:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3231422DC;
+	Thu,  8 Aug 2024 08:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWaHE+9F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l6tQ/84+"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB06155301;
-	Wed,  7 Aug 2024 23:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6C16F30E;
+	Thu,  8 Aug 2024 08:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723072950; cv=none; b=e5TMos2Gb882qG7+IO5PCzpxMzYAOZQVLwT13fw5xk7vT90EfK9b6THIFtdBTj/PkgGI9hh5vPXN1yW5Ai0CkdrhMhUWHIc9uC2FCIO2hNC7elPeHDb4jtyavzCDbC1IG45RFVsv14RbL2FRa0ekanjaNDS1qjEJ/Dy6JrpJTcY=
+	t=1723104987; cv=none; b=GEHlYcAPnDUqpmz1QIemltgRAHr0BTqAjkCZId/xCPPeFck3uA+5ItaRD0M532/WRCgy82E86YpYS5PZCs+f9TtICs0wQtM6HDz2P6feTaDnBj4L9bC8cnX2fgKZjIL7LCALl6P5fOsD6QRxsrIw8AwqvbFwM7QB5ZTVgpQ9aQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723072950; c=relaxed/simple;
-	bh=RaFIQnhHCVfXZhfLSnx0U32F4IlncSulUcGskYU6UtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aCCbtHK0VKY6UN4EJ0LGzvYRatGLKozQOuODFJVKlybdzL6oBR/MIvBceNin+RKi5Z6+opahhBt8Cyhq5a53gDiUWKohoDQKRAiHbvQnt1bTDzRLGQWiOA+fniE763AmOV1xIXIVNnTj2vJCaoXTDVJTPBqr6ZSgGKETrBSWF68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWaHE+9F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A977C4AF10;
-	Wed,  7 Aug 2024 23:22:30 +0000 (UTC)
+	s=arc-20240116; t=1723104987; c=relaxed/simple;
+	bh=tYfPWHQkb5HpeM9E7Nl8dJHKPDlLHCxfggIkjFxrTnE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nWegpcqCVhfRlnwr81Az4Pu8BYDJrNqYG5ez+PZXf0TRUUUTNH5opiDPoqhR9E+7USer7mcNRnStElgic2893NIoa1FWxiPJQ9tCO4Xhs8GyF17Pgm05eynifFB/vmjAvX39iLDBbpFyV9qhQWUxhWXbCWEOnVIgdh6psBesrPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l6tQ/84+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7917AC32786;
+	Thu,  8 Aug 2024 08:16:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723072950;
-	bh=RaFIQnhHCVfXZhfLSnx0U32F4IlncSulUcGskYU6UtY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mWaHE+9F9oZolq2zd7j9sugiqdHgYVE+JJo9M4TUOONrL18B5kBtXLv2vx2JBkIqe
-	 U4w/2JUN2xoBkY5RyAtLvrPGPeNiZkm0176mjAaHcaBrboYYS93xLnCEvHBWBjKUqi
-	 xdfW/qsEEPs6QGa70quFuBvJHNsz7/TBT0iJVGFoVpyN9TQzknhbkTdAuDLUIBi4Yr
-	 7kUgn7GAzgwJRzSOF0YvBHhR4aQZD+tFO2T8zE63mH5Nccleot+f+MSFTB9MGDqYMe
-	 yMZG+n9LnWqayTQiTtbk3mXoaT1w8DPFsyvH9RgOHfLNqoQVmAJV8QJBpcnMXCfQf7
-	 0w8mWFhHN1Stg==
-Date: Wed, 7 Aug 2024 16:22:29 -0700
-From: Kees Cook <kees@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, jannh@google.com,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH RFT v7 9/9] selftests/clone3: Test shadow stack support
-Message-ID: <202408071620.57E9BBE5D@keescook>
-References: <20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org>
- <20240731-clone3-shadow-stack-v7-9-a9532eebfb1d@kernel.org>
- <202408052046.00BC7CBC@keescook>
- <19ee6fc9-94d7-4420-abd3-7cfdf612df0c@sirena.org.uk>
- <202408062022.34F3558@keescook>
- <e5e5c0fc-3425-4020-ae7c-4b7fd0f1f263@sirena.org.uk>
- <202408071221.92B6E385C@keescook>
- <ZrPvLIjW0p8j5C1x@finisterre.sirena.org.uk>
+	s=k20201202; t=1723104986;
+	bh=tYfPWHQkb5HpeM9E7Nl8dJHKPDlLHCxfggIkjFxrTnE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=l6tQ/84+jkwPCxlBTYrKQCc/9Vizesus8ynU1dzKk79AyCNfgt5Kma4d/4Jw4CtbL
+	 M/WmWVj+fOouekEAhG8qmXuIf49vNFPn5MnA5SArZ248a4jRq6jaFIL20PKj8p9vsP
+	 u2Y/QXQBG7A76mz55pexJt4DvF9SiGjJi5m+S+8gUFNm+NZdTUBUwBAxm3nIEODE5n
+	 sOb3MgXhZFbWF+Ft9F5RE3CADKZshOKowMCaGEER+FJsbqXgxB0kwWrFgjL5c7aOq9
+	 MJXEuW0g31L6GDhOY2tMXl8WOHhPESGuBBO3FZlK8b/hNBfUoKfT/ezfaT5LwFSUAD
+	 Niufvxjr2gRsg==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v8 0/9] fork: Support shadow stacks in clone3()
+Date: Thu, 08 Aug 2024 09:15:21 +0100
+Message-Id: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrPvLIjW0p8j5C1x@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJl+tGYC/3XQTU7DMBAF4KtUXmPkGf+zYsUBEDvEIo7HrdUqQ
+ U4VQFXujglCKUq6fDOab6R3YQOVTAN72F1YoTEPue9qcHc71h6abk88x5oZCpQgwPP21Hck+XB
+ oYv/Bh3PTHjnoqETEkLQ0rF6+F0r5c1Zf2fPTC3urw0Mezn35mj+NMK9+UZSb6Ahc8OiMjSJUP
+ 4rHI5WOTvd92c/giAsCoLYRrEgwIJMzDkDrFSKvEBTbiKxIY4OjKAmbtl0h6hpx24iqiAvoUiK
+ VjDUrRP8hSqC40YmuiERsjdfekQorxCyIuVWsqYgnstbJACn4FWIXxErYRuxPJ15LJAopQPyHT
+ NP0DUqryadaAgAA
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, Kees Cook <kees@kernel.org>, 
+ David Hildenbrand <david@redhat.com>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6701; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=tYfPWHQkb5HpeM9E7Nl8dJHKPDlLHCxfggIkjFxrTnE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmtH7FMSZMSyV0Oaf1jOcV3spGdxsEzL2UEay2M
+ Sc9EfXfuVGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZrR+xQAKCRAk1otyXVSH
+ 0CJTB/0fEFx5Dd5GjJ6FB55c4W0450ayb0bsg3OIOXGuxYJcE2wYQm5pUIyhqTSw1kTEx76upnL
+ dt9FqqTF9FlzK7JSfrBRXo4by1mFsIKQsWVEBhOJnOWsJQDxKG3Xko3hef/HTgb8FHveDf+06RU
+ /D3E9P4ILbasPGbooEkV1l2XIA+fnsdT6g2mnrvrBAMqcwmVKs/dGYOOVETcX8I7cVa1S6YGUZr
+ FS03ZQ8bz2gucxfmp01vtE8jVX5l+ssZdsjHV6X2MioaYGYZ0RVFoPNAXLLfJsnphVlUA31tESq
+ ucf0pVJlrsjA9y+213kUhz6vE9K09fLiLB5WX2RnDIP6Ci7k
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, Aug 07, 2024 at 11:03:24PM +0100, Mark Brown wrote:
-> On Wed, Aug 07, 2024 at 12:23:01PM -0700, Kees Cook wrote:
-> > On Wed, Aug 07, 2024 at 01:39:27PM +0100, Mark Brown wrote:
-> 
-> > >  		size = args->shadow_stack_size;
-> > > +		shstk->base = 0;
-> > > +		shstk->size = 0;
-> 
-> > Yup, that fixes it!
-> 
-> >   # Totals: pass:23 fail:0 xfail:0 xpass:0 skip:1 error:0
-> 
-> > (The skip is "Shadow stack on system without shadow stack")
-> 
-> Excellent, thanks!  It's amazing how many dumb mistakes you can find if
-> you actually try running the code :/ .
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-Heh, well, it's tricky work writing it without reference hardware. :) I
-just wish there was CET emulation in QEmu...
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process in a similar manner
+to how the normal stack is specified, keeping the current implicit
+allocation behaviour if one is not specified either with clone3() or
+through the use of clone().  The user must provide a shadow stack
+address and size, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with a shadow stack token at the top of the
+stack.
+
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET avaible to me, I have
+done testing with an integration into my pending work for GCS.  There is
+some possibility that the arm64 implementation may require the use of
+clone3() and explicit userspace allocation of shadow stacks, this is
+still under discussion.
+
+Please further note that the token consumption done by clone3() is not
+currently implemented in an atomic fashion, Rick indicated that he would
+look into fixing this if people are OK with the implementation.
+
+A new architecture feature Kconfig option for shadow stacks is added as
+here, this was suggested as part of the review comments for the arm64
+GCS series and since we need to detect if shadow stacks are supported it
+seemed sensible to roll it in here.
+
+[1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v8:
+- Fix token verification with user specified shadow stack.
+- Don't track user managed shadow stacks for child processes.
+- Link to v7: https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
+
+Changes in v7:
+- Rebase onto v6.11-rc1.
+- Typo fixes.
+- Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
+
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (9):
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Explicitly handle child exits due to signals
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  41 ++++
+ arch/x86/Kconfig                                  |   1 +
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           | 105 +++++++---
+ fs/proc/task_mmu.c                                |   2 +-
+ include/linux/mm.h                                |   2 +-
+ include/linux/sched/task.h                        |  13 ++
+ include/uapi/linux/sched.h                        |  13 +-
+ kernel/fork.c                                     |  76 ++++++--
+ mm/Kconfig                                        |   6 +
+ tools/testing/selftests/clone3/clone3.c           | 224 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  40 +++-
+ tools/testing/selftests/ksft_shstk.h              |  63 ++++++
+ 15 files changed, 513 insertions(+), 87 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
 -- 
-Kees Cook
+Mark Brown <broonie@kernel.org>
+
 
