@@ -1,143 +1,325 @@
-Return-Path: <linux-api+bounces-2162-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2163-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A97994C3EF
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2024 19:54:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B36B94CCE2
+	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 11:05:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF5C42814F2
-	for <lists+linux-api@lfdr.de>; Thu,  8 Aug 2024 17:54:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFF021F20F0F
+	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 09:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9D12145359;
-	Thu,  8 Aug 2024 17:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A1118E056;
+	Fri,  9 Aug 2024 09:05:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekqd0hqv"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="h2Ipt9D2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-8fae.mail.infomaniak.ch (smtp-8fae.mail.infomaniak.ch [83.166.143.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0C112CDAE;
-	Thu,  8 Aug 2024 17:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEB9BA41
+	for <linux-api@vger.kernel.org>; Fri,  9 Aug 2024 09:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723139673; cv=none; b=X260RzfR3fMYVN93NDs4c/w+XkvXQpdJncYAcrcB9SHnkS9Ln3hFKZvyhO2P5671FG/al2Qi1w2WQxWorLIBCnUXRb3uJaFfbMXVIVOpV1aGgnsJrF76CtTibyt4WCpkxHk0kPPtS2HVESAeH7STwVptFakf3Sf6sABENlWtiH8=
+	t=1723194322; cv=none; b=P/IBt2zte1KvP1aW0UQA1RUjw34ZWoHQaTvzrzdqYmx2EbCtOiFvFjpE86KDwGgFT8ZcRgts0+23oBw1mLM/wqWHjK5+3bKa+tRU8LUTwG9nB/uINO/iieCjna+lIM5gDY526+DxtVf18XB0hDb0AhxRQN1Yc72aTaysP2ysFwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723139673; c=relaxed/simple;
-	bh=J3H9kOyv2IqWJ6BxkDpHlkp1OGHMwH5Wxp6YCl7+Cqc=;
+	s=arc-20240116; t=1723194322; c=relaxed/simple;
+	bh=Cc3CTSJnqciZ5F97WujY8wtP6LwylWlntc2UMCDJOAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iadxhltGFH7+BMbwUASSjucpQnEebvoQkKmJDEMteE8Gfrqf9aS8mLIDDUlkY7pZ4K0ZozY+Mx0WldU4PCsSUf5pwNvf9HgtaI0U0OMa/5IwudoSIJBYJVy5mS417bPrMISRW7ohFKMSGdTHG5rmDhLpmQIB2JxBFU8PjuSxTNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekqd0hqv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E899AC4AF09;
-	Thu,  8 Aug 2024 17:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723139672;
-	bh=J3H9kOyv2IqWJ6BxkDpHlkp1OGHMwH5Wxp6YCl7+Cqc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=CWp/o4a55gf/aMI1FU0mjq/eiHuqe7iM4uIdEpZOLO9xJBhbLqHn8Ci1ocW5e4NbeqQmYgpiQ8xWFyHUlf+LKrduXFLk6sn69nSRVF6S/z+AwY7tvuOmL7zt3BS1ga0dYIe/JWomFvy2JF6VOEG9DZGbyZpXuejWRyEDmdcS2UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=h2Ipt9D2; arc=none smtp.client-ip=83.166.143.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WgHYY28mjzcxg;
+	Fri,  9 Aug 2024 10:45:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1723193137;
+	bh=A4Mye3W1GO6Qfy6D2ZWCed9/6+HjtrIW34KoXP/3AGI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ekqd0hqv0LzONtXLHWyjhNvQhMVw6kw61Z1HTnfJJm8D+VOLzUjcK7euQYterAm+V
-	 6WyZWYRYPtICBYiWTje3Evi6FA9e4f/uEZO9kW66s8y/czmR1vjqG/mKFi6UbXupwu
-	 JNgA2nnN0nQJGaZN170lM8qwTvVKgih+PNwSsdripnzH+Ph+8du+yP7Q2Oo2Lh8T5V
-	 ZQMnEmuzABbR6HCo3Gmu1xLr6zC3SWCf5XlebM8BKLO7ng1Kww6RQf9mFQoEZyLdlA
-	 MX9tfcSMY+TxbFHZqqZRlINhp1z8esszCfDRUcUN/ItflR8HVvklxr5XpqlOlkMUr8
-	 1hPmX7jVN47Wg==
-Date: Thu, 8 Aug 2024 10:54:31 -0700
-From: Kees Cook <kees@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, jannh@google.com,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFT v8 0/9] fork: Support shadow stacks in clone3()
-Message-ID: <202408081053.0EABACA@keescook>
-References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
+	b=h2Ipt9D2gSZ/q8ygM/sKMThiKAgF5W7JXFX6TJPXNTZAYDmh1klJCHwS2nWk1/Ls6
+	 rODW1Jw9gRqcGJJlyTfXdlR0gZLZ9XfO6hh5TppcVcLc35YP40xdWPET10w2N9LHIp
+	 rSAeWKTu4mMzgbT0el463lS6S0/0zMcqfxAW+NGE=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4WgHYN5HlJzLZR;
+	Fri,  9 Aug 2024 10:45:28 +0200 (CEST)
+Date: Fri, 9 Aug 2024 10:45:23 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Jeff Xu <jeffxu@google.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
+	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jordan R Abrahams <ajordanr@google.com>, 
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, Luca Boccassi <bluca@debian.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Matthew Garrett <mjg59@srcf.ucam.org>, 
+	Matthew Wilcox <willy@infradead.org>, Miklos Szeredi <mszeredi@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, 
+	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Steve Dower <steve.dower@python.org>, 
+	Steve Grubb <sgrubb@redhat.com>, Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
+	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Elliott Hughes <enh@google.com>
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+Message-ID: <20240809.Taiyah0ii7ph@digikod.net>
+References: <20240717.neaB5Aiy2zah@digikod.net>
+ <CALmYWFt=yXpzhS=HS9FjwVMvx6U1MoR31vK79wxNLhmJm9bBoA@mail.gmail.com>
+ <20240718.kaePhei9Ahm9@digikod.net>
+ <CALmYWFto4sw-Q2+J0Gc54POhnM9C8YpnJ44wMz=fd_K3_+dWmw@mail.gmail.com>
+ <20240719.shaeK6PaiSie@digikod.net>
+ <CALmYWFsd-=pOPZZmiKvYJ8pOhACsTvW_d+pRjG_C4jD6+Li0AQ@mail.gmail.com>
+ <20240719.sah7oeY9pha4@digikod.net>
+ <CALmYWFsAZjU5sMcXTT23Mtw2Y30ewc94FAjKsnuSv1Ex=7fgLQ@mail.gmail.com>
+ <20240723.beiTu0qui2ei@digikod.net>
+ <CALmYWFtHQY41PbRwGxge1Wo=8D4ocZfQgRUO47-PF1eJCEr0Sw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALmYWFtHQY41PbRwGxge1Wo=8D4ocZfQgRUO47-PF1eJCEr0Sw@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-On Thu, Aug 08, 2024 at 09:15:21AM +0100, Mark Brown wrote:
-> The kernel has recently added support for shadow stacks, currently
-> x86 only using their CET feature but both arm64 and RISC-V have
-> equivalent features (GCS and Zicfiss respectively), I am actively
-> working on GCS[1].  With shadow stacks the hardware maintains an
-> additional stack containing only the return addresses for branch
-> instructions which is not generally writeable by userspace and ensures
-> that any returns are to the recorded addresses.  This provides some
-> protection against ROP attacks and making it easier to collect call
-> stacks.  These shadow stacks are allocated in the address space of the
-> userspace process.
+On Mon, Aug 05, 2024 at 11:35:09AM -0700, Jeff Xu wrote:
+> On Tue, Jul 23, 2024 at 6:15 AM Mickaël Salaün <mic@digikod.net> wrote:
+> >
+> > On Fri, Jul 19, 2024 at 08:27:18AM -0700, Jeff Xu wrote:
+> > > On Fri, Jul 19, 2024 at 8:04 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > >
+> > > > On Fri, Jul 19, 2024 at 07:16:55AM -0700, Jeff Xu wrote:
+> > > > > On Fri, Jul 19, 2024 at 1:45 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > > >
+> > > > > > On Thu, Jul 18, 2024 at 06:29:54PM -0700, Jeff Xu wrote:
+> > > > > > > On Thu, Jul 18, 2024 at 5:24 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > > > > >
+> > > > > > > > On Wed, Jul 17, 2024 at 07:08:17PM -0700, Jeff Xu wrote:
+> > > > > > > > > On Wed, Jul 17, 2024 at 3:01 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Tue, Jul 16, 2024 at 11:33:55PM -0700, Jeff Xu wrote:
+> > > > > > > > > > > On Thu, Jul 4, 2024 at 12:02 PM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > Add a new AT_CHECK flag to execveat(2) to check if a file would be
+> > > > > > > > > > > > allowed for execution.  The main use case is for script interpreters and
+> > > > > > > > > > > > dynamic linkers to check execution permission according to the kernel's
+> > > > > > > > > > > > security policy. Another use case is to add context to access logs e.g.,
+> > > > > > > > > > > > which script (instead of interpreter) accessed a file.  As any
+> > > > > > > > > > > > executable code, scripts could also use this check [1].
+> > > > > > > > > > > >
+> > > > > > > > > > > > This is different than faccessat(2) which only checks file access
+> > > > > > > > > > > > rights, but not the full context e.g. mount point's noexec, stack limit,
+> > > > > > > > > > > > and all potential LSM extra checks (e.g. argv, envp, credentials).
+> > > > > > > > > > > > Since the use of AT_CHECK follows the exact kernel semantic as for a
+> > > > > > > > > > > > real execution, user space gets the same error codes.
+> > > > > > > > > > > >
+> > > > > > > > > > > So we concluded that execveat(AT_CHECK) will be used to check the
+> > > > > > > > > > > exec, shared object, script and config file (such as seccomp config),
+> > > > > >
+> > > > > > > > > > > I think binfmt_elf.c in the kernel needs to check the ld.so to make
+> > > > > > > > > > > sure it passes AT_CHECK, before loading it into memory.
+> > > > > > > > > >
+> > > > > > > > > > All ELF dependencies are opened and checked with open_exec(), which
+> > > > > > > > > > perform the main executability checks (with the __FMODE_EXEC flag).
+> > > > > > > > > > Did I miss something?
+> > > > > > > > > >
+> > > > > > > > > I mean the ld-linux-x86-64.so.2 which is loaded by binfmt in the kernel.
+> > > > > > > > > The app can choose its own dynamic linker path during build, (maybe
+> > > > > > > > > even statically link one ?)  This is another reason that relying on a
+> > > > > > > > > userspace only is not enough.
+> > > > > > > >
+> > > > > > > > The kernel calls open_exec() on all dependencies, including
+> > > > > > > > ld-linux-x86-64.so.2, so these files are checked for executability too.
+> > > > > > > >
+> > > > > > > This might not be entirely true. iiuc, kernel  calls open_exec for
+> > > > > > > open_exec for interpreter, but not all its dependency (e.g. libc.so.6)
+> > > > > >
+> > > > > > Correct, the dynamic linker is in charge of that, which is why it must
+> > > > > > be enlighten with execveat+AT_CHECK and securebits checks.
+> > > > > >
+> > > > > > > load_elf_binary() {
+> > > > > > >    interpreter = open_exec(elf_interpreter);
+> > > > > > > }
+> > > > > > >
+> > > > > > > libc.so.6 is opened and mapped by dynamic linker.
+> > > > > > > so the call sequence is:
+> > > > > > >  execve(a.out)
+> > > > > > >   - open exec(a.out)
+> > > > > > >   - security_bprm_creds(a.out)
+> > > > > > >   - open the exec(ld.so)
+> > > > > > >   - call open_exec() for interruptor (ld.so)
+> > > > > > >   - call execveat(AT_CHECK, ld.so) <-- do we want ld.so going through
+> > > > > > > the same check and code path as libc.so below ?
+> > > > > >
+> > > > > > open_exec() checks are enough.  LSMs can use this information (open +
+> > > > > > __FMODE_EXEC) if needed.  execveat+AT_CHECK is only a user space
+> > > > > > request.
+> > > > > >
+> > > > > Then the ld.so doesn't go through the same security_bprm_creds() check
+> > > > > as other .so.
+> > > >
+> > > > Indeed, but...
+> > > >
+> > > My point is: we will want all the .so going through the same code
+> > > path, so  security_ functions are called consistently across all the
+> > > objects, And in the future, if we want to develop additional LSM
+> > > functionality based on AT_CHECK, it will be applied to all objects.
+> >
+> > I'll extend the doc to encourage LSMs to check for __FMODE_EXEC, which
+> > already is the common security check for all executable dependencies.
+> > As extra information, they can get explicit requests by looking at
+> > execveat+AT_CHECK call.
+> >
+> I agree that security_file_open + __FMODE_EXEC for checking all
+> the .so (e.g for executable memfd) is a better option  than checking at
+> security_bprm_creds_for_exec.
 > 
-> Our API for shadow stacks does not currently offer userspace any
-> flexiblity for managing the allocation of shadow stacks for newly
-> created threads, instead the kernel allocates a new shadow stack with
-> the same size as the normal stack whenever a thread is created with the
-> feature enabled.  The stacks allocated in this way are freed by the
-> kernel when the thread exits or shadow stacks are disabled for the
-> thread.  This lack of flexibility and control isn't ideal, in the vast
-> majority of cases the shadow stack will be over allocated and the
-> implicit allocation and deallocation is not consistent with other
-> interfaces.  As far as I can tell the interface is done in this manner
-> mainly because the shadow stack patches were in development since before
-> clone3() was implemented.
+> But then maybe execveat( AT_CHECK) can return after  calling alloc_bprm ?
+> See below call graph:
 > 
-> Since clone3() is readily extensible let's add support for specifying a
-> shadow stack when creating a new thread or process in a similar manner
-> to how the normal stack is specified, keeping the current implicit
-> allocation behaviour if one is not specified either with clone3() or
-> through the use of clone().  The user must provide a shadow stack
-> address and size, this must point to memory mapped for use as a shadow
-> stackby map_shadow_stack() with a shadow stack token at the top of the
-> stack.
+> do_execveat_common (AT_CHECK)
+> -> alloc_bprm
+> ->->do_open_execat
+> ->->-> do_filp_open (__FMODE_EXEC)
+> ->->->->->->> security_file_open
+> -> bprm_execve
+> ->-> prepare_exec_creds
+> ->->-> prepare_creds
+> ->->->-> security_prepare_creds
+> ->-> security_bprm_creds_for_exec
 > 
-> Please note that the x86 portions of this code are build tested only, I
-> don't appear to have a system that can run CET avaible to me, I have
-> done testing with an integration into my pending work for GCS.  There is
-> some possibility that the arm64 implementation may require the use of
-> clone3() and explicit userspace allocation of shadow stacks, this is
-> still under discussion.
-> 
-> Please further note that the token consumption done by clone3() is not
-> currently implemented in an atomic fashion, Rick indicated that he would
-> look into fixing this if people are OK with the implementation.
-> 
-> A new architecture feature Kconfig option for shadow stacks is added as
-> here, this was suggested as part of the review comments for the arm64
-> GCS series and since we need to detect if shadow stacks are supported it
-> seemed sensible to roll it in here.
-> 
-> [1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+> What is the consideration to mark the end at
+> security_bprm_creds_for_exec ? i.e. including brpm_execve,
+> prepare_creds, security_prepare_creds, security_bprm_creds_for_exec.
 
-Reviewed-by: Kees Cook <kees@kernel.org>
-Tested-by: Kees Cook <kees@kernel.org>
+This enables LSMs to know/log an explicit execution request, including
+context with argv and envp.
 
-(Testing was done on CET hardware.)
+> 
+> Since dynamic linker doesn't load ld.so (it is by kernel),  ld.so
+> won't go through those  security_prepare_creds and
+> security_bprm_creds_for_exec checks like other .so do.
 
--- 
-Kees Cook
+Yes, but this is not an issue nor an explicit request. ld.so is only one
+case of this patch series.
+
+> 
+> > >
+> > > Another thing to consider is:  we are asking userspace to make
+> > > additional syscall before  loading the file into memory/get executed,
+> > > there is a possibility for future expansion of the mechanism, without
+> > > asking user space to add another syscall again.
+> >
+> > AT_CHECK is defined with a specific semantic.  Other mechanisms (e.g.
+> > LSM policies) could enforce other restrictions following the same
+> > semantic.  We need to keep in mind backward compatibility.
+> >
+> > >
+> > > I m still not convinced yet that execveat(AT_CHECK) fits more than
+> > > faccessat(AT_CHECK)
+> >
+> > faccessat2(2) is dedicated to file permission/attribute check.
+> > execveat(2) is dedicated to execution, which is a superset of file
+> > permission for executability, plus other checks (e.g. noexec).
+> >
+> That sounds reasonable, but if execveat(AT_CHECK) changes behavior of
+> execveat(),  someone might argue that faccessat2(EXEC_CHECK) can be
+> made for the executability.
+
+AT_CHECK, as any other syscall flags, changes the behavior of execveat,
+but the overall semantic is clearly defined.
+
+Again, faccessat2 is only dedicated to file attributes/permissions, not
+file executability.
+
+> 
+> I think the decision might depend on what this PATCH intended to
+> check, i.e. where we draw the line.
+
+The goal is clearly defined in the cover letter and patches: makes it
+possible to control (or log) script execution.
+
+> 
+> do_open_execat() seems to cover lots of checks for executability, if
+> we are ok with the thing that do_open_execat() checks, then
+> faccessat(AT_CHECK) calling do_open_execat() is an option, it  won't
+> have those "unrelated" calls  in execve path, e.g.  bprm_stack_limits,
+> copy argc/env .
+
+I don't thing there is any unrelated calls in execve path, quite the
+contrary, it follows the same semantic as for a full execution, and
+that's another argument to use the execveat interface.  Otherwise, we
+couldn't argue that `./script.sh` can be the same as `sh script.sh`
+
+The only difference is that user space is in charge of parsing and
+interpreting the file's content.
+
+> 
+> However, you mentioned superset of file permission for executability,
+> can you elaborate on that ? Is there something not included in
+> do_open_execat() but still necessary for execveat(AT_CHECK)? maybe
+> security_bprm_creds_for_exec? (this goes back to my  question above)
+
+As explained above, the goal is to have the same semantic as a full
+execveat call, taking into account all the checks (e.g. stack limit,
+argv/envp...).
+
+> 
+> Thanks
+> Best regards,
+> -Jeff
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> > >
+> > >
+> > > > >
+> > > > > As my previous email, the ChromeOS LSM restricts executable mfd
+> > > > > through security_bprm_creds(), the end result is that ld.so can still
+> > > > > be executable memfd, but not other .so.
+> > > >
+> > > > The chromeOS LSM can check that with the security_file_open() hook and
+> > > > the __FMODE_EXEC flag, see Landlock's implementation.  I think this
+> > > > should be the only hook implementation that chromeOS LSM needs to add.
+> > > >
+> > > > >
+> > > > > One way to address this is to refactor the necessary code from
+> > > > > execveat() code patch, and make it available to call from both kernel
+> > > > > and execveat() code paths., but if we do that, we might as well use
+> > > > > faccessat2(AT_CHECK)
+> > > >
+> > > > That's why I think it makes sense to rely on the existing __FMODE_EXEC
+> > > > information.
+> > > >
+> > > > >
+> > > > >
+> > > > > > >   - transfer the control to ld.so)
+> > > > > > >   - ld.so open (libc.so)
+> > > > > > >   - ld.so call execveat(AT_CHECK,libc.so) <-- proposed by this patch,
+> > > > > > > require dynamic linker change.
+> > > > > > >   - ld.so mmap(libc.so,rx)
+> > > > > >
+> > > > > > Explaining these steps is useful. I'll include that in the next patch
+> > > > > > series.
+> > >
+> 
 
