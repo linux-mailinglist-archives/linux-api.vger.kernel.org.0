@@ -1,37 +1,49 @@
-Return-Path: <linux-api+bounces-2165-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2166-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1ED94D637
-	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 20:19:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC0594D8F9
+	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2024 01:06:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A21C0282A13
-	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 18:19:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CC311F2296E
+	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 23:06:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E8D3148FF3;
-	Fri,  9 Aug 2024 18:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4A816CD24;
+	Fri,  9 Aug 2024 23:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/csMJl8"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408D520309;
-	Fri,  9 Aug 2024 18:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6DF1607AF;
+	Fri,  9 Aug 2024 23:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723227574; cv=none; b=a4oOj501GB4k5j3mURh3V1vA/SpYZL40vhQqGtO8PFTku5KMsevwdiJtgFhSfjISPW44foXvLitSUmlMLL+uUSJQtO0AIsvSejs/iM/6VgV6AgbANpgexvT0lW742RZd+hbwpSPHbTYucFXKiBhZ783T4JOlCpgnXR7SotZ4XyY=
+	t=1723244784; cv=none; b=CBYktqmhZkiDNDbW1TuibJlra1FEidLNWaszBsdjmkd1Jf+xyDgXXaBAKNzutIAvHsaC4wwQFz8NOJbhyuN8oQYS21c2EQPeoQiA3/BGT6ffqrZmtQkiD2CshC6YWQRnCFjjNkkaYl+5XcQaL5yEjtaGSqFmgji69Os6SBBmODo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723227574; c=relaxed/simple;
-	bh=FhTN8MVGmHdQhGdUvdXqfTR8ItK/k7hfsYmmMHr2RsU=;
+	s=arc-20240116; t=1723244784; c=relaxed/simple;
+	bh=BwFadedF5rj9rHUpdYtKkGHf7SYGqFjoEgqWwCF1UD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmdBsk9rpeaL2YshcoZCu4q++V7EqCJFkkEbP6qDCDgAZ8JiHQWSsIu5QL0mEUlXYApVCqR7njrS2B/iGmflkGCfcIvAi06xF3Hp7opzFJBNLzV7XptYHzmz1edMWulRQCFYiSzhV5XNDp2GHoDT2ACKvH1/7VKMtcQySeSzfHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC50C32782;
-	Fri,  9 Aug 2024 18:19:28 +0000 (UTC)
-Date: Fri, 9 Aug 2024 19:19:26 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsU9DwkTVmjs9SCWnOQaeAF/tDThFiUUJfGFJaJXFhshAPzYg++2XBgymI4//X121lmOzzwDHSsFpk3EPvEH24CFy7NNjnoeFVHNdYsVDJe/KmhidZ/kzpEZFUMmCAS/jXhoyuQ//mHxKZW28jox30MRcgyb9x4V8pVN+z7HjnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/csMJl8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BFDC4AF10;
+	Fri,  9 Aug 2024 23:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723244784;
+	bh=BwFadedF5rj9rHUpdYtKkGHf7SYGqFjoEgqWwCF1UD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/csMJl8QqWNRzHe4O2Oh/D2HjQdYXYJOFjTWkGLrl5Pg/18MvOlw6fe/PouHcaEX
+	 31h1e/OdO8hYuT9f1OB7ii6pcmtCOHiBtMqXTG2Mn6UVBkhO2QuXrEeUe42gCasrFG
+	 SilEMZJtjGH30T14nObqxxLCf0yz0st1RI4pZoI9L8G5MLBjvtwAyCx62QFnqKnN4B
+	 ubMyM9ZmJmyT44HR1hYHCnj8iKPtXInOrJytBy0FWu1NeKSZHB/OD0Fv2IlxIa36CV
+	 xHJGTyaxsoHP7LBzc/MWahStrMOkiPaAJDYwhccoLK1TOSEPAW0kMn5AwSros5MVam
+	 pmSKTzFHkMRrg==
+Date: Sat, 10 Aug 2024 00:06:12 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
 Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	Deepak Gupta <debug@rivosinc.com>,
 	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
@@ -54,208 +66,150 @@ Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
 	Kees Cook <kees@kernel.org>
 Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
-Message-ID: <ZrZdrgOQVHhCyWmA@arm.com>
+Message-ID: <Zrag5A5K9pv1K9Uz@finisterre.sirena.org.uk>
 References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
  <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
+ <ZrZdrgOQVHhCyWmA@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="x+vqlBicxCJXdkp6"
+Content-Disposition: inline
+In-Reply-To: <ZrZdrgOQVHhCyWmA@arm.com>
+X-Cookie: Your love life will be... interesting.
+
+
+--x+vqlBicxCJXdkp6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 08, 2024 at 09:15:25AM +0100, Mark Brown wrote:
-> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> index 059685612362..d7005974aff5 100644
-> --- a/arch/x86/kernel/shstk.c
-> +++ b/arch/x86/kernel/shstk.c
-> @@ -191,44 +191,105 @@ void reset_thread_features(void)
->  	current->thread.features_locked = 0;
->  }
->  
-> -unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
-> -				       unsigned long stack_size)
-> +int arch_shstk_post_fork(struct task_struct *t, struct kernel_clone_args *args)
-> +{
-> +	/*
-> +	 * SSP is aligned, so reserved bits and mode bit are a zero, just mark
-> +	 * the token 64-bit.
-> +	 */
-> +	struct mm_struct *mm;
-> +	unsigned long addr, ssp;
-> +	u64 expected;
-> +	u64 val;
-> +	int ret = -EINVAL;
-> +
-> +	ssp = args->shadow_stack + args->shadow_stack_size;
-> +	addr = ssp - SS_FRAME_SIZE;
-> +	expected = ssp | BIT(0);
-> +
-> +	mm = get_task_mm(t);
-> +	if (!mm)
-> +		return -EFAULT;
-> +
-> +	/* This should really be an atomic cmpxchg.  It is not. */
-> +	if (access_remote_vm(mm, addr, &val, sizeof(val),
-> +			     FOLL_FORCE) != sizeof(val))
-> +		goto out;
+On Fri, Aug 09, 2024 at 07:19:26PM +0100, Catalin Marinas wrote:
+> On Thu, Aug 08, 2024 at 09:15:25AM +0100, Mark Brown wrote:
 
-If we restrict the shadow stack creation only to the CLONE_VM case, we'd
-not need the remote vm access, it's in the current mm context already.
-More on this below.
+> > +	/* This should really be an atomic cmpxchg.  It is not. */
+> > +	if (access_remote_vm(mm, addr, &val, sizeof(val),
+> > +			     FOLL_FORCE) !=3D sizeof(val))
+> > +		goto out;
 
-> +
-> +	if (val != expected)
-> +		goto out;
-> +	val = 0;
-> +	if (access_remote_vm(mm, addr, &val, sizeof(val),
-> +			     FOLL_FORCE | FOLL_WRITE) != sizeof(val))
-> +		goto out;
+> If we restrict the shadow stack creation only to the CLONE_VM case, we'd
+> not need the remote vm access, it's in the current mm context already.
+> More on this below.
 
-I'm confused that we need to consume the token here. I could not find
-the default shadow stack allocation doing this, only setting it via
-create_rstor_token() (or I did not search enough). In the default case,
-is the user consuming it? To me the only difference should been the
-default allocation vs the one passed by the user via clone3(), with the
-latter maybe requiring the user to set the token initially.
+The discussion in previous iterations was that it seemed better to allow
+even surprising use cases since it simplifies the analysis of what we
+have covered.  If the user has specified a shadow stack we just do what
+they asked for and let them worry about if it's useful.
 
-> +
-> +	ret = 0;
-> +
-> +out:
-> +	mmput(mm);
-> +	return ret;
-> +}
-> +
-> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
-> +				       const struct kernel_clone_args *args)
->  {
->  	struct thread_shstk *shstk = &tsk->thread.shstk;
-> +	unsigned long clone_flags = args->flags;
->  	unsigned long addr, size;
->  
->  	/*
->  	 * If shadow stack is not enabled on the new thread, skip any
-> -	 * switch to a new shadow stack.
-> +	 * implicit switch to a new shadow stack and reject attempts to
-> +	 * explciitly specify one.
+> > +	if (val !=3D expected)
+> > +		goto out;
 
-Nit: explicitly.
+> I'm confused that we need to consume the token here. I could not find
+> the default shadow stack allocation doing this, only setting it via
+> create_rstor_token() (or I did not search enough). In the default case,
+> is the user consuming it? To me the only difference should been the
+> default allocation vs the one passed by the user via clone3(), with the
+> latter maybe requiring the user to set the token initially.
 
->  	 */
-> -	if (!features_enabled(ARCH_SHSTK_SHSTK))
-> +	if (!features_enabled(ARCH_SHSTK_SHSTK)) {
-> +		if (args->shadow_stack || args->shadow_stack_size)
-> +			return (unsigned long)ERR_PTR(-EINVAL);
-> +
->  		return 0;
-> +	}
->  
->  	/*
-> -	 * For CLONE_VFORK the child will share the parents shadow stack.
-> -	 * Make sure to clear the internal tracking of the thread shadow
-> -	 * stack so the freeing logic run for child knows to leave it alone.
-> +	 * If the user specified a shadow stack then do some basic
-> +	 * validation and use it, otherwise fall back to a default
-> +	 * shadow stack size if the clone_flags don't indicate an
-> +	 * allocation is unneeded.
->  	 */
-> -	if (clone_flags & CLONE_VFORK) {
-> +	if (args->shadow_stack) {
-> +		addr = args->shadow_stack;
-> +		size = args->shadow_stack_size;
->  		shstk->base = 0;
->  		shstk->size = 0;
-> -		return 0;
-> -	}
-> +	} else {
-> +		/*
-> +		 * For CLONE_VFORK the child will share the parents
-> +		 * shadow stack.  Make sure to clear the internal
-> +		 * tracking of the thread shadow stack so the freeing
-> +		 * logic run for child knows to leave it alone.
-> +		 */
-> +		if (clone_flags & CLONE_VFORK) {
-> +			shstk->base = 0;
-> +			shstk->size = 0;
-> +			return 0;
-> +		}
+As discussed for a couple of previous versions if we don't have the
+token and userspace can specify any old shadow stack page as the shadow
+stack this allows clone3() to be used to overwrite the shadow stack of
+another thread, you can point to a shadow stack page which is currently
+in use and then run some code that causes shadow stack writes.  This
+could potentially then in turn be used as part of a bigger exploit
+chain, probably it's hard to get anything beyond just causing the other
+thread to fault but won't be impossible.
 
-I think we should leave the CLONE_VFORK check on its own independent of
-the clone3() arguments. If one passes both CLONE_VFORK and specific
-shadow stack address/size, they should be ignored (or maybe return an
-error if you want to make it stricter).
+With a kernel allocated shadow stack this is not an issue since we are
+placing the shadow stack in new memory, userspace can't control where we
+place it so it can't overwrite an existing shadow stack.
 
->  
-> -	/*
-> -	 * For !CLONE_VM the child will use a copy of the parents shadow
-> -	 * stack.
-> -	 */
-> -	if (!(clone_flags & CLONE_VM))
-> -		return 0;
-> +		/*
-> +		 * For !CLONE_VM the child will use a copy of the
-> +		 * parents shadow stack.
-> +		 */
-> +		if (!(clone_flags & CLONE_VM))
-> +			return 0;
+> > +		/*
+> > +		 * For CLONE_VFORK the child will share the parents
+> > +		 * shadow stack.  Make sure to clear the internal
+> > +		 * tracking of the thread shadow stack so the freeing
+> > +		 * logic run for child knows to leave it alone.
+> > +		 */
+> > +		if (clone_flags & CLONE_VFORK) {
+> > +			shstk->base =3D 0;
+> > +			shstk->size =3D 0;
+> > +			return 0;
+> > +		}
 
-Is the !CLONE_VM case specific only to the default shadow stack
-allocation? Sorry if this has been discussed already (or I completely
-forgot) but I thought we'd only implement this for the thread creation
-case. The typical fork() for a new process should inherit the parent's
-layout, so applicable to the clone3() with the shadow stack arguments as
-well (which should be ignored or maybe return an error with !CLONE_VM).
+> I think we should leave the CLONE_VFORK check on its own independent of
+> the clone3() arguments. If one passes both CLONE_VFORK and specific
+> shadow stack address/size, they should be ignored (or maybe return an
+> error if you want to make it stricter).
 
-[...]
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index cc760491f201..18278c72681c 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -128,6 +128,11 @@
->   */
->  #define MAX_THREADS FUTEX_TID_MASK
->  
-> +/*
-> + * Require that shadow stacks can store at least one element
-> + */
-> +#define SHADOW_STACK_SIZE_MIN sizeof(void *)
-> +
->  /*
->   * Protected counters by write_lock_irq(&tasklist_lock)
->   */
-> @@ -2729,6 +2734,19 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
->  	return copy_process(NULL, 0, node, &args);
->  }
->  
-> +static void shstk_post_fork(struct task_struct *p,
-> +			    struct kernel_clone_args *args)
-> +{
-> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
-> +		return;
-> +
-> +	if (!args->shadow_stack)
-> +		return;
-> +
-> +	if (arch_shstk_post_fork(p, args) != 0)
-> +		force_sig_fault_to_task(SIGSEGV, SEGV_CPERR, NULL, p);
-> +}
-> +
->  /*
->   *  Ok, this is the main fork-routine.
->   *
-> @@ -2790,6 +2808,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
->  	 */
->  	trace_sched_process_fork(current, p);
->  
-> +	shstk_post_fork(p, args);
+This is existing logic from the current x86 code that's been reindented
+due to the addition of explicitly specified shadow stacks, it's not new
+behaviour.  It is needed to stop the child thinking it has the parent's
+shadow stack in the CLONE_VFORK case.
 
-Do we need this post fork call? Can we not handle the setup via the
-copy_thread() path in shstk_alloc_thread_stack()?
+> > -	/*
+> > -	 * For !CLONE_VM the child will use a copy of the parents shadow
+> > -	 * stack.
+> > -	 */
+> > -	if (!(clone_flags & CLONE_VM))
+> > -		return 0;
+> > +		/*
+> > +		 * For !CLONE_VM the child will use a copy of the
+> > +		 * parents shadow stack.
+> > +		 */
+> > +		if (!(clone_flags & CLONE_VM))
+> > +			return 0;
 
--- 
-Catalin
+> Is the !CLONE_VM case specific only to the default shadow stack
+> allocation? Sorry if this has been discussed already (or I completely
+> forgot) but I thought we'd only implement this for the thread creation
+> case. The typical fork() for a new process should inherit the parent's
+> layout, so applicable to the clone3() with the shadow stack arguments as
+> well (which should be ignored or maybe return an error with !CLONE_VM).
+
+This is again all existing behaviour for the case where the user has not
+specified a shadow stack reindented, as mentioned above if the user has
+specified one explicitly then we just do what we were asked.  The
+existing behaviour is to only create a new shadow stack for the child in
+the CLONE_VM case and leave the child using the same shadow stack as the
+parent in the copied mm for !CLONE_VM.
+
+> > @@ -2790,6 +2808,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
+> >  	 */
+> >  	trace_sched_process_fork(current, p);
+> > =20
+> > +	shstk_post_fork(p, args);
+
+> Do we need this post fork call? Can we not handle the setup via the
+> copy_thread() path in shstk_alloc_thread_stack()?
+
+It looks like we do actually have the new mm in the process before we
+call copy_thread() so we could move things into there though we'd loose
+a small bit of factoring out of the error handling (at one point I had
+more code factored out but right now it's quite small, looking again we
+could also factor out the get_task_mm()/mput()).  ISTR having the new
+process' mm was the biggest reason for this initially but looking again
+I'm not sure why that was.  It does still feel like even the small
+amount that's factored out currently is useful though, a bit less
+duplication in the architecture code which feels welcome here.
+
+--x+vqlBicxCJXdkp6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma2oOEACgkQJNaLcl1U
+h9DJAAf+JgJexSTM8FYO5LJrp+jcI3PrWuxmpz8oe4r2ikqJ0cNCDIythdgUWZi/
+cq2eE1HvcKW/hHzIXqZNTung2CRIzciY3mURpSSoZ5QEb07VJ6aGpqUjhRIcpf/h
+jdy+rbBRgXD7mv1fvrHVsBz29a6+Ke5hbmSg5VoWYpb8PH7LTxJvtdTh+5j0Gu21
+t5DBD7ZgayCI9k4O7wCcAacCKmZqv+2SEYNpfYGHzXuL4HZZkdGs8gCI2GVYW5rR
++g80dalbhsVWhEq9bMfESemL2Rb5BSINFey6n7bRcACK1+/I7eSNprv5L1GL/AKK
+clCbRH0HNAvbw9ymbemgTt0U/cU2ZA==
+=MunQ
+-----END PGP SIGNATURE-----
+
+--x+vqlBicxCJXdkp6--
 
