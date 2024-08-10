@@ -1,215 +1,107 @@
-Return-Path: <linux-api+bounces-2166-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2167-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC0594D8F9
-	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2024 01:06:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4E094DAFF
+	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2024 08:06:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CC311F2296E
-	for <lists+linux-api@lfdr.de>; Fri,  9 Aug 2024 23:06:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B05D2823BD
+	for <lists+linux-api@lfdr.de>; Sat, 10 Aug 2024 06:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4A816CD24;
-	Fri,  9 Aug 2024 23:06:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4BA3BBE3;
+	Sat, 10 Aug 2024 06:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/csMJl8"
+	dkim=pass (2048-bit key) header.d=toneromala.space header.i=@toneromala.space header.b="pKR0/HSS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.toneromala.space (mail.toneromala.space [107.172.211.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6DF1607AF;
-	Fri,  9 Aug 2024 23:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44F539851
+	for <linux-api@vger.kernel.org>; Sat, 10 Aug 2024 06:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=107.172.211.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723244784; cv=none; b=CBYktqmhZkiDNDbW1TuibJlra1FEidLNWaszBsdjmkd1Jf+xyDgXXaBAKNzutIAvHsaC4wwQFz8NOJbhyuN8oQYS21c2EQPeoQiA3/BGT6ffqrZmtQkiD2CshC6YWQRnCFjjNkkaYl+5XcQaL5yEjtaGSqFmgji69Os6SBBmODo=
+	t=1723269994; cv=none; b=YSIBo99R1+cqFz1H0Nsp+mo8xXbzv36kdGAuho452gIhCpG2qPPnq6v670SWmm++QwkAysILauDwGaTFnYg1BkCfrngBdx175D3C3a7hzrxeFjMd6mKMk5Se2FGoF0B3/2JuwS7nl3lZBnBKp+zwNK4pS9UXc6FNKBTx5bMGsGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723244784; c=relaxed/simple;
-	bh=BwFadedF5rj9rHUpdYtKkGHf7SYGqFjoEgqWwCF1UD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LsU9DwkTVmjs9SCWnOQaeAF/tDThFiUUJfGFJaJXFhshAPzYg++2XBgymI4//X121lmOzzwDHSsFpk3EPvEH24CFy7NNjnoeFVHNdYsVDJe/KmhidZ/kzpEZFUMmCAS/jXhoyuQ//mHxKZW28jox30MRcgyb9x4V8pVN+z7HjnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/csMJl8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BFDC4AF10;
-	Fri,  9 Aug 2024 23:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723244784;
-	bh=BwFadedF5rj9rHUpdYtKkGHf7SYGqFjoEgqWwCF1UD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a/csMJl8QqWNRzHe4O2Oh/D2HjQdYXYJOFjTWkGLrl5Pg/18MvOlw6fe/PouHcaEX
-	 31h1e/OdO8hYuT9f1OB7ii6pcmtCOHiBtMqXTG2Mn6UVBkhO2QuXrEeUe42gCasrFG
-	 SilEMZJtjGH30T14nObqxxLCf0yz0st1RI4pZoI9L8G5MLBjvtwAyCx62QFnqKnN4B
-	 ubMyM9ZmJmyT44HR1hYHCnj8iKPtXInOrJytBy0FWu1NeKSZHB/OD0Fv2IlxIa36CV
-	 xHJGTyaxsoHP7LBzc/MWahStrMOkiPaAJDYwhccoLK1TOSEPAW0kMn5AwSros5MVam
-	 pmSKTzFHkMRrg==
-Date: Sat, 10 Aug 2024 00:06:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Will Deacon <will@kernel.org>, jannh@google.com,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
-Message-ID: <Zrag5A5K9pv1K9Uz@finisterre.sirena.org.uk>
-References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
- <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
- <ZrZdrgOQVHhCyWmA@arm.com>
+	s=arc-20240116; t=1723269994; c=relaxed/simple;
+	bh=j69zzRH9k/nQ1IAn2woSJ6H9IVQYL6Bv5jaLMBXKS7o=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dl+4v7bPkX2Y7SbcdLgo7qGuHarEoIRmacg0PUBzD606x5kN+EVzOuNr5Rzlc3iYztMI3BflWwZY4aGwRswTEgeG+KYlsvtUSq2lQw87a2vmuOM4CGHYFhhlC3wUQKzjmccDAOkESJo1SOgirF+ZARiHgSggM0oGUSBEPQTMor0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toneromala.space; spf=pass smtp.mailfrom=toneromala.space; dkim=pass (2048-bit key) header.d=toneromala.space header.i=@toneromala.space header.b=pKR0/HSS; arc=none smtp.client-ip=107.172.211.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toneromala.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toneromala.space
+Received: from [45.80.158.93] (unknown [45.80.158.93])
+	(Authenticated sender: admin@toneromala.space)
+	by mail.toneromala.space (Postfix) with ESMTPSA id 1477DC252E
+	for <linux-api@vger.kernel.org>; Sat, 10 Aug 2024 07:03:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=toneromala.space;
+	s=default; t=1723269834;
+	bh=j69zzRH9k/nQ1IAn2woSJ6H9IVQYL6Bv5jaLMBXKS7o=;
+	h=Reply-To:From:To:Subject:Date:From;
+	b=pKR0/HSS8H9BwBl/yCMa3q8psIFdgpN16GS9TC56i1DifZiR65hAYIhqZcsHXALWg
+	 3CTGfSJaoK5RlToFV0VfzR27EgdjrKWXFx9CkdRjWi7iQQxJDuU0zDcjU1Mho4s1OC
+	 v03DKMMShxiKzZGl+1WoqNAtFXWHKfrMc7EsKRNqTTg2H+MoUdZ9GFFvZIqw4wlksg
+	 h0UBmRX2bDo6PN+QiPxKJvytLStpxKqTn+cOAfdlX5ygvs2BtfP/XXw1gKUqz55RO3
+	 oP0CLynmHnbcmCingwzGNRtDF2FbSeaCl6mXoXszmz3YQBzx+svOswpAiY8rZHK0Ef
+	 NMuAHSHhfNHbg==
+Reply-To: careers.proclientstaffing@gmail.com
+From: TFWP-PROGRAM <administrator@toneromala.space>
+To: linux-api@vger.kernel.org
+Subject: =?UTF-8?B?TWFucG93ZXIgUmVjcnVpdG1lbnQgRm9yIENhbmFkYeKEog==?=
+Date: 10 Aug 2024 08:03:50 +0200
+Message-ID: <20240810080350.32E3F07743EFBC6E@toneromala.space>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x+vqlBicxCJXdkp6"
-Content-Disposition: inline
-In-Reply-To: <ZrZdrgOQVHhCyWmA@arm.com>
-X-Cookie: Your love life will be... interesting.
-
-
---x+vqlBicxCJXdkp6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 09, 2024 at 07:19:26PM +0100, Catalin Marinas wrote:
-> On Thu, Aug 08, 2024 at 09:15:25AM +0100, Mark Brown wrote:
+Hello Sir/Madam,
 
-> > +	/* This should really be an atomic cmpxchg.  It is not. */
-> > +	if (access_remote_vm(mm, addr, &val, sizeof(val),
-> > +			     FOLL_FORCE) !=3D sizeof(val))
-> > +		goto out;
+We are authorized to recruit 120 unskilled workers to work in=20
+Canada on a two years contract. Please kindly let us know if you=20
+can supply the same workers as my clients' requirements for the=20
+following positions. Fish Packers, Cleaners, Laborers, Fruit=20
+packers, Supervisors, supermarket managers, salesman/woman,=20
+Storekeeper, Ground Maintenance, Gardener, and Truck Drivers. Age=20
+from 20 to 55 years old are eligible to work, Primary Location:=20
+Montreal Quebec Canada.
 
-> If we restrict the shadow stack creation only to the CLONE_VM case, we'd
-> not need the remote vm access, it's in the current mm context already.
-> More on this below.
+NOTE: No qualification is needed.
 
-The discussion in previous iterations was that it seemed better to allow
-even surprising use cases since it simplifies the analysis of what we
-have covered.  If the user has specified a shadow stack we just do what
-they asked for and let them worry about if it's useful.
+TERMS AND CONDITIONS:
 
-> > +	if (val !=3D expected)
-> > +		goto out;
+1. Accommodation           - Provided.
+2. Ticket                  -Provided.
+3. Medical                 - Provided.
+4. Transportation          - Provided.
+5. Working hours           - 8a.m-4p.m [Mon-Sat]
+6. Vacation                - 28.5 days every year
+7. Salary                  - Ca$20 per hourly
+8. Contract                - 2 years. Renewable
+9. Extra time              - Ca$22per hourly
+10. Insurance & Pension     - According to Quebec Labor laws.
+11. Requirement               120 workers
+12. job description           Laborers
+13. Skilled required          Physically fit
+Other Benefits                Family Status, group benefit and
+other fringe benefits.
 
-> I'm confused that we need to consume the token here. I could not find
-> the default shadow stack allocation doing this, only setting it via
-> create_rstor_token() (or I did not search enough). In the default case,
-> is the user consuming it? To me the only difference should been the
-> default allocation vs the one passed by the user via clone3(), with the
-> latter maybe requiring the user to set the token initially.
 
-As discussed for a couple of previous versions if we don't have the
-token and userspace can specify any old shadow stack page as the shadow
-stack this allows clone3() to be used to overwrite the shadow stack of
-another thread, you can point to a shadow stack page which is currently
-in use and then run some code that causes shadow stack writes.  This
-could potentially then in turn be used as part of a bigger exploit
-chain, probably it's hard to get anything beyond just causing the other
-thread to fault but won't be impossible.
+If you need more information about this recruitment, please=20
+contact us at your convenience.
 
-With a kernel allocated shadow stack this is not an issue since we are
-placing the shadow stack in new memory, userspace can't control where we
-place it so it can't overwrite an existing shadow stack.
+Your Quick and Favorable Response would be highly appreciated.
 
-> > +		/*
-> > +		 * For CLONE_VFORK the child will share the parents
-> > +		 * shadow stack.  Make sure to clear the internal
-> > +		 * tracking of the thread shadow stack so the freeing
-> > +		 * logic run for child knows to leave it alone.
-> > +		 */
-> > +		if (clone_flags & CLONE_VFORK) {
-> > +			shstk->base =3D 0;
-> > +			shstk->size =3D 0;
-> > +			return 0;
-> > +		}
 
-> I think we should leave the CLONE_VFORK check on its own independent of
-> the clone3() arguments. If one passes both CLONE_VFORK and specific
-> shadow stack address/size, they should be ignored (or maybe return an
-> error if you want to make it stricter).
+Best Regards.
 
-This is existing logic from the current x86 code that's been reindented
-due to the addition of explicitly specified shadow stacks, it's not new
-behaviour.  It is needed to stop the child thinking it has the parent's
-shadow stack in the CLONE_VFORK case.
-
-> > -	/*
-> > -	 * For !CLONE_VM the child will use a copy of the parents shadow
-> > -	 * stack.
-> > -	 */
-> > -	if (!(clone_flags & CLONE_VM))
-> > -		return 0;
-> > +		/*
-> > +		 * For !CLONE_VM the child will use a copy of the
-> > +		 * parents shadow stack.
-> > +		 */
-> > +		if (!(clone_flags & CLONE_VM))
-> > +			return 0;
-
-> Is the !CLONE_VM case specific only to the default shadow stack
-> allocation? Sorry if this has been discussed already (or I completely
-> forgot) but I thought we'd only implement this for the thread creation
-> case. The typical fork() for a new process should inherit the parent's
-> layout, so applicable to the clone3() with the shadow stack arguments as
-> well (which should be ignored or maybe return an error with !CLONE_VM).
-
-This is again all existing behaviour for the case where the user has not
-specified a shadow stack reindented, as mentioned above if the user has
-specified one explicitly then we just do what we were asked.  The
-existing behaviour is to only create a new shadow stack for the child in
-the CLONE_VM case and leave the child using the same shadow stack as the
-parent in the copied mm for !CLONE_VM.
-
-> > @@ -2790,6 +2808,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
-> >  	 */
-> >  	trace_sched_process_fork(current, p);
-> > =20
-> > +	shstk_post_fork(p, args);
-
-> Do we need this post fork call? Can we not handle the setup via the
-> copy_thread() path in shstk_alloc_thread_stack()?
-
-It looks like we do actually have the new mm in the process before we
-call copy_thread() so we could move things into there though we'd loose
-a small bit of factoring out of the error handling (at one point I had
-more code factored out but right now it's quite small, looking again we
-could also factor out the get_task_mm()/mput()).  ISTR having the new
-process' mm was the biggest reason for this initially but looking again
-I'm not sure why that was.  It does still feel like even the small
-amount that's factored out currently is useful though, a bit less
-duplication in the architecture code which feels welcome here.
-
---x+vqlBicxCJXdkp6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma2oOEACgkQJNaLcl1U
-h9DJAAf+JgJexSTM8FYO5LJrp+jcI3PrWuxmpz8oe4r2ikqJ0cNCDIythdgUWZi/
-cq2eE1HvcKW/hHzIXqZNTung2CRIzciY3mURpSSoZ5QEb07VJ6aGpqUjhRIcpf/h
-jdy+rbBRgXD7mv1fvrHVsBz29a6+Ke5hbmSg5VoWYpb8PH7LTxJvtdTh+5j0Gu21
-t5DBD7ZgayCI9k4O7wCcAacCKmZqv+2SEYNpfYGHzXuL4HZZkdGs8gCI2GVYW5rR
-+g80dalbhsVWhEq9bMfESemL2Rb5BSINFey6n7bRcACK1+/I7eSNprv5L1GL/AKK
-clCbRH0HNAvbw9ymbemgTt0U/cU2ZA==
-=MunQ
------END PGP SIGNATURE-----
-
---x+vqlBicxCJXdkp6--
+Mr. Aiden Benjamin
+510 Rue du Prince-=C3=89douard,
+Qu=C3=A9bec, QC G1K 9G8, Canada.
+E-mail | careers.proclientstaffing@gmail.com
 
