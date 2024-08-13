@@ -1,116 +1,234 @@
-Return-Path: <linux-api+bounces-2168-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2169-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A5C94F5C9
-	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2024 19:28:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95F8950A14
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2024 18:26:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0728282DD7
-	for <lists+linux-api@lfdr.de>; Mon, 12 Aug 2024 17:27:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 743191F23BD7
+	for <lists+linux-api@lfdr.de>; Tue, 13 Aug 2024 16:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB9418800E;
-	Mon, 12 Aug 2024 17:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="G9zG2Ark"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9CC1A254B;
+	Tue, 13 Aug 2024 16:25:55 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84691804F;
-	Mon, 12 Aug 2024 17:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B0C168C20;
+	Tue, 13 Aug 2024 16:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723483676; cv=none; b=oPkQpu7W5+l/PWhZuAuhD0mtkgPPFJowtHyhHl/KUAXxn3OQ90wZps22SfM12FnYOBdbIalL986g1VNOF0r7ilhOXmfo3A44tNZap0LneXcPmTY8cOIsd5I2Wbf4g1hpFIDsK3OXpOsLy+RGMVBz+HBSoOAcHw+bZxNgNk8sL5I=
+	t=1723566355; cv=none; b=u8+YigPjetXTkT0JWy9c61NBn/VRrt2BH4xiXmsL4LxBOWstDLiJ6mOIkziJMleWex181rME8tw4LVFgNgUG5r2ch8+n9DPqlgQ4Df18mVGUgSbSwSyRS0yZZFFSq+15+ejjoEkoSjmYg2wGlc8bI3U2hDUT8QsTsMGUPPfsoCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723483676; c=relaxed/simple;
-	bh=IFMxJ0Br/sftBPuPaohb/P6aDtKUf9rUY46d2ecUm0M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nJyoOtlToqRAPZWuTvBNyps+tHzGRwJ9HijKVqNHXVK0wLOxDsCNatRJWYLfoFi3MQWDr4MjaWL9/gteIECKuNgR2G6hR3uL4xri79Cpw85xWyy+gHME3oZZwhWWloswZ1gpxy0r6eENfH5p6nPuoOPVYmmGJ2iwgYZnOIB+ZHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=G9zG2Ark; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=IFMxJ0Br/sftBPuPaohb/P6aDtKUf9rUY46d2ecUm0M=; b=G9zG2ArkCRinNETyPwuh+2xCOJ
-	iDgDhrFoVtcvIrsQ5r6F28AViF6ENkdbgVlZS6crklmsR8Bmq8r7CbJ3JVrkQYU9TP1HCPWrdDQ1F
-	yZ+5NLJr0OFq6Ja+pfu/X8WLHV/Pdx+4tT0EeyAm7dsjNwsHczh5SaTogf30Nm70iA7Lw8WEUtVHm
-	a2ljf+HFcN/9LH139tpUE37YNiSPr8kSmW1UV+aRJEzT1Tt0qNQDC4LwrHs5oiQ0p+9QyVuU6Bgmw
-	2yoO7J17rQT6ddUa3XxoCOt78JkFEWf8bEE6tvJlLRNL7YJlCj70d4AiGUxAQF8Br2DOU+aXmKuU0
-	xlbRlNOw==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1sdYYG-008ulR-0n;
-	Mon, 12 Aug 2024 12:09:48 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>, wine-devel@winehq.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
-Subject: Re: [PATCH v5 00/28] NT synchronization primitive driver
-Date: Mon, 12 Aug 2024 12:09:48 -0500
-Message-ID: <5805970.DvuYhMxLoT@camazotz>
-In-Reply-To: <2325658.ElGaqSPkdT@uriel>
-References:
- <20240519202454.1192826-1-zfigura@codeweavers.com> <2325658.ElGaqSPkdT@uriel>
+	s=arc-20240116; t=1723566355; c=relaxed/simple;
+	bh=VbslBfj/ed0vJIua5/jo/+eOcWC6UtockTfeh7ffBtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zb7Mucd4aNqBfM8ULAHnlg8XS2vjqBfCt/tXHvBTqV0gong+GEVnrNlo89xEDw9YAk9W8gZSyh/664W0LMEiRKVEOj16hH82n9zw6qHOwsJCQXTy2e5/HDeIDPowGvDUefJ7XdZQmMGYFAQgBr5+aJhr1Z/QugedevjejIUcdPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59339C4AF09;
+	Tue, 13 Aug 2024 16:25:50 +0000 (UTC)
+Date: Tue, 13 Aug 2024 17:25:47 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Will Deacon <will@kernel.org>, jannh@google.com,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
+Message-ID: <ZruJCyXDRNhw6U5A@arm.com>
+References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
+ <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
+ <ZrZdrgOQVHhCyWmA@arm.com>
+ <Zrag5A5K9pv1K9Uz@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zrag5A5K9pv1K9Uz@finisterre.sirena.org.uk>
 
-On Monday, 10 June 2024 11:58:48 CDT Elizabeth Figura wrote:
-> On Sunday, May 19, 2024 3:24:26=E2=80=AFPM CDT Elizabeth Figura wrote:
-> > This patch series implements a new char misc driver, /dev/ntsync, which=
- is
-> > used to implement Windows NT synchronization primitives.
-> >=20
-> > NT synchronization primitives are unique in that the wait functions bot=
-h are
-> > vectored, operate on multiple types of object with different behaviour
-> > (mutex, semaphore, event), and affect the state of the objects they wait
-> > on. This model is not compatible with existing kernel synchronization
-> > objects or interfaces, and therefore the ntsync driver implements its o=
-wn
-> > wait queues and locking.
-> >=20
-> > This patch series is rebased against the "char-misc-next" branch of
-> > gregkh/char-misc.git.
->=20
-> Hi Peter,
->=20
-> Sorry to bother, but now that the Linux merge window is closed could I
-> request a review of this revision of the ntsync patch set, please (or a
-> review from another locking maintainer)?
->=20
-> I believe I've addressed all of the comments from the last review,
-> except those which would have changed the existing userspace API
-> (although since the driver isn't really functional yet, maybe this
-> would have been fine to do anyway?)
+On Sat, Aug 10, 2024 at 12:06:12AM +0100, Mark Brown wrote:
+> On Fri, Aug 09, 2024 at 07:19:26PM +0100, Catalin Marinas wrote:
+> > On Thu, Aug 08, 2024 at 09:15:25AM +0100, Mark Brown wrote:
+> > > +	/* This should really be an atomic cmpxchg.  It is not. */
+> > > +	if (access_remote_vm(mm, addr, &val, sizeof(val),
+> > > +			     FOLL_FORCE) != sizeof(val))
+> > > +		goto out;
+> 
+> > If we restrict the shadow stack creation only to the CLONE_VM case, we'd
+> > not need the remote vm access, it's in the current mm context already.
+> > More on this below.
+> 
+> The discussion in previous iterations was that it seemed better to allow
+> even surprising use cases since it simplifies the analysis of what we
+> have covered.  If the user has specified a shadow stack we just do what
+> they asked for and let them worry about if it's useful.
 
-Hi,
+Thanks for the summary of the past discussions, the patch makes more
+sense now. I guess it's easier to follow a clone*() syscall where one
+can set a new stack pointer even in the !CLONE_VM case. Just let it set
+the shadow stack as well with the new ABI.
 
-Gentle ping on this=E2=80=94this series still needs another review.
+However, the x86 would be slightly inconsistent here between clone() and
+clone3(). I guess it depends how you look at it. The classic clone()
+syscall, if one doesn't pass CLONE_VM but does set new stack, there's no
+new shadow stack allocated which I'd expect since it's a new stack.
+Well, I doubt anyone cares about this scenario. Are there real cases of
+!CLONE_VM but with a new stack?
 
-If I should go ahead and make "breaking" API changes based on the last
-review, please let me know.
+> > > +	if (val != expected)
+> > > +		goto out;
+> 
+> > I'm confused that we need to consume the token here. I could not find
+> > the default shadow stack allocation doing this, only setting it via
+> > create_rstor_token() (or I did not search enough). In the default case,
+> > is the user consuming it? To me the only difference should been the
+> > default allocation vs the one passed by the user via clone3(), with the
+> > latter maybe requiring the user to set the token initially.
+> 
+> As discussed for a couple of previous versions if we don't have the
+> token and userspace can specify any old shadow stack page as the shadow
+> stack this allows clone3() to be used to overwrite the shadow stack of
+> another thread, you can point to a shadow stack page which is currently
+> in use and then run some code that causes shadow stack writes.  This
+> could potentially then in turn be used as part of a bigger exploit
+> chain, probably it's hard to get anything beyond just causing the other
+> thread to fault but won't be impossible.
+> 
+> With a kernel allocated shadow stack this is not an issue since we are
+> placing the shadow stack in new memory, userspace can't control where we
+> place it so it can't overwrite an existing shadow stack.
 
-Thanks,
-Zeb
+IIUC, the kernel-allocated shadow stack will have the token always set
+while the user-allocated one will be cleared. I was looking to
+understand the inconsistency between these two cases in terms of the
+final layout of the new shadow stack: one with the token, the other
+without. I can see the need for checking but maybe start with requiring
+it to be 0 and setting the token before returning, for consistency with
+clone().
 
+In the kernel-allocated shadow stack, is the token used for anything? I
+can see it's used for signal delivery and return but I couldn't figure
+out what it is used for in a thread's shadow stack.
 
+Also, can one not use the clone3() to point to the clone()-allocated
+shadow stack? Maybe that's unlikely as an app tends to stick to one
+syscall flavour or the other.
+
+> > > +		/*
+> > > +		 * For CLONE_VFORK the child will share the parents
+> > > +		 * shadow stack.  Make sure to clear the internal
+> > > +		 * tracking of the thread shadow stack so the freeing
+> > > +		 * logic run for child knows to leave it alone.
+> > > +		 */
+> > > +		if (clone_flags & CLONE_VFORK) {
+> > > +			shstk->base = 0;
+> > > +			shstk->size = 0;
+> > > +			return 0;
+> > > +		}
+> 
+> > I think we should leave the CLONE_VFORK check on its own independent of
+> > the clone3() arguments. If one passes both CLONE_VFORK and specific
+> > shadow stack address/size, they should be ignored (or maybe return an
+> > error if you want to make it stricter).
+> 
+> This is existing logic from the current x86 code that's been reindented
+> due to the addition of explicitly specified shadow stacks, it's not new
+> behaviour.  It is needed to stop the child thinking it has the parent's
+> shadow stack in the CLONE_VFORK case.
+
+I figured that. But similar to the current !CLONE_VM behaviour where no
+new shadow stack is allocated even if a new stack is passed to clone(),
+I was thinking of something similar here for consistency: don't set up a
+shadow stack in the CLONE_VFORK case or at least allow it only if a new
+stack is being set up (if we extend this to clone(), it would be a small
+ABI change).
+
+> > > -	/*
+> > > -	 * For !CLONE_VM the child will use a copy of the parents shadow
+> > > -	 * stack.
+> > > -	 */
+> > > -	if (!(clone_flags & CLONE_VM))
+> > > -		return 0;
+> > > +		/*
+> > > +		 * For !CLONE_VM the child will use a copy of the
+> > > +		 * parents shadow stack.
+> > > +		 */
+> > > +		if (!(clone_flags & CLONE_VM))
+> > > +			return 0;
+> 
+> > Is the !CLONE_VM case specific only to the default shadow stack
+> > allocation? Sorry if this has been discussed already (or I completely
+> > forgot) but I thought we'd only implement this for the thread creation
+> > case. The typical fork() for a new process should inherit the parent's
+> > layout, so applicable to the clone3() with the shadow stack arguments as
+> > well (which should be ignored or maybe return an error with !CLONE_VM).
+> 
+> This is again all existing behaviour for the case where the user has not
+> specified a shadow stack reindented, as mentioned above if the user has
+> specified one explicitly then we just do what we were asked.  The
+> existing behaviour is to only create a new shadow stack for the child in
+> the CLONE_VM case and leave the child using the same shadow stack as the
+> parent in the copied mm for !CLONE_VM.
+
+I guess I was rather questioning the current choices than the new
+clone3() ABI. But even for the new clone3() ABI, does it make sense to
+set up a shadow stack if the current stack isn't changed? We'll end up
+with a lot of possible combinations that will never get tested but
+potentially become obscure ABI. Limiting the options to the sane choices
+only helps with validation and unsurprising changes later on.
+
+> > > @@ -2790,6 +2808,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
+> > >  	 */
+> > >  	trace_sched_process_fork(current, p);
+> > >  
+> > > +	shstk_post_fork(p, args);
+> 
+> > Do we need this post fork call? Can we not handle the setup via the
+> > copy_thread() path in shstk_alloc_thread_stack()?
+> 
+> It looks like we do actually have the new mm in the process before we
+> call copy_thread() so we could move things into there though we'd loose
+> a small bit of factoring out of the error handling (at one point I had
+> more code factored out but right now it's quite small, looking again we
+> could also factor out the get_task_mm()/mput()).  ISTR having the new
+> process' mm was the biggest reason for this initially but looking again
+> I'm not sure why that was.  It does still feel like even the small
+> amount that's factored out currently is useful though, a bit less
+> duplication in the architecture code which feels welcome here.
+
+I think you can probably keep this. My comment was based on the
+assumption that we only support the CLONE_VM case where we wouldn't need
+the access_remote_vm(), just some direct write similar to
+write_user_shstk_64().
+
+I still think we should have limited this ABI to the CLONE_VM and
+!CLONE_VFORK cases but I don't have a strong view if the consensus was
+to allow it for classic fork() and vfork() like uses (I just think they
+won't be used).
+
+-- 
+Catalin
 
