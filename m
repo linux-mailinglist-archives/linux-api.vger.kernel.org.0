@@ -1,35 +1,35 @@
-Return-Path: <linux-api+bounces-2171-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2172-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE0E9517CF
-	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2024 11:39:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B10B95191D
+	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2024 12:40:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B81161C2173C
-	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2024 09:39:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB1E228423D
+	for <lists+linux-api@lfdr.de>; Wed, 14 Aug 2024 10:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9071D15FA76;
-	Wed, 14 Aug 2024 09:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 729DB1AE030;
+	Wed, 14 Aug 2024 10:40:22 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F48D15F3E1;
-	Wed, 14 Aug 2024 09:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0EF137772;
+	Wed, 14 Aug 2024 10:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723628341; cv=none; b=Z59kxgcFtaNxPm10BPib/HcL3LLTxsEcJCAtmaeHLnjRII/LQg5HZonNYrNeOjhMKouQgfpksnoG/lE26sKvkUIT+DYhN/h4rBON6woUNL1yr6CEeOR8SvF53JI3bOxHMpqdFU5CyUQcrsjRpHqtn1Dp3lAvqy/d70mc+B4ds44=
+	t=1723632022; cv=none; b=UsElw0p7jh1ypRQLDtS2qAGLZ2gFfCKXrU3mMvz3Qtf+mLwCknhUThDLIWLy4s2LY2KBSguuGeYPZfzoh/3lnBwLee2uBRVJyMBzYuNBjk0f4f0dqlAxRUt+gMEejOmSGC3C9d2FY1trEnX+KRIhXOt6p2M5mBLw/tm6zVp1NAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723628341; c=relaxed/simple;
-	bh=dMgo2PY9BidnIDV1lYsIxQXlHgxwJtmRP9njkJySyto=;
+	s=arc-20240116; t=1723632022; c=relaxed/simple;
+	bh=yONxehNp5hgxhsnNP+XGe8/9pZ3v1iiUBkf6T/K2+JE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGI+BvHDziLU8yyvvaQI/yTJu9dHQu5uz6NcYVv7WTqiCPcGNgGW2+f+rv5r+zzRhNjO2CN+REn6CwwR+0coB8yu1f5MYbCP6HWfcbgxUgsADX+Lbchi4TibVFcQGT0mW+HnvDe4vYZ+qkflBmjSxH0Jy84gKdnf/Tyx//yh2as=
+	 Content-Type:Content-Disposition:In-Reply-To; b=LLVcdTV+/QnjtCdBFDV704GPAjRg/ym96QWeQimKopYhvI9WSs5ddSwJIzCtpRnNMOgoldvzrGS1a+gV9lOWJUVs/5fTLCgd5o7YHrvt8zxDBBsr81/Fso4B7/fPIqSqgoI9hYd+4ZjhSFacFd7xZMwzLq47mKoagswCxFBy8co=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F87C32786;
-	Wed, 14 Aug 2024 09:38:56 +0000 (UTC)
-Date: Wed, 14 Aug 2024 10:38:54 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450C0C32786;
+	Wed, 14 Aug 2024 10:40:17 +0000 (UTC)
+Date: Wed, 14 Aug 2024 11:40:14 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
@@ -53,14 +53,11 @@ Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	Will Deacon <will@kernel.org>, jannh@google.com,
 	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
 	Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
-Message-ID: <Zrx7Lj09b99ozgAE@arm.com>
+Subject: Re: [PATCH RFT v8 1/9] Documentation: userspace-api: Add shadow
+ stack API documentation
+Message-ID: <ZryJjiWbZltfyIH1@arm.com>
 References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
- <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
- <ZrZdrgOQVHhCyWmA@arm.com>
- <Zrag5A5K9pv1K9Uz@finisterre.sirena.org.uk>
- <ZruJCyXDRNhw6U5A@arm.com>
- <e24a93cb-e7ba-4046-a7c6-fe2ea12420e3@sirena.org.uk>
+ <20240808-clone3-shadow-stack-v8-1-0acf37caf14c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -69,65 +66,16 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e24a93cb-e7ba-4046-a7c6-fe2ea12420e3@sirena.org.uk>
+In-Reply-To: <20240808-clone3-shadow-stack-v8-1-0acf37caf14c@kernel.org>
 
-On Tue, Aug 13, 2024 at 07:58:26PM +0100, Mark Brown wrote:
-> On Tue, Aug 13, 2024 at 05:25:47PM +0100, Catalin Marinas wrote:
-> > However, the x86 would be slightly inconsistent here between clone() and
-> > clone3(). I guess it depends how you look at it. The classic clone()
-> > syscall, if one doesn't pass CLONE_VM but does set new stack, there's no
-> > new shadow stack allocated which I'd expect since it's a new stack.
-> > Well, I doubt anyone cares about this scenario. Are there real cases of
-> > !CLONE_VM but with a new stack?
+On Thu, Aug 08, 2024 at 09:15:22AM +0100, Mark Brown wrote:
+> There are a number of architectures with shadow stack features which we are
+> presenting to userspace with as consistent an API as we can (though there
+> are some architecture specifics). Especially given that there are some
+> important considerations for userspace code interacting directly with the
+> feature let's provide some documentation covering the common aspects.
 > 
-> ISTR the concerns were around someone being clever with vfork() but I
-> don't remember anything super concrete.  In terms of the inconsistency
-> here that was actually another thing that came up - if userspace
-> specifies a stack for clone3() it'll just get used even with CLONE_VFORK
-> so it seemed to make sense to do the same thing for the shadow stack.
-> This was part of the thinking when we were looking at it, if you can
-> specify a regular stack you should be able to specify a shadow stack.
-
-Yes, I agree. But by this logic, I was wondering why the current clone()
-behaviour does not allocate a shadow stack when a new stack is
-requested with CLONE_VFORK. That's rather theoretical though and we may
-not want to change the ABI.
-
-> > > > I'm confused that we need to consume the token here. I could not find
-> > > > the default shadow stack allocation doing this, only setting it via
-> > > > create_rstor_token() (or I did not search enough). In the default case,
-> 
-> > > As discussed for a couple of previous versions if we don't have the
-> > > token and userspace can specify any old shadow stack page as the shadow
-> > > stack this allows clone3() to be used to overwrite the shadow stack of
-> > > another thread, you can point to a shadow stack page which is currently
-> 
-> > IIUC, the kernel-allocated shadow stack will have the token always set
-> > while the user-allocated one will be cleared. I was looking to
-> 
-> No, when the kernel allocates we don't bother with tokens at all.  We
-> only look for and clear a token with the user specified shadow stack.
-
-Ah, you are right, I misread the alloc_shstk() function. It takes a
-set_res_tok parameter which is false for the normal allocation.
-
-> > I guess I was rather questioning the current choices than the new
-> > clone3() ABI. But even for the new clone3() ABI, does it make sense to
-> > set up a shadow stack if the current stack isn't changed? We'll end up
-> > with a lot of possible combinations that will never get tested but
-> > potentially become obscure ABI. Limiting the options to the sane choices
-> > only helps with validation and unsurprising changes later on.
-> 
-> OTOH if we add the restrictions it's more code (and more test code) to
-> check, and thinking about if we've missed some important use case.  Not
-> that it's a *huge* amount of code, like I say I'd not be too unhappy
-> with adding a restriction on having a regular stack specified in order
-> to specify a shadow stack.
-
-I guess we just follow the normal stack behaviour for clone3(), at least
-we'd be consistent with that.
-
-Anyway, I understood this patch now and the ABI decisions. FWIW:
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
 Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
