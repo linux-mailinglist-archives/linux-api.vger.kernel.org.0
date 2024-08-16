@@ -1,132 +1,166 @@
-Return-Path: <linux-api+bounces-2189-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2190-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8891D954F8B
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 19:07:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A4E954F8F
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 19:08:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4594128391A
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 17:07:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 600A6282F2C
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 17:08:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780CC1C0DD9;
-	Fri, 16 Aug 2024 17:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F2F1C0DEA;
+	Fri, 16 Aug 2024 17:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMOpXLB1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R4VDPmqe"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEA66F2F8;
-	Fri, 16 Aug 2024 17:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21331BC9E6
+	for <linux-api@vger.kernel.org>; Fri, 16 Aug 2024 17:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723828023; cv=none; b=lUhxNjDq1YtkMd9/B1+3ZVZqJhTEOHu2OSgs2yTKnY/bdKVrp7SB3/mYP8rUHAKrMSLd0AeLkHib4OZKmURB3YcDAlaPLSLmJoSC9i0XVs0B0XLfO/emCNpE2Sa4w8q/M/jgykZ6GrUXCBgNAzml0YGmAXf4DJgruuPF29A/GD0=
+	t=1723828132; cv=none; b=RuEl4q442ulChKoO/JwHgpYD4wpzIGA6wFEJTqG6+40SPlFgCJ2AkmiwRkpoBRt0rnW9+4jif52YFjZeVAoeR4mNQ2bF8qKk/Dxqmmw4Y7vZptYws0nLtmCpZ3uKG+pDncYYX+VSpocp7xoJqYLp9zu8HWO+uXLDlkXzTFLAcus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723828023; c=relaxed/simple;
-	bh=cBPLEF3zCKTbQhJvwlculw6gNfUQGkEmwhR1JIaGaQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnUgjlu9ph2QVp/tPx4FuPE+DD+NxNQ09fCQQHAjkDZ3VpkmVG9FtCy1kJIgcPmU8gZpvHXN+tnnGyUJH7870fHm5FLLi01wRbVEtJKsAGf8mCwb94GjOyvqB1T6HkIE2SA/0RY36o91bjCCfqP9varwvle8NUwcnJryKo2JMms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMOpXLB1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26414C32782;
-	Fri, 16 Aug 2024 17:06:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723828022;
-	bh=cBPLEF3zCKTbQhJvwlculw6gNfUQGkEmwhR1JIaGaQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TMOpXLB1N7TB4TZLj/r07zoDqiI1fI7SglBcTgEOmmYQsOhRjdSZIZ9L1buvsz2d1
-	 s6YmxlMpUSCuDO70uXrRzBXNI16eoN04Eec/IXXkrN8TX+/AER/YGIw1XI5lVUY12E
-	 nl9RH7KLj2fqJQdJeO6XdmzPkboMgz4w/Zih5jk5uXYkLb+CvvCdTCqTcC42QXtBNS
-	 ASwdbZEEoWvF4KCIobfWZTdomFilLghf79HjslM2yBxwNSvyB18LH/qs+eLh5HsMqf
-	 qpR+7/EqzpX8gOvgtoC/r6O5ZptiZd4WGfUKjSRwwdBzIMLWPzRPQ+qO9gnNQXgqj+
-	 roRSsoHx9dyfg==
-Date: Fri, 16 Aug 2024 18:06:53 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"kees@kernel.org" <kees@kernel.org>,
-	"will@kernel.org" <will@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
-Message-ID: <e8d933e7-b7d9-40ce-99cf-9c9743224fb2@sirena.org.uk>
-References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
- <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
- <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
- <Zr8RfoHZYRWem1K9@arm.com>
- <23a8838adda28b03b3db77e135934e2da0599d0f.camel@intel.com>
- <Zr9yiH6DP0IPac-H@arm.com>
+	s=arc-20240116; t=1723828132; c=relaxed/simple;
+	bh=n/Tr/WmPHlvI68zrU+eeiglLIedVxZY63IbqtDBKrio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Enx55kAkBW8dGMRFa3rhr8ncCM7BFQZfedKKFnidSBQ6Y0znIijgy+iVJ/j34pdydrzRAoSnKIH57XjixyxewV/Q3vLno39Uv8LzE9Aewyhpgra36oS65NdWzaQdIxcCB0FrofIP1/MobalDT0jX3HyK/d/AV81qtBt7iiaY+OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R4VDPmqe; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5bebb241fddso251a12.1
+        for <linux-api@vger.kernel.org>; Fri, 16 Aug 2024 10:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723828129; x=1724432929; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uErb4GlpeJI3Tx9w9GTv9h0fP96iz7mSRe0kxWFAxc0=;
+        b=R4VDPmqen+195TGwb1EaZEDtzqpPk9gbyvwfn3SxMyoz1HWQVKUGWnIubipygxbVF9
+         VeotB88o8RToHH2WvVUEO5DxLyu18Swzk7UEoMR9rdoPApnWFL/LJmneAvJ+3lmE9GmI
+         B9B2261ZjQNhXqPU2JCgtukRsDBZJmoGrez/a6XHhW0G1BJ8qhrnFjqMQpAQrIQjeeXF
+         ocfMX2CKGWhs7Iblwhz6LVUdkkI2KMF5xuAaW8OP+wqTMBoqTAWL4TKRqcZMduLgzbGn
+         ltHsW5rZjwVJ7wcnUZ6BT7fE0PuwphHg4vUNG9Vd5jBYYgm3qwC5SEmi7GQ8qVUeqoBj
+         1x9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723828129; x=1724432929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uErb4GlpeJI3Tx9w9GTv9h0fP96iz7mSRe0kxWFAxc0=;
+        b=esYYNIJMnuYpKnaBzE514FhhNxWZfXQXV1g30uHppR7s15m4vZtDFJWj4bxwlUN0LJ
+         jNf/rfJEdAJJI6gAntNLrCIEmg0KBMuYD5FxcVFXq7bhKT0xBRZky5no1ijGci16koMi
+         fMBVp9Lo7Hg6dTigEs0u1sIer5h79n9GtU0qZwKQEUIeZ6ctOPcprgcQfG9idLaCu6CP
+         V6Qunci/afZcpq0dKyZKyLu2oEdBfuJ0QU5I9ZuAriJXeo4uj1gsD4XtFAJBddcMGHP0
+         cOhww9UX0pCi4XcmxZ1yZ1gk715/ekT074EVsu5ERlT3bapxIFJaT9EGJOiBnA4NzxMx
+         BWxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUsuIX4/AOE26BbSrd0u2t6w4tn+VuONJzxap9Wuf/YmgN6ADnNU5eM+sG2XfWmswE+hdSgYPIiGTg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCOJSfMvlv/19nFa7Akvxg23Pxm4WRoIPQKIJCOwIztCDuitmh
+	tcuvMBuchwgoYskO8rgFrVQE+e98Q908Iktz0Hp6OV+i4topuTWM+A2y9NLOFUxuktap7Aq6wbL
+	uw4BUx5u58TNpzZ8EmfnXXWvc5XSU9/E1nr0D
+X-Google-Smtp-Source: AGHT+IFUsyddLhNJtQHS2CaSxunJXwGdMRztQxxVD3Cn4TtPHqXAGVxmlebqOy2QOfvAhJDtKSj/mHBWVCfjywlV1Ow=
+X-Received: by 2002:a05:6402:2687:b0:57d:436b:68d6 with SMTP id
+ 4fb4d7f45d1cf-5becd6c4e09mr124079a12.7.1723828128189; Fri, 16 Aug 2024
+ 10:08:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UIBvWWovVRRPNtvr"
-Content-Disposition: inline
-In-Reply-To: <Zr9yiH6DP0IPac-H@arm.com>
-X-Cookie: A Smith & Wesson beats four aces.
+References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
+ <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org> <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
+In-Reply-To: <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 16 Aug 2024 19:08:09 +0200
+Message-ID: <CAG48ez2z5bRdKNddG+kEGz9A_m=66r38OHjyg6CapFTcjT9aRg@mail.gmail.com>
+Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "broonie@kernel.org" <broonie@kernel.org>, 
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>, "brauner@kernel.org" <brauner@kernel.org>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "debug@rivosinc.com" <debug@rivosinc.com>, 
+	"mgorman@suse.de" <mgorman@suse.de>, "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>, 
+	"fweimer@redhat.com" <fweimer@redhat.com>, "mingo@redhat.com" <mingo@redhat.com>, 
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "hjl.tools@gmail.com" <hjl.tools@gmail.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "vschneid@redhat.com" <vschneid@redhat.com>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "bp@alien8.de" <bp@alien8.de>, 
+	"bsegall@google.com" <bsegall@google.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "will@kernel.org" <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Aug 15, 2024 at 2:18=E2=80=AFAM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+> On Thu, 2024-08-08 at 09:15 +0100, Mark Brown wrote:
+> > +       if (access_remote_vm(mm, addr, &val, sizeof(val),
+> > +                            FOLL_FORCE | FOLL_WRITE) !=3D sizeof(val))
+> > +               goto out;
+>
+> The GUPs still seem a bit unfortunate for a couple reasons:
+>  - We could do a CMPXCHG version and are just not (I see ARM has identica=
+l code
+> in gcs_consume_token()). It's not the only race like this though FWIW.
+>  - I *think* this is the only unprivileged FOLL_FORCE that can write to t=
+he
+> current process in the kernel. As is, it could be used on normal RO mappi=
+ngs, at
+> least in a limited way. Maybe another point for the VMA check. We'd want =
+to
+> check that it is normal shadow stack?
 
---UIBvWWovVRRPNtvr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah, having a FOLL_FORCE write in clone3 would be a weakness for
+userspace CFI and probably make it possible to violate mseal()
+restrictions that are supposed to enforce that address space regions
+are read-only.
 
-On Fri, Aug 16, 2024 at 04:38:48PM +0100, Catalin Marinas wrote:
-> On Fri, Aug 16, 2024 at 02:52:28PM +0000, Edgecombe, Rick P wrote:
+>  - Lingering doubts about the wisdom of doing GUPs during task creation.
+>
+> I don't think they are show stoppers, but the VMA check would be nice to =
+have in
+> the first upstream support.
+[...]
+> > +static void shstk_post_fork(struct task_struct *p,
+> > +                           struct kernel_clone_args *args)
+> > +{
+> > +       if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
+> > +               return;
+> > +
+> > +       if (!args->shadow_stack)
+> > +               return;
+> > +
+> > +       if (arch_shstk_post_fork(p, args) !=3D 0)
+> > +               force_sig_fault_to_task(SIGSEGV, SEGV_CPERR, NULL, p);
+> > +}
+> > +
+>
+> Hmm, is this forcing the signal on the new task, which is set up on a use=
+r
+> provided shadow stack that failed the token check? It would handle the si=
+gnal
+> with an arbitrary SSP then I think. We should probably fail the clone cal=
+l in
+> the parent instead, which can be done by doing the work in copy_process()=
+. Do
+> you see a problem with doing it at the end of copy_process()? I don't kno=
+w if
+> there could be ordering constraints.
 
-> > On the x86 side, we don't have a shadow stack access CMPXCHG. We will have to
-> > GUP and do a normal CMPXCHG off of the direct map to handle it fully properly in
-> > any case (CLONE_VM or not).
+FWIW I think we have things like force_fatal_sig() and
+force_exit_sig() to send signals that userspace can't catch with
+signal handlers - if you have to do the copying after the new task has
+been set up, something along those lines might be the right way to
+kill the child.
 
-> I guess we could do the same here and for the arm64 gcs_consume_token().
-> Basically get_user_page_vma_remote() gives us the page together with the
-> vma that you mentioned needs checking. We can then do a cmpxchg directly
-> on the page_address(). It's probably faster anyway than doing GUP twice.
-
-There was some complication with get_user_page_vma_remote() while I was
-working on an earlier version which meant I didn't use it, though with
-adding checking of VMAs perhaps whatever it was isn't such an issue any
-more.
-
---UIBvWWovVRRPNtvr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma/hy0ACgkQJNaLcl1U
-h9DldAf8DS8Ejfxqga0UxFSoE4tm2vigdnhdHImkIWsPP3br0lXDTtzWQW+PCffU
-ew6w0t4n53D0/iwgTUXznmNQ+dWTQe222Mp/mZZHZVT1bsKzQreV0AGljZ7UxP8v
-z7w3/IjQPVz/xJtPErsDbBOKcSNUkgLDx22cQTn6kF0kRpG6z1Cf+A7TDXm3jyIT
-iSIyGmIqi4/u/BBHKx2wKT5jm1o8nPEVw7ImZTkKDKVGh1yNCn9KKLkA6YEFluD8
-fmHH9f6HlzMsJQTAUnWV8dgX2Xn3CNgidXnUH67O3duNL0GJUrAgQea0PD6m7azu
-g1aisKemp+biqJTccPgu/7jarPOj5Q==
-=b7S2
------END PGP SIGNATURE-----
-
---UIBvWWovVRRPNtvr--
+Though, did anyone in the thread yet suggest that you could do this
+before the child process has fully materialized but after the child MM
+has been set up? Somewhere in copy_process() between copy_mm() and the
+"/* No more failure paths after this point. */" comment?
 
