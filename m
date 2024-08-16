@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-2192-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2193-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F85E95511D
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 20:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A3F9552C8
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 23:56:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BAFC0284B80
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 18:55:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1125E284ABA
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 21:56:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA521C37BF;
-	Fri, 16 Aug 2024 18:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB631C6886;
+	Fri, 16 Aug 2024 21:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Niewnao7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sM2HJ8Gf"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3791BE861;
-	Fri, 16 Aug 2024 18:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293EB1C57B4;
+	Fri, 16 Aug 2024 21:56:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723834547; cv=none; b=Y1HOc95hXNJqGPQn4KcbvdmRs9eOW3dURLGp+CDDZ9v4pZMPAqJJ6fuCzbYceDw3S0AYe2exsl1AFvsMKwvIT9hM1EfplLsfMasvDiyfdULcP4fD0pZaUm2Sb7k56uhSsrkBhqFsvH1EVmLnU1nis083KsgBbM5OEZnQlTzL3V8=
+	t=1723845406; cv=none; b=BhVuyn+WpG3hh8K/iMI3FB355tEcJXnmNzU3juap8DeyPCoj6N8v4WPpgqqzudiibgqitJSMFvXxlUrXrfLoZNPG/8joQwpqdcKUAJkMfWlOK3VPFQY1je2RUk3np8RMTcu5pN/UHLZ8TwZ/KwrdGUZxionn7rHZAuoRcDGweZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723834547; c=relaxed/simple;
-	bh=n8tFPheGQ/ucQVspJWimdx1mXcYOAojOe0mrEjVgMJI=;
+	s=arc-20240116; t=1723845406; c=relaxed/simple;
+	bh=iDFw77pu0YUWQ2wI2VHQzi76pQTpMJz3zqKX0bgLUgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RerKYkKqni/U8fl+R88boXv1Mh8YP63V8WIAji0P/rlWQJUCgLv21njRjX4E7JQHtnXZgWdxaO41ex6YzEJHNZubtl4zq3Gsmx/uWesR0jI2rx4FxwbvVblLv89gGj/CjEDZdyp0GPm8RyRDhoTiAM1DGcujo+yGmi5jP912154=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Niewnao7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E29C32782;
-	Fri, 16 Aug 2024 18:55:42 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=n0L6QmA2djdJPoiZZ1qW41aysotQ+Rxl0weMVLGng/45UUqjFNpjlGfkyyZCi6Thi0CjWdN2sHK0mmFz3iRU6N3C83h9tEKOgupYHVXXQ6JuF8AY7YttcrtFdcCSBbqrKHryNg5YqPLxcCScqK0xUKQbhhGW5oNN1miJsRU/jOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sM2HJ8Gf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95121C32782;
+	Fri, 16 Aug 2024 21:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723834547;
-	bh=n8tFPheGQ/ucQVspJWimdx1mXcYOAojOe0mrEjVgMJI=;
+	s=k20201202; t=1723845405;
+	bh=iDFw77pu0YUWQ2wI2VHQzi76pQTpMJz3zqKX0bgLUgA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Niewnao7moKKMCxKTARNHowGGFokUNSyZIXh+8fgWw3eAB0PzC1IlVLI+xH1yxz/n
-	 1nI9PAbGxJfqBvZ6wdXibbsyWos74WCYyugNCgnZAps6jbso7TLVr75bCZmPmEgp/+
-	 UAQoBAwb+BZgmvws4CZwxd42SWu2KtLfFKbQOdqasZV5YFBvq/9J8xm6OrqSY5kYGA
-	 FN3m94xf8T0ICqG99sDdT8aEMhwvcsJX1sYPaTZUdx2Qis/5TDaZVNRLLOqjrI8ACq
-	 a9WmUouSi1oVLbEgzi04V5+cco5P/CiYTGin2rSKBBl8k4BilHk7qFx8u4gRFJ0dHl
-	 Tlo3ffxJDO+gg==
-Date: Fri, 16 Aug 2024 20:55:41 +0200
+	b=sM2HJ8GfFXS0+FJtifnI0dbBBuJKDmYfeZLUV9JjkRaqV0T8oJaPfpyT696ASzWYU
+	 yh+/eqSivlRIAUlBDCWvajswyJHITfN7X3P3sdK59YfU9ZVd/GItyGpI3NnixbATJ8
+	 zYSewzkJqq8giure+UCdOdh9Lh/hiy2p3ApKLnmij9D2fux3jz8K87L2GHdhVxB2U4
+	 DA60itAY11CNxjfO4t+1MwlG6szzcfU/nlaugb3AT9MALQMP4MQoWhC4OCVWZMbzR2
+	 vxpPX9SjMz5gmbH1Tmf4n38fb/uNrJDt7cN6cZ3Svwsv48T7g1BvHBde04nO+zGoeQ
+	 F41brTy75WumQ==
+Date: Fri, 16 Aug 2024 23:56:39 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Jiri Olsa <olsajiri@gmail.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>, 
@@ -55,7 +55,7 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>, 
 	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>
 Subject: Re: [PATCHv8 9/9] man2: Add uretprobe syscall page
-Message-ID: <c7v4einpsvpswvj3rqn5esap2e5lpeiwacylqlzwdcp7slsgvg@jfmchkiqru4u>
+Message-ID: <ht6hc5dbvgx3ny22pvhiazs7vxjhiockr6glpho5bpp6hrwn4f@oew3iu7a62j2>
 References: <20240611112158.40795-1-jolsa@kernel.org>
  <20240611112158.40795-10-jolsa@kernel.org>
  <20240611233022.82e8abfa2ff0e43fd36798b2@kernel.org>
@@ -63,6 +63,7 @@ References: <20240611112158.40795-1-jolsa@kernel.org>
  <20240807162734.100d3b55@gandalf.local.home>
  <ygpwfyjvhuctug2bsibvc7exbirahojuivglcfjusw4rrqeqhc@44h23muvk3xb>
  <Zr-Gf3EEganRSzGM@krava>
+ <c7v4einpsvpswvj3rqn5esap2e5lpeiwacylqlzwdcp7slsgvg@jfmchkiqru4u>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -70,12 +71,12 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ppzmph6bpxetz6l5"
+	protocol="application/pgp-signature"; boundary="plljbzi2pasmdt6h"
 Content-Disposition: inline
-In-Reply-To: <Zr-Gf3EEganRSzGM@krava>
+In-Reply-To: <c7v4einpsvpswvj3rqn5esap2e5lpeiwacylqlzwdcp7slsgvg@jfmchkiqru4u>
 
 
---ppzmph6bpxetz6l5
+--plljbzi2pasmdt6h
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -99,157 +100,66 @@ References: <20240611112158.40795-1-jolsa@kernel.org>
  <20240807162734.100d3b55@gandalf.local.home>
  <ygpwfyjvhuctug2bsibvc7exbirahojuivglcfjusw4rrqeqhc@44h23muvk3xb>
  <Zr-Gf3EEganRSzGM@krava>
+ <c7v4einpsvpswvj3rqn5esap2e5lpeiwacylqlzwdcp7slsgvg@jfmchkiqru4u>
 MIME-Version: 1.0
-In-Reply-To: <Zr-Gf3EEganRSzGM@krava>
+In-Reply-To: <c7v4einpsvpswvj3rqn5esap2e5lpeiwacylqlzwdcp7slsgvg@jfmchkiqru4u>
 
-On Fri, Aug 16, 2024 at 07:03:59PM GMT, Jiri Olsa wrote:
-> On Fri, Aug 16, 2024 at 01:42:26PM +0200, Alejandro Colomar wrote:
-> > Hi Steven, Jiri,
-> >=20
-> > On Wed, Aug 07, 2024 at 04:27:34PM GMT, Steven Rostedt wrote:
-> > > Just in case nobody pinged you, the rest of the series is now in Linu=
-s's
-> > > tree.
-> >=20
-> > Thanks for the ping!
-> >=20
-> > I have prepared some tweaks to the patch (see below).
-> > Also, I have some doubts.  The prototype shows that it has no arguments
-> > (void), but the text said that arguments, if any, are arch-specific.
-> > Does any arch have arguments?  Should we use a variadic prototype (...)?
+Hi Jiri, Steven,
+
+On Fri, Aug 16, 2024 at 08:55:47PM GMT, Alejandro Colomar wrote:
+> > hi,
+> > there are no args for x86.. it's there just to note that it might
+> > be different on other archs, so not sure what man page should say
+> > in such case.. keeping (void) is fine with me
 >=20
-> hi,
-> there are no args for x86.. it's there just to note that it might
-> be different on other archs, so not sure what man page should say
-> in such case.. keeping (void) is fine with me
-
-Hmmm, then I'll remove that paragraph.  If that function is implemented
-in another arch and the args are different, we can change the manual
-page then.
-
+> Hmmm, then I'll remove that paragraph.  If that function is implemented
+> in another arch and the args are different, we can change the manual
+> page then.
 >=20
 > >=20
-> > Please add the changes proposed below to your patch, tweak anything if
-> > you consider it appropriate) and send it as v10.
->=20
-> it looks good to me, thanks a lot
->=20
-> Acked-by: From: Jiri Olsa <jolsa@kernel.org>
+> > >=20
+> > > Please add the changes proposed below to your patch, tweak anything if
+> > > you consider it appropriate) and send it as v10.
+> >=20
+> > it looks good to me, thanks a lot
+> >=20
+> > Acked-by: From: Jiri Olsa <jolsa@kernel.org>
 
-Thanks!
+I have applied your patch with the tweaks I mentioned, and added several
+tags to the commit message.
 
-Have a lovely day!
+It's currently here:
+<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
+mit/?h=3Dcontrib&id=3D977e3eecbb81b7398defc4e4f41810ca31d63c1b>
+
+and will $soon be pushed to master.
+
+Have a lovely night!
 Alex
 
->=20
-> jirka
->=20
-> >=20
-> > Have a lovely day!
-> > Alex
-> >=20
-> >=20
-> > diff --git i/man/man2/uretprobe.2 w/man/man2/uretprobe.2
-> > index cf1c2b0d8..51b566998 100644
-> > --- i/man/man2/uretprobe.2
-> > +++ w/man/man2/uretprobe.2
-> > @@ -7,50 +7,43 @@ .SH NAME
-> >  uretprobe \- execute pending return uprobes
-> >  .SH SYNOPSIS
-> >  .nf
-> > -.B int uretprobe(void)
-> > +.B int uretprobe(void);
-> >  .fi
-> >  .SH DESCRIPTION
-> > -The
-> >  .BR uretprobe ()
-> > -system call is an alternative to breakpoint instructions for triggerin=
-g return
-> > -uprobe consumers.
-> > +is an alternative to breakpoint instructions
-> > +for triggering return uprobe consumers.
-> >  .P
-> >  Calls to
-> >  .BR uretprobe ()
-> > -system call are only made from the user-space trampoline provided by t=
-he kernel.
-> > +are only made from the user-space trampoline provided by the kernel.
-> >  Calls from any other place result in a
-> >  .BR SIGILL .
-> > -.SH RETURN VALUE
-> > -The
-> > +.P
-> > +Details of the arguments (if any) passed to
-> >  .BR uretprobe ()
-> > -system call return value is architecture-specific.
-> > +are architecture-specific.
-> > +.SH RETURN VALUE
-> > +The return value is architecture-specific.
-> >  .SH ERRORS
-> >  .TP
-> >  .B SIGILL
-> > -The
-> >  .BR uretprobe ()
-> > -system call was called by a user-space program.
-> > +was called by a user-space program.
-> >  .SH VERSIONS
-> > -Details of the
-> > -.BR uretprobe ()
-> > -system call behavior vary across systems.
-> > +The behavior varies across systems.
-> >  .SH STANDARDS
-> >  None.
-> >  .SH HISTORY
-> > -TBD
-> > -.SH NOTES
-> > -The
-> > +Linux 6.11.
-> > +.P
-> >  .BR uretprobe ()
-> > -system call was initially introduced for the x86_64 architecture
-> > +was initially introduced for the x86_64 architecture
-> >  where it was shown to be faster than breakpoint traps.
-> >  It might be extended to other architectures.
-> > -.P
-> > -The
-> > +.SH CAVEATS
-> >  .BR uretprobe ()
-> > -system call exists only to allow the invocation of return uprobe consu=
-mers.
-> > +exists only to allow the invocation of return uprobe consumers.
-> >  It should
-> >  .B never
-> >  be called directly.
-> > -Details of the arguments (if any) passed to
-> > -.BR uretprobe ()
-> > -and the return value are architecture-specific.
-> >=20
-> > --=20
-> > <https://www.alejandro-colomar.es/>
->=20
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---ppzmph6bpxetz6l5
+--plljbzi2pasmdt6h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAma/oKwACgkQnowa+77/
-2zKQ0Q/7BMLDfH0gPaxMV9IWrTc2+lclJ8zMlgxZW7+zvmjLjTwGjQ4yFBxaVyhR
-ZaBnZ1i4Dw5Fwx3ZU+eSxxlpe3URC2IdgboPptXAf1B1qoUFX15qsGBbGe2yViYs
-kbOEH5n2TN499IbKujOwYZFgWXtU/dSeBqiOUOQ90CqWjcg0lqlltukhMve3MOAi
-DDf1e1sXDXhyJWLxxsJ3LZ53Mq3US3yOeo4VRbvHq0vQaWAcS0TjjLImaYgshzGM
-31cuvioBunIjaB70hcRM8vDncUaE2b04SmPufSX5aJ3HkBVyFCoDAHZ+7wqVVuE/
-HyIMV5uxxa4qkiEqH2os2/Q0zQd/9KQ4skWj/XdbN1xqWRiKDZ01am9wByIXAmMS
-zjyvW5evroJ8KQheSNY0rhAJQa6jYORyjqjhP24J2W9mfsEnPvS/0Bbyj9s40aXG
-z9TkrDXq3PqzNJd55Astixv211W+Te7uxDxKTEEi5BTP/sTf4M+GOAhMwEo4RY5+
-/F3IQKI3g0LtEU9IeQNSgwQ1f5x3wS4fM7fBwWOnlyVOyQ2BUVAMjitHYFrJsGCD
-PFR+dfUckpyjVNDuf32O00hDeNCSHwxgHz8IUdau8A38IGsX44QxrInIuliptU1t
-Y6aJ/Jp64Y7AWhYDSOLZsi5aVAG5/IJEamHQqjOiBHh69c8CM/k=
-=1RZB
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAma/yxcACgkQnowa+77/
+2zK97A//WrXlVppm6sreVtUPEfxfYfGTPE4VAT4lYZRcQ2HboHlCPNMLRXu9kv0G
+wDgwW3P5KiI5XqGtB/oVo9osSWqt2yAQg5JHe2iUAnBjWpN4oDnpMgqFAw00j6J4
+WqV6rsmm81NPfXi3G2ReSBarakNscIRk+IGrF3wso9zu3yLfVUrus80aATLD18vA
+cnEXaJCKrk/gi4S4zeF/YDZsd6CTx6HYpYR4kI8Cgdu5Qhsj1cEN4SOzuRPg1wYB
+tLQ9CWKnpJPOvt0x//7Iwj1dHwSEt69sRUmFs/Gwnapj+lRcRmc2Li3N3xn9oJCq
+RUM0c4i9GAESo5UL6Mps96QZa9MRIHUHQDE7LTSz9Qm66vZt7GyOtHm28xgfrzGZ
+syFEcocjr7viVkf8mCg3wX9o3KGkev+e7r8qQglBlIcn7ycSGnu5qq+qxKiFkbGp
+leB1BXF0uTr6OHrOC2DKC2GcwdpkQjHxwNoOxyFSaDFb+5AWZLwu3JbmcqkGP6TX
+0Xt+pEGTKLEDwV+IMa8v69L8DOM4Mf97SFvmbQjPbzm+0x0ZigzNnxpq7HeYdcV7
+/x0FIG69F7zlEQUoTF8HMfl8fI9YBOdQ2cNzLIcpRdrtvt7Ap6GGKoKfNFMSr+4t
+Rf8AS/JcqJqexPlBbSIuCBOW8P+4BnxCVI/mlmF3vu5SkZv+p8U=
+=bM7I
 -----END PGP SIGNATURE-----
 
---ppzmph6bpxetz6l5--
+--plljbzi2pasmdt6h--
 
