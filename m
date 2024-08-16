@@ -1,216 +1,132 @@
-Return-Path: <linux-api+bounces-2188-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2189-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03032954F7F
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 19:04:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8891D954F8B
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 19:07:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 792FD1F22D02
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 17:04:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4594128391A
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 17:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 373601BF315;
-	Fri, 16 Aug 2024 17:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780CC1C0DD9;
+	Fri, 16 Aug 2024 17:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U8GWKdEh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMOpXLB1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B043136E30;
-	Fri, 16 Aug 2024 17:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEA66F2F8;
+	Fri, 16 Aug 2024 17:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723827846; cv=none; b=fUe/M5qmMMM4xByNF13ZsAWzNpqMFSpEiOAoOqf6LU+TUiALG6AVKSjCofSRFncQQlgFi8zoMpFr3cokBVj1qbMn0jc5+L4cAqX0lugy1gK73fFVcx5JdzqO0BQumD3O3wEzMni8CiEBS1Ew3IJessW+ijle3EBUJp7CzwtvB6k=
+	t=1723828023; cv=none; b=lUhxNjDq1YtkMd9/B1+3ZVZqJhTEOHu2OSgs2yTKnY/bdKVrp7SB3/mYP8rUHAKrMSLd0AeLkHib4OZKmURB3YcDAlaPLSLmJoSC9i0XVs0B0XLfO/emCNpE2Sa4w8q/M/jgykZ6GrUXCBgNAzml0YGmAXf4DJgruuPF29A/GD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723827846; c=relaxed/simple;
-	bh=wuYag45KCCMNPdVOTNXs6hx1m9ceBhoFn44hOT7ug0w=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=klSUvmw0xl2GioLfypHOZV/YDsMMyHsarg7nnIbcy4uF6AalXGz+Mu8ulWQkwjV8ldQ31UYEDJPs/EbzgQJsbUfCQdfMhpHnSiLUwmAXNGNMMuZw3ld7imZwhJdqrkZ74mIro8SCFCVXUYsItwrMKwtzTa3eUuLYnldaB4prA+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U8GWKdEh; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a9e25008aso293038866b.0;
-        Fri, 16 Aug 2024 10:04:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723827843; x=1724432643; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nsViohMsVlT1Cr/vk07GM1E4ZDq3GRRcVAXcInsaHcE=;
-        b=U8GWKdEhFbV+oScjo0uKWWVDDzCEuz/Nz6RJ1PUGQWg7DvRx7fU98z+JY978VfYjKD
-         nY8JI5CmtYDlHUC7lZHiG+zIWGe098qoa+5CaRknVQqX9P5A7ahpMbWrz3OzfA6kKg5K
-         pbxsTjtePFo4zOBuiYedrBxDDTHbiC1kVcyViCFaJkxZkg08Cd/SbhF8sC6C8645GtbG
-         yKprHrI/fLPD1uxVTZDbbbC85uiUhE1047YJmtwnGRTW5DEudxAHFODVaqmu9kJYHGuO
-         v23n7v9qvsT6jQowlVK66/TrB+4Aspwa+NHPoxlulUOImE+NUJrSjjLzmCxG0pkpfByb
-         Gcig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723827843; x=1724432643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nsViohMsVlT1Cr/vk07GM1E4ZDq3GRRcVAXcInsaHcE=;
-        b=pHRPCvu1CL5y7EWNyTOteAf09i9lwxYtkln8AwsgBLrPgNIHkwRMLGpFaIURmJ3CT/
-         wKVI8nqDjPLzxKonFl8gQvTrKs/0+BDUzoNZegrmGp10rS9TYhbdwIEsaL63jDzzBwvp
-         EMTUBgyPS6Id6ui2Fo5HPjQaa06HzsZEc4JnIsAJc75MiKtdU7iLQpPxTVef6ZVNTrIc
-         l0qBj6oX5Uji8KiWNg4he92kRqWvUav+dDQXOdzvy/mlc50ZxLWMuRy+Ai90T1t09mJz
-         YPctpR7XlKkRFsMhw3Ob/wKXfTdIWetSFBEAi92APUUglty+xrdSD3aHXrTCqlIwPhcA
-         8YAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWu3Bwc1yYKpjnCgyz2ablcowCO572uf95tEsh/GChL3d0jk27DwlniL1ktMAXfMS+0ZAkFAowfvpP4FU5cWhC/VoB8lclIg/IRkDTI1tlzg4uty/6/KaO0Nv1B9WxhwYrBfrFNQuJgk4kV8FYIyi71d+mUenCfIz47Tw1iyqkRbffCqCEYaqcTPjpLXjHvbu5CCH4j6TniSPI47Pr7QRc0XRCpQ8bnIdKG7vUjwcOF0NsieXnGYRA7CouP
-X-Gm-Message-State: AOJu0YyXn+LZvKzACtSB53sAQGzxim0Dyo1RwDFr5KAO+2pNcru1QlXK
-	y/rh4Fno10u+ROOgru/8I+Cp+e8T10OhfqkgjAn0VVdokhS/lp45
-X-Google-Smtp-Source: AGHT+IGmQHqLgP7Yyh+oz/nFR7ZhrguSPynoN6KhTrPqXBYW/CiVRsTdzvtIkZTesS8hMABI8OjPqg==
-X-Received: by 2002:a17:907:e6e4:b0:a7a:a33e:47b6 with SMTP id a640c23a62f3a-a8392a4b3f4mr270755866b.60.1723827842255;
-        Fri, 16 Aug 2024 10:04:02 -0700 (PDT)
-Received: from krava (ip-94-113-247-30.net.vodafone.cz. [94.113.247.30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8383948d19sm281827466b.186.2024.08.16.10.04.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 10:04:01 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Fri, 16 Aug 2024 19:03:59 +0200
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>
-Subject: Re: [PATCHv8 9/9] man2: Add uretprobe syscall page
-Message-ID: <Zr-Gf3EEganRSzGM@krava>
-References: <20240611112158.40795-1-jolsa@kernel.org>
- <20240611112158.40795-10-jolsa@kernel.org>
- <20240611233022.82e8abfa2ff0e43fd36798b2@kernel.org>
- <3pc746tolavkbac4n62ku5h4qqkbcinvttvcnkib6nxvzzfzym@k6vozf6totdw>
- <20240807162734.100d3b55@gandalf.local.home>
- <ygpwfyjvhuctug2bsibvc7exbirahojuivglcfjusw4rrqeqhc@44h23muvk3xb>
+	s=arc-20240116; t=1723828023; c=relaxed/simple;
+	bh=cBPLEF3zCKTbQhJvwlculw6gNfUQGkEmwhR1JIaGaQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DnUgjlu9ph2QVp/tPx4FuPE+DD+NxNQ09fCQQHAjkDZ3VpkmVG9FtCy1kJIgcPmU8gZpvHXN+tnnGyUJH7870fHm5FLLi01wRbVEtJKsAGf8mCwb94GjOyvqB1T6HkIE2SA/0RY36o91bjCCfqP9varwvle8NUwcnJryKo2JMms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMOpXLB1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26414C32782;
+	Fri, 16 Aug 2024 17:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723828022;
+	bh=cBPLEF3zCKTbQhJvwlculw6gNfUQGkEmwhR1JIaGaQw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TMOpXLB1N7TB4TZLj/r07zoDqiI1fI7SglBcTgEOmmYQsOhRjdSZIZ9L1buvsz2d1
+	 s6YmxlMpUSCuDO70uXrRzBXNI16eoN04Eec/IXXkrN8TX+/AER/YGIw1XI5lVUY12E
+	 nl9RH7KLj2fqJQdJeO6XdmzPkboMgz4w/Zih5jk5uXYkLb+CvvCdTCqTcC42QXtBNS
+	 ASwdbZEEoWvF4KCIobfWZTdomFilLghf79HjslM2yBxwNSvyB18LH/qs+eLh5HsMqf
+	 qpR+7/EqzpX8gOvgtoC/r6O5ZptiZd4WGfUKjSRwwdBzIMLWPzRPQ+qO9gnNQXgqj+
+	 roRSsoHx9dyfg==
+Date: Fri, 16 Aug 2024 18:06:53 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
+	"mgorman@suse.de" <mgorman@suse.de>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"vschneid@redhat.com" <vschneid@redhat.com>,
+	"kees@kernel.org" <kees@kernel.org>,
+	"will@kernel.org" <will@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"jannh@google.com" <jannh@google.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"bsegall@google.com" <bsegall@google.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>
+Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
+Message-ID: <e8d933e7-b7d9-40ce-99cf-9c9743224fb2@sirena.org.uk>
+References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
+ <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
+ <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
+ <Zr8RfoHZYRWem1K9@arm.com>
+ <23a8838adda28b03b3db77e135934e2da0599d0f.camel@intel.com>
+ <Zr9yiH6DP0IPac-H@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UIBvWWovVRRPNtvr"
+Content-Disposition: inline
+In-Reply-To: <Zr9yiH6DP0IPac-H@arm.com>
+X-Cookie: A Smith & Wesson beats four aces.
+
+
+--UIBvWWovVRRPNtvr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ygpwfyjvhuctug2bsibvc7exbirahojuivglcfjusw4rrqeqhc@44h23muvk3xb>
 
-On Fri, Aug 16, 2024 at 01:42:26PM +0200, Alejandro Colomar wrote:
-> Hi Steven, Jiri,
-> 
-> On Wed, Aug 07, 2024 at 04:27:34PM GMT, Steven Rostedt wrote:
-> > Just in case nobody pinged you, the rest of the series is now in Linus's
-> > tree.
-> 
-> Thanks for the ping!
-> 
-> I have prepared some tweaks to the patch (see below).
-> Also, I have some doubts.  The prototype shows that it has no arguments
-> (void), but the text said that arguments, if any, are arch-specific.
-> Does any arch have arguments?  Should we use a variadic prototype (...)?
+On Fri, Aug 16, 2024 at 04:38:48PM +0100, Catalin Marinas wrote:
+> On Fri, Aug 16, 2024 at 02:52:28PM +0000, Edgecombe, Rick P wrote:
 
-hi,
-there are no args for x86.. it's there just to note that it might
-be different on other archs, so not sure what man page should say
-in such case.. keeping (void) is fine with me
+> > On the x86 side, we don't have a shadow stack access CMPXCHG. We will have to
+> > GUP and do a normal CMPXCHG off of the direct map to handle it fully properly in
+> > any case (CLONE_VM or not).
 
-> 
-> Please add the changes proposed below to your patch, tweak anything if
-> you consider it appropriate) and send it as v10.
+> I guess we could do the same here and for the arm64 gcs_consume_token().
+> Basically get_user_page_vma_remote() gives us the page together with the
+> vma that you mentioned needs checking. We can then do a cmpxchg directly
+> on the page_address(). It's probably faster anyway than doing GUP twice.
 
-it looks good to me, thanks a lot
+There was some complication with get_user_page_vma_remote() while I was
+working on an earlier version which meant I didn't use it, though with
+adding checking of VMAs perhaps whatever it was isn't such an issue any
+more.
 
-Acked-by: From: Jiri Olsa <jolsa@kernel.org>
+--UIBvWWovVRRPNtvr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-jirka
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Have a lovely day!
-> Alex
-> 
-> 
-> diff --git i/man/man2/uretprobe.2 w/man/man2/uretprobe.2
-> index cf1c2b0d8..51b566998 100644
-> --- i/man/man2/uretprobe.2
-> +++ w/man/man2/uretprobe.2
-> @@ -7,50 +7,43 @@ .SH NAME
->  uretprobe \- execute pending return uprobes
->  .SH SYNOPSIS
->  .nf
-> -.B int uretprobe(void)
-> +.B int uretprobe(void);
->  .fi
->  .SH DESCRIPTION
-> -The
->  .BR uretprobe ()
-> -system call is an alternative to breakpoint instructions for triggering return
-> -uprobe consumers.
-> +is an alternative to breakpoint instructions
-> +for triggering return uprobe consumers.
->  .P
->  Calls to
->  .BR uretprobe ()
-> -system call are only made from the user-space trampoline provided by the kernel.
-> +are only made from the user-space trampoline provided by the kernel.
->  Calls from any other place result in a
->  .BR SIGILL .
-> -.SH RETURN VALUE
-> -The
-> +.P
-> +Details of the arguments (if any) passed to
->  .BR uretprobe ()
-> -system call return value is architecture-specific.
-> +are architecture-specific.
-> +.SH RETURN VALUE
-> +The return value is architecture-specific.
->  .SH ERRORS
->  .TP
->  .B SIGILL
-> -The
->  .BR uretprobe ()
-> -system call was called by a user-space program.
-> +was called by a user-space program.
->  .SH VERSIONS
-> -Details of the
-> -.BR uretprobe ()
-> -system call behavior vary across systems.
-> +The behavior varies across systems.
->  .SH STANDARDS
->  None.
->  .SH HISTORY
-> -TBD
-> -.SH NOTES
-> -The
-> +Linux 6.11.
-> +.P
->  .BR uretprobe ()
-> -system call was initially introduced for the x86_64 architecture
-> +was initially introduced for the x86_64 architecture
->  where it was shown to be faster than breakpoint traps.
->  It might be extended to other architectures.
-> -.P
-> -The
-> +.SH CAVEATS
->  .BR uretprobe ()
-> -system call exists only to allow the invocation of return uprobe consumers.
-> +exists only to allow the invocation of return uprobe consumers.
->  It should
->  .B never
->  be called directly.
-> -Details of the arguments (if any) passed to
-> -.BR uretprobe ()
-> -and the return value are architecture-specific.
-> 
-> -- 
-> <https://www.alejandro-colomar.es/>
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma/hy0ACgkQJNaLcl1U
+h9DldAf8DS8Ejfxqga0UxFSoE4tm2vigdnhdHImkIWsPP3br0lXDTtzWQW+PCffU
+ew6w0t4n53D0/iwgTUXznmNQ+dWTQe222Mp/mZZHZVT1bsKzQreV0AGljZ7UxP8v
+z7w3/IjQPVz/xJtPErsDbBOKcSNUkgLDx22cQTn6kF0kRpG6z1Cf+A7TDXm3jyIT
+iSIyGmIqi4/u/BBHKx2wKT5jm1o8nPEVw7ImZTkKDKVGh1yNCn9KKLkA6YEFluD8
+fmHH9f6HlzMsJQTAUnWV8dgX2Xn3CNgidXnUH67O3duNL0GJUrAgQea0PD6m7azu
+g1aisKemp+biqJTccPgu/7jarPOj5Q==
+=b7S2
+-----END PGP SIGNATURE-----
 
+--UIBvWWovVRRPNtvr--
 
