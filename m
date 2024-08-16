@@ -1,39 +1,51 @@
-Return-Path: <linux-api+bounces-2178-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2179-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B8D9544AF
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 10:44:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9653F9546F4
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 12:52:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5C4E281BC8
-	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 08:44:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F0D8283C88
+	for <lists+linux-api@lfdr.de>; Fri, 16 Aug 2024 10:52:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D472139590;
-	Fri, 16 Aug 2024 08:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2101198A2F;
+	Fri, 16 Aug 2024 10:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJEYDkMn"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A63F1DFFC;
-	Fri, 16 Aug 2024 08:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D1C198A08;
+	Fri, 16 Aug 2024 10:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723797894; cv=none; b=VmRbHFi8F/7bRLfxdAOdiBpTXR8ErboTHCRaaf49NaWsDW8Bzyjzw+SA1G1IiDlmYc2rtg1SxECWSHSM6TNzp6bk16U3wROp6lznB07O3+Dlm2eW5WGoOts5aJQMLL5GW5Y2CQLm4l+UcgajtVgDal7rxO8w2hG8+L+o7Lv3ytA=
+	t=1723805525; cv=none; b=GluNMFwO4aCa3kdX3LxLdb3YtxhNy3T9ckMCAzuwjs3irGy1P/EWVWH/JFQiZCn5kY6Z/DpClECiSCyRjhYTizgz6wKbUt5tdTpruem41IBHk76UxoUjh4S3Ja2rGoiKxTJ2n6KSGWe3UH2/s9QI5oVtGTHtm24eTlZkLsECp50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723797894; c=relaxed/simple;
-	bh=BRboGjlwfrQPVVn2+h18CtHj+ByyxIEMBAs2xzz/N3Y=;
+	s=arc-20240116; t=1723805525; c=relaxed/simple;
+	bh=sfpft34+Q7KpSTmp1/eLWQvAOdHVfxQX2RrOjfaV45k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XwnorFS4oJE/Svhxm7Qz2zrP0oqvIY0rr0ZDqDrf1/3WczHMX0XuXeUlMYDA+3tIoECiSGuk6B0RlPhSJyhTrJQl0+EN1ZDHfjTV8aDSf1dVSRe0I0n409kVAAi5XLTth/L9UpYOO55XPhyYPUhpdYNKu9CTfnEHHSGtwNcQ3A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C85C32782;
-	Fri, 16 Aug 2024 08:44:48 +0000 (UTC)
-Date: Fri, 16 Aug 2024 09:44:46 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"broonie@kernel.org" <broonie@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZUr0BxxLG5uDHW4bw8c0vdduprW/H4YkSEkKtvurdhwNb3SjIvS+Mnhx7dpPHOxN9aKbRVdjUHZ/XfGv1YLbk4bABAfa+qd+T/e4O3QcDj6hWfClNYsw5iRMUN1x+DCu27q9i9RqhKCxAlrmpv/2NHb6608tE4zx06HAG9OwV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJEYDkMn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F32C32782;
+	Fri, 16 Aug 2024 10:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723805525;
+	bh=sfpft34+Q7KpSTmp1/eLWQvAOdHVfxQX2RrOjfaV45k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mJEYDkMn6TmebfPerm4lk8VIradWKYkDFTfBkB3nBlBrG0s2NxeCKW4Uru7OP+lJO
+	 S60xtYkMNFVa4RAHS5ex196JjVqVtVU+YGpNBO0aWkd7QEKEJLcUsVHQovN2hQcj5S
+	 Qy2pAnjUl59oh9a47he0OEsvr6RHugCPTd4YgYYNKsiQgk5frJsVgayxKexR2wQUEZ
+	 1S5NFaHNXMEBtgun4D8CFftUN3DxO+OO/gMiBQ+Hl/dmX3XmJUP073d6AMMFSDAoLP
+	 3tti3ZDhfgMpleaEHZSOJl58kral88OJV9PfsSJba4DWgEaO/7gHe/tTvWjDaD1B7h
+	 1s68AyoGy6djQ==
+Date: Fri, 16 Aug 2024 11:51:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
 	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
 	"brauner@kernel.org" <brauner@kernel.org>,
 	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
@@ -60,74 +72,61 @@ Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
 	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
 	"will@kernel.org" <will@kernel.org>
 Subject: Re: [PATCH RFT v8 4/9] fork: Add shadow stack support to clone3()
-Message-ID: <Zr8RfoHZYRWem1K9@arm.com>
+Message-ID: <c644d64b-f7d0-47de-b5ba-ae2ac1b46e1b@sirena.org.uk>
 References: <20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org>
  <20240808-clone3-shadow-stack-v8-4-0acf37caf14c@kernel.org>
  <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
+ <Zr8RfoHZYRWem1K9@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i+AGODBgwk+YiNog"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f3a2a564094d05beac2dc5ab657cbc009c465667.camel@intel.com>
+In-Reply-To: <Zr8RfoHZYRWem1K9@arm.com>
+X-Cookie: A Smith & Wesson beats four aces.
 
-On Thu, Aug 15, 2024 at 12:18:23AM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2024-08-08 at 09:15 +0100, Mark Brown wrote:
-> > +int arch_shstk_post_fork(struct task_struct *t, struct kernel_clone_args
-> > *args)
-[...]
-> > +       /* This should really be an atomic cmpxchg.  It is not. */
-> > +       if (access_remote_vm(mm, addr, &val, sizeof(val),
-> > +                            FOLL_FORCE) != sizeof(val))
-> > +               goto out;
-> > +
-> > +       if (val != expected)
-> > +               goto out;
-> > +       val = 0;
-> 
-> After a token is consumed normally, it doesn't set it to zero. Instead it sets
-> it to a "previous-ssp token". I don't think we actually want to do that here
-> though because it involves the old SSP, which doesn't really apply in this case.
-> I don't see any problem with zero, but was there any special thinking behind it?
 
-BTW, since it's the parent setting up the shadow stack in its own
-address space before forking, I think at least the read can avoid
-access_remote_vm() and we could do it earlier, even before the new
-process is created.
+--i+AGODBgwk+YiNog
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> > +       if (access_remote_vm(mm, addr, &val, sizeof(val),
-> > +                            FOLL_FORCE | FOLL_WRITE) != sizeof(val))
-> > +               goto out;
-> 
-> The GUPs still seem a bit unfortunate for a couple reasons:
->  - We could do a CMPXCHG version and are just not (I see ARM has identical code
-> in gcs_consume_token()). It's not the only race like this though FWIW.
->  - I *think* this is the only unprivileged FOLL_FORCE that can write to the
-> current process in the kernel. As is, it could be used on normal RO mappings, at
-> least in a limited way. Maybe another point for the VMA check. We'd want to
-> check that it is normal shadow stack?
->  - Lingering doubts about the wisdom of doing GUPs during task creation.
+On Fri, Aug 16, 2024 at 09:44:46AM +0100, Catalin Marinas wrote:
 
-I don't like the access_remote_vm() either. In the common (practically
-only) case with CLONE_VM, the mm is actually current->mm, so no need for
-a GUP.
+> We could, in theory, consume this token in the parent before the child
+> mm is created. The downside is that if a parent forks multiple
+> processes using the same shadow stack, it will have to set the token
+> each time. I'd be fine with this, that's really only for the mostly
+> theoretical case where one doesn't use CLONE_VM and still want a
+> separate stack and shadow stack.
 
-We could, in theory, consume this token in the parent before the child
-mm is created. The downside is that if a parent forks multiple
-processes using the same shadow stack, it will have to set the token
-each time. I'd be fine with this, that's really only for the mostly
-theoretical case where one doesn't use CLONE_VM and still want a
-separate stack and shadow stack.
+I originally implemented things that way but people did complain about
+the !CLONE_VM case, which does TBH seem reasonable.  Note that the
+parent won't as standard be able to set the token again - since the
+shadow stack is not writable to userspace by default it'd instead need
+to allocate a whole new shadow stack for each child.
 
-> I don't think they are show stoppers, but the VMA check would be nice to have in
-> the first upstream support.
+I change back to parsing the token in the parent but I don't want to end
+up in a cycle of bouncing between the two implementations depending on
+who's reviewed the most recent version.
 
-Good point.
+--i+AGODBgwk+YiNog
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Catalin
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma/L0wACgkQJNaLcl1U
+h9BKkQf/Tb1CjJ0TFb/grSaBzz9tUOVm5wq48R7CEnmXCbox1sbTUCqom9wLNkPk
+04SjExLevPi/NB9b2P70iBfZzfEiqmrbZEUZZHb7PSLK5xF1QJ6gDlx2wmjXMQP+
+C275u0W6zVCNLpnxBYAxNKWWq+X0eIoch+hzpEk3yHzjUQEFqYjkAJsLhS/qU5dZ
+vRF1DDm1mcxTdV5m4gkMkOgkSDw97s330FFYhL8iSzP05/oQGp5NGX2S9IwJz6OK
+01FwbU/7olCBDK/ZbvUil6Gv42+Z14WLQUTPyEk9a2xzhaJkDjIMo1NFfqIxhbZ0
+hVUF+d4yVftBABef8rjNaQpAClsqiw==
+=JqPA
+-----END PGP SIGNATURE-----
+
+--i+AGODBgwk+YiNog--
 
