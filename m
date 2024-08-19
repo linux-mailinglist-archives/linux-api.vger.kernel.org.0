@@ -1,313 +1,241 @@
-Return-Path: <linux-api+bounces-2196-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2197-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1384095715C
-	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2024 19:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3430B957457
+	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2024 21:26:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 397F21C22235
-	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2024 17:02:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4227D1C229EC
+	for <lists+linux-api@lfdr.de>; Mon, 19 Aug 2024 19:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6B84087C;
-	Mon, 19 Aug 2024 17:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B3BD1D6191;
+	Mon, 19 Aug 2024 19:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hR/ilOzC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NUKxhCQz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B670417BEAB
-	for <linux-api@vger.kernel.org>; Mon, 19 Aug 2024 17:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9444438B;
+	Mon, 19 Aug 2024 19:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724086867; cv=none; b=md9FldbdgN7GyiZAj0HWYWCVT+FCXXv5vqdP+dm8G0/IOBC44Za9g5wH5uds8wwvPMvf+UpPk01l9HNIXIwPHLvvfRvdCPIB+mxZGC68RN7QIyfwDtSF29lnB5ciRw9fRDM2YuP6yaw9XNKIcK+UeQbv535BkQXSXolkdP624sc=
+	t=1724095568; cv=none; b=CJCrFxY+pkV6ADaqPZJGMhQa+O9S1qALL8pgBCF91HGNidYlfUaP+dFDgAqR81jgh3LZALP1TYBp8EkRgzMJFXxjRYzoGvNr67i4WTkDb0i0bKiCyF1eScnx8wKFellcXirLVc51oNMRtDW4E/00oRoXpQOOfxr9f91GDySytjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724086867; c=relaxed/simple;
-	bh=ZtX2zam0FT/hFX74bfMDbN5fKKbjL8LUsshVOfW6MUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FmyqsCEal+3Soj/md1VI6uHN5pMU2BsPmlNlP518ejryHW24A1hSlRjuoT27ZRCfTn24L7tvA1kua6dadAX44O0d393qsib2X8DprrYjQka+x8/PVWJUp3kcgsLsePMXBvW1NbPXOp3WdLtUnNd/wBajr9DpGZzu5cVSAyobBSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hR/ilOzC; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201df0b2df4so35103265ad.0
-        for <linux-api@vger.kernel.org>; Mon, 19 Aug 2024 10:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724086865; x=1724691665; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8kCQe9G/ESsT5mGMR2/0Q1jS/fZ3F9lMSZDT/xQTaFw=;
-        b=hR/ilOzCBUfBR13kj4mjTSRfnb6k8SHsA/Sh18pGmU117LUbDakCyWgFKV6VVVizYP
-         oq5cpNct7fYMNgAIzpoJ0T3GaYpeqc8NnPr6TvSXI/sYdZ1UL1TxA+hXAshgtRe4HC6A
-         HwYTLJmD9s5xrttCLxKX/J8MAXMFjTX0zi/ouTxoOAsB9XTQyExUa27JlTQNUMlRsNCt
-         ezO8c0iSEYJbVsAiKPtF9kzHC/qXhchxUkVSSojAK5KeaOi4T2sMCYxUy9FFi1Nq9Y2U
-         xaN10UKBUBYbEZlVtz6TAElINektYMtDF6caB39BowQG9WPaWq9a700ESnjnR9wShO0Z
-         Cylg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724086865; x=1724691665;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8kCQe9G/ESsT5mGMR2/0Q1jS/fZ3F9lMSZDT/xQTaFw=;
-        b=G2EGCIV44nVsoyYQBEeEnQFZjC1l/5VBmZRB+prCtlX/FrwolqJeUNbhEmIzkS1f+I
-         r439fn/felOC3sCV6tA/CrexeKQWV3eYBDF5S9vsXxj3BzxSNfCrfNZvOTaPRF0eDbTe
-         MT+4XrpfgO7tQub9asMhx5zAjPXl3us394098pfPWKnjQpwdOf/hxz2okKZ56RK+0whB
-         CL46EgXm7EPYZjih0NTQTqhE9dmzUtF+Clg7NzfZ5sKmOjUSBqgi7skj7N0cnhJSI+Z3
-         Xkj2DE1wfft6VxOl0ovz+AuIVGhbtXXzNXYNRdaB8VCYHE7gK1Fw39zjJHTvRhvNx7Ji
-         UlNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/p1TGmOAubcesD/+IeCwmJ2TXfLBqJnz78onHex2MFvk+xUhfoyCovUgiT467vlRsFmT5e3pv0mfIwoExP/s/uJsJ2VKE0ZPA
-X-Gm-Message-State: AOJu0YxSyHmjPNSuB/aLYTZJqnmBqj4AwZuhopg/ojmb/G5n3a7GFmmq
-	OmEfQfzRYUKM/20qjHDjmbDg+6n3687XzQ9glikryNzzzrdjHIxiMvlRrLJQNW0=
-X-Google-Smtp-Source: AGHT+IHut0PifcKMMGeqhfJ8yiuVWQ7wXVh2IejTYX1LXvOUkkJjf0fMHibwkq8TDuAnUw+VWMtRMQ==
-X-Received: by 2002:a17:902:e74d:b0:202:244e:a0b3 with SMTP id d9443c01a7336-202244ea2admr94263185ad.46.1724086864336;
-        Mon, 19 Aug 2024 10:01:04 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f02fa4d5sm65079055ad.41.2024.08.19.10.01.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 10:01:03 -0700 (PDT)
-Date: Mon, 19 Aug 2024 10:00:55 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Levi Zim <rsworktech@outlook.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, cyy@cyyself.name,
-	alexghiti@rivosinc.com, Paul Walmsley <paul.walmsley@sifive.com>,
-	aou@eecs.berkeley.edu, shuah@kernel.org, corbet@lwn.net,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] riscv: mm: Use hint address in mmap if available
-Message-ID: <ZsN6R8IliKzAKKMb@ghost>
-References: <mhng-5d9bb6c0-9f40-44b2-b9dc-3823cf6dbdef@palmer-ri-x1c9>
- <MEYP282MB2312106710775098261AB348C68C2@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1724095568; c=relaxed/simple;
+	bh=pj9y3YT21eohJt+VRvR27VYmk6fPSiEjMjB6/3OpFns=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=k+pC19tmW7R5yn31frbgOZ5HjHkBftu6j5hwoazOszMwiZvkiuqGTVkCdZrm5IRRihugNetv8xiFCLVO+Gbf5+FIZWe6q2KY9eE4rMLXcehb831vBX1X+riN5LCc7BPPnM+uuUqRZWxXA4EEYKJOqePFrjtBVMvp+wxpAZCNJmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NUKxhCQz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C024C32782;
+	Mon, 19 Aug 2024 19:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724095567;
+	bh=pj9y3YT21eohJt+VRvR27VYmk6fPSiEjMjB6/3OpFns=;
+	h=From:Subject:Date:To:Cc:From;
+	b=NUKxhCQzPjbsk5Mx+nTn/omrUyLWeUwzwLrkc2tXxAbYVSbt5IiWGxQQMFtZz6kV7
+	 9yTjiygcVaVxwE709tpyTMFE2nAqn8zI3ExRD9tGvdCRijMGCzLBgKLDujMI0duuyn
+	 SpkYhAXeNekHf69NZeTqaNJ7NIn1bB5Yc02yYOuXxoeBsWCV8MjaFHE9+YP5pVWhez
+	 GHs2Q89DeXc+MO8OmNlpe9/zW8bj1mtDP8Sr8qb/uOgialb3mrx/9Ih0MXj6K7oH4j
+	 tBrlfXw5cR6nTcv+SxYgvvSQ3xo5wZ/tmTy8Q1gmuvSwYU4EfeFUlzm09TF1HujBYH
+	 6DY+MGpQYH9pg==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v9 0/8] fork: Support shadow stacks in clone3()
+Date: Mon, 19 Aug 2024 20:24:21 +0100
+Message-Id: <20240819-clone3-shadow-stack-v9-0-962d74f99464@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <MEYP282MB2312106710775098261AB348C68C2@MEYP282MB2312.AUSP282.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOWbw2YC/3XQS07DMBCA4atUXmPkGb9ZseIAiB1i4ce4jVolK
+ KkCqMrdMUEoRUmX45G/kf4LG6hvaGAPuwvraWyGpmvr4O92LB1Cuyfe5DozFChBgOfp1LUk+XA
+ IufvgwzmkIwedlcgYi5aG1Z/vPZXmc1Zf2fPTC3urj4dmOHf913xphHn1i6LcREfggmdnbBax+
+ lk8Hqlv6XTf9fsZHHFBANQ2ghWJBmRxxgFovULkFYJiG5EVCTY6ypIwpLRC1DXithFVERfRlUK
+ qGGtWiP5DlEBxo4muiERMxmvvSMUVYhbE3AprKuKJrHUyQol+hdgFsRK2EfvTxGuJRLFEyCvEL
+ YgTN5q4ioiQirQpFFD/w07T9A35bPscnwIAAA==
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ Yury Khrustalev <yury.khrustalev@arm.com>, 
+ Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Kees Cook <kees@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ David Hildenbrand <david@redhat.com>, 
+ "Mike Rapoport (IBM)" <rppt@kernel.org>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7108; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=pj9y3YT21eohJt+VRvR27VYmk6fPSiEjMjB6/3OpFns=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmw5xCPnGVaM6Sgr1IfiZ3Ls92yLT15FEAMtV3vI++
+ 3taK6uyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZsOcQgAKCRAk1otyXVSH0IvjB/
+ 4hXHaihaez12Aje5MKKzddyRykJhlz/p5wFEStp61TouaaiXMNsom+T28MRMzSn+qPPYcY4aPYUJUR
+ qwswRFIX+IbqsnxI1ve4kOMY8nPWEWJcGZIBSzLonyqP+rfXdgQYSJGiXoRp0hVuyN+jAIgDv6LVJX
+ L6MCKCWiIGnGwc0qShxHAKolGr7LzvG+O3siranfoeW4Tej3RdlklPpb4RAkuDlHuHxk/oNIYwRfsz
+ 1fnl5WUX0ZZdzfDEY+SH/F/owjfsFC76MDJt5gPbtRnqNkVy/SbBVlfdBdnRxrAAuuUewcnlg4rUPo
+ Rb1pJJpGqYyiS5Hn2EhO3M3AJbi2x6
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, Aug 19, 2024 at 01:55:57PM +0800, Levi Zim wrote:
-> On 2024-03-22 22:06, Palmer Dabbelt wrote:
-> > On Thu, 01 Feb 2024 18:28:06 PST (-0800), Charlie Jenkins wrote:
-> > > On Wed, Jan 31, 2024 at 11:59:43PM +0800, Yangyu Chen wrote:
-> > > > On Wed, 2024-01-31 at 22:41 +0800, Yangyu Chen wrote:
-> > > > > On Tue, 2024-01-30 at 17:07 -0800, Charlie Jenkins wrote:
-> > > > > > On riscv it is guaranteed that the address returned by mmap is less
-> > > > > > than
-> > > > > > the hint address. Allow mmap to return an address all the way up to
-> > > > > > addr, if provided, rather than just up to the lower address space.
-> > > > > > > > This provides a performance benefit as well, allowing
-> > > > mmap to exit
-> > > > > > after
-> > > > > > checking that the address is in range rather than searching for a
-> > > > > > valid
-> > > > > > address.
-> > > > > > > > It is possible to provide an address that uses at most the same
-> > > > > > number
-> > > > > > of bits, however it is significantly more computationally expensive
-> > > > > > to
-> > > > > > provide that number rather than setting the max to be the hint
-> > > > > > address.
-> > > > > > There is the instruction clz/clzw in Zbb that returns the highest
-> > > > > > set
-> > > > > > bit
-> > > > > > which could be used to performantly implement this, but it would
-> > > > > > still
-> > > > > > be slower than the current implementation. At worst case, half of
-> > > > > > the
-> > > > > > address would not be able to be allocated when a hint address is
-> > > > > > provided.
-> > > > > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > > > ---
-> > > > > >  arch/riscv/include/asm/processor.h | 27 +++++++++++---------------
-> > > > > > -
-> > > > > >  1 file changed, 11 insertions(+), 16 deletions(-)
-> > > > > > > > diff --git a/arch/riscv/include/asm/processor.h
-> > > > > > b/arch/riscv/include/asm/processor.h
-> > > > > > index f19f861cda54..8ece7a8f0e18 100644
-> > > > > > --- a/arch/riscv/include/asm/processor.h
-> > > > > > +++ b/arch/riscv/include/asm/processor.h
-> > > > > > @@ -14,22 +14,16 @@
-> > > > > >
-> > > > > >  #include <asm/ptrace.h>
-> > > > > >
-> > > > > > -#ifdef CONFIG_64BIT
-> > > > > > -#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
-> > > > > > -#define STACK_TOP_MAX        TASK_SIZE_64
-> > > > > > -
-> > > > > >  #define arch_get_mmap_end(addr, len, flags)            \
-> > > > > >  ({                                \
-> > > > > >      unsigned long
-> > > > > > mmap_end;                    \
-> > > > > >      typeof(addr) _addr = (addr);                \
-> > > > > > -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
-> > > > > > is_compat_task())) \
-> > > > > > +    if ((_addr) == 0 ||                    \
-> > > > > > +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
-> > > > > > +        ((_addr + len) > BIT(VA_BITS -
-> > > > > > 1)))            \
-> > > > > >          mmap_end = STACK_TOP_MAX;            \
-> > > > > > -    else if ((_addr) >= VA_USER_SV57) \
-> > > > > > -        mmap_end = STACK_TOP_MAX;            \
-> > > > > > -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
-> > > > > > VA_BITS_SV48)) \
-> > > > > > -        mmap_end = VA_USER_SV48;            \
-> > > > > >      else                            \
-> > > > > > -        mmap_end = VA_USER_SV39;            \
-> > > > > > +        mmap_end = (_addr + len);            \
-> > > > > >      mmap_end;                        \
-> > > > > >  })
-> > > > > >
-> > > > > > @@ -39,17 +33,18 @@
-> > > > > >      typeof(addr) _addr = (addr);                \
-> > > > > >      typeof(base) _base = (base);                \
-> > > > > >      unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base);    \
-> > > > > > -    if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) &&
-> > > > > > is_compat_task())) \
-> > > > > > +    if ((_addr) == 0 ||                    \
-> > > > > > +        (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||    \
-> > > > > > +        ((_addr + len) > BIT(VA_BITS -
-> > > > > > 1)))            \
-> > > > > >          mmap_base = (_base);                \
-> > > > > > -    else if (((_addr) >= VA_USER_SV57) && (VA_BITS >=
-> > > > > > VA_BITS_SV57)) \
-> > > > > > -        mmap_base = VA_USER_SV57 - rnd_gap; \
-> > > > > > -    else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >=
-> > > > > > VA_BITS_SV48)) \
-> > > > > > -        mmap_base = VA_USER_SV48 - rnd_gap; \
-> > > > > >      else                            \
-> > > > > > -        mmap_base = VA_USER_SV39 - rnd_gap; \
-> > > > > > +        mmap_base = (_addr + len) - rnd_gap; \
-> > > > > >      mmap_base;                        \
-> > > > > >  })
-> > > > > >
-> > > > > > +#ifdef CONFIG_64BIT
-> > > > > > +#define DEFAULT_MAP_WINDOW    (UL(1) << (MMAP_VA_BITS - 1))
-> > > > > > +#define STACK_TOP_MAX        TASK_SIZE_64
-> > > > > >  #else
-> > > > > >  #define DEFAULT_MAP_WINDOW    TASK_SIZE
-> > > > > >  #define STACK_TOP_MAX        TASK_SIZE
-> > > > > > > > I have carefully tested your patch on qemu with sv57. A
-> > > > bug that
-> > > > > needs
-> > > > > to be solved is that mmap with the same hint address without
-> > > > > MAP_FIXED
-> > > > > set will fail the second time.
-> > > > > > Userspace code to reproduce the bug:
-> > > > > > #include <sys/mman.h>
-> > > > > #include <stdio.h>
-> > > > > #include <stdint.h>
-> > > > > > void test(char *addr) {
-> > > > >     char *res = mmap(addr, 4096, PROT_READ | PROT_WRITE,
-> > > > > MAP_ANONYMOUS
-> > > > > > MAP_PRIVATE, -1, 0);
-> > > > >     printf("hint %p got %p.\n", addr, res);
-> > > > > }
-> > > > > > int main (void) {
-> > > > >     test(1<<30);
-> > > > >     test(1<<30);
-> > > > >     test(1<<30);
-> > > > >     return 0;
-> > > > > }
-> > > > > > output:
-> > > > > > hint 0x40000000 got 0x40000000.
-> > > > > hint 0x40000000 got 0xffffffffffffffff.
-> > > > > hint 0x40000000 got 0xffffffffffffffff.
-> > > > > > output on x86:
-> > > > > > hint 0x40000000 got 0x40000000.
-> > > > > hint 0x40000000 got 0x7f9171363000.
-> > > > > hint 0x40000000 got 0x7f9171362000.
-> > > > > > It may need to implement a special arch_get_unmapped_area and
-> > > > > arch_get_unmapped_area_topdown function.
-> > > > >
-> > > > This is because hint address < rnd_gap. I have tried to let mmap_base =
-> > > > min((_addr + len), (base) + TASK_SIZE - DEFAULT_MAP_WINDOW). However it
-> > > > does not work for bottom-up while ulimit -s is unlimited. You said this
-> > > > behavior is expected from patch v2 review. However it brings a new
-> > > > regression even on sv39 systems.
-> > > > 
-> > > > I still don't know the reason why use addr+len as the upper-bound. I
-> > > > think solution like x86/arm64/powerpc provide two address space switch
-> > > > based on whether hint address above the default map window is enough.
-> > > > 
-> > > 
-> > > Yep this is expected. It is up to the maintainers to decide.
-> > 
-> > Sorry I forgot to reply to this, I had a buffer sitting around somewhere
-> > but I must have lost it.
-> > 
-> > I think Charlie's approach is the right way to go.  Putting my userspace
-> > hat on, I'd much rather have my allocations fail rather than silently
-> > ignore the hint when there's memory pressure.
-> > 
-> > If there's some real use case that needs these low hints to be silently
-> > ignored under VA pressure then we can try and figure something out that
-> > makes those applications work.
-> 
-> I could confirm that this patch has broken chromium's partition allocator on
-> riscv64. The minimal reproduction I use is chromium-mmap.c:
-> 
-> #include <stdio.h>
-> #include <sys/mman.h>
-> 
-> int main() {
->     void* expected = (void*)0x400000000;
->     void* addr = mmap(expected, 17179869184, PROT_NONE,
-> MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
->     if (addr != expected) {
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-It is not valid to assume that the address returned by mmap will be the
-hint address. If the hint address is not available, mmap will return a
-different address.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
->         printf("Not expected address: %p != %p\n", addr, expected);
->     }
->     expected = (void*)0x3fffff000;
->     addr = mmap(expected, 17179873280, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS,
-> -1, 0);
->     if (addr != expected) {
->         printf("Not expected address: %p != %p\n", addr, expected);
->     }
->     return 0;
-> }
-> 
-> The second mmap fails with ENOMEM. Manually reverting this commit fixes the
-> issue for me. So I think it's clearly a regression and breaks userspace.
-> 
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process in a similar manner
+to how the normal stack is specified, keeping the current implicit
+allocation behaviour if one is not specified either with clone3() or
+through the use of clone().  The user must provide a shadow stack
+address and size, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with a shadow stack token at the top of the
+stack.
 
-The issue here is that overlapping memory is being requested. This
-second mmap will never be able to provide an address at 0x3fffff000 with
-a size of 0x400001000 since mmap just provided an address at 0x400000000
-with a size of 0x400000000.
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET avaible to me, I have
+done testing with an integration into my pending work for GCS.  There is
+some possibility that the arm64 implementation may require the use of
+clone3() and explicit userspace allocation of shadow stacks, this is
+still under discussion.
 
-Before this patch, this request causes mmap to return a completely
-arbitrary value. There is no reason to use a hint address in this manner
-because the hint can never be respected. Since an arbitrary address is
-desired, a hint of zero should be used.
+Please further note that the token consumption done by clone3() is not
+currently implemented in an atomic fashion, Rick indicated that he would
+look into fixing this if people are OK with the implementation.
 
-This patch causes the behavior to be more deterministic. Instead of
-providing an arbitrary address, it causes the address to be less than or
-equal to the hint address. This allows for applications to make
-assumptions about the returned address.
+A new architecture feature Kconfig option for shadow stacks is added as
+here, this was suggested as part of the review comments for the arm64
+GCS series and since we need to detect if shadow stacks are supported it
+seemed sensible to roll it in here.
 
-This code is unfortunately relying on the previously mostly undefined
-behavior of the hint address in mmap. The goal of this patch is to help
-developers have more consistent mmap behavior, but maybe it is necessary
-to hide this behavior behind an mmap flag.
+[1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
 
-- Charlie
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v9:
+- Pull token validation earlier and report problems with an error return
+  to parent rather than signal delivery to the child.
+- Verify that the top of the supplied shadow stack is VM_SHADOW_STACK.
+- Rework token validation to only do the page mapping once.
+- Drop no longer needed support for testing for signals in selftest.
+- Fix typo in comments.
+- Link to v8: https://lore.kernel.org/r/20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org
 
-> See also https://github.com/riscv-forks/electron/issues/4
-> 
-> > > 
-> > > - Charlie
-> 
-> Sincerely,
-> Levi
-> 
+Changes in v8:
+- Fix token verification with user specified shadow stack.
+- Don't track user managed shadow stacks for child processes.
+- Link to v7: https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
+
+Changes in v7:
+- Rebase onto v6.11-rc1.
+- Typo fixes.
+- Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
+
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (8):
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  41 ++++
+ arch/x86/Kconfig                                  |   1 +
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           | 103 +++++++---
+ fs/proc/task_mmu.c                                |   2 +-
+ include/linux/mm.h                                |   2 +-
+ include/linux/sched/task.h                        |  18 ++
+ include/uapi/linux/sched.h                        |  13 +-
+ kernel/fork.c                                     | 114 +++++++++--
+ mm/Kconfig                                        |   6 +
+ tools/testing/selftests/clone3/clone3.c           | 230 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  40 +++-
+ tools/testing/selftests/ksft_shstk.h              |  63 ++++++
+ 15 files changed, 560 insertions(+), 87 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
 
