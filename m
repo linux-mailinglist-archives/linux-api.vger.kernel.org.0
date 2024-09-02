@@ -1,151 +1,109 @@
-Return-Path: <linux-api+bounces-2275-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2276-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892E29682BE
-	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 11:10:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D25968719
+	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 14:07:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAFC81C22398
-	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 09:10:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D7E11F24512
+	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 12:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BF3185B69;
-	Mon,  2 Sep 2024 09:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33FD620010F;
+	Mon,  2 Sep 2024 12:07:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GvS4fPt+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iGX83XVz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RA+a4TzH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3BC2D7B8;
-	Mon,  2 Sep 2024 09:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FC8200101
+	for <linux-api@vger.kernel.org>; Mon,  2 Sep 2024 12:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725268220; cv=none; b=re4K1CO/tAeMTaHVHdxzhd/St42SnX+mgRRWVkIRZ0GngK9XLOhaGQtcW4mMpv1aGDd+GhuD97BQPeNHamcm0P9fK4GoYutAYWrdSLpmdv12nRAThYqofNwOJUUqqiR6VQo9sSakDh6hfl8Hwt0N9niTbYDhUXwgnLhlhSKFA7k=
+	t=1725278868; cv=none; b=XevLrQPouoNB3hHFbPWbxakLiVgZdtwHZSmq4rQc1cdBlxvJyZrLau2GuOmoZzBbTauAcQdNOep2hN+leohwKRoKV8J6ddiFTDscw9Gbdw00s2IVhMIord77UDESH5XYDasbcTZ6WW1LMqpZ853FJujT4jSl4kCJBAfwXNOJSb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725268220; c=relaxed/simple;
-	bh=6j0Oy77vc3k7Bm97cy+0sWSoGWBccV07dWxxIiN5yTg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Zqp0Fzo+ZLv20DTDKqr3aqKRm2M049hrznqUNCujMSTzUVBg938+4vbjfThCo3hGIRG6U12XAckqzNmEPom5y597Q+2CQmKclKqxr7Ffi3xC6BrR/lJXooQ7aSBRCuVpMS1s/MGt/rUlg/0KzsIKDN5qKMkdCubrolhYXjBvI4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GvS4fPt+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iGX83XVz; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id DA62111402A6;
-	Mon,  2 Sep 2024 05:10:17 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-04.internal (MEProxy); Mon, 02 Sep 2024 05:10:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1725268217;
-	 x=1725354617; bh=bzaUZvBR6GY2fVCjdmz9wFgI6HiU4z7HCwf2miDnwYA=; b=
-	GvS4fPt+9jtPThPXCzHUZbVhVte9hekuZsxDuetitVoYOHcXDzlGMvxagUBSBs+Y
-	gWO1ZjbblIjtYEFSzM7Cy6+3L7hgXo2jSMqusFnu1BWonO9x7qPADYCEKnUiJqg8
-	KNNnmP0fgYOin2LxZCw1SkZl2oUV+V/R2Sd493BivMAq6H9fWoXXtGYBojuGgZkr
-	uYIskeOO645P/8et/V11ne5V6yr7YeLuBLTQ3j75wuQDyLmeiCSwexNxN6UXZmiY
-	l9lPBSCFOV3FuLJEC7N1RcdAijZtipDtn9e0lCcVwlBM7asEO+Bh+D2wNUBC1lKE
-	p39I8IBv/2JrfjzHNrLFfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725268217; x=
-	1725354617; bh=bzaUZvBR6GY2fVCjdmz9wFgI6HiU4z7HCwf2miDnwYA=; b=i
-	GX83XVzAoGLYdZx2vbv5UP4w29BGMp9szfjvexA7zY/zvv+cpwxcXp7HTdXqLgCK
-	a1Sl5CVaCmF6wjx/PS54odSwp6n5VOPgXNcjOHESt20QrGIJygkBGYCoBbnbpc6W
-	pZx2qTIpy5Rzg5rICCypPmIftKnFC4RqDdAa6u9q+ug40IYF5a/lRHQnfE4TKTHg
-	Rmf2v1CxAnNAyXxenNYkpAQkjb8ajh6+SHVY027B4IPDGxM7D/Q1nNKU4Vnh8zgh
-	mnFceguqwrlh3qtBiAcCCwT5DqqgI+s6l29Vym8SH29NrBWxvm7yYIv5MEuS6BdW
-	pjMrWBntCChPZvy7fExgA==
-X-ME-Sender: <xms:-YDVZoJtGIfQ-SaB70EHDJmU1AS_aHtyq9G07YCD9ka7SFfK2G7jUQ>
-    <xme:-YDVZoKIl28I_f7LJnmk0YVmkDyO2srCnsC_PVxPIidohgDF3H5AmAGZGc6xQIXmv
-    FK-qmbi5j7ms_BiG_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehfedguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdef
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeguihgvthhmrghrrdgvghhgvghmrg
-    hnnhesrghrmhdrtghomhdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdr
-    tghomhdprhgtphhtthhopegthihphhgrrhestgihphhhrghrrdgtohhmpdhrtghpthhtoh
-    eprhhoshhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopegsshgvghgrlhhl
-    sehgohhoghhlvgdrtghomhdprhgtphhtthhopehpvghtvghriiesihhnfhhrrgguvggrug
-    drohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehkvggvsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhuhgrhheskhgvrh
-    hnvghlrdhorhhg
-X-ME-Proxy: <xmx:-YDVZotDYjNwOLmbepGuzRbve8dpg4PUkv-Z3Z5HZ4thEqpif7IOFw>
-    <xmx:-YDVZlYQjTxLpm4yBsjpAQNUQK56ngTLtrSpT_4M6EI8MfCOstHtAg>
-    <xmx:-YDVZvb8SGQi2U9tYXOv94ItwL-JifN3KKNb6FctzcRFlq2JVp6zow>
-    <xmx:-YDVZhBVB07Hh6OWpB_irfc3Q8tn58t4BJbVaJHchXxoOgq9Jz6ecQ>
-    <xmx:-YDVZsJwLH0OCSZIqhg0QIi80Ml9hJvUQLfbZ2iagsSkpsES3sM5MBEJ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 3C9DA2220083; Mon,  2 Sep 2024 05:10:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1725278868; c=relaxed/simple;
+	bh=cNfn8v57qzoh4X8pwiukWydCJ1lDZU4LMycDmGx9rY0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ceX5fYftEkAjNkRak3oduDu1laQAXW7qsVCoetnCjO0c0K/dy5f3zJm6YxbzmX1gCNVfPgXfx0aSVPCHq6AIrW3L/Q3UjcjbdJb9r1NKGIG3YTpxOqnYZC7PY0BNB/Hi141Q+032qjYbZvgiNmIieuCBilW+a120cSQoWQPHGj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RA+a4TzH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725278865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pjOW0E49Yqw0mfiCURQMWGxKRTpi1ev/eO7YHhvgkrY=;
+	b=RA+a4TzHDooF9t2syeJfnaOAtINCfXQebUq8fbaeU+9O2ajFEGDpIBi8O/qGO7trFvJT3n
+	vxY+PQvc+14nNo2WQAoZuRmlZAD7VH9eokd0JYtoLZ1WL7WdSPGPqkub+WVeR8yGaXvqG6
+	jaa7RhMd4pEUlR8w8KmzkVDrvQLk53I=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-204-CfVNYkG0OgOLqsUrGaZQyA-1; Mon,
+ 02 Sep 2024 08:07:44 -0400
+X-MC-Unique: CfVNYkG0OgOLqsUrGaZQyA-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 46F441956080;
+	Mon,  2 Sep 2024 12:07:42 +0000 (UTC)
+Received: from oldenburg3.str.redhat.com (unknown [10.39.194.42])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29DF61956048;
+	Mon,  2 Sep 2024 12:07:39 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Rich Felker <dalias@libc.org>
+Cc: "H.J. Lu" <hjl.tools@gmail.com>,  Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>,  linux-api@vger.kernel.org,
+  libc-alpha@sourceware.org,  musl@lists.openwall.com
+Subject: Re: [musl] AT_MINSIGSTKSZ mismatched interpretation kernel vs libc
+In-Reply-To: <20240831154101.GN32249@brightrain.aerifal.cx> (Rich Felker's
+	message of "Sat, 31 Aug 2024 11:41:02 -0400")
+References: <20240829205436.GA14562@brightrain.aerifal.cx>
+	<20240831092902.GA2724612@port70.net>
+	<20240831150241.GP10433@brightrain.aerifal.cx>
+	<CAMe9rOqSSX_YP7dq5WK7vDyrQ5RP6nUNrim-8FjJi1X_8NfAvg@mail.gmail.com>
+	<20240831154101.GN32249@brightrain.aerifal.cx>
+Date: Mon, 02 Sep 2024 14:07:36 +0200
+Message-ID: <87v7zetg1j.fsf@oldenburg3.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 02 Sep 2024 09:09:55 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Aleksa Sarai" <cyphar@cyphar.com>, "Ingo Molnar" <mingo@redhat.com>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Juri Lelli" <juri.lelli@redhat.com>,
- "Vincent Guittot" <vincent.guittot@linaro.org>,
- "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Benjamin Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
- "Valentin Schneider" <vschneid@redhat.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- shuah <shuah@kernel.org>
-Cc: "Kees Cook" <kees@kernel.org>, "Florian Weimer" <fweimer@redhat.com>,
- "Mark Rutland" <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org
-Message-Id: <63193b87-7057-4ad0-aef2-fdb5d15138c3@app.fastmail.com>
-In-Reply-To: 
- <20240902-extensible-structs-check_fields-v1-3-545e93ede2f2@cyphar.com>
-References: 
- <20240902-extensible-structs-check_fields-v1-0-545e93ede2f2@cyphar.com>
- <20240902-extensible-structs-check_fields-v1-3-545e93ede2f2@cyphar.com>
-Subject: Re: [PATCH RFC 3/8] openat2: explicitly return -E2BIG for (usize > PAGE_SIZE)
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Mon, Sep 2, 2024, at 07:06, Aleksa Sarai wrote:
-> While we do currently return -EFAULT in this case, it seems prudent to
-> follow the behaviour of other syscalls like clone3. It seems quite
-> unlikely that anyone depends on this error code being EFAULT, but we can
-> always revert this if it turns out to be an issue.
+* Rich Felker:
 
-Right, it's probably a good idea to have a limit there rather than
-having a busy loop with a user-provided length when the only bound is
-the available virtual memory.
+> This is ambiguously worded (does "operating system" mean kernel?) and
+> does not agree with POSIX, which defines it as:
+>
+>     Minimum stack size for a signal handler.
+>
+> And otherwise just specifies that sigaltstack shall fail if given a
+> smaller size.
+>
+> The POSIX definition is also underspecified but it's clear that it
+> should be possible to execute at least a do-nothing signal handler
+> (like one which immediately returns and whose sole purpose is to
+> induce EINTR when intalled without SA_RESTART), or even a minimal one
+> that does something like storing to a global variable, with such a
+> small stack. Allowing a size where even a do-nothing signal handler
+> results in a memory-clobbering overflow or access fault seems
+> non-conforming to me.
 
->  	if (unlikely(usize < OPEN_HOW_SIZE_VER0))
->  		return -EINVAL;
-> +	if (unlikely(usize > PAGE_SIZE))
-> +		return -E2BIG;
-> 
+POSIX does not specify what happens on a stack overflow (or more
+generally, if most resource limits are exceeded), so I think the
+behavior is conforming on a technicality.
 
-Is PAGE_SIZE significant here? If there is a need to enforce a limit,
-I would expect this to be the same regardless of kernel configuration,
-since the structure layout is also independent of the configuration.
+Thanks,
+Florian
 
-Where is the current -EFAULT for users passing more than a page?
-I only see it for reads beyond the VMA, but not e.g. when checking
-terabytes of zero pages from an anonymous mapping.
-
-    Arnd
 
