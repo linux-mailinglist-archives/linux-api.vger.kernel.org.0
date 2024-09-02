@@ -1,121 +1,182 @@
-Return-Path: <linux-api+bounces-2280-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2281-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C95F9689A4
-	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 16:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE8E968B7F
+	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 18:03:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A57B28455E
-	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 14:16:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB107281B46
+	for <lists+linux-api@lfdr.de>; Mon,  2 Sep 2024 16:03:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3407519F139;
-	Mon,  2 Sep 2024 14:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50C9C1A3026;
+	Mon,  2 Sep 2024 16:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9ii7mo0"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="yT7+80O+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E356AEC4;
-	Mon,  2 Sep 2024 14:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4E442AB7;
+	Mon,  2 Sep 2024 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725286605; cv=none; b=Um5/ZWmJoY2actpYkUp0lbNubhtDbht+ej3eJFZyRCeIt8uCrJVFs3MeIItui/3deRBqUJWyMVg/pzAPSH2qxSxKFvObFrRuS1omij9Km8K9B0uzUBYd9r4sqoFcdKqsBYocJAdiRnyFv58v6WQHusxbwMgDng50LvmXOS8Q3HY=
+	t=1725292984; cv=none; b=KFm49FngRPFEsBoT2KfDxyTVno/Cf0f30Foc/MW4esPxTsc5Xf8bjdkoKnuQY28jRXGGISbYYJuMbTWDqxe0N85/iJKjISYohykcgMWXE++DRKfdK2ZAno40HMZvT9YSTQXUg+lmXVEkjoVibb7lVDEmGECXE4Tk8p9RhKyeFGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725286605; c=relaxed/simple;
-	bh=pZJKuEon2kw+wY+aGvN7XrGtdhq0gfM6kzmz3gvUazs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZPWgDSDgKgHBDtT4QgVuDeaUhMjYxbQh1Tpy/qSKBPpneE6deDpqlZkXU4bZQ9InM5G76I7lVfOfAKGYWXwNqJdorl/RH9o512G0TZjd0HCy1wz3Iv85esGmNLJVEvM2E1jy4Gc2wLOvrS4GZqI3AMBnCiLxvj7qonDhbGxndyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9ii7mo0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D79C4CEC2;
-	Mon,  2 Sep 2024 14:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725286604;
-	bh=pZJKuEon2kw+wY+aGvN7XrGtdhq0gfM6kzmz3gvUazs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R9ii7mo0bwkh9Tff/Ayvgd4ezPg4AdPdHFqzl5k/LyQX+7xGG9YC/4HzH5Yka6hh8
-	 zfwmEjNt6bCuxfsTEj/SpPmpCoPNM5MR24kKyejKV3x5ibhjireFoqEWPg3/ICePwG
-	 1mH2Ckn8PzplJvzqgmsKTGpCzQuxqqFxzzlj5x9KGTzH2yUwqw+XcA7NwDrrc/Va74
-	 HCBImnOz0lIgGyvL2YuHgPwFEySUg27jZNBrf9EngUpvAMD+i4iV7xwxj4r0MkI+3j
-	 PrD+qUjpPInBSqhj9EsCBnFA5r6aeLKvY0S745jGoY8YEGAOogZtBXGcGAChfcn8Qs
-	 beJjOa2d/rGnQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Subject: Re: [PATCH RESEND v3 0/2] fhandle: expose u64 mount id to name_to_handle_at(2)
-Date: Mon,  2 Sep 2024 16:16:31 +0200
-Message-ID: <20240902-klargemacht-hellt-2afa8847aed6@brauner>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240828-exportfs-u64-mount-id-v3-0-10c2c4c16708@cyphar.com>
-References: <20240828-exportfs-u64-mount-id-v3-0-10c2c4c16708@cyphar.com>
+	s=arc-20240116; t=1725292984; c=relaxed/simple;
+	bh=0JjunB37iEzXMOdt1r0c+A6zpwOdxB9KTs1TOBOETQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=esDtetWJjufJwUCAlRVuvdtAxkajUP5+ErsjMt/7kj+Lzbas0k5QutRh0i5DdRhxndPi1uW5j3Y5eSkjOdyzkZ2eXeCu3hT7T3K332aoYBbF+ZYQpZRy56n8YxWBENApsY+aQYbrQG8PbMYl4IKdlsBY55b4v0zfcosjpqgU6D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=yT7+80O+; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4WyD755BNrz9spX;
+	Mon,  2 Sep 2024 18:02:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1725292977;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/WAo2wEKoXQ1DpuWFNQF/dhkLU3MgM/L7pMsMzDa3U=;
+	b=yT7+80O+kLvfJIrums1mfAqfnvoGfVHmaHUI+A/suaeyi/wLufx8aoPjR6TGbQJMA6pIFn
+	afRiGRZ8YQUI/ph+gpDduYcnhcUVbDMYti4YUKKPU0FZUFpkZUHZFMZlNONPEsh5QojeLG
+	TkH8TKJ+jyILftA8RMkFHvCz/DMnt7WcDIZ9dQ/uNANWE0ZiWO9fq2JaxSXo+7cWHH6nMz
+	iF22V25OedR07/sWWrqyaKokkeL1FIDzPQ//+onct3j12jk/ANX5Invv8QIz6YIDMZ5Jvh
+	/rOdEQkdo2iTwwZ8fM7yBib0eEieFm3Mz5GKE9Hf0Jyg7f1autSh3UZdhXEbjg==
+Date: Tue, 3 Sep 2024 02:02:39 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Benjamin Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, shuah <shuah@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Florian Weimer <fweimer@redhat.com>, 
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 1/8] uaccess: add copy_struct_to_user helper
+Message-ID: <20240902.090015-soviet.bowling.selfish.chin-kvAI3lnuyqH@cyphar.com>
+References: <20240902-extensible-structs-check_fields-v1-0-545e93ede2f2@cyphar.com>
+ <20240902-extensible-structs-check_fields-v1-1-545e93ede2f2@cyphar.com>
+ <319c0da6-3d9c-4b45-a14c-07c5bbc3afb7@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1692; i=brauner@kernel.org; h=from:subject:message-id; bh=pZJKuEon2kw+wY+aGvN7XrGtdhq0gfM6kzmz3gvUazs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaRdPXFgQtSmpg2qx3b9dLtXr+Zk8GnWfmcrqS3Sfil+r Wd1wlOudJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk7XaG/0mrl3DkrU3d+yPs R4nwPc7U1fF7OybmvzPx6e1geHN+ojHD/8j4+2mGtkd7r6t0vOzfOkXdY2ZopV5DSCnbsuiASHl HJgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ftgkfoq5ev7h23w4"
+Content-Disposition: inline
+In-Reply-To: <319c0da6-3d9c-4b45-a14c-07c5bbc3afb7@app.fastmail.com>
 
-On Wed, 28 Aug 2024 20:19:41 +1000, Aleksa Sarai wrote:
-> Now that we provide a unique 64-bit mount ID interface in statx(2), we
-> can now provide a race-free way for name_to_handle_at(2) to provide a
-> file handle and corresponding mount without needing to worry about
-> racing with /proc/mountinfo parsing or having to open a file just to do
-> statx(2).
-> 
-> While this is not necessary if you are using AT_EMPTY_PATH and don't
-> care about an extra statx(2) call, users that pass full paths into
-> name_to_handle_at(2) need to know which mount the file handle comes from
-> (to make sure they don't try to open_by_handle_at a file handle from a
-> different filesystem) and switching to AT_EMPTY_PATH would require
-> allocating a file for every name_to_handle_at(2) call, turning
-> 
-> [...]
 
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
+--ftgkfoq5ev7h23w4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+On 2024-09-02, Arnd Bergmann <arnd@arndb.de> wrote:
+> On Mon, Sep 2, 2024, at 07:06, Aleksa Sarai wrote:
+> > This is based on copy_struct_from_user(), but there is one additional
+> > case to consider when creating a syscall that returns an
+> > extensible-struct to userspace -- how should data in the struct that
+> > cannot fit into the userspace struct be handled (ksize > usize)?
+> >
+> > There are three possibilies:
+> >
+> >  1. The interface is like sched_getattr(2), where new information will
+> >     be silently not provided to userspace. This is probably what most
+> >     interfaces will want to do, as it provides the most possible
+> >     backwards-compatibility.
+> >
+> >  2. The interface is like lsm_list_modules(2), where you want to return
+> >     an error like -EMSGSIZE if not providing information could result in
+> >     the userspace program making a serious mistake (such as one that
+> >     could lead to a security problem) or if you want to provide some
+> >     flag to userspace so they know that they are missing some
+> >     information.
+>=20
+> I'm not sure if EMSGSIZE is the best choice here, my feeling is that
+> the kernel should instead try to behave the same way as an older kernel
+> that did not know about the extra fields:
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+I agree this API is not ideal for syscalls because it can lead to
+backward-compatibility issues, but that is how lsm_list_modules(2)
+works. I suspect most syscalls will go with designs (1) or (3).
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+> - if the structure has always been longer than the provided buffer,
+>   -EMSGSIZE should likely have been returned all along. If older
+>   kernels just provided a short buffer, changing it now is an ABI
+>   change that would only affect intentionally broken callers, and
+>   I think keeping the behavior unchanged is more consistent.
+>=20
+> - if an extra flag was added along with the larger buffer size,
+>   the old kernel would likely have rejected the new flag with -EINVAL,
+>   so I think returning the same thing for userspace built against
+>   the old kernel headers is more consistent.
+>=20
+>=20
+> > +static __always_inline __must_check int
+> > +copy_struct_to_user(void __user *dst, size_t usize, const void *src,
+> > +		    size_t ksize, bool *ignored_trailing)
+>=20
+> This feels like the kind of function that doesn't need to be inline
+> at all and could be moved to lib/usercopy.c instead. It should clearly
+> stay in the same place as copy_struct_from_user(), but we could move
+> that as well.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
+IIRC Kees suggested copy_struct_from_user() be inline when I first
+included it, though I would have to dig through the old threads to find
+the reasoning. __builtin_object_size() was added some time after it was
+merged so that wasn't the original reason.
 
-[1/2] uapi: explain how per-syscall AT_* flags should be allocated
-      https://git.kernel.org/vfs/vfs/c/34cf40849654
-[2/2] fhandle: expose u64 mount id to name_to_handle_at(2)
-      https://git.kernel.org/vfs/vfs/c/9cde4ebc6f4f
+> > +{
+> > +	size_t size =3D min(ksize, usize);
+> > +	size_t rest =3D max(ksize, usize) - size;
+> > +
+> > +	/* Double check if ksize is larger than a known object size. */
+> > +	if (WARN_ON_ONCE(ksize > __builtin_object_size(src, 1)))
+> > +		return -E2BIG;
+>=20
+> I guess the __builtin_object_size() check is the reason for making
+> it __always_inline, but that could be done in a trivial inline
+> wrapper around the extern function.  If ksize is always expected
+> to be a constant for all callers, the check could even become a
+> compile-time check instead of a WARN_ON_ONCE() that feels wrong
+> here: if there is a code path where this can get triggered, there
+> is clearly a kernel bug, but the only way to find out is to have
+> a userspace caller that triggers the code path.
+>=20
+> Again, the same code is already in copy_struct_from_user(), so
+> this is not something you are adding but rather something we
+> may want to change for both.
+>=20
+>       Arnd
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--ftgkfoq5ev7h23w4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZtXhnwAKCRAol/rSt+lE
+b0i1AP4n3zvF3EnvaHU3j7y6pOFoMZsPTUgIjM9al7nMqGnp9gD/YOPgm1jLZUNd
+4zg7QxzxYtCbzS8HNsO28bO+uW/C1A4=
+=93Iu
+-----END PGP SIGNATURE-----
+
+--ftgkfoq5ev7h23w4--
 
