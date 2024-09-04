@@ -1,232 +1,421 @@
-Return-Path: <linux-api+bounces-2291-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2292-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E2A969860
-	for <lists+linux-api@lfdr.de>; Tue,  3 Sep 2024 11:11:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD09296C33E
+	for <lists+linux-api@lfdr.de>; Wed,  4 Sep 2024 18:00:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 918A01F245AC
-	for <lists+linux-api@lfdr.de>; Tue,  3 Sep 2024 09:11:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 277E6B24C99
+	for <lists+linux-api@lfdr.de>; Wed,  4 Sep 2024 16:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C1C19F43F;
-	Tue,  3 Sep 2024 09:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE981E00A3;
+	Wed,  4 Sep 2024 15:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="ZBZAXABY"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="v0wZXFwf"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905031C7669;
-	Tue,  3 Sep 2024 09:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDA11DEFF6
+	for <linux-api@vger.kernel.org>; Wed,  4 Sep 2024 15:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725354705; cv=none; b=P6CnQzMLM5M7aT6FB6hQjjdTwwYSzeT+GmP7xaZeg1n+3zP1MVt4OX541t/oVUb3t/UR/yNfoAIg5Pw67zHHZByzffpzATFx4sXkn132sQc3VKpUaDg8/BmxGl8rOyxYqbmMVw4GY3SnYtxDkXm8GufC5mu1AH2icFP5fF+1NBw=
+	t=1725465513; cv=none; b=PLsMaUbwZTbA57RxtBmGxyN9NB4eWP3XWUhiK1ykULX77m6bMYppDvZOV1GFfuvZUDhbebSEhEjIm1yI9Pwtf94kknbBKFDk7RD8Z1ZIGs6iUmxnmvLiKhNTgmEBj6dNx7DCPSV9oeaSqrUJ/Np3bxZQNSZbwx/JrC+CvuwXJtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725354705; c=relaxed/simple;
-	bh=vTXnBN7RkGqWdbB/SBRPMbiet1ycfG5/HgtzTsoYtfc=;
+	s=arc-20240116; t=1725465513; c=relaxed/simple;
+	bh=RL4zYJQfW7GWFseyiRAQnO+tA0nGJyMzdL12QrO6Kxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JuA24i9cFzUPbACXt0VaKnYmzaEYYbWOdIH/ovr3b2NVnimEioVd+vIKgHyzbH0diWHNeflU1Db4bb57Hjt/UHjzJkgnRTlKPxd7vFDScEKSlBeKrJk9HB5dg1rfISu/5CR+jgwUKNhLxIJ1vdirRnutUYDglOoZ6ezVD+J2VV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=ZBZAXABY; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Wyfy23z0Tz9tCJ;
-	Tue,  3 Sep 2024 11:11:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1725354698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZPzW6zq/WcQ/WiA0gxrcLJjcmAKmM8AZOEgUBVGohqU=;
-	b=ZBZAXABYVG2geXwbPM3S25PkgrHwvEQKgFi6QrCVNgQFuXfmqoT55sUlP9C4u26sOWaUR2
-	Ak9EVSIGIWcE+x1lwyaKkwHd3CjUehNN1jOSWo3Q71adbymmg82h7I3vGEtvaGjc5ddRUF
-	jojEcwx4S274kwzQ3ytsoYnnnTSheNseaHZSovzFZk3D2mxSWTur14Kfo8WMM4g6U/ge4m
-	7VfdButVk4vNzkBZtkFkRYfuu+2vwIrSL+tF3qAI9sXdSOkjkl9D6GLTvNLYboTfizO+gX
-	lTZbz/SPjZD+lGSMHlHWSINaZ7syGXUrJjwtdcMOY4gie+xQm5G2syNxCVEFVQ==
-Date: Tue, 3 Sep 2024 19:11:14 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: fstests@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Jeff Layton <jlayton@kernel.org>, Alexander Aring <alex.aring@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, "Liang, Kan" <kan.liang@linux.intel.com>, 
-	Christoph Hellwig <hch@infradead.org>, Josef Bacik <josef@toxicpanda.com>, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH xfstests v2 2/2] open_by_handle: add tests for u64 mount
- ID
-Message-ID: <20240903.084814-meek.porthole.lonely.employer-6kt9HpTqtbg4@cyphar.com>
-References: <20240828-exportfs-u64-mount-id-v3-0-10c2c4c16708@cyphar.com>
- <20240902164554.928371-1-cyphar@cyphar.com>
- <20240902164554.928371-2-cyphar@cyphar.com>
- <CAOQ4uxi291jBJ5ycZgiicVebjkcRQjhXJRgOgvSPBV4-TOcQvA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJUfaOrIt3dAfReek/uM1C4nqes0xNc7rwN0ALG46MqEhBR5WAlnwTaCmp3syXSWKpPJEjHS0CAz+DGYB+nsLznozvuO6YmeFIhQUpwA9hhASqy9HNHuSejhXGDo8KwQg9VF8EX3pZcBHQYsiQsRLNALZUjRUC5K6gUuIDO9dU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=v0wZXFwf; arc=none smtp.client-ip=209.85.218.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-a8695cc91c8so703393166b.3
+        for <linux-api@vger.kernel.org>; Wed, 04 Sep 2024 08:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1725465510; x=1726070310; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8fV+DrlmrRBUWUP6G7Q4K9KSLGpKoXOH1+H22wkJsE=;
+        b=v0wZXFwfl2aPMCLo1vjaRMAUVtgkUoSuWjdboMmXbH8km7++QzPR0OOa7UCUDEtFYm
+         n9ap1QZEZEzCsE7Bw5FdIi5UZtsuxU6W1SEIx2DUUJUD8zPT299bozPESYDmNRaZe9t9
+         wgR0r7+uEQVl5w8XgzLYVSjWb712pJ8dU2WFs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725465510; x=1726070310;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/8fV+DrlmrRBUWUP6G7Q4K9KSLGpKoXOH1+H22wkJsE=;
+        b=l3m+ughcX9iHEQ4mLYbYzKd18hlhmO3bin1eJw5MXfxLNpgCtij6cwY9dPQaw3wK88
+         FGlBX+wdjksUJJuA0QX5PwKZL9Rv/rEQjZeTOGkBLTNPRXTIxhin4ZlVRkCv3tc5CMiA
+         W+j5U383FQEBAEbQBOPiPDGuOm8YJFb+qDcsaKNzilewfu9zbpc9FCXRZD06WLYsSFqa
+         ZWcHn4wjN1DrXBcwcj1Clsqg+sOduPFNXPwr8ZiuXPBtGfEBqOg5D5DcICaZbB26oYxa
+         bLmvOP8Z0/BOI54Kbu/8g+9EeKLZHsEKyBT2D1L3ThQv7mt4JKYaWC2k7xnv1lRgccNU
+         +PFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmXODL7Eic2bS2tGsMaCgUfceCiTZQNM7NN0gePfcZnQGMXDHyie6TkF6PF6eaJ6lJbLSxOYiRVH0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBXq2QR1/vooLyzPIp5ddhWgm7eioS0YpG/S0Q3AZ7vvedAFqK
+	BkFpNoccGWgrdJGXwW4mZFfmtd9HJpWL817Lg9iVfNGTRcS0UNbgZbXM4gZ0Lx4=
+X-Google-Smtp-Source: AGHT+IHslunfGggkxKq7YB/+m8L+vowl0VqAIwm57K7mv2PzgJUaSRRhjtljjdOR9curedPmIaEI0g==
+X-Received: by 2002:a17:907:3f24:b0:a7a:a892:8e05 with SMTP id a640c23a62f3a-a897f92022amr1493824866b.33.1725465509488;
+        Wed, 04 Sep 2024 08:58:29 -0700 (PDT)
+Received: from LQ3V64L9R2.station (net-2-42-195-208.cust.vodafonedsl.it. [2.42.195.208])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a6236d14dsm7819266b.112.2024.09.04.08.58.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 08:58:29 -0700 (PDT)
+Date: Wed, 4 Sep 2024 17:58:26 +0200
+From: Joe Damato <jdamato@fastly.com>
+To: Naman Gulati <namangulati@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org,
+	skhawaja@google.com,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	mkarsten@uwaterloo.ca, linux-api@vger.kernel.org
+Subject: Re: [PATCH] Add provision to busyloop for events in ep_poll.
+Message-ID: <ZtiDoi1l-TbsrYjO@LQ3V64L9R2.station>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Naman Gulati <namangulati@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org,
+	skhawaja@google.com,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	mkarsten@uwaterloo.ca, linux-api@vger.kernel.org
+References: <20240828181011.1591242-1-namangulati@google.com>
+ <ZtBQLqqMrpCLBMw1@LQ3V64L9R2>
+ <CAMP57yUuvvE-n-Xx--GRUsHLC2n4LgaNF=uViDhggvbG=5r9zQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ctvs2l4bgcgrysaf"
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxi291jBJ5ycZgiicVebjkcRQjhXJRgOgvSPBV4-TOcQvA@mail.gmail.com>
-X-Rspamd-Queue-Id: 4Wyfy23z0Tz9tCJ
-
-
---ctvs2l4bgcgrysaf
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMP57yUuvvE-n-Xx--GRUsHLC2n4LgaNF=uViDhggvbG=5r9zQ@mail.gmail.com>
 
-On 2024-09-03, Amir Goldstein <amir73il@gmail.com> wrote:
-> On Mon, Sep 2, 2024 at 6:46=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> w=
-rote:
+On Tue, Sep 03, 2024 at 07:18:14PM -0700, Naman Gulati wrote:
+> Thanks all for the comments and apologies for the delay in replying.
+> Stanislav and Joe I’ve addressed some of the common concerns below.
+> 
+> On Thu, Aug 29, 2024 at 3:40 AM Joe Damato <jdamato@fastly.com> wrote:
 > >
-> > Now that open_by_handle_at(2) can return u64 mount IDs, do some tests to
-> > make sure they match properly as part of the regular open_by_handle
-> > tests.
+> > On Wed, Aug 28, 2024 at 06:10:11PM +0000, Naman Gulati wrote:
+> > > NAPI busypolling in ep_busy_loop loops on napi_poll and checks for new
+> > > epoll events after every napi poll. Checking just for epoll events in a
+> > > tight loop in the kernel context delivers latency gains to applications
+> > > that are not interested in napi busypolling with epoll.
+> > >
+> > > This patch adds an option to loop just for new events inside
+> > > ep_busy_loop, guarded by the EPIOCSPARAMS ioctl that controls epoll napi
+> > > busypolling.
 > >
-> > Link: https://lore.kernel.org/all/20240828-exportfs-u64-mount-id-v3-0-1=
-0c2c4c16708@cyphar.com/
-> > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> > ---
-> > v2:
-> > - Remove -M argument and always do the mount ID tests. [Amir Goldstein]
-> > - Do not error out if the kernel doesn't support STATX_MNT_ID_UNIQUE
-> >   or AT_HANDLE_MNT_ID_UNIQUE. [Amir Goldstein]
-> > - v1: <https://lore.kernel.org/all/20240828103706.2393267-1-cyphar@cyph=
-ar.com/>
+> > This makes an API change, so I think that linux-api@vger.kernel.org
+> > needs to be CC'd ?
 > >
-> >  src/open_by_handle.c | 128 +++++++++++++++++++++++++++++++++----------
-> >  1 file changed, 99 insertions(+), 29 deletions(-)
+> > > A comparison with neper tcp_rr shows that busylooping for events in
+> > > epoll_wait boosted throughput by ~3-7% and reduced median latency by
+> > > ~10%.
+> > >
+> > > To demonstrate the latency and throughput improvements, a comparison was
+> > > made of neper tcp_rr running with:
+> > >     1. (baseline) No busylooping
 > >
-> > diff --git a/src/open_by_handle.c b/src/open_by_handle.c
-> > index d9c802ca9bd1..0ad591da632e 100644
-> > --- a/src/open_by_handle.c
-> > +++ b/src/open_by_handle.c
-> > @@ -86,10 +86,16 @@ Examples:
-> >  #include <errno.h>
-> >  #include <linux/limits.h>
-> >  #include <libgen.h>
-> > +#include <stdint.h>
-> > +#include <stdbool.h>
+> > Is there NAPI-based steering to threads via SO_INCOMING_NAPI_ID in
+> > this case? More details, please, on locality. If there is no
+> > NAPI-based flow steering in this case, perhaps the improvements you
+> > are seeing are a result of both syscall overhead avoidance and data
+> > locality?
+> 
+> The benchmarks were run with no NAPI steering.
+> 
+> Regarding syscall overhead, I reproduced the above experiment with
+> mitigations=off
+> and found similar results as above. Pointing to the fact that the above
+> gains are
+> materialized from more than just avoiding syscall overhead.
+
+I think the cover letter needs more benchmark cases, data points,
+and documentation about precisely how the benchmark is being run and
+configured. The data feels quite sparse, the explanation of the
+experiment leaves too much out, and - with respect - I am not
+convinced by the results posted.
+
+> By locality are you referring to Numa locality?
+
+CPU cache locality.
+
 > >
-> >  #include <sys/stat.h>
-> >  #include "statx.h"
+> > >     2. (epoll busylooping) enabling the epoll busy looping on all epoll
+> > >     fd's
 > >
-> > +#ifndef AT_HANDLE_MNT_ID_UNIQUE
-> > +#      define AT_HANDLE_MNT_ID_UNIQUE 0x001
-> > +#endif
-> > +
-> >  #define MAXFILES 1024
+> > This is the case you've added, event_poll_only ? It seems like in
+> > this case you aren't busy looping exactly, you are essentially
+> > allowing IRQ/softIRQ to drive processing and checking on wakeup that
+> > events are available.
 > >
-> >  struct handle {
-> > @@ -120,6 +126,94 @@ void usage(void)
-> >         exit(EXIT_FAILURE);
-> >  }
+> > IMHO, I'm not sure if "epoll busylooping" is an appropriate
+> > description.
+> 
+> I see your point, perhaps "spinning" or just “looping” could be a closer
+> word?
+
+I don't know how to describe the patch, to be totally honest. I
+think the basis of the mechanism needs to be more thoroughly
+understood. See below.
+
 > >
-> > +int do_name_to_handle_at(const char *fname, struct file_handle *fh, in=
-t bufsz)
-> > +{
-> > +       int ret;
-> > +       int mntid_short;
-> > +
-> > +       static bool skip_mntid_unique;
-> > +
-> > +       uint64_t statx_mntid_short =3D 0, statx_mntid_unique =3D 0;
-> > +       struct statx statxbuf;
-> > +
-> > +       /* Get both the short and unique mount id. */
-> > +       if (statx(AT_FDCWD, fname, 0, STATX_MNT_ID, &statxbuf) < 0) {
->=20
-> This fails build on top of latest for-next branch with commit
-> 873e36c9 - statx.h: update to latest kernel UAPI
->=20
-> It can be fixed by changing to use the private xfstests_statx()
-> implementation, same as in stat_test.c.
->=20
-> I am not sure how elegant this is, but that's the easy fix.
+> > >     3. (userspace busylooping) looping on epoll_wait in userspace
+> > >     with timeout=0
+> >
+> > Same question as Stanislav; timeout=0 should get ep_loop to transfer
+> > events immediately (if there are any) and return without actually
+> > invoking busy poll. So, it would seem that your ioctl change
+> > shouldn't be necessary since the equivalent behavior is already
+> > possible with timeout=0.
+> >
+> > I'd probably investigate both syscall overhead and data locality
+> > before approving this patch because it seems a bit suspicious to me.
+> >
+> > >
+> > > Stats for two machines with 100Gbps NICs running tcp_rr with 5 threads
+> > > and varying flows:
+> > >
+> > > Type                Flows   Throughput             Latency (μs)
+> > >                              (B/s)      P50   P90    P99   P99.9
+>  P99.99
+> > > baseline            15            272145      57.2  71.9   91.4  100.6
+>  111.6
+> > > baseline            30            464952      66.8  78.8   98.1  113.4
+>  122.4
+> > > baseline            60            695920      80.9  118.5  143.4 161.8
+>  174.6
+> > > epoll busyloop      15            301751      44.7  70.6   84.3  95.4
+>   106.5
+> > > epoll busyloop      30            508392      58.9  76.9   96.2  109.3
+>  118.5
+> > > epoll busyloop      60            745731      77.4  106.2  127.5 143.1
+>  155.9
+> > > userspace busyloop  15            279202      55.4  73.1   85.2  98.3
+>   109.6
+> > > userspace busyloop  30            472440      63.7  78.2   96.5  112.2
+>  120.1
+> > > userspace busyloop  60            720779      77.9  113.5  134.9 152.6
+>  165.7
+> > >
+> > > Per the above data epoll busyloop outperforms baseline and userspace
+> > > busylooping in both throughput and latency. As the density of flows per
+> > > thread increased, the median latency of all three epoll mechanisms
+> > > converges. However epoll busylooping is better at capturing the tail
+> > > latencies at high flow counts.
+> > >
+> > > Signed-off-by: Naman Gulati <namangulati@google.com>
+> > > ---
+> > >  fs/eventpoll.c                 | 53 ++++++++++++++++++++++++++--------
+> > >  include/uapi/linux/eventpoll.h |  3 +-
+> > >  2 files changed, 43 insertions(+), 13 deletions(-)
+> > >
+> > > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> > > index f53ca4f7fcedd..6cba79261817a 100644
+> > > --- a/fs/eventpoll.c
+> > > +++ b/fs/eventpoll.c
+> > > @@ -232,7 +232,10 @@ struct eventpoll {
+> > >       u32 busy_poll_usecs;
+> > >       /* busy poll packet budget */
+> > >       u16 busy_poll_budget;
+> > > -     bool prefer_busy_poll;
+> > > +     /* prefer to busypoll in napi poll */
+> > > +     bool napi_prefer_busy_poll;
+> >
+> > Adding napi seems slightly redundant to me but I could be convinced either
+> > way, I suppose.
+> 
+> With the two different polling booleans in the struct, I felt it's better
+> to be explicit
+> about the scope of each.
+> 
+> >
+> > > +     /* avoid napi poll when busy looping and poll only for events */
+> > > +     bool event_poll_only;
+> >
+> > I'm not sure about this overall; this isn't exactly what I think of
+> > when I think about the word "polling" but maybe I'm being too
+> > nit-picky.
+> 
+> I'm not sure how else to categorize the operation, is there some other
+> phrasing
+> you'd recommend?
+> 
+> >
+> > >  #endif
+> > >
+> > >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > > @@ -430,6 +433,24 @@ static bool ep_busy_loop_end(void *p, unsigned
+> long start_time)
+> > >       return ep_events_available(ep) ||
+> busy_loop_ep_timeout(start_time, ep);
+> > >  }
+> > >
+> > > +/**
+> > > + * ep_event_busy_loop - loop until events available or busy poll
+> > > + * times out.
+> > > + *
+> > > + * @ep: Pointer to the eventpoll context.
+> > > + *
+> > > + * Return: true if events available, false otherwise.
+> > > + */
+> > > +static bool ep_event_busy_loop(struct eventpoll *ep)
+> > > +{
+> > > +     unsigned long start_time = busy_loop_current_time();
+> > > +
+> > > +     while (!ep_busy_loop_end(ep, start_time))
+> > > +             cond_resched();
+> > > +
+> > > +     return ep_events_available(ep);
+> > > +}
+> > > +
+> > >  /*
+> > >   * Busy poll if globally on and supporting sockets found && no events,
+> > >   * busy loop will return if need_resched or ep_events_available.
+> > > @@ -440,23 +461,29 @@ static bool ep_busy_loop(struct eventpoll *ep,
+> int nonblock)
+> > >  {
+> > >       unsigned int napi_id = READ_ONCE(ep->napi_id);
+> > >       u16 budget = READ_ONCE(ep->busy_poll_budget);
+> > > -     bool prefer_busy_poll = READ_ONCE(ep->prefer_busy_poll);
+> > > +     bool event_poll_only = READ_ONCE(ep->event_poll_only);
+> > >
+> > >       if (!budget)
+> > >               budget = BUSY_POLL_BUDGET;
+> > >
+> > > -     if (napi_id >= MIN_NAPI_ID && ep_busy_loop_on(ep)) {
+> > > +     if (!ep_busy_loop_on(ep))
+> > > +             return false;
+> > > +
+> > > +     if (event_poll_only) {
+> > > +             return ep_event_busy_loop(ep);
+> > > +     } else if (napi_id >= MIN_NAPI_ID) {
+> > > +             bool napi_prefer_busy_poll =
+> READ_ONCE(ep->napi_prefer_busy_poll);
+> > > +
+> > >               napi_busy_loop(napi_id, nonblock ? NULL :
+> ep_busy_loop_end,
+> > > -                            ep, prefer_busy_poll, budget);
+> > > +                             ep, napi_prefer_busy_poll, budget);
+> > >               if (ep_events_available(ep))
+> > >                       return true;
+> > >               /*
+> > > -              * Busy poll timed out.  Drop NAPI ID for now, we can add
+> > > -              * it back in when we have moved a socket with a valid
+> NAPI
+> > > -              * ID onto the ready list.
+> > > -              */
+> > > +             * Busy poll timed out.  Drop NAPI ID for now, we can add
+> > > +             * it back in when we have moved a socket with a valid NAPI
+> > > +             * ID onto the ready list.
+> > > +             */
+> > >               ep->napi_id = 0;
+> > > -             return false;
+> > >       }
+> > >       return false;
+> > >  }
+> > > @@ -523,13 +550,15 @@ static long ep_eventpoll_bp_ioctl(struct file
+> *file, unsigned int cmd,
+> > >
+> > >               WRITE_ONCE(ep->busy_poll_usecs,
+> epoll_params.busy_poll_usecs);
+> > >               WRITE_ONCE(ep->busy_poll_budget,
+> epoll_params.busy_poll_budget);
+> > > -             WRITE_ONCE(ep->prefer_busy_poll,
+> epoll_params.prefer_busy_poll);
+> > > +             WRITE_ONCE(ep->napi_prefer_busy_poll,
+> epoll_params.prefer_busy_poll);
+> > > +             WRITE_ONCE(ep->event_poll_only,
+> epoll_params.event_poll_only);
+> > >               return 0;
+> > >       case EPIOCGPARAMS:
+> > >               memset(&epoll_params, 0, sizeof(epoll_params));
+> > >               epoll_params.busy_poll_usecs =
+> READ_ONCE(ep->busy_poll_usecs);
+> > >               epoll_params.busy_poll_budget =
+> READ_ONCE(ep->busy_poll_budget);
+> > > -             epoll_params.prefer_busy_poll =
+> READ_ONCE(ep->prefer_busy_poll);
+> > > +             epoll_params.prefer_busy_poll =
+> READ_ONCE(ep->napi_prefer_busy_poll);
+> > > +             epoll_params.event_poll_only =
+> READ_ONCE(ep->event_poll_only);
+> > >               if (copy_to_user(uarg, &epoll_params,
+> sizeof(epoll_params)))
+> > >                       return -EFAULT;
+> > >               return 0;
+> > > @@ -2203,7 +2232,7 @@ static int do_epoll_create(int flags)
+> > >  #ifdef CONFIG_NET_RX_BUSY_POLL
+> > >       ep->busy_poll_usecs = 0;
+> > >       ep->busy_poll_budget = 0;
+> > > -     ep->prefer_busy_poll = false;
+> > > +     ep->napi_prefer_busy_poll = false;
+> > >  #endif
+> >
+> > Just FYI: This is going to conflict with a patch I've sent to VFS
+> > that hasn't quite made its way back to net-next just yet.
+> >
+> >
+> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/commit/?h=vfs.misc&id=4eb76c5d9a8851735fd3ec5833ecf412e8921655
+> >
+> Acknowledged.
+> 
+> > >       ep->file = file;
+> > >       fd_install(fd, file);
+> > > diff --git a/include/uapi/linux/eventpoll.h
+> b/include/uapi/linux/eventpoll.h
+> > > index 4f4b948ef3811..3bc0f4eed976c 100644
+> > > --- a/include/uapi/linux/eventpoll.h
+> > > +++ b/include/uapi/linux/eventpoll.h
+> > > @@ -89,9 +89,10 @@ struct epoll_params {
+> > >       __u32 busy_poll_usecs;
+> > >       __u16 busy_poll_budget;
+> > >       __u8 prefer_busy_poll;
+> > > +     __u8 event_poll_only:1;
+> > >
+> > >       /* pad the struct to a multiple of 64bits */
+> > > -     __u8 __pad;
+> > > +     __u8 __pad:7;
+> > >  };
+> >
+> > If the above is accepted then a similar change should make its way
+> > into glibc, uclibc-ng, and musl. It might be easier to add an
+> > entirely new ioctl.
+> 
+> Adding a new ioctl seems preferable, I can look into reworking the code
+> accordingly.
 
-Ah, I was using master as the base. Sorry about that...
+My advice is prior to reworking the code: figure out why the results
+show an improvement because I can't really see a clear explanation.
 
-> > +               fprintf(stderr, "%s: statx(STATX_MNT_ID): %m\n", fname);
-> > +               return EXIT_FAILURE;
-> > +       }
-> > +       if (!(statxbuf.stx_mask & STATX_MNT_ID)) {
-> > +               fprintf(stderr, "%s: no STATX_MNT_ID in stx_mask\n", fn=
-ame);
-> > +               return EXIT_FAILURE;
-> > +       }
-> > +       statx_mntid_short =3D statxbuf.stx_mnt_id;
-> > +
-> > +       if (!skip_mntid_unique) {
-> > +               if (statx(AT_FDCWD, fname, 0, STATX_MNT_ID_UNIQUE, &sta=
-txbuf) < 0) {
-> > +                       fprintf(stderr, "%s: statx(STATX_MNT_ID_UNIQUE)=
-: %m\n", fname);
-> > +                       return EXIT_FAILURE;
-> > +               }
-> > +               /*
-> > +                * STATX_MNT_ID_UNIQUE was added fairly recently in Lin=
-ux 6.8, so if the
-> > +                * kernel doesn't give us a unique mount ID just skip i=
-t.
-> > +                */
-> > +               if ((skip_mntid_unique |=3D !(statxbuf.stx_mask & STATX=
-_MNT_ID_UNIQUE)))
-> > +                       printf("statx(STATX_MNT_ID_UNIQUE) not supporte=
-d by running kernel -- skipping unique mount ID test\n");
->=20
-> This verbose print breaks all existing "exportfs" tests which do not
-> expect it in the golden output.
->=20
-> I understand that silently ignoring the failure is not good, but I also
-> would like to add this test coverage to all the existing tests.
->=20
-> One solution is to resurrect the command line option -M from v1,
-> but instead of meaning "test unique mount id" let it mean
-> "do not allow to skip unique mount id" test.
->=20
-> Then you can add a new test that runs open_by_handle -M, but also
-> implement a helper _require_unique_mntid similar to _require_btime
-> which is needed for the new test to run only on new kernels.
->=20
-> I'm sorry for this complication, but fstest is a testsuite that runs on
-> disto and stable kernels as well and we need to allow test coverage
-> of new features along with stability of the test env.
+If I understand the patch correctly (and perhaps I've gotten it
+wrong) it is proposing to add a new mechanism for packet processing
+that is quite strange:
 
-No worries, I'll write it up. I'm not familiar with the exact
-requirements of xfstests, sorry for the noise! (^_^")
+  Let softIRQ do the work (so there's no 'polling'), but avoid
+  returning to userland and call cond_resched() to defer execution
+  to other things until there's events to be returned.
 
->=20
-> Thanks,
-> Amir.
+Couldn't this be approximated with a smaller batch size (maxevents)
+and a timeout of 0?
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+Perhaps consider comparing performance with a more real world
+example (i.e. not tcp_rr) and use NAPI-steering in the base case to
+eliminate cache locality as a variable? Maybe even compare against
+the suspend mechanism Martin and I proposed?
 
---ctvs2l4bgcgrysaf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZtbSsgAKCRAol/rSt+lE
-bwxGAQDiAoDf52s+LenWo4ttMhBeDkXrmdgs1mOXMqJLRHnbwQD+PRJRjDKv6qU4
-BM1xu+Z4CvaDhwgbzw8kVRLkpAlSago=
-=VcBz
------END PGP SIGNATURE-----
-
---ctvs2l4bgcgrysaf--
+- Joe
 
