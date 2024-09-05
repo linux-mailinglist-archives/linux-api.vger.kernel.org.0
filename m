@@ -1,388 +1,252 @@
-Return-Path: <linux-api+bounces-2302-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2303-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9699096C7ED
-	for <lists+linux-api@lfdr.de>; Wed,  4 Sep 2024 21:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA8D96DCCF
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2024 16:58:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2193A2845A1
-	for <lists+linux-api@lfdr.de>; Wed,  4 Sep 2024 19:49:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C997D28425B
+	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2024 14:58:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE33C1E7641;
-	Wed,  4 Sep 2024 19:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E39619E7EF;
+	Thu,  5 Sep 2024 14:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Qo0vJlNC"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="WfzWC0uI"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E6C1E6DFE;
-	Wed,  4 Sep 2024 19:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAD119E7D3;
+	Thu,  5 Sep 2024 14:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725479342; cv=none; b=dhuGjnmHoWfUYZWuI8Wc1wpsimNqogaF5AuHehZX7AOaw+Tx3PwY597WKaQ4AXBZu4BeV6MMoEpQDlCX79Pn1DApkxet/a2Q3RPvyCDyfQ7MtWfttZ8EBsvpndJqsin6lbs4SppIWefFISPVfibMi4dDvTcuNPH6a+Xvr5lj1oQ=
+	t=1725548233; cv=none; b=XW+UWpeM6gHL2OSQJmXWsZIWCtpxDtosuh7Ay4JVvUEb1MO+9sT+h02OqMelqtiNpl7gcjU83bMZ814I9yfup2dMgdwo2g2uvwBojq7O6YJ71dtT2iqfjmFt7DkzJauu0Tu4kinp/sA+dq4atjOA8iqH8QtZISL/M3S44uaZlfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725479342; c=relaxed/simple;
-	bh=2K+VX4p3uDGakxs+L7o+AlNEOWnCPpWPn3F8rdwgk9g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QHNNi2/H2C/Q/aHj09CyylcuP8pWw/oKSNgUnI8Gxmc2ovmzLB8xAVa3pqvTcRhMzixbhdI7ri4HAcUcGPHNw75G1tI36ql09Z2Xu+yo5DzX0dx9D8uyYR5BdicR3Dw/HP0ynyr9r51hRYDda+Zq1AUBu6X1gmhk7Plach3xHqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Qo0vJlNC; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1725548233; c=relaxed/simple;
+	bh=S6nSjvgrgeostwnVEtga16zxIZfik5+Z3rFWT7sLalI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OF3lL/j8LztsJOiTdEUbJzA6JT9uC1Q429AGy7dPppnRfcsbRXQHej2ZfsWrCCAZRM3COAalsripdHwdg4GLFwotMtxtk3by3815MR7EoUnU7pGAOBCME556AbZBm8VYFUluN0VZd5C1SR0dfQhavqz1YANGNTN85OFfz9Fa+dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=WfzWC0uI; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4WzY2q2HrJz9spS;
-	Wed,  4 Sep 2024 21:48:51 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4X02Wk0R7Jz9sjG;
+	Thu,  5 Sep 2024 16:57:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1725479331;
+	t=1725548226;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BSu2Q0T9+xOgt78zbEntYoVoIo9mHWjBB4iqf/3dj8=;
-	b=Qo0vJlNCJJoL3PC5OALfFqchf+wlFA0F7M9SUTN8Jec2MfCzteYQ/k8Xu2Lt07V1TTDTJ7
-	lyrgByXi7LeHIWu/qVWkoH+VyUqqpE27WDfLjH8ZyOUqhLvgsIve9Oecij8ub327KyyZai
-	MJMQuNWK9G3wSKcJfmcmaYt0DNatskjHCD2Fn2dgVmESTOfMDOhHZz5gkKkoN4XHJRtZGH
-	0QEXM2XozeEDaFxyGvwm8YxT6i+uPrSDM76RE0ylXF5tldfDerIABMOhFnbcLcMm9LncPO
-	enMpMFkeP615NTNoFFUrHhDgAm2Rej6frEG44KSyqfHN/TT/xy54kLg7iOdUcQ==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=theZEgnObKA5o5sa8iv8/5VUkQlNdUgbzqyzOWK7yC8=;
+	b=WfzWC0uI7P1gv/cBAXBe6DUxyILtnG8Rw6T2tWiDn4ib8iCVuyj58PnigX32Nop0SPlA45
+	8pFU6SieyP7o05N9Ai8qhZNOcKgNUJp5sWhgstNp62xDH+LXpCZ2kC0hHtIH0MqmgFCMw7
+	5JveM5tm0GZ/Wj/4IpM12qCatx0hSv1RpDgA5uijf+EqoJf4pSYW3YwpagRTEAcm2mB+lp
+	vO4ThklXM5uqS7u7/JzGWKuG1Puu4HjVxZEMunWsCZwqfQ/DK1th6pfbpbAwPXBfIb5IF5
+	pbZmom6KJCPrv+bxUV0uwSYePsel5pwumdroQA7NQ1HrRRkRs/YDL6MOVnUxcA==
 From: Aleksa Sarai <cyphar@cyphar.com>
-To: fstests@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH xfstests v4 2/2] generic/756: test name_to_handle_at(AT_HANDLE_MNT_ID_UNIQUE) explicitly
-Date: Thu,  5 Sep 2024 05:48:23 +1000
-Message-ID: <20240904194823.2456471-2-cyphar@cyphar.com>
-In-Reply-To: <20240904194823.2456471-1-cyphar@cyphar.com>
-References: <20240828-exportfs-u64-mount-id-v3-0-10c2c4c16708@cyphar.com>
- <20240904194823.2456471-1-cyphar@cyphar.com>
+Subject: [PATCH RFC v2 00/10] extensible syscalls: CHECK_FIELDS to allow
+ for easier feature detection
+Date: Fri, 06 Sep 2024 00:56:32 +1000
+Message-Id: <20240906-extensible-structs-check_fields-v2-0-0f46d2de9bad@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKDG2WYC/4XNQQrCMBAF0KvIrI2kaarGlSB4ALdSpKZTM1jbk
+ omlpfTuhlzA5f8f/luA0RMynDYLeByJqe9iUNsNWFd1LxRUxwxKKi2PMhc4BeyYni0KDv5rAwv
+ r0L4fDWFbs6j0AY222OxNBvFl8NjQlIQ73K4XKGPpiEPv56SOWZoSYKT6C4yZkKLQBZoca1SNO
+ tt5cJXf2f4D5bquPw4Wv57UAAAA
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Florian Weimer <fweimer@redhat.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>, 
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>, 
+ stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7270; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=S6nSjvgrgeostwnVEtga16zxIZfik5+Z3rFWT7sLalI=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaTdPLb5kvLOxoytZu0mtzlZ7affWXGK4xIL48Kq6twnl
+ S0lTcVqHaUsDGJcDLJiiizb/DxDN81ffCX500o2mDmsTCBDGLg4BWAiBzcw/I+0PXTgd4RChfYU
+ oTVxVTK1wj+D+3a+m++YsK5k6a9bm+8wMtxUeHu7wIapeoO1WgNLfq1FfnKQ9stOhl6DmT92Hd5
+ eygEA
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+X-Rspamd-Queue-Id: 4X02Wk0R7Jz9sjG
 
-In order to make sure we are actually testing AT_HANDLE_MNT_ID_UNIQUE,
-add a test (based on generic/426) which runs the open_by_handle in a
-mode where it will error out if there is a problem with getting mount
-IDs. The test is skipped if the kernel doesn't support the necessary
-features.
+This is something that I've been thinking about for a while. We had a
+discussion at LPC 2020 about this[1] but the proposals suggested there
+never materialised.
 
-Suggested-by: Amir Goldstein <amir73il@gmail.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+In short, it is quite difficult for userspace to detect the feature
+capability of syscalls at runtime. This is something a lot of programs
+want to do, but they are forced to create elaborate scenarios to try to
+figure out if a feature is supported without causing damage to the
+system. For the vast majority of cases, each individual feature also
+needs to be tested individually (because syscall results are
+all-or-nothing), so testing even a single syscall's feature set can
+easily inflate the startup time of programs.
+
+This patchset implements the fairly minimal design I proposed in this
+talk[2] and in some old LKML threads (though I can't find the exact
+references ATM). The general flow looks like:
+
+ 1. Userspace will indicate to the kernel that a syscall should a be
+    no-op by setting the top bit of the extensible struct size argument.
+
+    We will almost certainly never support exabyte sized structs, so the
+    top bits are free for us to use as makeshift flag bits. This is
+    preferable to using the per-syscall flag field inside the structure
+    because seccomp can easily detect the bit in the flag and allow the
+    probe or forcefully return -EEXTSYS_NOOP.
+
+ 2. The kernel will then fill the provided structure with every valid
+    bit pattern that the current kernel understands.
+
+    For flags or other bitflag-like fields, this is the set of valid
+    flags or bits. For pointer fields or fields that take an arbitrary
+    value, the field has every bit set (0xFF... to fill the field) to
+    indicate that any value is valid in the field.
+
+ 3. The syscall then returns -EEXTSYS_NOOP which is an errno that will
+    only ever be used for this purpose (so userspace can be sure that
+    the request succeeded).
+
+    On older kernels, the syscall will return a different error (usually
+    -E2BIG or -EFAULT) and userspace can do their old-fashioned checks.
+
+ 4. Userspace can then check which flags and fields are supported by
+    looking at the fields in the returned structure. Flags are checked
+    by doing an AND with the flags field, and field support can checked
+    by comparing to 0. In principle you could just AND the entire
+    structure if you wanted to do this check generically without caring
+    about the structure contents (this is what libraries might consider
+    doing).
+
+    Userspace can even find out the internal kernel structure size by
+    passing a PAGE_SIZE buffer and seeing how many bytes are non-zero.
+
+    As with copy_struct_from_user(), this is designed to be forward- and
+    backwards- compatible.
+
+This allows programas to get a one-shot understanding of what features a
+syscall supports without having to do any elaborate setups or tricks to
+detect support for destructive features. Flags can simply be ANDed to
+check if they are in the supported set, and fields can just be checked
+to see if they are non-zero.
+
+This patchset is IMHO the simplest way we can add the ability to
+introspect the feature set of extensible struct (copy_struct_from_user)
+syscalls. It doesn't preclude the chance of a more generic mechanism
+being added later.
+
+The intended way of using this interface to get feature information
+looks something like the following (imagine that openat2 has gained a
+new field and a new flag in the future):
+
+  static bool openat2_no_automount_supported;
+  static bool openat2_cwd_fd_supported;
+
+  int check_openat2_support(void)
+  {
+      int err;
+      struct open_how how = {};
+
+      err = openat2(AT_FDCWD, ".", &how, CHECK_FIELDS | sizeof(how));
+      assert(err < 0);
+      switch (errno) {
+      case EFAULT: case E2BIG:
+          /* Old kernel... */
+          check_support_the_old_way();
+          break;
+      case EEXTSYS_NOOP:
+          openat2_no_automount_supported = (how.flags & RESOLVE_NO_AUTOMOUNT);
+          openat2_cwd_fd_supported = (how.cwd_fd != 0);
+          break;
+      }
+  }
+
+This series adds CHECK_FIELDS support for the following extensible
+struct syscalls, as they are quite likely to grow flags in the near
+future:
+
+ * openat2
+ * clone3
+ * mount_setattr
+
+[1]: https://lwn.net/Articles/830666/
+[2]: https://youtu.be/ggD-eb3yPVs
+
 Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 ---
- common/rc             | 24 ++++++++++++++++
- src/open_by_handle.c  | 61 ++++++++++++++++++++++++++++++++++------
- tests/generic/756     | 65 +++++++++++++++++++++++++++++++++++++++++++
- tests/generic/756.out |  5 ++++
- 4 files changed, 146 insertions(+), 9 deletions(-)
- create mode 100755 tests/generic/756
- create mode 100644 tests/generic/756.out
+Changes in v2:
+- Add CHECK_FIELDS support to mount_setattr(2).
+- Fix build failure on architectures with custom errno values.
+- Rework selftests to use the tools/ uAPI headers rather than custom
+  defining EEXTSYS_NOOP.
+- Make sure we return -EINVAL and -E2BIG for invalid sizes even if
+  CHECK_FIELDS is set, and add some tests for that.
+- v1: <https://lore.kernel.org/r/20240902-extensible-structs-check_fields-v1-0-545e93ede2f2@cyphar.com>
 
-diff --git a/common/rc b/common/rc
-index 9da9fe188297..0beaf2ff1126 100644
---- a/common/rc
-+++ b/common/rc
-@@ -5178,6 +5178,30 @@ _require_fibmap()
- 	rm -f $file
- }
- 
-+_require_statx_unique_mountid()
-+{
-+	# statx(STATX_MNT_ID=0x1000) was added in Linux 5.8.
-+	# statx(STATX_MNT_ID_UNIQUE=0x4000) was added in Linux 6.9.
-+	# We only need to check the latter.
-+
-+	export STATX_MNT_ID_UNIQUE=0x4000
-+	local statx_mask=$(
-+		${XFS_IO_PROG} -c "statx -m $STATX_MNT_ID_UNIQUE -r" "$TEST_DIR" |
-+		sed -En 's/stat\.mask = (0x[0-9a-f]+)/\1/p'
-+	)
-+
-+	[[ $(( statx_mask & STATX_MNT_ID_UNIQUE )) == $((STATX_MNT_ID_UNIQUE)) ]] ||
-+		_notrun "statx does not support STATX_MNT_ID_UNIQUE on this kernel"
-+}
-+
-+_require_open_by_handle_unique_mountid()
-+{
-+	_require_test_program "open_by_handle"
-+
-+	$here/src/open_by_handle -C AT_HANDLE_MNT_ID_UNIQUE 2>&1 \
-+		|| _notrun "name_to_handle_at does not support AT_HANDLE_MNT_ID_UNIQUE"
-+}
-+
- _try_wipe_scratch_devs()
- {
- 	test -x "$WIPEFS_PROG" || return 0
-diff --git a/src/open_by_handle.c b/src/open_by_handle.c
-index dcbcd35561fb..a99cce4b3558 100644
---- a/src/open_by_handle.c
-+++ b/src/open_by_handle.c
-@@ -106,7 +106,8 @@ struct handle {
- 
- void usage(void)
- {
--	fprintf(stderr, "usage: open_by_handle [-cludmrwapknhs] [<-i|-o> <handles_file>] <test_dir> [num_files]\n");
-+	fprintf(stderr, "usage: open_by_handle [-cludmMrwapknhs] [<-i|-o> <handles_file>] <test_dir> [num_files]\n");
-+	fprintf(stderr, "       open_by_handle -C <feature>\n");
- 	fprintf(stderr, "\n");
- 	fprintf(stderr, "open_by_handle -c <test_dir> [N] - create N test files under test_dir, try to get file handles and exit\n");
- 	fprintf(stderr, "open_by_handle    <test_dir> [N] - get file handles of test files, drop caches and try to open by handle\n");
-@@ -119,16 +120,21 @@ void usage(void)
- 	fprintf(stderr, "open_by_handle -u <test_dir> [N] - unlink (hardlinked) test files, drop caches and try to open by handle\n");
- 	fprintf(stderr, "open_by_handle -d <test_dir> [N] - unlink test files and hardlinks, drop caches and try to open by handle\n");
- 	fprintf(stderr, "open_by_handle -m <test_dir> [N] - rename test files, drop caches and try to open by handle\n");
-+	fprintf(stderr, "open_by_handle -M <test_dir> [N] - do not silently skip the mount ID verifications\n");
- 	fprintf(stderr, "open_by_handle -p <test_dir>     - create/delete and try to open by handle also test_dir itself\n");
- 	fprintf(stderr, "open_by_handle -i <handles_file> <test_dir> [N] - read test files handles from file and try to open by handle\n");
- 	fprintf(stderr, "open_by_handle -o <handles_file> <test_dir> [N] - get file handles of test files and write handles to file\n");
- 	fprintf(stderr, "open_by_handle -s <test_dir> [N] - wait in sleep loop after opening files by handle to keep them open\n");
- 	fprintf(stderr, "open_by_handle -z <test_dir> [N] - query filesystem required buffer size\n");
-+	fprintf(stderr, "\n");
-+	fprintf(stderr, "open_by_handle -C <feature>      - check if <feature> is supported by the kernel.\n");
-+	fprintf(stderr, "  <feature> can be any of the following values:\n");
-+	fprintf(stderr, "  - AT_HANDLE_MNT_ID_UNIQUE\n");
- 	exit(EXIT_FAILURE);
- }
- 
- static int do_name_to_handle_at(const char *fname, struct file_handle *fh,
--				int bufsz)
-+				int bufsz, bool force_check_mountid)
- {
- 	int ret;
- 	int mntid_short;
-@@ -144,10 +150,15 @@ static int do_name_to_handle_at(const char *fname, struct file_handle *fh,
- 			fprintf(stderr, "%s: statx(STATX_MNT_ID): %m\n", fname);
- 			return EXIT_FAILURE;
- 		}
--		if (!(statxbuf.stx_mask & STATX_MNT_ID))
-+		if (!(statxbuf.stx_mask & STATX_MNT_ID)) {
-+			if (force_check_mountid) {
-+				fprintf(stderr, "%s: statx(STATX_MNT_ID) not supported by running kernel\n", fname);
-+				return EXIT_FAILURE;
-+			}
- 			skip_mntid = true;
--		else
-+		} else {
- 			statx_mntid_short = statxbuf.stx_mnt_id;
-+		}
- 	}
- 
- 	if (!skip_mntid_unique) {
-@@ -159,10 +170,15 @@ static int do_name_to_handle_at(const char *fname, struct file_handle *fh,
- 		 * STATX_MNT_ID_UNIQUE was added fairly recently in Linux 6.8, so if the
- 		 * kernel doesn't give us a unique mount ID just skip it.
- 		 */
--		if (!(statxbuf.stx_mask & STATX_MNT_ID_UNIQUE))
-+		if (!(statxbuf.stx_mask & STATX_MNT_ID_UNIQUE)) {
-+			if (force_check_mountid) {
-+				fprintf(stderr, "%s: statx(STATX_MNT_ID_UNIQUE) not supported by running kernel\n", fname);
-+				return EXIT_FAILURE;
-+			}
- 			skip_mntid_unique = true;
--		else
-+		} else {
- 			statx_mntid_unique = statxbuf.stx_mnt_id;
-+		}
- 	}
- 
- 	fh->handle_bytes = bufsz;
-@@ -203,6 +219,10 @@ static int do_name_to_handle_at(const char *fname, struct file_handle *fh,
- 				return EXIT_FAILURE;
- 			}
- 			/* EINVAL means AT_HANDLE_MNT_ID_UNIQUE is not supported */
-+			if (force_check_mountid) {
-+				fprintf(stderr, "%s: name_to_handle_at(AT_HANDLE_MNT_ID_UNIQUE) not supported by running kernel\n", fname);
-+				return EXIT_FAILURE;
-+			}
- 			skip_mntid_unique = true;
- 		} else {
- 			if (mntid_unique != statx_mntid_unique) {
-@@ -215,6 +235,22 @@ static int do_name_to_handle_at(const char *fname, struct file_handle *fh,
- 	return 0;
- }
- 
-+static int check_feature(const char *feature)
-+{
-+	if (!strcmp(feature, "AT_HANDLE_MNT_ID_UNIQUE")) {
-+		int ret = name_to_handle_at(AT_FDCWD, ".", NULL, NULL, AT_HANDLE_MNT_ID_UNIQUE);
-+		/* If AT_HANDLE_MNT_ID_UNIQUE is supported, we get EFAULT. */
-+		if (ret < 0 && errno == EINVAL) {
-+			fprintf(stderr, "name_to_handle_at(AT_HANDLE_MNT_ID_UNIQUE) not supported by running kernel\n");
-+			return EXIT_FAILURE;
-+		}
-+		return 0;
-+	}
-+
-+	fprintf(stderr, "unknown feature name '%s'\n", feature);
-+	return EXIT_FAILURE;
-+}
-+
- int main(int argc, char **argv)
- {
- 	int	i, c;
-@@ -234,16 +270,20 @@ int main(int argc, char **argv)
- 	int	create = 0, delete = 0, nlink = 1, move = 0;
- 	int	rd = 0, wr = 0, wrafter = 0, parent = 0;
- 	int	keepopen = 0, drop_caches = 1, sleep_loop = 0;
-+	int	force_check_mountid = 0;
- 	int	bufsz = MAX_HANDLE_SZ;
- 
- 	if (argc < 2)
- 		usage();
- 
--	while ((c = getopt(argc, argv, "cludmrwapknhi:o:sz")) != -1) {
-+	while ((c = getopt(argc, argv, "cC:ludmMrwapknhi:o:sz")) != -1) {
- 		switch (c) {
- 		case 'c':
- 			create = 1;
- 			break;
-+		case 'C':
-+			/* Check kernel feature support. */
-+			return check_feature(optarg);
- 		case 'w':
- 			/* Write data before open_by_handle_at() */
- 			wr = 1;
-@@ -270,6 +310,9 @@ int main(int argc, char **argv)
- 		case 'm':
- 			move = 1;
- 			break;
-+		case 'M':
-+			force_check_mountid = 1;
-+			break;
- 		case 'p':
- 			parent = 1;
- 			break;
-@@ -402,7 +445,7 @@ int main(int argc, char **argv)
- 				return EXIT_FAILURE;
- 			}
- 		} else {
--			ret = do_name_to_handle_at(fname, &handle[i].fh, bufsz);
-+			ret = do_name_to_handle_at(fname, &handle[i].fh, bufsz, force_check_mountid);
- 			if (ret)
- 				return EXIT_FAILURE;
- 		}
-@@ -432,7 +475,7 @@ int main(int argc, char **argv)
- 				return EXIT_FAILURE;
- 			}
- 		} else {
--			ret = do_name_to_handle_at(test_dir, &dir_handle.fh, bufsz);
-+			ret = do_name_to_handle_at(test_dir, &dir_handle.fh, bufsz, force_check_mountid);
- 			if (ret)
- 				return EXIT_FAILURE;
- 		}
-diff --git a/tests/generic/756 b/tests/generic/756
-new file mode 100755
-index 000000000000..c7a82cfd25f4
---- /dev/null
-+++ b/tests/generic/756
-@@ -0,0 +1,65 @@
-+#! /bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2017 CTERA Networks. All Rights Reserved.
-+# Copyright (C) 2024 Aleksa Sarai <cyphar@cyphar.com>
-+#
-+# FS QA Test No. 756
-+#
-+# Check stale handles pointing to unlinked files and non-stale handles pointing
-+# to linked files while verifying that u64 mount IDs are correctly returned.
-+#
-+. ./common/preamble
-+_begin_fstest auto quick exportfs
-+
-+# Import common functions.
-+. ./common/filter
-+
-+
-+# Modify as appropriate.
-+_require_test
-+# _require_exportfs and  already requires open_by_handle, but let's not count on it
-+_require_test_program "open_by_handle"
-+_require_exportfs
-+# We need both STATX_MNT_ID_UNIQUE and AT_HANDLE_MNT_ID_UNIQUE.
-+_require_statx_unique_mountid
-+_require_open_by_handle_unique_mountid
-+
-+NUMFILES=1024
-+testdir=$TEST_DIR/$seq-dir
-+mkdir -p $testdir
-+
-+# Create empty test files in test dir
-+create_test_files()
-+{
-+	local dir=$1
-+
-+	mkdir -p $dir
-+	rm -f $dir/*
-+	$here/src/open_by_handle -c $dir $NUMFILES
-+}
-+
-+# Test encode/decode file handles
-+test_file_handles()
-+{
-+	local dir=$1
-+	local opt=$2
-+
-+	echo test_file_handles $* | _filter_test_dir
-+	$here/src/open_by_handle $opt $dir $NUMFILES
-+}
-+
-+# Check stale handles to deleted files
-+create_test_files $testdir
-+test_file_handles $testdir -Md
-+
-+# Check non-stale handles to linked files
-+create_test_files $testdir
-+test_file_handles $testdir -M
-+
-+# Check non-stale handles to files that were hardlinked and original deleted
-+create_test_files $testdir
-+test_file_handles $testdir -Ml
-+test_file_handles $testdir -Mu
-+
-+status=0
-+exit
-diff --git a/tests/generic/756.out b/tests/generic/756.out
-new file mode 100644
-index 000000000000..48aed88d87b9
---- /dev/null
-+++ b/tests/generic/756.out
-@@ -0,0 +1,5 @@
-+QA output created by 756
-+test_file_handles TEST_DIR/756-dir -Md
-+test_file_handles TEST_DIR/756-dir -M
-+test_file_handles TEST_DIR/756-dir -Ml
-+test_file_handles TEST_DIR/756-dir -Mu
+---
+Aleksa Sarai (10):
+      uaccess: add copy_struct_to_user helper
+      sched_getattr: port to copy_struct_to_user
+      openat2: explicitly return -E2BIG for (usize > PAGE_SIZE)
+      openat2: add CHECK_FIELDS flag to usize argument
+      selftests: openat2: add 0xFF poisoned data after misaligned struct
+      selftests: openat2: add CHECK_FIELDS selftests
+      clone3: add CHECK_FIELDS flag to usize argument
+      selftests: clone3: add CHECK_FIELDS selftests
+      mount_setattr: add CHECK_FIELDS flag to usize argument
+      selftests: mount_setattr: add CHECK_FIELDS selftest
+
+ arch/alpha/include/uapi/asm/errno.h                |   3 +
+ arch/mips/include/uapi/asm/errno.h                 |   3 +
+ arch/parisc/include/uapi/asm/errno.h               |   3 +
+ arch/sparc/include/uapi/asm/errno.h                |   3 +
+ fs/namespace.c                                     |  17 ++
+ fs/open.c                                          |  18 ++
+ include/linux/uaccess.h                            |  98 ++++++++
+ include/uapi/asm-generic/errno.h                   |   3 +
+ include/uapi/linux/openat2.h                       |   2 +
+ kernel/fork.c                                      |  30 ++-
+ kernel/sched/syscalls.c                            |  42 +---
+ tools/arch/alpha/include/uapi/asm/errno.h          |   3 +
+ tools/arch/mips/include/uapi/asm/errno.h           |   3 +
+ tools/arch/parisc/include/uapi/asm/errno.h         |   3 +
+ tools/arch/sparc/include/uapi/asm/errno.h          |   3 +
+ tools/include/uapi/asm-generic/errno.h             |   3 +
+ tools/include/uapi/asm-generic/posix_types.h       | 101 ++++++++
+ tools/testing/selftests/clone3/.gitignore          |   1 +
+ tools/testing/selftests/clone3/Makefile            |   4 +-
+ .../testing/selftests/clone3/clone3_check_fields.c | 264 +++++++++++++++++++++
+ tools/testing/selftests/mount_setattr/Makefile     |   2 +-
+ .../selftests/mount_setattr/mount_setattr_test.c   |  53 ++++-
+ tools/testing/selftests/openat2/Makefile           |   2 +
+ tools/testing/selftests/openat2/openat2_test.c     | 165 ++++++++++++-
+ 24 files changed, 778 insertions(+), 51 deletions(-)
+---
+base-commit: 431c1646e1f86b949fa3685efc50b660a364c2b6
+change-id: 20240803-extensible-structs-check_fields-a47e94cef691
+
+Best regards,
 -- 
-2.46.0
+Aleksa Sarai <cyphar@cyphar.com>
 
 
