@@ -1,313 +1,161 @@
-Return-Path: <linux-api+bounces-2313-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2314-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A429996DD09
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2024 17:02:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 139DF975F8F
+	for <lists+linux-api@lfdr.de>; Thu, 12 Sep 2024 05:11:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 265EE1F23A58
-	for <lists+linux-api@lfdr.de>; Thu,  5 Sep 2024 15:02:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF673286071
+	for <lists+linux-api@lfdr.de>; Thu, 12 Sep 2024 03:11:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D5C419E7F8;
-	Thu,  5 Sep 2024 14:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="aG00TQEM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD1CE78C60;
+	Thu, 12 Sep 2024 03:11:20 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E4F1A42C8;
-	Thu,  5 Sep 2024 14:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A346744C6C;
+	Thu, 12 Sep 2024 03:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725548325; cv=none; b=b5i1nqWw1DUl8J3Qy8IaiOmy0imccMLppYDP/OLHhhiSfayH4PY7h91+CbCMOQSMqYN5gMhkK3E+cavnRrGPnBUFVFzNXW5o3Ni1BqfMIaNu1A3vzSZPJqYqXUnOxKH5mAHRuCAQMJmcuLvZHFMXMNdQa+sAUVLJ2oaEPpIH130=
+	t=1726110680; cv=none; b=Rf8zf4FEvy4xLznBhRpXr8HQQaqqdaxsuoZurZ65C4E93khjSznWSOpU+amKcvigJI0IU3haj1ABT9Mhdg8xzSkzqDFsnb8NBD+OiNFAODrjN7b+d7mvOeDX7pb7Mpk2Td8nghL1tNXMCwqw0I2ycF2rvOjpo3L0PhxPj048nnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725548325; c=relaxed/simple;
-	bh=Md2voHWHN6ZD8jB5U2AftXt35HXnXcLeKJYVRv/yU1o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A1X7nvJrNvjj5mdS98fW0Zwn9wvtpq5q2E1Qbb5xaPhBdiUNNQRveOTPOJq9nVKkgdeYjdPrXQT7vqLQkeQUPXqQk4J3l57K7r2BPNWb+VRco4OKCnHqsWUI0nbx+escXZBV37IV/H0jHAIcTfriaw2yfm9zM9rw+HZfhFhqF8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=aG00TQEM; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4X02YW4rLQz9smZ;
-	Thu,  5 Sep 2024 16:58:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1725548319;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ee2kk+0paPhXmF0WCRx/YdS1aoxGKNnY8mZZOtBU46g=;
-	b=aG00TQEMzHIPzDz6cGwggGf69Wwa5FoZVA8w3GWaZCippzdPPYk9yEFYAl6u/dyxNslSbI
-	NPjV08uf5KI5MF74kWs2n/f0LoqAsUm1HdnW9lsS65rd6unUAIV4yldAKUEUUsPlDtD1gy
-	y6LerCCrHV5CNH+N0+DBDSJhcxaILnfCFe4/qGOJqBAdO7E0n36KFz57lSJXo8ahKcxWsn
-	+JIwa9EpMoypgCuYx3gsdbdiHdZQIa9JzOhZhuJZjT8NYUS5NY0jTxg6aUwuWyX5DMH2O8
-	Q3p/39VGoys8zv5HRKi5NLBbjK7Vblo70YuboK6SItCz2J+lMSOKhRsjPsdiww==
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Fri, 06 Sep 2024 00:56:42 +1000
-Subject: [PATCH RFC v2 10/10] selftests: mount_setattr: add CHECK_FIELDS
- selftest
+	s=arc-20240116; t=1726110680; c=relaxed/simple;
+	bh=OArDEyqgWVPGjdCXCoJCy+3m3bqqS/ssLLVmDdflos8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=BBm19+HfG/MU/x5HURwiHGuUfZ7FbX0l5ZkyNzSj4ZaJoQEkWxd+jIQxIM8TmqGb51WYzBfDvaNe830Pam0rmxTd5vRugmI8miHNTfO7miAneJ1kN1cP2imh1q8oY6ujSTq8EX6ylgSK9k+592GJ9yJh0Fg0nD3qNnJAwXxLtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4X42Wx13Pxz69NK;
+	Thu, 12 Sep 2024 11:11:09 +0800 (CST)
+Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
+	by mail.maildlp.com (Postfix) with ESMTPS id 122AA140453;
+	Thu, 12 Sep 2024 11:11:16 +0800 (CST)
+Received: from [10.173.127.72] (10.173.127.72) by
+ kwepemd200019.china.huawei.com (7.221.188.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 12 Sep 2024 11:11:12 +0800
+Subject: Re: [PATCH v23 1/4] mm: add MAP_DROPPABLE for designating always
+ lazily freeable mappings
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, <linux-kernel@vger.kernel.org>,
+	<patches@lists.linux.dev>, <tglx@linutronix.de>
+CC: <linux-crypto@vger.kernel.org>, <linux-api@vger.kernel.org>,
+	<x86@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
+	<adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>, Florian
+ Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn
+	<jannh@google.com>, Christian Brauner <brauner@kernel.org>, David Hildenbrand
+	<dhildenb@redhat.com>, <linux-mm@kvack.org>, David Hildenbrand
+	<david@redhat.com>
+References: <20240712014009.281406-1-Jason@zx2c4.com>
+ <20240712014009.281406-2-Jason@zx2c4.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <ee5d3e39-572c-7ec6-f329-1275d7138220@huawei.com>
+Date: Thu, 12 Sep 2024 11:11:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20240712014009.281406-2-Jason@zx2c4.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240906-extensible-structs-check_fields-v2-10-0f46d2de9bad@cyphar.com>
-References: <20240906-extensible-structs-check_fields-v2-0-0f46d2de9bad@cyphar.com>
-In-Reply-To: <20240906-extensible-structs-check_fields-v2-0-0f46d2de9bad@cyphar.com>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Florian Weimer <fweimer@redhat.com>, 
- Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>, 
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7253; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=Md2voHWHN6ZD8jB5U2AftXt35HXnXcLeKJYVRv/yU1o=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaTdPLZF41ZUslpOlGTZDqa5O3ujGf+uNfvsfG5h4gn3/
- d8XPXzL0VHKwiDGxSArpsiyzc8zdNP8xVeSP61kg5nDygQyhIGLUwAmUmPHyLDMTNlh2s8T+R+5
- 35ScYbUX3Vqx70invkOM9e1NifIVNyYzMvQse5EfOPdM4Xo9H2eH7lsa/8t9pXbcVtW4yFE7uTo
- 9hgMA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
-X-Rspamd-Queue-Id: 4X02YW4rLQz9smZ
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemd200019.china.huawei.com (7.221.188.193)
 
-While we're at it -- to make testing for error codes with ASSERT_*
-easier, make the sys_* wrappers return -errno in case of an error.
+On 2024/7/12 9:40, Jason A. Donenfeld wrote:
+> The vDSO getrandom() implementation works with a buffer allocated with a
+> new system call that has certain requirements:
+> 
+> - It shouldn't be written to core dumps.
+>   * Easy: VM_DONTDUMP.
+> - It should be zeroed on fork.
+>   * Easy: VM_WIPEONFORK.
+> 
+> - It shouldn't be written to swap.
+>   * Uh-oh: mlock is rlimited.
+>   * Uh-oh: mlock isn't inherited by forks.
+> 
+> - It shouldn't reserve actual memory, but it also shouldn't crash when
+>   page faulting in memory if none is available
+>   * Uh-oh: VM_NORESERVE means segfaults.
+> 
+> It turns out that the vDSO getrandom() function has three really nice
+> characteristics that we can exploit to solve this problem:
+> 
+> 1) Due to being wiped during fork(), the vDSO code is already robust to
+>    having the contents of the pages it reads zeroed out midway through
+>    the function's execution.
+> 
+> 2) In the absolute worst case of whatever contingency we're coding for,
+>    we have the option to fallback to the getrandom() syscall, and
+>    everything is fine.
+> 
+> 3) The buffers the function uses are only ever useful for a maximum of
+>    60 seconds -- a sort of cache, rather than a long term allocation.
+> 
+> These characteristics mean that we can introduce VM_DROPPABLE, which
+> has the following semantics:
+> 
+> a) It never is written out to swap.
+> b) Under memory pressure, mm can just drop the pages (so that they're
+>    zero when read back again).
+> c) It is inherited by fork.
+> d) It doesn't count against the mlock budget, since nothing is locked.
+> e) If there's not enough memory to service a page fault, it's not fatal,
+>    and no signal is sent.
+> 
+> This way, allocations used by vDSO getrandom() can use:
+> 
+>     VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
+> 
+> And there will be no problem with OOMing, crashing on overcommitment,
+> using memory when not in use, not wiping on fork(), coredumps, or
+> writing out to swap.
+> 
+> In order to let vDSO getrandom() use this, expose these via mmap(2) as
+> MAP_DROPPABLE.
+> 
+> Note that this involves removing the MADV_FREE special case from
+> sort_folio(), which according to Yu Zhao is unnecessary and will simply
+> result in an extra call to shrink_folio_list() in the worst case. The
+> chunk removed reenables the swapbacked flag, which we don't want for
+> VM_DROPPABLE, and we can't conditionalize it here because there isn't a
+> vma reference available.
+> 
+> Finally, the provided self test ensures that this is working as desired.
+> 
+> Cc: linux-mm@kvack.org
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+...
 
-For some reason, the <sys/sysinfo.h> include doesn't correct import
-<asm/posix_types.h>, leading to compilation errors -- so just import
-<asm/posix_types.h> manually.
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d10e616d7389..18fe893ce96d 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5690,6 +5690,10 @@ vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+>  
+>  	lru_gen_exit_fault();
+>  
+> +	/* If the mapping is droppable, then errors due to OOM aren't fatal. */
+> +	if (vma->vm_flags & VM_DROPPABLE)
+> +		ret &= ~VM_FAULT_OOM;
+> +
+I'm sorry for jumping in here. I am confused about the code in handle_mm_fault(). Since VM_FAULT_OOM is simply
+dropped, page fault will be re-triggered soon? If so, when oom is disabled or fails to move forward, page fault
+will re-trigger again and again as no memory is available? I might be miss something.
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- tools/include/uapi/asm-generic/posix_types.h       | 101 +++++++++++++++++++++
- tools/testing/selftests/mount_setattr/Makefile     |   2 +-
- .../selftests/mount_setattr/mount_setattr_test.c   |  53 ++++++++++-
- 3 files changed, 153 insertions(+), 3 deletions(-)
-
-diff --git a/tools/include/uapi/asm-generic/posix_types.h b/tools/include/uapi/asm-generic/posix_types.h
-new file mode 100644
-index 000000000000..b5f7594eee7a
---- /dev/null
-+++ b/tools/include/uapi/asm-generic/posix_types.h
-@@ -0,0 +1,101 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef __ASM_GENERIC_POSIX_TYPES_H
-+#define __ASM_GENERIC_POSIX_TYPES_H
-+
-+#include <asm/bitsperlong.h>
-+/*
-+ * This file is generally used by user-level software, so you need to
-+ * be a little careful about namespace pollution etc.
-+ *
-+ * First the types that are often defined in different ways across
-+ * architectures, so that you can override them.
-+ */
-+
-+#ifndef __kernel_long_t
-+typedef long		__kernel_long_t;
-+typedef unsigned long	__kernel_ulong_t;
-+#endif
-+
-+#ifndef __kernel_ino_t
-+typedef __kernel_ulong_t __kernel_ino_t;
-+#endif
-+
-+#ifndef __kernel_mode_t
-+typedef unsigned int	__kernel_mode_t;
-+#endif
-+
-+#ifndef __kernel_pid_t
-+typedef int		__kernel_pid_t;
-+#endif
-+
-+#ifndef __kernel_ipc_pid_t
-+typedef int		__kernel_ipc_pid_t;
-+#endif
-+
-+#ifndef __kernel_uid_t
-+typedef unsigned int	__kernel_uid_t;
-+typedef unsigned int	__kernel_gid_t;
-+#endif
-+
-+#ifndef __kernel_suseconds_t
-+typedef __kernel_long_t		__kernel_suseconds_t;
-+#endif
-+
-+#ifndef __kernel_daddr_t
-+typedef int		__kernel_daddr_t;
-+#endif
-+
-+#ifndef __kernel_uid32_t
-+typedef unsigned int	__kernel_uid32_t;
-+typedef unsigned int	__kernel_gid32_t;
-+#endif
-+
-+#ifndef __kernel_old_uid_t
-+typedef __kernel_uid_t	__kernel_old_uid_t;
-+typedef __kernel_gid_t	__kernel_old_gid_t;
-+#endif
-+
-+#ifndef __kernel_old_dev_t
-+typedef unsigned int	__kernel_old_dev_t;
-+#endif
-+
-+/*
-+ * Most 32 bit architectures use "unsigned int" size_t,
-+ * and all 64 bit architectures use "unsigned long" size_t.
-+ */
-+#ifndef __kernel_size_t
-+#if __BITS_PER_LONG != 64
-+typedef unsigned int	__kernel_size_t;
-+typedef int		__kernel_ssize_t;
-+typedef int		__kernel_ptrdiff_t;
-+#else
-+typedef __kernel_ulong_t __kernel_size_t;
-+typedef __kernel_long_t	__kernel_ssize_t;
-+typedef __kernel_long_t	__kernel_ptrdiff_t;
-+#endif
-+#endif
-+
-+#ifndef __kernel_fsid_t
-+typedef struct {
-+	int	val[2];
-+} __kernel_fsid_t;
-+#endif
-+
-+/*
-+ * anything below here should be completely generic
-+ */
-+typedef __kernel_long_t	__kernel_off_t;
-+typedef long long	__kernel_loff_t;
-+typedef __kernel_long_t	__kernel_old_time_t;
-+#ifndef __KERNEL__
-+typedef __kernel_long_t	__kernel_time_t;
-+#endif
-+typedef long long __kernel_time64_t;
-+typedef __kernel_long_t	__kernel_clock_t;
-+typedef int		__kernel_timer_t;
-+typedef int		__kernel_clockid_t;
-+typedef char *		__kernel_caddr_t;
-+typedef unsigned short	__kernel_uid16_t;
-+typedef unsigned short	__kernel_gid16_t;
-+
-+#endif /* __ASM_GENERIC_POSIX_TYPES_H */
-diff --git a/tools/testing/selftests/mount_setattr/Makefile b/tools/testing/selftests/mount_setattr/Makefile
-index 0c0d7b1234c1..3f260506fe60 100644
---- a/tools/testing/selftests/mount_setattr/Makefile
-+++ b/tools/testing/selftests/mount_setattr/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for mount selftests.
--CFLAGS = -g $(KHDR_INCLUDES) -Wall -O2 -pthread
-+CFLAGS = -g $(KHDR_INCLUDES) $(TOOLS_INCLUDES) -Wall -O2 -pthread
- 
- TEST_GEN_PROGS := mount_setattr_test
- 
-diff --git a/tools/testing/selftests/mount_setattr/mount_setattr_test.c b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-index c6a8c732b802..36b8286e5f43 100644
---- a/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-+++ b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-@@ -11,6 +11,7 @@
- #include <sys/wait.h>
- #include <sys/vfs.h>
- #include <sys/statvfs.h>
-+#include <asm/posix_types.h> /* get __kernel_* typedefs */
- #include <sys/sysinfo.h>
- #include <stdlib.h>
- #include <unistd.h>
-@@ -137,7 +138,8 @@
- static inline int sys_mount_setattr(int dfd, const char *path, unsigned int flags,
- 				    struct mount_attr *attr, size_t size)
- {
--	return syscall(__NR_mount_setattr, dfd, path, flags, attr, size);
-+	int ret = syscall(__NR_mount_setattr, dfd, path, flags, attr, size);
-+	return ret >= 0 ? ret : -errno;
- }
- 
- #ifndef OPEN_TREE_CLONE
-@@ -152,9 +154,24 @@ static inline int sys_mount_setattr(int dfd, const char *path, unsigned int flag
- #define AT_RECURSIVE 0x8000 /* Apply to the entire subtree */
- #endif
- 
-+#define FSMOUNT_VALID_FLAGS                                                    \
-+	(MOUNT_ATTR_RDONLY | MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV |            \
-+	 MOUNT_ATTR_NOEXEC | MOUNT_ATTR__ATIME | MOUNT_ATTR_NODIRATIME |       \
-+	 MOUNT_ATTR_NOSYMFOLLOW)
-+
-+#define MOUNT_SETATTR_VALID_FLAGS (FSMOUNT_VALID_FLAGS | MOUNT_ATTR_IDMAP)
-+
-+#define MOUNT_SETATTR_PROPAGATION_FLAGS \
-+	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-+
-+#ifndef CHECK_FIELDS
-+#define CHECK_FIELDS (1ULL << 63)
-+#endif
-+
- static inline int sys_open_tree(int dfd, const char *filename, unsigned int flags)
- {
--	return syscall(__NR_open_tree, dfd, filename, flags);
-+	int ret = syscall(__NR_open_tree, dfd, filename, flags);
-+	return ret >= 0 ? ret : -errno;
- }
- 
- static ssize_t write_nointr(int fd, const void *buf, size_t count)
-@@ -1497,4 +1514,36 @@ TEST_F(mount_setattr, mount_attr_nosymfollow)
- 	ASSERT_EQ(close(fd), 0);
- }
- 
-+TEST_F(mount_setattr, check_fields)
-+{
-+	struct mount_attr_ext {
-+		struct mount_attr inner;
-+		uint64_t extra1;
-+		uint64_t extra2;
-+		uint64_t extra3;
-+	} attr;
-+
-+	/* Set the structure to dummy values. */
-+	memset(&attr, 0xAB, sizeof(attr));
-+
-+	if (!mount_setattr_supported())
-+		SKIP(return, "mount_setattr syscall not supported");
-+
-+	/* Make sure that invalid sizes are detected even with CHECK_FIELDS. */
-+	EXPECT_EQ(sys_mount_setattr(-1, "", 0, (struct mount_attr *) &attr, CHECK_FIELDS), -EINVAL);
-+	EXPECT_EQ(sys_mount_setattr(-1, "", 0, (struct mount_attr *) &attr, CHECK_FIELDS | 0xF000), -E2BIG);
-+
-+	/* Actually get the CHECK_FIELDS results. */
-+	ASSERT_EQ(sys_mount_setattr(-1, "", 0, (struct mount_attr *) &attr, CHECK_FIELDS | sizeof(attr)), -EEXTSYS_NOOP);
-+
-+	EXPECT_EQ(attr.inner.attr_set, MOUNT_SETATTR_VALID_FLAGS);
-+	EXPECT_EQ(attr.inner.attr_clr, MOUNT_SETATTR_VALID_FLAGS);
-+	EXPECT_EQ(attr.inner.propagation, MOUNT_SETATTR_PROPAGATION_FLAGS);
-+	EXPECT_EQ(attr.inner.userns_fd, 0xFFFFFFFFFFFFFFFF);
-+	/* Trailing fields outside ksize must be zeroed. */
-+	EXPECT_EQ(attr.extra1, 0);
-+	EXPECT_EQ(attr.extra2, 0);
-+	EXPECT_EQ(attr.extra3, 0);
-+}
-+
- TEST_HARNESS_MAIN
-
--- 
-2.46.0
+Thanks.
+.
 
 
