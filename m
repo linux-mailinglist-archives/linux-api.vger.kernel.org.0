@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-2367-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2368-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5008298D6D5
-	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2024 15:44:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF84798E485
+	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2024 23:01:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CAB73B2362A
-	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2024 13:44:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D0B11F2381C
+	for <lists+linux-api@lfdr.de>; Wed,  2 Oct 2024 21:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7250B1D096E;
-	Wed,  2 Oct 2024 13:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8EAE196D9D;
+	Wed,  2 Oct 2024 21:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sxanbP6k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTU7o2bj"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456AD1D0164;
-	Wed,  2 Oct 2024 13:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC464745F4;
+	Wed,  2 Oct 2024 21:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727876578; cv=none; b=O1rgoy0VT3IKnww+//BrMmJUOtfVti090cQiWu2zgZCbbLIoOScemaI2VOW9gfjH/sj2N3eeqxEktAmXh2840F5ZOk+DSeh9kl9eGrMxJkAXjlkAYEXZko18E2cfjcvkJadZCxtV0OXiK9dCRzk2zX0vooVizccR2CVvt9HdaTg=
+	t=1727902874; cv=none; b=Yt9PdLEtWjCwoboRhwLjbYrYopgfb/Rzvs5b99QBZDFG8HTWjjOOg1ydPmC26oG6I3el2iJKSIrAoxnrLruxfeOGXGc4b75JvDEs40xXFIcssbQQTEPLanLTh4h31mI4TL+aNgS1Hqo/3w9j+/0HHDyAIMuERJPkrGu82GbegiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727876578; c=relaxed/simple;
-	bh=mnR+XM0NLcG4YKhTB9RsqvHcFQ5UPkjI6KL9XwTdtoo=;
+	s=arc-20240116; t=1727902874; c=relaxed/simple;
+	bh=LRRZb5jbN3mdDq16uHd5GpfD2+xzWvO+kARF1tW0Lrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gn+HRR8DubQwhLL/dCsExCJ6oepHQtEQm8o+OXHSY25u+p/DVf3bm3Y1yVSgy7GEHIax4dBwiMK4pROrr/XtAau6E2dm6xJnS3HLIy6dqCMyqApWWSxbcEJAT/yHR4CF55dZY1EpCwWYBWSHsX7p7UMJVwmm5/audJngOUQoz+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sxanbP6k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C108C4CECD;
-	Wed,  2 Oct 2024 13:42:50 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2JGsZ9oOPKcK8yceNnnbukyIyL4/tw5gjCsXIDvh54ylz9IWX2GdMd02+jOjo86cS0Ee4JMm7NyOfsaI7xgVvtgjrtWCrS2/WM7zAO0LTodWbOVnAXNxFJxnOWQ0FpibgQ0v3J70YEI52CO9lR7wuOgkBs2qDZUuBC8+378SdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTU7o2bj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D12CEC4CEC2;
+	Wed,  2 Oct 2024 21:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727876577;
-	bh=mnR+XM0NLcG4YKhTB9RsqvHcFQ5UPkjI6KL9XwTdtoo=;
+	s=k20201202; t=1727902874;
+	bh=LRRZb5jbN3mdDq16uHd5GpfD2+xzWvO+kARF1tW0Lrk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sxanbP6kRLwuwRYfu+wOMj12AeayFuB95DYdWr5E/x4PvyFOoKiCl0cFhp1AMmmTa
-	 UGZ3vs7jRYH+anJ6NdIxvROfYkJ40+bgm+FcXUZOibasdawD1xHAspy0tu9Q3uRQKD
-	 uqyaPvXz7V3sWqqOEkeA3L1ngvqf9ZK5ZgBRe52yXaphFDtex0FXrBYpcjT290syXC
-	 BKVIxh/WyG0PqdInUchTUOCrCN5hJ9HifuWgZzeR7+70vFtZl8/Kltm7gr0rLmEDwx
-	 0lYhH+bGouuqSNmuGq1KjAcbkbjhpSYCstMqVa06vKrkFI3yD6Ep0OEKmdrL3AyYAb
-	 kAWk4dWkSdI7w==
-Date: Wed, 2 Oct 2024 14:42:48 +0100
+	b=aTU7o2bjYGW+IyKz614dLl3om0M2iW4jlpprrpvFGHDktQxL7+5BcL9lmA73Eosqr
+	 +oMyQs+FLNEH1mneB7CkqxM8U0G1QvvQPoAL/dqRbcvKkIl7HO+hubPbilIa5dNB0L
+	 ocMyuRV2WRlIh3fzJFEZ5GnNQN4nexjPt8Swbw8zn+pssd5/0qTE4jxuLXlgy2iAby
+	 r8dDumJ/LM2hqmm9GEcfKTc/rgrKTMhpAVqKtII5lSyyjDR9smNCMmivCnMz3k4OPd
+	 oZMgaL2O+av2Z5HxLKxUD/Ah9r4dLt/Orxa1++sTHEokk25XRsgqEdOo0S2zqsqx70
+	 3bxBo3SOxcmvg==
+Date: Wed, 2 Oct 2024 22:01:10 +0100
 From: Mark Brown <broonie@kernel.org>
 To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
 Cc: "brauner@kernel.org" <brauner@kernel.org>,
@@ -74,9 +74,8 @@ Cc: "brauner@kernel.org" <brauner@kernel.org>,
 	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
 	"x86@kernel.org" <x86@kernel.org>
 Subject: Re: [PATCH RFT v9 4/8] fork: Add shadow stack support to clone3()
-Message-ID: <b7ef38c9-1e87-468f-94a5-a3c7f209d200@sirena.org.uk>
-References: <5643761f-cc38-4e41-9ddd-f0a1934f8724@sirena.org.uk>
- <9f022aa4cd3e2dc82d0c963e9d2bf5c7ddd5b92a.camel@intel.com>
+Message-ID: <Zv20luC6us-LEMqN@finisterre.sirena.org.uk>
+References: <9f022aa4cd3e2dc82d0c963e9d2bf5c7ddd5b92a.camel@intel.com>
  <77bc051d-b2c9-4e3a-b956-be8879048e20@sirena.org.uk>
  <5464b915b52bf3b91ec70201736479a5347838af.camel@intel.com>
  <158190d9-a4a6-4647-84e8-f4ae036d984b@sirena.org.uk>
@@ -85,6 +84,7 @@ References: <5643761f-cc38-4e41-9ddd-f0a1934f8724@sirena.org.uk>
  <20241001-atheismus-stetig-4f6f3001715c@brauner>
  <6bf15851-03fe-40cd-b95c-f7e2ca40ac54@sirena.org.uk>
  <0999160fd5282ac129aab300b667af35d7251582.camel@intel.com>
+ <b7ef38c9-1e87-468f-94a5-a3c7f209d200@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -92,52 +92,58 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jMJGTXcgxFsF8Hxq"
+	protocol="application/pgp-signature"; boundary="tOwcQFVW/KtwHJ9x"
 Content-Disposition: inline
-In-Reply-To: <0999160fd5282ac129aab300b667af35d7251582.camel@intel.com>
-X-Cookie: Know Thy User.
+In-Reply-To: <b7ef38c9-1e87-468f-94a5-a3c7f209d200@sirena.org.uk>
+X-Cookie: Editing is a rewording activity.
 
 
---jMJGTXcgxFsF8Hxq
+--tOwcQFVW/KtwHJ9x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 01, 2024 at 11:03:10PM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2024-10-01 at 18:33 +0100, Mark Brown wrote:
+On Wed, Oct 02, 2024 at 02:42:58PM +0100, Mark Brown wrote:
+> On Tue, Oct 01, 2024 at 11:03:10PM +0000, Edgecombe, Rick P wrote:
 
-> > My suspicion would be that if we're doing the pivot to a previously used
-> > shadow stack we'd also be pivoting the regular stack along with it which
-> > would face similar issues with having an unusual method for specifying
-> > the stack top so I don't know how much we're really winning.
+> > I'm not so sure. The thing is a regular stack can be re-used in full - =
+just set
+> > the RSP to the end and take advantage of the whole stack. A shadow stac=
+k can
+> > only be used where there is a token.
 
-> I'm not so sure. The thing is a regular stack can be re-used in full - just set
-> the RSP to the end and take advantage of the whole stack. A shadow stack can
-> only be used where there is a token.
+> Yeah, I'm not sure how appealing it is trying to use a memory pool with
+> of shadow stacks - like you say you can't reset the top of the stack so
+> you need to keep track of that when the stack becomes unused.  If the
+> users don't leave the SSP at the top of the stack then unless writes
+> have been enabled (which has security issues) then gradually the size of
+> the shadow stacks will be eroded which will need to be managed.  You
+> could do it, but it's clearly not really how things are supposed to
+> work.  The use case with starting a new worker thread for an existing in
+> use state seems much more appealing.
 
-Yeah, I'm not sure how appealing it is trying to use a memory pool with
-of shadow stacks - like you say you can't reset the top of the stack so
-you need to keep track of that when the stack becomes unused.  If the
-users don't leave the SSP at the top of the stack then unless writes
-have been enabled (which has security issues) then gradually the size of
-the shadow stacks will be eroded which will need to be managed.  You
-could do it, but it's clearly not really how things are supposed to
-work.  The use case with starting a new worker thread for an existing in
-use state seems much more appealing.
+BTW it's probably also worth noting that at least on arm64 (perhaps x86
+is different here?) the shadow stack of a thread that exited won't have
+a token placed on it so it won't be possible to use it with clone3() at
+all unless another token is written.  To get a shadow stack you could
+use with clone3() you'd either need to allocate a new one, pivot away
+=66rom one that's currently in use or enable shadow stack writes and place
+a token.
 
---jMJGTXcgxFsF8Hxq
+--tOwcQFVW/KtwHJ9x
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb9TdcACgkQJNaLcl1U
-h9Bhgwf/RLTwlOEBvHNWnum583EyjziOq63r48YgG3FKhtlqWzQ2Ms2cPSj/NbRE
-ouuuZoJPg1hXcc/dnyD9/5rS9aI7L6Qdjp9dA8fdDiVQF1Wt8qYFJbveMJqVUL/a
-vS12BXtV/zt2kbI9zndAqds654g0UlIFax3Th7G2q7yIA3oCUvJa/uTzWLHhpVpG
-6xSIwTqNoHV1UXvmjOYESlItBmfPAS8G6x7en7D/leUY9QAANG89u6dBEdPBZeWy
-2/Wy/6bPtSqWZfHmQWqjUq+GyqJ1sca4uMHDLwAEErbMKUap8qkimmlCZ1iliTNL
-68j6HsRp+8G536NP6/c69ElIFLnJWA==
-=EK0V
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb9tJIACgkQJNaLcl1U
+h9Bkpwf/c6g+k2PVrSLzsEUR3JAZSDFGui28/pfaqYsoTehL3za4CT5tjk1LE6YV
+0T54vGR5M2n41vh8T//I4ItTAkb/Xs2p0FEsEqESF8a9LSuuFSdM3yp2woqwgeXz
+FZcE6ysVZhHoGcChbWjtnDcrILmFR0VJAIUInMWYwsYam4LtHaW+YEO7NFBCtYPv
+WS0BNEv+lGtTFbM8qNfFBWQGvRp+WkSUPKrpRThcY/UmXPqrrgd8E4d/U5qX/4GO
+7f3+czgZpE8nz5hF8aaWSBwr/dARz7FvnSPdiDXuTASrPZF5jwURJWPQVrm6GoTy
+t2qA84msWefPCTiBqxyKM/pYry5ifA==
+=dR04
 -----END PGP SIGNATURE-----
 
---jMJGTXcgxFsF8Hxq--
+--tOwcQFVW/KtwHJ9x--
 
