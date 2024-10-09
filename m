@@ -1,269 +1,254 @@
-Return-Path: <linux-api+bounces-2382-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2383-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E741996DE5
-	for <lists+linux-api@lfdr.de>; Wed,  9 Oct 2024 16:32:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD66F997690
+	for <lists+linux-api@lfdr.de>; Wed,  9 Oct 2024 22:41:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDCEB1F24173
-	for <lists+linux-api@lfdr.de>; Wed,  9 Oct 2024 14:32:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 010A2B230E9
+	for <lists+linux-api@lfdr.de>; Wed,  9 Oct 2024 20:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F991199FB4;
-	Wed,  9 Oct 2024 14:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BE941E1A36;
+	Wed,  9 Oct 2024 20:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDs8TxD7"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="zYwdBi+I"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6480318EAD;
-	Wed,  9 Oct 2024 14:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728484306; cv=fail; b=Q8LF+D7yvNq+/xomLphSVgV1/BV07wk8sqdFskQWAAMNgWD9hPKPI1ECwOkqfo1I96VA5gFFggUamGkH2bcpL+zII7qXInHZYIFzOhMDlz7eq/DgA5z8larDOvNNdRu6owzAesCqFqajqlZwZ2iXsklLjiXf14wp28AeCtNdAv8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728484306; c=relaxed/simple;
-	bh=730jVH0FodWnhgtAC+I7xNcaUM0aFn252aonbqoKOr0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=qxMLqvfcyERnkhwcPR2AMi9jkuNAxOvhquKCjG5gtcx5kTNRqhHrE8s94z1V6WlmflaC8bdCBJk55be1fKqnCIZeleK5fzL6OZMlPC1kS0v3qx+Tf5tXBs5CkG4/kigFpCopmj3sOXM/DfuSAsmlQMNl62FLOm4u8Te2nzppn+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDs8TxD7; arc=fail smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728484304; x=1760020304;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=730jVH0FodWnhgtAC+I7xNcaUM0aFn252aonbqoKOr0=;
-  b=WDs8TxD7ALlrJFjgiJc6cxYi+DHIstbE1f7Io1jUY/mJIq0cS93TdjVd
-   UNSZJcqC3TybMn6GaH4OQbCKy9HvrA8ZtuLjHGuLdG94uRUC7DHRFoYQK
-   rdjBcX0AiJdOh71Wkvqjs7qbPi6PL3ylXL8QsoIz96/IoOUDymr71gx2d
-   8O/yMSBm7gxWREstH2B8D/hjoDWZKq0noiqaeZt6IIBelFy1rUHh2RhCm
-   wY3p4KISZQCc8VMLLP1dkFx2N9BW7qne9vZXsS+35GZP0yZkjZgugpc/q
-   ewJSwwlaLsTJslPsA0CxGoyOG3eCn7r3wZLNCsjyEaEFIqeuQ6GJsj8hH
-   Q==;
-X-CSE-ConnectionGUID: 1FkjY+vVTHyi3mH66mvZ4w==
-X-CSE-MsgGUID: coK6WZ1GT+CqDhvw6iHUpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27263747"
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="27263747"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 07:31:42 -0700
-X-CSE-ConnectionGUID: pS2rXekfTRa/XC6JsYqW9A==
-X-CSE-MsgGUID: bwgJjIGmR7eTJN3UxI1VmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="81078523"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Oct 2024 07:31:42 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 9 Oct 2024 07:31:42 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 9 Oct 2024 07:31:42 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 9 Oct 2024 07:31:42 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 9 Oct 2024 07:31:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uz9sOVHO3/rf0uMHsP24jijwtxQc93rHFfCFZTm7vwqPTGwGJIOAbmTGTSzYbF8eNta1JXBgobRL4IyygWpAx8rD1Oma8zj/7BD7vS+IFcHRJkm5FufEvo+nKIFTjGTdFfbZkKurV+zaJgxxaaV6oUW/62QFx08aHqLMVi/wCU4arm4+C/xYIzlJOfrvx4Pzr5xkPPglVY95RIx8D7iFda0svRD4LrB1zuhaaXVuyeQSqQGW3cKlAk8/sCYoWjvrZLQEesXNe8C+A3voD6V5/bt2k60OCm82dZESEMBlj16sh/hUMlpisu1pbDkQsV/FP8Gnk8/z276WHcn7z2W44w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VVP8qtqOLzWI4/OVu186y7hDM2J8kWGfew1kTzmQW8E=;
- b=olIfbGLI1Kqyn20GIcL/BDsy2+qYCsgZ4MdYifgXw7x6WuzE2g1fADkEGcqdDZsnp+qke62rDSM0nsCbi3/1cK8ALcNcS5ZQbO4ene9FVL/hBurMkwICNHlM2AGGvTd9DJxEvw0SkbzsMUyQGepuVZ95l5Ykc6eUHmlH1KGErBIghA4lMWEpuMlRXRjGZ+I7WL/up6gBFMnfcXL9XdfbCt8NkBJpp9Xi8w9sK63mXw3Qnq9GS9ogxWIm9hJDT8wWRytY05PEnhsVXPuQ/INUGXfuBd1/O5YYOBpUA06ToE+etQbLvaivRr8NoMIjraerwW6JZHb8T9+JE3dazs7PWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by IA0PR11MB7936.namprd11.prod.outlook.com (2603:10b6:208:3dd::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Wed, 9 Oct
- 2024 14:31:37 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.8048.013; Wed, 9 Oct 2024
- 14:31:37 +0000
-Date: Wed, 9 Oct 2024 22:31:26 +0800
-From: Oliver Sang <oliver.sang@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-CC: Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>,
-	<oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-fsdevel@vger.kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>,
-	<linux-alpha@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-m68k@lists.linux-m68k.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-s390@vger.kernel.org>,
-	<linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
-	<audit@vger.kernel.org>, <linux-api@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: Re: [viro-vfs:work.xattr2] [fs/xattr]  64d47e878a:
- xfstests.xfs.046.fail
-Message-ID: <ZwaTvubyvE0cAj6P@xsang-OptiPlex-9020>
-References: <202410062250.ee92fca7-oliver.sang@intel.com>
- <20241006145904.GE4017910@ZenIV>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241006145904.GE4017910@ZenIV>
-X-ClientProxiedBy: TYAPR01CA0070.jpnprd01.prod.outlook.com
- (2603:1096:404:2b::34) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E6B1E0B9A;
+	Wed,  9 Oct 2024 20:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728506475; cv=none; b=B2dQSBgmyUwnBzNKyxA+RECKiBCniLZmobfaukI/fvANr0cFpbQuYM8ptNoV2ZNjNefaXyaFiLGhaFqM/zm6Ff6cKsJ/1p41B3+cisagMgJOBUPAwFqjHSa5OcWgshC5BRweDSpW0A9QFAitQpyY5V5hvrDW1UG7FUkSYZtY/q8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728506475; c=relaxed/simple;
+	bh=fLp878y712Pv6p2I0M+yT3Ue0HAchRHtUJcJJ81jbqc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kvgcpdnaGcWtxK9dA/BNh79YeoylymxUGyFWanlhH27V1j+oBNYgYnzJ9FVQKXjstipd5tY1HlGmBhaNCh+391NaJj4pp2IFWNYS9Ns3nd6qpNXk36NzlIwB8LLwVNK8NIQn3/Egqt0ymWm3rde2s62GVBFl2BQrmOqYk10Eehw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=zYwdBi+I; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4XP4Xv3PYnz9sZW;
+	Wed,  9 Oct 2024 22:41:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1728506463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ITsBaG6eslEMjXWHd24r26tlRz+O6KlCV+pPMoBlPw8=;
+	b=zYwdBi+IffUlF4DDMCMwKtP55iT0kqtjVZHY9LWe2Oizuackdb2Mp+OyTOusl7VyPmmbGO
+	xif+bZ+IZah/YEJSShFnoR+y4EfqRj7A/nwARbbRdtqfhEfom6PkUIdZxL1+8mTAAoEZul
+	1IWSkZ6TCtPgLwZ1n+nxUc2pO1X+J5repq3DunEZqgNluFlI2IhDK+W0+GAldvy6UuA1xs
+	n0WkwOQD0ZmYSbryyJzxnAyMnS0Ypc9GuTfVZOkTmW/mTKcGyNttHB0euMO08LRmdqeJx4
+	I7kyXWWu+lh0OQVIIBLIekYSDuII7qArI9IadPUmViW+Pcdkk2th738EhhPJHA==
+From: Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH RFC v3 00/10] extensible syscalls: CHECK_FIELDS to allow
+ for easier feature detection
+Date: Thu, 10 Oct 2024 07:40:33 +1100
+Message-Id: <20241010-extensible-structs-check_fields-v3-0-d2833dfe6edd@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|IA0PR11MB7936:EE_
-X-MS-Office365-Filtering-Correlation-Id: ebdcaee0-bb50-4f80-c782-08dce86f14d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?QP8HWs6BBKsX38DaGg+Oamx5IQ27gS3a8dQVHJTLj3jFGJyv9rtJiohyqoMt?=
- =?us-ascii?Q?WOV80dPPfcwjTeIJa97DMA4WMQn7tPEdC3wf4v7QK7xXCMM/rqEfzkxP/sbi?=
- =?us-ascii?Q?u/FMSsE7zXhqCoc6S0YFAu9MKBltKWwyFbUpsQLQYKEyMlJOaANsT/GhzjbH?=
- =?us-ascii?Q?ONpmfM10u2oXUVrKweLIIlhGENc3U+qfKy2EWagpm9oKYzCddL1w+fdAM9+i?=
- =?us-ascii?Q?hrpBRxCSUph2nI3csHJhPztPwZuyv1EOykwFxzpsgLO6yCh9fB+uzC8L3I6x?=
- =?us-ascii?Q?DjRF+ks9Qp0ipNWghKMRJSkQ5OqTjDwCOfIaLu3t5O3a13O0DX9tsFUP8QKn?=
- =?us-ascii?Q?BnC25o7HiX3W8uyGjZPgDtU/t/TZXTC07IkvhbrUinBoJcBgD3TFd+ZYQpE/?=
- =?us-ascii?Q?PnnjsnsHruq34/lagRFlsjdQYuWJ7nETC9eGvsFW0GDqVsiLwcxONYSJdI7v?=
- =?us-ascii?Q?Wz3wwVS7UXK5lKkcMsxYD8ILxfHkxrwWEmfbHT4k2AtMH5bv1JzyCdqiF6OM?=
- =?us-ascii?Q?0kjX4AwA/mIITxqq+mKw8mBmdmcqWjXAMbYjicw7hhxUsDA0i/DqxyND+MuT?=
- =?us-ascii?Q?OJHiDStI9T5mGdC7QI8xjb/wB6+tSDdGDzYaoXKsrfZm8jH5V+C/CryVWatc?=
- =?us-ascii?Q?QrJPNv/dxh2r8utTHO8NFc+7Md+kU+f5N7R4gSfTGq51EF7jrxwrnjWL38oM?=
- =?us-ascii?Q?IfDQl3pisow2ybdr7/DrIoCucaCTJTCByWLWeR63Hz9D3itT/HkgigSlZmDs?=
- =?us-ascii?Q?d26SHsAssRQoXoWDybXxspLZOYxcEigtdj9fayLgxlWMNs2BnamMfrXOmkOB?=
- =?us-ascii?Q?e2jgpmPO90OpMOSYaF4VgDNWdvxfIRdzORYXaAdthdch29MzE9vh80Nj0zMi?=
- =?us-ascii?Q?hnoTRCD79MoA6XVD3wbN767k06jm6PWmiZpKOeycsx4T+IPHkZ+0oYhau9dl?=
- =?us-ascii?Q?4xdFoo9muVTqNYADlcVmGmpleL1aNLO4yhToIil6WeYm4ydb9feAVW0/+404?=
- =?us-ascii?Q?ZDUPQZ/VgPOXKi9Hdje2Zk40DYBF0sUxWmAXU7heDU1TU+ZEk8K1irW5Zd3i?=
- =?us-ascii?Q?Ju7Om5C2nHJUQpgXaWSLEF10APnhYxK6gveKUCUpgtSz/vbmHx2XCf3a8xOq?=
- =?us-ascii?Q?5/U86/DzaGxIvnx4HgKw7NqCVnMPDziwHHFOZFtLV4Dvwey0uq2QUeXREGwd?=
- =?us-ascii?Q?To+Bd4lRhj3EfsAMMRwNU34YS3Wq33KJDQVRBQjj/fETkb4Tl8HZkp5oVenz?=
- =?us-ascii?Q?HVPhFfWo8H6hPIA7IsjQ+/DjojNDmAoEnIVBxGq4dA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8Gdg3gmvIcJDkVwt4VGChBY17dRgJG9eV3nqH+c2YtZbKegB2fSfTK/6P8BU?=
- =?us-ascii?Q?qzVjD7QZUyeFRjmim8w/Ees7O69CIniCF8k9Kngoae7W+Nk4vrHMwa7/0OTh?=
- =?us-ascii?Q?iRMQ8fn9c4n7G9OkD/Y96MUo6LFroZF5jOPU1UckMXe4LfPk7HfB7HsJeXWQ?=
- =?us-ascii?Q?Gsb/QekSz0PIEWCHWVhsUGzPKW+7Sgk+13dQ5SMDWNGoKNoVaa4hMWBA1B6B?=
- =?us-ascii?Q?784JsHS7t/0zyVeuSpYVDcLNlQTu/tzGwfBd8bAm4X0j/yUORoHr207Rygny?=
- =?us-ascii?Q?D8lhF34z/CXra5RW+05tBywqYkjvs6qU7Icz5pruox7XlRuGCLhQ3amLxOUA?=
- =?us-ascii?Q?nEFbPJNFOyMjnXdYA4PnrBlSkXHmy8kSDwo7Nk00lTaKEvKYVbpeTmzNeKzX?=
- =?us-ascii?Q?EsG7iSo9zrQRbaopa6VKLmWKCfkF4uuVTz+GCzquMFk1ZnH9o2JLQ0u3c2g+?=
- =?us-ascii?Q?VS/sulF18X7WBA5+caqrc0PCVwhpfcafRSd5jfri7EIDhdU5jACRzb9Kn3E6?=
- =?us-ascii?Q?6pkOeK7Iutlfr3SaAyT72y/C2hRslTv3no9GBOKwnhj29ZrWlD+6Hl/PHThH?=
- =?us-ascii?Q?7e5dN2Vq334rJlwjGxV/R2sWrnMRRQtvjw5LJeDUXHsEXZSf9UZV4uv29XV5?=
- =?us-ascii?Q?SufBvB+nVmdH9Ar8zKRhqKi+AqnL8TDBQNM8mIkZhGPtcjXxCB0EuOIotpiP?=
- =?us-ascii?Q?aTLvfvHsuNo7wcMJW/PzWwBf/lWfPV9JDtnZo+9sNy9RrIcw8kFWcoJqPxPy?=
- =?us-ascii?Q?0NT1aBIIwALFJIOQSeiMP5A/vt38rhkarIV00YjchoUBkLNIZC4V8YSsiXZi?=
- =?us-ascii?Q?knTMw1qE7EeLUei603WB0UZ6UirFH6tXwn+TZNe4qr+KLARFW2k1K4BQ1H/y?=
- =?us-ascii?Q?4CDgStglvHfdGyjQybCchY79w77HEJ6Tg4P2O2rqCO21O7U2R0PbyiJ3cL26?=
- =?us-ascii?Q?N8Hrtra2Gfn6P6QBSSIT41LAKfzzI//WqkfGnsaYYOB85kdyGB/st6Nr9Dmu?=
- =?us-ascii?Q?3gScbzusgqPBud4boLxD/wn7QBZmLlhNOGzCkbO9A6mq7GZAh6fkFGFZ7VO0?=
- =?us-ascii?Q?Z1hHfQJIz8jgUrLI235MRBq8m/Zud/KeZEDNWaqpOWemaiG7zBKfpClscX1W?=
- =?us-ascii?Q?JQioOuh5e5ob0xaCYFQ6iGU5R7XyWnb8V6hgvw7OjNEzWRAgiQvNjDkP0ZOy?=
- =?us-ascii?Q?VUj0PgnBgldJYPqsaGKw6PsFsUE+tvz4Y+8qQ8g3GoymY3zK4addfPiZ/bWN?=
- =?us-ascii?Q?I2sVIW8TfIvgFXesSFPJQCfC13AVjyfb82juwq6KD3dogAEymYglZaaHQwZo?=
- =?us-ascii?Q?03QK13Ng42YTwXFVByL1gFBry4Lz2vH/uhLVFxGtil2DX/PV7BqRARPlD6N9?=
- =?us-ascii?Q?Dha1xPvfrzcwrEw+Vp/XTBv5rPK2FM1pnj6Nn9ULq9fRY4ygWDxPNuSqdVnn?=
- =?us-ascii?Q?BFJd5hRN/wZanxRuRaOb+9A2WtfE0G/ioU4MMlVV5BpU1tYEQIXkOSrzou3o?=
- =?us-ascii?Q?19rp5Rh8d2FUl6mW1TinBB/IR76B9yNgfTIRks9wt3C8klBl20Z/1lMEk1IE?=
- =?us-ascii?Q?oGfxlLTfDa1/areKov7L3xb0PH5y3/PIkEhlKWsWQHqX/ETWGbRKQe+o0D3W?=
- =?us-ascii?Q?Vw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebdcaee0-bb50-4f80-c782-08dce86f14d9
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2024 14:31:37.1288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LDNAVVXMC6o11plRdKKBUrf6yi0dwmLvdpxLduCr+pXoYxxnpKhHRyUkoTSYFFjimUSrPYlI210H7Vwmblmkjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7936
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEHqBmcC/4XN0QrCIBTG8VcJrzOccyu7CoIeoNuIcHpMaW1DT
+ TbG3j3xqq52+Z0Dv/+MPDgLHh03M3IQrbd9l0a53SBpRPcEbFXaiBLKyIGUGMYAnbdNC9gH95H
+ BY2lAvh7aQqs8FmwPnEnQNS9QUgYH2o65cEPXyxnd09FYH3o35Wos8isHOKGrgVhggitWAS9BA
+ dX0JKfBCLeT/Tvjkf6C9TpIE0g0qxVVwBuh/sBlWb6MVfI2JQEAAA==
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Florian Weimer <fweimer@redhat.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>, 
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>, 
+ stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7467; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=fLp878y712Pv6p2I0M+yT3Ue0HAchRHtUJcJJ81jbqc=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaSzvQoMvfh4fsaCf8LPeVo31OTs8t8YtKOyl01pRvzEn
+ GP8PFddOkpZGMS4GGTFFFm2+XmGbpq/+Eryp5VsMHNYmUCGMHBxCsBEPt1lZPgYvMeqIVY/+ZT9
+ x22rM9clBIQcKr3q61e97qqOxeflabUM/xQtyjQ6U/tahavVl9w9uEOzbJ14qkjnOieupzXhnsk
+ hnAA=
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 
-hi, Al Viro,
+This is something that I've been thinking about for a while. We had a
+discussion at LPC 2020 about this[1] but the proposals suggested there
+never materialised.
 
-On Sun, Oct 06, 2024 at 03:59:04PM +0100, Al Viro wrote:
-> On Sun, Oct 06, 2024 at 10:20:57PM +0800, kernel test robot wrote:
-> 
-> > xfs/046       - output mismatch (see /lkp/benchmarks/xfstests/results//xfs/046.out.bad)
-> >     --- tests/xfs/046.out	2024-09-30 21:13:44.000000000 +0000
-> >     +++ /lkp/benchmarks/xfstests/results//xfs/046.out.bad	2024-10-06 05:31:50.379495110 +0000
-> >     @@ -34,4 +34,8 @@
-> >      xfsrestore: restore complete: SECS seconds elapsed
-> >      xfsrestore: Restore Status: SUCCESS
-> >      Comparing listing of dump directory with restore directory
-> >     +ls: /fs/scratch/dumpdir/sub/a-link: No such file or directory
-> >     +ls: /fs/scratch/dumpdir/sub/b-link: No such file or directory
-> >     +ls: /fs/scratch/restoredir/dumpdir/sub/a-link: No such file or directory
-> >     +ls: /fs/scratch/restoredir/dumpdir/sub/b-link: No such file or directory
-> >     ...
-> >     (Run 'diff -u /lkp/benchmarks/xfstests/tests/xfs/046.out /lkp/benchmarks/xfstests/results//xfs/046.out.bad'  to see the entire diff)
-> > Ran: xfs/046
-> > Failures: xfs/046
-> > Failed 1 of 1 tests
-> 
-> *stares*
-> 
-> D'oh...  Inverted sense for AT_SYMLINK_NOFOLLOW => LOOKUP_FLAGS...
-> 
-> Try this:
+In short, it is quite difficult for userspace to detect the feature
+capability of syscalls at runtime. This is something a lot of programs
+want to do, but they are forced to create elaborate scenarios to try to
+figure out if a feature is supported without causing damage to the
+system. For the vast majority of cases, each individual feature also
+needs to be tested individually (because syscall results are
+all-or-nothing), so testing even a single syscall's feature set can
+easily inflate the startup time of programs.
 
-we confirm below patch can fix the issue
+This patchset implements the fairly minimal design I proposed in this
+talk[2] and in some old LKML threads (though I can't find the exact
+references ATM). The general flow looks like:
 
-Tested-by: kernel test robot <oliver.sang@intel.com>
+ 1. Userspace will indicate to the kernel that a syscall should a be
+    no-op by setting the top bit of the extensible struct size argument.
 
-=========================================================================================
-compiler/disk/fs/kconfig/rootfs/tbox_group/test/testcase:
-  gcc-12/4HDD/xfs/x86_64-rhel-8.3-func/debian-12-x86_64-20240206.cgz/lkp-skl-d06/xfs-046/xfstests
+    We will almost certainly never support exabyte sized structs, so the
+    top bits are free for us to use as makeshift flag bits. This is
+    preferable to using the per-syscall flag field inside the structure
+    because seccomp can easily detect the bit in the flag and allow the
+    probe or forcefully return -EEXTSYS_NOOP.
 
-commit:
-  4b7d06e4b7a1c ("new helpers: file_removexattr(), filename_removexattr()")
-  64d47e878a819 ("fs/xattr: add *at family syscalls")
-  6f4ccbcfda377  <--- your patch
+ 2. The kernel will then fill the provided structure with every valid
+    bit pattern that the current kernel understands.
 
-4b7d06e4b7a1c647 64d47e878a8196f374879bfdd0e 6f4ccbcfda377af1167d1b7fd48
----------------- --------------------------- ---------------------------
-       fail:runs  %reproduction    fail:runs  %reproduction    fail:runs
-           |             |             |             |             |
-           :6          100%           6:6            0%            :10    xfstests.xfs.046.fail
+    For flags or other bitflag-like fields, this is the set of valid
+    flags or bits. For pointer fields or fields that take an arbitrary
+    value, the field has every bit set (0xFF... to fill the field) to
+    indicate that any value is valid in the field.
 
+ 3. The syscall then returns -EEXTSYS_NOOP which is an errno that will
+    only ever be used for this purpose (so userspace can be sure that
+    the request succeeded).
 
-> 
-> diff --git a/fs/xattr.c b/fs/xattr.c
-> index 0b506b6565b7..b96cca3f4bf8 100644
-> --- a/fs/xattr.c
-> +++ b/fs/xattr.c
-> @@ -721,7 +721,7 @@ static int path_setxattrat(int dfd, const char __user *pathname,
->  	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
->  		return -EINVAL;
->  
-> -	if (at_flags & AT_SYMLINK_NOFOLLOW)
-> +	if (!(at_flags & AT_SYMLINK_NOFOLLOW))
->  		lookup_flags = LOOKUP_FOLLOW;
->  
->  	error = setxattr_copy(name, &ctx);
-> @@ -880,7 +880,7 @@ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
->  		return file_getxattr(fd_file(f), &ctx);
->  	} else {
->  		int lookup_flags = 0;
-> -		if (at_flags & AT_SYMLINK_NOFOLLOW)
-> +		if (!(at_flags & AT_SYMLINK_NOFOLLOW))
->  			lookup_flags = LOOKUP_FOLLOW;
->  		return filename_getxattr(dfd, filename, lookup_flags, &ctx);
->  	}
+    On older kernels, the syscall will return a different error (usually
+    -E2BIG or -EFAULT) and userspace can do their old-fashioned checks.
+
+ 4. Userspace can then check which flags and fields are supported by
+    looking at the fields in the returned structure. Flags are checked
+    by doing an AND with the flags field, and field support can checked
+    by comparing to 0. In principle you could just AND the entire
+    structure if you wanted to do this check generically without caring
+    about the structure contents (this is what libraries might consider
+    doing).
+
+    Userspace can even find out the internal kernel structure size by
+    passing a PAGE_SIZE buffer and seeing how many bytes are non-zero.
+
+    As with copy_struct_from_user(), this is designed to be forward- and
+    backwards- compatible.
+
+This allows programas to get a one-shot understanding of what features a
+syscall supports without having to do any elaborate setups or tricks to
+detect support for destructive features. Flags can simply be ANDed to
+check if they are in the supported set, and fields can just be checked
+to see if they are non-zero.
+
+This patchset is IMHO the simplest way we can add the ability to
+introspect the feature set of extensible struct (copy_struct_from_user)
+syscalls. It doesn't preclude the chance of a more generic mechanism
+being added later.
+
+The intended way of using this interface to get feature information
+looks something like the following (imagine that openat2 has gained a
+new field and a new flag in the future):
+
+  static bool openat2_no_automount_supported;
+  static bool openat2_cwd_fd_supported;
+
+  int check_openat2_support(void)
+  {
+      int err;
+      struct open_how how = {};
+
+      err = openat2(AT_FDCWD, ".", &how, CHECK_FIELDS | sizeof(how));
+      assert(err < 0);
+      switch (errno) {
+      case EFAULT: case E2BIG:
+          /* Old kernel... */
+          check_support_the_old_way();
+          break;
+      case EEXTSYS_NOOP:
+          openat2_no_automount_supported = (how.flags & RESOLVE_NO_AUTOMOUNT);
+          openat2_cwd_fd_supported = (how.cwd_fd != 0);
+          break;
+      }
+  }
+
+This series adds CHECK_FIELDS support for the following extensible
+struct syscalls, as they are quite likely to grow flags in the near
+future:
+
+ * openat2
+ * clone3
+ * mount_setattr
+
+[1]: https://lwn.net/Articles/830666/
+[2]: https://youtu.be/ggD-eb3yPVs
+
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+Changes in v3:
+- Fix copy_struct_to_user() return values in case of clear_user() failure.
+- v2: <https://lore.kernel.org/r/20240906-extensible-structs-check_fields-v2-0-0f46d2de9bad@cyphar.com>
+Changes in v2:
+- Add CHECK_FIELDS support to mount_setattr(2).
+- Fix build failure on architectures with custom errno values.
+- Rework selftests to use the tools/ uAPI headers rather than custom
+  defining EEXTSYS_NOOP.
+- Make sure we return -EINVAL and -E2BIG for invalid sizes even if
+  CHECK_FIELDS is set, and add some tests for that.
+- v1: <https://lore.kernel.org/r/20240902-extensible-structs-check_fields-v1-0-545e93ede2f2@cyphar.com>
+
+---
+Aleksa Sarai (10):
+      uaccess: add copy_struct_to_user helper
+      sched_getattr: port to copy_struct_to_user
+      openat2: explicitly return -E2BIG for (usize > PAGE_SIZE)
+      openat2: add CHECK_FIELDS flag to usize argument
+      selftests: openat2: add 0xFF poisoned data after misaligned struct
+      selftests: openat2: add CHECK_FIELDS selftests
+      clone3: add CHECK_FIELDS flag to usize argument
+      selftests: clone3: add CHECK_FIELDS selftests
+      mount_setattr: add CHECK_FIELDS flag to usize argument
+      selftests: mount_setattr: add CHECK_FIELDS selftest
+
+ arch/alpha/include/uapi/asm/errno.h                |   3 +
+ arch/mips/include/uapi/asm/errno.h                 |   3 +
+ arch/parisc/include/uapi/asm/errno.h               |   3 +
+ arch/sparc/include/uapi/asm/errno.h                |   3 +
+ fs/namespace.c                                     |  17 ++
+ fs/open.c                                          |  18 ++
+ include/linux/uaccess.h                            |  97 ++++++++
+ include/uapi/asm-generic/errno.h                   |   3 +
+ include/uapi/linux/openat2.h                       |   2 +
+ kernel/fork.c                                      |  30 ++-
+ kernel/sched/syscalls.c                            |  42 +---
+ tools/arch/alpha/include/uapi/asm/errno.h          |   3 +
+ tools/arch/mips/include/uapi/asm/errno.h           |   3 +
+ tools/arch/parisc/include/uapi/asm/errno.h         |   3 +
+ tools/arch/sparc/include/uapi/asm/errno.h          |   3 +
+ tools/include/uapi/asm-generic/errno.h             |   3 +
+ tools/include/uapi/asm-generic/posix_types.h       | 101 ++++++++
+ tools/testing/selftests/clone3/.gitignore          |   1 +
+ tools/testing/selftests/clone3/Makefile            |   4 +-
+ .../testing/selftests/clone3/clone3_check_fields.c | 264 +++++++++++++++++++++
+ tools/testing/selftests/mount_setattr/Makefile     |   2 +-
+ .../selftests/mount_setattr/mount_setattr_test.c   |  53 ++++-
+ tools/testing/selftests/openat2/Makefile           |   2 +
+ tools/testing/selftests/openat2/openat2_test.c     | 165 ++++++++++++-
+ 24 files changed, 777 insertions(+), 51 deletions(-)
+---
+base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+change-id: 20240803-extensible-structs-check_fields-a47e94cef691
+
+Best regards,
+-- 
+Aleksa Sarai <cyphar@cyphar.com>
+
 
