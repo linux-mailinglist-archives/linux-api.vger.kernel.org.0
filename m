@@ -1,550 +1,432 @@
-Return-Path: <linux-api+bounces-2406-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2407-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1358699A25F
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2024 13:07:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C46499AB27
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2024 20:44:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3663D1C2102F
-	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2024 11:07:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36D3F284751
+	for <lists+linux-api@lfdr.de>; Fri, 11 Oct 2024 18:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDD6217321;
-	Fri, 11 Oct 2024 11:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0242C1CDFDE;
+	Fri, 11 Oct 2024 18:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Fx5Y6LZ3";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="G89zZ7Bk"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="tu9/ZDMZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [83.166.143.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E2F216A3E;
-	Fri, 11 Oct 2024 11:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728644791; cv=fail; b=Alc+N6lw6QxpwNGvDx9YFRVGvNyoUMSIVebZfYkzN8XekS2WwybsB+nGGYqHAZJj/12VgFbAEq0SZQVoRrwS9YBSaPpYBLol/CodL+QwHs2+bAqf14uGchaez2Ul8g/2dHIA1e1seTnreZeo4PcNBxeYQouCS1jco0NE/rCKXjw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728644791; c=relaxed/simple;
-	bh=crBvDB53mKcdWE/b14vL7ki8GPoLhouRy/fOrmcCw90=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=s3/ZJYwvy2M3PtKUaObr/z0Wn+UH8w25xbCSAy28OMUfO2uYuLPJD5vHzR1pki/JlH1E92U2vEd8UNmr1RkyhtFF7liEHn6qdPGzf8Zk36XTTqrxNj6IPA+UBiKz72IoaXvTOYKZUTETolXIGHAf6b+ubOklTuwxPCs+AkCypN0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Fx5Y6LZ3; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=G89zZ7Bk; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49B8BfSk006323;
-	Fri, 11 Oct 2024 11:06:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=YXP4oBBbOFFH5eJ5/mE7kNI6rApLZ6pu5Gss4+TGeF8=; b=
-	Fx5Y6LZ3ATP+G237AJMLART6XsbnQfZu6lwXek9eJs21ssdeFbxxkO8pl19tuh6W
-	/j8VPbtvd4jsYCje6+VtWMMgb3r2arPD9SNIILjXTzn0dMNJVgmNEjLXybAX7+iB
-	FEoF3nCwho1MMoPx/RWuBujAbwPwfPgf7+G+/ITyDKek02oaXO31NYMN/9bsNpcy
-	46dQMpuKyk6bKA/CDUyVPxy1uiZe4mL8DeyL6yF1xCWlplak/HU0NPeWtIWtkSKE
-	2Ml4EvxHR/XYsOgri1hIct+blYTKt8y/PAST0dSFfp/Zbd7O+/8Mg/c9HEKIQtIj
-	s3SE3lnG46RMekQC3foLWg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42302pmep6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Oct 2024 11:06:16 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49B8sowt020588;
-	Fri, 11 Oct 2024 11:06:15 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 422uwb96y8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Oct 2024 11:06:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OTZFToNKIM/DdiKK8PMgHpQ3CQGpv3IuL4f4YumhOPy+XBCSZn1fUJMPwB/YFung6DFmIUUjZB3cmcVWy7ObeKQxphRD1HCa7d8riCQ9ndVY0qFp1BPuQuOrLgF3qFs60+JDaFYc8zOrSNWpJIvXYpHO+jDm0Ss4Z3y7f+iRGAH+/XDfQY7LeBfO/MkIwxvzv1e8HvWBVkl3jR+AQtSN7lyWm0mJGYXHrs9S4lHiytz/bbKY7IFaV4CJCexFVdtkcNamD8ZoSUmxnD0wq3rJDcurBUeGn7UtZAE67ldKubgpg4zvKb6FkemHT/0ztE9OW74c+6Ci0LGOQAn2og8DbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YXP4oBBbOFFH5eJ5/mE7kNI6rApLZ6pu5Gss4+TGeF8=;
- b=fxITaIlInh+VDePjoBT9X4zT1J/wCPsuQeUwyILcUgDccFg6pJfDCvFSvwnl/IWuxCgxtBOad3zrM9M/grX9EMlJcu7h/sOHoGzpy2M6OQKym7/rcatmp0bRliAxP0VZGwPXsUBZ8yUnE18Ppm53GnRb7lFCfUC5tJQEZyNuAkSIgVME0tWbOzx18vEsEYfR079bpGA42f6TcrN3HkuVO2r97Fm22xryq5adeVb7o3H/GB0O/Z3m7zWgF/3zkUa7EyfhUcurqfYuTDtyJ4amF4BLCiIKp2yMgZRiLzbOT2Yb4G6KHWVpYh618/PjCg0sXc4ZafTUqCDbJMxfnSRuYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YXP4oBBbOFFH5eJ5/mE7kNI6rApLZ6pu5Gss4+TGeF8=;
- b=G89zZ7Bk3PLzwmV2Li+sLT0cT7hr4/H10MgLgU1n4rDw2DCy1PKax6v4jWntXHMa/l/jkAPSLtIkB3dJADyBJbTxnfE0bT+KPLM6Hy2kLvxVYb3x7iaVRAE2Tag8rvpjYoeiPL6E4IhJ25UJXSrc+WRuPeZ1VAKYT+aOST1MrDU=
-Received: from SJ0PR10MB5613.namprd10.prod.outlook.com (2603:10b6:a03:3d0::5)
- by CY8PR10MB6708.namprd10.prod.outlook.com (2603:10b6:930:94::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Fri, 11 Oct
- 2024 11:06:12 +0000
-Received: from SJ0PR10MB5613.namprd10.prod.outlook.com
- ([fe80::4239:cf6f:9caa:940e]) by SJ0PR10MB5613.namprd10.prod.outlook.com
- ([fe80::4239:cf6f:9caa:940e%5]) with mapi id 15.20.8048.017; Fri, 11 Oct 2024
- 11:06:12 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: Shuah Khan <shuah@kernel.org>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] selftests: pidfd: add tests for PIDFD_SELF_*
-Date: Fri, 11 Oct 2024 12:05:57 +0100
-Message-ID: <993cc7b6493e967c6c90b9944e81848de6deeb85.1728643714.git.lorenzo.stoakes@oracle.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <cover.1728643714.git.lorenzo.stoakes@oracle.com>
-References: <cover.1728643714.git.lorenzo.stoakes@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LNXP265CA0051.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5d::15) To SJ0PR10MB5613.namprd10.prod.outlook.com
- (2603:10b6:a03:3d0::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD211C9B87
+	for <linux-api@vger.kernel.org>; Fri, 11 Oct 2024 18:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728672281; cv=none; b=VMlGGhFzH8SpB3nZ8gc6JAsmHgDmbO+9eeD5vZNJEcGel91KtchQslnYO0ZTLhwCNTVvLHYZ59osj6B4pECR5zp68wl/1geVjH+JLxLUp6D9yE8KAXe5sTBRX397aucufybY+BZXgsVPpi30OaeHdjG6i6ZnIjkerXOzUr55TD8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728672281; c=relaxed/simple;
+	bh=2kEL06Hh+stW5onJEunYsDl/V6t8LFpscSrew+EQgPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SN9KrquWTyfhZkZb7foZ5xH3rHm3IbYW3nOL94ExsGRI4cxKwRUGysW2qcMjLHhFdLwyWqQY57i8CH2MTRE/8ChhhrGyfJNuuG+R+GLzItz3Uz2mZ0i5SEzi+WMEb3cwWymFoqt9/8MiSCkPjr2h/PopoXVHD5M7mTmZOE3hlB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=tu9/ZDMZ; arc=none smtp.client-ip=83.166.143.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4XQFsb32LjzTfv;
+	Fri, 11 Oct 2024 20:44:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1728672275;
+	bh=FgCUkoQcnATf+pLL049bJL2HpEuI4JL6ztk8tTg1GyA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tu9/ZDMZIVrJ3/0VjUR8tu/BWhcQH3L2I5LhKGYqOd4dbVDdYzFWkJDH1nJSKGvAp
+	 AstIVPpuVHi0HZeih9SNHzGE+eBZo4/oxx9RizIKpdYwjtrBnngO+m9bPMnte4dVvZ
+	 wM3OSheKBHRP3bLRIajfu6ezv/k7QKwrDRXq5OxE=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4XQFsT6zNdzDCM;
+	Fri, 11 Oct 2024 20:44:29 +0200 (CEST)
+From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <serge@hallyn.com>,
+	Theodore Ts'o <tytso@mit.edu>
+Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Alejandro Colomar <alx@kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Christian Heimes <christian@python.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Elliott Hughes <enh@google.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Eric Chiang <ericchiang@google.com>,
+	Fan Wu <wufan@linux.microsoft.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Morris <jamorris@linux.microsoft.com>,
+	Jan Kara <jack@suse.cz>,
+	Jann Horn <jannh@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jordan R Abrahams <ajordanr@google.com>,
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+	Luca Boccassi <bluca@debian.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Matthew Garrett <mjg59@srcf.ucam.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
+	Scott Shell <scottsh@microsoft.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Steve Dower <steve.dower@python.org>,
+	Steve Grubb <sgrubb@redhat.com>,
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+	Xiaoming Ni <nixiaoming@huawei.com>,
+	Yin Fengwei <fengwei.yin@intel.com>,
+	kernel-hardening@lists.openwall.com,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v20 0/6] Script execution control (was O_MAYEXEC)
+Date: Fri, 11 Oct 2024 20:44:16 +0200
+Message-ID: <20241011184422.977903-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5613:EE_|CY8PR10MB6708:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3c713d7-4ccb-4b5c-d4c3-08dce9e4b7b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SbeuINHiXlmOPNah6ABjp6UHikuH2pgWJGL4dxyOsDNuGZk2ysdwESiZoDco?=
- =?us-ascii?Q?u2V993te51+zBceLKT5uxzjuK2PQDfhE1TZK46oQlWMd2VsXdMAs6SiHJfgm?=
- =?us-ascii?Q?JjlTBR3bQatqsNFHYZipnpsmYYkbVU9AyQC8UFwsce/xoNp/LY97WgM8a2W+?=
- =?us-ascii?Q?uorYyZFdDudCEoUan9EXERHCqmlq4cCXaUrNVCyw3VQIdR5HXWAN5AUOKpe3?=
- =?us-ascii?Q?Pms1SIqNArPCy86LgcxUhNt2KHyqgGPX9SLLlf8qlP5bpW/birekfRI47kKv?=
- =?us-ascii?Q?6cjFGIdcMYl26ERafiNirD16kGJ8m/qmFIkJi89zCDSrkdBtcc6/TolhE5sA?=
- =?us-ascii?Q?NOqPoINrga0+IqeorMTOV0YDRqz3S+osGbFTma2id63f/F8305SS8IVEw9lM?=
- =?us-ascii?Q?5niO1YEaCJo9T9b8x+B0rJ/tM2ACLgCqli9C1YhOMz4T1ikkZ1EzalwJPx/h?=
- =?us-ascii?Q?Bbat6qLmIOhXRmq/7KEQdci7oR7awIvKHkWvQ4Vy4fCa/HiEQGs87f5bOv0j?=
- =?us-ascii?Q?3f7pARUuwXMxL6r4albM7OksNMWDig8oxCIUnWyk5LqwL9HtwqdvhfDK0iYP?=
- =?us-ascii?Q?FG+4y+khMWm9PnSShRdXBzF/Uwlkq8Voe1Fnt3mkf/CcY8aHWKM4I2Dp7+We?=
- =?us-ascii?Q?vggBxBKbdWUY13VPguWkBxqJ/EKTRABtfqJOflz4K6eBxSY0opYAX08lMlZF?=
- =?us-ascii?Q?cFWPo6qLNUJMzStZ3xyADyrDw7a/34sWecwby8GWKuPSiUdxa2X7clKL73hK?=
- =?us-ascii?Q?ArbthP17vFM+ITpK4ZoMwx/yBNOLIB7lcFTLH/4lhcA8mDbh9kayV57YCEqu?=
- =?us-ascii?Q?tFf+GT6YDu2ozESjCNP+1eGzQS85C190TBISLJ2bVDf+JWEHkhnddsZxr+ns?=
- =?us-ascii?Q?eJ8i4YLwk1iqnszIaaE3mXrQNKUWwqKtC/+g3GVal21Imds+T76SDTCHd+a7?=
- =?us-ascii?Q?jDhZQQfo07DtR/1FcON7pAGccNNsKZyOjlhKnoO4FVcOCyyv4FUHooZNrbvW?=
- =?us-ascii?Q?s2zUj2T/4Onx0H8BOehuW6a4haweztmyu2Pk8OL5zyNNyzpy/2YzGiFFDtJC?=
- =?us-ascii?Q?+lviOclHykxnWNhNfv582w1/T2gaewJtO15NGgcwqS8vFXl4CWudUgvXF+im?=
- =?us-ascii?Q?Dj9jAUOByG4yXsLghAS93Li3mvlmlbot0r/wv2Z2GGcevtQKJRbw0QuXtbl1?=
- =?us-ascii?Q?QsEFuODbgxoUFPj2Pmf1nDSeYcu3bx4tj05lQDGd9HMWsLUnWEftDkwc4Q85?=
- =?us-ascii?Q?UvC8kH1XrgtMW7swM0WI?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5613.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xevkg9mlV7VzeNfd0HkLdVBRxlUTuZ1yni+E9wyuLi4hplyFJ2LuyPZ+wAzi?=
- =?us-ascii?Q?RuPxCVRCn/6LGJtVvMGxIhjBqaOiE9NTdvlVecbGuopbGbhpPcT7iGw+olyX?=
- =?us-ascii?Q?DReF2vI1nvAXZMgJBS8kJ8toG+AfUErvTSd59yEWmmAvT30Yit+hPwskaAD2?=
- =?us-ascii?Q?ZwI4Cqafd9Et5mzAjRzpwMrv6jTxXms4lpE4B8nV7pXcbhFVADWQRy+Gjw6L?=
- =?us-ascii?Q?+zYk0umhPhMKzVAXTL55rsh4KV51ts1rap33WVg4ovPewY3R6/rnoRDd4rqz?=
- =?us-ascii?Q?6C384BN7WV8fXsZaWQgcJr/7iZ+b3ryXn1eaV3cgZDgemYKZGBIW3G6HP9h1?=
- =?us-ascii?Q?b37CQPsRsGYKekVBtOcAGxhJ+puUcH8F4oX/xTuvx2yKqtpe80wvsyn2nI7z?=
- =?us-ascii?Q?084IHsCio6am/07cBShsmHjwJI7ZOCajHmJWI9Z0261XMS/E6RzN2r0RY2xy?=
- =?us-ascii?Q?4mZP+/oVHdn1vD1YVwggDYl3EYXx9WU+uBWj7usaVPxXtsRxEQaJkL5W3/ao?=
- =?us-ascii?Q?/tr2XTI0JCZYe+aauL56fmQ1CFHqjGGHGq6eyOwuRXFV5QGAnzlAkoqpRQw9?=
- =?us-ascii?Q?0La+HBthNXE+FXtH8yz1YWmpCIPiDTLeOiPJMD75w2ZE2rlJD0sR6VohgFCL?=
- =?us-ascii?Q?zFhrs1KM17BXLLZiFA9w+pfhjlHd9MCV3470Nc4vvNBuiUuTHnf6GQFz90Nf?=
- =?us-ascii?Q?hdXC2mQpveOY4nGni0FWwAIbeoqF5t/XWYUDXgjFGTKmqzOWyJNiuuIxDbTG?=
- =?us-ascii?Q?YpU68T+QC0ACKUX/E3+zSCDMQfyZMQENnObmAypQapvDa/Tszgjtdija5g5F?=
- =?us-ascii?Q?EAX+XwBln5DD2pRSP4R5oPMtO8eUlHLxwk4R3yrpE4gnwytDAhfyz/9rEMn6?=
- =?us-ascii?Q?8FvCdUwQfsyASPFtQBVnnFQqIg9GdGgRuhS0OFcY2mCD4Oyy7Whj6B1C+f6K?=
- =?us-ascii?Q?vw1utpzovU1kS7K41kf837+oIKNkwmeYU3McczrWDVFmRiPkM+TwydCLAvOM?=
- =?us-ascii?Q?XwmJxEHxPZR/EhEiqtjfU6FoSswbo1xz57KlRbRdRd43pgHp+s/cBW57pDev?=
- =?us-ascii?Q?Gx8MePbd0yRsqgbSVXRlAycOiuUTJV7j6vQeEX9aclmPTQVaq5CwA3T7jmJN?=
- =?us-ascii?Q?e3CDuWIcabcAqFAeFlfQlRQYcUlvl8SxvPtKsKsF0qiamrUCRAKn0opiARRM?=
- =?us-ascii?Q?jejxUrJ7bYzC7GlsxUrYV62z0XFar6evIipaAoQChdtKzvCPLltFqiSPlke2?=
- =?us-ascii?Q?CVG2LZ5/wztzYKVLMq7GprPGNyfN3rAC6p0Qw86vik7DgPxF0TPj5LlnaS7d?=
- =?us-ascii?Q?lk87Kwd4Drd4lcAmg59SC6LnjACIWEUO7uw5JaSdBcj4juy8KGxg1Lyh3py+?=
- =?us-ascii?Q?E9T3bJEKydOkx/Nmqd7mrElMVcHw5mlmJXyFGy3aEYa9P3ZGR9LSGOCUCNK7?=
- =?us-ascii?Q?wVLIAUb5mmnqQeGi/aa/RUGayAcL1qMmGUDyTjYT1yCSxhdZReHuJoVP4BAX?=
- =?us-ascii?Q?ugLD+i22UgQ6kWtphCIIFAacPjG7DnE7+qIHDbvf166dhLcvWZgRG0r9lYYg?=
- =?us-ascii?Q?vhC6fLQLmJYOPn1xCWGqgtZFC8AMJ4y8ZiuJU1efEgz0csNJGosQMVVN4INE?=
- =?us-ascii?Q?ouBwTO+7LjmkUqZgCE3aj3+w2aB854RJwGOMmQb0xRxM7GQ+D4dWr1OJXe4e?=
- =?us-ascii?Q?Wo6ECA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	uZS+x+G0xlLJYN14e+oqks9lYvPZIgE1QC+CWMduK90XK+tlb1XLPIbj6jsEpzJLvQk5AoD1GWed8d5snsqFgLIzAEHNX5lK19VhlMLXsQ+z6TuDKL20PR/SPJ/Xfb8n0+1bZY9qjvN1yqI2olV0hkhaAwontqqxh4itoEaNb9IWvyO87BxsIQUF7pRz1fVtQEV0+HSi8JF//oFoprPkUHZDETufxtzbWYCm31qinw9ovy7hJwH3FsPjApBgj+rvH4cuazicHLN6+sov0+UWiNrjjlz4HHJAvin+kL2TZirXs8GRaHr2gJ0t2LI9WDLlJgft1ImgneCTDinrwp8fkley8r72JbC3f1Pup0KNHP2n/xzj67qCq9uxyn1V0StvNal//BAeXT/Fd9r6qivRcnG2hXpwqfpmXS+6c4bHtICLKRfIV3gG/DuzBFR9xQWkRIeeoNp+eihpwla2YofGy6zWRry2uIulyJWYP/kg9VXtbSmgMKWxIUImYKda/4fHtuJ2LvOmgm4jnKhHBfZ3s79zw1vc7dS7ezpnZilpZEQuXr+8Xxn2MKFhJ9TEOIKi9I/+QVZKxRDgQAHSVdDXI7/M7YmXdBpHsWVXLsOCRyk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3c713d7-4ccb-4b5c-d4c3-08dce9e4b7b5
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5613.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 11:06:12.5804
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xU/rlA8EuXSvxsiVolwpdCuCfT+701sSsR/fr0elFrwGZaC3PzDG7JaNXxhsTMDJhQe8lEmpNjc8a7GqDpNWodqmi6DSa9AQ+HKQTcKQMG4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6708
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-11_09,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 phishscore=0 adultscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2410110076
-X-Proofpoint-ORIG-GUID: qZY_x49ofLCaMb_UVUjzXTk0QA5ljD72
-X-Proofpoint-GUID: qZY_x49ofLCaMb_UVUjzXTk0QA5ljD72
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 
-Add tests to assert that PIDFD_SELF_* correctly refers to the current
-thread and process.
+Hi,
 
-This is only practically meaningful to pidfd_send_signal() and
-pidfd_getfd(), but also explicitly test that we disallow this feature for
-setns() where it would make no sense.
+The ultimate goal of this patch series is to be able to ensure that
+direct file execution (e.g. ./script.sh) and indirect file execution
+(e.g. sh script.sh) lead to the same result, especially from a security
+point of view.
 
-We cannot reasonably wait on ourself using waitid(P_PIDFD, ...) so while in
-theory PIDFD_SELF_* would work here, we'd be left blocked if we tried it.
+The main changes from the previous version are new securebits with a
+better semantic, an improved documentation, new user space code examples
+including an enlighten interpreter and an extensive tests suite.  As
+discussed, I also removed the ptrace checks which doesn't make sense
+anymore.  You'll now find a quick FAQ at the end of this cover letter.
+The current status is summarized in this article:
+https://lwn.net/Articles/982085/
+I also gave a talk at LPC last month:
+https://lpc.events/event/18/contributions/1692/
+And here is a proof of concept for Python (for now, for the previous
+version: v19): https://github.com/zooba/spython/pull/12
 
-We defer testing of mm-specific functionality which uses pidfd, namely
-process_madvise() and process_mrelease() to mm testing (though note the
-latter can not be sensibly tested as it would require the testing process
-to be dying).
+Overview
+--------
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+This patch series is a new approach of the initial O_MAYEXEC feature,
+and a revamp of the previous patch series.  Taking into account the last
+reviews [1], we now stick to the kernel semantic for file executability.
+One major change is the clear split between access check and policy
+management.
+
+The first patch brings the AT_CHECK flag to execveat(2).  The goal is to
+enable user space to check if a file could be executed (by the kernel).
+Unlike stat(2) that only checks file permissions, execveat2(2) +
+AT_CHECK take into account the full context, including mount points
+(noexec), caller's limits, and all potential LSM extra checks (e.g.
+argv, envp, credentials).
+
+The second patch brings two new securebits used to set or get a security
+policy for a set of processes.  For this to be meaningful, all
+executable code needs to be trusted.  In practice, this means that
+(malicious) users can be restricted to only run scripts provided (and
+trusted) by the system.
+
+[1] https://lore.kernel.org/r/CAHk-=wjPGNLyzeBMWdQu+kUdQLHQugznwY7CvWjmvNW47D5sog@mail.gmail.com
+
+Script execution
+----------------
+
+One important thing to keep in mind is that the goal of this patch
+series is to get the same security restrictions with these commands:
+* ./script.py
+* python script.py
+* python < script.py
+* python -m script.py
+
+However, on secure systems, we should be able to forbid these commands
+because there is no way to reliably identify the origin of the script:
+* xargs -a script.py -d '\r' -- python -c
+* cat script.py | python
+* python
+
+Background
+----------
+
+Compared to the previous patch series, there is no more dedicated
+syscall nor sysctl configuration.  This new patch series only add new
+flags: one for execveat(2) and four for prctl(2).
+
+This kind of script interpreter restriction may already be used in
+hardened systems, which may need to fork interpreters and install
+different versions of the binaries.  This mechanism should enable to
+avoid the use of duplicate binaries (and potential forked source code)
+for secure interpreters (e.g. secure Python [2]) by making it possible
+to dynamically enforce restrictions or not.
+
+The ability to control script execution is also required to close a
+major IMA measurement/appraisal interpreter integrity [3].
+
+This new execveat + AT_CHECK should not be confused with the O_EXEC flag
+(for open) which is intended for execute-only, which obviously doesn't
+work for scripts.
+
+I gave a talk about controlling script execution where I explain the
+previous approaches [4].  The design of the WIP RFC I talked about
+changed quite a bit since then.
+
+[2] https://github.com/zooba/spython
+[3] https://lore.kernel.org/lkml/20211014130125.6991-1-zohar@linux.ibm.com/
+[4] https://lssna2023.sched.com/event/1K7bO
+
+Execution policy
+----------------
+
+The "execution" usage means that the content of the file descriptor is
+trusted according to the system policy to be executed by user space,
+which means that it interprets the content or (try to) maps it as
+executable memory.
+
+It is important to note that this can only enable to extend access
+control managed by the kernel.  Hence it enables current access control
+mechanism to be extended and become a superset of what they can
+currently control.  Indeed, the security policy could also be delegated
+to an LSM, either a MAC system or an integrity system.
+
+Complementary W^X protections can be brought by SELinux or IPE [5].
+
+Being able to restrict execution also enables to protect the kernel by
+restricting arbitrary syscalls that an attacker could perform with a
+crafted binary or certain script languages.  It also improves multilevel
+isolation by reducing the ability of an attacker to use side channels
+with specific code.  These restrictions can natively be enforced for ELF
+binaries (with the noexec mount option) but require this kernel
+extension to properly handle scripts (e.g. Python, Perl).  To get a
+consistent execution policy, additional memory restrictions should also
+be enforced (e.g. thanks to SELinux).
+
+[5] https://lore.kernel.org/lkml/1716583609-21790-1-git-send-email-wufan@linux.microsoft.com/
+
+Prerequisite for security use
+-----------------------------
+
+Because scripts might not currently have the executable permission and
+still run well as is, or because we might want specific users to be
+allowed to run arbitrary scripts, we also need a configuration
+mechanism.
+
+According to the threat model, to get a secure execution environment on
+top of these changes, it might be required to configure and enable
+existing security mechanisms such as secure boot, restrictive mount
+points (e.g. with rw AND noexec), correct file permissions (including
+executable libraries), IMA/EVM, SELinux policy...
+
+The first thing to patch is the libc to check loaded libraries (e.g. see
+chromeOS changes).  The second thing to patch are the script
+interpreters by checking direct scripts executability and by checking
+their own libraries (e.g. Python's imported files or argument-passed
+modules).  For instance, the PEP 578 [6] (Runtime Audit Hooks) enables
+Python 3.8 to be extended with policy enforcement points related to code
+interpretation, which can be used to align with the PowerShell audit
+features.  Additional Python security improvements (e.g. a limited
+interpreter without -c, stdin piping of code) are developed [2] [7].
+
+[6] https://www.python.org/dev/peps/pep-0578/
+[7] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
+
+libc patch
+----------
+
+Dynamic linking needs still need to check the libraries the same way
+interpreters need to check scripts.
+
+chromeOS patches glibc with a fstatvfs check [8] [9]. This enables to
+check against noexec mount points, which is OK but doesn't fit with
+execve semantics.  Moreover, the kernel is not aware of such check, so
+all access control checks are not performed (e.g. file permission, LSMs
+security policies, integrity and authenticity checks), it is not handled
+with audit, and more importantly this would not work on generic
+distributions because of the strict requirement and chromeOS-specific
+assumptions.
+
+[8] https://issuetracker.google.com/issues/40054993
+[9] https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/6abfc9e327241a5f684b8b941c899b7ca8b6dbc1/sys-libs/glibc/files/local/glibc-2.37/0007-Deny-LD_PRELOAD-of-files-in-NOEXEC-mount.patch
+
+Examples
+--------
+
+The initial idea comes from CLIP OS 4 and the original implementation
+has been used for more than a decade:
+https://github.com/clipos-archive/clipos4_doc
+Chrome OS has a similar approach:
+https://www.chromium.org/chromium-os/developer-library/guides/security/noexec-shell-scripts/
+
+User space patches can be found here:
+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+There is more than the O_MAYEXEC changes (which matches this search)
+e.g., to prevent Python interactive execution. There are patches for
+Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
+also some related patches which do not directly rely on O_MAYEXEC but
+which restrict the use of browser plugins and extensions, which may be
+seen as scripts too:
+https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
+
+Past talks and articles
+-----------------------
+
+Closing the script execution control gap at Linux Plumbers Conference
+2024: https://lpc.events/event/18/contributions/1692/
+
+An introduction to O_MAYEXEC was given at the Linux Security Summit
+Europe 2018 - Linux Kernel Security Contributions by ANSSI:
+https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
+
+The "write xor execute" principle was explained at Kernel Recipes 2018 -
+CLIP OS: a defense-in-depth OS:
+https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
+
+LWN articles:
+* https://lwn.net/Articles/982085/
+* https://lwn.net/Articles/832959/
+* https://lwn.net/Articles/820000/
+
+FAQ
+Link: https://lore.kernel.org/r/20241011184422.977903-1-mic@digikod.net
 ---
- tools/testing/selftests/pidfd/pidfd.h         |   8 +
- .../selftests/pidfd/pidfd_getfd_test.c        | 141 ++++++++++++++++++
- .../selftests/pidfd/pidfd_setns_test.c        |  11 ++
- tools/testing/selftests/pidfd/pidfd_test.c    |  76 ++++++++--
- 4 files changed, 224 insertions(+), 12 deletions(-)
 
-diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-index 88d6830ee004..1640b711889b 100644
---- a/tools/testing/selftests/pidfd/pidfd.h
-+++ b/tools/testing/selftests/pidfd/pidfd.h
-@@ -50,6 +50,14 @@
- #define PIDFD_NONBLOCK O_NONBLOCK
- #endif
- 
-+/* System header file may not have this available. */
-+#ifndef PIDFD_SELF_THREAD
-+#define PIDFD_SELF_THREAD -100
-+#endif
-+#ifndef PIDFD_SELF_THREAD_GROUP
-+#define PIDFD_SELF_THREAD_GROUP -200
-+#endif
-+
- /*
-  * The kernel reserves 300 pids via RESERVED_PIDS in kernel/pid.c
-  * That means, when it wraps around any pid < 300 will be skipped.
-diff --git a/tools/testing/selftests/pidfd/pidfd_getfd_test.c b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-index cd51d547b751..48d224b13c01 100644
---- a/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
-@@ -6,6 +6,7 @@
- #include <limits.h>
- #include <linux/types.h>
- #include <poll.h>
-+#include <pthread.h>
- #include <sched.h>
- #include <signal.h>
- #include <stdio.h>
-@@ -15,6 +16,7 @@
- #include <sys/prctl.h>
- #include <sys/wait.h>
- #include <unistd.h>
-+#include <sys/mman.h>
- #include <sys/socket.h>
- #include <linux/kcmp.h>
- 
-@@ -114,6 +116,94 @@ static int child(int sk)
- 	return ret;
- }
- 
-+static int __pidfd_self_thread_worker(unsigned long page_size)
-+{
-+	int memfd;
-+	int newfd;
-+	char *ptr;
-+	int err = 0;
-+
-+	/*
-+	 * Unshare our FDs so we have our own set. This means
-+	 * PIDFD_SELF_THREAD_GROUP will fal.
-+	 */
-+	if (unshare(CLONE_FILES) < 0) {
-+		err = -errno;
-+		goto exit;
-+	}
-+
-+	/* Truncate, map in and write to our memfd. */
-+	memfd = sys_memfd_create("test_self_child", 0);
-+	if (memfd < 0) {
-+		err = -errno;
-+		goto exit;
-+	}
-+
-+	if (ftruncate(memfd, page_size)) {
-+		err = -errno;
-+		goto exit_close_memfd;
-+	}
-+
-+	ptr = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+		   MAP_SHARED, memfd, 0);
-+	if (ptr == MAP_FAILED) {
-+		err = -errno;
-+		goto exit_close_memfd;
-+	}
-+	ptr[0] = 'y';
-+	if (munmap(ptr, page_size)) {
-+		err = -errno;
-+		goto exit_close_memfd;
-+	}
-+
-+	/* Get a thread-local duplicate of our memfd. */
-+	newfd = sys_pidfd_getfd(PIDFD_SELF_THREAD, memfd, 0);
-+	if (newfd < 0) {
-+		err = -errno;
-+		goto exit_close_memfd;
-+	}
-+
-+	if (memfd == newfd) {
-+		err = -EINVAL;
-+		goto exit_close_fds;
-+	}
-+
-+	/* Map in new fd and make sure that the data is as expected. */
-+	ptr = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+		   MAP_SHARED, newfd, 0);
-+	if (ptr == MAP_FAILED) {
-+		err = -errno;
-+		goto exit_close_fds;
-+	}
-+
-+	if (ptr[0] != 'y') {
-+		err = -EINVAL;
-+		goto exit_close_fds;
-+	}
-+
-+	if (munmap(ptr, page_size)) {
-+		err = -errno;
-+		goto exit_close_fds;
-+	}
-+
-+exit_close_fds:
-+	close(newfd);
-+exit_close_memfd:
-+	close(memfd);
-+exit:
-+	return err;
-+}
-+
-+static void *pidfd_self_thread_worker(void *arg)
-+{
-+	unsigned long page_size = (unsigned long)arg;
-+	int ret;
-+
-+	/* We forward any errors for the caller to handle. */
-+	ret = __pidfd_self_thread_worker(page_size);
-+	return (void *)(intptr_t)ret;
-+}
-+
- FIXTURE(child)
- {
- 	/*
-@@ -264,6 +354,57 @@ TEST_F(child, no_strange_EBADF)
- 	EXPECT_EQ(errno, ESRCH);
- }
- 
-+TEST(pidfd_self)
-+{
-+	int memfd = sys_memfd_create("test_self", 0);
-+	unsigned long page_size = sysconf(_SC_PAGESIZE);
-+	int newfd;
-+	char *ptr;
-+	pthread_t thread;
-+	void *res;
-+	int err;
-+
-+	ASSERT_GE(memfd, 0);
-+	ASSERT_EQ(ftruncate(memfd, page_size), 0);
-+
-+	/*
-+	 * Map so we can assert that the duplicated fd references the same
-+	 * memory.
-+	 */
-+	ptr = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+		   MAP_SHARED, memfd, 0);
-+	ASSERT_NE(ptr, MAP_FAILED);
-+	ptr[0] = 'x';
-+	ASSERT_EQ(munmap(ptr, page_size), 0);
-+
-+	/* Now get a duplicate of our memfd. */
-+	newfd = sys_pidfd_getfd(PIDFD_SELF_THREAD_GROUP, memfd, 0);
-+	ASSERT_GE(newfd, 0);
-+	ASSERT_NE(memfd, newfd);
-+
-+	/* Now map duplicate fd and make sure it references the same memory. */
-+	ptr = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+		   MAP_SHARED, newfd, 0);
-+	ASSERT_NE(ptr, MAP_FAILED);
-+	ASSERT_EQ(ptr[0], 'x');
-+	ASSERT_EQ(munmap(ptr, page_size), 0);
-+
-+	/* Cleanup. */
-+	close(memfd);
-+	close(newfd);
-+
-+	/*
-+	 * Fire up the thread and assert that we can lookup the thread-specific
-+	 * PIDFD_SELF_THREAD (also aliased by PIDFD_SELF).
-+	 */
-+	ASSERT_EQ(pthread_create(&thread, NULL, pidfd_self_thread_worker,
-+				 (void *)page_size), 0);
-+	ASSERT_EQ(pthread_join(thread, &res), 0);
-+	err = (int)(intptr_t)res;
-+
-+	ASSERT_EQ(err, 0);
-+}
-+
- #if __NR_pidfd_getfd == -1
- int main(void)
- {
-diff --git a/tools/testing/selftests/pidfd/pidfd_setns_test.c b/tools/testing/selftests/pidfd/pidfd_setns_test.c
-index 7c2a4349170a..bbd39dc5ceb7 100644
---- a/tools/testing/selftests/pidfd/pidfd_setns_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_setns_test.c
-@@ -752,4 +752,15 @@ TEST(setns_einval)
- 	close(fd);
- }
- 
-+TEST(setns_pidfd_self_disallowed)
-+{
-+	ASSERT_EQ(setns(PIDFD_SELF_THREAD, 0), -1);
-+	EXPECT_EQ(errno, EBADF);
-+
-+	errno = 0;
-+
-+	ASSERT_EQ(setns(PIDFD_SELF_THREAD_GROUP, 0), -1);
-+	EXPECT_EQ(errno, EBADF);
-+}
-+
- TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/pidfd/pidfd_test.c b/tools/testing/selftests/pidfd/pidfd_test.c
-index 9faa686f90e4..440447cf89ba 100644
---- a/tools/testing/selftests/pidfd/pidfd_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_test.c
-@@ -42,12 +42,41 @@ static pid_t pidfd_clone(int flags, int *pidfd, int (*fn)(void *))
- #endif
- }
- 
--static int signal_received;
-+static pthread_t signal_received;
- 
- static void set_signal_received_on_sigusr1(int sig)
- {
- 	if (sig == SIGUSR1)
--		signal_received = 1;
-+		signal_received = pthread_self();
-+}
-+
-+static int send_signal(int pidfd)
-+{
-+	int ret = 0;
-+
-+	if (sys_pidfd_send_signal(pidfd, SIGUSR1, NULL, 0) < 0) {
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+	if (signal_received != pthread_self()) {
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+exit:
-+	signal_received = 0;
-+	return ret;
-+}
-+
-+static void *send_signal_worker(void *arg)
-+{
-+	int pidfd = (int)(intptr_t)arg;
-+	int ret;
-+
-+	/* We forward any errors for the caller to handle. */
-+	ret = send_signal(pidfd);
-+	return (void *)(intptr_t)ret;
- }
- 
- /*
-@@ -56,8 +85,11 @@ static void set_signal_received_on_sigusr1(int sig)
-  */
- static int test_pidfd_send_signal_simple_success(void)
- {
--	int pidfd, ret;
-+	int pidfd;
- 	const char *test_name = "pidfd_send_signal send SIGUSR1";
-+	pthread_t thread;
-+	void *thread_res;
-+	int err;
- 
- 	if (!have_pidfd_send_signal) {
- 		ksft_test_result_skip(
-@@ -66,25 +98,45 @@ static int test_pidfd_send_signal_simple_success(void)
- 		return 0;
- 	}
- 
-+	signal(SIGUSR1, set_signal_received_on_sigusr1);
-+
-+	/* Try sending a signal to ourselves via /proc/self. */
- 	pidfd = open("/proc/self", O_DIRECTORY | O_CLOEXEC);
- 	if (pidfd < 0)
- 		ksft_exit_fail_msg(
- 			"%s test: Failed to open process file descriptor\n",
- 			test_name);
-+	err = send_signal(pidfd);
-+	if (err)
-+		ksft_exit_fail_msg(
-+			"%s test: Error %d on sending pidfd signal\n",
-+			test_name, err);
-+	close(pidfd);
- 
--	signal(SIGUSR1, set_signal_received_on_sigusr1);
-+	/* Now try the same thing only using PIDFD_SELF_THREAD_GROUP. */
-+	err = send_signal(PIDFD_SELF_THREAD_GROUP);
-+	if (err)
-+		ksft_exit_fail_msg(
-+			"%s test: Error %d on PIDFD_SELF_THREAD_GROUP signal\n",
-+			test_name, err);
- 
--	ret = sys_pidfd_send_signal(pidfd, SIGUSR1, NULL, 0);
--	close(pidfd);
--	if (ret < 0)
--		ksft_exit_fail_msg("%s test: Failed to send signal\n",
-+	/*
-+	 * Now try the same thing in a thread and assert thread ID is equal to
-+	 * worker thread ID.
-+	 */
-+	if (pthread_create(&thread, NULL, send_signal_worker,
-+			   (void *)(intptr_t)PIDFD_SELF_THREAD))
-+		ksft_exit_fail_msg("%s test: Failed to create thread\n",
- 				   test_name);
--
--	if (signal_received != 1)
--		ksft_exit_fail_msg("%s test: Failed to receive signal\n",
-+	if (pthread_join(thread, &thread_res))
-+		ksft_exit_fail_msg("%s test: Failed to join thread\n",
- 				   test_name);
-+	err = (int)(intptr_t)thread_res;
-+	if (err)
-+		ksft_exit_fail_msg(
-+			"%s test: Error %d on PIDFD_SELF_THREAD signal\n",
-+			test_name, err);
- 
--	signal_received = 0;
- 	ksft_test_result_pass("%s test: Sent signal\n", test_name);
- 	return 0;
- }
+Q: Why not extend open(2) or openat2(2) with a new flag like O_MAYEXEC?
+A: Because it is not flexible enough:
+https://lore.kernel.org/r/CAG48ez0NAV5gPgmbDaSjo=zzE=FgnYz=-OHuXwu0Vts=B5gesA@mail.gmail.com
+
+Q: Why not only allowing file descriptor to avoid TOCTOU?
+A: Because there are different use cases:
+https://lore.kernel.org/r/CAHk-=whb=XuU=LGKnJWaa7LOYQz9VwHs8SLfgLbT5sf2VAbX1A@mail.gmail.com
+
+Q: We can copy a script into a memfd and use it as an executable FD.
+   Wouldn't that bypass the purpose of this patch series?
+A: If an attacker can create a memfd it means that a
+   malicious/compromised code is already running and it's too late for
+   script execution control to help.  This patch series makes it more
+   difficult for an attacker to execute arbitrary code on a trusted
+   system in the first place:
+https://lore.kernel.org/all/20240717.AGh2shahc9ee@digikod.net/
+
+Q: What about ROP?
+A: See previous answer. If ROP is exploited then the attacker already
+   controls some code:
+https://lore.kernel.org/all/20240718.ahph4che5Shi@digikod.net/
+
+Q: What about LD_PRELOAD environment variable?
+A: The dynamic linker should be enlighten to check if libraries are
+   allowed to be loaded.
+
+Q: What about The PATH environment variable?
+A: All programs allowed to be executed are deemed trusted.
+
+Q: Should we check seccomp filters too?
+A: Yes, they should be considered as executable code because they can
+   change the behavior of processes, similarly to code injection:
+https://lore.kernel.org/all/20240705.IeTheequ7Ooj@digikod.net/
+
+Q: Could that be used for role transition?
+A: That would be risky and difficult to implement correctly:
+https://lore.kernel.org/all/20240723.Tae5oovie2ah@digikod.net/
+
+Previous versions
+-----------------
+
+v19: https://lore.kernel.org/r/20240704190137.696169-1-mic@digikod.net
+v18: https://lore.kernel.org/r/20220104155024.48023-1-mic@digikod.net
+v17: https://lore.kernel.org/r/20211115185304.198460-1-mic@digikod.net
+v16: https://lore.kernel.org/r/20211110190626.257017-1-mic@digikod.net
+v15: https://lore.kernel.org/r/20211012192410.2356090-1-mic@digikod.net
+v14: https://lore.kernel.org/r/20211008104840.1733385-1-mic@digikod.net
+v13: https://lore.kernel.org/r/20211007182321.872075-1-mic@digikod.net
+v12: https://lore.kernel.org/r/20201203173118.379271-1-mic@digikod.net
+v11: https://lore.kernel.org/r/20201019164932.1430614-1-mic@digikod.net
+v10: https://lore.kernel.org/r/20200924153228.387737-1-mic@digikod.net
+v9: https://lore.kernel.org/r/20200910164612.114215-1-mic@digikod.net
+v8: https://lore.kernel.org/r/20200908075956.1069018-1-mic@digikod.net
+v7: https://lore.kernel.org/r/20200723171227.446711-1-mic@digikod.net
+v6: https://lore.kernel.org/r/20200714181638.45751-1-mic@digikod.net
+v5: https://lore.kernel.org/r/20200505153156.925111-1-mic@digikod.net
+v4: https://lore.kernel.org/r/20200430132320.699508-1-mic@digikod.net
+v3: https://lore.kernel.org/r/20200428175129.634352-1-mic@digikod.net
+v2: https://lore.kernel.org/r/20190906152455.22757-1-mic@digikod.net
+v1: https://lore.kernel.org/r/20181212081712.32347-1-mic@digikod.net
+
+Regards,
+
+Mickaël Salaün (6):
+  exec: Add a new AT_CHECK flag to execveat(2)
+  security: Add EXEC_RESTRICT_FILE and EXEC_DENY_INTERACTIVE securebits
+  selftests/exec: Add 32 tests for AT_CHECK and exec securebits
+  selftests/landlock: Add tests for execveat + AT_CHECK
+  samples/check-exec: Add set-exec
+  samples/check-exec: Add an enlighten "inc" interpreter and 28 tests
+
+ fs/exec.c                                     |  18 +-
+ include/linux/binfmts.h                       |   7 +-
+ include/uapi/linux/fcntl.h                    |  31 ++
+ include/uapi/linux/securebits.h               | 113 ++++-
+ kernel/audit.h                                |   1 +
+ kernel/auditsc.c                              |   1 +
+ samples/Kconfig                               |   8 +
+ samples/Makefile                              |   1 +
+ samples/check-exec/.gitignore                 |   2 +
+ samples/check-exec/Makefile                   |  15 +
+ samples/check-exec/inc.c                      | 204 ++++++++
+ samples/check-exec/run-script-ask.inc         |   8 +
+ samples/check-exec/script-ask.inc             |   4 +
+ samples/check-exec/script-exec.inc            |   3 +
+ samples/check-exec/script-noexec.inc          |   3 +
+ samples/check-exec/set-exec.c                 |  85 ++++
+ security/commoncap.c                          |  29 +-
+ security/security.c                           |  10 +
+ tools/testing/selftests/exec/.gitignore       |   4 +
+ tools/testing/selftests/exec/Makefile         |  19 +-
+ .../selftests/exec/check-exec-tests.sh        | 205 ++++++++
+ tools/testing/selftests/exec/check-exec.c     | 446 ++++++++++++++++++
+ tools/testing/selftests/exec/config           |   2 +
+ tools/testing/selftests/exec/false.c          |   5 +
+ .../selftests/kselftest/ktap_helpers.sh       |   2 +-
+ tools/testing/selftests/landlock/fs_test.c    |  26 +
+ 26 files changed, 1240 insertions(+), 12 deletions(-)
+ create mode 100644 samples/check-exec/.gitignore
+ create mode 100644 samples/check-exec/Makefile
+ create mode 100644 samples/check-exec/inc.c
+ create mode 100755 samples/check-exec/run-script-ask.inc
+ create mode 100755 samples/check-exec/script-ask.inc
+ create mode 100755 samples/check-exec/script-exec.inc
+ create mode 100644 samples/check-exec/script-noexec.inc
+ create mode 100644 samples/check-exec/set-exec.c
+ create mode 100755 tools/testing/selftests/exec/check-exec-tests.sh
+ create mode 100644 tools/testing/selftests/exec/check-exec.c
+ create mode 100644 tools/testing/selftests/exec/config
+ create mode 100644 tools/testing/selftests/exec/false.c
+
+
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
 -- 
-2.46.2
+2.46.1
 
 
