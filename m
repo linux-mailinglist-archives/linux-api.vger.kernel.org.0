@@ -1,63 +1,60 @@
-Return-Path: <linux-api+bounces-2424-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2425-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D8D99DD5B
-	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2024 07:05:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF10499F379
+	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2024 18:56:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54883283010
-	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2024 05:05:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C5AF1C25856
+	for <lists+linux-api@lfdr.de>; Tue, 15 Oct 2024 16:56:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C36816D4E5;
-	Tue, 15 Oct 2024 05:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D50E81F76B4;
+	Tue, 15 Oct 2024 16:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XF9TDcO6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOL0ad3a"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA754409;
-	Tue, 15 Oct 2024 05:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B561F667D;
+	Tue, 15 Oct 2024 16:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728968715; cv=none; b=HehRw+5265yuiiHz4TrFLDBKTbhBnvgS7yMM8LKrNyFDIM4LnfRN4IPUJ7CER3SHIHynQ0NwE09gDHbCzVAkK0YbpIV+dN6jgMkSQUYVmj8MWdFjMgNx4UVYK5dOJvIfCVczxmwfyQPVkyVQpxbn2+bXWZaegVF1G+6tQRVQXqA=
+	t=1729011368; cv=none; b=p7y05Saz3TbzLtc1ytu/8yU2+hP57hF6I8xr8S56b4w6jvYjtHHwqH5PWNFUtcWsY7GKSngsqvFmo+TQe6Wi19VrFMkuCIVjvg/lddxzTLb9XnJCg21Y5pothaPIPw4A5olQszI65nOaT3aU0NVBOQqanpI6o89G4R7UtKEWXqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728968715; c=relaxed/simple;
-	bh=RbAhWTuItMFAIA6NkLv3EHzhAomLVnEWgdUI6fHnAPU=;
+	s=arc-20240116; t=1729011368; c=relaxed/simple;
+	bh=hfqJKue+3XYOgvEDE+ykbHkzEUEGlHvjzIkhYRO8y10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nj6wEMZ78TaCocs6YSyASegmA1PotN2OpK9VVb5+Zi5QnTz561tcKSClLUZI8ytLFCcz29mdDy7oS1T0mSNkjx/xwAelp6g1ys5hW9lrN9KFJ6qQ+H0LYgLRI7T9vNpzjWVKUDlboRAtO6VOdbh8xH2boeqBLF2GCMb2umGdtGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XF9TDcO6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=DqxxBECG3Qf88WApnQ1vcQdv3I7w3KQjljwDOi/y3Xs=; b=XF9TDcO6Za8S1oiBOylCVyR5V5
-	nHW+XZdzQdT7KB9UgNT5KET1gb9E7iQsbIXNCrjn49afBnB0BBshKoQ8JhGzffvuULJVxcljKU/RF
-	Gvc8YnLkvG+wv4pyV5W9/NO0CbwGP7diZi3uRppbWYHAI46HMFbekx3bKFbakfbBWx2Cu2rKAtrj7
-	z9BMulMkudBQnqDx5eOXp18jgKAy7cwW5LPN+avqj7cjiZfizZ6XdI5plCKZvG2hhZR26PWISFZOn
-	9ZBGE1kP7wjfQu7LtS6BUafyJ544RPFVnIjL5068yRdndEjJ8NiNOHK4PZL9S3o3MWaASi7mHaVDz
-	nvBCH+rw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0Zk8-0000000752W-3q98;
-	Tue, 15 Oct 2024 05:05:12 +0000
-Date: Mon, 14 Oct 2024 22:05:12 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Daeho Jeong <daeho43@gmail.com>, Christoph Hellwig <hch@infradead.org>,
-	Daeho Jeong <daehojeong@google.com>, kernel-team@android.com,
-	linux-kernel@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=AGAu07RjuPUwXoOeQUS9XDh70VN1IsyvcU8G1YSFZmLBuIawba3bO//dcMOxvWrqvbtOXoS0EdAUQFebmXOzwC1ga665Opp/u8HoFHFNFIpqLdYa48uYZHuPKwnkRtRkg14/zZLwUCVb6MNS+qLKZaxOD4o94ED2glv345FYK6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOL0ad3a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB58FC4CEC6;
+	Tue, 15 Oct 2024 16:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729011368;
+	bh=hfqJKue+3XYOgvEDE+ykbHkzEUEGlHvjzIkhYRO8y10=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LOL0ad3a5QF4D6nDEDi6WusaMnXL8w3i+ooPdvVVEo5G0E0G2oPhKjYBWvQRjzh/m
+	 fSmqcwvIsq1FOrvt7YVrhexSOl6xXfLw6ccABZHDJhbDoWnSryKGYppZe52OCy6jTf
+	 FgOyT3CmQ8DIsB+K106HfNz3tQsXEOji+qDUHTl7fIibCmNCauC2KinUDgRy+SA2RB
+	 mNe3QyOwshLGSTY5Pmi5GlGYOb3Qu2kHKOd9dzw2Q8TWiEOrDaPAGn0hzboIO8cNBD
+	 jir7BiC3OKObuUy/QOCxSFQDgexAEgXGjXVvvhLGeShCvqD3foJsGo7pwPaXXwKtss
+	 C/Jw4Qd1fZdDg==
+Date: Tue, 15 Oct 2024 16:56:05 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Daeho Jeong <daeho43@gmail.com>, Daeho Jeong <daehojeong@google.com>,
+	kernel-team@android.com, linux-kernel@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [f2fs-dev] [PATCH v5] f2fs: introduce device aliasing file
-Message-ID: <Zw34CMxJB-THlGW0@infradead.org>
+Message-ID: <Zw6epcWDc13p1yCM@google.com>
 References: <20241010192626.1597226-1-daeho43@gmail.com>
  <ZwyyiG0pqXoBFIW5@infradead.org>
  <CACOAw_yvb=jacbXVr76bSbCEcud=D1vw5rJVDO+TjZbMLYzdZQ@mail.gmail.com>
  <Zw1J30Fn48uYCwK7@google.com>
+ <Zw34CMxJB-THlGW0@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -66,32 +63,63 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zw1J30Fn48uYCwK7@google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <Zw34CMxJB-THlGW0@infradead.org>
 
-On Mon, Oct 14, 2024 at 04:42:07PM +0000, Jaegeuk Kim wrote:
+On 10/14, Christoph Hellwig wrote:
+> On Mon, Oct 14, 2024 at 04:42:07PM +0000, Jaegeuk Kim wrote:
+> > > 
+> > > Plz, refer to this patch and the description there.
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/commit/?h=dev-test&id=8cc4e257ec20bee207bb034d5ac406e1ab31eaea
 > > 
-> > Plz, refer to this patch and the description there.
+> > Also, I added this in the description.
 > > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/commit/?h=dev-test&id=8cc4e257ec20bee207bb034d5ac406e1ab31eaea
+> > ---
+> >     For example,
+> >     "mkfs.f2fs -c /dev/block/test@test_alias /dev/block/main" gives
+> >     a file $root/test_alias which carves out /dev/block/test partition.
 > 
-> Also, I added this in the description.
+> What partition?
 > 
-> ---
->     For example,
->     "mkfs.f2fs -c /dev/block/test@test_alias /dev/block/main" gives
->     a file $root/test_alias which carves out /dev/block/test partition.
+> So mkfs.f2fs adds additional devices based on the man page.
+> 
+> So the above creates a file system with two devices, but the second
+> device is not added to the general space pool, but mapped to a specific
+> file?  How does this file work.  I guess it can't be unlinked and
+> renamed.  It probably also can't be truncated and hole punched,
+> or use insert/collapse range.  How does the user find out about this
+> magic file?  What is the use case?  Are the exact semantics documented
+> somewhere?
 
-What partition?
+Let me ask for putting some design in Documentation. Just for a quick reference,
+the use-case looks like:
 
-So mkfs.f2fs adds additional devices based on the man page.
+# ls /dev/vd*
+/dev/vdb (32GB) /dev/vdc (32GB)
+# mkfs.ext4 /dev/vdc
+# mkfs.f2fs -c /dev/vdc@vdc.file /dev/vdb
+# mount /dev/vdb /mnt/f2fs
+# ls -l /mnt/f2fs
+vdc.file
+# df -h
+/dev/vdb                            64G   33G   32G  52% /mnt/f2fs
 
-So the above creates a file system with two devices, but the second
-device is not added to the general space pool, but mapped to a specific
-file?  How does this file work.  I guess it can't be unlinked and
-renamed.  It probably also can't be truncated and hole punched,
-or use insert/collapse range.  How does the user find out about this
-magic file?  What is the use case?  Are the exact semantics documented
-somewhere?
+# mount -o loop /dev/vdc /mnt/ext4
+# df -h
+/dev/vdb                            64G   33G   32G  52% /mnt/f2fs
+/dev/loop7                          32G   24K   30G   1% /mnt/ext4
+# umount /mnt/ext4
 
+# f2fs_io getflags /mnt/f2fs/vdc.file 
+get a flag on /mnt/f2fs/vdc.file ret=0, flags=nocow(pinned),immutable
+# f2fs_io setflags noimmutable /mnt/f2fs/vdc.file
+get a flag on noimmutable ret=0, flags=800010
+set a flag on /mnt/f2fs/vdc.file ret=0, flags=noimmutable
+# rm /mnt/f2fs/vdc.file
+# df -h
+/dev/vdb                            64G  753M   64G   2% /mnt/f2fs
+
+So, key idea is, user can do any file operations on /dev/vdc, and
+reclaim the space after the use, while the space is counted as /data.
+That doesn't require modifying partition size and filesystem format.
 
