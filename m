@@ -1,188 +1,164 @@
-Return-Path: <linux-api+bounces-2437-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2438-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024569A0AE6
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2024 15:01:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E549A1303
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2024 21:58:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33D6F1C21049
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2024 13:01:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B88A2B21994
+	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2024 19:58:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 771CC208967;
-	Wed, 16 Oct 2024 13:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F035A215F67;
+	Wed, 16 Oct 2024 19:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbCCAoz9"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BNupI532"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485922076D3;
-	Wed, 16 Oct 2024 13:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8293420605A
+	for <linux-api@vger.kernel.org>; Wed, 16 Oct 2024 19:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729083661; cv=none; b=hoAuxmCLgzO9LCZ9I6PEIvbZqaepLVQG4F/uwWbtlespjtpMf1tIq0lcLjMpyFNbA8hBss5Q38Mk99Qc7jIflBhlu7T5qt2BaFTiAlZt/3rjNyXPk7c1DmwqgZc17e0Iu5tqRrFFSfTkeFfWxqtwS5c529o4ULLWY6hXv/+4c0Q=
+	t=1729108703; cv=none; b=CYGiqqpIDWP46EBFSwkp5/RNvWDpe/VlUvTJkgbI6QHI5kSUhIjdzgvS0ymJ1662pEwYqGCy0O1+XS8uR/O6SwQoxA55Rczo6NVDi/oKYWh3nvwbMfdcSe4pG8g+BlBxPvwnVl8JNOXr7iLthKi2UB2kjoBuZOnmzATvDx3B6d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729083661; c=relaxed/simple;
-	bh=AQJQ52Y20rrXyjBF5uA6GMPy25kJ+zP7PIIyA12Eb3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rlmz2D0QihYWnPz5BxLdxsa1bngr7qwiwoV9sjtvdYh7nxH+GdpxsE9eI8tVqwtftly9rt108GNMVdi4ELuYuLrRjbGUQG/t8ASEJva51mJJS68tZ+NyERUYYtHzH20sXBTkRtR1yQ0qW6+JnFFk07os9mJvaf9YhD3QluH0p98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbCCAoz9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C835C4CEC5;
-	Wed, 16 Oct 2024 13:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729083660;
-	bh=AQJQ52Y20rrXyjBF5uA6GMPy25kJ+zP7PIIyA12Eb3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kbCCAoz9IPzUFd0JxerVoaRYzpOHduc/0PJ3//oseEfrW6BiFMorA52SizQt+i2J0
-	 j0WF9CQeyKct+P6ac4KIqCFwWwe0oxF+6gPZQrqYrld2oeGl9qahJBNO8wq5wYTvqg
-	 rL0moXxOCkQsXtrWfFVgDUVNgFsB/FVz8BsLElT7GGSc4oViW0hxHXvKBOSR69VbTV
-	 gikoiDIhAKJ7lM9b05AHuvqtF00Yif/Og2PEz55P/DkY02nJdIFy/jdTQcxCgmMDZP
-	 ckTrF481yJH4oZpOY4H0avaJW+RDYgUnm5E/O+a+oOv3F97GvcGEnHzLXNq3z+OBSW
-	 Ps+Ne3e+9elUg==
-Date: Wed, 16 Oct 2024 15:00:55 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Christian Brauner <christian@brauner.io>, 
-	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] pidfd: extend pidfd_get_pid() and de-duplicate
- pid lookup
-Message-ID: <20241016-beinbruch-zeltplatz-4bfdedca1ee8@brauner>
-References: <cover.1728643714.git.lorenzo.stoakes@oracle.com>
- <8e7edaf2f648fb01a71def749f17f76c0502dee1.1728643714.git.lorenzo.stoakes@oracle.com>
+	s=arc-20240116; t=1729108703; c=relaxed/simple;
+	bh=YvEGdaCkCTEUSquWxdJYTcmhz//eexPD9R0baRR64gQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MOB5LUJEek/NsVm5PG5FWFf/O3I6gSfVCtHyO8HRFtG728m6mHTAaA22Kop5dNix7eSBgYvBj56Q2w+tpruig8Zhq/tYI4lSZPdhoI7v8LW2PnJ24FP6gX5ShuWfTcR0g/8ihEi8ONFDOqadsBDFOBygD6a3INFEvFVVIE0lgeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BNupI532; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-837ec133784so7308239f.3
+        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2024 12:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1729108701; x=1729713501; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oykqBF27Cg1WsEM8oIdtzCYaI3LOXySa66d+3hjTzRI=;
+        b=BNupI532FxyFbFyFTZUQpwHvkTtGqlB91p/nVbk11hh9kV1Eqhh8j4z/cNmLNNE39j
+         y1lNoPp3NHW8zDfMlVvwsVbuL2V4JVBekyuZ+URABr56mGC+M1l1rn1PbVi12aQDb3G4
+         OHO4wjC8Uos00+57XF6o/GCl8scLkvV192rP0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729108701; x=1729713501;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oykqBF27Cg1WsEM8oIdtzCYaI3LOXySa66d+3hjTzRI=;
+        b=hxh4mMmCj/ITH9w5r2+9olRNhtOHshB4/sGzuBV8/fSjc/n5hkfpxnVTeOYRPhTd86
+         y8S3SJJOj75CfMeKIp6tYE1CnURrQcRFgDp50s+A040OmAGENJTds0zS1DN54oCZ0qF3
+         ZJ1xZABaBlx710JDppG0qhM/Egb1NxSM7zPzCDbsgg/xtulEddRrWulCPpCGl3GOgGxS
+         tPTUJ5/gGfa/nWE8OLFLlnQnnMTCZXQl9kmdB+gOU933Mf7C9rVVyufw3rsVk0SPiZtA
+         j4hv8erLODvwrkKKkKnQvxpCedd6ZQU3j+a0bGLu80qD/MmJHWzPOoqf4hXn2wDDbTvs
+         Cx2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVp//MdV8BHd/thwGRoHjtS/QptvACgzgQEGhDui3f6+TFIkIwcimmfv2o3CJLasUek6GT7Vv8/avE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFFWAQLEAYV+f3TNbiW/hj/3LzG2KJS5598VA/m5cIuwgEyQZS
+	K5Ldawhh0z+/xaCT/a7W1AAYjCblRxy0PpJMxnmRa5gBlDI6gueFfNfTKJhaF3Y=
+X-Google-Smtp-Source: AGHT+IEG26gug8dxXfFJbY1LkWfuk3I0y+Nj1NQSbSr3D53poIG/+n2Fi6ldVX/RxyOyB2qrKiHZTw==
+X-Received: by 2002:a05:6602:2dd3:b0:82a:23b4:4c90 with SMTP id ca18e2360f4ac-83792703cd8mr2282797339f.1.1729108700563;
+        Wed, 16 Oct 2024 12:58:20 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbecb3993esm976476173.94.2024.10.16.12.58.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2024 12:58:19 -0700 (PDT)
+Message-ID: <fd01038a-0057-4e29-bed7-03846885b089@linuxfoundation.org>
+Date: Wed, 16 Oct 2024 13:58:18 -0600
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8e7edaf2f648fb01a71def749f17f76c0502dee1.1728643714.git.lorenzo.stoakes@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] selftests: pidfd: add tests for PIDFD_SELF_*
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1728578231.git.lorenzo.stoakes@oracle.com>
+ <8917d809e1509c4e0bce02436a493db29e2115b3.1728578231.git.lorenzo.stoakes@oracle.com>
+ <1d1190be-f74f-45ab-ac6c-2251d0bec1bc@linuxfoundation.org>
+ <71221c84-7721-42b7-add4-269a1f25c478@lucifer.local>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <71221c84-7721-42b7-add4-269a1f25c478@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 11, 2024 at 12:05:55PM +0100, Lorenzo Stoakes wrote:
-> The means by which a pid is determined from a pidfd is duplicated, with
-> some callers holding a reference to the (pid)fd, and others explicitly
-> pinning the pid.
+On 10/11/24 02:20, Lorenzo Stoakes wrote:
+> On Thu, Oct 10, 2024 at 05:16:22PM -0600, Shuah Khan wrote:
+>> On 10/10/24 12:15, Lorenzo Stoakes wrote:
+>>> Add tests to assert that PIDFD_SELF_* correctly refers to the current
+>>> thread and process.
+>>>
+>>> This is only practically meaningful to pidfd_send_signal() and
+>>> pidfd_getfd(), but also explicitly test that we disallow this feature for
+>>> setns() where it would make no sense.
+>>>
+>>> We cannot reasonably wait on ourself using waitid(P_PIDFD, ...) so while in
+>>> theory PIDFD_SELF_* would work here, we'd be left blocked if we tried it.
+>>>
+>>> We defer testing of mm-specific functionality which uses pidfd, namely
+>>> process_madvise() and process_mrelease() to mm testing (though note the
+>>> latter can not be sensibly tested as it would require the testing process
+>>> to be dying).
+>>>
+>>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> ---
+>>>    tools/testing/selftests/pidfd/pidfd.h         |   8 ++
+>>>    .../selftests/pidfd/pidfd_getfd_test.c        | 136 ++++++++++++++++++
+>>>    .../selftests/pidfd/pidfd_setns_test.c        |  11 ++
+>>>    tools/testing/selftests/pidfd/pidfd_test.c    |  67 +++++++--
+>>>    4 files changed, 213 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+>>> index 88d6830ee004..1640b711889b 100644
+>>> --- a/tools/testing/selftests/pidfd/pidfd.h
+>>> +++ b/tools/testing/selftests/pidfd/pidfd.h
+>>> @@ -50,6 +50,14 @@
+>>>    #define PIDFD_NONBLOCK O_NONBLOCK
+>>>    #endif
+>>> +/* System header file may not have this available. */
+>>> +#ifndef PIDFD_SELF_THREAD
+>>> +#define PIDFD_SELF_THREAD -100
+>>> +#endif
+>>> +#ifndef PIDFD_SELF_THREAD_GROUP
+>>> +#define PIDFD_SELF_THREAD_GROUP -200
+>>> +#endif
+>>> +
+>>
+>> Can't we pick these up from linux/pidfd.h - patch 2/3 adds
+>> them.
 > 
-> Introduce __pidfd_get_pid() which abstracts both approaches and provide
-> optional output parameters for file->f_flags and the fd (the latter of
-> which, if provided, prevents the function from decrementing the fd's
-> refernce count).
+> We're running this file in userland and it's not obvious we can correctly
+> import this header, it'd be some "../../" thing out of the testing root
+> directory and might not interact well with all scenarios in which this file
+> is built.
 > 
-> Additionally, allow the ability to open a pidfd by opening a /proc/<pid>
-> directory, utilised by the pidfd_send_signal() system call, providing a
-> pidfd_get_pid_proc() helper function to do so.
+> Also the existing tests do not seem to try to import that header, so it
+> seemed the safest way of doing this.
 > 
-> Doing this allows us to eliminate open-coded pidfd pid lookup and to
-> consistently handle this in one place.
-> 
-> This lays the groundwork for a subsequent patch which adds a new sentinel
-> pidfd to explicitly reference the current process (i.e. thread group
-> leader) without the need for a pidfd.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
->  include/linux/pid.h | 42 +++++++++++++++++++++++++++++++-
->  kernel/pid.c        | 58 ++++++++++++++++++++++++++++++---------------
->  kernel/signal.c     | 22 ++++-------------
->  3 files changed, 84 insertions(+), 38 deletions(-)
-> 
-> diff --git a/include/linux/pid.h b/include/linux/pid.h
-> index a3aad9b4074c..68b02eab7509 100644
-> --- a/include/linux/pid.h
-> +++ b/include/linux/pid.h
-> @@ -2,6 +2,7 @@
->  #ifndef _LINUX_PID_H
->  #define _LINUX_PID_H
->  
-> +#include <linux/file.h>
->  #include <linux/pid_types.h>
->  #include <linux/rculist.h>
->  #include <linux/rcupdate.h>
-> @@ -72,8 +73,47 @@ extern struct pid init_struct_pid;
->  
->  struct file;
->  
-> +
-> +/**
-> + * __pidfd_get_pid() - Retrieve a pid associated with the specified pidfd.
-> + *
-> + * @pidfd:      The pidfd whose pid we want, or the fd of a /proc/<pid> file if
-> + *              @alloc_proc is also set.
-> + * @pin_pid:    If set, then the reference counter of the returned pid is
-> + *              incremented. If not set, then @fd should be provided to pin the
-> + *              pidfd.
-> + * @allow_proc: If set, then an fd of a /proc/<pid> file can be passed instead
-> + *              of a pidfd, and this will be used to determine the pid.
-> + * @flags:      Output variable, if non-NULL, then the file->f_flags of the
-> + *              pidfd will be set here.
-> + * @fd:         Output variable, if non-NULL, then the pidfd reference will
-> + *              remain elevated and the caller will need to decrement it
-> + *              themselves.
-> + *
-> + * Returns: If successful, the pid associated with the pidfd, otherwise an
-> + *          error.
-> + */
-> +struct pid *__pidfd_get_pid(unsigned int pidfd, bool pin_pid,
-> +			    bool allow_proc, unsigned int *flags,
-> +			    struct fd *fd);
-> +
-> +static inline struct pid *pidfd_get_pid(unsigned int pidfd, unsigned int *flags)
-> +{
-> +	return __pidfd_get_pid(pidfd, /* pin_pid = */ true,
-> +			       /* allow_proc = */ false,
-> +			       flags, /* fd = */ NULL);
-> +}
-> +
-> +static inline struct pid *pidfd_to_pid_proc(unsigned int pidfd,
-> +					    unsigned int *flags,
-> +					    struct fd *fd)
-> +{
-> +	return __pidfd_get_pid(pidfd, /* pin_pid = */ false,
-> +			       /* allow_proc = */ true,
-> +			       flags, fd);
-> +}
-> +
->  struct pid *pidfd_pid(const struct file *file);
-> -struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags);
->  struct task_struct *pidfd_get_task(int pidfd, unsigned int *flags);
->  int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret);
->  void do_notify_pidfd(struct task_struct *task);
-> diff --git a/kernel/pid.c b/kernel/pid.c
-> index 2715afb77eab..25cc1c36a1b1 100644
-> --- a/kernel/pid.c
-> +++ b/kernel/pid.c
-> @@ -36,6 +36,7 @@
->  #include <linux/pid_namespace.h>
->  #include <linux/init_task.h>
->  #include <linux/syscalls.h>
-> +#include <linux/proc_fs.h>
->  #include <linux/proc_ns.h>
->  #include <linux/refcount.h>
->  #include <linux/anon_inodes.h>
-> @@ -534,22 +535,46 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
->  }
->  EXPORT_SYMBOL_GPL(find_ge_pid);
->  
-> -struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags)
-> +struct pid *__pidfd_get_pid(unsigned int pidfd, bool pin_pid,
-> +			    bool allow_proc, unsigned int *flags,
-> +			    struct fd *fd)
 
-Hm, we should never return a struct fd. A struct fd is an inherently
-scoped-bound concept - or at least aims to be. Simply put, we always
-want to have the fdget() and the fdput() in the same scope as the file
-pointer you can access via fd_file() is only valid as long as we're in
-the syscall.
+kselftest has dependency on "make headers" and tests include
+headers from linux/ directory
 
-Ideally we mostly use CLASS(fd/fd_raw) and nearly never fdget(). The
-point is that this is the wrong api to expose.
+These local make it difficult to maintain these tests in the
+longer term. Somebody has to go clean these up later.
 
-It would probably be wiser if you added a pidfd based fdget() inspired
-primitive.
+The import will be fine and you can control that with -I flag in
+the makefile. Remove these and try to get including linux/pidfd.h
+working.
+
+I see your v2 and v3. Please revise this patch to include the
+header file and remove these local defines.
+
+thanks,
+-- Shuah
 
