@@ -1,81 +1,68 @@
-Return-Path: <linux-api+bounces-2449-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2450-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817369A28ED
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 18:34:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 346CA9A2978
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 18:48:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B35991C20BC8
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 16:34:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 570541C27B03
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 16:48:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2821DF758;
-	Thu, 17 Oct 2024 16:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B60771DF991;
+	Thu, 17 Oct 2024 16:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H/KTB3Yb"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zidf+BmP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2080.outbound.protection.outlook.com [40.107.96.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F661DF752
-	for <linux-api@vger.kernel.org>; Thu, 17 Oct 2024 16:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729182822; cv=none; b=lc7NawlarcaninDhvJqMv9UBFWev7Vrv22XSxH84CNoiD0WUebVLq2EjzRMWRCXuIoCjOhBuV93SKvN6suC8q78L1PmZCiblDPzhbmqUXR1Uz1pv+hSXo8ZGEXIKqOhfMfB2hDmB0uQZ5bGsaPf5SMc8xgnYIl8OMnhy16VoH38=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729182822; c=relaxed/simple;
-	bh=yoEuYNpDLTcqlOrcwsDe+hvhIkPXA709M40hhaLRE1Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MJts30uvn4cUwFgaPMn6pdyA60jaseMpQ3PL4Z0UiFv41A4DQpTjnOotQ+lOCk+RS+9fJhE1ZxSyG1iyHiIvarH+JBjE6yQhe7yy0Wa5VM885t197QMa3Wsqnai6gtCGyN/R7/ADvKO3MuoO3dYCBYtCd4vI4kIzsxwDOtl2oMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=H/KTB3Yb; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-83a9b3d8145so44629439f.2
-        for <linux-api@vger.kernel.org>; Thu, 17 Oct 2024 09:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729182820; x=1729787620; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W0ti0XsvTZ/XzR+pwVr3tLSQQ+95HGH92FNh0wKLCeg=;
-        b=H/KTB3YbKW93VN+yF/1sDZTk4UnJDsJx6MWqBLRqWGqGpAAL/QqtYzO8YSXaFBnPwA
-         XLYg3E5+PWBX89hCnFBYY89XPngsHg+Y2JOQkKtdR1iP0DNTqQq9KVETD4sQDYhPVgA6
-         vd3fmtLU5+m+53D8wRzXvx3nKPtzBVQD8lHlw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729182820; x=1729787620;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0ti0XsvTZ/XzR+pwVr3tLSQQ+95HGH92FNh0wKLCeg=;
-        b=txKTUpCN940HE0mBgh4TNJ3vdyzAAt8TcTnWyyvhT21TN6YISyzMG9dQrFy5u9/5pd
-         fJLTvAKr/WAJOba5J5r1zgwlngTNzf39WhPcvF4tbiRgEb+TeYacVIFSh6TwvfTcOx6P
-         W9+z1VZ+a977SJLJKXMDu0Ti9Gotcjf9tEjRHW5/BYR67IbbA995TPhkNdOPlx8ifWU0
-         1PHyGqJaZpeobQ85DwWnsELdr61b97dncpoq8MOtc790RhS8Ce+95dW3ZIxcCxYTpbo4
-         IDx8x6Z1aMGV5zhklDlp6FULhdzEzr0yg5eVgBZMtvV+kC9JYOhngnlKybRsyFv1RZ/4
-         jXKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVST2n0dsdoGE2MXQ4+jjwsUGOSxrpALz4XxJevauaBeowuCZKHpAs8xrR3ZXLW3mltRp3CWdVMSQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8GVe2Mm6e1uy7MpRJq6E6hykJrDfEdM2Xam0XeUwbzh1C0HZ0
-	BrLnK61NEhi2OKYzQSoK59rU2L7khk7bP6KitOb6dC/YUYTi2i/WgxrZnUIll+U=
-X-Google-Smtp-Source: AGHT+IGZj5VTEGoyvHrGcQoBTDUL1ECuKHmy2uuHvPmgVMAluVOKOTXVY2rCJ8eR0erFZ+BzRAd48w==
-X-Received: by 2002:a92:b701:0:b0:3a3:dadc:12d9 with SMTP id e9e14a558f8ab-3a3dadc1780mr74371115ab.25.1729182819840;
-        Thu, 17 Oct 2024 09:33:39 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbec9b252bsm1417359173.57.2024.10.17.09.33.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2024 09:33:39 -0700 (PDT)
-Message-ID: <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
-Date: Thu, 17 Oct 2024 10:33:38 -0600
-Precedence: bulk
-X-Mailing-List: linux-api@vger.kernel.org
-List-Id: <linux-api.vger.kernel.org>
-List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EAB1DF73C;
+	Thu, 17 Oct 2024 16:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729183670; cv=fail; b=PM2OOq4pIhg1OkG++5t62QbbJHdiqlwY/JJXRkhquk9fTa1Q5J/WaPVD2VVdH4MbzakWpPcJZVfikq+DpYojL+lbC6jCe65RmH+F7fEKT3KH0NxLlHDohucdEWiJhRuHC0uvxdrKv28YmwtWnjxa2/zg8reCA1L3A2Ae1VAKA+4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729183670; c=relaxed/simple;
+	bh=TGc/WEOdz4YHQ5ULaxqhvx/a7MRBBR34Tjb08iCyOAY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MHUgOgNcaGZK1Ve71NQLd4zzUm+VVWxQqO1jVV9cAGro4Kvsf/qdWzT5VBHc9fyT/RI7oQuXINRCEsqV/t/T6AqxvdWoRt3HcZjzjN44nU2GcjH/6xYeuanD0kr4dNWj/yiSRQ0tWNnBHsWrsH0QVogzSMLRodjY89E6nD+B93g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Zidf+BmP; arc=fail smtp.client-ip=40.107.96.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bkeBDR5ssK0Gtg8Be47YiMWO//E3GV//K1XkLTYpqRxzPDLw5KtCjsEuixif19mxKFu828JBlmR0WO5DuSC6srsbZdD+U28Nl31YRymF0FmVZ4t+lEuMMfJikZb4CFNhit/Nf9471h+N4BwLDQNzENFmfYNOITBeHsX+F3YOMnlfkkTIsueZlsOPxsAwkbP4220a+p9Wyt3oqTOGjM4f6R/NEFL64leZTWGQ/YAHWqq48vBRcitMKsJ4H3DBUH3a5r1ClHQB0tw+lGmE4ocyAM39H1TApQ3lGbWYhtzBr+eLMz9IDrWXunH05PTnAUpw8FQzrB4Ekf+F0CmPM/LbQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=loDIlDmWCVkHN0vQiWojz56uuqXBYvx0ToikvMeCXx8=;
+ b=L7RXXN7xphYk/LHpXPaiA+4aiugpNEHUe93+XeBVyDfSwZ2mmmmyws2pySSzac1f/7liIql/W8+HLlVz9epXC++ViBHITAlQLIn7cVmGWMsx3Id0BbeJAhZ5BesTfdpOdWH37O0a1d5PcJIFbYJL8xAZxaP2hDkrDSbbgAsc5SY5rWszXs96jrYs2zzhdOhv6Sgjz5TdSMEU2Edv086RODaFvA4xX/fXCgWeve9Bx8sRaOMYR9AX5EUj1661tIKxPdFanuqFbJRXOBAyAI9S+g1hi3jEQZE6nukmxOyrwFUawi3zNeebN9uBmzRKjilgOZpb3jYUireLxD6cUK306w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=loDIlDmWCVkHN0vQiWojz56uuqXBYvx0ToikvMeCXx8=;
+ b=Zidf+BmPD1FzORHGNbmvlihKz9DtiHvPD87nZZlXpe6AvL4Rz2/duSpoMBmPW4X7GK4AV9P+PHo5z63cDt8MrX5pWuAlF2Fep8gPoJOBqfrtcEm+/Jtt8qmWHnnnnmsyLHJKibmJ5dsDZqGbK01IEY8b216uDwAxeFAM/RXMC0rt8BFPYSirMLu8ZvQbfwIe7xT6cLVqXcSwgQjVzthTT7xX/Jvph2U9897JZZkAp4hTBB82hRU5lnjLCBJDNtdJzrvnjc+NO9WGKIiCmxagOKJOZzntfOtNsISuTKNru5JXeAcy+/CYhPBxqKPpJuATI8Stlz+GF8JjoVj7nZdyHQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ0PR12MB5469.namprd12.prod.outlook.com (2603:10b6:a03:37f::16)
+ by IA0PR12MB8351.namprd12.prod.outlook.com (2603:10b6:208:40e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.19; Thu, 17 Oct
+ 2024 16:47:45 +0000
+Received: from SJ0PR12MB5469.namprd12.prod.outlook.com
+ ([fe80::ff21:d180:55f2:d0c0]) by SJ0PR12MB5469.namprd12.prod.outlook.com
+ ([fe80::ff21:d180:55f2:d0c0%6]) with mapi id 15.20.8069.019; Thu, 17 Oct 2024
+ 16:47:45 +0000
+Message-ID: <3687348f-7ee0-4fe1-a953-d5a2edd02ce8@nvidia.com>
+Date: Thu, 17 Oct 2024 09:47:43 -0700
 User-Agent: Mozilla Thunderbird
 Subject: Re: The "make headers" requirement, revisited: [PATCH v3 3/3]
  selftests: pidfd: add tests for PIDFD_SELF_*
-To: John Hubbard <jhubbard@nvidia.com>,
+To: Shuah Khan <skhan@linuxfoundation.org>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Christian Brauner <christian@brauner.io>,
  Peter Zijlstra <peterz@infradead.org>
@@ -84,72 +71,167 @@ Cc: Shuah Khan <shuah@kernel.org>, "Liam R . Howlett"
  Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>
+ linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>
 References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
  <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
  <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
  <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com>
+ <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com>
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR02CA0060.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::37) To SJ0PR12MB5469.namprd12.prod.outlook.com
+ (2603:10b6:a03:37f::16)
+Precedence: bulk
+X-Mailing-List: linux-api@vger.kernel.org
+List-Id: <linux-api.vger.kernel.org>
+List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5469:EE_|IA0PR12MB8351:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e26a471-770c-468a-44ea-08dceecb6c99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QjRLdE44Qm9hcHBmbXpDNEh5ZGF0Mi90ZG5MRmxTcmJBY1lpRHVzdUFIaVMw?=
+ =?utf-8?B?T1lpWFovazNvYWJVaXBlU0ZGT0N4d3Z3MmJOK0EzaXRqZXRHb0NIVUg1WTlS?=
+ =?utf-8?B?RmEyeTVkbkh4RVAyT2VzS2d2R2gwSHpISWdkRWNNL1hpUUZqR1BweUtpWjZn?=
+ =?utf-8?B?TW9kZmFFRmVaVGhUcUhFU08rQWZIUmxLMU4zWjlId2p3T2J3WTMwYWNrWGtu?=
+ =?utf-8?B?STZnZDJUcVIrdS9LRElUZ0ZDNzJSdXcvM2YyS1puR1UxS05PaUtid2taZ1RB?=
+ =?utf-8?B?djk0eldwSXZoalJreTROUFpsZUkxZDNvOE5BWlRjK3Y0RWtUQVdQaGZPR0l5?=
+ =?utf-8?B?V0VtNVROaTBRZUZqTkpuUVBUVWlncXk4UVN2cW1MRWt5NzQzUG16ZUJFOVMy?=
+ =?utf-8?B?S0lMMW13K3pRU3NjWnlwVTZIS1FYUTJHM1dudTNlYVA3c3lqWGhDUzBvVVd1?=
+ =?utf-8?B?Smo0YW56c1RMbVBvaEVmQ0IyZW1zdmZFNW9LaDJVWUhpdHVuakxBZEwxTVgx?=
+ =?utf-8?B?MTFYTThMc0lQQUdhMks4SllBcGovNVl6TzdpNStJSWtWMDNLdEhKZmtkWEMz?=
+ =?utf-8?B?Tjd4RlNwSS9HaEt6bEpxaExPZ2RURnl5ZCtKZUttN2JyR3h1OGxnUGU4UUhw?=
+ =?utf-8?B?bXIyUnJFekNXZk5KSTNZUnE0OUlSQ0s3OExFQ0wzTHBreGNhaitDdjlIalVp?=
+ =?utf-8?B?WFprZ3RwZGlLMzdER0RJU0tiOHUwblBxT2VsMjM3cGROWkwreFRRWVVGZktz?=
+ =?utf-8?B?aTNKcE9yenpuK3lIaDRIYUNLUlpiVjc5N3QzUjg1aGtwRmNqMWsvOEIvMHQ0?=
+ =?utf-8?B?UmJjMmRXK0Mwc0UwRTR0a0tVMUw2bjJOTEM5c01uTTg1amJHNUdNZnhhZE43?=
+ =?utf-8?B?YlpyT2hRa1pwdmJUbjRKVWtEdTh0MjYwVHh1U0dNazBrTG5vVWtlWVF1Wjg4?=
+ =?utf-8?B?ZWpnemFQVGlqczRpN2pBbE8rRGhGWHV5ZitFOGtvTmhodHp5ejdzSWlXemFx?=
+ =?utf-8?B?ODE3RGx4R1BlKzFDWURLRm84UFRzejRVZDYwMXdhZTFuUlY0T2dDRUU0K0My?=
+ =?utf-8?B?bk91MkRpRGd0eFUyL043WGlvNTBZUktRd0JyYnppRkVjNnRId2hkQjVBb0k1?=
+ =?utf-8?B?L2VyT25lTHh6c3p0Um94MlFmMDF4Y2JUd1dicnhITVBNRjNKL1lhU3pZOXJP?=
+ =?utf-8?B?Zlg4TXg4djJnNnB4bnRXQWxtZXVCOW11dGl5WVczQUhNQ2R2VFJKWjdubGtw?=
+ =?utf-8?B?ajZYSDRsQXdYTitCZ3lSZFBZK1l2OFlFeWJYSklISWlkZ1Z0cFlvNmhyL1Js?=
+ =?utf-8?B?ZlhwTXhkV0VYTGFSaGpBeGlISDFkK1ZQenVBdU5XVndJN1JJK0k5NFlKT0h3?=
+ =?utf-8?B?d0w5dDNDdzkxZlRSeDlnU1VoekxxREdlcVdsRnI2NU9zT1ZUS284WFVTQUtN?=
+ =?utf-8?B?QndoQUl5UFRTS1ExZDZMeDVZTVJuSnJUdndKQXNxc2VRUURwc0krdFo5U2FR?=
+ =?utf-8?B?NWRvMFAwR3U2MWd0eUFzZUNseDFtT0VWMEJIUVZCTzAzUStzcFRvTjB0Y09Z?=
+ =?utf-8?B?U1dSa2J1aHBaaU81ckNKNE9BcU14RzlmbVU2L1ZQcWpwTElkN3VBQ09UVFdp?=
+ =?utf-8?B?bkl0SXdIZmNSVS9ZVk12a3BDUEJJb3RXQW1RMTNQM2RRM0I3UVFaaER5MjRj?=
+ =?utf-8?B?K2N2dXdJTzl0TGFMWU9HOHBTOVZER093R2pKNGVuWlBVd2pqL3ZuV0h0UXlN?=
+ =?utf-8?Q?PIGgkqP6PsnvK/4qz/EEkRX55wTqlKJto8yV2pl?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5469.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZktMTDJlbE04aGViaEY3MDFVV1QrRTFoMW1ITkdPRUFBdEFhd1orUXZWTDhu?=
+ =?utf-8?B?M3lqamEwMkhCd0grbW1xdkFLN09zZklmdjNEV3BWU0hwRkJQemprdCs1ZDF1?=
+ =?utf-8?B?ZjlGRnFiWWhqM3dHcWhtZnRwb3h3MWcyelp2UVJPRGp0VkEvNURmc0NudHFJ?=
+ =?utf-8?B?dkEraTdFQlJLNi9hV29RT3RhT2RmQmh0bUQ3SnkrTk51UDZpcm9qQ0NieXNZ?=
+ =?utf-8?B?ZC9nN1FmY0tXdXhOWUZUV3Zzdmx0M0d4cW1WaWh1VXdVeEZ1RmthME1NOHdD?=
+ =?utf-8?B?dXFTQUoxRjc2MUE2eHFsTjFCb3VVM2k2a1hQYUJFOE9Kb2FwSERCL29SQ2lY?=
+ =?utf-8?B?SFVuV2IzN05XMjUxVUNTNm1oaExRL25iQzJFUlN0UStpTkIySGRlaTQxOFI5?=
+ =?utf-8?B?MG8wWFFJVTNiVUMxZGRBTis1Ylg1TVo2S0ZJUjNkQnFydmpMNHNOaDFZZ2FL?=
+ =?utf-8?B?T1pFc1IvLzBwUkpYdjdZUkFTd3Q1UzhaTlJ4NElkZ1RaUzdXVUZaSUxOdEhX?=
+ =?utf-8?B?ckl3cUdMaGhUSWk3YllsMFc2OWRYRTVTQUVFQ2djT2k2NWlWaWVXSUVodXZt?=
+ =?utf-8?B?ZUdabXBNYWpoV2FNcHFOR3liRGRwUlN2T1BhTWcvdjh2Mkh4L3BQbWN2K08r?=
+ =?utf-8?B?VjAwM05RS3NYZnB4WkhNSHp6WGJrc2JrbkpXVjZlVnBsaEdJRTdoUGlBczFQ?=
+ =?utf-8?B?cEVObnBKWWNja2ZOZG9zZEJKV3NKVHdhMlg3U3hqODc2bmszT1FqVnJFRzhu?=
+ =?utf-8?B?Q2pVMVBSaGpjRy9hYi9YN0NVT0o1UGxKT0xoMXpTc1I0SzRDVE9RQ0psUFIv?=
+ =?utf-8?B?VFZCaTJ1ZWNUeGxUVTNJdW4yMHRhY2tqeGFXOEp4cWZDNi95ajJiTzNpZTRy?=
+ =?utf-8?B?T3cvY3ZGZWd2Tmh0MG5NdnYyZTJHbWNZRS9hdUxHOG9QM0FPY1E3WmRubi9a?=
+ =?utf-8?B?bUpYVk9odDc3MEwxbVpROWM3Tml2ckZOL0psMkNBZjdadjgxOGljZ09vNGd1?=
+ =?utf-8?B?WDRpVDFkMmkyWHNoUzlBMmR0R2pwOUhLMW9BKyt6SXJnUGMvdURGQXBtaUMr?=
+ =?utf-8?B?U1gzTlM0L3Z1OHZUY005cFoyUVBuYTRSQ01UYXBGcnQwQ1hVcDhSRW9FQjRq?=
+ =?utf-8?B?emVZb1c2dHNQOE1aQ21iZktsMTNtaEpiVU1qcUJLZHpCd2kxZGdLOUVIUlJV?=
+ =?utf-8?B?eE9rMzRhK2ZmaklLV2R4ckZnL1hPdzZWZTh4Z3EydFMvblZkaVprY1dXS2wx?=
+ =?utf-8?B?dkZHYkpqdWdsYUNxZFptSjVQZWdaU25wRGtrUDR1bnFleHJZYkxGZ1BUSGxq?=
+ =?utf-8?B?a1NaalFyNUkxdDdJSVg4aXhMTkhQVWh6OStqUFU4QmhZREowbWRqNVVXam9u?=
+ =?utf-8?B?d2JYblI1UFhLS0E1aGhRSTFYRUc4eW9RbU5xNE10YjlDWGQ2T2UyMUV5QTFC?=
+ =?utf-8?B?Y1h2WGxpQWoxUWtGZzcxeTIxYU9ZalJTRC9Ra3dLUUVRVXJiYVg0WlB5UTZL?=
+ =?utf-8?B?WTQ1aVM0c0JUWnIxYm9VN245eHFtRW1VRGJ4dXQwYzM2WVdtaDRMeDh2SHBB?=
+ =?utf-8?B?Q1poQndKS1ZKdzd5QnAxSnBPOFYrRGs2WExTWFRvem5uUUZQTTRScmd6dmE4?=
+ =?utf-8?B?T3JQbUdOcVlMT0l2amVhUHBaaW5ka24xM2lmSURSejJRWE9yVmUyMUdZSmJ5?=
+ =?utf-8?B?S2s0S1JIL2FKN1dCQnZPMkVaSDFEMjZiakJpQTI4b3FJZzVaVGhMTm9oVzJF?=
+ =?utf-8?B?dDVRQXF3TDZUSkZGeGZkR0dXaXI2WWZQM2xJVS84b1JKTzFBekxvTVMyR1dz?=
+ =?utf-8?B?ZUJRYUlVbXorbk9YYWZQNGgybjNXVHFOYWVSMTZJZHkvUk9qSGd6dHM5YWQv?=
+ =?utf-8?B?ajJnRkxJVXJseW9ER1doYWsyUUcySnRjOWlic0FhVHg4R2NzMmc2azczT0lW?=
+ =?utf-8?B?eW9JR0FVbkN1MGhRbGlSUFBtbVZmYjJsbWJjUGJ4ZGJMR1JqNnhnL3hNaEw4?=
+ =?utf-8?B?UWpRV3IxRzFlOEpFVlRjRzNHOEplRk9WcXFJZGd6YUZ6RVFvdE1PZmFrc1BZ?=
+ =?utf-8?B?OThXUjZSZW12Rm5sYm91VnVTbHFYcG1Va1o5Z3N0VFh3REZLem9TeHdPMVBs?=
+ =?utf-8?B?VmZGOGpVV2s3endFUnRsZWxhQTRhRlp0ZmZSQzRPVkZLTU1DZjFDMStTSkUw?=
+ =?utf-8?B?OVE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e26a471-770c-468a-44ea-08dceecb6c99
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5469.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 16:47:44.8703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hei4cCsGZogZR92uaK+58Y9oli6rNSkKQGuiPTSPS+cXtwTIwgsG/0WHSYkik3pMIX0Tf+pmjgw6tSwu3/5UKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8351
 
-On 10/16/24 20:01, John Hubbard wrote:
-> On 10/16/24 1:00 PM, Shuah Khan wrote:
->> On 10/16/24 04:20, Lorenzo Stoakes wrote:
-> ...
->>> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
->>> index 88d6830ee004..1640b711889b 100644
->>> --- a/tools/testing/selftests/pidfd/pidfd.h
->>> +++ b/tools/testing/selftests/pidfd/pidfd.h
->>> @@ -50,6 +50,14 @@
->>>   #define PIDFD_NONBLOCK O_NONBLOCK
->>>   #endif
->>> +/* System header file may not have this available. */
->>> +#ifndef PIDFD_SELF_THREAD
->>> +#define PIDFD_SELF_THREAD -100
->>> +#endif
->>> +#ifndef PIDFD_SELF_THREAD_GROUP
->>> +#define PIDFD_SELF_THREAD_GROUP -200
->>> +#endif
->>> +
->>
->> As mentioned in my response to v1 patch:
->>
->> kselftest has dependency on "make headers" and tests include
->> headers from linux/ directory
+On 10/17/24 9:33 AM, Shuah Khan wrote:
+> On 10/16/24 20:01, John Hubbard wrote:
+>> On 10/16/24 1:00 PM, Shuah Khan wrote:
+>>> On 10/16/24 04:20, Lorenzo Stoakes wrote:
+...
+>> The requirement to do "make headers" is not a keeper. Really.
 > 
-> Wait, what?! Noooo!
+> The reason we added the requirement to avoid duplicate defines
+> such as this one added to kselftest source files. These are
+> error prone and hard to resolve.
 > 
-> Hi, Shuah! :)
+> In some cases, these don't become uapi and don't make it into
+> system headers. selftests are in a category of depending on
+> kernel headers to be able to test some features.
 > 
-> We have had this conversation before. And there were fireworks coming from
-> various core kernel developers who found that requirement to be unacceptable.
-> 
-> And in response, I made at selftests/mm tests buildable *without* requiring
-> a "make headers" first, in [1].
-> 
-> I haven't followed up with other subsystems, but...maybe I should. Because
-> otherwise we're just going to keep having this discussion.
-> 
-> The requirement to do "make headers" is not a keeper. Really.
+> Getting rid of this dependency mean, tests will be full of local
+> defines such as this one which will become unmanageable overtime.
 
-The reason we added the requirement to avoid duplicate defines
-such as this one added to kselftest source files. These are
-error prone and hard to resolve.
+Not if we do it correctly...Please do look at the reference I provided
+for how that works. Here is is again: [1].
 
-In some cases, these don't become uapi and don't make it into
-system headers. selftests are in a category of depending on
-kernel headers to be able to test some features.
+The basic idea, which has been discussed and reviewed, is to take
+very occasional snapshots and drop them into a static location where
+they are available for kselftests, without disurbing other things:
+$(top_srcdir)/tools/include/uapi
 
-Getting rid of this dependency mean, tests will be full of local
-defines such as this one which will become unmanageable overtime.
+This has worked well so far.
 
-The discussion should be: "How do we get rid of the dependency without
-introducing local defines?" not just "Let's get rid of the dependency"
+> 
+> The discussion should be: "How do we get rid of the dependency without
+> introducing local defines?" not just "Let's get rid of the dependency"
+> 
+
+Yes. Good. We are apparently in violent agreement, because a few lines 
+above,
+I wrote:
+
+     The requirement to do "make headers" is not a keeper.
+
+The "make headers" is the problem, not the fact that we need to depend
+on various includes. And so the solution stops requiring "make headers".
+It gets the includes from a less volatile location.
+
+Yes?
+
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e076eaca5906
 
 thanks,
--- Shuah
+-- 
+John Hubbard
+
 
