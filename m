@@ -1,71 +1,81 @@
-Return-Path: <linux-api+bounces-2443-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2444-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586899A15DB
-	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 00:39:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD6F9A1853
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 04:02:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89C671C21168
-	for <lists+linux-api@lfdr.de>; Wed, 16 Oct 2024 22:38:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C82CFB2584D
+	for <lists+linux-api@lfdr.de>; Thu, 17 Oct 2024 02:02:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80AD1D45FE;
-	Wed, 16 Oct 2024 22:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB7C446B4;
+	Thu, 17 Oct 2024 02:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ES5D5lL4"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kA/38MTF"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1181D4174
-	for <linux-api@vger.kernel.org>; Wed, 16 Oct 2024 22:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729118334; cv=none; b=BI8HASuMYmAzMrVIviahfRwnhUkPyP/dWdGGjZBlDVIsi/YNTP04rHNvDKGF96HQMkFGP2OjKH0r5cxeFLba/k07/I1CcZfc7qkBijbHwKV+Q+hPQN/5apgW0XxEo5uwALKOZK5MFVIfCoa4oX7RhvbG/z8FLGXY0YGzUBIuhqw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729118334; c=relaxed/simple;
-	bh=NbnNRvmjZJubvyTcaKg6ILzesZLmfD5iMvU3AWzbVyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HphlcHh7Gxo8jy/uPS72JUFGFQ2V97hm3xcyBcRabY8IlsTv/tL78FPV74cEG7NAVN+1HL1tR6fJ7fd2iH2ze7MNDudA/DQc3cF5fbR/hZ4LWZKhjYbt9u616J/UgOVIfe+tUydskV1hGlAeO2+tfv3BrjQIbMtfR6nPAbZNgfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ES5D5lL4; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a3b8b34be9so1597185ab.2
-        for <linux-api@vger.kernel.org>; Wed, 16 Oct 2024 15:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729118332; x=1729723132; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pQRRRq47/Hw9MX6ZtToVorakNDyg07L0TFDDDji46Mo=;
-        b=ES5D5lL4AwPZ8yvkNaLWYQDxf67wOqUkmVxkEl/UQS/wn2b0Oar3tPuxpyHDhqe28T
-         VBQEkCMcDQf2F70/D4SeyBApNmTtCXlXqy4PCRJy1+F9T+qNHSIRxEqNW/sTm1hRqFy/
-         CX1DhyqQMTWkLgH/4Yer3Re6NvbS1kAabZC2Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729118332; x=1729723132;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQRRRq47/Hw9MX6ZtToVorakNDyg07L0TFDDDji46Mo=;
-        b=dvl4lgxj5gND/9qoxASJHam82u0OU+UE6jLfA6yh7QwrwdvQjSvNAUtktnN6p9B1EO
-         7Ju5wN8RYovutXN4jUnQHCDdrGE1lF9egmmGojcCDlAaxyUfkiURuQKEOYfpJ/I4Vine
-         2FY2yXIuJeNwbK3ZwAZMC2X1FIsnR0h3vW1M5DJay7n3beLzagFnQZjKSnFN5YSAN1V/
-         U3fw0qEI+x2puW0FXP7Cbh/WRn/5x60fneumwHGAoDw4Zv5ijxBBL/XTldxaFVvYRsFq
-         V+M3YGuA71iVT7J8fnxDgbtglhGJjOp/K/VhYNZLGAWj6AdqWvWexVIavzNyUnzuzKD1
-         BRAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXF4tfNunU81VOzdpCylaehyd0Ih7L7mhCjv2Ov1+ofdq14aBkAI3L7NPb2/S963zxZvvtyN2hI3A4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu0wGXTTiAfiCVh45lZYt0mBimjrkwvS5NrdWHA/VOU5bBvV4z
-	bo53pXZht3YyFqWqqeLvmo1Xb4WUr1Cy3ttnd3MLWB9dMDd+ObxQCUqDNYu0kOw=
-X-Google-Smtp-Source: AGHT+IFivQcgqrz4+LdP/xfhfGNmIqN1nL/+KVDlxQRCS03LTC4/8hYkEZhoL+4u2csjPmdOw2hZKA==
-X-Received: by 2002:a05:6e02:3cc2:b0:3a3:a307:6851 with SMTP id e9e14a558f8ab-3a3bce0858dmr137968295ab.22.1729118331696;
-        Wed, 16 Oct 2024 15:38:51 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbec9632cbsm1058985173.20.2024.10.16.15.38.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 15:38:51 -0700 (PDT)
-Message-ID: <84c0de17-899e-46fd-8b72-534d8a02c259@linuxfoundation.org>
-Date: Wed, 16 Oct 2024 16:38:50 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A396842040;
+	Thu, 17 Oct 2024 02:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729130506; cv=fail; b=WL+JE+f21o/MDeIvjZ983ZRYni9ugQ6xCb44t8HFaRo2XZVrBM3DueuszyEUtTtXy3gt8MsejBmoqQdmHwm9bF/E0H++jIYAcjpja7dHeI8wR18GAOcGWNR3I+2+ZAW34E/dj7p6A1Y+qbbBSLTGs0zG8K/9zuLMcjRn3RgJuoA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729130506; c=relaxed/simple;
+	bh=JjfGjrBqLPaPvrezUjJszjel297Au4tnP6gfI/SJCt8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HR8cb51WFZq3tSEhGwxre8Kq8haBfKS4PPYVBZRCPVEPmN289UZQAeeiu+skYW08qeBdBPQ9kMV/+HMv+N5IjDW779iQWYnJ7PxChrWVHOOqXabN2U4EW9oQIpfGIXcRwj8er5axuFxvZXqI6mWkJZVAfxCt67gvFiZfkUJsHwI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kA/38MTF; arc=fail smtp.client-ip=40.107.220.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xmcCkCG3eEF0JsjS7FKJF8tGxhaA81Z4QpYgU231OUI/4mZJ3QScDD2+8wauE141YW9bb8KVBtLv1/NK+sVfokhLWxadUuSG0+miTjTP3kNwH6iT4rvQIMg+bt+S5bPC6hFM+QqzHtmOOkTQKpW2VeshC7ltdjDWgLFo2dw5gFR8ib6SMUr7YTggJga+x3bBjmqTugZrTTeARro5q2AhA9t7ZNDtPd7LisFnCUZljw8xjpkVlHEi8LoQPxMHozDbG1GQGDydWJoC2qJRGIC0pcUDYup42tra2ausns+alXIccFgfUxx1MHgp5Eqe3p+z/390LRntxiTN4oeYtkZcFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qUgbMO0odbDh4slxg5Cb6UL4WeXU7xyppWX79OymsEI=;
+ b=H+Asxwpg/daG0k5nEXSa67BkN4+Mbud1DK4aHq6xg0dCTzScBRi4TpupSE9qshAqakpKcvuevUVd+FDnoz+PNq876VFHH3/23bzQWISb7Ive8ZxdzXOvn3WnHwwNZjSi+8Oj2JaX08afRMCK1qt9hCy4t9fRXxFcE2NMGmSlnWmTFtmgQkBwD5xlmvyNE+BQ9VNfGNcR7/lYbV5n0KwBnTnNclaLkFtd1pvFLMpbqGypSrHeZtTjr0I7R8a51OQyzCbH+meHREjuaCmYr6JAsvw4zlH+ejcY0jBmJonelBr+pFcEKWxhE93hy5gKtZwrllmLwiE9pc/ic1QLtMRlEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qUgbMO0odbDh4slxg5Cb6UL4WeXU7xyppWX79OymsEI=;
+ b=kA/38MTFYihna1QKKg3CBhMEsWyDPI2KJqQL926CnZtqqoNCG5/v7wEr1j/kGf+gT/6qN2dhlGgmWaNNEkJbnakowSS+EmfWbJuTGhHg2XgjXderhZE6cN64UZIxvmsqQrpcNhibcC8qmVVwmAbNg7wj60WH3pbtc6Kzwyr9l+64beIkUuYaDNMPPAyE3fS9CWVkiuoGU00z2RmAtF4JP+quIwfcbNVi3h0grbJ7et/sVQbTi20MlLhq+I5j0MM9SB/wBy4tYqkBd1KnrHRWfOZasj5b6gUvbBvBTBUQfY65JdXA/jeto975bv4wnLLvEzePXzy3CgtzFbA4AXJi3A==
+Received: from BN9PR03CA0332.namprd03.prod.outlook.com (2603:10b6:408:f6::7)
+ by PH7PR12MB7188.namprd12.prod.outlook.com (2603:10b6:510:204::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Thu, 17 Oct
+ 2024 02:01:39 +0000
+Received: from BN1PEPF0000468A.namprd05.prod.outlook.com (2603:10b6:408:f6::4)
+ by BN9PR03CA0332.outlook.office365.com (2603:10b6:408:f6::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8069.17 via Frontend Transport; Thu, 17 Oct 2024 02:01:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN1PEPF0000468A.mail.protection.outlook.com (10.167.243.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8069.17 via Frontend Transport; Thu, 17 Oct 2024 02:01:38 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 16 Oct
+ 2024 19:01:27 -0700
+Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 16 Oct
+ 2024 19:01:26 -0700
+Message-ID: <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com>
+Date: Wed, 16 Oct 2024 19:01:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -73,214 +83,131 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] selftests: pidfd: add tests for PIDFD_SELF_*
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
- pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Oliver Sang <oliver.sang@intel.com>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: The "make headers" requirement, revisited: [PATCH v3 3/3] selftests:
+ pidfd: add tests for PIDFD_SELF_*
+To: Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>, Christian Brauner <christian@brauner.io>,
+	"Peter Zijlstra" <peterz@infradead.org>
+CC: Shuah Khan <shuah@kernel.org>, "Liam R . Howlett"
+	<Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, "Vlastimil
+ Babka" <vbabka@suse.cz>, <pedro.falcato@gmail.com>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Oliver Sang <oliver.sang@intel.com>
 References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
  <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
  <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
- <a6133831-3fc3-49aa-83c6-f9aeef3713c9@lucifer.local>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <a6133831-3fc3-49aa-83c6-f9aeef3713c9@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF0000468A:EE_|PH7PR12MB7188:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7780986-0990-4e36-4235-08dcee4fa2fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aTRQNlNYSnhxMHU0eVZwK3ArV1poamh5NlJoejJweVArbnkrSE9tdkJwUU9x?=
+ =?utf-8?B?UHJDUU1UNGhMTko0QTBldWpISXB5czF5S2RTd2dwM3dCc3pFVVBGQ0E5VjBW?=
+ =?utf-8?B?cGdqWkl6Q0FPaU9XQmMrL1VWbTd0YmJ2dEFna3U1ZzA1bDlhejFQUDRSNmhN?=
+ =?utf-8?B?TzBFcmlRQnJtVVRlNjQ0c1ZOakJJSklIQ3hEZVc0QVZqRDlsYnVtalpqVTd0?=
+ =?utf-8?B?QVdWQ0FBa1hyN2hiRGloejRXQ01aQS9nNG5FM29vSWNYZGd4b0xaOGNvR3RL?=
+ =?utf-8?B?NHpMQTFpRFBlVnovWmRhVXoxRjBZZ1YzdjV6MUJJVWpyaWlXYU1HMGlJbnc3?=
+ =?utf-8?B?TzZmUkMrK3FBQ09nOTB4RG5oSkZkN0huQnkyRWdvVkhUSTh0Zm84QUdKQVN0?=
+ =?utf-8?B?QVMvWXk4N3pFWkN4RnpiVDllU2J0bDdaUDIzNnd3QmJ6di9JRWJpVHluemFR?=
+ =?utf-8?B?eHQ4ajNDWFRwVDhjYUlyVk1QNCt2VGpWN1JvYW55N01IM3ZvSmZBNEFuVjJY?=
+ =?utf-8?B?Mk5DU2hYZVRVbFJ1a29oRXZ5OXp3UjdzTUx0NStseE9ER1Z3alRGSTFFL2hC?=
+ =?utf-8?B?TDd5T1R6bnRyQys0Z0VabEhETVlBSkhqTVh1K29UQkZsWDFrOXdkakRGWUNn?=
+ =?utf-8?B?Snp3NWxTZGdDNXNteEd4b0ZkRU80V3lOSlYycGx6N0RZV3JhZ3ZVMkF2U1E2?=
+ =?utf-8?B?ME5VNVBISTkraGpMT2VCY1FCVGhPUGtZR09Ya1JWNmlYU0wrQVpFZ3k0Mytw?=
+ =?utf-8?B?dmg0aytoRUJOK0IzbXhZTDNqZTdWNWk2OXkyLzFrM2RkclluMWhtckRQNklL?=
+ =?utf-8?B?TXJYdjRHdkk5Rk9neXhvRUFkV2w3clU3NnYrOUJZTFNocWFobXhieGpiWENS?=
+ =?utf-8?B?SEtoVlgxR1B4TDNmUjZ3b3RDT1RHVDFUcDJKNjNBVjlnYzh0YkRUeHl4Qngx?=
+ =?utf-8?B?K2p5a0lqSk9hUWZXdWUzM2F5K1JHUURTQ3VCZ1NocUYvYW5od2NWalIzaFVm?=
+ =?utf-8?B?bkNIajVrRUlsZFY4R0FoM2FyVXlKUFlMWmxWNkloSnh2V3RmeFZxaGYrWGpT?=
+ =?utf-8?B?TUhaUzRVVDlxSXpuVk9DZW1JMUpxV2xwOUVNMEdZcTgxOHdXZWFFbnBjUEZn?=
+ =?utf-8?B?Mzc3eXdITlNRSUJqR29zZDZjS0dkS1ZIc1cxdERYZURzbFA1OGo4Q1k2K1BO?=
+ =?utf-8?B?SHNCMXNua2RGZFNTU2M5bzBCZGpYVFJoWFZUQjRZczZtemJHVTFZZGtNTTNE?=
+ =?utf-8?B?Wk1tbWljMUNZT05TclN4TWxQd3p2c25kelk4YmlwenhyTVpXYlZpR3NiYklY?=
+ =?utf-8?B?cEZ4aTRPclp5UURwOFZRdEZFUHVGa0FuV1dBaHR3UDZEMW5peU9hcUVOak45?=
+ =?utf-8?B?OHArWGxvRll2VVoxcERzd1V5b0ZOSUxIS2JIU1NxL1BZU3J5dnh2U1ExcDk1?=
+ =?utf-8?B?L0hQMWVsZmN2V2ZEaHFEUmVJblRlUjY0MmpkekFSYUxxOXhJaW1KUjNlWHht?=
+ =?utf-8?B?aGtvdVU0ZDg3VG5tQyt2K1FCYTJvSFVmdGs5VkZDcDNublgwUUxJSW5JWjNw?=
+ =?utf-8?B?c1VnaXo5cnAzRXlCY2FOWGR1Y05lWWh0TEJNOGs3eE4zbVRXMlhFcXdNQXdv?=
+ =?utf-8?B?cmJmMWdnZ1MxbEVHSmIycXNMRmpWRkNSMFdWWVdTaU9GaXVERkZQVHlDR29l?=
+ =?utf-8?B?M0taMmQ3YUZ4Z0gwZmlKRld1cTNJTno5Z3FBRUFKeVNWdUtvd1pkcXQ0bmlC?=
+ =?utf-8?B?K1BUTU9qUFNNd2hEWmZQVnMzdW9oQk9NaUJ2TnNIMG1IVHhzRkduemh0MXNl?=
+ =?utf-8?B?YjVUUVdXc2VjaW9pT2p0UUU3N2dTWUlLcXo3dVN2MzJETUthTUlUYmRaUlJp?=
+ =?utf-8?B?aUFJTytuOXhCeDZEdTlpbVgwSHJ2bFRkRjF0NDI3NUlxaVE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 02:01:38.1939
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7780986-0990-4e36-4235-08dcee4fa2fb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF0000468A.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7188
 
-On 10/16/24 16:06, Lorenzo Stoakes wrote:
-> On Wed, Oct 16, 2024 at 02:00:27PM -0600, Shuah Khan wrote:
->> On 10/16/24 04:20, Lorenzo Stoakes wrote:
->>> Add tests to assert that PIDFD_SELF_* correctly refers to the current
->>> thread and process.
->>>
->>> This is only practically meaningful to pidfd_send_signal() and
->>> pidfd_getfd(), but also explicitly test that we disallow this feature for
->>> setns() where it would make no sense.
->>>
->>> We cannot reasonably wait on ourself using waitid(P_PIDFD, ...) so while in
->>> theory PIDFD_SELF_* would work here, we'd be left blocked if we tried it.
->>>
->>> We defer testing of mm-specific functionality which uses pidfd, namely
->>> process_madvise() and process_mrelease() to mm testing (though note the
->>> latter can not be sensibly tested as it would require the testing process
->>> to be dying).
->>>
->>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> ---
->>>    tools/testing/selftests/pidfd/pidfd.h         |   8 +
->>>    .../selftests/pidfd/pidfd_getfd_test.c        | 141 ++++++++++++++++++
->>>    .../selftests/pidfd/pidfd_setns_test.c        |  11 ++
->>>    tools/testing/selftests/pidfd/pidfd_test.c    |  76 ++++++++--
->>>    4 files changed, 224 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
->>> index 88d6830ee004..1640b711889b 100644
->>> --- a/tools/testing/selftests/pidfd/pidfd.h
->>> +++ b/tools/testing/selftests/pidfd/pidfd.h
->>> @@ -50,6 +50,14 @@
->>>    #define PIDFD_NONBLOCK O_NONBLOCK
->>>    #endif
->>> +/* System header file may not have this available. */
->>> +#ifndef PIDFD_SELF_THREAD
->>> +#define PIDFD_SELF_THREAD -100
->>> +#endif
->>> +#ifndef PIDFD_SELF_THREAD_GROUP
->>> +#define PIDFD_SELF_THREAD_GROUP -200
->>> +#endif
->>> +
->>
->> As mentioned in my response to v1 patch:
->>
->> kselftest has dependency on "make headers" and tests include
->> headers from linux/ directory
+On 10/16/24 1:00 PM, Shuah Khan wrote:
+> On 10/16/24 04:20, Lorenzo Stoakes wrote:
+...
+>> diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+>> index 88d6830ee004..1640b711889b 100644
+>> --- a/tools/testing/selftests/pidfd/pidfd.h
+>> +++ b/tools/testing/selftests/pidfd/pidfd.h
+>> @@ -50,6 +50,14 @@
+>>   #define PIDFD_NONBLOCK O_NONBLOCK
+>>   #endif
+>> +/* System header file may not have this available. */
+>> +#ifndef PIDFD_SELF_THREAD
+>> +#define PIDFD_SELF_THREAD -100
+>> +#endif
+>> +#ifndef PIDFD_SELF_THREAD_GROUP
+>> +#define PIDFD_SELF_THREAD_GROUP -200
+>> +#endif
+>> +
 > 
-> Right but that assumes you install the kernel headers on the build system,
-> which is quite a painful thing to have to do when you are quickly iterating
-> on a qemu setup.
+> As mentioned in my response to v1 patch:
+> 
+> kselftest has dependency on "make headers" and tests include
+> headers from linux/ directory
 
-Yes that is exactly what we do. kselftest build depends on headers
-install. The way it works for qemu is either using vitme-ng or
-building tests and installing them in your vm.. This is what CIs do.
+Wait, what?! Noooo!
+
+Hi, Shuah! :)
+
+We have had this conversation before. And there were fireworks coming from
+various core kernel developers who found that requirement to be unacceptable.
+
+And in response, I made at selftests/mm tests buildable *without* requiring
+a "make headers" first, in [1].
+
+I haven't followed up with other subsystems, but...maybe I should. Because
+otherwise we're just going to keep having this discussion.
+
+The requirement to do "make headers" is not a keeper. Really.
 
 > 
-> This is a use case I use all the time so not at all theoretical.
+> These local make it difficult to maintain these tests in the
+> longer term. Somebody has to go clean these up later.
 
-This is what CIs do. Yes - it works for them to build and install
-headers. You don't have to install them on the build system. You
-run "make headers" in your repo. You could use O= option for
-relocatable build.
+There are other approaches to making things work. Again, please see [1].
 
-> 
-> Unfortunately this seems broken on my system anyway :( - see below.
-> 
->>
->> These local make it difficult to maintain these tests in the
->> longer term. Somebody has to go clean these up later.
-> 
-> I don't agree, tests have to be maintained alongside the core code, and if
-> these values change (seems unlikely) then the tests will fail and can
-> easily be updated.
-> 
-> This was the approach already taken in this file with other linux
-> header-defined values, so we'll also be breaking the precendence.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e076eaca5906
 
-Some of these defines were added a while back. Often these defines
-need cleaning up. I would rather not see new ones added unless it is
-absolutely necessary.
-
-> 
->>
->> The import will be fine and you can control that with -I flag in
->> the makefile. Remove these and try to get including linux/pidfd.h
->> working.
-> 
-> I just tried this and it's not fine :) it immediately broke the build as
-> pidfd.h imports linux/fcntl.h which conflicts horribly with system headers
-> on my machine.
-> 
-> For instance f_owner_ex gets redefined among others and fails the build e..g:
-> 
-> /usr/include/asm-generic/fcntl.h:155:8: error: redefinition of ‘struct f_owner_ex’
->    155 | struct f_owner_ex {
->        |        ^~~~~~~~~~
-> In file included from /usr/include/bits/fcntl.h:61,
->                   from /usr/include/fcntl.h:35,
->                   from pidfd_test.c:6:
-> /usr/include/bits/fcntl-linux.h:274:8: note: originally defined here
->    274 | struct f_owner_ex
->        |        ^~~~~~~~~~
-> 
-> It seems only one other test tries to do this as far as I can tell (I only
-> did a quick grep), so it's not at all standard it seems.
-> 
-> This issue occurred even when I used make headers_install to create
-> sanitised user headers and added them to the include path.
-> 
-> A quick google suggests linux/fcntl.h (imported by this pidfd.h uapi
-> header) and system fcntl.h is a known thing. Slightly bizarre...
-> 
-> I tried removing the <fcntl.h> include and that resulted in <sys/mount.h>
-> conflicting:
-> 
-> In file included from /usr/include/fcntl.h:35,
->                   from /usr/include/sys/mount.h:24,
->                   from pidfd.h:17,
->                   from pidfd_test.c:22:
-> /usr/include/bits/fcntl.h:35:8: error: redefinition of ‘struct flock’
->     35 | struct flock
->        |        ^~~~~
-> In file included from /tmp/hdr/include/asm/fcntl.h:1,
->                   from /tmp/hdr/include/linux/fcntl.h:5,
->                   from /tmp/hdr/include/linux/pidfd.h:7,
->                   from pidfd.h:6:
-> /usr/include/asm-generic/fcntl.h:195:8: note: originally defined here
->    195 | struct flock {
->        |        ^~~~~
-> 
-> So I don't think I can actually work around this, at least on my system,
-> and I can't really sensibly submit a patch that I can't run on my own
-> machine :)
-> 
-> I may be missing something here.
-> 
->>
->> Please revise this patch to include the header file and remove
->> these local defines.
-> 
-> I'm a little stuck because of the above, but I _could_ do the following in
-> the test pidfd.h header.:
-> 
-> #define _LINUX_FCNTL_H
-> #include "../../../../include/uapi/linux/pidfd.h"
-> #undef _LINUX_FCNTL_H
-> 
-
-Does this test really need fcntl.h is another question.
-This is another problem with too many includes. The test
-built just fine on my system on 6.12-rc3 with
-
-+/* #include <fcntl.h> */
-
-> Which prevents the problematic linux/fcntl.h header from being included and
-> includes the right header.
-> 
-> But I'm not sure this is hugely better than what we already have
-> maintinability-wise? Either way if something changes to break it it'll
-> break the test build.
-> 
-
-If these defines are in a header file - tests include them. Part
-of test development is figuring out these problems.
-
-> Let me know if this is what you want me to do. Otherwise I'm not sure how
-> to proceed - this header just seems broken at least on my system (arch
-> linux at 6.11.1).
-> 
-> An aside:
-> 
-> The existing code already taken the approach I take (this is partly why I
-> did it), I think it'd be out of the scope of my series to change that, for
-> instance in pidfd.h:
-> 
-> #ifndef PIDFD_NONBLOCK
-> #define PIDFD_NONBLOCK O_NONBLOCK
-> #endif
-> 
-> Alongside a number of other defines. So those will have to stay at least
-> for now for being out of scope, but obviously if people would prefer to
-> move the whole thing that can be followed up later.
-> 
->>
-
-I would like us to explore before giving up and saying these will
-stay.
 
 thanks,
--- Shuah
-
+-- 
+John Hubbard
 
