@@ -1,275 +1,381 @@
-Return-Path: <linux-api+bounces-2469-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2471-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DCE9A4A53
-	for <lists+linux-api@lfdr.de>; Sat, 19 Oct 2024 01:56:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CACCD9A5512
+	for <lists+linux-api@lfdr.de>; Sun, 20 Oct 2024 18:21:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE4BA286176
-	for <lists+linux-api@lfdr.de>; Fri, 18 Oct 2024 23:56:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 50512B22760
+	for <lists+linux-api@lfdr.de>; Sun, 20 Oct 2024 16:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 140271917F3;
-	Fri, 18 Oct 2024 23:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D50F194A74;
+	Sun, 20 Oct 2024 16:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VFvGRfX4"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="O5DTn7lp";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="bBfrPe3F"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2059.outbound.protection.outlook.com [40.107.236.59])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DE418C90A;
-	Fri, 18 Oct 2024 23:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF304194A43;
+	Sun, 20 Oct 2024 16:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729295759; cv=fail; b=lYUJ4qK+zD9A8jNNVmTLEV3RCQ2u53p2zCa5aPeHIRFLF18j1nCt9/CwT2mb5cAqpEs2DyNDdp8T79hbUk2pJrDKy/ouFOgwdJuSWqG5VLRoBt0/YHFtCvdqhNeF48fHVm38EHRkigYFJBal6eDU7WFNd03jQ5b01y78gdv35z8=
+	t=1729441272; cv=fail; b=Vgib3pFWufXs46rc8IEuZ+DLMEHlAHlvNSBbpHWft26wSIY5GNoHtTQM0JItrYAp/1CbHPmvZN9gDtPb1MYGgWwXsuFx8GyLDXBe/hQ4YZ/Y03LWN0ZPAUOq2Eax4uXuVGbJ0f2Z9/mcRfJLuLR6bM46aemtXlqh5akxtIRt/Jg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729295759; c=relaxed/simple;
-	bh=VNMAsgZujYEz8jMwfL+CQsRF0ne4ByGjzGksR3QxGDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Pc7K+SDcp88fZ/XFWzcDsU5kqVh6hjo8+H3zc+dmrqdOX1k9FAV/RRHtyHr2GOiRCiIpF8tLyjyMnxN3rKka6sl5hr5vVQI1ngS/B5U1jI5dB99l1/Y/BPhz2b0vs0ZMdHkaPY2tU/FVu31yvmKK2jXPQInl0/iPnhMIeR3Gwng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VFvGRfX4; arc=fail smtp.client-ip=40.107.236.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1729441272; c=relaxed/simple;
+	bh=byyDknJIjXZlSl3WVNl4q0dawoW++M+678YQZqQBunE=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oWiCwBwqmsgZTaft90s8s5LawnUrI8epV5vS1WaD9NzKZ8Nj4SlB8eDgBMvfqdUBYx8x1/CoeFy9OVGRxSYE+5jZ0p5z/3fl/cCIyOfiwC2gAs153l82tHptWx+VxIKREMszIei53qzGJdzJaCN8UbUJP1hr0gG2AoGI9sjzAPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=O5DTn7lp; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=bBfrPe3F; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49KDBlIK010994;
+	Sun, 20 Oct 2024 16:20:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=corp-2023-11-20; bh=O8hJeffTehHXTsGL
+	aORJom5Afz+X1YAv18lGNZrcb7c=; b=O5DTn7lp4OMWaTrckFK7kpua8Pig9x7t
+	5OqGQOXRPslJRAMwulZ4zTIkolotEts1PXmgg7R52ZVb+Is7+mQ2uiCH8ChiHVwC
+	DpxdbU82EDmmR2aQcKs1PG/m9fdNcBZB82xnrC8cMMONMm02GhUKAlKp8uSWpwBA
+	HlPlUv9Rh5i9TGktJ/5th78omIucTMMFKKZKBH/M0iujuhJB1RcJAy/UYNtZv5cf
+	Tn/ayWvR9ZQtE5Q3IVrO16MglWVoAD0Q3+PP06nTm4DIP9P8O6aGAkIXwS21grB0
+	a5cnv1uER8p62LTUbsw+JYbdNMVxazbX/DVTrw+h3AE8Muvk3MVTHg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42ckkqs3hw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 20 Oct 2024 16:20:18 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49KD3tcf019698;
+	Sun, 20 Oct 2024 16:20:17 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2045.outbound.protection.outlook.com [104.47.51.45])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42c37bjgg8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 20 Oct 2024 16:20:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G5rwt0fSjozLNVBCMoEOFuJ9jTgoJcYL1JMgBxxWlD6LdnqBBcJuWtkBwonWTZUa7QHvWfnEHzB+fxURLLPeledgehnb4+ivi1hNGFMm27EuHKB+4nApnbXevOT7l0+jZppbQM/ygzN4Nwof/LyRgrwi3GCO3fUsOdqdlqsgsEydRDShvhYF4a/0CsFR+qNtYik6RWAsSk9IBmLJQLRnR5pPsawpj2y1ppol04/476BPlJaOfgpOa155CONjw3JJc6o8MGONxRZdk4LCQ40oQZUXY6db+fJIokDdBwt7p4oe8Im9bUHamMyv2WAP4+1WrN9qsDc1sXp4D3HN3+yLKQ==
+ b=EpQZCzFpQC5a7wqvpizHESLAZhv713TxZ6AshHDGlNn88I6903HUzDTxNrhwqDqTEQwag6M6ri9MshJIs/NKcNFHfXR+0lDELwY/NxAtymdQnEg/8oo25wW1Dehefeq3x3XwLffaT/E2+AnK9EOfBrgFuzh96xccyOvVcJE6H0sCjQ3ToUGrTgdY3fCRuL51LiFD3SNiCqgTDnjgnyjU5aoKP8iZyqrviEFn2TYLstywzLL/VD2f4vy46nIu4MBGm2u+onEPp2YVgf6igqQQT+nm7GX6QSWBZ5PivY7AWcymL3tF/8GOn92Au8gRnGCO+HdHWcasgitik9xtDdsLoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pexlr1AxcEcYYdm5dZSmncVbeuDu7RnYg62hjUujyN0=;
- b=Ik4Tom1AKtkaz1kKaXqm0qlKVp+yEqjZZbvzMbYhmbL2Dg2uWJfUnZNmjhVCPcRfnAGFuxy7KvMIxgYwijxChufTibCgcAY2V2sqKtH3fDwYRp3tqj6yfCHpBLxI3LtTNhNnkPFXhGUGw+jecSt6e/k+oEQq/ITSWZqtR1Dp/cVCF2UmIe+B66BoIPL8yEKHJdtDe8px3xoEjG8ie01vmyEXw5650FfAFk+g5hzepYri9im73uHwTW+OPmTDxixZELreGxMgQgW/IIJuiq1t/rCOBQJN4w3z17R7OLOpGHpja85kT2wVQ1TQQN8IAOWpfXH8/I/efhgVIYSlFB6Dzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=oracle.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=O8hJeffTehHXTsGLaORJom5Afz+X1YAv18lGNZrcb7c=;
+ b=s1NRFPNrDUNBKiJo36ftmUbXg4UhNoqzzJZc1TE760KZiEfP6ssFdRtiMBGHFOp+DAaKcvMzjgnokmFRY0W48hiGKe9lAkUaCRGcSXfLUGS6SUpbckaH6IEjJpLuFrc4CULhwTTAhJVomuQaQS+wtqRnkUItnuBZB1rN+Ia6cG9W3GgEHYt5xXM14FFAdNfrp7dfvTyuwHAJ/NfaFIhbeYnPmuAEpXe7Hws8tYVgIz77r7gwiz0OphCZKHjMZ9hpdSo5EoOMHhTPwlqKNYj1HotHykoPAtQJBcYSD+rxuGIpghecSUaH/+BjSAjqTeTxiTNqoFwbcsy+35YRRZqaTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pexlr1AxcEcYYdm5dZSmncVbeuDu7RnYg62hjUujyN0=;
- b=VFvGRfX4GCEhTdkTZeFyna6VwAXkQuIklziJ8XWq56U7nX4ySoeEnJYF07her0R/vIVtO5pyv8ps17S33fzVRHo0JHwcDmic13hXINCaXdFIt48WqKwYlnfIwL5xZLKXukwAhwgB5BBu6YRK6ryaMBHGUXM8qvc0y7cjhhprWxi1v69oExp3T3l8jwnAYztQMWQ4pzBTsOwgl8gbMgzmGuYAbJkWCZ+bVoC4mT79nj8KKlYChP6L58cUQnvgbi6tw+xC2j01kFT24QfQYQfyGZ+i/ddC3CkYqtQk13AycaiMNNlpR9RTSgTpoDur58NX8YCgZSqgqiZ4lQrrwa6PPw==
-Received: from SN7PR04CA0185.namprd04.prod.outlook.com (2603:10b6:806:126::10)
- by MW4PR12MB6684.namprd12.prod.outlook.com (2603:10b6:303:1ee::22) with
+ bh=O8hJeffTehHXTsGLaORJom5Afz+X1YAv18lGNZrcb7c=;
+ b=bBfrPe3FqQ4DKLsnUowrA3n8X/npZHDbh+lCxefZZPG+GFG92NXfHsNt9BSDrJw5ifdNwXzN/zOkAZtw9Vp1+sfBzMPvj3HRkXSy3C18AwC3LrBM3elWsNkPTFbLxHi7wCMJrc42Clj+55sueLtn1QI8UjagRI95NkoOCAHqBo8=
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
+ by DS0PR10MB6703.namprd10.prod.outlook.com (2603:10b6:8:139::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Fri, 18 Oct
- 2024 23:55:51 +0000
-Received: from SN1PEPF0002636A.namprd02.prod.outlook.com
- (2603:10b6:806:126:cafe::99) by SN7PR04CA0185.outlook.office365.com
- (2603:10b6:806:126::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.21 via Frontend
- Transport; Fri, 18 Oct 2024 23:55:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SN1PEPF0002636A.mail.protection.outlook.com (10.167.241.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8069.17 via Frontend Transport; Fri, 18 Oct 2024 23:55:51 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 18 Oct
- 2024 16:55:39 -0700
-Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 18 Oct
- 2024 16:55:38 -0700
-Message-ID: <3c27a383-45f9-4307-b1b2-f6bfa78633f2@nvidia.com>
-Date: Fri, 18 Oct 2024 16:55:37 -0700
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Sun, 20 Oct
+ 2024 16:20:14 +0000
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9%6]) with mapi id 15.20.8069.024; Sun, 20 Oct 2024
+ 16:20:13 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Suren Baghdasaryan <surenb@google.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+        "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+        David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-arch@vger.kernel.org,
+        Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Sidhartha Kumar <sidhartha.kumar@oracle.com>,
+        Jeff Xu <jeffxu@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+        linux-api@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v2 0/5] implement lightweight guard pages
+Date: Sun, 20 Oct 2024 17:20:00 +0100
+Message-ID: <cover.1729440856.git.lorenzo.stoakes@oracle.com>
+X-Mailer: git-send-email 2.47.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO0P265CA0011.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:355::19) To BYAPR10MB3366.namprd10.prod.outlook.com
+ (2603:10b6:a03:14f::25)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] selftests: pidfd: add pidfd.h UAPI wrapper
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan
-	<surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
-	<pedro.falcato@gmail.com>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Oliver Sang
-	<oliver.sang@intel.com>
-References: <cover.1729198898.git.lorenzo.stoakes@oracle.com>
- <d8d1a8c6ade7f13a100a5c11fd1e53f7f2fddba3.1729198898.git.lorenzo.stoakes@oracle.com>
- <7df771b9-bfd6-465e-b0ba-12d2aab13ec6@nvidia.com>
- <bc07dba0-90c7-4926-ae38-71c3c3e17e16@lucifer.local>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <bc07dba0-90c7-4926-ae38-71c3c3e17e16@lucifer.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636A:EE_|MW4PR12MB6684:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce9c18da-4b8f-4479-503c-08dcefd06574
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|DS0PR10MB6703:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32c3fd17-a14e-4a77-0d6c-08dcf12313af
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
+	BCL:0;ARA:13230040|10070799003|1800799024|7416014|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TE12RkdFZjhqbjZvbEh6d3RuNTZBMWZXUWQwWE5ZRTgzMUl2NnNHZWZzWkxL?=
- =?utf-8?B?TGJ6dlQybnJxNExLUHZ0UVVXVUx1OWFHSUVPRHFhbERmOUI3MkUwWUZzZUsw?=
- =?utf-8?B?WGI0ZFdGaUZ5T21LcjFiVG9XQlQxK2RjeFhzdWZwMi8zamtwZ0NTOGMrR1Jn?=
- =?utf-8?B?SGlBOVZpT3VBTVluMklFN1AyWXNDZlEvTGQ4cHZZbWJhTCtPNVZZekFqZXcz?=
- =?utf-8?B?b0d1Y2U2Q1dkZWJhR1RrWGJHcHVwSTV1MHpBcVQxa2p5b2I0cmh1M3plK2hh?=
- =?utf-8?B?YzJBVVVzREFNY3FwS3FESkdiQ0FlS2hsUFVUSVJhZjdLRDgyR1V2WWg5R3Uw?=
- =?utf-8?B?djV0T2QzazlVdDEyNUJWNnIrTEZLNGthWnovcVdReEJGOGN2c2QyeWlqSC80?=
- =?utf-8?B?NUMyOXJ6RFM4SjlXc3JaYWNONHN4Yi8xczk0U1MrTHpYZzFzYmNHSktTY0Rx?=
- =?utf-8?B?dEVWUlRQNjZWZDJYZGU0RmNuTHlyamFIRVNibmRvb1B2c0xMSGFaVWQ5K1g2?=
- =?utf-8?B?anpQeis4V0RtN1J0SGJTRWxPSW9iOWhKRlcvU2t1WENMS3NyUGl6a1ljOCta?=
- =?utf-8?B?eEhNbWlQWWFJSWhEWjRJVlg2QzYrTlVqY1paRHgzazgxS2dWTURmczVFVTFC?=
- =?utf-8?B?dWhtT3dDcVZ5VnNmTVdZNkFjY2pEdjE0VWFTSDRRSnArcFRFUVFYemZ2Wk9C?=
- =?utf-8?B?VHRMaHlLVDZTT0J4THFtZjNEYVN6M252aDY0c3lKN0RBVXhwZGpYVEY1b3Mr?=
- =?utf-8?B?WVZTV2ZiY3ZvMXFkZlFCWUNWOCtoeFNUOXdKeDVLSUpuRjFXOFg2T1dMclBD?=
- =?utf-8?B?M3BMUnNETTRZM3F6ZjRXL3BEUUxUZ2swYXIzODNRS29CaUFxWFJkTGJOSStj?=
- =?utf-8?B?ZmMwT3pjMllqdmpQQ2JsN2hBN2VzdnZJRnpGallEQS84OHRqeGV6SHgzYUVH?=
- =?utf-8?B?MHZRZ09lc1ljRWgwV1ZITXNRd2VubGlVYWpSV2syalIvTnFXR210Q2g0M1ZC?=
- =?utf-8?B?WVFQRzBqVDArVS9oYjM1L1dVQ0ZIbWErZHJPQjgxb2JUc2Q1SWxDZEpuS0M2?=
- =?utf-8?B?LzJOS3NkK1lzUmt1Qk1jRTc5L0pJYUMzTTUrUTBERCtUMkJXNEtBMkcwQUpL?=
- =?utf-8?B?c3U3RC9iMXNIM28vRUNDa0JnZmtCRDMzRDlkaGpYZzNUN2lJU2JEb1pCVlBm?=
- =?utf-8?B?VWdDekJ6SERLczdJV29UbW12N0VCaVVmWDZBMG5oWTV5STgvNmxBbDRDR0Ny?=
- =?utf-8?B?UXBlRzhxMTlsMjE3Y00yT3pWYytSenVKdWR6L2FSQ1VldXJsb0NqdERqdk9P?=
- =?utf-8?B?QmN6Q002T01CNUJBQ2FPRHExL2xJZjczc21jNzZ1K3dPNmVxS1N4bE5EU3Jm?=
- =?utf-8?B?d1lnSUNhREVpSGFBRlhtSFlpZ2RVZEtLVUYxOWxSSlR2TE4wQ2pPbGozYnNE?=
- =?utf-8?B?WEZTZ3NnSEdHZncvQVppYTVyU3QyMG1VdkRiMS84RFBCSWU0dGx6Rkd1VE1U?=
- =?utf-8?B?ekpiRzVlMGV4TFFTS0FQR25MVXFaTWtrSU9nUXMrKzdQQ0ViYmlGR0lLZmFG?=
- =?utf-8?B?Y3AvNjR0QlJKbGFJWDYyRjM2eXcyZFNiZXFkNm9OenVZU1pjd29xWGV6Rkk3?=
- =?utf-8?B?a05vR25Zb3BOZ1VkU2dPaEtxbmZJM2dPaW83UXpVRGlvNE9uSXhtdGE3RXdI?=
- =?utf-8?B?d1JRUHNCdnZ4SzBEcEhRcmNuOUxMRTl1b3ZWcG4yK01mVjhTMG90NzFkRUVX?=
- =?utf-8?B?aDRTVzN4WnRkMEMwMVladlhub0ppYWxDVDVueFluZHhTOWVTVDNjMXF5WkR2?=
- =?utf-8?B?U09xM2IyMCtPa2NnVjB4R3YrNzJ3VXNITDVOdndhWExPRjVTenI1T0IxMGQy?=
- =?utf-8?B?VThOeHYvZGVFTm1uMU1oUUozSjYyd0toTDhtKzhKc3VUUFE9PQ==?=
+	=?us-ascii?Q?qxJ77VFX2dva4EFVc5vaz4wXm0BWFCFAz/AYhn6DfFpUyx832JZZ7Z1jFLWK?=
+ =?us-ascii?Q?cQEoPsf5hv8fKWwui9m1HUfKmQnFN+dV/9P3xhtYpK5P/VlfsjF4blEeajch?=
+ =?us-ascii?Q?RzkEC0sEIZf+eXL7ueCpN4CjuN5zmuzgXqI308BCpI92zUkE3bbukee7Gq3D?=
+ =?us-ascii?Q?/bSI71/CXvt8nXRLkY5CgOZXtPKpCeydwmiOCWjSbDUiCM78ilTx4maHvXaF?=
+ =?us-ascii?Q?K/FpOUs/KC6ZvclUvXYLDjtvrF7cSf+gHAgg+tg5/HD0SPJZDlCm7uzQH0z5?=
+ =?us-ascii?Q?6mcOawolpRzqb8pIdleYhZBwf4RSzIDdQeQZe2Xf0Mhu45rX0DW+eglp7OQJ?=
+ =?us-ascii?Q?RZYAcEcoAv2Lt5aVSAwKKPS0/uW+ZnCcV4E1JRk+GBjPeQfNAjkdvjUSxW2W?=
+ =?us-ascii?Q?hzeHfZBzvuguXF2xd0KEO38NCtNCWALiL7QpLCx2keeNjuETS61CsaniBvBh?=
+ =?us-ascii?Q?rn8vZlM/7zCaGxV+wFvynvZvY3nfpnFBQmGmYDs0jKSmi0TEmMY86TeB1vOZ?=
+ =?us-ascii?Q?nD5gPJvG7YUuXgfZTq7FwLSny9M/aA0T2/QUIxYO0Ey05z0z7P37M6vcp/48?=
+ =?us-ascii?Q?kNvKCd6qB711RryoaOw63qML6bIOxnZ52kKUnSv5YQ/2Jqh/EslPwG809hgQ?=
+ =?us-ascii?Q?t7PcD0dT5keVdd7IaWv81uGn+jzceeIdjcP3ZYmKKmqF+nIq8inSXx/Ygn65?=
+ =?us-ascii?Q?66WTkxMYO4PbIiHJEWuRw4D+22uQBLXbKEokA+UOZFz9IU4GZXd+HKvWkQEJ?=
+ =?us-ascii?Q?OqbE3P4ZdpVyS/16lKHkHlrBeTgBWZTGrQ2Qgly8u/jB1vCXC4YC57p77NMF?=
+ =?us-ascii?Q?3kdDHGyJNDrsEj/QEb941673XpYPjW6WzP1OUdkyBBMZULQoIk3B1mn5IyPs?=
+ =?us-ascii?Q?fX5ULaRvl8yVA8E4mGrffA98Cz+vGg1+Icl6+PqDA/6YaZ8P6aTGJcnwJhN0?=
+ =?us-ascii?Q?AvO7Me2am7tdfLvwlZIhnWV4uLTK7H0Fpai0nFblzs7kNtfrMY+xe3rTPtdP?=
+ =?us-ascii?Q?Dyi7fsnaFxeEI9Yz6jfwQBS8r/kVEUqBZuHzyQMnBZyCeZgIPWuxwttAO2iy?=
+ =?us-ascii?Q?DmF+Fdh9BsWwECOJG4NZM+Ii/4/JsX0Q5TkUZ+PXaeCUVcJ8K4o0GDZ9JifG?=
+ =?us-ascii?Q?Y8p1K/0Qmg+W60cK6VEcLxDex5FmuwRlVJNbBnBRNjGyF0STRSUegEdtaI2G?=
+ =?us-ascii?Q?heFsF2lrkoKb7kJw+T7rEHuPh4DvewnF+6Qw+0GoCCXUDOtBxnF7ed8o2EAw?=
+ =?us-ascii?Q?n6frbzCsCUwhxLpegkN20K8Ak19mWv1Wa5ssAnPJffjJg2MwFm99JMzTcgRh?=
+ =?us-ascii?Q?Wwv6vnVJBv9VSS3Qy3mqcnec?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2024 23:55:51.2719
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3366.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?I+wzes16wR/Y6aRyInWvXXy3NLxvVbGW+aAxR26bfGYytRzv+ZxxgGbPuysc?=
+ =?us-ascii?Q?2UICWRgNc8T3rgreHEx77UPGkzlNwJAhMufbQoUWxvSPkO97YiwAk/+I2nD9?=
+ =?us-ascii?Q?XIo5pnwZyowF4JXfNa/03tx+e9/MukSveWfx7jEaNw7kke3/7atzLnQDLRPf?=
+ =?us-ascii?Q?6z9lCCg63vmKhK7l3+dwHWUFaPux0J4MY7RkQ6PDiGT4BXV0wOf8SltPtacs?=
+ =?us-ascii?Q?FFf6hqJhtSpv0wtYMUza2vQPEwAi808Z3gATx9/GrqBGGVKWSvM7Ehr35mLu?=
+ =?us-ascii?Q?iLeY+4FZdBTJ03rfhsQ9uw3X4GJyEzI3uSELoar4Tk5Mi3LNwceot2TvBZOp?=
+ =?us-ascii?Q?Iuy+VFdy9hsfZc9ilzCQOts4PiLF5CcRr+9REK7zd4oskDk39/Wh6o+MV4RD?=
+ =?us-ascii?Q?1CdHP/UP5D4OEb77B3s65K7OnPVzZqpf00D4fvVPuhxY1TT65el55FDcc0DJ?=
+ =?us-ascii?Q?MsLlFoia+8erEqVbup21MWoVPVrwjrKNW3vkPAJm33fAWXN7Zukym/zicCte?=
+ =?us-ascii?Q?M3Etwb2nFeSNqGvaezCQWdCalM3MRcseNlZjoBHZqhOOVsCgeuxI/OJA/S+f?=
+ =?us-ascii?Q?4n7ENDD8HDnlfi7llEA0a6NueHFNqDEYoS9rqbGfAda+0aIEPps3WgnwvEFj?=
+ =?us-ascii?Q?GwLMTtpImdRdQ6h2LRQKm4OtNA1cwr9U8T/TT7xJFBTwmOG19Dgr4KSkpVfG?=
+ =?us-ascii?Q?VgFLzXEi6iFbx8RMUHSpcljUr0fsKESA8RPnfNajfA4WRpuiwT3TnQsSqW0T?=
+ =?us-ascii?Q?hbirsw9+xzzf0drBjK6F02OUMC7mQzg6aP+Zh24qILp8L3AmnWtQ7i51bPo7?=
+ =?us-ascii?Q?6WgDjz5S3m1n4Nk1tBQv2b7/b+s/+VgVhCZD6WhrjOTe6ID2BgfOazWJKqCG?=
+ =?us-ascii?Q?hVvQDjyW689L9Pthe10/8JrVLqHfnVmAeL2XGMuwohY4Xbf4Pq8aiIfX0HYg?=
+ =?us-ascii?Q?mL7n1lsDxV7i3ZiMPFkorD9JFk2JD585hOoh3BZlsBS1lY9plrPdvkg2UAjH?=
+ =?us-ascii?Q?7eT5rgcCc3bwd2RYtES6MtGPQ182DhGSBD3c3lvMn2QKpdAFIYxCkQBbKBF0?=
+ =?us-ascii?Q?bfFKP3EehXFKiAqGAtfD0kasPBdhI8yhr42DjkZ8Ds+LVvVxhmQdQrGyS6JA?=
+ =?us-ascii?Q?8eIcymC7gR3RIPT0j+M7q4bZjzEcQqzNR3k5PgozpjRCBd54mT/6Hs0Cz2PT?=
+ =?us-ascii?Q?rFTJIon5pxB8i632zvubfr16t68btV0RwR+Yd2hr97SVGLkRlz0IhN2CO0Vc?=
+ =?us-ascii?Q?o27StVDUu9JlqQrB/6Tm7jggugW7LSy/Y79EUar4+gl39TfYaR+ESt5luV9I?=
+ =?us-ascii?Q?4jJwqmHQPnx4zrAOh9DCLalxfD63irrr1FwW7VqX9938axJSmDpUv6X7qrlN?=
+ =?us-ascii?Q?HVUO5k+HK6EnIF11sSHW514wMSRCLVm6vqeoCyFTKwcsfL3QiisK+OpuzeAv?=
+ =?us-ascii?Q?DPDFPxew1AhdNteDFLdeMbAywCxjQt2SSNz6mQEfbaS5Ed57Eev/rYsGt1BI?=
+ =?us-ascii?Q?MLTFZoBUMibN1sRlDwYl0fT6GE972ksuudKv5T0WMprlurto3Zgt97HFAE+v?=
+ =?us-ascii?Q?xakAtmQMj4jzlQzljUE4fJdu1S41jEqROBoX9+NmjESM4Yk3gvCg2iIGYO/s?=
+ =?us-ascii?Q?+AXybFOycXjjr96bJT3tJLyJkXWFw/5JGl+bnqOlG+n9E2pymPqjcYJnLJuM?=
+ =?us-ascii?Q?AZKI8g=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	rP0TmBMVJEIlSbCkWJA6K3+/WmUPZHKmgA2PUlG9/3FNz93MQfY7UgB3ZTZGMz6UwY5Sa2HPexhzuGKWhPBlPc7aSHEtf3vvvZmM2b1Tr76+uPoALGe3lcGkjBkL1iz4YV5Eq6wlgmIRoowBU/Ogp7WM0Qg1LYpZDVbmLb1dc62B10muMRf4DGgtXGXL4Rmaeu96AFvQa3RjwZzpqmEC4xT/z2Vnw80gntLe1pP8icMxX2QAqs87FlH9EKFPNauHAQWuErZCk2gqbTDgPm9nxasp42SxRcg7dPDRlcaopXl+I51sRLEwu2exF7n7O+86Iygws+zcUEuEEix7K98zHkG3/+E7HMfP71G5ciNhKH+LBnS8bsIFmGR8KVxfx+/0YcBVdd8l21OpqBhc+HXKYmyBTvjf2YSH3TvgUyqRT2h8RRKhuUBJ1ou49LvEk6fcOu5D7nuz1f6w6NFmnDQYdIwzs+YRgVP/msBjxnM/bpNOfK1aYyJhsP51eZWegj28BAKRQFUKItgCfBPjpiCkLeLZvPdteBzj/09EkRsh8eCGtbOSToCwFQBRF2MuwwzqaajQGat5UEj3DkhVGBpWqebq1EX6gAao4klbVaNDvAY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32c3fd17-a14e-4a77-0d6c-08dcf12313af
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2024 16:20:13.7833
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce9c18da-4b8f-4479-503c-08dcefd06574
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002636A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6684
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hoH3Tbm5a5eMBQOAcUabwwjGmZnck6R+4wPIF9yjzMgfnMK22XpxiuppvZBPRO89gjJMVha4wD74EaypsATxgPHMnA6ek0CgRFEwJ171J/A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6703
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-20_14,2024-10-17_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2410200114
+X-Proofpoint-GUID: smzS4JAnZBTa-SVAqYzRIYA2ihRYzQIG
+X-Proofpoint-ORIG-GUID: smzS4JAnZBTa-SVAqYzRIYA2ihRYzQIG
 
-On 10/17/24 11:49 PM, Lorenzo Stoakes wrote:
-> On Thu, Oct 17, 2024 at 02:45:43PM -0700, John Hubbard wrote:
->> On 10/17/24 2:05 PM, Lorenzo Stoakes wrote:
-...
->> Your include path above actually refers to:
->>
->>      $(top_srcdir)/include/uapi/linux/fcntl.h
->>
->> ...but what I was intending was to copy a snapshot of that file (or a
->> snapshot from the one generated by "make headers"), to here:
->>
->>      $(top_srcdir)/tools/include/uapi/linux/fcntl.h
-> 
-> Yeah my first version of this used the uapi one but I thought doing that
-> might conflict with snapshotting? Also it'd mean you'd absolutely have to
-> have the $(TOOLS_INCLUDES) earlier in the include priority list and better
-> maybe to special case in this instance.
+Userland library functions such as allocators and threading implementations
+often require regions of memory to act as 'guard pages' - mappings which,
+when accessed, result in a fatal signal being sent to the accessing
+process.
 
-Actually, I think the goal is to just stop using KHDR_INCLUDES (./usr/include)
-entirely!
+The current means by which these are implemented is via a PROT_NONE mmap()
+mapping, which provides the required semantics however incur an overhead of
+a VMA for each such region.
 
-More below...
+With a great many processes and threads, this can rapidly add up and incur
+a significant memory penalty. It also has the added problem of preventing
+merges that might otherwise be permitted.
 
-> 
->>
->> ...and then use $(TOOLS_INCLUDES), which is already in selftests/lib.mk,
->> for that reason: to be available to all of the kselftests:
->>
->>      TOOLS_INCLUDES := -isystem $(top_srcdir)/tools/include/uapi
->>
->> The reasoning for this directory is further explained here:
->>
->>      tools/include/uapi/README
->>
->> (And I see that selftests/proc has started using $(TOOLS_INCLUDES), that's
->> progress.)
->>
->> And now, it's possible to change fcntl.h in place, instead of using a wrapper.
->> Although either way seems OK to me. (I'm sort of ignoring the details of
->> the actual header file conflict itself, for now.)
-> 
-> The fcntl.h and linux/fcntl.h conflict is apparently a rather well-known
-> horror show. It's a difficult one to resolve as the UAPI pidfd.h header
-> needs O_xxx defines but we also need to include this header in kernel code.
-> 
-> An #ifdef __KERNEL__ block might be a solution here but fixing that is out
-> of scope for these changes.
+This series takes a different approach - an idea suggested by Vlasimil
+Babka (and before him David Hildenbrand and Jann Horn - perhaps more - the
+provenance becomes a little tricky to ascertain after this - please forgive
+any omissions!)  - rather than locating the guard pages at the VMA layer,
+instead placing them in page tables mapping the required ranges.
 
-Certainly out of scope! Your patch already avoids the biggest issue: it no
-longer requires "make headers", in order to build it. That's fine for now. Sorry
-to put you into the middle of a pre-existing kselftests debate.
+Early testing of the prototype version of this code suggests a 5 times
+speed up in memory mapping invocations (in conjunction with use of
+process_madvise()) and a 13% reduction in VMAs on an entirely idle android
+system and unoptimised code.
 
-And the #ifdef __KERNEL__ sounds like a potential solution, or at least a
-building block for one. I need to take a closer look at this particular header
-file mess, the fcntl.h situation is new to me.
+We expect with optimisation and a loaded system with a larger number of
+guard pages this could significantly increase, but in any case these
+numbers are encouraging.
 
-  
->>> +#endif /* _TOOLS_LINUX_PIDFD_H */
->>> diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
->>> index d731e3e76d5b..f5038c9dae14 100644
->>> --- a/tools/testing/selftests/pidfd/Makefile
->>> +++ b/tools/testing/selftests/pidfd/Makefile
->>> @@ -1,8 +1,7 @@
->>>    # SPDX-License-Identifier: GPL-2.0-only
->>> -CFLAGS += -g $(KHDR_INCLUDES) -pthread -Wall
->>> +CFLAGS += -g -isystem $(top_srcdir)/tools/include $(KHDR_INCLUDES) -pthread -Wall
->>
->> Instead, it would look like this, which now mostly matches selftests/mm/Makefile,
->> which is also helpful, because eventually this can be factored into a common
->> piece for all selftests:
->>
->>      CFLAGS += -g -isystem $(KHDR_INCLUDES) $(TOOLS_INCLUDES) -pthread -Wall
->>
->> I apologize for just now noticing this! And these kselftests shouldn't require
->> so much fussing around, I know. But once we get this just right, it will work
->> well and last a long time. :)
-> 
-> Yeah I know, but this won't work due to the header conflict, I was doing
-> this previously.
-> 
-> Also doing it this way means that uapi snapshot doesn't override the usr/
-> one if you have that, which I guess you want?
+This way, rather than having separate VMAs specifying which parts of a
+range are guard pages, instead we have a VMA spanning the entire range of
+memory a user is permitted to access and including ranges which are to be
+'guarded'.
 
-Actually, given that we want (or should want, so I claim) to build without first
-running "make headers", and given that "make headers" populates ./usr/include/,
-which in turn is what $(KHDR_INCLUDES) points to, this means that eventually we
-should end up with approximately:
+After mapping this, a user can specify which parts of the range should
+result in a fatal signal when accessed.
 
-     CFLAGS += -g -isystem $(TOOLS_INCLUDES) -pthread -Wall
+By restricting the ability to specify guard pages to memory mapped by
+existing VMAs, we can rely on the mappings being torn down when the
+mappings are ultimately unmapped and everything works simply as if the
+memory were not faulted in, from the point of view of the containing VMAs.
 
-And I just checked, today's selftests/mm builds just fine, with a similar
-diff applied, so I'm not totally crazy:
+This mechanism in effect poisons memory ranges similar to hardware memory
+poisoning, only it is an entirely software-controlled form of poisoning.
 
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 02e1204971b0..b004a8edcba5 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -33,7 +33,7 @@ endif
-  # LDLIBS.
-  MAKEFLAGS += --no-builtin-rules
-  
--CFLAGS = -Wall -I $(top_srcdir) $(EXTRA_CFLAGS) $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
-+CFLAGS = -Wall -I $(top_srcdir) $(EXTRA_CFLAGS) $(TOOLS_INCLUDES)
-  LDLIBS = -lrt -lpthread -lm
-  
-  TEST_GEN_FILES = cow
+Any poisoned region of memory is also able to 'unpoisoned', that is, to
+have its poison markers removed.
 
+The mechanism is implemented via madvise() behaviour - MADV_GUARD_POISON
+which simply poisons ranges - and MADV_GUARD_UNPOISON - which clears this
+poisoning.
 
+Poisoning can be performed across multiple VMAs and any existing mappings
+will be cleared, that is zapped, before installing the poisoned page table
+mappings.
 
-thanks,
--- 
-John Hubbard
+There is no concept of 'nested' poisoning, multiple attempts to poison a
+range will, after the first poisoning, have no effect.
 
+Importantly, unpoisoning of poisoned ranges has no effect on non-poisoned
+memory, so a user can safely unpoison a range of memory and clear only
+poison page table mappings leaving the rest intact.
+
+The actual mechanism by which the page table entries are specified makes
+use of existing logic - PTE markers, which are used for the userfaultfd
+UFFDIO_POISON mechanism.
+
+Unfortunately PTE_MARKER_POISONED is not suited for the guard page
+mechanism as it results in VM_FAULT_HWPOISON semantics in the fault
+handler, so we add our own specific PTE_MARKER_GUARD and adapt existing
+logic to handle it.
+
+We also extend the generic page walk mechanism to allow for installation of
+PTEs (carefully restricted to memory management logic only to prevent
+unwanted abuse).
+
+We ensure that zapping performed by, for instance, MADV_DONTNEED, does not
+remove guard poison markers, nor does forking (except when VM_WIPEONFORK is
+specified for a VMA which implies a total removal of memory
+characteristics).
+
+It's important to note that the guard page implementation is emphatically
+NOT a security feature, so a user can remove the poisoning if they wish. We
+simply implement it in such a way as to provide the least surprising
+behaviour.
+
+An extensive set of self-tests are provided which ensure behaviour is as
+expected and additionally self-documents expected behaviour of poisoned
+ranges.
+
+Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+Suggested-by: Jann Horn <jannh@google.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+
+v2
+* The macros in kselftest_harness.h seem to be broken - __EXPECT() is
+  terminated by '} while (0); OPTIONAL_HANDLER(_assert)' meaning it is not
+  safe in single line if / else or for /which blocks, however working
+  around this results in checkpatch producing invalid warnings, as reported
+  by Shuah.
+* Fixing these macros is out of scope for this series, so compromise and
+  instead rewrite test blocks so as to use multiple lines by separating out
+  a decl in most cases. This has the side effect of, for the most part,
+  making things more readable.
+* Heavily document the use of the volatile keyword - we can't avoid
+  checkpatch complaining about this, so we explain it, as reported by
+  Shuah.
+* Updated commit message to highlight that we skip tests we lack
+  permissions for, as reported by Shuah.
+* Replaced a perror() with ksft_exit_fail_perror(), as reported by Shuah.
+* Added user friendly messages to cases where tests are skipped due to lack
+  of permissions, as reported by Shuah.
+* Update the tool header to include the new MADV_GUARD_POISON/UNPOISON
+  defines and directly include asm-generic/mman.h to get the
+  platform-neutral versions to ensure we import them.
+* Finally fixed Vlastimil's email address in Suggested-by tags from suze to
+  suse, as reported by Vlastimil.
+* Added linux-api to cc list, as reported by Vlastimil.
+
+v1
+* Un-RFC'd as appears no major objections to approach but rather debate on
+  implementation.
+* Fixed issue with arches which need mmu_context.h and
+  tlbfush.h. header imports in pagewalker logic to be able to use
+  update_mmu_cache() as reported by the kernel test bot.
+* Added comments in page walker logic to clarify who can use
+  ops->install_pte and why as well as adding a check_ops_valid() helper
+  function, as suggested by Christoph.
+* Pass false in full parameter in pte_clear_not_present_full() as suggested
+  by Jann.
+* Stopped erroneously requiring a write lock for the poison operation as
+  suggested by Jann and Suren.
+* Moved anon_vma_prepare() to the start of madvise_guard_poison() to be
+  consistent with how this is used elsewhere in the kernel as suggested by
+  Jann.
+* Avoid returning -EAGAIN if we are raced on page faults, just keep looping
+  and duck out if a fatal signal is pending or a conditional reschedule is
+  needed, as suggested by Jann.
+* Avoid needlessly splitting huge PUDs and PMDs by specifying
+  ACTION_CONTINUE, as suggested by Jann.
+https://lore.kernel.org/all/cover.1729196871.git.lorenzo.stoakes@oracle.com/
+
+RFC
+https://lore.kernel.org/all/cover.1727440966.git.lorenzo.stoakes@oracle.com/
+
+Lorenzo Stoakes (5):
+  mm: pagewalk: add the ability to install PTEs
+  mm: add PTE_MARKER_GUARD PTE marker
+  mm: madvise: implement lightweight guard page mechanism
+  tools: testing: update tools UAPI header for mman-common.h
+  selftests/mm: add self tests for guard page feature
+
+ arch/alpha/include/uapi/asm/mman.h           |    3 +
+ arch/mips/include/uapi/asm/mman.h            |    3 +
+ arch/parisc/include/uapi/asm/mman.h          |    3 +
+ arch/xtensa/include/uapi/asm/mman.h          |    3 +
+ include/linux/mm_inline.h                    |    2 +-
+ include/linux/pagewalk.h                     |   18 +-
+ include/linux/swapops.h                      |   26 +-
+ include/uapi/asm-generic/mman-common.h       |    3 +
+ mm/hugetlb.c                                 |    3 +
+ mm/internal.h                                |    6 +
+ mm/madvise.c                                 |  168 +++
+ mm/memory.c                                  |   18 +-
+ mm/mprotect.c                                |    3 +-
+ mm/mseal.c                                   |    1 +
+ mm/pagewalk.c                                |  200 ++-
+ tools/include/uapi/asm-generic/mman-common.h |    3 +
+ tools/testing/selftests/mm/.gitignore        |    1 +
+ tools/testing/selftests/mm/Makefile          |    1 +
+ tools/testing/selftests/mm/guard-pages.c     | 1228 ++++++++++++++++++
+ 19 files changed, 1627 insertions(+), 66 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/guard-pages.c
+
+--
+2.47.0
 
