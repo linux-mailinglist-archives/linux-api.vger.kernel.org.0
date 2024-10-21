@@ -1,95 +1,82 @@
-Return-Path: <linux-api+bounces-2498-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2499-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267FE9A7109
-	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 19:26:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574B09A8E3C
+	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 21:26:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A07CD1F22F51
-	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 17:26:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13C1C283081
+	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 19:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6AE31EF090;
-	Mon, 21 Oct 2024 17:26:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B061FC7C3;
+	Mon, 21 Oct 2024 19:25:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YrXoX5mK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gUlqYEb4";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YrXoX5mK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gUlqYEb4"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iHV3Np99"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7991CBEBC;
-	Mon, 21 Oct 2024 17:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729531575; cv=none; b=sEmVna33Ks60jRP7Dtr8LEEEUWhRT0YCLiQMAidhDTNAPOxd2T3FfoPBOZDkKqUf05siCexWbeFIguMS2LfeL5gLlq13TvCkHeB3mB7l5yDlIQ/qCHFeo/84GXrOP3bpGok48m800VAcY8WFW8JHpNlF8hjrHTPWB8Nuft+e9ww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729531575; c=relaxed/simple;
-	bh=JEGIqOFF+79SDuGiF1AThx4hL1NHbgkSZoVqIiS+59E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jyqwheGCVJ0irQEyCgXghTvKIH8nDnAQfFMTJq/Acs00u47NilRBFYLQbTjFZkwyCVxUC1W/aY2Lm9CwZvt40MRtBmMQylYjWfHYAakk/3+Rd+Ydi60P3SqLexLQ9rgcuV6vI0pZYrEIF2RlCdFlx5BsSfmVMa4SEWviYe8GwtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YrXoX5mK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gUlqYEb4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YrXoX5mK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gUlqYEb4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A8C51F80C;
-	Mon, 21 Oct 2024 17:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729531571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UZv9f7LMlXSjmsbwslEKPBtm1QgaxLmQcoTj3XO9DvQ=;
-	b=YrXoX5mKHHiuoR5IRYvUGZw7aCw2cW4dJUqyx/Wr+OjXLNmA6IDzC48BDXVmf5h0Uqq961
-	dIq59SQaNRJSShXalIyQAtLNjNrvLJ4IFBkFJmxgD9SueibkCbZzN6Paehxw0pmj6BJC7I
-	DDeVrjio0eREaxVRft/ak3LWhywi4Iw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729531571;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UZv9f7LMlXSjmsbwslEKPBtm1QgaxLmQcoTj3XO9DvQ=;
-	b=gUlqYEb4wQQPD/TGWY9HQQV5JQS00CvegZPA3DRcfBrUorVqmfFeSg/b4IpcR17fANVQFB
-	9a2FEH2XJqKLMQDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729531571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UZv9f7LMlXSjmsbwslEKPBtm1QgaxLmQcoTj3XO9DvQ=;
-	b=YrXoX5mKHHiuoR5IRYvUGZw7aCw2cW4dJUqyx/Wr+OjXLNmA6IDzC48BDXVmf5h0Uqq961
-	dIq59SQaNRJSShXalIyQAtLNjNrvLJ4IFBkFJmxgD9SueibkCbZzN6Paehxw0pmj6BJC7I
-	DDeVrjio0eREaxVRft/ak3LWhywi4Iw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729531571;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UZv9f7LMlXSjmsbwslEKPBtm1QgaxLmQcoTj3XO9DvQ=;
-	b=gUlqYEb4wQQPD/TGWY9HQQV5JQS00CvegZPA3DRcfBrUorVqmfFeSg/b4IpcR17fANVQFB
-	9a2FEH2XJqKLMQDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D966F136DC;
-	Mon, 21 Oct 2024 17:26:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HlhSNLKOFmc/EAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 21 Oct 2024 17:26:10 +0000
-Message-ID: <8329667f-73b6-48fe-8f3c-07c741462fee@suse.cz>
-Date: Mon, 21 Oct 2024 19:26:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8061FBCAA;
+	Mon, 21 Oct 2024 19:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729538743; cv=fail; b=f9jItBON85XCQP2VumtK0Q9ACKkWd6EvXXGwlMHjV16DyJD1MNfg/8NwD21mcoc3IDvOs7mBQD1s7dvWUdWjKyv0WvhTKY/L6FHqbz5tuSqdNoEsnSr3aIp1mAP9zAKn+Qawv4QfMDzd09JXd7iwoWVXEPbxfteNJhwPxuaeo4I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729538743; c=relaxed/simple;
+	bh=yl/f6nmrj4bJkC2hnoSW2W3moUZceUgClX1Y0P+anE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=S1s5rw/XoMpCiSOyN8AwwKYQ1f3TbmGVCTi3PkeaJynlxnDO1pBa3AXa6hmyq9ax+lnKpUzjE9sdlmfDU6z6AmqomDgcK7G52kyhOuEq5xBaJoSqlmV8hsUwam3rxjMr+RYJyIcpXZNwWgaAMnqQjXZldHlKS06gXCnYh+OED9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iHV3Np99; arc=fail smtp.client-ip=40.107.236.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rM9A2xv4lXe3pS1W8l+eT7kAoNxzlaZGko85Kv1km5EMUekHPX0b+SPW7skdo3jW/+3bLneOvtDS6mMmRk+vRuj/eqfVBRSlQ/xH1rccUDENTc8Q80LhQWBE3IsHW4msmR8anFn7ir8QgBU9hLVKKktiQokRIOfFR1qrxGrqOTV4wHgK32tpAzuD528YIppoOoxSPqJ0+6ZvcigUnW97pzR0MS2Jq3Y0jiaS8+57YJfXLXxDtG142SB52rnFbkFlQX5jFHP4K4bGv2v5K0jO6gqUlpIziIpcqHgDw0PsmN4UM/Jxip2bUhHTmEiui1Oqco411QjTWzuSLaSVznCZYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+O0+SiJoFRHBTL1jfFln/M7VElXY4xPBomcz20IIpYE=;
+ b=F1Ic3Gm/qB9aXMeT6hzOy4u5yCvgnZKoCKXJcBoiM26MkLz7h5ojesy0bWKj5laHK4heYUW3EJUMoxqlyumFNZl9Ko1yUqWICqLE+2/m/s/Wf1U7LxddC4YVSlBdcTSZrdTpIiVwI7t4ZtxcWazo9pGW6RrfYnYI9Hc+z3kqpRzQAKbbn1q8FvpAF4n8oS/bB4enS7XYS0c2tJk/mCFV17LicqeNmGF8hSLlBM9namDFIk9cabaiymsUE6jJAc2qthzTEcS7AngHhVLU7n8VvPnTphvWXXtpNJ5Nm02DItNJkj6wmJ+XvC0fYNpobURPs1xWrmywSUPb+1dFbCWYPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+O0+SiJoFRHBTL1jfFln/M7VElXY4xPBomcz20IIpYE=;
+ b=iHV3Np99axxdZ5k3OKkrCHoH7w3C+5HtyY2+5dwiNsy/JC0rr0WBDJl1uQTpWsJA5APd3S9Qi5O/ir7w/9JZBetducUCtf7gL4w2IxopRhkoqZJ25+rxbysHyy50k8Lhs8HXQwiZUM70US2g9dWHnjTRenyYiuSWyRMWofryYg9v4BTxeFExcho2+GbfwQ6F+Gm+osUpgsTgsbsEOclpc9Di3ZX8zYCxvJzJUFxQDpviwSp6DpLxRsA/ChWPoNgJjg181Vpn9soeVo8hVamkUvLt4jKfSfVtqQFqyX6wv/xDxWq0gbLSfcfONJubwaDDLXzidQpKVwCK/5VDUrj2wQ==
+Received: from BN9PR03CA0944.namprd03.prod.outlook.com (2603:10b6:408:108::19)
+ by PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 21 Oct
+ 2024 19:25:36 +0000
+Received: from BL02EPF0001A103.namprd05.prod.outlook.com
+ (2603:10b6:408:108:cafe::42) by BN9PR03CA0944.outlook.office365.com
+ (2603:10b6:408:108::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28 via Frontend
+ Transport; Mon, 21 Oct 2024 19:25:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 19:25:36 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 21 Oct
+ 2024 12:25:14 -0700
+Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 21 Oct
+ 2024 12:25:14 -0700
+Message-ID: <3baf8814-0a9a-4de0-b568-62d241dbba0e@nvidia.com>
+Date: Mon, 21 Oct 2024 12:25:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -97,221 +84,188 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm: add PTE_MARKER_GUARD PTE marker
+Subject: Re: [PATCH v2 3/5] mm: madvise: implement lightweight guard page
+ mechanism
+To: David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
+	<surenb@google.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, "Matthew
+ Wilcox" <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, "Paul E .
+ McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, Muchun Song
+	<muchun.song@linux.dev>, Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E . J . Bottomley"
+	<James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, "Chris
+ Zankel" <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann
+	<arnd@arndb.de>, <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <linux-arch@vger.kernel.org>, Shuah Khan
+	<shuah@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	<linux-kselftest@vger.kernel.org>, Sidhartha Kumar
+	<sidhartha.kumar@oracle.com>, Jeff Xu <jeffxu@chromium.org>, "Christoph
+ Hellwig" <hch@infradead.org>, <linux-api@vger.kernel.org>
+References: <cover.1729440856.git.lorenzo.stoakes@oracle.com>
+ <fce49bbbfe41b82161a37b022c8eb1e6c20e1d85.1729440856.git.lorenzo.stoakes@oracle.com>
+ <b13a83f4-c31c-441d-b18e-d63d78c4b2fb@redhat.com>
+ <b2bca752-77f3-4b63-abe9-348a5fc2a5cc@lucifer.local>
+ <c8272b9d-5c33-4b44-9d6d-1d25c7ac23dd@redhat.com>
 Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- David Hildenbrand <david@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Matthew Wilcox <willy@infradead.org>, "Paul E . McKenney"
- <paulmck@kernel.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-arch@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>,
- linux-kselftest@vger.kernel.org, Sidhartha Kumar
- <sidhartha.kumar@oracle.com>, Jeff Xu <jeffxu@chromium.org>,
- Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
- John Hubbard <jhubbard@nvidia.com>
-References: <081837b697a98c7fa5832542b20f603d49e0b557.1729440856.git.lorenzo.stoakes@oracle.com>
- <470886d2-9f6f-4486-a935-daea4c5bea09@suse.cz>
- <434a440a-d6a4-4144-b4fb-8e0d8535f03f@lucifer.local>
- <caf95a99-e975-4f3d-a94b-298a5fc88b5a@suse.cz>
- <4f4e41f1-531c-4686-b44d-dacdf034c241@lucifer.local>
- <cb0e49be-7b4e-4760-884c-8f4bf74ec1e1@redhat.com>
- <ea771edf-0e38-440f-b264-3cbe285a628b@lucifer.local>
- <49afa956-21e1-4b3d-9dde-82a6891f2902@redhat.com>
- <cbf17dc3-01eb-4416-8ec5-cac05e50d663@lucifer.local>
- <ef0e11c5-13cf-4d47-a277-41da317be165@redhat.com>
- <acf358a4-c503-4347-8156-9269c43bf796@lucifer.local>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
- AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJkBREIBQkRadznAAoJECJPp+fMgqZkNxIQ
- ALZRqwdUGzqL2aeSavbum/VF/+td+nZfuH0xeWiO2w8mG0+nPd5j9ujYeHcUP1edE7uQrjOC
- Gs9sm8+W1xYnbClMJTsXiAV88D2btFUdU1mCXURAL9wWZ8Jsmz5ZH2V6AUszvNezsS/VIT87
- AmTtj31TLDGwdxaZTSYLwAOOOtyqafOEq+gJB30RxTRE3h3G1zpO7OM9K6ysLdAlwAGYWgJJ
- V4JqGsQ/lyEtxxFpUCjb5Pztp7cQxhlkil0oBYHkudiG8j1U3DG8iC6rnB4yJaLphKx57NuQ
- PIY0Bccg+r9gIQ4XeSK2PQhdXdy3UWBr913ZQ9AI2usid3s5vabo4iBvpJNFLgUmxFnr73SJ
- KsRh/2OBsg1XXF/wRQGBO9vRuJUAbnaIVcmGOUogdBVS9Sun/Sy4GNA++KtFZK95U7J417/J
- Hub2xV6Ehc7UGW6fIvIQmzJ3zaTEfuriU1P8ayfddrAgZb25JnOW7L1zdYL8rXiezOyYZ8Fm
- ZyXjzWdO0RpxcUEp6GsJr11Bc4F3aae9OZtwtLL/jxc7y6pUugB00PodgnQ6CMcfR/HjXlae
- h2VS3zl9+tQWHu6s1R58t5BuMS2FNA58wU/IazImc/ZQA+slDBfhRDGYlExjg19UXWe/gMcl
- De3P1kxYPgZdGE2eZpRLIbt+rYnqQKy8UxlszsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
- J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
- /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
- IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
- X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
- wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
- PVAiT6fnzIKmZAUCZAUSmwUJDK5EZgAKCRAiT6fnzIKmZOJGEACOKABgo9wJXsbWhGWYO7mD
- 8R8mUyJHqbvaz+yTLnvRwfe/VwafFfDMx5GYVYzMY9TWpA8psFTKTUIIQmx2scYsRBUwm5VI
- EurRWKqENcDRjyo+ol59j0FViYysjQQeobXBDDE31t5SBg++veI6tXfpco/UiKEsDswL1WAr
- tEAZaruo7254TyH+gydURl2wJuzo/aZ7Y7PpqaODbYv727Dvm5eX64HCyyAH0s6sOCyGF5/p
- eIhrOn24oBf67KtdAN3H9JoFNUVTYJc1VJU3R1JtVdgwEdr+NEciEfYl0O19VpLE/PZxP4wX
- PWnhf5WjdoNI1Xec+RcJ5p/pSel0jnvBX8L2cmniYnmI883NhtGZsEWj++wyKiS4NranDFlA
- HdDM3b4lUth1pTtABKQ1YuTvehj7EfoWD3bv9kuGZGPrAeFNiHPdOT7DaXKeHpW9homgtBxj
- 8aX/UkSvEGJKUEbFL9cVa5tzyialGkSiZJNkWgeHe+jEcfRT6pJZOJidSCdzvJpbdJmm+eED
- w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
- 1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
- EP+ylKVEKb0Q2A==
-In-Reply-To: <acf358a4-c503-4347-8156-9269c43bf796@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,google.com,oracle.com,infradead.org,kernel.org,kvack.org,vger.kernel.org,linux.dev,linaro.org,jurassic.park.msu.ru,gmail.com,alpha.franken.de,hansenpartnership.com,gmx.de,zankel.net,arndb.de,chromium.org,nvidia.com];
-	R_RATELIMIT(0.00)[to_ip_from(RL3py1j7x8bxoj6nr7eaeb97sq)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <c8272b9d-5c33-4b44-9d6d-1d25c7ac23dd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|PH0PR12MB8800:EE_
+X-MS-Office365-Filtering-Correlation-Id: d57fb43c-a333-4362-5f61-08dcf20623d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dFZ2dm1BcTMreWtpZGFXSnZUNXlpZGZURjd3cTNKQnBYZkhEMWx1d1BkS2Vr?=
+ =?utf-8?B?VElFd25abHZ3Mys5MWVoNFQ5SHRkTEJkYXlnMnlBSGo0K0JRNVYyRGc3VVRa?=
+ =?utf-8?B?MHh0bUFKdDZSZWVSYy9iQk9EdlVObXBpYWY0WEt3RGR5RWxyQXpUTnVuZVFq?=
+ =?utf-8?B?aUN0TFFVaWh3bUdXdHZNQVJiaDJjRG8vRUs1NXEvRVFVcTkzL2lTTE5BOVhp?=
+ =?utf-8?B?dzNRclRkV2xtZStDVDNIUmZJeitGWDZlUXhOekFDd09PVFFsSk9DbTZoMDdH?=
+ =?utf-8?B?TExVVThLMFh4WnlEczdKRzErQytWSllsUE1NbEhLNndnT2ZxeDBValAvYldi?=
+ =?utf-8?B?NzRsaEd1N2dWKytHRGRuTFBEVG4wOXFvYVZDVEFzejQwNERFd2s0RFhCVlpK?=
+ =?utf-8?B?dHpFUHlaS3BsRkJyaUl1RlZHVnRlcFR2WmFTRGNsWDRjUXgrbUZjcTVhWTJj?=
+ =?utf-8?B?dUZVN1JxcmFVZTg1anpqWnQvblBFclU5T2w3Y0ZqSWxvNlJTUk9heFhkQmhE?=
+ =?utf-8?B?ZHR1UWZLVlBjVHlFSlpUa1lZaWNMY0FKNmNTM0FXelJnbDlsbi9rak9xeEg3?=
+ =?utf-8?B?Vm5MaEdNZjZzemJkQ0tIa2dvL0JuZlJMSmJ6WE1Rc3RDWkxKU1NyS3pxZVRO?=
+ =?utf-8?B?TTc3aHdIWFAzVDB3alpvWkRaU3o1Q3d4UTRKL2g3dXF1N25TSkxtNWZlWWtu?=
+ =?utf-8?B?c0VENUZFNzJxRUNpZkVKR05hdmdGbkd0TTdrODlCQnpiOFlQdlJjZnkxaWpM?=
+ =?utf-8?B?Wk43ZTRWaEZHb0pibUZ4RWdGMloyenBHV2JFbEQzNjBJbHZiZ3BRNVZyTHFs?=
+ =?utf-8?B?ZzcyRTJpd2dhb21zTkd6QVlza0w2TzJmTHVzb1dDR3YrVVFLemtWSUliT00y?=
+ =?utf-8?B?bFJDZHhkN1FLRG5zdmkydVBtdHJ1NVUxRXBnd25qVVllRytScHZnbnV1M0ZF?=
+ =?utf-8?B?T1lXQ1JlOWVUU2JMSk5ON3FuM0UrUS93cDYxaVRveFdSU1FCMzhLenBCWEhU?=
+ =?utf-8?B?a0FNdTNwcnNrUzlrWlJaK1NFMWx3ZjlIemZWU0owT3BBUStDUjh0UnhrWCtL?=
+ =?utf-8?B?MVNJaWdKdGpXcU1nbFJncDNDaG1FaUVFSGdLdW8rcy9QalR0RUxpeXI2YXph?=
+ =?utf-8?B?MFdrMzFUV3JES2RFdktjMXU2MkxSNG5MTXJVaWpGY3Q2U2dKM29LUlc4V2d2?=
+ =?utf-8?B?bElxckVtK2MxWUtWNkI2YkZRM0c4S3liRGFreEc1dENLQVEyVG0xdHduYkow?=
+ =?utf-8?B?VEYvSzZIUnFZcFc4MnFreVpBdDFLeHVUT01OOEtTM1pxQzY4eEFnc0JBNnZx?=
+ =?utf-8?B?TzhjQmsyYUdKMSswckZkMDVNY3d6ZlR4ZHBQeklRS0ZJL2pWUkdxNEwrUXB6?=
+ =?utf-8?B?VXJydTJmOU8zUzZxTmhwbitKSTdGL3JySHlPL2h6UUtWUmd3cW1TOTgzczdj?=
+ =?utf-8?B?OTQ3M1l0RFBLVEthNHkyK0twVTBXazk5SHhhakRzbklPWHo1dVJHVlVNRS9z?=
+ =?utf-8?B?V0ZVRDNURlB2L3FheVRKdkl4c2JIOUZXdEI0Mjc1QldCMXJBS21KeFg1V3hu?=
+ =?utf-8?B?NnJYSVIxVTlpMVE4MStaTStqZTlPanFyQnRMZGYrY1ZMOFVEbnVBTjlLT09h?=
+ =?utf-8?B?dXY5TWc1ZWF3d21aMUtkUFIxbFk5YnllenNHeitVc1d6dEI0dVJOa0IzMTFM?=
+ =?utf-8?B?RFk1LzFnMUlpa0wzaVFkekVHVW0xZndSVUQzMHV3enNNTXUzamc5aDdlbmN3?=
+ =?utf-8?B?R2hZQmpMZWVsZy9ocVFHYjhmSGRSeUZqa2h1STZna3pid2FIOVJSb1p5N3Zm?=
+ =?utf-8?B?Q2dGNTZmNlkxZFUvd1pzVis0L2xtbG54UlhBM1VpWlpZeFh2L0FsOW53Qytp?=
+ =?utf-8?B?TjFObHJnR05sSi9oMEJwcE1xTkxkVzNpQVhlZVNqU3pDWUE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 19:25:36.2738
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d57fb43c-a333-4362-5f61-08dcf20623d4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A103.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8800
 
-On 10/21/24 19:14, Lorenzo Stoakes wrote:
-> On Mon, Oct 21, 2024 at 07:00:53PM +0200, David Hildenbrand wrote:
->>
->> >
->> > >
->> > > >
->> > > > Also the existing logic is that existing markers (HW poison, uffd-simulated HW
->> > > > poison, uffd wp marker) are retained and no error raised on MADV_DONTNEED, and
->> > > > no error on MADV_FREE either, so it'd be consistent with existing behaviour.
->> > >
->> > >
->> > > HW poison / uffd-simulated HW poison are expected to be zapped: it's just
->> > > like a mapped page with HWPOISON. So that is correct.
->> >
->> > Well, poison is _not_ zapped on MADV_DONTNEED but _is_ on MADV_FREE :) anyway, I
->>
->> Huh?
->>
->> madvise_dontneed_single_vma()->zap_page_range_single(details=NULL)->unmap_single_vma(details=NULL)
->> ... zap_pte_range()
->>
->> } else if (is_hwpoison_entry(entry) ||
->> 	   is_poisoned_swp_entry(entry)) {
->> 	if (!should_zap_cows(details))
->> 		continue;
->> 	...
->>
->> Should just zap them.
->>
->> What am I missing?
-> 
-> Yeah ok it's me who's missing something here, I hadn't noticed details == NULL
-> so should_zap_cows() is true, my mistake!
+On 10/21/24 10:23 AM, David Hildenbrand wrote:
+> On 21.10.24 19:15, Lorenzo Stoakes wrote:
+>> On Mon, Oct 21, 2024 at 07:05:27PM +0200, David Hildenbrand wrote:
+>>> On 20.10.24 18:20, Lorenzo Stoakes wrote:
+>>>> Implement a new lightweight guard page feature, that is regions of userland
+>>>> virtual memory that, when accessed, cause a fatal signal to arise.
+>>>>
+>>>> Currently users must establish PROT_NONE ranges to achieve this.
+>>>>
+>>>> However this is very costly memory-wise - we need a VMA for each and every
+>>>> one of these regions AND they become unmergeable with surrounding VMAs.
+>>>>
+>>>> In addition repeated mmap() calls require repeated kernel context switches
+>>>> and contention of the mmap lock to install these ranges, potentially also
+>>>> having to unmap memory if installed over existing ranges.
+>>>>
+>>>> The lightweight guard approach eliminates the VMA cost altogether - rather
+>>>> than establishing a PROT_NONE VMA, it operates at the level of page table
+>>>> entries - poisoning PTEs such that accesses to them cause a fault followed
+>>>> by a SIGSGEV signal being raised.
+>>>>
+>>>> This is achieved through the PTE marker mechanism, which a previous commit
+>>>> in this series extended to permit this to be done, installed via the
+>>>> generic page walking logic, also extended by a prior commit for this
+>>>> purpose.
+>>>>
+>>>> These poison ranges are established with MADV_GUARD_POISON, and if the
+>>>> range in which they are installed contain any existing mappings, they will
+>>>> be zapped, i.e. free the range and unmap memory (thus mimicking the
+>>>> behaviour of MADV_DONTNEED in this respect).
+>>>>
+>>>> Any existing poison entries will be left untouched. There is no nesting of
+>>>> poisoned pages.
+>>>>
+>>>> Poisoned ranges are NOT cleared by MADV_DONTNEED, as this would be rather
+>>>> unexpected behaviour, but are cleared on process teardown or unmapping of
+>>>> memory ranges.
+>>>>
+>>>> Ranges can have the poison property removed by MADV_GUARD_UNPOISON -
+>>>> 'remedying' the poisoning. The ranges over which this is applied, should
+>>>> they contain non-poison entries, will be untouched, only poison entries
+>>>> will be cleared.
+>>>>
+>>>> We permit this operation on anonymous memory only, and only VMAs which are
+>>>> non-special, non-huge and not mlock()'d (if we permitted this we'd have to
+>>>> drop locked pages which would be rather counterintuitive).
+>>>>
+>>>> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+>>>> Suggested-by: Jann Horn <jannh@google.com>
+>>>> Suggested-by: David Hildenbrand <david@redhat.com>
+>>>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>>> ---
+>>>>    arch/alpha/include/uapi/asm/mman.h     |   3 +
+>>>>    arch/mips/include/uapi/asm/mman.h      |   3 +
+>>>>    arch/parisc/include/uapi/asm/mman.h    |   3 +
+>>>>    arch/xtensa/include/uapi/asm/mman.h    |   3 +
+>>>>    include/uapi/asm-generic/mman-common.h |   3 +
+>>>>    mm/madvise.c                           | 168 +++++++++++++++++++++++++
+>>>>    mm/mprotect.c                          |   3 +-
+>>>>    mm/mseal.c                             |   1 +
+>>>>    8 files changed, 186 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/arch/alpha/include/uapi/asm/mman.h b/arch/alpha/include/uapi/asm/mman.h
+>>>> index 763929e814e9..71e13f27742d 100644
+>>>> --- a/arch/alpha/include/uapi/asm/mman.h
+>>>> +++ b/arch/alpha/include/uapi/asm/mman.h
+>>>> @@ -78,6 +78,9 @@
+>>>>    #define MADV_COLLAPSE    25        /* Synchronous hugepage collapse */
+>>>> +#define MADV_GUARD_POISON 102        /* fatal signal on access to range */
+>>>> +#define MADV_GUARD_UNPOISON 103        /* revoke guard poisoning */
+>>>
+>>> Just to raise it here: MADV_GUARD_INSTALL / MADV_GUARD_REMOVE or sth. like
+>>> that would have been even clearer, at least to me.
 
-Well, good to know it's consistent then. As I've explained I see why zapping
-actual hwpoison makes sense for MADV_DONTNEED/MADV_FREE. That it's done also
-for uffd poison is not completely clear, but maybe it was just easier to
-implement. But it doesn't mean we have to do the same for GUARD PTEs. Either
-behavior of zap/ignore/error could be valid, we just have to pick one and
-then live with it as it can't change :) Zapping guards on DONTNEED/FREE
-seems wrong to me, so it's between error (and potentially catching some
-misuse) and ignore (potentially more performant in case somebody wants to
-DOTNEED/FREE an area that contains scattered guards).
+Yes, I think so.
 
-And the impossibility to meaningfully unwind on errors in the middle of the
-operation (unless we pre-scan for guards) isn't exactly nice, so maybe just
-ignore, i.e. the current approach?
+>>
+>> :)
+>>
+>> It still feels like poisoning to me because we're explicitly putting
+>> something in the page tables to make a range have different fault behaviour
+>> like a HW poisoning, and 'installing' suggests backing or something like
+>> this, I think that's more confusing.
+> 
+> I connect "poison" to "SIGBUS" and "corrupt memory state", not to "there is nothing and there must not be anything". Thus my thinking. But again, not the end of the world, just wanted to raise it ...
 
-> In any case we explicitly add code here to prevent guard pages from going. I
-> will correct everything where I wrongly say otherwise, doh!
-> 
->>
->> > mean the MADV flags are a confusing mess generally, as per Vlasta's comments
->> > which to begin with I strongly disagreed with then, discussing further, realsed
->> > that no this is just a bit insane and had driven _me_ insane.
->> >
->> > >
->> > > UFFD-WP behavior is ... weird. Would not expect MADV_DONTNEED to zap uffd-wp
->> > > entries.
->> > >
->> > > >
->> > > > Also semantically you are achieving what the calls expect you are freeing the
->> > > > ranges since the guard page regions are unbacked so are already freed... so yeah
->> > > > I don't think an error really makes sense here.
->> > >
->> > > I you compare it to a VMA hole, it make sense to fail. If we treat it like
->> > > PROT_NONE, it make sense to skip them.
->> > >
->> > > >
->> > > > We might also be limiting use cases by assuming they might _only_ be used for
->> > > > allocators and such.
->> > >
->> > > I don't buy that as an argument, sorry :)
->> > >
->> > > "Let's map the kernel writable into all user space because otherwise we
->> > > might be limiting use cases"
->> >
->> > That's a great idea! Patch series incoming, 1st April 2025... :>)
->>
->> :) Just flip the bit on x86 and we're done!
-> 
-> ;)
-> 
->>
->> > >
->> > >
->> > > :P
->> > >
->> > > --
->> > > Cheers,
->> > >
->> > > David / dhildenb
->> > >
->> >
->> > Overall I think just always leaving in place except on remedy err sorry sorry
->> > unpoison and munmap and not returning an error if encountered elsewhere (other
->> > than, of course, GUP) is the right way forward and most in line with user
->> > expectation and practical usage.
->>
->>
->> Fine with me, make sure to document that is behaves like a PROT_NONE VMA,
->> not like a memory hole, except when something would trigger a fault (GUP
->> etc).
-> 
-> Ack will make sure to document.
-> 
->>
->>
->> --
->> Cheers,
->>
->> David / dhildenb
->>
+"Poison" is used so far for fairly distinct things, and I'd very much like
+to avoid extending its meaning to guard pages. It makes the other things
+less unique, and it misses a naming and classification opportunity.
+
+"Guard" and "guard page" are fairly unique names. That's valuable.
+
+
+thanks,
+-- 
+John Hubbard
 
 
