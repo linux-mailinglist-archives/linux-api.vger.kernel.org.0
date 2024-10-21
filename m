@@ -1,96 +1,95 @@
-Return-Path: <linux-api+bounces-2479-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2480-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6509A6A31
-	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 15:28:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6429A6AE4
+	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 15:47:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5B9A1C21F34
-	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 13:28:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0B5C1F23677
+	for <lists+linux-api@lfdr.de>; Mon, 21 Oct 2024 13:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB15A1F7082;
-	Mon, 21 Oct 2024 13:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F071F9A91;
+	Mon, 21 Oct 2024 13:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OKvvnKP0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qnEnoj8r";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OKvvnKP0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qnEnoj8r"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ws2Igw2z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WdG5HOtV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ws2Igw2z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WdG5HOtV"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDBC1E0DD7;
-	Mon, 21 Oct 2024 13:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19BC20E31D;
+	Mon, 21 Oct 2024 13:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729517280; cv=none; b=CZJEn/H6qiDsUYW650D5YnqBgaIzTsS6a1DQ6vxT07G9+fqb2yjoXWjs7FtGFbEE1pm680Gp2s9ybPDqQHPkeTYq0HaJCaf4dZZTEub+A+5gj7KWGCvlmyVCRj7+3GS5rqiY4HmGU54s22NRxu2mtAx1HgE8LlVQIedbznT5TJs=
+	t=1729518336; cv=none; b=L2xGj762eWGHfjzMsX3OYLnpNRHtvoWQW5RcMjQm2C+Bf57KsEok7QtqII74+fEO1sia5/rBZnqgveAcMWEXZrASiYzKH75L3kr4/GOK8pNUTC0yHwwTltxSiJFmFTspZFWV9/JQy1j3CdBJMCSVDzNELeioK04O4dOZaQ6Xbfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729517280; c=relaxed/simple;
-	bh=AfJi5rgjCrX5UFWo0ajeRVUsxWJrEWm3syXMmqCQFy8=;
+	s=arc-20240116; t=1729518336; c=relaxed/simple;
+	bh=apT/+4bnMo9zoFY+MoRJoKxscIuZfKMR4bLJ/5AT0ik=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sTYAZ1tJvkYvxppb9N6quaCPaHfa2fTdYJOjyYTEqiCcOKWUjbxB7LLCEprpfcvo+/kPle6wYaaWCVD/4caDjC8nzRMGWX7rCsf3uh+GawIS1xZJiK/olOlnDZJq2fPhzIfOLW0O309m+YKrZKRAyH3ExbxPUNQz5mv5sEycF6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OKvvnKP0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qnEnoj8r; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OKvvnKP0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qnEnoj8r; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=eGYtixBz0PRRtLiYd76yoetrL9oVG2Wgjz73ZGroY2Yu4kA8xqRc2WLq5HdFMLfsv4AJkQv4mCiQmYtms9dzRG2lR+AAqnx22i3RnylMtOa5DFE2qZmTtTbEXVA/BC+SCsUSMXn4/YkeHxoY+8D2sKkUksx0bQtJHBDgMSskl7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ws2Igw2z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WdG5HOtV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ws2Igw2z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WdG5HOtV; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F27121C5E;
-	Mon, 21 Oct 2024 13:27:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 01CBF21DFC;
+	Mon, 21 Oct 2024 13:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729517276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729518332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G7gAfTqe8Y6GkQHJQt0MI1Q6FEh0/QLzoAxcXHddb+A=;
-	b=OKvvnKP0sW12DzMi+RdBLuzZl/Is5e0RSf7dEWkp82OR03vobm/3RnnF23M+8TY7fvxSWq
-	a+ImbwmEI76AyNI+jhum5qZ6oazLmWVwjpPDlWb+ApfXulM2Quyaa27H1IR87ogIfeCQnh
-	7kZ1iUJtBImedS2DwsRWm3RASnhIOHo=
+	bh=PyMmciJRNxnxSdGpKDKPR0edGBWKV8q0o9aCTJHOth0=;
+	b=ws2Igw2zZz+rY4trofwlqSPIJQ7d6REIjxJuentTnW63lFaZNy9OtQ+qvjhiDOfqD8d/so
+	ygZbKCPx+7tIGtDQ0aqqKrxjmWToNQRU5zvh+tkntt8zc9GWC7InvL5VVyE/iIQbSgUSaJ
+	TPj34bDP1QAk60BOv4eZGJutH2dUWHI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729517276;
+	s=susede2_ed25519; t=1729518332;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G7gAfTqe8Y6GkQHJQt0MI1Q6FEh0/QLzoAxcXHddb+A=;
-	b=qnEnoj8rj4o/C1l+47nBYHehDfdOTo3sRt8FfZrFalIAuCMhnA9+SbI0RbZ1u6zyHNG+aX
-	31ex0uimjoVrJlBg==
+	bh=PyMmciJRNxnxSdGpKDKPR0edGBWKV8q0o9aCTJHOth0=;
+	b=WdG5HOtVcTOjGR9YYMEL5ewSD5q6CnKTIToPQtU5OSIvLT29r5EumNuX0xcK8WhkkQAHXU
+	+WS2rZP95kmQi/AQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=OKvvnKP0;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qnEnoj8r
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729517276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729518332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G7gAfTqe8Y6GkQHJQt0MI1Q6FEh0/QLzoAxcXHddb+A=;
-	b=OKvvnKP0sW12DzMi+RdBLuzZl/Is5e0RSf7dEWkp82OR03vobm/3RnnF23M+8TY7fvxSWq
-	a+ImbwmEI76AyNI+jhum5qZ6oazLmWVwjpPDlWb+ApfXulM2Quyaa27H1IR87ogIfeCQnh
-	7kZ1iUJtBImedS2DwsRWm3RASnhIOHo=
+	bh=PyMmciJRNxnxSdGpKDKPR0edGBWKV8q0o9aCTJHOth0=;
+	b=ws2Igw2zZz+rY4trofwlqSPIJQ7d6REIjxJuentTnW63lFaZNy9OtQ+qvjhiDOfqD8d/so
+	ygZbKCPx+7tIGtDQ0aqqKrxjmWToNQRU5zvh+tkntt8zc9GWC7InvL5VVyE/iIQbSgUSaJ
+	TPj34bDP1QAk60BOv4eZGJutH2dUWHI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729517276;
+	s=susede2_ed25519; t=1729518332;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G7gAfTqe8Y6GkQHJQt0MI1Q6FEh0/QLzoAxcXHddb+A=;
-	b=qnEnoj8rj4o/C1l+47nBYHehDfdOTo3sRt8FfZrFalIAuCMhnA9+SbI0RbZ1u6zyHNG+aX
-	31ex0uimjoVrJlBg==
+	bh=PyMmciJRNxnxSdGpKDKPR0edGBWKV8q0o9aCTJHOth0=;
+	b=WdG5HOtVcTOjGR9YYMEL5ewSD5q6CnKTIToPQtU5OSIvLT29r5EumNuX0xcK8WhkkQAHXU
+	+WS2rZP95kmQi/AQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C0265136DC;
-	Mon, 21 Oct 2024 13:27:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7079139E0;
+	Mon, 21 Oct 2024 13:45:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VmYXLttWFmfLQQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 21 Oct 2024 13:27:55 +0000
-Message-ID: <fdd2be0a-cae9-4508-ba20-eb04c9a1e7f9@suse.cz>
-Date: Mon, 21 Oct 2024 15:27:55 +0200
+	id OB9CLPtaFmdiRwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 21 Oct 2024 13:45:31 +0000
+Message-ID: <9c0991db-9bf8-414c-b3b0-446023df2a7a@suse.cz>
+Date: Mon, 21 Oct 2024 15:45:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -98,7 +97,7 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm: pagewalk: add the ability to install PTEs
+Subject: Re: [PATCH v2 2/5] mm: add PTE_MARKER_GUARD PTE marker
 Content-Language: en-US
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Andrew Morton <akpm@linux-foundation.org>
@@ -122,7 +121,7 @@ Cc: Suren Baghdasaryan <surenb@google.com>,
  Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
  John Hubbard <jhubbard@nvidia.com>
 References: <cover.1729440856.git.lorenzo.stoakes@oracle.com>
- <cf91e3936c2dee42aa8ac15af3e76c90c098d570.1729440856.git.lorenzo.stoakes@oracle.com>
+ <081837b697a98c7fa5832542b20f603d49e0b557.1729440856.git.lorenzo.stoakes@oracle.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -163,186 +162,131 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
  1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
  EP+ylKVEKb0Q2A==
-In-Reply-To: <cf91e3936c2dee42aa8ac15af3e76c90c098d570.1729440856.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <081837b697a98c7fa5832542b20f603d49e0b557.1729440856.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 2F27121C5E
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
 	RCPT_COUNT_TWELVE(0.00)[32];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[google.com,oracle.com,infradead.org,kernel.org,redhat.com,kvack.org,vger.kernel.org,linux.dev,linaro.org,jurassic.park.msu.ru,gmail.com,alpha.franken.de,HansenPartnership.com,gmx.de,zankel.net,arndb.de,chromium.org,nvidia.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLz1534diqmneu69wx1fp4cing)];
-	RCVD_COUNT_TWO(0.00)[2];
+	R_RATELIMIT(0.00)[to_ip_from(RL3py1j7x8bxoj6nr7eaeb97sq)];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:dkim];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,oracle.com:email]
 X-Spam-Flag: NO
 X-Spam-Level: 
 
 On 10/20/24 18:20, Lorenzo Stoakes wrote:
-> The existing generic pagewalk logic permits the walking of page tables,
-> invoking callbacks at individual page table levels via user-provided
-> mm_walk_ops callbacks.
+> Add a new PTE marker that results in any access causing the accessing
+> process to segfault.
+
+Should we distinguish it from other segfaults? Is there a way? I can see
+memory protection keys use SEGV_PKUERR, but no idea if we have any free values.
+
+> This is preferable to PTE_MARKER_POISONED, which results in the same
+> handling as hardware poisoned memory, and is thus undesirable for cases
+> where we simply wish to 'soft' poison a range.
 > 
-> This is useful for traversing existing page table entries, but precludes
-> the ability to establish new ones.
+> This is in preparation for implementing the ability to specify guard pages
+> at the page table level, i.e. ranges that, when accessed, should cause
+> process termination.
 > 
-> Existing mechanism for performing a walk which also installs page table
-> entries if necessary are heavily duplicated throughout the kernel, each
-> with semantic differences from one another and largely unavailable for use
-> elsewhere.
+> Additionally, rename zap_drop_file_uffd_wp() to zap_drop_markers() - the
+> function checks the ZAP_FLAG_DROP_MARKER flag so naming it for this single
+> purpose was simply incorrect.
 > 
-> Rather than add yet another implementation, we extend the generic pagewalk
-> logic to enable the installation of page table entries by adding a new
-> install_pte() callback in mm_walk_ops. If this is specified, then upon
-> encountering a missing page table entry, we allocate and install a new one
-> and continue the traversal.
+> We then reuse the same logic to determine whether a zap should clear a
+> guard entry - this should only be performed on teardown and never on
+> MADV_DONTNEED or the like.
 > 
-> If a THP huge page is encountered, we make use of existing logic to split
-> it. Then once we reach the PTE level, we invoke the install_pte() callback
-> which provides a PTE entry to install. We do not support hugetlb at this
-> stage.
-> 
-> If this function returns an error, or an allocation fails during the
-> operation, we abort the operation altogether. It is up to the caller to
-> deal appropriately with partially populated page table ranges.
-> 
-> If install_pte() is defined, the semantics of pte_entry() change - this
-> callback is then only invoked if the entry already exists. This is a useful
-> property, as it allows a caller to handle existing PTEs while installing
-> new ones where necessary in the specified range.
-> 
-> If install_pte() is not defined, then there is no functional difference to
-> this patch, so all existing logic will work precisely as it did before.
-> 
-> As we only permit the installation of PTEs where a mapping does not already
-> exist there is no need for TLB management, however we do invoke
-> update_mmu_cache() for architectures which require manual maintenance of
-> mappings for other CPUs.
-> 
-> We explicitly do not allow the existing page walk API to expose this
-> feature as it is dangerous and intended for internal mm use only. Therefore
-> we provide a new walk_page_range_mm() function exposed only to
-> mm/internal.h.
-> 
-> Reviewed-by: Jann Horn <jannh@google.com>
 > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-<snip>
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
->  /*
->   * We want to know the real level where a entry is located ignoring any
->   * folding of levels which may be happening. For example if p4d is folded then
-> @@ -29,9 +34,23 @@ static int walk_pte_range_inner(pte_t *pte, unsigned long addr,
->  	int err = 0;
+A nit below:
+
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 906294ac85dc..50e3f6ed73ac 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -6353,6 +6353,9 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+>  				ret = VM_FAULT_HWPOISON_LARGE |
+>  				      VM_FAULT_SET_HINDEX(hstate_index(h));
+>  				goto out_mutex;
+> +			} else if (marker & PTE_MARKER_GUARD) {
+> +				ret = VM_FAULT_SIGSEGV;
+> +				goto out_mutex;
+
+Given we don't support hugetlb, should we WARN_ON_ONCE() if such unexpected
+marker appears there?
+
+>  			}
+>  		}
+>  
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 0f614523b9f4..551455cd453f 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -1455,7 +1455,7 @@ static inline bool should_zap_folio(struct zap_details *details,
+>  	return !folio_test_anon(folio);
+>  }
+>  
+> -static inline bool zap_drop_file_uffd_wp(struct zap_details *details)
+> +static inline bool zap_drop_markers(struct zap_details *details)
+>  {
+>  	if (!details)
+>  		return false;
+> @@ -1476,7 +1476,7 @@ zap_install_uffd_wp_if_needed(struct vm_area_struct *vma,
+>  	if (vma_is_anonymous(vma))
+>  		return;
+>  
+> -	if (zap_drop_file_uffd_wp(details))
+> +	if (zap_drop_markers(details))
+>  		return;
 >  
 >  	for (;;) {
-> -		err = ops->pte_entry(pte, addr, addr + PAGE_SIZE, walk);
-> -		if (err)
-> -		       break;
-> +		if (ops->install_pte && pte_none(ptep_get(pte))) {
-> +			pte_t new_pte;
-> +
-> +			err = ops->install_pte(addr, addr + PAGE_SIZE, &new_pte,
-> +					       walk);
-> +			if (err)
-> +				break;
-> +
-> +			set_pte_at(walk->mm, addr, pte, new_pte);
-
-While the guard pages install ptes unconditionally, maybe some install_pte
-handler implementation would sometimes want to skip, should ve define an
-error code that means its skipped and just continue instead of set_pte_at()?
-Or leave it until such handler appears.
-
-> +			/* Non-present before, so for arches that need it. */
-> +			if (!WARN_ON_ONCE(walk->no_vma))
-> +				update_mmu_cache(walk->vma, addr, pte);
-> +		} else {
-> +			err = ops->pte_entry(pte, addr, addr + PAGE_SIZE, walk);
-> +			if (err)
-> +				break;
-> +		}
->  		if (addr >= end - PAGE_SIZE)
->  			break;
->  		addr += PAGE_SIZE;
-> @@ -89,11 +108,14 @@ static int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
->  again:
->  		next = pmd_addr_end(addr, end);
->  		if (pmd_none(*pmd)) {
-> -			if (ops->pte_hole)
-> +			if (ops->install_pte)
-> +				err = __pte_alloc(walk->mm, pmd);
-> +			else if (ops->pte_hole)
->  				err = ops->pte_hole(addr, next, depth, walk);
->  			if (err)
->  				break;
-> -			continue;
-> +			if (!ops->install_pte)
+> @@ -1671,7 +1671,15 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
+>  			 * drop the marker if explicitly requested.
+>  			 */
+>  			if (!vma_is_anonymous(vma) &&
+> -			    !zap_drop_file_uffd_wp(details))
+> +			    !zap_drop_markers(details))
 > +				continue;
->  		}
+> +		} else if (is_guard_swp_entry(entry)) {
+> +			/*
+> +			 * Ordinary zapping should not remove guard PTE
+> +			 * markers. Only do so if we should remove PTE markers
+> +			 * in general.
+> +			 */
+> +			if (!zap_drop_markers(details))
+>  				continue;
+>  		} else if (is_hwpoison_entry(entry) ||
+>  			   is_poisoned_swp_entry(entry)) {
+> @@ -4003,6 +4011,10 @@ static vm_fault_t handle_pte_marker(struct vm_fault *vmf)
+>  	if (marker & PTE_MARKER_POISONED)
+>  		return VM_FAULT_HWPOISON;
 >  
->  		walk->action = ACTION_SUBTREE;
-> @@ -116,7 +138,7 @@ static int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
->  		 */
->  		if ((!walk->vma && (pmd_leaf(*pmd) || !pmd_present(*pmd))) ||
->  		    walk->action == ACTION_CONTINUE ||
-> -		    !(ops->pte_entry))
-> +		    !(ops->pte_entry || ops->install_pte))
->  			continue;
-
-BTW, I find it hard to read this condition even before your patch, oh well.
-But if I read it correctly, does it mean we're going to split a pmd-mapped
-THP if we have a install_pte handler? But is that really necessary if the
-pmd splitting results in all ptes populated, and thus the install_pte
-handler can't do anything with any pte anyway?
-
->  		if (walk->vma)
-> @@ -148,11 +170,14 @@ static int walk_pud_range(p4d_t *p4d, unsigned long addr, unsigned long end,
->   again:
->  		next = pud_addr_end(addr, end);
->  		if (pud_none(*pud)) {
-> -			if (ops->pte_hole)
-> +			if (ops->install_pte)
-> +				err = __pmd_alloc(walk->mm, pud, addr);
-> +			else if (ops->pte_hole)
->  				err = ops->pte_hole(addr, next, depth, walk);
->  			if (err)
->  				break;
-> -			continue;
-> +			if (!ops->install_pte)
-> +				continue;
->  		}
+> +	/* Hitting a guard page is always a fatal condition. */
+> +	if (marker & PTE_MARKER_GUARD)
+> +		return VM_FAULT_SIGSEGV;
+> +
+>  	if (pte_marker_entry_uffd_wp(entry))
+>  		return pte_marker_handle_uffd_wp(vmf);
 >  
->  		walk->action = ACTION_SUBTREE;
-> @@ -167,7 +192,7 @@ static int walk_pud_range(p4d_t *p4d, unsigned long addr, unsigned long end,
->  
->  		if ((!walk->vma && (pud_leaf(*pud) || !pud_present(*pud))) ||
->  		    walk->action == ACTION_CONTINUE ||
-> -		    !(ops->pmd_entry || ops->pte_entry))
-> +		    !(ops->pmd_entry || ops->pte_entry || ops->install_pte))
->  			continue;
-
-Ditto?
 
 
