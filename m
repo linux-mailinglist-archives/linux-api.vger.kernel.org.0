@@ -1,115 +1,118 @@
-Return-Path: <linux-api+bounces-2528-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2529-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3322E9ABABF
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 02:53:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6102F9ABE9F
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 08:24:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61C471C212AB
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 00:53:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E52B11F23E3E
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 06:24:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1ECF224FD;
-	Wed, 23 Oct 2024 00:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B541448C1;
+	Wed, 23 Oct 2024 06:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PQFr+82T"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PrwYraWd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D30E1B813
-	for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 00:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B538E136345
+	for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 06:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729644797; cv=none; b=rXNdeMrh1uPTuXGWVayfzyNvnEMwemaV8vt/yAoiTtqRNRtMpdGtLwES9RzH1ObP2tzc20INI1gegY7tf6fBF4htWrmLealaGzLZqa6fBEHpo24Hlk04fbQiZKEV/ApLH1OAu+xWP7dBx0N4n21BBRKNFkm4vfRLknSpKSWH/Ck=
+	t=1729664665; cv=none; b=IqfV9EjM8aU+a9/4loUT+0l6vO6B+urYN5l+HglQLzq1Cc5uA3fQQ3wem+/CE0odDYytK6c6V9ZeNLwEgz0QjbRgXqdcn4xQ7BP7FkGptEO070ncP66/4HKDFtq6idFhpSPyWMF3luapmPRcmOq+Np8UNMuz6faIGJlbWvvewRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729644797; c=relaxed/simple;
-	bh=lIxKrnVZi4OzdtnAM6X5raOD38x0R+vhcvjiqMDjT78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKppCqONNjWZU53G2BBTAG0BX8Gai43/nfr7n5Vo0PZFCUXLPFQscQYxQ3iR9hTFnictpvDbd3QWLe8J8dk7dlC5gQALljkLZZnDhPl1VCPQCrrRvH7+meniLHXNRRDE4QCOyn+tS1huvb/2VEY2XPzSG1T5dhutbtAujUykT8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PQFr+82T; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 22 Oct 2024 17:53:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729644789;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6kCNsEXTfjhm2VD7RcuSJFj1WDFRY4+e/zOdiNTxOWg=;
-	b=PQFr+82TnUdLaIYZFFzshQFVmAmk1Yd7+0V/csbKw1Q5g5ouUoT7Egf2+eOTF9SVzA6x3K
-	XlThe6JZGnxty58saIYF+G6jJ8wg1xPOeZdmiXyXDSIfO6cjO9eniEPWJTBAIqbRCz/E+W
-	cQWGDsXIMg4UcpTrpNJLEGFUKjgsf2U=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Christian Brauner <christian@brauner.io>, 
-	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Oliver Sang <oliver.sang@intel.com>, John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v4 2/4] pidfd: add PIDFD_SELF_* sentinels to refer to own
- thread/process
-Message-ID: <fhy36lhgeedrdwoubuuxarownhji2k4avcherjnedtid35yael@jokjnyb6i66b>
-References: <cover.1729198898.git.lorenzo.stoakes@oracle.com>
- <3bf7f2d8efc768007b5de8122275405afc9942d4.1729198898.git.lorenzo.stoakes@oracle.com>
+	s=arc-20240116; t=1729664665; c=relaxed/simple;
+	bh=Kmf/1xEzbwqpAKJt9go6uvl87csSe+TqzWzUtyTAm8I=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ecHvWh8PiUuYwC/I58JXdK1dJHksfrdEeGLm6ij33tgbKnRvf7K/7yB7M2GzKwzA9xHGcf/tlRZ8ZFuc8IRU7sKu44D6P8IPh3wq6tGEkDx9ROhL1AuMdnh3+/4kSLZemsm/HbCXuoFYO0v8ZSW4v9MteSzW6JHerxWfxQCvhUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dvyukov.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PrwYraWd; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dvyukov.bounces.google.com
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-5c9362c26a9so3849870a12.0
+        for <linux-api@vger.kernel.org>; Tue, 22 Oct 2024 23:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729664662; x=1730269462; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kmf/1xEzbwqpAKJt9go6uvl87csSe+TqzWzUtyTAm8I=;
+        b=PrwYraWdobug2t+uC6Vp7EV4xdzZoVwTNHirr73b2IFqvth+F4o5VWgdzH0i/gmNvh
+         ZHKJqzhqNtxP4SqT2eY+kDTQkKUIEiSTrPi2nYwkJPIR9tvneugekSRGtKKYanGleFub
+         MiPMP10l4ktHx4DwnjU+siCw1amlk+KOzUAMa8+2a55LPcNcIS61hYzNq+ny/WCJkCw4
+         BkyTRidsui8NTTW/yt3kJxhZHry4mZHojJevjbmbTv15Y1da8qnnzb/yZeO/MRvUl2mq
+         AENdyKhdfRgcLxVfG99qakdKL1WOe/Ui47pY20zETidEzKKkp81ECCFRYvnJmA1SptM/
+         Q2TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729664662; x=1730269462;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kmf/1xEzbwqpAKJt9go6uvl87csSe+TqzWzUtyTAm8I=;
+        b=U/sgUzbtEMgNX+t0xwIg+3D6FcImq3wRQ0p8cnthMqbIq46LLaaeQ5LYt5qHyYfHpI
+         QgSkQkr7M8c/K0iwfrrsDmdPRAcdhT0Qb3y+vvm2Zs79+c2a6G6f9+Hx61MXpXW9gjW7
+         4SWltAGaqnZ8zt6MzqTrZEMiAnJnRvXcE1HtFCtO+NswZIq0gVv9wUoocxMysCxhRFZc
+         rxX/HK2E1WFQ6t/czdl4jMJ31wNICCBBTupgbbnygHBMiOmo2KQB+ecGtmL2mN4V6ux2
+         1yVpszl/dJbLUD6LBZaYkSeBU8PnuwaQx22k65IUxXkhM7XijV60FGWgROUh81jSkh2X
+         PJ1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUQF+xOt1ULFDQJpU8rnzlDaK9Z/cxtxxtG/IP1tEEO44w868sAMLZNxWP9bZltObrDCcN0CxpJjXk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQIZw91DQ3bihsAtMR81N7t1VqPUsthU6uU6se2j5Fn/9q72kb
+	KaJEF+MspGTk4TJbawij/Ef0sYgxaW2a5kOeWhy4cN0vGdJ9ISXJt/AWelgNg7aJosvGGzvgoSt
+	ujFWQng==
+X-Google-Smtp-Source: AGHT+IH2bi6zc9dFjuEaAFUh7qdl0Clkcf7sHX1Yomy2F23FgFUOKN443WAQT8QytBDy9+TF/aj9qhft85qo
+X-Received: from dvyukov9.muc.corp.google.com ([2a00:79e0:9c:201:6e9d:53fb:bcc1:7c2d])
+ (user=dvyukov job=sendgmr) by 2002:a05:6402:3482:b0:5c9:5cbf:e5b9 with SMTP
+ id 4fb4d7f45d1cf-5cb8b20d251mr583a12.8.1729664661613; Tue, 22 Oct 2024
+ 23:24:21 -0700 (PDT)
+Date: Wed, 23 Oct 2024 08:24:17 +0200
+In-Reply-To: <87a5eysmj1.fsf@mid.deneb.enyo.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3bf7f2d8efc768007b5de8122275405afc9942d4.1729198898.git.lorenzo.stoakes@oracle.com>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <87a5eysmj1.fsf@mid.deneb.enyo.de>
+X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
+Message-ID: <20241023062417.3862170-1-dvyukov@google.com>
+Subject: Re: [PATCH v2 0/5] implement lightweight guard pages
+From: Dmitry Vyukov <dvyukov@google.com>
+To: fw@deneb.enyo.de
+Cc: James.Bottomley@HansenPartnership.com, Liam.Howlett@oracle.com, 
+	akpm@linux-foundation.org, arnd@arndb.de, brauner@kernel.org, 
+	chris@zankel.net, david@redhat.com, deller@gmx.de, hch@infradead.org, 
+	ink@jurassic.park.msu.ru, jannh@google.com, jcmvbkbc@gmail.com, 
+	jeffxu@chromium.org, jhubbard@nvidia.com, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mm@kvack.org, linux-parisc@vger.kernel.org, 
+	lorenzo.stoakes@oracle.com, mattst88@gmail.com, muchun.song@linux.dev, 
+	paulmck@kernel.org, richard.henderson@linaro.org, shuah@kernel.org, 
+	sidhartha.kumar@oracle.com, surenb@google.com, tsbogend@alpha.franken.de, 
+	vbabka@suse.cz, willy@infradead.org, elver@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 17, 2024 at 10:05:50PM GMT, Lorenzo Stoakes wrote:
-> It is useful to be able to utilise the pidfd mechanism to reference the
-> current thread or process (from a userland point of view - thread group
-> leader from the kernel's point of view).
-> 
-> Therefore introduce PIDFD_SELF_THREAD to refer to the current thread, and
-> PIDFD_SELF_THREAD_GROUP to refer to the current thread group leader.
-> 
-> For convenience and to avoid confusion from userland's perspective we alias
-> these:
-> 
-> * PIDFD_SELF is an alias for PIDFD_SELF_THREAD - This is nearly always what
->   the user will want to use, as they would find it surprising if for
->   instance fd's were unshared()'d and they wanted to invoke pidfd_getfd()
->   and that failed.
-> 
-> * PIDFD_SELF_PROCESS is an alias for PIDFD_SELF_THREAD_GROUP - Most users
->   have no concept of thread groups or what a thread group leader is, and
->   from userland's perspective and nomenclature this is what userland
->   considers to be a process.
+Hi Florian, Lorenzo,
 
-Should users use PIDFD_SELF_PROCESS in process_madvise() for self
-madvise() (once the support is added)?
+This looks great!
 
-> 
-[...]
->  
-> +static struct pid *pidfd_get_pid_self(unsigned int pidfd, unsigned int *flags)
-> +{
-> +	bool is_thread = pidfd == PIDFD_SELF_THREAD;
-> +	enum pid_type type = is_thread ? PIDTYPE_PID : PIDTYPE_TGID;
-> +	struct pid *pid = *task_pid_ptr(current, type);
-> +
-> +	/* The caller expects an elevated reference count. */
-> +	get_pid(pid);
+What I am VERY interested in is if poisoned pages cause SIGSEGV even when
+the access happens in the kernel. Namely, the syscall still returns EFAULT,
+but also SIGSEGV is queued on return to user-space.
 
-Do you want this helper to work for scenarios where pid is used across
-context? Otherwise can't we get rid of this get and later put for self?
+Catching bad accesses in system calls is currently the weak spot for
+all user-space bug detection tools (GWP-ASan, libefence, libefency, etc).
+It's almost possible with userfaultfd, but catching faults in the kernel
+requires admin capability, so not really an option for generic bug
+detection tools (+inconvinience of userfaultfd setup/handler).
+Intercepting all EFAULT from syscalls is not generally possible
+(w/o ptrace, usually not an option as well), and EFAULT does not always
+mean a bug.
 
-> +	return pid;
-> +}
-> +
+Triggering SIGSEGV even in syscalls would be not just a performance
+optimization, but a new useful capability that would allow it to catch
+more bugs.
 
-Overall looks good to me.
+Thanks
 
-Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
 
