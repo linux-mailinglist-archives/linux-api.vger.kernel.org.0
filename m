@@ -1,197 +1,132 @@
-Return-Path: <linux-api+bounces-2535-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2536-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1569AC33E
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 11:14:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DADBC9AC34D
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 11:17:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2473B1C212CF
-	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 09:14:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 927011F24749
+	for <lists+linux-api@lfdr.de>; Wed, 23 Oct 2024 09:17:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E860A198A3F;
-	Wed, 23 Oct 2024 09:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E2A6194136;
+	Wed, 23 Oct 2024 09:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fDNIgHAJ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cDl5N70k"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C0917B51A
-	for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 09:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4650B4503C
+	for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 09:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729674835; cv=none; b=EZkOxREuFpd3eJTx+lq8aMSiy5kBIH6bluUtjsONJ1rqY0sS3sC6AlmFoQkAzNQKbBZNgLxaRDa+nyVKaOb65FPqrdHOcA4MqRyhVukMgQhHEXsTc91HHdVDRzJufyv0+exfR8d3dDDm1JPSVANNwPK98NWUWzNrmXMDyXMGAA0=
+	t=1729675040; cv=none; b=opn7eWaWTz95tf0KcH5GgKZya+Z97+GdHirgddA54LoaKkLDESI5oZJglLGwSzi/RGei9SERxfr/UvG2ULUdseHO9/AQaKAr/LieZA5qdxGxheVe//eZuz2tUiGKNpdHaPw0IviMPWiTShMtT5kCt05yTq+slnkJxPW4srQdZY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729674835; c=relaxed/simple;
-	bh=Ot42V/6LvRljaeKeKXvifAOWdU2Yz+HgmSj/0l5TrII=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S9Hzje7p5TbQPghFsXNzXOVbFACJsKG8KlwO/YpQWYWmp5THg6GSY2VNelpUq3o02r/HisQpSPBlMYu1Y4ra0vQhQmi2Fl2zLgCFkOTc7p+l+J2lQeadJyM+4KfJyYQVpJCJkWtpZXLXwBI7hPFSJl/pB6kveamhj647+srWV1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fDNIgHAJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729674833;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=XGmXbEWPuTnEzL7jJo/H+qLlycElc1w9NY5n7oUowQU=;
-	b=fDNIgHAJ/jiCNArEMy3WvCP3gEBjpWctk+nU+nt+LYpQili/cXuUtYAGQnGDLfC1ND2p5A
-	0dOAXiuTwHifRdyfNJJnCXTy9NkAPA8M+3S8hIcRvQqrPlXW5PJtMv8z/xtM5Ma6fmZQ6V
-	FoQ9tSzNw0usEII4PGp7yUD9+I8B7PY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-513-xwRPayzRM-2DJRi-fyqmhA-1; Wed, 23 Oct 2024 05:13:51 -0400
-X-MC-Unique: xwRPayzRM-2DJRi-fyqmhA-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4315dd8fe7fso56054275e9.3
-        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 02:13:51 -0700 (PDT)
+	s=arc-20240116; t=1729675040; c=relaxed/simple;
+	bh=wtB++VIztt5HrzVDtGHAG03WXfiePjTR9YlbhZgm7nk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HPz33YJeYm2/Z3s65eO1iPFr6iqKHFQekwHnSH9NHaRgTK6vr++Jjz7XXvOsLBOpT0BxFKqJMC/v5Lg+qgjzQnaEe4zYfZAkpESgoHN36Kv7o8xbeNMBsQIiGHY6zJlNCRU3PTyzBqK5P0yXtUygNapoWewXAxKzvZPOYfaAxYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cDl5N70k; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb561f273eso65192901fa.2
+        for <linux-api@vger.kernel.org>; Wed, 23 Oct 2024 02:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729675036; x=1730279836; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wtB++VIztt5HrzVDtGHAG03WXfiePjTR9YlbhZgm7nk=;
+        b=cDl5N70kW4qZ92fU3zt9XzrqqbmPXBPAR1397nRyl8QFe2280rQWAEVMnPnOEXfzyr
+         CQpf7IerO4IQRmZyROB25M4v5cD3bVyixJ5PzTMGla2pzMQVv5VW8hzCmXOsF4t6ALCC
+         DEIP6658YoISqPJGBgq3GUyOdtkIAl56f80J0yMCifAAEvXP5xKzmLelybI1sYAr5O7y
+         jU6Qsij7SkfqYVzwMcn1rxlneUor0LXCkfbq8yH1mYfKkHgAwtzAJVjtE/PR9q02FFi4
+         8/JCQU8rMY8y2ILwvD+NB30kGipYxS5zfVYnZCAGbf1HjbASG4cyELEU9wcnJRsI8mU2
+         80/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729674830; x=1730279630;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XGmXbEWPuTnEzL7jJo/H+qLlycElc1w9NY5n7oUowQU=;
-        b=bU7Uf/05+L7Szr/3qmXeueIfUbu16n25Wi34tnFw+w0214jgVnmCjO4oHaWX6fyJGm
-         i2Azh034i4Yc9fBuqdGVGZBep1XzQltxKLbNcBWEGrhGN8JJP3hFAeQX1p4KwHqUjYvV
-         nNkw7Pguvku0I8L7hcD476ZVNP96T4Vdz08ckt+NeXHrkb4poZO0YR3lHyyGptyYK0yp
-         WTjfnQMmjkcgTBHRNQO7dmZ9ZQ2Zg3Pxr0ggth/49SIvMV3bLxrdNA6o6mMptcZng5du
-         uJgEIK3h5J5Qs4Wh7sttMl7qYu70CkYquJ6ANwkmR3z7mJEaRqMjt9ovvHjugNSg/+ax
-         9rdw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMLx3+b2rLPLsU8DdO21QxHRiUWz63fC5owAk0G9LgLe2TjpHvxA55L14xpiyPXkTEfcK0Te+KCp0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxsdHF2QJDW4SqmdDSzmgzOHptr1Orf+rIzdSlAO4sYa3IjrRu
-	3tt/hUT3r6/dmjlP63P4v6FwHWAxhFOEKM0NfJ1BWhqouHOSvCfIt5GHp/k3Exv1gcDvu+nWtQv
-	bx172+JR4PHGylD4q8yOj4LsCPhTO9G7et/8BOPsK2IaCaSfKDS0rwsd8Rw==
-X-Received: by 2002:a05:600c:1e0f:b0:431:518a:6826 with SMTP id 5b1f17b1804b1-43184211ee6mr18252365e9.19.1729674830361;
-        Wed, 23 Oct 2024 02:13:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmKe7DKESkG0ElqhB4mK6OoPTMyk/w1RF7xPQmxYy5kxyW1yn1EExyDb58wNBxJdCNVK/FeA==
-X-Received: by 2002:a05:600c:1e0f:b0:431:518a:6826 with SMTP id 5b1f17b1804b1-43184211ee6mr18251875e9.19.1729674829869;
-        Wed, 23 Oct 2024 02:13:49 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70c:cd00:c139:924e:3595:3b5? (p200300cbc70ccd00c139924e359503b5.dip0.t-ipconnect.de. [2003:cb:c70c:cd00:c139:924e:3595:3b5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b944fbsm8541274f8f.72.2024.10.23.02.13.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 02:13:49 -0700 (PDT)
-Message-ID: <f000d21f-dd04-462a-9d34-d0e7f0f7dc2e@redhat.com>
-Date: Wed, 23 Oct 2024 11:13:47 +0200
+        d=1e100.net; s=20230601; t=1729675036; x=1730279836;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wtB++VIztt5HrzVDtGHAG03WXfiePjTR9YlbhZgm7nk=;
+        b=FuhkD6HHKFbeVmO2qG18PEgjalQaq2aAatfnBQh0951SRn936Padwld6xhlU73sVPz
+         8UrBGg3gCjhiQvWOaZp97lyYLzvHHqKPwptP411u910Tv7K2ximYWPtA0y1jCL23HGLv
+         SE0FaMU/qwtp92tZkl2qYlyMFEAMnk8aWhO/PgC3AYvxPeWsZjtDKBO/C2xrBBlaySC+
+         aArDYClnKsNtU+355FAGjiDTw4tfBgXMV1eEw9rZJJaVj4FIUknQHLGwssmxGk3rMb7Z
+         LsBaJScXzvZx2+1hecN+Lj4yVsj7LylOHDzjFG6tXUQgOKBulcQ+6frWwA9US1zA+d8Y
+         Il2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXXOFDhac7snnfPPxih1L/Oz2KdJQrJPLxD+Zu+gJEpUYlTE1zMhZ720sbfj/Pmx/NG28OkA0Frm40=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHR8vQQLZ6OUD3F+p1MDX9r0fc2qHOcQSMHY9Zd8oFfEb1ZkOI
+	57vDapqwKVXPQ024kMJZEy47weZN9D7ghZ+/ize0dDdpOgC6mRMKs4cOzqhGnqn7VJ8Qk72yAI4
+	DOZoSnV3TjWiXnzGyDQ8KI9WuVBb+Afkrvqbe
+X-Google-Smtp-Source: AGHT+IFvkPWDLHQT3Gtx5JJGGOJecwZ7B/rbkd7cgrlXZ9fP+lFzPxCiaYSOPYzYujteUjqgXjdomewJxB+DT79mLAc=
+X-Received: by 2002:a2e:a9a6:0:b0:2fb:565a:d93c with SMTP id
+ 38308e7fff4ca-2fc9d33a85emr9429421fa.1.1729675036276; Wed, 23 Oct 2024
+ 02:17:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] implement lightweight guard pages
-To: Vlastimil Babka <vbabka@suse.cz>, Dmitry Vyukov <dvyukov@google.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: fw@deneb.enyo.de, James.Bottomley@hansenpartnership.com,
- Liam.Howlett@oracle.com, akpm@linux-foundation.org, arnd@arndb.de,
- brauner@kernel.org, chris@zankel.net, deller@gmx.de, hch@infradead.org,
- ink@jurassic.park.msu.ru, jannh@google.com, jcmvbkbc@gmail.com,
- jeffxu@chromium.org, jhubbard@nvidia.com, linux-alpha@vger.kernel.org,
- linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-parisc@vger.kernel.org, mattst88@gmail.com, muchun.song@linux.dev,
- paulmck@kernel.org, richard.henderson@linaro.org, shuah@kernel.org,
- sidhartha.kumar@oracle.com, surenb@google.com, tsbogend@alpha.franken.de,
- willy@infradead.org, elver@google.com,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <87a5eysmj1.fsf@mid.deneb.enyo.de>
- <20241023062417.3862170-1-dvyukov@google.com>
- <8471d7b1-576b-41a6-91fb-1c9baae8c540@redhat.com>
- <5a3d3bc8-60db-46d0-b689-9aeabcdb8eab@lucifer.local>
- <CACT4Y+ZE9Zco7KaQoT50aooXCHxhz2N_psTAFtT+ZrH14Si7aw@mail.gmail.com>
- <b1df934e-7012-4523-a513-d3d1536b7f72@suse.cz>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
+References: <87a5eysmj1.fsf@mid.deneb.enyo.de> <20241023062417.3862170-1-dvyukov@google.com>
+ <8471d7b1-576b-41a6-91fb-1c9baae8c540@redhat.com> <5a3d3bc8-60db-46d0-b689-9aeabcdb8eab@lucifer.local>
+ <CACT4Y+ZE9Zco7KaQoT50aooXCHxhz2N_psTAFtT+ZrH14Si7aw@mail.gmail.com> <b1df934e-7012-4523-a513-d3d1536b7f72@suse.cz>
 In-Reply-To: <b1df934e-7012-4523-a513-d3d1536b7f72@suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Wed, 23 Oct 2024 11:17:05 +0200
+Message-ID: <CACT4Y+Z=fjoOxn8NY8kYJd2CC1SkmjkmAmqSzJbQiU04G=BEvw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] implement lightweight guard pages
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, fw@deneb.enyo.de, 
+	James.Bottomley@hansenpartnership.com, Liam.Howlett@oracle.com, 
+	akpm@linux-foundation.org, arnd@arndb.de, brauner@kernel.org, 
+	chris@zankel.net, deller@gmx.de, hch@infradead.org, ink@jurassic.park.msu.ru, 
+	jannh@google.com, jcmvbkbc@gmail.com, jeffxu@chromium.org, 
+	jhubbard@nvidia.com, linux-alpha@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-mm@kvack.org, linux-parisc@vger.kernel.org, mattst88@gmail.com, 
+	muchun.song@linux.dev, paulmck@kernel.org, richard.henderson@linaro.org, 
+	shuah@kernel.org, sidhartha.kumar@oracle.com, surenb@google.com, 
+	tsbogend@alpha.franken.de, willy@infradead.org, elver@google.com, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 23.10.24 11:06, Vlastimil Babka wrote:
+On Wed, 23 Oct 2024 at 11:06, Vlastimil Babka <vbabka@suse.cz> wrote:
+>
 > On 10/23/24 10:56, Dmitry Vyukov wrote:
->>>
->>> Overall while I sympathise with this, it feels dangerous and a pretty major
->>> change, because there'll be something somewhere that will break because it
->>> expects faults to be swallowed that we no longer do swallow.
->>>
->>> So I'd say it'd be something we should defer, but of course it's a highly
->>> user-facing change so how easy that would be I don't know.
->>>
->>> But I definitely don't think a 'introduce the ability to do cheap PROT_NONE
->>> guards' series is the place to also fundmentally change how user access
->>> page faults are handled within the kernel :)
->>
->> Will delivering signals on kernel access be a backwards compatible
->> change? Or will we need a different API? MADV_GUARD_POISON_KERNEL?
->> It's just somewhat painful to detect/update all userspace if we add
->> this feature in future. Can we say signal delivery on kernel accesses
->> is unspecified?
-> 
+> >>
+> >> Overall while I sympathise with this, it feels dangerous and a pretty major
+> >> change, because there'll be something somewhere that will break because it
+> >> expects faults to be swallowed that we no longer do swallow.
+> >>
+> >> So I'd say it'd be something we should defer, but of course it's a highly
+> >> user-facing change so how easy that would be I don't know.
+> >>
+> >> But I definitely don't think a 'introduce the ability to do cheap PROT_NONE
+> >> guards' series is the place to also fundmentally change how user access
+> >> page faults are handled within the kernel :)
+> >
+> > Will delivering signals on kernel access be a backwards compatible
+> > change? Or will we need a different API? MADV_GUARD_POISON_KERNEL?
+> > It's just somewhat painful to detect/update all userspace if we add
+> > this feature in future. Can we say signal delivery on kernel accesses
+> > is unspecified?
+>
 > Would adding signal delivery to guard PTEs only help enough the ASAN etc
 > usecase? Wouldn't it be instead possible to add some prctl to opt-in the
 > whole ASANized process to deliver all existing segfaults as signals instead
 > of -EFAULT ?
 
-Not sure if it is an "instead", you might have to deliver the signal in 
-addition to letting the syscall fail (not that I would be an expert on 
-signal delivery :D ).
+ASAN per se does not need this (it does not use page protection).
+However, if you mean bug detection tools in general, then, yes, that's
+what I had in mind.
+There are also things like stack guard pages in libc that would
+benefit from that as well.
 
-prctl sounds better, or some way to configure the behavior on VMA 
-ranges; otherwise we would need yet another marker, which is not the end 
-of the world but would make it slightly more confusing.
-
--- 
-Cheers,
-
-David / dhildenb
-
+But I observed that some libraries intentionally use EFAULT to probe
+for memory readability, i.e. use some cheap syscall to probe memory
+before reading it. So changing behavior globally may not work.
 
