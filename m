@@ -1,52 +1,54 @@
-Return-Path: <linux-api+bounces-2560-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2561-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3579AEF32
-	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2024 20:08:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5F09AF305
+	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2024 21:55:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B8471C20DD0
-	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2024 18:08:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F64D281477
+	for <lists+linux-api@lfdr.de>; Thu, 24 Oct 2024 19:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DA2F2003A8;
-	Thu, 24 Oct 2024 18:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3171219B3FF;
+	Thu, 24 Oct 2024 19:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gJRrp2vm"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="kc2T1nGB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6101FE0EA;
-	Thu, 24 Oct 2024 18:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5053017333D;
+	Thu, 24 Oct 2024 19:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729793322; cv=none; b=D6FjEjXFbH2ZWIA+SgoIGDCScpOZ6dm2Cm5jRgXMcZZgXEVucPV5XWNjAYRC66rqdU4ljO2ZHFtuNcQq1JMObteABbpm+WgaakZ4Wd8iqak5tyNpLZwMNrmQ722x1vw7ydO4jT2Tj0NptIL9dz9QXkNF7G0MlUb5Kjim15P+4FU=
+	t=1729799725; cv=none; b=GekGZ8OmnSCEpzHE15iYvRefefiMndtWFhYQAkFZFeZOtUUykdtKVYQgPE5leTUD3ZdEo+CcG9t00Gbx+f9nXHQVKo4jtWS/tHHHjyQSYNfguetNDANVdtpoyPbPhZJOi+17ri4BiG7qlZUy93WGZz/OD0uwBBvhyMAFlVpgsOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729793322; c=relaxed/simple;
-	bh=xfkR4ma5b5dJE/tDvi6lHfWQrg589RQLZprUzaZnmGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EhY1QVrqwYqxNXWLNR719GampS2QHdmxww6Tuu5Yxq/uyuvZCkUSzDXR2E9jYvgoFQ5rcbCg9ax7vburr8VI2F6d6uNaBw3ycYm1pcpdrAV2jZF5+pElDkmCXm41YjmmFoGFsrJcf7B2Op8gmWg+NG0ouMNMateWcBehRHNoV3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gJRrp2vm; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ZfKI9T+QnjDlxWNoLS5WhgjTkXwvW1Fl9+wws3DEJj0=; b=gJRrp2vmt+PRXCJ2tmylKoPnca
-	g7IONkF/B/CTdv6ZbVgMtro9h5NIASrR1hpA8oUNzpX4It7Ytd5FW1tH46Q952EYKBwzcsGAyL8eh
-	EUxnKnOZK2mYuQZxqbxhL/yovnYMrWtp8ElkkgYP1vDJAi2zbPBCwP9RVnamNweKQiKMcyyAEIw+R
-	t5ExI3oA46ztlMi19LVwIRbZVz5cc0rALbyqIkOBpFRoceUl0Q8Jw/uu1+1qa1BJPirobA7V5dfzu
-	/4ui/xDmmHZmZa40tEJsYgDwkoIeHbFyjpKXXMif6lWT7UVaLzr63dycwRusY9ivlF2x39sz4Uo4y
-	s0JiXLHA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t42G7-00000008ipU-41sQ;
-	Thu, 24 Oct 2024 18:08:32 +0000
-Message-ID: <43494f80-c383-41c0-a3ef-0e4879ca7d80@infradead.org>
-Date: Thu, 24 Oct 2024 11:08:25 -0700
+	s=arc-20240116; t=1729799725; c=relaxed/simple;
+	bh=+DMNl5qULG9FzRvzLgVcNxfhnGStCnO2VwdaRMuh1fY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=pK+/mJM52k+0274oxuVDPI9V5MP3+hfRBhcjfftRd93yjmFCRdkHsDaIo5t5bsq34mqS5jFM725YFeuwGt9NsAD61EAoUXHzLeqdwc9J8y5J5ID2AlJ+AQ466tLg7h6e3HmfktL0LYpdW6YtKk+dPFwX7QB2XVabLaoken+OUo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=kc2T1nGB; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+	Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=ZHYWgrJ/utlUa68DupieJ4xEvMacDX1gfqRqVZ7XE6M=; b=kc2T1nGB47lYWskaB51rcPaXbe
+	hkUzwzP6MFpiLhqLuJwZ18qiMRuJJvhV7WuYUN94RpK6KzFO0Mq2c4lmLXDbtzD/JwdgpPKCRvHvh
+	aOlvXwRQVVLziz7zN554S69Pif2Y1q7cGqgv+UiInw+71YWrBLfxBvh5dCbjdXOQVlkIBd1JniiKK
+	Om35rxAfnQV9i2cEjuoxHC8qhm4QfXQhlqJV6mwKte2xnpXMS95OEERU5medVK6UiyV4+aHqHdrcc
+	1ENu7F88dUVSsKN1BQGP/EPZyyJVFb1WUzjzZwZ5+WOULFhtQLDUpJAzsU8XOBOKtfXpUQ4jlMUi+
+	FpvHXwqA==;
+Received: from [177.172.124.83] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1t43vJ-00EdfN-1Q; Thu, 24 Oct 2024 21:55:09 +0200
+Message-ID: <59509fc9-1a19-4162-ac89-559e08b75c06@igalia.com>
+Date: Thu, 24 Oct 2024 16:55:03 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -55,8 +57,8 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC 1/1] futex: Create set_robust_list2
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Arnd Bergmann <arnd@arndb.de>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Davidlohr Bueso <dave@stgolabs.net>, Darren Hart <dvhart@infradead.org>,
  Peter Zijlstra <peterz@infradead.org>, sonicadvance1@gmail.com,
@@ -67,21 +69,76 @@ References: <20241024145735.162090-1-andrealmeid@igalia.com>
  <bde852ec-8e2f-4957-9368-00d8e5a422c4@app.fastmail.com>
  <1e62e083-f97c-4157-8d50-c3655edda97b@igalia.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <1e62e083-f97c-4157-8d50-c3655edda97b@igalia.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 10/24/24 11:03 AM, André Almeida wrote:
+Em 24/10/2024 15:03, André Almeida escreveu:
 > Hi Arnd,
 > 
+> Em 24/10/2024 12:57, Arnd Bergmann escreveu:
+>> On Thu, Oct 24, 2024, at 14:57, André Almeida wrote:
+>>> This new syscall allows to set multiple list to the same process. There
+>>> are two list types: 32 and 64 bit lists.
+>>>
 
-Please consider putting more of the cover letter explanation into the commit message.
-Thanks.
+[...]
 
--- 
-~Randy
+>>> +    if (unlikely(!list_empty(list2))) {
+>>> +        list_for_each_entry_safe(curr, n, list2, list) {
+>>> +            if (curr->head != NULL) {
+>>> +                if (curr->list_type == ROBUST_LIST_64BIT)
+>>> +                    exit_robust_list(tsk, curr->head);
+>>> +                else if (curr->list_type == ROBUST_LIST_32BIT)
+>>> +                    compat_exit_robust_list(tsk, curr->head);
+>>> +                curr->head = NULL;
+>>> +            }
+>>
+>> This looks like the behavior of a 32-bit task using
+>> ROBUST_LIST_64BIT is different on native 32-bit kernels
+>> compared to running on compat mode.
+>>
+>> Assuming we want them to behave the same way, did you intend
+>> ROBUST_LIST_64BIT to refer to 64-bit pointers on 32-bit
+>> tasks, or should they use normal word-size pointers?
+> 
+> Oh right, I haven't covered that indeed. I think I would need to have 
+> something like:
+> 
+> static void exit_robust_list_64()
+> static void exit_robust_list_32()
+> 
+> And then each function would use explicit sizes for pointers. Also, I 
+> would rewrite the conditions to make that every combination of 64/32bit 
+> kernel/app calls the appropriated function.
+
+Something like this:
+
+#ifdef CONFIG_64BIT
+	if (unlikely(tsk->robust_list)) {
+		exit_robust_list_64bit(tsk, tsk->robust_list);
+		tsk->robust_list = NULL;
+	}
+#else
+	if (unlikely(tsk->robust_list)) {
+		exit_robust_list_32bit(tsk, tsk->robust_list);
+		tsk->robust_list = NULL;
+	}
+#endif
+
+#ifdef CONFIG_COMPAT
+	if (unlikely(tsk->compat_robust_list)) {
+		exit_robust_32bit(tsk, tsk->compat_robust_list);
+		tsk->compat_robust_list = NULL;
+	}
+#endif
+
+	/* Simplified */
+	list_for_each_entry_safe(curr, n, list2, list) {
+		if (curr->list_type == ROBUST_LIST_64BIT)
+			exit_robust_list_64bit(tsk, curr->head);
+		else if (curr->list_type == ROBUST_LIST_32BIT)
+			exit_robust_list_32bit(tsk, curr->head);
+	}
 
 
