@@ -1,148 +1,135 @@
-Return-Path: <linux-api+bounces-2586-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2587-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF16A9B0D63
-	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2024 20:33:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B09289B0D85
+	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2024 20:39:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D8451C229E3
-	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2024 18:33:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FBD5282C01
+	for <lists+linux-api@lfdr.de>; Fri, 25 Oct 2024 18:39:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237461FB899;
-	Fri, 25 Oct 2024 18:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF14120D4F2;
+	Fri, 25 Oct 2024 18:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="Vsk/NPxE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMdwQHrz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from cornsilk.maple.relay.mailchannels.net (cornsilk.maple.relay.mailchannels.net [23.83.214.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBB61534E9;
-	Fri, 25 Oct 2024 18:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.214.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729881211; cv=pass; b=ljLMA9Gh5kBKPrs7IwiyTDswaeyplawVzo3aeeyQGP/9nBzMMPSDQDXZOvTEum7IgVN4qyl84oOKPDY+IJWufmXyi2XRUwat456nisabDnH7DvHBY6S5OalcLlUZuFOyE/U0icj3dMqIFFZY1yMA7VTsOssqwH4gebDzjp0uDaA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729881211; c=relaxed/simple;
-	bh=dwVze2IoN4lNX6/VE+wDa6/jdnBd4wpGu126gCkhqsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fS/wR5jUXSEu3U2IpVXRlJH5XhW+w3CgJ+Msh+UcP1Dsc29kMChRwhU2yZVfoEgD/Sql/tk9Op7TBmUvVJoHAzjnu6ZLSDRKiSSjcNfRmSW/AlLxYfWBf1lRNlN9pl7jBqcwyuAGUaPhjYpx9wcSPf37m5gsgw0DwPC8KuDMu6g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net; spf=pass smtp.mailfrom=stgolabs.net; dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b=Vsk/NPxE; arc=pass smtp.client-ip=23.83.214.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 0AFF32C1B84;
-	Fri, 25 Oct 2024 18:33:21 +0000 (UTC)
-Received: from pdx1-sub0-mail-a292.dreamhost.com (trex-13.trex.outbound.svc.cluster.local [100.102.223.228])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 6B0102C37D4;
-	Fri, 25 Oct 2024 18:33:20 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1729881200; a=rsa-sha256;
-	cv=none;
-	b=j5P5Z6nwn7aUtQdqVV7veKxoLLw7vBdLodEdHWQdp1LHoWolNUAlXqqrctcTwvZhHFHXiw
-	TkgquVIsGBgDuKxUuiLvGKpl2XUuhUYnWi0YTTvFzMLOHucI/V/l4rCWtJbcha+BqRz6Z2
-	t0/uikYaCtc/CJFjIe8gi+8a6q5oJRpHVWbiWXnfQH+5njbFy9ajA0mPbgveqpc9+mJ5EY
-	v5Y3mxrChNoiplMMLt6uher97meKD+p5/ikXlchwz+yNezS/ciJT3UlmHr4neCMidepgNd
-	KY7dJotH7L+XHldYRchMPS9Snlq1WLwIc4iECQjS8zQV4lh+FKHFgZQccDF61g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1729881200;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=CT4I2WNs8+lv4enGsXMLmXV5yqvMUhh47eXWE7/RKS4=;
-	b=6DCSBlT2DFrC8tksm9jKSdTODKtWHI374gECEVPYRRl+2wAQvL+SxplT4unaTdgZ1TXOBk
-	7R55ocCqK//NFlFWJECZAirZt3peZo0pB0gb2dB2TeubXw2oipuy+WFPZ9roOx6Qa1WyGm
-	ygvd7VsZlRaQwWh11lRjm5IksaEPjGMYbXqyR2nPRIoJHcr2OKkOdNLXX+N7NfA0Q/VK99
-	qOQ/8AdUNKKG2Mw7AGxkXygIJJ3yOfoBhfGSS2fM8y4hwVhcmQkX978x02DIO9raR4cUW/
-	8TY4zmTo7D+4LFUvqWX6KyB56Db81DUptNqKKfS+pB2wVqYa8S7aWDHIl5jM1Q==
-ARC-Authentication-Results: i=1;
-	rspamd-cdbbc7585-hgvf8;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Industry-Reign: 7245a16350dd8199_1729881200793_2943900534
-X-MC-Loop-Signature: 1729881200793:2559233038
-X-MC-Ingress-Time: 1729881200792
-Received: from pdx1-sub0-mail-a292.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.102.223.228 (trex/7.0.2);
-	Fri, 25 Oct 2024 18:33:20 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a292.dreamhost.com (Postfix) with ESMTPSA id 4XZry72Y0xz9p;
-	Fri, 25 Oct 2024 11:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1729881200;
-	bh=CT4I2WNs8+lv4enGsXMLmXV5yqvMUhh47eXWE7/RKS4=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=Vsk/NPxEuhRtgVp5TlB3DwcWvnMqm9mythIDgEulakohCN5GOnlLxeEj2sBHVMjBf
-	 yG9Bu7FazgHrrluyfbxugoCb9rr3UvgdX4LlVPfGjXWTWHmNm6RefJ9mqv8bpA8tDc
-	 PqLrL7jRRiGN7Uqqujeyoq50jPKnOnq8TQLgodb1+fMrIEyojUzChIc9q4Eh2qC60Y
-	 Fh4a7snuTbazI0oXvixGNjBhKecifSz4wqaixS6K2FueL3Ycx6SZh4ISUbip8YsMzC
-	 vrJBA2HPdby+MLKD0onAqWL/uJRi9eMAIG/mT089ImWGi2y/gXVBdSjtOYwdjToBX8
-	 RWmnThY43TYow==
-Date: Fri, 25 Oct 2024 11:30:26 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: tglx@linutronix.de, linux-kernel@vger.kernel.org, mingo@redhat.com, 
-	dvhart@infradead.org, andrealmeid@igalia.com, 
-	Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
-	Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, malteskarupke@web.de, cl@linux.com, llong@redhat.com
-Subject: Re: [PATCH 2/6] futex: Implement FUTEX2_NUMA
-Message-ID: <i4ljhfndmqrdg5zevd4gf2chmzesfieflxvfj2io2qfhfj4vb7@nicvpjmcdtyu>
-Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>, 
-	tglx@linutronix.de, linux-kernel@vger.kernel.org, mingo@redhat.com, 
-	dvhart@infradead.org, andrealmeid@igalia.com, 
-	Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
-	Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, malteskarupke@web.de, cl@linux.com, llong@redhat.com
-References: <20241025090347.244183920@infradead.org>
- <20241025093944.485691531@infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1E1D8E10;
+	Fri, 25 Oct 2024 18:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729881553; cv=none; b=OWqF16S9nnvSjykSkvml6l1GwqbzTstNVuVaqKQAv0l2Jf81n0Wmvw+4d1tGfk0uyFIyOXCknsIYRnTPPD+J5MvCXEuxKOTK7yQ2uqIpvqp3ZCTtNjc6B6A0g8LD1D3Ap/JvYoj8JW2OPMF9IAsYGsRBwdExETTkTjH5s9bxdZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729881553; c=relaxed/simple;
+	bh=Bx1WolEnd/YIJN1S54UWNZpg5E+EUTLa0+1yugHcioM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mKiHCtYoAPE8qoV6duQy0Hvr7linSHoNjb6hiTGByYnnov2uP1lLGbn5Hzqp1bH/dj0BqPFyEdm6vBzP9F+zT27wLEsxTWlIqPSm0bN90ODD+OWthqWiBEauZifMUMUE8IGEE1G3ncw5VfNzBHDLnkt6QtSeXXIjmv4/3bTgIoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMdwQHrz; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-84fccf51df1so717887241.2;
+        Fri, 25 Oct 2024 11:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729881551; x=1730486351; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GrkqYuMSqbUzEQhPW44lBubxGtAuzrgS+e75bGGESs0=;
+        b=PMdwQHrzxVXjPZ8zI7u435ZgkpE+/YpHKAo9w1rzThsOKCz4tDK2oM62faGjsIDBWs
+         l/xjZzKtoMuSjRIvN03hK7MDbqGRw8ZJDAv5SeHs5GAHMo59vLs/vpwHh26UjOs1FENu
+         QgbteoryNSFzs38sZLiucaIvmTMf6wAKXfhLpsoBVknr+BtcieQioUM4N7i37BGlrLqC
+         s7oOkkedN6KtMub+G9FMVvtU1ejMkmZj//kUJBa7lOx5E4UPPGyU9rTdhRjGPIdOO/AT
+         CuA8nqrBjwXWOQFgNRp1488cVlHgVejWJAbar6o/OFK/k//5kSVbNwmwcIOQ7KkxX4Wb
+         ZwaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729881551; x=1730486351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GrkqYuMSqbUzEQhPW44lBubxGtAuzrgS+e75bGGESs0=;
+        b=fRHfHJF5BiCOlxMZaTaNSDlZXmv8ogdvscGwjIjoYCbVWoANcP2d2gJiOEDnk5aMXG
+         L+JAUW4DkoBm6Qb9vpF2Mjv1AmWK8pih07uh3B+aHvxBvbLFTwjrW4a0F1teYI6Csuif
+         9rdQGBXq/JW4XZ5MwhA8TSCUp4Py2gg3wLrrJOwKkOb9WBDWCCuRrHvFx3+JrFDCizQv
+         fmOniAp3DVx9zatZYCrjD2Fha4C1XSLFxNqU8RwPvnUHfHdi11F6AmK1Nlrm1mP+pRru
+         kCmbWqPV8WIFkv2qc1RSvg2Sn28ThBz3KDnDlYaqZPozXzfNXclmiy9w21/lgxPLPKfo
+         DgmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDhF8p29GsCLVUPyUXKZWA5/JU5lBwS0RKUaj8yrsoxlxRtvxY42JmnGyvf6bWTYT0DHgN7yVu0E1xgS2LMX5Q@vger.kernel.org, AJvYcCUYcHGt/738n2xHYX1PZoohp4GNoBh25qXrVgXVpo/cb/IC0CMd/XKgTrDSgXhDudmwXcRuZZD9s5moHf/l4A==@vger.kernel.org, AJvYcCW1Uh94J7AjG77UdfQlYnR8Qo7phEwiZTYbo/xrr67olkGFHUw2Uo77pQ0f/J1iwZbiwMPu3hxnpRk=@vger.kernel.org, AJvYcCXwLPGANVUY81yVpaO+jzIhyX+Mi55Dcmf2kK5JT3S2kQK52o5E4DDn4RR/4RVxGtn2vDrH3QUsz0iBZSRb@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfYnd10d6jsEu+VDkIq2EpEznNUJ66vBGcHRQYXfXOk4r+F7qC
+	TQsFKu4DJLTi8AfyCUXzBHrT3isZX68QO3cBD62RuSX7HpswBzSYf/9YHtYvFlfY2Tl0HScoHr8
+	utCr2v3lyRA4UMycFk75eAq2s5bd26OMy
+X-Google-Smtp-Source: AGHT+IEVUq57VuR5XJDhYVOCvnCwTfmEHGvoTOOB+teIWs3F3TJQh8yeiHRLwccdv5kTX5+vj5zTsLfWMZ4F/nufsZs=
+X-Received: by 2002:a05:6102:32ca:b0:4a4:7609:35f with SMTP id
+ ada2fe7eead31-4a8cfd6d7bemr401289137.24.1729881550725; Fri, 25 Oct 2024
+ 11:39:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20241025093944.485691531@infradead.org>
-User-Agent: NeoMutt/20240425
+References: <cover.1729848252.git.lorenzo.stoakes@oracle.com>
+ <788fdfcc9ef602b408951d68097918d6ae379395.1729848252.git.lorenzo.stoakes@oracle.com>
+ <CAKbZUD2ZB+U3GKJftfRH_2ejNja26v38OLVE2Lbfn_1KSOKhNQ@mail.gmail.com> <828674d9-e862-4438-86b6-61977f4cf3b5@nvidia.com>
+In-Reply-To: <828674d9-e862-4438-86b6-61977f4cf3b5@nvidia.com>
+From: Pedro Falcato <pedro.falcato@gmail.com>
+Date: Fri, 25 Oct 2024 19:38:59 +0100
+Message-ID: <CAKbZUD0fxczjSJo34MnWRNT4M6HTfWN0DRXr9CFe_+cKJW_mog@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] pidfd: add PIDFD_SELF_* sentinels to refer to own thread/process
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Christian Brauner <christian@brauner.io>, 
+	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 25 Oct 2024, Peter Zijlstra wrote:\n
-
-> static int __init futex_init(void)
-> {
->-	unsigned int futex_shift;
->-	unsigned long i;
->+	unsigned int order, n;
->+	unsigned long size, i;
+On Fri, Oct 25, 2024 at 6:41=E2=80=AFPM John Hubbard <jhubbard@nvidia.com> =
+wrote:
 >
-> #ifdef CONFIG_BASE_SMALL
-> 	futex_hashsize = 16;
-> #else
->-	futex_hashsize = roundup_pow_of_two(256 * num_possible_cpus());
->+	futex_hashsize = 256 * num_possible_cpus();
->+	futex_hashsize /= num_possible_nodes();
->+	futex_hashsize = roundup_pow_of_two(futex_hashsize);
-> #endif
->+	futex_hashshift = ilog2(futex_hashsize);
->+	size = sizeof(struct futex_hash_bucket) * futex_hashsize;
->+	order = get_order(size);
->+
->+	for_each_node(n) {
+> On 10/25/24 5:50 AM, Pedro Falcato wrote:
+> > On Fri, Oct 25, 2024 at 10:41=E2=80=AFAM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> ...
+> >> +static inline int pidfd_is_self_sentinel(pid_t pid)
+> >> +{
+> >> +       return pid =3D=3D PIDFD_SELF_THREAD || pid =3D=3D PIDFD_SELF_T=
+HREAD_GROUP;
+> >> +}
+> >
+> > Do we want this in the uapi header? Even if this is useful, it might
+> > come with several drawbacks such as breaking scripts that parse kernel
+> > headers (and a quick git grep suggests we do have static inlines in
+> > headers, but in rather obscure ones) and breaking C89:
+> >
+>
+> Let's please not say "C89" anymore, we've moved on! :)
+>
+> The notes in [1], which is now nearly 2.5 years old, discuss the move to
+> C11, and specifically how to handle the inline keyword.
 
-Probably want to skip nodes that don't have CPUs, those will never
-have the remote for .node value.
+That seems to only apply to the kernel internally, uapi headers are
+included from userspace too (-std=3Dc89 -pedantic doesn't know what a
+gnu extension is). And uapi headers _generally_ keep to defining
+constants and structs, nothing more.
+I don't know what the guidelines for uapi headers are nowadays, but we
+generally want to not break userspace.
 
+>
+> I think it's quite clear at this point, that we should not hold up new
+> work, based on concerns about handling the inline keyword, nor about
+> C89.
+
+Right, but the correct solution is probably to move
+pidfd_is_self_sentinel to some other place, since it's not even
+supposed to be used by userspace (it's semantically useless to
+userspace, and it's only two users are in the kernel, kernel/pid.c and
+exit.c).
+
+--=20
+Pedro
 
