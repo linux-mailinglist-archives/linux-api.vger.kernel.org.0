@@ -1,132 +1,109 @@
-Return-Path: <linux-api+bounces-2613-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2614-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAF39B2246
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2024 03:04:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 154709B2BA6
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2024 10:38:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6F871C2106B
-	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2024 02:04:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E59EB23050
+	for <lists+linux-api@lfdr.de>; Mon, 28 Oct 2024 09:38:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CB518CC1C;
-	Mon, 28 Oct 2024 02:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B3BD1925A3;
+	Mon, 28 Oct 2024 09:38:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="lGtpDk27"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ipnchwCv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bird.elm.relay.mailchannels.net (bird.elm.relay.mailchannels.net [23.83.212.17])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E70118C327;
-	Mon, 28 Oct 2024 02:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730080943; cv=pass; b=bPZo9vX3XOeUCVPXWlzLPGdxMC5l7f7szwoHn1oK+807wD6za4c63B/7WJTgyJwgZSfqL1LKlw26JSvlyiusGUNP+Wi4nqbvW6tD1DurlXorQ1+W7bvGYP8Sp/dKAfen1wWU8lNArv+YOYmwjnBhcqBCLDMcz1hOZzsOkrJNvdY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730080943; c=relaxed/simple;
-	bh=u9dgxPjngV31fQs5HEB/z4Keu+xsVZ4WEEml2hZEcz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkhJB205Uhcy8vNMiuBQ2jO8Dpc5qlsLZescWgAlT5bccCGKKe/ScJIQpzozu+4mM1vIoRAIgys3aG5EjVNmSBo9J8KNjL1cjk1e46tIJJ+w7HxYwbO7+WwjNe98jYuWnl89aIR6RMOhx6aqiF7TNVebLlyOQIDQ+2eL50ozn3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net; spf=pass smtp.mailfrom=stgolabs.net; dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b=lGtpDk27; arc=pass smtp.client-ip=23.83.212.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id CBB2A220F4;
-	Mon, 28 Oct 2024 02:02:15 +0000 (UTC)
-Received: from pdx1-sub0-mail-a284.dreamhost.com (trex-9.trex.outbound.svc.cluster.local [100.103.199.17])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 57A6E21D72;
-	Mon, 28 Oct 2024 02:02:15 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1730080935; a=rsa-sha256;
-	cv=none;
-	b=20SbFdjEvL4Fd+Lfe/05QcpabdHDSntjB7JlDA1EAxeUBglUnKj9PulwtSUQeO5/ESfvSq
-	rM+rHhJSftF6YrXP1rMYqZJNNlOeHMIvI7s9ZmXCfO0h45PRmF81jyCrCm1k5ednMR9AMO
-	vK1rDBZclTjwCsSazRQPe6+rbvrPwrAh4XJtLy3/Rgrt6q1sToEOAWKBhMgJa3XC8e5Ish
-	r6rocEyGbDFoyk+27Kudq772S0sa9YdU78NqWFExp/TlMli6XMyIvQIZFP/Xe/hgEzVzqq
-	9qgUnWW4bv2FXTYGMip9DDTQW6ugu1Xu1rex2QkLuhVXCAzsI0mxFLYcmYNm3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1730080935;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=u9dgxPjngV31fQs5HEB/z4Keu+xsVZ4WEEml2hZEcz8=;
-	b=EG3L+gqAjS3GHycdSvdHnP3hyGr5/CY24F3xoLmBkyoCkERNXe/TVV7nVDntdRmwGFjuj8
-	lGYt2bUVYEIOzx74yKMUWV7iXCfdEr0L1UdXN+zprLHKu6GOiRYWpmm0mYtW65FBCPRzb9
-	zVe0uxMKy4zGwKyryYz/Hqd0rL9Vh6A+evlixF7JNuyL1bEGhYf+a6DbiHuNxrqe4cLmiH
-	epphYxMwCiifYtQQqrB6/7hzUuhscMLkDnzNOCkWbgD2T9lwletu1laX7/jqyng4SEAZ7U
-	vBWl8KN6/RZi5YDz8wsDGdclnBYpGG6jYe9v+S8MAQE/XjF/jdOA12AHVqXFnw==
-ARC-Authentication-Results: i=1;
-	rspamd-7c89d756bb-sth78;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Ruddy-Hysterical: 735b6a21772d744d_1730080935709_2280068382
-X-MC-Loop-Signature: 1730080935709:3118448206
-X-MC-Ingress-Time: 1730080935709
-Received: from pdx1-sub0-mail-a284.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.103.199.17 (trex/7.0.2);
-	Mon, 28 Oct 2024 02:02:15 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a284.dreamhost.com (Postfix) with ESMTPSA id 4XcGqB0CXNz1l;
-	Sun, 27 Oct 2024 19:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1730080935;
-	bh=u9dgxPjngV31fQs5HEB/z4Keu+xsVZ4WEEml2hZEcz8=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=lGtpDk27ag5i/FvKyjDUqPeM+JO1oVBUL4eWE8Za1en3KJ7RkdOcReHH7mkcH+aJB
-	 fWxJUY4hSHELRJOHpI9zkwUEh9lkAjxppO1xjQmie9dk7Dd8E1r/okUhFEyZdZujz1
-	 6ePlrmnz3usmroo7g9aUr/oiiKJwtMh5Y6eGUI5xOR1DwEGHUu1SDBIxFKZufEwqyo
-	 TkJGAXSTlXXHsnq5FnYi0lpJbIjNhbi41W/Zy547Tqi/y9tSwI71iRPQzfm6s3lC6n
-	 SE5uNCF3Brj+6OSF8+eWOFWVTxIgxUWQOAcBGmtzvH29KDOxX0bHdidV19tfGkqWvB
-	 +mP84MGTDol3w==
-Date: Sun, 27 Oct 2024 18:59:13 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de, 
-	linux-kernel@vger.kernel.org, mingo@redhat.com, dvhart@infradead.org, andrealmeid@igalia.com, 
-	Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
-	Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, malteskarupke@web.de, llong@redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7263B155744;
+	Mon, 28 Oct 2024 09:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730108321; cv=none; b=X6dVchwxhhIyyiCpuYI0j/oquiA+HJ6sXg5K6Jjl+nDjnPQPKJURS0XsjdrKGhZ5VF6APrMGzbPNj236WL/TWKLuZSORo0AXE1KjM1ZhJ52B/IDocGzBX+FE/Vwzkl1pzOavIl07yayTc9LYfUKMNMZs7k3m+etPKVjxNTh2CXM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730108321; c=relaxed/simple;
+	bh=TTzDaDISSTXKhoI13t5qVj7ZDIOkYQKbwOtUI03eJpw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjCN1aHR/AmNQCCZ+ZUvHzG+/ljaOhquuWOD4sy/xsvajVAOBjH5sgZ5o/peHnDQdnrcIvme08+cwueBwChPBBdkN1vvKIar1ckN5qoQvacAUgrrEAOHoSiNLRL4UwKssn0hcv2fVL3XuJrAkO2QYWUUxTPG6Bu+iQ+73TzaFGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ipnchwCv; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YsVgrVYidjdLoY8ut0hhSwdO11cYdvJtoCYBOkZVwdg=; b=ipnchwCv5ZZNCwBnChIKjpeyvx
+	vBsJv+AtNzZD8IfYJtizz1JKY1PKdJNtwFD2On5M3DNe7h2Kb6LRGzJ6AY2LnAoAiVKHUmQA+gbQv
+	Ka53ZcHVJOM852ZIv4ejGsgeDDSCwY/fbiY5A/6CSU1BALECS0v7aWTmoNlyE0+PAZI7HNa+KFYMd
+	7LsjSD8atHwTeflrl7SeQgPtW6mKEQNHdvzpM4hqebiloT7D0YGMwphCQsufdwMxgJZoK2CIg+j2y
+	wOckw6B6Ig5Vr1XL2Mu/k4v2+0NRwu0I07Bckb+WS7IJn7Q34eSpbUTnTG/IeOKODrVN9NJq7lJ5o
+	dRVGTlHA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t5MCj-00000009cRx-2S76;
+	Mon, 28 Oct 2024 09:38:29 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 3EB4930083E; Mon, 28 Oct 2024 10:38:29 +0100 (CET)
+Date: Mon, 28 Oct 2024 10:38:29 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: tglx@linutronix.de, linux-kernel@vger.kernel.org, mingo@redhat.com,
+	dvhart@infradead.org, andrealmeid@igalia.com,
+	Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com,
+	hch@infradead.org, lstoakes@gmail.com,
+	Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	malteskarupke@web.de, cl@linux.com, llong@redhat.com
 Subject: Re: [PATCH 2/6] futex: Implement FUTEX2_NUMA
-Message-ID: <whmqaksbwuksdobz2fomqi3pa7btf2ucjtr3i4bz3oglidz3n2@27zggp5udztd>
-Mail-Followup-To: "Christoph Lameter (Ampere)" <cl@gentwo.org>, 
-	Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de, linux-kernel@vger.kernel.org, 
-	mingo@redhat.com, dvhart@infradead.org, andrealmeid@igalia.com, 
-	Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
-	Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, malteskarupke@web.de, llong@redhat.com
+Message-ID: <20241028093829.GK9767@noisy.programming.kicks-ass.net>
 References: <20241025090347.244183920@infradead.org>
  <20241025093944.485691531@infradead.org>
- <dce4d83c-fb3f-3581-71e4-33dad3f91e07@gentwo.org>
+ <i4ljhfndmqrdg5zevd4gf2chmzesfieflxvfj2io2qfhfj4vb7@nicvpjmcdtyu>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dce4d83c-fb3f-3581-71e4-33dad3f91e07@gentwo.org>
-User-Agent: NeoMutt/20240425
+In-Reply-To: <i4ljhfndmqrdg5zevd4gf2chmzesfieflxvfj2io2qfhfj4vb7@nicvpjmcdtyu>
 
-On Fri, 25 Oct 2024, Christoph Lameter (Ampere) wrote:\n
+On Fri, Oct 25, 2024 at 11:30:26AM -0700, Davidlohr Bueso wrote:
+> On Fri, 25 Oct 2024, Peter Zijlstra wrote:\n
+> 
+> > static int __init futex_init(void)
+> > {
+> > -	unsigned int futex_shift;
+> > -	unsigned long i;
+> > +	unsigned int order, n;
+> > +	unsigned long size, i;
+> > 
+> > #ifdef CONFIG_BASE_SMALL
+> > 	futex_hashsize = 16;
+> > #else
+> > -	futex_hashsize = roundup_pow_of_two(256 * num_possible_cpus());
+> > +	futex_hashsize = 256 * num_possible_cpus();
+> > +	futex_hashsize /= num_possible_nodes();
+> > +	futex_hashsize = roundup_pow_of_two(futex_hashsize);
+> > #endif
+> > +	futex_hashshift = ilog2(futex_hashsize);
+> > +	size = sizeof(struct futex_hash_bucket) * futex_hashsize;
+> > +	order = get_order(size);
+> > +
+> > +	for_each_node(n) {
+> 
+> Probably want to skip nodes that don't have CPUs, those will never
+> have the remote for .node value.
 
->Would it be possible to follow the NUMA memory policy set up for a task
->when making these decisions? We may not need a separate FUTEX2_NUMA
->option. There are supportive functions in mm/mempolicy.c that will yield
->a node for the futex logic to use.
+What if the CPU-less node is placed equidistant between two (or more)
+regular nodes and it is the best location for a futex that is spanning
+those nodes?
 
-With numa-awareness, when would lookups ever want to be anywhere but
-local? mempolicy is about allocations, futexes are not that.
+That is to say, just because it doesn't have CPUs, doesn't mean it is
+never the right node.
+
+Hmm?
 
