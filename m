@@ -1,72 +1,72 @@
-Return-Path: <linux-api+bounces-2639-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2640-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D5A9B6E7D
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2024 22:12:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1EB9B6F87
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2024 22:47:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A120B217BD
-	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2024 21:12:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60C411F2272D
+	for <lists+linux-api@lfdr.de>; Wed, 30 Oct 2024 21:47:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E2E2144CA;
-	Wed, 30 Oct 2024 21:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BBA21894F;
+	Wed, 30 Oct 2024 21:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="XEhp9Ssz"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lsPxMLfj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E77F213EE0
-	for <linux-api@vger.kernel.org>; Wed, 30 Oct 2024 21:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5001BD9EB
+	for <linux-api@vger.kernel.org>; Wed, 30 Oct 2024 21:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730322715; cv=none; b=Lg6WCx0wCoSTEvBRKmr9ezDmquCpmar9hgTn629xOBGbwTGdCflltHVbC+s89uLhssxwV8GC4F3kLnpQ1r88snG6zychZAozzRATwf4PKiZWmdX06PXkO+9VBfdoVcS+VLx8bWzX2nBWzKLebpRJzYLz+NPdqhgBeVvpQvaU9g4=
+	t=1730324565; cv=none; b=k9QxaZJDF5oWv3rQYJa7gLuivkmhxfFtQy89gmv40Q9cUjvILAmml8CjGvL6vriNSJGUtqjiYWng4CLHtDfLmaRM6zLcmjzE/H73Kut5jwhFv6P78g7eFuuNF1ANbIbIERGvKpcC+EQtvnLs17WBCQ4kBfXCNrgFeA6Ni1u4Ifs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730322715; c=relaxed/simple;
-	bh=MX31BUMIF20ob09Ys6TTsNW8yvLIH6a8r5EeG9LcUYc=;
+	s=arc-20240116; t=1730324565; c=relaxed/simple;
+	bh=rucg5whNbj0MIf+KsFVqBycgNaOxrJPN8Sa8dKhqJn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWHrzTKFg1S8PkYRFO9hGkKSjLn9GNYkZJbg9GRGBnrMr0fN9WewhkEvdAnp7xNJpk7XsUTSdHG5iyBkrXTqHFEJibB/krJ1glTKXJUire22pKzA6IA3yuNOaToKur3BRMvWXPQWQV9RcIBSmh+3wWXy/dUxUo+wmrFnAsIKqqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=XEhp9Ssz; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJpE/lzNlwjh+VQ4Rg0FYzZLILzrYExy4/NDcB5YuGsI6vQ5hPh0u7kbabWEUWqgIRBx64kaBT9ag4QHPKFsz3S/ixMqz32I+mWNCToTKrymWQoh7hQq7EBRJ2dWkEVR16hLEkv0iiUJdZTS53ybo8B8yOWjM499gQ33kqB+1js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=lsPxMLfj; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20ce5e3b116so2746995ad.1
-        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2024 14:11:53 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2bb1efe78so241861a91.1
+        for <linux-api@vger.kernel.org>; Wed, 30 Oct 2024 14:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730322713; x=1730927513; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730324562; x=1730929362; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MX31BUMIF20ob09Ys6TTsNW8yvLIH6a8r5EeG9LcUYc=;
-        b=XEhp9SszHrAKdWDT+4mKmdhuXGDt6SkhxYCdyKzjAh+PCwH6BReRLkkp2cvWY7ZwM7
-         LCX0ZeUjEbali1s6RwqbX/gBe4cCSW6/7ymu5KmfDa/s0wng/fVv/lKw/8IJ59Gq37i0
-         Q92BeLRdYqd7eDtWc2vRmKp36YulgLp6daZZAA/Ly1duPi2aGTgf/ofpjnoxL2SmxJYZ
-         7D+N8tVtNf57WcsHmTaQXR3X6RvpEvG11gp2ui8YFSw8miFoRoTIptW7+Bdcr5AFyx6L
-         jon8rWGTyn7e5e4hNc3OS3DrZ06vcJzuPsHvZq9RIXhjwrrAG1NV+fH8XiOLsZjhFqck
-         jn1Q==
+        bh=2BdQ8I1/iVHZTqbEU+uI3XwCIW70vWl0AHAkkkOUHa4=;
+        b=lsPxMLfjdqektbm+albSHd1yo/8FqT7xiv9N1GLeNw/v8+SLsNrn2xkGk27y0taG0i
+         wGTm7xRMqMHtMKZn89uMHRi7fbTX4NMKAOhKKpyq3KRVSFIt4yDNNY6MfdAZDmfp/0ot
+         q/BZP7p2MTHXRU/3L9p0MzhxvC87mAYttH4GgY3t0dHsyHf405DXJhHthdTF65KgGtjc
+         PSUBl1Rpe6o0/S8hFZPrDFbW1LHOj0fO78y6NYawPVxvigOLifO7QZBFKubIFqgPXWRB
+         xWO9oecgBfSrJ6At8GEHsrnRvYpJLT3L/D5gKQnPSu+cajYHMVxWCShCfyQng+gBlgsK
+         RT4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730322713; x=1730927513;
+        d=1e100.net; s=20230601; t=1730324562; x=1730929362;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MX31BUMIF20ob09Ys6TTsNW8yvLIH6a8r5EeG9LcUYc=;
-        b=eEr+hCGZLIkV0majZAkKmx0U7WIaeOzPBDPApW8PSjfARlRb1mmb+M8H+JAyNVo9wd
-         cqgZYplanhFCDvW8zV5WvCwlKuu0qGacXT0iDkP/4nL4LNZ/43tUAo3HiMwxpF2Fb7Vw
-         bJrS67C3/JUJ7MJ6ChRnzSGX01G/WWhdzMY2/SlnvPSkXrrQNffUfOvoLlvYSepUxeD4
-         wHedLd99oxjx0I1XuY0rDCZPOjCyKggwLywzrIy/92c/4pIOx8jq4CK0B8vF+xXrGpBn
-         oPmwV0nz/3ZqZ2X5lgTKp2uPMtw83/4w9PsOu5VIweT2elE/SNtUt2wy2iaWJUqmSI71
-         mBdA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzU4OkxZo9DGQuQfauC/qJP2ml9IijV82T7BsHeQEjQjU8ECSnIiI6sx4nYcn8WvOR/h65ABjwjh0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDeX8A0dQfc84pygltWDn5g1CkaIRKQxgZzbRA7ZJCrBg2LmR8
-	mIfFqNqdmXPEZTR73x5R36g2I32vFyxQW7/3rl1K0l+WAT14+ZynZfxShWjiyKo=
-X-Google-Smtp-Source: AGHT+IF6AzPMNPEniI5XY1hXIMrdAsMeRP4cjQPYvIhPdkK/YKbMxfipb2Fum4HXbUgPeOo0b8V0+A==
-X-Received: by 2002:a17:90a:470c:b0:2e2:a667:1a18 with SMTP id 98e67ed59e1d1-2e8f10548c0mr18380348a91.5.1730322712852;
-        Wed, 30 Oct 2024 14:11:52 -0700 (PDT)
+        bh=2BdQ8I1/iVHZTqbEU+uI3XwCIW70vWl0AHAkkkOUHa4=;
+        b=u3EC8geGdvZgAIC+w/Er1R0zJfjiQp6wIe3u2RNkaTaiGA7C+ebg0mTklL4GNUuf2H
+         f1wFWskrM+dZYrfa4ILtGwQnGOy6lUJFDvwtAyFSd1+vDrc8MC+7L/viTT70MOyMx0+c
+         qp2CfaQk6EkVxPNZXFJF8I970GkZEWtrccSiEZWAE0J++oUwL0Ve1VBTDx7QEpjLelXm
+         VOe7NElpMegN9lY1b/xNc4t7rf4ffnL37otgx1WIiMo8PgwtPKVoB20j5ClBC/h7NsWO
+         bH3sQTcHhoRUYsqgeEgyraEhgUHONUboQzh6J9d8tqYPUz7p+by6isB2LftXcAExXLJR
+         9/0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWzweGQ+5+75uQpFH1fFCjNzqLqZYTOcP7cbyYuwvi7bJaXvSzkUwL/kXymKZdZVvYiFmyLMO542vU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXOcgFgZMkQd1EDLrVAAhPSExYk12ThgOXlPkUvp7HJzB+dbgA
+	Oq3FQYwvFLEodpTq+vY6YlyxCKOW/L1dXVH0e3wj9v3OAhlnG04/Cb28jm45u2E=
+X-Google-Smtp-Source: AGHT+IFy/kVyXGrqtNtAvxVjR4gsi2Os3+luFSdpZIwpcWZFvkvKwsZgpNzjHfWBEiMYl3HDGVYUug==
+X-Received: by 2002:a17:90b:51cc:b0:2e2:af80:8f7a with SMTP id 98e67ed59e1d1-2e93e0fd8f4mr220918a91.20.1730324562278;
+        Wed, 30 Oct 2024 14:42:42 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056ee46fsm289665ad.21.2024.10.30.14.11.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fbe0252sm2400168a91.45.2024.10.30.14.42.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 14:11:52 -0700 (PDT)
-Date: Wed, 30 Oct 2024 14:11:49 -0700
+        Wed, 30 Oct 2024 14:42:41 -0700 (PDT)
+Date: Wed, 30 Oct 2024 14:42:39 -0700
 From: Deepak Gupta <debug@rivosinc.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
@@ -91,12 +91,12 @@ Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
 	Yury Khrustalev <yury.khrustalev@arm.com>,
 	Wilco Dijkstra <wilco.dijkstra@arm.com>,
 	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH RFT v11 1/8] arm64/gcs: Return a success value from
- gcs_alloc_thread_stack()
-Message-ID: <ZyKhFSb4N0WVNFQY@debug.ba.rivosinc.com>
+	Kees Cook <kees@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH RFT v11 2/8] Documentation: userspace-api: Add shadow
+ stack API documentation
+Message-ID: <ZyKoT00lI3d2rpYc@debug.ba.rivosinc.com>
 References: <20241005-clone3-shadow-stack-v11-0-2a6a2bd6d651@kernel.org>
- <20241005-clone3-shadow-stack-v11-1-2a6a2bd6d651@kernel.org>
+ <20241005-clone3-shadow-stack-v11-2-2a6a2bd6d651@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -105,17 +105,99 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20241005-clone3-shadow-stack-v11-1-2a6a2bd6d651@kernel.org>
+In-Reply-To: <20241005-clone3-shadow-stack-v11-2-2a6a2bd6d651@kernel.org>
 
-On Sat, Oct 05, 2024 at 11:31:28AM +0100, Mark Brown wrote:
->Currently as a result of templating from x86 code gcs_alloc_thread_stack()
->returns a pointer as an unsigned int however on arm64 we don't actually use
->this pointer value as anything other than a pass/fail flag. Simplify the
->interface to just return an int with 0 on success and a negative error code
->on failure.
+On Sat, Oct 05, 2024 at 11:31:29AM +0100, Mark Brown wrote:
+>There are a number of architectures with shadow stack features which we are
+>presenting to userspace with as consistent an API as we can (though there
+>are some architecture specifics). Especially given that there are some
+>important considerations for userspace code interacting directly with the
+>feature let's provide some documentation covering the common aspects.
 >
+>Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>Reviewed-by: Kees Cook <kees@kernel.org>
+>Tested-by: Kees Cook <kees@kernel.org>
+>Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 >Signed-off-by: Mark Brown <broonie@kernel.org>
-Acked-by: Deepak Gupta <debug@rivosinc.com>
+>---
+> Documentation/userspace-api/index.rst        |  1 +
+> Documentation/userspace-api/shadow_stack.rst | 41 ++++++++++++++++++++++++++++
+> 2 files changed, 42 insertions(+)
+>
+>diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+>index 274cc7546efc2a042d2dc00aa67c71c52372179a..c39709bfba2c5682d0d1a22444db17c17bcf01ce 100644
+>--- a/Documentation/userspace-api/index.rst
+>+++ b/Documentation/userspace-api/index.rst
+>@@ -59,6 +59,7 @@ Everything else
+>
+>    ELF
+>    netlink/index
+>+   shadow_stack
+>    sysfs-platform_profile
+>    vduse
+>    futex2
+>diff --git a/Documentation/userspace-api/shadow_stack.rst b/Documentation/userspace-api/shadow_stack.rst
+>new file mode 100644
+>index 0000000000000000000000000000000000000000..c576ad3d7ec12f0f75bffa4e2bafd0c9d7230c9f
+>--- /dev/null
+>+++ b/Documentation/userspace-api/shadow_stack.rst
+>@@ -0,0 +1,41 @@
+>+=============
+>+Shadow Stacks
+>+=============
+>+
+>+Introduction
+>+============
+>+
+>+Several architectures have features which provide backward edge
+>+control flow protection through a hardware maintained stack, only
+>+writeable by userspace through very limited operations.  This feature
+>+is referred to as shadow stacks on Linux, on x86 it is part of Intel
+>+Control Enforcement Technology (CET), on arm64 it is Guarded Control
+>+Stacks feature (FEAT_GCS) and for RISC-V it is the Zicfiss extension.
+>+It is expected that this feature will normally be managed by the
+>+system dynamic linker and libc in ways broadly transparent to
+>+application code, this document covers interfaces and considerations.
+>+
+>+
+>+Enabling
+>+========
+>+
+>+Shadow stacks default to disabled when a userspace process is
+>+executed, they can be enabled for the current thread with a syscall:
+>+
+>+ - For x86 the ARCH_SHSTK_ENABLE arch_prctl()
 
+I know when you started out, gcs and risc-v shadow stack patches were
+only catching up. But now that gcs patches are in -next and risc-v
+patches have also reached some maturity. And considering this generic
+generic shadow stack documentation, may be it's worth to mention
+arch agnostic prctls here for shadow stack (that will be used by arm64
+and riscv)? What do you think?
 
+>+
+>+It is expected that this will normally be done by the dynamic linker.
+>+Any new threads created by a thread with shadow stacks enabled will
+>+themselves have shadow stacks enabled.
+>+
+>+
+>+Enablement considerations
+>+=========================
+>+
+>+- Returning from the function that enables shadow stacks without first
+>+  disabling them will cause a shadow stack exception.
+nit:
+s/shadow stack exception/arch specific exception indicating control flow
+violation
+
+>+ This includes
+>+  any syscall wrapper or other library functions, the syscall will need
+>+  to be inlined.
+>+- A lock feature allows userspace to prevent disabling of shadow stacks.
+>+- Those that change the stack context like longjmp() or use of ucontext
+>+  changes on signal return will need support from libc.
+>
+>-- 
+>2.39.2
+>
 
