@@ -1,130 +1,209 @@
-Return-Path: <linux-api+bounces-2651-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2652-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE5E9B9125
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 13:30:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 100DE9B9529
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 17:22:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9013B21ECE
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 12:30:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 880C21F22F01
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 16:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57CF1922D6;
-	Fri,  1 Nov 2024 12:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBAC31AA781;
+	Fri,  1 Nov 2024 16:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHQ0KNd9"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="K9xepvnw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8733EC13C;
-	Fri,  1 Nov 2024 12:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C911CACC4;
+	Fri,  1 Nov 2024 16:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730464232; cv=none; b=GtTPeYG1qWyCEBpw8za6cNToI3XrkGbJgm/igw0OzKmMcO/H63t/UQva7pvfGmstAWlSi1OUCLXZ3FroukGczE6sQ99LyUuEmPdhFKcReAV6rs0+DccReN3hEDivEmnnfNPpCkHDvPtdqsZ8pK8oEvuDIcskWjHyZ8DGVN0L8mo=
+	t=1730478147; cv=none; b=C2+YgNux/y1WgzBrw744sOAKUua0UswA99kmwOnl0bWB2RP+aKd8Sitv36EY9dMlh/EQPkNxLxp0D1tRmMdUDguf2OhTkru2dV1/xYrsDb3saPQeHJZ/V7o0rMKk8WdMON5+uDfX713IYdmGyU1VcpSbkfoSaiYizGcVddoomOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730464232; c=relaxed/simple;
-	bh=7TcBxOnka1nVz+YB3rkflphZbI2fzT7QcPJP71YAV2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Km8ONNJrpKmBKdPe7jmuYfV2nnn9NsOOEGRju6aP5Q9EVsExq2MX9jbu2CCsJfxsuhM7m+OW0PVsTg5oFsmdCc8fm6vF13j965xEaTg0lgH5bOl4AvjlKeYbdjosTSyiTtoACxLV+icQUfn/nLh9i0hZC0UY+j81/ZQZWyNcY9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OHQ0KNd9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 288AEC4CECD;
-	Fri,  1 Nov 2024 12:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730464232;
-	bh=7TcBxOnka1nVz+YB3rkflphZbI2fzT7QcPJP71YAV2o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OHQ0KNd9iULqrLiO/PvS7RwbhdGoK30GLmYzCTnH200RvPYgDNvEBdQOo75bAkTib
-	 r2tAIks3iV2FwflGonEKA0XOzsdLXdtCxu+eRtI63/i9Ro4l8fY1PQ0UgFiaNCuWUN
-	 hvSLEMvII8fQBMoO/OGqePdZsTQqfK076wzfhHgehQdJrruutapBhfKPpHKRt/lGa8
-	 208Zd67neipOlFi6QBpz3pmufbr7cDmZhmEJwiFibU8dhBSCdQ3E/MbnQttMZE+dVt
-	 Ob5CRfxRGuMhj26vqrNY9EUAUZcdfXuxkVGgtzGXQjO5WFHLPdTjeRtXuXHcNZZ+Wr
-	 YR5IBlM2C9rnw==
-Date: Fri, 1 Nov 2024 12:30:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"yury.khrustalev@arm.com" <yury.khrustalev@arm.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"wilco.dijkstra@arm.com" <wilco.dijkstra@arm.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"kees@kernel.org" <kees@kernel.org>
-Subject: Re: [PATCH RFT v12 0/8] fork: Support shadow stacks in clone3()
-Message-ID: <eca3edc3-1a2d-475c-a866-ea25d6bd9756@sirena.org.uk>
-References: <20241031-clone3-shadow-stack-v12-0-7183eb8bee17@kernel.org>
- <fe6cc8010b2b35aaa2629c4c5e972dc1c90c43c3.camel@intel.com>
+	s=arc-20240116; t=1730478147; c=relaxed/simple;
+	bh=+nDAAxalSuIG+p3KOUi0mR6ee0zev0MF6lIClan+yKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R1sgNMaxbcbIskDza2ncGzdCQeaeImX6GJ1nAxoM+FKPmLv22M4/J+5w+0++Qix2sSM2uN+hCyF2/qqWXXwjIDNlUiq705rIbtGX2+qs4bByCZcMVFTOtFLtPp+YAwt95t7R/lwdpRTdWH2IzWL6AqLs7Zo3cYadMBojcahMQP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=K9xepvnw; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=0wUBukj4pH3ptXjHSn3clH3Pc98SrdScREXTosvlpns=; b=K9xepvnwxzJDwh0IFhD2cOzBot
+	VNMidWQ8OqFHvIBTRWhcF2tBjOVVlMZM7ydvzjFXecRSGSIeSFmh8lkPcHeReeQjSglGYJmGq8gkg
+	IXVzjOxlVnL6ypHn3a1VPCmV0qx5lFGxdJuVVFi5Patw3G39hiMRxkF6/CZZlE9DlSwYOyCJ/KZXG
+	u7RP/ay4RCH/igF2iBXFP9oGptO1qqMCw0nDuiNXAG156paIiLGSpf1KgMmztD0W2fOAN/5B3yHLq
+	TIfjm5rMBYkxPdcMY+u+T0YHWdO439+DZLbzqAoBF6Sb8fYfrvpZuwWDHpb7wdqqWOCXUC2ZM/pz6
+	N+CtcUJg==;
+Received: from [189.78.222.89] (helo=localhost.localdomain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1t6uPM-000UVX-5s; Fri, 01 Nov 2024 17:21:56 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	sonicadvance1@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	linux-api@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v2 0/3] futex: Create set_robust_list2
+Date: Fri,  1 Nov 2024 13:21:44 -0300
+Message-ID: <20241101162147.284993-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WzOkb7e6YaToc7v5"
-Content-Disposition: inline
-In-Reply-To: <fe6cc8010b2b35aaa2629c4c5e972dc1c90c43c3.camel@intel.com>
-X-Cookie: We read to say that we have read.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This patch adds a new robust_list() syscall. The current syscall
+can't be expanded to cover the following use case, so a new one is
+needed. This new syscall allows users to set multiple robust lists per
+process and to have either 32bit or 64bit pointers in the list.
 
---WzOkb7e6YaToc7v5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+* Use case
 
-On Thu, Oct 31, 2024 at 09:06:09PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2024-10-31 at 19:25 +0000, Mark Brown wrote:
+FEX-Emu[1] is an application that runs x86 and x86-64 binaries on an
+AArch64 Linux host. One of the tasks of FEX-Emu is to translate syscalls
+from one platform to another. Existing set_robust_list() can't be easily
+translated because of two limitations:
 
-> > base-commit: d17cd7b7cc92d37ee8b2df8f975fc859a261f4dc
+1) x86 apps can have 32bit pointers robust lists. For a x86-64 kernel
+   this is not a problem, because of the compat entry point. But there's
+   no such compat entry point for AArch64, so the kernel would do the
+   pointer arithmetic wrongly. Is also unviable to userspace to keep
+   track every addition/removal to the robust list and keep a 64bit
+   version of it somewhere else to feed the kernel. Thus, the new
+   interface has an option of telling the kernel if the list is filled
+   with 32bit or 64bit pointers.
 
-> Where can I find this base commit?
+2) Apps can set just one robust list (in theory, x86-64 can set two if
+   they also use the compat entry point). That means that when a x86 app
+   asks FEX-Emu to call set_robust_list(), FEX have two options: to
+   overwrite their own robust list pointer and make the app robust, or
+   to ignore the app robust list and keep the emulator robust. The new
+   interface allows for multiple robust lists per application, solving
+   this.
 
-Ah, that's still my branch from when I posted what's now applied in the
-arm64 tree, this is the same code:
+* Interface
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/gcs
+This is the proposed interface:
 
-Sorry, I didn't rebase after the GCS code landed.  Applied branch here:
+	long set_robust_list2(void *head, int index, unsigned int flags)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git clone3-shadow-stack
+`head` is the head of the userspace struct robust_list_head, just as old
+set_robust_list(). It needs to be a void pointer since it can point to a normal
+robust_list_head or a compat_robust_list_head.
 
---WzOkb7e6YaToc7v5
-Content-Type: application/pgp-signature; name="signature.asc"
+`flags` can be used for defining the list type:
 
------BEGIN PGP SIGNATURE-----
+	enum robust_list_type {
+	 	ROBUST_LIST_32BIT,
+		ROBUST_LIST_64BIT,
+	 };
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmckyd4ACgkQJNaLcl1U
-h9A/zwf9EQ28AczCH5D/BrYuZ+sphQDinPIhh020kD+hncKxKb5/pHR7YqjDCDow
-UiD2dUHuEOH5kbS8eLAYdYA2PdUmBGq3HJv1s96OqN56WrNWWQYeGPnGZjSrfW6T
-jlKlDOCm15m67oaRAKOMXaXPxKkFQumKUjk4N5GRorlMnPhUo7RACgyg/xFcKneX
-keakD5gzrSCMbabGnmtg5tumG1qOkrwG/nZL1of4f0Q8nHPLFDxfrjMSV8THAlwY
-kTZlIm6xV3MCo1ZmCJu8k+tohHH6Yft1eCjCw3Pxz8eiWiiFSlcl1Ie8n7/w3o/H
-CDR56lJwb2Lbmrftd8mIz8eVW4btfA==
-=SCG2
------END PGP SIGNATURE-----
+`index` is the index in the internal robust_list's linked list (the naming
+starts to get confusing, I reckon). If `index == -1`, that means that user wants
+to set a new robust_list, and the kernel will append it in the end of the list,
+assign a new index and return this index to the user. If `index >= 0`, that
+means that user wants to re-set `*head` of an already existing list (similarly
+to what happens when you call set_robust_list() twice with different `*head`).
 
---WzOkb7e6YaToc7v5--
+If `index` is out of range, or it points to a non-existing robust_list, or if
+the internal list is full, an error is returned.
+
+* Implementation
+
+The implementation re-uses most of the existing robust list interface as
+possible. The new task_struct member `struct list_head robust_list2` is just a
+linked list where new lists are appended as the user requests more lists, and by
+futex_cleanup(), the kernel walks through the internal list feeding
+exit_robust_list() with the robust_list's.
+
+This implementation supports up to 10 lists (defined at ROBUST_LISTS_PER_TASK),
+but it was an arbitrary number for this RFC. For the described use case above, 4
+should be enough, I'm not sure which should be the limit.
+
+It doesn't support list removal (should it support?). It doesn't have a proper
+get_robust_list2() yet as well, but I can add it in a next revision. We could
+also have a generic robust_list() syscall that can be used to set/get and be
+controlled by flags.
+
+The new interface has a `unsigned int flags` argument, making it
+extensible for future use cases as well.
+
+* Testing
+
+I will provide a selftest similar to the one I proposed for the current
+interface here:
+https://lore.kernel.org/lkml/20241010011142.905297-1-andrealmeid@igalia.com/
+
+Also, FEX-Emu added support for this interface to validate it:
+https://github.com/FEX-Emu/FEX/pull/3966
+
+Feedback is very welcomed!
+
+Thanks,
+	André
+
+[1] https://github.com/FEX-Emu/FEX
+
+Changelog:
+- Added a patch to properly deal with exit_robust_list() in 64bit vs 32bit
+- Wired-up syscall for all archs
+- Added more of the cover letter to the commit message
+v1: https://lore.kernel.org/lkml/20241024145735.162090-1-andrealmeid@igalia.com/
+
+André Almeida (3):
+  futex: Use explicit sizes for compat_exit_robust_list
+  futex: Create set_robust_list2
+  futex: Wire up set_robust_list2 syscall
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ include/linux/compat.h                      |  12 +-
+ include/linux/futex.h                       |  12 ++
+ include/linux/sched.h                       |   3 +-
+ include/uapi/asm-generic/unistd.h           |   5 +-
+ include/uapi/linux/futex.h                  |  24 ++++
+ init/init_task.c                            |   3 +
+ kernel/futex/core.c                         | 116 +++++++++++++++++---
+ kernel/futex/futex.h                        |   3 +
+ kernel/futex/syscalls.c                     |  40 ++++++-
+ kernel/sys_ni.c                             |   1 +
+ scripts/syscall.tbl                         |   1 +
+ 26 files changed, 203 insertions(+), 32 deletions(-)
+
+-- 
+2.47.0
+
 
