@@ -1,34 +1,34 @@
-Return-Path: <linux-api+bounces-2655-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2654-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6C9B952F
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 17:22:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7819B952C
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 17:22:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2A741F22BD0
-	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 16:22:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FE851C215CE
+	for <lists+linux-api@lfdr.de>; Fri,  1 Nov 2024 16:22:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5FF51CB51F;
-	Fri,  1 Nov 2024 16:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769791CB317;
+	Fri,  1 Nov 2024 16:22:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="MHyMrJcK"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="JGBP9QPm"
 X-Original-To: linux-api@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A71DA53;
-	Fri,  1 Nov 2024 16:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55411798C;
+	Fri,  1 Nov 2024 16:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730478150; cv=none; b=k6CzQsRsxWnJGJac3NFfXgK4hHz69Pfug6oBUh8jEhQWaNzpBlwemxcMLXms33udJASdqJcHu8Be2R/i+ix9E0SBn+MijVd5HjLH/EsrkcIjZuJsk+Z82IISnNlL0bLOBBX3KAahRIRkMh1VH1Ijwhn9/xW+2VawOtzR49FuloY=
+	t=1730478149; cv=none; b=V0J/sU7lRQFOToCvxJz+XIUycpr7Mv3DXcjAnXRpmcGkw3oJH0SAvBqcAmay3zOjgiXxnrHlxqyZe9iQpMeJiCzgUxRbiN5FHZtOSf85ozL+W7EzRm8nZ7Ti0rWNmKhfdvbZJtzIpdCI1jhX/MeFmzJJwih3gn1m0yXDNilwQCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730478150; c=relaxed/simple;
-	bh=FVyZ7eBuxWRN1YC2s9Hb1Rk8ZThQS9W1LOo/mSM4scM=;
+	s=arc-20240116; t=1730478149; c=relaxed/simple;
+	bh=Ikdf5X3nzNY0GrzsxMO4UJ2jCSGf14VHlpHHvp1D5mM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=euvOCfHZLI/CBx03QoTypy+ZahH7dnKBcUqRAYU9q7D4oWeeZ28vgS/1fQZ6SKxfqb2LHVAnGF4I9/JgZtG3p24RWGL+9xYrwhtm/Ch7mir4nGmSAIJ1f0Sfp5gkEoM3LCWTqbRMWjLdeA8xFm4ti6IWeiQo+vfUSEKx5oy2KUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=MHyMrJcK; arc=none smtp.client-ip=178.60.130.6
+	 MIME-Version:Content-Type; b=E7n2kHn8ZnjmY/1rvCGPUmah3i0D6oGG2uMC8sOepAMTSIaZicQTNFS+kK9iTzW+Mpdtq1oH71xMq3LUMHOoR/DHnuhbgLEs07FgRI9WeMTiRvwo2fpvGMbE4VXjJzYg3ws1/WhUg72+iV7gTNfR0aqUNMtqJJCWH6prOfaPF7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=JGBP9QPm; arc=none smtp.client-ip=178.60.130.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
@@ -37,16 +37,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=BRMLY+YGywDTXYOJD65N5/JKgnbdcNU20/19myILcu8=; b=MHyMrJcKbVPgCUFm4LNs2yRcfS
-	E72E1Lc6bvw/fQujQhVfX+jnbmW3oPk5DY8s05/OHhsKsYsd2cS+jBwnK2z+v/uLLkHYLelS19vOY
-	YSTpjQ+FlrwHDH4/KQJEhGTgAktl4TX8MtOV7U6dxe2UqGb/Cg7j2id9RVEm7HdAHH4apPPlLrLJN
-	LTMU70xaKzQ5P/mrqR2IY4G+n1Wg1vgCBR4vJ1Q1rU5h90xrlw1ArWI/XxHvoPgl3g4qgRzhCB+CT
-	SwSj1htmjTEb+dZheW0zcJ6zZvNtHc+POBylWCYADXKhxFpIWDcHfTFT8TCkK7rRcJW3sUL4SrVdd
-	6J39y9kw==;
+	bh=sQwqX15nGy7JI3hDfGQjT62o82s20E2+lSUvyjLO6b8=; b=JGBP9QPm5Tfhaoe0oL+mmiRfMU
+	pVxbSeaWLnA31GyOIB9b3NXcfEbltlYMKZy+XAl1quSRg/7n9lLTXF4YiPyNXMEOsPY+T8gypmM7C
+	AfRHmE5OBlgFfluOYtIdhM0JMzl9rIrZnDq21yOKtTz8C0JjKbiWRfe10NtysQlWHo+QBtBf2/Yjv
+	299WmBaVejZm39JdqVVjED0MBdhxwCvYSiJL2E+aYk7OS+IyJ0WajRWcIH/lcetAm4V9fHl8Rw3hT
+	Tx1wRK+UhWmvYFjpdxCqqdXd/BfSHwY0pfEfuFKofkdodUoTivoT7XgQ94ZqRuTKrzQJSbXmk2Mse
+	1fcH0Klw==;
 Received: from [189.78.222.89] (helo=localhost.localdomain)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1t6uPT-000UVX-Pn; Fri, 01 Nov 2024 17:22:04 +0100
+	id 1t6uPX-000UVX-RC; Fri, 01 Nov 2024 17:22:08 +0100
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -60,9 +60,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-api@vger.kernel.org,
 	Nathan Chancellor <nathan@kernel.org>,
 	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v2 2/3] futex: Create set_robust_list2
-Date: Fri,  1 Nov 2024 13:21:46 -0300
-Message-ID: <20241101162147.284993-3-andrealmeid@igalia.com>
+Subject: [PATCH v2 3/3] futex: Wire up set_robust_list2 syscall
+Date: Fri,  1 Nov 2024 13:21:47 -0300
+Message-ID: <20241101162147.284993-4-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241101162147.284993-1-andrealmeid@igalia.com>
 References: <20241101162147.284993-1-andrealmeid@igalia.com>
@@ -75,345 +75,188 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Create a new robust_list() syscall. The current syscall can't be
-expanded to cover the following use case, so a new one is needed. This
-new syscall allows users to set multiple robust lists per process and to
-have either 32bit or 64bit pointers in the list.
-
-* Interface
-
-This is the proposed interface:
-
-	long set_robust_list2(void *head, int index, unsigned int flags)
-
-`head` is the head of the userspace struct robust_list_head, just as old
-set_robust_list(). It needs to be a void pointer since it can point to a
-normal robust_list_head or a compat_robust_list_head.
-
-`flags` can be used for defining the list type:
-
-	enum robust_list_type {
-	 	ROBUST_LIST_32BIT,
-		ROBUST_LIST_64BIT,
-	 };
-
-`index` is the index in the internal robust_list's linked list (the
-naming starts to get confusing, I reckon). If `index == -1`, that means
-that user wants to set a new robust_list, and the kernel will append it
-in the end of the list, assign a new index and return this index to the
-user. If `index >= 0`, that means that user wants to re-set `*head` of
-an already existing list (similarly to what happens when you call
-set_robust_list() twice with different `*head`).
-
-If `index` is out of range, or it points to a non-existing robust_list,
-or if the internal list is full, an error is returned.
-
-User cannot remove lists.
+Wire up the new set_robust_list2 syscall in all available architectures.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- include/linux/futex.h             |  1 +
- include/linux/sched.h             |  1 +
- include/uapi/asm-generic/unistd.h |  5 +-
- include/uapi/linux/futex.h        | 24 +++++++++
- init/init_task.c                  |  3 ++
- kernel/futex/core.c               | 85 ++++++++++++++++++++++++++++---
- kernel/futex/futex.h              |  3 ++
- kernel/futex/syscalls.c           | 36 +++++++++++++
- 8 files changed, 149 insertions(+), 9 deletions(-)
+ arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+ arch/arm/tools/syscall.tbl                  | 1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
+ arch/s390/kernel/syscalls/syscall.tbl       | 1 +
+ arch/sh/kernel/syscalls/syscall.tbl         | 1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
+ kernel/sys_ni.c                             | 1 +
+ scripts/syscall.tbl                         | 1 +
+ 17 files changed, 17 insertions(+)
 
-diff --git a/include/linux/futex.h b/include/linux/futex.h
-index 8217b5ebdd9c..997fe0013bc0 100644
---- a/include/linux/futex.h
-+++ b/include/linux/futex.h
-@@ -76,6 +76,7 @@ static inline void futex_init_task(struct task_struct *tsk)
- #ifdef CONFIG_COMPAT
- 	tsk->compat_robust_list = NULL;
- #endif
-+	INIT_LIST_HEAD(&tsk->robust_list2);
- 	INIT_LIST_HEAD(&tsk->pi_state_list);
- 	tsk->pi_state_cache = NULL;
- 	tsk->futex_state = FUTEX_STATE_OK;
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 8f20b703557d..4a2455f1b07c 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1284,6 +1284,7 @@ struct task_struct {
- #ifdef CONFIG_COMPAT
- 	struct robust_list_head32 __user *compat_robust_list;
- #endif
-+	struct list_head		robust_list2;
- 	struct list_head		pi_state_list;
- 	struct futex_pi_state		*pi_state_cache;
- 	struct mutex			futex_exit_mutex;
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 5bf6148cac2b..c1f5c9635c07 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -841,8 +841,11 @@ __SYSCALL(__NR_lsm_list_modules, sys_lsm_list_modules)
- #define __NR_mseal 462
- __SYSCALL(__NR_mseal, sys_mseal)
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 74720667fe09..e7f9d9befdd5 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -502,3 +502,4 @@
+ 570	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 571	common	lsm_list_modules		sys_lsm_list_modules
+ 572	common  mseal				sys_mseal
++573	common	set_robust_list2		sys_robust_list2
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 23c98203c40f..31070d427ea2 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -477,3 +477,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 22a3cbd4c602..9c5d1fa7ca54 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -462,3 +462,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common  set_robust_list2		sys_set_robust_list2
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 2b81a6bd78b2..c03933182b4d 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -468,3 +468,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 953f5b7dc723..8f12bcd55d26 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -401,3 +401,4 @@
+ 460	n32	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	n32	lsm_list_modules		sys_lsm_list_modules
+ 462	n32	mseal				sys_mseal
++463	n32	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 1464c6be6eb3..5e500a32c980 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -377,3 +377,4 @@
+ 460	n64	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	n64	lsm_list_modules		sys_lsm_list_modules
+ 462	n64	mseal				sys_mseal
++463	n64	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 2439a2491cff..ea5be2805b3f 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -450,3 +450,4 @@
+ 460	o32	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	o32	lsm_list_modules		sys_lsm_list_modules
+ 462	o32	mseal				sys_mseal
++463	o32	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index 66dc406b12e4..49adcdb392a2 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -461,3 +461,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index ebae8415dfbb..eff6641f35e6 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -553,3 +553,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index 01071182763e..a2366aa6791e 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -465,3 +465,4 @@
+ 460  common	lsm_set_self_attr	sys_lsm_set_self_attr		sys_lsm_set_self_attr
+ 461  common	lsm_list_modules	sys_lsm_list_modules		sys_lsm_list_modules
+ 462  common	mseal			sys_mseal			sys_mseal
++463  common	set_robust_list2	sys_set_robust_list2		sys_set_robust_list2
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index c55fd7696d40..e6d7e565b942 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -466,3 +466,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index cfdfb3707c16..176022f9a236 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -508,3 +508,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal 				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 534c74b14fab..8607563a5510 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -468,3 +468,4 @@
+ 460	i386	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	i386	lsm_list_modules	sys_lsm_list_modules
+ 462	i386	mseal 			sys_mseal
++463	i386	set_robust_list2	sys_set_robust_list2
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 7093ee21c0d1..fbc0cef1a97c 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -386,6 +386,7 @@
+ 460	common	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	common	lsm_list_modules	sys_lsm_list_modules
+ 462 	common  mseal			sys_mseal
++463	common	set_robust_list2	sys_set_robust_list2
  
-+#define __NR_set_robust_list2 463
-+__SYSCALL(__NR_set_robust_list2, sys_set_robust_list2)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 463
-+#define __NR_syscalls 464
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 67083fc1b2f5..9081b3bf8272 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -433,3 +433,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal 				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index c00a86931f8c..71fbac6176c8 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -195,6 +195,7 @@ COND_SYSCALL(move_pages);
+ COND_SYSCALL(set_mempolicy_home_node);
+ COND_SYSCALL(cachestat);
+ COND_SYSCALL(mseal);
++COND_SYSCALL(set_robust_list2);
  
- /*
-  * 32 bit systems traditionally used different
-diff --git a/include/uapi/linux/futex.h b/include/uapi/linux/futex.h
-index d2ee625ea189..13903a278b71 100644
---- a/include/uapi/linux/futex.h
-+++ b/include/uapi/linux/futex.h
-@@ -146,6 +146,30 @@ struct robust_list_head {
- 	struct robust_list __user *list_op_pending;
- };
- 
-+#define ROBUST_LISTS_PER_TASK 10
-+
-+enum robust_list2_type {
-+	ROBUST_LIST_32BIT,
-+	ROBUST_LIST_64BIT,
-+};
-+
-+#define ROBUST_LIST_TYPE_MASK (ROBUST_LIST_32BIT | ROBUST_LIST_64BIT)
-+
-+/*
-+ * This is an entry of a linked list of robust lists.
-+ *
-+ * @head: can point to a 64bit list or a 32bit list
-+ * @list_type: determine the size of the futex pointers in the list
-+ * @index: the index of this entry in the list
-+ * @list: linked list element
-+ */
-+struct robust_list2_entry {
-+	void __user *head;
-+	enum robust_list2_type list_type;
-+	unsigned int index;
-+	struct list_head list;
-+};
-+
- /*
-  * Are there any waiters for this robust futex:
-  */
-diff --git a/init/init_task.c b/init/init_task.c
-index 136a8231355a..1b08e745c47d 100644
---- a/init/init_task.c
-+++ b/init/init_task.c
-@@ -219,6 +219,9 @@ struct task_struct init_task __aligned(L1_CACHE_BYTES) = {
- #ifdef CONFIG_SECCOMP_FILTER
- 	.seccomp	= { .filter_count = ATOMIC_INIT(0) },
- #endif
-+#ifdef CONFIG_FUTEX
-+	.robust_list2 = LIST_HEAD_INIT(init_task.robust_list2),
-+#endif
- };
- EXPORT_SYMBOL(init_task);
- 
-diff --git a/kernel/futex/core.c b/kernel/futex/core.c
-index bcd0e2a7ba65..f74476d0bcc1 100644
---- a/kernel/futex/core.c
-+++ b/kernel/futex/core.c
-@@ -797,9 +797,9 @@ static inline int fetch_robust_entry(struct robust_list __user **entry,
-  *
-  * We silently return on any sign of list-walking problem.
-  */
--static void exit_robust_list64(struct task_struct *curr)
-+static void exit_robust_list64(struct task_struct *curr,
-+			       struct robust_list_head __user *head)
- {
--	struct robust_list_head __user *head = curr->robust_list;
- 	struct robust_list __user *entry, *next_entry, *pending;
- 	unsigned int limit = ROBUST_LIST_LIMIT, pi, pip;
- 	unsigned int next_pi;
-@@ -859,7 +859,8 @@ static void exit_robust_list64(struct task_struct *curr)
- 	}
- }
- #else
--static void exit_robust_list64(struct task_struct *curr)
-+static void exit_robust_list64(struct task_struct *curr,
-+			      struct robust_list_head __user *head)
- {
- 	pr_warn("32bit kernel should not allow ROBUST_LIST_64BIT");
- 	return;
-@@ -897,9 +898,9 @@ fetch_robust_entry32(u32 *uentry, struct robust_list __user **entry,
-  *
-  * We silently return on any sign of list-walking problem.
-  */
--static void exit_robust_list32(struct task_struct *curr)
-+static void exit_robust_list32(struct task_struct *curr,
-+			       struct robust_list_head32 __user *head)
- {
--	struct robust_list_head32 __user *head = curr->compat_robust_list;
- 	struct robust_list __user *entry, *next_entry, *pending;
- 	unsigned int limit = ROBUST_LIST_LIMIT, pi, pip;
- 	unsigned int next_pi;
-@@ -965,6 +966,54 @@ static void exit_robust_list32(struct task_struct *curr)
- 	}
- }
- 
-+long do_set_robust_list2(struct robust_list_head __user *head,
-+			 int index, unsigned int type)
-+{
-+	struct list_head *list2 = &current->robust_list2;
-+	struct robust_list2_entry *prev, *new = NULL;
-+
-+	if (index == -1) {
-+		if (list_empty(list2)) {
-+			index = 0;
-+		} else {
-+			prev = list_last_entry(list2, struct robust_list2_entry, list);
-+			index = prev->index + 1;
-+		}
-+
-+		if (index >= ROBUST_LISTS_PER_TASK)
-+			return -EINVAL;
-+
-+		new = kmalloc(sizeof(struct robust_list2_entry), GFP_KERNEL);
-+		if (!new)
-+			return -ENOMEM;
-+
-+		list_add_tail(&new->list, list2);
-+		new->index = index;
-+
-+	} else if (index >= 0) {
-+		struct robust_list2_entry *curr;
-+
-+		if (list_empty(list2))
-+			return -ENOENT;
-+
-+		list_for_each_entry(curr, list2, list) {
-+			if (index == curr->index) {
-+				new = curr;
-+				break;
-+			}
-+		}
-+
-+		if (!new)
-+			return -ENOENT;
-+	}
-+
-+	BUG_ON(!new);
-+	new->head = head;
-+	new->list_type = type;
-+
-+	return index;
-+}
-+
- #ifdef CONFIG_FUTEX_PI
- 
- /*
-@@ -1046,24 +1095,44 @@ static inline void exit_pi_state_list(struct task_struct *curr) { }
- 
- static void futex_cleanup(struct task_struct *tsk)
- {
-+	struct robust_list2_entry *curr, *n;
-+	struct list_head *list2 = &tsk->robust_list2;
-+
- #ifdef CONFIG_64BIT
- 	if (unlikely(tsk->robust_list)) {
--		exit_robust_list64(tsk);
-+		exit_robust_list64(tsk, tsk->robust_list);
- 		tsk->robust_list = NULL;
- 	}
- #else
- 	if (unlikely(tsk->robust_list)) {
--		exit_robust_list32(tsk);
-+		exit_robust_list32(tsk, (struct robust_list_head32 *) tsk->robust_list);
- 		tsk->robust_list = NULL;
- 	}
- #endif
- 
- #ifdef CONFIG_COMPAT
- 	if (unlikely(tsk->compat_robust_list)) {
--		exit_robust_list32(tsk);
-+		exit_robust_list32(tsk, tsk->compat_robust_list);
- 		tsk->compat_robust_list = NULL;
- 	}
- #endif
-+	/*
-+	 * Walk through the linked list, parsing robust lists and freeing the
-+	 * allocated lists
-+	 */
-+	if (unlikely(!list_empty(list2))) {
-+		list_for_each_entry_safe(curr, n, list2, list) {
-+			if (curr->head != NULL) {
-+				if (curr->list_type == ROBUST_LIST_64BIT)
-+					exit_robust_list64(tsk, curr->head);
-+				else if (curr->list_type == ROBUST_LIST_32BIT)
-+					exit_robust_list32(tsk, curr->head);
-+				curr->head = NULL;
-+			}
-+			list_del_init(&curr->list);
-+			kfree(curr);
-+		}
-+	}
- 
- 	if (unlikely(!list_empty(&tsk->pi_state_list)))
- 		exit_pi_state_list(tsk);
-diff --git a/kernel/futex/futex.h b/kernel/futex/futex.h
-index 8b195d06f4e8..7247d5c583d5 100644
---- a/kernel/futex/futex.h
-+++ b/kernel/futex/futex.h
-@@ -349,6 +349,9 @@ extern int __futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
- extern int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
- 		      ktime_t *abs_time, u32 bitset);
- 
-+extern long do_set_robust_list2(struct robust_list_head __user *head,
-+			 int index, unsigned int type);
-+
- /**
-  * struct futex_vector - Auxiliary struct for futex_waitv()
-  * @w: Userspace provided data
-diff --git a/kernel/futex/syscalls.c b/kernel/futex/syscalls.c
-index dba193dfd216..ff61570bb9c8 100644
---- a/kernel/futex/syscalls.c
-+++ b/kernel/futex/syscalls.c
-@@ -39,6 +39,42 @@ SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
- 	return 0;
- }
- 
-+#define ROBUST_LIST_FLAGS ROBUST_LIST_TYPE_MASK
-+
-+/*
-+ * sys_set_robust_list2()
-+ *
-+ * When index == -1, create a new list for user. When index >= 0, try to find
-+ * the corresponding list and re-set the head there.
-+ *
-+ * Return values:
-+ *  >= 0: success, index of the robust list
-+ *  -EINVAL: invalid flags, invalid index
-+ *  -ENOENT: requested index no where to be found
-+ *  -ENOMEM: error allocating new list
-+ *  -ESRCH: too many allocated lists
-+ */
-+SYSCALL_DEFINE3(set_robust_list2, struct robust_list_head __user *, head,
-+		int, index, unsigned int, flags)
-+{
-+	unsigned int type;
-+
-+	type = flags & ROBUST_LIST_TYPE_MASK;
-+
-+	if (index < -1 || index >= ROBUST_LISTS_PER_TASK)
-+		return -EINVAL;
-+
-+	if ((flags & ~ROBUST_LIST_FLAGS) != 0)
-+		return -EINVAL;
-+
-+#ifndef CONFIG_64BIT
-+	if (type == ROBUST_LIST_64BIT)
-+		return -EINVAL;
-+#endif
-+
-+	return do_set_robust_list2(head, index, type);
-+}
-+
- /**
-  * sys_get_robust_list() - Get the robust-futex list head of a task
-  * @pid:	pid of the process [zero for current task]
+ COND_SYSCALL(perf_event_open);
+ COND_SYSCALL(accept4);
+diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
+index 845e24eb372e..e174f6e2d521 100644
+--- a/scripts/syscall.tbl
++++ b/scripts/syscall.tbl
+@@ -403,3 +403,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	set_robust_list2		sys_set_robust_list2
 -- 
 2.47.0
 
