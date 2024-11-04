@@ -1,138 +1,128 @@
-Return-Path: <linux-api+bounces-2663-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2664-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091319BA29F
-	for <lists+linux-api@lfdr.de>; Sat,  2 Nov 2024 22:59:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5DC9BB344
+	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2024 12:29:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4DBC1F22616
-	for <lists+linux-api@lfdr.de>; Sat,  2 Nov 2024 21:59:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E7F11C21D20
+	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2024 11:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75651ABEA0;
-	Sat,  2 Nov 2024 21:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4896E1B3957;
+	Mon,  4 Nov 2024 11:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VgslIHnF"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QfputQou"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F711149C42
-	for <linux-api@vger.kernel.org>; Sat,  2 Nov 2024 21:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051891AF0AD;
+	Mon,  4 Nov 2024 11:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730584746; cv=none; b=rMIOh5iufrvfyTaeZS16Lc7SjUG5QOPucL6gTBhPGXaYYjkP54Mg0w36tIThTNOLp7jCxY+N1L3lZH3MlexbDgAYEQk0CljAC/7RA8IuLSw+WAJkYEi6289cNTuyw3ykA/vmeT2Zi4aAHOMU8JoUsZDOP71nb9XRbxc5o7airns=
+	t=1730719379; cv=none; b=qAjwP0qlaOQgPJeupTWZXhQ4qcmSoc55MmafkZ5I1wTSao836V2QyVnDUOLYcs79/FZzqVtS92JoAiy9BLCb2tO8QyQHicGsf5P5nteYmK6hRL6n6avHJTLkBqMaLRg3pfLQRhWnNChuVl+V8rHnAxnkXRiVvZbzdzMvQZgwDU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730584746; c=relaxed/simple;
-	bh=iU/GFh5PxfwqsQ8XPruyq3jiA+Rzu6wWlnuHQDY2Z64=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mDrj5Oi9Ggro9MBnDdDgZiHxGjO8oAEPDSsJUXzc3icnC4x/CgWueEcSYI6f6Z3owZNsKSB8KWycIP2KLrJUuKi19biePxTgpIdShtfMvmXWAO/fELKc1D3Ghr/tQadrxc7MIv4j1PScAWVb1NzEpYSUrKzWpyQMtEcGCADBQoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VgslIHnF; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730584743;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ABp4GNt9hr2dQL86JdaUvGuLhtctNBvZysLpO4JDoJ8=;
-	b=VgslIHnFpSJy2dQpr9z8kJv9yx4Ztd7Qr3YMd+hmUAvsnfNPIcAnBc/habLhyx+NAZYkbm
-	bfXhDTRKIauw48/v6vb6TT3OnfzVXnSrTq7qchtuCa4k6P576fCp4ZWg8HK40Yb0Nw7uAl
-	ChegBF0LyzcplArHE19zzL7dCnvnIHo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-400-CdByBlUuNH645wZNXiVUfg-1; Sat,
- 02 Nov 2024 17:59:00 -0400
-X-MC-Unique: CdByBlUuNH645wZNXiVUfg-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8CE5019560B1;
-	Sat,  2 Nov 2024 21:58:52 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.45.225.77])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E66E919560A3;
-	Sat,  2 Nov 2024 21:58:45 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
-  Peter Zijlstra <peterz@infradead.org>,  Darren Hart
- <dvhart@infradead.org>,  Davidlohr Bueso <dave@stgolabs.net>,  Arnd
- Bergmann <arnd@arndb.de>,  sonicadvance1@gmail.com,
-  linux-kernel@vger.kernel.org,  kernel-dev@igalia.com,
-  linux-api@vger.kernel.org,  Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v2 0/3] futex: Create set_robust_list2
-In-Reply-To: <20241101162147.284993-1-andrealmeid@igalia.com>
- (=?utf-8?Q?=22Andr=C3=A9?=
-	Almeida"'s message of "Fri, 1 Nov 2024 13:21:44 -0300")
+	s=arc-20240116; t=1730719379; c=relaxed/simple;
+	bh=GmX+5ReYRGKyOBA5e9XwPfoI/zge5PTe+5H/WBxeO18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XyMo5lFKrcLjVt4w50xyrO/+28/I2Eu7Evqiv51P5RyE5qT4jMG/dD3wRL1MNh9X96IouTlczSTkF+ubeOj81ND3szQVp+Q/WDqwh/KXG1qrS7R+WOy7ctEy7L9EYVXm5arKbl38iHAltYx6eobS4JWWxhzeaqDShORFqJH2WlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QfputQou; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=kStgQ9judXPp6iv7CcnGttT9gMpvMgwVORafr+Lvw10=; b=QfputQousl5BEIbrjt5TLYF+Ui
+	9F1scscmDhUpVOtwSTRwz4OhmP7LLhpJ3+gor7O665516JY1+wJSE5KIRBJbKB6MDgFeefRTu1X6K
+	DeM+TvJWxlHBb/IXsaiq2YxZG3SpqBrueQ/tfIzySxnbpE2yxG8pUhzvSaAvNtDYMeyhSMiHCevl2
+	6rz3wi9krsykMOiGHAvyT6D4cb3WaIJZfJ2lTFlRVoPFURFzQ9+4draF0wD0Jz4XL4h5/Sg9TKFRN
+	Dc/kql4/7nw+W5PyzelXPXapMyQandrJu6UOg0C4r2hPybSNGH2tJHpFOuPXLJzG/BWQrXwAVhP/B
+	ysD3z7xQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t7vAP-000000016mv-1YHh;
+	Mon, 04 Nov 2024 11:22:42 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CAC193006AB; Mon,  4 Nov 2024 12:22:40 +0100 (CET)
+Date: Mon, 4 Nov 2024 12:22:40 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
+	sonicadvance1@gmail.com, linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com, linux-api@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH v2 2/3] futex: Create set_robust_list2
+Message-ID: <20241104112240.GA24862@noisy.programming.kicks-ass.net>
 References: <20241101162147.284993-1-andrealmeid@igalia.com>
-Date: Sat, 02 Nov 2024 22:58:42 +0100
-Message-ID: <87ldy170x9.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <20241101162147.284993-3-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241101162147.284993-3-andrealmeid@igalia.com>
 
-* Andr=C3=A9 Almeida:
+On Fri, Nov 01, 2024 at 01:21:46PM -0300, André Almeida wrote:
+> @@ -1046,24 +1095,44 @@ static inline void exit_pi_state_list(struct task_struct *curr) { }
+>  
+>  static void futex_cleanup(struct task_struct *tsk)
+>  {
+> +	struct robust_list2_entry *curr, *n;
+> +	struct list_head *list2 = &tsk->robust_list2;
+> +
+>  #ifdef CONFIG_64BIT
+>  	if (unlikely(tsk->robust_list)) {
+> -		exit_robust_list64(tsk);
+> +		exit_robust_list64(tsk, tsk->robust_list);
+>  		tsk->robust_list = NULL;
+>  	}
+>  #else
+>  	if (unlikely(tsk->robust_list)) {
+> -		exit_robust_list32(tsk);
+> +		exit_robust_list32(tsk, (struct robust_list_head32 *) tsk->robust_list);
+>  		tsk->robust_list = NULL;
+>  	}
+>  #endif
+>  
+>  #ifdef CONFIG_COMPAT
+>  	if (unlikely(tsk->compat_robust_list)) {
+> -		exit_robust_list32(tsk);
+> +		exit_robust_list32(tsk, tsk->compat_robust_list);
+>  		tsk->compat_robust_list = NULL;
+>  	}
+>  #endif
+> +	/*
+> +	 * Walk through the linked list, parsing robust lists and freeing the
+> +	 * allocated lists
+> +	 */
+> +	if (unlikely(!list_empty(list2))) {
+> +		list_for_each_entry_safe(curr, n, list2, list) {
+> +			if (curr->head != NULL) {
+> +				if (curr->list_type == ROBUST_LIST_64BIT)
+> +					exit_robust_list64(tsk, curr->head);
+> +				else if (curr->list_type == ROBUST_LIST_32BIT)
+> +					exit_robust_list32(tsk, curr->head);
+> +				curr->head = NULL;
+> +			}
+> +			list_del_init(&curr->list);
+> +			kfree(curr);
+> +		}
+> +	}
+>  
+>  	if (unlikely(!list_empty(&tsk->pi_state_list)))
+>  		exit_pi_state_list(tsk);
 
-> 1) x86 apps can have 32bit pointers robust lists. For a x86-64 kernel
->    this is not a problem, because of the compat entry point. But there's
->    no such compat entry point for AArch64, so the kernel would do the
->    pointer arithmetic wrongly. Is also unviable to userspace to keep
->    track every addition/removal to the robust list and keep a 64bit
->    version of it somewhere else to feed the kernel. Thus, the new
->    interface has an option of telling the kernel if the list is filled
->    with 32bit or 64bit pointers.
+I'm still digesting this, but the above seems particularly silly.
 
-The size is typically different for 32-bit and 64-bit mode (12 vs 24
-bytes).  Why isn't this enough to disambiguate?
-
-> 2) Apps can set just one robust list (in theory, x86-64 can set two if
->    they also use the compat entry point). That means that when a x86 app
->    asks FEX-Emu to call set_robust_list(), FEX have two options: to
->    overwrite their own robust list pointer and make the app robust, or
->    to ignore the app robust list and keep the emulator robust. The new
->    interface allows for multiple robust lists per application, solving
->    this.
-
-Can't you avoid mixing emulated and general userspace code on the same
-thread?  On emulator threads, you have full control over the TCB.
-
-QEMU hints towards further problems (in linux-user/syscall.c):
-
-    case TARGET_NR_set_robust_list:
-    case TARGET_NR_get_robust_list:
-        /* The ABI for supporting robust futexes has userspace pass
-         * the kernel a pointer to a linked list which is updated by
-         * userspace after the syscall; the list is walked by the kernel
-         * when the thread exits. Since the linked list in QEMU guest
-         * memory isn't a valid linked list for the host and we have
-         * no way to reliably intercept the thread-death event, we can't
-         * support these. Silently return ENOSYS so that guest userspace
-         * falls back to a non-robust futex implementation (which should
-         * be OK except in the corner case of the guest crashing while
-         * holding a mutex that is shared with another process via
-         * shared memory).
-         */
-        return -TARGET_ENOSYS;
-
-The glibc implementation is not really prepared for this
-(__ASSUME_SET_ROBUST_LIST is defined for must architectures).  But a
-couple of years ago, we had a bunch of kernels that regressed robust
-list support on POWER, and I think we found out only when we tested an
-unrelated glibc update and saw unexpected glibc test suite failures =E2=80=
-=A6
-
-Thanks,
-Florian
-
+Should not the legacy lists also be on the list of lists? I mean, it
+makes no sense to have two completely separate means of tracking lists.
 
