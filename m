@@ -1,223 +1,212 @@
-Return-Path: <linux-api+bounces-2674-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2675-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0059BCF93
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 15:37:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 566BB9BD2BA
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 17:47:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCFC1286C2E
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 14:37:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72BF91C218BE
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 16:47:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DAF41D967F;
-	Tue,  5 Nov 2024 14:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D56B51D89E2;
+	Tue,  5 Nov 2024 16:47:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="ceTtK023"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GFb4TmS2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7351F33080
-	for <linux-api@vger.kernel.org>; Tue,  5 Nov 2024 14:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730817458; cv=none; b=XnqZtpSZ2yYRFV658HvUZHAqPtq9x7hGSF7BBRjmX+jik72PH+7iCYERsZ/Nb0oApvVnqUXObo0CCUC/qecMjcdG43LGrl8Uk71+h8Mw7z14WopcENJLT72Wg/mONB98cR6dHyww8LbS3ATpM4Mg38Qrm+Rd6XXqVl9uVOdPJzs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730817458; c=relaxed/simple;
-	bh=UI80saSNGQyeENZwHXQ20TbdoevVCEFmRy69WMBcnh8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i1Bn83BzQoY/LhKy+kebHSBRH4u71tfkkfqKSHb/XGz7I4JaIuMQzhPLVLnkdiWlfASfmvmssfjOcRZIFMtldbM7vk2vdLxEXjwuNXGrbHM1izIpI708GkPrnG/51LWNL7eaDXv4d/WowrFqUczh+GPOlf1iDQFGyoyEhZHG4MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=ceTtK023; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cec9acefb8so310168a12.3
-        for <linux-api@vger.kernel.org>; Tue, 05 Nov 2024 06:37:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google; t=1730817455; x=1731422255; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=QPuUXaKIVWgxMoZDzRHV+Ij4osZDivWBSJCKiW/uKdM=;
-        b=ceTtK0234IYVNp/EIGkh++V05nPwxZ2IpTDcEx37waKxh6Wrz9KH1czC8g/KyJQueT
-         fAh3eLysjhKwQtZhCArJW0Mxcx903RqK6LyTDFKrIg+1weiVJxzyZLIqT8gcMjtyzcWz
-         IS9lDdBNcVZJzTo1BrrkXT0B4RjTlGEbQnLYIr32imjY1mV+QzjgA7miu4srhHTVWAGt
-         Q67uMOqnpGJfLXYV/Y47A0ni99CVEfqiuiuZDi4OW74zf6TsY52AbRzUNap+I6GJEeaF
-         5vgToOhS9ku0VjNcK4eTDx/9wBiWYcV7X1LPgps39BqQfhecFt1Fa/qTaXlVVOenfZ5e
-         Kytw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730817455; x=1731422255;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QPuUXaKIVWgxMoZDzRHV+Ij4osZDivWBSJCKiW/uKdM=;
-        b=YOgg31IyCY+SsqkyaKqWtukYm3UoF1LuRcNlSZZyNyAGf56Zy3aROYTh81WXTE3b4k
-         ME1px96S4KSObvY8O0YCRZgsegYBHchrQ1zVtIt0t9uus7Mu9GvCLqTiIqtcrqEOP6bU
-         s/uXdNuNoAwDelb8Aei7CAIzwzJ8iH7H0odL/D3LzeycNUFPDEIA4MyHK/qMahR/mXGe
-         ldyuDPspjg1oEnxGve0XrYUnpN27MLuPK8f7GQB3wEW3JWe2H6OAIYIYZtJLLyYj9KyG
-         FE7X6yf5Wvf9WbhLNyXxcZwKDeS7a2f40ckPIoAEf9rpL9YEmk3OmMA+DFDckivNkY2V
-         E4BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWks0JZ95VrPydt54pqSvkUHIQr8zw80WYPje1DcYM1Ae6tdkqw3SVGolO1Ec9bNHWQnr2OfUpsX1w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2TKCfIKwXYVq8YkRyqm4HqKbznaPpS60/kzaZOOqo1w1kgPXS
-	lOm/XuRBPZbC4QQ5n7zoZODbsjgWWG/ja6fyi7aghoJ2Re00Is0BjpGJ6QCyvvQ8dD6Mr2+h97r
-	U
-X-Google-Smtp-Source: AGHT+IG+eEaOxwwxnqnBi7IH4m8CimowCnFKODJk37Vb46MQue71WVSIC0ndfLwQiCJS/6/D5SZ7ig==
-X-Received: by 2002:a17:906:dc8f:b0:a99:f388:6f49 with SMTP id a640c23a62f3a-a9de61a0fc0mr1328330766b.9.1730817454689;
-        Tue, 05 Nov 2024 06:37:34 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:b41:c160:5127:810a:3f6b:b00f? ([2a01:e0a:b41:c160:5127:810a:3f6b:b00f])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17cf842sm142063366b.121.2024.11.05.06.37.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 06:37:34 -0800 (PST)
-Message-ID: <0a8d6565-fdc0-452f-b132-5d237a1b7dec@6wind.com>
-Date: Tue, 5 Nov 2024 15:37:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0935BBE4E;
+	Tue,  5 Nov 2024 16:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730825237; cv=fail; b=d2xy3azGoxNcxdoGE+2J3re5zyUTilY2qxoq7abmUmeVcuWo7OIHtAL+X+4IkBoPJr6xgH+8Fh4oG6DfycSkGiVqOOXv6aVryNqoSQ50Nh0gjc7UDt9UQfKoONXMt6zo3zYXmG+iR9OabdcnCcoM3kkV4ZxPHWHGTReJFAhQdX8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730825237; c=relaxed/simple;
+	bh=p3dGUmFjx7g/q1yleSE7APyMrHGMH/qcoG+o0+V7e5c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fLWNCHX+JoUFxNpkJmcICWqdBplDVuF+5J+hly6nhfADxxsw680iKTbwE2psSjqf6KXgEOlLoUYuUwzUhTgjcXYFoI9qliUVZ8t1Nb5lQ+K97emizM+pyONwBUn8WD9ZMEJnRJWAdNCRa75SmT9Z/raZPGLEbxHfI4qAPAE2fV0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GFb4TmS2; arc=fail smtp.client-ip=40.107.92.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PD9rhGM5rq3lg/QCgn4MpFa0CQwed7nDrEinuD6QHoDUAi17QGd1s5AYv+tBUO0A+NzohlgRufOsNAWOdxzolGs0qw9FBnQQQm90YJEJ77ghMFXX+SGVFbuLi3yIwePvLjNOOZT6j61ffz8Ij9xyg1T013i2TYcAwxCqtFbVPHRmhl3ASg0YvvTM1pivs45+5xnW73ohT8N3cMpie9H4My0asXyETdxkJ5+bSVsql/PqVQ2/lkdz1tuYhSZpYyh6W1Athk8w7fUcrrHA2sT2I4xDEgDbM6jh/PQHV39zapcvXUN/oNXnmHVzMczhWNZFwSuzLqFxfERSPq96Rh35rQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RS8Nrwsw2BXdXOZ6i/UQ4YfnkD5oo8PUth2GFkeVzb8=;
+ b=cK8GEhCMJMwzyMLQrm7g8OfpiMXmxDsRruhIm36N7GAIUFHIW8gCeA+o7D+loapfNGuMcGPJXLlCMlz5qV2z8Kk3Ri9Iz/Zf0mQOEupzxUc2N3BGlcdSACqeYCMBOHsFou/PZaxJJ3a4jT18FopknQVysyuNgJlMJHxJT03ZYy88ymGKIJAcqrQ0MQDHacThE/yURve0qApgjL9fKhhatZdH7gr1GksobEO1EoalxYLe8OkePrIA6gkd0QelkFjI0JXmfQ4VqHeHAx7ztnLs9FhjDcXRQbEFGtJyUn5gab2aKx+W4Kf7DogxKmaBpAHDoI0SJ8CNsRKEf1GU58tdYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RS8Nrwsw2BXdXOZ6i/UQ4YfnkD5oo8PUth2GFkeVzb8=;
+ b=GFb4TmS2dVcJ9yYRgkMa0558h8FeJnA+aOvkxZuzOBCSJFvyF3X+0/nRUat2spr1Yxw5vhdl5r/5VynolLP0C2FWXN7D39AD1sLdamw0oFm3HgLE2mpI3vfuB07xjF2uYTxQO+uUH+k8e8g1fmq32mEhuIbDfLFf5034k3fNmbw=
+Received: from CH0PR03CA0288.namprd03.prod.outlook.com (2603:10b6:610:e6::23)
+ by CYYPR12MB8732.namprd12.prod.outlook.com (2603:10b6:930:c8::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31; Tue, 5 Nov
+ 2024 16:47:08 +0000
+Received: from CH2PEPF00000149.namprd02.prod.outlook.com
+ (2603:10b6:610:e6:cafe::53) by CH0PR03CA0288.outlook.office365.com
+ (2603:10b6:610:e6::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31 via Frontend
+ Transport; Tue, 5 Nov 2024 16:47:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH2PEPF00000149.mail.protection.outlook.com (10.167.244.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8137.17 via Frontend Transport; Tue, 5 Nov 2024 16:47:08 +0000
+Received: from kaveri.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 5 Nov
+ 2024 10:47:00 -0600
+From: Shivank Garg <shivankg@amd.com>
+To: <x86@kernel.org>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+	<jack@suse.cz>, <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<kvm@vger.kernel.org>
+CC: <chao.gao@intel.com>, <pgonda@google.com>, <thomas.lendacky@amd.com>,
+	<seanjc@google.com>, <luto@kernel.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<willy@infradead.org>, <arnd@arndb.de>, <pbonzini@redhat.com>,
+	<kees@kernel.org>, <shivankg@amd.com>, <bharata@amd.com>, <nikunj@amd.com>,
+	<michael.day@amd.com>, <Neeraj.Upadhyay@amd.com>
+Subject: [RFC PATCH 0/4] Add fbind() and NUMA mempolicy support for KVM guest_memfd
+Date: Tue, 5 Nov 2024 16:45:45 +0000
+Message-ID: <20241105164549.154700-1-shivankg@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH net 1/1] net/ipv6: Netlink flag for new IPv6 Default
- Routes
-To: Matt Muggeridge <Matt.Muggeridge@hpe.com>
-Cc: David Ahern <dsahern@kernel.org>, "David S . Miller"
- <davem@davemloft.net>, linux-api@vger.kernel.org, stable@vger.kernel.org,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241105031841.10730-1-Matt.Muggeridge@hpe.com>
- <20241105031841.10730-2-Matt.Muggeridge@hpe.com>
-From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Content-Language: en-US
-Organization: 6WIND
-In-Reply-To: <20241105031841.10730-2-Matt.Muggeridge@hpe.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000149:EE_|CYYPR12MB8732:EE_
+X-MS-Office365-Filtering-Correlation-Id: 706376f1-6bcc-4579-81b5-08dcfdb97cb2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?oAm5WvfHnHi1kwbK71H0X7hU6WE2tssB60WtgdXL8lClqU9F4VLJxoVUgYmC?=
+ =?us-ascii?Q?m1Hj/FZeb5Ngfc7ll5VMMYEfe5gwceM1Dw5WhTKS/MUpk96D9SU8eVg18Epx?=
+ =?us-ascii?Q?yI2Vzy2RMBYJ+MDO/8gDD9ucqliJ3/RgRigoqO1gyM/TRt6MnM0lLvqXb4xD?=
+ =?us-ascii?Q?EtdWF64zg9tNLzoCmp+96QkuBKOAOVezgtABQWdA5nwL+kkI5raqPiKJ3jP8?=
+ =?us-ascii?Q?hFoCjOPO1ezfYlk7hNR5QA0+tWyQP21FE+OpU29y9qDWb1Uaa5ucxKV1IlRh?=
+ =?us-ascii?Q?WrCx6RC7wUYQsudnzycQsd5w/AcZvTt+PXrHlbxGxUCD4ZgwaRxVw6AZRB4L?=
+ =?us-ascii?Q?0T1phl3npqLg1ArxGL1Q7wRIy5bo63CiX6vWAkEdN7NxTLG2OWGUBw0/oVYt?=
+ =?us-ascii?Q?bUuhD5BJjyr4Rl3mvfKm341C8Z3RKJs93i0a9hPlrJ9IM0mUVPm1mdStnuVi?=
+ =?us-ascii?Q?WL89YjMbGEU52cpdpKBRzSe/x8NWMyvalwZu533wK8cJaAlz1g3RbXf8Iz2F?=
+ =?us-ascii?Q?yDnTX9v707IArbb/AIvDofI1NlYovvk3TJULNJAljYxcMpF5UQUPZSfUp/Xx?=
+ =?us-ascii?Q?2rhVQK35yZ5s+cz+ccKqMl5MkoddL3/VNHkhW+ZtopPNyGE9j0riXiFr6glj?=
+ =?us-ascii?Q?IznjRmioP5NAxFF+cqwKfbGpZk91qswX4ckal17vZ0CbNK2jfhYiuN5nmTSc?=
+ =?us-ascii?Q?QJtxCOC5j5PCAhJ9ZLbBWI8fFjpRP7Zc8vRb3anZzeKb+aVzSmcHOKaz9PUl?=
+ =?us-ascii?Q?dYbSRU+8FQnz2FCCw7MazsKL86BHTGiRYcsYx6MHC7BECR839D07+YrsrQ0e?=
+ =?us-ascii?Q?RCCxsBUfTqTna0IGMXErEZRxmUK9TH7zKjlHslW4CPM/ONIJQwYw1KcFaRj0?=
+ =?us-ascii?Q?gwS52ZZZo3sb18Ja6VNvp5VxEgh/msCIdpR8m6iJxccD7WopkQMO0jbGWanN?=
+ =?us-ascii?Q?XDbanMseVh6Lsdz5rm1vpq35i16QvxQFZn6ry1Se19As0XPzB4spXToCYIiq?=
+ =?us-ascii?Q?K+vtVvt2kBfLnOU/qauc/lITN62Q67gQ34hCnrYzxlyOq94gQDa6w2elZFI/?=
+ =?us-ascii?Q?eJsVFXz/iZOIwgZwG4McGfWJPW2HN5y2CaKKg4CCP/iYEsYefhQiA6L4Y85e?=
+ =?us-ascii?Q?Nz5enOyzIpE+H2MCEvA5CNGdU4vvrgrViPsBDBblf1WIcMS5wzluP68ndNFn?=
+ =?us-ascii?Q?MeHZ4Lh5giEiVG+FOSICdR8owZ437frtYTzFWAmKwTBieM4o1JOLQ0bSEhWv?=
+ =?us-ascii?Q?Xa1/B6fLXYWIZ/Dy4CagetXyLWe1xD+FbDVDrTk6bXHNgugrOahpTUCM2orn?=
+ =?us-ascii?Q?4QXy9oEtBAmK4Mu1Zkm2K05MascafSYcgSnD3IiH3+3VAsh0vb2wie7OPxOe?=
+ =?us-ascii?Q?MVzGy9e9pznLgEeXKbyzXYtkgHi6?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 16:47:08.1680
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 706376f1-6bcc-4579-81b5-08dcfdb97cb2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00000149.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8732
 
-Le 05/11/2024 à 04:18, Matt Muggeridge a écrit :
-> Add a Netlink rtm_flag, RTM_F_RA_ROUTER for the RTM_NEWROUTE message.
-> This allows an IPv6 Netlink client to indicate the default route came
-> from an RA. This results in the kernel creating individual default
-> routes, rather than coalescing multiple default routes into a single
-> ECMP route.
-> 
-> Details:
-> 
-> For IPv6, a Netlink client is unable to create default routes in the
-> same manner as the kernel. This leads to failures when there are
-> multiple default routers, as they were being coalesced into a single
-> ECMP route. When one of the ECMP default routers becomes UNREACHABLE, it
-> was still being selected as the nexthop.
-> 
-> Meanwhile, when the kernel processes RAs from multiple default routers,
-> it sets the fib6_flags: RTF_ADDRCONF | RTF_DEFAULT. The RTF_ADDRCONF
-> flag is checked by rt6_qualify_for_ecmp(), which returns false when
-> ADDRCONF is set. As such, the kernel creates separate default routes.
-> 
-> E.g. compare the routing tables when RAs are processed by the kernel
-> versus a Netlink client (systemd-networkd, in my case).
-> 
-> 1) RA Processed by kernel (accept_ra = 2)
-> $ ip -6 route
-> 2001:2:0:1000::/64 dev enp0s9 proto kernel metric 256 expires ...
-> fe80::/64 dev enp0s9 proto kernel metric 256 pref medium
-> default via fe80::200:10ff:fe10:1060 dev enp0s9 proto ra ...
-> default via fe80::200:10ff:fe10:1061 dev enp0s9 proto ra ...
-> 
-> 2) RA Processed by Netlink client (accept_ra = 0)
-> $ ip -6 route
-> 2001:2:0:1000::/64 dev enp0s9 proto ra metric 1024 expires ...
-> fe80::/64 dev enp0s3 proto kernel metric 256 pref medium
-> fe80::/64 dev enp0s9 proto kernel metric 256 pref medium
-> default proto ra metric 1024 expires 595sec pref medium
-> 	nexthop via fe80::200:10ff:fe10:1060 dev enp0s9 weight 1
-> 	nexthop via fe80::200:10ff:fe10:1061 dev enp0s9 weight 1
-> 
-> IPv6 Netlink clients need a mechanism to identify a route as coming from
-> an RA. i.e. a Netlink client needs a method to set the kernel flags:
-> 
->     RTF_ADDRCONF | RTF_DEFAULT
-> 
-> This is needed when there are multiple default routers that each send
-> an RA. Setting the RTF_ADDRCONF flag ensures their fib entries do not
-> qualify for ECMP routes, see rt6_qualify_for_ecmp().
-> 
-> To achieve this, introduce a user-level flag RTM_F_RA_ROUTER that a
-> Netlink client can pass to the kernel.
-> 
-> A Netlink user-level network manager, such as systemd-networkd, may set
-> the RTM_F_RA_ROUTER flag in the Netlink RTM_NEWROUTE rtmsg. When set,
-> the kernel sets RTF_RA_ROUTER in the fib6_config fc_flags. This causes a
-> default route to be created in the same way as if the kernel processed
-> the RA, via rt6add_dflt_router().
-> 
-> This is needed by user-level network managers, like systemd-networkd,
-> that prefer to do the RA processing themselves. ie. they disable the
-> kernel's RA processing by setting net.ipv6.conf.<intf>.accept_ra=0.
-> 
-> Without this flag, when there are mutliple default routers, the kernel
-> coalesces multiple default routes into an ECMP route. The ECMP route
-> ignores per-route REACHABILITY information. If one of the default
-> routers is unresponsive, with a Neighbor Cache entry of INCOMPLETE, then
-> it can still be selected as the nexthop for outgoing packets. This
-> results in an inability to communicate with remote hosts, even though
-> one of the default routers remains REACHABLE. This violates RFC4861
-> section 6.3.6, bullet 1.
-> 
-> Extract from RFC4861 6.3.6 bullet 1:
->      1) Routers that are reachable or probably reachable (i.e., in any
->         state other than INCOMPLETE) SHOULD be preferred over routers
->         whose reachability is unknown or suspect (i.e., in the
->         INCOMPLETE state, or for which no Neighbor Cache entry exists).
-> 
-> This fixes the IPv6 Logo conformance test v6LC_2_2_11, and others that
-> test with multiple default routers. Also see systemd issue #33470:
-> https://github.com/systemd/systemd/issues/33470.
-> 
-> Signed-off-by: Matt Muggeridge <Matt.Muggeridge@hpe.com>
-> Cc: David Ahern <dsahern@kernel.org>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: linux-api@vger.kernel.org
-> Cc: stable@vger.kernel.org
-> ---
->  include/uapi/linux/rtnetlink.h | 9 +++++----
->  net/ipv6/route.c               | 3 +++
->  2 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/uapi/linux/rtnetlink.h b/include/uapi/linux/rtnetlink.h
-> index 3b687d20c9ed..9f0259f6e4ed 100644
-> --- a/include/uapi/linux/rtnetlink.h
-> +++ b/include/uapi/linux/rtnetlink.h
-> @@ -202,7 +202,7 @@ enum {
->  #define RTM_NR_FAMILIES	(RTM_NR_MSGTYPES >> 2)
->  #define RTM_FAM(cmd)	(((cmd) - RTM_BASE) >> 2)
->  
-> -/* 
-> +/*
->     Generic structure for encapsulation of optional route information.
->     It is reminiscent of sockaddr, but with sa_family replaced
->     with attribute type.
-> @@ -242,7 +242,7 @@ struct rtmsg {
->  
->  	unsigned char		rtm_table;	/* Routing table id */
->  	unsigned char		rtm_protocol;	/* Routing protocol; see below	*/
-> -	unsigned char		rtm_scope;	/* See below */	
-> +	unsigned char		rtm_scope;	/* See below */
->  	unsigned char		rtm_type;	/* See below	*/
->  
->  	unsigned		rtm_flags;
-> @@ -336,6 +336,7 @@ enum rt_scope_t {
->  #define RTM_F_FIB_MATCH	        0x2000	/* return full fib lookup match */
->  #define RTM_F_OFFLOAD		0x4000	/* route is offloaded */
->  #define RTM_F_TRAP		0x8000	/* route is trapping packets */
-> +#define RTM_F_RA_ROUTER		0x10000	/* route is a default route from RA */
-Please, don't mix whitespace changes with the changes related to the new flag.
+This patch series introduces fbind() syscall to support NUMA memory
+policies for KVM guest_memfd, allowing VMMs to configure memory placement
+for guest memory. This addresses the current limitation where guest_memfd
+allocations ignore NUMA policies, potentially impacting performance of
+memory-locality-sensitive workloads.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n166
+Currently, while mbind() enables NUMA policy support for userspace
+applications, it cannot be used with guest_memfd as the memory isn't mapped
+to userspace. This results in guest memory being allocated randomly across
+host NUMA nodes, even when specific policies and node preferences are
+specified in QEMU commands.
+
+The fbind() syscall is particularly useful for SEV-SNP guests.
+
+Following suggestions from LPC and review comment [1], I switched from an
+IOCTL-based approach [2] to fbind() [3]. The fbind() approach is preferred
+as it provides a generic NUMA policy configuration working with any fd,
+rather than being tied to guest-memfd.
+
+Testing:
+QEMU tree- https://github.com/AMDESE/qemu/tree/guest_memfd_fbind_NUMA
+Based upon
+Github tree- https://github.com/AMDESE/linux/tree/snp-host-latest
+Branch: snp-host-latest commit: 85ef1ac
+
+Example command to run a SEV-SNP guest bound to NUMA Node 0 of the host:
+$ qemu-system-x86_64 \
+   -enable-kvm \
+  ...
+   -machine memory-encryption=sev0,vmport=off \
+   -object sev-snp-guest,id=sev0,cbitpos=51,reduced-phys-bits=1 \
+   -numa node,nodeid=0,memdev=ram0,cpus=0-15 \
+   -object memory-backend-memfd,id=ram0,policy=bind,host-nodes=0,size=1024M,share=true,prealloc=false
+
+[1]: https://lore.kernel.org/linux-mm/ZvEga7srKhympQBt@intel.com/
+[2]: https://lore.kernel.org/linux-mm/20240919094438.10987-1-shivankg@amd.com
+[3]: https://lore.kernel.org/kvm/ZOjpIL0SFH+E3Dj4@google.com/
 
 
-Regards,
-Nicolas
+Shivank Garg (3):
+  Introduce fbind syscall
+  KVM: guest_memfd: Pass file pointer instead of inode in guest_memfd
+    APIs
+  KVM: guest_memfd: Enforce NUMA mempolicy if available
+
+Shivansh Dhiman (1):
+  mm: Add mempolicy support to the filemap layer
+
+ arch/x86/entry/syscalls/syscall_32.tbl |  1 +
+ arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+ include/linux/fs.h                     |  3 ++
+ include/linux/mempolicy.h              |  3 ++
+ include/linux/pagemap.h                | 40 ++++++++++++++++
+ include/linux/syscalls.h               |  3 ++
+ include/uapi/asm-generic/unistd.h      |  5 +-
+ kernel/sys_ni.c                        |  1 +
+ mm/Makefile                            |  2 +-
+ mm/fbind.c                             | 49 +++++++++++++++++++
+ mm/filemap.c                           | 30 ++++++++++--
+ mm/mempolicy.c                         | 57 ++++++++++++++++++++++
+ virt/kvm/guest_memfd.c                 | 66 +++++++++++++++++++++-----
+ 13 files changed, 242 insertions(+), 19 deletions(-)
+ create mode 100644 mm/fbind.c
+
+-- 
+2.34.1
+
 
