@@ -1,144 +1,128 @@
-Return-Path: <linux-api+bounces-2669-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2671-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD1B9BC065
-	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2024 22:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB19BC3BA
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 04:19:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C9DF1C20A73
-	for <lists+linux-api@lfdr.de>; Mon,  4 Nov 2024 21:56:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9717F1C20FBB
+	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 03:19:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68E6A1D5CFF;
-	Mon,  4 Nov 2024 21:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1633E183098;
+	Tue,  5 Nov 2024 03:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="r33WZZ1/"
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="VIw2w5sk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F6714B94F;
-	Mon,  4 Nov 2024 21:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C916717E8E2;
+	Tue,  5 Nov 2024 03:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730757365; cv=none; b=VzpsdbKBOWEnBERZz5swtyt+7J/RwgiuoZgocFIY+nILvtAhcFIfPBh3EhjrrrZxGqhnwqWvEZiLwAMATtoHlCk5d+DxHfDBKQQauGpqyTObGF5jUZlXkUgf5m5F0V5n+QdAJc8cw9eZoby5RdZq+ZCY2iDG4j/NebOHTvHq5KE=
+	t=1730776781; cv=none; b=AGIRnx3uFdoYHBcRskKaVVPQ9gvO0JGVfnNQXLbVxh7fjD2vaRIbSdnZqL9W+bzV96rc5HvEzIvpI4Is7Gxj0i5l8qwjN4ij6Roe6sVnaVEZQZ75fFTr7T3b2O8rSJKe4fmIEvbYsFtM/7QGgLhdkW406ivfODSZPaqvroAECac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730757365; c=relaxed/simple;
-	bh=U31h+o74RVjMXL7/loS81By7bbydzhZWLyFk/1QFKGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nSh8JUNzpaJnxEFeiaM/AS9iSAwLyloKtrZLbBpoQGhUmb+k2VdqMruRoWFVL2wHwAMrVfzmdtcqF9MXzvucTaU07PnHwNPOsr0o1rSngw9jfkSszoq6GuRwo3oTUL1pq9k1MPt2JIEWgqlN4mf/UT6g7y9ycYrFuOyiMVMb8jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=r33WZZ1/; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GG1B6eb+FZfFk5uIGi3OTAWvgN8hYpzXzP7mahtmAJE=; b=r33WZZ1/ujRr8X41uraQfDTcBo
-	v9fonMz2yopmUovf2zaAVNFfsNe6g+AfAL/mJdzmTMWqZwp1RgEQ0yWT2ezd+yPguHYCS3sUoK+EZ
-	m1LySWRNNOliJCJE9/q0jVjozomlOLBVRwGxxXqcNSFSXZjjn4WE45qP4AKnyzWJufgDiQznXtr6P
-	/d4pxc31tk5sceVQB4KkDy0gXs8VgDMXJIITpDGegoOgWAuCmr95hjSWqFYcEwntR1FCe+OmHLGR/
-	Wz5dfdli4by5QGO1bEu6Gvmru+5626anNu4rbDQBXiDG361GHfX16pnDztHDtP/L32aE1oww6qUmb
-	Pw0kgpqQ==;
-Received: from [177.172.124.78] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t8538-001qw9-VN; Mon, 04 Nov 2024 22:55:51 +0100
-Message-ID: <8373eb11-d61c-40c4-9289-1047ec35c4d6@igalia.com>
-Date: Mon, 4 Nov 2024 18:55:45 -0300
+	s=arc-20240116; t=1730776781; c=relaxed/simple;
+	bh=ZO4mZ6uDnQ4xgSBdcl2TmLImoFFrdOZgNandE9nq1hM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jjvm0hCdjEAKtD/os8FGY6O2yOyKHAgd1mswiyhs/QsiuH8u368jHBOgywmiMVUa0L5kN/UVrLZ5qR9LVwQ0/wxmvejsGWYyatDl6s0jid/B2jYcUqtW1LtYA+5RUuG4dhOTYE6DZ7F4IGNveGizTil8bfTRVHXMcQ5iNFA/2bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=VIw2w5sk; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4KtqhW022119;
+	Tue, 5 Nov 2024 03:19:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pps0720; bh=RLvlyd7j+M/HoXWqrm1jIxIlrb8ntzFqxgIsi
+	f42wOA=; b=VIw2w5skrOsvgULAD0vSl4XjsjJ5tZ4X57K7WssK3scIWUggHWICM
+	rxlkc++Yd4bRGFvEmIiKEaBXEEamWivKBzeCJlzvhcj818zRbgHDtH4CT1W5jgir
+	sCuLhYB6IE/FQQt73PaRB3fcs23kB9jdx8EpBQgGkM9JDPbmdkGujdxyeNXDza70
+	B9H5mK7TWuX1HnLKgxmcnCF0ZrgjhsoTPUxvXbB8bipBAqS55T7WIfaYXWRpmzHF
+	PyGUeL/jpdv+B/2R9s9y4Dhb0eLfXcfWt/LlHqCWgMxo2H/OnJY46HNgqJPtmoNE
+	/DH94lqu+x2qSe49C7sozKCwfWuOvL+yg==
+Received: from p1lg14878.it.hpe.com ([16.230.97.204])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 42q5qqa95w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Nov 2024 03:19:15 +0000 (GMT)
+Received: from localhost (unknown [192.58.206.35])
+	by p1lg14878.it.hpe.com (Postfix) with ESMTP id 9B9F52766C;
+	Tue,  5 Nov 2024 03:19:13 +0000 (UTC)
+From: Matt Muggeridge <Matt.Muggeridge@hpe.com>
+To: 
+Cc: Matt Muggeridge <Matt.Muggeridge@hpe.com>,
+        David Ahern <dsahern@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>, linux-api@vger.kernel.org,
+        stable@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net 0/1] net/ipv6: Netlink flag for new IPv6 Default Routes
+Date: Mon,  4 Nov 2024 22:18:38 -0500
+Message-Id: <20241105031841.10730-1-Matt.Muggeridge@hpe.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] futex: Create set_robust_list2
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
- Arnd Bergmann <arnd@arndb.de>, sonicadvance1@gmail.com,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- linux-api@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
-References: <20241101162147.284993-1-andrealmeid@igalia.com>
- <20241101162147.284993-3-andrealmeid@igalia.com>
- <20241104112240.GA24862@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20241104112240.GA24862@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 2ZpbU0J99SP4QRAkmWWubxBa3XzyO8KB
+X-Proofpoint-ORIG-GUID: 2ZpbU0J99SP4QRAkmWWubxBa3XzyO8KB
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1011 mlxlogscore=643 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411050024
 
-Hi Peter,
+This is the cover letter and provides a brief overview of the change.
 
-Em 04/11/2024 08:22, Peter Zijlstra escreveu:
-> On Fri, Nov 01, 2024 at 01:21:46PM -0300, André Almeida wrote:
->> @@ -1046,24 +1095,44 @@ static inline void exit_pi_state_list(struct task_struct *curr) { }
->>   
->>   static void futex_cleanup(struct task_struct *tsk)
->>   {
->> +	struct robust_list2_entry *curr, *n;
->> +	struct list_head *list2 = &tsk->robust_list2;
->> +
->>   #ifdef CONFIG_64BIT
->>   	if (unlikely(tsk->robust_list)) {
->> -		exit_robust_list64(tsk);
->> +		exit_robust_list64(tsk, tsk->robust_list);
->>   		tsk->robust_list = NULL;
->>   	}
->>   #else
->>   	if (unlikely(tsk->robust_list)) {
->> -		exit_robust_list32(tsk);
->> +		exit_robust_list32(tsk, (struct robust_list_head32 *) tsk->robust_list);
->>   		tsk->robust_list = NULL;
->>   	}
->>   #endif
->>   
->>   #ifdef CONFIG_COMPAT
->>   	if (unlikely(tsk->compat_robust_list)) {
->> -		exit_robust_list32(tsk);
->> +		exit_robust_list32(tsk, tsk->compat_robust_list);
->>   		tsk->compat_robust_list = NULL;
->>   	}
->>   #endif
->> +	/*
->> +	 * Walk through the linked list, parsing robust lists and freeing the
->> +	 * allocated lists
->> +	 */
->> +	if (unlikely(!list_empty(list2))) {
->> +		list_for_each_entry_safe(curr, n, list2, list) {
->> +			if (curr->head != NULL) {
->> +				if (curr->list_type == ROBUST_LIST_64BIT)
->> +					exit_robust_list64(tsk, curr->head);
->> +				else if (curr->list_type == ROBUST_LIST_32BIT)
->> +					exit_robust_list32(tsk, curr->head);
->> +				curr->head = NULL;
->> +			}
->> +			list_del_init(&curr->list);
->> +			kfree(curr);
->> +		}
->> +	}
->>   
->>   	if (unlikely(!list_empty(&tsk->pi_state_list)))
->>   		exit_pi_state_list(tsk);
-> 
-> I'm still digesting this, but the above seems particularly silly.
-> 
-> Should not the legacy lists also be on the list of lists? I mean, it
-> makes no sense to have two completely separate means of tracking lists.
-> 
+Add a Netlink rtm_flag, RTM_F_RA_ROUTER for the RTM_NEWROUTE message.
+This allows an IPv6 Netlink client to indicate the default route came
+from an RA. This results in the kernel creating individual default
+routes, rather than coalescing multiple default routes into a single
+ECMP route.
 
-You are asking if, whenever someone calls set_robust_list() or 
-compat_set_robust_list() to be inserted into &current->robust_list2 
-instead of using tsk->robust_list and tsk->compat_robust_list?
+This change also needs to be reflected in the man7/rtnetlink.7 page. Below is
+the one-line addition to the man-pages git repo
+(https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git):
 
-I was thinking of doing that, but my current implementation has a 
-kmalloc() call for every insertion, and I wasn't sure if I could add 
-this new latency to the old set_robust_list() syscall. Assuming it is 
-usually called just once during the thread initialization perhaps it 
-shouldn't cause much harm I guess.
+diff --git a/man/man7/rtnetlink.7 b/man/man7/rtnetlink.7
+index 86ed459bb..07c4ef0a8 100644
+--- a/man/man7/rtnetlink.7
++++ b/man/man7/rtnetlink.7
+@@ -295,6 +295,7 @@ if the route changes, notify the user via rtnetlink
+ T}
+ RTM_F_CLONED:route is cloned from another route
+ RTM_F_EQUALIZE:a multipath equalizer (not yet implemented)
++RTM_F_RA_ROUTER: the route is a default route from an RA
+ .TE
+ .IP
+ .I rtm_table
+
+
+Signed-off-by: Matt Muggeridge <Matt.Muggeridge@hpe.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: linux-api@vger.kernel.org
+Cc: stable@vger.kernel.org
+
+Matt Muggeridge (1):
+  net/ipv6: Netlink flag for new IPv6 Default Routes
+
+ include/uapi/linux/rtnetlink.h | 9 +++++----
+ net/ipv6/route.c               | 3 +++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+
+base-commit: 5ccdcdf186aec6b9111845fd37e1757e9b413e2f
+-- 
+2.35.3
 
 
