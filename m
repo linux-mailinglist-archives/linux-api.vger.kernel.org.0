@@ -1,83 +1,87 @@
-Return-Path: <linux-api+bounces-2681-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2682-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1899BD579
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 19:55:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C22CB9BDB58
+	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2024 02:44:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF5B01C22A57
-	for <lists+linux-api@lfdr.de>; Tue,  5 Nov 2024 18:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 742A61F23EAE
+	for <lists+linux-api@lfdr.de>; Wed,  6 Nov 2024 01:44:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6E71E885E;
-	Tue,  5 Nov 2024 18:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD198188CC6;
+	Wed,  6 Nov 2024 01:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FPVui947"
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="H2wIXAy0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B111E766B;
-	Tue,  5 Nov 2024 18:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B017B50E;
+	Wed,  6 Nov 2024 01:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730832946; cv=none; b=upRHdqvp3N2z8JwJskkKK0DXwgqa29obiBAZozdhSL9uUUF0hTcFQGFOvqz8g5mJ8fnrgYcrn/qtL9cIT+VgUd8OfYlukse0mWAaZLXrtFTGqmj6mwx7rRCDQ2pjE6rrSGgFCJJvAY/GkuucZ+V8BMIZhq2fgStkveSoI3D+dow=
+	t=1730857467; cv=none; b=iNq8xknbdxkp9Sy+i3JdghIm6Ci/4MR+vmjrhwq22n8JnDrJBe+X0RmJRh3yJ1J+DhWHSJOSmeUoI1NL7DHDxq8eBbD00ddh5cxin2FZ/Hs+YCmfXGwFVKNvumtqMMBqQ04PuUKM5OnF7CE88+0qEL8K//i4VsZIIgQSf0wDz8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730832946; c=relaxed/simple;
-	bh=FyJwrbSOcefmy8hObu/h5kbLIkpKrzUHjU9Sx8dH+Hg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sp9yCkqLOLpAIbKbqRY7Px6+k8AGgrTBbRkWnpd27AmRk4lWIMXu+xMyRBTZbG/+DYSZaFngCIAQMLOT1hIHlkK4GNvFqNZNJBfEWIRYUycCRG5VBEECtRXZra7divgON/RznWP3vm3QP26mt9B8xo0hj5zG/2FsfsclQAx8J7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FPVui947; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=csnfmaX6tlJo2e1eAq4rsKokiFMcmhKAZZMJd6wjEOo=; b=FPVui947CyQVumsA4kSLOHx2jG
-	spiyu2eEwhqOv10c3+Cy5zAaO0g8RtQFw7P/9bC91PgnvxTHviirZm0Ie69+03ccTOzmjScAGG66U
-	Wq5BXDoq553rH6hMz4v64bZty6Bb4lZtRz3t8ih8Yg5/W6B9egy7z7zWixbgXb0CpW+fL6LXA7qT0
-	qPNR1+I4R5xn+pxUhM2wB2IvMaqbGH+Hkc0mW8SoLOYe2JJhCwiQBLODdErd8HSxY1lKZ4k7Io132
-	mG4P3OnM4Ezlzw7TaqiXA0aXcq4vySmfOcI6jfVmNw4RWVZuDsUYFy/h0AkCCO/7QywZwTlOxnF9M
-	a9arNg0w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8OiF-00000003Tnf-38ZX;
-	Tue, 05 Nov 2024 18:55:35 +0000
-Date: Tue, 5 Nov 2024 18:55:35 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Shivank Garg <shivankg@amd.com>
-Cc: x86@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	jack@suse.cz, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, kvm@vger.kernel.org, chao.gao@intel.com,
-	pgonda@google.com, thomas.lendacky@amd.com, seanjc@google.com,
-	luto@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, arnd@arndb.de, pbonzini@redhat.com,
-	kees@kernel.org, bharata@amd.com, nikunj@amd.com,
-	michael.day@amd.com, Neeraj.Upadhyay@amd.com
-Subject: Re: [RFC PATCH 0/4] Add fbind() and NUMA mempolicy support for KVM
- guest_memfd
-Message-ID: <ZypqJ0e-J3C_K8LA@casper.infradead.org>
-References: <20241105164549.154700-1-shivankg@amd.com>
+	s=arc-20240116; t=1730857467; c=relaxed/simple;
+	bh=Ceb1e0csOYQPByEC5wuAEwTUQ//6cxjlD9QGkAOefi4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=eo+BWjpnm7qoXHR4bpW53b8qSb+ZNKPXnJUqFMd5La2Vv/oOqMCbDRUK2Cbrl/0TSuRb4+ZtQuNx21GbOcQNTBJZ0u/BZtkGeIJIEg1NAMcXcGRcle8QXpRhVd9evwgok+YzZWyxI/pJKRTk6ddC/CK9cliyFkECVt/S/LbzLnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=H2wIXAy0; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5HshOA007640;
+	Wed, 6 Nov 2024 01:44:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pps0720; bh=Ceb1e0csOYQPB
+	yEC5wuAEwTUQ//6cxjlD9QGkAOefi4=; b=H2wIXAy0xd37lTh33ta4YxZGKIVBB
+	tEz9oUZftf9Fhm+92ZpBdedqG24Ge+J+AMiZqTikDBEJs/Y7Uj6Pc1iK3V2eyWpD
+	ig4WsXcLn/WTZB0ZnK8dyFEslry9BzT8nJCIaO1zPOWmx+emKFQSkeB1YwwHvJ+u
+	19MsX6WxRYWoEKA0+PSQZJelufaCR9zHFj0rg/8K/cc9/P5gWHMTkYlX51eb7t3Q
+	UBPe6+SiN9RJhYHHGP7vfqUb6o0N2mioaHE93UNToDIwpB1zBbPOB3PNv+xeLZP/
+	k5QoZAYrZRe6onI8dIUYbrzp2J8CsMFFvNEsmovQrhWqbMM2f01LhLLjw==
+Received: from p1lg14880.it.hpe.com ([16.230.97.201])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 42qr5xb5js-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Nov 2024 01:44:13 +0000 (GMT)
+Received: from localhost (unknown [192.58.206.38])
+	by p1lg14880.it.hpe.com (Postfix) with ESMTP id EE59C800192;
+	Wed,  6 Nov 2024 01:44:11 +0000 (UTC)
+From: Matt Muggeridge <Matt.Muggeridge@hpe.com>
+To: nicolas.dichtel@6wind.com
+Cc: Matt.Muggeridge@hpe.com, davem@davemloft.net, dsahern@kernel.org,
+        edumazet@google.com, horms@kernel.org, kuba@kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, pabeni@redhat.com, stable@vger.kernel.org
+Subject: Re: [PATCH net 1/1] net/ipv6: Netlink flag for new IPv6 Default Routes
+Date: Tue,  5 Nov 2024 20:44:03 -0500
+Message-Id: <20241106014403.7044-1-Matt.Muggeridge@hpe.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <0a8d6565-fdc0-452f-b132-5d237a1b7dec@6wind.com>
+References: <0a8d6565-fdc0-452f-b132-5d237a1b7dec@6wind.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241105164549.154700-1-shivankg@amd.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: M0lSQV5jiJjQ-LrNG9tV-8raFHcqeyZ4
+X-Proofpoint-GUID: M0lSQV5jiJjQ-LrNG9tV-8raFHcqeyZ4
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ clxscore=1011 priorityscore=1501 bulkscore=0 mlxlogscore=594
+ malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060012
 
-On Tue, Nov 05, 2024 at 04:45:45PM +0000, Shivank Garg wrote:
-> This patch series introduces fbind() syscall to support NUMA memory
-> policies for KVM guest_memfd, allowing VMMs to configure memory placement
-> for guest memory. This addresses the current limitation where guest_memfd
-> allocations ignore NUMA policies, potentially impacting performance of
-> memory-locality-sensitive workloads.
+> Please, don't mix whitespace changes with the changes related to the new flag.
 
-Why does guest_memfd ignore numa policies?  The pagecache doesn't,
-eg in vma_alloc_folio_noprof().
+Thanks, Nicolas. I will revert the changes that tidied up trailing whitespace in the next version.
 
