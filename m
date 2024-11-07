@@ -1,94 +1,69 @@
-Return-Path: <linux-api+bounces-2688-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2689-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F4E9C018E
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 10:54:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68149C09AC
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 16:10:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECFDC1F23BC0
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 09:54:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA45B282A71
+	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 15:10:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639581EF080;
-	Thu,  7 Nov 2024 09:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AB0212D21;
+	Thu,  7 Nov 2024 15:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IfmGvCzR"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GuCmWcel"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3EB1DB54B;
-	Thu,  7 Nov 2024 09:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A1F12B63;
+	Thu,  7 Nov 2024 15:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730973152; cv=none; b=KDakeALobYGigG0tVc3J7FGZluccgtSMxpKV7FwnDB88vfrL00vejcywV4EyPgscb6nYG7Gz0aXGARjiJCROPgntV12Qy9FDPsGV3S0/Jh+EOtOEzntoplpiOR3hQ/CV2uw7NiKkA4WeX8q5DZ69gUoaEKXSl7JlwR5IPm008es=
+	t=1730992216; cv=none; b=FTHZ7lg7LDu/ENe3v7PmB0O/yP+DHcvTtu4M9rsWltYa/RkIprtfuFTk8HGoK0s55GCgh3bUV+YUUMC/Py0SjW8i2JAZ9ZiQFgRM3q5TYIXERJf5vGRuM2s9K/Yi9sTwSFI4Fi80eHSRmdwGZnT9ESsvZ7xU1/Al+Ae9YQwD0gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730973152; c=relaxed/simple;
-	bh=VztDLWxUXtgG25+i0M5xW2ZyIXyhdWw+s6kVl5FgXyU=;
+	s=arc-20240116; t=1730992216; c=relaxed/simple;
+	bh=dF5XVTxIII6iMggWIEemDLIC7Cxe07E6GULEaQ+Lc60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wys5HwTgQxDjiR/Eq15BbREIW5eLXJg9nhpOnmGN3NFzMxp64FZW8Uo8KEUNsdffPDaucODwZNpj9rNOXPNLjdglYvNv7BLg1fQ4OFu1v5ReI4tzyxQWKws5E9yap04KeUXKL3Iq9wGlK74mg+P2rb6bNbq0AepDvRS6MejeCv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=idosch.org; spf=none smtp.mailfrom=idosch.org; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IfmGvCzR; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=idosch.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=idosch.org
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 1E70513806A8;
-	Thu,  7 Nov 2024 04:52:29 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 07 Nov 2024 04:52:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1730973149; x=1731059549; bh=03kWA3JRtu4T5mhalhuq/QQtAHUUB9dIoXw
-	69Q0F+bw=; b=IfmGvCzRvu8A8fkvtA6BDh5T4X44JDv6lSUc61gfeKwAJ5+GBJG
-	f3UBAEYhCuIx++qFsRnsWGnhCUudBE5l6i0YCERtA9llieSl/Q+R/TlqMZSX53fJ
-	LbFFW7qRaZhtlPnTiEPKFydl7B1NZwiBTBAYmG9IEj5ZM6EaevLhlyBby8clzlE2
-	SfrKcgbD4XvXGBMv0/d658kXpe8lH9A/os7T4k1/H9twaqt8UanssSEhBPy042qy
-	zrODgSHNf6vjb/cCrMIWx1T0OV61BRNBYxPbHz4KxWfZ5+MdLFLoKhR/+OPrlZQB
-	Lms32NjnS+qRrf8bm8zziD0+DlFUoHOGZXg==
-X-ME-Sender: <xms:3I0sZ64PywGHYmqOoHxShgKMMQJLHQsMyYdqS90td-6Hy4NPAdhpCg>
-    <xme:3I0sZz4d6tNJmeYXblPyDoFWypaGfdkp9jNsabq52gL2fuKc3x16SlVhNcLLymDkW
-    zRK4FiThbdfjIY>
-X-ME-Received: <xmr:3I0sZ5d_fEEM2YDXtK2fkVqL-v5kFY_EAAq3O8GHHESVSrfbMgyRXBIQcDnslYiwMFitAE3XAXiveQS1JC4jxvJvhZI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeggddtlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecu
-    hfhrohhmpefkughoucfutghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorh
-    hgqeenucggtffrrghtthgvrhhnpefhffejgefhjeehjeevheevhfetveevfefgueduueei
-    vdeijeeihfegheeljefgueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihguohhstghhsehi
-    ughoshgthhdrohhrghdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuth
-    dprhgtphhtthhopehmrghtthdrmhhughhgvghrihgughgvsehhphgvrdgtohhmpdhrtghp
-    thhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegushgrhh
-    gvrhhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegvughumhgriigvthesghhoohhg
-    lhgvrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrphhi
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
-    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgv
-    rhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:3I0sZ3Jpu5K849KnOSdz-22lJUFsubxt_CBXYObVco061E4PNr6p5g>
-    <xmx:3I0sZ-IV5CcIPlOW8MbrsExHySQNSF822SI_XZYqxTaolhjlRbXHlw>
-    <xmx:3I0sZ4z5BJFcQKdreAno6VmFyBoouSvuqwQkhq1cv76U7tINEljAdQ>
-    <xmx:3I0sZyKa_x4-qNHAYfc73sLegu2rPIIn0Ddm5QpsL90eHPPTmPRm9A>
-    <xmx:3Y0sZ7Dk4yNdFj49Sq0YA3BAQmpvlcKcdmqMMTz6xD77Gb6Zzdl26s7r>
-Feedback-ID: i494840e7:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Nov 2024 04:52:28 -0500 (EST)
-Date: Thu, 7 Nov 2024 11:52:25 +0200
-From: Ido Schimmel <idosch@idosch.org>
-To: Matt Muggeridge <Matt.Muggeridge@hpe.com>
-Cc: davem@davemloft.net, dsahern@kernel.org, edumazet@google.com,
-	horms@kernel.org, kuba@kernel.org, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com, stable@vger.kernel.org
-Subject: Re: [PATCH net 1/1] net/ipv6: Netlink flag for new IPv6 Default
- Routes
-Message-ID: <ZyyN2bSgrpbhbkpp@shredder>
-References: <ZytjEINNRmtpadr_@shredder>
- <20241107035303.24057-1-Matt.Muggeridge@hpe.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eQndNuMuedmJb3dtHuc5qNGRgVUZQgieh2pbZil1a3vCBve3TYcpocqTzhLIub8j+9w12MGcdbLQuiYo404AhihM7qTlwwZeR/Iw++bnrr3jAKd2ypu8twMjrR5qfklDq5ll4OP8idqbvUGpBLVvfzBRjuY6qNqe86TL4YmSxkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GuCmWcel; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Vom1WJYdLvjku2r/Xl0EhIhQ5E31YZkW3BtO+U5Dsek=; b=GuCmWcelHu3QNDVTgzwIceTERX
+	/vZoa+fZx0pT+5jVIJzTCv4ZeGycAXKZ3WwH8ZIMz+UT6M09CyrfQf1dpKHT0h9TQDt7wIIwZFQMR
+	jqTi79AogfM+fEMudUmIdznL/18LTQnR5GyxB3te8KLOPk2/tBUc41LuSKeak40E/SdOtz73JCu6G
+	XqwMJZZPYY+Ahs8ZDynRIykD5DX82jInNorF8DV35Rroz+gdSejfsjnLsw+r9X9jP0LPRRRbCHyyU
+	BTuDrcnLXh+iFBOFnLbAulo4+xDfmkRer56WnCT4YEvMuRMroRNIuix2qLa2bU/s9nzQ0smuqQsK9
+	dgIZeC2Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1t949B-00000006rdv-0Z6w;
+	Thu, 07 Nov 2024 15:10:09 +0000
+Date: Thu, 7 Nov 2024 15:10:08 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Shivank Garg <shivankg@amd.com>
+Cc: x86@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, akpm@linux-foundation.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, kvm@vger.kernel.org, chao.gao@intel.com,
+	pgonda@google.com, thomas.lendacky@amd.com, seanjc@google.com,
+	luto@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, arnd@arndb.de, pbonzini@redhat.com,
+	kees@kernel.org, bharata@amd.com, nikunj@amd.com,
+	michael.day@amd.com, Neeraj.Upadhyay@amd.com,
+	linux-coco@lists.linux.dev
+Subject: Re: [RFC PATCH 0/4] Add fbind() and NUMA mempolicy support for KVM
+ guest_memfd
+Message-ID: <ZyzYUOX_r3uWin5f@casper.infradead.org>
+References: <20241105164549.154700-1-shivankg@amd.com>
+ <ZypqJ0e-J3C_K8LA@casper.infradead.org>
+ <6004eaa4-934c-48f4-b502-cf7e436462fc@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -97,154 +72,31 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107035303.24057-1-Matt.Muggeridge@hpe.com>
+In-Reply-To: <6004eaa4-934c-48f4-b502-cf7e436462fc@amd.com>
 
-On Wed, Nov 06, 2024 at 10:53:03PM -0500, Matt Muggeridge wrote:
-> Hi Ido,
+On Thu, Nov 07, 2024 at 02:24:20PM +0530, Shivank Garg wrote:
+> The folio allocation path from guest_memfd typically looks like this...
 > 
-> > >>> Is the problem that fib6_table_lookup() chooses a reachable
-> > >>> nexthop and then fib6_select_path() overrides it with an unreachable
-> > >>> one?
-> > 
-> > >> I'm afraid I don't know.
-> > >>
-> > > We need to understand the current behavior before adding a new interface
-> > > that we will never be able to remove. It is possible we can improve /
-> > > fix the current code. I won't have time to look into it myself until
-> > > next week.
+> kvm_gmem_get_folio
+>   filemap_grab_folio
+>     __filemap_get_folio
+>       filemap_alloc_folio
+>         __folio_alloc_node_noprof
+>           -> goes to the buddy allocator
 > 
-> I am grateful that you want to look into it. Thank you! And I look forward to
-> learning what you discover.
-> 
-> You probably already know how to reproduce it, but in case it helps, I still
-> have the packet captures and can share them with you. Let me know if you'd
-> like me to share them (and how to share them).
+> Hence, I am trying to have a version of filemap_alloc_folio() that takes an mpol.
 
-It would be best if you could provide a reproducer using iproute2:
-Configure a dummy device using ip-link, install the multipath route
-using ip-route, configure the neighbour table using ip-neigh and then
-perform route queries using "ip route get ..." showing the problem. We
-can then use it as the basis for a new test case in
-tools/testing/selftests/net/fib_tests.sh 
+It only takes that path if cpuset_do_page_mem_spread() is true.  Is the
+real problem that you're trying to solve that cpusets are being used
+incorrectly?
 
-BTW, do you have CONFIG_IPV6_ROUTER_PREF=y in your config?
+Backing up, it seems like you want to make a change to the page cache,
+you've had a long discussion with people who aren't the page cache
+maintainer, and you all understand the pros and cons of everything,
+and here you are dumping a solution on me without talking to me, even
+though I was at Plumbers, you didn't find me to tell me I needed to go
+to your talk.
 
-> 
-> > > 
-> > > The objective is to allow IPv6 Netlink clients to be able to create default
-> > > routes from RAs in the same way the kernel creates default routes from RAs.
-> > > Essentially, I'm trying to have Netlink and Kernel behaviors match.
-> > 
-> > I understand, but it's essentially an extension for the legacy IPv6
-> > multipath API which we are trying to move away from towards the nexthop
-> > API (see more below).
-> 
-> Very interesting, I wasn't aware of this movement.
-> 
-> While this change is an extension of the legacy IPv6 multipath API, won't it
-> still need to support Netlink clients that have been designed around it? I
-> imagine that transitioning Netlink clients to the NH API will take many years?
-
-FRR already supports it and I saw that there is some support for nexthop
-objects in systemd:
-
-https://github.com/systemd/systemd/pull/13735
-
-> 
-> As such, it still seems appropriate (to me) that this be implemented in the
-> legacy API as well as ensuring it works with the NH API.
-
-As I understand it you currently get different results because the
-kernel installs two default routes whereas user space can only create
-one default multipath route. Before adding a new uAPI I want to
-understand the source of the difference and see if we can improve / fix
-the current multipath code so that the two behave the same. If we can
-get them to behave the same then I don't think user space will care
-about two default routes versus one default multipath route.
-
-> 
-> Another consideration...
-> 
-> Will the kernel RA processing go through the same nh pathway? The reason I
-> ask is because I faced several challenges with IPv6 Logo certification due to
-> Netlink clients being unable to achieve the same as the kernel's behavior.
-
-If you are asking if the kernel can install RA routes using nexthop
-objects, then the answer is no. Only user space can create nexthop
-objects and I don't think we want to allow the kernel to do that.
-
-> 
-> As long as the kernel is creating RA routes in a way that meets RFC4861, then
-> I'd hope that  Netlink clients would be able to leverage that for 'free'.
-> 
-> > > 
-> > > My analysis led me to the need for Netlink clients to set the kernel's
-> > > fib6_config flags RTF_RA_ROUTER, where:
-> > > 
-> > >     #define RTF_RA_ROUTER		(RTF_ADDRCONF | RTF_DEFAULT)
-> > > 
-> > >>> +	if (rtm->rtm_flags & RTM_F_RA_ROUTER)
-> > >>> +		cfg->fc_flags |= RTF_RA_ROUTER;
-> > >>> +
-> > >> 
-> > >> It is possible there are user space programs out there that set this bit
-> > >> (knowingly or not) when sending requests to the kernel and this change
-> > >> will result in a behavior change for them. So, if we were to continue in
-> > >> this path, this would need to be converted to a new netlink attribute to
-> > >> avoid such potential problems.
-> > >> 
-> > > 
-> > > Is this a mandated approach to implementing unspecified bits in a flag?
-> > > 
-> > > I'm a little surprised by this consideration. If we account for poorly
-> > > written buggy user-programs, doesn't this open any API to an explosion
-> > > of new attributes or other odd extensions? I'd imagine the same argument
-> > > would be applicable to ioctl flags, socket flags, and so on. Why would we
-> > > treat implementing unspecified Netlink bits differently to implementing
-> > > unspecified ioctl bits, etc.
-> > > 
-> > > Naturally, if this is the mandated approach, then I'll reimplement it with
-> > > a new Netlink attribute. I'm just trying to understand what is the
-> > > Linux-lore, here?
-> > 
-> > Using this bit could have been valid if previously the kernel rejected
-> > requests with this bit set, but as evident by your patch the kernel does
-> > not do it. It is therefore possible that there are user space programs
-> > out there that are working perfectly fine right now and they will break
-> > / misbehave after this change.
-> > 
-> 
-> Understood and I agree.
-> 
-> > > 
-> > >> BTW, you can avoid the coalescing problem by using the nexthop API (man
-> > >> ip-nexthop).
-> > > 
-> > > I'm not sure how that would help in this case. We need the nexthop to be
-> > > determined according to its REACHABILITY and other considerations described
-> > > in RFC4861.
-> > 
-> > Using your example:
-> > 
-> > # ip nexthop add id 1 via fe80::200:10ff:fe10:1060 dev enp0s9
-> > # ip -6 route add default nhid 1 expires 600 proto ra
-> > # ip nexthop add id 2 via fe80::200:10ff:fe10:1061 dev enp0s9
-> > # ip -6 route append default nhid 2 expires 600 proto ra
-> > # ip -6 route
-> > fe80::/64 dev enp0s9 proto kernel metric 256 pref medium
-> > default nhid 1 via fe80::200:10ff:fe10:1060 dev enp0s9 proto ra metric 1024 expires 563sec pref medium
-> > default nhid 2 via fe80::200:10ff:fe10:1061 dev enp0s9 proto ra metric 1024 expires 594sec pref medium
-> 
-> Thanks! That looks like it should work. I'll raise this with the the developers
-> of systemd-networkd.
-> 
-> Just to confirm; are these two nhid routes equivalent to having two separate
-> default routes that are created when the kernel processes IPv6 RAs?
-> 
-> Specifically, if one of these nhid routes becomes UNREACHABLE, will that be
-> taken into consideration during the routing decision? (I'm guessing so?)
-
-I didn't test it, but I don't see a reason for these two routes to
-behave differently than two default routes installed with legacy
-nexthops.
+So you haven't explained a damned thing to me, and I'm annoyed at you.
+Do better.  Starting with your cover letter.
 
