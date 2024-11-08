@@ -1,102 +1,137 @@
-Return-Path: <linux-api+bounces-2689-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2690-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68149C09AC
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 16:10:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD109C13FC
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2024 03:21:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA45B282A71
-	for <lists+linux-api@lfdr.de>; Thu,  7 Nov 2024 15:10:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 803551C22842
+	for <lists+linux-api@lfdr.de>; Fri,  8 Nov 2024 02:21:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AB0212D21;
-	Thu,  7 Nov 2024 15:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BB31BD9E5;
+	Fri,  8 Nov 2024 02:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GuCmWcel"
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="EdMY6z8d"
 X-Original-To: linux-api@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A1F12B63;
-	Thu,  7 Nov 2024 15:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB75FA41;
+	Fri,  8 Nov 2024 02:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730992216; cv=none; b=FTHZ7lg7LDu/ENe3v7PmB0O/yP+DHcvTtu4M9rsWltYa/RkIprtfuFTk8HGoK0s55GCgh3bUV+YUUMC/Py0SjW8i2JAZ9ZiQFgRM3q5TYIXERJf5vGRuM2s9K/Yi9sTwSFI4Fi80eHSRmdwGZnT9ESsvZ7xU1/Al+Ae9YQwD0gw=
+	t=1731032458; cv=none; b=BUGkOeCBrwU8H2iTyQP3AZdQI8Ze3SbDEK+hMOF7Pa6KpXuqHeS3eQ4kUZy2AKXjyAyZyAfDvdg1amT3HsOf99nac+4PPqT/gVUN76sJ20DMU3ezQHNIxdR1K+SuyteYA0xhb1nLMHjgH0BeEAzCYvLJ8XxuR7SjGpQty0WUdus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730992216; c=relaxed/simple;
-	bh=dF5XVTxIII6iMggWIEemDLIC7Cxe07E6GULEaQ+Lc60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eQndNuMuedmJb3dtHuc5qNGRgVUZQgieh2pbZil1a3vCBve3TYcpocqTzhLIub8j+9w12MGcdbLQuiYo404AhihM7qTlwwZeR/Iw++bnrr3jAKd2ypu8twMjrR5qfklDq5ll4OP8idqbvUGpBLVvfzBRjuY6qNqe86TL4YmSxkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GuCmWcel; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Vom1WJYdLvjku2r/Xl0EhIhQ5E31YZkW3BtO+U5Dsek=; b=GuCmWcelHu3QNDVTgzwIceTERX
-	/vZoa+fZx0pT+5jVIJzTCv4ZeGycAXKZ3WwH8ZIMz+UT6M09CyrfQf1dpKHT0h9TQDt7wIIwZFQMR
-	jqTi79AogfM+fEMudUmIdznL/18LTQnR5GyxB3te8KLOPk2/tBUc41LuSKeak40E/SdOtz73JCu6G
-	XqwMJZZPYY+Ahs8ZDynRIykD5DX82jInNorF8DV35Rroz+gdSejfsjnLsw+r9X9jP0LPRRRbCHyyU
-	BTuDrcnLXh+iFBOFnLbAulo4+xDfmkRer56WnCT4YEvMuRMroRNIuix2qLa2bU/s9nzQ0smuqQsK9
-	dgIZeC2Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t949B-00000006rdv-0Z6w;
-	Thu, 07 Nov 2024 15:10:09 +0000
-Date: Thu, 7 Nov 2024 15:10:08 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Shivank Garg <shivankg@amd.com>
-Cc: x86@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	jack@suse.cz, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, kvm@vger.kernel.org, chao.gao@intel.com,
-	pgonda@google.com, thomas.lendacky@amd.com, seanjc@google.com,
-	luto@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, arnd@arndb.de, pbonzini@redhat.com,
-	kees@kernel.org, bharata@amd.com, nikunj@amd.com,
-	michael.day@amd.com, Neeraj.Upadhyay@amd.com,
-	linux-coco@lists.linux.dev
-Subject: Re: [RFC PATCH 0/4] Add fbind() and NUMA mempolicy support for KVM
- guest_memfd
-Message-ID: <ZyzYUOX_r3uWin5f@casper.infradead.org>
-References: <20241105164549.154700-1-shivankg@amd.com>
- <ZypqJ0e-J3C_K8LA@casper.infradead.org>
- <6004eaa4-934c-48f4-b502-cf7e436462fc@amd.com>
+	s=arc-20240116; t=1731032458; c=relaxed/simple;
+	bh=CwnYD3eGDcHqYbgF65Xbn0OHrKz2s4QD6/hWNWb3Ch0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jiNShNOVb/BuOxEG/TDWGxnuhBNwl5QcoIikNWRxIne4Q+rV5Q6mhANFv132koWmeUARFdy9G3higdbPJZFHlUon0yjVbBUuyuCk0lDfnVqmU9BmS2p0cMNtwhXqnAzX3JWuRVA6LK6QWegM2lCzQIYeGE+NkYbxdiSof+/NCKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=EdMY6z8d; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7MdPY8025702;
+	Fri, 8 Nov 2024 02:20:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pps0720; bh=Al+1eFcwD1Jl3
+	Gag56B47fYEjUBMMgK+F9iQqJ74Q5w=; b=EdMY6z8dVXWgQtkZjhk0eRRX/jLCq
+	Y+baaYel0c0ILdnDFuKUDK2dmGDNleSP5EUh7AImOKSSZon48chSXxLwHzz4De/8
+	hkx6faYmYsiJwrPebqrIchc+ah+HjR3fYYuvd8BrosVnGeFP5WgL88ZpwLMB8kdR
+	aOgj9g7juCan82A2UlG5Uja+fC3C8Vzen5Mcqw2zMEEHEKjs/7jr0uHkphPwIB+t
+	pctPo5zn8cV1nkkQyt2rdLMP+LHW9BA56ZQoFZo+z1+ktFc8uQD1b18MSEXs5TGN
+	LhL/maUZntlYJ+fgVfhtAATboKVX4ktcCMlLJGjGvAFLObP66HKmjqVOw==
+Received: from p1lg14878.it.hpe.com ([16.230.97.204])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 42s6h9sd36-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Nov 2024 02:20:38 +0000 (GMT)
+Received: from localhost (unknown [192.58.206.38])
+	by p1lg14878.it.hpe.com (Postfix) with ESMTP id 3B4D2295E7;
+	Fri,  8 Nov 2024 02:20:36 +0000 (UTC)
+From: Matt Muggeridge <Matt.Muggeridge@hpe.com>
+To: idosch@idosch.org
+Cc: Matt.Muggeridge@hpe.com, davem@davemloft.net, dsahern@kernel.org,
+        edumazet@google.com, horms@kernel.org, kuba@kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, pabeni@redhat.com, stable@vger.kernel.org
+Subject: Re: [PATCH net 1/1] net/ipv6: Netlink flag for new IPv6 Default Routes
+Date: Thu,  7 Nov 2024 21:20:26 -0500
+Message-Id: <20241108022026.58907-1-Matt.Muggeridge@hpe.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <ZyyN2bSgrpbhbkpp@shredder>
+References: <ZyyN2bSgrpbhbkpp@shredder>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6004eaa4-934c-48f4-b502-cf7e436462fc@amd.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: wL657nGIBtMxv2dhOrIYI__izIcFG8c7
+X-Proofpoint-ORIG-GUID: wL657nGIBtMxv2dhOrIYI__izIcFG8c7
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411080018
 
-On Thu, Nov 07, 2024 at 02:24:20PM +0530, Shivank Garg wrote:
-> The folio allocation path from guest_memfd typically looks like this...
+> > You probably already know how to reproduce it, but in case it helps, I still
+> > have the packet captures and can share them with you. Let me know if you'd
+> > like me to share them (and how to share them).
 > 
-> kvm_gmem_get_folio
->   filemap_grab_folio
->     __filemap_get_folio
->       filemap_alloc_folio
->         __folio_alloc_node_noprof
->           -> goes to the buddy allocator
+> It would be best if you could provide a reproducer using iproute2:
+> Configure a dummy device using ip-link, install the multipath route
+> using ip-route, configure the neighbour table using ip-neigh and then
+> perform route queries using "ip route get ..." showing the problem. We
+> can then use it as the basis for a new test case in
+> tools/testing/selftests/net/fib_tests.sh 
+
+I'll try to do that next week.
+
+> BTW, do you have CONFIG_IPV6_ROUTER_PREF=y in your config?
+
+Yes.
+
+$ gunzip -c /proc/config.gz | grep ROUTER_PREF
+CONFIG_IPV6_ROUTER_PREF=y
+
+> > 
+> > As such, it still seems appropriate (to me) that this be implemented in the
+> > legacy API as well as ensuring it works with the NH API.
 > 
-> Hence, I am trying to have a version of filemap_alloc_folio() that takes an mpol.
+> As I understand it you currently get different results because the
+> kernel installs two default routes whereas user space can only create
+> one default multipath route.
 
-It only takes that path if cpuset_do_page_mem_spread() is true.  Is the
-real problem that you're trying to solve that cpusets are being used
-incorrectly?
+Yes, that's the end result of an underlying problem.
 
-Backing up, it seems like you want to make a change to the page cache,
-you've had a long discussion with people who aren't the page cache
-maintainer, and you all understand the pros and cons of everything,
-and here you are dumping a solution on me without talking to me, even
-though I was at Plumbers, you didn't find me to tell me I needed to go
-to your talk.
+Perhaps more to the point, the fact that a coalesced, INCOMPLETE, multipath
+route is selected when a REACHABLE alternative exists, is what prevents us
+from using coalesced multipath routes. This seems like a bug, since it violates
+RFC4861 6.3.6, bullet 1.
 
-So you haven't explained a damned thing to me, and I'm annoyed at you.
-Do better.  Starting with your cover letter.
+Imagine adding a 2nd router to an IPv6 network for added resiliency, but when
+one becomes unreachable, some network flows keep choosing the unreachable
+router. This is what is happening with ECMP routes. It doesn't happen with
+multiple default routes.
+
+I'll just reiterate earlier comments, this doesn't happen all of the time.
+It seems I have a 50/50 chance of the INCOMPLETE route being selected.
+
+> Before adding a new uAPI I want to
+> understand the source of the difference and see if we can improve / fix
+> the current multipath code so that the two behave the same. If we can
+> get them to behave the same then I don't think user space will care
+> about two default routes versus one default multipath route.
+
+Exactly, I totally support that approach.
+
+Regards,
+Matt.
 
