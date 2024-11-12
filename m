@@ -1,47 +1,48 @@
-Return-Path: <linux-api+bounces-2720-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2726-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43329C6360
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 22:26:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 755F79C6278
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 21:23:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C0DCBA4E40
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:22:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78B4EBE74B9
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:37:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06832218955;
-	Tue, 12 Nov 2024 19:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E62A214424;
+	Tue, 12 Nov 2024 19:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="UaGhink2"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="H93RnC9o"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [185.125.25.13])
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCA0155CBF
-	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A861D215038
+	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731439166; cv=none; b=WMiGPBx1w9jPz7FQfZF5BEZCFOa8lyX+L/MkJUnLluRfF0Z3IoIcP4whuL4n4HjfhDQR+4LOm3UKjOdtyxm6QHuT1pAoUGs83qsu4qpDM19b2t6Q8TMJ03v6EdARRSCSrU6Uu+8WcdDCdZdVCAAFbSt/KiONjuPk8AirG+4ui2A=
+	t=1731440118; cv=none; b=jpKfh1Av7XVDpi5WU4/1NPnUzMPnbDgzuHQND2GBf1YfhNq3EGVnaYvPrG8jrsj18y9P0pIV2/MMk05y3A5e0wvbdRqxBX5ofmvy/Kb/ZfIBMeufixfwli/T9yX5U4xnx3bfuFJxkSacU+/YcsCNCSojvcxkObOsTx+c4hP7O1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731439166; c=relaxed/simple;
-	bh=AZASCbI89lTLK4X84Rptkzq280wwgQBU9BUi9vtLTqc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SwcqSjDWQaMcMlcuOhXTFCmfstLTGZKvYXyupO1cFIywLW5n4buQP2xTX1EIHaRWUDms4mjcHVhOnPiA6yJ/6vVZ7rzHOb6GJXZ8zxCHEtisiCY9nM/RTXPOk30nqrOlXQY0G2MefvsDJty89gOSY3yyiVe7l+Md/48CfQjn3xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=UaGhink2; arc=none smtp.client-ip=185.125.25.13
+	s=arc-20240116; t=1731440118; c=relaxed/simple;
+	bh=l14h9zq5i0wU9dFn7Sy0FAIyrMxkv85nqf0bD3pvg4I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a6d3D8X9Gse/u8joafpshVmhSuAm6Y0IHKH4tI7c9dafSBjn7Man2WfOXD7vB1d6FYO31FgPNiZn0Je9E0P2dTuwq6/fOUfr8vKVl92if112Y4pTsUS0JQnY9JivGgcu/TOuQx+73lanyUzL/vJuBsOOJZ1i+0HfYmjzRFFsWdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=H93RnC9o; arc=none smtp.client-ip=185.125.25.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx6p2mqwz376;
-	Tue, 12 Nov 2024 20:19:14 +0100 (CET)
+Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10:40ca:feff:fe05:0])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx6w57cxz4Xw;
+	Tue, 12 Nov 2024 20:19:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1731439154;
-	bh=fd5JDeC6T0CPT2RqYA+1Evau9hYhTp50cehqg3rHFq8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UaGhink2uNHigAtVpd5Iu/NcYhyJbmoXSPpE5NoM/wlQlDTfx7oTE96r+1BOtX8/S
-	 nov8iG2HT3Ezp1pOg6JSKnA2/9bP04RyKglMkzvdtCu/rqAfld2DRkorbBqC4ZYrhZ
-	 /7kDr6pvbz0t8Exv0503YriyXouslsCsNKLG8Gyg=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6k1jM0zqL4;
-	Tue, 12 Nov 2024 20:19:10 +0100 (CET)
+	s=20191114; t=1731439160;
+	bh=vH02E6nIE1mE88aYGDfeTrVZEmdMzi2A4itgFaM6FVI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=H93RnC9oP5yzBE3FQiStO4I2XNmkI8soZaYPh6POxbwosHbJzeQrbHlCV4i79sGIE
+	 IXEHCHiwA1KwkfgXir9jrBQ4us5l92bOJlsyBtDe3TuGlmLvxaZqe3v1gCV9r5i27l
+	 vUoxUrkRGXNpnpuCpqL2leLqgYJRQF8RRjeEzpY4=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6v1zg0zt3q;
+	Tue, 12 Nov 2024 20:19:19 +0100 (CET)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -97,9 +98,11 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-integrity@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH v21 0/6] Script execution control (was O_MAYEXEC)
-Date: Tue, 12 Nov 2024 20:18:52 +0100
-Message-ID: <20241112191858.162021-1-mic@digikod.net>
+Subject: [PATCH v21 3/6] selftests/exec: Add 32 tests for AT_EXECVE_CHECK and exec securebits
+Date: Tue, 12 Nov 2024 20:18:55 +0100
+Message-ID: <20241112191858.162021-4-mic@digikod.net>
+In-Reply-To: <20241112191858.162021-1-mic@digikod.net>
+References: <20241112191858.162021-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -110,327 +113,636 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Hi,
+Test that checks performed by execveat(..., AT_EXECVE_CHECK) are
+consistent with noexec mount points and file execute permissions.
 
-The goal of this patch series is to be able to ensure that direct file
-execution (e.g. ./script.sh) and indirect file execution (e.g. sh
-script.sh) lead to the same result, especially from a security point of
-view.
+Test that SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE are
+inherited by child processes and that they can be pinned with the
+appropriate SECBIT_EXEC_RESTRICT_FILE_LOCKED and
+SECBIT_EXEC_DENY_INTERACTIVE_LOCKED bits.
 
-The main changes from the previous version are the rename of AT_CHECK to
-AT_EXECVE_CHECK and the conversion of UAPI comments to a proper RST
-documentation.
-
-The current status is summarized in this article:
-https://lwn.net/Articles/982085/
-I also gave a talk at LPC last month:
-https://lpc.events/event/18/contributions/1692/
-And here is a proof of concept for Python (for now, for the previous
-version: v19): https://github.com/zooba/spython/pull/12
-
-Kees, would you like to take this series in your tree?
-
-Overview
---------
-
-This patch series is a new approach of the initial O_MAYEXEC feature,
-and a revamp of the previous patch series.  Taking into account the last
-reviews [1], we now stick to the kernel semantic for file executability.
-One major change is the clear split between access check and policy
-management.
-
-The first patch brings the AT_EXECVE_CHECK flag to execveat(2).  The
-goal is to enable user space to check if a file could be executed (by
-the kernel).  Unlike stat(2) that only checks file permissions,
-execveat2(2) + AT_EXECVE_CHECK take into account the full context,
-including mount points (noexec), caller's limits, and all potential LSM
-extra checks (e.g. argv, envp, credentials).
-
-The second patch brings two new securebits used to set or get a security
-policy for a set of processes.  For this to be meaningful, all
-executable code needs to be trusted.  In practice, this means that
-(malicious) users can be restricted to only run scripts provided (and
-trusted) by the system.
-
-[1] https://lore.kernel.org/r/CAHk-=wjPGNLyzeBMWdQu+kUdQLHQugznwY7CvWjmvNW47D5sog@mail.gmail.com
-
-Script execution
-----------------
-
-One important thing to keep in mind is that the goal of this patch
-series is to get the same security restrictions with these commands:
-* ./script.py
-* python script.py
-* python < script.py
-* python -m script.py
-
-However, on secure systems, we should be able to forbid these commands
-because there is no way to reliably identify the origin of the script:
-* xargs -a script.py -d '\r' -- python -c
-* cat script.py | python
-* python
-
-Background
-----------
-
-Compared to the previous patch series, there is no more dedicated
-syscall nor sysctl configuration.  This new patch series only add new
-flags: one for execveat(2) and four for prctl(2).
-
-This kind of script interpreter restriction may already be used in
-hardened systems, which may need to fork interpreters and install
-different versions of the binaries.  This mechanism should enable to
-avoid the use of duplicate binaries (and potential forked source code)
-for secure interpreters (e.g. secure Python [2]) by making it possible
-to dynamically enforce restrictions or not.
-
-The ability to control script execution is also required to close a
-major IMA measurement/appraisal interpreter integrity [3].
-
-This new execveat + AT_EXECVE_CHECK should not be confused with the
-O_EXEC flag (for open) which is intended for execute-only, which
-obviously doesn't work for scripts.
-
-I gave a talk about controlling script execution where I explain the
-previous approaches [4].  The design of the WIP RFC I talked about
-changed quite a bit since then.
-
-[2] https://github.com/zooba/spython
-[3] https://lore.kernel.org/lkml/20211014130125.6991-1-zohar@linux.ibm.com/
-[4] https://lssna2023.sched.com/event/1K7bO
-
-Execution policy
-----------------
-
-The "execution" usage means that the content of the file descriptor is
-trusted according to the system policy to be executed by user space,
-which means that it interprets the content or (try to) maps it as
-executable memory.
-
-It is important to note that this can only enable to extend access
-control managed by the kernel.  Hence it enables current access control
-mechanism to be extended and become a superset of what they can
-currently control.  Indeed, the security policy could also be delegated
-to an LSM, either a MAC system or an integrity system.
-
-Complementary W^X protections can be brought by SELinux or IPE [5].
-
-Being able to restrict execution also enables to protect the kernel by
-restricting arbitrary syscalls that an attacker could perform with a
-crafted binary or certain script languages.  It also improves multilevel
-isolation by reducing the ability of an attacker to use side channels
-with specific code.  These restrictions can natively be enforced for ELF
-binaries (with the noexec mount option) but require this kernel
-extension to properly handle scripts (e.g. Python, Perl).  To get a
-consistent execution policy, additional memory restrictions should also
-be enforced (e.g. thanks to SELinux).
-
-[5] https://lore.kernel.org/lkml/1716583609-21790-1-git-send-email-wufan@linux.microsoft.com/
-
-Prerequisite for security use
------------------------------
-
-Because scripts might not currently have the executable permission and
-still run well as is, or because we might want specific users to be
-allowed to run arbitrary scripts, we also need a configuration
-mechanism.
-
-According to the threat model, to get a secure execution environment on
-top of these changes, it might be required to configure and enable
-existing security mechanisms such as secure boot, restrictive mount
-points (e.g. with rw AND noexec), correct file permissions (including
-executable libraries), IMA/EVM, SELinux policy...
-
-The first thing to patch is the libc to check loaded libraries (e.g. see
-chromeOS changes).  The second thing to patch are the script
-interpreters by checking direct scripts executability and by checking
-their own libraries (e.g. Python's imported files or argument-passed
-modules).  For instance, the PEP 578 [6] (Runtime Audit Hooks) enables
-Python 3.8 to be extended with policy enforcement points related to code
-interpretation, which can be used to align with the PowerShell audit
-features.  Additional Python security improvements (e.g. a limited
-interpreter without -c, stdin piping of code) are developed [2] [7].
-
-[6] https://www.python.org/dev/peps/pep-0578/
-[7] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
-
-libc patch
-----------
-
-Dynamic linking needs still need to check the libraries the same way
-interpreters need to check scripts.
-
-chromeOS patches glibc with a fstatvfs check [8] [9]. This enables to
-check against noexec mount points, which is OK but doesn't fit with
-execve semantics.  Moreover, the kernel is not aware of such check, so
-all access control checks are not performed (e.g. file permission, LSMs
-security policies, integrity and authenticity checks), it is not handled
-with audit, and more importantly this would not work on generic
-distributions because of the strict requirement and chromeOS-specific
-assumptions.
-
-[8] https://issuetracker.google.com/issues/40054993
-[9] https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/6abfc9e327241a5f684b8b941c899b7ca8b6dbc1/sys-libs/glibc/files/local/glibc-2.37/0007-Deny-LD_PRELOAD-of-files-in-NOEXEC-mount.patch
-
-Examples
---------
-
-The initial idea comes from CLIP OS 4 and the original implementation
-has been used for more than a decade:
-https://github.com/clipos-archive/clipos4_doc
-Chrome OS has a similar approach:
-https://www.chromium.org/chromium-os/developer-library/guides/security/noexec-shell-scripts/
-
-User space patches can be found here:
-https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
-There is more than the O_MAYEXEC changes (which matches this search)
-e.g., to prevent Python interactive execution. There are patches for
-Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
-also some related patches which do not directly rely on O_MAYEXEC but
-which restrict the use of browser plugins and extensions, which may be
-seen as scripts too:
-https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
-
-Past talks and articles
------------------------
-
-Closing the script execution control gap at Linux Plumbers Conference
-2024: https://lpc.events/event/18/contributions/1692/
-
-An introduction to O_MAYEXEC was given at the Linux Security Summit
-Europe 2018 - Linux Kernel Security Contributions by ANSSI:
-https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
-
-The "write xor execute" principle was explained at Kernel Recipes 2018 -
-CLIP OS: a defense-in-depth OS:
-https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
-
-LWN articles:
-* https://lwn.net/Articles/982085/
-* https://lwn.net/Articles/832959/
-* https://lwn.net/Articles/820000/
-
-FAQ
-Link: https://lore.kernel.org/r/20241112191858.162021-1-mic@digikod.net
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Serge Hallyn <serge@hallyn.com>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Link: https://lore.kernel.org/r/20241112191858.162021-4-mic@digikod.net
 ---
 
-Q: Why not extend open(2) or openat2(2) with a new flag like O_MAYEXEC?
-A: Because it is not flexible enough:
-https://lore.kernel.org/r/CAG48ez0NAV5gPgmbDaSjo=zzE=FgnYz=-OHuXwu0Vts=B5gesA@mail.gmail.com
+Changes since v20:
+* Rename AT_CHECK to AT_EXECVE_CHECK.
 
-Q: Why not only allowing file descriptor to avoid TOCTOU?
-A: Because there are different use cases:
-https://lore.kernel.org/r/CAHk-=whb=XuU=LGKnJWaa7LOYQz9VwHs8SLfgLbT5sf2VAbX1A@mail.gmail.com
+Changes since v19:
+* Rename securebits.
+* Rename test file.
 
-Q: We can copy a script into a memfd and use it as an executable FD.
-   Wouldn't that bypass the purpose of this patch series?
-A: If an attacker can create a memfd it means that a
-   malicious/compromised code is already running and it's too late for
-   script execution control to help.  This patch series makes it more
-   difficult for an attacker to execute arbitrary code on a trusted
-   system in the first place:
-https://lore.kernel.org/all/20240717.AGh2shahc9ee@digikod.net/
+Changes since v18:
+* Rewrite tests with the new design: execveat/AT_CHECK and securebits.
+* Simplify the capability dropping and improve it with the NOROOT
+  securebits.
+* Replace most ASSERT with EXPECT.
+* Fix NULL execve's argv to avoid kernel warning.
+* Move tests to exec/
+* Build a "false" static binary to test full execution path.
 
-Q: What about ROP?
-A: See previous answer. If ROP is exploited then the attacker already
-   controls some code:
-https://lore.kernel.org/all/20240718.ahph4che5Shi@digikod.net/
+Changes since v14:
+* Add Reviewed-by Kees Cook.
 
-Q: What about LD_PRELOAD environment variable?
-A: The dynamic linker should be enlighten to check if libraries are
-   allowed to be loaded.
+Changes since v13:
+* Move -I to CFLAGS (suggested by Kees Cook).
+* Update sysctl name.
 
-Q: What about The PATH environment variable?
-A: All programs allowed to be executed are deemed trusted.
+Changes since v12:
+* Fix Makefile's license.
 
-Q: Should we check seccomp filters too?
-A: Yes, they should be considered as executable code because they can
-   change the behavior of processes, similarly to code injection:
-https://lore.kernel.org/all/20240705.IeTheequ7Ooj@digikod.net/
+Changes since v10:
+* Update selftest Makefile.
 
-Q: Could that be used for role transition?
-A: That would be risky and difficult to implement correctly:
-https://lore.kernel.org/all/20240723.Tae5oovie2ah@digikod.net/
+Changes since v9:
+* Rename the syscall and the sysctl.
+* Update tests for enum trusted_for_usage
 
-Previous versions
------------------
+Changes since v8:
+* Update with the dedicated syscall introspect_access(2) and the renamed
+  fs.introspection_policy sysctl.
+* Remove check symlink which can't be use as is anymore.
+* Use socketpair(2) to test UNIX socket.
 
-v20: https://lore.kernel.org/r/20241011184422.977903-1-mic@digikod.net
-v19: https://lore.kernel.org/r/20240704190137.696169-1-mic@digikod.net
-v18: https://lore.kernel.org/r/20220104155024.48023-1-mic@digikod.net
-v17: https://lore.kernel.org/r/20211115185304.198460-1-mic@digikod.net
-v16: https://lore.kernel.org/r/20211110190626.257017-1-mic@digikod.net
-v15: https://lore.kernel.org/r/20211012192410.2356090-1-mic@digikod.net
-v14: https://lore.kernel.org/r/20211008104840.1733385-1-mic@digikod.net
-v13: https://lore.kernel.org/r/20211007182321.872075-1-mic@digikod.net
-v12: https://lore.kernel.org/r/20201203173118.379271-1-mic@digikod.net
-v11: https://lore.kernel.org/r/20201019164932.1430614-1-mic@digikod.net
-v10: https://lore.kernel.org/r/20200924153228.387737-1-mic@digikod.net
-v9: https://lore.kernel.org/r/20200910164612.114215-1-mic@digikod.net
-v8: https://lore.kernel.org/r/20200908075956.1069018-1-mic@digikod.net
-v7: https://lore.kernel.org/r/20200723171227.446711-1-mic@digikod.net
-v6: https://lore.kernel.org/r/20200714181638.45751-1-mic@digikod.net
-v5: https://lore.kernel.org/r/20200505153156.925111-1-mic@digikod.net
-v4: https://lore.kernel.org/r/20200430132320.699508-1-mic@digikod.net
-v3: https://lore.kernel.org/r/20200428175129.634352-1-mic@digikod.net
-v2: https://lore.kernel.org/r/20190906152455.22757-1-mic@digikod.net
-v1: https://lore.kernel.org/r/20181212081712.32347-1-mic@digikod.net
+Changes since v7:
+* Update tests with faccessat2/AT_INTERPRETED, including new ones to
+  check that setting R_OK or W_OK returns EINVAL.
+* Add tests for memfd, pipefs and nsfs.
+* Rename and move back tests to a standalone directory.
 
-Regards,
+Changes since v6:
+* Add full combination tests for all file types, including block
+  devices, character devices, fifos, sockets and symlinks.
+* Properly save and restore initial sysctl value for all tests.
 
-Mickaël Salaün (6):
-  exec: Add a new AT_EXECVE_CHECK flag to execveat(2)
-  security: Add EXEC_RESTRICT_FILE and EXEC_DENY_INTERACTIVE securebits
-  selftests/exec: Add 32 tests for AT_EXECVE_CHECK and exec securebits
-  selftests/landlock: Add tests for execveat + AT_EXECVE_CHECK
-  samples/check-exec: Add set-exec
-  samples/check-exec: Add an enlighten "inc" interpreter and 28 tests
+Changes since v5:
+* Refactor with FIXTURE_VARIANT, which make the tests much more easy to
+  read and maintain.
+* Save and restore initial sysctl value (suggested by Kees Cook).
+* Test with a sysctl value of 0.
+* Check errno in sysctl_access_write test.
+* Update tests for the CAP_SYS_ADMIN switch.
+* Update tests to check -EISDIR (replacing -EACCES).
+* Replace FIXTURE_DATA() with FIXTURE() (spotted by Kees Cook).
+* Use global const strings.
 
- Documentation/userspace-api/check_exec.rst    | 131 +++++
- Documentation/userspace-api/index.rst         |   1 +
- fs/exec.c                                     |  20 +-
- include/linux/binfmts.h                       |   7 +-
- include/uapi/linux/fcntl.h                    |   4 +
- include/uapi/linux/securebits.h               |  24 +-
- kernel/audit.h                                |   1 +
- kernel/auditsc.c                              |   1 +
- samples/Kconfig                               |   9 +
- samples/Makefile                              |   1 +
- samples/check-exec/.gitignore                 |   2 +
- samples/check-exec/Makefile                   |  15 +
- samples/check-exec/inc.c                      | 205 ++++++++
- samples/check-exec/run-script-ask.inc         |   8 +
- samples/check-exec/script-ask.inc             |   4 +
- samples/check-exec/script-exec.inc            |   3 +
- samples/check-exec/script-noexec.inc          |   3 +
- samples/check-exec/set-exec.c                 |  85 ++++
- security/commoncap.c                          |  29 +-
- security/security.c                           |  10 +
- tools/testing/selftests/exec/.gitignore       |   4 +
- tools/testing/selftests/exec/Makefile         |  19 +-
- .../selftests/exec/check-exec-tests.sh        | 205 ++++++++
- tools/testing/selftests/exec/check-exec.c     | 448 ++++++++++++++++++
- tools/testing/selftests/exec/config           |   2 +
- tools/testing/selftests/exec/false.c          |   5 +
- .../selftests/kselftest/ktap_helpers.sh       |   2 +-
- tools/testing/selftests/landlock/fs_test.c    |  27 ++
- 28 files changed, 1263 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/userspace-api/check_exec.rst
- create mode 100644 samples/check-exec/.gitignore
- create mode 100644 samples/check-exec/Makefile
- create mode 100644 samples/check-exec/inc.c
- create mode 100755 samples/check-exec/run-script-ask.inc
- create mode 100755 samples/check-exec/script-ask.inc
- create mode 100755 samples/check-exec/script-exec.inc
- create mode 100644 samples/check-exec/script-noexec.inc
- create mode 100644 samples/check-exec/set-exec.c
- create mode 100755 tools/testing/selftests/exec/check-exec-tests.sh
+Changes since v3:
+* Replace RESOLVE_MAYEXEC with O_MAYEXEC.
+* Add tests to check that O_MAYEXEC is ignored by open(2) and openat(2).
+
+Changes since v2:
+* Move tests from exec/ to openat2/ .
+* Replace O_MAYEXEC with RESOLVE_MAYEXEC from openat2(2).
+* Cleanup tests.
+
+Changes since v1:
+* Move tests from yama/ to exec/ .
+* Fix _GNU_SOURCE in kselftest_harness.h .
+* Add a new test sysctl_access_write to check if CAP_MAC_ADMIN is taken
+  into account.
+* Test directory execution which is always forbidden since commit
+  73601ea5b7b1 ("fs/open.c: allow opening only regular files during
+  execve()"), and also check that even the root user can not bypass file
+  execution checks.
+* Make sure delete_workspace() always as enough right to succeed.
+* Cosmetic cleanup.
+---
+ tools/testing/selftests/exec/.gitignore   |   2 +
+ tools/testing/selftests/exec/Makefile     |   7 +
+ tools/testing/selftests/exec/check-exec.c | 448 ++++++++++++++++++++++
+ tools/testing/selftests/exec/config       |   2 +
+ tools/testing/selftests/exec/false.c      |   5 +
+ 5 files changed, 464 insertions(+)
  create mode 100644 tools/testing/selftests/exec/check-exec.c
  create mode 100644 tools/testing/selftests/exec/config
  create mode 100644 tools/testing/selftests/exec/false.c
 
-
-base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
+diff --git a/tools/testing/selftests/exec/.gitignore b/tools/testing/selftests/exec/.gitignore
+index a0dc5d4bf733..a32c63bb4df1 100644
+--- a/tools/testing/selftests/exec/.gitignore
++++ b/tools/testing/selftests/exec/.gitignore
+@@ -9,6 +9,8 @@ execveat.ephemeral
+ execveat.denatured
+ non-regular
+ null-argv
++/check-exec
++/false
+ /load_address.*
+ !load_address.c
+ /recursion-depth
+diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
+index ba012bc5aab9..8713d1c862ae 100644
+--- a/tools/testing/selftests/exec/Makefile
++++ b/tools/testing/selftests/exec/Makefile
+@@ -1,6 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+ CFLAGS = -Wall
+ CFLAGS += -Wno-nonnull
++CFLAGS += $(KHDR_INCLUDES)
++
++LDLIBS += -lcap
+ 
+ ALIGNS := 0x1000 0x200000 0x1000000
+ ALIGN_PIES        := $(patsubst %,load_address.%,$(ALIGNS))
+@@ -9,12 +12,14 @@ ALIGNMENT_TESTS   := $(ALIGN_PIES) $(ALIGN_STATIC_PIES)
+ 
+ TEST_PROGS := binfmt_script.py
+ TEST_GEN_PROGS := execveat non-regular $(ALIGNMENT_TESTS)
++TEST_GEN_PROGS_EXTENDED := false
+ TEST_GEN_FILES := execveat.symlink execveat.denatured script subdir
+ # Makefile is a run-time dependency, since it's accessed by the execveat test
+ TEST_FILES := Makefile
+ 
+ TEST_GEN_PROGS += recursion-depth
+ TEST_GEN_PROGS += null-argv
++TEST_GEN_PROGS += check-exec
+ 
+ EXTRA_CLEAN := $(OUTPUT)/subdir.moved $(OUTPUT)/execveat.moved $(OUTPUT)/xxxxx*	\
+ 	       $(OUTPUT)/S_I*.test
+@@ -38,3 +43,5 @@ $(OUTPUT)/load_address.0x%: load_address.c
+ $(OUTPUT)/load_address.static.0x%: load_address.c
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -Wl,-z,max-page-size=$(lastword $(subst ., ,$@)) \
+ 		-fPIE -static-pie $< -o $@
++$(OUTPUT)/false: false.c
++	$(CC) $(CFLAGS) $(LDFLAGS) -static $< -o $@
+diff --git a/tools/testing/selftests/exec/check-exec.c b/tools/testing/selftests/exec/check-exec.c
+new file mode 100644
+index 000000000000..c3aa046d8d68
+--- /dev/null
++++ b/tools/testing/selftests/exec/check-exec.c
+@@ -0,0 +1,448 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Test execveat(2) with AT_EXECVE_CHECK, and prctl(2) with
++ * SECBIT_EXEC_RESTRICT_FILE, SECBIT_EXEC_DENY_INTERACTIVE, and their locked
++ * counterparts.
++ *
++ * Copyright © 2018-2020 ANSSI
++ * Copyright © 2024 Microsoft Corporation
++ *
++ * Author: Mickaël Salaün <mic@digikod.net>
++ */
++
++#include <asm-generic/unistd.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/prctl.h>
++#include <linux/securebits.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/capability.h>
++#include <sys/mount.h>
++#include <sys/prctl.h>
++#include <sys/socket.h>
++#include <sys/stat.h>
++#include <sys/sysmacros.h>
++#include <unistd.h>
++
++/* Defines AT_EXECVE_CHECK without type conflicts. */
++#define _ASM_GENERIC_FCNTL_H
++#include <linux/fcntl.h>
++
++#include "../kselftest_harness.h"
++
++static void drop_privileges(struct __test_metadata *const _metadata)
++{
++	const unsigned int noroot = SECBIT_NOROOT | SECBIT_NOROOT_LOCKED;
++	cap_t cap_p;
++
++	if ((cap_get_secbits() & noroot) != noroot)
++		EXPECT_EQ(0, cap_set_secbits(noroot));
++
++	cap_p = cap_get_proc();
++	EXPECT_NE(NULL, cap_p);
++	EXPECT_NE(-1, cap_clear(cap_p));
++
++	/*
++	 * Drops everything, especially CAP_SETPCAP, CAP_DAC_OVERRIDE, and
++	 * CAP_DAC_READ_SEARCH.
++	 */
++	EXPECT_NE(-1, cap_set_proc(cap_p));
++	EXPECT_NE(-1, cap_free(cap_p));
++}
++
++static int test_secbits_set(const unsigned int secbits)
++{
++	int err;
++
++	err = prctl(PR_SET_SECUREBITS, secbits);
++	if (err)
++		return errno;
++	return 0;
++}
++
++FIXTURE(access)
++{
++	int memfd, pipefd;
++	int pipe_fds[2], socket_fds[2];
++};
++
++FIXTURE_VARIANT(access)
++{
++	const bool mount_exec;
++	const bool file_exec;
++};
++
++FIXTURE_VARIANT_ADD(access, mount_exec_file_exec){
++	.mount_exec = true,
++	.file_exec = true,
++};
++
++FIXTURE_VARIANT_ADD(access, mount_exec_file_noexec){
++	.mount_exec = true,
++	.file_exec = false,
++};
++
++FIXTURE_VARIANT_ADD(access, mount_noexec_file_exec){
++	.mount_exec = false,
++	.file_exec = true,
++};
++
++FIXTURE_VARIANT_ADD(access, mount_noexec_file_noexec){
++	.mount_exec = false,
++	.file_exec = false,
++};
++
++static const char binary_path[] = "./false";
++static const char workdir_path[] = "./test-mount";
++static const char reg_file_path[] = "./test-mount/regular_file";
++static const char dir_path[] = "./test-mount/directory";
++static const char block_dev_path[] = "./test-mount/block_device";
++static const char char_dev_path[] = "./test-mount/character_device";
++static const char fifo_path[] = "./test-mount/fifo";
++
++FIXTURE_SETUP(access)
++{
++	int procfd_path_size;
++	static const char path_template[] = "/proc/self/fd/%d";
++	char procfd_path[sizeof(path_template) + 10];
++
++	/* Makes sure we are not already restricted nor locked. */
++	EXPECT_EQ(0, test_secbits_set(0));
++
++	/*
++	 * Cleans previous workspace if any error previously happened (don't
++	 * check errors).
++	 */
++	umount(workdir_path);
++	rmdir(workdir_path);
++
++	/* Creates a clean mount point. */
++	ASSERT_EQ(0, mkdir(workdir_path, 00700));
++	ASSERT_EQ(0, mount("test", workdir_path, "tmpfs",
++			   MS_MGC_VAL | (variant->mount_exec ? 0 : MS_NOEXEC),
++			   "mode=0700,size=9m"));
++
++	/* Creates a regular file. */
++	ASSERT_EQ(0, mknod(reg_file_path,
++			   S_IFREG | (variant->file_exec ? 0700 : 0600), 0));
++	/* Creates a directory. */
++	ASSERT_EQ(0, mkdir(dir_path, variant->file_exec ? 0700 : 0600));
++	/* Creates a character device: /dev/null. */
++	ASSERT_EQ(0, mknod(char_dev_path, S_IFCHR | 0400, makedev(1, 3)));
++	/* Creates a block device: /dev/loop0 */
++	ASSERT_EQ(0, mknod(block_dev_path, S_IFBLK | 0400, makedev(7, 0)));
++	/* Creates a fifo. */
++	ASSERT_EQ(0, mknod(fifo_path, S_IFIFO | 0600, 0));
++
++	/* Creates a regular file without user mount point. */
++	self->memfd = memfd_create("test-exec-probe", MFD_CLOEXEC);
++	ASSERT_LE(0, self->memfd);
++	/* Sets mode, which must be ignored by the exec check. */
++	ASSERT_EQ(0, fchmod(self->memfd, variant->file_exec ? 0700 : 0600));
++
++	/* Creates a pipefs file descriptor. */
++	ASSERT_EQ(0, pipe(self->pipe_fds));
++	procfd_path_size = snprintf(procfd_path, sizeof(procfd_path),
++				    path_template, self->pipe_fds[0]);
++	ASSERT_LT(procfd_path_size, sizeof(procfd_path));
++	self->pipefd = open(procfd_path, O_RDWR | O_CLOEXEC);
++	ASSERT_LE(0, self->pipefd);
++	ASSERT_EQ(0, fchmod(self->pipefd, variant->file_exec ? 0700 : 0600));
++
++	/* Creates a socket file descriptor. */
++	ASSERT_EQ(0, socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0,
++				self->socket_fds));
++}
++
++FIXTURE_TEARDOWN_PARENT(access)
++{
++	/* There is no need to unlink the test files. */
++	EXPECT_EQ(0, umount(workdir_path));
++	EXPECT_EQ(0, rmdir(workdir_path));
++}
++
++static void fill_exec_fd(struct __test_metadata *_metadata, const int fd_out)
++{
++	char buf[1024];
++	size_t len;
++	int fd_in;
++
++	fd_in = open(binary_path, O_CLOEXEC | O_RDONLY);
++	ASSERT_LE(0, fd_in);
++	/* Cannot use copy_file_range(2) because of EXDEV. */
++	len = read(fd_in, buf, sizeof(buf));
++	EXPECT_LE(0, len);
++	while (len > 0) {
++		EXPECT_EQ(len, write(fd_out, buf, len))
++		{
++			TH_LOG("Failed to write: %s (%d)", strerror(errno),
++			       errno);
++		}
++		len = read(fd_in, buf, sizeof(buf));
++		EXPECT_LE(0, len);
++	}
++	EXPECT_EQ(0, close(fd_in));
++}
++
++static void fill_exec_path(struct __test_metadata *_metadata,
++			   const char *const path)
++{
++	int fd_out;
++
++	fd_out = open(path, O_CLOEXEC | O_WRONLY);
++	ASSERT_LE(0, fd_out)
++	{
++		TH_LOG("Failed to open %s: %s", path, strerror(errno));
++	}
++	fill_exec_fd(_metadata, fd_out);
++	EXPECT_EQ(0, close(fd_out));
++}
++
++static void test_exec_fd(struct __test_metadata *_metadata, const int fd,
++			 const int err_code)
++{
++	char *const argv[] = { "", NULL };
++	int access_ret, access_errno;
++
++	/*
++	 * If we really execute fd, filled with the "false" binary, the current
++	 * thread will exits with an error, which will be interpreted by the
++	 * test framework as an error.  With AT_EXECVE_CHECK, we only check a
++	 * potential successful execution.
++	 */
++	access_ret =
++		execveat(fd, "", argv, NULL, AT_EMPTY_PATH | AT_EXECVE_CHECK);
++	access_errno = errno;
++	if (err_code) {
++		EXPECT_EQ(-1, access_ret);
++		EXPECT_EQ(err_code, access_errno)
++		{
++			TH_LOG("Wrong error for execveat(2): %s (%d)",
++			       strerror(access_errno), errno);
++		}
++	} else {
++		EXPECT_EQ(0, access_ret)
++		{
++			TH_LOG("Access denied: %s", strerror(access_errno));
++		}
++	}
++}
++
++static void test_exec_path(struct __test_metadata *_metadata,
++			   const char *const path, const int err_code)
++{
++	int flags = O_CLOEXEC;
++	int fd;
++
++	/* Do not block on pipes. */
++	if (path == fifo_path)
++		flags |= O_NONBLOCK;
++
++	fd = open(path, flags | O_RDONLY);
++	ASSERT_LE(0, fd)
++	{
++		TH_LOG("Failed to open %s: %s", path, strerror(errno));
++	}
++	test_exec_fd(_metadata, fd, err_code);
++	EXPECT_EQ(0, close(fd));
++}
++
++/* Tests that we don't get ENOEXEC. */
++TEST_F(access, regular_file_empty)
++{
++	const int exec = variant->mount_exec && variant->file_exec;
++
++	test_exec_path(_metadata, reg_file_path, exec ? 0 : EACCES);
++
++	drop_privileges(_metadata);
++	test_exec_path(_metadata, reg_file_path, exec ? 0 : EACCES);
++}
++
++TEST_F(access, regular_file_elf)
++{
++	const int exec = variant->mount_exec && variant->file_exec;
++
++	fill_exec_path(_metadata, reg_file_path);
++
++	test_exec_path(_metadata, reg_file_path, exec ? 0 : EACCES);
++
++	drop_privileges(_metadata);
++	test_exec_path(_metadata, reg_file_path, exec ? 0 : EACCES);
++}
++
++/* Tests that we don't get ENOEXEC. */
++TEST_F(access, memfd_empty)
++{
++	const int exec = variant->file_exec;
++
++	test_exec_fd(_metadata, self->memfd, exec ? 0 : EACCES);
++
++	drop_privileges(_metadata);
++	test_exec_fd(_metadata, self->memfd, exec ? 0 : EACCES);
++}
++
++TEST_F(access, memfd_elf)
++{
++	const int exec = variant->file_exec;
++
++	fill_exec_fd(_metadata, self->memfd);
++
++	test_exec_fd(_metadata, self->memfd, exec ? 0 : EACCES);
++
++	drop_privileges(_metadata);
++	test_exec_fd(_metadata, self->memfd, exec ? 0 : EACCES);
++}
++
++TEST_F(access, non_regular_files)
++{
++	test_exec_path(_metadata, dir_path, EACCES);
++	test_exec_path(_metadata, block_dev_path, EACCES);
++	test_exec_path(_metadata, char_dev_path, EACCES);
++	test_exec_path(_metadata, fifo_path, EACCES);
++	test_exec_fd(_metadata, self->socket_fds[0], EACCES);
++	test_exec_fd(_metadata, self->pipefd, EACCES);
++}
++
++/* clang-format off */
++FIXTURE(secbits) {};
++/* clang-format on */
++
++FIXTURE_VARIANT(secbits)
++{
++	const bool is_privileged;
++	const int error;
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(secbits, priv) {
++	/* clang-format on */
++	.is_privileged = true,
++	.error = 0,
++};
++
++/* clang-format off */
++FIXTURE_VARIANT_ADD(secbits, unpriv) {
++	/* clang-format on */
++	.is_privileged = false,
++	.error = EPERM,
++};
++
++FIXTURE_SETUP(secbits)
++{
++	/* Makes sure no exec bits are set. */
++	EXPECT_EQ(0, test_secbits_set(0));
++	EXPECT_EQ(0, prctl(PR_GET_SECUREBITS));
++
++	if (!variant->is_privileged)
++		drop_privileges(_metadata);
++}
++
++FIXTURE_TEARDOWN(secbits)
++{
++}
++
++TEST_F(secbits, legacy)
++{
++	EXPECT_EQ(variant->error, test_secbits_set(0));
++}
++
++#define CHILD(...)                     \
++	do {                           \
++		pid_t child = vfork(); \
++		EXPECT_LE(0, child);   \
++		if (child == 0) {      \
++			__VA_ARGS__;   \
++			_exit(0);      \
++		}                      \
++	} while (0)
++
++TEST_F(secbits, exec)
++{
++	unsigned int secbits = prctl(PR_GET_SECUREBITS);
++
++	secbits |= SECBIT_EXEC_RESTRICT_FILE;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++	EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS));
++	CHILD(EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS)));
++
++	secbits |= SECBIT_EXEC_DENY_INTERACTIVE;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++	EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS));
++	CHILD(EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS)));
++
++	secbits &= ~(SECBIT_EXEC_RESTRICT_FILE | SECBIT_EXEC_DENY_INTERACTIVE);
++	EXPECT_EQ(0, test_secbits_set(secbits));
++	EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS));
++	CHILD(EXPECT_EQ(secbits, prctl(PR_GET_SECUREBITS)));
++}
++
++TEST_F(secbits, check_locked_set)
++{
++	unsigned int secbits = prctl(PR_GET_SECUREBITS);
++
++	secbits |= SECBIT_EXEC_RESTRICT_FILE;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++	secbits |= SECBIT_EXEC_RESTRICT_FILE_LOCKED;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++
++	/* Checks lock set but unchanged. */
++	EXPECT_EQ(variant->error, test_secbits_set(secbits));
++	CHILD(EXPECT_EQ(variant->error, test_secbits_set(secbits)));
++
++	secbits &= ~SECBIT_EXEC_RESTRICT_FILE;
++	EXPECT_EQ(EPERM, test_secbits_set(0));
++	CHILD(EXPECT_EQ(EPERM, test_secbits_set(0)));
++}
++
++TEST_F(secbits, check_locked_unset)
++{
++	unsigned int secbits = prctl(PR_GET_SECUREBITS);
++
++	secbits |= SECBIT_EXEC_RESTRICT_FILE_LOCKED;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++
++	/* Checks lock unset but unchanged. */
++	EXPECT_EQ(variant->error, test_secbits_set(secbits));
++	CHILD(EXPECT_EQ(variant->error, test_secbits_set(secbits)));
++
++	secbits &= ~SECBIT_EXEC_RESTRICT_FILE;
++	EXPECT_EQ(EPERM, test_secbits_set(0));
++	CHILD(EXPECT_EQ(EPERM, test_secbits_set(0)));
++}
++
++TEST_F(secbits, restrict_locked_set)
++{
++	unsigned int secbits = prctl(PR_GET_SECUREBITS);
++
++	secbits |= SECBIT_EXEC_DENY_INTERACTIVE;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++	secbits |= SECBIT_EXEC_DENY_INTERACTIVE_LOCKED;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++
++	/* Checks lock set but unchanged. */
++	EXPECT_EQ(variant->error, test_secbits_set(secbits));
++	CHILD(EXPECT_EQ(variant->error, test_secbits_set(secbits)));
++
++	secbits &= ~SECBIT_EXEC_DENY_INTERACTIVE;
++	EXPECT_EQ(EPERM, test_secbits_set(0));
++	CHILD(EXPECT_EQ(EPERM, test_secbits_set(0)));
++}
++
++TEST_F(secbits, restrict_locked_unset)
++{
++	unsigned int secbits = prctl(PR_GET_SECUREBITS);
++
++	secbits |= SECBIT_EXEC_DENY_INTERACTIVE_LOCKED;
++	EXPECT_EQ(0, test_secbits_set(secbits));
++
++	/* Checks lock unset but unchanged. */
++	EXPECT_EQ(variant->error, test_secbits_set(secbits));
++	CHILD(EXPECT_EQ(variant->error, test_secbits_set(secbits)));
++
++	secbits &= ~SECBIT_EXEC_DENY_INTERACTIVE;
++	EXPECT_EQ(EPERM, test_secbits_set(0));
++	CHILD(EXPECT_EQ(EPERM, test_secbits_set(0)));
++}
++
++TEST_HARNESS_MAIN
+diff --git a/tools/testing/selftests/exec/config b/tools/testing/selftests/exec/config
+new file mode 100644
+index 000000000000..c308079867b3
+--- /dev/null
++++ b/tools/testing/selftests/exec/config
+@@ -0,0 +1,2 @@
++CONFIG_BLK_DEV=y
++CONFIG_BLK_DEV_LOOP=y
+diff --git a/tools/testing/selftests/exec/false.c b/tools/testing/selftests/exec/false.c
+new file mode 100644
+index 000000000000..104383ec3a79
+--- /dev/null
++++ b/tools/testing/selftests/exec/false.c
+@@ -0,0 +1,5 @@
++// SPDX-License-Identifier: GPL-2.0
++int main(void)
++{
++	return 1;
++}
 -- 
 2.47.0
 
