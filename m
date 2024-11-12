@@ -1,48 +1,48 @@
-Return-Path: <linux-api+bounces-2722-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2725-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C6E9C614D
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 20:22:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F7C9C6155
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 20:23:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 744C81F22979
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:22:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2508A1F22BD0
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:23:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D78621CFA4;
-	Tue, 12 Nov 2024 19:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BD621D233;
+	Tue, 12 Nov 2024 19:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="m17VB18I"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="g/jVHLY5"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-8fab.mail.infomaniak.ch (smtp-8fab.mail.infomaniak.ch [83.166.143.171])
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [83.166.143.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E946821948B
-	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F23E21D21D
+	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731439170; cv=none; b=Jiu/YPJWj0d6mE/gurTKv0XhV0pXi2Dz8kC/rJrRN959kKlhxZltUTPyF/Hg+xiX4z/zSIohlTTP2FaEiFcyBSugOIjZji27Sf8Hph5ns9HsplLF92X2CO4Y+ZboMtrxpcJr9ghQa+t/eX4+OYqjDulXP1LIAds+2JvhJ1AzR9Y=
+	t=1731439175; cv=none; b=p/4W4FAqws5Jkf3asucxLs4KHA/TDEBrAjAfAYuavzts9trVN1sZTpA2oDi8EL933/KWKWZnvOWRI0bt7w4kkfaGLNbDXl1LSW2hpUxb81KIGE8FuImycuh3LcPFvl2YoQ4VLVWKUDC++aQF26koJ0gsbIKT9vt6+ZE3IpS4dws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731439170; c=relaxed/simple;
-	bh=8l6WIt8jauLTFZW37gg+gO70sjS/nOaptdN3i1E50ro=;
+	s=arc-20240116; t=1731439175; c=relaxed/simple;
+	bh=RVPBYxs+3NX2O23j3zFM/NTZQh44JO7+apHRRCQYh+M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EIN5eIYiGyz/SyOPhuArKETfZBi4iPlSIit4v6xLAOcr+rW7xfVQci34/sFJlB1M3WmpIhjK6pQWXIjHWlA4JBm+IJLJMv1MRV3BQqwhbWbum6r3QQxuC8aLdabWSo1kVLD8ZNDJWK3iWOQEhwvEDvgAC2bDFLWGETFWaWA91dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=m17VB18I; arc=none smtp.client-ip=83.166.143.171
+	 MIME-Version:Content-Type; b=E1PghQRuf8BnIW4V5nVjuQmnHdKAxz4r6TE1zltzq01bN0VUk6QjvdmZnsoHKklGKkEaP9F2vGNbmrzP+otbftWxzAVGWJ7JMJD2VJ8zjxWSXN5x8FIy3Fx8FpFiXC+q4pr79Pp+/aFJm8Ow9rrGlRNXbun38h9A+muMCXUkd3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=g/jVHLY5; arc=none smtp.client-ip=83.166.143.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx6t5cltzHD7;
-	Tue, 12 Nov 2024 20:19:18 +0100 (CET)
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx706H4nzLW5;
+	Tue, 12 Nov 2024 20:19:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1731439158;
-	bh=7mV7wClTY5Z4sedq3JSpTrEVFPZKjdLcM++OUIKH1+Q=;
+	s=20191114; t=1731439164;
+	bh=qOU7JMAOgtDevc3iDrH7eY0FFQEFgp7A03ux9bXw1eM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m17VB18Iks0Fs6DzzYlsVCfuwPrBW08i6VsgDgwt9CmUbFnnUOjgeelTJOkECl6m+
-	 Kbgk3NFrK/KUP0DNiT0yCDfjiG9aH3HMogfdOZl6zfU2atFdfwc4xvvu1WYBXr+Iw6
-	 eFOEyOi4qgnRYdE6DrWol8Y+A537+vHjaYVy0Wdo=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6s0NL5zqsY;
-	Tue, 12 Nov 2024 20:19:17 +0100 (CET)
+	b=g/jVHLY5Fhla+cIXWezLd9tf0LKryAyv25GdTmkPpjcTQr/9lhFC8gw65PihGLOH5
+	 fyC+md1Q4VyCbN5g0XnEoJxmQJZlZywc7WCQRP/Zp7gmTrKT3l88F03W8s6/NQos7d
+	 ZYX0paG5BFSvNa+h5PLVaQLyLoBE8b1c6Ptj0rgw=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6z2VcQz78t;
+	Tue, 12 Nov 2024 20:19:23 +0100 (CET)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -97,11 +97,10 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-fsdevel@vger.kernel.org,
 	linux-integrity@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Andy Lutomirski <luto@amacapital.net>
-Subject: [PATCH v21 2/6] security: Add EXEC_RESTRICT_FILE and EXEC_DENY_INTERACTIVE securebits
-Date: Tue, 12 Nov 2024 20:18:54 +0100
-Message-ID: <20241112191858.162021-3-mic@digikod.net>
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v21 5/6] samples/check-exec: Add set-exec
+Date: Tue, 12 Nov 2024 20:18:57 +0100
+Message-ID: <20241112191858.162021-6-mic@digikod.net>
 In-Reply-To: <20241112191858.162021-1-mic@digikod.net>
 References: <20241112191858.162021-1-mic@digikod.net>
 Precedence: bulk
@@ -114,278 +113,182 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-The new SECBIT_EXEC_RESTRICT_FILE, SECBIT_EXEC_DENY_INTERACTIVE, and
-their *_LOCKED counterparts are designed to be set by processes setting
-up an execution environment, such as a user session, a container, or a
-security sandbox.  Unlike other securebits, these ones can be set by
-unprivileged processes.  Like seccomp filters or Landlock domains, the
-securebits are inherited across processes.
-
-When SECBIT_EXEC_RESTRICT_FILE is set, programs interpreting code should
-control executable resources according to execveat(2) + AT_EXECVE_CHECK
-(see previous commit).
-
-When SECBIT_EXEC_DENY_INTERACTIVE is set, a process should deny
-execution of user interactive commands (which excludes executable
-regular files).
-
-Being able to configure each of these securebits enables system
-administrators or owner of image containers to gradually validate the
-related changes and to identify potential issues (e.g. with interpreter
-or audit logs).
-
-It should be noted that unlike other security bits, the
-SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE bits are
-dedicated to user space willing to restrict itself.  Because of that,
-they only make sense in the context of a trusted environment (e.g.
-sandbox, container, user session, full system) where the process
-changing its behavior (according to these bits) and all its parent
-processes are trusted.  Otherwise, any parent process could just execute
-its own malicious code (interpreting a script or not), or even enforce a
-seccomp filter to mask these bits.
-
-Such a secure environment can be achieved with an appropriate access
-control (e.g. mount's noexec option, file access rights, LSM policy) and
-an enlighten ld.so checking that libraries are allowed for execution
-e.g., to protect against illegitimate use of LD_PRELOAD.
-
-Ptrace restrictions according to these securebits would not make sense
-because of the processes' trust assumption.
-
-Scripts may need some changes to deal with untrusted data (e.g. stdin,
-environment variables), but that is outside the scope of the kernel.
-
-See chromeOS's documentation about script execution control and the
-related threat model:
-https://www.chromium.org/chromium-os/developer-library/guides/security/noexec-shell-scripts/
+Add a simple tool to set SECBIT_EXEC_RESTRICT_FILE or
+SECBIT_EXEC_DENY_INTERACTIVE before executing a command.  This is useful
+to easily test against enlighten script interpreters.
 
 Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Andy Lutomirski <luto@amacapital.net>
 Cc: Christian Brauner <brauner@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>
 Cc: Paul Moore <paul@paul-moore.com>
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Cc: Serge Hallyn <serge@hallyn.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20241112191858.162021-3-mic@digikod.net
+Link: https://lore.kernel.org/r/20241112191858.162021-6-mic@digikod.net
 ---
-
-Changes since v20:
-* Move UAPI documentation to a dedicated RST file and format it.
 
 Changes since v19:
-* Replace SECBIT_SHOULD_EXEC_CHECK and SECBIT_SHOULD_EXEC_RESTRICT with
-  SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE:
-  https://lore.kernel.org/all/20240710.eiKohpa4Phai@digikod.net/
-* Remove the ptrace restrictions, suggested by Andy.
-* Improve documentation according to the discussion with Jeff.
-
-New design since v18:
-https://lore.kernel.org/r/20220104155024.48023-3-mic@digikod.net
+* Rename file and directory.
+* Update securebits and related arguments.
+* Remove useless call to prctl() when securebits are unchanged.
 ---
- Documentation/userspace-api/check_exec.rst | 97 ++++++++++++++++++++++
- include/uapi/linux/securebits.h            | 24 +++++-
- security/commoncap.c                       | 29 +++++--
- 3 files changed, 143 insertions(+), 7 deletions(-)
+ samples/Kconfig               |  7 +++
+ samples/Makefile              |  1 +
+ samples/check-exec/.gitignore |  1 +
+ samples/check-exec/Makefile   | 14 ++++++
+ samples/check-exec/set-exec.c | 85 +++++++++++++++++++++++++++++++++++
+ 5 files changed, 108 insertions(+)
+ create mode 100644 samples/check-exec/.gitignore
+ create mode 100644 samples/check-exec/Makefile
+ create mode 100644 samples/check-exec/set-exec.c
 
-diff --git a/Documentation/userspace-api/check_exec.rst b/Documentation/userspace-api/check_exec.rst
-index ad1aeaa5f6c0..1df5c7534af9 100644
---- a/Documentation/userspace-api/check_exec.rst
-+++ b/Documentation/userspace-api/check_exec.rst
-@@ -2,6 +2,21 @@
- Executability check
- ===================
+diff --git a/samples/Kconfig b/samples/Kconfig
+index b288d9991d27..efa28ceadc42 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -291,6 +291,13 @@ config SAMPLE_CGROUP
+ 	help
+ 	  Build samples that demonstrate the usage of the cgroup API.
  
-+The ``AT_EXECVE_CHECK`` :manpage:`execveat(2)` flag, and the
-+``SECBIT_EXEC_RESTRICT_FILE`` and ``SECBIT_EXEC_DENY_INTERACTIVE`` securebits
-+are intended for script interpreters and dynamic linkers to enforce a
-+consistent execution security policy handled by the kernel.  See the
-+`samples/check-exec/inc.c`_ example.
++config SAMPLE_CHECK_EXEC
++	bool "Exec secure bits examples"
++	depends on CC_CAN_LINK && HEADERS_INSTALL
++	help
++	  Build a tool to easily configure SECBIT_EXEC_RESTRICT_FILE and
++	  SECBIT_EXEC_DENY_INTERACTIVE.
 +
-+Whether an interpreter should check these securebits or not depends on the
-+security risk of running malicious scripts with respect to the execution
-+environment, and whether the kernel can check if a script is trustworthy or
-+not.  For instance, Python scripts running on a server can use arbitrary
-+syscalls and access arbitrary files.  Such interpreters should then be
-+enlighten to use these securebits and let users define their security policy.
-+However, a JavaScript engine running in a web browser should already be
-+sandboxed and then should not be able to harm the user's environment.
-+
- AT_EXECVE_CHECK
- ===============
+ source "samples/rust/Kconfig"
  
-@@ -32,3 +47,85 @@ be executable, which also requires integrity guarantees.
- To avoid race conditions leading to time-of-check to time-of-use issues,
- ``AT_EXECVE_CHECK`` should be used with ``AT_EMPTY_PATH`` to check against a
- file descriptor instead of a path.
-+
-+SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE
-+==========================================================
-+
-+When ``SECBIT_EXEC_RESTRICT_FILE`` is set, a process should only interpret or
-+execute a file if a call to :manpage:`execveat(2)` with the related file
-+descriptor and the ``AT_EXECVE_CHECK`` flag succeed.
-+
-+This secure bit may be set by user session managers, service managers,
-+container runtimes, sandboxer tools...  Except for test environments, the
-+related ``SECBIT_EXEC_RESTRICT_FILE_LOCKED`` bit should also be set.
-+
-+Programs should only enforce consistent restrictions according to the
-+securebits but without relying on any other user-controlled configuration.
-+Indeed, the use case for these securebits is to only trust executable code
-+vetted by the system configuration (through the kernel), so we should be
-+careful to not let untrusted users control this configuration.
-+
-+However, script interpreters may still use user configuration such as
-+environment variables as long as it is not a way to disable the securebits
-+checks.  For instance, the ``PATH`` and ``LD_PRELOAD`` variables can be set by
-+a script's caller.  Changing these variables may lead to unintended code
-+executions, but only from vetted executable programs, which is OK.  For this to
-+make sense, the system should provide a consistent security policy to avoid
-+arbitrary code execution e.g., by enforcing a write xor execute policy.
-+
-+When ``SECBIT_EXEC_DENY_INTERACTIVE`` is set, a process should never interpret
-+interactive user commands (e.g. scripts).  However, if such commands are passed
-+through a file descriptor (e.g. stdin), its content should be interpreted if a
-+call to :manpage:`execveat(2)` with the related file descriptor and the
-+``AT_EXECVE_CHECK`` flag succeed.
-+
-+For instance, script interpreters called with a script snippet as argument
-+should always deny such execution if ``SECBIT_EXEC_DENY_INTERACTIVE`` is set.
-+
-+This secure bit may be set by user session managers, service managers,
-+container runtimes, sandboxer tools...  Except for test environments, the
-+related ``SECBIT_EXEC_DENY_INTERACTIVE_LOCKED`` bit should also be set.
-+
-+Here is the expected behavior for a script interpreter according to combination
-+of any exec securebits:
-+
-+1. ``SECBIT_EXEC_RESTRICT_FILE=0`` and ``SECBIT_EXEC_DENY_INTERACTIVE=0``
-+
-+   Always interpret scripts, and allow arbitrary user commands (default).
-+
-+   No threat, everyone and everything is trusted, but we can get ahead of
-+   potential issues thanks to the call to :manpage:`execveat(2)` with
-+   ``AT_EXECVE_CHECK`` which should always be performed but ignored by the
-+   script interpreter.  Indeed, this check is still important to enable systems
-+   administrators to verify requests (e.g. with audit) and prepare for
-+   migration to a secure mode.
-+
-+2. ``SECBIT_EXEC_RESTRICT_FILE=1`` and ``SECBIT_EXEC_DENY_INTERACTIVE=0``
-+
-+   Deny script interpretation if they are not executable, but allow
-+   arbitrary user commands.
-+
-+   The threat is (potential) malicious scripts run by trusted (and not fooled)
-+   users.  That can protect against unintended script executions (e.g. ``sh
-+   /tmp/*.sh``).  This makes sense for (semi-restricted) user sessions.
-+
-+3. ``SECBIT_EXEC_RESTRICT_FILE=0`` and ``SECBIT_EXEC_DENY_INTERACTIVE=1``
-+
-+   Always interpret scripts, but deny arbitrary user commands.
-+
-+   This use case may be useful for secure services (i.e. without interactive
-+   user session) where scripts' integrity is verified (e.g.  with IMA/EVM or
-+   dm-verity/IPE) but where access rights might not be ready yet.  Indeed,
-+   arbitrary interactive commands would be much more difficult to check.
-+
-+4. ``SECBIT_EXEC_RESTRICT_FILE=1`` and ``SECBIT_EXEC_DENY_INTERACTIVE=1``
-+
-+   Deny script interpretation if they are not executable, and also deny
-+   any arbitrary user commands.
-+
-+   The threat is malicious scripts run by untrusted users (but trusted code).
-+   This makes sense for system services that may only execute trusted scripts.
-+
-+.. Links
-+.. _samples/check-exec/inc.c:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/check-exec/inc.c
-diff --git a/include/uapi/linux/securebits.h b/include/uapi/linux/securebits.h
-index d6d98877ff1a..3fba30dbd68b 100644
---- a/include/uapi/linux/securebits.h
-+++ b/include/uapi/linux/securebits.h
-@@ -52,10 +52,32 @@
- #define SECBIT_NO_CAP_AMBIENT_RAISE_LOCKED \
- 			(issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE_LOCKED))
+ endif # SAMPLES
+diff --git a/samples/Makefile b/samples/Makefile
+index b85fa64390c5..f988202f3a30 100644
+--- a/samples/Makefile
++++ b/samples/Makefile
+@@ -3,6 +3,7 @@
  
-+/* See Documentation/userspace-api/check_exec.rst */
-+#define SECURE_EXEC_RESTRICT_FILE		8
-+#define SECURE_EXEC_RESTRICT_FILE_LOCKED	9  /* make bit-8 immutable */
+ subdir-$(CONFIG_SAMPLE_AUXDISPLAY)	+= auxdisplay
+ subdir-$(CONFIG_SAMPLE_ANDROID_BINDERFS) += binderfs
++subdir-$(CONFIG_SAMPLE_CHECK_EXEC)	+= check-exec
+ subdir-$(CONFIG_SAMPLE_CGROUP) += cgroup
+ obj-$(CONFIG_SAMPLE_CONFIGFS)		+= configfs/
+ obj-$(CONFIG_SAMPLE_CONNECTOR)		+= connector/
+diff --git a/samples/check-exec/.gitignore b/samples/check-exec/.gitignore
+new file mode 100644
+index 000000000000..3f8119112ccf
+--- /dev/null
++++ b/samples/check-exec/.gitignore
+@@ -0,0 +1 @@
++/set-exec
+diff --git a/samples/check-exec/Makefile b/samples/check-exec/Makefile
+new file mode 100644
+index 000000000000..d9f976e3ff98
+--- /dev/null
++++ b/samples/check-exec/Makefile
+@@ -0,0 +1,14 @@
++# SPDX-License-Identifier: BSD-3-Clause
 +
-+#define SECBIT_EXEC_RESTRICT_FILE (issecure_mask(SECURE_EXEC_RESTRICT_FILE))
-+#define SECBIT_EXEC_RESTRICT_FILE_LOCKED \
-+			(issecure_mask(SECURE_EXEC_RESTRICT_FILE_LOCKED))
++userprogs-always-y := \
++	set-exec
 +
-+/* See Documentation/userspace-api/check_exec.rst */
-+#define SECURE_EXEC_DENY_INTERACTIVE		10
-+#define SECURE_EXEC_DENY_INTERACTIVE_LOCKED	11  /* make bit-10 immutable */
++userccflags += -I usr/include
 +
-+#define SECBIT_EXEC_DENY_INTERACTIVE \
-+			(issecure_mask(SECURE_EXEC_DENY_INTERACTIVE))
-+#define SECBIT_EXEC_DENY_INTERACTIVE_LOCKED \
-+			(issecure_mask(SECURE_EXEC_DENY_INTERACTIVE_LOCKED))
++.PHONY: all clean
 +
- #define SECURE_ALL_BITS		(issecure_mask(SECURE_NOROOT) | \
- 				 issecure_mask(SECURE_NO_SETUID_FIXUP) | \
- 				 issecure_mask(SECURE_KEEP_CAPS) | \
--				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE))
-+				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE) | \
-+				 issecure_mask(SECURE_EXEC_RESTRICT_FILE) | \
-+				 issecure_mask(SECURE_EXEC_DENY_INTERACTIVE))
- #define SECURE_ALL_LOCKS	(SECURE_ALL_BITS << 1)
- 
-+#define SECURE_ALL_UNPRIVILEGED (issecure_mask(SECURE_EXEC_RESTRICT_FILE) | \
-+				 issecure_mask(SECURE_EXEC_DENY_INTERACTIVE))
++all:
++	$(MAKE) -C ../.. samples/check-exec/
 +
- #endif /* _UAPI_LINUX_SECUREBITS_H */
-diff --git a/security/commoncap.c b/security/commoncap.c
-index cefad323a0b1..52ea01acb453 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -1302,21 +1302,38 @@ int cap_task_prctl(int option, unsigned long arg2, unsigned long arg3,
- 		     & (old->securebits ^ arg2))			/*[1]*/
- 		    || ((old->securebits & SECURE_ALL_LOCKS & ~arg2))	/*[2]*/
- 		    || (arg2 & ~(SECURE_ALL_LOCKS | SECURE_ALL_BITS))	/*[3]*/
--		    || (cap_capable(current_cred(),
--				    current_cred()->user_ns,
--				    CAP_SETPCAP,
--				    CAP_OPT_NONE) != 0)			/*[4]*/
- 			/*
- 			 * [1] no changing of bits that are locked
- 			 * [2] no unlocking of locks
- 			 * [3] no setting of unsupported bits
--			 * [4] doing anything requires privilege (go read about
--			 *     the "sendmail capabilities bug")
- 			 */
- 		    )
- 			/* cannot change a locked bit */
- 			return -EPERM;
- 
++clean:
++	$(MAKE) -C ../.. M=samples/check-exec/ clean
+diff --git a/samples/check-exec/set-exec.c b/samples/check-exec/set-exec.c
+new file mode 100644
+index 000000000000..ba86a60a20dd
+--- /dev/null
++++ b/samples/check-exec/set-exec.c
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: BSD-3-Clause
++/*
++ * Simple tool to set SECBIT_EXEC_RESTRICT_FILE, SECBIT_EXEC_DENY_INTERACTIVE,
++ * before executing a command.
++ *
++ * Copyright © 2024 Microsoft Corporation
++ */
++
++#define _GNU_SOURCE
++#define __SANE_USERSPACE_TYPES__
++#include <errno.h>
++#include <linux/prctl.h>
++#include <linux/securebits.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/prctl.h>
++#include <unistd.h>
++
++static void print_usage(const char *argv0)
++{
++	fprintf(stderr, "usage: %s -f|-i -- <cmd> [args]...\n\n", argv0);
++	fprintf(stderr, "Execute a command with\n");
++	fprintf(stderr, "- SECBIT_EXEC_RESTRICT_FILE set: -f\n");
++	fprintf(stderr, "- SECBIT_EXEC_DENY_INTERACTIVE set: -i\n");
++}
++
++int main(const int argc, char *const argv[], char *const *const envp)
++{
++	const char *cmd_path;
++	char *const *cmd_argv;
++	int opt, secbits_cur, secbits_new;
++	bool has_policy = false;
++
++	secbits_cur = prctl(PR_GET_SECUREBITS);
++	if (secbits_cur == -1) {
 +		/*
-+		 * Doing anything requires privilege (go read about the
-+		 * "sendmail capabilities bug"), except for unprivileged bits.
-+		 * Indeed, the SECURE_ALL_UNPRIVILEGED bits are not
-+		 * restrictions enforced by the kernel but by user space on
-+		 * itself.
++		 * This should never happen, except with a buggy seccomp
++		 * filter.
 +		 */
-+		if (cap_capable(current_cred(), current_cred()->user_ns,
-+				CAP_SETPCAP, CAP_OPT_NONE) != 0) {
-+			const unsigned long unpriv_and_locks =
-+				SECURE_ALL_UNPRIVILEGED |
-+				SECURE_ALL_UNPRIVILEGED << 1;
-+			const unsigned long changed = old->securebits ^ arg2;
++		perror("ERROR: Failed to get securebits");
++		return 1;
++	}
 +
-+			/* For legacy reason, denies non-change. */
-+			if (!changed)
-+				return -EPERM;
-+
-+			/* Denies privileged changes. */
-+			if (changed & ~unpriv_and_locks)
-+				return -EPERM;
++	secbits_new = secbits_cur;
++	while ((opt = getopt(argc, argv, "fi")) != -1) {
++		switch (opt) {
++		case 'f':
++			secbits_new |= SECBIT_EXEC_RESTRICT_FILE |
++				       SECBIT_EXEC_RESTRICT_FILE_LOCKED;
++			has_policy = true;
++			break;
++		case 'i':
++			secbits_new |= SECBIT_EXEC_DENY_INTERACTIVE |
++				       SECBIT_EXEC_DENY_INTERACTIVE_LOCKED;
++			has_policy = true;
++			break;
++		default:
++			print_usage(argv[0]);
++			return 1;
 +		}
++	}
 +
- 		new = prepare_creds();
- 		if (!new)
- 			return -ENOMEM;
++	if (!argv[optind] || !has_policy) {
++		print_usage(argv[0]);
++		return 1;
++	}
++
++	if (secbits_cur != secbits_new &&
++	    prctl(PR_SET_SECUREBITS, secbits_new)) {
++		perror("Failed to set secure bit(s).");
++		fprintf(stderr,
++			"Hint: The running kernel may not support this feature.\n");
++		return 1;
++	}
++
++	cmd_path = argv[optind];
++	cmd_argv = argv + optind;
++	fprintf(stderr, "Executing command...\n");
++	execvpe(cmd_path, cmd_argv, envp);
++	fprintf(stderr, "Failed to execute \"%s\": %s\n", cmd_path,
++		strerror(errno));
++	return 1;
++}
 -- 
 2.47.0
 
