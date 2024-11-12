@@ -1,443 +1,281 @@
-Return-Path: <linux-api+bounces-2716-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2717-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62989C5730
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 13:01:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C509C578D
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 13:20:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B97F7B611DA
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 11:34:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5896A285B53
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 12:20:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FF12309B4;
-	Tue, 12 Nov 2024 11:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 238B21F7783;
+	Tue, 12 Nov 2024 12:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WuikGcYX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bc0VV3md"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A543230994;
-	Tue, 12 Nov 2024 11:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8671CD218;
+	Tue, 12 Nov 2024 12:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411167; cv=none; b=VbQuMCPViB9aEoW5cCINYOiO2JcogFGsB4OSkDq0DzPV3aERz0/Vf5cNcTNs5VEhdExtJ5QPiwsYYaagpdQjQufIiiXXASY7TDQT0brHhOdrEobMv/i3S1WEzut4BHdj3tXjd6JvtCvC8NaLwQ05l21IQClCQwnyNF9Hr0cMvlw=
+	t=1731414006; cv=none; b=EhJs8WNDVtFcYDRRYzVsMbna5NHO8zZgvgge5VylCnN9Qz/Pvqc+9ctxexlZpjjaX3lxxRaSrKEN2rpUtFmiQDB+XXLxg6bRJqdvFawbjt1rvNtoG7g8leumux8FaonXj4ElWsPAwxpyo5v4rWcrpByFCMiERuV53Gun7CFW+zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411167; c=relaxed/simple;
-	bh=fB6Pbl+zSbpwBsUE39E1aVi2vwvz3+RH/HrJ6UaJmWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YNCuqTbcgRlRKEJDI9sL3iIfVeV99fq88hMySwRoPQX1kYXmhes5r/tyD2dFHG3eHKBgW31U1x25F88i72a/52jamg6dlKmD8ohAe3Fhl/UE7uYbNVNbWuS5JD/9yn4hWL4WBcaQS04CaiUeZpwRf6MXa/2guwZFQPAI6QgT5Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WuikGcYX; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731411166; x=1762947166;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fB6Pbl+zSbpwBsUE39E1aVi2vwvz3+RH/HrJ6UaJmWU=;
-  b=WuikGcYXqee8bW+yEx8z6aJ0I9lIR41ZDPdcr0BqCsSr5SBW0jfxdXQL
-   yihTd3lsc/Nc9Bnfvnx3AJ4yLOnIxLzxGuZNDxy5lX4yOX1G5JYo0TqVW
-   HhWaQYGU9cwh85A7e2i2tlLbDkEaLfPmOewrRP0WEyJLQKcMJd04nv72K
-   RxX31WKE4mYgEybkI8zIhH/32MZdlY2o1VA0t4VszRF7/JX+q28LSZG3y
-   Vf1HVCx+YQxlZmNz5u9DzcQ+7yjsL36Na4nNjdRx33mm3wMEy6axZYoAb
-   2ChcMD3Oa1NdxPXo6v2QnPUW9Q8b5/H8l6gYqK2/27n5QM2Shj+nfAybd
-   g==;
-X-CSE-ConnectionGUID: B5hAnMcAQ1+2TJy72p3G/A==
-X-CSE-MsgGUID: WkyLpDxaTremPWb35s5wwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41802281"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41802281"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:32:45 -0800
-X-CSE-ConnectionGUID: 8HVvdFpkQ82ZaTglvkTpPg==
-X-CSE-MsgGUID: sC3q2JTjR8SQXNHyuxN+vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="118356315"
-Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2024 03:32:43 -0800
-Received: from kbuild by bcfed0da017c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAp8S-0001Dd-1f;
-	Tue, 12 Nov 2024 11:32:40 +0000
-Date: Tue, 12 Nov 2024 19:32:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org,
-	linux-api@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-Message-ID: <202411121942.9DAb3SoN-lkp@intel.com>
-References: <20241111234006.5942-13-ouster@cs.stanford.edu>
+	s=arc-20240116; t=1731414006; c=relaxed/simple;
+	bh=NeCS+o94jbktdL4jV/mzav8wOjxmbd7d7nRqgBNRQyc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=liU3lUw7Pp1TMinJwkEKyQ9LQSq16CYhQOMPUHWxo+5gWxdlGBiarlZVXPruIIxbRQSHdRHEPhQ92NNGPlzN5RPL1w78JhMWlLKkFXDdv0qcn7DRPyTe02OYjSfcAG74tLDSYyU9sHkM+1b0GwEvsQZMFNqSUoVDeCr5FBZVhNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bc0VV3md; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D540FC4CED0;
+	Tue, 12 Nov 2024 12:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731414005;
+	bh=NeCS+o94jbktdL4jV/mzav8wOjxmbd7d7nRqgBNRQyc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=bc0VV3mdRX2CkhdozhkVXkF0EmEZLwv/5w8y/GN/fgB6OW8EfJ9uzSHx3zB41yijC
+	 y24ExCt0orNuo1Yzmly0WAloWLrsDUMhaKLt3F97uYWOHd8zWNgAqiwXA7Gpeg63fz
+	 TL5mPfFydUzwaz9bUc06Bc0pjh56AQErJvlBcaT2q/vNd3A5f3yScRbYaPFYsV+sBr
+	 456VwrE6BQy10yAKDVz3GUqQJ1s0xunq523JLEM+vkDeqWwPblpuIbSZSqWErK7pU5
+	 HB6t6oVDw7VLy2GhNqHr1T8KEWQahPWtSQ24fF65oW1fSrpcMv3g45k0dVLknYKPy0
+	 3FxLTuVE7euvA==
+Message-ID: <2faa89f0ad18d8f8015f65b202f8ddc64a810a71.camel@kernel.org>
+Subject: Re: [PATCH] statmount: add flag to retrieve unescaped options
+From: Jeff Layton <jlayton@kernel.org>
+To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, Karel Zak <kzak@redhat.com>, Christian
+ Brauner <christian@brauner.io>, Josef Bacik <josef@toxicpanda.com>
+Date: Tue, 12 Nov 2024 07:20:03 -0500
+In-Reply-To: <20241112101006.30715-1-mszeredi@redhat.com>
+References: <20241112101006.30715-1-mszeredi@redhat.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241111234006.5942-13-ouster@cs.stanford.edu>
 
-Hi John,
+On Tue, 2024-11-12 at 11:10 +0100, Miklos Szeredi wrote:
+> Filesystem options can be retrieved with STATMOUNT_MNT_OPTS, which
+> returns a string of comma separated options, where some characters are
+> escaped using the \OOO notation.
+>=20
+> Add a new flag, STATMOUNT_OPT_ARRAY, which instead returns the raw
+> option values separated with '\0' charaters.
+>=20
+> Since escaped charaters are rare, this inteface is preferable for
+> non-libmount users which likley don't want to deal with option
+> de-escaping.
+>=20
+> Example code:
+>=20
+> 	if (st->mask & STATMOUNT_OPT_ARRAY) {
+> 		const char *opt =3D st->str + st->opt_array;
+>=20
+> 		for (unsigned int i =3D 0; i < st->opt_num; i++) {
+> 			printf("opt_array[%i]: <%s>\n", i, opt);
+> 			opt +=3D strlen(opt) + 1;
+> 		}
+> 	}
+>=20
 
-kernel test robot noticed the following build errors:
+If the options are separated by NULs, how does userland know where to
+stop?
 
-[auto build test ERROR on net-next/main]
+At some point we will probably end up adding a new string value that
+would go after the opt array, and userland will need some way to
+clearly tell where that new string begins and the NUL-terminated
+options array ends.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241112/202411121942.9DAb3SoN-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121942.9DAb3SoN-lkp@intel.com/reproduce)
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/namespace.c             | 42 ++++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/mount.h |  7 +++++--
+>  2 files changed, 47 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 9a4ab1bc8b94..a16f75011610 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -5074,6 +5074,41 @@ static int statmount_mnt_opts(struct kstatmount *s=
+, struct seq_file *seq)
+>  	return 0;
+>  }
+> =20
+> +static int statmount_opt_array(struct kstatmount *s, struct seq_file *se=
+q)
+> +{
+> +	struct vfsmount *mnt =3D s->mnt;
+> +	struct super_block *sb =3D mnt->mnt_sb;
+> +	size_t start =3D seq->count;
+> +	u32 count =3D 0;
+> +	char *p, *end, *next, *u =3D seq->buf + start;
+> +	int err;
+> +
+> +       if (!sb->s_op->show_options)
+> +               return 0;
+> +
+> +       err =3D sb->s_op->show_options(seq, mnt->mnt_root);
+> +       if (err)
+> +	       return err;
+> +
+> +       if (unlikely(seq_has_overflowed(seq)))
+> +	       return -EAGAIN;
+> +
+> +       end =3D seq->buf + seq->count;
+> +       *end =3D '\0';
+> +       for (p =3D u + 1; p < end; p =3D next + 1) {
+> +               next =3D strchrnul(p, ',');
+> +               *next =3D '\0';
+> +               u +=3D string_unescape(p, u, 0, UNESCAPE_OCTAL) + 1;
+> +	       count++;
+> +	       if (!count)
+> +		       return -EOVERFLOW;
+> +       }
+> +       seq->count =3D u - 1 - seq->buf;
+> +       s->sm.opt_num =3D count;
+> +
+> +       return 0;
+> +}
+> +
+>  static int statmount_string(struct kstatmount *s, u64 flag)
+>  {
+>  	int ret =3D 0;
+> @@ -5099,6 +5134,10 @@ static int statmount_string(struct kstatmount *s, =
+u64 flag)
+>  		sm->mnt_opts =3D start;
+>  		ret =3D statmount_mnt_opts(s, seq);
+>  		break;
+> +	case STATMOUNT_OPT_ARRAY:
+> +		sm->opt_array =3D start;
+> +		ret =3D statmount_opt_array(s, seq);
+> +		break;
+>  	case STATMOUNT_FS_SUBTYPE:
+>  		sm->fs_subtype =3D start;
+>  		statmount_fs_subtype(s, seq);
+> @@ -5252,6 +5291,9 @@ static int do_statmount(struct kstatmount *s, u64 m=
+nt_id, u64 mnt_ns_id,
+>  	if (!err && s->mask & STATMOUNT_MNT_OPTS)
+>  		err =3D statmount_string(s, STATMOUNT_MNT_OPTS);
+> =20
+> +	if (!err && s->mask & STATMOUNT_OPT_ARRAY)
+> +		err =3D statmount_string(s, STATMOUNT_OPT_ARRAY);
+> +
+>  	if (!err && s->mask & STATMOUNT_FS_SUBTYPE)
+>  		err =3D statmount_string(s, STATMOUNT_FS_SUBTYPE);
+> =20
+> diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+> index 2b49e9131d77..c0fda4604187 100644
+> --- a/include/uapi/linux/mount.h
+> +++ b/include/uapi/linux/mount.h
+> @@ -154,7 +154,7 @@ struct mount_attr {
+>   */
+>  struct statmount {
+>  	__u32 size;		/* Total size, including strings */
+> -	__u32 mnt_opts;		/* [str] Mount options of the mount */
+> +	__u32 mnt_opts;		/* [str] Options (comma separated, escaped) */
+>  	__u64 mask;		/* What results were written */
+>  	__u32 sb_dev_major;	/* Device ID */
+>  	__u32 sb_dev_minor;
+> @@ -175,7 +175,9 @@ struct statmount {
+>  	__u64 mnt_ns_id;	/* ID of the mount namespace */
+>  	__u32 fs_subtype;	/* [str] Subtype of fs_type (if any) */
+>  	__u32 sb_source;	/* [str] Source string of the mount */
+> -	__u64 __spare2[48];
+> +	__u32 opt_num;		/* Number of fs options */
+> +	__u32 opt_array;	/* [str] Array of nul terminated fs options */
+> +	__u64 __spare2[47];
+>  	char str[];		/* Variable size part containing strings */
+>  };
+> =20
+> @@ -211,6 +213,7 @@ struct mnt_id_req {
+>  #define STATMOUNT_MNT_OPTS		0x00000080U	/* Want/got mnt_opts */
+>  #define STATMOUNT_FS_SUBTYPE		0x00000100U	/* Want/got fs_subtype */
+>  #define STATMOUNT_SB_SOURCE		0x00000200U	/* Want/got sb_source */
+> +#define STATMOUNT_OPT_ARRAY		0x00000400U	/* Want/got opt_... */
+> =20
+>  /*
+>   * Special @mnt_id values that can be passed to listmount
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121942.9DAb3SoN-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from net/homa/homa_outgoing.c:7:
-   In file included from net/homa/homa_impl.h:12:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:10:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/homa/homa_outgoing.c:7:
-   In file included from net/homa/homa_impl.h:13:
-   In file included from include/linux/icmp.h:16:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from net/homa/homa_outgoing.c:7:
-   In file included from net/homa/homa_impl.h:13:
-   In file included from include/linux/icmp.h:16:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from net/homa/homa_outgoing.c:7:
-   In file included from net/homa/homa_impl.h:13:
-   In file included from include/linux/icmp.h:16:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> net/homa/homa_outgoing.c:108:2: warning: comparison of distinct pointer types ('typeof ((segs)) *' (aka 'int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     108 |         do_div(segs, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> net/homa/homa_outgoing.c:108:2: error: incompatible pointer types passing 'int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     108 |         do_div(segs, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
->> net/homa/homa_outgoing.c:108:2: warning: shift count >= width of type [-Wshift-count-overflow]
-     108 |         do_div(segs, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
->> net/homa/homa_outgoing.c:233:2: warning: comparison of distinct pointer types ('typeof ((segs_per_gso)) *' (aka 'int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     233 |         do_div(segs_per_gso, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
-   net/homa/homa_outgoing.c:233:2: error: incompatible pointer types passing 'int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     233 |         do_div(segs_per_gso, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
-   net/homa/homa_outgoing.c:233:2: warning: shift count >= width of type [-Wshift-count-overflow]
-     233 |         do_div(segs_per_gso, max_seg_data);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/homa/homa_outgoing.c:809:6: warning: variable 'checks' set but not used [-Wunused-but-set-variable]
-     809 |         int checks = 0;
-         |             ^
-   12 warnings and 2 errors generated.
-
-
-vim +108 net/homa/homa_outgoing.c
-
-cb3634a259a2944 John Ousterhout 2024-11-11   78  
-cb3634a259a2944 John Ousterhout 2024-11-11   79  /**
-cb3634a259a2944 John Ousterhout 2024-11-11   80   * homa_new_data_packet() - Allocate a new sk_buff and fill it with a Homa
-cb3634a259a2944 John Ousterhout 2024-11-11   81   * data packet. The resulting packet will be a GSO packet that will eventually
-cb3634a259a2944 John Ousterhout 2024-11-11   82   * be segmented by the NIC.
-cb3634a259a2944 John Ousterhout 2024-11-11   83   * @rpc:          RPC that packet will belong to (msgout must have been
-cb3634a259a2944 John Ousterhout 2024-11-11   84   *                initialized).
-cb3634a259a2944 John Ousterhout 2024-11-11   85   * @iter:         Describes location(s) of (remaining) message data in user
-cb3634a259a2944 John Ousterhout 2024-11-11   86   *                space.
-cb3634a259a2944 John Ousterhout 2024-11-11   87   * @offset:       Offset in the message of the first byte of data in this
-cb3634a259a2944 John Ousterhout 2024-11-11   88   *                packet.
-cb3634a259a2944 John Ousterhout 2024-11-11   89   * @length:       How many bytes of data to include in the skb. Caller must
-cb3634a259a2944 John Ousterhout 2024-11-11   90   *                ensure that this amount of data isn't too much for a
-cb3634a259a2944 John Ousterhout 2024-11-11   91   *                well-formed GSO packet, and that iter has at least this
-cb3634a259a2944 John Ousterhout 2024-11-11   92   *                much data.
-cb3634a259a2944 John Ousterhout 2024-11-11   93   * @max_seg_data: Maximum number of bytes of message data that can go in
-cb3634a259a2944 John Ousterhout 2024-11-11   94   *                a single segment of the GSO packet.
-cb3634a259a2944 John Ousterhout 2024-11-11   95   * Return: A pointer to the new packet, or a negative errno.
-cb3634a259a2944 John Ousterhout 2024-11-11   96   */
-cb3634a259a2944 John Ousterhout 2024-11-11   97  struct sk_buff *homa_new_data_packet(struct homa_rpc *rpc,
-cb3634a259a2944 John Ousterhout 2024-11-11   98  				     struct iov_iter *iter, int offset,
-cb3634a259a2944 John Ousterhout 2024-11-11   99  				     int length, int max_seg_data)
-cb3634a259a2944 John Ousterhout 2024-11-11  100  {
-cb3634a259a2944 John Ousterhout 2024-11-11  101  	struct homa_skb_info *homa_info;
-cb3634a259a2944 John Ousterhout 2024-11-11  102  	int segs, err, gso_size;
-cb3634a259a2944 John Ousterhout 2024-11-11  103  	struct data_header *h;
-cb3634a259a2944 John Ousterhout 2024-11-11  104  	struct sk_buff *skb;
-cb3634a259a2944 John Ousterhout 2024-11-11  105  
-cb3634a259a2944 John Ousterhout 2024-11-11  106  	/* Initialize the overall skb. */
-cb3634a259a2944 John Ousterhout 2024-11-11  107  	segs = length + max_seg_data - 1;
-cb3634a259a2944 John Ousterhout 2024-11-11 @108  	do_div(segs, max_seg_data);
-cb3634a259a2944 John Ousterhout 2024-11-11  109  	skb = homa_skb_new_tx(sizeof32(*h) + length
-cb3634a259a2944 John Ousterhout 2024-11-11  110  			+ segs * sizeof32(struct seg_header));
-cb3634a259a2944 John Ousterhout 2024-11-11  111  	if (!skb)
-cb3634a259a2944 John Ousterhout 2024-11-11  112  		return ERR_PTR(-ENOMEM);
-cb3634a259a2944 John Ousterhout 2024-11-11  113  
-cb3634a259a2944 John Ousterhout 2024-11-11  114  	/* Fill in the Homa header (which will be replicated in every
-cb3634a259a2944 John Ousterhout 2024-11-11  115  	 * network packet by GSO).
-cb3634a259a2944 John Ousterhout 2024-11-11  116  	 */
-cb3634a259a2944 John Ousterhout 2024-11-11  117  	h = (struct data_header *)skb_put(skb, sizeof(struct data_header));
-cb3634a259a2944 John Ousterhout 2024-11-11  118  	h->common.sport = htons(rpc->hsk->port);
-cb3634a259a2944 John Ousterhout 2024-11-11  119  	h->common.dport = htons(rpc->dport);
-cb3634a259a2944 John Ousterhout 2024-11-11  120  	h->common.sequence = htonl(offset);
-cb3634a259a2944 John Ousterhout 2024-11-11  121  	h->common.type = DATA;
-cb3634a259a2944 John Ousterhout 2024-11-11  122  	homa_set_doff(h, sizeof(struct data_header));
-cb3634a259a2944 John Ousterhout 2024-11-11  123  	h->common.checksum = 0;
-cb3634a259a2944 John Ousterhout 2024-11-11  124  	h->common.sender_id = cpu_to_be64(rpc->id);
-cb3634a259a2944 John Ousterhout 2024-11-11  125  	h->message_length = htonl(rpc->msgout.length);
-cb3634a259a2944 John Ousterhout 2024-11-11  126  	h->incoming = h->message_length;
-cb3634a259a2944 John Ousterhout 2024-11-11  127  	h->ack.client_id = 0;
-cb3634a259a2944 John Ousterhout 2024-11-11  128  	homa_peer_get_acks(rpc->peer, 1, &h->ack);
-cb3634a259a2944 John Ousterhout 2024-11-11  129  	h->retransmit = 0;
-cb3634a259a2944 John Ousterhout 2024-11-11  130  	h->seg.offset = htonl(offset);
-cb3634a259a2944 John Ousterhout 2024-11-11  131  
-cb3634a259a2944 John Ousterhout 2024-11-11  132  	homa_info = homa_get_skb_info(skb);
-cb3634a259a2944 John Ousterhout 2024-11-11  133  	homa_info->next_skb = NULL;
-cb3634a259a2944 John Ousterhout 2024-11-11  134  	homa_info->wire_bytes = length + segs * (sizeof(struct data_header)
-cb3634a259a2944 John Ousterhout 2024-11-11  135  			+  rpc->hsk->ip_header_length + HOMA_ETH_OVERHEAD);
-cb3634a259a2944 John Ousterhout 2024-11-11  136  	homa_info->data_bytes = length;
-cb3634a259a2944 John Ousterhout 2024-11-11  137  	homa_info->seg_length = max_seg_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  138  	homa_info->offset = offset;
-cb3634a259a2944 John Ousterhout 2024-11-11  139  
-cb3634a259a2944 John Ousterhout 2024-11-11  140  	if (segs > 1) {
-cb3634a259a2944 John Ousterhout 2024-11-11  141  		homa_set_doff(h, sizeof(struct data_header)  -
-cb3634a259a2944 John Ousterhout 2024-11-11  142  				sizeof32(struct seg_header));
-cb3634a259a2944 John Ousterhout 2024-11-11  143  		gso_size = max_seg_data + sizeof(struct seg_header);
-cb3634a259a2944 John Ousterhout 2024-11-11  144  		err = homa_fill_data_interleaved(rpc, skb, iter);
-cb3634a259a2944 John Ousterhout 2024-11-11  145  	} else {
-cb3634a259a2944 John Ousterhout 2024-11-11  146  		gso_size = max_seg_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  147  		err = homa_skb_append_from_iter(rpc->hsk->homa, skb, iter,
-cb3634a259a2944 John Ousterhout 2024-11-11  148  						length);
-cb3634a259a2944 John Ousterhout 2024-11-11  149  	}
-cb3634a259a2944 John Ousterhout 2024-11-11  150  	if (err)
-cb3634a259a2944 John Ousterhout 2024-11-11  151  		goto error;
-cb3634a259a2944 John Ousterhout 2024-11-11  152  
-cb3634a259a2944 John Ousterhout 2024-11-11  153  	if (segs > 1) {
-cb3634a259a2944 John Ousterhout 2024-11-11  154  		skb_shinfo(skb)->gso_segs = segs;
-cb3634a259a2944 John Ousterhout 2024-11-11  155  		skb_shinfo(skb)->gso_size = gso_size;
-cb3634a259a2944 John Ousterhout 2024-11-11  156  
-cb3634a259a2944 John Ousterhout 2024-11-11  157  		/* It's unclear what gso_type should be used to force software
-cb3634a259a2944 John Ousterhout 2024-11-11  158  		 * GSO; the value below seems to work...
-cb3634a259a2944 John Ousterhout 2024-11-11  159  		 */
-cb3634a259a2944 John Ousterhout 2024-11-11  160  		skb_shinfo(skb)->gso_type =
-cb3634a259a2944 John Ousterhout 2024-11-11  161  		    rpc->hsk->homa->gso_force_software ? 0xd : SKB_GSO_TCPV6;
-cb3634a259a2944 John Ousterhout 2024-11-11  162  	}
-cb3634a259a2944 John Ousterhout 2024-11-11  163  	return skb;
-cb3634a259a2944 John Ousterhout 2024-11-11  164  
-cb3634a259a2944 John Ousterhout 2024-11-11  165  error:
-cb3634a259a2944 John Ousterhout 2024-11-11  166  	homa_skb_free_tx(rpc->hsk->homa, skb);
-cb3634a259a2944 John Ousterhout 2024-11-11  167  	return ERR_PTR(err);
-cb3634a259a2944 John Ousterhout 2024-11-11  168  }
-cb3634a259a2944 John Ousterhout 2024-11-11  169  
-cb3634a259a2944 John Ousterhout 2024-11-11  170  /**
-cb3634a259a2944 John Ousterhout 2024-11-11  171   * homa_message_out_fill() - Initializes information for sending a message
-cb3634a259a2944 John Ousterhout 2024-11-11  172   * for an RPC (either request or response); copies the message data from
-cb3634a259a2944 John Ousterhout 2024-11-11  173   * user space and (possibly) begins transmitting the message.
-cb3634a259a2944 John Ousterhout 2024-11-11  174   * @rpc:     RPC for which to send message; this function must not
-cb3634a259a2944 John Ousterhout 2024-11-11  175   *           previously have been called for the RPC. Must be locked. The RPC
-cb3634a259a2944 John Ousterhout 2024-11-11  176   *           will be unlocked while copying data, but will be locked again
-cb3634a259a2944 John Ousterhout 2024-11-11  177   *           before returning.
-cb3634a259a2944 John Ousterhout 2024-11-11  178   * @iter:    Describes location(s) of message data in user space.
-cb3634a259a2944 John Ousterhout 2024-11-11  179   * @xmit:    Nonzero means this method should start transmitting packets;
-cb3634a259a2944 John Ousterhout 2024-11-11  180   *           transmission will be overlapped with copying from user space.
-cb3634a259a2944 John Ousterhout 2024-11-11  181   *           Zero means the caller will initiate transmission after this
-cb3634a259a2944 John Ousterhout 2024-11-11  182   *           function returns.
-cb3634a259a2944 John Ousterhout 2024-11-11  183   *
-cb3634a259a2944 John Ousterhout 2024-11-11  184   * Return:   0 for success, or a negative errno for failure. It is possible
-cb3634a259a2944 John Ousterhout 2024-11-11  185   *           for the RPC to be freed while this function is active. If that
-cb3634a259a2944 John Ousterhout 2024-11-11  186   *           happens, copying will cease, -EINVAL will be returned, and
-cb3634a259a2944 John Ousterhout 2024-11-11  187   *           rpc->state will be RPC_DEAD.
-cb3634a259a2944 John Ousterhout 2024-11-11  188   */
-cb3634a259a2944 John Ousterhout 2024-11-11  189  int homa_message_out_fill(struct homa_rpc *rpc, struct iov_iter *iter, int xmit)
-cb3634a259a2944 John Ousterhout 2024-11-11  190  	__releases(&rpc->bucket->lock)
-cb3634a259a2944 John Ousterhout 2024-11-11  191  	__acquires(&rpc->bucket->lock)
-cb3634a259a2944 John Ousterhout 2024-11-11  192  {
-cb3634a259a2944 John Ousterhout 2024-11-11  193  	/* Geometry information for packets:
-cb3634a259a2944 John Ousterhout 2024-11-11  194  	 * mtu:              largest size for an on-the-wire packet (including
-cb3634a259a2944 John Ousterhout 2024-11-11  195  	 *                   all headers through IP header, but not Ethernet
-cb3634a259a2944 John Ousterhout 2024-11-11  196  	 *                   header).
-cb3634a259a2944 John Ousterhout 2024-11-11  197  	 * max_seg_data:     largest amount of Homa message data that fits
-cb3634a259a2944 John Ousterhout 2024-11-11  198  	 *                   in an on-the-wire packet (after segmentation).
-cb3634a259a2944 John Ousterhout 2024-11-11  199  	 * max_gso_data:     largest amount of Homa message data that fits
-cb3634a259a2944 John Ousterhout 2024-11-11  200  	 *                   in a GSO packet (before segmentation).
-cb3634a259a2944 John Ousterhout 2024-11-11  201  	 */
-cb3634a259a2944 John Ousterhout 2024-11-11  202  	int mtu, max_seg_data, max_gso_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  203  
-cb3634a259a2944 John Ousterhout 2024-11-11  204  	int overlap_xmit, segs_per_gso;
-cb3634a259a2944 John Ousterhout 2024-11-11  205  	struct sk_buff **last_link;
-cb3634a259a2944 John Ousterhout 2024-11-11  206  	struct dst_entry *dst;
-cb3634a259a2944 John Ousterhout 2024-11-11  207  
-cb3634a259a2944 John Ousterhout 2024-11-11  208  	/* Bytes of the message that haven't yet been copied into skbs. */
-cb3634a259a2944 John Ousterhout 2024-11-11  209  	int bytes_left;
-cb3634a259a2944 John Ousterhout 2024-11-11  210  
-cb3634a259a2944 John Ousterhout 2024-11-11  211  	int gso_size;
-cb3634a259a2944 John Ousterhout 2024-11-11  212  	int err;
-cb3634a259a2944 John Ousterhout 2024-11-11  213  
-cb3634a259a2944 John Ousterhout 2024-11-11  214  	homa_message_out_init(rpc, iter->count);
-cb3634a259a2944 John Ousterhout 2024-11-11  215  	if (unlikely(rpc->msgout.length > HOMA_MAX_MESSAGE_LENGTH ||
-cb3634a259a2944 John Ousterhout 2024-11-11  216  		     rpc->msgout.length == 0)) {
-cb3634a259a2944 John Ousterhout 2024-11-11  217  		err = -EINVAL;
-cb3634a259a2944 John Ousterhout 2024-11-11  218  		goto error;
-cb3634a259a2944 John Ousterhout 2024-11-11  219  	}
-cb3634a259a2944 John Ousterhout 2024-11-11  220  
-cb3634a259a2944 John Ousterhout 2024-11-11  221  	/* Compute the geometry of packets. */
-cb3634a259a2944 John Ousterhout 2024-11-11  222  	dst = homa_get_dst(rpc->peer, rpc->hsk);
-cb3634a259a2944 John Ousterhout 2024-11-11  223  	mtu = dst_mtu(dst);
-cb3634a259a2944 John Ousterhout 2024-11-11  224  	max_seg_data = mtu - rpc->hsk->ip_header_length
-cb3634a259a2944 John Ousterhout 2024-11-11  225  			- sizeof(struct data_header);
-cb3634a259a2944 John Ousterhout 2024-11-11  226  	gso_size = dst->dev->gso_max_size;
-cb3634a259a2944 John Ousterhout 2024-11-11  227  	if (gso_size > rpc->hsk->homa->max_gso_size)
-cb3634a259a2944 John Ousterhout 2024-11-11  228  		gso_size = rpc->hsk->homa->max_gso_size;
-cb3634a259a2944 John Ousterhout 2024-11-11  229  
-cb3634a259a2944 John Ousterhout 2024-11-11  230  	/* Round gso_size down to an even # of mtus. */
-cb3634a259a2944 John Ousterhout 2024-11-11  231  	segs_per_gso = gso_size - rpc->hsk->ip_header_length
-cb3634a259a2944 John Ousterhout 2024-11-11  232  			- sizeof(struct data_header);
-cb3634a259a2944 John Ousterhout 2024-11-11 @233  	do_div(segs_per_gso, max_seg_data);
-cb3634a259a2944 John Ousterhout 2024-11-11  234  	if (segs_per_gso == 0)
-cb3634a259a2944 John Ousterhout 2024-11-11  235  		segs_per_gso = 1;
-cb3634a259a2944 John Ousterhout 2024-11-11  236  	max_gso_data = segs_per_gso * max_seg_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  237  
-cb3634a259a2944 John Ousterhout 2024-11-11  238  	overlap_xmit = rpc->msgout.length > 2 * max_gso_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  239  	atomic_or(RPC_COPYING_FROM_USER, &rpc->flags);
-cb3634a259a2944 John Ousterhout 2024-11-11  240  	homa_skb_stash_pages(rpc->hsk->homa, rpc->msgout.length);
-cb3634a259a2944 John Ousterhout 2024-11-11  241  
-cb3634a259a2944 John Ousterhout 2024-11-11  242  	/* Each iteration of the loop below creates one GSO packet. */
-cb3634a259a2944 John Ousterhout 2024-11-11  243  	last_link = &rpc->msgout.packets;
-cb3634a259a2944 John Ousterhout 2024-11-11  244  	for (bytes_left = rpc->msgout.length; bytes_left > 0; ) {
-cb3634a259a2944 John Ousterhout 2024-11-11  245  		int skb_data_bytes, offset;
-cb3634a259a2944 John Ousterhout 2024-11-11  246  		struct sk_buff *skb;
-cb3634a259a2944 John Ousterhout 2024-11-11  247  
-cb3634a259a2944 John Ousterhout 2024-11-11  248  		homa_rpc_unlock(rpc);
-cb3634a259a2944 John Ousterhout 2024-11-11  249  		skb_data_bytes = max_gso_data;
-cb3634a259a2944 John Ousterhout 2024-11-11  250  		offset = rpc->msgout.length - bytes_left;
-cb3634a259a2944 John Ousterhout 2024-11-11  251  		if (skb_data_bytes > bytes_left)
-cb3634a259a2944 John Ousterhout 2024-11-11  252  			skb_data_bytes = bytes_left;
-cb3634a259a2944 John Ousterhout 2024-11-11  253  		skb = homa_new_data_packet(rpc, iter, offset, skb_data_bytes,
-cb3634a259a2944 John Ousterhout 2024-11-11  254  					   max_seg_data);
-cb3634a259a2944 John Ousterhout 2024-11-11  255  		if (unlikely(!skb)) {
-cb3634a259a2944 John Ousterhout 2024-11-11  256  			err = PTR_ERR(skb);
-cb3634a259a2944 John Ousterhout 2024-11-11  257  			homa_rpc_lock(rpc, "homa_message_out_fill");
-cb3634a259a2944 John Ousterhout 2024-11-11  258  			goto error;
-cb3634a259a2944 John Ousterhout 2024-11-11  259  		}
-cb3634a259a2944 John Ousterhout 2024-11-11  260  		bytes_left -= skb_data_bytes;
-cb3634a259a2944 John Ousterhout 2024-11-11  261  
-cb3634a259a2944 John Ousterhout 2024-11-11  262  		homa_rpc_lock(rpc, "homa_message_out_fill2");
-cb3634a259a2944 John Ousterhout 2024-11-11  263  		if (rpc->state == RPC_DEAD) {
-cb3634a259a2944 John Ousterhout 2024-11-11  264  			/* RPC was freed while we were copying. */
-cb3634a259a2944 John Ousterhout 2024-11-11  265  			err = -EINVAL;
-cb3634a259a2944 John Ousterhout 2024-11-11  266  			homa_skb_free_tx(rpc->hsk->homa, skb);
-cb3634a259a2944 John Ousterhout 2024-11-11  267  			goto error;
-cb3634a259a2944 John Ousterhout 2024-11-11  268  		}
-cb3634a259a2944 John Ousterhout 2024-11-11  269  		*last_link = skb;
-cb3634a259a2944 John Ousterhout 2024-11-11  270  		last_link = &(homa_get_skb_info(skb)->next_skb);
-cb3634a259a2944 John Ousterhout 2024-11-11  271  		*last_link = NULL;
-cb3634a259a2944 John Ousterhout 2024-11-11  272  		rpc->msgout.num_skbs++;
-cb3634a259a2944 John Ousterhout 2024-11-11  273  		rpc->msgout.copied_from_user = rpc->msgout.length - bytes_left;
-cb3634a259a2944 John Ousterhout 2024-11-11  274  		if (overlap_xmit && list_empty(&rpc->throttled_links) && xmit)
-cb3634a259a2944 John Ousterhout 2024-11-11  275  			homa_add_to_throttled(rpc);
-cb3634a259a2944 John Ousterhout 2024-11-11  276  	}
-cb3634a259a2944 John Ousterhout 2024-11-11  277  	atomic_andnot(RPC_COPYING_FROM_USER, &rpc->flags);
-cb3634a259a2944 John Ousterhout 2024-11-11  278  	if (!overlap_xmit && xmit)
-cb3634a259a2944 John Ousterhout 2024-11-11  279  		homa_xmit_data(rpc, false);
-cb3634a259a2944 John Ousterhout 2024-11-11  280  	return 0;
-cb3634a259a2944 John Ousterhout 2024-11-11  281  
-cb3634a259a2944 John Ousterhout 2024-11-11  282  error:
-cb3634a259a2944 John Ousterhout 2024-11-11  283  	atomic_andnot(RPC_COPYING_FROM_USER, &rpc->flags);
-cb3634a259a2944 John Ousterhout 2024-11-11  284  	return err;
-cb3634a259a2944 John Ousterhout 2024-11-11  285  }
-cb3634a259a2944 John Ousterhout 2024-11-11  286  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Jeff Layton <jlayton@kernel.org>
 
