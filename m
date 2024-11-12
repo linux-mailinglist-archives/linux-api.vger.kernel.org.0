@@ -1,290 +1,392 @@
-Return-Path: <linux-api+bounces-2719-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2721-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF939C57BB
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 13:29:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C8C9C6145
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 20:22:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F1B228111E
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 12:29:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2449C1F2299B
+	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:22:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 730E51F7793;
-	Tue, 12 Nov 2024 12:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B94E2194A5;
+	Tue, 12 Nov 2024 19:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGVVsx1R"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="0ZNC+N8a"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474241BC085;
-	Tue, 12 Nov 2024 12:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C23218958
+	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731414569; cv=none; b=ZWZS75+LYRGBXNC1JZwhnnADHAqvI+Fvt6sztGWzjH/ceXW4g7ttWJjx55lRTZLib1XUzb+EKZPDk7nNBVTFlBN2igS+zd5X8jwSSDwZ3z8g7iYNxEmoD23OHPKKZcQHNQRQuCAj6oURbzHXlAE5vaQu/IsLhwlTF+AdjbsrRKA=
+	t=1731439167; cv=none; b=lTxNWfzcYi5Uzpu9Zdr90kW95dCCd0HRh+3YywMKb4NFHtggv4Yumtk/2iAeXdUMTbgwgYcR7y9dK/dIs9ix44Jm4G+3DfotLBs3GqpHJnhnA+PInPkNa/aBMlqf1rjkVFc9yVSKFgP5dCc5W+WNmuE1vynEwdJmOcQxkIgbHFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731414569; c=relaxed/simple;
-	bh=nYMXgQ/rn/bl/mnwEnGYwH76IendqTjAFICQSbFnYkQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=K63rdWXmxdNtyrKTFd8ytYGzqXJpSR1PBdLsQ2Cj8NvwHKd2iAu1MFM+VtM2wPA2e2pHfOnC7IDeBMhgE6q7fB8GauyUSUqt0ZGgCQ6OI7ZpxMObFmOSQhprn1VbHkcUVcJBOBwEvsOVoaJOzqKJskMnp/G2+0Xsw7ZEQL64xUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGVVsx1R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 496F1C4CECD;
-	Tue, 12 Nov 2024 12:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731414568;
-	bh=nYMXgQ/rn/bl/mnwEnGYwH76IendqTjAFICQSbFnYkQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=OGVVsx1R+7viE9y6Jn0Q52V1N9APh1XDiZ8QGzxHhTvbsj5wWogku1nOVcEeyaWvm
-	 WH00ixTFEpyK8QtY0jUifuaWSwCMMAMIJsOpZe+C1u43XxvQOJ91lX97wTvVxR73bJ
-	 9NiW3F26wzIXFx+90iadY23/E/clHUmW+2V5MYES+QCYlQ5wMEz66koFbxE90O33D2
-	 59g8yovvYC8jUFoTCyO3GKyM1wMYjF3y0KuAbz8gmGUiRefgK1PGJxaflKn1LENNqE
-	 aJtCLZIU/9MFxquyw7xXEuJjxP5EkQly9Km0v6ouI8wzc0PXP+n4rDKRZKmC5Jk0N/
-	 aydSTD5wM2yNA==
-Message-ID: <478b7b8a8a5648732911de6859a4a9b35aabc6c6.camel@kernel.org>
-Subject: Re: [PATCH] statmount: add flag to retrieve unescaped options
-From: Jeff Layton <jlayton@kernel.org>
-To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, Karel Zak <kzak@redhat.com>, Christian
- Brauner <christian@brauner.io>, Josef Bacik <josef@toxicpanda.com>
-Date: Tue, 12 Nov 2024 07:29:27 -0500
-In-Reply-To: <2faa89f0ad18d8f8015f65b202f8ddc64a810a71.camel@kernel.org>
-References: <20241112101006.30715-1-mszeredi@redhat.com>
-	 <2faa89f0ad18d8f8015f65b202f8ddc64a810a71.camel@kernel.org>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	s=arc-20240116; t=1731439167; c=relaxed/simple;
+	bh=ji/vzyUmDrHJ8QjcSw/bA/8JW+pnUvPukMeYWxD3RwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JFepDw6gPGsv/2Ln2pRx2KRxemRiPhzxO8Ieyg2TsHFN55HAuEL+BizV7mmk2Li1ZTjk06+mKLe6AOpAbI92PWWdFPXdjg6Yi1r8E9Ew9PPKRB9qvpW7mjnMvKtpS0qoSMKvYWFY+1w2zQOBihAAaWjf4fSUgSCRQmHdWsdjWy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=0ZNC+N8a; arc=none smtp.client-ip=83.166.143.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx6r3sQNzLrY;
+	Tue, 12 Nov 2024 20:19:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1731439156;
+	bh=krXA8v1nXt/SFnhft1+7cc+2GE0q/E3KEtDNCcjdkRw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=0ZNC+N8aVivzWDKK/xunfkDWy3mFiZnzPNixT79HMvYiZOy+2vH+ZarKZyWHKv/AS
+	 LZg1BX7lp4YGz+Q8PKF29dt9W8M8vfb5naSzIh+u2lVUxAQV4RMBen09rmU8GNXPEM
+	 9rHjIrDyU9jhsed5KERzbDNIMgp6Rn+oBLXATuA8=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6p6KNgz7qR;
+	Tue, 12 Nov 2024 20:19:14 +0100 (CET)
+From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <serge@hallyn.com>
+Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Alejandro Colomar <alx@kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Christian Heimes <christian@python.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Elliott Hughes <enh@google.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Eric Chiang <ericchiang@google.com>,
+	Fan Wu <wufan@linux.microsoft.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Morris <jamorris@linux.microsoft.com>,
+	Jan Kara <jack@suse.cz>,
+	Jann Horn <jannh@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jordan R Abrahams <ajordanr@google.com>,
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Luca Boccassi <bluca@debian.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Matthew Garrett <mjg59@srcf.ucam.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
+	Scott Shell <scottsh@microsoft.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Steve Dower <steve.dower@python.org>,
+	Steve Grubb <sgrubb@redhat.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+	Xiaoming Ni <nixiaoming@huawei.com>,
+	Yin Fengwei <fengwei.yin@intel.com>,
+	kernel-hardening@lists.openwall.com,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v21 1/6] exec: Add a new AT_EXECVE_CHECK flag to execveat(2)
+Date: Tue, 12 Nov 2024 20:18:53 +0100
+Message-ID: <20241112191858.162021-2-mic@digikod.net>
+In-Reply-To: <20241112191858.162021-1-mic@digikod.net>
+References: <20241112191858.162021-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 
-On Tue, 2024-11-12 at 07:20 -0500, Jeff Layton wrote:
-> On Tue, 2024-11-12 at 11:10 +0100, Miklos Szeredi wrote:
-> > Filesystem options can be retrieved with STATMOUNT_MNT_OPTS, which
-> > returns a string of comma separated options, where some characters are
-> > escaped using the \OOO notation.
-> >=20
-> > Add a new flag, STATMOUNT_OPT_ARRAY, which instead returns the raw
-> > option values separated with '\0' charaters.
-> >=20
-> > Since escaped charaters are rare, this inteface is preferable for
-> > non-libmount users which likley don't want to deal with option
-> > de-escaping.
-> >=20
-> > Example code:
-> >=20
-> > 	if (st->mask & STATMOUNT_OPT_ARRAY) {
-> > 		const char *opt =3D st->str + st->opt_array;
-> >=20
-> > 		for (unsigned int i =3D 0; i < st->opt_num; i++) {
-> > 			printf("opt_array[%i]: <%s>\n", i, opt);
-> > 			opt +=3D strlen(opt) + 1;
-> > 		}
-> > 	}
-> >=20
->=20
-> If the options are separated by NULs, how does userland know where to
-> stop?
->=20
-> At some point we will probably end up adding a new string value that
-> would go after the opt array, and userland will need some way to
-> clearly tell where that new string begins and the NUL-terminated
-> options array ends.
->=20
+Add a new AT_EXECVE_CHECK flag to execveat(2) to check if a file would
+be allowed for execution.  The main use case is for script interpreters
+and dynamic linkers to check execution permission according to the
+kernel's security policy. Another use case is to add context to access
+logs e.g., which script (instead of interpreter) accessed a file.  As
+any executable code, scripts could also use this check [1].
 
-Ok, that should work.
+This is different from faccessat(2) + X_OK which only checks a subset of
+access rights (i.e. inode permission and mount options for regular
+files), but not the full context (e.g. all LSM access checks).  The main
+use case for access(2) is for SUID processes to (partially) check access
+on behalf of their caller.  The main use case for execveat(2) +
+AT_EXECVE_CHECK is to check if a script execution would be allowed,
+according to all the different restrictions in place.  Because the use
+of AT_EXECVE_CHECK follows the exact kernel semantic as for a real
+execution, user space gets the same error codes.
 
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> >  fs/namespace.c             | 42 ++++++++++++++++++++++++++++++++++++++
-> >  include/uapi/linux/mount.h |  7 +++++--
-> >  2 files changed, 47 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index 9a4ab1bc8b94..a16f75011610 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -5074,6 +5074,41 @@ static int statmount_mnt_opts(struct kstatmount =
-*s, struct seq_file *seq)
-> >  	return 0;
-> >  }
-> > =20
-> > +static int statmount_opt_array(struct kstatmount *s, struct seq_file *=
-seq)
-> > +{
-> > +	struct vfsmount *mnt =3D s->mnt;
-> > +	struct super_block *sb =3D mnt->mnt_sb;
-> > +	size_t start =3D seq->count;
-> > +	u32 count =3D 0;
-> > +	char *p, *end, *next, *u =3D seq->buf + start;
-> > +	int err;
-> > +
-> > +       if (!sb->s_op->show_options)
-> > +               return 0;
-> > +
-> > +       err =3D sb->s_op->show_options(seq, mnt->mnt_root);
-> > +       if (err)
-> > +	       return err;
-> > +
-> > +       if (unlikely(seq_has_overflowed(seq)))
-> > +	       return -EAGAIN;
-> > +
-> > +       end =3D seq->buf + seq->count;
-> > +       *end =3D '\0';
-> > +       for (p =3D u + 1; p < end; p =3D next + 1) {
-> > +               next =3D strchrnul(p, ',');
-> > +               *next =3D '\0';
-> > +               u +=3D string_unescape(p, u, 0, UNESCAPE_OCTAL) + 1;
-> > +	       count++;
-> > +	       if (!count)
-> > +		       return -EOVERFLOW;
-> > +       }
-> > +       seq->count =3D u - 1 - seq->buf;
-> > +       s->sm.opt_num =3D count;
-> > +
-> > +       return 0;
-> > +}
-> > +
-> >  static int statmount_string(struct kstatmount *s, u64 flag)
-> >  {
-> >  	int ret =3D 0;
-> > @@ -5099,6 +5134,10 @@ static int statmount_string(struct kstatmount *s=
-, u64 flag)
-> >  		sm->mnt_opts =3D start;
-> >  		ret =3D statmount_mnt_opts(s, seq);
-> >  		break;
-> > +	case STATMOUNT_OPT_ARRAY:
-> > +		sm->opt_array =3D start;
-> > +		ret =3D statmount_opt_array(s, seq);
-> > +		break;
-> >  	case STATMOUNT_FS_SUBTYPE:
-> >  		sm->fs_subtype =3D start;
-> >  		statmount_fs_subtype(s, seq);
-> > @@ -5252,6 +5291,9 @@ static int do_statmount(struct kstatmount *s, u64=
- mnt_id, u64 mnt_ns_id,
-> >  	if (!err && s->mask & STATMOUNT_MNT_OPTS)
-> >  		err =3D statmount_string(s, STATMOUNT_MNT_OPTS);
-> > =20
-> > +	if (!err && s->mask & STATMOUNT_OPT_ARRAY)
-> > +		err =3D statmount_string(s, STATMOUNT_OPT_ARRAY);
-> > +
-> >  	if (!err && s->mask & STATMOUNT_FS_SUBTYPE)
-> >  		err =3D statmount_string(s, STATMOUNT_FS_SUBTYPE);
-> > =20
-> > diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-> > index 2b49e9131d77..c0fda4604187 100644
-> > --- a/include/uapi/linux/mount.h
-> > +++ b/include/uapi/linux/mount.h
-> > @@ -154,7 +154,7 @@ struct mount_attr {
-> >   */
-> >  struct statmount {
-> >  	__u32 size;		/* Total size, including strings */
-> > -	__u32 mnt_opts;		/* [str] Mount options of the mount */
-> > +	__u32 mnt_opts;		/* [str] Options (comma separated, escaped) */
-> >  	__u64 mask;		/* What results were written */
-> >  	__u32 sb_dev_major;	/* Device ID */
-> >  	__u32 sb_dev_minor;
-> > @@ -175,7 +175,9 @@ struct statmount {
-> >  	__u64 mnt_ns_id;	/* ID of the mount namespace */
-> >  	__u32 fs_subtype;	/* [str] Subtype of fs_type (if any) */
-> >  	__u32 sb_source;	/* [str] Source string of the mount */
-> > -	__u64 __spare2[48];
-> > +	__u32 opt_num;		/* Number of fs options */
+An interesting point of using execveat(2) instead of openat2(2) is that
+it decouples the check from the enforcement.  Indeed, the security check
+can be logged (e.g. with audit) without blocking an execution
+environment not yet ready to enforce a strict security policy.
 
-Since there are 2 ways to get mount options, maybe make this more
-clear: "Number of fs options in opt_array".
+LSMs can control or log execution requests with
+security_bprm_creds_for_exec().  However, to enforce a consistent and
+complete access control (e.g. on binary's dependencies) LSMs should
+restrict file executability, or mesure executed files, with
+security_file_open() by checking file->f_flags & __FMODE_EXEC.
 
-> > +	__u32 opt_array;	/* [str] Array of nul terminated fs options */
-> > +	__u64 __spare2[47];
-> >  	char str[];		/* Variable size part containing strings */
-> >  };
-> > =20
-> > @@ -211,6 +213,7 @@ struct mnt_id_req {
-> >  #define STATMOUNT_MNT_OPTS		0x00000080U	/* Want/got mnt_opts */
-> >  #define STATMOUNT_FS_SUBTYPE		0x00000100U	/* Want/got fs_subtype */
-> >  #define STATMOUNT_SB_SOURCE		0x00000200U	/* Want/got sb_source */
-> > +#define STATMOUNT_OPT_ARRAY		0x00000400U	/* Want/got opt_... */
-> > =20
-> >  /*
-> >   * Special @mnt_id values that can be passed to listmount
->=20
+Because AT_EXECVE_CHECK is dedicated to user space interpreters, it
+doesn't make sense for the kernel to parse the checked files, look for
+interpreters known to the kernel (e.g. ELF, shebang), and return ENOEXEC
+if the format is unknown.  Because of that, security_bprm_check() is
+never called when AT_EXECVE_CHECK is used.
 
-Acked-by: Jeff Layton <jlayton@kernel.org>
+It should be noted that script interpreters cannot directly use
+execveat(2) (without this new AT_EXECVE_CHECK flag) because this could
+lead to unexpected behaviors e.g., `python script.sh` could lead to Bash
+being executed to interpret the script.  Unlike the kernel, script
+interpreters may just interpret the shebang as a simple comment, which
+should not change for backward compatibility reasons.
+
+Because scripts or libraries files might not currently have the
+executable permission set, or because we might want specific users to be
+allowed to run arbitrary scripts, the following patch provides a dynamic
+configuration mechanism with the SECBIT_EXEC_RESTRICT_FILE and
+SECBIT_EXEC_DENY_INTERACTIVE securebits.
+
+This is a redesign of the CLIP OS 4's O_MAYEXEC:
+https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+This patch has been used for more than a decade with customized script
+interpreters.  Some examples can be found here:
+https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Paul Moore <paul@paul-moore.com>
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Link: https://docs.python.org/3/library/io.html#io.open_code [1]
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Link: https://lore.kernel.org/r/20241112191858.162021-2-mic@digikod.net
+---
+
+Changes since v20:
+* Rename AT_CHECK to AT_EXECVE_CHECK, requested by Amir Goldstein and
+  Serge Hallyn.
+* Move the UAPI documentation to a dedicated RST file.
+* Add Reviewed-by: Serge Hallyn
+
+Changes since v19:
+* Remove mention of "role transition" as suggested by Andy.
+* Highlight the difference between security_bprm_creds_for_exec() and
+  the __FMODE_EXEC check for LSMs (in commit message and LSM's hooks) as
+  discussed with Jeff.
+* Improve documentation both in UAPI comments and kernel comments
+  (requested by Kees).
+
+New design since v18:
+https://lore.kernel.org/r/20220104155024.48023-3-mic@digikod.net
+---
+ Documentation/userspace-api/check_exec.rst | 34 ++++++++++++++++++++++
+ Documentation/userspace-api/index.rst      |  1 +
+ fs/exec.c                                  | 20 +++++++++++--
+ include/linux/binfmts.h                    |  7 ++++-
+ include/uapi/linux/fcntl.h                 |  4 +++
+ kernel/audit.h                             |  1 +
+ kernel/auditsc.c                           |  1 +
+ security/security.c                        | 10 +++++++
+ 8 files changed, 75 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/userspace-api/check_exec.rst
+
+diff --git a/Documentation/userspace-api/check_exec.rst b/Documentation/userspace-api/check_exec.rst
+new file mode 100644
+index 000000000000..ad1aeaa5f6c0
+--- /dev/null
++++ b/Documentation/userspace-api/check_exec.rst
+@@ -0,0 +1,34 @@
++===================
++Executability check
++===================
++
++AT_EXECVE_CHECK
++===============
++
++Passing the ``AT_EXECVE_CHECK`` flag to :manpage:`execveat(2)` only performs a
++check on a regular file and returns 0 if execution of this file would be
++allowed, ignoring the file format and then the related interpreter dependencies
++(e.g. ELF libraries, script's shebang).
++
++Programs should always perform this check to apply kernel-level checks against
++files that are not directly executed by the kernel but passed to a user space
++interpreter instead.  All files that contain executable code, from the point of
++view of the interpreter, should be checked.  However the result of this check
++should only be enforced according to ``SECBIT_EXEC_RESTRICT_FILE`` or
++``SECBIT_EXEC_DENY_INTERACTIVE.``.
++
++The main purpose of this flag is to improve the security and consistency of an
++execution environment to ensure that direct file execution (e.g.
++``./script.sh``) and indirect file execution (e.g. ``sh script.sh``) lead to
++the same result.  For instance, this can be used to check if a file is
++trustworthy according to the caller's environment.
++
++In a secure environment, libraries and any executable dependencies should also
++be checked.  For instance, dynamic linking should make sure that all libraries
++are allowed for execution to avoid trivial bypass (e.g. using ``LD_PRELOAD``).
++For such secure execution environment to make sense, only trusted code should
++be executable, which also requires integrity guarantees.
++
++To avoid race conditions leading to time-of-check to time-of-use issues,
++``AT_EXECVE_CHECK`` should be used with ``AT_EMPTY_PATH`` to check against a
++file descriptor instead of a path.
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index 274cc7546efc..6272bcf11296 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -35,6 +35,7 @@ Security-related interfaces
+    mfd_noexec
+    spec_ctrl
+    tee
++   check_exec
+ 
+ Devices and I/O
+ ===============
+diff --git a/fs/exec.c b/fs/exec.c
+index 6c53920795c2..bb83b6a39530 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -891,7 +891,8 @@ static struct file *do_open_execat(int fd, struct filename *name, int flags)
+ 		.lookup_flags = LOOKUP_FOLLOW,
+ 	};
+ 
+-	if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
++	if ((flags &
++	     ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH | AT_EXECVE_CHECK)) != 0)
+ 		return ERR_PTR(-EINVAL);
+ 	if (flags & AT_SYMLINK_NOFOLLOW)
+ 		open_exec_flags.lookup_flags &= ~LOOKUP_FOLLOW;
+@@ -1545,6 +1546,21 @@ static struct linux_binprm *alloc_bprm(int fd, struct filename *filename, int fl
+ 	}
+ 	bprm->interp = bprm->filename;
+ 
++	/*
++	 * At this point, security_file_open() has already been called (with
++	 * __FMODE_EXEC) and access control checks for AT_EXECVE_CHECK will
++	 * stop just after the security_bprm_creds_for_exec() call in
++	 * bprm_execve().  Indeed, the kernel should not try to parse the
++	 * content of the file with exec_binprm() nor change the calling
++	 * thread, which means that the following security functions will be
++	 * not called:
++	 * - security_bprm_check()
++	 * - security_bprm_creds_from_file()
++	 * - security_bprm_committing_creds()
++	 * - security_bprm_committed_creds()
++	 */
++	bprm->is_check = !!(flags & AT_EXECVE_CHECK);
++
+ 	retval = bprm_mm_init(bprm);
+ 	if (!retval)
+ 		return bprm;
+@@ -1839,7 +1855,7 @@ static int bprm_execve(struct linux_binprm *bprm)
+ 
+ 	/* Set the unchanging part of bprm->cred */
+ 	retval = security_bprm_creds_for_exec(bprm);
+-	if (retval)
++	if (retval || bprm->is_check)
+ 		goto out;
+ 
+ 	retval = exec_binprm(bprm);
+diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+index e6c00e860951..8ff0eb3644a1 100644
+--- a/include/linux/binfmts.h
++++ b/include/linux/binfmts.h
+@@ -42,7 +42,12 @@ struct linux_binprm {
+ 		 * Set when errors can no longer be returned to the
+ 		 * original userspace.
+ 		 */
+-		point_of_no_return:1;
++		point_of_no_return:1,
++		/*
++		 * Set by user space to check executability according to the
++		 * caller's environment.
++		 */
++		is_check:1;
+ 	struct file *executable; /* Executable to pass to the interpreter */
+ 	struct file *interpreter;
+ 	struct file *file;
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 87e2dec79fea..2e87f2e3a79f 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -154,6 +154,10 @@
+ 					   usable with open_by_handle_at(2). */
+ #define AT_HANDLE_MNT_ID_UNIQUE	0x001	/* Return the u64 unique mount ID. */
+ 
++/* Flags for execveat2(2). */
++#define AT_EXECVE_CHECK		0x10000	/* Only perform a check if execution
++					   would be allowed. */
++
+ #if defined(__KERNEL__)
+ #define AT_GETATTR_NOSEC	0x80000000
+ #endif
+diff --git a/kernel/audit.h b/kernel/audit.h
+index a60d2840559e..8ebdabd2ab81 100644
+--- a/kernel/audit.h
++++ b/kernel/audit.h
+@@ -197,6 +197,7 @@ struct audit_context {
+ 		struct open_how openat2;
+ 		struct {
+ 			int			argc;
++			bool			is_check;
+ 		} execve;
+ 		struct {
+ 			char			*name;
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index cd57053b4a69..8d9ba5600cf2 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -2662,6 +2662,7 @@ void __audit_bprm(struct linux_binprm *bprm)
+ 
+ 	context->type = AUDIT_EXECVE;
+ 	context->execve.argc = bprm->argc;
++	context->execve.is_check = bprm->is_check;
+ }
+ 
+ 
+diff --git a/security/security.c b/security/security.c
+index c5981e558bc2..456361ec249d 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -1249,6 +1249,12 @@ int security_vm_enough_memory_mm(struct mm_struct *mm, long pages)
+  * to 1 if AT_SECURE should be set to request libc enable secure mode.  @bprm
+  * contains the linux_binprm structure.
+  *
++ * If execveat(2) is called with the AT_EXECVE_CHECK flag, bprm->is_check is
++ * set.  The result must be the same as without this flag even if the execution
++ * will never really happen and @bprm will always be dropped.
++ *
++ * This hook must not change current->cred, only @bprm->cred.
++ *
+  * Return: Returns 0 if the hook is successful and permission is granted.
+  */
+ int security_bprm_creds_for_exec(struct linux_binprm *bprm)
+@@ -3100,6 +3106,10 @@ int security_file_receive(struct file *file)
+  * Save open-time permission checking state for later use upon file_permission,
+  * and recheck access if anything has changed since inode_permission.
+  *
++ * We can check if a file is opened for execution (e.g. execve(2) call), either
++ * directly or indirectly (e.g. ELF's ld.so) by checking file->f_flags &
++ * __FMODE_EXEC .
++ *
+  * Return: Returns 0 if permission is granted.
+  */
+ int security_file_open(struct file *file)
+-- 
+2.47.0
+
 
