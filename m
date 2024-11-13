@@ -1,203 +1,83 @@
-Return-Path: <linux-api+bounces-2724-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2727-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADB19C61E6
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 20:54:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB749C66E0
+	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2024 02:48:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74CBBBC0B0A
-	for <lists+linux-api@lfdr.de>; Tue, 12 Nov 2024 19:23:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56CAE2832B0
+	for <lists+linux-api@lfdr.de>; Wed, 13 Nov 2024 01:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08CA21E104;
-	Tue, 12 Nov 2024 19:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EC24433A4;
+	Wed, 13 Nov 2024 01:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="Q/Ukb1J0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwwrLetE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [45.157.188.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DB421CFAB
-	for <linux-api@vger.kernel.org>; Tue, 12 Nov 2024 19:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7693727456;
+	Wed, 13 Nov 2024 01:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731439173; cv=none; b=LKJTKUATa9YqMv0Gf3TcQWtaPY3q60QEtlrojbRTt6+5Zgm3Mzs5ZPnl6ZZjVO4rWBsHyxhqNXUiRAu/jHf4QNj/lbYuAyEj53KXCu8iOWm7cSND/uZN4bvf67zwOsw91gBWHgmbMDJcu+99q/p9TpO4W08lt72msEIeOHPk9G4=
+	t=1731462516; cv=none; b=lwlS/zA8jwZlXpEJF7wlz2WRHeTMUDZKT3S9Ry03d1hrDsyHcwIhtmESgmTmrCl5rMYEHTHTGkEYtNjKIHJ/lVxfqeo+zOcyzVzNgYdFsfExeuIAb+sYmFszKEwQ1zLAPI2wcvzGuxoA1qoJIRVhCBWsajPNOg30SNA5lQ8ABmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731439173; c=relaxed/simple;
-	bh=BYg1gWZVbz/Xg0eZjTxJM/qrYcO7E9osI4vFp8r3itk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YGiQHoQpvhyJTT5JO4BcMeBLEdgO5hPTNpHemFip3gqu23sRu+p8KliumTr/Z2LeiQ81OMryC9uA6vXn7vK4JyHH3oFkC8eZYW+2rqpcGXuFlV6nsli/Bt0L4rZHOVYu9tSwjyXrPNlJ+aogvOa7Gu4h58fFQ0JpPjXVZwdH4XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=Q/Ukb1J0; arc=none smtp.client-ip=45.157.188.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xnx6y67RczChy;
-	Tue, 12 Nov 2024 20:19:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1731439162;
-	bh=W6EP0Gs1jrCUn7ogO4gOiMXjifVTH40IdORHs0QjdaQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q/Ukb1J0l0OQsCfqyvp37pt4MsjScaYnjnCSs2cwyFS8Wio2siEgoDhtkN11CbVk+
-	 tSGOObMzxLnoza/ef1eKKmXNLKOftoX9LLa8+hCURfDLH4+lqahTr5PINDtnMNo5oA
-	 T28OE1jwcUIvUH4Sp1xlawjbXlS9L12TqogMmDGk=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xnx6x1l43zrXy;
-	Tue, 12 Nov 2024 20:19:21 +0100 (CET)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <serge@hallyn.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Alejandro Colomar <alx@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Christian Heimes <christian@python.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Elliott Hughes <enh@google.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Eric Chiang <ericchiang@google.com>,
-	Fan Wu <wufan@linux.microsoft.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Jan Kara <jack@suse.cz>,
-	Jann Horn <jannh@google.com>,
-	Jeff Xu <jeffxu@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jordan R Abrahams <ajordanr@google.com>,
-	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Luca Boccassi <bluca@debian.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
-	Scott Shell <scottsh@microsoft.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Steve Dower <steve.dower@python.org>,
-	Steve Grubb <sgrubb@redhat.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-	Xiaoming Ni <nixiaoming@huawei.com>,
-	Yin Fengwei <fengwei.yin@intel.com>,
-	kernel-hardening@lists.openwall.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>
-Subject: [PATCH v21 4/6] selftests/landlock: Add tests for execveat + AT_EXECVE_CHECK
-Date: Tue, 12 Nov 2024 20:18:56 +0100
-Message-ID: <20241112191858.162021-5-mic@digikod.net>
-In-Reply-To: <20241112191858.162021-1-mic@digikod.net>
-References: <20241112191858.162021-1-mic@digikod.net>
+	s=arc-20240116; t=1731462516; c=relaxed/simple;
+	bh=xQ1mhHVslmUC2QbY0q+QhNLj6yI8XDQ7rKoBrcQS5pw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ucb+wn31H+TJWXXK4BKtc5whYPhngRTkYF3y5njVot7KTReD7WIHjLFLIYKzVKENcOa/fL9KiEUlwrvvt9zbekJBymaa/j0jc/wEQpBAvLTRIxvTCYtiipotvYgTgsNWN6u2+D7HDlCEntRAbjYOn6Sg1LlBnNfkwlq1ZQ6NwJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwwrLetE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AB3C4CECD;
+	Wed, 13 Nov 2024 01:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731462516;
+	bh=xQ1mhHVslmUC2QbY0q+QhNLj6yI8XDQ7rKoBrcQS5pw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bwwrLetEC737zStk8SaH62f57O/zKIlZ7BIfBSktvbXmg8HeZTjSj5b9g8OsyprOc
+	 MTv97nIXAjr67yhBaExbRxE8+wr0D1RQXOeRDLyEZGiQpNXWsKkktieF3GwsZaIY4O
+	 y1GnYy6k2bQEFwE0UsQd64ieOXxmF2nD1Jyq+huCLdBZP1Y/qVw7LbZ/zBJOD8RJbq
+	 jjIelMoWI6AYp78Xley4pXSEtPxJaYk9M29HOlDPbDlL5BlNuffkcbAY1yVAsE4q+M
+	 12WIbJon9P9QPhgTMSr/jhE7jiQaU2kn1DjEBba9PYDUuBDjr6ogimt8raE5rPdmFk
+	 0LSphCYDgc4Lg==
+Date: Tue, 12 Nov 2024 17:48:34 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: John Ousterhout <ouster@cs.stanford.edu>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH net-next v2 00/12] Begin upstreaming Homa transport
+ protocol
+Message-ID: <20241112174834.43231a32@kernel.org>
+In-Reply-To: <20241111234006.5942-1-ouster@cs.stanford.edu>
+References: <20241111234006.5942-1-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Extend layout1.execute with the new AT_EXECVE_CHECK flag.  The semantic
-with AT_EXECVE_CHECK is the same as with a simple execve(2),
-LANDLOCK_ACCESS_FS_EXECUTE is enforced the same way.
+On Mon, 11 Nov 2024 15:39:53 -0800 John Ousterhout wrote:
+> This patch series begins the process of upstreaming the Homa transport
+> protocol. Homa is an alternative to TCP for use in datacenter
+> environments. It provides 10-100x reductions in tail latency for short
+> messages relative to TCP. Its benefits are greatest for mixed workloads
+> containing both short and long messages running under high network loads.
+> Homa is not API-compatible with TCP: it is connectionless and message-
+> oriented (but still reliable and flow-controlled). Homa's new API not
+> only contributes to its performance gains, but it also eliminates the
+> massive amount of connection state required by TCP for highly connected
+> datacenter workloads.
 
-Cc: Günther Noack <gnoack@google.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Paul Moore <paul@paul-moore.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20241112191858.162021-5-mic@digikod.net
----
+Hi John!
 
-Changes since v20:
-* Rename AT_CHECK to AT_EXECVE_CHECK.
----
- tools/testing/selftests/landlock/fs_test.c | 27 ++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Thanks for pushing forward! I wanted to give you a heads up that we're
+operating at 50% maintainer capacity for the next 2 weeks so the
+reviews may be more muted than usual. Don't hesitate to post new
+versions (typically ~once a week) if you want to address any incoming
+feedback and/or the build issues.
 
-diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-index 6788762188fe..cd66901be612 100644
---- a/tools/testing/selftests/landlock/fs_test.c
-+++ b/tools/testing/selftests/landlock/fs_test.c
-@@ -37,6 +37,10 @@
- #include <linux/fs.h>
- #include <linux/mount.h>
- 
-+/* Defines AT_EXECVE_CHECK without type conflicts. */
-+#define _ASM_GENERIC_FCNTL_H
-+#include <linux/fcntl.h>
-+
- #include "common.h"
- 
- #ifndef renameat2
-@@ -2008,6 +2012,22 @@ static void test_execute(struct __test_metadata *const _metadata, const int err,
- 	};
- }
- 
-+static void test_check_exec(struct __test_metadata *const _metadata,
-+			    const int err, const char *const path)
-+{
-+	int ret;
-+	char *const argv[] = { (char *)path, NULL };
-+
-+	ret = execveat(AT_FDCWD, path, argv, NULL,
-+		       AT_EMPTY_PATH | AT_EXECVE_CHECK);
-+	if (err) {
-+		EXPECT_EQ(-1, ret);
-+		EXPECT_EQ(errno, err);
-+	} else {
-+		EXPECT_EQ(0, ret);
-+	}
-+}
-+
- TEST_F_FORK(layout1, execute)
- {
- 	const struct rule rules[] = {
-@@ -2025,20 +2045,27 @@ TEST_F_FORK(layout1, execute)
- 	copy_binary(_metadata, file1_s1d2);
- 	copy_binary(_metadata, file1_s1d3);
- 
-+	/* Checks before file1_s1d1 being denied. */
-+	test_execute(_metadata, 0, file1_s1d1);
-+	test_check_exec(_metadata, 0, file1_s1d1);
-+
- 	enforce_ruleset(_metadata, ruleset_fd);
- 	ASSERT_EQ(0, close(ruleset_fd));
- 
- 	ASSERT_EQ(0, test_open(dir_s1d1, O_RDONLY));
- 	ASSERT_EQ(0, test_open(file1_s1d1, O_RDONLY));
- 	test_execute(_metadata, EACCES, file1_s1d1);
-+	test_check_exec(_metadata, EACCES, file1_s1d1);
- 
- 	ASSERT_EQ(0, test_open(dir_s1d2, O_RDONLY));
- 	ASSERT_EQ(0, test_open(file1_s1d2, O_RDONLY));
- 	test_execute(_metadata, 0, file1_s1d2);
-+	test_check_exec(_metadata, 0, file1_s1d2);
- 
- 	ASSERT_EQ(0, test_open(dir_s1d3, O_RDONLY));
- 	ASSERT_EQ(0, test_open(file1_s1d3, O_RDONLY));
- 	test_execute(_metadata, 0, file1_s1d3);
-+	test_check_exec(_metadata, 0, file1_s1d3);
- }
- 
- TEST_F_FORK(layout1, link)
--- 
-2.47.0
-
+HTH
 
