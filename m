@@ -1,149 +1,96 @@
-Return-Path: <linux-api+bounces-2736-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2737-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB9E9C935D
-	for <lists+linux-api@lfdr.de>; Thu, 14 Nov 2024 21:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769C09CDA3E
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2024 09:10:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36D8928493E
-	for <lists+linux-api@lfdr.de>; Thu, 14 Nov 2024 20:43:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C410283236
+	for <lists+linux-api@lfdr.de>; Fri, 15 Nov 2024 08:10:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1931A7AF6;
-	Thu, 14 Nov 2024 20:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D091918A6D5;
+	Fri, 15 Nov 2024 08:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="do6gi6g0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="txAdQrwV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A62BE4E;
-	Thu, 14 Nov 2024 20:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4622142E86;
+	Fri, 15 Nov 2024 08:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731617004; cv=none; b=qOBfnhNXc3UgsZ3h8X8WRE1qfItcnri3r1hLOwMeWpHbsq1U11QbnAywcJCoyWWZySmcEbD28GIYsDGbmCj0BpRHX9TNvn/a1kBAKHmSFlwpONHCmr7/ZOKR3aNg97gyXaDQ98Zm5klb+/FLVs9Ya1qbCUKMA1VtNws51bsTfSY=
+	t=1731658216; cv=none; b=eeF4MlW6alDoHo2Ykh9JPErYX1dU1PWz9P8iIETJa2PCiiK50grPgmT1f1DiHILUB1Yggg+d2lkStM4FOfYuLvY0svdl81OyOzvJVqTH5DMvtBKMU3+n7/GN8VooZbA2zTBQ1g7RYxJmd/p4bkcB0QzWkXd81z3vbYArhGhMzos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731617004; c=relaxed/simple;
-	bh=zGklckDW0yAzRpIHB36p0nroZKUlM400pZk1ZhfMExw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qDWN0zjfZ4uDp/Pp13q9kP70iLO8XSmCurZ1yeomVnQ62gp942o0yTS56L6tiU1L9i5JIL0LN/u/OOEyCkQUhPzlsd/rMRGfIaCnJBm7ZVO5n4OabjG52zFujOQAmeqymKMqN5VmGgz+uMelzSX1htpE24usZ1sM+LdOlKNvE4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=do6gi6g0; arc=none smtp.client-ip=148.163.147.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
-Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEHb3JV024625;
-	Thu, 14 Nov 2024 20:42:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pps0720; bh=fIau/TGBK/Y6E
-	JZSH4sYAY5qCp0ClLkPwdbVUgJbvDw=; b=do6gi6g04etKrEWj5zW3MHyEAj9yN
-	dYuxnISDuq8X1YljOBw65ibngxyKXn1FT8NPU8HgMU19v3KkS4m9kto/atT5miH/
-	7e/R/b33j2SsVa7eUzwF6LGaujkUZodyBXD/F8FnKro5ouNfvBc1/bEIiYfODYTw
-	EbXo5GBKzPuqMljvYarke3DBKdtC2wJ0NKR+VFc5qzdkgaa18xszBWMZMaiZIXYK
-	H5UkKlVMRyYu661RviYLjI5n8fxn6RveqK/0LljTDTBkvA70LRyQykNXVY4pRAa2
-	KGrPPqM/aPbC9pL7BU59gXkZT7H4TS/zydjTLyyRrfM7JnpsXkDffQJ9w==
-Received: from p1lg14878.it.hpe.com ([16.230.97.204])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 42wnrgsayn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Nov 2024 20:42:55 +0000 (GMT)
-Received: from localhost (unknown [192.58.206.38])
-	by p1lg14878.it.hpe.com (Postfix) with ESMTP id 753C9295E7;
-	Thu, 14 Nov 2024 20:42:53 +0000 (UTC)
-From: Matt Muggeridge <Matt.Muggeridge@hpe.com>
-To: idosch@idosch.org
-Cc: Matt.Muggeridge@hpe.com, davem@davemloft.net, dsahern@kernel.org,
-        edumazet@google.com, horms@kernel.org, kuba@kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, pabeni@redhat.com, stable@vger.kernel.org
-Subject: Re: [PATCH net 1/1] net/ipv6: Netlink flag for new IPv6 Default Routes
-Date: Thu, 14 Nov 2024 15:42:47 -0500
-Message-Id: <20241114204247.32735-1-Matt.Muggeridge@hpe.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <ZyyN2bSgrpbhbkpp@shredder>
-References: <ZyyN2bSgrpbhbkpp@shredder>
+	s=arc-20240116; t=1731658216; c=relaxed/simple;
+	bh=58pMiInwnliEvdcwGuOfuiTxI8kMEU7V7XyAXzvTUKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K5NRo54ZzAJNd86q4Mrmli/54TvTPkEXiw/2GR0r3SvReTCT1IlQTEKFWaTHFiW08kCzVVjxlVh5swW+Jepyb3/5OvP+KJmFL97jrQgBdmIlZmfPKY9d8hkVoDc9F7nyMuCeUxVCW7MUmI3rytNmJkZ1Mo1VbPnNEKRZXtKi68s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=txAdQrwV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F6CC4CECF;
+	Fri, 15 Nov 2024 08:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731658216;
+	bh=58pMiInwnliEvdcwGuOfuiTxI8kMEU7V7XyAXzvTUKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=txAdQrwVbOmQLVGsERQww/ryjcLMnpQjfRqYWkSRMbdzBlL0tjTNpyo9vn0vGB6oe
+	 3lK6E7hd1/rhsqUSMtBZ1xmGG6RTW3XXAbiqBMYq7XUF2WBYVWbrU9Hb7umBCWqTa7
+	 VfjV2eWY6kms4GBWRFwHeATp6Cd0cK/1Uzb2772n7JdEQujqJEO3+PY2foH9vWsPTD
+	 mpvcgXsfDx0nbnzfo8FE7sBKEdN22dUszbLR3cGcY7rndp9x+qJ36W/KUU3MBf0qcT
+	 YzxBbmwnbl0Ynd5ckmqKdY2YQFytj6GjMhv7gnkNFn1xVlmxENuAOTJJ+TtplgGUye
+	 yzTDvLjJWiH8Q==
+Date: Fri, 15 Nov 2024 09:10:11 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Karel Zak <kzak@redhat.com>, 
+	Christian Brauner <christian@brauner.io>, Josef Bacik <josef@toxicpanda.com>
+Subject: Re: [PATCH] statmount: add flag to retrieve unescaped options
+Message-ID: <20241115-beieinander-polterabend-71b4ec8fec66@brauner>
+References: <20241112101006.30715-1-mszeredi@redhat.com>
+ <20241113-unbeobachtet-unvollendet-36c5443a042d@brauner>
+ <20241113-wandmalerei-haben-9b19b61e5118@brauner>
+ <CAJfpegtLiOjbtP4np-WjJ_oyC-u3FwZ4BWQxGkSSmWxurBOQdA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Yq_UnSI4u6gDm-JGLpw48Ec7SKMspRQP
-X-Proofpoint-ORIG-GUID: Yq_UnSI4u6gDm-JGLpw48Ec7SKMspRQP
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 adultscore=0 spamscore=0 priorityscore=1501
- mlxlogscore=894 mlxscore=0 lowpriorityscore=0 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411140162
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJfpegtLiOjbtP4np-WjJ_oyC-u3FwZ4BWQxGkSSmWxurBOQdA@mail.gmail.com>
 
-Thank you for your review and feedback, Ido.
-
->> Without this flag, when there are mutliple default routers, the kernel
->> coalesces multiple default routes into an ECMP route. The ECMP route
->> ignores per-route REACHABILITY information. If one of the default
->> routers is unresponsive, with a Neighbor Cache entry of INCOMPLETE, then
->> it can still be selected as the nexthop for outgoing packets. This
->> results in an inability to communicate with remote hosts, even though
->> one of the default routers remains REACHABLE. This violates RFC4861
->> section 6.3.6, bullet 1.
->
->Do you have forwarding disabled (it causes RT6_LOOKUP_F_REACHABLE to be
->set)?
-
-Yes, forwarding is disabled on our embedded system. Though, this needs to
-work on systems regardless of the state of forwarding.
-
->  Is the problem that fib6_table_lookup() chooses a reachable
->nexthop and then fib6_select_path() overrides it with an unreachable
->one?
-
-I'm afraid I don't know.
-
-The objective is to allow IPv6 Netlink clients to be able to create default
-routes from RAs in the same way the kernel creates default routes from RAs.
-Essentially, I'm trying to have Netlink and Kernel behaviors match.
-
-My analysis led me to the need for Netlink clients to set the kernel's
-fib6_config flags RTF_RA_ROUTER, where:
-
-    #define RTF_RA_ROUTER		(RTF_ADDRCONF | RTF_DEFAULT)
-
->> +	if (rtm->rtm_flags & RTM_F_RA_ROUTER)
->> +		cfg->fc_flags |= RTF_RA_ROUTER;
->> +
+On Thu, Nov 14, 2024 at 03:53:44PM +0100, Miklos Szeredi wrote:
+> On Wed, 13 Nov 2024 at 17:31, Christian Brauner <brauner@kernel.org> wrote:
 > 
-> It is possible there are user space programs out there that set this bit
-> (knowingly or not) when sending requests to the kernel and this change
-> will result in a behavior change for them. So, if we were to continue in
-> this path, this would need to be converted to a new netlink attribute to
-> avoid such potential problems.
+> > Please take a look at the top of #vfs.misc and tell me whether this is
+> > ok with you.
 > 
+> One more thing I'd do is:
+> 
+> -       if (seq->count == start)
+> +       if (seq->count <= start + 1)
+> 
+> This would handle the (broken) case of just a single comma in the
+> options.  So it's not a bug fix per-se, but would make it clear that
+> the loop will run at least once, and so the seq->count calculation at
+> the end won't be skewed.
+> 
+> The buf_start calculation could also be moved further down before the
+> loop, where it's actually used.
+> 
+> I don't find the variable naming much better, how about taking the
+> naming from string_unescape:
+> 
+> opt_start -> src - pointer to escaped string
+> buf_start -> dst - pointer to de-escaped string
+> 
+> The others make sense.
 
-Is this a mandated approach to implementing unspecified bits in a flag?
-
-I'm a little surprised by this consideration. If we account for poorly
-written buggy user-programs, doesn't this open any API to an explosion
-of new attributes or other odd extensions? I'd imagine the same argument
-would be applicable to ioctl flags, socket flags, and so on. Why would we
-treat implementing unspecified Netlink bits differently to implementing
-unspecified ioctl bits, etc.
-
-Naturally, if this is the mandated approach, then I'll reimplement it with
-a new Netlink attribute. I'm just trying to understand what is the
-Linux-lore, here?
-
-> BTW, you can avoid the coalescing problem by using the nexthop API (man
-> ip-nexthop).
-
-I'm not sure how that would help in this case. We need the nexthop to be
-determined according to its REACHABILITY and other considerations described
-in RFC4861.
-
-Kind regards,
-Matt.
+Fine by me. I'm about to send pull-requests so I would suggest you send
+a cleanup that I can include post-rc1 so we don't have to rebase right
+now.
 
