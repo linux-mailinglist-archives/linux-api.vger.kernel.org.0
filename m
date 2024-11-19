@@ -1,77 +1,107 @@
-Return-Path: <linux-api+bounces-2759-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2760-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D6A9D2AD8
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:25:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F172E9D2BBB
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:53:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E0CFB279AC
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 16:22:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB8D71F267DD
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 16:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D97741CDFD2;
-	Tue, 19 Nov 2024 16:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC1241D88C3;
+	Tue, 19 Nov 2024 16:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3Enm5gSs"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O+E3gYjx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1DA146A9F;
-	Tue, 19 Nov 2024 16:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4571D86C6;
+	Tue, 19 Nov 2024 16:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732033330; cv=none; b=ajaROiEQpZCUBI5faAVNtIqgd4RMfgIvdOSmh0CBi5c4OJfELl9s8ikci9OUO/bYAXq5NGc5eK/uJUV2gHYNj6pbLlTHRHsxPSHbQKVPwG8bf+/vqMJzc7T7NOJDrzYQUBR6uDDfJfD7HfhGRGDPsz58flAOEaA7WdlpN5xSvpY=
+	t=1732034829; cv=none; b=eKFtQT2r3ElW6SY4OBxB5gqtrPUvw+V1WZCoCgo/+lRJZNwWQN949xpYSvCDyNkXUk4XfMo2AzQURz5suyoXjsUJMu8Dfi+pnQJgM5YRyjkqR6a0SuGd0MH3+vF37H3Hm3eoaB/aTf/FxxKcy353Z3YRLYKuOW9BHypHo+yQwbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732033330; c=relaxed/simple;
-	bh=q0lwnzu1MyEalyW02TIxHamhqE5g+l+C4qb/JxUuUGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5SbJeJooTQgKcNpEdRp9VvotQ+nmkzQcLQ+b1tJNJUjdVjnhTPqEeMQOmalMcTfYCME+zx62fS5ob59WkvmP5E/PHGML/Th0iK1jLEThjXKbQSarAP41PMSS+UpL7fPK4argJw9LnBj33n8ZKC6GkjGTTjq3Ctif76TxKWV70E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3Enm5gSs; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1732034829; c=relaxed/simple;
+	bh=hbYPm9XsuKyIbmWlphbpd1znuk0eRhzgeiaJBSGeF2k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K5624FhwR74WHNy/4cKt8m7iUUIpVsOU78UJIO56WzS7VLp0REV5cbU4Ec7k2K0mcg0gxLQO7wWa2Y+yHWIMarmpzklDNjeojJqSKNuO3RWrIXKxZMnWNs9jo+Iu+4N0LshXo9jXSaMmDdtSWEoBSKLsVOjO6KxQlSNPY1BX65g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O+E3gYjx; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=q5I5Tfd+TSQ97R3pAX5ux88NHYxJGXlNPr7zVvLk/KI=; b=3Enm5gSsqBA/P4SpCyweTZ4htA
-	lLysqfE3LkFhgmOpnCpe8+eCDiOuHk9MLAA3nmZjmSO/lFNdQyPkmnTNiTrjfV2P43/vGx+ppHG03
-	XYR8tB+eXaflcL3C/0a5pBRd60NHFrsyLHbBq7vufiy1ZEmHxuDeesEWVyi0opodNIp8BeSA1Pcxn
-	1aXdcYuZd61OJ1sxaO8dInuK7OweT0oZzES6UNaKvJ0M92Cc8Ctc64YbtYra9XahV6Vbozd7doHje
-	NJZUe3uiHrALMJJGPYYGkknu0xWfmgg5npW3Xogapq4/tK3VG9A/0S9uK62YMWLJzytE3wxI9U5Dy
-	hYUvAcCQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDQzQ-0000000D0GF-3uA5;
-	Tue, 19 Nov 2024 16:22:08 +0000
-Date: Tue, 19 Nov 2024 08:22:08 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH] uapi: add EROBLK
-Message-ID: <Zzy7MGyTp9yw1ntQ@infradead.org>
-References: <9184b5e8-7070-4395-b179-4975b2e3fbc3@p183>
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=j5HkeQ7LapR4JelfU34fBoWz02L4bp7WV6Brj5s7Vzw=; b=O+E3gYjxUOEg+XxfLfoyz3Zf4l
+	hukz49f9FjVRjzqd3YNlvnNh9gkWpa4FfxRr2YVzJlLJNY/8NU8khP0KVysEHteyaWy/lTan8HO3p
+	8UYsk74aD1Ly5522kLb2KiaHUi1e18xoJb+lJeJAsGPaAauMVgS65MwnJrhkxFpxNDPyzTV3lBZWF
+	EQCKxZJoXhdX7EHN1gRkpurfE6iiqIFqW3cTsfFzunWAJGlURXd3s5BOTwXJdVEWE6rqlkMC5ualM
+	tO2dD0IGuA+b0sWxv2XPKISOWWpMLooC49NT4C/+EdUVPkaKlMTIucQo5/RUhO6ssLJOPmHlc770+
+	LBA870bw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDRNF-00000004JIr-2DOw;
+	Tue, 19 Nov 2024 16:46:47 +0000
+Message-ID: <c6a7b5eb-d2ec-45e5-8a9b-a91f9c0cec78@infradead.org>
+Date: Tue, 19 Nov 2024 08:46:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9184b5e8-7070-4395-b179-4975b2e3fbc3@p183>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest list
+ parsers
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, zohar@linux.ibm.com,
+ dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, corbet@lwn.net,
+ mcgrof@kernel.org, petr.pavlu@suse.com, samitolvanen@google.com,
+ da.gomez@samsung.com, akpm@linux-foundation.org, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com
+Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,
+ Roberto Sassu <roberto.sassu@huawei.com>
+References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
+ <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 19, 2024 at 06:54:52PM +0300, Alexey Dobriyan wrote:
-> Block drivers and DM sometimes use EROFS to report errors. There is
-> no confusion about what happens but naive error reporting code might
-> pass -EROFS to strerror(3) which will print "filesystem" when clearly
-> there is no filesystem anywhere, it is layer above.
-> 
-> Or in other words, if EROFS exists, why not EROBLK?
-> It is not like there is a tax on errno values.
+Hi--
 
-And where would you return this value without breaking existing
-userspace?
+On 11/19/24 2:49 AM, Roberto Sassu wrote:
+> +/**
+> + * struct parser - Structure to store a function pointer to parse digest list
+> + * @list: Linked list
+> + * @owner: Kernel module owning the parser
+> + * @name: Parser name (must match the format in the digest list file name)
+> + * @func: Function pointer for parsing
+> + *
+> + * This structure stores a function pointer to parse a digest list.
+> + */
+> +struct parser {
+> +	struct list_head list;
+> +	struct module *owner;
+> +	const char name[NAME_MAX + 1];
+> +	parser_func func;
+> +};
+
+I would make the struct name not so generic -- maybe digest_parser ...
+
+thanks.
+-- 
+~Randy
+
 
