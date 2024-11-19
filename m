@@ -1,105 +1,79 @@
-Return-Path: <linux-api+bounces-2763-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2764-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2FA9D2CE0
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 18:46:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644399D2CA2
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 18:30:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BAA1BB2D34F
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:20:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2272B2811A9
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCD41D1514;
-	Tue, 19 Nov 2024 17:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5D71D515F;
+	Tue, 19 Nov 2024 17:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdrexOEo"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1lbeCtMl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7898D1D14FA;
-	Tue, 19 Nov 2024 17:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673641D417B;
+	Tue, 19 Nov 2024 17:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732036839; cv=none; b=NhEu6p7G1EzNspQHSrtMpt7/jnH6BBrvEZ5NJwXwg4Igy2W9j5lmgJ4t8HhH144SG3Y5AKwk8dKDw6wbrkYNBGDvHnHbpLfWilZwE0X70nGEo/h74APopIIpvOqsR76s58pwYkDG3mZBLsGPvNLbTGYQMShrwGv1NknL11samU4=
+	t=1732037271; cv=none; b=YP+YBIHNVnzJszKs5CZ2hJvm3Y3Qw3lL6ml6sP+cPhT6ZohZ3oJOL3Y6imJ6fl4/SzMEZ/sTG+KOoOPoNhvgLiWGDtuiOWGNGhKrYGD7tvo/tr55dO0bJeLkN9OOvmd1vK9ejAMt3qdK+H7IhOF+ESfuS1GmbOobPKoqVif+PLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732036839; c=relaxed/simple;
-	bh=+QUn9RVv2knq4ZX/1kGdyZ9vvW2Z7c/Y1BrZzf1V/DU=;
+	s=arc-20240116; t=1732037271; c=relaxed/simple;
+	bh=0Ua1U+0mkSGBw1rjVXE82HHLs/omPUwMVGtC0fSMRaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uUmwcR7PjFJrKbFmkjfuht3YRQ0fcemmEf+Vx5HJv4/9EyJusa9e6lJ1uFFDWpQgUWJV56ZAGaXdY0XIhfl6QID/MNRjNfTE7RotL0HyVXEFCG35/7bqtnfingdckW8hu8Z8kWbxIZzL2eNG5FWWvl+kbsx7gIq/SRGgNA/NhOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdrexOEo; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9aa8895facso210895266b.2;
-        Tue, 19 Nov 2024 09:20:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732036836; x=1732641636; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=welmcQJz/KrmZ/exPeKgeWR1HgNuvSB6fXyM+tgH12w=;
-        b=AdrexOEopOn/2Ixf5KswvEcIdm+LntP4RXapGinORuOoKtRzw7SuTZ0hdv5YVTh4Ek
-         IUHOsdSNzIdwTEG7JwTkT55E2+BsBPJiBLlCPrKnxA6X/S/O8GBEHtNXVpYmicaLBrMJ
-         e0EKSSmG63HkGXjaNteIyjKEHikFytRJdvfgfZNMmwnb+UWUe8wyNY7YEbO3rqPpHAL4
-         i2m9C6j6FYX6XI23TR7lzq9+mmjc1G3/piQr5JQBwVoJdi9r12x/iLE1SmneA29rd5ih
-         qI+2TQrZbmxIllXpZGHk3T+20DACpyVEI26yO82c6samipbG+6TVd/R8qVXyf7AvsX4z
-         UD+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732036836; x=1732641636;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=welmcQJz/KrmZ/exPeKgeWR1HgNuvSB6fXyM+tgH12w=;
-        b=dLM88PJ17bIt5LZTFQCGu/nP+Oc8EI2Qo2fhskidsTu3NfGVZkpcY6eKn2q+wVM3Pd
-         0OeikOo+ifOCJwlPDsh+MiUDzf7HsepYObHGpXPF+vvaLmL5W6e1sDc+poD1A+T9Wfub
-         PrlkvBEB+nkiNiraXCZsyR2pnRMx8n/8uFkktcIBb3niA3H57oJuZ0tVX0K3PBahO3DK
-         mopX6kZsVcdIJRRxCb4K0TzarS6QMHFszpdu0/9LzSCvWzMCpjEm+LOyL7Hcxa6BValP
-         O20cvz/4VlXrsTlTJ+DRsIEbvd7DLMKovm4XL/Pv36Ojt74QBTv/IANor8bOYuGVX8GA
-         7lpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMt4n99TzpcrdbA6FQ+YwODNDaziSmEdeUm3GlzoCFJ+SlNlNHM7vpQkfclV5tDSr+a08Fy97naXI=@vger.kernel.org, AJvYcCVMRBELEMF48JYJ8MSqws/3h8gNVm+9C2Mu6HQmaxrRGjVyK/gOnos6+2VQlESop9lCoj7ABXTlofBE2F4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6G8XWu+2JBdbg2m27ZV4s8CYBZa+kLd5lj1QJ5+x53ALmHsbs
-	Woh2dma6cq6wf9wVeE1GZ1zjZqaYUkmbLSQciWD3KCQafCkYoYE=
-X-Google-Smtp-Source: AGHT+IGvI0RRBn2Z5tbFBL0Z6FFCUyXENtg8HuIrR1t8wCPqQe0HFcxvJjPEUZa6EREMXFwM4R//JA==
-X-Received: by 2002:a17:907:d08:b0:a99:f167:47c7 with SMTP id a640c23a62f3a-aa48355292bmr1668616866b.55.1732036835608;
-        Tue, 19 Nov 2024 09:20:35 -0800 (PST)
-Received: from p183 ([46.53.252.27])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20dfffcd4sm670156066b.98.2024.11.19.09.20.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 09:20:35 -0800 (PST)
-Date: Tue, 19 Nov 2024 20:20:33 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-api@vger.kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=T111LvGr92QVC0Sj/6P4/lRv1mNZ6riKI4GI/XEpyCyQPhKpS+28rX6CTID2ut2j8lP3qE55XOo1QpCwZ8Wacm6Np8+ONW+eg0Lp194sj6KLGn/0skAPvf7vodD/m5+u4NBgVQ2SUzbc5pvX4jGG7+N+iukUnXvi5Tts/OEizw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1lbeCtMl; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=CFZrYTXphcS3wMV/SPN5+lHC5syvqQD1NtobLQyDd1Q=; b=1lbeCtMlVttCXvtfL8ukHS251g
+	5ij0mBhhTWV3LmPOvFWCQWgNNPvqAsLYc5APaXCiJYU16rHv6HoDmy0NcYVLqVcWR3cQHpvREpY65
+	+Hg8EmcNSMtZnjLzfWSYkoPsAQDX9sc0eFUZPWJBLYb6Z4cl+pzd9CrsfXueuB/phxzeKGPDVqr99
+	VTqeyFdvLFj4ppCkIrLqm1wmp8o4ynh2BApyKR1eT22MU5z2QFnKtzvL7nVtofkj3nEQKOVIXMjct
+	OMBSyrV113MLJCoWAkSTrgt5GIlClkd19FBKRS9/ckDgCWe5xaVDUp0q8vJtiBgN8YfcDYcniNeTO
+	2ajDS29w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDS0z-0000000DDD7-0Ah8;
+	Tue, 19 Nov 2024 17:27:49 +0000
+Date: Tue, 19 Nov 2024 09:27:49 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCH] uapi: add EROBLK
-Message-ID: <dee8868f-45fa-40d7-bcaf-a46bf768e400@p183>
+Message-ID: <ZzzKlex5MhE1YD3E@infradead.org>
 References: <9184b5e8-7070-4395-b179-4975b2e3fbc3@p183>
  <Zzy7MGyTp9yw1ntQ@infradead.org>
+ <dee8868f-45fa-40d7-bcaf-a46bf768e400@p183>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zzy7MGyTp9yw1ntQ@infradead.org>
+In-Reply-To: <dee8868f-45fa-40d7-bcaf-a46bf768e400@p183>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Nov 19, 2024 at 08:22:08AM -0800, Christoph Hellwig wrote:
-> On Tue, Nov 19, 2024 at 06:54:52PM +0300, Alexey Dobriyan wrote:
-> > Block drivers and DM sometimes use EROFS to report errors. There is
-> > no confusion about what happens but naive error reporting code might
-> > pass -EROFS to strerror(3) which will print "filesystem" when clearly
-> > there is no filesystem anywhere, it is layer above.
-> > 
-> > Or in other words, if EROFS exists, why not EROBLK?
-> > It is not like there is a tax on errno values.
+On Tue, Nov 19, 2024 at 08:20:33PM +0300, Alexey Dobriyan wrote:
+> > And where would you return this value without breaking existing
+> > userspace?
 > 
-> And where would you return this value without breaking existing
-> userspace?
+> New code may start returning it right away.
+> 
+> Old code may start checking for both and in ~100 years delete EROFS
+> clause.
 
-New code may start returning it right away.
-
-Old code may start checking for both and in ~100 years delete EROFS
-clause.
+In other word it's all hypothetical, you have no actual users in mind
+and no ral problem to solve?
 
