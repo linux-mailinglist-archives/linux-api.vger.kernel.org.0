@@ -1,119 +1,106 @@
-Return-Path: <linux-api+bounces-2757-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2758-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F1E9D2847
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 15:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FF99D2A3C
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 16:55:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D17D2829D7
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 14:34:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED6B8282BBA
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 15:55:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD6481CDFC9;
-	Tue, 19 Nov 2024 14:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A06C1CEAB8;
+	Tue, 19 Nov 2024 15:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sy0wNT37"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6235E57D;
-	Tue, 19 Nov 2024 14:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1AD1494B0;
+	Tue, 19 Nov 2024 15:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732026879; cv=none; b=GkfWxbu74wIJscQpr5Oa+WIUrqMFSHkI092TZA/snWxUs6MpT+4N1OzNcMiJ7m0HG9DpchJcLdvgVwt1M9H8z2gX+im+sUcIebtes82d1akSn8PuOqMJXvpbB9zEaYkhgc0jOEPWs8SZtE/L278cuTIwGh9hvythkRXkpkoBgAE=
+	t=1732031698; cv=none; b=JxkmBouKk0XWQLGM8QG8DoccunAMCUDtBC6KccrkBDmkqpy5xxcX4fHgB3IfNS8EQlWj42VcR3TW1Uccnl33PqOQVPwE6BwOzNACeIXHB3Vi2wUeNmLEPhdbhDmkswwlWTyFIOE59qSL8mmFR4+CyepUv9IZMWN/rNCVLWhGrmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732026879; c=relaxed/simple;
-	bh=+Rr/qgOwv8XKND57Q6pl0RBBNPuJNtWXBoNgEYFCPJs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iyQYwrjHmbJrxUeJTU4tnTxKBgl9gQ5RIPoNuXl34A5D4hWYjdwv580ou27IgLwN1dN2JuYNZh/3yy1BqhGpFHG1XtPcXQdhx9bPyY/ustAy1btsM43tPqKv8j1uuHnhYbY2+ab+Ybqca3OBd9SQoJ4A0oQVCkE2dk0FXlqC7x0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Xt5sk0RK3z9v7Jm;
-	Tue, 19 Nov 2024 22:07:22 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 90AC01407FE;
-	Tue, 19 Nov 2024 22:34:23 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwCnGjvQoTxnjr3pAQ--.40220S2;
-	Tue, 19 Nov 2024 15:34:22 +0100 (CET)
-Message-ID: <58fbc60fccf6d6c9504301adeebf33a46766d507.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 02/15] module: Introduce ksys_finit_module()
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com,  corbet@lwn.net, mcgrof@kernel.org,
- petr.pavlu@suse.com, samitolvanen@google.com,  da.gomez@samsung.com,
- akpm@linux-foundation.org, paul@paul-moore.com,  jmorris@namei.org,
- serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl, 
- mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
- dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
- petr.vorel@gmail.com,  mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto
- Sassu <roberto.sassu@huawei.com>
-Date: Tue, 19 Nov 2024 15:33:49 +0100
-In-Reply-To: <20241119121402.GA28228@lst.de>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <20241119104922.2772571-3-roberto.sassu@huaweicloud.com>
-	 <20241119121402.GA28228@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1732031698; c=relaxed/simple;
+	bh=wEjAah5zEPuHcYGbXNqOnH2lqRID3IPlR5FNlAtk7Os=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qga190dtkm1BCty7jzM2mhOxKO0B1mSZvtFkm1g+fTuKwLiBZf8p6pQakwZAIaffDyFPltMXkE1q13cGdc5Cvds0oUjsL8TyjEqsRf2kY+l7YLm/Ocf8As1xSjrYtzsp1gDD76txARWMKD8f+/AwL55jgMm/KTnzlCRCGuGzcfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sy0wNT37; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso177323366b.1;
+        Tue, 19 Nov 2024 07:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732031695; x=1732636495; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ufHarWrws7Le4/V6Knf71CxQsHIVT9BsXNQKY3qJds0=;
+        b=Sy0wNT37z1FOAmSsRiebSTUxxU60pwgMlsMT+Vs0YUOcvaf8NKlfVO+IhG2cCiIE3H
+         F3DNr5y7Ijw90DcXAkpTQGIUK6QFLsAaIOxmGMr8MyUMUvVlufpMxOxt/I9sMh9V4ZT3
+         RYdemSXbGAE/qibXnzVPontu6MSQa/5rP7kAUbo2pfr5YjNm+Pb6iSa+xwRj8UBx7giW
+         S9ydIj3z9/9ce3MCv5cHQtPVeXnL/PeE8aGcECPTXjadeeJZBwKd5KPY+DQc04yd4yPx
+         rULOsJjh+FustDMtmUJYNZSSkbxpeXc6x2bj2ea8dnJ5cjaJfhQKAKHJh60OjJFmjDxE
+         mtJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732031695; x=1732636495;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ufHarWrws7Le4/V6Knf71CxQsHIVT9BsXNQKY3qJds0=;
+        b=LNVi5r5X6av6IlGbC0eP+7pAiStZKvJe6F130pm9N75K7X9KSYFADJhFOrJ6oB7yuX
+         /RwzzNs4HnB16MgImpiKJrrav32Wjxy3B5/52TTXDAw4nyGecF27N0IQ2D/Y2egQ7+Wa
+         RieyZ271FRkm+0nuv52xZ6W5zU1Y/yg9/qX5CfgbTwUZovbQsxF0I0ZNroRNYTtZa45T
+         UcFHcV5jB5FnS7oH7E/uP/rhK5c8kt5Oc5FTVrHlkGGBpQy3y5B1OFDpyYBOmQ4Ieqxh
+         DbR7UaH+f3JzjNSV8wGPXe0Kc/69QCgEQvcvUr1KgKBa9Uf3iA9ZL+EoLTGQ9WugaauN
+         Jibw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0oGBy5D4z6ch4q5rasy6EgZ9ST8AmVoL7tNXDkLEksfe07FfaWSVA1uyb0siJ+vUPvd/ivHce+1E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1j7+vfa+pxH5vPyCx8IfLbXsNprrmfEjIBSwej/hvPaahs2lm
+	F5aGYlBbYnyhCNSFWIEVSWd54g57y4SHOZbnmVvPB0FXIMtzxUYjbSKr
+X-Google-Smtp-Source: AGHT+IFrURQ8XZTy1H+b/WRZbZU1bSzMJ6aKQ2zyvN6xnKnsAbvS5YyDNgFHi/tpygZIfRoW7v+/Fg==
+X-Received: by 2002:a17:906:fd85:b0:a9e:380b:8ce with SMTP id a640c23a62f3a-aa483483a44mr1539477466b.35.1732031694695;
+        Tue, 19 Nov 2024 07:54:54 -0800 (PST)
+Received: from p183 ([46.53.252.27])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20e043b6bsm665096266b.140.2024.11.19.07.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2024 07:54:54 -0800 (PST)
+Date: Tue, 19 Nov 2024 18:54:52 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH] uapi: add EROBLK
+Message-ID: <9184b5e8-7070-4395-b179-4975b2e3fbc3@p183>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwCnGjvQoTxnjr3pAQ--.40220S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4rZr1fXF1UuFWfuw45Jrb_yoWkWFc_uF
-	97WryqywsxJw4DZrW7tF1SgFWSgayDJrykZ3yUJFW2q345Gw17KFs5GFyFqF18ta1ktr1k
-	WryUXr40vw1IgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267
-	AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
-	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AK
-	xVWrXVW3AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1U
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8
-	JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIevJa73UjIFyTuYvjxUVZ
-	2-UUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAMBGc797QGbwAAs-
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tue, 2024-11-19 at 13:14 +0100, Christoph Hellwig wrote:
-> On Tue, Nov 19, 2024 at 11:49:09AM +0100, Roberto Sassu wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >=20
-> > Introduce ksys_finit_module() to let kernel components request a kernel
-> > module without requiring running modprobe.
->=20
-> That does sound more than sketchy, even more so because the commit log
-> completely fails to explain why you'd need to do that.
+Block drivers and DM sometimes use EROFS to report errors. There is
+no confusion about what happens but naive error reporting code might
+pass -EROFS to strerror(3) which will print "filesystem" when clearly
+there is no filesystem anywhere, it is layer above.
 
-With my solution, the kernel grants access to a file in user space
-depending on whether or not its calculated (or fsverity) digest is
-found in an application manifest provided by the software vendor.
+Or in other words, if EROFS exists, why not EROBLK?
+It is not like there is a tax on errno values.
 
-However, what it happens is that in the early boot phase the parser is
-not loaded yet, and the kernel cannot extract the reference digests
-from the application manifest.
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
 
-Thus, calling request_module() and consequently executing modprobe will
-fail, since the kernel does not have its reference digest yet.
+ include/uapi/asm-generic/errno.h |    1 +
+ 1 file changed, 1 insertion(+)
 
-Instead, loading the kernel module from the kernel itself works,
-because only the kernel module needs to be verified, and that can be
-done through its appended signature.
-
-Roberto
-
+--- a/include/uapi/asm-generic/errno.h
++++ b/include/uapi/asm-generic/errno.h
+@@ -119,5 +119,6 @@
+ #define ERFKILL		132	/* Operation not possible due to RF-kill */
+ 
+ #define EHWPOISON	133	/* Memory page has hardware error */
++#define EROBLK		134	/* Block device is read-only */
+ 
+ #endif
 
