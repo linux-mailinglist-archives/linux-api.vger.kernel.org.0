@@ -1,107 +1,105 @@
-Return-Path: <linux-api+bounces-2762-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2763-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C149D2BD9
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:57:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2FA9D2CE0
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 18:46:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFF281F2274F
-	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 16:57:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BAA1BB2D34F
+	for <lists+linux-api@lfdr.de>; Tue, 19 Nov 2024 17:20:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAC01D318C;
-	Tue, 19 Nov 2024 16:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCD41D1514;
+	Tue, 19 Nov 2024 17:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d/eSyR6O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdrexOEo"
 X-Original-To: linux-api@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882AF1D2F56;
-	Tue, 19 Nov 2024 16:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7898D1D14FA;
+	Tue, 19 Nov 2024 17:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732035139; cv=none; b=IAbMunLz8uJpKC/GFsjsj6JbUHy5YdaMOsAhzNmzP1LNOys7LQrFFH5sqIvH2O8elMsd5knTQpSVEA2ZlDwek2+QyyJYnGC0S5Fbx7FNEAv1TA5ic4+ZbsuSON7woo0wS9yUpMdm6y4Exwu/m0kjp+c4Mb/VOAOwry454Wjgfco=
+	t=1732036839; cv=none; b=NhEu6p7G1EzNspQHSrtMpt7/jnH6BBrvEZ5NJwXwg4Igy2W9j5lmgJ4t8HhH144SG3Y5AKwk8dKDw6wbrkYNBGDvHnHbpLfWilZwE0X70nGEo/h74APopIIpvOqsR76s58pwYkDG3mZBLsGPvNLbTGYQMShrwGv1NknL11samU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732035139; c=relaxed/simple;
-	bh=G0sGcIirrAQif+7K+ojYepQ7+x0l+SMBvQKWQ11nSuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TUvWDAzcOczbuyeJRiva5oc6c2IHWMGj3PBnz9pFcxAVczVfYwZ62symKU4ZssWxC7suhXzXWsjgX0Ga6pzPCnddiGpfHevl7mlcxaruNr5IPYIUvt2Ez0R425DmUKDMl74cdbXDulTWZSpnJv100LZVevK3KQs2KzCUNJ70lFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=d/eSyR6O; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=lmBjchKB9uAfbJVAGrRIHNf3bHKMKgL84Ei1RY/LBH4=; b=d/eSyR6OejkmnvtirxS5k9PHet
-	Y0o4/LvCcJgSTgNrIIipjyJIcQ3f6I9oDtEQWxtyUiGTJhweLzQDlx0aEoUcrQL2V/z2wFWxIqzVH
-	18KjOPKR3h8cPAC505puyoQmEOkd/p6ZyFP0QLf6j7GUPy5NNw+qBvacg4PnSci3mUdgD7jJWXNUp
-	3LpOdJ87lqBf1vZ9CzN9vto8x6Mp8M3cmjqpkpab68d9bUjegT7Uo67g8a4O8DuGqTjfcS35SqnFE
-	kW/rSbAYlz6pvuSDjNqx45WCm7L/Szw/RP4mc34vrPyFLtIoojXL2SGL2YovIhS4U9SPjzzsj8ceP
-	Z1U0OS8g==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDRSQ-00000004Jbj-094Z;
-	Tue, 19 Nov 2024 16:52:07 +0000
-Message-ID: <d8b1fb69-ac58-47a5-a2df-26a88894a6ea@infradead.org>
-Date: Tue, 19 Nov 2024 08:51:57 -0800
+	s=arc-20240116; t=1732036839; c=relaxed/simple;
+	bh=+QUn9RVv2knq4ZX/1kGdyZ9vvW2Z7c/Y1BrZzf1V/DU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uUmwcR7PjFJrKbFmkjfuht3YRQ0fcemmEf+Vx5HJv4/9EyJusa9e6lJ1uFFDWpQgUWJV56ZAGaXdY0XIhfl6QID/MNRjNfTE7RotL0HyVXEFCG35/7bqtnfingdckW8hu8Z8kWbxIZzL2eNG5FWWvl+kbsx7gIq/SRGgNA/NhOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdrexOEo; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9aa8895facso210895266b.2;
+        Tue, 19 Nov 2024 09:20:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732036836; x=1732641636; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=welmcQJz/KrmZ/exPeKgeWR1HgNuvSB6fXyM+tgH12w=;
+        b=AdrexOEopOn/2Ixf5KswvEcIdm+LntP4RXapGinORuOoKtRzw7SuTZ0hdv5YVTh4Ek
+         IUHOsdSNzIdwTEG7JwTkT55E2+BsBPJiBLlCPrKnxA6X/S/O8GBEHtNXVpYmicaLBrMJ
+         e0EKSSmG63HkGXjaNteIyjKEHikFytRJdvfgfZNMmwnb+UWUe8wyNY7YEbO3rqPpHAL4
+         i2m9C6j6FYX6XI23TR7lzq9+mmjc1G3/piQr5JQBwVoJdi9r12x/iLE1SmneA29rd5ih
+         qI+2TQrZbmxIllXpZGHk3T+20DACpyVEI26yO82c6samipbG+6TVd/R8qVXyf7AvsX4z
+         UD+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732036836; x=1732641636;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=welmcQJz/KrmZ/exPeKgeWR1HgNuvSB6fXyM+tgH12w=;
+        b=dLM88PJ17bIt5LZTFQCGu/nP+Oc8EI2Qo2fhskidsTu3NfGVZkpcY6eKn2q+wVM3Pd
+         0OeikOo+ifOCJwlPDsh+MiUDzf7HsepYObHGpXPF+vvaLmL5W6e1sDc+poD1A+T9Wfub
+         PrlkvBEB+nkiNiraXCZsyR2pnRMx8n/8uFkktcIBb3niA3H57oJuZ0tVX0K3PBahO3DK
+         mopX6kZsVcdIJRRxCb4K0TzarS6QMHFszpdu0/9LzSCvWzMCpjEm+LOyL7Hcxa6BValP
+         O20cvz/4VlXrsTlTJ+DRsIEbvd7DLMKovm4XL/Pv36Ojt74QBTv/IANor8bOYuGVX8GA
+         7lpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMt4n99TzpcrdbA6FQ+YwODNDaziSmEdeUm3GlzoCFJ+SlNlNHM7vpQkfclV5tDSr+a08Fy97naXI=@vger.kernel.org, AJvYcCVMRBELEMF48JYJ8MSqws/3h8gNVm+9C2Mu6HQmaxrRGjVyK/gOnos6+2VQlESop9lCoj7ABXTlofBE2F4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6G8XWu+2JBdbg2m27ZV4s8CYBZa+kLd5lj1QJ5+x53ALmHsbs
+	Woh2dma6cq6wf9wVeE1GZ1zjZqaYUkmbLSQciWD3KCQafCkYoYE=
+X-Google-Smtp-Source: AGHT+IGvI0RRBn2Z5tbFBL0Z6FFCUyXENtg8HuIrR1t8wCPqQe0HFcxvJjPEUZa6EREMXFwM4R//JA==
+X-Received: by 2002:a17:907:d08:b0:a99:f167:47c7 with SMTP id a640c23a62f3a-aa48355292bmr1668616866b.55.1732036835608;
+        Tue, 19 Nov 2024 09:20:35 -0800 (PST)
+Received: from p183 ([46.53.252.27])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20dfffcd4sm670156066b.98.2024.11.19.09.20.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2024 09:20:35 -0800 (PST)
+Date: Tue, 19 Nov 2024 20:20:33 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH] uapi: add EROBLK
+Message-ID: <dee8868f-45fa-40d7-bcaf-a46bf768e400@p183>
+References: <9184b5e8-7070-4395-b179-4975b2e3fbc3@p183>
+ <Zzy7MGyTp9yw1ntQ@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/15] lib: Add TLV parser
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, zohar@linux.ibm.com,
- dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, corbet@lwn.net,
- mcgrof@kernel.org, petr.pavlu@suse.com, samitolvanen@google.com,
- da.gomez@samsung.com, akpm@linux-foundation.org, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com
-Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com,
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com,
- mzerqung@0pointer.de, kgold@linux.ibm.com,
- Roberto Sassu <roberto.sassu@huawei.com>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
- <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Zzy7MGyTp9yw1ntQ@infradead.org>
 
-Hi--
+On Tue, Nov 19, 2024 at 08:22:08AM -0800, Christoph Hellwig wrote:
+> On Tue, Nov 19, 2024 at 06:54:52PM +0300, Alexey Dobriyan wrote:
+> > Block drivers and DM sometimes use EROFS to report errors. There is
+> > no confusion about what happens but naive error reporting code might
+> > pass -EROFS to strerror(3) which will print "filesystem" when clearly
+> > there is no filesystem anywhere, it is layer above.
+> > 
+> > Or in other words, if EROFS exists, why not EROBLK?
+> > It is not like there is a tax on errno values.
+> 
+> And where would you return this value without breaking existing
+> userspace?
 
-On 11/19/24 2:49 AM, Roberto Sassu wrote:
-> +/**
-> + * typedef callback - Callback after parsing TLV entry
+New code may start returning it right away.
 
-Same as my other naming comment -- too generic.
-Maybe tlv_callback...
-
-Thanks.
-
-> + * @callback_data: Opaque data to supply to the callback function
-> + * @field: Field identifier
-> + * @field_data: Field data
-> + * @field_len: Length of @field_data
-> + *
-> + * This callback is invoked after a TLV entry is parsed.
-> + *
-> + * Return: Zero on success, a negative value on error.
-> + */
-> +typedef int (*callback)(void *callback_data, __u16 field,
-> +			const __u8 *field_data, __u32 field_len);
-
--- 
-~Randy
-
+Old code may start checking for both and in ~100 years delete EROFS
+clause.
 
