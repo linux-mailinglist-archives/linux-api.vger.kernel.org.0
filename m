@@ -1,83 +1,87 @@
-Return-Path: <linux-api+bounces-2780-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2781-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64D09D60D8
-	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 15:51:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C52D9D656E
+	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 22:42:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BD82281BB2
-	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 14:51:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06434283128
+	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 21:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201CE1DE88E;
-	Fri, 22 Nov 2024 14:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A47185B46;
+	Fri, 22 Nov 2024 21:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="ZxPR1yB/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i34aEf0i"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [45.157.188.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD031DE89A
-	for <linux-api@vger.kernel.org>; Fri, 22 Nov 2024 14:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C32249E5;
+	Fri, 22 Nov 2024 21:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732287061; cv=none; b=ZyR80dxwUkf2WAfrslckmGDrm6yQwCLsiujSahE7Zr5YLfpursYRma/e413RvC+5K9KWTUn3YpkgwORVGjgwHfNujug9w5DHMRaGqb9D+ZZqiduw1TsDmEUH39bOnPvvNL9mHPXOYEU8PFdoZUpTSmgJ+VRGBhv9oyrrS/eldnY=
+	t=1732311773; cv=none; b=LFWj2t8tZfaJwI84YnQO71hpj0rLqLShUhAWCbKi/OJEpMkqjzaiSMVovR36HaqVrqbx1bEkF/OI/gghJOWSqYUrE6w0ipkjrM37wDCqah6Ytr31ISQznifK/kZNAQYj9anJjoXXuXyO/rgNq1G1I6/ZI1OJ6RBX55eYcCpeGgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732287061; c=relaxed/simple;
-	bh=da/B3C3m95B9xDN7inCPJver2jyI9WY4gvWq4YtWhFA=;
+	s=arc-20240116; t=1732311773; c=relaxed/simple;
+	bh=VaLYmEpXCswJ+tfNQNgAdXhQYI5DC7J682/Jc0Tbya8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pREXd65YpxK3BGTRnjwgK+Du1lex5G0jQHRnn7vUEjN3iTiV6LdeAY62J6uJsW3Hg3thMVppLNZ/D6ykgGNcF3u22rDjAaRvcBhP5cjgcN82XgcZNqguvgO/0yohaVWiv6rfaoncZCyVaCoRSNjKnIuwbGJyWSnDkmiclUffkTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=ZxPR1yB/; arc=none smtp.client-ip=45.157.188.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10:40ca:feff:fe05:0])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Xvyhd0XdwzngV;
-	Fri, 22 Nov 2024 15:50:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1732287056;
-	bh=Dw83SL5Y8yup9QeWhRY3Xv+H570yVpAemu+fQwUxJwQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZxPR1yB/99EMPpelBHdCWInnXjSxUxn8CxobKR87WOV/XW8j4P2i/WrLRNt3tk3Pm
-	 PwdepQSQuLCaAzIfcdHDKM5tasTYMdPYLpz5ZRscRNi4N8kGaH50/8TPen3EyKDgJ6
-	 Cu2uU2k/vW0zhArwJAuMwtubKMwDV38J+e5CnuqY=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Xvyhc0l95zs22;
-	Fri, 22 Nov 2024 15:50:56 +0100 (CET)
-Date: Fri, 22 Nov 2024 15:50:56 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Alejandro Colomar <alx@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Elliott Hughes <enh@google.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Eric Chiang <ericchiang@google.com>, 
-	Fan Wu <wufan@linux.microsoft.com>, Florian Weimer <fweimer@redhat.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, James Morris <jamorris@linux.microsoft.com>, 
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jordan R Abrahams <ajordanr@google.com>, 
-	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, 
-	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Steve Dower <steve.dower@python.org>, 
-	Steve Grubb <sgrubb@redhat.com>, Theodore Ts'o <tytso@mit.edu>, 
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, Vincent Strubel <vincent.strubel@ssi.gouv.fr>, 
-	Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>, 
-	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v21 6/6] samples/check-exec: Add an enlighten "inc"
- interpreter and 28 tests
-Message-ID: <20241122.ahY1pooz1ing@digikod.net>
-References: <20241112191858.162021-1-mic@digikod.net>
- <20241112191858.162021-7-mic@digikod.net>
- <d115a20889d01bc7b12dbd8cf99aad0be58cbc97.camel@linux.ibm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=O5ykQ7ACYIYy8e0j+zE+l4EEttjh3cmy1zglpT+oJRq8g4mpXsk6DQ9eEr2LYvUJEzJjxa4knCwqjGDGndb8lxIGHbZxH/XHPZTUr0AHb2UgfWkYGvz/9ol4iiMX3PICZvv2/AydFrZkrHjV5XIj1mR6Ez58OOi7zbtDoOurfMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i34aEf0i; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7ee7e87f6e4so2249336a12.2;
+        Fri, 22 Nov 2024 13:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732311771; x=1732916571; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dVXpF38JqcLyXbRWoQHlti7bjH/SZY1G/SV6qnKaZtA=;
+        b=i34aEf0i0WF0FaJvy6Fa8BAYVbCajZnyQNGTkJWbRbWsZ9xeUc4M2wAWALQeDQ74mZ
+         cbgSiuFmiqcvJnW5NSVo4kBzH49m/mx2Fe7zOHLpE1XEhjsRpxAArjv0rXByql348ju8
+         iooLp9vcvQt+1Svw9fRH5pjyZOyyhQWr67LKahB9EWdGHtLLh+Zt191WxCA45SStFHK9
+         G7i4y7p+0SYwo00tY5cipizlPzKoCDsiZJxq/Sgj7+A4jeV/YnNB3Rm4/e/ku8KvBxrX
+         nH04t4gnE2CE68qMzUNXOhpV0M0RtTS6YnZA9lD9xU3cMjA9ezxPbQU5f8xBMCwYEKVc
+         UG/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732311771; x=1732916571;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dVXpF38JqcLyXbRWoQHlti7bjH/SZY1G/SV6qnKaZtA=;
+        b=mwtfJiAjRobs4OTjx/21G5EEcYWCbfGi6WmU+htf2mqnKENRmbr0TrAQ00lOtIo2B3
+         ge6722cELZK/Br8y0I6xiJG2vNt9VQJmJqnISaU6bVLopuPGOcJ8hVtm9/zYK81J6QA3
+         Ksfp4IZRuzpUUhTkiFGJKw8TdO992LFEPtAL84ONwq+foIA1EcSsL6kDHay4wIBgWDe3
+         yY1QL7fANWx96+FxK8AO+KoLYGCSSh1Hfim6ASmkt53sphuO1T9MKLy61+mA6BdQflyv
+         Pmxtt4gAQinplLZ+ENSUB/9iJ+H2JRdmjkcApUWW3AkwTBVOo5oLAXqywCvEEbwLW+mi
+         e7ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Ol1lsEuSxQ8y7FPPJIPG1AdswwBEXltCLACNqOtwe6LlGg0ClfAGXC6l8eRqVszNuF0a9ltHVPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy5mKTSBBt1w7WV6ogWMAlAktztWYrJWxIfudrFiKRN4MH88+3
+	boiiN48zBS2M8AyLV+LEOZLJuqBLG+18M7bO8LQ2KrqgVhyMeALsNAYZ8Q==
+X-Gm-Gg: ASbGncsSWg4hTXNWrjhrl3wlnRVQ40op4KbN2HY2K0eWTKAc8P1ClWsqFZVMKBUWZu0
+	gBKtF6kH01nFtChtBzgj+I9H3qj29B8Rd5i1/EQ8z+VKbMJMfQ9EEybfcOcOnGwIuSiKzs6Sg59
+	r7Q5Eg1CHM9cFLq3voryMRW13IOFI+R0gjnn/5gygI82ClmuNMLxf+TJMergqeKN9BkT4PaEaYx
+	9jnU3fficJDZ7XMNOXuMmW9VW4zAavBS74jKngP2VyUeJaChv7BnsIr
+X-Google-Smtp-Source: AGHT+IHkNDho4rEQiyLyhahL7QPmYF8xplygAcqlvjAumGRvqCza/cbWnLN4h3DaSDZYnoqzIClbaQ==
+X-Received: by 2002:a05:6a21:790:b0:1db:f0e0:cfd with SMTP id adf61e73a8af0-1e09e5fecd0mr5015368637.44.1732311770947;
+        Fri, 22 Nov 2024 13:42:50 -0800 (PST)
+Received: from localhost ([2601:647:6881:9060:5940:b3b4:d5bc:a0b7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcc1e5ceesm1843342a12.33.2024.11.22.13.42.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 13:42:50 -0800 (PST)
+Date: Fri, 22 Nov 2024 13:42:49 -0800
+From: Cong Wang <xiyou.wangcong@gmail.com>
+To: John Ousterhout <ouster@cs.stanford.edu>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH net-next v2 00/12] Begin upstreaming Homa transport
+ protocol
+Message-ID: <Z0D62cS7DgkHYEDr@pop-os.localdomain>
+References: <20241111234006.5942-1-ouster@cs.stanford.edu>
+ <ZzTcx8nmEKIJpaCR@pop-os.localdomain>
+ <CAGXJAmyGTwjFo6fGoROY=hQFXbR5RdpmpkEc9Zm6DOoD2nbwNA@mail.gmail.com>
+ <CAGXJAmwr5u7Don-nKivvTuj6C9pGT2A5cAXvhKo6sAm_hHy72A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -87,54 +91,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d115a20889d01bc7b12dbd8cf99aad0be58cbc97.camel@linux.ibm.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <CAGXJAmwr5u7Don-nKivvTuj6C9pGT2A5cAXvhKo6sAm_hHy72A@mail.gmail.com>
 
-On Thu, Nov 21, 2024 at 03:34:47PM -0500, Mimi Zohar wrote:
-> Hi Mickaël,
+On Tue, Nov 19, 2024 at 01:13:36PM -0800, John Ousterhout wrote:
+> On Thu, Nov 14, 2024 at 8:59 AM John Ousterhout <ouster@cs.stanford.edu> wrote:
+> >
+> > On Wed, Nov 13, 2024 at 9:08 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
+> >
+> > > 2. Please consider adding socket diagnostics, see net/ipv4/inet_diag.c.
+> >
+> > I wasn't familiar with them before your email; I'll take a look.
 > 
-> On Tue, 2024-11-12 at 20:18 +0100, Mickaël Salaün wrote:
-> > 
-> > +
-> > +/* Returns 1 on error, 0 otherwise. */
-> > +static int interpret_stream(FILE *script, char *const script_name,
-> > +			    char *const *const envp, const bool restrict_stream)
-> > +{
-> > +	int err;
-> > +	char *const script_argv[] = { script_name, NULL };
-> > +	char buf[128] = {};
-> > +	size_t buf_size = sizeof(buf);
-> > +
-> > +	/*
-> > +	 * We pass a valid argv and envp to the kernel to emulate a native
-> > +	 * script execution.  We must use the script file descriptor instead of
-> > +	 * the script path name to avoid race conditions.
-> > +	 */
-> > +	err = execveat(fileno(script), "", script_argv, envp,
-> > +		       AT_EMPTY_PATH | AT_EXECVE_CHECK);
+> I have taken a look at socket diagnostics, and I agree that Homa
+> should support them. However, this looks like a nontrivial task: there
+> appears to be a fair amount of complexity there, not much
+> documentation, and the current diagnostics appear pretty TCP-specific
+> so it may take some work (and advice) to figure out how to map them
+> onto Homa. Thus it feels like it will take a fair amount of
+> back-and-forth to get this right. I would prefer to defer this until
+> after the main body of Homa has been upstreamed, then have a patch
+> series that is dedicated to socket diagnostics support, rather than
+> lumping socket diagnostics into the current patch series. Is that OK
+> with you?
 > 
-> At least with v20, the AT_CHECK always was being set, independent of whether
-> set-exec.c set it.  I'll re-test with v21.
 
-AT_EXECVE_CEHCK should always be set, only the interpretation of the
-result should be relative to securebits.  This is highlighted in the
-documentation.
+Sure, I don't think it is a blocker here, it is just a nice feature to
+promote Homa.
 
-> 
-> thanks,
-> 
-> Mimi
-> 
-> > +	if (err && restrict_stream) {
-> > +		perror("ERROR: Script execution check");
-> > +		return 1;
-> > +	}
-> > +
-> > +	/* Reads script. */
-> > +	buf_size = fread(buf, 1, buf_size - 1, script);
-> > +	return interpret_buffer(buf, buf_size);
-> > +}
-> > +
-> 
-> 
+Thanks.
 
