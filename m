@@ -1,122 +1,109 @@
-Return-Path: <linux-api+bounces-2781-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2782-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C52D9D656E
-	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 22:42:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 352939D8432
+	for <lists+linux-api@lfdr.de>; Mon, 25 Nov 2024 12:18:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06434283128
-	for <lists+linux-api@lfdr.de>; Fri, 22 Nov 2024 21:42:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 452D1B35765
+	for <lists+linux-api@lfdr.de>; Mon, 25 Nov 2024 10:36:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A47185B46;
-	Fri, 22 Nov 2024 21:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB2FF192B73;
+	Mon, 25 Nov 2024 10:36:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i34aEf0i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gu4e2ZEH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C32249E5;
-	Fri, 22 Nov 2024 21:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BC71925AD;
+	Mon, 25 Nov 2024 10:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732311773; cv=none; b=LFWj2t8tZfaJwI84YnQO71hpj0rLqLShUhAWCbKi/OJEpMkqjzaiSMVovR36HaqVrqbx1bEkF/OI/gghJOWSqYUrE6w0ipkjrM37wDCqah6Ytr31ISQznifK/kZNAQYj9anJjoXXuXyO/rgNq1G1I6/ZI1OJ6RBX55eYcCpeGgw=
+	t=1732530977; cv=none; b=dqFTlIPLtCAJvB/4bcscsnUqRdcCr3tZc0cnU78Js6ksK1XylwtycAe9xsYMG0Dkc0ksE91n14AGvdwKgqkaF0/3rJhg+YDKBGxgZqp6a+Rl15Pb94LliTUW5L5PwQgk43w0P3sd/cVfwja8Eou0iXA1KRP+p/lZIXdCLDFbawU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732311773; c=relaxed/simple;
-	bh=VaLYmEpXCswJ+tfNQNgAdXhQYI5DC7J682/Jc0Tbya8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O5ykQ7ACYIYy8e0j+zE+l4EEttjh3cmy1zglpT+oJRq8g4mpXsk6DQ9eEr2LYvUJEzJjxa4knCwqjGDGndb8lxIGHbZxH/XHPZTUr0AHb2UgfWkYGvz/9ol4iiMX3PICZvv2/AydFrZkrHjV5XIj1mR6Ez58OOi7zbtDoOurfMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i34aEf0i; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7ee7e87f6e4so2249336a12.2;
-        Fri, 22 Nov 2024 13:42:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732311771; x=1732916571; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dVXpF38JqcLyXbRWoQHlti7bjH/SZY1G/SV6qnKaZtA=;
-        b=i34aEf0i0WF0FaJvy6Fa8BAYVbCajZnyQNGTkJWbRbWsZ9xeUc4M2wAWALQeDQ74mZ
-         cbgSiuFmiqcvJnW5NSVo4kBzH49m/mx2Fe7zOHLpE1XEhjsRpxAArjv0rXByql348ju8
-         iooLp9vcvQt+1Svw9fRH5pjyZOyyhQWr67LKahB9EWdGHtLLh+Zt191WxCA45SStFHK9
-         G7i4y7p+0SYwo00tY5cipizlPzKoCDsiZJxq/Sgj7+A4jeV/YnNB3Rm4/e/ku8KvBxrX
-         nH04t4gnE2CE68qMzUNXOhpV0M0RtTS6YnZA9lD9xU3cMjA9ezxPbQU5f8xBMCwYEKVc
-         UG/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732311771; x=1732916571;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dVXpF38JqcLyXbRWoQHlti7bjH/SZY1G/SV6qnKaZtA=;
-        b=mwtfJiAjRobs4OTjx/21G5EEcYWCbfGi6WmU+htf2mqnKENRmbr0TrAQ00lOtIo2B3
-         ge6722cELZK/Br8y0I6xiJG2vNt9VQJmJqnISaU6bVLopuPGOcJ8hVtm9/zYK81J6QA3
-         Ksfp4IZRuzpUUhTkiFGJKw8TdO992LFEPtAL84ONwq+foIA1EcSsL6kDHay4wIBgWDe3
-         yY1QL7fANWx96+FxK8AO+KoLYGCSSh1Hfim6ASmkt53sphuO1T9MKLy61+mA6BdQflyv
-         Pmxtt4gAQinplLZ+ENSUB/9iJ+H2JRdmjkcApUWW3AkwTBVOo5oLAXqywCvEEbwLW+mi
-         e7ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2Ol1lsEuSxQ8y7FPPJIPG1AdswwBEXltCLACNqOtwe6LlGg0ClfAGXC6l8eRqVszNuF0a9ltHVPA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy5mKTSBBt1w7WV6ogWMAlAktztWYrJWxIfudrFiKRN4MH88+3
-	boiiN48zBS2M8AyLV+LEOZLJuqBLG+18M7bO8LQ2KrqgVhyMeALsNAYZ8Q==
-X-Gm-Gg: ASbGncsSWg4hTXNWrjhrl3wlnRVQ40op4KbN2HY2K0eWTKAc8P1ClWsqFZVMKBUWZu0
-	gBKtF6kH01nFtChtBzgj+I9H3qj29B8Rd5i1/EQ8z+VKbMJMfQ9EEybfcOcOnGwIuSiKzs6Sg59
-	r7Q5Eg1CHM9cFLq3voryMRW13IOFI+R0gjnn/5gygI82ClmuNMLxf+TJMergqeKN9BkT4PaEaYx
-	9jnU3fficJDZ7XMNOXuMmW9VW4zAavBS74jKngP2VyUeJaChv7BnsIr
-X-Google-Smtp-Source: AGHT+IHkNDho4rEQiyLyhahL7QPmYF8xplygAcqlvjAumGRvqCza/cbWnLN4h3DaSDZYnoqzIClbaQ==
-X-Received: by 2002:a05:6a21:790:b0:1db:f0e0:cfd with SMTP id adf61e73a8af0-1e09e5fecd0mr5015368637.44.1732311770947;
-        Fri, 22 Nov 2024 13:42:50 -0800 (PST)
-Received: from localhost ([2601:647:6881:9060:5940:b3b4:d5bc:a0b7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcc1e5ceesm1843342a12.33.2024.11.22.13.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:42:50 -0800 (PST)
-Date: Fri, 22 Nov 2024 13:42:49 -0800
-From: Cong Wang <xiyou.wangcong@gmail.com>
-To: John Ousterhout <ouster@cs.stanford.edu>
-Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH net-next v2 00/12] Begin upstreaming Homa transport
- protocol
-Message-ID: <Z0D62cS7DgkHYEDr@pop-os.localdomain>
-References: <20241111234006.5942-1-ouster@cs.stanford.edu>
- <ZzTcx8nmEKIJpaCR@pop-os.localdomain>
- <CAGXJAmyGTwjFo6fGoROY=hQFXbR5RdpmpkEc9Zm6DOoD2nbwNA@mail.gmail.com>
- <CAGXJAmwr5u7Don-nKivvTuj6C9pGT2A5cAXvhKo6sAm_hHy72A@mail.gmail.com>
+	s=arc-20240116; t=1732530977; c=relaxed/simple;
+	bh=pQ30I//Q8MhoyQChWZx6olp6k08jb2qYE2/53OJqNp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=HjP0Wr98/jQcVmngQwS9xj537vB+749HADIDN710DEaoNaCc2lUOdOfFj0oraCz4Q3tqeICCy8MpXIdbvrQWwBj3zJ50IOCnwFtTJxll/hx9OlweKpjSuwXyn6w0qeoaeuFoQdBs8a64i8xsish6TBb9jP6nkDnzXhhbDBUWtnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gu4e2ZEH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A9CC4CECE;
+	Mon, 25 Nov 2024 10:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732530977;
+	bh=pQ30I//Q8MhoyQChWZx6olp6k08jb2qYE2/53OJqNp4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=gu4e2ZEHI5INsEA6BpUfSuVtcVONDREvgmB5vZpRyz6gFYhGWI3NltDS83/FuxNPG
+	 QBTHWjx6E1Fe89KoJ7ZyFICdgQ1SmwySW6PpZMFpSY+tMV0CSkdWoG3dmrZnz6JdH8
+	 GA5rhW1wKusoWnn3NHejn299Ka8NtIci5JsHTpriumBozxT2ZjpnUFjZYlvmRdO4no
+	 jwhB2bNzkaEWyZ7VxHy4ILdqSjhEGzwLDp7qZWNNHogExQdYAwWWWUuFKeY1b+2Br7
+	 UyOeH5awLoYiN4ppyF/oTjfHWtajuyz8dKrqIQExDCV8l0gPuFege7a753diypR6U2
+	 AJ0TIt/+Sk+MQ==
+Date: Mon, 25 Nov 2024 11:36:13 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: john.g.garry@oracle.com
+Cc: asml.silence@gmail.com, dalias@libc.org, jannh@google.com,
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v2] vfs: add RWF_NOAPPEND flag for pwritev2
+Message-ID: <Z0RTHYtaqEoffNrG@devuan>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BIqSCtq9xTJsXH4C"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXJAmwr5u7Don-nKivvTuj6C9pGT2A5cAXvhKo6sAm_hHy72A@mail.gmail.com>
+In-Reply-To: <f20a786f-156a-4772-8633-66518bd09a02@oracle.com>
 
-On Tue, Nov 19, 2024 at 01:13:36PM -0800, John Ousterhout wrote:
-> On Thu, Nov 14, 2024 at 8:59 AM John Ousterhout <ouster@cs.stanford.edu> wrote:
-> >
-> > On Wed, Nov 13, 2024 at 9:08 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
-> >
-> > > 2. Please consider adding socket diagnostics, see net/ipv4/inet_diag.c.
-> >
-> > I wasn't familiar with them before your email; I'll take a look.
-> 
-> I have taken a look at socket diagnostics, and I agree that Homa
-> should support them. However, this looks like a nontrivial task: there
-> appears to be a fair amount of complexity there, not much
-> documentation, and the current diagnostics appear pretty TCP-specific
-> so it may take some work (and advice) to figure out how to map them
-> onto Homa. Thus it feels like it will take a fair amount of
-> back-and-forth to get this right. I would prefer to defer this until
-> after the main body of Homa has been upstreamed, then have a patch
-> series that is dedicated to socket diagnostics support, rather than
-> lumping socket diagnostics into the current patch series. Is that OK
-> with you?
-> 
 
-Sure, I don't think it is a blocker here, it is just a nice feature to
-promote Homa.
+--BIqSCtq9xTJsXH4C
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Nov 2024 11:36:13 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: john.g.garry@oracle.com
+Cc: asml.silence@gmail.com, dalias@libc.org, jannh@google.com,
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v2] vfs: add RWF_NOAPPEND flag for pwritev2
 
-Thanks.
+Hi,
+
+Here's a gentle ping, as John reminded me that there's no documentation
+for this in the manual pages.  Would anyone want to send a patch?
+
+Have a lovely day!
+Alex
+
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--BIqSCtq9xTJsXH4C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmdEUx0ACgkQnowa+77/
+2zL5cw//R5DtbUf+l6spRMZegXP9dbwI+679UF4ot29j3Kzc1sHQhAVx7+JEiNNp
+8Hk20V9GEl42mc8zC6yu8CGMKkqkSv9zeugYX3OevkJ8LbeyuHOM61dSg97ixG30
+LJVtkEZlqH4e1x/xPVhDKxA/ogDU2tCX2rUngjvK4/TZJHWcE95YkyrVwAjleoKa
+FRHk6QI5iWxdDVKtNvhn1CZeRpteV8ByYB2H2NOSK9J5QDr98DLvZ6M17e+cMjFr
+4k6t1hrSmWMB/BnqCZMqH5l8Sgs4Zhjp1HMtCyxT+Cnt4H8SQa1ufj9uHJQPzyGu
+wV+0HKLi3h9U7rq3qHY5ogRx7mU5nFcLMguk9DbiJ/4331WciTVy4cQ8/csTtZbz
+OlfeWnpkmkBMLgBHX4Z6DkXgO3jZhN1x+v0ZRIp6pOLGYNe/UhTN8jdQi44WWEyi
+s0N1+M5+CC8xozb/puzj022uCLGtrXpnDjfWmRy16pT+Kj/ieHhJzvkKVGDO9zRP
+Y5gyxYSR7nDJ11TgNN/uLWCl/hJREfMDajogr1psUVARW5PVixF6Wo9yTYny/mgs
+qaS/dSwCKyhZatO99HJA+20ti8yEpTHVAtZXijssHWuOT0MEMPrkN9vlxOpX1EeY
+lD/pu1f/H0WIb0qG33hhYhgcE2zKBA/VMXHUgxA3vAFbbdUiW3g=
+=hk8n
+-----END PGP SIGNATURE-----
+
+--BIqSCtq9xTJsXH4C--
 
