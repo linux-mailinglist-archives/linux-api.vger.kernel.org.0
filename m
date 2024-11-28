@@ -1,156 +1,125 @@
-Return-Path: <linux-api+bounces-2804-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2805-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4509F9DB3AB
-	for <lists+linux-api@lfdr.de>; Thu, 28 Nov 2024 09:24:52 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3C481606F9
-	for <lists+linux-api@lfdr.de>; Thu, 28 Nov 2024 08:24:48 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE08714A09E;
-	Thu, 28 Nov 2024 08:24:48 +0000 (UTC)
-X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EC69DBCF9
+	for <lists+linux-api@lfdr.de>; Thu, 28 Nov 2024 21:40:43 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC5613FD86;
-	Thu, 28 Nov 2024 08:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EB93280FE8
+	for <lists+linux-api@lfdr.de>; Thu, 28 Nov 2024 20:40:42 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C371C3F02;
+	Thu, 28 Nov 2024 20:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhhvfBS6"
+X-Original-To: linux-api@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F981C1F1B;
+	Thu, 28 Nov 2024 20:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732782288; cv=none; b=KYonWhBE5ajGRGs5fAmmmI1e/z03O1UcZEvpUekBjpVM016HcfEbw+V7yHsGJSKSGPm+ULFYZYuMITJmB3ghSHERiHoVKMt/2pjivqPSRbbicogdcy+Yb1jKnvmxJ6QdtUwxFYyp9EIDLgGgjPdQcivLC8GpjG5zcrzsPwQjXr8=
+	t=1732826438; cv=none; b=Z3D7C56CVQUZLN2r0/Z50nVvQGwqAom3T6LKwrtp07l+lt+SI7kVTHqMFU7cGicvyok2RhUMA/xiiMea7r9DzKiWuVG8ZP63bopAE8C/BNXVnXlueijyNN4//M9VI8UUTR4Znk6mlt8jYxTkyZxVUOASV8xuE/PfV2oGDVFxbU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732782288; c=relaxed/simple;
-	bh=SCu+ISsKCCcd6qkQaEWA3jNZcsdZonCDPyLTB8O/kyY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=D+yO0gep3hvj7B3tQbmkJ4egKyv2UO4E5toEDOON7QGkcDoEqL6BEE4KGCMmVw+sD1b8tGGm0oZBBuuFRoH5FVlnm2GMs5tKYAEsxxkntMsLgALKvILt7wuJ4rSEL+OHd1fX0KvDdkLABEmBcuuL57WE/3YWM9Fz1r5oSTm8Iqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4XzTDQ0Gx6z9v7JN;
-	Thu, 28 Nov 2024 15:57:10 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id B8230140762;
-	Thu, 28 Nov 2024 16:24:23 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwDXNXWhKEhn28ZyAg--.30519S2;
-	Thu, 28 Nov 2024 09:24:22 +0100 (CET)
-Message-ID: <10c8fd4b53f946c2d7e933a35c6eb36557e8c592.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest
- list parsers
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
+	s=arc-20240116; t=1732826438; c=relaxed/simple;
+	bh=GAU8BbRYLHftQhaL0pvmhJwvc4IRJK26C1UPU2J5EJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uaCbK2NYR6AYbB34c46jJceCfPT4rU/BZywO7L0OdOZbaq4VAajMe7b51QZvUc+S6ijJ9co31jS0YgNPjcnW32d80Z04RxrR/oaE1ASqZP0Z2227KVU+e2zO3DDbTTkDUxMUXU3crLHgedvY0QvcEHN8peC2RsSqJDwkjaJ0VEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QhhvfBS6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E14D4C4CECE;
+	Thu, 28 Nov 2024 20:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732826437;
+	bh=GAU8BbRYLHftQhaL0pvmhJwvc4IRJK26C1UPU2J5EJs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QhhvfBS6wBt1GNJnXrIEba+0KcsznIA8Za4PUFxbwwl5OyUT6pCDQjOT0GxO90lUI
+	 NhbsgzxeDijKjyJkxWiLn2JMtiDGmXsKAWk0DZB6KR/OEeC9yNBtER5JIr8n0a7cht
+	 GGAMkVLGkSLGXTeu6RpzFNw1/NoiptaGopZrv/rrEM1aIeuB+G+/hkPzs74ld1llmV
+	 XP9Qdq8OMTUjiVPcGNSU5n8fpGqdKadp/zrpd52hrtzUyC0S15MbpIKXmN+GnmI04S
+	 B72xbbV1S8NUycq/X5VVJZKzNBVcaj16EoqwksRJdPkp4vPGUSIadYi5UotGLWkeyy
+	 fVDpXdvDABr7Q==
+Date: Thu, 28 Nov 2024 12:40:35 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, mmaurer@google.com,
+	samitolvanen@google.com, KP Singh <kpsingh@kernel.org>
 Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com,  corbet@lwn.net, petr.pavlu@suse.com,
- samitolvanen@google.com, da.gomez@samsung.com,  akpm@linux-foundation.org,
- paul@paul-moore.com, jmorris@namei.org,  serge@hallyn.com,
- shuah@kernel.org, mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
- linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
- linux-modules@vger.kernel.org,  linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org,  wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,  mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, 
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, 
- mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto Sassu
- <roberto.sassu@huawei.com>
-Date: Thu, 28 Nov 2024 09:23:57 +0100
-In-Reply-To: <Z0d4vXuCqjTo_QW1@bombadil.infradead.org>
+	eric.snowberg@oracle.com, corbet@lwn.net, petr.pavlu@suse.com,
+	samitolvanen@google.com, da.gomez@samsung.com,
+	akpm@linux-foundation.org, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
+	pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
+	mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+	dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+	ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de,
+	kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest list
+ parsers
+Message-ID: <Z0jVQ8Q7AT_9NodI@bombadil.infradead.org>
 References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
-	 <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
-	 <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
-	 <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
-	 <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
-	 <Z0d4vXuCqjTo_QW1@bombadil.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+ <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+ <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
+ <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
+ <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
+ <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
+ <Z0d4vXuCqjTo_QW1@bombadil.infradead.org>
+ <10c8fd4b53f946c2d7e933a35c6eb36557e8c592.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwDXNXWhKEhn28ZyAg--.30519S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15XFyUGry5CF48Zr1DWrg_yoW8uF4xpF
-	WfK3ZIkr4kt3Wqkw4vyw47uFW0k393GrW5G3Z3Gr9ayr15KFya9FyIgw43WFZrKr4vgw4a
-	qr1rZ3sIvw1kZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
-	JwCIccxYrVCFb41lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07bhb18UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQABBGdH1TUBdQAAsw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10c8fd4b53f946c2d7e933a35c6eb36557e8c592.camel@huaweicloud.com>
 
-On Wed, 2024-11-27 at 11:53 -0800, Luis Chamberlain wrote:
-> On Wed, Nov 27, 2024 at 10:51:11AM +0100, Roberto Sassu wrote:
-> > For eBPF programs we are also in a need for a better way to
-> > measure/appraise them.
->=20
-> I am confused now, I was under the impression this "Integrity Digest
-> Cache" is just a special thing for LSMs, and so I was under the
-> impression that kernel_read_file() lsm hook already would take care
-> of eBPF programs.
+On Thu, Nov 28, 2024 at 09:23:57AM +0100, Roberto Sassu wrote:
+> On Wed, 2024-11-27 at 11:53 -0800, Luis Chamberlain wrote:
+> > On Wed, Nov 27, 2024 at 10:51:11AM +0100, Roberto Sassu wrote:
+> > > For eBPF programs we are also in a need for a better way to
+> > > measure/appraise them.
+> > 
+> > I am confused now, I was under the impression this "Integrity Digest
+> > Cache" is just a special thing for LSMs, and so I was under the
+> > impression that kernel_read_file() lsm hook already would take care
+> > of eBPF programs.
+> 
+> Yes, the problem is that eBPF programs are transformed in user space
+> before they are sent to the kernel:
+> 
+> https://lwn.net/Articles/977394/
 
-Yes, the problem is that eBPF programs are transformed in user space
-before they are sent to the kernel:
+That issue seems to be orthogonal to your eandeavor though, which just
+supplements LSMS, right?
 
-https://lwn.net/Articles/977394/
+Anyway, in case this helps:
 
-The Integrity Digest Cache can be used for the measurement/appraisal of
-the initial eBPF ELF file, when they are accessed from the filesystem,
-but the resulting blob sent to the kernel will be different.
+The Rust folks faced some slighty related challenges with our CRC
+validations for symbols, our CRC are slapped on with genksyms but this
+relies on the source code and with Rust the compiler may do final
+touches to data. And so DWARF is being used [1].
 
-> > Now, I'm trying to follow you on the additional kernel_read_file()
-> > calls. I agree with you, if a parser tries to open again the file that
-> > is being verified it would cause a deadlock in IMA (since the inode
-> > mutex is already locked for verifying the original file).
->=20
-> Just document this on the parser as a requirement.
+Although I am not sure of the state of eBPF DWARF support, there is also
+BTF support [0] and most distros are relying on it to make live introspection 
+easier, and the output is much smaller. So could DWARF or BTF information
+from eBPF programs be used by the verifier in similar way to verify eBPF
+programs?
 
-Ok, will do.
+Note that to support BTF implicates DWARF and the leap of faith for Rust
+modversions support is that most distros will support DWARF, and so BTF
+can become the norm [2].
 
-> > > > Supporting kernel modules opened the road for new deadlocks, since =
-one
-> > > > can ask a digest list to verify a kernel module, but that digest li=
-st
-> > > > requires the same kernel module. That is why the in-kernel mechanis=
-m is
-> > > > 100% reliable,
-> > >=20
-> > > Are users of this infrastructure really in need of modules for these
-> > > parsers?
-> >=20
-> > I planned to postpone this to later, and introduced two parsers built-
-> > in (TLV and RPM). However, due to Linus's concern regarding the RPM
-> > parser, I moved it out in a kernel module.
->=20
-> OK this should be part of the commit log, ie that it is not desirable to
-> have an rpm parser in-kernel for some users.
+[0] https://www.kernel.org/doc/html/latest/bpf/btf.html
+[1] https://lwn.net/Articles/986892/
+[2] https://lwn.net/Articles/991719/
 
-I understand. Will add in the commit log.
-
-Just to clarify, we are not talking about the full blown librpm in the
-kernel, but a 243 LOC that I rewrote to obtain only the information I
-need. I also formally verified it with pseudo/totally random data with
-Frama-C:
-
-https://github.com/robertosassu/rpm-formal/blob/main/validate_rpm.c
-
-Thanks
-
-Roberto
-
+  Luis
 
