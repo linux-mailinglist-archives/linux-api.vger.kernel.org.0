@@ -1,229 +1,148 @@
-Return-Path: <linux-api+bounces-2824-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2825-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696F39E37F3
-	for <lists+linux-api@lfdr.de>; Wed,  4 Dec 2024 11:54:15 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63E19E4523
+	for <lists+linux-api@lfdr.de>; Wed,  4 Dec 2024 20:55:47 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30154B35142
-	for <lists+linux-api@lfdr.de>; Wed,  4 Dec 2024 10:45:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9D99167E71
+	for <lists+linux-api@lfdr.de>; Wed,  4 Dec 2024 19:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8561AF0DB;
-	Wed,  4 Dec 2024 10:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E3F71F03C9;
+	Wed,  4 Dec 2024 19:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="gMPQYgah"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7465193067;
-	Wed,  4 Dec 2024 10:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13571F03C2
+	for <linux-api@vger.kernel.org>; Wed,  4 Dec 2024 19:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733309133; cv=none; b=jMEBseWfUC2PxXZfnEzVVriinG+NQ2OaccMEHoEpqBDKpItk8MI6nTOKgOhmw+g24bFaohZ2l5c/3dsyt/F4KjjzO5fq19IU3BikVAiP2tjkzlImZ1szD0+pzPt7N+Uo5njnlnvAd4z/8RWC6aORxG/dSo6EuJyL6fIuYuaE6+g=
+	t=1733342144; cv=none; b=Ku/RZEf7+Kw1RwS1jzhjLQv14JOZPp3zMH6kqSBfn6oIIR8YF4b2FkMYlB1Kui3n/BFQpZuYhmVapPZPuz6VmfR3FNFl9Os1Z+a+7JwqZbX4Xgm/1/k53oWOvfD74GH9XNL6/1iyjr3IdXch6ixHxNUHvLaWi7W5Mb3sNw9uzZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733309133; c=relaxed/simple;
-	bh=vlqTmq5FsT2/FE3QTwtg6jzPyAfB1te9WN7A5R7FPxY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Dm8aAZ2tOszeSHKY/O5VmadzHWTc860D6O3T/580kL2AOrIUVLRUKEzrwgQFHX5Y97xJPdjBXMDeTWHqwa3NVNYX+cIr1Gk6HuM2ev/TuPrmZZwXwowrFGL53h84a4vpiWFS8X13aPScYfq0LWN9eo5JDoMVlkgtDBbcP2BNGiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4Y3DCJ121Vz9v7Nj;
-	Wed,  4 Dec 2024 18:24:12 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 24EC41401F2;
-	Wed,  4 Dec 2024 18:45:22 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwD3X3+uMlBnYunQAg--.4171S2;
-	Wed, 04 Dec 2024 11:45:21 +0100 (CET)
-Message-ID: <00f3eb72042aedaa4644ff0932d06d4e8d215f6b.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 00/15] integrity: Introduce the Integrity Digest Cache
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Eric Snowberg <eric.snowberg@oracle.com>
-Cc: Mimi Zohar <zohar@linux.ibm.com>, Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>, "corbet@lwn.net" <corbet@lwn.net>, 
- "mcgrof@kernel.org" <mcgrof@kernel.org>, "petr.pavlu@suse.com"
- <petr.pavlu@suse.com>,  "samitolvanen@google.com"
- <samitolvanen@google.com>, "da.gomez@samsung.com" <da.gomez@samsung.com>, 
- Andrew Morton <akpm@linux-foundation.org>, "paul@paul-moore.com"
- <paul@paul-moore.com>, "jmorris@namei.org" <jmorris@namei.org>,
- "serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org"
- <shuah@kernel.org>, "mcoquelin.stm32@gmail.com"
- <mcoquelin.stm32@gmail.com>,  "alexandre.torgue@foss.st.com"
- <alexandre.torgue@foss.st.com>, "linux-integrity@vger.kernel.org"
- <linux-integrity@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-api@vger.kernel.org"
- <linux-api@vger.kernel.org>, "linux-modules@vger.kernel.org"
- <linux-modules@vger.kernel.org>, "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, "wufan@linux.microsoft.com"
- <wufan@linux.microsoft.com>, "pbrobinson@gmail.com" <pbrobinson@gmail.com>,
-  "zbyszek@in.waw.pl" <zbyszek@in.waw.pl>, "hch@lst.de" <hch@lst.de>,
- "mjg59@srcf.ucam.org" <mjg59@srcf.ucam.org>, "pmatilai@redhat.com"
- <pmatilai@redhat.com>,  "jannh@google.com" <jannh@google.com>,
- "dhowells@redhat.com" <dhowells@redhat.com>,  "jikos@kernel.org"
- <jikos@kernel.org>, "mkoutny@suse.com" <mkoutny@suse.com>,
- "ppavlu@suse.com" <ppavlu@suse.com>, "petr.vorel@gmail.com"
- <petr.vorel@gmail.com>,  "mzerqung@0pointer.de" <mzerqung@0pointer.de>,
- "kgold@linux.ibm.com" <kgold@linux.ibm.com>, Roberto Sassu
- <roberto.sassu@huawei.com>
-Date: Wed, 04 Dec 2024 11:44:59 +0100
-In-Reply-To: <B135AC90-7CE5-4E51-90B1-9D82031668A8@oracle.com>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <C4BE31F8-1FA3-4AD1-A712-ED2AA7E61E96@oracle.com>
-	 <17ef4f662e594c8431a00fe423507af4f6a82286.camel@huaweicloud.com>
-	 <B135AC90-7CE5-4E51-90B1-9D82031668A8@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1733342144; c=relaxed/simple;
+	bh=CeOjBpeAAe/HE62wEdy3wZFXQqIvcF+KJeEvW/pHdkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JbgGi7VrZKta11PBC3Ke5NqFfAvO9m50uY7pzxX6xWnVvmsd8x9xVravmTG/AlOkajK6JlN4f2wmheWGoArS5u36TaZ/FdOpu4MVQIjCRHDujxuzzvQhw7tCC6Bx/ord25B7RpBpXVp/TL9p+s8dVzgxPssdzxW4mlE9Osv5gvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=gMPQYgah; arc=none smtp.client-ip=171.64.64.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:Content-Type:Cc:To:
+	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=18XpUNT0IQJaXnPA4auNYUD5Yk/7gx4IhcNkBHdEn5Y=; t=1733342142; x=1734206142; 
+	b=gMPQYgah5XEcjIuMerm20sW41AN9pvQcz+Sy5w4VsMvBQ+WJjwuWs6THN/9ngPHQn4bhYlcX3UX
+	i1OAMugH4UkwUmm2s1cdOo87g7sIgn/onSDd1Cm+TcB9BMq9n3rqDXodtVCgavVxeoLX6mPB9iQ41
+	Po0Zzfu89MdE2sMyfW18ddhEpqrQGR0lXO8Xstijnq0Hv0gXbFfXNajw11SnbGu6qSbyI/QeQJue7
+	WzCUI2mh8H9YIFDH3jzD2ziCi3vAzmN1YCtWGJEE+uefhOFFbpKiC7v/dGME/RB+qTpeVh4RN16Cz
+	neCFhnuDTNmF4JsNBulXfLuovhE3owFCmihw==;
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:48260)
+	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <ouster@cs.stanford.edu>)
+	id 1tIvTD-0000QJ-Je; Wed, 04 Dec 2024 11:55:36 -0800
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3ea5a7a5e48so115220b6e.0;
+        Wed, 04 Dec 2024 11:55:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWEMLX60Ys/UcSS5wUABLHXMSGl5KKrZ98GBeusosk+ColsZ2ruNo82eGHdpCL8HPYu71TIWTVXP6E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKfNXICknPUJ0Y+Hxw0j0QvvPikG4rcPVI/WaE6F7+ri7yO0vk
+	stlgOnD4M4JDrk794ctCyH4TA5DSc/zBpIucAyveB/RXTvCltxsQv5xHQbfa53yoHTlPlDbPYGs
+	rNHG2y+YGrOZbx00qLRnCKZTHXOo=
+X-Google-Smtp-Source: AGHT+IERmTpmkeV9y3TwKdPJYkPBPA77GwicIQKzVVsNG4qD0TfFmlSvdSlUWkMVuClVnWxMBu2Lg6gURQopRu1Jzy0=
+X-Received: by 2002:a05:6808:191e:b0:3e7:9f1f:b84a with SMTP id
+ 5614622812f47-3eae4f87a19mr6226697b6e.21.1733342135051; Wed, 04 Dec 2024
+ 11:55:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwD3X3+uMlBnYunQAg--.4171S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF4xCFWkWryrCFyfKryUZFb_yoWrZw1kpF
-	WrKa17KrWkGr1Fkrn2ka17XFyFkws3tFyUXr1DGr98CrZ8WFyI9ryfKFW5uFyqgr1vkr42
-	vr4agFy7Cwn8ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
-	JwCIccxYrVCFb41lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07bhb18UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAHBGdPvjYHuwABsf
+References: <20241111234006.5942-1-ouster@cs.stanford.edu> <20241111234006.5942-12-ouster@cs.stanford.edu>
+ <07647363-622b-4023-ba71-da213754a7ae@linux.alibaba.com>
+In-Reply-To: <07647363-622b-4023-ba71-da213754a7ae@linux.alibaba.com>
+From: John Ousterhout <ouster@cs.stanford.edu>
+Date: Wed, 4 Dec 2024 11:54:59 -0800
+X-Gmail-Original-Message-ID: <CAGXJAmysiRx3VNDxXitPOn+yg2ck_+7fbd1XSsQQqZnwUEkvPQ@mail.gmail.com>
+Message-ID: <CAGXJAmysiRx3VNDxXitPOn+yg2ck_+7fbd1XSsQQqZnwUEkvPQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 11/12] net: homa: create homa_plumbing.c homa_utils.c
+To: "D. Wythe" <alibuda@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Score: -1.0
+X-Spam-Level: 
+X-Scan-Signature: 5c460fe7d3aaafaf78d72307c0bc7e10
 
-On Tue, 2024-12-03 at 20:06 +0000, Eric Snowberg wrote:
->=20
-> > On Nov 26, 2024, at 3:41=E2=80=AFAM, Roberto Sassu <roberto.sassu@huawe=
-icloud.com> wrote:
-> >=20
-> > On Tue, 2024-11-26 at 00:13 +0000, Eric Snowberg wrote:
-> > >=20
-> > > > On Nov 19, 2024, at 3:49=E2=80=AFAM, Roberto Sassu <roberto.sassu@h=
-uaweicloud.com> wrote:
-> > > >=20
-> > > > From: Roberto Sassu <roberto.sassu@huawei.com>
-> > > >=20
-> > > > The Integrity Digest Cache can also help IMA for appraisal. IMA can=
- simply
-> > > > lookup the calculated digest of an accessed file in the list of dig=
-ests
-> > > > extracted from package headers, after verifying the header signatur=
-e. It is
-> > > > sufficient to verify only one signature for all files in the packag=
-e, as
-> > > > opposed to verifying a signature for each file.
-> > >=20
-> > > Is there a way to maintain integrity over time?  Today if a CVE is di=
-scovered=20
-> > > in a signed program, the program hash can be added to the blacklist k=
-eyring.=20
-> > > Later if IMA appraisal is used, the signature validation will fail ju=
-st for that=20
-> > > program.  With the Integrity Digest Cache, is there a way to do this?=
- =20
-> >=20
-> > As far as I can see, the ima_check_blacklist() call is before
-> > ima_appraise_measurement(). If it fails, appraisal with the Integrity
-> > Digest Cache will not be done.
->=20
->=20
-> It is good the program hash would be checked beforehand and fail if it is=
-=20
-> contained on the list.=20
->=20
-> The .ima keyring may contain many keys.  If one of the keys was later=20
-> revoked and added to the .blacklist, wouldn't this be missed?  It would=
-=20
-> be caught during signature validation when the file is later appraised, b=
-ut=20
-> now this step isn't taking place.  Correct?
+On Mon, Nov 25, 2024 at 9:32=E2=80=AFPM D. Wythe <alibuda@linux.alibaba.com=
+> wrote:
+> On 11/12/24 7:40 AM, John Ousterhout wrote:
+> > +static struct proto homav6_prot =3D {
+> > ...
+> > +     .obj_size          =3D sizeof(struct homa_sock) + sizeof(struct i=
+pv6_pinfo),
+>
+> The implementation of inet6_sk_generic() has already changed, you should =
+set
+> .ipv6_pinfo_offset.
 
-For files included in the digest lists, yes, there won't be detection
-of later revocation of a key. However, it will still work at package
-level/digest list level, since they are still appraised with a
-signature.
+Fixed.
 
-We can add a mechanism (if it does not already exist) to invalidate the
-integrity status based on key revocation, which can be propagated to
-files verified with the affected digest lists.
+> > +static int __init homa_load(void)
+> > ...
+> > +     inet_register_protosw(&homa_protosw);
+> > +     inet6_register_protosw(&homav6_protosw);
+>
+>
+> better to check the retval of inet6_register_protosw().
 
-> With IMA appraisal, it is easy to maintain authenticity but challenging t=
-o=20
-> maintain integrity over time. In user-space there are constantly new CVEs=
-. =20
-> To maintain integrity over time, either keys need to be rotated in the .i=
-ma=20
-> keyring or program hashes need to be frequently added to the .blacklist. =
- =20
-> If neither is done, for an end-user on a distro, IMA-appraisal basically=
-=20
-> guarantees authenticity.
->=20
-> While I understand the intent of the series is to increase performance,=
-=20
-> have you considered using this to give the end-user the ability to mainta=
-in=20
-> integrity of their system?  What I mean is, instead of trying to import a=
-nything=20
-> from an RPM, just have the end-user provide this information in some form=
-at=20
-> to the Digest Cache.  User-space tools could be built to collect and form=
-at=20
+Fixed.
 
-This is already possible, digest-cache-tools
-(https://github.com/linux-integrity/digest-cache-tools) already allow
-to create a digest list with the file a user wants.
+> > +out_cleanup:
+> > +     homa_destroy(homa);
+> > +     inet_del_protocol(&homa_protocol, IPPROTO_HOMA);
+> > +     inet_unregister_protosw(&homa_protosw);
+> > +     inet6_del_protocol(&homav6_protocol, IPPROTO_HOMA);
+> > +     inet6_unregister_protosw(&homav6_protosw);
+> > +     proto_unregister(&homa_prot);
+> > +     proto_unregister(&homav6_prot);
+>
+>
+> It's a bit strange for me that this relies on a premise: that every rever=
+se operation can correctly
+> identify whether the corresponding forward operation has been executed. C=
+urrently, perhaps every
+> function includes this capability. It's up to you, I don't insist.
 
-But in this case, the user is vouching for having taken the correct
-measure of the file at the time it was added to the digest list. This
-would be instead automatically guaranteed by RPMs or other packages
-shipped with Linux distributions.
+Actually, not all of the cleanup functions are safe if the initializer
+hasn't been invoked; good catch. I've fixed this now.
 
-To mitigate the concerns of CVEs, we can probably implement a rollback
-prevention mechanism, which would not allow to load a previous version
-of a digest list.
+> Perhaps you can try adding MODULE_ALIAS_NET_PF_PROTO_TYPE so that the ker=
+nel will automatically load
+> the module when creating IPPROTO_HOMA socket. A functional suggestion, It=
+'s up to you.
 
-> the data needed by the Digest Cache.  This data  may allow multiple versi=
-ons=20
-> of the same program.  The data would then be signed by one of the system=
-=20
-> kernel keys (either something in the secondary or machine keyring), to ma=
-intain=20
-> a root of trust.  This would give the end-user the ability to have integr=
-ity however=20
-> they see fit.  This leaves the distro to provide signed programs and the =
-end-user=20
-> the ability to decide what level of software they want to run on their sy=
-stem.  If=20
-> something isn't in the Digest Cache, it gets bumped down to the tradition=
-al=20
-> IMA-appraisal.  I think it would simplify the problem you are trying to s=
-olve,=20
+Done; thanks for the suggestion (I wasn't aware of this feature).
 
-All you say it is already possible. Users can generate and sign their
-digest lists, and add enroll their key to the kernel keyring.
+> Is binding multiple times legal? For example, bind 80 first and then bind=
+ 8080. If not, I think
+> you might need to check the inet_num.
 
-> especially around the missing kernel PGP code required for all this to wo=
-rk,=20
-> since it wouldn't be necessary.   With this approach, besides the perform=
-ance=20
-> gain, the end-user would gain the ability to maintain integrity that is e=
-nforced by
-> the kernel.
+Yes, it's legal.
 
-For what I understood, Linus would not be against the=20
+> I noticed that homa_sock_init() contains a memory allocation action, perh=
+aps you should add a return
+> value check.
 
+Oops; I've fixed this now.
+
+Thanks for all the comments.
+
+-John-
 
