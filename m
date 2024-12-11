@@ -1,394 +1,117 @@
-Return-Path: <linux-api+bounces-2888-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2889-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADFC9EC4A0
-	for <lists+linux-api@lfdr.de>; Wed, 11 Dec 2024 07:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2260C9ECA40
+	for <lists+linux-api@lfdr.de>; Wed, 11 Dec 2024 11:24:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3262B168508
-	for <lists+linux-api@lfdr.de>; Wed, 11 Dec 2024 06:12:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EA6716487F
+	for <lists+linux-api@lfdr.de>; Wed, 11 Dec 2024 10:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 091541C3F3B;
-	Wed, 11 Dec 2024 06:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7EA211A0E;
+	Wed, 11 Dec 2024 10:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FwE/iTqV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pHZtto9l"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66201C07DB
-	for <linux-api@vger.kernel.org>; Wed, 11 Dec 2024 06:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3432101B8;
+	Wed, 11 Dec 2024 10:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733897566; cv=none; b=INw8q6eYebDvQRnMVCG84fUapJI/9TKzWV9pJjIhzXfyPbXGUB9Wwq5C78zFMa6L2takednAw8qFe7Kd+6KC2bmgR2ygmkYhUJKu7dowNncBDQbN4Lf5AXme3U8RWMmU5ZNXRS9A5Y5DBS6PwF3Kvyp9QwSmtmQJQMvjdKToCdQ=
+	t=1733912632; cv=none; b=Uv6V3Xt0Izw24aMMItO+3mUv4BCDJE8108vIcClz/3g6p3AXaMab+bgp2Wao+fAu/wE0sLklBFJRsZmsKza+wN+JsIlYLXVlvXoqB+PffqfEaf/SSqKso3H4dID1k4VQ2KgL93Spvi6g4YqiANDaChLR63+PkWTv3+Lb8Mwa+G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733897566; c=relaxed/simple;
-	bh=UywFhfkXLAXUj2HRhrsNnTpgx+D9BSDIsqMGabD+kmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VSMxF7MLQtGab2Fy7j9J4wL51jeSGhv6ZqinWJGbz2XpjABVvT1ipcFT5te0l1uZe6b3sLU2U5BymzpWtaVbY1GWeE63z9Mu9Ux22M+iClf8u7B/XI4unrPPOKLeki+gwuTaACvRccuKMR+TAdlPZi8yQm6VK6SaFOVPHvxV/Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FwE/iTqV; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-71df6453a9aso153708a34.0
-        for <linux-api@vger.kernel.org>; Tue, 10 Dec 2024 22:12:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733897563; x=1734502363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LrstZ9FI7oDoywTSDKrx13VheyHzF0xgj4Fa7hmhx4k=;
-        b=FwE/iTqVR2wByuC+n2xY1XwwJp79ApyuwTNsrhqXvXY6ZhDodZ8dPXcb7IxN++GsTP
-         PIgM9eU2NWgXL+hY8ztPBRcmHYebzjuaICTNcXp7wu8MMoy8lQMHUaHByiGXyMIcN19G
-         xNBX3O/e08Zxhz1+cUaNXDGjmv7rGZcP9ghzE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733897563; x=1734502363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LrstZ9FI7oDoywTSDKrx13VheyHzF0xgj4Fa7hmhx4k=;
-        b=VSUxxnonJ0nKKglbYRLUmXrHNJm2cqyBTg2HJPD3OVo7rVYc+sQVA3tvEVo1oUwQEG
-         PeRclUnIjZ6kL4kSNGPDGV/WEoMyF1lFZYiMBxdktNx/cFq5NaT7YhP/S2Vbrt02VlaN
-         iMN07M+r7k6myKj8CWXIiEFxzlQxmh+M+v5WXrM0atwW0cE7xM8SjafbVk0GGOX1ZCZC
-         UaUTGXXzsL3tLixqvi4bqM35owmXqWJq+pR2tONfImkjRrW5/POq06lR/c/t/30fDSpZ
-         d2qSDqRCiTkTPXCGq5IZUnl05M/siWVAgVcmq702HYwGwvJXxJ/Uqxcb7I2XxQAHw/jF
-         jpSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVLeIWbbVK/n+VlZal4DgfuDlsAFDy0Q8KBN7ae5pc9MDoHr8Y92rIH+QqtI5VCC1viP1Xv93cZY8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhSJ+pLdeJ9jMMu3ELrrCxg6mZ+olDJtpjXsxiaerRBLTlIaJf
-	EeVNEna8S0H5P1ke3FAasweMkQhpalwExCbmuoH75jaGQLWKdT67F55jJhSXm5hLFc1oNNB3+r9
-	R5c4HlKmAFooxykUxl/hir4TVdwDRV9UtyLB2
-X-Gm-Gg: ASbGncuBjdQzC5WnJh00wTTs/3eiWiOnQvZIDNW5e44QsnoB63H2ZJ6I0ANqVEfODWH
-	r6IX9l1ytMHh364+jpXzPF5ci/cTfn8tnSdr4A1NYfRYfwbNUL31l4qmTS0wnZjQC
-X-Google-Smtp-Source: AGHT+IFjzapg7E7fLM9DyXss2TEsc/ZVX4eep97+cVt6UEkJnt1fbUvoixTfgps7XXEw1DxxiLeKZ98SLq3qa7Gdo5I=
-X-Received: by 2002:a05:6870:c153:b0:295:f266:8aee with SMTP id
- 586e51a60fabf-2a012db100emr341140fac.5.1733897562659; Tue, 10 Dec 2024
- 22:12:42 -0800 (PST)
+	s=arc-20240116; t=1733912632; c=relaxed/simple;
+	bh=qqqXOv/RjcZrs4T7tVuZ+X03T1XAPT1JxkdxrPXPDr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TCXQiDB/2mA8nhmrWuqK5JQSCVXFvrK3faLU8/JqH6Z78Xsv7wDsgco/fZwAcAHkV+L836zWwCVuOMJekxAIcZZ2JsgK1PfV8+8//z0UPhUEkATnjjMaWgNp3YGDMK33Q85hixDzP19GC2Ck5xnBRpRp7aOBp7MvLS6chDvD+8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pHZtto9l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE8EC4CED2;
+	Wed, 11 Dec 2024 10:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733912631;
+	bh=qqqXOv/RjcZrs4T7tVuZ+X03T1XAPT1JxkdxrPXPDr8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pHZtto9lS6MacDzeDayzGJlJswaNGRfYfCsycwjp8+OZqjq+9OFXosM0zNKhWjB0o
+	 8yL1UH8JmYll1s40biRGrQAbAiaac/pGywKLTbdhWCOR4uKyg9zf2ts7LwiruwI6dU
+	 UwdLST631KKkUjdn3YaEFA/uKyl0obKfDYfHudh40oavb8Fn8JJQi+60InjvTZp5oZ
+	 INnxrhqTk+F4CRoq2rVOF0VViGgx/wsNopYbiR6+/2Qh0vm4e71W6olcXExgYcvO+c
+	 JDmIo3UJafgbIjie042E5Ll43N5l9/TzaEIvg4we1AekgDXfuBi8qVksfrBRT/qbVf
+	 4BlBjcwSfM3GQ==
+Date: Wed, 11 Dec 2024 11:23:43 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Florian Weimer <fweimer@redhat.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, libc-alpha@sourceware.org
+Subject: Re: [PATCH RFC v3 02/10] sched_getattr: port to copy_struct_to_user
+Message-ID: <20241211-gemsen-zuarbeiten-ae8d062ec251@brauner>
+References: <20241010-extensible-structs-check_fields-v3-0-d2833dfe6edd@cyphar.com>
+ <20241010-extensible-structs-check_fields-v3-2-d2833dfe6edd@cyphar.com>
+ <87y10nz9qo.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241205160925.230119-1-mic@digikod.net> <20241205160925.230119-3-mic@digikod.net>
- <20241210.FahfahPu5dae@digikod.net>
-In-Reply-To: <20241210.FahfahPu5dae@digikod.net>
-From: Jeff Xu <jeffxu@chromium.org>
-Date: Tue, 10 Dec 2024 22:12:31 -0800
-Message-ID: <CABi2SkXMKtD-_3s-HK6W2Qp2-+GaQfckVbXwsaX5FRJGnD_irQ@mail.gmail.com>
-Subject: Re: [PATCH v22 2/8] security: Add EXEC_RESTRICT_FILE and
- EXEC_DENY_INTERACTIVE securebits
-To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Jeff Xu <jeffxu@google.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, Alejandro Colomar <alx@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Elliott Hughes <enh@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, 
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Luca Boccassi <bluca@debian.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
-	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87y10nz9qo.fsf@oldenburg.str.redhat.com>
 
-On Tue, Dec 10, 2024 at 8:48=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
->
-> On Thu, Dec 05, 2024 at 05:09:19PM +0100, Micka=C3=ABl Sala=C3=BCn wrote:
-> > The new SECBIT_EXEC_RESTRICT_FILE, SECBIT_EXEC_DENY_INTERACTIVE, and
-> > their *_LOCKED counterparts are designed to be set by processes setting
-> > up an execution environment, such as a user session, a container, or a
-> > security sandbox.  Unlike other securebits, these ones can be set by
-> > unprivileged processes.  Like seccomp filters or Landlock domains, the
-> > securebits are inherited across processes.
-> >
-> > When SECBIT_EXEC_RESTRICT_FILE is set, programs interpreting code shoul=
-d
-> > control executable resources according to execveat(2) + AT_EXECVE_CHECK
-> > (see previous commit).
-> >
-> > When SECBIT_EXEC_DENY_INTERACTIVE is set, a process should deny
-> > execution of user interactive commands (which excludes executable
-> > regular files).
-> >
-> > Being able to configure each of these securebits enables system
-> > administrators or owner of image containers to gradually validate the
-> > related changes and to identify potential issues (e.g. with interpreter
-> > or audit logs).
-> >
-> > It should be noted that unlike other security bits, the
-> > SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE bits are
-> > dedicated to user space willing to restrict itself.  Because of that,
-> > they only make sense in the context of a trusted environment (e.g.
-> > sandbox, container, user session, full system) where the process
-> > changing its behavior (according to these bits) and all its parent
-> > processes are trusted.  Otherwise, any parent process could just execut=
-e
-> > its own malicious code (interpreting a script or not), or even enforce =
-a
-> > seccomp filter to mask these bits.
-> >
-> > Such a secure environment can be achieved with an appropriate access
-> > control (e.g. mount's noexec option, file access rights, LSM policy) an=
-d
-> > an enlighten ld.so checking that libraries are allowed for execution
-> > e.g., to protect against illegitimate use of LD_PRELOAD.
-> >
-> > Ptrace restrictions according to these securebits would not make sense
-> > because of the processes' trust assumption.
-> >
-> > Scripts may need some changes to deal with untrusted data (e.g. stdin,
-> > environment variables), but that is outside the scope of the kernel.
-> >
-> > See chromeOS's documentation about script execution control and the
-> > related threat model:
-> > https://www.chromium.org/chromium-os/developer-library/guides/security/=
-noexec-shell-scripts/
-> >
-> > Cc: Al Viro <viro@zeniv.linux.org.uk>
-> > Cc: Andy Lutomirski <luto@amacapital.net>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Paul Moore <paul@paul-moore.com>
-> > Reviewed-by: Serge Hallyn <serge@hallyn.com>
-> > Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> > Link: https://lore.kernel.org/r/20241205160925.230119-3-mic@digikod.net
-> > ---
-> >
-> > Changes since v21:
-> > * Extend user documentation with exception regarding tailored execution
-> >   environments (e.g. chromeOS's libc) as discussed with Jeff.
-> >
-> > Changes since v20:
-> > * Move UAPI documentation to a dedicated RST file and format it.
-> >
-> > Changes since v19:
-> > * Replace SECBIT_SHOULD_EXEC_CHECK and SECBIT_SHOULD_EXEC_RESTRICT with
-> >   SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE:
-> >   https://lore.kernel.org/all/20240710.eiKohpa4Phai@digikod.net/
-> > * Remove the ptrace restrictions, suggested by Andy.
-> > * Improve documentation according to the discussion with Jeff.
-> >
-> > New design since v18:
-> > https://lore.kernel.org/r/20220104155024.48023-3-mic@digikod.net
-> > ---
-> >  Documentation/userspace-api/check_exec.rst | 107 +++++++++++++++++++++
-> >  include/uapi/linux/securebits.h            |  24 ++++-
-> >  security/commoncap.c                       |  29 ++++--
-> >  3 files changed, 153 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/Documentation/userspace-api/check_exec.rst b/Documentation=
-/userspace-api/check_exec.rst
-> > index 393dd7ca19c4..05dfe3b56f71 100644
-> > --- a/Documentation/userspace-api/check_exec.rst
-> > +++ b/Documentation/userspace-api/check_exec.rst
-> > @@ -5,6 +5,31 @@
-> >  Executability check
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > +The ``AT_EXECVE_CHECK`` :manpage:`execveat(2)` flag, and the
-> > +``SECBIT_EXEC_RESTRICT_FILE`` and ``SECBIT_EXEC_DENY_INTERACTIVE`` sec=
-urebits
-> > +are intended for script interpreters and dynamic linkers to enforce a
-> > +consistent execution security policy handled by the kernel.  See the
-> > +`samples/check-exec/inc.c`_ example.
-> > +
-> > +Whether an interpreter should check these securebits or not depends on=
- the
-> > +security risk of running malicious scripts with respect to the executi=
-on
-> > +environment, and whether the kernel can check if a script is trustwort=
-hy or
-> > +not.  For instance, Python scripts running on a server can use arbitra=
-ry
-> > +syscalls and access arbitrary files.  Such interpreters should then be
-> > +enlighten to use these securebits and let users define their security =
-policy.
-> > +However, a JavaScript engine running in a web browser should already b=
-e
-> > +sandboxed and then should not be able to harm the user's environment.
-> > +
-> > +Script interpreters or dynamic linkers built for tailored execution en=
-vironments
-> > +(e.g. hardened Linux distributions or hermetic container images) could=
- use
-> > +``AT_EXECVE_CHECK`` without checking the related securebits if backwar=
-d
-> > +compatibility is handled by something else (e.g. atomic update ensurin=
-g that
-> > +all legitimate libraries are allowed to be executed).  It is then reco=
-mmended
-> > +for script interpreters and dynamic linkers to check the securebits at=
- run time
-> > +by default, but also to provide the ability for custom builds to behav=
-e like if
-> > +``SECBIT_EXEC_RESTRICT_FILE`` or ``SECBIT_EXEC_DENY_INTERACTIVE`` were=
- always
-> > +set to 1 (i.e. always enforce restrictions).
->
-> Jeff, does this work for you?
->
-Yes. Thanks for updating this section.
+On Tue, Dec 10, 2024 at 07:14:07PM +0100, Florian Weimer wrote:
+> * Aleksa Sarai:
+> 
+> > sched_getattr(2) doesn't care about trailing non-zero bytes in the
+> > (ksize > usize) case, so just use copy_struct_to_user() without checking
+> > ignored_trailing.
+> 
+> I think this is what causes glibc's misc/tst-sched_setattr test to fail
+> on recent kernels.  The previous non-modifying behavior was documented
+> in the manual page:
+> 
+>        If the caller-provided attr buffer is larger than the kernel's
+>        sched_attr structure, the additional bytes in the user-space
+>        structure are not touched.
+> 
+> I can just drop this part of the test if the kernel deems both behaviors
+> valid.
 
+I think in general both behaviors are valid but I would consider zeroing
+the unknown parts of the provided buffer to be the safer option. And all
+newer extensible struct system calls do that.
 
-> I'll update the IMA patch with a last version but otherwise it should be
-> good: https://lore.kernel.org/all/20241210.Wie6ion7Aich@digikod.net/
->
-> > +
-> >  AT_EXECVE_CHECK
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > @@ -35,3 +60,85 @@ be executable, which also requires integrity guarant=
-ees.
-> >  To avoid race conditions leading to time-of-check to time-of-use issue=
-s,
-> >  ``AT_EXECVE_CHECK`` should be used with ``AT_EMPTY_PATH`` to check aga=
-inst a
-> >  file descriptor instead of a path.
-> > +
-> > +SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +When ``SECBIT_EXEC_RESTRICT_FILE`` is set, a process should only inter=
-pret or
-> > +execute a file if a call to :manpage:`execveat(2)` with the related fi=
-le
-> > +descriptor and the ``AT_EXECVE_CHECK`` flag succeed.
-> > +
-> > +This secure bit may be set by user session managers, service managers,
-> > +container runtimes, sandboxer tools...  Except for test environments, =
-the
-> > +related ``SECBIT_EXEC_RESTRICT_FILE_LOCKED`` bit should also be set.
-> > +
-> > +Programs should only enforce consistent restrictions according to the
-> > +securebits but without relying on any other user-controlled configurat=
-ion.
-> > +Indeed, the use case for these securebits is to only trust executable =
-code
-> > +vetted by the system configuration (through the kernel), so we should =
-be
-> > +careful to not let untrusted users control this configuration.
-> > +
-> > +However, script interpreters may still use user configuration such as
-> > +environment variables as long as it is not a way to disable the secure=
-bits
-> > +checks.  For instance, the ``PATH`` and ``LD_PRELOAD`` variables can b=
-e set by
-> > +a script's caller.  Changing these variables may lead to unintended co=
-de
-> > +executions, but only from vetted executable programs, which is OK.  Fo=
-r this to
-> > +make sense, the system should provide a consistent security policy to =
-avoid
-> > +arbitrary code execution e.g., by enforcing a write xor execute policy=
-.
-> > +
-> > +When ``SECBIT_EXEC_DENY_INTERACTIVE`` is set, a process should never i=
-nterpret
-> > +interactive user commands (e.g. scripts).  However, if such commands a=
-re passed
-> > +through a file descriptor (e.g. stdin), its content should be interpre=
-ted if a
-> > +call to :manpage:`execveat(2)` with the related file descriptor and th=
-e
-> > +``AT_EXECVE_CHECK`` flag succeed.
-> > +
-> > +For instance, script interpreters called with a script snippet as argu=
-ment
-> > +should always deny such execution if ``SECBIT_EXEC_DENY_INTERACTIVE`` =
-is set.
-> > +
-> > +This secure bit may be set by user session managers, service managers,
-> > +container runtimes, sandboxer tools...  Except for test environments, =
-the
-> > +related ``SECBIT_EXEC_DENY_INTERACTIVE_LOCKED`` bit should also be set=
-.
-> > +
-> > +Here is the expected behavior for a script interpreter according to co=
-mbination
-> > +of any exec securebits:
-> > +
-> > +1. ``SECBIT_EXEC_RESTRICT_FILE=3D0`` and ``SECBIT_EXEC_DENY_INTERACTIV=
-E=3D0``
-> > +
-> > +   Always interpret scripts, and allow arbitrary user commands (defaul=
-t).
-> > +
-> > +   No threat, everyone and everything is trusted, but we can get ahead=
- of
-> > +   potential issues thanks to the call to :manpage:`execveat(2)` with
-> > +   ``AT_EXECVE_CHECK`` which should always be performed but ignored by=
- the
-> > +   script interpreter.  Indeed, this check is still important to enabl=
-e systems
-> > +   administrators to verify requests (e.g. with audit) and prepare for
-> > +   migration to a secure mode.
-> > +
-> > +2. ``SECBIT_EXEC_RESTRICT_FILE=3D1`` and ``SECBIT_EXEC_DENY_INTERACTIV=
-E=3D0``
-> > +
-> > +   Deny script interpretation if they are not executable, but allow
-> > +   arbitrary user commands.
-> > +
-> > +   The threat is (potential) malicious scripts run by trusted (and not=
- fooled)
-> > +   users.  That can protect against unintended script executions (e.g.=
- ``sh
-> > +   /tmp/*.sh``).  This makes sense for (semi-restricted) user sessions=
-.
-> > +
-> > +3. ``SECBIT_EXEC_RESTRICT_FILE=3D0`` and ``SECBIT_EXEC_DENY_INTERACTIV=
-E=3D1``
-> > +
-> > +   Always interpret scripts, but deny arbitrary user commands.
-> > +
-> > +   This use case may be useful for secure services (i.e. without inter=
-active
-> > +   user session) where scripts' integrity is verified (e.g.  with IMA/=
-EVM or
-> > +   dm-verity/IPE) but where access rights might not be ready yet.  Ind=
-eed,
-> > +   arbitrary interactive commands would be much more difficult to chec=
-k.
-> > +
-> > +4. ``SECBIT_EXEC_RESTRICT_FILE=3D1`` and ``SECBIT_EXEC_DENY_INTERACTIV=
-E=3D1``
-> > +
-> > +   Deny script interpretation if they are not executable, and also den=
-y
-> > +   any arbitrary user commands.
-> > +
-> > +   The threat is malicious scripts run by untrusted users (but trusted=
- code).
-> > +   This makes sense for system services that may only execute trusted =
-scripts.
-> > +
-> > +.. Links
-> > +.. _samples/check-exec/inc.c:
-> > +   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/samples/check-exec/inc.c
->
-Reviewed-by: Jeff Xu < jeffxu@chromium.org>
-Tested-by: Jeff Xu <jeffxu@chromium.org>
+But if sched_getattr(2) wants to keep its old behavior it wouldn't be a
+problem to just handle this case:
+
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 0d71fcbaf1e3..46140ec449ba 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -1126,6 +1126,15 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+        }
+
+        kattr.size = min(usize, sizeof(kattr));
++       /*
++        * If userspace passed a larger structure than the kernel knows
++        * we historically didn't zero the unknown bits but
++        * copy_struct_to_user() will. Retain the old behavior by
++        * limiting the copy_to_user() to the size the kernel knows
++        * about.
++        */
++       if (usize > sizeof(kattr))
++               usize = sizeof(kattr);
+        return copy_struct_to_user(uattr, usize, &kattr, sizeof(kattr), NULL);
+ }
+
 
