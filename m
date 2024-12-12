@@ -1,175 +1,114 @@
-Return-Path: <linux-api+bounces-2891-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2892-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506F59EE021
-	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 08:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBC49EE637
+	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 13:05:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 87B5A1882232
-	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 07:19:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06E05188973D
+	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 12:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BD7209F48;
-	Thu, 12 Dec 2024 07:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 775C2212D8D;
+	Thu, 12 Dec 2024 12:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hdALD5FM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bwwh2XFZ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PgMCsYUe"
 X-Original-To: linux-api@vger.kernel.org
-Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BBD1662E7;
-	Thu, 12 Dec 2024 07:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EBD211A1F;
+	Thu, 12 Dec 2024 12:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987961; cv=none; b=Gl65j/F7cSf5yT2vNff5yX7cEFH4DXAcRO+U06DGGnV1YadTpg533vnmVgrR+6lslJL8Np/wC8xHcxxvK82DbOxcabzUds9rBRcBtiqiQU6VfWD2B1S1wDz3KsehVEf97VzCZfoWrCfbqoGoFS5aNWX6cY/NcUXOYpVpla++AF0=
+	t=1734004917; cv=none; b=njeiUtjXvLdBRM3ya1U0lIs6dH30NDCpbhLZdfQK9rdj8ZcOwwMM8PyDV71Z679rJtS6JzVRIGvS89b0g76sXv/SBO7Y2zJcIph9I97axWAtGzU0w0wkbB2l0CxB5cwbIFrePJAHAoQ1m0bfOOvbQetWjCzg1pF2L+fqNalbokA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987961; c=relaxed/simple;
-	bh=zzxdqFZXUIErIeYCetkNsQbDEpK+q8+9ZMOXDbqAD6M=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=s60qVeD9Z30FTzJODrXzZITAkRiytKBPHyQOhJXEiYyFTokM6cvWENSroxPyzaWh81JBceShR0/F+7YFeGV3fp11X7cB4h1Pkd1GhWu7jkSTpKSaOy+4U3Z3Z8as/KsmNQSCTNYy2Zf7b145Tc3z3QoUZaMwoO7yx94UF/zfUww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=hdALD5FM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bwwh2XFZ; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id 15DF22007AD;
-	Thu, 12 Dec 2024 02:19:18 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Thu, 12 Dec 2024 02:19:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1733987958;
-	 x=1733995158; bh=580mfzyUQsCTc5a85zB6dfYbdmbbQ2+HZxzSZ4pchqY=; b=
-	hdALD5FMM8IuOjz1EOfJc29TdsqLC8ZKj/opabdDMYCcZT5KQtgW+/K7JjfS/OJw
-	smKsoR7H0DyyUURopGSXEOd+wG3pgu8xB4WQny/uIEg1hhl3twk5dZX5Lj8pmJxp
-	p7tYXarenTfFkhPoAhF8PsrbGhSYelJAnN0E1/rLMB87za8C8/HdqHnDr5myc+wN
-	w9b9G4gH3VeFsnNxnK+eh48VUS1Si71Vdq2Ik3SewH/20AuO2O5f4SBKGrQysrRH
-	l68WGngchjTYH0bLSrRgxjKpgwJEsxjkdiiY8XhJtqWAsB3yqPBGPHQ8U4hQzz0g
-	3A8xK/SlmdSnUhXauR0iaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733987958; x=
-	1733995158; bh=580mfzyUQsCTc5a85zB6dfYbdmbbQ2+HZxzSZ4pchqY=; b=B
-	wwh2XFZYYInlW3z4d300clygu1iBnBttkr59Q8lY4PyZqcW+738Om2V68//bjNhA
-	u0GpL4spYVPUud71bX06A5WpdyI3bnsKky+F+O+S7/Yhyzg6a8rz53+lsV0G0feO
-	rq7cRdc2HXAM8wsJrY8iVIVMNZWb99EZxnV9j6+CRPwRZrnqpMUzj9l5AeRnYZJP
-	8kL7T69G2h4Gii8eeh6R8umM80bSfUbnS+XFp8XLyzhCNUdQV6ILPdY7a/REjWeG
-	tMQx3qCT396hMh+0vOkElXmRZeEvgXaB//pXahdCfwQLKf3ASV1zKOUDl+m02BJs
-	q81Qsoga6p906/4egCn1g==
-X-ME-Sender: <xms:dY5aZ0ruKPiw_rq_ZPTClPIcVdIlYo9D7xIT_pwScA2M-d2_9EqwZA>
-    <xme:dY5aZ6oNso_QKFwl5NzH2HQfxY48sPPYq3TJWd-mOen3FjuQztuH-7mgfuoAj_Uob
-    j6JqFqR_HKGgCp7gs0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeeggddviecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
-    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
-    gvqeenucggtffrrghtthgvrhhnpeeggfejudejvdeijeeglefgtdfhudffieetfedugefh
-    ffekjeefhedtjeefjeetfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhn
-    uggsrdguvgdpnhgspghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtph
-    htthhopegrhhhilhgvrhestghouggvfigvrghvvghrshdrtghomhdprhgtphhtthhopeii
-    fhhighhurhgrsegtohguvgifvggrvhgvrhhsrdgtohhmpdhrtghpthhtohepsghoqhhunh
-    drfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvggrlhhmvghiuges
-    ihhgrghlihgrrdgtohhmpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurd
-    horhhgpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrghdprhgt
-    phhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtoheplhhuthhosehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:dY5aZ5PlLiOOKQY_MJx7_pASTm30i0mlaZNB0PVOenQzeUXnz5k2Gg>
-    <xmx:dY5aZ749oX995tsM5Htk9jed6A5SeXp6yd6lrVBZromytQjnQgrRQg>
-    <xmx:dY5aZz7CiyDFcw9vamWV8GM_QpSHQKjKwCXdYJF44q5yjeq280EzCQ>
-    <xmx:dY5aZ7gEFMKl-V99fUr8kbmjrmEjiFMCDsHxnZSZihL6JLN4hVTeMA>
-    <xmx:do5aZ8OE8NZO_w5SKeWNm1ZPPUHrGNcBHD5VRYvUk9gEmpD1Iy4D4ZcW>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 48B8A2220072; Thu, 12 Dec 2024 02:19:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1734004917; c=relaxed/simple;
+	bh=jSqSzyaLyhjRr8wizUe2Y6VnQwAVcfZKmXHFX8I3JZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkiNF4AoOp7mXOwQPpUutwRfZ6OK/F7tWuqZcIXnWO2euxGSmlU1Av9fA+m4oMmQnMb7Ycdh2DlMbnW+Qpg7Xx3RRHdk6TBc++WZ8lHlaHkv7vsMaw2FxeJWn6eq4W1QCmM7QDpf/ETVEafS4xkPZxwtlzH2tARzxQsu/MvQiFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PgMCsYUe; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=chs8kHtge7jhj9hPJhn7V5CNCvA4fKVOBxopyTOr1+Q=; b=PgMCsYUeTR6A5WK2t4P+17j5Z1
+	sluClIdKbSv2dEywec3ZGs6mJB1P405+b3kfjmlChBUrrz85pGhJGpn2/HmbmmRzvI2kYEKA55OUc
+	R4e5Ev00pC8nbwVw/vmy75BfPnJWgf4+Bi2Bv8BvjruvgP1qEVgwb1m/0ruue0kgO6EYseNrn+Jak
+	FqnbRvwgK3uP6qtWpdsuRDe6pPj9vgIfGTEDnzGg0qi1eDU6FzyipWnHGmBTNlpxgH6MhyWuI3E4a
+	B9tSLc6/j582qChR+TovWU8IBcrEfV/fXOhAkN2ZTOYuCeHU53939wuIjjY/1g0CoM4Ewy4c+lEV5
+	dCAmBOWA==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tLhsz-000000043Pt-1ohv;
+	Thu, 12 Dec 2024 12:01:41 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id EF1563003FF; Thu, 12 Dec 2024 13:01:40 +0100 (CET)
+Date: Thu, 12 Dec 2024 13:01:40 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v6 00/28] NT synchronization primitive driver
+Message-ID: <20241212120140.GX21636@noisy.programming.kicks-ass.net>
+References: <20241209185904.507350-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 12 Dec 2024 08:18:50 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Elizabeth Figura" <zfigura@codeweavers.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, wine-devel@winehq.org,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- "Wolfram Sang" <wsa-dev@sang-engineering.com>,
- "Arkadiusz Hiler" <ahiler@codeweavers.com>,
- "Peter Zijlstra" <peterz@infradead.org>, "Andy Lutomirski" <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- "Randy Dunlap" <rdunlap@infradead.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Will Deacon" <will@kernel.org>, "Waiman Long" <longman@redhat.com>,
- "Boqun Feng" <boqun.feng@gmail.com>
-Message-Id: <21811752-06d3-44cd-b3e6-f8124676df87@app.fastmail.com>
-In-Reply-To: <202412121219.EQhUbN0S-lkp@intel.com>
-References: <20241209185904.507350-29-zfigura@codeweavers.com>
- <202412121219.EQhUbN0S-lkp@intel.com>
-Subject: Re: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209185904.507350-1-zfigura@codeweavers.com>
 
-On Thu, Dec 12, 2024, at 05:52, kernel test robot wrote:
-> Hi Elizabeth,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on cdd30ebb1b9f36159d66f088b61aee264e649d7a]
->
-> url:    
-> https://github.com/intel-lab-lkp/linux/commits/Elizabeth-Figura/ntsync-Introduce-NTSYNC_IOC_WAIT_ANY/20241210-031155
-> base:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
+On Mon, Dec 09, 2024 at 12:58:36PM -0600, Elizabeth Figura wrote:
 
-> All errors (new ones prefixed by >>):
->
->    In file included from include/linux/spinlock.h:60,
->                     from include/linux/wait.h:9,
->                     from include/linux/wait_bit.h:8,
->                     from include/linux/fs.h:6,
->                     from drivers/misc/ntsync.c:11:
->    In function 'check_copy_size',
->        inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
->        inlined from 'setup_wait' at drivers/misc/ntsync.c:903:6:
->>> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
->      259 |                         __bad_copy_to();
->          |                         ^~~~~~~~~~~~~~~
+> I would like to repeat a question from the last round of review, though. Two
+> changes were suggested related to API design, which I did not make because the
+> APIs in question were already released in upstream Linux. However, the driver is
+> also completely nonfunctional and hidden behind BROKEN, so would this be
+> acceptable anyway? The changes in question are:
+> 
+> * rename NTSYNC_IOC_SEM_POST to NTSYNC_IOC_SEM_RELEASE (matching the NT
+>   terminology instead of POSIX),
+> 
+> * change object creation ioctls to return the fds directly in the return value
+>   instead of through the args struct. I would also still appreciate a
+>   clarification on the advice in [1], which is why I didn't do this in the first
+>   place.
 
-I looked up the function from the github URL above and found
+I see no problem making those changes; esp. since Arnd doesn't seem to
+object to the latter.
 
-	int fds[NTSYNC_MAX_WAIT_COUNT + 1];
-	const __u32 count = args->count;
-	struct ntsync_q *q;
-	__u32 total_count;
-	__u32 i, j;
+> Elizabeth Figura (28):
+>   ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+>   ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
+>   ntsync: Introduce NTSYNC_IOC_CREATE_MUTEX.
+>   ntsync: Introduce NTSYNC_IOC_MUTEX_UNLOCK.
+>   ntsync: Introduce NTSYNC_IOC_MUTEX_KILL.
+>   ntsync: Introduce NTSYNC_IOC_CREATE_EVENT.
+>   ntsync: Introduce NTSYNC_IOC_EVENT_SET.
+>   ntsync: Introduce NTSYNC_IOC_EVENT_RESET.
+>   ntsync: Introduce NTSYNC_IOC_EVENT_PULSE.
+>   ntsync: Introduce NTSYNC_IOC_SEM_READ.
+>   ntsync: Introduce NTSYNC_IOC_MUTEX_READ.
+>   ntsync: Introduce NTSYNC_IOC_EVENT_READ.
+>   ntsync: Introduce alertable waits.
 
-	if (args->pad || (args->flags & ~NTSYNC_WAIT_REALTIME))
-		return -EINVAL;
-
-	if (args->count > NTSYNC_MAX_WAIT_COUNT)
-		return -EINVAL;
-
-	total_count = count;
-	if (args->alert)
-		total_count++;
-
-	if (copy_from_user(fds, u64_to_user_ptr(args->objs),
-			   array_size(count, sizeof(*fds))))
-		return -EFAULT;
-
-which looks correct to me, as it has appropriate
-range checking on args->count, but I can see how
-the warning may be a result of checking 'args->count'
-instead of 'count'.
-
-      Arnd
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
