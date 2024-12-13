@@ -1,290 +1,87 @@
-Return-Path: <linux-api+bounces-2901-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2902-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636599EF9AC
-	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 18:53:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B154B9F04BA
+	for <lists+linux-api@lfdr.de>; Fri, 13 Dec 2024 07:22:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73CA516D3E3
-	for <lists+linux-api@lfdr.de>; Thu, 12 Dec 2024 17:45:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 212CC188B168
+	for <lists+linux-api@lfdr.de>; Fri, 13 Dec 2024 06:22:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE4C522E9FB;
-	Thu, 12 Dec 2024 17:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="sjq46jaz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7DFA18A92F;
+	Fri, 13 Dec 2024 06:22:51 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-8fad.mail.infomaniak.ch (smtp-8fad.mail.infomaniak.ch [83.166.143.173])
+Received: from arara2.ipen.br (arara2.ipen.br [200.136.52.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6423722A7EC
-	for <linux-api@vger.kernel.org>; Thu, 12 Dec 2024 17:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B6116BE20
+	for <linux-api@vger.kernel.org>; Fri, 13 Dec 2024 06:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=200.136.52.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734025380; cv=none; b=qx+XSVjytibpo0XtHn3ERbdbTXs55EfOUWGRH3BtSRoUzyV+baDgjrQl43iuOWchI1iV3fLN8NSpZYdRtOhNIPEbzdCev1wB48he8o2HBvudM+HAI17Ueyypp03tNOVBbHJl59yhotbYA0V4pRbyMdc2ZTlH9O/RLHzCdfJgSMs=
+	t=1734070971; cv=none; b=JiskgqYHFrJjTiewENK+j21b0zOSkcWOpP5+YBZR0GFuh258zE1ua9Y308lvA1P0vx2UdcIwd5EwZK7mcD7iYNU9KQZUBMkJCxDW77oy+JQ01HMUY3CfRlyS/01enWVvVWwxLi9AjoIq3sy7srJPougygRvzLCU2DOt+5eSGIn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734025380; c=relaxed/simple;
-	bh=XXvI0TX1xzAn48I8sTlwK/qf6xAhPIm9D4CPl/Tq860=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m8hXYd6jwtR1mfj5jYq0xnc9/7dfaQNC/wTRARO1t2chlP6yfIt3W0TF4/y8FUtMPNXlK+YIadXqEzJNVwGyufUfC4INoZWjDrwiz/dXqM2cIPFozgcLuaBuXD2WSrVhb1hO5f0SAmYzIemO3osoiWM8WuOceNIzYzYN2Q3t4ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=sjq46jaz; arc=none smtp.client-ip=83.166.143.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Y8KYj5qltz14n;
-	Thu, 12 Dec 2024 18:42:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1734025369;
-	bh=XB5FDSOElLippt2L4YJKGDqg0dFGAnXejgtIjP9qLjQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sjq46jazjleJeRddEA8ulwHmUTQMvum/t5OcXWXwDqoNI2vhg1EqFMBcVZmwbKjHl
-	 QnRfB7WW06oSxWO/Gjjd0a3zwMhlWhDyQ23PuUEB48AEDg2y2bCu1PWuJKm9H95knq
-	 FhSE6FI3rnqSH0c90EMgci6dFHzuNA25Ahdp//b0=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Y8KYh372fz46M;
-	Thu, 12 Dec 2024 18:42:48 +0100 (CET)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <serge@hallyn.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Alejandro Colomar <alx@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Christian Heimes <christian@python.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Elliott Hughes <enh@google.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Eric Chiang <ericchiang@google.com>,
-	Fan Wu <wufan@linux.microsoft.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Jan Kara <jack@suse.cz>,
-	Jann Horn <jannh@google.com>,
-	Jeff Xu <jeffxu@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jordan R Abrahams <ajordanr@google.com>,
-	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Luca Boccassi <bluca@debian.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Scott Shell <scottsh@microsoft.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Steve Dower <steve.dower@python.org>,
-	Steve Grubb <sgrubb@redhat.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-	Xiaoming Ni <nixiaoming@huawei.com>,
-	kernel-hardening@lists.openwall.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v23 8/8] ima: instantiate the bprm_creds_for_exec() hook
-Date: Thu, 12 Dec 2024 18:42:23 +0100
-Message-ID: <20241212174223.389435-9-mic@digikod.net>
-In-Reply-To: <20241212174223.389435-1-mic@digikod.net>
-References: <20241212174223.389435-1-mic@digikod.net>
+	s=arc-20240116; t=1734070971; c=relaxed/simple;
+	bh=Cgr97JBiSX1QIcd2ZZZsKVChGTY1ZlWJ/4AhaVFA7Wc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AtiVJYPP3nEJ7zMVfE6H9vmXdUYCjG23oRL/0SjzbA61pvBwWVJANBFTT0xhGtop3wyzEznZlejmgno7LBUpaAlahtSxfi9W2abST5/BnWKckCkHU8SwLH0NYUEManuksywIt9S6w/SYO7J4I3OZ9j509Y//Pl7B4E5yCVY7+SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ipen.br; spf=pass smtp.mailfrom=ipen.br; arc=none smtp.client-ip=200.136.52.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ipen.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ipen.br
+X-ASG-Debug-ID: 1734070964-055fc729ec1489660001-wjuz9g
+Received: from arara.ipen.br (webmail.ip.ipen.br [10.0.10.11]) by arara2.ipen.br with ESMTP id vnzTkZlEuqZjRu5A for <linux-api@vger.kernel.org>; Fri, 13 Dec 2024 03:22:44 -0300 (BRT)
+X-Barracuda-Envelope-From: TCWM178536@ipen.br
+X-Barracuda-RBL-Trusted-Forwarder: 10.0.10.11
+Received: from ipen.br (unknown [102.129.145.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by arara.ipen.br (Postfix) with ESMTPSA id C885DFBE396
+	for <linux-api@vger.kernel.org>; Fri, 13 Dec 2024 01:24:29 -0300 (-03)
+Reply-To: t.mazowieckie@mazowieckie.org
+X-Barracuda-Effective-Source-IP: UNKNOWN[102.129.145.191]
+X-Barracuda-Apparent-Source-IP: 102.129.145.191
+X-Barracuda-RBL-IP: 102.129.145.191
+From: <TCWM178536@ipen.br>
+To: linux-api@vger.kernel.org
+Subject:  I urge you to understand my viewpoint accurately.
+Date: 13 Dec 2024 12:24:29 +0800
+X-ASG-Orig-Subj: I urge you to understand my viewpoint accurately.
+Message-ID: <20241213122428.7A819034F71B3671@ipen.br>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Barracuda-Connect: webmail.ip.ipen.br[10.0.10.11]
+X-Barracuda-Start-Time: 1734070964
+X-Barracuda-URL: https://10.40.40.18:443/cgi-mod/mark.cgi
+X-Barracuda-Scan-Msg-Size: 512
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-BRTS-Evidence: 34fbb5788938ad5710ad28835fd12206-499-txt
+X-Virus-Scanned: by bsmtpd at ipen.br
+X-Barracuda-Spam-Score: 0.00
+X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=1000.0 tests=NO_REAL_NAME
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.45577
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------------------------
+	0.00 NO_REAL_NAME           From: does not include a real name
 
-From: Mimi Zohar <zohar@linux.ibm.com>
+I am Tomasz Chmielewski, a Portfolio Manager and Chartered=20
+Financial Analyst affiliated with Iwoca Poland Sp. Z OO in=20
+Poland. I have the privilege of working with distinguished=20
+investors who are eager to support your company's current=20
+initiatives, thereby broadening their investment portfolios. If=20
+this proposal aligns with your interests, I invite you to=20
+respond, and I will gladly share more information to assist you.
 
-Like direct file execution (e.g. ./script.sh), indirect file execution
-(e.g. sh script.sh) needs to be measured and appraised.  Instantiate
-the new security_bprm_creds_for_exec() hook to measure and verify the
-indirect file's integrity.  Unlike direct file execution, indirect file
-execution is optionally enforced by the interpreter.
-
-Differentiate kernel and userspace enforced integrity audit messages.
-
-Co-developed-by: Roberto Sassu <roberto.sassu@huawei.com>
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
-Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Mickaël Salaün <mic@digikod.net>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20241212174223.389435-9-mic@digikod.net
----
-
-I added both a Reviewed-by and a Signed-off-by because I may not be the
-committer.
-
-Changes since v22:
-* Add Stefan's Tested-by.
-* Replace AUDIT_INTEGRITY_DATA_CHECK with AUDIT_INTEGRITY_USERSPACE as
-  spotted by Paul and suggested by Mimi.
-
-Changes since v21:
-* New patch cherry-picked from IMA's patch v3:
-  https://lore.kernel.org/r/67b2e94f263bf9a0099efe74cce659d6acb16fe9.camel@linux.ibm.com
-* Fix a typo in comment: s/execvat/execveat/ .
----
- include/uapi/linux/audit.h            |  1 +
- security/integrity/ima/ima_appraise.c | 27 +++++++++++++++++++++++--
- security/integrity/ima/ima_main.c     | 29 +++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+), 2 deletions(-)
-
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 75e21a135483..d9a069b4a775 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -161,6 +161,7 @@
- #define AUDIT_INTEGRITY_RULE	    1805 /* policy rule */
- #define AUDIT_INTEGRITY_EVM_XATTR   1806 /* New EVM-covered xattr */
- #define AUDIT_INTEGRITY_POLICY_RULE 1807 /* IMA policy rules */
-+#define AUDIT_INTEGRITY_USERSPACE   1808 /* Userspace enforced data integrity */
- 
- #define AUDIT_KERNEL		2000	/* Asynchronous audit record. NOT A REQUEST. */
- 
-diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
-index 884a3533f7af..f435eff4667f 100644
---- a/security/integrity/ima/ima_appraise.c
-+++ b/security/integrity/ima/ima_appraise.c
-@@ -8,6 +8,7 @@
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/file.h>
-+#include <linux/binfmts.h>
- #include <linux/fs.h>
- #include <linux/xattr.h>
- #include <linux/magic.h>
-@@ -469,6 +470,17 @@ int ima_check_blacklist(struct ima_iint_cache *iint,
- 	return rc;
- }
- 
-+static bool is_bprm_creds_for_exec(enum ima_hooks func, struct file *file)
-+{
-+	struct linux_binprm *bprm;
-+
-+	if (func == BPRM_CHECK) {
-+		bprm = container_of(&file, struct linux_binprm, file);
-+		return bprm->is_check;
-+	}
-+	return false;
-+}
-+
- /*
-  * ima_appraise_measurement - appraise file measurement
-  *
-@@ -483,6 +495,7 @@ int ima_appraise_measurement(enum ima_hooks func, struct ima_iint_cache *iint,
- 			     int xattr_len, const struct modsig *modsig)
- {
- 	static const char op[] = "appraise_data";
-+	int audit_msgno = AUDIT_INTEGRITY_DATA;
- 	const char *cause = "unknown";
- 	struct dentry *dentry = file_dentry(file);
- 	struct inode *inode = d_backing_inode(dentry);
-@@ -494,6 +507,16 @@ int ima_appraise_measurement(enum ima_hooks func, struct ima_iint_cache *iint,
- 	if (!(inode->i_opflags & IOP_XATTR) && !try_modsig)
- 		return INTEGRITY_UNKNOWN;
- 
-+	/*
-+	 * Unlike any of the other LSM hooks where the kernel enforces file
-+	 * integrity, enforcing file integrity for the bprm_creds_for_exec()
-+	 * LSM hook with the AT_EXECVE_CHECK flag is left up to the discretion
-+	 * of the script interpreter(userspace). Differentiate kernel and
-+	 * userspace enforced integrity audit messages.
-+	 */
-+	if (is_bprm_creds_for_exec(func, file))
-+		audit_msgno = AUDIT_INTEGRITY_USERSPACE;
-+
- 	/* If reading the xattr failed and there's no modsig, error out. */
- 	if (rc <= 0 && !try_modsig) {
- 		if (rc && rc != -ENODATA)
-@@ -569,7 +592,7 @@ int ima_appraise_measurement(enum ima_hooks func, struct ima_iint_cache *iint,
- 	     (iint->flags & IMA_FAIL_UNVERIFIABLE_SIGS))) {
- 		status = INTEGRITY_FAIL;
- 		cause = "unverifiable-signature";
--		integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode, filename,
-+		integrity_audit_msg(audit_msgno, inode, filename,
- 				    op, cause, rc, 0);
- 	} else if (status != INTEGRITY_PASS) {
- 		/* Fix mode, but don't replace file signatures. */
-@@ -589,7 +612,7 @@ int ima_appraise_measurement(enum ima_hooks func, struct ima_iint_cache *iint,
- 			status = INTEGRITY_PASS;
- 		}
- 
--		integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode, filename,
-+		integrity_audit_msg(audit_msgno, inode, filename,
- 				    op, cause, rc, 0);
- 	} else {
- 		ima_cache_flags(iint, func);
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index 9b87556b03a7..9f9897a7c217 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -554,6 +554,34 @@ static int ima_bprm_check(struct linux_binprm *bprm)
- 				   MAY_EXEC, CREDS_CHECK);
- }
- 
-+/**
-+ * ima_bprm_creds_for_exec - collect/store/appraise measurement.
-+ * @bprm: contains the linux_binprm structure
-+ *
-+ * Based on the IMA policy and the execveat(2) AT_EXECVE_CHECK flag, measure
-+ * and appraise the integrity of a file to be executed by script interpreters.
-+ * Unlike any of the other LSM hooks where the kernel enforces file integrity,
-+ * enforcing file integrity is left up to the discretion of the script
-+ * interpreter (userspace).
-+ *
-+ * On success return 0.  On integrity appraisal error, assuming the file
-+ * is in policy and IMA-appraisal is in enforcing mode, return -EACCES.
-+ */
-+static int ima_bprm_creds_for_exec(struct linux_binprm *bprm)
-+{
-+	/*
-+	 * As security_bprm_check() is called multiple times, both
-+	 * the script and the shebang interpreter are measured, appraised,
-+	 * and audited. Limit usage of this LSM hook to just measuring,
-+	 * appraising, and auditing the indirect script execution
-+	 * (e.g. ./sh example.sh).
-+	 */
-+	if (!bprm->is_check)
-+		return 0;
-+
-+	return ima_bprm_check(bprm);
-+}
-+
- /**
-  * ima_file_check - based on policy, collect/store measurement.
-  * @file: pointer to the file to be measured
-@@ -1174,6 +1202,7 @@ static int __init init_ima(void)
- 
- static struct security_hook_list ima_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(bprm_check_security, ima_bprm_check),
-+	LSM_HOOK_INIT(bprm_creds_for_exec, ima_bprm_creds_for_exec),
- 	LSM_HOOK_INIT(file_post_open, ima_file_check),
- 	LSM_HOOK_INIT(inode_post_create_tmpfile, ima_post_create_tmpfile),
- 	LSM_HOOK_INIT(file_release, ima_file_free),
--- 
-2.47.1
-
+=20
+Yours sincerely,=20
+Tomasz Chmielewski Warsaw, Mazowieckie,
+=20
+Poland.
 
