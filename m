@@ -1,112 +1,214 @@
-Return-Path: <linux-api+bounces-2933-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2934-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4808A9F168D
-	for <lists+linux-api@lfdr.de>; Fri, 13 Dec 2024 20:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596239F5557
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 19:01:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 695F616D7A4
-	for <lists+linux-api@lfdr.de>; Fri, 13 Dec 2024 19:43:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89B9F16FE36
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 17:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 967B81F9426;
-	Fri, 13 Dec 2024 19:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B130A1FA8EC;
+	Tue, 17 Dec 2024 17:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="KQfc0hwH"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="MxNCo9u1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3329D1F941B;
-	Fri, 13 Dec 2024 19:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC411FA8E9;
+	Tue, 17 Dec 2024 17:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734118581; cv=none; b=sccyDyZOXhhEHE3XR9hy7OCSAXMxbpktzGyXcAK2gGdo5Ero2r3Y/Kl/pZCRX/x7pj5lj6TR9jpHBlqnQb8gDXBvNI/n1B2yNGI3Ogl70WqgHvOI9Plf9kfsSi441LyXHgdTUEBMhgjCts3v/mY4Ec8mIwXMAsmOmAuWlIFxBw0=
+	t=1734457836; cv=none; b=FLTtELflDcmnfplBZt6sQzoahCWBFS327lK66xFWdW0yJy6Zj3+NQCHdYwQ/fmbt0/KbZ7/ug83Vnr7q3Lc0j3dNp2YkVmAiU6/qcygJ7em91dKfwm9DUbYZ9LOSsFbRk/YdkbPMq79M6MXx4o1zX0bTgAb1SiPrrAGFggkJAjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734118581; c=relaxed/simple;
-	bh=U2jvLVxDBW1wqTl+8HqpuZ+B2aEhALkVpMFRfXjOGKY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kdmH+qVOIq5GV+Erie3Y4dmNsZSj1kWVATtAgu9MOzxtvs23V+wAZ3fbbprSKAHHYt/fKYng1s7ao9RlOL00oFZOt1K0ppSxZSmanxgKi+pVX2NlGxgP4Nhg0iruqWrOXBEI8gK+cHbfG6U7DVCr+ELhg0qCXAtFDrCWwJNk2xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=KQfc0hwH; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=H78XD7mVtyigbR9tP1mufDrwr59LEZXCMX3E9nnMZnc=; b=KQfc0hwHr12D7BqQNvjPQ9PAHz
-	OpCN/ST3o2WE5w1fzloAiS2FW/sOHv0p23pFztOpzrTr5K0dwCNsacDNCnge5Jb8306pIWq4snMSf
-	iCGBkRk6K3fSxB1o2GWRqVqSYhHoqyppoLbOEuo+tRzGnhQoG/cZPLeg22aKXRu21Zv8P6BuehhUk
-	wRii0IC6KTXiDZMQBZtJHtI3mh+Oa7TAxcvLmNY/285fJw0DGmxYUHvrT2ubcG+j0jlWmWkNVSRgN
-	mZ+M8C6zBm81RJuOFM6csqMKXso35yuEO+kMs62SjdY3Rte9rqcpNX8kFiHMT7D+igCn++VpRISIR
-	sJE2UzjA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1tMBSO-00ASsZ-1T;
-	Fri, 13 Dec 2024 13:36:12 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
+	s=arc-20240116; t=1734457836; c=relaxed/simple;
+	bh=v9tlcHGujRssBFnt/PE7Z7DQNY9DB0I0CvCgckK/lVA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E0RyYWjiMN2MvyHCB8j7D331UlI3cqqFsq7JfYoBb6hwTP1SGernO6m8+ASknwJDAE/Kzv1+Otwwrgzpr7IBP2KJL1yy6mD0MARfJ9y4NHjqB9nzOJLOxUc2/k+hHj7kEUxEuXUlWKQBcCrtAPGO0sdH5JOs/XSVDQOHO6MuO5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=MxNCo9u1; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=XsJyRch4Bb0SUmmUdWVGZ+COqQ1Q+f9e8d470lSmFyo=; b=MxNCo9u1BgA64v6LCRR/PJqc4U
+	N1To3paKzQ66TCR3oXXFrtc3TFDEKu98ak8g2AqSUctBggboDQy02TfN4NRtljm7zd8RGCdZ9LN9L
+	sX7xuqSYN4uP+zCf8yOWca2ILc6b5R147PvsCt+kfUBEeXlI8wXcg3tBSvo3Ni8lIntb0kMH7xpqA
+	yYYbyd8IkfL0+RN9ma49oMWQzrtvx3OC4MzPpMxiouoLHrLJoUjZysRdEYEC4lzPGUrJrTce6mS13
+	dy0iuqm6lgTr4J9afN28eMqcvka4Y+3LDBoGw/EhcOyrvBkLxjmPl19jyQg4K26HJlpTMpzrs7Yoo
+	I0RwPK2A==;
+Received: from [179.193.1.214] (helo=localhost.localdomain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1tNbhu-004TVV-TO; Tue, 17 Dec 2024 18:50:07 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Elizabeth Figura <zfigura@codeweavers.com>
-Subject: [PATCH v7 30/30] ntsync: No longer depend on BROKEN.
-Date: Fri, 13 Dec 2024 13:35:11 -0600
-Message-ID: <20241213193511.457338-31-zfigura@codeweavers.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241213193511.457338-1-zfigura@codeweavers.com>
-References: <20241213193511.457338-1-zfigura@codeweavers.com>
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	sonicadvance1@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	linux-api@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Vinicius Peixoto <vpeixoto@lkcamp.dev>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v3 0/3] futex: Create set_robust_list2
+Date: Tue, 17 Dec 2024 14:49:55 -0300
+Message-ID: <20241217174958.477692-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-f5b335dc025cfee90957efa90dc72fada0d5abb4 ("misc: ntsync: mark driver as "broken"
-to prevent from building") was committed to avoid the driver being used while
-only part of its functionality was released. Since the rest of the functionality
-has now been committed, revert this.
+This patch adds a new robust_list() syscall. The current syscall
+can't be expanded to cover the following use case, so a new one is
+needed. This new syscall allows users to set multiple robust lists per
+process and to have either 32bit or 64bit pointers in the list.
 
-Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
----
- drivers/misc/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+* Use case
 
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 09cbe3f0ab1e..fb772bfe27c3 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -517,7 +517,6 @@ config OPEN_DICE
- 
- config NTSYNC
- 	tristate "NT synchronization primitive emulation"
--	depends on BROKEN
- 	help
- 	  This module provides kernel support for emulation of Windows NT
- 	  synchronization primitives. It is not a hardware driver.
+FEX-Emu[1] is an application that runs x86 and x86-64 binaries on an
+AArch64 Linux host. One of the tasks of FEX-Emu is to translate syscalls
+from one platform to another. Existing set_robust_list() can't be easily
+translated because of two limitations:
+
+1) x86 apps can have 32bit pointers robust lists. For a x86-64 kernel
+   this is not a problem, because of the compat entry point. But there's
+   no such compat entry point for AArch64, so the kernel would do the
+   pointer arithmetic wrongly. Is also unviable to userspace to keep
+   track every addition/removal to the robust list and keep a 64bit
+   version of it somewhere else to feed the kernel. Thus, the new
+   interface has an option of telling the kernel if the list is filled
+   with 32bit or 64bit pointers.
+
+2) Apps can set just one robust list (in theory, x86-64 can set two if
+   they also use the compat entry point). That means that when a x86 app
+   asks FEX-Emu to call set_robust_list(), FEX have two options: to
+   overwrite their own robust list pointer and make the app robust, or
+   to ignore the app robust list and keep the emulator robust. The new
+   interface allows for multiple robust lists per application, solving
+   this.
+
+* Interface
+
+This is the proposed interface:
+
+	long set_robust_list2(void *head, int index, unsigned int flags)
+
+`head` is the head of the userspace struct robust_list_head, just as old
+set_robust_list(). It needs to be a void pointer since it can point to a normal
+robust_list_head or a compat_robust_list_head.
+
+`flags` can be used for defining the list type:
+
+	enum robust_list_type {
+	 	ROBUST_LIST_32BIT,
+		ROBUST_LIST_64BIT,
+	 };
+
+`index` is the index in the internal robust_list's linked list (the naming
+starts to get confusing, I reckon). If `index == -1`, that means that user wants
+to set a new robust_list, and the kernel will append it in the end of the list,
+assign a new index and return this index to the user. If `index >= 0`, that
+means that user wants to re-set `*head` of an already existing list (similarly
+to what happens when you call set_robust_list() twice with different `*head`).
+
+If `index` is out of range, or it points to a non-existing robust_list, or if
+the internal list is full, an error is returned.
+
+* Implementation
+
+The implementation re-uses most of the existing robust list interface as
+possible. The new task_struct member `struct list_head robust_list2` is just a
+linked list where new lists are appended as the user requests more lists, and by
+futex_cleanup(), the kernel walks through the internal list feeding
+exit_robust_list() with the robust_list's.
+
+This implementation supports up to 10 lists (defined at ROBUST_LISTS_PER_TASK),
+but it was an arbitrary number for this RFC. For the described use case above, 4
+should be enough, I'm not sure which should be the limit.
+
+It doesn't support list removal (should it support?). It doesn't have a proper
+get_robust_list2() yet as well, but I can add it in a next revision. We could
+also have a generic robust_list() syscall that can be used to set/get and be
+controlled by flags.
+
+The new interface has a `unsigned int flags` argument, making it
+extensible for future use cases as well.
+
+* Testing
+
+I will provide a selftest similar to the one I proposed for the current
+interface here:
+https://lore.kernel.org/lkml/20241010011142.905297-1-andrealmeid@igalia.com/
+
+Also, FEX-Emu added support for this interface to validate it:
+https://github.com/FEX-Emu/FEX/pull/3966
+
+Feedback is very welcomed!
+
+Thanks,
+	André
+
+[1] https://github.com/FEX-Emu/FEX
+
+Changelog:
+- Old syscall set_robust_list() adds new head to the internal linked list of
+  robust lists pointers, instead of having a field just for them. Remove
+  tsk->robust_list and use only tsk->robust_list2
+v2: https://lore.kernel.org/lkml/20241101162147.284993-1-andrealmeid@igalia.com/
+
+- Added a patch to properly deal with exit_robust_list() in 64bit vs 32bit
+- Wired-up syscall for all archs
+- Added more of the cover letter to the commit message
+v1: https://lore.kernel.org/lkml/20241024145735.162090-1-andrealmeid@igalia.com/
+
+André Almeida (3):
+  futex: Use explicit sizes for compat_exit_robust_list
+  futex: Create set_robust_list2
+  futex: Wire up set_robust_list2 syscall
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+ arch/arm/tools/syscall.tbl                  |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+ include/linux/compat.h                      |  12 +-
+ include/linux/futex.h                       |  16 ++-
+ include/linux/sched.h                       |   5 +-
+ include/uapi/asm-generic/unistd.h           |   4 +-
+ include/uapi/linux/futex.h                  |  24 ++++
+ kernel/futex/core.c                         | 130 ++++++++++++++++----
+ kernel/futex/futex.h                        |   5 +
+ kernel/futex/syscalls.c                     |  82 +++++++++++-
+ kernel/sys_ni.c                             |   1 +
+ scripts/syscall.tbl                         |   1 +
+ 25 files changed, 249 insertions(+), 46 deletions(-)
+
 -- 
-2.45.2
+2.47.1
 
 
