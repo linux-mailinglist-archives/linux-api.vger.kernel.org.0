@@ -1,264 +1,128 @@
-Return-Path: <linux-api+bounces-2936-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2938-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57709F555B
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 19:02:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D1E9F56D8
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 20:24:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2B97168DB3
-	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 17:57:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7EDB1883DF0
+	for <lists+linux-api@lfdr.de>; Tue, 17 Dec 2024 19:24:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F01B1FAC3B;
-	Tue, 17 Dec 2024 17:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447B01F942B;
+	Tue, 17 Dec 2024 19:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="kQbwo01M"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="JmVCOpFA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ol0SJg0K"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB46C1FA8DB;
-	Tue, 17 Dec 2024 17:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F521F9410;
+	Tue, 17 Dec 2024 19:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734457839; cv=none; b=qPEjW7/M2HX5rhQfBH/UbFOFi0ZdU3ILKasE8XGGT0r/kHzYdEdJMR0m8c5/stTQvOSuH48iuqWuZl+kvXSN2ynkyemMveNEvxM1M5ZQvc5e9/eeD+PR9ELRiRWONiGDA0UFbBXnEnNbK2U0MaLpxR8eieXF7EaN0kJKXZwnl9A=
+	t=1734463490; cv=none; b=oaT98oa2CPuB6G5+2wp44uVrI1YXWyJPlS33z3RkjD026XGuIOiAtthv5heJviAVemhVhY4MevwMsjA7PwH/Tv24W1Ew2VzemyZoE86tOBMHVMXKKhgiJvBVtYLJ0pcitHe5P8YgSwkjwNTbJwrVGjZAsF+kBM8IaT59mZlAQAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734457839; c=relaxed/simple;
-	bh=HAi87V/owSYqcmOH2qXHfQCQhtv9TGEo2V3BglU/K7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N4akr8siXxVCNAVvDltiKkBvXji4rsRr9x+NTb/rVHinV9xXNLFtjEUMeowbew1OCyf79n9vQUDnMInqf5PAaYqdqvEUwGqfn+DLTJ89BzK8sQSpYD5b+8xMWWxDzZSVaNjAqXSrbBOqvc9evT0Bn1sB9oYAuRnAUeqM8B6yggE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=kQbwo01M; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=k31wiIoUzLrWCgYj1M0YuvVzOzaxq5Oj9IA4O2pUxyc=; b=kQbwo01MxQUGeIJ1UTqazU7lo7
-	jNDfe83ln3mFW82MFu+OprCPHLK7WKOtgA0cKot7wDnyfDAKx9KGTTa7jDslFEkjxUDsAx51ddzyq
-	thXikFIuIyvGI7fjRnYdCZEfNeTdQ2lKKOSD3XGBbQqji9L1TqoyJt/TdxEb1Q1YORcDx+Npf9Z+L
-	dqYGLRibV6ZiqCMpxXmjOb7L4gUwwwownLiRuKUbR2INYVol3TPDdnxpJwd4s1OIkl01YwwKPhypE
-	hScAPAklx78RI5vl/BKrWWdXvP34f9gybcO0u1CUnHBCgxYI/hKRoCrKax0/ob8EDIym3twuukooK
-	F+af53fg==;
-Received: from [179.193.1.214] (helo=localhost.localdomain)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1tNbi6-004TVV-9k; Tue, 17 Dec 2024 18:50:18 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	sonicadvance1@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	linux-api@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Vinicius Peixoto <vpeixoto@lkcamp.dev>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v3 3/3] futex: Wire up set_robust_list2 syscall
-Date: Tue, 17 Dec 2024 14:49:58 -0300
-Message-ID: <20241217174958.477692-4-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241217174958.477692-1-andrealmeid@igalia.com>
-References: <20241217174958.477692-1-andrealmeid@igalia.com>
+	s=arc-20240116; t=1734463490; c=relaxed/simple;
+	bh=YYiCmxIYKaAHA4tjICmvUHGI9+eNw85lmpRIlH4pHJE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=gHiV0qnOuFLPKo3DRDjhuf6+4MjlLEwjlgG9IbB/DxaPJZtgD2ppcYpdI8/6qxadVJ/pXrCUep02wyBe4CvlaZgtok5ORJwuI5b/TpbGxZDk7kkLU/Fnjwm7troXWZTnlIA8ntOePtAABiaG9feqiFOt8l64I3o1CgBzpcIfX1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=JmVCOpFA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ol0SJg0K; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 03C9A114015D;
+	Tue, 17 Dec 2024 14:24:45 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Tue, 17 Dec 2024 14:24:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1734463485;
+	 x=1734549885; bh=EOe6BesmxFnRJHHLU70DJc/y0ejfvE7PEl68vLU8DJs=; b=
+	JmVCOpFA5TV440bkBGpJr36N9b+07RrWfSd2L1KaSuCnCucQSMIHXbChJbV0QhsZ
+	zaq23FbeQfzXtWZS9m3fm5qRL2S1BrIw9zbkYICrrf07tTyODCCOk2r8ea/AD40a
+	x6tgMfz2zEwcVFg3tW1A5FL1XAOQ8EBRJNd1saX1M6pkukmfiyGlzAoRUsalfEA9
+	fAj1Zn9fOhxOsV+IJ5EROEE0XpnaNZo64SYqQCnTU2kyCNPSewYXbj0NyKN0DE5x
+	/cw7dwNmisqb09fQw/wDmBKCKBCWujTAPy5YhpHoRC/0BbljRc3Pw50GrtRBfRtb
+	nKHkAuYXyr7JEQ3Cni20Sg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734463485; x=
+	1734549885; bh=EOe6BesmxFnRJHHLU70DJc/y0ejfvE7PEl68vLU8DJs=; b=o
+	l0SJg0KWvLU24ys+FxQtTJdSVAB0SxFfIM21YNXJ6Atp2YMQS0GdqXgA+X5FzXpH
+	4/0tXnfrGmM41yYe3mrIftpxxxc2jE2tPDtLFUD1xn+OIrOXjRZeYHYWxbW+sLbh
+	BkCopVLOqK26tJgMOu34bPmWeVX886d2V1/R82LOR5Cr3exL0MiIx4ocz0t8PZ/z
+	TVxVvv+WXACnKEiogdOBds2yYvP3zgxP94PyXBjwjQy0lWCkO04mfHFEhC65f6c/
+	P937IsF3YMLIhY/QTCU5BGEeG8RhljaKIwkXD5m3+VgYC8090Tofj66Nc3oO/QDQ
+	CjBB/bM/spxcfOgqJcFLA==
+X-ME-Sender: <xms:_M9hZye8_x8F9LN2xBm99bRe-ZB-7pwHzc4tD0QrmKTq_DocoCvLWQ>
+    <xme:_M9hZ8NC2PC_Hb7CJjEySXCl8NAUMNzV-UXvq_GxRidhV3YTe67mz_0Zc4jBgy5VG
+    4EhdGMqmLoGpDklEAs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleehgdduvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdeg
+    jedvfeehtdeggeevheefleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsohhnihgtrgguvhgrnhgtvgduse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvggrlhhmvghiugesihhgrghlihgr
+    rdgtohhmpdhrtghpthhtohepkhgvrhhnvghlqdguvghvsehighgrlhhirgdrtghomhdprh
+    gtphhtthhopeguvhhhrghrthesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehp
+    vghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehnrghthhgrnheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggv
+    pdhrtghpthhtohepvhhpvghigihothhosehlkhgtrghmphdruggvvhdprhgtphhtthhope
+    hmihhnghhosehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:_M9hZzj3M3UwmjgSWr6Gp0u4WL-K3oALGf_WX9s3lbBd5NJP_AZddg>
+    <xmx:_M9hZ__-v1OpWFJLY_y1aXkYNeFhm1jaE380ircugowLtG7wqKXcdw>
+    <xmx:_M9hZ-twMJmQzUeZ-dOtGax0wDQWfChtzXAr81duPu02MN5m1neD3A>
+    <xmx:_M9hZ2HSnSKPTi4gzhZ3qIDE2ADNlox4f_Kg6-LmGulmarfjtKGQBw>
+    <xmx:_c9hZ2E_QfgM8Vgzv6LhyCD1PES8KaIJCdTUnaNEiJphrGEGvsPWB0Ki>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C89452220072; Tue, 17 Dec 2024 14:24:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 17 Dec 2024 20:24:23 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Darren Hart" <dvhart@infradead.org>, "Davidlohr Bueso" <dave@stgolabs.net>,
+ sonicadvance1@gmail.com
+Cc: linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
+ linux-api@vger.kernel.org, "Nathan Chancellor" <nathan@kernel.org>,
+ "Vinicius Peixoto" <vpeixoto@lkcamp.dev>
+Message-Id: <94d0e188-10fb-4a4e-b7e0-f308e2f25561@app.fastmail.com>
+In-Reply-To: <20241217174958.477692-4-andrealmeid@igalia.com>
+References: <20241217174958.477692-1-andrealmeid@igalia.com>
+ <20241217174958.477692-4-andrealmeid@igalia.com>
+Subject: Re: [PATCH v3 3/3] futex: Wire up set_robust_list2 syscall
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Wire up the new set_robust_list2 syscall in all available architectures.
+On Tue, Dec 17, 2024, at 18:49, Andr=C3=A9 Almeida wrote:
+> Wire up the new set_robust_list2 syscall in all available architecture=
+s.
+>
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> ---
+>  arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+>  arch/arm/tools/syscall.tbl                  | 1 +
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
- arch/arm/tools/syscall.tbl                  | 1 +
- arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
- arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
- arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
- arch/s390/kernel/syscalls/syscall.tbl       | 1 +
- arch/sh/kernel/syscalls/syscall.tbl         | 1 +
- arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
- kernel/sys_ni.c                             | 1 +
- scripts/syscall.tbl                         | 1 +
- 17 files changed, 17 insertions(+)
+Please also change arch/arm64/tools/syscall_32.tbl
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index c59d53d6d3f3..d1193a7f948e 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -506,3 +506,4 @@
- 574	common	getxattrat			sys_getxattrat
- 575	common	listxattrat			sys_listxattrat
- 576	common	removexattrat			sys_removexattrat
-+577	common	set_robust_list2		sys_robust_list2
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index 49eeb2ad8dbd..269721f54a5c 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -481,3 +481,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index f5ed71f1910d..75a387585b3a 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -466,3 +466,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common  set_robust_list2		sys_set_robust_list2
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 680f568b77f2..176f84b79c1c 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -472,3 +472,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 0b9b7e25b69a..47e28d67ca8a 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -405,3 +405,4 @@
- 464	n32	getxattrat			sys_getxattrat
- 465	n32	listxattrat			sys_listxattrat
- 466	n32	removexattrat			sys_removexattrat
-+467	n32	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index c844cd5cda62..488c1bca7715 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -381,3 +381,4 @@
- 464	n64	getxattrat			sys_getxattrat
- 465	n64	listxattrat			sys_listxattrat
- 466	n64	removexattrat			sys_removexattrat
-+467	n64	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 349b8aad1159..f983086695a8 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -454,3 +454,4 @@
- 464	o32	getxattrat			sys_getxattrat
- 465	o32	listxattrat			sys_listxattrat
- 466	o32	removexattrat			sys_removexattrat
-+467	o32	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index d9fc94c86965..f8735cb8046b 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -465,3 +465,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index d8b4ab78bef0..1da55a6a3bb5 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -557,3 +557,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index e9115b4d8b63..93bda0d6580b 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -469,3 +469,4 @@
- 464  common	getxattrat		sys_getxattrat			sys_getxattrat
- 465  common	listxattrat		sys_listxattrat			sys_listxattrat
- 466  common	removexattrat		sys_removexattrat		sys_removexattrat
-+467  common	set_robust_list2	sys_set_robust_list2		sys_set_robust_list2
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index c8cad33bf250..dd591da98af5 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -470,3 +470,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 727f99d333b3..a4ee76e234a3 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -512,3 +512,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 4d0fb2fba7e2..8d609abda75b 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -472,3 +472,4 @@
- 464	i386	getxattrat		sys_getxattrat
- 465	i386	listxattrat		sys_listxattrat
- 466	i386	removexattrat		sys_removexattrat
-+467	i386	set_robust_list2	sys_set_robust_list2
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 5eb708bff1c7..2c6461df154b 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -390,6 +390,7 @@
- 464	common	getxattrat		sys_getxattrat
- 465	common	listxattrat		sys_listxattrat
- 466	common	removexattrat		sys_removexattrat
-+467	common	set_robust_list2	sys_set_robust_list2
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 37effc1b134e..fa46635d7380 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -437,3 +437,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index c00a86931f8c..71fbac6176c8 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -195,6 +195,7 @@ COND_SYSCALL(move_pages);
- COND_SYSCALL(set_mempolicy_home_node);
- COND_SYSCALL(cachestat);
- COND_SYSCALL(mseal);
-+COND_SYSCALL(set_robust_list2);
- 
- COND_SYSCALL(perf_event_open);
- COND_SYSCALL(accept4);
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index ebbdb3c42e9f..615a3043c982 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -407,3 +407,4 @@
- 464	common	getxattrat			sys_getxattrat
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
-+467	common	set_robust_list2		sys_set_robust_list2
--- 
-2.47.1
-
+     Arnd
 
