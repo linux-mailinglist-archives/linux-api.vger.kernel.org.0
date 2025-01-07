@@ -1,85 +1,94 @@
-Return-Path: <linux-api+bounces-2957-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2958-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817E6A04A65
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2025 20:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82957A04B65
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2025 22:11:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F8AD1888788
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2025 19:43:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 201A0188817B
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jan 2025 21:11:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCDDB1F63C4;
-	Tue,  7 Jan 2025 19:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81BF21F471C;
+	Tue,  7 Jan 2025 21:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QlwVbvoG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="Uf5NZX7/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87921F5403;
-	Tue,  7 Jan 2025 19:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13CD1D8DFE;
+	Tue,  7 Jan 2025 21:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736278981; cv=none; b=Vd+Dy9DI0+XQMjazHLfv8XiYosQ5EqojVm02yM5ddVPG0HuIJlfDVvPy0i2tqGKnJXN45eA3p05falvVOTZf2iOLvo+gs8zr1PzRdrUKWfkWZYMkPuD/OBICtTrvv1RzV9ZVIqa8LEvnL7KNLXh0gLaQ1Kf3MCoi6gM/QmHj9z4=
+	t=1736284268; cv=none; b=O6xw7UvnNF/fzyVovrxqc8NJuL204qmdXrcczobdJKZp4aprpw1t1kmKyGakReAP+f89fbjUICEyY1lJdPvPVK1eAFMulNjP1avVzujnPDhEB5KOexCglSoJAlborayM6/+9/bUzBhFzDARktz6UDFmKpDW7Ab1/rXO0rIMfjgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736278981; c=relaxed/simple;
-	bh=t+8uTRgj3gqX8+ziV9ohJ4mPjlVtEYUkCWJDb3GaK5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsYSwvmz6ePiVczTAveqIlZMaM+FLChQ33c4MP5fHFuVZkksB0TsI9oRTipBfEkvrsUDB6okbIFbDru8MdbhzXmJmvXiL1H5abTpj30ao5odjPo3eBaabYTlxy5epBJkKGhuv4JSVFeVQcppNfkjJxywv5Ai9grduAMnVHGEuPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QlwVbvoG; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1736284268; c=relaxed/simple;
+	bh=WfcEzCEVu4DeR2h92Sq0A6eiH0nM6HU/BvVWJyg9gfo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VBVSfLMYv0nATLxP1uet6lqpAyLDAL3Mkm6Fr1Jj5+musqp2jvujzlU03oyjxTm9HMFh/591kGDvNs1Jn8YaIeSKpTLYGWSVjgsxtVCW93rQ576GQp3QmlGZMVkhBCkqDGfdVkcwRLwyQEqfvIEVpLvduD33Oxe3v7DJzhbQN0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=Uf5NZX7/; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=t+8uTRgj3gqX8+ziV9ohJ4mPjlVtEYUkCWJDb3GaK5U=; b=QlwVbvoG7US1jHkRaAadaISRMg
-	Ebk/BIhZCjQJVmEM5/PXM6Y70U7WoeyHwrGsB69F+sT+2O7zQ4eQQa2LhUO5eKVKssduJjSEIBwRc
-	XJQfOkmYJjwxmfscyOJovYCzOShOPFVXYBNYnh8sZOIUj5vWaCdrErMNV1/0Dz0Doc+VxPkNJnyVV
-	U2GucMtnwSBkl3/c/1AQlVwCHxHtbebq3jvUONDsAUstkyNYinIrdpvQHkj9M0o4t16j6BeF9/Xl2
-	dD3xRT+MBG1XtYZUeepPa+8fUWxzO+tXtY5umVquXF5SRG7nTIg52IFSUB3BylClROAi6SNxj6Uiw
-	KkuFHPXw==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVFTO-00000009C6c-0iJW;
-	Tue, 07 Jan 2025 19:42:44 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id BCAC630057C; Tue,  7 Jan 2025 20:42:41 +0100 (CET)
-Date: Tue, 7 Jan 2025 20:42:41 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Elizabeth Figura <zfigura@codeweavers.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+	d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Lndng4N3lO1ivo9syb5BDhuB4i7UvrhyhygqCR2rS2A=; b=Uf5NZX7/Mi4QtnsOxAyrXmNQtL
+	aBFequoaRBP0u5aZt0Wr4/ZomaFQPqmGRxRW6Ufhhjy05EKZewosHc37L21+tjm2XpZZEc11O5ehB
+	59JUaRVcOjS9kPlcSnSaEefCn6HTwEn1wjUvrVIPVIqbspfEQ32SnQRqaH+hKROfuhVuCmixgSOwR
+	ZDHgysSKj8SkDWZki+r7vXFmXRubzkP0dxVAOmD8emXYof2O3ozJXmcXPc22uA2tSpDBBjIKiqGE6
+	JyKezXKbRuDLDAAnTvFGyLDm9v4NjFueZNnCjKf/XG6cMPO8y+IrRjGNGoMbvIBoSknOuf0vMmUSt
+	DEQpShAA==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1tVGqe-008hkY-3C;
+	Tue, 07 Jan 2025 15:10:53 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
 Subject: Re: [PATCH v7 00/30] NT synchronization primitive driver
-Message-ID: <20250107194241.GC28303@noisy.programming.kicks-ass.net>
-References: <20241213193511.457338-1-zfigura@codeweavers.com>
+Date: Tue, 07 Jan 2025 15:10:48 -0600
+Message-ID: <8516093.NyiUUSuA9g@camazotz>
+In-Reply-To: <20250107194241.GC28303@noisy.programming.kicks-ass.net>
+References:
+ <20241213193511.457338-1-zfigura@codeweavers.com>
  <2025010738-amicably-art-f746@gregkh>
+ <20250107194241.GC28303@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025010738-amicably-art-f746@gregkh>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Jan 07, 2025 at 06:06:03PM +0100, Greg Kroah-Hartman wrote:
-> Given a lack of complaints, I've now applied this to my testing tree.
-> Thanks for sticking with it!
+On Tuesday, 7 January 2025 13:42:41 CST Peter Zijlstra wrote:
+> On Tue, Jan 07, 2025 at 06:06:03PM +0100, Greg Kroah-Hartman wrote:
+> > Given a lack of complaints, I've now applied this to my testing tree.
+> > Thanks for sticking with it!
+> 
+> Right, so I acked v6, which wasn't preserved. The v7 changes are minor
+> and seem fine (IIRc I even suggested them some very very long time ago).
 
-Right, so I acked v6, which wasn't preserved. The v7 changes are minor
-and seem fine (IIRc I even suggested them some very very long time ago).
+I wasn't sure it was fine to preserve the ack across changes (even if they were the ones you suggested) and decided to err on the safe side.
+
+Thank you for the review!
+
+
 
