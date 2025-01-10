@@ -1,141 +1,169 @@
-Return-Path: <linux-api+bounces-2967-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2968-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36521A08CB1
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2025 10:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705CBA094BC
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2025 16:12:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B46B416814C
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2025 09:47:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 750F5169C78
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jan 2025 15:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6494C20C027;
-	Fri, 10 Jan 2025 09:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AA8321129B;
+	Fri, 10 Jan 2025 15:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UIFsE3fM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XyC0BBDI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBFA20C00B
-	for <linux-api@vger.kernel.org>; Fri, 10 Jan 2025 09:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C5720DD79;
+	Fri, 10 Jan 2025 15:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736502299; cv=none; b=Gq6lGtAAqJunXes9pQAjfRMWR3ZegxRkbAbrlTYAu8KnHuRbVOWarRTrwFcR2waSJWe1G3kB0UcvPMZNelAKwBSvO/fqip3YfmhWNZ6NOtAlCfjRuB4kIKQtXrKTzNRJ05w/vzZVmg3+p9UojNPV0MEU9m877Iz8h3Mk/i+Ey+M=
+	t=1736521935; cv=none; b=TjG0oDPOHeYCw4FTUqBO0XCDK3yyFzWVLv8gUMFI7saG3buHH+UlQhKgBiErQK8nLM0LhM4+I6vMnW2kPQT+ZDsI73uAhTNtDuYXTuAqOi3QRmAHIVBltURlKM7FwEBn39rAm+29IKiqRqMzCJ7rXquF2AKwDtaob18jAwbsgmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736502299; c=relaxed/simple;
-	bh=ENLLV/0PrVWHZJnSd10hwquS1U8BMVZB3K1bFjotxyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yoo6BShGSmTHfxcKWnojgilay5TBsHB0/OnjQ6H1FqIza9oXJIf/7aerpHB4NG02hgqW3pqCbpPZDyH6qIp/7nJRCgWjv1EyT9QNGGKNqN8pUkXcAVNBiVIQhBrrCA9mDoGER7tl9tFxbWnDuVpYaJ7iJKtZDm0Abbcw38KUlGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UIFsE3fM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736502295;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A4Kw1qoNYerqhNjh25Dgp7jdmE++mW9Fl3ZiJ8T3co8=;
-	b=UIFsE3fM8ZpT28RgTD/VWrQgEAnTkGjPT7UbRMlcM0A3WZUp3DhNJ0v0QFBh450AL2dUF2
-	1rk+agWGcGiZ9i74yLeJbYlEoWeR6NzBDaiJjp4lAMBOkt46WyA1BMrDxOCmGN/VpP3McP
-	TQbg59XT+08yYB3kLiyn5GjAlHUungM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-Rj6c0O6bO_usiTHKPWoKFQ-1; Fri, 10 Jan 2025 04:44:54 -0500
-X-MC-Unique: Rj6c0O6bO_usiTHKPWoKFQ-1
-X-Mimecast-MFC-AGG-ID: Rj6c0O6bO_usiTHKPWoKFQ
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-385dcae001fso783577f8f.1
-        for <linux-api@vger.kernel.org>; Fri, 10 Jan 2025 01:44:54 -0800 (PST)
+	s=arc-20240116; t=1736521935; c=relaxed/simple;
+	bh=N1f/9U4z7PbA8oOWnfO0faxO0cnjZ5tqtYLeviRgBZ8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=kumiMZyIuR7WUD0ycgyWVzktcyZmqtXuAfGb9djo9/lu08Mw8adMCBGORe6Ulu2tJlf9o0fzHIJPUI4FGDPHQxr1PDz+KVZdFmlQDWNL419E1x5PrUIM0Oo3cieYKMtjMBXX6jhdaHTRaUVLg/khX7B++qWrd6+9CtBMChWu8m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XyC0BBDI; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5f2d5b3c094so461788eaf.1;
+        Fri, 10 Jan 2025 07:12:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736521933; x=1737126733; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gH3lmLTqri9Ons+gH+WN4kUv5LZv0HAVsUGMvFVX2wQ=;
+        b=XyC0BBDI0WsDSDVQfnzV9okBz2KBx3WQFH3I2PVkr1xt2MIF4aM6wgpF4bSjon+5ej
+         eL7wuD8N02iUTDA1owRJzUpTz90jE2WWlPIkDLMRgNE175WqbOcRl73JC3rRCYLd1Hxc
+         hep3PCDWOCxZ1BSUc0jCXmTCNBbKwPj3dviz71gAMXJjNwbPWaiqRvwExj/PY7dzKv4C
+         fzeKAAfR9m0xjZZtXgU6PruXHm46uTfKgz8DbxpMFokgi9WmQRcGZfhUz87BGZYH1Y0F
+         +HjHHln+t+QZHi2pNcMe01vIfY7ge/Z4kUOc5mpwZnTqlQG/0fFO2GgCoajML50XMMuL
+         LMIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736502293; x=1737107093;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A4Kw1qoNYerqhNjh25Dgp7jdmE++mW9Fl3ZiJ8T3co8=;
-        b=W4e8lbXI1/+aDt3v8W+DpepKgzlJz+8g2bQQx9Gpv2AUoILiEilTGgig6foBfqBNYA
-         2bwhsU7oeHc2WJ+7kXEiUh/qREvkr2YHaq+DKtnaUcFhaox2ERwG2ixSNQma/a+9w150
-         SMeN8aiKnPexcX+QzWLOsLwsdKAYtMlmQHj0/Gh8esbSgm7tKyrMgnSRnu2c50BY6vb6
-         Y/fnNvVIcljUFxhdID5VeotOXuGixCMZzyDrydm1Oci8XjNL4HhcQleIeHtzq8dkoHSz
-         9EOBXyxrqXl3QJSNajVK0pWXInikHLwKxymPLR51fjR2t310LgrjeK3eRL0s7LQYSsQU
-         +tjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkSVnZXX0667eoYIk6jwwJ4xgPjrTqcIRVoTdkQEz1iC6qN+sTcyz5PlAkPVxabWJ5VjoaOr7uV6M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOKjwmmyAJcz91D1pxUHhoJgJv1Dw33484lEi8THY9kLqCMyyx
-	1MaePA7S1RkLeJ3tN8a3+fOTmFhotripHtGoxAneYM5iN+Qs0Ef9Ek8hly4by952MK2Ssg/jMEZ
-	Dedo+UKerW0pc6odLeR10cozBrv/xTBcPdS6nnJVGYqkVMRTWAVcFHu2R
-X-Gm-Gg: ASbGncuxHdi4Ifay/g4o/ioh5yMhMR3dYC80W7QiaA9Rk7Bri9JuX1Dm6hG+s8TGOx8
-	r32l0g1NHUgvl+rCU0MeDpMRCIjJmlbA2ap7jEshfTsp9eu5SQXGWOxV7izdaIYooCDlsphmOT5
-	CKEV+aRtxGIYd2Jgw5v0kxoNw1m/3ZG5+QejsLoCwaerHXfv9WfXmEemeVHyKq2gk5GVN+jYtYd
-	43KpxPrqXf0T0JWI+CUlEWORDvv88iiuDtbaCd6FfvDSZrwqqLYgQ8/7qc0Re5wkZet+XVeAGqq
-X-Received: by 2002:a05:6000:709:b0:386:3803:bbd5 with SMTP id ffacd0b85a97d-38a8733a1f9mr9910083f8f.45.1736502293456;
-        Fri, 10 Jan 2025 01:44:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFWMxVaNXeUTe+wjdV2pCbQXCctILb5vVg9f3+psJOjGS23Sr767uuQBsbyCemBlGukLyZjgw==
-X-Received: by 2002:a05:6000:709:b0:386:3803:bbd5 with SMTP id ffacd0b85a97d-38a8733a1f9mr9910059f8f.45.1736502293124;
-        Fri, 10 Jan 2025 01:44:53 -0800 (PST)
-Received: from thinky (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e383965sm4140444f8f.31.2025.01.10.01.44.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 01:44:52 -0800 (PST)
-Date: Fri, 10 Jan 2025 10:44:51 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Michal Simek <monstr@monstr.eu>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	chris@zankel.net, Max Filippov <jcmvbkbc@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-Message-ID: <4ad35w4mrxb4likkqijkivrkom5rpfdja6klb5uoufdjdyjioq@ksxubq4xb7ei>
-References: <20250109174540.893098-1-aalbersh@kernel.org>
- <e7deabf6-8bba-45d7-a0f4-395bc8e5aabe@app.fastmail.com>
+        d=1e100.net; s=20230601; t=1736521933; x=1737126733;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gH3lmLTqri9Ons+gH+WN4kUv5LZv0HAVsUGMvFVX2wQ=;
+        b=r+8iDoaaPj9kAl4tOwU0VeckQscbzQCuqM6XUC/fxAim63jYFfv+So6N7f6yWjB41l
+         jlRb6OcRg6jdAFWH9phEqn+S1XpY/+4N66o8CQa4QbzOEyNQNa2wKLrZdSSqx4p6xcOP
+         Ao8UlSI02nUDlYdNCScGtYaEABRNRF0E15CLm2EfAvKevC+2R00Z3CnnnWIgNAvKXtnE
+         hOsX8QphZA5Q+lp3KI8aFHeQRJuSMamdJ5NZplRE48vT+O19hwC6RpbWiOLv8R7Nj3ZO
+         5jKWAWV1LhDHlq9ZZt+mVmrIe857dhTc7NaMXoheAdmv5xVaiHI77Rqj6aSqOauLOftG
+         dA+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUBKpLfV7RLQpVBDshjPU9kAsrFpnqgsARrag+rK1lgs/ZP4YQYe0iwv+eBZK+8emkG0odLMW7y9rwGpE3a@vger.kernel.org, AJvYcCV+I7eO0x4s9mHEtCDipOHhsemD9AguvYusNrmklf8thHmm5qMQUVP74Vta2x9c0rh4uwwyqbIS5kOvyKuKBQ+GYoHe@vger.kernel.org, AJvYcCVCOCjbXCMWH44CAc//aOsAuJDktT7D+tJFuSSxsDfebkkx4OXTJOhiXhGpRfzRXAGZdrFMb6i3AyWq@vger.kernel.org, AJvYcCW/g5ZEkUfYe2JLn0RsRFUDicLazWVzfxeZAjBFoukzG0nHBIoXH1KzcJlcUjTk5WCirCs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDTeUYkGPO0W3OzjuwoHsuRyxkXWg83WDwrgfhjxKm3AjSgKBj
+	E3XSuLN5T+lT9FTHpWm3gtrjqG4qtv9W8qq/LNaHg9Fd9MucQ8FtMp3d6H1JLV5501mNBwhhnCh
+	0nskhx4KPklUCJhMTSxAcNW+rxS8=
+X-Gm-Gg: ASbGnctN9D+9B8nQzPjlY90D5Zsr7EK+tiSgNPHP4JAxpcYYbpi4IH8Rmeqysy9hfK0
+	Jy2L1ycEElVJ7QnDCjDr7fEyn5zV9cKShBi/BDA==
+X-Google-Smtp-Source: AGHT+IHJX6hY0eAQy6BVLcqrhQkG6xXjLqjD1snIbj+eS7HYnsWW+fZiU6dEi26xENtEZmYY56T4IR6aCTtQtNtu7Mg=
+X-Received: by 2002:a05:6871:aa13:b0:29e:6bdb:e362 with SMTP id
+ 586e51a60fabf-2aa066d751cmr5569053fac.17.1736521932895; Fri, 10 Jan 2025
+ 07:12:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e7deabf6-8bba-45d7-a0f4-395bc8e5aabe@app.fastmail.com>
+From: Eyal Birger <eyal.birger@gmail.com>
+Date: Fri, 10 Jan 2025 07:12:02 -0800
+X-Gm-Features: AbW1kvbvpEtL4q7Qo5p42lWx573CTzDgXCq--KEjLCX-pSwViQngpRqqL2XI6HM
+Message-ID: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
+Subject: Crash when attaching uretprobes to processes running in Docker
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: olsajiri@gmail.com, mhiramat@kernel.org, oleg@redhat.com, 
+	linux-kernel <linux-kernel@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
+	BPF-dev-list <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, peterz@infradead.org, tglx@linutronix.de, 
+	bp@alien8.de, x86@kernel.org, linux-api@vger.kernel.org, 
+	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii.nakryiko@gmail.com>, 
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io, 
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2025-01-09 20:59:45, Arnd Bergmann wrote:
-> On Thu, Jan 9, 2025, at 18:45, Andrey Albershteyn wrote:
-> >
-> >  arch/alpha/kernel/syscalls/syscall.tbl      |   2 +
-> >  arch/m68k/kernel/syscalls/syscall.tbl       |   2 +
-> >  arch/microblaze/kernel/syscalls/syscall.tbl |   2 +
-> >  arch/parisc/kernel/syscalls/syscall.tbl     |   2 +
-> >  arch/powerpc/kernel/syscalls/syscall.tbl    |   2 +
-> >  arch/s390/kernel/syscalls/syscall.tbl       |   2 +
-> >  arch/sh/kernel/syscalls/syscall.tbl         |   2 +
-> >  arch/sparc/kernel/syscalls/syscall.tbl      |   2 +
-> >  arch/x86/entry/syscalls/syscall_32.tbl      |   2 +
-> >  arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
-> >  arch/xtensa/kernel/syscalls/syscall.tbl     |   2 +
-> 
-> You seem to be missing a couple of files here: 
-> 
-> arch/arm/tools/syscall.tbl
-> arch/arm64/tools/syscall_32.tbl
-> arch/mips/kernel/syscalls/syscall_n32.tbl
-> arch/mips/kernel/syscalls/syscall_n64.tbl
-> arch/mips/kernel/syscalls/syscall_o32.tbl
-> 
->        Arnd
-> 
+Hi,
 
-Thanks! Added
+When attaching uretprobes to processes running inside docker, the attached
+process is segfaulted when encountering the retprobe. The offending commit
+is:
 
--- 
-- Andrey
+ff474a78cef5 ("uprobe: Add uretprobe syscall to speed up return probe")
 
+To my understanding, the reason is that now that uretprobe is a system call,
+the default seccomp filters in docker block it as they only allow a specific
+set of known syscalls.
+
+This behavior can be reproduced by the below bash script, which works before
+this commit.
+
+Reported-by: Rafael Buchbinder <rafi@rbk.io>
+
+Eyal.
+
+--- CODE ---
+#!/bin/bash
+
+cat > /tmp/x.c << EOF
+#include <stdio.h>
+#include <seccomp.h>
+
+char *syscalls[] = {
+"write",
+"exit_group",
+};
+
+__attribute__((noinline)) int probed(void)
+{
+printf("Probed\n");
+return 1;
+}
+
+void apply_seccomp_filter(char **syscalls, int num_syscalls)
+{
+scmp_filter_ctx ctx;
+
+ctx = seccomp_init(SCMP_ACT_ERRNO(1));
+for (int i = 0; i < num_syscalls; i++) {
+seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
+seccomp_syscall_resolve_name(syscalls[i]), 0);
+}
+seccomp_load(ctx);
+seccomp_release(ctx);
+}
+
+int main(int argc, char *argv[])
+{
+int num_syscalls = sizeof(syscalls) / sizeof(syscalls[0]);
+
+apply_seccomp_filter(syscalls, num_syscalls);
+
+probed();
+
+return 0;
+}
+EOF
+
+cat > /tmp/trace.bt << EOF
+uretprobe:/tmp/x:probed
+{
+    printf("ret=%d\n", retval);
+}
+EOF
+
+gcc -o /tmp/x /tmp/x.c -lseccomp
+
+/usr/bin/bpftrace /tmp/trace.bt &
+
+sleep 5 # wait for uretprobe attach
+/tmp/x
+
+pkill bpftrace
+
+rm /tmp/x /tmp/x.c /tmp/trace.bt
 
