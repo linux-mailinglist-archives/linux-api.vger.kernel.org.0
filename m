@@ -1,97 +1,85 @@
-Return-Path: <linux-api+bounces-2973-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2974-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3251A0A54B
-	for <lists+linux-api@lfdr.de>; Sat, 11 Jan 2025 19:40:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D515A0A60B
+	for <lists+linux-api@lfdr.de>; Sat, 11 Jan 2025 22:06:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E81E1686D7
-	for <lists+linux-api@lfdr.de>; Sat, 11 Jan 2025 18:40:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38E503A2F7F
+	for <lists+linux-api@lfdr.de>; Sat, 11 Jan 2025 21:06:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 000341B4F0B;
-	Sat, 11 Jan 2025 18:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05901B87F4;
+	Sat, 11 Jan 2025 21:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXbk5M+f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VpQjtE4n"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354051F16B;
-	Sat, 11 Jan 2025 18:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90091B87D3;
+	Sat, 11 Jan 2025 21:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736620821; cv=none; b=uyizb+51kRwHkHcFYbuMv1je+s1ypO6dygxODJmqPpMY8ryXmWwQAE7zm3NVItSMneVNWzxDh9p2/mOc+GQLnDQNaLxa0zIEo1KHBMlxKPNAiqKvMkHx3urUr4MaZdhc85pcDMQvmdYkmWkmZOPIb7A/5vrS5w+71/QMpkTZdKM=
+	t=1736629569; cv=none; b=sV5xB3gfeIYdCuRs7oYwynSepdshnr9P/3v/yQThzMu7wr2/ZXlNoumlezrhR5gGVx7aaFEii9bNoKC9OcRZMidqiW6mAx0G6wYR6HN4uxGGlZCMZEuLcy1jo8M0En/VGeIybg8HReoF9LKL/oLkPvlUnhCQ2Po0UTBYfCxiooY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736620821; c=relaxed/simple;
-	bh=7DdLqMzhTpJW/Tedvh31b4USRvaXV056V3kTLIoVG2c=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PXQzwuGOmTS9V5OqnVVxPLhxhifH9m3km0MnMD/hhTiTcxZwSWGc2h2jtEHWAp+jIWUKlewPE5jUqZohWqzgsu8bpkHSArZXnXmZCcxU9Tsf3g7f1hnjbu5dLqIuXmRA+dHPRJvUkuXS+svCJ30wW76aMrODXI7gsJn9eJtd3r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXbk5M+f; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436a39e4891so21942675e9.1;
-        Sat, 11 Jan 2025 10:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736620818; x=1737225618; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRU6IkG5xqviZpog8kuGzgyGQ5yq/o+Edx/mEDzPhfY=;
-        b=HXbk5M+fsTAAwUvt5qVy3YoHyBiQLWLuTs3IgxM64dpsYWkiF7KRYaIi131FyYBb3a
-         G5Zt2fiDAgwKreGqyRFEwcr93A6F7lqGuvjhkTqKwp0qITppJur+wr68TMNK88XVE1ak
-         lo/3cN2fCAIDGc9B+POkkjJMF2+jYr6rppxfcwYZCl5uz5zs3f9IQpQWiz8dED8f7KhN
-         rRzthtYOXyHXVSMpky8kxDjAYY44BABaU3vfqpz2n+g7Qm5PnkXR+KPO3AulsyCAV9T2
-         W9oIWio4QRNPf8ZN5MFCYKJIk3z/u6DGnHaw86KBppQZlVmEC0gppkJReJFIcGT5tb/B
-         zt8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736620818; x=1737225618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vRU6IkG5xqviZpog8kuGzgyGQ5yq/o+Edx/mEDzPhfY=;
-        b=NkRPpU3E0J7YPQUU+BH54lVOJqEheQy1+S9lT8QOqRc8ZXhSOo3+aJTWZyIvoSGSvz
-         Kf6Pevf/TzWAbNygxgb22pz2vsMoigWMJwkM0mH6vm2CzFn+rlReJR2dnmfD2GPoQX5E
-         g9K4H5jl3+aGWIs1PwDgoiT4wSXkrmKSfVxRzyCXbzLc73an6XQkM3sIX0H1oR7WNrCw
-         ZEEqAdHVoYJOukr2KcbIJfa2NoVzdNLpS5CCdVlIKrERfLvyGvllC0fMi0Y+9MA0PmS1
-         YiVnCbZ2CPMCRKkcb+Gn2UJsgv+/giE2qX5KcyWjQChPDXqqGxnXjdZ3QFjLG6NrjCAM
-         hjhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUd6DxrEQe2cl26iGLLYf+iqPtCYGX/31qaWvIgwO5tGKdVSls9NhBFNV0K+V5oYXjSloiwyN/yaZ7gP8iQ@vger.kernel.org, AJvYcCV9geo6GknTIppyET9Q5GaQj60jMOqzBHX2D1D+724NQd0Npko9FC/45VbFlSzEGoQpiZHC9pu0p71+ZriARgPA6dK8@vger.kernel.org, AJvYcCVDSCF3QSXjxXT1E0vhLPGwhs8hP0zqtxvuRV6MaaE3p5PgaDo8pyQSuUyKeelrqIxM02g=@vger.kernel.org, AJvYcCWFHjbZZwZT5Kdo//BgHqfibq0PgpHiZS3XUQgG3WvwVRO8JZ80O13TI/sC8Muq1QQcTOZOqOQPnP7/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1+rI2i4JFO0Cw8BXXbj4hTMlEbUWIt0Of7SKGeH4k+f2cVObU
-	RYiAWg+WDjkiblx21xOYhhQbKmYc1UZ8HRGSC96Ms0m1YQ8u0JIc
-X-Gm-Gg: ASbGncsEpinOrMHp8nAznW8OFxCfQFdJYsuCR12m3ck3apDA7tuWSloCllNA3GCSpnt
-	3YwV1S0h33KI6CGSuyBjVzPRwA+kRZz7NITthP36K+j2Sha+PM6VXnwQXMHvnyG1aOe8PvqGXrS
-	2gTSwS9NAYR95kP9G6fx+f6Nl9Z8wt1zTkid+viwksVhBi6lFZOKkHdOOM59wDM29+GUbXJHPZE
-	yk47ovdzjCJml08zfFaQH2i/q2HtxYUNFQBvLbOb7g=
-X-Google-Smtp-Source: AGHT+IHPbxB34Z6ANoOJIDCWUBTh+3epyhf4nGI+8yF/HEI8u4kppeSeWkZ9l+ORgztBkJ+Nif1PjA==
-X-Received: by 2002:a5d:47a3:0:b0:38a:4184:2510 with SMTP id ffacd0b85a97d-38a872db629mr15346290f8f.23.1736620818193;
-        Sat, 11 Jan 2025 10:40:18 -0800 (PST)
-Received: from krava ([213.175.46.84])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e8bea5sm123979515e9.31.2025.01.11.10.40.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jan 2025 10:40:17 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Sat, 11 Jan 2025 19:40:15 +0100
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Eyal Birger <eyal.birger@gmail.com>, olsajiri@gmail.com,
-	mhiramat@kernel.org, oleg@redhat.com,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	BPF-dev-list <bpf@vger.kernel.org>,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>, peterz@infradead.org,
-	tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
-	linux-api@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
-	Shmulik Ladkani <shmulik.ladkani@gmail.com>
-Subject: Re: Crash when attaching uretprobes to processes running in Docker
-Message-ID: <Z4K7D10rjuVeRCKq@krava>
-References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
- <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+	s=arc-20240116; t=1736629569; c=relaxed/simple;
+	bh=KIyVo7rhDv5U9a2m9uUPF1sHWPaMkt6MToDHXgzY2SQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mGBGqug9BQM+R4kajAvIRau2Q3XJt784YkmdfNiZ4sjkeB52Fc+PPD4KRpbkBh0i52FDJZErL0x2JV0fzOYdfYgH09kX1m8L2iR1DHwEf5B/jM6MZNRZHdv9zQ/ohGWaDA7PNpRDWjyHRlkjte3hJZ0R3c1Ho1kgybyHb2lwgec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VpQjtE4n; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736629566; x=1768165566;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KIyVo7rhDv5U9a2m9uUPF1sHWPaMkt6MToDHXgzY2SQ=;
+  b=VpQjtE4nf2cXjIMmZszRL1EOr7mJ+4GIXSLWeLF2qWtuZ+nItWhjkCZp
+   SkH7086HkXntiCyl+TVBWKosFLvKUQFFpCcOTBm6+vf1V7i+SeuH+aBqb
+   RMI4evC2PYGZmPZ52TRqj307jx9w6sHI0jiPltcoi0RvlT4U9+wgawAw3
+   c7UcAbWWGJCC2nYBiY1d4jjQVyPCkcu417dVD/MBwsjc2cHYMSrfA6q1R
+   Q8ybU4vhOFzslSurb/sJHRUvtiXu1NcZ4B1/ZYEuzWAY4tK5t3zOkjH73
+   lIDR8g1/03hoAp/9bJFK1jvxtv9oD7oN4jcR7OfswioscGSLofurD6DMf
+   Q==;
+X-CSE-ConnectionGUID: 2NDMreUASjyZOqGQIDSoog==
+X-CSE-MsgGUID: XKMs+2mSTluK5mP8Cb1Z5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47391049"
+X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
+   d="scan'208";a="47391049"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 13:06:05 -0800
+X-CSE-ConnectionGUID: USUZh5MxQrKqMrvcO7TRsQ==
+X-CSE-MsgGUID: v47+EjcAR0GF9DNRbLx7iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
+   d="scan'208";a="109054185"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jan 2025 13:05:58 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWig7-000LCn-2U;
+	Sat, 11 Jan 2025 21:05:55 +0000
+Date: Sun, 12 Jan 2025 05:05:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrey Albershteyn <aalbersh@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrey Albershteyn <aalbersh@redhat.com>,
+	linux-api@vger.kernel.org, monstr@monstr.eu, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
+	maddy@linux.ibm.com, luto@kernel.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	arnd@arndb.de, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org
+Subject: Re: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
+Message-ID: <202501120410.3ZwwYXqY-lkp@intel.com>
+References: <20250109174540.893098-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -100,112 +88,44 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+In-Reply-To: <20250109174540.893098-1-aalbersh@kernel.org>
 
-On Sat, Jan 11, 2025 at 02:25:37AM +1100, Aleksa Sarai wrote:
-> On 2025-01-10, Eyal Birger <eyal.birger@gmail.com> wrote:
-> > Hi,
-> > 
-> > When attaching uretprobes to processes running inside docker, the attached
-> > process is segfaulted when encountering the retprobe. The offending commit
-> > is:
-> > 
-> > ff474a78cef5 ("uprobe: Add uretprobe syscall to speed up return probe")
-> > 
-> > To my understanding, the reason is that now that uretprobe is a system call,
-> > the default seccomp filters in docker block it as they only allow a specific
-> > set of known syscalls.
-> 
-> FWIW, the default seccomp profile of Docker _should_ return -ENOSYS for
-> uretprobe (runc has a bunch of ugly logic to try to guarantee this if
-> Docker hasn't updated their profile to include it). Though I guess that
-> isn't sufficient for the magic that uretprobe(2) does...
-> 
-> > This behavior can be reproduced by the below bash script, which works before
-> > this commit.
-> > 
-> > Reported-by: Rafael Buchbinder <rafi@rbk.io>
+Hi Andrey,
 
-hi,
-nice ;-) thanks for the report, the problem seems to be that uretprobe syscall
-is blocked and uretprobe trampoline does not expect that
+kernel test robot noticed the following build warnings:
 
-I think we could add code to the uretprobe trampoline to detect this and
-execute standard int3 as fallback to process uretprobe, I'm checking on that
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on geert-m68k/for-next powerpc/next powerpc/fixes s390/features linus/master v6.13-rc6 next-20250110]
+[cannot apply to geert-m68k/for-linus deller-parisc/for-next jcmvbkbc-xtensa/xtensa-for-next tip/x86/asm]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-jirka
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-introduce-getfsxattrat-and-setfsxattrat-syscalls/20250110-014739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250109174540.893098-1-aalbersh%40kernel.org
+patch subject: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
+config: riscv-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120410.3ZwwYXqY-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501120410.3ZwwYXqY-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501120410.3ZwwYXqY-lkp@intel.com/
 
-> > 
-> > Eyal.
-> > 
-> > --- CODE ---
-> > #!/bin/bash
-> > 
-> > cat > /tmp/x.c << EOF
-> > #include <stdio.h>
-> > #include <seccomp.h>
-> > 
-> > char *syscalls[] = {
-> > "write",
-> > "exit_group",
-> > };
-> > 
-> > __attribute__((noinline)) int probed(void)
-> > {
-> > printf("Probed\n");
-> > return 1;
-> > }
-> > 
-> > void apply_seccomp_filter(char **syscalls, int num_syscalls)
-> > {
-> > scmp_filter_ctx ctx;
-> > 
-> > ctx = seccomp_init(SCMP_ACT_ERRNO(1));
-> > for (int i = 0; i < num_syscalls; i++) {
-> > seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
-> > seccomp_syscall_resolve_name(syscalls[i]), 0);
-> > }
-> > seccomp_load(ctx);
-> > seccomp_release(ctx);
-> > }
-> > 
-> > int main(int argc, char *argv[])
-> > {
-> > int num_syscalls = sizeof(syscalls) / sizeof(syscalls[0]);
-> > 
-> > apply_seccomp_filter(syscalls, num_syscalls);
-> > 
-> > probed();
-> > 
-> > return 0;
-> > }
-> > EOF
-> > 
-> > cat > /tmp/trace.bt << EOF
-> > uretprobe:/tmp/x:probed
-> > {
-> >     printf("ret=%d\n", retval);
-> > }
-> > EOF
-> > 
-> > gcc -o /tmp/x /tmp/x.c -lseccomp
-> > 
-> > /usr/bin/bpftrace /tmp/trace.bt &
-> > 
-> > sleep 5 # wait for uretprobe attach
-> > /tmp/x
-> > 
-> > pkill bpftrace
-> > 
-> > rm /tmp/x /tmp/x.c /tmp/trace.bt
-> > 
-> 
-> -- 
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> https://www.cyphar.com/
+All warnings (new ones prefixed by >>):
 
+>> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
+>> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
+--
+>> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
+>> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
+--
+>> <stdin>:1615:2: warning: #warning syscall getfsxattrat not implemented [-Wcpp]
+>> <stdin>:1618:2: warning: #warning syscall setfsxattrat not implemented [-Wcpp]
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
