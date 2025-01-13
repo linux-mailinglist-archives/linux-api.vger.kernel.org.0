@@ -1,84 +1,106 @@
-Return-Path: <linux-api+bounces-2975-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2976-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ADFA0ADDC
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 04:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168E7A0B54F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 12:19:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42F243A6837
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 03:25:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D20E83A725F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 11:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD09145B3F;
-	Mon, 13 Jan 2025 03:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECCA522F161;
+	Mon, 13 Jan 2025 11:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bSRWhzay"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sbvzz2FT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="I5CE8/zy";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sbvzz2FT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="I5CE8/zy"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246F1420DD;
-	Mon, 13 Jan 2025 03:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C070B22F158;
+	Mon, 13 Jan 2025 11:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736738745; cv=none; b=qyUNzz/5awqBpGs9fC6mrLNQvNUJzrp1MLP3K8dUn6HGWXirM7QUVGhduAy8ugl1LQEGi6WcdcJ/pIXT8Z16WmWojABxDSKCvjukUjA0TqmDqC78rQZjv0ZwTPo7RIcVePUvUT2h5DqE5Io9HtpafnWkG18NtbhN7zq7layku3E=
+	t=1736767185; cv=none; b=dzPNmPRKO5UJ6TcHgYD229iax17TwazJytOPOTPnp66GPfMKaEhstQi3LrMRRM2PHBehmXoCsIXwgnO6rQMbiaLHCePQL1lOZyV53GufXWQP0ktp0tsLrGWtPzfJ957NjvpNb3WHdTCqj3xsLxoupkM52kK3PejlAxVR8ypcQnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736738745; c=relaxed/simple;
-	bh=kDvnC74Lo6EZ1n3L3aZwXkWsD4GwjpMEPT/wHL2YzN4=;
+	s=arc-20240116; t=1736767185; c=relaxed/simple;
+	bh=mLZrY9jaadQOj6v1sLTVW5BUTvxh6DhZBdhO7Fv+MdM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Polb2I9JXmwgvdRR0sZs8qULzCINJuQHOPCD0EzeQJCt1GPpFn4q/90VCq2rHjCVCRVUjIymjEEj7uyGnAQWN8SsvZsplb9IUCWsWZoS/sHpAFVleCxsuhw8Xj9SunIVHIuhwn+Ndup3hcKNKB/Xti+h6Gr4w8RZ3RQQs45qQPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bSRWhzay; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736738743; x=1768274743;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kDvnC74Lo6EZ1n3L3aZwXkWsD4GwjpMEPT/wHL2YzN4=;
-  b=bSRWhzayo+3BVU64Q2ou3pz2apkIzEWoisoV91Qya9Dv09XZmkWO/loo
-   2EOfrujz+Zg0JRVHHy6damYgkMU5cge7KpddDJJvTixfEdEpGaWAUGrfl
-   VnpkHLSrofMoJiN7mH04FGsk11WeOXdJARfZy6s1RR4/BvEa4Vu57oSpi
-   QNpWL+Idd9ihCWUZv1q8qjioGGa9eqR6/r+bohc1PhCK4xbXc1+2uDxZ4
-   U4MgPyvPsn0a8w+LaAd8OjdRRvznJjor4mYHd0cb7EYBrYIrQTItzev8t
-   1lLhHIH7ybbULgeE7G6eERgNLhatQp49PzHiyYkILyM8KjUys14vQBnhB
-   A==;
-X-CSE-ConnectionGUID: i0zYZppWQRujwTVEPA3C3A==
-X-CSE-MsgGUID: tJywnziMS6OUFfNoACaTAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="48399183"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="48399183"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 19:25:42 -0800
-X-CSE-ConnectionGUID: pGeiW06QRgC2unHlctenaQ==
-X-CSE-MsgGUID: cNe1mltgTL6TwFBhawgDIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="104496936"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jan 2025 19:25:35 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tXB53-000Mfv-1I;
-	Mon, 13 Jan 2025 03:25:33 +0000
-Date: Mon, 13 Jan 2025 11:25:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrey Albershteyn <aalbersh@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andrey Albershteyn <aalbersh@redhat.com>,
-	linux-api@vger.kernel.org, monstr@monstr.eu, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
-	maddy@linux.ibm.com, luto@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	arnd@arndb.de, linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=SI3UJsYndRW5u8WT5g+BCnM3IbOeWyiJ/V+WQag3wgZDLtB1rgqFTlZdbCAXBgw4ybDQw7PMjOrn3nlVA+i0as3mmw2fsq5DWbrsByXpE2ZZdZA7SB2xW4nbehMOR/kzkqNXtuaQ0O6jAoVaD0R2OtKyHSCQF2HRo6cOUiII8ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sbvzz2FT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=I5CE8/zy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sbvzz2FT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=I5CE8/zy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E0921F37C;
+	Mon, 13 Jan 2025 11:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736767181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UMT0laOUJ9M1D5IjkCfV/ptVZnIKmdTg97voNpSS9nc=;
+	b=sbvzz2FTVbbUucp+7/XWFQYGw/ubL6oc54Y0aCoBgLwAMxHZH9mZhIeJfvTiKWc4VcC2JO
+	l+UMj7p5mfLWHg9krKVR39faX+FPBAMRkMx/Ow55N06zImCiaNspp4+jOWfIccNDP4Fs4q
+	8bzTsiBD0EcouzCTYfDLnpqr5pi1yPo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736767181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UMT0laOUJ9M1D5IjkCfV/ptVZnIKmdTg97voNpSS9nc=;
+	b=I5CE8/zyZTUYGcz4iD65P68ucesjsl655fmMQDmJCAELfC2H42QzzaWLknR2tQCevbMAOh
+	yyKGu24FeQTdSrDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736767181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UMT0laOUJ9M1D5IjkCfV/ptVZnIKmdTg97voNpSS9nc=;
+	b=sbvzz2FTVbbUucp+7/XWFQYGw/ubL6oc54Y0aCoBgLwAMxHZH9mZhIeJfvTiKWc4VcC2JO
+	l+UMj7p5mfLWHg9krKVR39faX+FPBAMRkMx/Ow55N06zImCiaNspp4+jOWfIccNDP4Fs4q
+	8bzTsiBD0EcouzCTYfDLnpqr5pi1yPo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736767181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UMT0laOUJ9M1D5IjkCfV/ptVZnIKmdTg97voNpSS9nc=;
+	b=I5CE8/zyZTUYGcz4iD65P68ucesjsl655fmMQDmJCAELfC2H42QzzaWLknR2tQCevbMAOh
+	yyKGu24FeQTdSrDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8E1613876;
+	Mon, 13 Jan 2025 11:19:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id AoDXOMz2hGd8egAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 13 Jan 2025 11:19:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id A1B81A08E2; Mon, 13 Jan 2025 12:19:36 +0100 (CET)
+Date: Mon, 13 Jan 2025 12:19:36 +0100
+From: Jan Kara <jack@suse.cz>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	monstr@monstr.eu, mpe@ellerman.id.au, npiggin@gmail.com, 
+	christophe.leroy@csgroup.eu, naveen@kernel.org, maddy@linux.ibm.com, luto@kernel.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
+	x86@kernel.org, hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, arnd@arndb.de, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org
 Subject: Re: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-Message-ID: <202501131033.KKMmoHBV-lkp@intel.com>
+Message-ID: <doha6zamxgmqapwx4r6ehzbatzar4dcep33zehunonqforjzf5@lxpidn37tdjh>
 References: <20250109174540.893098-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -89,99 +111,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20250109174540.893098-1-aalbersh@kernel.org>
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,monstr.eu,ellerman.id.au,gmail.com,csgroup.eu,kernel.org,linux.ibm.com,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com,zankel.net,zeniv.linux.org.uk,suse.cz,arndb.de,lists.linux-m68k.org,lists.ozlabs.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLyerg7kx5bdf6cnfzf33td54o)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Andrey,
+On Thu 09-01-25 18:45:40, Andrey Albershteyn wrote:
+> From: Andrey Albershteyn <aalbersh@redhat.com>
+> 
+> Introduce getfsxattrat and setfsxattrat syscalls to manipulate inode
+> extended attributes/flags. The syscalls take parent directory FD and
+> path to the child together with struct fsxattr.
+> 
+> This is an alternative to FS_IOC_FSSETXATTR ioctl with a difference
+> that file don't need to be open. By having this we can manipulated
+> inode extended attributes not only on normal files but also on
+> special ones. This is not possible with FS_IOC_FSSETXATTR ioctl as
+> opening special files returns VFS special inode instead of
+> underlying filesystem one.
+> 
+> This patch adds two new syscalls which allows userspace to set
+> extended inode attributes on special files by using parent directory
+> to open FS inode.
+> 
+> Also, as vfs_fileattr_set() is now will be called on special files
+> too, let's forbid any other attributes except projid and nextents
+> (symlink can have an extent).
+> 
+> CC: linux-api@vger.kernel.org
+> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 
-kernel test robot noticed the following build warnings:
+Couple of comments below:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on geert-m68k/for-next powerpc/next powerpc/fixes s390/features linus/master v6.13-rc6 next-20250110]
-[cannot apply to geert-m68k/for-linus deller-parisc/for-next jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master tip/x86/asm]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> @@ -2953,3 +2956,105 @@ umode_t mode_strip_sgid(struct mnt_idmap *idmap,
+>  	return mode & ~S_ISGID;
+>  }
+>  EXPORT_SYMBOL(mode_strip_sgid);
+> +
+> +SYSCALL_DEFINE4(getfsxattrat, int, dfd, const char __user *, filename,
+> +		struct fsxattr *, fsx, int, at_flags)
+				       ^^^ at_flags should be probably
+unsigned - at least they seem to be for other syscalls.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-introduce-getfsxattrat-and-setfsxattrat-syscalls/20250110-014739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250109174540.893098-1-aalbersh%40kernel.org
-patch subject: [PATCH] fs: introduce getfsxattrat and setfsxattrat syscalls
-config: m68k-randconfig-r122-20250111 (https://download.01.org/0day-ci/archive/20250113/202501131033.KKMmoHBV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250113/202501131033.KKMmoHBV-lkp@intel.com/reproduce)
+> +{
+> +	struct fd dir;
+> +	struct fileattr fa;
+> +	struct path filepath;
+> +	struct inode *inode;
+> +	int error;
+> +
+> +	if (at_flags)
+> +		return -EINVAL;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501131033.KKMmoHBV-lkp@intel.com/
+Shouldn't we support basic path resolve flags like AT_SYMLINK_NOFOLLOW or
+AT_EMPTY_PATH? I didn't put too much thought to this but intuitively I'd say
+we should follow what path_setxattrat() does.
 
-sparse warnings: (new ones prefixed by >>)
-   fs/inode.c:957:24: sparse: sparse: context imbalance in 'inode_lru_isolate' - wrong count at exit
-   fs/inode.c:1058:9: sparse: sparse: context imbalance in 'find_inode' - different lock contexts for basic block
-   fs/inode.c:1099:9: sparse: sparse: context imbalance in 'find_inode_fast' - different lock contexts for basic block
-   fs/inode.c:1829:5: sparse: sparse: context imbalance in 'insert_inode_locked' - wrong count at exit
-   fs/inode.c:1947:20: sparse: sparse: context imbalance in 'iput_final' - unexpected unlock
-   fs/inode.c:1961:6: sparse: sparse: context imbalance in 'iput' - wrong count at exit
-   fs/inode.c:2494:17: sparse: sparse: context imbalance in '__wait_on_freeing_inode' - unexpected unlock
->> fs/inode.c:2998:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:2998:39: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:2998:39: sparse:     got struct fsxattr *fsx
-   fs/inode.c:3032:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct fsxattr [noderef] __user *ufa @@     got struct fsxattr *fsx @@
-   fs/inode.c:3032:41: sparse:     expected struct fsxattr [noderef] __user *ufa
-   fs/inode.c:3032:41: sparse:     got struct fsxattr *fsx
+> +
+> +	if (!capable(CAP_FOWNER))
+> +		return -EPERM;
 
-vim +2998 fs/inode.c
+Why? Firstly this does not handle user namespaces at all, secondly it
+doesn't match the check done during ioctl, and thirdly vfs_fileattr_get()
+should do all the needed checks?
 
-  2959	
-  2960	SYSCALL_DEFINE4(getfsxattrat, int, dfd, const char __user *, filename,
-  2961			struct fsxattr *, fsx, int, at_flags)
-  2962	{
-  2963		struct fd dir;
-  2964		struct fileattr fa;
-  2965		struct path filepath;
-  2966		struct inode *inode;
-  2967		int error;
-  2968	
-  2969		if (at_flags)
-  2970			return -EINVAL;
-  2971	
-  2972		if (!capable(CAP_FOWNER))
-  2973			return -EPERM;
-  2974	
-  2975		dir = fdget(dfd);
-  2976		if (!fd_file(dir))
-  2977			return -EBADF;
-  2978	
-  2979		if (!S_ISDIR(file_inode(fd_file(dir))->i_mode)) {
-  2980			error = -EBADF;
-  2981			goto out;
-  2982		}
-  2983	
-  2984		error = user_path_at(dfd, filename, at_flags, &filepath);
-  2985		if (error)
-  2986			goto out;
-  2987	
-  2988		inode = filepath.dentry->d_inode;
-  2989		if (file_inode(fd_file(dir))->i_sb->s_magic != inode->i_sb->s_magic) {
-  2990			error = -EBADF;
-  2991			goto out_path;
-  2992		}
-  2993	
-  2994		error = vfs_fileattr_get(filepath.dentry, &fa);
-  2995		if (error)
-  2996			goto out_path;
-  2997	
-> 2998		if (copy_fsxattr_to_user(&fa, fsx))
-  2999			error = -EFAULT;
-  3000	
-  3001	out_path:
-  3002		path_put(&filepath);
-  3003	out:
-  3004		fdput(dir);
-  3005		return error;
-  3006	}
-  3007	
+> +
+> +	dir = fdget(dfd);
+> +	if (!fd_file(dir))
+> +		return -EBADF;
+> +
+> +	if (!S_ISDIR(file_inode(fd_file(dir))->i_mode)) {
+> +		error = -EBADF;
+> +		goto out;
+> +	}
+> +
+> +	error = user_path_at(dfd, filename, at_flags, &filepath);
+> +	if (error)
+> +		goto out;
 
+I guess this is OK for now but allowing full flexibility of the "_at"
+syscall (e.g. like setxattrat() does) would be preferred. Mostly so that
+userspace programmer doesn't have to read manpage in detail and think
+whether the particular combination of path arguments is supported by a
+particular syscall. Admittedly VFS could make this a bit simpler. Currently
+the boilerplate code that's needed in path_setxattrat() &
+filename_setxattr() / file_setxattr() is offputting.
+
+> +
+> +	inode = filepath.dentry->d_inode;
+> +	if (file_inode(fd_file(dir))->i_sb->s_magic != inode->i_sb->s_magic) {
+> +		error = -EBADF;
+> +		goto out_path;
+> +	}
+
+What's the motivation for this check?
+
+> +
+> +	error = vfs_fileattr_get(filepath.dentry, &fa);
+> +	if (error)
+> +		goto out_path;
+> +
+> +	if (copy_fsxattr_to_user(&fa, fsx))
+> +		error = -EFAULT;
+> +
+> +out_path:
+> +	path_put(&filepath);
+> +out:
+> +	fdput(dir);
+> +	return error;
+> +}
+> +
+> +SYSCALL_DEFINE4(setfsxattrat, int, dfd, const char __user *, filename,
+> +		struct fsxattr *, fsx, int, at_flags)
+> +{
+
+Same comments as for getfsxattrat() apply here as well.
+
+> -static int copy_fsxattr_from_user(struct fileattr *fa,
+> -				  struct fsxattr __user *ufa)
+> +int copy_fsxattr_from_user(struct fileattr *fa, struct fsxattr __user *ufa)
+>  {
+>  	struct fsxattr xfa;
+>  
+> @@ -574,6 +573,7 @@ static int copy_fsxattr_from_user(struct fileattr *fa,
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(copy_fsxattr_from_user);
+
+I guess no need to export this function? The code you call it from cannot
+be compiled as a module.
+
+								Honza
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
