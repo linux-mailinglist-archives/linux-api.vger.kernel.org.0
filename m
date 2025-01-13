@@ -1,94 +1,48 @@
-Return-Path: <linux-api+bounces-2978-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2979-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B32A0BE6A
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 18:10:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 817CAA0BEA3
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 18:13:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C3093A4B2D
-	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 17:10:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECA94169D2F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Jan 2025 17:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542801FBBD3;
-	Mon, 13 Jan 2025 17:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72AD2229808;
+	Mon, 13 Jan 2025 17:12:11 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 300CB1FBBE8;
-	Mon, 13 Jan 2025 17:09:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769201BD9C1;
+	Mon, 13 Jan 2025 17:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736788176; cv=none; b=i8o6jACaAc4QjXVXphYxX4kf+maUEDiQDeSnrjH9K3gsHspJ4x7xzFSPhcygQUUIA1ZSGMI2Z17vFPw6c48Gi3MGmNWJI781UqVAMAdCENIxCPshuwSxO5XiAVHhMaubYXjP5gEgwS9x1meNxS5nm3DtY14KK9I9vp8XnfDdVLQ=
+	t=1736788331; cv=none; b=ip/exc7e4p0gz/izS87iAAdL8i2U4LFlZTNt+0mlpsQzH/gHZOJfRggz+gFwmfWDYk5uTjpx22akAREW3yqFFU8Uk6LFC1u/shRW7S2t6Eg3y7Z+C/aVJv9bIzPlNJZVnrGVz8y8L9vGkwH5Vc7aqzITVf6TRRjhk+t3QAVSuW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736788176; c=relaxed/simple;
-	bh=2p7Vt7jOMp86rYap/GwwZwHDtOoZfAcAbpaDyx0ixZA=;
+	s=arc-20240116; t=1736788331; c=relaxed/simple;
+	bh=euQ06lpunO0QPEVLc2YX/s+5IuJ+yl7oKilFf2/Xj9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RtzY9fY0N2t4WFYj/8R748TbWlOiFmsIAVSISuBiZiAXk3mSPdB5oZrF5Ys2Rphllxg+K/ae8d43vXocIJ0p7MxeX7bcKp1wPcJGKSf9t8AosH8f/aMAysqbXQLW/iEiy3FxDbANFL+k55i+swHtGM3CLKvM6WY4KwdVrV8Qn3s=
+	 Content-Disposition:In-Reply-To; b=s9Usr5dnL1hr/uiSdXGjVZ0kqztP6MJgRJdHQr2VTUVa8DpLFArZI0rgxYNFeUpb/X6Ji5qs00U5KmmkKgcr+Xb9mgRpOa+JlLDhibNqTHrMkh1k6XeOx/NGa+Lv50U0uNtJhAt29AwQFZQbxDsVR1r0bUyDG7Vwyh5qEwFEipU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
 Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 3837172C90B;
-	Mon, 13 Jan 2025 20:09:26 +0300 (MSK)
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 88C5772C8CC;
+	Mon, 13 Jan 2025 20:12:08 +0300 (MSK)
 Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 150757CCB3A; Mon, 13 Jan 2025 19:09:25 +0200 (IST)
-Date: Mon, 13 Jan 2025 19:09:25 +0200
+	id 7C1C57CCB3A; Mon, 13 Jan 2025 19:12:08 +0200 (IST)
+Date: Mon, 13 Jan 2025 19:12:08 +0200
 From: "Dmitry V. Levin" <ldv@strace.io>
 To: Oleg Nesterov <oleg@redhat.com>
 Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
 	Mike Frysinger <vapier@gentoo.org>,
 	Renzo Davoli <renzo@cs.unibo.it>,
 	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <shuah@kernel.org>, linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH v2 0/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO API
-Message-ID: <20250113170925.GA392@altlinux.org>
+	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
+Message-ID: <20250113171208.GF589@strace.io>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -97,6 +51,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250113170925.GA392@strace.io>
 
 PTRACE_SET_SYSCALL_INFO is a generic ptrace API that complements
 PTRACE_GET_SYSCALL_INFO by letting the ptracer modify details of
@@ -124,7 +79,7 @@ Ideally, PTRACE_SET_SYSCALL_INFO should have been introduced along with
 PTRACE_GET_SYSCALL_INFO, but it didn't happen.  The last straw that
 convinced me to implement PTRACE_SET_SYSCALL_INFO was apparent failure
 to provide an API of changing the first system call argument on riscv
-architecture [1].
+architecture.
 
 ptrace(2) man page:
 
@@ -136,71 +91,163 @@ PTRACE_SET_SYSCALL_INFO
        that specifies the system call information to be set.
        The "addr" argument should be set to sizeof(struct ptrace_syscall_info)).
 
-[1] https://lore.kernel.org/all/59505464-c84a-403d-972f-d4b2055eeaac@gmail.com/
-
+Link: https://lore.kernel.org/all/59505464-c84a-403d-972f-d4b2055eeaac@gmail.com/
+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
 ---
+ include/linux/ptrace.h      |  3 ++
+ include/uapi/linux/ptrace.h |  4 +-
+ kernel/ptrace.c             | 95 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 101 insertions(+), 1 deletion(-)
 
-Notes:
-    v2:
-    * Add patch to fix syscall_set_return_value() on powerpc
-    * Add patch to fix mips_get_syscall_arg() on mips
-    * Merge two patches adding syscall_set_arguments() implementations
-      from different sources into a single patch
-    * Add syscall_set_return_value() implementation on hexagon
-    * Add syscall_set_return_value() invocation to syscall_set_nr()
-      on arm and arm64.
-    * Fix syscall_set_nr() and mips_set_syscall_arg() on mips
-    * Add a comment to syscall_set_nr() on arc, powerpc, s390, sh,
-      and sparc
-    * Remove redundant ptrace_syscall_info.op assignments in
-      ptrace_get_syscall_info_*
-    * Minor style tweaks in ptrace_get_syscall_info_op()
-    * Remove syscall_set_return_value() invocation from
-      ptrace_set_syscall_info_entry()
-    * Skip syscall_set_arguments() invocation in case of syscall number -1
-      in ptrace_set_syscall_info_entry() 
-    * Split ptrace_syscall_info.reserved into ptrace_syscall_info.reserved
-      and ptrace_syscall_info.flags
-    * Use __kernel_ulong_t instead of unsigned long in set_syscall_info test
-
-Dmitry V. Levin (7):
-  powerpc: properly negate error in syscall_set_return_value()
-  mips: fix mips_get_syscall_arg() for O32 and N32
-  syscall.h: add syscall_set_arguments() and syscall_set_return_value()
-  syscall.h: introduce syscall_set_nr()
-  ptrace_get_syscall_info: factor out ptrace_get_syscall_info_op
-  ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-  selftests/ptrace: add a test case for PTRACE_SET_SYSCALL_INFO
-
- arch/arc/include/asm/syscall.h                |  25 +
- arch/arm/include/asm/syscall.h                |  37 ++
- arch/arm64/include/asm/syscall.h              |  29 ++
- arch/csky/include/asm/syscall.h               |  13 +
- arch/hexagon/include/asm/syscall.h            |  21 +
- arch/loongarch/include/asm/syscall.h          |  15 +
- arch/m68k/include/asm/syscall.h               |   7 +
- arch/microblaze/include/asm/syscall.h         |   7 +
- arch/mips/include/asm/syscall.h               |  72 ++-
- arch/nios2/include/asm/syscall.h              |  16 +
- arch/openrisc/include/asm/syscall.h           |  13 +
- arch/parisc/include/asm/syscall.h             |  19 +
- arch/powerpc/include/asm/syscall.h            |  26 +-
- arch/riscv/include/asm/syscall.h              |  16 +
- arch/s390/include/asm/syscall.h               |  24 +
- arch/sh/include/asm/syscall_32.h              |  24 +
- arch/sparc/include/asm/syscall.h              |  22 +
- arch/um/include/asm/syscall-generic.h         |  19 +
- arch/x86/include/asm/syscall.h                |  43 ++
- arch/xtensa/include/asm/syscall.h             |  18 +
- include/asm-generic/syscall.h                 |  30 ++
- include/linux/ptrace.h                        |   3 +
- include/uapi/linux/ptrace.h                   |   4 +-
- kernel/ptrace.c                               | 153 +++++-
- tools/testing/selftests/ptrace/Makefile       |   2 +-
- .../selftests/ptrace/set_syscall_info.c       | 441 ++++++++++++++++++
- 26 files changed, 1052 insertions(+), 47 deletions(-)
- create mode 100644 tools/testing/selftests/ptrace/set_syscall_info.c
-
+diff --git a/include/linux/ptrace.h b/include/linux/ptrace.h
+index 90507d4afcd6..c8dbf1e498bf 100644
+--- a/include/linux/ptrace.h
++++ b/include/linux/ptrace.h
+@@ -17,6 +17,9 @@ struct syscall_info {
+ 	struct seccomp_data	data;
+ };
+ 
++/* sizeof() the first published struct ptrace_syscall_info */
++#define PTRACE_SYSCALL_INFO_SIZE_VER0	84
++
+ extern int ptrace_access_vm(struct task_struct *tsk, unsigned long addr,
+ 			    void *buf, int len, unsigned int gup_flags);
+ 
+diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+index 72c038fc71d0..ca75b3ab5d22 100644
+--- a/include/uapi/linux/ptrace.h
++++ b/include/uapi/linux/ptrace.h
+@@ -74,6 +74,7 @@ struct seccomp_metadata {
+ };
+ 
+ #define PTRACE_GET_SYSCALL_INFO		0x420e
++#define PTRACE_SET_SYSCALL_INFO		0x4212
+ #define PTRACE_SYSCALL_INFO_NONE	0
+ #define PTRACE_SYSCALL_INFO_ENTRY	1
+ #define PTRACE_SYSCALL_INFO_EXIT	2
+@@ -81,7 +82,8 @@ struct seccomp_metadata {
+ 
+ struct ptrace_syscall_info {
+ 	__u8 op;	/* PTRACE_SYSCALL_INFO_* */
+-	__u8 pad[3];
++	__u8 reserved;
++	__u16 flags;
+ 	__u32 arch;
+ 	__u64 instruction_pointer;
+ 	__u64 stack_pointer;
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 22e7d74cf4cd..41d37cb8f74a 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -1016,6 +1016,97 @@ ptrace_get_syscall_info(struct task_struct *child, unsigned long user_size,
+ 	write_size = min(actual_size, user_size);
+ 	return copy_to_user(datavp, &info, write_size) ? -EFAULT : actual_size;
+ }
++
++static unsigned long
++ptrace_set_syscall_info_entry(struct task_struct *child, struct pt_regs *regs,
++			      struct ptrace_syscall_info *info)
++{
++	unsigned long args[ARRAY_SIZE(info->entry.args)];
++	int nr = info->entry.nr;
++	int i;
++
++	if (nr != info->entry.nr)
++		return -ERANGE;
++
++	for (i = 0; i < ARRAY_SIZE(args); i++) {
++		args[i] = info->entry.args[i];
++		if (args[i] != info->entry.args[i])
++			return -ERANGE;
++	}
++
++	syscall_set_nr(child, regs, nr);
++	/*
++	 * If the syscall number is set to -1, setting syscall arguments is not
++	 * just pointless, it would also clobber the syscall return value on
++	 * those architectures that share the same register both for the first
++	 * argument of syscall and its return value.
++	 */
++	if (nr != -1)
++		syscall_set_arguments(child, regs, args);
++
++	return 0;
++}
++
++static unsigned long
++ptrace_set_syscall_info_seccomp(struct task_struct *child, struct pt_regs *regs,
++				struct ptrace_syscall_info *info)
++{
++	/*
++	 * info->entry is currently a subset of info->seccomp,
++	 * info->seccomp.ret_data is currently ignored.
++	 */
++	return ptrace_set_syscall_info_entry(child, regs, info);
++}
++
++static unsigned long
++ptrace_set_syscall_info_exit(struct task_struct *child, struct pt_regs *regs,
++			     struct ptrace_syscall_info *info)
++{
++	if (info->exit.is_error)
++		syscall_set_return_value(child, regs, info->exit.rval, 0);
++	else
++		syscall_set_return_value(child, regs, 0, info->exit.rval);
++
++	return 0;
++}
++
++static int
++ptrace_set_syscall_info(struct task_struct *child, unsigned long user_size,
++			void __user *datavp)
++{
++	struct pt_regs *regs = task_pt_regs(child);
++	struct ptrace_syscall_info info;
++	int error;
++
++	BUILD_BUG_ON(sizeof(struct ptrace_syscall_info) < PTRACE_SYSCALL_INFO_SIZE_VER0);
++
++	if (user_size < PTRACE_SYSCALL_INFO_SIZE_VER0 || user_size > PAGE_SIZE)
++		return -EINVAL;
++
++	error = copy_struct_from_user(&info, sizeof(info), datavp, user_size);
++	if (error)
++		return error;
++
++	/* Reserved for future use. */
++	if (info.flags || info.reserved)
++		return -EINVAL;
++
++	/* Changing the type of the system call stop is not supported. */
++	if (ptrace_get_syscall_info_op(child) != info.op)
++		return -EINVAL;
++
++	switch (info.op) {
++	case PTRACE_SYSCALL_INFO_ENTRY:
++		return ptrace_set_syscall_info_entry(child, regs, &info);
++	case PTRACE_SYSCALL_INFO_EXIT:
++		return ptrace_set_syscall_info_exit(child, regs, &info);
++	case PTRACE_SYSCALL_INFO_SECCOMP:
++		return ptrace_set_syscall_info_seccomp(child, regs, &info);
++	default:
++		/* Other types of system call stops are not supported. */
++		return -EINVAL;
++	}
++}
+ #endif /* CONFIG_HAVE_ARCH_TRACEHOOK */
+ 
+ int ptrace_request(struct task_struct *child, long request,
+@@ -1234,6 +1325,10 @@ int ptrace_request(struct task_struct *child, long request,
+ 	case PTRACE_GET_SYSCALL_INFO:
+ 		ret = ptrace_get_syscall_info(child, addr, datavp);
+ 		break;
++
++	case PTRACE_SET_SYSCALL_INFO:
++		ret = ptrace_set_syscall_info(child, addr, datavp);
++		break;
+ #endif
+ 
+ 	case PTRACE_SECCOMP_GET_FILTER:
 -- 
 ldv
 
