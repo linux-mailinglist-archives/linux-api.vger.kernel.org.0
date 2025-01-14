@@ -1,80 +1,86 @@
-Return-Path: <linux-api+bounces-2981-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2982-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62664A10394
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 11:05:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4830A1047C
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 11:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70E911629A9
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 10:05:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 128F61883656
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 10:42:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5891C1ADC93;
-	Tue, 14 Jan 2025 10:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 431091FBCB2;
+	Tue, 14 Jan 2025 10:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7O7f9YM"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sfWKKjh+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F981ADC7E;
-	Tue, 14 Jan 2025 10:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C042229603;
+	Tue, 14 Jan 2025 10:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736849126; cv=none; b=BwGBiXhja/iQ9Nzhse7sQho8bX36S9tzU7qBETaRV9aiWEgjibAFseAfP+nQ2To8SlFFhjuWoXHNh57VVjOgczbTFRDLAQOp1GeL2s5fmfJw7hu5nZYCXqnd31cu0VG8RwKJCijD1UVR7XjsLvZ01mPjLF6xcjpbtAxb6Li0LLo=
+	t=1736851353; cv=none; b=VAFrFarjtF9HBxrclpHLEuQTb78kzOsa06G2ksSM7ZV36g6ZUZyxdqbHEQJiqRwJ98dArfHq+FcP/KZsthf/EAo5amJaIZDPwY4oRf+Q+79c3OkKrtw7T+15OEPP44CGPj1HubdBWXSXf9S+ANnXbn4UtctaQoHdZoP9Yhd84mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736849126; c=relaxed/simple;
-	bh=ljvr730by3N+ahLejFsaDgo0llRk/pJOnSiC16km6wY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=JCw4R2j8ETMf1FUUxdvY7Fo8WzeeCZbGFNXTZOFw2m/BaEBviZPwAm976DGf7hOWgWZNzulY71/XWGqavSHGmm0oGGMOffEjYi1GN52vVRGa2X08oRGH9FXDCVokbfzAdqARCGk1Zm0WSmDRhX0jS+KB8+VsKtK7JyMPB0hXA/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7O7f9YM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01004C4CEDD;
-	Tue, 14 Jan 2025 10:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736849125;
-	bh=ljvr730by3N+ahLejFsaDgo0llRk/pJOnSiC16km6wY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=W7O7f9YMDBvk+fu6sw+Pds4mBLwx5TYOlI/Lw6HCQG6DguARqVFRXLgUN3+x5OxqL
-	 7knF4R0wPhxlByTmsOnP1AVkuLBv/RbN9dFKsNpMWyXeDhC93Xmmtl2OGFdNqazArj
-	 3QP5UZDnWgo3gwMa8bA2BMLbHqkKr9lZb5dKnpQRvQ4FgjciL44nL8LWYBAJCGVWe/
-	 c2mOh8O30zDBe/zQNbTpGIe5uc/Qzke4WLD0EOpqYpZuWXcLIugrHOTY1xv+mrxxiU
-	 6J2k87B9F3bLIEfO+D0jLAy5acmXN5Tdsg5JNb7hYNeViYIkKwMD2VgidVtJwkkWlC
-	 qh79VI1lttl5Q==
-Date: Tue, 14 Jan 2025 19:05:21 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+	s=arc-20240116; t=1736851353; c=relaxed/simple;
+	bh=oQsz4B98RmKuVLiXkzcZqr5I5nm5By5/SQ6Yi+2HJi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HaSPJWfL5B0aSLKtG5pu9NaROARAfSCKwe4pdrBtUPQLDhMaAXQkW8KoUzcuHH1OSmCyLUiRKryeFHDUZbzY72tbCzKxgRF6KEb026nV9nAhEimHe88jBJy5j8mcRDtnlhuP0GMkh0ESWO52p1Y8OQqZp7VFJN/5pIAdjAMv+oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sfWKKjh+; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mt4aJooHjJSiZjcDc7akRx0ZOOUsHsf1anomOTeqn+A=; b=sfWKKjh+2p48a9D4673HOwoWtm
+	Ie6ZNBBwBIwGCt7SxTqN1BD0Hhj4YJXWRcW/usCAiBTKP1ynRLIFJcTdGBhhzNgn1/1i3F03S5rFq
+	lkwJHcdwYRz5zKa2zQJt2E9bLIYxV4VqwpWQ3bI1Jo6WXzIL/wPeQ/z8Z4r9pf/NQzwKSS8kdln8f
+	kiq6USx+GfCsZDkFjLjKUYlLTEG2esVsZ1iNhhd0/ukjte1FMHm2GwfrMPXAXj+Uab1tM7ctsiCaF
+	0BGZ3E8W00mOMR2YBb1PfAEtKGl9libhJAvMYI3U5I0BZ5wAWerfag00D3CLK6ccI3lph9bmF+0p/
+	SDxK8XCw==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tXeND-0000000E4EF-32O6;
+	Tue, 14 Jan 2025 10:42:15 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4DB1D3004DE; Tue, 14 Jan 2025 11:42:15 +0100 (CET)
+Date: Tue, 14 Jan 2025 11:42:15 +0100
+From: Peter Zijlstra <peterz@infradead.org>
 To: Jiri Olsa <olsajiri@gmail.com>
-Cc: oleg@redhat.com, Aleksa Sarai <cyphar@cyphar.com>, Eyal Birger
- <eyal.birger@gmail.com>, mhiramat@kernel.org, linux-kernel
- <linux-kernel@vger.kernel.org>, linux-trace-kernel@vger.kernel.org,
- BPF-dev-list <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>,
- Yonghong Song <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>,
- peterz@infradead.org, tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
- linux-api@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>,
- Andrii Nakryiko <andrii.nakryiko@gmail.com>, "rostedt@goodmis.org"
- <rostedt@goodmis.org>, rafi@rbk.io, Shmulik Ladkani
- <shmulik.ladkani@gmail.com>
+Cc: oleg@redhat.com, Aleksa Sarai <cyphar@cyphar.com>,
+	Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	BPF-dev-list <bpf@vger.kernel.org>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>, tglx@linutronix.de,
+	bp@alien8.de, x86@kernel.org, linux-api@vger.kernel.org,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
 Subject: Re: Crash when attaching uretprobes to processes running in Docker
-Message-Id: <20250114190521.0b69a1af64cac41106101154@kernel.org>
-In-Reply-To: <Z4YszJfOvFEAaKjF@krava>
+Message-ID: <20250114104215.GD8362@noisy.programming.kicks-ass.net>
 References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
-	<20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
-	<Z4K7D10rjuVeRCKq@krava>
-	<Z4YszJfOvFEAaKjF@krava>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+ <Z4K7D10rjuVeRCKq@krava>
+ <Z4YszJfOvFEAaKjF@krava>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4YszJfOvFEAaKjF@krava>
 
-On Tue, 14 Jan 2025 10:22:20 +0100
-Jiri Olsa <olsajiri@gmail.com> wrote:
-
+On Tue, Jan 14, 2025 at 10:22:20AM +0100, Jiri Olsa wrote:
 > On Sat, Jan 11, 2025 at 07:40:15PM +0100, Jiri Olsa wrote:
 > > On Sat, Jan 11, 2025 at 02:25:37AM +1100, Aleksa Sarai wrote:
 > > > On 2025-01-10, Eyal Birger <eyal.birger@gmail.com> wrote:
@@ -114,134 +120,7 @@ Jiri Olsa <olsajiri@gmail.com> wrote:
 > unfortunately now the uretprobe trampoline size crosses the xol slot limit so
 > will need to come up with some generic/arch code solution for that, code below
 > is neglecting that for now
-> 
-> jirka
-> 
-> 
-> ---
->  arch/x86/kernel/uprobes.c | 24 ++++++++++++++++++++++++
->  include/linux/uprobes.h   |  1 +
->  kernel/events/uprobes.c   | 10 ++++++++--
->  3 files changed, 33 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
-> index 5a952c5ea66b..b54863f6fa25 100644
-> --- a/arch/x86/kernel/uprobes.c
-> +++ b/arch/x86/kernel/uprobes.c
-> @@ -315,14 +315,25 @@ asm (
->  	".global uretprobe_trampoline_entry\n"
->  	"uretprobe_trampoline_entry:\n"
->  	"pushq %rax\n"
-> +	"pushq %rbx\n"
->  	"pushq %rcx\n"
->  	"pushq %r11\n"
-> +	"movq $1, %rbx\n"
->  	"movq $" __stringify(__NR_uretprobe) ", %rax\n"
->  	"syscall\n"
->  	".global uretprobe_syscall_check\n"
->  	"uretprobe_syscall_check:\n"
-> +	"or %rbx,%rbx\n"
-> +	"jz uretprobe_syscall_return\n"
->  	"popq %r11\n"
->  	"popq %rcx\n"
-> +	"popq %rbx\n"
-> +	"popq %rax\n"
-> +	"int3\n"
-> +	"uretprobe_syscall_return:\n"
-> +	"popq %r11\n"
-> +	"popq %rcx\n"
-> +	"popq %rbx\n"
->  
->  	/* The uretprobe syscall replaces stored %rax value with final
->  	 * return address, so we don't restore %rax in here and just
-> @@ -338,6 +349,16 @@ extern u8 uretprobe_trampoline_entry[];
->  extern u8 uretprobe_trampoline_end[];
->  extern u8 uretprobe_syscall_check[];
->  
-> +#define UINSNS_PER_PAGE                 (PAGE_SIZE/UPROBE_XOL_SLOT_BYTES)
-> +
-> +bool arch_is_uretprobe_trampoline(unsigned long vaddr)
-> +{
-> +	unsigned long start = uprobe_get_trampoline_vaddr();
-> +	unsigned long end = start + 2*UINSNS_PER_PAGE;
-> +
-> +	return vaddr >= start && vaddr < end;
-> +}
-> +
->  void *arch_uprobe_trampoline(unsigned long *psize)
->  {
->  	static uprobe_opcode_t insn = UPROBE_SWBP_INSN;
-> @@ -418,6 +439,9 @@ SYSCALL_DEFINE0(uretprobe)
->  	regs->r11 = regs->flags;
->  	regs->cx  = regs->ip;
->  
-> +	/* zero rbx to signal trampoline that uretprobe syscall was executed */
-> +	regs->bx  = 0;
 
-Can we just return -ENOSYS as like as other syscall instead of
-using rbx as a side channel?
-We can carefully check the return address is not -ERRNO when set up
-and reserve the -ENOSYS for this use case.
-
-Thank you,
-
-> +
->  	return regs->ax;
->  
->  sigill:
-> diff --git a/include/linux/uprobes.h b/include/linux/uprobes.h
-> index e0a4c2082245..dbde57a68a1b 100644
-> --- a/include/linux/uprobes.h
-> +++ b/include/linux/uprobes.h
-> @@ -213,6 +213,7 @@ extern void arch_uprobe_copy_ixol(struct page *page, unsigned long vaddr,
->  extern void uprobe_handle_trampoline(struct pt_regs *regs);
->  extern void *arch_uprobe_trampoline(unsigned long *psize);
->  extern unsigned long uprobe_get_trampoline_vaddr(void);
-> +bool arch_is_uretprobe_trampoline(unsigned long vaddr);
->  #else /* !CONFIG_UPROBES */
->  struct uprobes_state {
->  };
-> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-> index fa04b14a7d72..73df64109f38 100644
-> --- a/kernel/events/uprobes.c
-> +++ b/kernel/events/uprobes.c
-> @@ -1703,6 +1703,11 @@ void * __weak arch_uprobe_trampoline(unsigned long *psize)
->  	return &insn;
->  }
->  
-> +bool __weak arch_is_uretprobe_trampoline(unsigned long vaddr)
-> +{
-> +	return vaddr == uprobe_get_trampoline_vaddr();
-> +}
-> +
->  static struct xol_area *__create_xol_area(unsigned long vaddr)
->  {
->  	struct mm_struct *mm = current->mm;
-> @@ -1725,8 +1730,9 @@ static struct xol_area *__create_xol_area(unsigned long vaddr)
->  
->  	area->vaddr = vaddr;
->  	init_waitqueue_head(&area->wq);
-> -	/* Reserve the 1st slot for get_trampoline_vaddr() */
-> +	/* Reserve the first two slots for get_trampoline_vaddr() */
->  	set_bit(0, area->bitmap);
-> +	set_bit(1, area->bitmap);
->  	insns = arch_uprobe_trampoline(&insns_size);
->  	arch_uprobe_copy_ixol(area->page, 0, insns, insns_size);
->  
-> @@ -2536,7 +2542,7 @@ static void handle_swbp(struct pt_regs *regs)
->  	int is_swbp;
->  
->  	bp_vaddr = uprobe_get_swbp_addr(regs);
-> -	if (bp_vaddr == uprobe_get_trampoline_vaddr())
-> +	if (arch_is_uretprobe_trampoline(bp_vaddr))
->  		return uprobe_handle_trampoline(regs);
->  
->  	rcu_read_lock_trace();
-> -- 
-> 2.47.1
-> 
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Can't you detect the filter earlier and simply not install the
+trampoline?
 
