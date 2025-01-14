@@ -1,212 +1,136 @@
-Return-Path: <linux-api+bounces-2998-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2999-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8BEA11298
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 21:57:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34E9A11352
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 22:46:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A42DC3A4CA3
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 20:57:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3C33188A3A8
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 21:46:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5264720C47F;
-	Tue, 14 Jan 2025 20:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF66213253;
+	Tue, 14 Jan 2025 21:45:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ho7xJgj2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NMjWiNG/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164658493;
-	Tue, 14 Jan 2025 20:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA64211278;
+	Tue, 14 Jan 2025 21:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736888221; cv=none; b=niJlIUJjON6hxFnPtSJg/ySVxiCCLcj9JKZ4rbzBpgVG+aF6YT9ToWTVg8DnUr4YtwtVclZ2++JccfzEfigzvnBCOS70mLxzzCyopMD6GgLJFVgUHoajIDXCLegrvmaEwX2EQklItn5o9zYaKd3xvy3Zlzq2IUnr2t9TnAqiPfU=
+	t=1736891126; cv=none; b=XoOANdG9mX+skzDEQ4+/P2MUyvlcTd/uaDHmYTjY9lq5ffB518XC36z3e83lOcv+tjcAE/hYHCah1dDAgWRXFtv4GfK8i5em15f151uPjZCFFEpaFEB8JG1L7frDOnaVSl2sbFbucfuiSSCQlsWmVB6rDnD7wZ8OvSFIjML7cew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736888221; c=relaxed/simple;
-	bh=rXWxQqj1X9udCuDo8ubNb9WhgjDmLf7uCCD7cFqLA1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iK0WGmIvG6j8C/5ZlPDFEIIpGWMoCHRNj9FRX2DqqFaoLRXeQpT5P/Um7ZZPf+MoU6yumNu+v2KmSyRFbFsK6s5oIYOzrAucJ1ZsxIPg/eYk8gm9Oy0AfYDf5M9L39229Prg0mXwf578vmIXJvS53gajGk4x0wkumPKrDnRQFg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ho7xJgj2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F9AC4CEE4;
-	Tue, 14 Jan 2025 20:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736888219;
-	bh=rXWxQqj1X9udCuDo8ubNb9WhgjDmLf7uCCD7cFqLA1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ho7xJgj2U4PjuqI0DTZSJlnU5l3gW1d9BwbvabPXijOrOoQhCFO8q8N56702EGHoL
-	 OU9dxrhOuif6sYmu4a/iWXwB5uYht2baYQunlkGGG78b6/1e30D24z5e9wIYzf86qf
-	 cmVNZ84zhpUgfPDVS2Sd6/pXD0faZ2QGxbnkVaeFA143e1hGjADQQnxc1T1lyjbOuJ
-	 QBAV9sUQPpt+AoVgBzOwXecL+1ebhChhXKy/LTIfJNzghmghwZGThVdbUyX2Y2T4UQ
-	 b3Vzg8Wy//wlpvIlicM+MZwma1zjB0DU6TNXqYYRREg7ESN3JR/0mmSBNB8bqD1kB4
-	 Yzszbo/FhR+Pw==
-Date: Tue, 14 Jan 2025 13:56:45 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Kees Cook <keescook@chromium.org>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <serge@hallyn.com>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Alejandro Colomar <alx@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Christian Heimes <christian@python.org>,
-	Dmitry Vyukov <dvyukov@google.com>, Elliott Hughes <enh@google.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Eric Chiang <ericchiang@google.com>,
-	Fan Wu <wufan@linux.microsoft.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>,
-	Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Jordan R Abrahams <ajordanr@google.com>,
-	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Luca Boccassi <bluca@debian.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Steve Dower <steve.dower@python.org>,
-	Steve Grubb <sgrubb@redhat.com>, Theodore Ts'o <tytso@mit.edu>,
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-	Xiaoming Ni <nixiaoming@huawei.com>,
-	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v23 7/8] samples/check-exec: Add an enlighten "inc"
- interpreter and 28 tests
-Message-ID: <20250114205645.GA2825031@ax162>
-References: <20241212174223.389435-1-mic@digikod.net>
- <20241212174223.389435-8-mic@digikod.net>
+	s=arc-20240116; t=1736891126; c=relaxed/simple;
+	bh=B4VxK/IwclpVLI678QvJf7Dk6Acfv8NvptCWzRWVedQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FCrkTPNTrPLaSfpIFkKks6zjwr8LCrqneOmnk7FjLzNglNT3p8zHpZCE5FD+6MctmkJUKoUwh9Uo2easu/u+gmh5YTg/FweQgGeiMQ3CWMF9e92EVumsvv+6dC/4YR62N59wTvy3idm/e704KuizXwSPTmDpX0dI3kUch2pLu1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NMjWiNG/; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ee50ffcf14so346906a91.0;
+        Tue, 14 Jan 2025 13:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736891124; x=1737495924; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7RL7+HsQwmXaIo0B/cwtFxWTlGU+cmitUPhIWfe6zNU=;
+        b=NMjWiNG/2tutZwkGSBsKtF3nYar6HMVJu4LGhkUu4XxdBGrfszneLrm7OlzdfCRdFQ
+         aPYQr4pV/YNG/3fNmFpXVdrtycpqO12pNfJ7dXjFNtci4T6XYYIOnOZ9jGhV8n+iVBBf
+         ev5+N2fhQNNFRCZCMrrCkVeXR9KrU8DSPIIxAgD8YpmX80LkQfx23WFR6zd5x88351eS
+         tq8GBqf8of9pKjOC6B2LxjzfMmer0rIf8r9O9F1KsvEuSTajtGGMbn3yULvYW0JjWP/H
+         /JpxRBIpqNYQ3C30dYnWLjJ7pbthMj68Qw/HTfYl6I/CN5+xEEPsTXdc13MEBWYJL3JE
+         9HOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736891124; x=1737495924;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7RL7+HsQwmXaIo0B/cwtFxWTlGU+cmitUPhIWfe6zNU=;
+        b=exykbL4C+pwKVQGxSV7YfbEhi9PWJdjmQuwW5LlIp/h/dXnWzNxZGe5qS5pa53xBeu
+         eBY5eeUnS1bWnpbuAdgcsbWzOR4eFzPWujcbfyAJierZlWUAdA640sAXEHd5pzImfw3V
+         5jQuzpL0+dqCR93A5SK0T7KSJS2XYkbMYS3hHRjwPF6B9Z6dOfZ18btzxGHG+KQdP8F7
+         ThpT3PISdsuE3uKgTUlCSZtBRG+OgNS7CCOqQbLsSHqwmFY+S6fBuY1x0QqQ/yJpI+5F
+         i3RyU+kDl7o+6QWo6Dp3qF9H3WoHYH4PlSUCyEGhkKm2tzkn/bPwlvoObbtF6gu03iza
+         Mc2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUjv5R+YOoroVPmaxuNCfYgHX6fdtZ+ftc11PLzJ7ydKAWFG2spR7vovsgqorgXrsmMkCZthCgri2P/huD5d9DNT7tK@vger.kernel.org, AJvYcCWGYibGaYh/JnBEey59HbPS9y0kp8/UddiILQG3eCAnyv5x2q4000QoYe4SLN3uA/FvHzF1BxiPYPNp@vger.kernel.org, AJvYcCWecQHBxTJF5PU+hFDOjiQw9+OLsWJziZNl9OYoNzzc3Cjeu4yz6evBAR/hIfHBhQTVdPuJufRu/qZbbhCX@vger.kernel.org, AJvYcCXA9rsnwCOLGiFYOYTQ+s8ChJBcTfyem1udF9ugazpS6B3UFUyfWSH1j/hbRmFO03Dk+P0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPp2pU9ah7lqhvQVgQGJycgRbZvETePsQD9q7j+wXHC+J/78hP
+	XzBVbDr5npNimpB/stODWaJQ+vK4vEp4JuN7nsixjxMWiJl+wa1QIFspsqMpl/W6ORKrfhaELkT
+	z6ouiH8PDQ/pzMwSoD3YFttBcEWM=
+X-Gm-Gg: ASbGnctMmRpFUVftr5TJmPcll2TyEvNOO3CJd3szRM3QU7gp5fErdVE7AEUOSOdgheP
+	GkAPK9kMI+xYbc4fVaKt31kLxxYFAwGHiZaQykD6mC5V5oir0YBCRhA==
+X-Google-Smtp-Source: AGHT+IH0FKA+tIQ7HagM82UYT5wwWCYgyacSsyTFhJtKlXmawCq8RBogQ93/3MJRxqMUGEOJwpjGrhxcBYifJI6Hzjc=
+X-Received: by 2002:a17:90b:534c:b0:2ee:c30f:33c9 with SMTP id
+ 98e67ed59e1d1-2f728e1cedemr752422a91.14.1736891124501; Tue, 14 Jan 2025
+ 13:45:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241212174223.389435-8-mic@digikod.net>
+References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
+ <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+ <Z4K7D10rjuVeRCKq@krava> <Z4YszJfOvFEAaKjF@krava> <20250114105802.GA19816@redhat.com>
+ <Z4ZyYudZSD92DPiF@krava> <CAEf4BzZoa6gBQzfPLeMTQu+s=GqVdmihFdb1BHkcPPQMFQp+MQ@mail.gmail.com>
+ <20250114203922.GA5051@redhat.com>
+In-Reply-To: <20250114203922.GA5051@redhat.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Tue, 14 Jan 2025 13:45:11 -0800
+X-Gm-Features: AbW1kva1vYogaoHUziyVoRJIKZjSt5M_Zfni5CCWmCbYg3_OFfE1JSNggSra2Bk
+Message-ID: <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
+Subject: Re: Crash when attaching uretprobes to processes running in Docker
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org, 
+	linux-kernel <linux-kernel@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
+	BPF-dev-list <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, peterz@infradead.org, tglx@linutronix.de, 
+	bp@alien8.de, x86@kernel.org, linux-api@vger.kernel.org, 
+	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Alexei Starovoitov <ast@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io, 
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mickaël,
+On Tue, Jan 14, 2025 at 12:40=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wr=
+ote:
+>
+> On 01/14, Andrii Nakryiko wrote:
+> >
+> > Should we just fix whoever is blocking kernel-internal special syscall
+> > (sys_uretprobe)?
+>
+> Well, we can add __NR_uretprobe to mode1_syscalls[] but this won't
+> really help.
+>
+> We can't "fix" the existing user-space setups which can nack any
+> "unnecessary/unknown" syscall.
+>
+> > What would happen if someone blocked that other
+> > special kernel-internal syscall for signal handling (can't remember
+> > the name,
+>
+> sys_rt_sigreturn().
+>
+> Yes, the task will crash after return from the signal handler if this
+> syscall is filtered out.
+>
+> But, unlike sys_uretprobe(), sys_rt_sigreturn() is old, so the existing
+> setups must know that sigreturn() should be respected...
 
-On Thu, Dec 12, 2024 at 06:42:22PM +0100, Mickaël Salaün wrote:
-> Add a very simple script interpreter called "inc" that can evaluate two
-> different commands (one per line):
-> - "?" to initialize a counter from user's input;
-> - "+" to increment the counter (which is set to 0 by default).
-> 
-> It is enlighten to only interpret executable files according to
-> AT_EXECVE_CHECK and the related securebits:
-> 
->   # Executing a script with RESTRICT_FILE is only allowed if the script
->   # is executable:
->   ./set-exec -f -- ./inc script-exec.inc # Allowed
->   ./set-exec -f -- ./inc script-noexec.inc # Denied
-> 
->   # Executing stdin with DENY_INTERACTIVE is only allowed if stdin is an
->   # executable regular file:
->   ./set-exec -i -- ./inc -i < script-exec.inc # Allowed
->   ./set-exec -i -- ./inc -i < script-noexec.inc # Denied
-> 
->   # However, a pipe is not executable and it is then denied:
->   cat script-noexec.inc | ./set-exec -i -- ./inc -i # Denied
-> 
->   # Executing raw data (e.g. command argument) with DENY_INTERACTIVE is
->   # always denied.
->   ./set-exec -i -- ./inc -c "+" # Denied
->   ./inc -c "$(<script-ask.inc)" # Allowed
-> 
->   # To directly execute a script, we can update $PATH (used by `env`):
->   PATH="${PATH}:." ./script-exec.inc
-> 
->   # To execute several commands passed as argument:
-> 
-> Add a complete test suite to check the script interpreter against all
-> possible execution cases:
-> 
->   make TARGETS=exec kselftest-install
->   ./tools/testing/selftests/kselftest_install/run_kselftest.sh
-> 
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Paul Moore <paul@paul-moore.com>
-> Cc: Serge Hallyn <serge@hallyn.com>
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> Link: https://lore.kernel.org/r/20241212174223.389435-8-mic@digikod.net
-...
-> diff --git a/samples/check-exec/inc.c b/samples/check-exec/inc.c
-> new file mode 100644
-> index 000000000000..94b87569d2a2
-> --- /dev/null
-> +++ b/samples/check-exec/inc.c
-...
-> +/* Returns 1 on error, 0 otherwise. */
-> +static int interpret_stream(FILE *script, char *const script_name,
-> +			    char *const *const envp, const bool restrict_stream)
-> +{
-> +	int err;
-> +	char *const script_argv[] = { script_name, NULL };
-> +	char buf[128] = {};
-> +	size_t buf_size = sizeof(buf);
-> +
-> +	/*
-> +	 * We pass a valid argv and envp to the kernel to emulate a native
-> +	 * script execution.  We must use the script file descriptor instead of
-> +	 * the script path name to avoid race conditions.
-> +	 */
-> +	err = execveat(fileno(script), "", script_argv, envp,
-> +		       AT_EMPTY_PATH | AT_EXECVE_CHECK);
-> +	if (err && restrict_stream) {
-> +		perror("ERROR: Script execution check");
-> +		return 1;
-> +	}
-> +
-> +	/* Reads script. */
-> +	buf_size = fread(buf, 1, buf_size - 1, script);
-> +	return interpret_buffer(buf, buf_size);
-> +}
+someday sys_uretprobe will be old as well ;) FWIW, systemd allowlisted
+sys_uretprobe, see [0]
 
-The use of execveat() in this test case breaks the build when glibc is
-less than 2.34, as that is the earliest version that has the execveat()
-wrapper:
+  [0] https://github.com/systemd/systemd/issues/34615#issuecomment-24067614=
+51
 
-https://sourceware.org/git/?p=glibc.git;a=commit;h=19d83270fcd993cc349570164e21b06d57036704
-
-  $ ldd --version | head -1
-  ldd (Debian GLIBC 2.31-13+deb11u11) 2.31
-
-  $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- mrproper allmodconfig samples/
-  ...
-  samples/check-exec/inc.c:81:8: error: call to undeclared function 'execveat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     81 |         err = execveat(fileno(script), "", script_argv, envp,
-        |               ^
-  samples/check-exec/inc.c:81:8: note: did you mean 'execve'?
-  /usr/include/unistd.h:551:12: note: 'execve' declared here
-    551 | extern int execve (const char *__path, char *const __argv[],
-        |            ^
-  1 error generated.
-  ...
-
-Should this just use the syscall directly?
-
-Cheers,
-Nathan
+>
+> Oleg.
+>
+>
 
