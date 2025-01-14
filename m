@@ -1,136 +1,121 @@
-Return-Path: <linux-api+bounces-2999-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3000-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34E9A11352
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 22:46:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F27A113EA
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 23:11:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3C33188A3A8
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 21:46:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC7603A3500
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 22:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF66213253;
-	Tue, 14 Jan 2025 21:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEEF22139CF;
+	Tue, 14 Jan 2025 22:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NMjWiNG/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HccjjdC0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA64211278;
-	Tue, 14 Jan 2025 21:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365142135BE
+	for <linux-api@vger.kernel.org>; Tue, 14 Jan 2025 22:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736891126; cv=none; b=XoOANdG9mX+skzDEQ4+/P2MUyvlcTd/uaDHmYTjY9lq5ffB518XC36z3e83lOcv+tjcAE/hYHCah1dDAgWRXFtv4GfK8i5em15f151uPjZCFFEpaFEB8JG1L7frDOnaVSl2sbFbucfuiSSCQlsWmVB6rDnD7wZ8OvSFIjML7cew=
+	t=1736892683; cv=none; b=BeqlMdoTAcJr+2o7lMi3Pj/VRBtjEVcQ2fI7HeDKwYrD8OP6Q8Bpu+AH/SARBQUcM1kRsQzBaOb//PtGFKAqWEMSt4XR9jIg4xN2ZQclCsVOYD/wFQHp4tqGPUvcnHWULZni7pHySd31m8pegbZxAyyDHHPynsZSfxm8750fzrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736891126; c=relaxed/simple;
-	bh=B4VxK/IwclpVLI678QvJf7Dk6Acfv8NvptCWzRWVedQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FCrkTPNTrPLaSfpIFkKks6zjwr8LCrqneOmnk7FjLzNglNT3p8zHpZCE5FD+6MctmkJUKoUwh9Uo2easu/u+gmh5YTg/FweQgGeiMQ3CWMF9e92EVumsvv+6dC/4YR62N59wTvy3idm/e704KuizXwSPTmDpX0dI3kUch2pLu1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NMjWiNG/; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ee50ffcf14so346906a91.0;
-        Tue, 14 Jan 2025 13:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736891124; x=1737495924; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7RL7+HsQwmXaIo0B/cwtFxWTlGU+cmitUPhIWfe6zNU=;
-        b=NMjWiNG/2tutZwkGSBsKtF3nYar6HMVJu4LGhkUu4XxdBGrfszneLrm7OlzdfCRdFQ
-         aPYQr4pV/YNG/3fNmFpXVdrtycpqO12pNfJ7dXjFNtci4T6XYYIOnOZ9jGhV8n+iVBBf
-         ev5+N2fhQNNFRCZCMrrCkVeXR9KrU8DSPIIxAgD8YpmX80LkQfx23WFR6zd5x88351eS
-         tq8GBqf8of9pKjOC6B2LxjzfMmer0rIf8r9O9F1KsvEuSTajtGGMbn3yULvYW0JjWP/H
-         /JpxRBIpqNYQ3C30dYnWLjJ7pbthMj68Qw/HTfYl6I/CN5+xEEPsTXdc13MEBWYJL3JE
-         9HOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736891124; x=1737495924;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7RL7+HsQwmXaIo0B/cwtFxWTlGU+cmitUPhIWfe6zNU=;
-        b=exykbL4C+pwKVQGxSV7YfbEhi9PWJdjmQuwW5LlIp/h/dXnWzNxZGe5qS5pa53xBeu
-         eBY5eeUnS1bWnpbuAdgcsbWzOR4eFzPWujcbfyAJierZlWUAdA640sAXEHd5pzImfw3V
-         5jQuzpL0+dqCR93A5SK0T7KSJS2XYkbMYS3hHRjwPF6B9Z6dOfZ18btzxGHG+KQdP8F7
-         ThpT3PISdsuE3uKgTUlCSZtBRG+OgNS7CCOqQbLsSHqwmFY+S6fBuY1x0QqQ/yJpI+5F
-         i3RyU+kDl7o+6QWo6Dp3qF9H3WoHYH4PlSUCyEGhkKm2tzkn/bPwlvoObbtF6gu03iza
-         Mc2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUjv5R+YOoroVPmaxuNCfYgHX6fdtZ+ftc11PLzJ7ydKAWFG2spR7vovsgqorgXrsmMkCZthCgri2P/huD5d9DNT7tK@vger.kernel.org, AJvYcCWGYibGaYh/JnBEey59HbPS9y0kp8/UddiILQG3eCAnyv5x2q4000QoYe4SLN3uA/FvHzF1BxiPYPNp@vger.kernel.org, AJvYcCWecQHBxTJF5PU+hFDOjiQw9+OLsWJziZNl9OYoNzzc3Cjeu4yz6evBAR/hIfHBhQTVdPuJufRu/qZbbhCX@vger.kernel.org, AJvYcCXA9rsnwCOLGiFYOYTQ+s8ChJBcTfyem1udF9ugazpS6B3UFUyfWSH1j/hbRmFO03Dk+P0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPp2pU9ah7lqhvQVgQGJycgRbZvETePsQD9q7j+wXHC+J/78hP
-	XzBVbDr5npNimpB/stODWaJQ+vK4vEp4JuN7nsixjxMWiJl+wa1QIFspsqMpl/W6ORKrfhaELkT
-	z6ouiH8PDQ/pzMwSoD3YFttBcEWM=
-X-Gm-Gg: ASbGnctMmRpFUVftr5TJmPcll2TyEvNOO3CJd3szRM3QU7gp5fErdVE7AEUOSOdgheP
-	GkAPK9kMI+xYbc4fVaKt31kLxxYFAwGHiZaQykD6mC5V5oir0YBCRhA==
-X-Google-Smtp-Source: AGHT+IH0FKA+tIQ7HagM82UYT5wwWCYgyacSsyTFhJtKlXmawCq8RBogQ93/3MJRxqMUGEOJwpjGrhxcBYifJI6Hzjc=
-X-Received: by 2002:a17:90b:534c:b0:2ee:c30f:33c9 with SMTP id
- 98e67ed59e1d1-2f728e1cedemr752422a91.14.1736891124501; Tue, 14 Jan 2025
- 13:45:24 -0800 (PST)
+	s=arc-20240116; t=1736892683; c=relaxed/simple;
+	bh=+ovgz39tY88dwtzotQQdo6p6n/6QPXchjNTUZS4C/5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QqzrinE4V70s2Nn0wFCL4gu5A869wNgc366RXZOLD+qSpZX9N2cN3sTgoBPOq578GT2rW6s43u23PumZFtl5h37lXf0Z6UPIu9lLdkXBcDStkGjCwPNR6dcqIu3C4T3LznMCQnJRGXc/29SztmtNA/2iuNwmeFXze65HxiY09YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HccjjdC0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736892681;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+ovgz39tY88dwtzotQQdo6p6n/6QPXchjNTUZS4C/5I=;
+	b=HccjjdC0H2huo2I26pVaUastT8WWy8c1sLTUxJ0WbrKUXWq+ZjvX2/o0+r2IYFSjOr4gQF
+	Cbr9iLBBIt2qXnUPpoqnMJdnpFCe9LdfpxFwCnGuue5/mt1UtaH66jBffEaVFS5Eh8/Cl+
+	lvF41orVKQtYBHrvwBZaY0ElvsRRa8s=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-397-fNVoz8YDMMiv09T73PKnTQ-1; Tue,
+ 14 Jan 2025 17:11:16 -0500
+X-MC-Unique: fNVoz8YDMMiv09T73PKnTQ-1
+X-Mimecast-MFC-AGG-ID: fNVoz8YDMMiv09T73PKnTQ
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E2EC71955D83;
+	Tue, 14 Jan 2025 22:11:12 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.50])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 8261519560AA;
+	Tue, 14 Jan 2025 22:11:05 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 14 Jan 2025 23:10:47 +0100 (CET)
+Date: Tue, 14 Jan 2025 23:10:39 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>,
+	Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	BPF-dev-list <bpf@vger.kernel.org>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>, peterz@infradead.org,
+	tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
+	linux-api@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
+Subject: Re: Crash when attaching uretprobes to processes running in Docker
+Message-ID: <20250114221002.GA10122@redhat.com>
+References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
+ <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+ <Z4K7D10rjuVeRCKq@krava>
+ <Z4YszJfOvFEAaKjF@krava>
+ <20250114105802.GA19816@redhat.com>
+ <Z4ZyYudZSD92DPiF@krava>
+ <CAEf4BzZoa6gBQzfPLeMTQu+s=GqVdmihFdb1BHkcPPQMFQp+MQ@mail.gmail.com>
+ <20250114203922.GA5051@redhat.com>
+ <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
- <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
- <Z4K7D10rjuVeRCKq@krava> <Z4YszJfOvFEAaKjF@krava> <20250114105802.GA19816@redhat.com>
- <Z4ZyYudZSD92DPiF@krava> <CAEf4BzZoa6gBQzfPLeMTQu+s=GqVdmihFdb1BHkcPPQMFQp+MQ@mail.gmail.com>
- <20250114203922.GA5051@redhat.com>
-In-Reply-To: <20250114203922.GA5051@redhat.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 14 Jan 2025 13:45:11 -0800
-X-Gm-Features: AbW1kva1vYogaoHUziyVoRJIKZjSt5M_Zfni5CCWmCbYg3_OFfE1JSNggSra2Bk
-Message-ID: <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
-Subject: Re: Crash when attaching uretprobes to processes running in Docker
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	BPF-dev-list <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
-	John Fastabend <john.fastabend@gmail.com>, peterz@infradead.org, tglx@linutronix.de, 
-	bp@alien8.de, x86@kernel.org, linux-api@vger.kernel.org, 
-	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Alexei Starovoitov <ast@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io, 
-	Shmulik Ladkani <shmulik.ladkani@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On Tue, Jan 14, 2025 at 12:40=E2=80=AFPM Oleg Nesterov <oleg@redhat.com> wr=
-ote:
+On 01/14, Andrii Nakryiko wrote:
 >
-> On 01/14, Andrii Nakryiko wrote:
+> On Tue, Jan 14, 2025 at 12:40 PM Oleg Nesterov <oleg@redhat.com> wrote:
 > >
-> > Should we just fix whoever is blocking kernel-internal special syscall
-> > (sys_uretprobe)?
+> > But, unlike sys_uretprobe(), sys_rt_sigreturn() is old, so the existing
+> > setups must know that sigreturn() should be respected...
 >
-> Well, we can add __NR_uretprobe to mode1_syscalls[] but this won't
-> really help.
->
-> We can't "fix" the existing user-space setups which can nack any
-> "unnecessary/unknown" syscall.
->
-> > What would happen if someone blocked that other
-> > special kernel-internal syscall for signal handling (can't remember
-> > the name,
->
-> sys_rt_sigreturn().
->
-> Yes, the task will crash after return from the signal handler if this
-> syscall is filtered out.
->
-> But, unlike sys_uretprobe(), sys_rt_sigreturn() is old, so the existing
-> setups must know that sigreturn() should be respected...
+> someday sys_uretprobe will be old as well ;) FWIW, systemd allowlisted
+> sys_uretprobe, see [0]
 
-someday sys_uretprobe will be old as well ;) FWIW, systemd allowlisted
-sys_uretprobe, see [0]
+And I agree! ;)
 
-  [0] https://github.com/systemd/systemd/issues/34615#issuecomment-24067614=
-51
+I mean, I'd personally prefer to do nothing and wait until userspace figures
+out that we have another "special" syscall.
 
->
-> Oleg.
->
->
+But can we do it? I simply do not know. Can we ignore this (valid) bug report?
+
+Oleg.
+
 
