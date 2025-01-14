@@ -1,83 +1,68 @@
-Return-Path: <linux-api+bounces-2991-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2992-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B07A1091C
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 15:21:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 979FFA1097D
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 15:34:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EB22168998
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 14:21:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F21B81885434
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jan 2025 14:34:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427EE1487DD;
-	Tue, 14 Jan 2025 14:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBC7C14883C;
+	Tue, 14 Jan 2025 14:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NgfX9Rkr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UOOUU62m"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755E723242D;
-	Tue, 14 Jan 2025 14:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3649C232437
+	for <linux-api@vger.kernel.org>; Tue, 14 Jan 2025 14:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736864496; cv=none; b=tuPuaCSbw6FdXYrlEUWbT0fTAW/9CB4cfnbSD5X3wFKrOAWZgZjvGszDDRL7q7qrclEe8NTiBrxCIFCE4waBll/4HnoyTVrly8VTM02PR6oODWWNZmks1p2w0jx2jbZVz281OwhvxvN/JH5qFux5+4/UzIdcIKmGqQ7pQPnqfSc=
+	t=1736865236; cv=none; b=eHmsPvlGx7XkoAslKzusEZYKkHgQf2GOKL11jzg7/hQjKYNBnDVHq2QsIR+Lqigo3WBZIZHBjF449jkaaGi6isbzljsyUiPYItAmXtxZsb7HhE0Vd88UliDe4VVilpNmFUpFhMUZFSDqNh6zlqjAfkX6FDaLTTULrmtA94U4nIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736864496; c=relaxed/simple;
-	bh=00EfIHsrsYBe7aq/PdUq9ftxfxX5dNXZYUhHKxQ+EFo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IF3q2XcEWFb/a5wOkB4+G3GxfqjF8eEclzJ+BWdrIB6TmoTe3jnq06oZFNOqL16SymIhrc4geHZVKevxA+ZeXb9mrV0EeiJLfncRwJZ3W+YYCqAWDF06Ack+f9yDEKFBqT+NPggri6qfHDFx63iPPpY3LSKgFLFAwMpE1LpHjDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgfX9Rkr; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaedd529ba1so781670966b.1;
-        Tue, 14 Jan 2025 06:21:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736864492; x=1737469292; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MNQNqu414WMrSpKxbP1sinP09y68Mfs7GjPgsxJ4BDM=;
-        b=NgfX9Rkr8X+mCZ1N7chHtjRXYI+Ep/yWClnlltxLYgCD24uekgQEYHDury02FR31AU
-         HEusjGuKH12yolBwHqFDfF8r22GrBAgugYff2rBBpPwXy3pLaDpnl1ZrURMVA6eSvbC6
-         COSlKVtsLiXUXLyGlLLoBn1cugNL1BaFE03iwODkTcAfYD+BelneLkiZFDHw3F7aJQky
-         ABAEBOgBz3AhW3GsIAnj9WgdYECa9jeGymo3ITIa8tmsH4RMClhrcdjIblXzrOEkU5km
-         tlZjh9VgakOddXJZIH192INmAGsafG4s76Ne9Kdx3FexFFZVe0G7S7aJLeAg+LCcchOP
-         AyaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736864492; x=1737469292;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MNQNqu414WMrSpKxbP1sinP09y68Mfs7GjPgsxJ4BDM=;
-        b=HZi1MBxTX6nMoNWnaJ9uvgNyPvzhowaE7tbSTNWpzkDDRkm7JRoVFSDruwJWcUd9qf
-         4LoQCqnY2cgCVHwKQVPwNEB4oF4+cgGSCBmn/zuxkB/iLED4QjSYhdILDTEpfFBDUePz
-         UySLkQKkt2yngW6DCLEoLydZP4l6lWO1DkSXE/koI4WzDFkZ+V0VZMdfzmRve/Q6suLS
-         buGj1s/FeEjUGv2Q6rRHdhddcLt2+9RUAnygaWnstYoUtpGQ6IL0wCoYfw3d4N5nYDrX
-         3o12oNwfjqQ7jQH0Uy5uoe43SPgvueAWkc8knjRIC6hQdRua+pkaq3H5cAQ+pnnVBbYv
-         tXIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmHqf76HeD75tgXdMv6jh6rCMM3xbdUeHqdgorOYNuvkTtc2h9y6Gjz8OrYRd5m6jq/cA=@vger.kernel.org, AJvYcCVyc5g7PcQly9ctFIX9LGyVckYrEOhxHgYalD7YAjnRXOwVFddFft7lJfng6BcqcCZZUyRwx2HAi6ZEV3T+T5Kglnig@vger.kernel.org, AJvYcCWzGJpd/JPd9UEfRxunmntrUuVOuLn+Te/GYaU3Hg7o5YojZLQjyQc+PfSqh7xYZj9jZRwvk6iGgDJg@vger.kernel.org, AJvYcCXWsHCkd8wnrCRc5TclsSNMuC/iGxsbbMCLeDgeQSGryQv0RdrHUelwHbySUZMUnUa9L2f5xu31Mg538Zf+@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBi/tE5mu238SYHI5Dcey9vGmtKAjKcH4owj91q3tAkIS5+hw2
-	KWoJTd0XgEXhq+YIMhUiR8C6TWMAo8hTJmJCpAkpxSpliAHqgPjK
-X-Gm-Gg: ASbGncty+cyeKCNdasTvRbAHOi3hwO8PFu3gAsE9n7D8v+HjZgGApe8Ut7eAZVLVYfp
-	eCKwpPRoAIJgVuhUzta7/kn23nNR2CLG2vB3W0Euiio4ug0Hmuz+x6iYrDPSccOd1MSMntpnRIH
-	2AKjQRyqWWAaoyu52FU16s2AV/QRMf38kLmMsMZQQsUUbcT+hb1/Jd6hNYx8J/n3j/Q4d+8xXkE
-	mEbn8HDwJ0acXuWh6HR7KmJ0jVgS7gK7Ydg1Du071I=
-X-Google-Smtp-Source: AGHT+IEad78I2WcKOKYqp2vRkb0fzHoBQtd25c/NVw6ysWwSlNKlpD1eQPWtJWGYjecU5/owPChi/Q==
-X-Received: by 2002:a05:6402:3596:b0:5d0:ea4f:972f with SMTP id 4fb4d7f45d1cf-5d972e0b068mr55715913a12.8.1736864492488;
-        Tue, 14 Jan 2025 06:21:32 -0800 (PST)
-Received: from krava ([213.175.46.84])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d9904a55f9sm6116371a12.81.2025.01.14.06.21.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 06:21:32 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 14 Jan 2025 15:21:29 +0100
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <olsajiri@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Eyal Birger <eyal.birger@gmail.com>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
+	s=arc-20240116; t=1736865236; c=relaxed/simple;
+	bh=oddR/gelENrIf6SSztK+uDEMTE6hY5HnjBgwfhyOM5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fUIuYolLCNjk1+7qUTYbGN8Ssz03qOxI3TFNYc46pe3JhWeGCQeIw5cxLeeWTsG15FIFNVBDLZAQMOfCGmgJ3CxYLg+7jnXBRqz9oiPZ1wOS/k/wFy2e00nD3e2SDD/tYtt1AfGM+EKPhxC+A3qxSYn/HQh4kepe5mXMHzeXHkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UOOUU62m; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736865234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oddR/gelENrIf6SSztK+uDEMTE6hY5HnjBgwfhyOM5I=;
+	b=UOOUU62mnW8NbjazSVM8QBoEOoxnxqEuK/RZnmhAOAuw7i2+G3kVhAXj/TP1d7/gEs9y52
+	Qiez0lBdL6+SJAT4wLnKuaDCJEbhlsXCuGVO3N3LlM0JORYqayPIPPDzya7Vk6LY7p80Pu
+	+pMBApQ4pKIu2GYCnYZZ3NJUXihqWno=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-k3xF3taEPD6_gbe9srkPWg-1; Tue,
+ 14 Jan 2025 09:33:50 -0500
+X-MC-Unique: k3xF3taEPD6_gbe9srkPWg-1
+X-Mimecast-MFC-AGG-ID: k3xF3taEPD6_gbe9srkPWg
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 955861956050;
+	Tue, 14 Jan 2025 14:33:47 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.88])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id C39C3195608A;
+	Tue, 14 Jan 2025 14:33:39 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 14 Jan 2025 15:33:22 +0100 (CET)
+Date: Tue, 14 Jan 2025 15:33:13 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Eyal Birger <eyal.birger@gmail.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>,
+	mhiramat@kernel.org, linux-kernel <linux-kernel@vger.kernel.org>,
 	linux-trace-kernel@vger.kernel.org,
 	BPF-dev-list <bpf@vger.kernel.org>,
 	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
@@ -90,13 +75,12 @@ Cc: Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <olsajiri@gmail.com>,
 	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
 	Shmulik Ladkani <shmulik.ladkani@gmail.com>
 Subject: Re: Crash when attaching uretprobes to processes running in Docker
-Message-ID: <Z4Zy6W6z3ICp6SdJ@krava>
+Message-ID: <20250114143313.GA29305@redhat.com>
 References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
  <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
  <Z4K7D10rjuVeRCKq@krava>
  <Z4YszJfOvFEAaKjF@krava>
- <20250114190521.0b69a1af64cac41106101154@kernel.org>
- <20250114112106.GC19816@redhat.com>
+ <CAHsH6Gst+UGCtiCaNq2ikaknZGghpTq2SFZX7S0A8=uDsXt=Zw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -105,33 +89,20 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250114112106.GC19816@redhat.com>
+In-Reply-To: <CAHsH6Gst+UGCtiCaNq2ikaknZGghpTq2SFZX7S0A8=uDsXt=Zw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Tue, Jan 14, 2025 at 12:21:07PM +0100, Oleg Nesterov wrote:
-> On 01/14, Masami Hiramatsu wrote:
-> >
-> > On Tue, 14 Jan 2025 10:22:20 +0100
-> > Jiri Olsa <olsajiri@gmail.com> wrote:
-> >
-> > > @@ -418,6 +439,9 @@ SYSCALL_DEFINE0(uretprobe)
-> > >  	regs->r11 = regs->flags;
-> > >  	regs->cx  = regs->ip;
-> > >
-> > > +	/* zero rbx to signal trampoline that uretprobe syscall was executed */
-> > > +	regs->bx  = 0;
-> >
-> > Can we just return -ENOSYS as like as other syscall instead of
-> > using rbx as a side channel?
-> > We can carefully check the return address is not -ERRNO when set up
-> > and reserve the -ENOSYS for this use case.
-> 
-> Not sure I understand...
-> 
-> But please not that the uretprobed function can return any value
-> including -ENOSYS, and this is what sys_uretprobe() has to return.
+On 01/14, Eyal Birger wrote:
+>
+> FWIW If I change the seccomp policy to SCMP_ACT_KILL this still fails.
 
-right, uretprobe syscall returns value of the uretprobed function,
-so we can't use any reserved value
+Ah... I don't know what SCMP_ACT_KILL is, but indeed, in general it is
+not safe to even try to call sys_uretprobe() if it is filtered.
 
-jirka
+Say, __secure_computing(SECCOMP_MODE_STRICT)->__secure_computing_strict()
+does do_exit(SIGKILL) :/
+
+Oleg.
+
 
