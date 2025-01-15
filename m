@@ -1,114 +1,132 @@
-Return-Path: <linux-api+bounces-3019-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3020-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A854FA12B8A
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2025 20:10:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC7DA12D73
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2025 22:15:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04D4F1886225
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2025 19:10:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B42251886EFD
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jan 2025 21:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6C091D63C7;
-	Wed, 15 Jan 2025 19:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90A51DC747;
+	Wed, 15 Jan 2025 21:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BYpzXDla"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SA1/Jgdg"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8C124A7CC
-	for <linux-api@vger.kernel.org>; Wed, 15 Jan 2025 19:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDA51DBB3A;
+	Wed, 15 Jan 2025 21:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736968240; cv=none; b=ZFMdVJ6Mi4sUgi2uiloG9aXj0GzT7GhKwUGM+zESkPaUSOhhN1uwpWV8cf3UezurcZScIvDZPKKUTkzLgk7bNgsGI4XJmxngrp8c+0YClYoMU1eP8l4FTu4j7N3+GYyQOJAhkRIo9/7WsdqIe8EijXwtWyCqgfKnyRuCGYATSlY=
+	t=1736975675; cv=none; b=nlva9mJc0ZiUaVH+L8WxYtFAV5/xDt2eZtZpxzQtqKIajco+/NqZx8PU1zDstsCbhkEOKlghbFuI7ZYj4uFOZc8+SgUevUyKDQsiz+rg3Ne17FutNl78nYSdcRoii5ZrbwhCHgerJ1xWAcnJZw0bYox59fYmEJirP9hPB37Iqbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736968240; c=relaxed/simple;
-	bh=aoUXftjPF0ncusteObCq4uN4fjB0eaRntK097Q/X2Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bTDvWY6lFpmJRH/wRzBhxYkfm962o6d1mBaK3mkElb7T+qKvwrsH3e8rKYTVE/pqs42jr0PL89JndP0sTOeZyXgssmTDb450ejVMNMVkIKlQK7z5eLJktQtjkMvY6LsDoZjVjHeCh6uQrJysqUqOVHe/rrhzBIwF2yR4vLPvFes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BYpzXDla; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736968238;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wxMeLnCKnxjpk66xjwEEsijZnLziZFS8E4S1/ZSzGRw=;
-	b=BYpzXDlasYmxW1IZbCQBF1MiJKDX/88CYLA9xTppjQbqL/FZRRXkhzBhk0CPZJHFkbK5mz
-	j0k0kWGYL4EafH+BFAvLtq2lktm7HjBL6IlGolyxHUc/6sZ8spdaMvedOcVrSSV1hFvby5
-	pWzXmgB64ydBQmToaq1LSFl7A/D/OtI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-611-t6QyXQf6OIOL-O5XpkcvFg-1; Wed,
- 15 Jan 2025 14:10:35 -0500
-X-MC-Unique: t6QyXQf6OIOL-O5XpkcvFg-1
-X-Mimecast-MFC-AGG-ID: t6QyXQf6OIOL-O5XpkcvFg
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EC5CB1956056;
-	Wed, 15 Jan 2025 19:10:33 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.35])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id A18D719560AA;
-	Wed, 15 Jan 2025 19:10:29 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Wed, 15 Jan 2025 20:10:08 +0100 (CET)
-Date: Wed, 15 Jan 2025 20:10:03 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: "Dmitry V. Levin" <ldv@strace.io>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <20250115191002.GC21801@redhat.com>
-References: <20250113170925.GA392@strace.io>
- <20250113171208.GF589@strace.io>
- <20250115163809.GC11980@redhat.com>
- <20250115173642.GA25129@strace.io>
+	s=arc-20240116; t=1736975675; c=relaxed/simple;
+	bh=T7t3MR/ZRqchZRVbBHbHFECeBBmUTVf2COwP5KKdpd0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n3BdUYbjhGGa5W1M/jHhBh2Cr5oMYLfDkRuHQN7gmhd01Ls8HQSdMaZt0fbtt3JSNQnBlbXJDVyUwav8rJSnu40zVkNoiXb5QQcUXg1N83Y2cWZT/9rezrYJHyNJBBqMEOU7FhCOBmJwJ4S3Kg2dhnVmDvEtjDm2SOwyUEtifpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SA1/Jgdg; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5f2d5b3c094so53077eaf.1;
+        Wed, 15 Jan 2025 13:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736975673; x=1737580473; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yKljeJVT6hglv8S1VM7AkT8q/pMP1H6RrwDcNwQEUZk=;
+        b=SA1/JgdgCI6Hi36F+x+fRRbyc+2TCrbT6YTvdgUtHTlFRnYUvW9xEMA2F5MD2KBBuS
+         /ms6yYkxHoIc2aStfrX0HrYimHLOiE24xGWK8pjPcJw9JCMQSVVfoy0ag4UBizgRhCeD
+         Z+yfPjXkwgwm6v5qVAHd0RUYy1RdZyVpT41zu/h0E7DWWJTcW2KxjhFFcW6ALEYVwBSa
+         oCMs9g4cShRhv11FM8/Rn78pO+bOTxjcDP8+8056cGcKK58c+Gudnp6a4LnVGZ+mNDHd
+         NFS/4ZntVumCjXdl7UMMjRTNAA7pfOFDV/1thHYAP7ivb/5SyJXgK3SaOcqakYDF3gO3
+         eIkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736975673; x=1737580473;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yKljeJVT6hglv8S1VM7AkT8q/pMP1H6RrwDcNwQEUZk=;
+        b=as02bLC2dwJH4J+Qs0Nb/9aXbQKn9SBqTNv0xb3foZomVqgKBl460/gmpHDDPLaT54
+         a0we97OUuvC9eImXY6j8Gm6RRlhsitt2PUEsFj3zSZkO69UQy6ZYBv65VQ9XyaM8wPmK
+         58XOr6r71ihnJm6KIfYmzSdFEk3IVp/hAbTd1zb1dBj30+9MgKZlxTdwj2yAjIdl2jlI
+         cqapLThE3qII1a0SUM55ZIdE6vwax3cU1nanExHDNFg79n+8yQ4djUNnixjFodAejcXm
+         lUW7P/BFK9dRKp1X1z1OlzTjKbB4RJR55t65unnUtdkFc6QFnuyblaLxL+a03AbUiGhC
+         xqbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU79Cp9YOUUdl91oNpgmpHVwZhHMS3BNpHIeHH9misr+opRDHNy/PPiahBJCYA04OEKdpnBa8xfGT6ZZ6Yf@vger.kernel.org, AJvYcCV186/8ypwPKypAGOoJsqxzUHiLmvIR66ZVigiAUEX1QAVXItegkTCyaCk8w9ZZ0iERI0I=@vger.kernel.org, AJvYcCWW41V8OClUPZcjEfQ3migQvcjOMPRmEIRUUhI3I2Wqm1MeLBc+//u4FsK44ZxDybgNUq9zHMC35dD/@vger.kernel.org, AJvYcCXMakdW0WQeoSexW1cKJl0Zmbs0vZQKK5UBmBAN+hbTmXHPM95AkCxWgpHaLYF0WNQQKurllyTmN1OmYCfryH3U+Gn5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzn6zOMIMnwy59pJHb3i4gD0k7fSaopvuH66ObAtItVPaPoeblo
+	Lw++m5AWzyLHotKP74nTeiWuQOtlhLzeSnFaVQCEKhUhDrDme2ISjEmyhMxv4vgAQiI3jjZTsvR
+	UD0nF90ULPtd0L33AdDVIljTNt1c8CZbs1UkbVA==
+X-Gm-Gg: ASbGnctyLcI5BR7ojEOgLMLQjOyeeLLXRrnQKsrRYNBQ6y/pdyj3T4KgjZ6Kidd+p0Z
+	Ea3qghougTV3+d+HbJEKxznS+2HLjYGzEJLr/KA==
+X-Google-Smtp-Source: AGHT+IE0varc4lyMUOKjAL7/Pos0lkoQgDTdClT8ML+yEWa49gsE+myrp0OLIVY1N6p1Uu5TxAKR6zP+iG9JHmJ2OpM=
+X-Received: by 2002:a05:6870:7e8c:b0:29e:49b3:c50e with SMTP id
+ 586e51a60fabf-2aa066c71eemr15917950fac.13.1736975673361; Wed, 15 Jan 2025
+ 13:14:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250115173642.GA25129@strace.io>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+References: <Z4YszJfOvFEAaKjF@krava> <CAHsH6Gst+UGCtiCaNq2ikaknZGghpTq2SFZX7S0A8=uDsXt=Zw@mail.gmail.com>
+ <20250114143313.GA29305@redhat.com> <Z4Z7OkrtXBauaLcm@krava>
+ <20250114172519.GB29305@redhat.com> <Z4eBs0-kJ3iVZjXL@krava>
+ <20250115150607.GA11980@redhat.com> <CAADnVQJjroiR0SRp69f1NbomEH-riw53e_-TioqT4aEt3GSKGg@mail.gmail.com>
+ <20250115184011.GA21801@redhat.com> <CAHsH6Gu1kXZ=m3eoTeZcZ9n=n2scxw7z074PnY5oTsXfTqZ=vQ@mail.gmail.com>
+ <20250115190304.GB21801@redhat.com>
+In-Reply-To: <20250115190304.GB21801@redhat.com>
+From: Eyal Birger <eyal.birger@gmail.com>
+Date: Wed, 15 Jan 2025 13:14:22 -0800
+X-Gm-Features: AbW1kvaz-Q0fRIgCZTjOMTFK2ww7SHO5PAEedC4Ees9Ik9taYh09rHGNbM1UVRM
+Message-ID: <CAHsH6Gtd5kYPife3hK+uKafjBMx=-23UzvQgnOnqNDzSZgHyqw@mail.gmail.com>
+Subject: Re: Crash when attaching uretprobes to processes running in Docker
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Jiri Olsa <olsajiri@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, BPF-dev-list <bpf@vger.kernel.org>, 
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, X86 ML <x86@kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
+	Andrii Nakryiko <andrii.nakryiko@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io, 
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/15, Dmitry V. Levin wrote:
+On Wed, Jan 15, 2025 at 11:03=E2=80=AFAM Oleg Nesterov <oleg@redhat.com> wr=
+ote:
 >
-> On Wed, Jan 15, 2025 at 05:38:09PM +0100, Oleg Nesterov wrote:
+> On 01/15, Eyal Birger wrote:
 > >
-> > But may be
+> > --- a/kernel/seccomp.c
+> > +++ b/kernel/seccomp.c
+> > @@ -1359,6 +1359,9 @@ int __secure_computing(const struct seccomp_data =
+*sd)
+> >         this_syscall =3D sd ? sd->nr :
+> >                 syscall_get_nr(current, current_pt_regs());
 > >
-> > 	if (syscall_get_nr() != -1)
-> > 		syscall_set_arguments(...);
-> >
-> > will look a bit more consistent?
+> > +       if (this_syscall =3D=3D __NR_uretprobe)
+> > +               return 0;
+> > +
 >
-> I'm sorry, but I didn't follow.  As we've just set the syscall number with
-> syscall_set_nr(), why would we want to call syscall_get_nr() right after
-> that to obtain the syscall number?
+> Yes, this is what I meant. But we need the new arch-dependent helper.
 
-Mostly for grep. We have more syscall_get_nr() != -1 checks. Even right after
-syscall_set_nr-like code, see putreg32().
+Do you mean because __NR_uretprobe is not defined for other architectures?
+Is there an existing helper? I wasn't able to find one...
 
-I think this needs another helper (which can have more users) and some cleanups.
+If not, would it just make sense to just wrap this check in
+#ifdef __NR_uretprobe ?
 
-But this is another issue, so please forget. I agree that syscall_get_nr() in
-this code will probably just add the unnecessary confusion.
+Eyal.
 
-Oleg.
-
+>
+> Oleg.
+>
 
