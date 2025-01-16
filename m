@@ -1,61 +1,52 @@
-Return-Path: <linux-api+bounces-3022-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3023-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB0BA1330A
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 07:24:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A79E5A1356A
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 09:33:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE8401675EA
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 06:24:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9193418829FA
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 08:33:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF7C18BC1D;
-	Thu, 16 Jan 2025 06:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ymjb+7BY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBCD21D63C6;
+	Thu, 16 Jan 2025 08:33:32 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0F0149C7B;
-	Thu, 16 Jan 2025 06:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3071AAA10;
+	Thu, 16 Jan 2025 08:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737008660; cv=none; b=FgtqQs4vUVVvhYebPB0kQuaQcsR1D4j5PiJ+n58fvXkTcRpDUKiF2ik3JgzwmZJesA36hypC1O1W6aoo1nVrEosZYpYhIPb0dXGMGcrtBincnbqdjJnt+sjyCoq2yheo2qHpgOQ0IRAxd6WUmQBEx8+ArvyqMNfmSU3OkosuX2Q=
+	t=1737016412; cv=none; b=UkJtndXaC3aatbxNgMO8uKn0xtIFOY+daKnL6vELUXg/qmBr0IdH4Qj8k62m6HaL7hePAL/QPcH/w7b1/NrQnLnV4VrOS0VxsNz4aI+mdjIWiCb23xlLNpx4qStX14jgHDPWY+uL+N4MNRKtgW1RjTOiZLgmY8ZjvciLYCE4tiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737008660; c=relaxed/simple;
-	bh=D9uiLlV0hub95fMCeVXZEA5JbCeciyzfJZgkkf6FJCA=;
+	s=arc-20240116; t=1737016412; c=relaxed/simple;
+	bh=Q4OHIkrImLb+BwrSbPrgetIO0oidUZMyAaIJThugWiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cFMGrZmIsDaqU150VTu29/DykTlVinaM+5dcZfAgOtlKkskQrI7lAUrzmwxJq/DfsI5XxPxAkghka0w/8SCbxEraHZzHQWRhDnanAHXG2NyWGUyZdjvo0t1eBoRgUslIm2XPR+aORO/deGHpwvlm7uN1AyVVUR5dmbLL04b0d28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ymjb+7BY; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/iG6R5K0Z2xKca55Hx2rIbmMDwC2MV6uVlIzu7zRCWI=; b=Ymjb+7BYVxoCw+M/sNN4wdisbP
-	ayhJHEGpjmyd6H684XMLOR9R9shcxsCHehwmag5PviSwAT2uew33gQ9miFcb5KJr/hjixumDomthP
-	zFvVxJSu1+p4TXuB1ohV9dKknfbxghWuyTtCphYjOR8q3INr6I2PLNXVWlC1j1FaXOhVYdK9FzrRg
-	AGIjb3F8Fs7e7YX85URRNHWT5R2u8uLbBCDggD4wloFQeEQ6mvJ5d2XMRiN1CSUMITiyLmuKFUkdJ
-	2JSIQl31pVG/MwneEGGO6/jMpz1ry7EjUKymoiIHKUu3iVgLItPGQoPZRGS+/dsY+vtAvlxwlJ7/U
-	lUO5COIQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYJIg-0000000Dwbn-3UBD;
-	Thu, 16 Jan 2025 06:24:18 +0000
-Date: Wed, 15 Jan 2025 22:24:18 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/2] f2fs: register inodes which is able to donate pages
-Message-ID: <Z4imEs-Se-VWcpBG@infradead.org>
-References: <20250115221814.1920703-1-jaegeuk@kernel.org>
- <20250115221814.1920703-2-jaegeuk@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsnBe8MTg/yvBqFgpZAuy0UEvENv3foByMh9T2ypBVgypMQXbwXCubR/qVRzP8JveVes7WgeaQlGdbSI4HqQWve1dWMDXDRwRYa8PtfN548EPH9ElqsharbBC6kZn6t30TAESGgDqG5f+4Ik5ZRG3s+IyLxcyH3WJ7SbaS5tXbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 6C2C672C8CC;
+	Thu, 16 Jan 2025 11:33:28 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 616B17CCB3A; Thu, 16 Jan 2025 10:33:28 +0200 (IST)
+Date: Thu, 16 Jan 2025 10:33:28 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	Eugene Syromyatnikov <evgsyr@gmail.com>,
+	Mike Frysinger <vapier@gentoo.org>,
+	Renzo Davoli <renzo@cs.unibo.it>,
+	Davide Berardi <berardi.dav@gmail.com>,
+	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
+Message-ID: <20250116083328.GA32173@strace.io>
+References: <20250113170925.GA392@strace.io>
+ <20250113171208.GF589@strace.io>
+ <Z4hnEzFUgN9N0pSF@ghost>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -64,28 +55,40 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115221814.1920703-2-jaegeuk@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <Z4hnEzFUgN9N0pSF@ghost>
 
-On Wed, Jan 15, 2025 at 10:16:51PM +0000, Jaegeuk Kim wrote:
-> This patch introduces an inode list to keep the page cache ranges that users
-> can donate pages together.
+On Wed, Jan 15, 2025 at 05:55:31PM -0800, Charlie Jenkins wrote:
+> On Mon, Jan 13, 2025 at 07:12:08PM +0200, Dmitry V. Levin wrote:
+[...]
+> > +	/* Changing the type of the system call stop is not supported. */
+> > +	if (ptrace_get_syscall_info_op(child) != info.op)
 > 
->  #define F2FS_IOC_DONATE_RANGE		_IOW(F2FS_IOCTL_MAGIC, 27,	\
-> 						struct f2fs_donate_range)
->  struct f2fs_donate_range {
-> 	__u64 start;
-> 	__u64 len;
->  };
+> Since this isn't supported anyway, would it make sense to set the
+> info.op to ptrace_get_syscall_info_op(child) like is done for
+> get_syscall_info? The usecase I see for this is simplifying when the
+> user doesn't call PTRACE_GET_SYSCALL_INFO before calling
+> PTRACE_SET_SYSCALL_INFO.
 
-> e.g., ioctl(F2FS_IOC_DONATE_RANGE, &range);
+struct ptrace_syscall_info.op is a field that specifies how to interpret
+the union fields of the structure, so if "op" is ignored, then the
+kernel would infer the meaning of the structure specified by the userspace
+tracer from the kernel state of the tracee.  This looks a bit too
+error-prone to allow.  For example, nothing good is expected to happen
+if syscall entry information is applied in a syscall exit stop.
 
-This is not a very good description.  "donate" here seems to basically
-mean a invalidate_inode_pages2_range.  Which is a strange use of the
-word.  what are the use cases?  Why is this queued up to a thread and
-not done inline?  Why is this in f2fs and not in common code.
+The tracer is not obliged to call PTRACE_GET_SYSCALL_INFO to set
+struct ptrace_syscall_info.op.  If the tracer keeps track of ptrace stops
+by other means, it can assign the right value by itself.
 
-I also which file systems wouldn't just add random fs specific ioctls
-all the time without any kinds of discussion of the API.  f2fs is by
-far the worst offender there, but not the only one.
+And, btw, the comment should say "is not currently supported",
+I'll update it in the next iteration.
+
+An idea mentioned in prior discussions was that it would make sense to
+specify syscall return value along with skipping the syscall in seccomp stop,
+and this would require a different value for "op" field, but
+I decided not to introduce this extra complexity yet.
+
+
+-- 
+ldv
 
