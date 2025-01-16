@@ -1,96 +1,51 @@
-Return-Path: <linux-api+bounces-3027-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3028-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FA4A13DAF
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 16:32:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAEEA13EB4
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 17:04:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2DD5166F90
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 15:31:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFEB41884802
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jan 2025 16:04:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12ABD22B8B2;
-	Thu, 16 Jan 2025 15:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H31/a6OS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1395B22BAC1;
+	Thu, 16 Jan 2025 16:04:13 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868B722B5AC
-	for <linux-api@vger.kernel.org>; Thu, 16 Jan 2025 15:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B00A24A7F6;
+	Thu, 16 Jan 2025 16:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737041520; cv=none; b=HIscYL1WsZKXQfNvSxsmQSfx2k19hRKp1k1uPe8sywUa+6hYWflhwbi4jC4O3YJ/Cje9CZ0w6n2dFjVDrniJAGaR5mIz0fY2+mTPkV5To8OS6uB/QmXbPxZ4+v8igjiC2b7L2i4ZxVdiQXYEuhxifxnertj4U5QJ4H92BxTUrBs=
+	t=1737043453; cv=none; b=LZR5GibwXrdiJyZWPi7DNZotGmKBNyuH1lDJnBYoRwNclM7E/I2uzUVtmfD00qoW+BPDLtQBQfUE1SLvrl+MUgbJrT59gesTCBN2sZt6sbw4QMnYV0HtYFJNvv4+3n6ega7kgprxuvrps5vUmb+BdzzNb9s3LJbGIBHXOrmPmN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737041520; c=relaxed/simple;
-	bh=EyHBWBwzh6AHGhhhlCyzXjGA36x06KnwFSPExi66IrE=;
+	s=arc-20240116; t=1737043453; c=relaxed/simple;
+	bh=X/N4/BXrk+bh43rgRGbrNL95bTuJNZzRxIK97gdDp1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sr/crIWLvkXsYvDzbhe2Zvgl6F8C4cbVp3RdLJtj2whmZJajN39gZJms6JkAJzhdZ5psFO/a+ZLMe4jc7uIGpjullnVcQN2vjgoNb4oretBhg5I/n0juUkVcZyYOQfOZZBXrT7wrGIOEyGUwbWne/2Ly0HrEB4TiQmS5IvPCwLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H31/a6OS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737041517;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EyHBWBwzh6AHGhhhlCyzXjGA36x06KnwFSPExi66IrE=;
-	b=H31/a6OSHhtfQC8SXn6Y0XATwKRG8Xk9SKBGX/7RMKHUGeiz0vkgr9zx3SwwRSofErxB8E
-	hU92Lwr+qbYh6lGgYp+BU6iNNsKVWGWC8BDTSD96rxbzILJcFW3QM+MSR4B8q/6nrxKhDm
-	D9k1AyznwDM+frdlmCRbe9Yhk/tZ/xU=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-536-uxurKbNRNzexCwgC_jtTRQ-1; Thu,
- 16 Jan 2025 10:31:51 -0500
-X-MC-Unique: uxurKbNRNzexCwgC_jtTRQ-1
-X-Mimecast-MFC-AGG-ID: uxurKbNRNzexCwgC_jtTRQ
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E31601955D72;
-	Thu, 16 Jan 2025 15:31:45 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.118])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1E86B19560BF;
-	Thu, 16 Jan 2025 15:31:37 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 16 Jan 2025 16:31:20 +0100 (CET)
-Date: Thu, 16 Jan 2025 16:31:11 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Eyal Birger <eyal.birger@gmail.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Jiri Olsa <olsajiri@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>,
-	BPF-dev-list <bpf@vger.kernel.org>,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>, X86 ML <x86@kernel.org>,
-	Linux API <linux-api@vger.kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
-	Shmulik Ladkani <shmulik.ladkani@gmail.com>
-Subject: Re: Crash when attaching uretprobes to processes running in Docker
-Message-ID: <20250116153044.GF21801@redhat.com>
-References: <20250114172519.GB29305@redhat.com>
- <Z4eBs0-kJ3iVZjXL@krava>
- <20250115150607.GA11980@redhat.com>
- <CAADnVQJjroiR0SRp69f1NbomEH-riw53e_-TioqT4aEt3GSKGg@mail.gmail.com>
- <20250115184011.GA21801@redhat.com>
- <CAHsH6Gu1kXZ=m3eoTeZcZ9n=n2scxw7z074PnY5oTsXfTqZ=vQ@mail.gmail.com>
- <20250115190304.GB21801@redhat.com>
- <CAHsH6Gtd5kYPife3hK+uKafjBMx=-23UzvQgnOnqNDzSZgHyqw@mail.gmail.com>
- <20250116143956.GD21801@redhat.com>
- <CAHsH6GukV+ydR+hw_-RF=0=_x6aO7xZzkCmbc53=Pk0Kv=8hUQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmZhoVZmiNlRcSwxLXo41lmXinghpAae+9zyI2DRYSYhJunrDrbozbu+Rr99Gl7+4nJjBW0A0WF4YAwrXrI6cNy93EE6ZLhm7XM6HyDR4t84o5v0yQfH79RcpAwqgGvZN7M7PvdLVIqJr8QMPsvPCBq1Ll9OH8rHewBk2IinjYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 5967372C8CC;
+	Thu, 16 Jan 2025 19:04:03 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 4E2EC7CCB3A; Thu, 16 Jan 2025 18:04:03 +0200 (IST)
+Date: Thu, 16 Jan 2025 18:04:03 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
+	Mike Frysinger <vapier@gentoo.org>,
+	Renzo Davoli <renzo@cs.unibo.it>,
+	Davide Berardi <berardi.dav@gmail.com>,
+	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
+Message-ID: <20250116160403.GA3554@strace.io>
+References: <20250113170925.GA392@strace.io>
+ <20250113171208.GF589@strace.io>
+ <20250116152137.GE21801@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -99,18 +54,55 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHsH6GukV+ydR+hw_-RF=0=_x6aO7xZzkCmbc53=Pk0Kv=8hUQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+In-Reply-To: <20250116152137.GE21801@redhat.com>
 
-On 01/16, Eyal Birger wrote:
->
-> Ack. I agree.
->
-> Do you want to send a formal patch, or should I?
+On Thu, Jan 16, 2025 at 04:21:38PM +0100, Oleg Nesterov wrote:
+> On 01/13, Dmitry V. Levin wrote:
+> >
+> > +static int
+> > +ptrace_set_syscall_info(struct task_struct *child, unsigned long user_size,
+> > +			void __user *datavp)
+> > +{
+> > +	struct pt_regs *regs = task_pt_regs(child);
+> > +	struct ptrace_syscall_info info;
+> > +	int error;
+> > +
+> > +	BUILD_BUG_ON(sizeof(struct ptrace_syscall_info) < PTRACE_SYSCALL_INFO_SIZE_VER0);
+> > +
+> > +	if (user_size < PTRACE_SYSCALL_INFO_SIZE_VER0 || user_size > PAGE_SIZE)
+> > +		return -EINVAL;
+> > +
+> > +	error = copy_struct_from_user(&info, sizeof(info), datavp, user_size);
+> 
+> OK, I certainly can't understand why copy_struct_from_user/check_zeroed_user
+> is useful, at least in this case. In particular, this won't allow to run the
+> new code (which uses the "extended" ptrace_syscall_info) on the older kernels?
+> 
+> Can't we just use user_size as a version number?
+> 
+> We can also turn info->reserved into info->version filled by
+> ptrace_get_syscall_info().
+> 
+> ptrace_set_syscall_info() can check that info->version matches user_size.
 
-Please send the patch ;)
+The idea is to use "op" to specify the operation, and "flags" to specify
+future extensions to the operation.  For example, we could later add
+PTRACE_SYSCALL_INFO_SECCOMP_SKIP operation to specify an exit-like
+data for seccomp stops, or some flag to set instruction_pointer or
+stack_pointer.  I don't think any of these would require a version field,
+though.
 
-Oleg.
+That is, the zero check implied by copy_struct_from_user() is not really
+needed here since the compatibility is tracked by "op" and "flags":
+if "op" and "flags" do not instruct the kernel to use these unknown
+extra bits, the kernel is not obliged to check them either.
+For the same reason I don't think the kernel is obliged to read more
+than sizeof(info) from userspace.
 
+What would you recommend using instead of copy_struct_from_user in this
+case?
+
+
+-- 
+ldv
 
