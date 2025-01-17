@@ -1,139 +1,94 @@
-Return-Path: <linux-api+bounces-3040-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3041-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9424CA14A9F
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 09:02:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BC4A14E9A
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 12:41:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 249407A2FE0
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 08:02:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4CB3168CE0
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 11:41:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AEBD1F8691;
-	Fri, 17 Jan 2025 08:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670C01FE460;
+	Fri, 17 Jan 2025 11:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="alw3DPVp"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BoBOio13"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFCC1F8670;
-	Fri, 17 Jan 2025 08:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BF119992C;
+	Fri, 17 Jan 2025 11:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737100958; cv=none; b=RdGDE/zzMCGn1WpfJrhHeyAaIw1moho+/8Leyj7apMuW44SugS2isvyJ7QmzIQW0Bm9bXSR1tQqlEds9qWTBIUWZXbMGciKooGDuNiQ5WeVUqIyilSVJxXhZacm2bfw3EoqwDEbcoBAfFRJdSsBqHxDeO4Rybw7QsUpTIWgXjk8=
+	t=1737114114; cv=none; b=hXMDT7ScU9APVtshVsuz2HYkW1Gpha0+wNoUdZCNtzQv6SdQDEwcB67wAKNkk7xsIWXzUFN6Grh9u6ksLYgcljri3jB+NaB3Ka6RV3ymcfNAemU0y+pFXve5wPOB2g9yDPMvjuVE014Ydrvi+No9/IsQZFABkMcsXsM697Kkkes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737100958; c=relaxed/simple;
-	bh=aPT8laPvdO1MFb5MDe4rtjsTWRGWV6Y+cK6r0wH3r20=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=lQTd3IYB2cR/PBlaiF31raG//h7JnFXo3M8D61CZpAYdrOCDushato6U0N5uTLds3zjfwGYfGS3qaeRXOmQSC6StsEMfcqE2QTSIQQq2feof7GLDmFf36lkVC3hXOAnwwkj67lYp+EGjFnvSH+8Ps7zFLpoYLv73d+5qe3cdTrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=alw3DPVp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B8AC4CEDD;
-	Fri, 17 Jan 2025 08:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737100957;
-	bh=aPT8laPvdO1MFb5MDe4rtjsTWRGWV6Y+cK6r0wH3r20=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=alw3DPVpkmqKCLEXlKtnb4/zzX5jnDOON8U5Xba/hlhc9f/Uc/U2sxrZ+8hySDkn+
-	 mC9keN0/rVlHz/o8xdLU/tq4nVpWBzN9JZzWr+wF5cch7m2ksxnw4wQ/oyjBOgz840
-	 kryONvArc770EGxwgyIps+hPGVnwytTkJfFbvv+BYDKLq03c7Mfhor+qDSkUSCPkNE
-	 akXH/Fletgzux0bwgPYs8BBvRPQQ0oQwF898TnDXyEziQtgOx1efQtk9Php4rtJ6Qq
-	 9Im7KRI/ewyBPy8h2qxEKsX767+9xWnyl07hcfOMDRqQeBFW2fnOl+FYQCfGXJ25Vc
-	 URDiJeGNgCy3w==
-Date: Fri, 17 Jan 2025 17:02:29 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Eyal Birger <eyal.birger@gmail.com>, kees@kernel.org,
- luto@amacapital.net, wad@chromium.org, mhiramat@kernel.org,
- andrii@kernel.org, jolsa@kernel.org, alexei.starovoitov@gmail.com,
- olsajiri@gmail.com, cyphar@cyphar.com, songliubraving@fb.com, yhs@fb.com,
- john.fastabend@gmail.com, peterz@infradead.org, tglx@linutronix.de,
- bp@alien8.de, daniel@iogearbox.net, ast@kernel.org,
- andrii.nakryiko@gmail.com, rostedt@goodmis.org, rafi@rbk.io,
- shmulik.ladkani@gmail.com, bpf@vger.kernel.org, linux-api@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
- filtering
-Message-Id: <20250117170229.f1e1a9f03a8547d31cd875db@kernel.org>
-In-Reply-To: <20250117013927.GB2610@redhat.com>
-References: <20250117005539.325887-1-eyal.birger@gmail.com>
-	<20250117013927.GB2610@redhat.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1737114114; c=relaxed/simple;
+	bh=KpmJK9fmGjbWScLvnlO9YfaqIutL+XcKhyQb5yNu/AI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tPEpb4Kl21iubKYr4z9HmxXnxYWGRqohMVWmXB7GVBjWHIlmLz/fWwruqYlM0SzVmSZfjRH8b0qjrB9Wq5FAXUVAUyTywg32DQzSsDtxxHViAAVzKdIZHrc83TOFHQZD5/7WdmzWXGo/weFeVHDkwTyuIEBump61VoiRi/J/anM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BoBOio13; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KpmJK9fmGjbWScLvnlO9YfaqIutL+XcKhyQb5yNu/AI=; b=BoBOio138WSNTSlaC6VuTK3CzG
+	/6TudRXkSpPup6REUJC2gOikLDoXLW/izRfvEcitzjFrwJn5W/g+78ovvqswZj+GN/rRFOyrInbea
+	cTm7WtpDw3zYBMyt4jXBAvVAvvXufFYvJ/zbJk61+zeDD+QD9T+hU7uLWZyVZVfA63wcv+6pKNjqg
+	cmz5raYhvp9zd/RRlXvL6LWQ4SmT48I2v/BUrdWfCEjHnqGR8SeV5+wVF5F+ucpSbcwmfZyAJthkK
+	Jj35k0ZyXThFC5M2XwIyhO03gbY1LXDYBja02Ps5yyyGfZc7E9wWUgol/fEBw5rm32l9hGs8pS4OB
+	XRS0Mo/Q==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tYkjD-0000000BPYG-2Sxl;
+	Fri, 17 Jan 2025 11:41:31 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4C4A330057A; Fri, 17 Jan 2025 12:41:30 +0100 (CET)
+Date: Fri, 17 Jan 2025 12:41:30 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Oleg Nesterov <oleg@redhat.com>, Jiri Olsa <olsajiri@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	BPF-dev-list <bpf@vger.kernel.org>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>, tglx@linutronix.de,
+	bp@alien8.de, x86@kernel.org, linux-api@vger.kernel.org,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io,
+	Shmulik Ladkani <shmulik.ladkani@gmail.com>
+Subject: Re: Crash when attaching uretprobes to processes running in Docker
+Message-ID: <20250117114130.GB8603@noisy.programming.kicks-ass.net>
+References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
+ <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
+ <Z4K7D10rjuVeRCKq@krava>
+ <Z4YszJfOvFEAaKjF@krava>
+ <20250114105802.GA19816@redhat.com>
+ <Z4ZyYudZSD92DPiF@krava>
+ <CAEf4BzZoa6gBQzfPLeMTQu+s=GqVdmihFdb1BHkcPPQMFQp+MQ@mail.gmail.com>
+ <20250114203922.GA5051@redhat.com>
+ <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
 
-On Fri, 17 Jan 2025 02:39:28 +0100
-Oleg Nesterov <oleg@redhat.com> wrote:
+On Tue, Jan 14, 2025 at 01:45:11PM -0800, Andrii Nakryiko wrote:
 
-> On 01/16, Eyal Birger wrote:
-> >
-> > Fixes: ff474a78cef5 ("uprobe: Add uretprobe syscall to speed up return probe")
-> > Reported-by: Rafael Buchbinder <rafi@rbk.io>
-> > Link: https://lore.kernel.org/lkml/CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com/
-> > Cc: stable@vger.kernel.org
-> ...
-> > @@ -1359,6 +1359,11 @@ int __secure_computing(const struct seccomp_data *sd)
-> >  	this_syscall = sd ? sd->nr :
-> >  		syscall_get_nr(current, current_pt_regs());
-> >
-> > +#ifdef CONFIG_X86_64
-> > +	if (unlikely(this_syscall == __NR_uretprobe) && !in_ia32_syscall())
-> > +		return 0;
-> > +#endif
-> 
-> Acked-by: Oleg Nesterov <oleg@redhat.com>
-> 
-> 
-> A note for the seccomp maintainers...
-> 
-> I don't know what do you think, but I agree in advance that the very fact this
-> patch adds "#ifdef CONFIG_X86_64" into __secure_computing() doesn't look nice.
-> 
+> someday sys_uretprobe will be old as well
 
-Indeed. in_ia32_syscall() depends arch/x86 too.
-We can add an inline function like;
-
-``` uprobes.h
-static inline bool is_uprobe_syscall(int syscall)
-{
-	// arch_is_uprobe_syscall check can be replaced by Kconfig,
-	// something like CONFIG_ARCH_URETPROBE_SYSCALL.
-#ifdef arch_is_uprobe_syscall
-	return arch_is_uprobe_syscall(syscall)
-#else
-	return false;
-#endif
-}
-```
-and 
-``` arch/x86/include/asm/uprobes.h
-#define arch_is_uprobe_syscall(syscall) \
-	(IS_ENABLED(CONFIG_X86_64) && syscall == __NR_uretprobe && !in_ia32_syscall())
-```
-
-> The problem is that we need a simple patch for -stable which fixes the real
-> problem. We can cleanup this logic later, I think.
-
-Hmm, at least we should make it is_uprobe_syscall() in uprobes.h so that
-do not pollute the seccomp subsystem with #ifdef.
-
-Thank you,
-
-
-
-> 
-> Oleg.
-> 
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+And then we'll delete it because everybody that cares about performance
+will have FRED on ;-)
 
