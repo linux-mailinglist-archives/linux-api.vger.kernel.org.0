@@ -1,113 +1,163 @@
-Return-Path: <linux-api+bounces-3047-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3048-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA63A15428
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 17:23:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23468A155FA
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 18:51:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB9403A289E
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 16:23:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AB6516872B
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 17:51:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AA3019CCFA;
-	Fri, 17 Jan 2025 16:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E641A0BFD;
+	Fri, 17 Jan 2025 17:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQ7cofwO"
 X-Original-To: linux-api@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DCFF166F29;
-	Fri, 17 Jan 2025 16:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6033F188A18;
+	Fri, 17 Jan 2025 17:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737130985; cv=none; b=KFuvePlkMIc4kQ6d7Aldw/abyYA/9aMcekWG8lxbLcXIrVdRBWajmkfztYnzEkFkAzqbqq6n0vpJdE+ErvgC/ON2pphvXW3EHdZGzRk7TQ3Fqi3V0oxiH0DjB+fEQPWYGHvHaToVyi/TcoRqBXv5JnW8SIlcL6miqUtTwyoqZ4A=
+	t=1737136275; cv=none; b=IDgv8u52/jyfVYwVLOYck+0EkajYrQ6K5ckQorFaj5PGySEvQ1IPN9A+vA5CfcoPjb7QUBnErEiiHLDhOmNX5FnRPM3Tzw8VotYjUF5hzQXkJF/99rIVTe4C5ecqkC/u1Vxcrl+C8okQ0We3ChL7ee08HYPyQTpeT7LbD0pW4VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737130985; c=relaxed/simple;
-	bh=zTE/6J7ninxZKWEZPWMetV2ZOU7JALxIq6RZgI16hnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CvqHrO+MGYYJZn9S/G1ehueHkTeyjj3ayle8j4F7FxvZkTSRVXKPIEwPfA8zbVWKQqW/RkRcIDf5r1pEd6Zq3agltUSKm+wD8lGZmOoFN/0qfNTxiX+KahAp/+2j9gLm5Aiz7QRNPXiCl/vSV2gXU2ckI202iAjR5u9155dtIrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 130FA72C8CC;
-	Fri, 17 Jan 2025 19:22:56 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 069517CCB3A; Fri, 17 Jan 2025 18:22:55 +0200 (IST)
-Date: Fri, 17 Jan 2025 18:22:55 +0200
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <20250117162255.GA15597@strace.io>
-References: <20250113170925.GA392@strace.io>
- <20250113171208.GF589@strace.io>
- <20250116152137.GE21801@redhat.com>
- <20250116160403.GA3554@strace.io>
- <20250117144556.GB21203@redhat.com>
- <20250117150627.GA15109@strace.io>
- <20250117153258.GC21203@redhat.com>
+	s=arc-20240116; t=1737136275; c=relaxed/simple;
+	bh=59n3JanXAj4W5nJ++jbT6kBppiHPtQVhmf60NSVx+AU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LXXVcaVlHBcNI4Yk6ZHRYxYC4xFp8LDzxuLJEkzIzzJ9VHJVvAD9b1w5SLwYBoZ48V9c6Z2hIsWmChubCGWTVB9fH7yZtKKLZzF95baicwmr8bUFlXFyJgAcqgkHA2GpZ90FJy3tNyi5ALgFVp1JcRJczgezI7OvMJeCDM9R1Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQ7cofwO; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef6c56032eso3254792a91.2;
+        Fri, 17 Jan 2025 09:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737136274; x=1737741074; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HgchdpJbWAQjMLwDeSmgMjsaNK2uqn9e9RX7bZTPGiE=;
+        b=RQ7cofwOoKoEBPGUz6pFuICpr2mYXW3yUYlW6hbyPwc6AOdQ/tsC+xp4PqA07PCNuJ
+         vMWZScgvBDh7zAR9yAnkuVLAngOYESIpOG+8flX+GNd+LNiIgGRUeErAP6pyjgkX+Cao
+         GU9QnOl+fRqjK3bJsEMvF3Kei1+Bc6HjtpZDDZMJWjBxzOzg8yzc90vmOcCkasOZTdnD
+         nOoZ8YrOqUkV7qFErOUY3Hr9mHHjFYjPyrusyueyQPUY1JshxPr0bZJp68u9HjCOJkLJ
+         GkgJ3xxc8azp+p1uC4GFVVg3H9IdA7KPjrmdQ4uwP9lcF+dhoDzxc93S3OgLsmad9zJf
+         tl2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737136274; x=1737741074;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HgchdpJbWAQjMLwDeSmgMjsaNK2uqn9e9RX7bZTPGiE=;
+        b=OKca5h8PBWg6CGh3fMjsYt6OLVrtJX2PBRp2HwC1WvesGaxdBRAcoTMqoZckkhCuEM
+         Gs+LbUd3VlXAcNLXCnDFPt2LD7bLZwM7+NyA7QKrBUfSWOt9dlMC4j4e2p2c7nbeJG+w
+         TwDMrrXq7hQyawhPEAp+h1r4bz+FFikqV9Ie37mFbbG+h3OiZoZKCxauldMsRkdUxIC5
+         91pZSBMubz9WJrIm3gNv//uSdFHlvcezvB/ckxNNyjw52ZEGECOmzW7yA6+ZQLwrcMPv
+         gaWMYLF6BbgW6/48diQON6+82aJBjYFaRRE1hS2ExdZoNMCYz/v/0FF4/ix+YBX5/RQR
+         1ChQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRnBUAiIpSAaLed0bUdPlqt8Qz2mnb8y+DjitLoylsiF8B2S86tuSXfQ71s8PzP1DlK4p1hflYDUrbjLKc@vger.kernel.org, AJvYcCVwYLyT9KxfHJuaCAU37BghEFgKDQc/9pHyEqotzvQMo6eBpVF4l97JlrRgRZdDV8F5KMY=@vger.kernel.org, AJvYcCXMO90LVkervgUHBzWd5XWaWSnl7U6n5huWBHq8BhZfA4AaZgV6B92Ux8ugxYnjkYUnmeXsav1La5p3@vger.kernel.org, AJvYcCXkfvyw3igQPcCheHb5A+blEqXDKwosYDNrqvaYcRRNh+Eqip3aMzd2IjrHC8ASFNqrfvQ77vZy@vger.kernel.org, AJvYcCXzB40WJHFmk1Yo9TktitdYyKZAvTRlEuN9d02HyQTMHsok1plnmso75xLrHxmxyM2o5gvc78UfisIvkeyl4bQ67rb5@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJmUizZDZE8F8PJq+nSFi0KaK7w+0RsWLi415gU4PtacOdUQaj
+	31kQEWmtXYrY3IIZeuYUCSF7AmrKvZEqpugWQsJ+BbIZaRrQI0TgI3pNkInIGIPTq96STdK7VkD
+	HMNTfRNt6O4HJ87NKUdITtEClG+E=
+X-Gm-Gg: ASbGncv3hYImOkzrRIzHK5THaj6PeUSZrdz6XPa0C5DqIk2K5Ot3mULPmiKTdUkRym/
+	Au7PYCdC3WhenOKPH9IWN3SB/kF1vuFPL78VB
+X-Google-Smtp-Source: AGHT+IFgGZHvaVpyG9evtbseTwW84tvh+4yMJz+UPX4HsHP4aoIIOQbshqpZpl2BCKbUkGappNXJTpfv3VqWAwdsvQ0=
+X-Received: by 2002:a17:90b:3a46:b0:2ee:ab29:1a63 with SMTP id
+ 98e67ed59e1d1-2f782c519e2mr4648673a91.3.1737136273620; Fri, 17 Jan 2025
+ 09:51:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250117153258.GC21203@redhat.com>
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
+ <20250117013927.GB2610@redhat.com> <20250117170229.f1e1a9f03a8547d31cd875db@kernel.org>
+ <20250117140924.GA21203@redhat.com>
+In-Reply-To: <20250117140924.GA21203@redhat.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Fri, 17 Jan 2025 09:51:01 -0800
+X-Gm-Features: AbW1kvbCIlrQcqrIsewf1J2VvfFgAYtuF1bKPaVwM7uFAPqmf8E_bdQIa9-K55Q
+Message-ID: <CAEf4BzYhcG8waFMFoQS5dFWVkQGP6ed_0mwGTK4quN5+6-8XuA@mail.gmail.com>
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without filtering
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Eyal Birger <eyal.birger@gmail.com>, kees@kernel.org, 
+	luto@amacapital.net, wad@chromium.org, andrii@kernel.org, jolsa@kernel.org, 
+	alexei.starovoitov@gmail.com, olsajiri@gmail.com, cyphar@cyphar.com, 
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+	peterz@infradead.org, tglx@linutronix.de, bp@alien8.de, daniel@iogearbox.net, 
+	ast@kernel.org, rostedt@goodmis.org, rafi@rbk.io, shmulik.ladkani@gmail.com, 
+	bpf@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 17, 2025 at 04:32:59PM +0100, Oleg Nesterov wrote:
-> Dmitry,
-> 
-> You certainly understand the user-space needs much better than me.
-> I am just trying to understand your point.
-> 
-> On 01/17, Dmitry V. Levin wrote:
+On Fri, Jan 17, 2025 at 6:10=E2=80=AFAM Oleg Nesterov <oleg@redhat.com> wro=
+te:
+>
+> On 01/17, Masami Hiramatsu wrote:
 > >
-> > We should accept larger user_size from the very beginning, so that in case
-> > the structure grows in the future, the userspace that sicks to the current
-> > set of supported features would be still able to work with older kernels.
-> 
-> This is what I can't understand, perhaps I have a blind spot here ;)
-> 
-> Could you provide an example (even absolutely artificial) of possible extension
-> which can help me to understand?
+> > On Fri, 17 Jan 2025 02:39:28 +0100
+> > Oleg Nesterov <oleg@redhat.com> wrote:
+> >
+> > > A note for the seccomp maintainers...
+> > >
+> > > I don't know what do you think, but I agree in advance that the very =
+fact this
+> > > patch adds "#ifdef CONFIG_X86_64" into __secure_computing() doesn't l=
+ook nice.
+> > >
+> >
+> > Indeed. in_ia32_syscall() depends arch/x86 too.
+> > We can add an inline function like;
+> >
+> > ``` uprobes.h
+> > static inline bool is_uprobe_syscall(int syscall)
+> > {
+>
+> We can, and this is what I tried to suggest from the very beginning.
+> But I agree with Eyal who decided to send the most trivial fix for
+> -stable, we can add the helper later.
+>
+> I don't think it should live in uprobes.h and I'd prefer something
+> like arch_seccomp_ignored(int) but I won't insist.
 
-An absolutely artificial example: let's say we're adding an optional 
-64-bit field "artificial" to ptrace_syscall_info.seccomp, this means
-sizeof(ptrace_syscall_info) grows by 8 bytes.  When userspace wants
-to set this optional field, it sets a bit in ptrace_syscall_info.flags,
-this tells the kernel to look into this new "artificial" field.
-When userspace is not interested in setting new optional fields,
-it just keeps ptrace_syscall_info.flags == 0.  Remember, however, that
-by adding the new optional field sizeof(ptrace_syscall_info) grew by 8 bytes.
+yep, I think this is the way, keeping it as a general category. Should
+we also put rt_sigreturn there explicitly as well? Also, wouldn't it
+be better to have it as a non-arch-specific function for something
+like rt_sigreturn where defining it per each arch is cumbersome, and
+have the default implementation also call into an arch-specific
+function?
 
-What we need is to make sure that an older kernel that has no idea of this
-new field would still accept the bigger size, so that userspace would be
-able to continue doing its
-	ptrace(PTRACE_SET_SYSCALL_INFO, pid, sizeof(info), &info)
-despite of potential growth of sizeof(info) until it actually starts using
-new optional fields.
-
-> > We cannot just use sizeof(info) because it depends on the alignment of
-> > __u64.
-> 
-> Hmm why? I thought that the kernel already depends on the "natural" alignment?
-> And if we can't, then PTRACE_SYSCALL_INFO_SIZE_VER0 added by this patch makes
-> no sense?
-
-struct ptrace_syscall_info has members of type __u64, and it currently
-ends with "__u32 ret_data".  So depending on the alignment, the structure
-either has extra 4 trailing padding bytes, or it doesn't.
-
-For example, on x86_64 sizeof(struct ptrace_syscall_info) is currently 88,
-while on x86 it is 84.
-
-
--- 
-ldv
+>
+> >       // arch_is_uprobe_syscall check can be replaced by Kconfig,
+> >       // something like CONFIG_ARCH_URETPROBE_SYSCALL.
+>
+> Or sysctl or both. This is another issue.
+>
+> > ``` arch/x86/include/asm/uprobes.h
+> > #define arch_is_uprobe_syscall(syscall) \
+> >       (IS_ENABLED(CONFIG_X86_64) && syscall =3D=3D __NR_uretprobe && !i=
+n_ia32_syscall())
+> > ```
+>
+> This won't compile if IS_ENABLED(CONFIG_X86_64) =3D=3D false, __NR_uretpr=
+obe
+> will be undefined.
+>
+> > > The problem is that we need a simple patch for -stable which fixes th=
+e real
+> > > problem. We can cleanup this logic later, I think.
+> >
+> > Hmm, at least we should make it is_uprobe_syscall() in uprobes.h so tha=
+t
+> > do not pollute the seccomp subsystem with #ifdef.
+>
+> See above. But I won't insist.
+>
+> Oleg.
+>
 
