@@ -1,112 +1,172 @@
-Return-Path: <linux-api+bounces-3049-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3050-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279ADA15608
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 18:53:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BA4A156C8
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 19:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4C541883D4C
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 17:53:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 869AD3A21BC
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 18:34:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4758F1A2544;
-	Fri, 17 Jan 2025 17:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlOoAvmQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1B071A42A5;
+	Fri, 17 Jan 2025 18:34:22 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDA286324;
-	Fri, 17 Jan 2025 17:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9AF1A255C;
+	Fri, 17 Jan 2025 18:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737136429; cv=none; b=CP/73HzPYED7nOsrYC25GYKpVhN4JtRhebXdmOk+WzTziiLstwsHgS2LNeyNsDuz/K7xmviZdGVMsp39LDEitvVgN0mrUXYLbKNEY9j39XhvsWgApj2dVeYMJWZ362+1489QVHyCgbaWtcI92a2C4ogh2zkGxsSDWcGm6vk5flU=
+	t=1737138862; cv=none; b=hjbCfhhb9/IbgMTWu87WhPKe3VAUg10aglWa7X0nurg2yiB6MDr2UPkJ6jDv0Of/OjTTfGI30ND4NTrVROu4CfKrbxFakdFCTdWU9dhDeyA5LJPhOA+iLX5k7UAXNOT0VGajTm42H+EYfp2lqnpX5LX0Llo4RpwTq6gOlkJHOdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737136429; c=relaxed/simple;
-	bh=Vi9ngEbEEJ9tE/5gbN1CRVN0AigKlK07eDeAXByiJfc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lp7lcedmK63FHz68m8TfUJ45cGWkiJGWJfZZ1gLHbSpGEpppSocG87HbKKYFjRdyN8L00A6O5ejwpBKuWpY6HGdSaHdXTgMQrving89kSaCml0PhoCvab5aFmHh8snFmZmBoyCG3rE0GifoZl0kMAUelqkpSuBxanS73ojhQsGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlOoAvmQ; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2f43d17b0e3so4390891a91.0;
-        Fri, 17 Jan 2025 09:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737136427; x=1737741227; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vi9ngEbEEJ9tE/5gbN1CRVN0AigKlK07eDeAXByiJfc=;
-        b=TlOoAvmQxM/t3ICGddHl1Xl5uhCGJsMsp7nfDnHWWYZUjAJKtwR7G3F1Vcgyy7NmEY
-         EkPOlZ+GVuUBnuq2JHHNd2WHT9HKo2coiKr2UdUU2LP8skyDxXzJ+hplrkAAlaVnCKx8
-         WbOjWBFR41OsnQvC3HWmAqf3grbraC+H8fP1jE7BDdowHn4mJ1uuITKPN4JctDVoQx23
-         8KwpDHIz9t+Fy9ioP3m9x8TaXqz5d0IgJBSq66D7fWHsbPT/KfZdinObMGMqBZcKqeSf
-         cpxdWI20uBKX/3vOdx+BdgiFsklI5n0AQ9H3F9ZZRkEB1/FeT+CqC1hXEfik8p5wjrEj
-         QksA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737136427; x=1737741227;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vi9ngEbEEJ9tE/5gbN1CRVN0AigKlK07eDeAXByiJfc=;
-        b=bBXQpO/YWTBXdP9apxtuFi4RE4fvRKfKczbNe32e1lwRJw+sC07qEU4DeqgH+7ocDl
-         yTawIHPHeZlxbS0cS1BAgmu7DLRDamks8Lyw9/E4345xF9K1lvR58hVREJvZHhjLRtAy
-         m+5/iT+wkPEaLW6WScAPIjgsLQh/ToVO7AiGtIyHG2ElTWv3aZusO9reOE6FO/8rA3Qg
-         wHXISmZdBc6FUI+tR39Th1sIEae55IEjDJ3irovUKZSopsV8zZjaU1EnDIPEYwRbz/VX
-         y+vh1LFWMS3Gyxb8niHIvgHILKzay0vlPzPKCGRLNm72G9LsV9D3zajsekZ861qscA6B
-         r5nw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9fVWyMqj0Y6C6J0cg3NKBwrqUa7vLOvxSdy3F2Dnnjj8ze2gIR7TSw9ePjLPNkG3CjAxciQ06kbd6@vger.kernel.org, AJvYcCW/CkgU+zpdS2bORPG/xm2d4ftdLWTTu16MaCtjsyM2ucff7eJUiJyRO0UzBGhIUU4Aj5ldYkwj9rUmn00WfVjxsNG6@vger.kernel.org, AJvYcCWQrvx3mwLBWX5yVHycWet7qCZN8AwNhjLU5fwUJtrMh5lx8yZrleBtrc9Njuo3xrf9Wawav6UUm6MuQIcr@vger.kernel.org, AJvYcCX/3EzqEIfuSuWPyLeHaya5CXfRLlXShb+NzEp2wnJLOhSiMvBfyDetgljlfYxtS4YUAS0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2CxwW/XRXUYIT7oijN8p0bBj2WUDLIFqpqNaTqYV4X0Jitngx
-	Fa5pNZME18MwAO2qWEC9fpXqfMLrl267Wo7ykAH7Vtocvi/zhMMJT3avJ8WDmXzEMq0Xuw2+0wt
-	Zj/UD5nlIfMlL10v+Hu4JZBKKdZg=
-X-Gm-Gg: ASbGnctBX0couhEq5H11E5G/GjcVaQEMCX7n3IuY6+uFOuWCyOcu9IX6jdr5FRmtsgM
-	0O8IK8TWyuZGLtigq7q2WK/blM6SKUsdJnFC7
-X-Google-Smtp-Source: AGHT+IFULhbKsE8nTOnbK493yGfAm1R9xZ//f+w/HAcEk+EXHFpP+nrfegB1FpJ2d590FkNXfGNhCO85tr6oatbZUUU=
-X-Received: by 2002:a17:90b:2e0b:b0:2ea:83a0:47a5 with SMTP id
- 98e67ed59e1d1-2f782c66295mr4983581a91.4.1737136427209; Fri, 17 Jan 2025
- 09:53:47 -0800 (PST)
+	s=arc-20240116; t=1737138862; c=relaxed/simple;
+	bh=xS5WmOuTnbaPAn2X3uOIWw49nxLanKIbBs8fvB3fIXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gWHj8zHJf5TFOg4djwqn2leDKkANaC1cismlQ5p+2+zyE8lAUIwhu/0AovPZzUJ3nnb9s0vU1+XCfjoyBp9kNIiWuAe6IiRmKvULhvnAuonJWaxiHzSRpurvPfXlCnBh7XUAywTkCHW9sGb/5/d/BdApsmbf40ljuZIDRLZx2vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id DA6CF72C8CC;
+	Fri, 17 Jan 2025 21:34:16 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id B02E67CCB3A; Fri, 17 Jan 2025 20:34:16 +0200 (IST)
+Date: Fri, 17 Jan 2025 20:34:16 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Eyal Birger <eyal.birger@gmail.com>
+Cc: kees@kernel.org, luto@amacapital.net, wad@chromium.org, oleg@redhat.com,
+	mhiramat@kernel.org, andrii@kernel.org, jolsa@kernel.org,
+	alexei.starovoitov@gmail.com, olsajiri@gmail.com, cyphar@cyphar.com,
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
+	peterz@infradead.org, tglx@linutronix.de, bp@alien8.de,
+	daniel@iogearbox.net, ast@kernel.org, andrii.nakryiko@gmail.com,
+	rostedt@goodmis.org, rafi@rbk.io, shmulik.ladkani@gmail.com,
+	bpf@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
+ filtering
+Message-ID: <20250117183416.GA16831@strace.io>
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com>
- <20250110.152323-sassy.torch.lavish.rent-vKX3ul5B3qyi@cyphar.com>
- <Z4K7D10rjuVeRCKq@krava> <Z4YszJfOvFEAaKjF@krava> <20250114105802.GA19816@redhat.com>
- <Z4ZyYudZSD92DPiF@krava> <CAEf4BzZoa6gBQzfPLeMTQu+s=GqVdmihFdb1BHkcPPQMFQp+MQ@mail.gmail.com>
- <20250114203922.GA5051@redhat.com> <CAEf4BzaRCzWMVvyGC_T52djF7q65yM8=AdBEMOPUU8edG-PLxg@mail.gmail.com>
- <20250117114130.GB8603@noisy.programming.kicks-ass.net>
-In-Reply-To: <20250117114130.GB8603@noisy.programming.kicks-ass.net>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 17 Jan 2025 09:53:35 -0800
-X-Gm-Features: AbW1kvZnRk6vdlhYx8A7dRd_5Pqekb8g8c3ysccwsG7aafc2qTZrOC-S3sly2bA
-Message-ID: <CAEf4BzZL9yJa6S7Btr+gqGXR9UGJJonP6c0+MvusTJ3bWKTxSA@mail.gmail.com>
-Subject: Re: Crash when attaching uretprobes to processes running in Docker
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, Jiri Olsa <olsajiri@gmail.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Eyal Birger <eyal.birger@gmail.com>, mhiramat@kernel.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	BPF-dev-list <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
-	John Fastabend <john.fastabend@gmail.com>, tglx@linutronix.de, bp@alien8.de, x86@kernel.org, 
-	linux-api@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, rafi@rbk.io, 
-	Shmulik Ladkani <shmulik.ladkani@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250117005539.325887-1-eyal.birger@gmail.com>
 
-On Fri, Jan 17, 2025 at 3:41=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
->
-> On Tue, Jan 14, 2025 at 01:45:11PM -0800, Andrii Nakryiko wrote:
->
-> > someday sys_uretprobe will be old as well
->
-> And then we'll delete it because everybody that cares about performance
-> will have FRED on ;-)
+On Thu, Jan 16, 2025 at 04:55:39PM -0800, Eyal Birger wrote:
+> When attaching uretprobes to processes running inside docker, the attached
+> process is segfaulted when encountering the retprobe.
+> 
+> The reason is that now that uretprobe is a system call the default seccomp
+> filters in docker block it as they only allow a specific set of known
+> syscalls. This is true for other userspace applications which use seccomp
+> to control their syscall surface.
+> 
+> Since uretprobe is a "kernel implementation detail" system call which is
+> not used by userspace application code directly, it is impractical and
+> there's very little point in forcing all userspace applications to
+> explicitly allow it in order to avoid crashing tracked processes.
+> 
+> Pass this systemcall through seccomp without depending on configuration.
+> 
+> Fixes: ff474a78cef5 ("uprobe: Add uretprobe syscall to speed up return probe")
+> Reported-by: Rafael Buchbinder <rafi@rbk.io>
+> Link: https://lore.kernel.org/lkml/CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com/
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Eyal Birger <eyal.birger@gmail.com>
+> ---
+> 
+> The following reproduction script synthetically demonstrates the problem:
+> 
+> cat > /tmp/x.c << EOF
+> 
+> char *syscalls[] = {
+> 	"write",
+> 	"exit_group",
+> 	"fstat",
+> };
+> 
+> __attribute__((noinline)) int probed(void)
+> {
+> 	printf("Probed\n");
+> 	return 1;
+> }
+> 
+> void apply_seccomp_filter(char **syscalls, int num_syscalls)
+> {
+> 	scmp_filter_ctx ctx;
+> 
+> 	ctx = seccomp_init(SCMP_ACT_KILL);
+> 	for (int i = 0; i < num_syscalls; i++) {
+> 		seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
+> 				 seccomp_syscall_resolve_name(syscalls[i]), 0);
+> 	}
+> 	seccomp_load(ctx);
+> 	seccomp_release(ctx);
+> }
+> 
+> int main(int argc, char *argv[])
+> {
+> 	int num_syscalls = sizeof(syscalls) / sizeof(syscalls[0]);
+> 
+> 	apply_seccomp_filter(syscalls, num_syscalls);
+> 
+> 	probed();
+> 
+> 	return 0;
+> }
+> EOF
+> 
+> cat > /tmp/trace.bt << EOF
+> uretprobe:/tmp/x:probed
+> {
+>     printf("ret=%d\n", retval);
+> }
+> EOF
+> 
+> gcc -o /tmp/x /tmp/x.c -lseccomp
+> 
+> /usr/bin/bpftrace /tmp/trace.bt &
+> 
+> sleep 5 # wait for uretprobe attach
+> /tmp/x
+> 
+> pkill bpftrace
+> 
+> rm /tmp/x /tmp/x.c /tmp/trace.bt
+> ---
+>  kernel/seccomp.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index 385d48293a5f..10a55c9b5c18 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -1359,6 +1359,11 @@ int __secure_computing(const struct seccomp_data *sd)
+>  	this_syscall = sd ? sd->nr :
+>  		syscall_get_nr(current, current_pt_regs());
+>  
+> +#ifdef CONFIG_X86_64
+> +	if (unlikely(this_syscall == __NR_uretprobe) && !in_ia32_syscall())
+> +		return 0;
+> +#endif
+> +
+>  	switch (mode) {
+>  	case SECCOMP_MODE_STRICT:
+>  		__secure_computing_strict(this_syscall);  /* may call do_exit */
 
-with "then" sufficiently far into the future, sure :)
+This seems to be a hot fix to bypass some SECCOMP_RET_ERRNO filters.
+However, this way it bypasses seccomp completely, including
+SECCOMP_RET_TRACE, making it invisible to strace --seccomp,
+and I wonder why do you want that.
+
+
+-- 
+ldv
 
