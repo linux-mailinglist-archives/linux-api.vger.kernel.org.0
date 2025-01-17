@@ -1,87 +1,139 @@
-Return-Path: <linux-api+bounces-3039-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3040-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4D3A14A7D
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 08:56:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9424CA14A9F
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 09:02:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B4C77A143D
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 07:56:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 249407A2FE0
+	for <lists+linux-api@lfdr.de>; Fri, 17 Jan 2025 08:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83681F7907;
-	Fri, 17 Jan 2025 07:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AEBD1F8691;
+	Fri, 17 Jan 2025 08:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3g8uUr/z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="alw3DPVp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C981F6687;
-	Fri, 17 Jan 2025 07:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFCC1F8670;
+	Fri, 17 Jan 2025 08:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737100573; cv=none; b=tu2rtKfaR1DDE9RC8zEkKBbOgkYqMs3oLkQr4hOFNjRNF/yR8iUsTyeFacR2ccq9S1qvgwJt/6UkWVs7pPIOWN+R/XMvtuAuUOUukuD+eVrCiOtmh7GJHG0WsTbZ/NJ9h9CST/2sk7KkPOoTuSCV4QR6j/xq1x8qcl9hhizcil4=
+	t=1737100958; cv=none; b=RdGDE/zzMCGn1WpfJrhHeyAaIw1moho+/8Leyj7apMuW44SugS2isvyJ7QmzIQW0Bm9bXSR1tQqlEds9qWTBIUWZXbMGciKooGDuNiQ5WeVUqIyilSVJxXhZacm2bfw3EoqwDEbcoBAfFRJdSsBqHxDeO4Rybw7QsUpTIWgXjk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737100573; c=relaxed/simple;
-	bh=vbsrK0oAOquXB6Qxnm6v5muRqOVJe9pjcUpbdG/aAbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KQ2nTWjqY2ATG6ZzT669frGMnpIRjJKLddJJfKPnCfRtejnw+Co/N9CksEMWKgvl7EFPe+o7bWcd1/4dA/eFVrtOyRVGzIZFKmWCXaPCIz1QQVONW3k/+a7LJpftJFmnOOBQYdauHWwByi7KmlspPzMeNEu3l2Ox3aie3SJD6HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3g8uUr/z; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0xS4rzAwShP4fR0GmRf+Y/L+j7Nhbi6WmSe8J0Qupus=; b=3g8uUr/zQeamxBYJg5IR9w1nI5
-	4XFglwglcwD6Kg+PhuCwG7MVHgvS5R/Pv5qLbbjmqEPK6DcIdD8PqbKmKt2IqippGnsPrcU8W8Ymy
-	XYnki7fkGVODbJ/QGQkw95oNIYJRFIlp6gFu4h4wfGz+AXhghuLQOG4XlVtrU+INYLUoGcKddyaCm
-	q3GJGEWpcbQcUCO0eIRoTyJ1iV3dj8zetOQr9Rbg7SOb/YBakeHaz9vZ9YgflNRZZP5NVMotg68rR
-	6TGchrX0Hlb2sgEsRFJEjDaIE7qkOcAzCPou0RQ4xolbPR3/9ssMsF8+dP0kUVg/7qGKwYqvmaaHR
-	0EfZr12g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYhD7-0000000HGFi-3cg9;
-	Fri, 17 Jan 2025 07:56:09 +0000
-Date: Thu, 16 Jan 2025 23:56:09 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/2] f2fs: register inodes which is able to donate pages
-Message-ID: <Z4oNGYJrN-XGX87M@infradead.org>
-References: <20250115221814.1920703-1-jaegeuk@kernel.org>
- <20250115221814.1920703-2-jaegeuk@kernel.org>
- <Z4imEs-Se-VWcpBG@infradead.org>
- <Z4k_nKT3V1xuhXGc@google.com>
+	s=arc-20240116; t=1737100958; c=relaxed/simple;
+	bh=aPT8laPvdO1MFb5MDe4rtjsTWRGWV6Y+cK6r0wH3r20=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=lQTd3IYB2cR/PBlaiF31raG//h7JnFXo3M8D61CZpAYdrOCDushato6U0N5uTLds3zjfwGYfGS3qaeRXOmQSC6StsEMfcqE2QTSIQQq2feof7GLDmFf36lkVC3hXOAnwwkj67lYp+EGjFnvSH+8Ps7zFLpoYLv73d+5qe3cdTrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=alw3DPVp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B8AC4CEDD;
+	Fri, 17 Jan 2025 08:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737100957;
+	bh=aPT8laPvdO1MFb5MDe4rtjsTWRGWV6Y+cK6r0wH3r20=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=alw3DPVpkmqKCLEXlKtnb4/zzX5jnDOON8U5Xba/hlhc9f/Uc/U2sxrZ+8hySDkn+
+	 mC9keN0/rVlHz/o8xdLU/tq4nVpWBzN9JZzWr+wF5cch7m2ksxnw4wQ/oyjBOgz840
+	 kryONvArc770EGxwgyIps+hPGVnwytTkJfFbvv+BYDKLq03c7Mfhor+qDSkUSCPkNE
+	 akXH/Fletgzux0bwgPYs8BBvRPQQ0oQwF898TnDXyEziQtgOx1efQtk9Php4rtJ6Qq
+	 9Im7KRI/ewyBPy8h2qxEKsX767+9xWnyl07hcfOMDRqQeBFW2fnOl+FYQCfGXJ25Vc
+	 URDiJeGNgCy3w==
+Date: Fri, 17 Jan 2025 17:02:29 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Eyal Birger <eyal.birger@gmail.com>, kees@kernel.org,
+ luto@amacapital.net, wad@chromium.org, mhiramat@kernel.org,
+ andrii@kernel.org, jolsa@kernel.org, alexei.starovoitov@gmail.com,
+ olsajiri@gmail.com, cyphar@cyphar.com, songliubraving@fb.com, yhs@fb.com,
+ john.fastabend@gmail.com, peterz@infradead.org, tglx@linutronix.de,
+ bp@alien8.de, daniel@iogearbox.net, ast@kernel.org,
+ andrii.nakryiko@gmail.com, rostedt@goodmis.org, rafi@rbk.io,
+ shmulik.ladkani@gmail.com, bpf@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
+ filtering
+Message-Id: <20250117170229.f1e1a9f03a8547d31cd875db@kernel.org>
+In-Reply-To: <20250117013927.GB2610@redhat.com>
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
+	<20250117013927.GB2610@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z4k_nKT3V1xuhXGc@google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 16, 2025 at 05:19:24PM +0000, Jaegeuk Kim wrote:
-> > mean a invalidate_inode_pages2_range.  Which is a strange use of the
-> > word.  what are the use cases?  Why is this queued up to a thread and
-> > not done inline?  Why is this in f2fs and not in common code.
+On Fri, 17 Jan 2025 02:39:28 +0100
+Oleg Nesterov <oleg@redhat.com> wrote:
+
+> On 01/16, Eyal Birger wrote:
+> >
+> > Fixes: ff474a78cef5 ("uprobe: Add uretprobe syscall to speed up return probe")
+> > Reported-by: Rafael Buchbinder <rafi@rbk.io>
+> > Link: https://lore.kernel.org/lkml/CAHsH6Gs3Eh8DFU0wq58c_LF8A4_+o6z456J7BidmcVY2AqOnHQ@mail.gmail.com/
+> > Cc: stable@vger.kernel.org
+> ...
+> > @@ -1359,6 +1359,11 @@ int __secure_computing(const struct seccomp_data *sd)
+> >  	this_syscall = sd ? sd->nr :
+> >  		syscall_get_nr(current, current_pt_regs());
+> >
+> > +#ifdef CONFIG_X86_64
+> > +	if (unlikely(this_syscall == __NR_uretprobe) && !in_ia32_syscall())
+> > +		return 0;
+> > +#endif
 > 
-> The idea is let apps register some file ranges for page donation and admin
-> recliam such pages all togehter if they expect to see memory pressure soon.
-> We can rely on LRU, but this is more user-given trigger. I'm not sure whether
-> there's a need in general, hence, wanted to put it in f2fs first to get more
-> concrete use-cases beyond this Android case.
+> Acked-by: Oleg Nesterov <oleg@redhat.com>
+> 
+> 
+> A note for the seccomp maintainers...
+> 
+> I don't know what do you think, but I agree in advance that the very fact this
+> patch adds "#ifdef CONFIG_X86_64" into __secure_computing() doesn't look nice.
+> 
 
-Well, that's certainly not a file system feature.  Please build this
-as generic infrastucture and send it to the linux-mm list.
+Indeed. in_ia32_syscall() depends arch/x86 too.
+We can add an inline function like;
 
+``` uprobes.h
+static inline bool is_uprobe_syscall(int syscall)
+{
+	// arch_is_uprobe_syscall check can be replaced by Kconfig,
+	// something like CONFIG_ARCH_URETPROBE_SYSCALL.
+#ifdef arch_is_uprobe_syscall
+	return arch_is_uprobe_syscall(syscall)
+#else
+	return false;
+#endif
+}
+```
+and 
+``` arch/x86/include/asm/uprobes.h
+#define arch_is_uprobe_syscall(syscall) \
+	(IS_ENABLED(CONFIG_X86_64) && syscall == __NR_uretprobe && !in_ia32_syscall())
+```
+
+> The problem is that we need a simple patch for -stable which fixes the real
+> problem. We can cleanup this logic later, I think.
+
+Hmm, at least we should make it is_uprobe_syscall() in uprobes.h so that
+do not pollute the seccomp subsystem with #ifdef.
+
+Thank you,
+
+
+
+> 
+> Oleg.
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
