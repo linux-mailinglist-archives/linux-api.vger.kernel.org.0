@@ -1,130 +1,94 @@
-Return-Path: <linux-api+bounces-3056-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3057-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35B5A15D8F
-	for <lists+linux-api@lfdr.de>; Sat, 18 Jan 2025 16:06:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767C1A15EBA
+	for <lists+linux-api@lfdr.de>; Sat, 18 Jan 2025 21:22:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02827166F0B
-	for <lists+linux-api@lfdr.de>; Sat, 18 Jan 2025 15:06:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1636165B06
+	for <lists+linux-api@lfdr.de>; Sat, 18 Jan 2025 20:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1893E19B59C;
-	Sat, 18 Jan 2025 15:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC1CB1AF4EF;
+	Sat, 18 Jan 2025 20:21:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KsuhhWDK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+pRX5Dv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C59F199EBB
-	for <linux-api@vger.kernel.org>; Sat, 18 Jan 2025 15:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFA21373;
+	Sat, 18 Jan 2025 20:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737212751; cv=none; b=JXTkkv8Dmjqw6XXWV0+iCS322I+F0m5N5CHDHKtRKKcqnIFJnZpWlsVSbofH+UrjdAQ2X5u9I7QtoYBu3/aJ2BmdnAhD/FF2fx0avkZYRe1z7KJ9wb6jrP170erDUeJiDhdOgyr7NNdJ1dTOyj/Z4bYyEZ/kf4oVzfUlNfkWFiE=
+	t=1737231715; cv=none; b=BFOTDTR33CHxT6ruBBgWwXRw1rQHSWJth7BZcW7acIlQtefbJjgYL+KZSgGXNfAnwdip3NR9VjbNElAvOq8PcLvOJa1uFjuKm3nQCyu5TRMsQz7oETmbzxeBLM6tCxur6hPB2cvrGA56Izs3DxvCsvPRQAPbEHZcFu5B4N8PCwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737212751; c=relaxed/simple;
-	bh=FB5tEY/SIGgEcj+wCphizTJs+zgzCCFaTisQu4Io4D8=;
+	s=arc-20240116; t=1737231715; c=relaxed/simple;
+	bh=q9qsMX/HkCYxQZH+8I2kWPXE6XRaUuOPM9zDN8q9VCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GWoJ/qdPnv3w+RjpOvpg2tUkHWg14kxIANakWf+EZQwxOtKhJEqxbYjSl9ixxMxdNGlkaXtiKykt5nLJdjX1VmGyMJrXspaI8aOpGcpTo6H4GE1dsCeGn/cG4Gbu577pP4IIwvmyqId1tNKpxEYpLB/VPtxO2569OEAs6Sx2by8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KsuhhWDK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737212748;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FB5tEY/SIGgEcj+wCphizTJs+zgzCCFaTisQu4Io4D8=;
-	b=KsuhhWDK95iM5PtGmDHzMUPFzqW6bxDKq59GzOh8jet3YXl4z8qKTfw4Q9wSsSnV2fcZWf
-	qvrw5ilhe25RGidFE9U4Dxi16nQ8Stxixjc4MzBLLeMYMGcMmgTtDFWUnXtBs1830uwNKz
-	415JxZkqdSNnKbKgkJOHVC/bZUmJjNg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-552-kWG6VUqGNcauERNYzyMBkQ-1; Sat,
- 18 Jan 2025 10:05:42 -0500
-X-MC-Unique: kWG6VUqGNcauERNYzyMBkQ-1
-X-Mimecast-MFC-AGG-ID: kWG6VUqGNcauERNYzyMBkQ
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8EAA119560B1;
-	Sat, 18 Jan 2025 15:05:37 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.39])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id AFEAD195608A;
-	Sat, 18 Jan 2025 15:05:27 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sat, 18 Jan 2025 16:05:12 +0100 (CET)
-Date: Sat, 18 Jan 2025 16:05:01 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
-	Eyal Birger <eyal.birger@gmail.com>, kees@kernel.org,
-	luto@amacapital.net, wad@chromium.org, andrii@kernel.org,
-	jolsa@kernel.org, alexei.starovoitov@gmail.com, olsajiri@gmail.com,
-	cyphar@cyphar.com, songliubraving@fb.com, yhs@fb.com,
-	john.fastabend@gmail.com, peterz@infradead.org, tglx@linutronix.de,
-	bp@alien8.de, daniel@iogearbox.net, ast@kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YlCMWCn3/fhRt4dKMLBKRMVqMcqr/cZGy6augfkj/USH6LLHR8sW+uyT2w118K/s1aIy6OrMnxbW+gOSRT9Bm8Nabi2m8vB4VtDNpKuc55qHuHakKSjT14N/S7hxWcNWnfARE50WtKLlihLuNNCCoKw9GuY6xkE45EZtHAH3zD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+pRX5Dv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6730C4CED1;
+	Sat, 18 Jan 2025 20:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737231715;
+	bh=q9qsMX/HkCYxQZH+8I2kWPXE6XRaUuOPM9zDN8q9VCc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h+pRX5DvroieuQST+ihh6zSupRiMWWPB9OSko7ZYMi6LM/IiItfx8J2Cz5wh1wh1F
+	 /uqh3bqBIoRDta5iMLj464zUvKLDvLUzl1fqyF742ZL7gxVT6tg7ujTXU17D13H6Hq
+	 Xn6T9vQXxlaY9nQVHkhrRM7Y9qnbGo7xWltLobvC26DxMfzoF6hMKg2cSPppu+DnE8
+	 uo5T1aRE85jH4wVZ7+sgbgaV5qbKOhjZFXzsN47X6DYaxLuR302Kv50U83/YRSeXcF
+	 8PHHRnz8VHErbVnaA0ywTYIzMrA5110hydni2Rw705ATBFwUYUlJ3NuMiTiyLZChx6
+	 /OUy2wEmbe58w==
+Date: Sat, 18 Jan 2025 12:21:51 -0800
+From: Kees Cook <kees@kernel.org>
+To: Eyal Birger <eyal.birger@gmail.com>
+Cc: luto@amacapital.net, wad@chromium.org, oleg@redhat.com, ldv@strace.io,
+	mhiramat@kernel.org, andrii@kernel.org, jolsa@kernel.org,
+	alexei.starovoitov@gmail.com, olsajiri@gmail.com, cyphar@cyphar.com,
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
+	peterz@infradead.org, tglx@linutronix.de, bp@alien8.de,
+	daniel@iogearbox.net, ast@kernel.org, andrii.nakryiko@gmail.com,
 	rostedt@goodmis.org, rafi@rbk.io, shmulik.ladkani@gmail.com,
 	bpf@vger.kernel.org, linux-api@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	"Dmitry V. Levin" <ldv@strace.io>
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
  filtering
-Message-ID: <20250118150500.GB21464@redhat.com>
+Message-ID: <202501181212.4C515DA02@keescook>
 References: <20250117005539.325887-1-eyal.birger@gmail.com>
- <20250117013927.GB2610@redhat.com>
- <20250117170229.f1e1a9f03a8547d31cd875db@kernel.org>
- <20250117140924.GA21203@redhat.com>
- <CAEf4BzYhcG8waFMFoQS5dFWVkQGP6ed_0mwGTK4quN5+6-8XuA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzYhcG8waFMFoQS5dFWVkQGP6ed_0mwGTK4quN5+6-8XuA@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <20250117005539.325887-1-eyal.birger@gmail.com>
 
-On 01/17, Andrii Nakryiko wrote:
->
-> On Fri, Jan 17, 2025 at 6:10 AM Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > We can, and this is what I tried to suggest from the very beginning.
-> > But I agree with Eyal who decided to send the most trivial fix for
-> > -stable, we can add the helper later.
-> >
-> > I don't think it should live in uprobes.h and I'd prefer something
-> > like arch_seccomp_ignored(int) but I won't insist.
->
-> yep, I think this is the way, keeping it as a general category. Should
-> we also put rt_sigreturn there explicitly as well? Also, wouldn't it
-> be better to have it as a non-arch-specific function for something
-> like rt_sigreturn where defining it per each arch is cumbersome, and
-> have the default implementation also call into an arch-specific
-> function?
+On Thu, Jan 16, 2025 at 04:55:39PM -0800, Eyal Birger wrote:
+> Since uretprobe is a "kernel implementation detail" system call which is
+> not used by userspace application code directly, it is impractical and
+> there's very little point in forcing all userspace applications to
+> explicitly allow it in order to avoid crashing tracked processes.
 
-I personally don't think we should exclude rt_sigreturn. and I guess
-we can't do it in a arch-agnostic way, think of __NR_ia32_sigreturn.
+How is this any different from sigreturn, rt_sigreturn, or
+restart_syscall? These are all handled explicitly by userspace filters
+already, and I don't see why uretprobe should be any different. Docker
+has had plenty of experience with fixing their seccomp filters for new
+syscalls. For example, many times already a given libc will suddenly
+start using a new syscall when it sees its available, etc.
 
-However. These are all good questions that need a separate discussion.
-Plus the SECCOMP_RET_TRACE/strace issue raised by Dmitry. And probably
-even more.
+Basically, this is a Docker issue, not a kernel issue. Seccomp is
+behaving correctly. I don't want to start making syscalls invisible
+without an extremely good reason. If _anything_ should be invisible, it
+is restart_syscall (which actually IS invisible under certain
+architectures).
 
-But IMO it would be better to push the trivial (and urgent) fix to
--stable first, then discuss the possible cleanups/improvements.
+-Kees
 
-What do you think?
-
-Oleg.
-
+-- 
+Kees Cook
 
