@@ -1,222 +1,156 @@
-Return-Path: <linux-api+bounces-3065-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3066-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4E1A16234
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 15:38:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0CFA16398
+	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 19:36:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F657164601
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 14:38:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8998F3A5D7E
+	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 18:36:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 283531DDC2D;
-	Sun, 19 Jan 2025 14:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6CC1DFD81;
+	Sun, 19 Jan 2025 18:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="FbBp/M2A"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="zZVQV/Yl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30E319D070;
-	Sun, 19 Jan 2025 14:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E963CF58
+	for <linux-api@vger.kernel.org>; Sun, 19 Jan 2025 18:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737297534; cv=none; b=pYLbAlR0fMJ+rMw53VHxkbSQ99bXV7fNFh1AXsNrq7rB61iBgiVlHPNGnU06O0DlIGp+vZFwCY7kx5cm3/qreo313mCcXaW0e/1M6u2AEC70ZJxQBObXocJS0DpDrp9sBBqd/+BkVPyrbgcp6hiMEB4rppebQRYSyZY+756zXbo=
+	t=1737311807; cv=none; b=CKWjuUn0kCX2r4w58bU9OavS0MsXx2dt1Q6uq/IJwsLS94QIlPQgzLBnpHFyjjRwjqigUJSOjldXl9ESe0eL9dJf7VBozAZiJNrZGJKoC9jR3s6dQ9eWe/YS7zehwNV+8LiNBqFGbZZzbCt7oF/0bgfn5LJBm//Z2HcyWhVS67g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737297534; c=relaxed/simple;
-	bh=MZgk6rC+u5nWLo8t10B58Irih6xOkYKfBIjzCnQJYmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UtVu8H0UyLi3Lg0e7JDIdn016agdICuUtk4sfW7lbRBu0r8bZ3oRxQUXD5KYqCOHcaLq/P8UAnKReLlBE8kHbWw9gOz6MAG2bVkPHABKgpyD5zosPeMEGx2UpZUwqGki/1oR6KCOgIzOnevlGxwuAlFZrybQXn3fdMN0thj20E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=FbBp/M2A; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Ybbgk2d7Mz9sRK;
-	Sun, 19 Jan 2025 15:38:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1737297522;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+RAr2AZAoklf3kKW/dRysmBUU1C7CX1sQI8y62h5DSM=;
-	b=FbBp/M2AeY+3/AjLgB8LGUHs8E2trkx/qZNUekC2MitoNHVWj+IU3SZsqzLQwpwT2HKIF0
-	b3yu8m3hXocm2LNEgSzltVBECTNaQzfUIkusRnY7hikT3JkxyxYuT0FTff4OhN4DX4FbTR
-	pbCFV/9FkDk5c9CtLNlWTmvRA07q6FYm6MzlsGSw3XheLrXZgfgUwHgJ2PdeiJDzC8iXZk
-	KB3MTT/qAGLZ6eDK+h2Tko2/DLefqvhp64QHEIHeFnaoTCD7fOJJWuBkfC5m6piJPOJiCS
-	2bsKJUXEfH9eo2jQyOxF5KE3MeKvS0GVolWF8bFVU7mZa/HLo7iMhDFkCLHIWQ==
-Date: Mon, 20 Jan 2025 01:38:29 +1100
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: "Dmitry V. Levin" <ldv@strace.io>, 
-	Eugene Syromyatnikov <evgsyr@gmail.com>, Mike Frysinger <vapier@gentoo.org>, 
-	Renzo Davoli <renzo@cs.unibo.it>, Davide Berardi <berardi.dav@gmail.com>, 
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <20250119.143414-eroded.armpit.sloppy.grease-vqf6G59KM5e@cyphar.com>
-References: <20250113170925.GA392@strace.io>
- <20250113171208.GF589@strace.io>
- <20250116152137.GE21801@redhat.com>
- <20250116160403.GA3554@strace.io>
- <20250117144556.GB21203@redhat.com>
- <20250117150627.GA15109@strace.io>
- <20250117153258.GC21203@redhat.com>
- <20250117162255.GA15597@strace.io>
- <20250118141341.GA21464@redhat.com>
+	s=arc-20240116; t=1737311807; c=relaxed/simple;
+	bh=ktKEZA/m9Kckb1kexLNbvMJLiO5gVTsHXasZeG9BXMk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iUNXTgZVSajRhyRXVBU3x5GZxjk7xxzvdXuryM8YEbhx98tn5hGiTgGw/yCZ6UNmlmiMVPKsHEvI1K4rl0IVoHS4e0gZ3LwqbF+2bvORKfotmCYwoyX/F7pbvluKQlW9YmiIjLTBc3+y4fPe5D25kgVelsTPcGU/eyyL1KEB2R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=zZVQV/Yl; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ab39f84cbf1so334901866b.3
+        for <linux-api@vger.kernel.org>; Sun, 19 Jan 2025 10:36:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1737311804; x=1737916604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w3Zdmxu5MPiX9Zes0b7wDyPvwS0wm8oE6bxgPE9wOSU=;
+        b=zZVQV/YltzZY4OUPKzLRV+4npSY46V275bNCuL7gtSGsauXn1x0WZp/y2s0vdU/5Qa
+         xfsHS221eD27ieMPFX4/B5sQjYhP0HLoiuageH8k8anUZPolPYVbv6vc8DfUnvXE6q7H
+         ZOAjMXUy7hrH+FgKsLlRXcLmiXxGsNo184z80i9UOlIG3CxjATu+sfL0699NFjyio0fk
+         cBWPwRIfVNc1WC/hZw+mx+R1Av6b0CiLX4j0UxGbG38QhLHD/fLZTwVFBSqTaR502S9d
+         Vbnf3TxnTX+um294VTo7+El0D2ARPb/R9olfG+5iKn6c19/FbXik+if3mNakQiak5ts1
+         aeEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737311804; x=1737916604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w3Zdmxu5MPiX9Zes0b7wDyPvwS0wm8oE6bxgPE9wOSU=;
+        b=hQhDUEQ2z5jnYa6yQc2nL33dkpyXyGaqePxGDnQC1EMGzen9n/T3jXmsukzFZSACLk
+         O7Mx+yLL6FEoyxg0CoUYhQaJtOODxQko+LXgTLSrMPFoD4orCr/0oWbXeVqoY9SMFzia
+         U5zMziPZ9fUlbGdoaZGGoAkWTw3XQXz0817QHvHY2f7+6n8sF4/NeEaQ9Bhclx5F+uih
+         62IvjEuKTLDwYn7gZImspVhhH7LDy2FRfPZJK/+/RV68bjrW2ecL0OkoMB0ymCo8GKST
+         Ttrq7OFzIAmA8inJ5RyVMB7OfTBsyZE9KKSiRYjDYHNdi0pwq/0HeWdCqpvRiWe17rjQ
+         LDPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgIrYwO/OjptGlfb3jaicvM1uzkrsIegB6MsBtvGE4Xvl5vK9fd3b5wtuWdngSPuUmoe0RtcqQ+Kc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPHZ/F0zMBLMfUaEAw//arizyv1f8EqkFaPuROpt54oTBmydNX
+	7GsLyraycagUwfFxJMtBi4bNspxAaL+mYHd363mq+qc45aCGRecA0+5Wm+J5/2C005xkzDddqFS
+	tCCO+q1HSrhlxMxgLU6JY46pPtdAE+D6R+V1f
+X-Gm-Gg: ASbGncsm6fAtkSDi/39VSDLtTu6K4wxFboKz62OmvZTD694rjP6zBIf/y4yeQeaqzUa
+	bGOfSZ5XXYhNpiJEJaDkFI+CSyi/q1/5MHShgwVQ3Nl0hk21Euw==
+X-Google-Smtp-Source: AGHT+IGpC+/AvwptvqRydDb5Zj0eMi2xtddvB/zSoMfs5AVyLa0djFfoPKt73GzvJi014dMnq37C2/o8DW9oYr4Va0Q=
+X-Received: by 2002:a17:907:1ca8:b0:aaf:ab71:bf79 with SMTP id
+ a640c23a62f3a-ab38b11281cmr871028066b.19.1737311803527; Sun, 19 Jan 2025
+ 10:36:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cybarqkfk2vtf2dv"
-Content-Disposition: inline
-In-Reply-To: <20250118141341.GA21464@redhat.com>
-X-Rspamd-Queue-Id: 4Ybbgk2d7Mz9sRK
-
-
---cybarqkfk2vtf2dv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
+ <202501181212.4C515DA02@keescook> <CAHsH6GuifA9nUzNR-eW5ZaXyhzebJOCjBSpfZCksoiyCuG=yYw@mail.gmail.com>
+ <8B2624AC-E739-4BBE-8725-010C2344F61C@kernel.org>
+In-Reply-To: <8B2624AC-E739-4BBE-8725-010C2344F61C@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sun, 19 Jan 2025 10:36:32 -0800
+X-Gm-Features: AbW1kvYl9WJOKS89hZXPE8Kch1rIFhznB2Beo-6EHl-4XtuMMOKO1t6RXeDBLAM
+Message-ID: <CALCETrV4vGS1brr9r=+GJu0n_WyAMxqT8x_wOJ2Gz7-yOfSzKA@mail.gmail.com>
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without filtering
+To: Kees Cook <kees@kernel.org>
+Cc: Eyal Birger <eyal.birger@gmail.com>, wad@chromium.org, oleg@redhat.com, ldv@strace.io, 
+	mhiramat@kernel.org, andrii@kernel.org, jolsa@kernel.org, 
+	alexei.starovoitov@gmail.com, olsajiri@gmail.com, cyphar@cyphar.com, 
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+	peterz@infradead.org, tglx@linutronix.de, bp@alien8.de, daniel@iogearbox.net, 
+	ast@kernel.org, andrii.nakryiko@gmail.com, rostedt@goodmis.org, rafi@rbk.io, 
+	shmulik.ladkani@gmail.com, bpf@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-MIME-Version: 1.0
 
-On 2025-01-18, Oleg Nesterov <oleg@redhat.com> wrote:
-> On 01/17, Dmitry V. Levin wrote:
-> >
->=20
-> (reordered)
->=20
-> > struct ptrace_syscall_info has members of type __u64, and it currently
-> > ends with "__u32 ret_data".  So depending on the alignment, the structu=
-re
-> > either has extra 4 trailing padding bytes, or it doesn't.
->=20
-> Ah, I didn't realize that the last member is __u32, so I completely
-> misunderstood your "it depends on the alignment of __u64" note.
->=20
-> > For example, on x86_64 sizeof(struct ptrace_syscall_info) is currently =
-88,
-> > while on x86 it is 84.
->=20
-> Not good, but too late to complain...
->=20
-> OK, I see your point now and I won't argue with approach you outlined in =
-your
-> previous email
->=20
->         size_t min_size =3D offsetofend(struct ptrace_syscall_info, secco=
-mp.ret_data);
->         size_t copy_size =3D min(sizeof(info), user_size);
->=20
->         if (copy_size < min_size)
->                 return -EINVAL;
->=20
->         if (copy_from_user(&info, datavp, copy_size))
->                 return -EFAULT;
->=20
-> -------------------------------------------------------------------------=
-------
-> Thats said... Can't resist,
->=20
-> > An absolutely artificial example: let's say we're adding an optional
-> > 64-bit field "artificial" to ptrace_syscall_info.seccomp, this means
-> > sizeof(ptrace_syscall_info) grows by 8 bytes.  When userspace wants
-> > to set this optional field, it sets a bit in ptrace_syscall_info.flags,
-> > this tells the kernel to look into this new "artificial" field.
-> > When userspace is not interested in setting new optional fields,
-> > it just keeps ptrace_syscall_info.flags =3D=3D 0.  Remember, however, t=
-hat
-> > by adding the new optional field sizeof(ptrace_syscall_info) grew by 8 =
-bytes.
-> >
-> > What we need is to make sure that an older kernel that has no idea of t=
-his
-> > new field would still accept the bigger size, so that userspace would be
-> > able to continue doing its
-> > 	ptrace(PTRACE_SET_SYSCALL_INFO, pid, sizeof(info), &info)
-> > despite of potential growth of sizeof(info) until it actually starts us=
-ing
-> > new optional fields.
->=20
-> This is clear, but personally I don't really like this pattern... Consider
->=20
-> 	void set_syscall_info(int unlikely_condition)
-> 	{
-> 		struct ptrace_syscall_info info;
->=20
-> 		fill_info(&info);
-> 		if (unlikely_condition) {
-> 			info.flags =3D USE_ARTIFICIAL;
-> 			info.artificial =3D 1;
-> 		}
->=20
-> 		assert(ptrace(PTRACE_SET_SYSCALL_INFO, sizeof(info), &info) =3D=3D 0);
-> 	}
->=20
-> Now this application (running on the older kernel) can fail or not, depen=
-ding
-> on "unlikely_condition". To me it would be better to always fail in this =
-case.
->=20
-> That is why I tried to suggest to use "user_size" as a version number.
-> Currently we have PTRACE_SYSCALL_INFO_SIZE_VER0, when we add the new
-> "artificial" member we will have PTRACE_SYSCALL_INFO_SIZE_VER1. Granted,
-> this way set_syscall_info() can't use sizeof(info), it should do
+On Sat, Jan 18, 2025 at 6:25=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+>
+>
+> On January 18, 2025 12:45:47 PM PST, Eyal Birger <eyal.birger@gmail.com> =
+wrote:
+> >I think the difference is that this syscall is not part of the process's
+> >code - it is inserted there by another process tracing it.
+>
+> Well that's nothing like syscall_restart, and now I'm convinced seccomp m=
+ust never ignore uretprobe -- a process might want to block uretprobe!
+>
 
-user_size *is* a version number, it's just that copy_struct_from_user()
-allows programs built with newer headers to run on older kernels (if
-they don't use the new features). The alternative is that programs that
-build with a newer set of kernel headers will implicitly have a larger
-ptrace_syscall_info struct, which will cause them to start failing after
-the binary is rebuilt.
+I've been contemplating this.  uretprobe is a very odd syscall: it's a
+syscall that emulates a breakpoint.  So, before uretprobe-the-syscall
+was added, the process would breakpoint via a non-syscall vector, and
+the tracing code would do its thing, and seccomp would be none the
+wiser.
 
-*Strictly speaking* this wouldn't be a kernel regression (because it's a
-new binary, the old binary would still work), but the risk of these
-kinds of APIs being incredibly fragile is the reason why I went with the
-check_zeroed_user() approach in copy_struct_from_user().
+There's a distinction between different types of operations that
+seccomp is entirely unaware of right now: is the task trying to:
 
-(I haven't looked at the details of this patchset, this is just a
-general comment about copy_struct_from_user() and why this feature is
-useful to userspace programs. Not all APIs need the extensibility of
-copy_struct_from_user().)
+a) do something *to itself*
 
-> 	ptrace(PTRACE_SET_SYSCALL_INFO, PTRACE_SYSCALL_INFO_SIZE_VER1, info);
->=20
-> and the kernel needs more checks, but this is what I had in mind when I s=
-aid
-> that the 1st version can just require "user_size =3D=3D PTRACE_SYSCALL_IN=
-FO_SIZE_VER0".
->=20
-> But I won't insist, I do not pretend I understand the user-space needs.
->=20
-> Thanks!
->=20
-> Oleg.
->=20
->=20
+b) do something that doesn't have meaningful side effects on the rest
+of the world, at least in a non-buggy kernel, but where the process is
+actually trying to restrict its own actions
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+c) interacting with something outside the process, that has privilege
+over the process, where the interaction in question should absolutely
+be subject to security policy, but that security policy really ought
+to apply to the outside process.
 
---cybarqkfk2vtf2dv
-Content-Type: application/pgp-signature; name="signature.asc"
+uretprobe is very much in category c, and it's kind of unique in this
+sense *as a syscall*.  But there are plenty of other examples that
+just happen to not be syscalls.  For example, ptrace breakpoints use
+the #DB vector, which isn't a syscall.
 
------BEGIN PGP SIGNATURE-----
+Here are few factors that may be vaguely relevant:
 
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZ40OZQAKCRAol/rSt+lE
-b6qZAP0Z6o6QgbGGhDyMap9a89Vor8PD0NrYB+ldRYt4in9JmQEA5vZwLFN5I3U/
-0xtHGefEzaGJTiAg7deEbaj1mCef7gs=
-=3rri
------END PGP SIGNATURE-----
+ - uretprobe is conceptually a bit like sigreturn in the sense that
+both of them are having the kernel help with something that process
+can kind-of-sort-of do all by itself.
 
---cybarqkfk2vtf2dv--
+ - BUT: sigreturn is not supposed to have side effects reaching
+outside the calling task.  uretprobe does, and that's the whole point.
+
+ - uretprobe-the-syscall is, in a rather optimistic sense, obsolete.
+Once FRED becomes common (if ever...), it won't really serve much
+purpose any more.  FRED, for those not watching, at least in theory,
+makes "event delivery" and "return" fast, for all (hah!) events.
+Including breakpoints.  And returns to usermode where rcx !=3D rip, etc.
+
+
+So I don't know what the right answer is.  There's a real argument to
+be made that seccomp ought to decide that its policy permits whomever
+installed the uretprobe to do so, and that this decision means that
+the uretprobe machinery is therefore permissible.
 
