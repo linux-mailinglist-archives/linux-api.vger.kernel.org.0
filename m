@@ -1,82 +1,57 @@
-Return-Path: <linux-api+bounces-3063-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3064-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72593A161AB
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 13:41:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3686A161AE
+	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 13:44:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A42C73A1455
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 12:41:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C48063A27EE
+	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 12:44:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A15B1DED4B;
-	Sun, 19 Jan 2025 12:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XCRoIb6S"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F0241DBB3A;
+	Sun, 19 Jan 2025 12:44:39 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887BF1DE8A3
-	for <linux-api@vger.kernel.org>; Sun, 19 Jan 2025 12:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F66E157A5C;
+	Sun, 19 Jan 2025 12:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737290473; cv=none; b=MlOH5yupOfqw5/ps2rlEOMm4i2N0trEvXavogWl7fWLZ0NggcT+Knr8FDVhUhWUXjbHEwedkeojrK6/Y8+KH4kDq1VCuXo4hJf9tZPRkWDnZNR8BffhHUHhGRWmmMN6XMfpdAcRCt1IBb/DGCHZONpbhWcZPRKrsf9in4Tel/BQ=
+	t=1737290679; cv=none; b=VlarPRXNv85jEvO8NUXpgBhhGrBVXoETG/n3ssB5zHV8oM98Br/17ltmyDkpVP//ZzInBBSmJPFMb55H+lqaVAnstCNXw1WnfP+k8/9Dsl33q+kIkztxxxkET1lu1icC3nPwnjtbeu5zyCKAn2gDOqvAbhTKzl1kmRkJCeqYOK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737290473; c=relaxed/simple;
-	bh=cepSb96XivIm4eGLRHvebHTN7tOx/koTTYcOdbP/DVQ=;
+	s=arc-20240116; t=1737290679; c=relaxed/simple;
+	bh=Xk295TfmjQ1zxzAyE/4wDeeeaXErJq/oVzL0fYef/7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OA+bCL5fw6totuYWMZlpr0YrYtGBR40ZXtICNkbeLJz317R8T0T8SYLvG9ZsuE772DpM0aHjDj/+5mcDuoIhKEdrBOnoO/PRjuZxmBlphZ5ap60LTWsZQVNYnuVvbu0qnimrWmy4EDOzN3ygqtAja51JT69nK5JvBTUw8jXTsu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XCRoIb6S; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737290470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z+FKBoNA/hVYLdo6ACZeCZuwo39tM3fO2b0asISNi1o=;
-	b=XCRoIb6S9H/UqRUg/wWW8L5SuvTVh6Zcs2Q7sSTeJFFseB6YmCaCZ6d3xIl9wn5E6vKCA6
-	tI0qoguEoNd9ABBBi8NAHXRHe/NME2uoFM+v82X+S+SHNgvNaBsNfcVb/z1yUu7TX/VhF1
-	c+uNI7UJITgVP5MNykfjLEBc04PZDek=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-5-tU4GYsWfMCWsMNlvD76xTQ-1; Sun,
- 19 Jan 2025 07:41:03 -0500
-X-MC-Unique: tU4GYsWfMCWsMNlvD76xTQ-1
-X-Mimecast-MFC-AGG-ID: tU4GYsWfMCWsMNlvD76xTQ
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 81E4819560AA;
-	Sun, 19 Jan 2025 12:40:59 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.17])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 5C4711955F10;
-	Sun, 19 Jan 2025 12:40:49 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sun, 19 Jan 2025 13:40:33 +0100 (CET)
-Date: Sun, 19 Jan 2025 13:40:22 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Eyal Birger <eyal.birger@gmail.com>, luto@amacapital.net,
-	wad@chromium.org, ldv@strace.io, mhiramat@kernel.org,
-	andrii@kernel.org, jolsa@kernel.org, alexei.starovoitov@gmail.com,
-	olsajiri@gmail.com, cyphar@cyphar.com, songliubraving@fb.com,
-	yhs@fb.com, john.fastabend@gmail.com, peterz@infradead.org,
-	tglx@linutronix.de, bp@alien8.de, daniel@iogearbox.net,
-	ast@kernel.org, andrii.nakryiko@gmail.com, rostedt@goodmis.org,
-	rafi@rbk.io, shmulik.ladkani@gmail.com, bpf@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
- filtering
-Message-ID: <20250119123955.GA5281@redhat.com>
-References: <20250117005539.325887-1-eyal.birger@gmail.com>
- <202501181212.4C515DA02@keescook>
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/5XuOUVQ2DUCvpymBRq+24DakIEU+3JcRzp1YQyVK723Wuy+XoNkb6tBiUeFF3qzNuNdb/eovNETLneH4z7I5/efqYumvCXVb40qC7z4FlgMG/mbQIc4XQKiXI9Wng+XvpnTfEkBEhA2MG/6uB3jIj6eTWXsrsMB3zEHWkLnHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id D778F72C8F5;
+	Sun, 19 Jan 2025 15:44:27 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id B77977CCB3A; Sun, 19 Jan 2025 14:44:27 +0200 (IST)
+Date: Sun, 19 Jan 2025 14:44:27 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
+	Mike Frysinger <vapier@gentoo.org>,
+	Renzo Davoli <renzo@cs.unibo.it>,
+	Davide Berardi <berardi.dav@gmail.com>,
+	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
+Message-ID: <20250119124427.GA3487@strace.io>
+References: <20250113170925.GA392@strace.io>
+ <20250113171208.GF589@strace.io>
+ <20250116152137.GE21801@redhat.com>
+ <20250116160403.GA3554@strace.io>
+ <20250117144556.GB21203@redhat.com>
+ <20250117150627.GA15109@strace.io>
+ <20250117153258.GC21203@redhat.com>
+ <20250117162255.GA15597@strace.io>
+ <20250118141341.GA21464@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -85,45 +60,90 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202501181212.4C515DA02@keescook>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+In-Reply-To: <20250118141341.GA21464@redhat.com>
 
-On 01/18, Kees Cook wrote:
->
-> On Thu, Jan 16, 2025 at 04:55:39PM -0800, Eyal Birger wrote:
-> > Since uretprobe is a "kernel implementation detail" system call which is
-> > not used by userspace application code directly, it is impractical and
-> > there's very little point in forcing all userspace applications to
-> > explicitly allow it in order to avoid crashing tracked processes.
->
-> How is this any different from sigreturn, rt_sigreturn, or
-> restart_syscall? These are all handled explicitly by userspace filters
-> already, and I don't see why uretprobe should be any different.
+On Sat, Jan 18, 2025 at 03:13:42PM +0100, Oleg Nesterov wrote:
+> On 01/17, Dmitry V. Levin wrote:
+[...]
+> > For example, on x86_64 sizeof(struct ptrace_syscall_info) is currently 88,
+> > while on x86 it is 84.
+> 
+> Not good, but too late to complain...
 
-The only difference is that sys_uretprobe() is new and existing setups
-doesn't know about it. Suppose you have
+Actually, I don't think it's too late to add an extra __u32 padding
+there since it wouldn't affect PTRACE_GET_SYSCALL_INFO.
 
-	int func(void)
-	{
-		return 123;
-	}
+I can add an explicit padding to the structure if you say
+you like it better this way.
 
-	int main(void)
-	{
-		seccomp(SECCOMP_SET_MODE_STRICT, 0,0);
-		for (;;)
-			func();
-	}
+[...]
+> Thats said... Can't resist,
+> 
+> > An absolutely artificial example: let's say we're adding an optional
+> > 64-bit field "artificial" to ptrace_syscall_info.seccomp, this means
+> > sizeof(ptrace_syscall_info) grows by 8 bytes.  When userspace wants
+> > to set this optional field, it sets a bit in ptrace_syscall_info.flags,
+> > this tells the kernel to look into this new "artificial" field.
+> > When userspace is not interested in setting new optional fields,
+> > it just keeps ptrace_syscall_info.flags == 0.  Remember, however, that
+> > by adding the new optional field sizeof(ptrace_syscall_info) grew by 8 bytes.
+> >
+> > What we need is to make sure that an older kernel that has no idea of this
+> > new field would still accept the bigger size, so that userspace would be
+> > able to continue doing its
+> > 	ptrace(PTRACE_SET_SYSCALL_INFO, pid, sizeof(info), &info)
+> > despite of potential growth of sizeof(info) until it actually starts using
+> > new optional fields.
+> 
+> This is clear, but personally I don't really like this pattern... Consider
+> 
+> 	void set_syscall_info(int unlikely_condition)
+> 	{
+> 		struct ptrace_syscall_info info;
+> 
+> 		fill_info(&info);
+> 		if (unlikely_condition) {
+> 			info.flags = USE_ARTIFICIAL;
+> 			info.artificial = 1;
+> 		}
+> 
+> 		assert(ptrace(PTRACE_SET_SYSCALL_INFO, sizeof(info), &info) == 0);
+> 	}
+> 
+> Now this application (running on the older kernel) can fail or not, depending
+> on "unlikely_condition". To me it would be better to always fail in this case.
 
-and it runs with func() uretprobed.
+In practice, user-space programs rarely have the luxury to assume that
+some new kernel API is available.  For example, strace still performs a
+runtime check for PTRACE_GET_SYSCALL_INFO (introduced more than 5 years
+ago) and falls back to pre-PTRACE_GET_SYSCALL_INFO interfaces when the
+kernel lacks support.  Consequently, user-space programs would have to
+keep track of PTRACE_SET_SYSCALL_INFO interfaces supported by the kernel,
+so ...
 
-If you install the new kernel, this application will crash immediately.
+> That is why I tried to suggest to use "user_size" as a version number.
+> Currently we have PTRACE_SYSCALL_INFO_SIZE_VER0, when we add the new
+> "artificial" member we will have PTRACE_SYSCALL_INFO_SIZE_VER1. Granted,
+> this way set_syscall_info() can't use sizeof(info), it should do
+> 
+> 	ptrace(PTRACE_SET_SYSCALL_INFO, PTRACE_SYSCALL_INFO_SIZE_VER1, info);
+> 
+> and the kernel needs more checks, but this is what I had in mind when I said
+> that the 1st version can just require "user_size == PTRACE_SYSCALL_INFO_SIZE_VER0".
 
-I understand your objections, but what do you think we can do instead?
-I don't think a new "try_to_speedup_uretprobes_at_your_own_risk" sysctl
-makes sense, it will be almost never enabled...
+... it wouldn't be a big deal for user-space to specify also an
+appropriate "user_size", e.g. PTRACE_SYSCALL_INFO_SIZE_VER1 when it starts
+using the interface available since VER1, but it wouldn't help user-space
+programs either as they would have to update "op" and/or "flags" anyway,
+and "user_size" would become just yet another detail they have to care
+about.
 
-Oleg.
+At the same time, "flags" is needed anyway because the most likely
+extension of PTRACE_SET_SYSCALL_INFO would be support of setting some
+fields that are present in the structure already, e.g.
+instruction_pointer.
 
+
+-- 
+ldv
 
