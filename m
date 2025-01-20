@@ -1,164 +1,137 @@
-Return-Path: <linux-api+bounces-3067-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3068-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7737AA163E3
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 21:22:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C36F3A1665C
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jan 2025 06:29:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D38F3A4B1D
-	for <lists+linux-api@lfdr.de>; Sun, 19 Jan 2025 20:21:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6EB1169943
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jan 2025 05:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699C21DF733;
-	Sun, 19 Jan 2025 20:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9DD17E015;
+	Mon, 20 Jan 2025 05:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ftb+2bU+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="do6rWmu6"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA691974FE
-	for <linux-api@vger.kernel.org>; Sun, 19 Jan 2025 20:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193731547C8
+	for <linux-api@vger.kernel.org>; Mon, 20 Jan 2025 05:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737318116; cv=none; b=HgiGsaKd6GjRfdQQv03twHmJovl4EKQTyiDB5LR8tpGp+7jwkOw+xqiK7K6wP/wI6OOsktyqfl1Yrem3cqDBcXwwN7QtiOunii7bWOvwl/7W/eekiys7mcffCmQHg6ccfysetP+24p6nwBhAaaolXya8l34z7FRSZEmLD+d9GgE=
+	t=1737350938; cv=none; b=L2ohF3gtFd3NyN8fbQs8nPeqcZMrjc0GpQkItUWUoTx6HYcXmG6IS4UQhE5uyH/HPBIzYM17HcIe00yCA/37EugqbvALDh6SR01AgikN+OpKeIy5XejcHqL1/ChcXURbjxN5yUw24hOF0I2hZjKJLRUMW9TjPMrMBofh/10oJBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737318116; c=relaxed/simple;
-	bh=VOVgqnN4M5IlQgBcMoLP3AWiycBSbUVIa2m/GKsbXA8=;
-	h=Date:From:Subject:To:Message-Id:MIME-Version:Content-Type; b=BpYgHkxnamfASmHWME/wvwvNwmSXInewukng7DtHREWRY3cM+uqSizPnlJNTD1AYKp3nlld/EUGti3QnQY8hwpeUg9QpFjhzEUtMe/0PmyikH1mfVnOwPVHzUU9EAsmVRcD0qSmBed33RjEgw/gt8vM9/Qxlrz/Nug/j9sz/tWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ftb+2bU+; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso4208612f8f.2
-        for <linux-api@vger.kernel.org>; Sun, 19 Jan 2025 12:21:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737318113; x=1737922913; darn=vger.kernel.org;
-        h=mime-version:message-id:to:subject:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=U14RaWCZrRO8LhLVsJ04zbkl0x7uQnhDodQAur7s/fs=;
-        b=Ftb+2bU+qaNEwFrjrYhrdyqXrIUvEeQXw2/0Vvf+ZdpaBdCtYxdb0Ct/dFAc4qsApb
-         +GS/G4asdtn9S43uvoxzLRInIq8rDiZYYGwdND87GGuUlbspHKXJrYUib8c3BWHvzgYY
-         Y573TiLflIycB390szNDmq/JfevglC6or7l0WuCq2fATsJpMMeO/rJo9LFNgeYdFcs8k
-         MJFwl4YIi5tWtrsxRQDfgnK9t7lj4rBjvLDgKddBEMS5GDtMmVF0fY8cMYP76+6sEhWW
-         0BsoVy+bWfIb7YAPuzRugiFdiADvfx7sOq+ZRqc2Co1t6d1RnqC4/eZKtZ1+Q+OquySb
-         fPvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737318113; x=1737922913;
-        h=mime-version:message-id:to:subject:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U14RaWCZrRO8LhLVsJ04zbkl0x7uQnhDodQAur7s/fs=;
-        b=XUjTkVwJbkVnteFvvwwxHgCearpr42+3HXj9r4pbIEcAn2x+xeLDcSLxn/BCXzYlG1
-         w51TgQL6RYRtX/N0liJHWFdWW4T8bkVu7081EbiL/TDkTwGYh5gsaqHIDjcOUhuB85N1
-         FcWhcXcxR4ynE/bqPxSWVLR85O+F7Wwal2mf7NsoccCYDNNPA+PHmVOZlInrfMSqwgp7
-         ZECoNEtLhR/jlyUXgRGsGwlf59zD+uYn1qFpmL7Y+q7jwXjahuuhATlr1DzIT3r06wlw
-         AgRly8xjFvUepaHZb2v7wXy03JSBgOvAVTwYIoBl2s+Zf7GhcRgpEYkUjBJF+F9Wo7s7
-         YbEw==
-X-Gm-Message-State: AOJu0YwjX3cq0bKsuSj/wLpHoMg4T+wP97UjQA3onOSiHYJ/Fu4jrqv0
-	yQOSXug27X0BgFWE7PFKPcWoPcVlpwREMoKq/rR8RVL3cF6LwqtWWpxt8nnE
-X-Gm-Gg: ASbGncuUH4QiH1o8Z26n5rkpxefBkedNcL9eCxZUkdOu4bAwLrd9Thlufg+enJUhalJ
-	qs1Cpxckrh9jdL98uSRH3ilUKTEhPyTJwDFzLtNdiM4sAHK3wjzwPHdW75yWSrlJjCWm3h5kbnI
-	enHPtfX0JNSu5WpKPZ0XIY7iO8hvRBh4E/BkQMucY71UcCI9UAiMFa0tAXBPogd5EN8sN0Z53lN
-	4D5izP+O0MCDadnyL5/3QKxNK20MyKuSV/cpO+ERJ7PRA1hhDQYxGjGItpsPK1Ltg8LTBoyImOs
-	Y8Qt9BvP50LrExm6HTweqdDES/R2aLrsfQF4m8E=
-X-Google-Smtp-Source: AGHT+IGnJamO0LwlruAZF22GJTZd9e9ce7JRi+TlvVW90LMk7TQrkUj4VHZx7n4dPoA2m2yiWeHwhQ==
-X-Received: by 2002:a5d:5f51:0:b0:385:e9de:d521 with SMTP id ffacd0b85a97d-38bf56494a0mr10118254f8f.8.1737318112564;
-        Sun, 19 Jan 2025 12:21:52 -0800 (PST)
-Received: from ?IPv6:2a02:a58:920d:7400:9154:f6c0:1f4c:b6bf? ([2a02:a58:920d:7400:9154:f6c0:1f4c:b6bf])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221bf0sm8304643f8f.28.2025.01.19.12.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 12:21:51 -0800 (PST)
-Date: Sun, 19 Jan 2025 22:21:45 +0200
-From: mcaju95@gmail.com
-Subject: [RFC] Extension to POSIX API for zero-copy data transfers
-To: linux-api@vger.kernel.org, alx@kernel.org, serge@hallyn.com
-Message-Id: <98RCQS.25Q70IQZ9KFA1@gmail.com>
-X-Mailer: geary/46.0
+	s=arc-20240116; t=1737350938; c=relaxed/simple;
+	bh=d+MFB2tM0sfUZcCWcXFPkBef3mL5FOzhhCsK/ChhIR0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WR95ck1kRpcXlZ7RacNP/SF2/wXibXqZZy5bM2i3fT+Q21bvhjVAS9V/ZixsZfP8IKD5F2WMRUMMEw5QwcniD416HZieC1hKPC1sy6i+ipCWwReHoywACeBFaPVhUcIS5rTmZcaEQBF2GARSSVoqXOE1Eqhyx/e+XMlLCI8tb4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=do6rWmu6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737350935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KBt1FxdvSzhvBE77j+CaarPfTFYF95LU/1h0hGm5sdk=;
+	b=do6rWmu6zeoxw0RBc5eplTN+3S65i7eM0AtEtZamBo3AmyPx79X/eGAMdCeO94KdGsOGGH
+	3eGd44loDhbMA5pxV/IPusa+WaIaB1DTEFYng3V1G1lKlVKKthDhBbT6F7gDiL157DIkPG
+	qsHJkkeN+R8fmKIW3ATdwkrlQ0vb38U=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-487-7RndWSoCM6-xgWK_UTZ3QA-1; Mon,
+ 20 Jan 2025 00:28:52 -0500
+X-MC-Unique: 7RndWSoCM6-xgWK_UTZ3QA-1
+X-Mimecast-MFC-AGG-ID: 7RndWSoCM6-xgWK_UTZ3QA
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5BC3B19560B1;
+	Mon, 20 Jan 2025 05:28:48 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.54])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7D1723003FD3;
+	Mon, 20 Jan 2025 05:28:40 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Xi Ruoyao <xry111@xry111.site>
+Cc: Christian Brauner <brauner@kernel.org>,  Aleksa Sarai
+ <cyphar@cyphar.com>,  Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
+ <peterz@infradead.org>,  Juri Lelli <juri.lelli@redhat.com>,  Vincent
+ Guittot <vincent.guittot@linaro.org>,  Dietmar Eggemann
+ <dietmar.eggemann@arm.com>,  Steven Rostedt <rostedt@goodmis.org>,  Ben
+ Segall <bsegall@google.com>,  Mel Gorman <mgorman@suse.de>,  Valentin
+ Schneider <vschneid@redhat.com>,  Alexander Viro
+ <viro@zeniv.linux.org.uk>,  Jan Kara <jack@suse.cz>,  Arnd Bergmann
+ <arnd@arndb.de>,  Shuah Khan <shuah@kernel.org>,  Kees Cook
+ <kees@kernel.org>,  Mark Rutland <mark.rutland@arm.com>,
+  linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  linux-arch@vger.kernel.org,
+  linux-kselftest@vger.kernel.org,  libc-alpha@sourceware.org
+Subject: Re: [PATCH RFC v3 02/10] sched_getattr: port to copy_struct_to_user
+In-Reply-To: <82ee186ae5580548fe6b0edd2720359c18f6fa9a.camel@xry111.site> (Xi
+	Ruoyao's message of "Sat, 18 Jan 2025 21:02:54 +0800")
+References: <20241010-extensible-structs-check_fields-v3-0-d2833dfe6edd@cyphar.com>
+	<20241010-extensible-structs-check_fields-v3-2-d2833dfe6edd@cyphar.com>
+	<87y10nz9qo.fsf@oldenburg.str.redhat.com>
+	<20241211-gemsen-zuarbeiten-ae8d062ec251@brauner>
+	<82ee186ae5580548fe6b0edd2720359c18f6fa9a.camel@xry111.site>
+Date: Mon, 20 Jan 2025 06:28:37 +0100
+Message-ID: <87jzaqdpfe.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Greetings,
+* Xi Ruoyao:
 
-I've been thinking about a POSIX-like API that would allow 
-read/write/send/recv to be zero-copy instead of being buffered. As 
-such, storage devices and network sockets can have data transferred to 
-and from them directly to a user-space application's buffers.
+> On Wed, 2024-12-11 at 11:23 +0100, Christian Brauner wrote:
+>> On Tue, Dec 10, 2024 at 07:14:07PM +0100, Florian Weimer wrote:
+>> > * Aleksa Sarai:
+>> >=20
+>> > > sched_getattr(2) doesn't care about trailing non-zero bytes in the
+>> > > (ksize > usize) case, so just use copy_struct_to_user() without chec=
+king
+>> > > ignored_trailing.
+>> >=20
+>> > I think this is what causes glibc's misc/tst-sched_setattr test to fail
+>> > on recent kernels.=C2=A0 The previous non-modifying behavior was docum=
+ented
+>> > in the manual page:
+>> >=20
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If the caller-provided attr buffe=
+r is larger than the kernel's
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched_attr structure, the additio=
+nal bytes in the user-space
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 structure are not touched.
+>> >=20
+>> > I can just drop this part of the test if the kernel deems both behavio=
+rs
+>> > valid.
+>
+>> I think in general both behaviors are valid but I would consider zeroing
+>> the unknown parts of the provided buffer to be the safer option. And all
+>> newer extensible struct system calls do that.
+>
+> Florian,
+>
+> So should we drop the test before Glibc-2.41 release?  I'm seeing the
+> failure during my machine test.
 
-My focus was initially on network stacks and I drew inspiration from 
-DPDK. I'm also aware of some work underway on extending io_uring to 
-support zero copy.
+I was waiting for a verdict from the kernel developers.  I didn't expect
+such a change to happen given the alleged UAPI policy.
 
-A draft API would work as follows:
-* The application fills-out a series of iovec's with buffers in its own 
-memory that can store data from protocols such as TCP or UDP. These 
-iovec's will serve as hints that will tell the network stack that it 
-can definitely map a part of a frame's contents into the described 
-buffers. For example, an iovec may contain { .iov_base = 0x4000, 
-.iov_len = 0xa000 }. In this case, the data payload may end-up anywhere 
-between 0x4000 and 0xe000 and after the syscall, its fields will be 
-overwritten to something like { .iov_base = 0x4036, .iov_len = 1460 }
-* In order to receive packets, the application calls readv or a 
-readv-like syscall and its array of iovec will be modified to point to 
-data payloads. Given that their pages will be mapped directly to 
-user-space, some header fields or tail-room may have to be zero-ed out 
-before being mapped, in order to prevent information leaks. Anny array 
-of iovec's passed to one such readv syscall should be checked for 
-sanity such as being able to hold data payloads in corner cases, not 
-overlap with each-other and hold values that would prove to map pages 
-to.
-* The return value would be the number of data payloads that have been 
-populated. Only the first such elements in the provided array would 
-end-up containing data payloads.
-* The syscall's prototype would be quite identical to that of readv, 
-except that iov would not be a const struct iovec *, but just a struct 
-iovec * and the return type would be modified. Like so:
-  int zc_readv(int fd, struct iovec *iov, int iovcnt);
-
-* In the case of write's a struct iovec may not suffice as the provided 
-buffers should not only provide the location and size of data to be 
-sent, but also the guarantee that the buffers have sufficient head and 
-tail room. A hackish syscall would look like so:
-  int zc_writev(int fd, const struct iovec (*iov)[2], int iovcnt);
-* While the first iovec should describe the entire memory area 
-available to a packet, including enough head and tail room for headers 
-and CRC's or other fields specific to the NIC, the second should 
-describe a sub-buffer that holds the data to be written.
-* Again, sanity checks should be performed on the entire array, for 
-things like having enough room for other fields, not overlapping, 
-proper alignment, ability to DMA to a device, etc.
-* After calling zc_writev the pages associated with the provided 
-iovec's are immediately swapped for zero-pages to avoid data-leaks.
-* For writes, arbitrary physical pages may not work for every NIC as 
-some are bound by 32bit addressing constrains on the PCIe bus, etc. As 
-such the application would have to manage a memory pool associated with 
-each file-descriptor(possibly NIC) that would contain memory that is 
-physically mapped to areas that can be DMA'ed to the proper devices. 
-For example one may mmap the file-descriptor to obtain a pool of a 
-certain size for this purpose.
-
-This concept can be extended to storage devices, unfortunately I am 
-unfamiliar with NVMe and SCSI so I can only guess that they work in a 
-similar manner to NIC rings, in that data can be written and read to 
-arbitrary physical RAM(as allowed by the IOMMU). Syscalls similar to 
-zc_read and zc_write can be used on file descriptors pointing to 
-storage devices to fetch or write sectors that contain data belonging 
-to files. Some data should be zeroed-out in this case as well, as 
-sectors more often that not will contain data that does not belong to 
-the intended files.
-
-For example one can mix such syscalls to read directly from storage 
-into NIC buffers, providing in-place encryption on the way(via TLS) and 
-send them to a client in a similar way that Netflix does with in-kernel 
-TLS and sendfile.
-
-All the best,
-Mihai
-
-
+Thanks,
+Florian
 
 
