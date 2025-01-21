@@ -1,177 +1,150 @@
-Return-Path: <linux-api+bounces-3077-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3078-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD16A17FCB
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 15:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB310A18017
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 15:41:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFC071886F29
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 14:30:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66BF51888DAA
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 14:41:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938CF1F2C4C;
-	Tue, 21 Jan 2025 14:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B125B1F4275;
+	Tue, 21 Jan 2025 14:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvMW59qo"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46451B4237;
-	Tue, 21 Jan 2025 14:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80801F3D3C;
+	Tue, 21 Jan 2025 14:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737469829; cv=none; b=Yl7J3+QfDQ4EJCem2262dfmHczmMHqWLO+WZhdungnOwqkdKBS3X1YAUKH9V4W0OextwLNO6YdN6ImFCvlKtKE+7fvO8kpdTAb6XujJNO369toeE04ixMw8Gha/BqjEFLi6Q/hlUfRWYmujgXfCZibDuzidQb1L/yC6B5hDyXO8=
+	t=1737470341; cv=none; b=ZVrVyXGt0jWSZHGhWLFtnYC/6MC5qTf1OK/hqboZnRBsEJWVD0idKtMIJtQFda9QZbLHrvp1oJ6UB95AoLlViFJxF9CTF8paW/mdUuYVI3fextdDlJLO3CNwLQXtUER1PGZZL/ZjYi+nS7yk3txTegZm0JbV6qUborDgYlVToUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737469829; c=relaxed/simple;
-	bh=8jgPzuwDffY+u5giBXtAHhVi/x5lA7laZ59zgk89YQk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TVTTKN8fKErNxwu9CrxOUJGMNwSw47CY6PWxZX8UD1mMqfzF1BnCiak0N+uawDn09anJbQBZygluEAGqmZWiXC2WF91J9+lwB1mdsqiJ4k/aR7ovKjtN+AKUYL1BXQE5pSjF2ZeYC8rNxcQCzx9Hw7H/v5fgbraWzHNBetRiZiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4YcpvZ0LvBz9v7W0;
-	Tue, 21 Jan 2025 22:08:10 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 3CD4214037F;
-	Tue, 21 Jan 2025 22:30:22 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwCXG0plr49nIBILAQ--.48896S2;
-	Tue, 21 Jan 2025 15:30:21 +0100 (CET)
-Message-ID: <b894e43c3bf3c594a87b90ae75141e49fdd577c3.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 01/15] lib: Add TLV parser
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com,  corbet@lwn.net, mcgrof@kernel.org,
- petr.pavlu@suse.com, samitolvanen@google.com,  da.gomez@samsung.com,
- akpm@linux-foundation.org, paul@paul-moore.com,  jmorris@namei.org,
- serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
- hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
- dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
- petr.vorel@gmail.com,  mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto
- Sassu <roberto.sassu@huawei.com>
-Date: Tue, 21 Jan 2025 15:29:53 +0100
-In-Reply-To: <7b3eaf6d-ca5e-47c9-b26d-8953aece869f@t-8ch.de>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
-	 <c316b1be-d18f-4bb0-8434-bcc9236619df@t-8ch.de>
-	 <fa52e3654a44dd250437ebe3e8397bff95399893.camel@huaweicloud.com>
-	 <7b3eaf6d-ca5e-47c9-b26d-8953aece869f@t-8ch.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1737470341; c=relaxed/simple;
+	bh=NDb3c3rxblkJhIMSxUpUGDYxdUYnogGCKjor79k2CbI=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XF9oJQcIXGdOqzDWZZbRswAsNMZ2d/hTQC5czmIMHqnmpcFUkLKOIYo4uD/Gbl7LJQAAONKwYCPtgdULWFv3gtZkwdZXEkXwLmhJa3caPFJcLhYwxss9RLQgAvMC1Y2QD2hzdkLGg/CIQ9WinNNEM2Ts8oi7tg0yfMJGN3eSaQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OvMW59qo; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aae81f4fdc4so1129469766b.0;
+        Tue, 21 Jan 2025 06:38:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737470338; x=1738075138; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJA4KS8nHHtP6ZQfKRoHiZPqETFaft+MeGa73f89gpE=;
+        b=OvMW59qoEcUaBdNagcPx+mU2iu6miUJQXXZMUJg5asGlvlMVFahHDa9mXqu9i4Njqg
+         c/RvsjUOvPzJd2VQnCR3jrA8EA//b+7VvRw3QcjpyimXPR5QlVGQOBuRCoM9TGUgrNmi
+         gbBiCWb/sN/3e4312ZpiHJ2TC/1+PPm+6DHjjvCjDCizlZX+W7CoODRJwykVZx2Bzrlo
+         TN2HCnERWp9dM5oOPSgloEBdPW04fjX6bbTlYcAWvOn3FMh7ZauLiLFmZRcZWyczYz3g
+         xlQgvUYPoFgDL8NCmzfOBjGJTQukbaW9T3MJrb4M9jmBqrTh5N9LnozoHKAOAcaYGs+q
+         /xrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737470338; x=1738075138;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PJA4KS8nHHtP6ZQfKRoHiZPqETFaft+MeGa73f89gpE=;
+        b=BSMkiyMgkcJdBPs4D6oG2ckoueDrKHQuNu75IoIghwx1bll8lKE0EeC3Ft5R0LDXzR
+         ICNKT1rgUh0M7ZlZXObhfSBSSmR7e11twBPbuevIuYUCGcrpD6dYJ2PbOJzfkpu8fGhb
+         1XzlKtsl4GAOy+5lV/cTQ/cNb7rsyQsY//5+Pwbg7UQIu1Ch2Xf6EOS2iU+9hosJpKpe
+         NJ/WL1DBwNZPxUWiODPI8/o0b4LBfeslSXdlmln0gAIvodGnsAVFHnIM1vcGBjsXF7PK
+         iocffdBA8+ovY2/HrZZA1189GpaVfBdCPHSB9ZAh09VpAer41lGn6QAExFOT6i1JFvmZ
+         Oa1A==
+X-Forwarded-Encrypted: i=1; AJvYcCV/KJLN9J8fO5KCLia33dWdtnEQcmCs0jJ9buTBX6KFSgXSerQ5Q76a6jv+14ltQQnbfICxMeTQHB9M@vger.kernel.org, AJvYcCVARmYtO3IlnnhP7xeCG7d2njYO+bJ5P+us453QH/nMJB/QJI28U+6lDfrovRfKCtZktniGkYgz75treosT8KJXmhjM@vger.kernel.org, AJvYcCVmbae6DnH7KLB2CVEWUS/QkMsiYQFjwWZOkFxx1u9D9w07J1IXsVn/QAtKgj3UtknwdlIchMUB@vger.kernel.org, AJvYcCX69w5rcbsy4YzdXiD6nCgNUEC7zatVTQj5QgeclEiERKAEcIwAOpMXHQVvTenMkfTSgBco5GYDH2u5gc1J@vger.kernel.org, AJvYcCXxUVmaLdMp50JIsi5m44KUEjA8roJ9PvsE8NYyiXfiV6mhkOAsHYNSiT83S4PyF5Vad20=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEPg+aUvB3CDqo0wnNJmjiJMlatJ4LmVGfO0FY1A3XgFLcek43
+	A6VaF+EmPsF0YFfokj5zAgTL0/qvByMlDaxGKg5JA1/HHoodP9PW
+X-Gm-Gg: ASbGncvtdgv4jFe7dRDCOuaHdWFkFDNz9+6rlNOWJ9XOlnsVSnGEo+PBbSz2fjQpbAf
+	AyONu5mkiu7OaYdQkH1LWBIbX8n/NJ9FXQjX1IKlc7xRteL1yJgy6twvMDqt9MP87jRr37Z/2fw
+	NbfAYv3EY9RwwyWdCTYUsk+dYbGF2ds6vxaAYaCd8T3JtRHGdJRkrj+8KCdyvaA7YlTtKgdaS/E
+	A9AiUDazwiGDVbdTgA/NYvIj8Nhma9imcnuvQMeQKeCq8TBg8ZkCR/2xwIf8lkp8N6Rzy0Re+MT
+	bT/2Tw==
+X-Google-Smtp-Source: AGHT+IHbt51KgaNHWYPsUJyDM3PxIHsFbWa2cwUWn0p6bD6sqDfQiHdD/IM2ZAFY8hTlRWEBkFudxA==
+X-Received: by 2002:a17:907:3f11:b0:ab2:aea7:510f with SMTP id a640c23a62f3a-ab38b320310mr1794735466b.30.1737470337728;
+        Tue, 21 Jan 2025 06:38:57 -0800 (PST)
+Received: from krava (37-188-142-170.red.o2.cz. [37.188.142.170])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384d2dee0sm759550266b.78.2025.01.21.06.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2025 06:38:56 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Tue, 21 Jan 2025 15:38:48 +0100
+To: Eyal Birger <eyal.birger@gmail.com>
+Cc: Kees Cook <kees@kernel.org>, luto@amacapital.net, wad@chromium.org,
+	oleg@redhat.com, ldv@strace.io, mhiramat@kernel.org,
+	andrii@kernel.org, alexei.starovoitov@gmail.com, olsajiri@gmail.com,
+	cyphar@cyphar.com, songliubraving@fb.com, yhs@fb.com,
+	john.fastabend@gmail.com, peterz@infradead.org, tglx@linutronix.de,
+	bp@alien8.de, daniel@iogearbox.net, ast@kernel.org,
+	andrii.nakryiko@gmail.com, rostedt@goodmis.org, rafi@rbk.io,
+	shmulik.ladkani@gmail.com, bpf@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without
+ filtering
+Message-ID: <Z4-xeFH0Mgo3llga@krava>
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
+ <202501181212.4C515DA02@keescook>
+ <CAHsH6GuifA9nUzNR-eW5ZaXyhzebJOCjBSpfZCksoiyCuG=yYw@mail.gmail.com>
+ <8B2624AC-E739-4BBE-8725-010C2344F61C@kernel.org>
+ <CAHsH6GtpXMswVKytv7_JMGca=3wxKRUK4rZmBBxJPRh1WYdObg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwCXG0plr49nIBILAQ--.48896S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCryfZw4fAFyDAFy7XFy3XFb_yoW5XF47pF
-	yfJ3W7GFs5Jr1rAr17Kr48JrySqF4rJw1UXF15tryruwn0vr15Gry5GrWF9F9rGrykZr1q
-	vayUXasrAr1DA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
-	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUVZ2-UUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAPBGePR1QEQgAAs3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHsH6GtpXMswVKytv7_JMGca=3wxKRUK4rZmBBxJPRh1WYdObg@mail.gmail.com>
 
-On Tue, 2025-01-21 at 15:21 +0100, Thomas Wei=C3=9Fschuh wrote:
-> On 2025-01-21 14:48:09+0100, Roberto Sassu wrote:
-> > On Tue, 2025-01-21 at 14:29 +0100, Thomas Wei=C3=9Fschuh wrote:
-> > > Hi Robert,
-> > >=20
-> > > On 2024-11-19 11:49:08+0100, Roberto Sassu wrote:
-> > > > From: Roberto Sassu <roberto.sassu@huawei.com>
-> > > >=20
-> > > > Add a parser of a generic Type-Length-Value (TLV) format:
-> > > >=20
-> > > > +--------------+--+---------+--------+---------+
-> > > > > field1 (u16) | len1 (u32) | value1 (u8 len1) |
-> > > > +--------------+------------+------------------+
-> > > > >     ...      |    ...     |        ...       |
-> > > > +--------------+------------+------------------+
-> > > > > fieldN (u16) | lenN (u32) | valueN (u8 lenN) |
-> > > > +--------------+------------+------------------+
-> > >=20
-> > > Should mention that its big endian.
-> >=20
-> > Ok.
-> >=20
-> > > > Each adopter can define its own fields. The TLV parser does not nee=
-d to be
-> > > > aware of those, but lets the adopter obtain the data and decide how=
- to
-> > >=20
-> > > "adopter" -> "user".
-> >=20
-> > Ok.
-> >=20
-> > > > continue.
-> > > >=20
-> > > > After processing a TLV entry, call the callback function also with =
-the
-> > > > callback data provided by the adopter. The latter can decide how to
-> > > > interpret the TLV entry depending on the field ID.
-> > > >=20
-> > > > Nesting TLVs is also possible, the callback function can call tlv_p=
-arse()
-> > > > to parse the inner structure.
-> > >=20
-> > > Given that we already have the netlink data structures, helpers and
-> > > infrastructure, what is the advantage over those?
-> >=20
-> > Sorry, I'm not too familiar on how netlink works, so I might not
-> > understand your point.
->=20
-> Netlink is a TLV format used by the Linux networking subsystem:
->=20
-> struct nlmsghdr {
->     __u32 nlmsg_len;    /* Length of message including header */
->     __u16 nlmsg_type;   /* Type of message content */
->     __u16 nlmsg_flags;  /* Additional flags */
->     __u32 nlmsg_seq;    /* Sequence number */
->     __u32 nlmsg_pid;    /* Sender port ID */
-> };
->=20
-> https://man.archlinux.org/man/core/man-pages/netlink.7.en
->=20
-> There are both userspace and in-kernel infrastructures to handle it.
-> Looking at it again however it has some unnecessary fields, wasting
-> space and uses "host" byteorder which is a problem for an on-disk
-> datastructure.
-> So maybe not a good alternative after all.
->=20
-> > I think the benefit of this data structure is the retrocompatibility.
-> > If you add new data fields, you don't need to introduce a v2, v3 data
-> > format.
-> >=20
-> > New versions of the parser can consume the new information, while the
-> > older can still take the ones they are able to understand.
->=20
-> This is also exactly how netlink is used.
+On Sat, Jan 18, 2025 at 07:39:25PM -0800, Eyal Birger wrote:
 
-Ok, perfect!
+SNIP
 
-> FYI there were also some review comments inside the patch diff itself.
+> I think I wasn't accurate in my wording.
+> The uretprobe syscall is added to the tracee by the kernel.
+> The tracer itself is merely requesting to attach a uretprobe bpf
+> function. In previous versions, this was implemented by the kernel
+> installing an int3 instruction, and in the new implementation the kernel
+> is installing a uretprobe syscall.
+> The "user" in this case - the tracer program - didn't deliberately install
+> the syscall, but anyway this is semantics.
+> 
+> I think I understand your point that it is regarded as "policy", only that
+> it creates a problem in actual deployments, where in order to be able to
+> run the tracer software which has been working on newer kernels a new docker
+> has to be deployed.
+> 
+> I'm trying to find a pragmatic solution to this problem, and I understand
+> the motivation to avoid policy in seccomp.
+> 
+> Alternatively, maybe this syscall implementation should be reverted?
 
-Ops, thanks! Missed them. Will reply to that email.
+you mentioned in the previous reply:
 
-Roberto
+> > As far as I can tell libseccomp needs to provide support for this new
+> >  syscall and a new docker version would need to be deployed, so It's not
+> > just a configuration change. Also the default policy which comes packed in
+> > docker would probably need to be changed to avoid having to explicitly
+> > provide a seccomp configuration for each deployment.
 
+please disregard if this is too stupid.. but could another way out be just
+to disable it (easy to do) and meanwhile teach libseccomp to allow uretprobe
+(or whatever mechanism needs to be added to libseccomp) plus the needed
+docker change ... to minimize the impact ? 
+
+or there's just too many other seccomp user space libraries
+
+I'm still trying to come up with some other solution but wanted
+to exhaust all the options I could think of
+
+thanks,
+jirka
 
