@@ -1,171 +1,509 @@
-Return-Path: <linux-api+bounces-3079-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3080-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31FBA1804E
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 15:47:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC3FA18092
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 15:56:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E0F01882A90
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 14:47:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C09A7A0575
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 14:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E98F31F37C4;
-	Tue, 21 Jan 2025 14:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y827Eh4J"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBFEB1F3FDF;
+	Tue, 21 Jan 2025 14:56:03 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6117049641;
-	Tue, 21 Jan 2025 14:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE8854F81;
+	Tue, 21 Jan 2025 14:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737470869; cv=none; b=UjV0ohieQULgz/B0sjZ9YJLBe2LlT9iy8dX1RuBf1b+UNNHMhbqouIi34cnQivHiOcdjZ+bj4sXGvesCQaiIZFAFgjruy0oDjJaBx92ygpwY8vIpN+c9y90gr7zMhmF6DZaIZGm5l4IRQ9e6eHdh95VZRHw2ofvYRLuJAytXPyE=
+	t=1737471363; cv=none; b=N/Fgoku75PgW1iFYl+VWI2ZXHEDDQm7wklOy7fzhgWH5FNVw7erA84kyqPZnPmp9yVDRxLONKjOl7cugi2aObgr1ahOdpONiOp+JVXHcjZARCAxJ0nBMwX5TGAu9bRYhkqatGUuuE8aXwO7/uF5uA+bcS/ZFNxV+/fiBp8baFVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737470869; c=relaxed/simple;
-	bh=Cktml07LPmg2xZ25NCIPiVqzfxD6P8TDXY7hcsNSf6I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DULSEvgNVIWI4v52NsjFp3LQf9BAIbrkKd7sWvShZshs/qWnNVONOuGiPzJXwvlh59ddXZZuAu/t9axPkbxyM6gMi0wS/jJKNgh9f6yBvTXP9CGZUHb5fnnXh5ly7qLqXaU8oinG75nnS9tJO6TE7zlRrC5OCfxICUxlj28ndZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y827Eh4J; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-71e181fb288so2893707a34.2;
-        Tue, 21 Jan 2025 06:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737470867; x=1738075667; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rAyOm3vvC9cyzYtwh1nipyUHmipDItlmipd/RY8fXQ=;
-        b=Y827Eh4JiB7zZuR6zWZl4bEpau+kai9XLkFup/ISfD5h/uoQiTmTnRjhSMfe8CvY96
-         JLqc9STOXnLjga6LjLxEsl5Mv0Go/Ue37xejEMfksWFRneFYi7ue0WtqwuAC6ciYBv9B
-         8F9bndcrHQ4/EvTsIVpIop4jln0Vy6/1ixVvyhnrg3qtelMsLHGNEegdvqjsXrkifSCe
-         6eTMt/MRtgRU5hB2WAHiUr/rf32g/SjdjZy0tzY42N6rtUZ1D1W8Gt3szKm0qfdN97Q1
-         ZXk/klG5yLM682rlgxbMMuFdP+kLlpPsrn6WeBRBXNtaGMSpATg62AO0n/iTOWN8uOLq
-         bvsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737470867; x=1738075667;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4rAyOm3vvC9cyzYtwh1nipyUHmipDItlmipd/RY8fXQ=;
-        b=OkhymSszyg1NsfKUu5wsmZ5GzRwIqIhJsaeNhajdOX4m4yD+X38evjLDtAVF2iPEsb
-         YSy9BKTC2nx/ebo0IG221lhsoZGFi1PPbWc6W6EebDeG5DcF3aipYZ3gCquF5mpTbOOa
-         25ZvFJQjN4zdjfWdsKBFmT1JyY997+4vBEEa7tgulprR0yYRsF1PEoeE0J0YTniLInux
-         G48NvP9EftG7EUzZAM2fzw9Z1rM1j5XFGELmU7/NtBtKq1LB/liTCOBOKo06gdO0HysJ
-         bDWUZygbT0y1aIbVEExRifAMgzukkT2qCRQf9mlnVqYxhXPixXU+13PTlfS41wtyMZaL
-         ubMw==
-X-Forwarded-Encrypted: i=1; AJvYcCUep4V1ODFe4hZdTxQqU2YhYu0qqVwyXMFiej9/d+2zmEyCeUNgVhKTzGXSpSxSvqdTHJbWb/FL@vger.kernel.org, AJvYcCWlZfyneTixHPijkG9+uXR1fnE1BiMQedtuzfcxrdWdaoHOwEDHyVxBSbDGz0mGp5ohiOE1lNTXoFoeimInp6IfkzdF@vger.kernel.org, AJvYcCWpr3Yc+Y+5YdfO26W74ZnVB3vZdcjFFy6JNTx6UZs7+X8hufNgVNQvgz541OR2PU2Baik6HRCbPOoS@vger.kernel.org, AJvYcCX9qWUC1F2g3rYpR3hHzY3OHKAppYhF5sZqnZvte0LNbGsEdxQ1shZlGINW+J5x7fXucqWUhtzRxqZDOBKM@vger.kernel.org, AJvYcCXVvCIxWXxnQQRRW7iQaW/hQ0YzVVn859LkF8MsCmgxGxwzv0iUsaAT3eBJijdtjCjMPDU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzygC086BtCZ/8YHBNDjOwM8tOG6ws02CDLlYEiypTlJ/PeoNln
-	tRu5cV5A2DN82YMlniEm2kfMa5Emk7D4lIApKQTCBOermrvZVO2kRyhdc5ksvLPh5cL9gK00C/P
-	hQ4IC0AzEU1IXVk/NjWyebwTFtvY=
-X-Gm-Gg: ASbGnctixg367ty6j3cgNOTy+0uFp0GvbPAsN+Jdw581yBe0h7xBovcvLf6V2yPu9pC
-	MHKHmc4RbgyoqKm026D+9H4N9748TwcWszztJvXesoDOJyo7BO8g=
-X-Google-Smtp-Source: AGHT+IHg70+kf9daAdil3t4gCIdHjAkzcSAk4ar4AK/QnIG6lVbxav1MbIKq4eCM3GctTzC1y/vvNy0sX+8+TR1jSO8=
-X-Received: by 2002:a05:6830:628b:b0:71d:f239:c091 with SMTP id
- 46e09a7af769-7249da56cedmr10066983a34.6.1737470867304; Tue, 21 Jan 2025
- 06:47:47 -0800 (PST)
+	s=arc-20240116; t=1737471363; c=relaxed/simple;
+	bh=6/K1YYxKOTKt37okH5T1ldr6pKEj3DcoovjO+EBjZKs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SW9tgW/ViO3aMDP7PrAxEELhiO6NIQ1+LAdiyUSu1GUnmATEqnlFp2GUNPQ9bQP0DmwRQSg/74kDvby+fUsPbHLiyqYp3W6LqA/dSsUYPAuMrBp3NtB6mLcFiBs2SZlSGSH90N7s95cAI1R5IqFuw71bQw2WOJVKLQaT6zJjt6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4YcqT63wYhz9v7Hg;
+	Tue, 21 Jan 2025 22:33:46 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 22C02140B5D;
+	Tue, 21 Jan 2025 22:55:56 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwCnW95ktY9n0PQJAQ--.2309S2;
+	Tue, 21 Jan 2025 15:55:55 +0100 (CET)
+Message-ID: <b14358075fa56f7250d5c9000ab8ee181003ff13.camel@huaweicloud.com>
+Subject: Re: [PATCH v6 01/15] lib: Add TLV parser
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com,  corbet@lwn.net, mcgrof@kernel.org,
+ petr.pavlu@suse.com, samitolvanen@google.com,  da.gomez@samsung.com,
+ akpm@linux-foundation.org, paul@paul-moore.com,  jmorris@namei.org,
+ serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+ hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+ dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
+ petr.vorel@gmail.com,  mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto
+ Sassu <roberto.sassu@huawei.com>
+Date: Tue, 21 Jan 2025 15:55:28 +0100
+In-Reply-To: <c316b1be-d18f-4bb0-8434-bcc9236619df@t-8ch.de>
+References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
+	 <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
+	 <c316b1be-d18f-4bb0-8434-bcc9236619df@t-8ch.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250117005539.325887-1-eyal.birger@gmail.com>
- <202501181212.4C515DA02@keescook> <CAHsH6GuifA9nUzNR-eW5ZaXyhzebJOCjBSpfZCksoiyCuG=yYw@mail.gmail.com>
- <8B2624AC-E739-4BBE-8725-010C2344F61C@kernel.org> <CAHsH6GtpXMswVKytv7_JMGca=3wxKRUK4rZmBBxJPRh1WYdObg@mail.gmail.com>
- <Z4-xeFH0Mgo3llga@krava>
-In-Reply-To: <Z4-xeFH0Mgo3llga@krava>
-From: Eyal Birger <eyal.birger@gmail.com>
-Date: Tue, 21 Jan 2025 06:47:35 -0800
-X-Gm-Features: AbW1kva2mCUZaFs5Ipo6EUmEB_SwjaLJCjqhvhI-g9qn-B9oSM16KZSJKWgpihY
-Message-ID: <CAHsH6GsXacPXiEz7amTcgBfWdiOJx2G3cAMdSdnkqOnJ+opqQg@mail.gmail.com>
-Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without filtering
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: Kees Cook <kees@kernel.org>, luto@amacapital.net, wad@chromium.org, oleg@redhat.com, 
-	ldv@strace.io, mhiramat@kernel.org, andrii@kernel.org, 
-	alexei.starovoitov@gmail.com, cyphar@cyphar.com, songliubraving@fb.com, 
-	yhs@fb.com, john.fastabend@gmail.com, peterz@infradead.org, 
-	tglx@linutronix.de, bp@alien8.de, daniel@iogearbox.net, ast@kernel.org, 
-	andrii.nakryiko@gmail.com, rostedt@goodmis.org, rafi@rbk.io, 
-	shmulik.ladkani@gmail.com, bpf@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID:GxC2BwCnW95ktY9n0PQJAQ--.2309S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfJw4kAF4DWFW8tF4kJF4kXrb_yoWktr4xpa
+	sxGF43Gr4xJw1xCr1Sgr43Jr1fXrWrWF1UKF18WryFvrsakr1kGrWkKry09ryxtryv9r4q
+	ya4YqFyakrn8X3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
+	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUVZ2-UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAPBGePR1QEXAADsq
 
-Hi,
+On Tue, 2025-01-21 at 14:29 +0100, Thomas Wei=C3=9Fschuh wrote:
+> Hi Robert,
+>=20
+> On 2024-11-19 11:49:08+0100, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Add a parser of a generic Type-Length-Value (TLV) format:
+> >=20
+> > +--------------+--+---------+--------+---------+
+> > > field1 (u16) | len1 (u32) | value1 (u8 len1) |
+> > +--------------+------------+------------------+
+> > >     ...      |    ...     |        ...       |
+> > +--------------+------------+------------------+
+> > > fieldN (u16) | lenN (u32) | valueN (u8 lenN) |
+> > +--------------+------------+------------------+
+>=20
+> Should mention that its big endian.
+>=20
+> > Each adopter can define its own fields. The TLV parser does not need to=
+ be
+> > aware of those, but lets the adopter obtain the data and decide how to
+>=20
+> "adopter" -> "user".
+>=20
+> > continue.
+> >=20
+> > After processing a TLV entry, call the callback function also with the
+> > callback data provided by the adopter. The latter can decide how to
+> > interpret the TLV entry depending on the field ID.
+> >=20
+> > Nesting TLVs is also possible, the callback function can call tlv_parse=
+()
+> > to parse the inner structure.
+>=20
+> Given that we already have the netlink data structures, helpers and
+> infrastructure, what is the advantage over those?
+>=20
+> >=20
+> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > ---
+> >  MAINTAINERS                     |  8 +++
+> >  include/linux/tlv_parser.h      | 32 ++++++++++++
+> >  include/uapi/linux/tlv_parser.h | 41 ++++++++++++++++
+> >  lib/Kconfig                     |  3 ++
+> >  lib/Makefile                    |  2 +
+> >  lib/tlv_parser.c                | 87 +++++++++++++++++++++++++++++++++
+> >  lib/tlv_parser.h                | 18 +++++++
+> >  7 files changed, 191 insertions(+)
+> >  create mode 100644 include/linux/tlv_parser.h
+> >  create mode 100644 include/uapi/linux/tlv_parser.h
+> >  create mode 100644 lib/tlv_parser.c
+> >  create mode 100644 lib/tlv_parser.h
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a097afd76ded..1f7ffa1c9dbd 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23388,6 +23388,14 @@ W:	http://sourceforge.net/projects/tlan/
+> >  F:	Documentation/networking/device_drivers/ethernet/ti/tlan.rst
+> >  F:	drivers/net/ethernet/ti/tlan.*
+> > =20
+> > +TLV PARSER
+> > +M:	Roberto Sassu <roberto.sassu@huawei.com>
+> > +L:	linux-kernel@vger.kernel.org
+> > +S:	Maintained
+> > +F:	include/linux/tlv_parser.h
+> > +F:	include/uapi/linux/tlv_parser.h
+> > +F:	lib/tlv_parser.*
+> > +
+> >  TMIO/SDHI MMC DRIVER
+> >  M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >  L:	linux-mmc@vger.kernel.org
+> > diff --git a/include/linux/tlv_parser.h b/include/linux/tlv_parser.h
+> > new file mode 100644
+> > index 000000000000..0c72742af548
+> > --- /dev/null
+> > +++ b/include/linux/tlv_parser.h
+> > @@ -0,0 +1,32 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Header file of TLV parser.
+> > + */
+> > +
+> > +#ifndef _LINUX_TLV_PARSER_H
+> > +#define _LINUX_TLV_PARSER_H
+> > +
+> > +#include <uapi/linux/tlv_parser.h>
+> > +
+> > +/**
+> > + * typedef callback - Callback after parsing TLV entry
+> > + * @callback_data: Opaque data to supply to the callback function
+> > + * @field: Field identifier
+> > + * @field_data: Field data
+> > + * @field_len: Length of @field_data
+> > + *
+> > + * This callback is invoked after a TLV entry is parsed.
+> > + *
+> > + * Return: Zero on success, a negative value on error.
+>=20
+> It's not explained what happens on error.
 
-On Tue, Jan 21, 2025 at 6:38=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> wrot=
-e:
->
-> On Sat, Jan 18, 2025 at 07:39:25PM -0800, Eyal Birger wrote:
->
-> SNIP
->
-> > I think I wasn't accurate in my wording.
-> > The uretprobe syscall is added to the tracee by the kernel.
-> > The tracer itself is merely requesting to attach a uretprobe bpf
-> > function. In previous versions, this was implemented by the kernel
-> > installing an int3 instruction, and in the new implementation the kerne=
-l
-> > is installing a uretprobe syscall.
-> > The "user" in this case - the tracer program - didn't deliberately inst=
-all
-> > the syscall, but anyway this is semantics.
-> >
-> > I think I understand your point that it is regarded as "policy", only t=
-hat
-> > it creates a problem in actual deployments, where in order to be able t=
-o
-> > run the tracer software which has been working on newer kernels a new d=
-ocker
-> > has to be deployed.
-> >
-> > I'm trying to find a pragmatic solution to this problem, and I understa=
-nd
-> > the motivation to avoid policy in seccomp.
-> >
-> > Alternatively, maybe this syscall implementation should be reverted?
->
-> you mentioned in the previous reply:
->
-> > > As far as I can tell libseccomp needs to provide support for this new
-> > >  syscall and a new docker version would need to be deployed, so It's =
-not
-> > > just a configuration change. Also the default policy which comes pack=
-ed in
-> > > docker would probably need to be changed to avoid having to explicitl=
-y
-> > > provide a seccomp configuration for each deployment.
->
-> please disregard if this is too stupid.. but could another way out be jus=
-t
-> to disable it (easy to do) and meanwhile teach libseccomp to allow uretpr=
-obe
-> (or whatever mechanism needs to be added to libseccomp) plus the needed
-> docker change ... to minimize the impact ?
+Ok, will be more specific.
 
-Right. the patch I was thinking to suggest wouldn't revert the entire
-thing, but instead disable its use for now and allow a careful
-reconsideration of the available options.
+> > + */
+> > +typedef int (*callback)(void *callback_data, __u16 field,
+> > +			const __u8 *field_data, __u32 field_len);
+>=20
+> No need for __underscore types in kernel-only signatures.
 
-If that makes sense, I'll post it.
+It is just for convenience. I'm reusing the same file for the userspace
+counterpart digest-cache-tools. In that case, the parser is used for
+example to show the content of the digest list.
 
->
-> or there's just too many other seccomp user space libraries
+> > +
+> > +int tlv_parse(callback callback, void *callback_data, const __u8 *data=
+,
+> > +	      size_t data_len, const char **fields, __u32 num_fields);
+> > +
+> > +#endif /* _LINUX_TLV_PARSER_H */
+> > diff --git a/include/uapi/linux/tlv_parser.h b/include/uapi/linux/tlv_p=
+arser.h
+> > new file mode 100644
+> > index 000000000000..171d0cfd2c4c
+> > --- /dev/null
+> > +++ b/include/uapi/linux/tlv_parser.h
+> > @@ -0,0 +1,41 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Implement the user space interface for the TLV parser.
+> > + */
+>=20
+> Can you explain in the commit message where this will be exposed to
+> userspace as binary?
 
-I think in theory, the example of a simple binary using "restrict" mode
-makes it problematic to assume that this can be fixed solely from userspace
-i.e. for such binary, uretprobes would still work in one kernel version and
-break on another. It's hard to tell how common this is.
+I see that my explanation is not ideal.
 
->
-> I'm still trying to come up with some other solution but wanted
-> to exhaust all the options I could think of
->
-> thanks,
-> jirka
+This is the format for data exchange between user space and kernel
+space, but it is still the kernel that reads and parses the TLV-
+formatted file for extracting the digests and adding them to the digest
+cache.
+
+> > +
+> > +#ifndef _UAPI_LINUX_TLV_PARSER_H
+> > +#define _UAPI_LINUX_TLV_PARSER_H
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +/*
+> > + * TLV format:
+> > + *
+> > + * +--------------+--+---------+--------+---------+
+> > + * | field1 (u16) | len1 (u32) | value1 (u8 len1) |
+> > + * +--------------+------------+------------------+
+> > + * |     ...      |    ...     |        ...       |
+> > + * +--------------+------------+------------------+
+> > + * | fieldN (u16) | lenN (u32) | valueN (u8 lenN) |
+> > + * +--------------+------------+------------------+
+> > + */
+> > +
+> > +/**
+> > + * struct tlv_entry - Entry of TLV format
+> > + * @field: Field identifier
+> > + * @length: Data length
+> > + * @data: Data
+> > + *
+> > + * This structure represents an entry of the TLV format.
+> > + */
+> > +struct tlv_entry {
+> > +	__u16 field;
+> > +	__u32 length;
+>=20
+> Use __be16 and __be32 here.
+
+Yes, right.
+
+> > +	__u8 data[];
+>=20
+> __counted_by()?
+> Not sure how this interacts with __be.
+
+Ok, will have a look.
+
+> > +} __attribute__((packed));
+> > +
+> > +#endif /* _UAPI_LINUX_TLV_PARSER_H */
+> > diff --git a/lib/Kconfig b/lib/Kconfig
+> > index b38849af6f13..9141dcfc1704 100644
+> > --- a/lib/Kconfig
+> > +++ b/lib/Kconfig
+> > @@ -777,3 +777,6 @@ config POLYNOMIAL
+> > =20
+> >  config FIRMWARE_TABLE
+> >  	bool
+> > +
+> > +config TLV_PARSER
+> > +	bool
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > index 773adf88af41..630de494eab5 100644
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -393,5 +393,7 @@ obj-$(CONFIG_USERCOPY_KUNIT_TEST) +=3D usercopy_kun=
+it.o
+> >  obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) +=3D devmem_is_allowed.o
+> > =20
+> >  obj-$(CONFIG_FIRMWARE_TABLE) +=3D fw_table.o
+> > +obj-$(CONFIG_TLV_PARSER) +=3D tlv_parser.o
+> > +CFLAGS_tlv_parser.o +=3D -I lib
+>=20
+> Does this work with out of tree builds?
+
+Good question, need to check.
+
+> > =20
+> >  subdir-$(CONFIG_FORTIFY_SOURCE) +=3D test_fortify
+> > diff --git a/lib/tlv_parser.c b/lib/tlv_parser.c
+> > new file mode 100644
+> > index 000000000000..dbbe08018b4d
+> > --- /dev/null
+> > +++ b/lib/tlv_parser.c
+> > @@ -0,0 +1,87 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Implement the TLV parser.
+> > + */
+> > +
+> > +#define pr_fmt(fmt) "tlv_parser: "fmt
+> > +#include <tlv_parser.h>
+>=20
+> This should be "tlv_parser.h",
+> but the header files looks unnecessary in the first place.
+
+Ah. The point was to reuse the same file and add different includes for
+the kernel and user space.
+
+> > +
+> > +/**
+> > + * tlv_parse - Parse TLV data
+> > + * @callback: Callback function to call to parse the entries
+> > + * @callback_data: Opaque data to supply to the callback function
+> > + * @data: Data to parse
+> > + * @data_len: Length of @data
+> > + * @fields: Array of field strings
+> > + * @num_fields: Number of elements of @fields
+> > + *
+> > + * Parse the TLV data format and call the supplied callback function f=
+or each
+> > + * entry, passing also the opaque data pointer.
+> > + *
+> > + * The callback function decides how to process data depending on the =
+field.
+>=20
+> Mention that a callback return an error will abort the whole parsing.
+
+Ok.
+
+> > + *
+> > + * Return: Zero on success, a negative value on error.
+> > + */
+> > +int tlv_parse(callback callback, void *callback_data, const __u8 *data=
+,
+> > +	      size_t data_len, const char **fields, __u32 num_fields)
+>=20
+> No need for __underscore types in kernel-only functions.
+
+Same comment as above (used in user space).
+
+> "num_fields" and "fields" are accessed without checking for validity.
+
+I think it was Paul Moore suggesting that there should not be too many
+checks, and that the developer should do the right thing.
+
+> "fields" is only every used for debug logging, so can be removed.
+> "num_fields" probably, too.
+
+Ok.
+
+> > +{
+> > +	const __u8 *data_ptr =3D data;
+> > +	struct tlv_entry *entry;
+>=20
+> This comes from the input data, should also be const.
+
+Ok.
+
+> > +	__u16 parsed_field;
+> > +	__u32 len;
+>=20
+> field_len
+
+Ok.
+
+> > +	int ret;
+> > +
+> > +	if (data_len > U32_MAX) {
+> > +		pr_debug("Data too big, size: %zd\n", data_len);
+> > +		return -E2BIG;
+> > +	}
+> > +
+> > +	while (data_len) {
+> > +		if (data_len < sizeof(*entry))
+> > +			return -EBADMSG;
+> > +
+> > +		entry =3D (struct tlv_entry *)data_ptr;
+> > +		data_ptr +=3D sizeof(*entry);
+> > +		data_len -=3D sizeof(*entry);
+> > +
+> > +		parsed_field =3D __be16_to_cpu(entry->field);
+>=20
+> This doesn't seem to handle invalid alignment, some architectures will
+> trap unaligned accesses.
+> Depending on the size and usage patterns it may make sense to document
+> some alignment recommendations/requirements.
+> (Not sure how big of a performance difference it would make)
+
+Thanks, will have a look.
+
+> > +		if (parsed_field >=3D num_fields) {
+> > +			pr_debug("Invalid field %u, max: %u\n",
+> > +				 parsed_field, num_fields - 1);
+> > +			return -EBADMSG;
+> > +		}
+> > +
+> > +		len =3D __be32_to_cpu(entry->length);
+> > +
+> > +		if (data_len < len)
+> > +			return -EBADMSG;
+> > +
+> > +		pr_debug("Data: field: %s, len: %u\n", fields[parsed_field],
+> > +			 len);
+> > +
+> > +		if (!len)
+> > +			continue;
+>=20
+> Empty fields are discarded silently, is this intentional?
+> It should be documented. Those fields could be useful for flag data.
+
+I don't remember exactly the case. Yes, I can keep them and document
+them.
+
+> > +
+> > +		ret =3D callback(callback_data, parsed_field, data_ptr, len);
+> > +		if (ret < 0) {
+> > +			pr_debug("Parsing of field %s failed, ret: %d\n",
+> > +				 fields[parsed_field], ret);
+> > +			return ret;
+> > +		}
+> > +
+> > +		data_ptr +=3D len;
+> > +		data_len -=3D len;
+> > +	}
+> > +
+> > +	if (data_len) {
+>=20
+> Can this ever happen?
+> The check at the beginning of the loop should have caught it already.
+
+Not anymore, it is a leftover of the previous version where I was
+looping on the number of TLV data entries. Now the number of remaining
+entries is part of TLV data, so only the data length is available in
+tlv_parse(). Will remove, good catch!
+
+> > +		pr_debug("Excess data: %zu bytes\n", data_len);
+> > +		return -EBADMSG;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(tlv_parse);
+>=20
+> Some kunit tests would be great.
+
+I implemented kselftests also injecting errors (patch 13). If it is not
+enough, I implement kunit tests too.
+
+> > diff --git a/lib/tlv_parser.h b/lib/tlv_parser.h
+> > new file mode 100644
+> > index 000000000000..e663966deac5
+> > --- /dev/null
+> > +++ b/lib/tlv_parser.h
+> > @@ -0,0 +1,18 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * Header file of TLV parser.
+> > + */
+> > +
+> > +#ifndef _LIB_TLV_PARSER_H
+> > +#define _LIB_TLV_PARSER_H
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <linux/err.h>
+> > +#include <linux/limits.h>
+> > +#include <linux/tlv_parser.h>
+>=20
+> The #includes should move to the .c file and the header be removed.
+
+They are here for the reason of reusing tlv_parser.c in user space.
+
+Thanks a lot, this was a very detailed review!
+
+Roberto
+
 
