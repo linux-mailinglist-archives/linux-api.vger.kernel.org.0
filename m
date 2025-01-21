@@ -1,175 +1,189 @@
-Return-Path: <linux-api+bounces-3085-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3086-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7EFA18771
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 22:43:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE76A187C7
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 23:38:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A8C9168680
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 21:42:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5ABA188B880
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jan 2025 22:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670821F893E;
-	Tue, 21 Jan 2025 21:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778651F8908;
+	Tue, 21 Jan 2025 22:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UAaiESDb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOuCQrsV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854891F8907;
-	Tue, 21 Jan 2025 21:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32E6187FE4;
+	Tue, 21 Jan 2025 22:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737495763; cv=none; b=fmTW46vOTiOB4O8fGAikePPl4FcoEbfqJHfYHC5MfYFLAsNSr3CnLVhjpOTrQfVGQUlHSYFOsXsSLmOsCtDaAnP+sXYD/XxnCwvjzqVAmtXM3eogTET2RUf7vbEga6Jb8+UVN9zCYUmIduJDt9DJ7uDflVLJIx3wBiA9nJhfNPs=
+	t=1737499107; cv=none; b=juNI3pl3ydUZdhzDUbuh387clEJXyMGkh3iCbKubektaWwPz+S5cFqHmLGcNkd+APFItMru/4Kq2Ml7VgSjduau0UaWnn8r7k4h0LKPFYck66LEYmEVqy6v0Ud/uoY3Wv/ogWRP3JJlIHNRDeHIbstCMj5ATrt3uvQsPJl1PLhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737495763; c=relaxed/simple;
-	bh=n4RD4dubYEheuUHrbVhCJJ//W+/igb2v1YzPOqVxCQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OC+4T2LTYZZZ4vnTSnkmAc52YP2K8gQj4+Jo6mozQLC7OHrggvJ+7q8OyB81nzvKy7SWwICEme1YWa1O0Hw6KAAbHB0LQmTqjMyN8AaWtx/rhjQBLI9nDGX0X7PagZ6SscznACwUOPZM+otgbnE3FKDG/g4/S/YzOSrjVMa3vkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UAaiESDb; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1737495749;
-	bh=n4RD4dubYEheuUHrbVhCJJ//W+/igb2v1YzPOqVxCQ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UAaiESDbbzPdmNmoLHqaSS32neGSY4I4ypNS43cOa1opJYbIFzp5lwCRIdBJAVUg1
-	 SJ/flduuaUI2McTECmdux8LoW+AFAtJ4YYQarZbEhhxciSfztwrJAY4gnYGR1DKCnm
-	 yvGK4nzYCbAgq6qyPhkj/UqjJ4HCwmc0d+ihxV5k=
-Date: Tue, 21 Jan 2025 22:42:28 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, corbet@lwn.net, mcgrof@kernel.org, petr.pavlu@suse.com, 
-	samitolvanen@google.com, da.gomez@samsung.com, akpm@linux-foundation.org, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com, pbrobinson@gmail.com, 
-	zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, 
-	jannh@google.com, dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com, 
-	ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de, kgold@linux.ibm.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v6 01/15] lib: Add TLV parser
-Message-ID: <74b5c88d-7ab6-49f2-9b96-ac96cb4daf6e@t-8ch.de>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
- <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
- <c316b1be-d18f-4bb0-8434-bcc9236619df@t-8ch.de>
- <b14358075fa56f7250d5c9000ab8ee181003ff13.camel@huaweicloud.com>
+	s=arc-20240116; t=1737499107; c=relaxed/simple;
+	bh=IiYBdtN8+kUip8EwEkxRpTbCERxaPT45SZvkXeZf1GY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X89sVc6dC4N8m2yDux5G+SBtU5hvBzfJHS492fGg76ep2DBXeEONVQ9a0IZAB07u5lyK6NcvBv5l9PvNxnx9j8gidOE91PQUq5L+msialVcycRVVfqIvJvyk17WjpH1zynyqh+hvzz6VOlQMScfXUTiuUp7p8FPwuIPAI2cAbCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOuCQrsV; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21636268e43so137088485ad.2;
+        Tue, 21 Jan 2025 14:38:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737499105; x=1738103905; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1QBmFNF9CU6iEPIp52Swx+xlInIwAj5N3NR5T+2s9s0=;
+        b=hOuCQrsVjoTOsj8qURll5dMy7xYB/yQfNCNFg9IJwTNFReTfzIgQ4SY022O232dd8C
+         7VkjseYtqThWo9YzIGClqYIF9JLrrrnWQZCaYcBXH1MArRlKa5bjU3kq9N+jKEI5Ulvu
+         t1tVhdAruX9KM3STCEKD5uS01vilnOQGToEjQe0sVKnUZTALQYLZ1CIygsUGplrAMCrL
+         Kq038KdZIZ/1klhhDO+T7czdQ0rPKuKU5iRNoaP2PtGwfSKGzOkQf2iVLdg2oC1VJGZL
+         9A6X6vRXaoHSIactalk3IApFtZiTUobWdpTd+eovFAGRltroyY2jXuUjUPLNsmxGroY2
+         qmyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737499105; x=1738103905;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1QBmFNF9CU6iEPIp52Swx+xlInIwAj5N3NR5T+2s9s0=;
+        b=dn9gRYvWSvqBIteUE8HDiNkko35F21YywjTpfR5MSgwmGOjqtMugNfZ7f1Q1Y9u4+6
+         no8d6NhdfhFcyj/oY5Rjv/HAAEgaIqDXVyBkOiJbSGhGN/v50s05pc9ikd4Vog08iNzW
+         R9cWN5tcIbt1aO5QqQkI6uqtMfU+fQFaEMIK3ek/cJVTTDIS81DVAQiosar0buzaSrR5
+         tdrkgeIMqE95V+kWL9NgSCAqbwL8inav4TbCjvFbAMwleGj6kIWm1yq+bnEqs9PHcEFG
+         dzbKuevDY02c98BxyfeKxnfPkE9EhPKrEIBUUMpCJmTWlDfUCDqJNuBewAyhhsPC4zUo
+         mPAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDKhoNvCHIgXUVfn0R9GMoiCwP8GgFb8D36e7605pTomkCaavWPEHvlllWgXxCqU7QzTk=@vger.kernel.org, AJvYcCVNmTLKArn5jsnhgd9vEnSqXe2pg3x5XjNNdmyqwt8tjZw31tMDSPTa8z0VuYdBn5ed5TZucoWQqNsL@vger.kernel.org, AJvYcCWNHNLIx34FAV52jR/oQQW8RXfRJ3FLhWVWGxA3Jz1FGTanF3z7aX7P3HlAFhvRFyJ0VstDK0azrWrVbEa2uxc7veWG@vger.kernel.org, AJvYcCWxc/Fxby+mHcFOjTIgWVSQYkS1XUqF+VvH2mCYL+zV949q7PTa2yNSUwD3mlPgZ35zxPXkGZce@vger.kernel.org, AJvYcCXcfG5F6F6k1Y9HDuMtLhe1lbgon+gBsEMOZ1d+A9TFwD55RS+5TItfxbviHjS+SLUt82q6v0ZADBcRkH3Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxaOG7+6kBT/mI3aZ8aUijBj6lmjeY5xiEA9EV+tunN2dbdKlm
+	v+rpgKcn2ygHtSAfB2B3p6VIsfeTObJx1gDscQ8wIuFtYtzhfrS4+X3U00PqtweZt+vaI9iHQKc
+	7ZkDzYwmaVUxDECdDaVaTgBOd6GU=
+X-Gm-Gg: ASbGncttytDurrlmdYOW3utzzU3xoWGwrGy7OHPPSvaQtt4S+4dHeIZa0aakDgnxV8t
+	5AEhaG2DEupH+cOf0EXPxSWKa0tLmXFV8J8HB04F9Ce01Xk7x+azoDjLjXvolepxd1ok=
+X-Google-Smtp-Source: AGHT+IEb0G90JnUb++0qPTelMMSZe3TRHWq+Fq4dqRtw+7t73B1scPakh3a2X/neoODL/siWVyCBZ1BPUUofYk7+D0M=
+X-Received: by 2002:a05:6a21:3285:b0:1e1:f281:8cec with SMTP id
+ adf61e73a8af0-1eb21498383mr29031250637.10.1737499104890; Tue, 21 Jan 2025
+ 14:38:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b14358075fa56f7250d5c9000ab8ee181003ff13.camel@huaweicloud.com>
+References: <20250117005539.325887-1-eyal.birger@gmail.com>
+ <202501181212.4C515DA02@keescook> <CAHsH6GuifA9nUzNR-eW5ZaXyhzebJOCjBSpfZCksoiyCuG=yYw@mail.gmail.com>
+ <8B2624AC-E739-4BBE-8725-010C2344F61C@kernel.org> <CAHsH6GtpXMswVKytv7_JMGca=3wxKRUK4rZmBBxJPRh1WYdObg@mail.gmail.com>
+ <Z4-xeFH0Mgo3llga@krava> <20250121111631.6e830edd@gandalf.local.home> <Z4_Riahgmj-bMR8s@krava>
+In-Reply-To: <Z4_Riahgmj-bMR8s@krava>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Tue, 21 Jan 2025 14:38:09 -0800
+X-Gm-Features: AbW1kvYiltR-mpN54P95qZGx9A5ZmJJyHCcX2_kRHm9_GN1BzcWeXina4gS657M
+Message-ID: <CAEf4BzZv3s0NtrviQ1MCCwZMO-SqCsiQF-WXpG6_-p4u5GeA2A@mail.gmail.com>
+Subject: Re: [PATCH] seccomp: passthrough uretprobe systemcall without filtering
+To: Jiri Olsa <olsajiri@gmail.com>, Kees Cook <kees@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Eyal Birger <eyal.birger@gmail.com>, luto@amacapital.net, 
+	wad@chromium.org, oleg@redhat.com, ldv@strace.io, mhiramat@kernel.org, 
+	andrii@kernel.org, alexei.starovoitov@gmail.com, cyphar@cyphar.com, 
+	songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+	peterz@infradead.org, tglx@linutronix.de, bp@alien8.de, daniel@iogearbox.net, 
+	ast@kernel.org, rafi@rbk.io, shmulik.ladkani@gmail.com, bpf@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-01-21 15:55:28+0100, Roberto Sassu wrote:
-> On Tue, 2025-01-21 at 14:29 +0100, Thomas Weißschuh wrote:
-> > On 2024-11-19 11:49:08+0100, Roberto Sassu wrote:
+On Tue, Jan 21, 2025 at 8:55=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> wrot=
+e:
+>
+> On Tue, Jan 21, 2025 at 11:16:31AM -0500, Steven Rostedt wrote:
+> >
+> > [ Watching this with popcorn from the sidelines, but I'll chime in anyw=
+ay ]
+> >
+> > On Tue, 21 Jan 2025 15:38:48 +0100
+> > Jiri Olsa <olsajiri@gmail.com> wrote:
+> >
+> > > I'm still trying to come up with some other solution but wanted
+> > > to exhaust all the options I could think of
+> >
+> > I think this may have been mentioned, but is there a way that the kerne=
+l
+> > could know that this system call is being monitored by seccomp, and if =
+so,
+> > just stick with the interrupt version? If not, enable the system call?
+>
+> yes [1], the problem with that solution is that we install uretprobe
+> trampoline at function's uprobe entry probe, so we won't catch case
+> where seccomp is enabled in this probed function, like:
+>
+>   foo
+>     uprobe -> install uretprobe trampoline
+>     ...
+>     seccomp(SECCOMP_MODE_STRICT..
+>     ...
+>     ret -> execute uretprobe trampoline with sys_uretprobe
+>
+>
+> I thought we could perhaps switch existing uretprobe trampoline to
+> int3 when we are in sys_seccomp, but another user thread might be
+> already executing the existing uretprobe trampoline, so I don't
+> think we can do that
 
-[..]
+Jiri,
 
-> > > +typedef int (*callback)(void *callback_data, __u16 field,
-> > > +			const __u8 *field_data, __u32 field_len);
-> > 
-> > No need for __underscore types in kernel-only signatures.
-> 
-> It is just for convenience. I'm reusing the same file for the userspace
-> counterpart digest-cache-tools. In that case, the parser is used for
-> example to show the content of the digest list.
+We should abandon the vector of "let's try to detect whether someone
+is blocking sys_uretprobe" as a solution, I don't believe it's
+possible. Blocking sys_uretprobe is too dynamic of a thing. There is
+an arbitrary periods of time between adding uretprobe trampoline
+(i.e., sys_uretprobe) and actually disabling sys_uretprobe through
+seccomp (or even BPF: LSM or even kprobes can do that, why not?), and
+userspace can flip this decision many times over.
 
-This reuse leads to quite some ugly constructs.
-Given that the single function will be really simple after removing the
-unnecessary parts, maybe two clean copies are easier.
-One copy is needed for Frama-C anyways.
+And as Oleg said, sysctl
+"please-make-my-uretprobe-2x-faster-assuming-i-know-about-this-option"
+makes no sense either, this will basically almost never get enabled.
 
-> > > +
-> > > +int tlv_parse(callback callback, void *callback_data, const __u8 *data,
-> > > +	      size_t data_len, const char **fields, __u32 num_fields);
-> > > +
-> > > +#endif /* _LINUX_TLV_PARSER_H */
-> > > diff --git a/include/uapi/linux/tlv_parser.h b/include/uapi/linux/tlv_parser.h
-> > > new file mode 100644
-> > > index 000000000000..171d0cfd2c4c
-> > > --- /dev/null
-> > > +++ b/include/uapi/linux/tlv_parser.h
-> > > @@ -0,0 +1,41 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +/*
-> > > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
-> > > + *
-> > > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
-> > > + *
-> > > + * Implement the user space interface for the TLV parser.
-> > > + */
-> > 
-> > Can you explain in the commit message where this will be exposed to
-> > userspace as binary?
-> 
-> I see that my explanation is not ideal.
-> 
-> This is the format for data exchange between user space and kernel
-> space, but it is still the kernel that reads and parses the TLV-
-> formatted file for extracting the digests and adding them to the digest
-> cache.
 
-I figured that out :-)
-It should be clear from the commit itself, though.
+Kees,
 
-> > > +
-> > > +#ifndef _UAPI_LINUX_TLV_PARSER_H
-> > > +#define _UAPI_LINUX_TLV_PARSER_H
-> > > +
-> > > +#include <linux/types.h>
-> > > +
-> > > +/*
-> > > + * TLV format:
-> > > + *
-> > > + * +--------------+--+---------+--------+---------+
-> > > + * | field1 (u16) | len1 (u32) | value1 (u8 len1) |
-> > > + * +--------------+------------+------------------+
-> > > + * |     ...      |    ...     |        ...       |
-> > > + * +--------------+------------+------------------+
-> > > + * | fieldN (u16) | lenN (u32) | valueN (u8 lenN) |
-> > > + * +--------------+------------+------------------+
-> > > + */
-> > > +
-> > > +/**
-> > > + * struct tlv_entry - Entry of TLV format
-> > > + * @field: Field identifier
-> > > + * @length: Data length
-> > > + * @data: Data
-> > > + *
-> > > + * This structure represents an entry of the TLV format.
-> > > + */
-> > > +struct tlv_entry {
-> > > +	__u16 field;
-> > > +	__u32 length;
+You said yourself that sys_uretprobe is no different from rt_sigreturn
+and restart_syscall, so why would we rollback sys_uretprobe if we
+wouldn't rollback rt_sigreturn/restart_syscall? Given it's impossible,
+generally speaking, to know if userspace is blocking the syscall (and
+that can change dynamically and very frequently), any improvement or
+optimization that kernel would do with the help of special syscall is
+now prohibited, effectively. That doesn't seem wise to restrict the
+kernel development so much just because libseccomp blocks any unknown
+syscall by default.
 
-Looking at this again, the "length" field is unaligned by default.
+I'm OK either asking libseccomp to learn about sys_uretprobe and not
+block it (like systemd is doing), or if we want to bend over
+backwards, prevent user policy from filtering theses special syscalls
+which are meant to be used by kernel only. We can't single out
+sys_uretprobe just because it's the newest of this special cohort.
 
-Also FYI there is already a TLV implementation in
-include/uapi/linux/tipc_config.
+You also asked "what if userspace wants to block uprobes"? If that's
+really the goal, that would be done at uprobe attachment time, not
+when uprobe is (conceptually) attached, new process is forked, and
+kernel installs uretprobe trampoline with uretprobe syscall. Or just
+control that through (lack of) capabilities. Using seccomp to block
+*second part of uretprobe handling* doesn't make much sense. It's just
+the wrong place for that.
 
-> > > +} __attribute__((packed));
+P.S. Also using FRED as an excuse for not doing sys_uretprobe is
+manipulative. When we get FRED-enabled CPUs widely available and
+deployed *and* all (or at least majority of) the currently used CPUs
+are decommissioned, only then we can realistically talk about
+sys_uretprobe being unnecessary. That's years and years. sys_uretprobe
+is necessary and important *right now* and will be for the foreseeable
+future.
 
-[..]
-
-> > Some kunit tests would be great.
-> 
-> I implemented kselftests also injecting errors (patch 13). If it is not
-> enough, I implement kunit tests too.
-
-These selftests are for the digest_cache.
-If the TLV library is meant to be used alone, some dedicated tests would
-be nice. kunit has the advantage that it can directly call kernel
-functions with arbitrary parameters and does not require any userspace
-setup.
+>
+> jirka
+>
+>
+> [1] https://lore.kernel.org/bpf/20250114123257.GD19816@redhat.com/
 
