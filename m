@@ -1,81 +1,78 @@
-Return-Path: <linux-api+bounces-3127-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3128-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5074A246DC
-	for <lists+linux-api@lfdr.de>; Sat,  1 Feb 2025 03:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B27A24879
+	for <lists+linux-api@lfdr.de>; Sat,  1 Feb 2025 12:13:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71D251889AE9
-	for <lists+linux-api@lfdr.de>; Sat,  1 Feb 2025 02:43:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB6771885B51
+	for <lists+linux-api@lfdr.de>; Sat,  1 Feb 2025 11:13:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9041335965;
-	Sat,  1 Feb 2025 02:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1160153838;
+	Sat,  1 Feb 2025 11:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="B0Lf1TXS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AMDG/lVE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F9C4A3E;
-	Sat,  1 Feb 2025 02:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738377827; cv=pass; b=oSKizHumFc3QSviOhA7Q46oWeyVa+orylwKzdtSYBJC8dXWben3Ib1Thsyv4ZPz5oJUTC0pT7oOTxyhzV1PvXpfbOkT5bil0rrIXaR/ghxNthrfmi/LegT9krW6FycN0UygRWh/S6hm/R88wGnvR6tvqnSfDa1PwZFMYfps6hQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738377827; c=relaxed/simple;
-	bh=GMODuOBsrY8WRZETQm+HiDn/En2Bjw4oMn91H/iV5Ps=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FaWZ9OrsmH3+Z2dtDOOUvo5BsMhwmk1YdMkBMMuC6Fkp5zPCUrtzuExLoC6KGMUmC5Sx0Lti17beg4FcsTiCCkQYvxLOuH5ST0NnDJCBC9ZBn6YKyVHWv4ociObCi8TfprFbb932Ipt2swbncK9h+owDwZBmoARMv2NqQ7kO6QE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=B0Lf1TXS; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1738377811; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=b5haWb3rfP9MtHsZDsxCRhmY0rmME6UspJZw5yL0xBdS3ozwIURxuexg1RUNnM0ysq6B14w2th4lZgC9EodMAptqoxw1XowhMjlYX5mzjwTymThCj5xDuPJpR4GdO1fGkEYiGcviYcrT8AAQTQ2OsbzpirWcrQMX6tENpPB6gmE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1738377811; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GMODuOBsrY8WRZETQm+HiDn/En2Bjw4oMn91H/iV5Ps=; 
-	b=d8Q+2ukXLNwhoU+m3jc9qeS40sU5NaVO3cSHK5Mt+W8jhrY70g15dXKO3tStKl4PxMi1K5qkRXP8uR/AUY0+dg7+zS884CZknQZQj4gcKBP3i+QRWnbn2/ZJNIUVY05n62WBeyIyr8BP5qQU9xuXe+p4kXvut63EbDBQ5PRyk9k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738377811;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Reply-To;
-	bh=GMODuOBsrY8WRZETQm+HiDn/En2Bjw4oMn91H/iV5Ps=;
-	b=B0Lf1TXSr1ZGr2OsQnfUutgdKUFqrxjLovaVdJGHMQjojea5yIVkVM16EIl3YW59
-	wmnJtwE3ZLErKD4ZvPVCu6J3617ziiLWdjOJBidsbKdvJLMviCHEa0xe51q4JBpwuOi
-	yOyPT6mW4fWEYiboYFhEwX1itl/V7g87XxstGeHQ=
-Received: by mx.zohomail.com with SMTPS id 1738377807804961.3242472563459;
-	Fri, 31 Jan 2025 18:43:27 -0800 (PST)
-From: Askar Safin <safinaskar@zohomail.com>
-To: dhowells@redhat.com
-Cc: christian.brauner@ubuntu.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH 1/5] Add manpage for open_tree(2)
-Date: Sat,  1 Feb 2025 05:43:22 +0300
-Message-Id: <20250201024322.2625842-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
-References: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D2F19A;
+	Sat,  1 Feb 2025 11:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738408373; cv=none; b=QSkq6vPREoSLI+/xvcZGxFOUX0FgOLy9Qm8pKALZqJB+SMS+scI312nkBUxOxD1KzY9VHSvReABjT4szg65vcLi45VldW2fAkCSYKvXLte+J8wHLwvOk5hakFk2/P3O4NB5LHA2DYcNOBJ0I5K4JW+I4yPWMkJfAYjcx0KYIo8c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738408373; c=relaxed/simple;
+	bh=/A+9ioR6oxXv0tTTLfZfZoer4mvDdiifgkLG/Ak9mUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fk27BouPH7dsjpcNvNYTu0HBumDhTdgNoX8EM9Pt+61G4JVIXC1NjIA9ouYima7yLqMDMzFenAygFiryLEdTWHfIJ/QkC3bG7/9WQ7fKoef/U6LLnwc6V5cokvJZeOCKtm54PUt2mluTvwCneMXwsyWZoVkYn9uIQWsVY9e/1bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AMDG/lVE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB8DC4CED3;
+	Sat,  1 Feb 2025 11:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738408371;
+	bh=/A+9ioR6oxXv0tTTLfZfZoer4mvDdiifgkLG/Ak9mUE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AMDG/lVEmnwNryWo4aqYuWEZYwTxgC6T+PE+WFAW+RjhqDSjvpRPLfiSpmKXtxkTY
+	 qUnq1Pb6LjSecV6MAuvrOWPqau7c4g9jFCsosl0F4Y6lr63pYKfjnZjKUKhALJkHFQ
+	 87fKODpk9a+4hhv61K5yKc8kXISMQXlVt7E4RLGR284RVdHoWCgxsP5nD5/CviKima
+	 ezyfFS7V4F9Mci9YS+hNKx1b20cx+MnXJXkMxxnGWWCvdsJAsUmdEKX7axn5C82+IZ
+	 RbFTxepM7VGJiRLnRvOqUTxZM7njEsxtzOWijhnfw9rP4gt4h3kwhIekf9khDzSrV+
+	 EUyjZVOVfdYaQ==
+Date: Sat, 1 Feb 2025 12:12:46 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Pedro Falcato <pedro.falcato@gmail.com>, Christian Brauner <christian@brauner.io>, 
+	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Oliver Sang <oliver.sang@intel.com>, John Hubbard <jhubbard@nvidia.com>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Koutny <mkoutny@suse.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v7 0/6] introduce PIDFD_SELF* sentinels
+Message-ID: <20250201-cremig-desorientiert-aac3b09da8e2@brauner>
+References: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
+ <20250130143754.1b8bb87bfb15175dd434529b@linux-foundation.org>
+ <b396487f-b906-410d-9ff4-6956d99e2771@lucifer.local>
+ <CAKbZUD3w4_4MjrME-0mgRL01eFggb7et2BLa6012tzQX78KK9w@mail.gmail.com>
+ <20250130153236.198664b9a19ccfcdb24f888b@linux-foundation.org>
+ <7519b85a-cd04-4ae9-a8c8-3d16fb20582e@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr0801122cdfcf9964647958ede0c52b01000061f855f066d959016a5a9aeb8d8ac2b562924eac93f82f7b468f258658b7:zu08011227011cd5f454f9342e9cc22f83000071cfc7e82987801c0e0d46333920226891152fe82319cbf0e8:rf0801122cc48feaafdeec6066e041face0000a5192a6b5cad411612f1c958ba862b41a8b386fa55172d65916ee7856e38:ZohoMail
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7519b85a-cd04-4ae9-a8c8-3d16fb20582e@lucifer.local>
 
-David Howells, ping! You still didn't add all these manpages.
+> Intent is for Christian to take this in his tree (if he so wishes) to be
+> clear!
 
-https://lore.kernel.org/linux-man/159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk/
+If you send me an updated blurb I can fold it.
 
