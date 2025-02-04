@@ -1,119 +1,123 @@
-Return-Path: <linux-api+bounces-3141-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3142-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A57A26B85
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 06:49:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DB1A26EC1
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 10:50:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3E9E1887092
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 05:49:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54C5F7A2EE1
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 09:49:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE931E9917;
-	Tue,  4 Feb 2025 05:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2292207E0E;
+	Tue,  4 Feb 2025 09:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2teENuLy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qBzOkKB0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71796158558;
-	Tue,  4 Feb 2025 05:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2BD2066F3;
+	Tue,  4 Feb 2025 09:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738648173; cv=none; b=Y5gpd4/+LbUzL75iTSj8BpUVhGWu5B474pb79NpLFi9TlybujjOitqTYxegww1uzyKK5OC1dWJxuQAVErFEWvg+5w5CAeYDEzetMkIEy/c6XRegrqIiHQKUA74ronVqBdbLq5Ms5Rn7q9o0rj/CUwOhVltidH1fzzVJNrXT5ExI=
+	t=1738662638; cv=none; b=Abx+A2FUjZIUaGH6QpwJ2LcjrNp2HnNXJcqrKIsbJpt/NQS0sCCqS/fMMjie0tpxmCrUNcKRBHvH12XnN4v8AClFuLP5ZHQzxP6wI9srfuQJpPbHHX3IHwj+NDuwR2z9IraVvVAfI0r4t94wekdP+NWyqupmxVITsLrU3QjSW+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738648173; c=relaxed/simple;
-	bh=VfrDKszgCGQNMPThCU1m1LdrTkJwwAUTR6fauYVQjEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCSy/ZmGLjLiouJP5SS2HHpHYcUORSbYho3VNZBBRl8OScUW40ar1VDHGY+5b8RbhxixVUXg50on4LbkCm/tseXQ3ld+WHGSt4d5LYe9IaAoyqYFoTlJB1dWKdm93RG8ZTKxKrOjtYUFRAoBzapK8lDsvdmGJuNQXjoHQZp9xFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2teENuLy; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=s5Zhk5Xv/to3IdCo2qfEM3Rd+KIEFauoYnzDJ0mZZUM=; b=2teENuLyXvCrs6O7KUZeOOB4IB
-	Bn2GJi+MbkopSRPect/FNTGL5iDJOzvTmAoo0YT3ykWhkSffKRAZdI2SL9SPX3PfcKh9fCpWcmN4d
-	W+K9CnK+Qb7vzSYoz9fB4ZyA2+6QnfieF+7nheA1bWJ1Wid2Cs/PU5NqTptK7SYqS2w+5X4xBc/fS
-	mnfThaeA2Xm3zjtcU25OnvMxrhrsD4F1kBYMXY3lLX2X1NEcdfMqZnWbqS883n5GeNzNlasdXmudK
-	8uUsWqpbESK+d8HEyHAPmiPoaTqjf7d5mgO/eQ52PqS2rmEZvpziJMquLjq0xEfLeiT61Nnx7ULit
-	yCIzlXZg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfBoS-0000000HIzb-0ClL;
-	Tue, 04 Feb 2025 05:49:32 +0000
-Date: Mon, 3 Feb 2025 21:49:32 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-mm@kvack.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2 v8] add ioctl/sysfs to donate file-backed pages
-Message-ID: <Z6GqbJxJAsRPQ4uQ@infradead.org>
-References: <20250131222914.1634961-1-jaegeuk@kernel.org>
+	s=arc-20240116; t=1738662638; c=relaxed/simple;
+	bh=jb8kMwJ98DjWaCHgudb7JkXH1w0Cj8Tj6R51vZ/JS1M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=satM3R7HWBj73ozU/xebIA8ypIR+EfFajtKefMY0Qd5DUnKbm6WtWwi96lo4XjziieiLpM6N8Umtfj605e8jWxNOrFIm1zswDPMj5FIoxhJxVW63gP1F3mKp8qu6GW/cZQs5EK5uUD8WMOttI+fQTjPJ6t+/Rc6LyCK4I2JbWTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qBzOkKB0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB9D6C4CEDF;
+	Tue,  4 Feb 2025 09:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738662638;
+	bh=jb8kMwJ98DjWaCHgudb7JkXH1w0Cj8Tj6R51vZ/JS1M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qBzOkKB0y4E6DYirbxs7d1/+MSesxUN6asKQjPs20sDGgtF0br7786l4TGnUdvHLz
+	 W0judOCyijvE5jTIstIMrDDw5jKpbY8S75tpdHZM8B8D9pyRIxhuVSfLAhzNfHYzEv
+	 YI0nPuGD/n/JBu6W89vQSc1Wd1KOVnzx+p9mwSu1U1hYJxIOryalfxgee0iywH31G8
+	 jgbwTRnbFlMPcsRvSSe9Th4Gz8TwWMDzKCHde9ZPqpKYZaHSp6Fm1UcKb095nLe3cU
+	 crO80UOzeuKKGbpHLEpM0NGskUUz6G54Y8y1zHm5DFk/nfjsJ+2pygbbORAST4Vz8s
+	 vMWnZ5HtqPxDw==
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	pedro.falcato@gmail.com,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Oliver Sang <oliver.sang@intel.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Koutny <mkoutny@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v7 0/6] introduce PIDFD_SELF* sentinels
+Date: Tue,  4 Feb 2025 10:46:35 +0100
+Message-ID: <20250204-joggen-buddeln-29e5ca75abb7@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
+References: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250131222914.1634961-1-jaegeuk@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1795; i=brauner@kernel.org; h=from:subject:message-id; bh=jb8kMwJ98DjWaCHgudb7JkXH1w0Cj8Tj6R51vZ/JS1M=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQvfPTgTD7L0pub5DJF0/Jkm1bfN599J+JSe+g99xMrf HIyLtUv7ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIVgYjw4fPN5iqNJV9OgsW svEXbPTITfBe7sAUZj2X8f5jmdCifwz/o9w3l/I+kFzBJnLz6KVvxzkSSuumWL9meHP5ZfeNjvN nuAE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 31, 2025 at 10:27:55PM +0000, Jaegeuk Kim wrote:
-> Note, let me keep improving this patch set, while trying to get some feedbacks
-> from MM and API folks from [1].
+On Thu, 30 Jan 2025 20:40:25 +0000, Lorenzo Stoakes wrote:
+> If you wish to utilise a pidfd interface to refer to the current process or
+> thread it is rather cumbersome, requiring something like:
+> 
+> 	int pidfd = pidfd_open(getpid(), 0 or PIDFD_THREAD);
+> 
+> 	...
+> 
+> [...]
 
-Please actually drive it instead of only interacting once after
-I told you to.  The feedback is clearly that it is a MM thing, so please
-drive it forward instead of going back to the hacky file system version.
+Updated merge message. I've slightly rearranged pidfd_send_signal() so
+we don't have to call CLASS(fd, f)(pidfd) unconditionally anymore.
 
-> 
-> If users clearly know which file-backed pages to reclaim in system view, they
-> can use this ioctl() to register in advance and reclaim all at once later.
-> 
-> I'd like to propose this API in F2FS only, since
-> 1) the use-case is quite limited in Android at the moment. Once it's generall
-> accepted with more use-cases, happy to propose a generic API such as fadvise.
-> Please chime in, if there's any needs.
-> 
-> 2) it's file-backed pages which requires to maintain the list of inode objects.
-> I'm not sure this fits in MM tho, also happy to listen to any feedback.
-> 
-> [1] https://lore.kernel.org/lkml/Z4qmF2n2pzuHqad_@google.com/
-> 
-> Change log from v7:
->  - change the sysfs entry to reclaim pages in all f2fs mounts
-> 
-> Change log from v6:
->  - change sysfs entry name to reclaim_caches_kb
-> 
-> Jaegeuk Kim (2):
->   f2fs: register inodes which is able to donate pages
->   f2fs: add a sysfs entry to request donate file-backed pages
-> 
-> Jaegeuk Kim (2):
->   f2fs: register inodes which is able to donate pages
->   f2fs: add a sysfs entry to request donate file-backed pages
-> 
->  Documentation/ABI/testing/sysfs-fs-f2fs |  7 ++
->  fs/f2fs/debug.c                         |  3 +
->  fs/f2fs/f2fs.h                          | 14 +++-
->  fs/f2fs/file.c                          | 60 +++++++++++++++++
->  fs/f2fs/inode.c                         | 14 ++++
->  fs/f2fs/shrinker.c                      | 90 +++++++++++++++++++++++++
->  fs/f2fs/super.c                         |  1 +
->  fs/f2fs/sysfs.c                         | 63 +++++++++++++++++
->  include/uapi/linux/f2fs.h               |  7 ++
->  9 files changed, 258 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 2.48.1.362.g079036d154-goog
-> 
-> 
----end quoted text---
+---
+
+Applied to the vfs-6.15.pidfs branch of the vfs/vfs.git tree.
+Patches in the vfs-6.15.pidfs branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.15.pidfs
+
+[1/6] pidfd: add PIDFD_SELF* sentinels to refer to own thread/process
+      https://git.kernel.org/vfs/vfs/c/e6e4ed42f8d8
+[2/6] selftests/pidfd: add missing system header imcludes to pidfd tests
+      https://git.kernel.org/vfs/vfs/c/c9f04f4a251d
+[3/6] tools: testing: separate out wait_for_pid() into helper header
+      https://git.kernel.org/vfs/vfs/c/fb67fe44116e
+[4/6] selftests: pidfd: add pidfd.h UAPI wrapper
+      https://git.kernel.org/vfs/vfs/c/ac331e56724d
+[5/6] selftests: pidfd: add tests for PIDFD_SELF_*
+      https://git.kernel.org/vfs/vfs/c/881a3515c191
+[6/6] selftests/mm: use PIDFD_SELF in guard pages test
+      https://git.kernel.org/vfs/vfs/c/b4703f056f42
 
