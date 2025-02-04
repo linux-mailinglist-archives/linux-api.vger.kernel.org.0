@@ -1,56 +1,62 @@
-Return-Path: <linux-api+bounces-3144-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3145-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE480A27716
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 17:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87981A27796
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 17:51:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75DB51654B1
-	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 16:26:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05DC61657F4
+	for <lists+linux-api@lfdr.de>; Tue,  4 Feb 2025 16:51:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FCFD2153CF;
-	Tue,  4 Feb 2025 16:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 837A5216381;
+	Tue,  4 Feb 2025 16:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2pPWBAh"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wFlZUecE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B81215196;
-	Tue,  4 Feb 2025 16:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88BC2153FB
+	for <linux-api@vger.kernel.org>; Tue,  4 Feb 2025 16:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738686364; cv=none; b=etaWw7IPUbkwZClwXfVwsXUowcWSz1PwfIaskCs7CDkaKMkobLMwU6b9p5ODkII4SjSSFeNW57SotWtj+aKvTabX2u53R6eg8BEJ6XlRNbM0pyRfSHfS5jWUC9DZjMkdi4XnE9tSB7YX3FWVFhMS0F8wt+3XjReCTpwR8CMNI9A=
+	t=1738687892; cv=none; b=NJ821FZ8uCdSemHELlUrEGvADN+XFtDCd2Fb46qLD9qCzzF3uSJSNFLZih2TTLVJkfWg26Az6g0dvjmlLJPMG25GtV0IZpxKlO0fzN6GUqX2zWI/xAcmxiDxuAXBoSpysIg5vVJPUIKwvx8ZVGQlU35JtfW+SU5Z99oeFJO+TNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738686364; c=relaxed/simple;
-	bh=L54LXQnOXWaBaK5VCO3A3bjxwgajDXv30wjGTPt+098=;
+	s=arc-20240116; t=1738687892; c=relaxed/simple;
+	bh=qUs5qxq7TlNWEk5AqD2e8U8+LYK0ti0l2GCGHyetHIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qrCdwDVEA4XGat2GPSvNaUtUqwyE6GEhwYCs8dJ2ppdKlTAYDLMNGNjB4ccECpjtWNME649rPyoYv/kXteMGC5DqSD4sJGeH8h0zgJGJLY83fvsD0hmeqPZIaTiMHqZZZVhw3mMATgcQHRbJe1rdS7Do0zo4zjKoSgSvsnEk+NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2pPWBAh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DA35C4CEDF;
-	Tue,  4 Feb 2025 16:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738686363;
-	bh=L54LXQnOXWaBaK5VCO3A3bjxwgajDXv30wjGTPt+098=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B2pPWBAh1vII7IozOG5m4s4KE4imJgEszqsdtJdsekdCwiDT/t2ls283r81dquCQy
-	 gB1rTpS+CFvmUFelHBeZoYpCEh89ao9CHqq3XOIYDoPOEqj3+CuEcEERLhpzkoyjWB
-	 HUWB5UH+krcTGZNezD1SBnuhzPkUJZ+Gu/SSKlXOzUKJLizTPVox1e2h5VKIKl83Ty
-	 IJFA93WwuupUf57V/AjeGQSPMM9b2fbMA/1a3qU06TSqWQToSwJG8RdikVMJweUYcl
-	 KPRnZC0kmQh2NWWMqLbmehulmnBU4qVT4rtOJHvwmyvOlvTAIkWKDB79cpO+H5cnJ9
-	 XStY6fB0R/a8Q==
-Date: Tue, 4 Feb 2025 16:26:01 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-mm@kvack.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2 v8] add ioctl/sysfs to donate file-backed pages
-Message-ID: <Z6I_mb7Y0QSWqtro@google.com>
-References: <20250131222914.1634961-1-jaegeuk@kernel.org>
- <Z6GqbJxJAsRPQ4uQ@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqeJB1jukeAXq3pRpPcbqAZJ/xDwnvAe3/iJUkXrSkFx+t44pa6QmQogKBfyHjYsi1NNM3jZLRli2lXq33qkmHG7w2t7Bbiqt9rT+81Eq9Zrd0Ki32Aao/OHgTHbGdkFx5WH6UACDi1+mdXe+k2U0TvBbfqXxNbpXS1pHMP631E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wFlZUecE; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 4 Feb 2025 08:51:07 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738687874;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2anvafoIZ1StH+i5LxOCWHXeT3UJ7rs0jfPknzu/uUk=;
+	b=wFlZUecEJuyWp+dj1/Tr87HsPFUjVNDdnOvx6vK1RQVn1kPNbzFUg+lcaygeVj0FijX2eY
+	mbR2F22jyypEvrL3coOoVt6Q/2eetPY4BRvo/uCO35Bn3utGU3Pyrz3zUis79MO2kabeLv
+	DrlVLkjIecr/EJb933L7HWX5qiCq8pM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Christian Brauner <christian@brauner.io>, 
+	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Oliver Sang <oliver.sang@intel.com>, John Hubbard <jhubbard@nvidia.com>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Koutny <mkoutny@suse.com>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v7 1/6] pidfd: add PIDFD_SELF* sentinels to refer to own
+ thread/process
+Message-ID: <nw5xnaile4phgaqxf77jhqlguscgicfwsfspgtxeuronrvwqai@xykuanoemqay>
+References: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
+ <24315a16a3d01a548dd45c7515f7d51c767e954e.1738268370.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -59,64 +65,36 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6GqbJxJAsRPQ4uQ@infradead.org>
+In-Reply-To: <24315a16a3d01a548dd45c7515f7d51c767e954e.1738268370.git.lorenzo.stoakes@oracle.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 02/03, Christoph Hellwig wrote:
-> On Fri, Jan 31, 2025 at 10:27:55PM +0000, Jaegeuk Kim wrote:
-> > Note, let me keep improving this patch set, while trying to get some feedbacks
-> > from MM and API folks from [1].
+On Thu, Jan 30, 2025 at 08:40:26PM +0000, Lorenzo Stoakes wrote:
+> It is useful to be able to utilise the pidfd mechanism to reference the
+> current thread or process (from a userland point of view - thread group
+> leader from the kernel's point of view).
 > 
-> Please actually drive it instead of only interacting once after
-> I told you to.  The feedback is clearly that it is a MM thing, so please
-> drive it forward instead of going back to the hacky file system version.
-
-I keep saying working in parallel for production. And, no worries, I won't
-merge this to -next until I get the feedback from the MM folks. I was
-waiting for a couple of weeks before bothering them, so will ping there.
-
+> Therefore introduce PIDFD_SELF_THREAD to refer to the current thread, and
+> PIDFD_SELF_THREAD_GROUP to refer to the current thread group leader.
 > 
-> > 
-> > If users clearly know which file-backed pages to reclaim in system view, they
-> > can use this ioctl() to register in advance and reclaim all at once later.
-> > 
-> > I'd like to propose this API in F2FS only, since
-> > 1) the use-case is quite limited in Android at the moment. Once it's generall
-> > accepted with more use-cases, happy to propose a generic API such as fadvise.
-> > Please chime in, if there's any needs.
-> > 
-> > 2) it's file-backed pages which requires to maintain the list of inode objects.
-> > I'm not sure this fits in MM tho, also happy to listen to any feedback.
-> > 
-> > [1] https://lore.kernel.org/lkml/Z4qmF2n2pzuHqad_@google.com/
-> > 
-> > Change log from v7:
-> >  - change the sysfs entry to reclaim pages in all f2fs mounts
-> > 
-> > Change log from v6:
-> >  - change sysfs entry name to reclaim_caches_kb
-> > 
-> > Jaegeuk Kim (2):
-> >   f2fs: register inodes which is able to donate pages
-> >   f2fs: add a sysfs entry to request donate file-backed pages
-> > 
-> > Jaegeuk Kim (2):
-> >   f2fs: register inodes which is able to donate pages
-> >   f2fs: add a sysfs entry to request donate file-backed pages
-> > 
-> >  Documentation/ABI/testing/sysfs-fs-f2fs |  7 ++
-> >  fs/f2fs/debug.c                         |  3 +
-> >  fs/f2fs/f2fs.h                          | 14 +++-
-> >  fs/f2fs/file.c                          | 60 +++++++++++++++++
-> >  fs/f2fs/inode.c                         | 14 ++++
-> >  fs/f2fs/shrinker.c                      | 90 +++++++++++++++++++++++++
-> >  fs/f2fs/super.c                         |  1 +
-> >  fs/f2fs/sysfs.c                         | 63 +++++++++++++++++
-> >  include/uapi/linux/f2fs.h               |  7 ++
-> >  9 files changed, 258 insertions(+), 1 deletion(-)
-> > 
-> > -- 
-> > 2.48.1.362.g079036d154-goog
-> > 
-> > 
-> ---end quoted text---
+> For convenience and to avoid confusion from userland's perspective we alias
+> these:
+> 
+> * PIDFD_SELF is an alias for PIDFD_SELF_THREAD - This is nearly always what
+>   the user will want to use, as they would find it surprising if for
+>   instance fd's were unshared()'d and they wanted to invoke pidfd_getfd()
+>   and that failed.
+> 
+> * PIDFD_SELF_PROCESS is an alias for PIDFD_SELF_THREAD_GROUP - Most users
+>   have no concept of thread groups or what a thread group leader is, and
+>   from userland's perspective and nomenclature this is what userland
+>   considers to be a process.
+> 
+> We adjust pidfd_get_task() and the pidfd_send_signal() system call with
+> specific handling for this, implementing this functionality for
+> process_madvise(), process_mrelease() (albeit, using it here wouldn't
+> really make sense) and pidfd_send_signal().
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
 
