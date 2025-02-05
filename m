@@ -1,230 +1,163 @@
-Return-Path: <linux-api+bounces-3151-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3152-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095C7A28688
-	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2025 10:30:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E057A289DE
+	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2025 13:07:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AF1816263C
-	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2025 09:30:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 735043A61DB
+	for <lists+linux-api@lfdr.de>; Wed,  5 Feb 2025 12:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59F5822A809;
-	Wed,  5 Feb 2025 09:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264B422B8B2;
+	Wed,  5 Feb 2025 12:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eg6yHtoI"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="mHkbXXkz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F37022A800;
-	Wed,  5 Feb 2025 09:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8162288C3;
+	Wed,  5 Feb 2025 12:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738747752; cv=none; b=CK/ivgleUJJM3z4ZChYRStZ27VghI4oqmOmh4UpNoxQEMFJdsvZEBFfIeVeQUySLJVxkKyWIp2jer/wxnLg9ObRNhBTY3NcNMlqNmeFztcX1CRD9zNH0v07VaRm+YZiRSaYvnWsS6fl3Y/czABDdOelIZDBaqD8jI4qDLQNhID4=
+	t=1738757219; cv=none; b=P6GgjTuatdoMPcxGpwiIzirt4WE8O8OiDxbN2DsqdhbIW3GhdRSrSBkP9in4T9zA8Brmjk1OJezI+FqPEFagZfIIsqSz6hd/S8zXa30PxCmIgtELOTNyg+M5USH69pyYKSVPp4Vox+fYXDHrXG8+oJ9hF5uc2ABXkqtziWw75HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738747752; c=relaxed/simple;
-	bh=Ms21WWQxt0hgCHNGn7VoI88OcIK4i02A5VsFEvG24mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2qd4Jq2g1ITHYa3B5Ozu6lbiOl/WV3Md34Z9T+47oJnvRcGjvFKMOy5+fTjoeJA1HBzwyUZfPWMsffkeD9IiG3T4BM8nPzEUcC78jo4mBgAbu6NrSO7eWzdIWBJ/+uCE2ysJfu2ThisPeUoCvVONREI/1pPG+88Iu+f0Nbx+ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eg6yHtoI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8972C4CEE3;
-	Wed,  5 Feb 2025 09:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738747751;
-	bh=Ms21WWQxt0hgCHNGn7VoI88OcIK4i02A5VsFEvG24mk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eg6yHtoIaP23lOBbUoIZktLdaXSm0/rQFB+Gu8dr+q6+oDohpMbSz2yg63hKd5qcR
-	 JIEQigQOx6zSCL8PfwFDkT74//d+oqTy+g/WnEeE9UP5rDeXqV9BLxGh+S9eSB5FCQ
-	 0EH4OaodiU249ytvGjb03wGCsyxxcB6ysVIfWcaagRWsD3RQE40qXgte1c/SSodkak
-	 STW8sPJ3yqHfZTCbEMSHiStohjiCgW6+p701EXd/PQ3EyNGW8ToP6boCW+4mBJYH6M
-	 9GZOR6yUYN177p9P2oqWDE9hTWfwmjDylNbdW650fOmV8bB+tmA0ieFWuJ9AWuGJmk
-	 SqgS9GzJbdTnQ==
-Date: Wed, 5 Feb 2025 10:29:03 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Koutny <mkoutny@suse.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Elliott Hughes <enh@google.com>
-Subject: Re: [PATCH v7 0/6] introduce PIDFD_SELF* sentinels
-Message-ID: <20250205-gewahrsam-einnahmen-9b580054f501@brauner>
+	s=arc-20240116; t=1738757219; c=relaxed/simple;
+	bh=5qBs+P9AcN2m3Xi249ox5NyNN05CkU/eenHuRZqTRX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d15SahHK6dBCeUfkluEgywceWq8r4t8jYElB9hq0Oj3DfE2VyjIRtYwbhtWXGQmKPWjkNUlUKvcn9nBJZjrfxwtHh/QQAAhS80XRBbeQrxXoNt5bupvfUzAv/7zSe9FEIialR0mQgohjYXGd6BMsHqN+4+5Iqt7EHmBAq0af8/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b=mHkbXXkz; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1738757193; x=1739361993; i=ps.report@gmx.net;
+	bh=dnTeU+z2cXOaBIAYpMXZCpU4QPCN35HyNl14tHHflaY=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=mHkbXXkzg+e2vfh+vudSJJbn1FW0aFHHIZT45Shmuf8/mKnScem8ptAwNNHFG+8+
+	 g2kx6qXWkIDcW+HK+5nPbAYvrZVkZ9P16QklVUCGVt3CxnHunLyl2yoIOwG0FFt5k
+	 ibdKM+ZFj570TEUo963BoRNOS2UWv+kBmECmI7hmr8KYkBeUJlaPlA7JzQRjIc91q
+	 Fma/hTe9SYv0O0eqzFGcXFSajsgas58spBExqeFuDdM0LTKqZ19wc+GqbDz2VXbWb
+	 QEelVwTybcCw+ejyv7uSMUlrEfO8Ba+tLhURzVBcSVZCuQy+4ihXfcvND3W5Lcm9u
+	 NI1+PERFzjJ5dPZjeA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([82.135.81.162]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLR1f-1twM4x4A0x-00S3Dp; Wed, 05
+ Feb 2025 13:06:33 +0100
+Date: Wed, 5 Feb 2025 13:06:29 +0100
+From: Peter Seiderer <ps.report@gmx.net>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, Oliver Sang
+ <oliver.sang@intel.com>, John Hubbard <jhubbard@nvidia.com>, Tejun Heo
+ <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal Koutny
+ <mkoutny@suse.com>, Andrew Morton <akpm@linux-foundation.org>, Shakeel Butt
+ <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v7 2/6] selftests/pidfd: add missing system header
+ imcludes to pidfd tests
+Message-ID: <20250205130629.27f142ac@gmx.net>
+In-Reply-To: <fab8843ea8664b5089f95ccfdcfd5bd7a5a6bb0b.1738268370.git.lorenzo.stoakes@oracle.com>
 References: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
- <20250204-joggen-buddeln-29e5ca75abb7@brauner>
- <7a8a1719-466f-4e10-b1eb-9e9e1ef8ad52@lucifer.local>
- <CAJuCfpEUusRt_ss7RtxRPP9q_LRwi+Lw+SOq32EUA58s3JOx1A@mail.gmail.com>
+	<fab8843ea8664b5089f95ccfdcfd5bd7a5a6bb0b.1738268370.git.lorenzo.stoakes@oracle.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpEUusRt_ss7RtxRPP9q_LRwi+Lw+SOq32EUA58s3JOx1A@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Sst7RsRHsV3XSXWva+R9sBzRXOf+cKr29GPeVlyWflCIPr1Mv0B
+ YJD3+SUEraUULxJTSSxm9qSskCuirm6fhHXIJX01Cm11EhpiiFYwf0BUG5twLqVQwv4SpdY
+ 8B2JK6CN3Shty4XssSU87yCqYYVg9IcBYU54km+g8wUVNl1Af+PBVzU7FN0H7TuZ6hcCqM4
+ d11y3iUu9yP2ZbiM6WOrQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OPRrfe9o8rE=;iGeCkuX/XV1RdWC6+VU8bfcYZSG
+ iR9SgWnevZlOrD09jXkWNTCNhjNBsngOr6OyQpnXJiuLgGyq6Wh5kHsqg3CtXrCUp/Xhq4Cq1
+ RWeJ7wFeuqyaKGdP8lqNuNzGjMjJTQRHBWXKZ3VixpoY7WMw2whKfSVKQkmTknQPVylmvZSqb
+ pa7ObWcWa1fZiU/A7O3wxwQrfTF5QpYV+KP6fy8YJkUMj65N/kR9TTvi9o31BUWhoQCCAptlL
+ 2xS9GCsE+PA8F1+9c3oRpa/Co6fbB3fiI7KjoDtanRJfhjQxpk04drzv1meRyzXjgJUfRKoR6
+ rovaE2CBlcvl8kq4dMhLSe2xTzeYx3YcjCQ0zoeNNTehkZY58LFc2iPWlsthz2x4hFoj600yq
+ wy0t+JFBfe2la7kj2WolWFL2l00C0S7NU/1fh20F0l40+6irJO1ioCApFJ8ESEGw40RkMqkek
+ +KqRO2ALeMT6ij6xO4l5Zk8PA5qc4ljcbe7XpxY8H98QAM4SroN4rn9tqiD4DiBkEOUEo7fDj
+ mInOnpov6LgPLX6GcTywc/Xf7A56cu72fgWKNcIT6ABo+Xnwy6prbx5vUHjuSK1PJ+tYNVbDT
+ 6G2v8EzF1d2d/z76CszvSvo57EdQJ2ifQAluax3dsvJ7PfKrR+kgYFpdI4/2Wk/h4UUemevBm
+ WXeeNyAzTNlj/mo+644kcLx+TvoqoqFrgrjK/xD6Swt7hG58ZmpTYy6ZuDTuO40UCtAkO8Un5
+ pGzpb1r1dm5Uv2CC+7lf9K9yFUOK2Z4XYDGV9ev7FPKLpqN6CaFdfAMma38cbNutamiYLWnDo
+ G146ENfAz9Ji3u/u9De0J4cbWT/PQeu9P72RnfjYekYZ5yZHeYgH4pHgOpRNyjlHxS7TlK9ej
+ J72aJRfI/QRXvakm2qqaWqoRFvp15TW85heR2mxD/ROuL0fN8VoC2gVE6rFFcXBJlZ0xNy8u1
+ WSAp/I7+URqGIblYZ7B3L+1cYS6JllKVOUBsvNdQMTdWYIDkm5/3D3QV+JTnBJc54cbyb8oxK
+ ziGEKJ8mYaKSVqrtlZcQC+ywS/g6ffoM8zZsBb+k/OeEuFe1G0wgHu0tH+pq6tKRXAFsTYCUh
+ dq9vuDHyx8uL95Wxes87OMQWtR74TYRY1DO8S7IFwyI6Fv8ihz2b32AHY21ERkOQstKZ8xIQV
+ tkl5p1ywtrczf0iKItkkzCru0Toy2+CLBO2nTD3h6H4oEnKCdk7GhVkoc5HI/PRHB60ZSj+qF
+ cLyWcuyAigTMOU78ikjgXYxNQL6rFJUVNNADbcdaKTtYh1Z8X3Z4ldyvpX9ShpGiY+tMl+0ep
+ XhhLNV1wsz5CAu1pg6Dd8r+MbD2dd+A5q14/jGyBJEfWXvPwe8xQztmP7zdWnF6WYkTNn4SzO
+ bxvpdr3suUsPTMuJSjc6QIHTLF+GcggC+vTwBMpgKzav+kHV0K5BA+zOzt
 
-On Tue, Feb 04, 2025 at 09:43:31AM -0800, Suren Baghdasaryan wrote:
-> On Tue, Feb 4, 2025 at 2:01 AM Lorenzo Stoakes
-> <lorenzo.stoakes@oracle.com> wrote:
-> >
-> > On Tue, Feb 04, 2025 at 10:46:35AM +0100, Christian Brauner wrote:
-> > > On Thu, 30 Jan 2025 20:40:25 +0000, Lorenzo Stoakes wrote:
-> > > > If you wish to utilise a pidfd interface to refer to the current process or
-> > > > thread it is rather cumbersome, requiring something like:
-> > > >
-> > > >     int pidfd = pidfd_open(getpid(), 0 or PIDFD_THREAD);
-> > > >
-> > > >     ...
-> > > >
-> > > > [...]
-> > >
-> > > Updated merge message. I've slightly rearranged pidfd_send_signal() so
-> > > we don't have to call CLASS(fd, f)(pidfd) unconditionally anymore.
-> >
-> > Sounds good and thank you! Glad to get this in :)
-> 
-> Sorry, a bit late to the party...
-> 
-> We were discussing MADV_GUARD_INSTALL use with Android Bionic team and
-> the possibility of caching pidfd_open() result for reuse when
-> installing multiple guards, however doing that in libraries would pose
-> issues as we can't predict the user behavior, which can fork() in
-> between such calls. That would be an additional reason why having
-> these sentinels is beneficial.
+Hello *,
 
-Ok, added this to the cover letter as well.
+On Thu, 30 Jan 2025 20:40:27 +0000, Lorenzo Stoakes <lorenzo.stoakes@oracl=
+e.com> wrote:
 
-Note that starting with v6.14 pidfs supports file handles.
-This works because pidfs provides each pidfd with a unique 64bit inode
-number that is exposed in statx(). On 64-bit the ->st_ino simply is the
-inode number. On 32-bit the unique identifier can be reconstructed using
-->st_ino and the inode generation number which can be retrieved via the
-FS_IOC_GETVERSION ioctl. So the 64-bit identifier on 32-bit is
-reconstructed by using ->st_ino as the lower 32-bits and the 32-bit
-generation number as the upper 32-bits.
+> The pidfd_fdinfo_test.c and pidfd_setns_test.c tests appear to be missin=
+g
+> fundamental system header imports required to execute correctly. Add the=
+se.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  tools/testing/selftests/pidfd/pidfd_fdinfo_test.c | 1 +
+>  tools/testing/selftests/pidfd/pidfd_setns_test.c  | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/tools/testing/selftests/pidfd/pidfd_fdinfo_test.c b/tools/t=
+esting/selftests/pidfd/pidfd_fdinfo_test.c
+> index f062a986e382..f718aac75068 100644
+> --- a/tools/testing/selftests/pidfd/pidfd_fdinfo_test.c
+> +++ b/tools/testing/selftests/pidfd/pidfd_fdinfo_test.c
+> @@ -13,6 +13,7 @@
+>  #include <syscall.h>
+>  #include <sys/wait.h>
+>  #include <sys/mman.h>
+> +#include <sys/mount.h>
+>
+>  #include "pidfd.h"
+>  #include "../kselftest.h"
 
-Also note that since the introduction of pidfs each struct pid will
-refer to a different inode but the same struct pid will refer to the
-same inode if it's opened multiple times. In contrast to pre-pidfs
-pidfds where each struct pid refered to the same inode.
+Predated patch already available, see
 
-IOW, with pidfs statx() is sufficient to compare to pidfds whether they
-refer to the same process. On 64-bit it's sufficient to do the usual
-st1->st_dev == st2->st_dev && st1->st_ino == st2->st_ino and on 32-bit
-you will want to also compare the generation number:
+	https://lore.kernel.org/linux-kselftest/20250115105211.390370-1-ps.report=
+@gmx.net/
 
-TEST_F(pidfd_bind_mount, reopen)
-{
-        int pidfd;
-        char proc_path[PATH_MAX];
+> diff --git a/tools/testing/selftests/pidfd/pidfd_setns_test.c b/tools/te=
+sting/selftests/pidfd/pidfd_setns_test.c
+> index 222f8131283b..a55f6641e0b6 100644
+> --- a/tools/testing/selftests/pidfd/pidfd_setns_test.c
+> +++ b/tools/testing/selftests/pidfd/pidfd_setns_test.c
+> @@ -14,6 +14,7 @@
+>  #include <sys/prctl.h>
+>  #include <sys/wait.h>
+>  #include <unistd.h>
+> +#include <sys/ioctl.h>
+>  #include <sys/socket.h>
+>  #include <sys/stat.h>
+>  #include <linux/ioctl.h>
 
-        sprintf(proc_path, "/proc/self/fd/%d", self->pidfd);
-        pidfd = open(proc_path, O_RDONLY | O_NOCTTY | O_CLOEXEC);
-        ASSERT_GE(pidfd, 0);
+and predated patch available, see
 
-        ASSERT_GE(fstat(self->pidfd, &self->st2), 0);
-        ASSERT_EQ(ioctl(self->pidfd, FS_IOC_GETVERSION, &self->gen2), 0);
+	https://lore.kernel.org/linux-kselftest/20250115105211.390370-2-ps.report=
+@gmx.net/
 
-        ASSERT_TRUE(self->st1.st_dev == self->st2.st_dev && self->st1.st_ino == self->st2.st_ino);
-        ASSERT_TRUE(self->gen1 == self->gen2);
+Regards,
+Peter
 
-        ASSERT_EQ(close(pidfd), 0);
-}
-
-Plus, you can bind-mount them now.
-
-In any case, this allows us to create file handles that are unique for
-the lifetime of the system. Please see
-
-tools/testing/selftests/pidfd/pidfd_file_handle_test.c
-
-for how that works. The gist is that decoding and encoding for pidfs is
-unprivileged and the only requirement we have is that the process the
-file handle resolves to must be valid in the caller's pid namespace
-hierarchy:
-
-TEST_F(file_handle, file_handle_child_pidns)
-{
-        int mnt_id;
-        struct file_handle *fh;
-        int pidfd = -EBADF;
-        struct stat st1, st2;
-
-        fh = malloc(sizeof(struct file_handle) + MAX_HANDLE_SZ);
-        ASSERT_NE(fh, NULL);
-        memset(fh, 0, sizeof(struct file_handle) + MAX_HANDLE_SZ);
-        fh->handle_bytes = MAX_HANDLE_SZ;
-
-        ASSERT_EQ(name_to_handle_at(self->child_pidfd2, "", fh, &mnt_id, AT_EMPTY_PATH), 0);
-
-        ASSERT_EQ(fstat(self->child_pidfd2, &st1), 0);
-
-        pidfd = open_by_handle_at(self->pidfd, fh, 0);
-        ASSERT_GE(pidfd, 0);
-
-        ASSERT_EQ(fstat(pidfd, &st2), 0);
-        ASSERT_TRUE(st1.st_dev == st2.st_dev && st1.st_ino == st2.st_ino);
-
-        ASSERT_EQ(close(pidfd), 0);
-
-        pidfd = open_by_handle_at(self->pidfd, fh, O_CLOEXEC);
-        ASSERT_GE(pidfd, 0);
-
-        ASSERT_EQ(fstat(pidfd, &st2), 0);
-        ASSERT_TRUE(st1.st_dev == st2.st_dev && st1.st_ino == st2.st_ino);
-
-        ASSERT_EQ(close(pidfd), 0);
-
-        pidfd = open_by_handle_at(self->pidfd, fh, O_NONBLOCK);
-        ASSERT_GE(pidfd, 0);
-
-        ASSERT_EQ(fstat(pidfd, &st2), 0);
-        ASSERT_TRUE(st1.st_dev == st2.st_dev && st1.st_ino == st2.st_ino);
-
-        ASSERT_EQ(close(pidfd), 0);
-
-        free(fh);
-}
-
-So you don't need to keep the fd open.
-
-> 
-> 
-> >
-> > >
-> > > ---
-> > >
-> > > Applied to the vfs-6.15.pidfs branch of the vfs/vfs.git tree.
-> > > Patches in the vfs-6.15.pidfs branch should appear in linux-next soon.
-> > >
-> > > Please report any outstanding bugs that were missed during review in a
-> > > new review to the original patch series allowing us to drop it.
-> > >
-> > > It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> > > patch has now been applied. If possible patch trailers will be updated.
-> > >
-> > > Note that commit hashes shown below are subject to change due to rebase,
-> > > trailer updates or similar. If in doubt, please check the listed branch.
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> > > branch: vfs-6.15.pidfs
-> > >
-> > > [1/6] pidfd: add PIDFD_SELF* sentinels to refer to own thread/process
-> > >       https://git.kernel.org/vfs/vfs/c/e6e4ed42f8d8
-> > > [2/6] selftests/pidfd: add missing system header imcludes to pidfd tests
-> > >       https://git.kernel.org/vfs/vfs/c/c9f04f4a251d
-> > > [3/6] tools: testing: separate out wait_for_pid() into helper header
-> > >       https://git.kernel.org/vfs/vfs/c/fb67fe44116e
-> > > [4/6] selftests: pidfd: add pidfd.h UAPI wrapper
-> > >       https://git.kernel.org/vfs/vfs/c/ac331e56724d
-> > > [5/6] selftests: pidfd: add tests for PIDFD_SELF_*
-> > >       https://git.kernel.org/vfs/vfs/c/881a3515c191
-> > > [6/6] selftests/mm: use PIDFD_SELF in guard pages test
-> > >       https://git.kernel.org/vfs/vfs/c/b4703f056f42
 
