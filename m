@@ -1,97 +1,110 @@
-Return-Path: <linux-api+bounces-3177-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3178-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BB7A2EC4E
-	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2025 13:08:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 594D6A2F53C
+	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2025 18:27:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45E1F3A814B
-	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2025 12:08:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8FE91677A1
+	for <lists+linux-api@lfdr.de>; Mon, 10 Feb 2025 17:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B73221D82;
-	Mon, 10 Feb 2025 12:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD074255E30;
+	Mon, 10 Feb 2025 17:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PFJ4T1bq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XZcPKZD0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8911F790B
-	for <linux-api@vger.kernel.org>; Mon, 10 Feb 2025 12:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A8324BD0C;
+	Mon, 10 Feb 2025 17:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739189276; cv=none; b=DuiUKXJpc3wVZr/bG7tEVMmp04rT5ooUssT5f+qQUicM46pBCm0qHMHiC4XC7ltIJf82OnaP+WSdbydtJAP98201b+iSgudKmpL/GKvCC1X/fyY2u4RrIwWp1adrLhiT2I8AuW3XclOVV5B7saOYQWZqU7amFD9w8Lq4EfEs1pA=
+	t=1739208427; cv=none; b=lniYWf4wo4LtLGh3fslPuWTQ3jru8kU0xP22SAhmzEWDIpgIkMhVlAt2fDmnwC1y/rXUov+m9KpVmAtQa8qckBPHWddbdiUoNz8dI0Zr7SnY7xWIVAySCYUdppgsSAmTcozcwgjSd2BP1a7yausqpviAb3viMj1MNNQjIkvVYqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739189276; c=relaxed/simple;
-	bh=BtQ9N1MvirivDuLCQDNFtrplYfp2RM+U8t6UQeof8HE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRGZCzKKc/Fm+9lgEgGc+0RAX8xAe0FilswtYLs0HcHWF3zRsPVQnuyg52UeaaBq+WeftRaYQChdIbha3L+vJncs1n1uGgIKMYoqUkRCBXUmAjQr83sAF8Zmg4AjVKKL8PEUXfHlfL8M1UXIV2V4mBYPNfjiTW5Klq6O/DREsNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PFJ4T1bq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739189272;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TNwsmie5gRPqqyVCLb3IhqDqH4N/saJWdmlC5n8Dh5I=;
-	b=PFJ4T1bqs3jrSk3fKB0EIoSm4GaHiXw65N27M1G1Wiq2KWpasrBMSZTBN2yp888mlCtfmd
-	pTt+gqWYHMdKmP1ixwdZCDVwQnd5M16mn6wD5AeNxI1kfWjqtf/TtWbwCJxDIIG7OC2NM9
-	cGByEL1VsAonjLQm6hlnpjqVgto8+vk=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-240-jW7P-b8EOCOzDHiXADTIjw-1; Mon,
- 10 Feb 2025 07:07:49 -0500
-X-MC-Unique: jW7P-b8EOCOzDHiXADTIjw-1
-X-Mimecast-MFC-AGG-ID: jW7P-b8EOCOzDHiXADTIjw
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98008195608E;
-	Mon, 10 Feb 2025 12:07:45 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.113])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 811B8180035E;
-	Mon, 10 Feb 2025 12:07:38 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 10 Feb 2025 13:07:19 +0100 (CET)
-Date: Mon, 10 Feb 2025 13:07:10 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>,
-	Eyal Birger <eyal.birger@gmail.com>, stable@vger.kernel.org,
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, bpf@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH bpf-next] uprobes: Harden uretprobe syscall trampoline
- check
-Message-ID: <20250210120710.GB32480@redhat.com>
-References: <20250209220515.2554058-1-jolsa@kernel.org>
+	s=arc-20240116; t=1739208427; c=relaxed/simple;
+	bh=1TsLwSNIODCyCtoMMInJN2hxwExvt91BRQh/dFO7ytg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h8u2JSMyhSQfRFtN4xRDkvHE6PNhZcd0eYqmdnQQLJ5B19jQvG0Gv1H8nz65NKUqv9/Tbm2clCub2F0rc3p0nnPuy0QPAiP+a8gyEO2CSZcU99x351obtXk5CEf4Q9LnWkCve7kttwsyktVZpqc9+r1WvmAKvNMTR1q28zesc0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XZcPKZD0; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21f49837d36so51752475ad.3;
+        Mon, 10 Feb 2025 09:27:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739208425; x=1739813225; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zktfdqzMeMwjC0BeHzef0BqRxxg/u+VUG81lM/bxr8U=;
+        b=XZcPKZD0xHJqex7Oj4wBm2mQ78QTsfHQPGdBgLpcXpMGKYjWvkf9Hq5LL1p3w3PNRQ
+         4b+0MOfUI2I2B1pyc9mMm+HNreSiieTOdsAMOrHUh5b7Yn/RBc6MhAQCT2qe460TX91s
+         Yhn0z44zsg/T6iI18Oh1fH/TxpPUEQfX32rWd45Wol2rbrfQK8awptAd5mJLQdjF826S
+         4J+OoY7Vtug6KUPED7j96OL5Vs1cKtDH9NttPSkho2Rn+tu51wnQMHdXFH8jd3iAZaZW
+         aUGlUSKnk85/fDzq/aKg0/NwcfIpJic0AauB8v74Uj1rzsSPv4tnItC8wDenrwNHjtPq
+         SBmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739208425; x=1739813225;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zktfdqzMeMwjC0BeHzef0BqRxxg/u+VUG81lM/bxr8U=;
+        b=YrS715QtEGhKfI8h1rjzbsr+DsvFxO6oZ27E8RxskxdPN3wiN5OU+hJWIG/7pNqK1Y
+         htQl0ImxRBLofTi9LvSyoEgTIgs72Ne0qE8Ihzix/4OzMJWHWZjzqSuB+s8vB8oWFOlw
+         9326Ltnq7XTXtMVmRajZOBpwmbeMjE7MsioNthzAIG4tcHC81vlEoEmlpfQyiFAYpqgf
+         Ut3J2u8bOjE0YINIQE7a7pVQ+DlsHf1rBNTg0zkE5AjT6HQ5wpjRVUU6H0hKHLE0vcwZ
+         VGyA4yEcdoij34FmAfln7jiFWAxCCwU0oYF98cn3OyLWEykazXF4CbH/Oj6W8aH4apne
+         XTtA==
+X-Forwarded-Encrypted: i=1; AJvYcCU625Jk9uOTXjRQLV/hO8DAqCD8mY+Asv5wSfg/61vSVHDmkUAxC6p/oikUaSr2E3fLkrCU7Wnn@vger.kernel.org, AJvYcCUYEhC97QrZMCqoX7Kc6IL/51KoxpmGb3FzZUfu3s1rDgnCywf1bKcpS28W7ueSqC1mGGsWvw58gIFXdkxvto5rbRnw@vger.kernel.org, AJvYcCUzW2H+hANtfQkraaR/C6u+Qafx48dv56QggEPDjNtGlIY4QBosrcRMVdEOjgSm28KpnxU=@vger.kernel.org, AJvYcCWgZzhqloGBc5BL1dOPKA/DNdByblgqaBARzr8msLywJhG3HnAM59vEkgQdO4JIAPa6MYCLln/91w5WOuni@vger.kernel.org, AJvYcCXJU2qSmAykfwPiO49L+y6LbRQH368rafsGMYCkmxDpu0p2Kemu893/+cdPDsQxsqql4Y6W1EydrJAb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx87/COZk9F4Ffq/SkEGr9fbeqJg1WBbNdDvtqkn1AQS0CV+Vcq
+	8smNNzZ/X33KER2D0b6fW0k1+QZ3+bgvJwshWU3WlBPPr2dxotJXdWr1YYjgzUxVrWDh7Dw3L4N
+	Y98wlFmiah81aSwyFMeVA9xUgvMk=
+X-Gm-Gg: ASbGnct6tfW4L6mxvJN9O4InFJh8AE8hIV4LiDTWHCsvatgmiI5FT2sTZm7Yg6pLvR5
+	IDrknMxuVD6g/ORuZCD7PS92RMFi82qWJVjj8eFDQ7Y7HcEuN8Tj/2QZX+zhsC0LITVV/C8hatn
+	qf9PccTdKEe1zf
+X-Google-Smtp-Source: AGHT+IE5zCCUJuchWiR5YczuUu7jAG0iwCKJQMiLLkUQ2Fo/APpTjQalXVSkY230/hIw14r5JrHG9UvVj6k2uAv6tyk=
+X-Received: by 2002:a17:903:3d03:b0:21f:801a:9be1 with SMTP id
+ d9443c01a7336-21f801aa620mr119753205ad.33.1739208425589; Mon, 10 Feb 2025
+ 09:27:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250209220515.2554058-1-jolsa@kernel.org>
 In-Reply-To: <20250209220515.2554058-1-jolsa@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 10 Feb 2025 09:26:53 -0800
+X-Gm-Features: AWEUYZneXLBiDOJWqgYBMH0F-wezftc0RsqYEeTR83R9d-szAQ4fRffxE8w_gIM
+Message-ID: <CAEf4BzbpKReuNhdH6RnwYOyYxFwgJjjgUB_2xwU=dGkC--K=Kg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] uprobes: Harden uretprobe syscall trampoline check
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, Eyal Birger <eyal.birger@gmail.com>, 
+	stable@vger.kernel.org, Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
+	bpf@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>, Deepak Gupta <debug@rivosinc.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02/09, Jiri Olsa wrote:
+On Sun, Feb 9, 2025 at 2:05=E2=80=AFPM Jiri Olsa <jolsa@kernel.org> wrote:
 >
-> [1] https://lore.kernel.org/bpf/202502081235.5A6F352985@keescook/T/#m9d416df341b8fbc11737dacbcd29f0054413cbbf
+> Jann reported [1] possible issue when trampoline_check_ip returns
+> address near the bottom of the address space that is allowed to
+> call into the syscall if uretprobes are not set up.
+>
+> Though the mmap minimum address restrictions will typically prevent
+> creating mappings there, let's make sure uretprobe syscall checks
+> for that.
+>
+> [1] https://lore.kernel.org/bpf/202502081235.5A6F352985@keescook/T/#m9d41=
+6df341b8fbc11737dacbcd29f0054413cbbf
 > Cc: Kees Cook <kees@kernel.org>
 > Cc: Eyal Birger <eyal.birger@gmail.com>
 > Cc: stable@vger.kernel.org
@@ -100,7 +113,52 @@ On 02/09, Jiri Olsa wrote:
 > ---
 >  arch/x86/kernel/uprobes.c | 14 +++++++++-----
 >  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
+> index 5a952c5ea66b..109d6641a1b3 100644
+> --- a/arch/x86/kernel/uprobes.c
+> +++ b/arch/x86/kernel/uprobes.c
+> @@ -357,19 +357,23 @@ void *arch_uprobe_trampoline(unsigned long *psize)
+>         return &insn;
+>  }
+>
+> -static unsigned long trampoline_check_ip(void)
+> +static unsigned long trampoline_check_ip(unsigned long tramp)
+>  {
+> -       unsigned long tramp =3D uprobe_get_trampoline_vaddr();
+> -
+>         return tramp + (uretprobe_syscall_check - uretprobe_trampoline_en=
+try);
+>  }
+>
+>  SYSCALL_DEFINE0(uretprobe)
+>  {
+>         struct pt_regs *regs =3D task_pt_regs(current);
+> -       unsigned long err, ip, sp, r11_cx_ax[3];
+> +       unsigned long err, ip, sp, r11_cx_ax[3], tramp;
+> +
+> +       /* If there's no trampoline, we are called from wrong place. */
+> +       tramp =3D uprobe_get_trampoline_vaddr();
+> +       if (tramp =3D=3D -1)
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+slight nit: mixing -1 and unsigned long looks sloppy. Maybe let's add
+something like
 
+#define UPROBE_NO_TRAMPOLINE_VADDR ((unsigned long)-1)
+
+and return that from uprobe_get_trampoline_vaddr()?
+
+> +               goto sigill;
+>
+> -       if (regs->ip !=3D trampoline_check_ip())
+> +       /* Make sure the ip matches the only allowed sys_uretprobe caller=
+. */
+> +       if (regs->ip !=3D trampoline_check_ip(tramp))
+>                 goto sigill;
+>
+>         err =3D copy_from_user(r11_cx_ax, (void __user *)regs->sp, sizeof=
+(r11_cx_ax));
+> --
+> 2.48.1
+>
 
