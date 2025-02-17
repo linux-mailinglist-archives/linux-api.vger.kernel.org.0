@@ -1,301 +1,163 @@
-Return-Path: <linux-api+bounces-3215-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3216-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8676A37E10
-	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 10:12:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F7CA3829C
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 13:09:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D9DF7A25B0
-	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 09:11:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFF5F188FA35
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 12:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E723D1A5BAD;
-	Mon, 17 Feb 2025 09:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F070219E99;
+	Mon, 17 Feb 2025 12:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W267dJ6j"
 X-Original-To: linux-api@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE21D1A264A;
-	Mon, 17 Feb 2025 09:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB7C2185A8;
+	Mon, 17 Feb 2025 12:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739783482; cv=none; b=rltI4Rtz9xNjrJYMMkUXBDd+ipW1GS87T6L5MiGP8AnZKDQ8epi166fkEHl6WQWljzJIf+a/dXQWpTxwUcr4t31YxJAOlHlAEGoARWwBo86rfOgDi3Wz1NEtK6Zqf+VyGqwQKWo/nZa/JdQVjfubHIOIgq9RbiHp2A4j3apMb2Y=
+	t=1739794188; cv=none; b=KhEIxiJ5sIUieVUoVjX6wXkRvFL7m/E8Sn1RaOuxxKKANvjxJ5kB3AytmRzxF4us4XJG/KAZTEOVZwmvRQ8MG+9Y+gCxalLXjWwl9x9fyswvhYwmUaZOr/gsE0xt+2m8+gk88KzT3aOmRi3fmqDVRamEyoCyUxMRXP//8WQ5sTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739783482; c=relaxed/simple;
-	bh=i/mv86q/EEkpO+5vvH8tZGjrQa/WXUHTfjDzQ+Vh+Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Sa5hDZXDDgmC+BpDUbal8mfWWsVQZcYNm1u8+7y4SrCMERZZgQQIyRlyLaLYSBjWgaIuX9h4GKwWa9Zm83EsHMynHDHIPs94Pnd97L0VvagZYMW+eq/iWY744ebpk99j9sn105NLnA1/TbXke5blbtuvksyn4BQuM+M8m6C81lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id D532372C90B;
-	Mon, 17 Feb 2025 12:11:18 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id C5F157CCB3A; Mon, 17 Feb 2025 11:11:18 +0200 (IST)
-Date: Mon, 17 Feb 2025 11:11:18 +0200
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, Alexey Gladkov <legion@kernel.org>,
-	Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [PATCH v6 5/6] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <20250217091118.GF18175@strace.io>
+	s=arc-20240116; t=1739794188; c=relaxed/simple;
+	bh=Inc0DYizA8KNQ76TznDJ4jYBwtNttsUa637XXQe72zE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nSFNwQYg3Gi8QVszkcs52y9sVSKLBwE55+DJGeu/1hdbn9O6SPV5zEyEFULhguUAKE5vG2C4xs94JTS/BEaFw7xmt5SrXTYWjJolgNTV8MTZYKrMlQsyH76Fg5E525qZM2+lRLlsQHMDQrnbMwqC7R/5RC9Sn0DCRWmPltx+N3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W267dJ6j; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38dd9b3419cso2241312f8f.0;
+        Mon, 17 Feb 2025 04:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739794185; x=1740398985; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eSFQgbvq+nNgV7Pls+43YmrvimRl0VvsXoAHq2jrYgw=;
+        b=W267dJ6jRpk4INEYYLmNDUkAmeD4bA1PwAp8dcm+kXnJ3Q73MYS5TEepJIhqP5Ge3g
+         paVhAS4SEzsqzL9ITYeaHNdgPTCgJybin8oBu9WDEaJLIfCQ3J0iWYLTbj9GlKjENI4h
+         yehkXSv3TqnJQVinaubyAQ+Xr+vhujMhxn7eHOASpYln0qOLX8XnWangUv4A1Ajaln9C
+         RJFrVHC4R4lOv6jQf206DPB3QtqeLwSY+uNFcTpXyZBkKhxSvdMPIO2PiKYhHbQIE2NW
+         NzW9KayTHIp0c1JaOOo8HFfxgXCxR0wrCMccMz2OdWTnDoFLilYiN1eot+mvX1m0kS9G
+         JmIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739794185; x=1740398985;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eSFQgbvq+nNgV7Pls+43YmrvimRl0VvsXoAHq2jrYgw=;
+        b=gOJLm3e5uybz//qkwsFqDVB31C04SGk9TJO3v2fNEfgGuPb6JitjuoFe7X4mhVni6c
+         jBv21lOG9R0YMMem/ZrHZctRJSf9Z8LpLciPzzuJjjQbnhi6V5k25YyJlubYTMwbq+RL
+         gVrMbM8D1TzHP4RwDasbMI07CfnNB9tIL/yCZrJEF0RNQR4t4d+0Bkz2lYcNCoh2Yb5x
+         qbb8sUbGdOzD9p2R8n45uMd+azJpC5TzZLtJI71wGbFT6P6w8BLS1aIwSzU89nO5lKeU
+         OwDC536eN8pyfp6MvoIvn9rcZjzPGzB/tf4ZmYwKJXdz5/v8hXBDwKysMmE6uNwMH22g
+         kQJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ/Czgs1augz1PGsBvaILjwzGmq9VzaqqBpOcZMCat8+1aDnFZoV1Y4WYzoAqtqSQ14JHlDnk4rpGx@vger.kernel.org, AJvYcCVo65O9eStms4zeMo/bC2gJOUBMZb8DvgFgkPK6r5MEffcBX0pWTv8EIsZKF+QBFai4f562fqCy@vger.kernel.org, AJvYcCWCfqM6MnpkMOkJIuaOmtQzIH0H+s+2AHnmj2mFD6276K7CMvLkNvgfA13vIZq/XVqhaK0=@vger.kernel.org, AJvYcCWlmTaR4ZLYdKUqAC8HHiy+qBAT7pcFp2Ii7gVJyehiXewnZHKvoJBpi3Z4BNkYJ9PuIgme5u13SLg/rm2KzuGr9+Bj@vger.kernel.org, AJvYcCX2BntPeE8SlbwiSZUkFb5+6Qhjyx7ndduRRKqNFf8WYXUFUa/OXmEYh2c7Lwm3LBwsGFkkGWmb8U57oAqZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2PN3l99oyryJsSoulngZ8NuA/9ASr24/TP4lAbG7nv1TEGMGZ
+	nGMIQHbdN77CfsFjFXmZ4+6yGrDf75MAlnEv68bWAWPAMq660uHJ
+X-Gm-Gg: ASbGncvfbo93rb81GUqfbASB4e5VoIeEn9qh+wNJvH/xJb4sW1/sDy356cgrMl31uI4
+	tgisXpS6ULgKZH+m6WFSH4XusBW4/YGppQRlw7azCSJVYXW2mmRiFUfQeXA5lKTgIYqNEhPVE4J
+	Z9HHZL96cOqhbpTTw5hDqfyDJmJiIQBHnIBNXllLlqhzpGTV1OGISkvkI44n5j5z1uM53B4BZYT
+	2ePHM+LMdvsn1BDUQITq+QRHQp1U6DjEM6b6H2KfwxLseMpqo0QZmiKP8encqNPIXho4w3rSN2D
+	h3GsYhwi6ECy/YD4X3Doi142MNgJ/vo=
+X-Google-Smtp-Source: AGHT+IGUXM3M95eG2ye29Yd/3FfkwlIr6guJPzqgoVosGmixd8/VUD2KiN9iIXdlnRjIK3DBW5mXIw==
+X-Received: by 2002:a05:6000:2c8:b0:38f:277a:4eb3 with SMTP id ffacd0b85a97d-38f33f1199amr7927742f8f.8.1739794185289;
+        Mon, 17 Feb 2025 04:09:45 -0800 (PST)
+Received: from krava (ip4-95-82-160-96.cust.nbox.cz. [95.82.160.96])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258dd5acsm12253193f8f.35.2025.02.17.04.09.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 04:09:44 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 17 Feb 2025 13:09:43 +0100
+To: Andy Lutomirski <luto@kernel.org>, Kees Cook <kees@kernel.org>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eyal Birger <eyal.birger@gmail.com>, stable@vger.kernel.org,
+	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, bpf@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Deepak Gupta <debug@rivosinc.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCHv3 perf/core] uprobes: Harden uretprobe syscall trampoline
+ check
+Message-ID: <Z7MnB3yf2u9eR1yp@krava>
+References: <20250212220433.3624297-1-jolsa@kernel.org>
+ <CALCETrVFdAFVinbpPK+q7pSQHo3=JgGxZSPZVz-y7oaG=xP3fA@mail.gmail.com>
+ <Z623ZcZj6Wsbnrhs@krava>
+ <CALCETrVt=N-QG3zGyPspNCF=8tA4icC75RVVe70-DvJfsh7Sww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250217090834.GA18175@strace.io>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrVt=N-QG3zGyPspNCF=8tA4icC75RVVe70-DvJfsh7Sww@mail.gmail.com>
 
-PTRACE_SET_SYSCALL_INFO is a generic ptrace API that complements
-PTRACE_GET_SYSCALL_INFO by letting the ptracer modify details of
-system calls the tracee is blocked in.
+On Thu, Feb 13, 2025 at 09:58:29AM -0800, Andy Lutomirski wrote:
+> On Thu, Feb 13, 2025 at 1:16 AM Jiri Olsa <olsajiri@gmail.com> wrote:
+> >
+> > On Wed, Feb 12, 2025 at 05:37:11PM -0800, Andy Lutomirski wrote:
+> > > On Wed, Feb 12, 2025 at 2:04 PM Jiri Olsa <jolsa@kernel.org> wrote:
+> > > >
+> > > > Jann reported [1] possible issue when trampoline_check_ip returns
+> > > > address near the bottom of the address space that is allowed to
+> > > > call into the syscall if uretprobes are not set up.
+> > > >
+> > > > Though the mmap minimum address restrictions will typically prevent
+> > > > creating mappings there, let's make sure uretprobe syscall checks
+> > > > for that.
+> > >
+> > > It would be a layering violation, but we could perhaps do better here:
+> > >
+> > > > -       if (regs->ip != trampoline_check_ip())
+> > > > +       /* Make sure the ip matches the only allowed sys_uretprobe caller. */
+> > > > +       if (unlikely(regs->ip != trampoline_check_ip(tramp)))
+> > > >                 goto sigill;
+> > >
+> > > Instead of SIGILL, perhaps this should do the seccomp action?  So the
+> > > logic in seccomp would be (sketchily, with some real mode1 mess):
+> > >
+> > > if (is_a_real_uretprobe())
+> > >     skip seccomp;
+> >
+> > IIUC you want to move the address check earlier to the seccomp path..
+> > with the benefit that we would kill not allowed caller sooner?
+> 
+> The benefit would be that seccomp users that want to do something
+> other than killing a process (returning an error code, getting
+> notified, etc) could retain that functionality without the new
+> automatic hole being poked for uretprobe() in cases where uprobes
+> aren't in use or where the calling address doesn't match the uprobe
+> trampoline.  IOW it would reduce the scope to which we're making
+> seccomp behave unexpectedly.
 
-This API allows ptracers to obtain and modify system call details in a
-straightforward and architecture-agnostic way, providing a consistent way
-of manipulating the system call number and arguments across architectures.
+Kees, any thoughts about this approach?
 
-As in case of PTRACE_GET_SYSCALL_INFO, PTRACE_SET_SYSCALL_INFO also
-does not aim to address numerous architecture-specific system call ABI
-peculiarities, like differences in the number of system call arguments
-for such system calls as pread64 and preadv.
+thanks,
+jirka
 
-The current implementation supports changing only those bits of system call
-information that are used by strace system call tampering, namely, syscall
-number, syscall arguments, and syscall return value.
 
-Support of changing additional details returned by PTRACE_GET_SYSCALL_INFO,
-such as instruction pointer and stack pointer, could be added later if
-needed, by using struct ptrace_syscall_info.flags to specify the additional
-details that should be set.  Currently, "flags" and "reserved" fields of
-struct ptrace_syscall_info must be initialized with zeroes; "arch",
-"instruction_pointer", and "stack_pointer" fields are currently ignored.
-
-PTRACE_SET_SYSCALL_INFO currently supports only PTRACE_SYSCALL_INFO_ENTRY,
-PTRACE_SYSCALL_INFO_EXIT, and PTRACE_SYSCALL_INFO_SECCOMP operations.
-Other operations could be added later if needed.
-
-Ideally, PTRACE_SET_SYSCALL_INFO should have been introduced along with
-PTRACE_GET_SYSCALL_INFO, but it didn't happen.  The last straw that
-convinced me to implement PTRACE_SET_SYSCALL_INFO was apparent failure
-to provide an API of changing the first system call argument on riscv
-architecture.
-
-ptrace(2) man page:
-
-long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
-...
-PTRACE_SET_SYSCALL_INFO
-       Modify information about the system call that caused the stop.
-       The "data" argument is a pointer to struct ptrace_syscall_info
-       that specifies the system call information to be set.
-       The "addr" argument should be set to sizeof(struct ptrace_syscall_info)).
-
-Link: https://lore.kernel.org/all/59505464-c84a-403d-972f-d4b2055eeaac@gmail.com/
-Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-Reviewed-by: Alexey Gladkov <legion@kernel.org>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
-Tested-by: Charlie Jenkins <charlie@rivosinc.com>
-Reviewed-by: Eugene Syromiatnikov <esyr@redhat.com>
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
----
- include/uapi/linux/ptrace.h |   7 ++-
- kernel/ptrace.c             | 121 +++++++++++++++++++++++++++++++++++-
- 2 files changed, 126 insertions(+), 2 deletions(-)
-
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index 72c038fc71d0..5f8ef6156752 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -74,6 +74,7 @@ struct seccomp_metadata {
- };
- 
- #define PTRACE_GET_SYSCALL_INFO		0x420e
-+#define PTRACE_SET_SYSCALL_INFO		0x4212
- #define PTRACE_SYSCALL_INFO_NONE	0
- #define PTRACE_SYSCALL_INFO_ENTRY	1
- #define PTRACE_SYSCALL_INFO_EXIT	2
-@@ -81,7 +82,8 @@ struct seccomp_metadata {
- 
- struct ptrace_syscall_info {
- 	__u8 op;	/* PTRACE_SYSCALL_INFO_* */
--	__u8 pad[3];
-+	__u8 reserved;
-+	__u16 flags;
- 	__u32 arch;
- 	__u64 instruction_pointer;
- 	__u64 stack_pointer;
-@@ -98,6 +100,7 @@ struct ptrace_syscall_info {
- 			__u64 nr;
- 			__u64 args[6];
- 			__u32 ret_data;
-+			__u32 reserved2;
- 		} seccomp;
- 	};
- };
-@@ -142,6 +145,8 @@ struct ptrace_sud_config {
- 	__u64 len;
- };
- 
-+/* 0x4212 is PTRACE_SET_SYSCALL_INFO */
-+
- /*
-  * These values are stored in task->ptrace_message
-  * by ptrace_stop to describe the current syscall-stop.
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index 22e7d74cf4cd..75a84efad40f 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -944,7 +944,10 @@ ptrace_get_syscall_info_seccomp(struct task_struct *child, struct pt_regs *regs,
- 	ptrace_get_syscall_info_entry(child, regs, info);
- 	info->seccomp.ret_data = child->ptrace_message;
- 
--	/* ret_data is the last field in struct ptrace_syscall_info.seccomp */
-+	/*
-+	 * ret_data is the last non-reserved field
-+	 * in struct ptrace_syscall_info.seccomp
-+	 */
- 	return offsetofend(struct ptrace_syscall_info, seccomp.ret_data);
- }
- 
-@@ -1016,6 +1019,118 @@ ptrace_get_syscall_info(struct task_struct *child, unsigned long user_size,
- 	write_size = min(actual_size, user_size);
- 	return copy_to_user(datavp, &info, write_size) ? -EFAULT : actual_size;
- }
-+
-+static int
-+ptrace_set_syscall_info_entry(struct task_struct *child, struct pt_regs *regs,
-+			      struct ptrace_syscall_info *info)
-+{
-+	unsigned long args[ARRAY_SIZE(info->entry.args)];
-+	int nr = info->entry.nr;
-+	int i;
-+
-+	/*
-+	 * Check that the syscall number specified in info->entry.nr
-+	 * is either a value of type "int" or a sign-extended value
-+	 * of type "int".
-+	 */
-+	if (nr != info->entry.nr)
-+		return -ERANGE;
-+
-+	for (i = 0; i < ARRAY_SIZE(args); i++) {
-+		args[i] = info->entry.args[i];
-+		/*
-+		 * Check that the syscall argument specified in
-+		 * info->entry.args[i] is either a value of type
-+		 * "unsigned long" or a sign-extended value of type "long".
-+		 */
-+		if (args[i] != info->entry.args[i])
-+			return -ERANGE;
-+	}
-+
-+	syscall_set_nr(child, regs, nr);
-+	/*
-+	 * If the syscall number is set to -1, setting syscall arguments is not
-+	 * just pointless, it would also clobber the syscall return value on
-+	 * those architectures that share the same register both for the first
-+	 * argument of syscall and its return value.
-+	 */
-+	if (nr != -1)
-+		syscall_set_arguments(child, regs, args);
-+
-+	return 0;
-+}
-+
-+static int
-+ptrace_set_syscall_info_seccomp(struct task_struct *child, struct pt_regs *regs,
-+				struct ptrace_syscall_info *info)
-+{
-+	/*
-+	 * info->entry is currently a subset of info->seccomp,
-+	 * info->seccomp.ret_data is currently ignored.
-+	 */
-+	return ptrace_set_syscall_info_entry(child, regs, info);
-+}
-+
-+static int
-+ptrace_set_syscall_info_exit(struct task_struct *child, struct pt_regs *regs,
-+			     struct ptrace_syscall_info *info)
-+{
-+	long rval = info->exit.rval;
-+
-+	/*
-+	 * Check that the return value specified in info->exit.rval
-+	 * is either a value of type "long" or a sign-extended value
-+	 * of type "long".
-+	 */
-+	if (rval != info->exit.rval)
-+		return -ERANGE;
-+
-+	if (info->exit.is_error)
-+		syscall_set_return_value(child, regs, rval, 0);
-+	else
-+		syscall_set_return_value(child, regs, 0, rval);
-+
-+	return 0;
-+}
-+
-+static int
-+ptrace_set_syscall_info(struct task_struct *child, unsigned long user_size,
-+			const void __user *datavp)
-+{
-+	struct pt_regs *regs = task_pt_regs(child);
-+	struct ptrace_syscall_info info;
-+
-+	if (user_size < sizeof(info))
-+		return -EINVAL;
-+
-+	/*
-+	 * The compatibility is tracked by info.op and info.flags: if user-space
-+	 * does not instruct us to use unknown extra bits from future versions
-+	 * of ptrace_syscall_info, we are not going to read them either.
-+	 */
-+	if (copy_from_user(&info, datavp, sizeof(info)))
-+		return -EFAULT;
-+
-+	/* Reserved for future use. */
-+	if (info.flags || info.reserved)
-+		return -EINVAL;
-+
-+	/* Changing the type of the system call stop is not supported yet. */
-+	if (ptrace_get_syscall_info_op(child) != info.op)
-+		return -EINVAL;
-+
-+	switch (info.op) {
-+	case PTRACE_SYSCALL_INFO_ENTRY:
-+		return ptrace_set_syscall_info_entry(child, regs, &info);
-+	case PTRACE_SYSCALL_INFO_EXIT:
-+		return ptrace_set_syscall_info_exit(child, regs, &info);
-+	case PTRACE_SYSCALL_INFO_SECCOMP:
-+		return ptrace_set_syscall_info_seccomp(child, regs, &info);
-+	default:
-+		/* Other types of system call stops are not supported yet. */
-+		return -EINVAL;
-+	}
-+}
- #endif /* CONFIG_HAVE_ARCH_TRACEHOOK */
- 
- int ptrace_request(struct task_struct *child, long request,
-@@ -1234,6 +1349,10 @@ int ptrace_request(struct task_struct *child, long request,
- 	case PTRACE_GET_SYSCALL_INFO:
- 		ret = ptrace_get_syscall_info(child, addr, datavp);
- 		break;
-+
-+	case PTRACE_SET_SYSCALL_INFO:
-+		ret = ptrace_set_syscall_info(child, addr, datavp);
-+		break;
- #endif
- 
- 	case PTRACE_SECCOMP_GET_FILTER:
--- 
-ldv
+> 
+> >
+> > jirka
+> >
+> > >
+> > > where is_a_real_uretprobe() is only true if the nr and arch match
+> > > uretprobe *and* the address is right.
+> > >
+> > > --Andy
+> >
 
