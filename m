@@ -1,95 +1,104 @@
-Return-Path: <linux-api+bounces-3212-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3213-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E118A36C43
-	for <lists+linux-api@lfdr.de>; Sat, 15 Feb 2025 07:00:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25001A37D19
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 09:24:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA5223B1F6A
-	for <lists+linux-api@lfdr.de>; Sat, 15 Feb 2025 06:00:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E5653ABF4A
+	for <lists+linux-api@lfdr.de>; Mon, 17 Feb 2025 08:24:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 144251624F4;
-	Sat, 15 Feb 2025 06:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64AE219F115;
+	Mon, 17 Feb 2025 08:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N93v0u5H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rnVHDz4E"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AAE623;
-	Sat, 15 Feb 2025 06:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC5017B421;
+	Mon, 17 Feb 2025 08:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739599233; cv=none; b=g1luIDCkuB3xgHbsbH66jxnSfvI2Jte/jtkjaBRLKORv4m/20J1eFHbVKRXDjTvhAYd92GBnk2jIaxIbveORMcOyURImVWeM8Kcc87IbmJ0iSnxwiFaHmagAu9lqNWi8e0QPrYdoU43vBFHTl5fMD2hidZ5VzAmRlyLRa15zj3Y=
+	t=1739780667; cv=none; b=dVTnlpmnIAj4VANQNzkaUPWVXH8uyaHiaiZbsgr4WXxkvAuau+EGe2FM9p/EI69J7dG7OT0VjtI9iLkVCnhWKOZgqyPKzHiONMNN8SzfKiEWQ1tjZ7rWWzsHsx1G1EBEobUHTFd3ubF/llI8S2NEfrGrYLgE3jTBKd7OtEYcVCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739599233; c=relaxed/simple;
-	bh=983y9FjFDbY+7fyxmKkbqhfjwND3j2gQYU8auIlMhEY=;
+	s=arc-20240116; t=1739780667; c=relaxed/simple;
+	bh=kzC2rWJn3pxTWye8A2AoSrj0peIJ4fHIOEE6DGFsjRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jUKDME3QOMRLJz4GlZfdgvQ3ftZkJxKrZcylsTnW0Tx/Csoh1rAZdPfgtfjOeGbvwzXg6S20cysNV0aUJt4Q8DXgxuFVkvPIxNU6uWhxWw+0+Rb2t8LxuAndtlarLrCJXl969C85E/SukyGkCNEnUO1xCE1wWzJ9ZQoyB7m23C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N93v0u5H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A15B1C4CEDF;
-	Sat, 15 Feb 2025 06:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739599232;
-	bh=983y9FjFDbY+7fyxmKkbqhfjwND3j2gQYU8auIlMhEY=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqG9YrO4fOQ9KIKVYebZhbTF7jBrOsI+kDSt4V2smp0SMCoGlYJK1zZC1OuCiMf/FWOd3XzWDO9cgxTkg1GZuJKdNr+19addJODa0A6Q5xbM9eq1wQCn+eRCjeCpcuJdSXi0e6OL4myGHCqb01oGPJby/ShT2Vs26YTiLXYLECs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rnVHDz4E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763D9C4CED1;
+	Mon, 17 Feb 2025 08:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739780666;
+	bh=kzC2rWJn3pxTWye8A2AoSrj0peIJ4fHIOEE6DGFsjRA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N93v0u5HqnCPdfmoV8BiN2Qvozrh0ZNnaZouSqHAQsD7wdckojdfNG/xcMrEaDO5Y
-	 9o/dOi9FF8GB06tQW9lwJ0kavc4QepI/fcLOdBxWui2npiS1Tzo3K0OzKlGmS8+4Ti
-	 Vqagvs7UNfvSKYTDfinlB8gN+9+4Zp1InyJDt++A=
-Date: Sat, 15 Feb 2025 06:59:26 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Mike Lothian <mike@fireburn.co.uk>, dri-devel@lists.freedesktop.org,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
-Message-ID: <2025021505-sultry-encrypt-a4c8@gregkh>
-References: <20250214122759.2629-2-mike@fireburn.co.uk>
- <2025021456-easiness-facebook-636e@gregkh>
- <1911589.tdWV9SEqCh@camazotz>
+	b=rnVHDz4EFIAU2HHn5aZmpGUtyeZMgZ5V4j3s9L7RdwctkMpGbvmjGOPGptK1ozmSD
+	 pzt0uuKWygvjzw9YpX+xeBj3TGTXDEfQhtbvsiQx4N5E8q0d8rXUDirxpqoMpb7SW0
+	 Wxwx1N4HllnSIoIY3HePJ0oOne6MeJTgFlScCxg2S3oKoyd6E7I98qxaomg4vXU2KG
+	 tdev/hzAORXsBRvWWwycG1rWDwTj7GP7njsBgpEWvumTqfQt/rORi5ltnVHNd5ngUL
+	 N80KecCGjBTS0lBlOHltZGAOd5P5GiDawqDg8oXRj4W72wrdAMafANejnYTIE5QMtD
+	 DxG/RUk04MwCw==
+Date: Mon, 17 Feb 2025 09:24:19 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>, 
+	John Hubbard <jhubbard@nvidia.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v7 1/6] pidfd: add PIDFD_SELF* sentinels to refer to own
+ thread/process
+Message-ID: <20250217-endlich-etwas-ce9c8d815a6e@brauner>
+References: <cover.1738268370.git.lorenzo.stoakes@oracle.com>
+ <24315a16a3d01a548dd45c7515f7d51c767e954e.1738268370.git.lorenzo.stoakes@oracle.com>
+ <gij5nh63s73dj5u33uvzl5lbmsvoh6zr5xnqpnfltwi6aamy7j@47iop2wgtdac>
+ <dfbeb51e-f6ce-4cdf-9b91-a7d4f5e995dc@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1911589.tdWV9SEqCh@camazotz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dfbeb51e-f6ce-4cdf-9b91-a7d4f5e995dc@lucifer.local>
 
-On Fri, Feb 14, 2025 at 12:13:03PM -0600, Elizabeth Figura wrote:
-> On Friday, 14 February 2025 07:06:20 CST Greg Kroah-Hartman wrote:
-> > On Fri, Feb 14, 2025 at 12:28:00PM +0000, Mike Lothian wrote:
-> > > This allows ntsync to be usuable by non-root processes out of the box
-> > 
-> > Are you sure you need/want that?  If so, why?  How did existing testing
-> > not ever catch this?
+On Tue, Feb 11, 2025 at 03:45:20PM +0000, Lorenzo Stoakes wrote:
+> On Tue, Feb 11, 2025 at 04:24:07PM +0100, Michal Koutný wrote:
+> > On Thu, Jan 30, 2025 at 08:40:26PM +0000, Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+> > >
+> > > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > > ---
+> > >  include/uapi/linux/pidfd.h |  24 +++++++++
+> > >  kernel/pid.c               |  24 +++++++--
+> > >  kernel/signal.c            | 106 ++++++++++++++++++++++---------------
+> > >  3 files changed, 107 insertions(+), 47 deletions(-)
+> >
+> > Practical idea, thanks.
 > 
-> Hi, sorry, this is of course my fault.
+> Thanks!
 > 
-> We do need /dev/ntsync to be openable from user space for it to be useful. I'm not sure what the most "correct" permissions are to have in this case (when we don't specifically need read or write), but I don't think I see a reason not to just set to 666 or 444.
+> >
+> > > diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
+> > > + * To cut the Gideon knot, for internal kernel usage, we refer to
+> >
+> > A nit
+> > https://en.wikipedia.org/wiki/Gordian_Knot
+> >
+> > (if still applicable)
 > 
-> I originally assumed that the right way to do this was not to set the mode on the kernel file but rather through udev; I believe I was using the code for /dev/loop-control or /dev/fuse as an example, which both do that. So I (and others who tested) had just manually set up udev rules for this, with the eventual intent of adding a default rule to systemd like the others. I only recently realized that doing something like this patch is possible and precedented.
+> MY GOD. Hahaha. How embarrassing. God knows how 'Gideon' ended up
+> there. Apologies to all, I appear to have had a senior moment there...
 > 
-> I don't know what the best way to address this is, but this is certainly the simplest.
-> 
-> 
+> Feel free to correct Christian, unless we want to leave this as an Easter
+> Egg?  :P
 
-Ok, makes sense, can you give an acked-by or reviewed-by and I'll be
-glad to queue it up and get it merged.
-
-thanks,
-
-greg k-h
+Everybody knows it's the "quotidian knot" that's the most challenging.
 
