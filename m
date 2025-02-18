@@ -1,88 +1,88 @@
-Return-Path: <linux-api+bounces-3227-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3228-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC389A3A0F5
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 16:20:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 908EFA3A1FC
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 17:02:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EF257A189A
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 15:19:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B0A0175978
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 16:01:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAA6626A1B8;
-	Tue, 18 Feb 2025 15:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5159919F10A;
+	Tue, 18 Feb 2025 16:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZO7HGirx"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ONwdfrKc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006B26B941
-	for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 15:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D97C1459F7
+	for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 16:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739892028; cv=none; b=hVkONPu/NzJFNDUsv5LxPHKpMrEbtPdhsDWklnslEp9K4lEE3QAFvjk9aBcOKVo2NV37eeWvR/iRWBTfGF3Oo1dKMFD5y6d8JIbAI8O+GTMn1/zHPZw+1fshLwmkqA8b3MkXMUqbY5kbUb4PCBdE2bgRV/y2RYsdLNJvmKVP7qo=
+	t=1739894487; cv=none; b=PdHRqm0eogbcbbc7E5Po61V5fStYX3moIfmRi43pAUreQp8P874glAAzM5qWlddPopyHSGSQ88RWXMCfGaoeR0epaFCqcvJKJw98Po2vH5OoA8SWIdWqFvIuEFX4fstUpgeTiLniAt6NYj1Szj2F2Afp4vPZ0CoR3h/mqXDCzYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739892028; c=relaxed/simple;
-	bh=aEDqTdmziFf/CK92QAabcyli0LRaNHAI+Sgk8xpTOm0=;
+	s=arc-20240116; t=1739894487; c=relaxed/simple;
+	bh=UvuZtIGK9MeHMo2aRo3rjzHxvVtxuAGf5O8DSxBo45I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M32wXMYXlHuqg+pM0vw5NbcwqIV7EHYN8Jj41IUxJyEc6gJS6asnjRR0oe5p5VdlbnMvRSvWO5qIdI7lREjQWTkLlkL2x0cFBzs+lxAB6zpbSUoQLpFw08+CEwxpgvjmDRPRn48OnAhd9obwBtuYrf0MB+O09RSkynHsWhXMpPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZO7HGirx; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=QxqkEfAMUw7g+F9P5+o0XI2wpesYgtKj3WtdVNVXmnD/Bs9GM1VlrYAoCy8mqZSE/W2qaAV1iX0HUZVxmh40edG4rQf2hGf1x/aqZS1x3R/WbRnVpYENipTMHPAAce11iQviOEItrSTf0+PJIFa/EgPIuMd0eXn2ejbls6k154g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ONwdfrKc; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739892026;
+	s=mimecast20190719; t=1739894484;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=WhNv10sgTPWImPGJDtp7CuiUxd0Y/eiyawh1eIHFiXc=;
-	b=ZO7HGirxgrf+wkdADbeG7AEeD2N3ODIkFBh8WIoAeTG77UYKWuRPY0Q0jJAlWYCHV6OCoV
-	OcKzjXWXyfZhnaQVKUJGepUPZpanP4p2IoVMklhwTXwc3sU+k0q5qnwcR4u5g2wE8xEuSJ
-	Ga0f73Qr32qd2gJxX/UD/3+KiN78TqU=
+	bh=OZALwbNO1anqS1IpJTNPIJALYFX/VMX5QzhlDdb1MKc=;
+	b=ONwdfrKcryRgPc37ew5t623gda/PfrMwsr5JtPng391UxMZD/YpxvbW3E4mAvD1pfvGI/R
+	V7nmuIHDBgqZsrl2V5UDZaWzXs+wrr27sZq2rn4I8YFeQhzc7lS4aAAmvPDh5RG0qrpnZO
+	mYWI0XZe9UWr3XcWt1cZBOSOP9TZ4yg=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-z1gCjbDQPp67NGlcdA2zJg-1; Tue, 18 Feb 2025 10:20:25 -0500
-X-MC-Unique: z1gCjbDQPp67NGlcdA2zJg-1
-X-Mimecast-MFC-AGG-ID: z1gCjbDQPp67NGlcdA2zJg_1739892023
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4398a60b61fso9819365e9.0
-        for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 07:20:23 -0800 (PST)
+ us-mta-484-dZ48fmGWPgeZAGS4OjC_1A-1; Tue, 18 Feb 2025 11:01:22 -0500
+X-MC-Unique: dZ48fmGWPgeZAGS4OjC_1A-1
+X-Mimecast-MFC-AGG-ID: dZ48fmGWPgeZAGS4OjC_1A_1739894481
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-439870ceef3so10885625e9.1
+        for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 08:01:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739892023; x=1740496823;
+        d=1e100.net; s=20230601; t=1739894481; x=1740499281;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=WhNv10sgTPWImPGJDtp7CuiUxd0Y/eiyawh1eIHFiXc=;
-        b=MzZFJ0Xfp8iiUQTtRmbOMkMYykN1OfXH4tzB/R9u5UEdBG4AAXMVfCkgtypAib8mXx
-         8GCs+fZa7A5ViQsY7xEfLV1d626fSzxb84pUhwRnkQDLafwzg0mGwJEfY7gOlkckgvOm
-         9S71fmhjpEsjV4g+dQr4cyZYCFRM7EHnuK26xaZnGz8fIgZpnNxpPoOzGwyoGSGFwieL
-         WY+GtzJ+o54KpB+18RxuD99iWvS/n0F5wBqGFk+w1Mi9Bq8Uo17H8E0JVvlAC9sCUJ9K
-         Uy7psHkcHYOe9Dvh4AlM4kf3vDrzXbiC9QeasdivOW46G6D+TvWP1XZC2thOmxaP1Ifc
-         9wyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWle1D8h+CKx+aRIt3Q3vm+p5ML0S/CJL9pUKxUi2QZcWUJ1PzSVpeUG5B18MgCcxnZ8mxvX0EN8FY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9r8mLD5RUEA2APCj7T/vackl1HiSrqEhnqYt5b4wpBAYiHc3C
-	gy+mntK74hh/MjfDwRSrNL/3AW78AB8rGZzERjTm3oWRZT1DQW9HkwoDKsgoGBejq4xCrZEma66
-	ZmQmzeavphDp7XzkYIoHUdPkl5x8cjb6JONfSfLOJtiD3i+LwOaNN2qeQlw==
-X-Gm-Gg: ASbGncs7vblWD+3VSN0MtqBGGdiyVyR+ZSsR+b1pt1rKUj1+EdCyXveW6wbg8z//6J3
-	MUaC0BocobSoB+Ls5/IMle+QdG9H0SpuNozljJhCzaHNByfRbdTQJvjNKy51gSS02aRCJPsxWS1
-	sQZGqHFfhQrPOeIo/J5BSgkxTjnymZPXpr9B5CDxwjrCL3Fhzl9OvlpqSJji+oxpVyckoBXbG+l
-	GdH+WckfhkcnFVylIQPJTKSya4Jso/811Kztm77C5+Ue5vlPHifckwWd8/hGNVtW5fNTQ4dUpic
-	upt3jAK9emTkZK0ilVHwuEwYAPNlUHhx2NcuJoDYIwqXRDWz26nIyZg2mSkkklW3RrqWCnUjBfF
-	2T9YRd+Tim6Du1Yew67D4w9QahukbLCqu
-X-Received: by 2002:a05:600c:4f46:b0:436:e3ea:4447 with SMTP id 5b1f17b1804b1-4396e779e07mr135001055e9.30.1739892022800;
-        Tue, 18 Feb 2025 07:20:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGt/mUXG8WAW22lDb9RLP6A0RPrWq6SnCKfzdqbAchkIC5PCf6iyMWRH2dy/3bARKrtWEKYsQ==
-X-Received: by 2002:a05:600c:4f46:b0:436:e3ea:4447 with SMTP id 5b1f17b1804b1-4396e779e07mr135000665e9.30.1739892022393;
-        Tue, 18 Feb 2025 07:20:22 -0800 (PST)
+        bh=OZALwbNO1anqS1IpJTNPIJALYFX/VMX5QzhlDdb1MKc=;
+        b=BUP/tEpbgI5UWIWuAK2RYjTTCMmD/tgQsaiiCwHYKyc26C5JwBCg35D1kl1vB+cLsU
+         4/kDXZqMzLcckVz37cE6JWHEqqrPiAXjfE4wa95maZ40wKwBQHbR6EoZt8nY4ax9Ift5
+         RWc0zy6xpkVaPhlcPMA2ighgbmkME2kuItv+UkcSerlv/3q5OgqQ78qQ9MeLDoU8rHmN
+         W8NzjdG6uV0DQHCG8cEmrUOA7dwyiByRmtrtEh4sUtxFZZ6Y4Ekxiew0Qqti9qXH7Z7S
+         uqlXJk3g+K2Bkhm3brhA1FMkmenklfP+e57PvBFNT3HIiNus84hnsa3Q/8Du6uHccSUR
+         gXBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgMfbfWvTBSSU7vPpI2I5L0w9Iv5o92EnFwfrxtKGKI3iQYAEsJdIqfdx7MJk4x9GE5fd/3J1PeKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrMJ7LCWqWX3/oIJViojV89pUncvA2qPoIFhieQIe1W3ZpHMk5
+	Df74+ZA8WD6yGeEFG5mMsypv32YYgnG7GlWu4nhuPOrOMS0dhxGkp2dG/9UtzYOLkwRUr+SddvX
+	rRwM7+DdlSZw/dYJFvWR1tZbaCEu7/7u5uUzwIFxu5VBgvTwqdcXh7ssknQ==
+X-Gm-Gg: ASbGncsQwtKxCDB8sGgXXbKwfq/Jw60aYvzl/r9kais8+IxySadIZKG3P1ICq1fuVjy
+	ZiC/X9aZTY0ZCCRfHNnRZdnZE9bVhb2NDmj9qzP5PcY3oX2e0jXZGQqgV6+SXgavh9E2AyRRCBD
+	lgKXPczzR56KBcueES6ngsSfJomoK8fFJAk4U5UnLfEIsgaWz8xYMG8Xr1gpxwsYYTQyx3YFqJY
+	Kp/S/MFgZRHxyWi31JkOQ+CxJEzVX03oA0LBJ+sRjE25TGayUxA5L/AsIg5G3pAuEsWk3GoW5qX
+	LRJAs9JWOgxgfuD2oYw2DBKr/kIdCB9ljtmeTYLnSPLNronkwYPjvTDHqzzz9cftAplVcEzv+k9
+	u+HAUL6tnuOGqckE+r+AyE+bmBxtdHz40
+X-Received: by 2002:a05:600c:4e8c:b0:439:9274:81db with SMTP id 5b1f17b1804b1-43999d76ddcmr2054615e9.5.1739894480669;
+        Tue, 18 Feb 2025 08:01:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFvBVXumXyfefgpbaVSjPbx3tHV6CAyNCsTaIbB11MfRh7efHMuXI3E3gi2t7deJ94wH3ij8A==
+X-Received: by 2002:a05:600c:4e8c:b0:439:9274:81db with SMTP id 5b1f17b1804b1-43999d76ddcmr2053335e9.5.1739894479812;
+        Tue, 18 Feb 2025 08:01:19 -0800 (PST)
 Received: from ?IPV6:2003:cb:c70d:fb00:d3ed:5f44:1b2d:12af? (p200300cbc70dfb00d3ed5f441b2d12af.dip0.t-ipconnect.de. [2003:cb:c70d:fb00:d3ed:5f44:1b2d:12af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439872b5a46sm52873715e9.32.2025.02.18.07.20.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258b4314sm15212358f8f.9.2025.02.18.08.01.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2025 07:20:21 -0800 (PST)
-Message-ID: <0db666da-10d3-4b2c-9b33-781fb265343f@redhat.com>
-Date: Tue, 18 Feb 2025 16:20:18 +0100
+        Tue, 18 Feb 2025 08:01:18 -0800 (PST)
+Message-ID: <6500a93f-aad1-4b21-a94e-feb493c344a3@redhat.com>
+Date: Tue, 18 Feb 2025 17:01:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -90,24 +90,20 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] mm: permit guard regions for file-backed/shmem
+Subject: Re: [PATCH 1/4] mm: allow guard regions in file-backed and read-only
  mappings
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>,
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Suren Baghdasaryan <surenb@google.com>,
  "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Matthew Wilcox <willy@infradead.org>, "Paul E . McKenney"
- <paulmck@kernel.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
- John Hubbard <jhubbard@nvidia.com>, Juan Yescas <jyescas@google.com>,
- Kalesh Singh <kaleshsingh@google.com>
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+ linux-api@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ Juan Yescas <jyescas@google.com>, Kalesh Singh <kaleshsingh@google.com>
 References: <cover.1739469950.git.lorenzo.stoakes@oracle.com>
- <fbfae348-909b-48fa-9083-67696b02f15e@suse.cz>
- <8d643393-ddc0-490d-8fad-ad0b2720afb1@lucifer.local>
- <37b606be-f1ef-4abf-83ff-c1f34567568e@redhat.com>
- <b5b9cfcb-341d-4a5a-a6b7-59526643ad71@lucifer.local>
+ <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -155,107 +151,53 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <b5b9cfcb-341d-4a5a-a6b7-59526643ad71@lucifer.local>
+In-Reply-To: <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-> Right yeah that'd be super weird. And I don't want to add that logic.
+On 13.02.25 19:17, Lorenzo Stoakes wrote:
+> There is no reason to disallow guard regions in file-backed mappings -
+> readahead and fault-around both function correctly in the presence of PTE
+> markers, equally other operations relating to memory-mapped files function
+> correctly.
 > 
->> Also not sure what happens if one does an mlock()/mlockall() after
->> already installing PTE markers.
+> Additionally, read-only mappings if introducing guard-regions, only
+> restrict the mapping further, which means there is no violation of any
+> access rights by permitting this to be so.
 > 
-> The existing logic already handles non-present cases by skipping them, in
-> mlock_pte_range():
+> Removing this restriction allows for read-only mapped files (such as
+> executable files) correctly which would otherwise not be permitted.
 > 
-> 	for (pte = start_pte; addr != end; pte++, addr += PAGE_SIZE) {
-> 		ptent = ptep_get(pte);
-> 		if (!pte_present(ptent))
-> 			continue;
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>   mm/madvise.c | 8 +-------
+>   1 file changed, 1 insertion(+), 7 deletions(-)
 > 
-> 		...
-> 	}
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 6ecead476a80..e01e93e179a8 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -1051,13 +1051,7 @@ static bool is_valid_guard_vma(struct vm_area_struct *vma, bool allow_locked)
+>   	if (!allow_locked)
+>   		disallowed |= VM_LOCKED;
+>   
+> -	if (!vma_is_anonymous(vma))
+> -		return false;
+> -
+> -	if ((vma->vm_flags & (VM_MAYWRITE | disallowed)) != VM_MAYWRITE)
+> -		return false;
+> -
+> -	return true;
+> +	return !(vma->vm_flags & disallowed);
+>   }
+>   
+>   static bool is_guard_pte_marker(pte_t ptent)
 
-I *think* that code only updates already-mapped folios, to properly call 
-mlock_folio()/munlock_folio().
+Acked-by: David Hildenbrand <david@redhat.com>
 
-It is not the code that populates pages on mlock()/mlockall(). I think 
-all that goes via mm_populate()/__mm_populate(), where "ordinary GUP" 
-should apply.
-
-See populate_vma_page_range(), especially also the VM_LOCKONFAULT handling.
-
-> 
-> Which covers off guard regions. Removing the guard regions after this will
-> leave you in a weird situation where these entries will be zapped... maybe
-> we need a patch to make MADV_GUARD_REMOVE check VM_LOCKED and in this case
-> also populate?
-
-Maybe? Or we say that it behaves like MADV_DONTNEED_LOCKED.
-
-> 
-> Actually I think the simpler option is to just disallow MADV_GUARD_REMOVE
-> if you since locked the range? The code currently allows this on the
-> proviso that 'you aren't zapping locked mappings' but leaves the VMA in a
-> state such that some entries would not be locked.
-> 
-> It'd be pretty weird to lock guard regions like this.
-> 
-> Having said all that, given what you say below, maybe it's not an issue
-> after all?...
-> 
->>
->> __mm_populate() would skip whole VMAs in case populate_vma_page_range()
->> fails. And I would assume populate_vma_page_range() fails on the first
->> guard when it triggers a page fault.
->>
->> OTOH, supporting the mlock-on-fault thingy should be easy. That's precisely where
->> MADV_DONTNEED_LOCKED originates from:
->>
->> commit 9457056ac426e5ed0671356509c8dcce69f8dee0
->> Author: Johannes Weiner <hannes@cmpxchg.org>
->> Date:   Thu Mar 24 18:14:12 2022 -0700
->>
->>      mm: madvise: MADV_DONTNEED_LOCKED
->>      MADV_DONTNEED historically rejects mlocked ranges, but with MLOCK_ONFAULT
->>      and MCL_ONFAULT allowing to mlock without populating, there are valid use
->>      cases for depopulating locked ranges as well.
-> 
-> ...Hm this seems to imply the current guard remove stuff isn't quite so
-> bad, so maybe the assumption that VM_LOCKED implies 'everything is
-> populated' isn't quite as stringent then.
-
-Right, with MCL_ONFAULT at least. Without MCL_ONFAULT, the assumption is 
-that everything is populated (unless, apparently one uses 
-MADV_DONTNEED_LOCKED or population failed, maybe).
-
-VM_LOCKONFAULT seems to be the sane case. I wonder why 
-MADV_DONTNEED_LOCKED didn't explicitly check for that one ... maybe 
-there is a history to that.
-
-> 
-> The restriction is as simple as:
-> 
-> 		if (behavior != MADV_DONTNEED_LOCKED)
-> 			forbidden |= VM_LOCKED;
-> 
->>
->>
->> Adding support for that would be indeed nice.
-> 
-> I mean it's sort of maybe understandable why you'd want to MADV_DONTNEED
-> locked ranges, but I really don't understand why you'd want to add guard
-> regions to mlock()'ed regions?
-
-Somme apps use mlockall(), and it might be nice to just be able to use 
-guard pages as if "Nothing happened".
-
-E.g., QEMU has the option to use mlockall().
-
-> 
-> Then again we're currently asymmetric as you can add them _before_
-> mlock()'ing...
-
-Right.
+I assume these markers cannot completely prevent us from allocating 
+pages/folios for these underlying file/pageache ranges of these markers 
+in case of shmem during page faults, right?
 
 -- 
 Cheers,
