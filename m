@@ -1,95 +1,95 @@
-Return-Path: <linux-api+bounces-3221-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3222-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC8A39E73
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 15:15:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B90A39E75
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 15:16:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ACF01698D6
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 14:15:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E70A3A2939
+	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 14:15:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459B5269D1B;
-	Tue, 18 Feb 2025 14:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13153269889;
+	Tue, 18 Feb 2025 14:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rl7xDGTr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1JG/FWdL";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rl7xDGTr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1JG/FWdL"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IZod+D5X";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="m+/+eXUQ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IZod+D5X";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="m+/+eXUQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3BC238D3B
-	for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 14:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9672500CD
+	for <linux-api@vger.kernel.org>; Tue, 18 Feb 2025 14:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739888115; cv=none; b=SSGpI3fbHPjYTBmwLsQSxRjojXL6rqkpbn/DgKGgt9/H/7Xv6M1PoGOeIWaiwOK8DeuCr3EA9Ah3Z++RlCHuoJ8rzV3vjNRgv8in6XZ6LFU/svmr4WpMf9vq3ocYnp13pneLgL6y7q19bQ3rlJoO8pPZQZZ5S+/aBFcvfMVkR90=
+	t=1739888159; cv=none; b=YX5sYgvsxROvbZx5HrsUFjE7krxAtLq0DHIJeeUZzjYEiVba+XX/eIgItFmgmnOqq1nK+NHCWR+C5h/bXOlSIehuQKhV5QeA/bRN2NMcpGeRcqXWYjLxpDzK5/B1USsd7jnnoXgaCmzqrO2Kt8ykJsGA/YhWXk3KE1BRkIPlxRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739888115; c=relaxed/simple;
-	bh=6Y4/UtzVYe8DTtrgtRGElmjtMUSq2ISIhb3UBZw1xeo=;
+	s=arc-20240116; t=1739888159; c=relaxed/simple;
+	bh=wbaWJEYs63an8hYhHe5clLO+q0SsrXPrRql525V7XMU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MMZcI0MzPYSWgksUMMmZz55IiWVWZLHrmRCMTv3ZqdwDDO6sq0jFUjWY0noYrNnR3qDK43fqWoh3U7/9wyNzBt6sHuV9f/d6DIOMufmsDfNmvOocA+XgxpppQZQnNnttaK7F2LoRrHjGbWQ3KnPu6x6Z4/Os5QUoU2lWNtmzkr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=fail smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rl7xDGTr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1JG/FWdL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rl7xDGTr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1JG/FWdL; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=pilxgoa8RrfYyTyOGmqI50+wZz5STkz8jNL7WWsXwC/KcccMdhc4AFpNiYTwPLx13+8x0PhhLePtLmScNRNNfSfcEMH3fXxDbD0FMY0cpW2e4azczpUmV3cz0jpAqyWnTmt/WS9yQfGZzcqlpiHiTRB5TBUYFGley++2UysbRRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=fail smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IZod+D5X; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=m+/+eXUQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IZod+D5X; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=m+/+eXUQ; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A46C2110A;
-	Tue, 18 Feb 2025 14:15:11 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 509EE1F396;
+	Tue, 18 Feb 2025 14:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1739888111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1739888155; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fzx4bJZ/+evxFy6TNRFi9NkMQWx+Pg8waM/D3fBVMqI=;
-	b=rl7xDGTrCimf92ouxMwvgPSxKv0triP8Qe7Czz92lAvgez+l3V8hklN0AcC8/KTNGzSFkE
-	TPYAHGRQ0CN+s/QvohHFK8Mj5JU4OU6MqifZKhGchS/YlhaNl7YRqrhO+n6vaSpZg9PKqA
-	RbHazk4dXVIClqrHQj++DfEACx3xeEI=
+	bh=Zzo/PFWjpfLLP255b9u5isxGAMgZSmkcdPseWGgqFbE=;
+	b=IZod+D5X7rF9qIvo1AzBqv1YQb+5wCv2BUk23+oOvDGDcNWs3NnHtPV94448fc4/LIodVh
+	rTiAlWyA6HSZZEjkAgyfJU0VPKw1h/BdBB9xNdl15ypfiEL6lsWX4qr4Wn5se2/9sml96/
+	96l+NGht0PbT80JNKFrIItsnby0scxE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1739888111;
+	s=susede2_ed25519; t=1739888155;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fzx4bJZ/+evxFy6TNRFi9NkMQWx+Pg8waM/D3fBVMqI=;
-	b=1JG/FWdLoTLKq4nsQ3X+bGa9dzPWDl9XE4jnsue/AAqD9HWBPe9H/5WkGOgFW3HcO6sDju
-	HTQ4OMFz30avfJCg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=Zzo/PFWjpfLLP255b9u5isxGAMgZSmkcdPseWGgqFbE=;
+	b=m+/+eXUQjdmoNKh3jUcMMaZdpiwhYUM3Twh+BBmw5Xbl5TlVBSQ3BrVbRWGY4pLi6N50Xw
+	hKwvjpLQ2VymNoBw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1739888111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1739888155; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fzx4bJZ/+evxFy6TNRFi9NkMQWx+Pg8waM/D3fBVMqI=;
-	b=rl7xDGTrCimf92ouxMwvgPSxKv0triP8Qe7Czz92lAvgez+l3V8hklN0AcC8/KTNGzSFkE
-	TPYAHGRQ0CN+s/QvohHFK8Mj5JU4OU6MqifZKhGchS/YlhaNl7YRqrhO+n6vaSpZg9PKqA
-	RbHazk4dXVIClqrHQj++DfEACx3xeEI=
+	bh=Zzo/PFWjpfLLP255b9u5isxGAMgZSmkcdPseWGgqFbE=;
+	b=IZod+D5X7rF9qIvo1AzBqv1YQb+5wCv2BUk23+oOvDGDcNWs3NnHtPV94448fc4/LIodVh
+	rTiAlWyA6HSZZEjkAgyfJU0VPKw1h/BdBB9xNdl15ypfiEL6lsWX4qr4Wn5se2/9sml96/
+	96l+NGht0PbT80JNKFrIItsnby0scxE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1739888111;
+	s=susede2_ed25519; t=1739888155;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fzx4bJZ/+evxFy6TNRFi9NkMQWx+Pg8waM/D3fBVMqI=;
-	b=1JG/FWdLoTLKq4nsQ3X+bGa9dzPWDl9XE4jnsue/AAqD9HWBPe9H/5WkGOgFW3HcO6sDju
-	HTQ4OMFz30avfJCg==
+	bh=Zzo/PFWjpfLLP255b9u5isxGAMgZSmkcdPseWGgqFbE=;
+	b=m+/+eXUQjdmoNKh3jUcMMaZdpiwhYUM3Twh+BBmw5Xbl5TlVBSQ3BrVbRWGY4pLi6N50Xw
+	hKwvjpLQ2VymNoBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 688E5132C7;
-	Tue, 18 Feb 2025 14:15:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A4F5132C7;
+	Tue, 18 Feb 2025 14:15:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HLAzGe+VtGenXQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 18 Feb 2025 14:15:11 +0000
-Message-ID: <dc882488-62c0-4211-b6dd-c1109ab52edc@suse.cz>
-Date: Tue, 18 Feb 2025 15:15:11 +0100
+	id qjSSCRuWtGfjXQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 18 Feb 2025 14:15:55 +0000
+Message-ID: <a1a9b4e4-a590-4300-a882-88699267c83c@suse.cz>
+Date: Tue, 18 Feb 2025 15:15:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -97,8 +97,7 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] mm: allow guard regions in file-backed and read-only
- mappings
+Subject: Re: [PATCH 2/4] selftests/mm: rename guard-pages to guard-regions
 Content-Language: en-US
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Andrew Morton <akpm@linux-foundation.org>
@@ -112,7 +111,7 @@ Cc: Suren Baghdasaryan <surenb@google.com>,
  John Hubbard <jhubbard@nvidia.com>, Juan Yescas <jyescas@google.com>,
  Kalesh Singh <kaleshsingh@google.com>
 References: <cover.1739469950.git.lorenzo.stoakes@oracle.com>
- <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
+ <1c3cd04a3f69b5756b94bda701ac88325a9be18b.1739469950.git.lorenzo.stoakes@oracle.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -153,71 +152,265 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
  1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
  EP+ylKVEKb0Q2A==
-In-Reply-To: <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <1c3cd04a3f69b5756b94bda701ac88325a9be18b.1739469950.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
+X-Spam-Score: -4.30
 X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:mid,oracle.com:email]
-X-Spam-Score: -4.30
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email,oracle.com:email]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
 On 2/13/25 19:17, Lorenzo Stoakes wrote:
-> There is no reason to disallow guard regions in file-backed mappings -
-> readahead and fault-around both function correctly in the presence of PTE
-> markers, equally other operations relating to memory-mapped files function
-> correctly.
+> The feature formerly referred to as guard pages is more correctly referred
+> to as 'guard regions', as in fact no pages are ever allocated in the
+> process of installing the regions.
 > 
-> Additionally, read-only mappings if introducing guard-regions, only
-> restrict the mapping further, which means there is no violation of any
-> access rights by permitting this to be so.
-> 
-> Removing this restriction allows for read-only mapped files (such as
-> executable files) correctly which would otherwise not be permitted.
+> To avoid confusion, rename the tests accordingly.
 > 
 > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
 > ---
->  mm/madvise.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  tools/testing/selftests/mm/.gitignore         |  2 +-
+>  tools/testing/selftests/mm/Makefile           |  2 +-
+>  .../mm/{guard-pages.c => guard-regions.c}     | 42 +++++++++----------
+>  3 files changed, 23 insertions(+), 23 deletions(-)
+>  rename tools/testing/selftests/mm/{guard-pages.c => guard-regions.c} (98%)
 > 
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 6ecead476a80..e01e93e179a8 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1051,13 +1051,7 @@ static bool is_valid_guard_vma(struct vm_area_struct *vma, bool allow_locked)
->  	if (!allow_locked)
->  		disallowed |= VM_LOCKED;
+> diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+> index 121000c28c10..c5241b193db8 100644
+> --- a/tools/testing/selftests/mm/.gitignore
+> +++ b/tools/testing/selftests/mm/.gitignore
+> @@ -57,4 +57,4 @@ droppable
+>  hugetlb_dio
+>  pkey_sighandler_tests_32
+>  pkey_sighandler_tests_64
+> -guard-pages
+> +guard-regions
+> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+> index 63ce39d024bb..8270895039d1 100644
+> --- a/tools/testing/selftests/mm/Makefile
+> +++ b/tools/testing/selftests/mm/Makefile
+> @@ -97,7 +97,7 @@ TEST_GEN_FILES += hugetlb_fault_after_madv
+>  TEST_GEN_FILES += hugetlb_madv_vs_map
+>  TEST_GEN_FILES += hugetlb_dio
+>  TEST_GEN_FILES += droppable
+> -TEST_GEN_FILES += guard-pages
+> +TEST_GEN_FILES += guard-regions
 >  
-> -	if (!vma_is_anonymous(vma))
-> -		return false;
-> -
-> -	if ((vma->vm_flags & (VM_MAYWRITE | disallowed)) != VM_MAYWRITE)
-> -		return false;
-> -
-> -	return true;
-> +	return !(vma->vm_flags & disallowed);
+>  ifneq ($(ARCH),arm64)
+>  TEST_GEN_FILES += soft-dirty
+> diff --git a/tools/testing/selftests/mm/guard-pages.c b/tools/testing/selftests/mm/guard-regions.c
+> similarity index 98%
+> rename from tools/testing/selftests/mm/guard-pages.c
+> rename to tools/testing/selftests/mm/guard-regions.c
+> index ece37212a8a2..7a41cf9ffbdf 100644
+> --- a/tools/testing/selftests/mm/guard-pages.c
+> +++ b/tools/testing/selftests/mm/guard-regions.c
+> @@ -107,12 +107,12 @@ static bool try_read_write_buf(char *ptr)
+>  	return try_read_buf(ptr) && try_write_buf(ptr);
 >  }
 >  
->  static bool is_guard_pte_marker(pte_t ptent)
+> -FIXTURE(guard_pages)
+> +FIXTURE(guard_regions)
+>  {
+>  	unsigned long page_size;
+>  };
+>  
+> -FIXTURE_SETUP(guard_pages)
+> +FIXTURE_SETUP(guard_regions)
+>  {
+>  	struct sigaction act = {
+>  		.sa_handler = &handle_fatal,
+> @@ -126,7 +126,7 @@ FIXTURE_SETUP(guard_pages)
+>  	self->page_size = (unsigned long)sysconf(_SC_PAGESIZE);
+>  };
+>  
+> -FIXTURE_TEARDOWN(guard_pages)
+> +FIXTURE_TEARDOWN(guard_regions)
+>  {
+>  	struct sigaction act = {
+>  		.sa_handler = SIG_DFL,
+> @@ -137,7 +137,7 @@ FIXTURE_TEARDOWN(guard_pages)
+>  	sigaction(SIGSEGV, &act, NULL);
+>  }
+>  
+> -TEST_F(guard_pages, basic)
+> +TEST_F(guard_regions, basic)
+>  {
+>  	const unsigned long NUM_PAGES = 10;
+>  	const unsigned long page_size = self->page_size;
+> @@ -231,7 +231,7 @@ TEST_F(guard_pages, basic)
+>  }
+>  
+>  /* Assert that operations applied across multiple VMAs work as expected. */
+> -TEST_F(guard_pages, multi_vma)
+> +TEST_F(guard_regions, multi_vma)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr_region, *ptr, *ptr1, *ptr2, *ptr3;
+> @@ -367,7 +367,7 @@ TEST_F(guard_pages, multi_vma)
+>   * Assert that batched operations performed using process_madvise() work as
+>   * expected.
+>   */
+> -TEST_F(guard_pages, process_madvise)
+> +TEST_F(guard_regions, process_madvise)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	pid_t pid = getpid();
+> @@ -467,7 +467,7 @@ TEST_F(guard_pages, process_madvise)
+>  }
+>  
+>  /* Assert that unmapping ranges does not leave guard markers behind. */
+> -TEST_F(guard_pages, munmap)
+> +TEST_F(guard_regions, munmap)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr, *ptr_new1, *ptr_new2;
+> @@ -505,7 +505,7 @@ TEST_F(guard_pages, munmap)
+>  }
+>  
+>  /* Assert that mprotect() operations have no bearing on guard markers. */
+> -TEST_F(guard_pages, mprotect)
+> +TEST_F(guard_regions, mprotect)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -553,7 +553,7 @@ TEST_F(guard_pages, mprotect)
+>  }
+>  
+>  /* Split and merge VMAs and make sure guard pages still behave. */
+> -TEST_F(guard_pages, split_merge)
+> +TEST_F(guard_regions, split_merge)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr, *ptr_new;
+> @@ -684,7 +684,7 @@ TEST_F(guard_pages, split_merge)
+>  }
+>  
+>  /* Assert that MADV_DONTNEED does not remove guard markers. */
+> -TEST_F(guard_pages, dontneed)
+> +TEST_F(guard_regions, dontneed)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -737,7 +737,7 @@ TEST_F(guard_pages, dontneed)
+>  }
+>  
+>  /* Assert that mlock()'ed pages work correctly with guard markers. */
+> -TEST_F(guard_pages, mlock)
+> +TEST_F(guard_regions, mlock)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -810,7 +810,7 @@ TEST_F(guard_pages, mlock)
+>   *
+>   * - Moving a mapping alone should retain markers as they are.
+>   */
+> -TEST_F(guard_pages, mremap_move)
+> +TEST_F(guard_regions, mremap_move)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr, *ptr_new;
+> @@ -857,7 +857,7 @@ TEST_F(guard_pages, mremap_move)
+>   * will have to remove guard pages manually to fix up (they'd have to do the
+>   * same if it were a PROT_NONE mapping).
+>   */
+> -TEST_F(guard_pages, mremap_expand)
+> +TEST_F(guard_regions, mremap_expand)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr, *ptr_new;
+> @@ -920,7 +920,7 @@ TEST_F(guard_pages, mremap_expand)
+>   * if the user were using a PROT_NONE mapping they'd have to manually fix this
+>   * up also so this is OK.
+>   */
+> -TEST_F(guard_pages, mremap_shrink)
+> +TEST_F(guard_regions, mremap_shrink)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -984,7 +984,7 @@ TEST_F(guard_pages, mremap_shrink)
+>   * Assert that forking a process with VMAs that do not have VM_WIPEONFORK set
+>   * retain guard pages.
+>   */
+> -TEST_F(guard_pages, fork)
+> +TEST_F(guard_regions, fork)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1039,7 +1039,7 @@ TEST_F(guard_pages, fork)
+>   * Assert expected behaviour after we fork populated ranges of anonymous memory
+>   * and then guard and unguard the range.
+>   */
+> -TEST_F(guard_pages, fork_cow)
+> +TEST_F(guard_regions, fork_cow)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1110,7 +1110,7 @@ TEST_F(guard_pages, fork_cow)
+>   * Assert that forking a process with VMAs that do have VM_WIPEONFORK set
+>   * behave as expected.
+>   */
+> -TEST_F(guard_pages, fork_wipeonfork)
+> +TEST_F(guard_regions, fork_wipeonfork)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1160,7 +1160,7 @@ TEST_F(guard_pages, fork_wipeonfork)
+>  }
+>  
+>  /* Ensure that MADV_FREE retains guard entries as expected. */
+> -TEST_F(guard_pages, lazyfree)
+> +TEST_F(guard_regions, lazyfree)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1196,7 +1196,7 @@ TEST_F(guard_pages, lazyfree)
+>  }
+>  
+>  /* Ensure that MADV_POPULATE_READ, MADV_POPULATE_WRITE behave as expected. */
+> -TEST_F(guard_pages, populate)
+> +TEST_F(guard_regions, populate)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1222,7 +1222,7 @@ TEST_F(guard_pages, populate)
+>  }
+>  
+>  /* Ensure that MADV_COLD, MADV_PAGEOUT do not remove guard markers. */
+> -TEST_F(guard_pages, cold_pageout)
+> +TEST_F(guard_regions, cold_pageout)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	char *ptr;
+> @@ -1268,7 +1268,7 @@ TEST_F(guard_pages, cold_pageout)
+>  }
+>  
+>  /* Ensure that guard pages do not break userfaultd. */
+> -TEST_F(guard_pages, uffd)
+> +TEST_F(guard_regions, uffd)
+>  {
+>  	const unsigned long page_size = self->page_size;
+>  	int uffd;
 
 
