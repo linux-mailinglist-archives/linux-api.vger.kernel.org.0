@@ -1,108 +1,287 @@
-Return-Path: <linux-api+bounces-3242-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3243-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A817A3ACE9
-	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2025 00:57:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA4AA3B39B
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2025 09:26:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44F89188C6E5
-	for <lists+linux-api@lfdr.de>; Tue, 18 Feb 2025 23:58:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 424FA1713EB
+	for <lists+linux-api@lfdr.de>; Wed, 19 Feb 2025 08:26:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E3131DC184;
-	Tue, 18 Feb 2025 23:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409951C68A6;
+	Wed, 19 Feb 2025 08:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="beFRfKIp"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tq95LEUC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26671A8F6D;
-	Tue, 18 Feb 2025 23:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610E01C5F12
+	for <linux-api@vger.kernel.org>; Wed, 19 Feb 2025 08:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739923068; cv=none; b=VDEqFzcfKYpuRypPbbkq18WgCyM2PFS3FS+yKUrLPwDDkx7mc3D0oN4M6dBars3PZLL60KbfTotMU0o6QTIuz2EGlh1ajUCKizYKy9XoIwJOWKr51PnvDOLPeF/4wVIJ8rPhZ5BoYHwDyccuKuns/GvDfbtdWDBGQTtF8fYFk2E=
+	t=1739953566; cv=none; b=nm7cNnLAe1UjkZgEuRHdnGJ9x4HeyRNuvT0hvsTlBEjh2JBqjFWN/nwilI+Mylas0nSl+OwfmlrnjDnc69U1BoHA5CJGRkeewb5YvTqFl+Nhv9INwj0BqRWZhCzs1CzD7CjsMBzQUESshfxDHn5cA+NjoT6rdE85k1IvFk+VVjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739923068; c=relaxed/simple;
-	bh=e9Scv+eAu9ME6/BW8di5Qlh9xBT/ZlYHOwKeekqAKEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZTVWvqJt166/ou8BdUOYQoycT5XVmmdkSs3GxdqurnPz/L0cfcuc5/y1lT3fKZe91Z3zNfokIOsXA8nGL0Xq9dy/xHAepbwJGpnZnMmAWqqrpMSDeGAqrjpannPrAFUS8xhwx2xNDtmUqvfiVdoBdZuuK7QElvS5/juqCn5TfIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=beFRfKIp; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=f8V96M1dNZ/nDV9/9O0iW1J6fywepGaauBM99maMCPQ=; b=beFRfKIpyWei/AqaxjdVB1+t7R
-	myVQ+O8u5GMBnjskUEmNlLfY2k+BjDYJ7w99yJukhUdZfNzVclUJYwTLt5ozKiqSyOnHHHUVnuATY
-	s1PkyXMVtxNW1TaPbjkZ7DWF4CxFIQbBMieRn4zalDn8sDu321MTv6bk3r3O1ywLLMeFLEpXnYKrG
-	g0KSQUirG3qstUAAXwr96d6E0RHjQojV8gp5Q58FIJ8fmjeY7HPsF+jufg2LFkgsHb/eMw1QZGMZm
-	cObsCE9Uhe9+0UvFvVbB4PY8Y951NMvQIwx7/K41+Nd03w3YYn1vWo0cWFSBd0wgUwS7s1L3i7MLO
-	wgotkd9g==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1tkXT1-00Agzb-2A;
-	Tue, 18 Feb 2025 17:57:31 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Mike Lothian <mike@fireburn.co.uk>
-Cc: Mike Lothian <mike@fireburn.co.uk>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, wine-devel@winehq.org,
- =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH] ntsync: Set the permissions to be 0666
-Date: Tue, 18 Feb 2025 17:57:31 -0600
-Message-ID: <2768333.mvXUDI8C0e@camazotz>
-In-Reply-To: <20250214122759.2629-2-mike@fireburn.co.uk>
-References: <20250214122759.2629-2-mike@fireburn.co.uk>
+	s=arc-20240116; t=1739953566; c=relaxed/simple;
+	bh=vrFCMIA7KIYH8LaNLZG0B9v640qqPtsEhFjTdIsfPJg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SmnCiUcTO99oKyqr2biex7US+M74sDFsjeppRwiD7fSi+vpCRa3MWE3o3nL/gnh4HEdP5iXFwyOe1MK47JuT0V/lmENt9eB3QnTNuUWbpcvtZah+QGu8TLlycyc95DNd+V/3V0+f56gZVhT0roIsZ69KlIEHT+ZdZgSkhX8UJqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tq95LEUC; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-219f6ca9a81so605925ad.1
+        for <linux-api@vger.kernel.org>; Wed, 19 Feb 2025 00:26:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739953563; x=1740558363; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+t5Onokz1b/svrph82CzzTpTF1Pr5YEmQG97WWbLUbs=;
+        b=Tq95LEUCsk3ndAqVXjtcpKhnrR+ZRUhcLcPSEa42LSMM6ar++fPe5UprmQTdMF/Eha
+         0UEwyuy14Q2qTsL4NHU+3JgYHJDgkxzQBhb5xvDcCDUtZMZwFTNgA6zokIl/OmmwfB5D
+         zddaiQKAhmuTDXEYUDHZ81wK84hhbtQRwSfF7GvyG+7shVZGqJoN65NqqsvF7MKTMpcH
+         h73XxlTqzXrk4xUZitODEMuSFY6reSqIloz1lNVcPF2RJwQLDpsmklWTpcQdO+z1bns4
+         4XzEjDmAK6U//7RdVMLDPKqBIQDepxcKNlaA65e9nKJaVux3bPUvTym7yoGUcO2G/M0v
+         8a6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739953563; x=1740558363;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+t5Onokz1b/svrph82CzzTpTF1Pr5YEmQG97WWbLUbs=;
+        b=IsRvAaEqxeKHpfIpOkLIgoKaYut4CQtTF8Id/GFqXwzoZ/VRkfnOlo8bdPVJiNwbTr
+         Wg+BN0CTum6YBpkNR+zE/pF5cCsGITaM6a1koytw4hAgMxX7pGJq8aCd6eourxlcb/w9
+         dXrU+c6M0nww5O7j1IA+KO8eVFkUDnlayTmnV1cuPTMk/yPYyI8FJeprzIw2xZQ9s6b1
+         SzTfztP9lt08qBqMKyPZdiaxHrKTAz+VmBGwEjDLukU9MrGuDW/Kwyrq+E38VIFKdlTA
+         ft1HIlSR4R6ge3QHI/MPEt3YyjY2U2vEuX+yNk2C6oNkqfTWmighFEoIgMsSL2CdITM9
+         LHGg==
+X-Forwarded-Encrypted: i=1; AJvYcCXfDSAQtm6LiziFE7yxbVmWVal++1F5wvK5Jtqi0/tYVyRii+cTnHqGGBRoX2uif7yGlssyrAIviLg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjC/2EY8zxh0BbD3j7doTRq7lnNhnaVF/i0UMZ9exn32ArodOv
+	RmkTGCTvHhgYo4xkpbHyDhNhzjHlwzJk78gIHCdRtCkNW+gXVeid5F+oT7OHnfFx4sKh8WjnjpM
+	ng9h7t6vhnNPAGMWv8Beav9bV4MG6KZDo1r7M
+X-Gm-Gg: ASbGncuXYW2jksEaAj27T+rqWV23g8+zyaV9T53550UKUFNNYIg5CQlu8NaPfsXm0XB
+	GfA/JmV9v5V3nFYToo9jZw5RjHJ1jLlIeHTsRB3+HmpxYvjT0uTEzSumYW39a9E5N+cJVG0WZxg
+	S2qKSkxzn229yOy8yCKNk1qUnYIPaDXg==
+X-Google-Smtp-Source: AGHT+IEtWm56/q0Ma1nZnd6a0UtnIqMxj4FqJa/1GqPlJ/2nNKHewuObdmh1s2j/K5XMPESqCPuxQ8/36BYaDous39E=
+X-Received: by 2002:a17:902:e883:b0:220:c905:68a2 with SMTP id
+ d9443c01a7336-22175a85109mr1518545ad.5.1739953563410; Wed, 19 Feb 2025
+ 00:26:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <cover.1739469950.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <cover.1739469950.git.lorenzo.stoakes@oracle.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 19 Feb 2025 00:25:51 -0800
+X-Gm-Features: AWEUYZnXTwP78vbAHDN0pfKRVGtNSGUzzBBn7zOfu-Xg7h4c2hpipi0C25LOOb4
+Message-ID: <CAC_TJveMB1_iAUt81D5-+z8gArbVcbfDM=djCZG_bRVaCEMRmg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] mm: permit guard regions for file-backed/shmem mappings
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, 
+	David Hildenbrand <david@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org, 
+	linux-api@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>, 
+	Juan Yescas <jyescas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Friday, 14 February 2025 06:28:00 CST Mike Lothian wrote:
-> This allows ntsync to be usuable by non-root processes out of the box
-> 
-> Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
-> ---
->  drivers/misc/ntsync.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
-> index 055395cde42b..586b86243e1d 100644
-> --- a/drivers/misc/ntsync.c
-> +++ b/drivers/misc/ntsync.c
-> @@ -1208,6 +1208,7 @@ static struct miscdevice ntsync_misc = {
->  	.minor		= MISC_DYNAMIC_MINOR,
->  	.name		= NTSYNC_NAME,
->  	.fops		= &ntsync_fops,
-> +	.mode		= 0666, // Setting file permissions to 0666
->  };
->  
->  module_misc_device(ntsync_misc);
-> 
+On Thu, Feb 13, 2025 at 10:18=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> The guard regions feature was initially implemented to support anonymous
+> mappings only, excluding shmem.
+>
+> This was done such as to introduce the feature carefully and incrementall=
+y
+> and to be conservative when considering the various caveats and corner
+> cases that are applicable to file-backed mappings but not to anonymous
+> ones.
+>
+> Now this feature has landed in 6.13, it is time to revisit this and to
+> extend this functionality to file-backed and shmem mappings.
+>
+> In order to make this maximally useful, and since one may map file-backed
+> mappings read-only (for instance ELF images), we also remove the
+> restriction on read-only mappings and permit the establishment of guard
+> regions in any non-hugetlb, non-mlock()'d mapping.
 
-Reviewed-by: Elizabeth Figura <zfigura@codeweavers.com>
+Hi Lorenzo,
 
---
+Thank you for your work on this.
 
-The comment seems rather redundant, but otherwise this is correct and prudent.
+Have we thought about how guard regions are represented in /proc/*/[s]maps?
 
+In the field, I've found that many applications read the ranges from
+/proc/self/[s]maps to determine what they can access (usually related
+to obfuscation techniques). If they don't know of the guard regions it
+would cause them to crash; I think that we'll need similar entries to
+PROT_NONE (---p) for these, and generally to maintain consistency
+between the behavior and what is being said from /proc/*/[s]maps.
 
+-- Kalesh
+
+>
+> It is permissible to permit the establishment of guard regions in read-on=
+ly
+> mappings because the guard regions only reduce access to the mapping, and
+> when removed simply reinstate the existing attributes of the underlying
+> VMA, meaning no access violations can occur.
+>
+> While the change in kernel code introduced in this series is small, the
+> majority of the effort here is spent in extending the testing to assert
+> that the feature works correctly across numerous file-backed mapping
+> scenarios.
+>
+> Every single guard region self-test performed against anonymous memory
+> (which is relevant and not anon-only) has now been updated to also be
+> performed against shmem and a mapping of a file in the working directory.
+>
+> This confirms that all cases also function correctly for file-backed guar=
+d
+> regions.
+>
+> In addition a number of other tests are added for specific file-backed
+> mapping scenarios.
+>
+> There are a number of other concerns that one might have with regard to
+> guard regions, addressed below:
+>
+> Readahead
+> ~~~~~~~~~
+>
+> Readahead is a process through which the page cache is populated on the
+> assumption that sequential reads will occur, thus amortising I/O and,
+> through a clever use of the PG_readahead folio flag establishing during
+> major fault and checked upon minor fault, provides for asynchronous I/O t=
+o
+> occur as dat is processed, reducing I/O stalls as data is faulted in.
+>
+> Guard regions do not alter this mechanism which operations at the folio a=
+nd
+> fault level, but do of course prevent the faulting of folios that would
+> otherwise be mapped.
+>
+> In the instance of a major fault prior to a guard region, synchronous
+> readahead will occur including populating folios in the page cache which
+> the guard regions will, in the case of the mapping in question, prevent
+> access to.
+>
+> In addition, if PG_readahead is placed in a folio that is now inaccessibl=
+e,
+> this will prevent asynchronous readahead from occurring as it would
+> otherwise do.
+>
+> However, there are mechanisms for heuristically resetting this within
+> readahead regardless, which will 'recover' correct readahead behaviour.
+>
+> Readahead presumes sequential data access, the presence of a guard region
+> clearly indicates that, at least in the guard region, no such sequential
+> access will occur, as it cannot occur there.
+>
+> So this should have very little impact on any real workload. The far more
+> important point is as to whether readahead causes incorrect or
+> inappropriate mapping of ranges disallowed by the presence of guard
+> regions - this is not the case, as readahead does not 'pre-fault' memory =
+in
+> this fashion.
+>
+> At any rate, any mechanism which would attempt to do so would hit the usu=
+al
+> page fault paths, which correctly handle PTE markers as with anonymous
+> mappings.
+>
+> Fault-Around
+> ~~~~~~~~~~~~
+>
+> The fault-around logic, in a similar vein to readahead, attempts to impro=
+ve
+> efficiency with regard to file-backed memory mappings, however it differs
+> in that it does not try to fetch folios into the page cache that are abou=
+t
+> to be accessed, but rather pre-maps a range of folios around the faulting
+> address.
+>
+> Guard regions making use of PTE markers makes this relatively trivial, as
+> this case is already handled - see filemap_map_folio_range() and
+> filemap_map_order0_folio() - in both instances, the solution is to simply
+> keep the established page table mappings and let the fault handler take
+> care of PTE markers, as per the comment:
+>
+>         /*
+>          * NOTE: If there're PTE markers, we'll leave them to be
+>          * handled in the specific fault path, and it'll prohibit
+>          * the fault-around logic.
+>          */
+>
+> This works, as establishing guard regions results in page table mappings
+> with PTE markers, and clearing them removes them.
+>
+> Truncation
+> ~~~~~~~~~~
+>
+> File truncation will not eliminate existing guard regions, as the
+> truncation operation will ultimately zap the range via
+> unmap_mapping_range(), which specifically excludes PTE markers.
+>
+> Zapping
+> ~~~~~~~
+>
+> Zapping is, as with anonymous mappings, handled by zap_nonpresent_ptes(),
+> which specifically deals with guard entries, leaving them intact except i=
+n
+> instances such as process teardown or munmap() where they need to be
+> removed.
+>
+> Reclaim
+> ~~~~~~~
+>
+> When reclaim is performed on file-backed folios, it ultimately invokes
+> try_to_unmap_one() via the rmap. If the folio is non-large, then map_pte(=
+)
+> will ultimately abort the operation for the guard region mapping. If larg=
+e,
+> then check_pte() will determine that this is a non-device private
+> entry/device-exclusive entry 'swap' PTE and thus abort the operation in
+> that instance.
+>
+> Therefore, no odd things happen in the instance of reclaim being attempte=
+d
+> upon a file-backed guard region.
+>
+> Hole Punching
+> ~~~~~~~~~~~~~
+>
+> This updates the page cache and ultimately invokes unmap_mapping_range(),
+> which explicitly leaves PTE markers in place.
+>
+> Because the establishment of guard regions zapped any existing mappings t=
+o
+> file-backed folios, once the guard regions are removed then the
+> hole-punched region will be faulted in as usual and everything will behav=
+e
+> as expected.
+>
+> Lorenzo Stoakes (4):
+>   mm: allow guard regions in file-backed and read-only mappings
+>   selftests/mm: rename guard-pages to guard-regions
+>   tools/selftests: expand all guard region tests to file-backed
+>   tools/selftests: add file/shmem-backed mapping guard region tests
+>
+>  mm/madvise.c                                  |   8 +-
+>  tools/testing/selftests/mm/.gitignore         |   2 +-
+>  tools/testing/selftests/mm/Makefile           |   2 +-
+>  .../mm/{guard-pages.c =3D> guard-regions.c}     | 921 ++++++++++++++++--
+>  4 files changed, 821 insertions(+), 112 deletions(-)
+>  rename tools/testing/selftests/mm/{guard-pages.c =3D> guard-regions.c} (=
+58%)
+>
+> --
+> 2.48.1
 
