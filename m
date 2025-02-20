@@ -1,100 +1,108 @@
-Return-Path: <linux-api+bounces-3263-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3264-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD02A3D648
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 11:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62800A3DA4C
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 13:44:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33AFE17BCB1
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 10:16:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BB1817C622
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 12:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBE3F1F150B;
-	Thu, 20 Feb 2025 10:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF17F1F4615;
+	Thu, 20 Feb 2025 12:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gt/iynS2";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="YHma1XW1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V5rRcDv7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA6B1F1312;
-	Thu, 20 Feb 2025 10:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740046570; cv=fail; b=VrglfTSpacOtq9B9J6Dddc37xWy0fz/Te1Q4sxSG35VRAhLXG7iFPDIZY8485qHs5H5oBrgkjgUIp0ssgBy3jrq5EsZcGSSAsjGq7NlOlY7nqeUNrxEq1qBanKbOqqHnTp/JMQYnWW1v0q2outZgrAuz0XhYfliyPXIyV8KxYEk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740046570; c=relaxed/simple;
-	bh=8/JigRBJ66HdV65WRtY6oIsLhojxwFvz5Vm8/S4jbp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FNTQzmiBk7gpHnirmnnJ/RrdKJQJ2bF8ft0hGfojxHAsFehPKo8y3NQf/rmyREud8xRHPBNQcnoNgXC1DIZS/lsGSMsjcT1lb0/Eu/jC5X5zOAlWZuJsrKQOaYXRi0HYTYnLvG4Zy2sSG0ROn0p/pEYefsKEozqZbVp1rH+W6ko=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gt/iynS2; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=YHma1XW1; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51K9fiPG004331;
-	Thu, 20 Feb 2025 10:15:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=8/JigRBJ66HdV65WRt
-	Y6oIsLhojxwFvz5Vm8/S4jbp8=; b=gt/iynS265PwklvkzJ/S6jVZW/hwNjuYsY
-	oApVzmAzczPHOsIJ4U26PbgM5TaS9Sto2XhF39M7FAE3X3zir/tDqB33lO6lTMnW
-	Uw8Mc7o3olgWTMCViTK4pQ8mrvfLbkOrkRQh4dSK0UsPevbYLZ/pwUjMsNYmIm1+
-	HLa5P/U/SQU9RJzCQzxjX1EJ1rdzQ99LvGgNRinktJfsyxPTdIkDOp+rn19P+qF5
-	yU8+sFExDitHJH3mem0qfUpiiiBgJ1kNtFC2cVXAe4nQNXGVxEwLxE6ntQN6oan9
-	+qlHb+CBHYn8/1o51V9buAkY+YfMeWLrnHmDGn06aXphJJEVPO2Q==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44w00nks4v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Feb 2025 10:15:52 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51K86aVw025289;
-	Thu, 20 Feb 2025 10:15:51 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44w08xpukk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Feb 2025 10:15:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XAvluB07vxJw78xQ9di4/5urUdpgsy79pvvRp3w4Hp+OyLtPHAMgEl4sDdGBdMrUDikeGfNb+QpGcncWdIsakhqJYNfjZ+46aZtwNBVEOKlfyn7+01FRDLQ6r3sYD1ZyeQWBnHmpVEXioJ9WHB99P2+q150E+tPcrbn63uugkAZhFkMC+Wum5n/opiYajGBITsbCM3Tg7iFnhcrEhM+NfyCEzD0/qLRzSbnCjTYGjDRTxf/12eGER4GG9UaHuVqO/aHTaWyWG9cA1M/b6J2gQeXwSYFzGDNhvDoxEKRqpEWTJ3WZiMFuAC30xE5BV2oQX0cFFMMPG5bQWIqPweWF7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8/JigRBJ66HdV65WRtY6oIsLhojxwFvz5Vm8/S4jbp8=;
- b=cNPG826EjwSOzNWRhMb46SQfrPsIx8JL0LmuZ9F7Auzg2thoW/gAtmdNnqzaUWg8/3sJn7PFHiFoROwGE86dQOf1sdybwCliJl5M86PMZKxfFvqk8B3ojcY8ytlbfAA7r+aVwdG4VSYPzl+5wIC83yI68FlNd1/Z1hxw8kaYDwxz3uSaK4n5B4UHcq1klLg3T1xDPp8L8Vk6K8uYTvP7Zk3KfzFV5fs0ctX8tre2diVSIxZ71CK9C84bKOj4fc2zNLXgTAPABe25Fja4Mw/nrZNd6QPhhSJ9KDhhR85iIYk/3hf5jTCWW4hWRSjLjoXfNTiyegDVUSmkwnUZd9bcCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8/JigRBJ66HdV65WRtY6oIsLhojxwFvz5Vm8/S4jbp8=;
- b=YHma1XW1pItJg+XTdKmXJRMng55zDnqlLCy86JYD6edrgSoyLkN2pl53e1fAfyT6pp2DFx2DN3qmdDOxBU/bBUf4n3fTFYZ2ODTH4Foz647niFfu2Y0Q890mFqv7YOBHtNg361FdJxfOFMUKGbPwsm6N8KH6/dr/DJ5pznT92aI=
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
- by PH7PR10MB6276.namprd10.prod.outlook.com (2603:10b6:510:210::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Thu, 20 Feb
- 2025 10:15:49 +0000
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9%5]) with mapi id 15.20.8445.017; Thu, 20 Feb 2025
- 10:15:49 +0000
-Date: Thu, 20 Feb 2025 10:15:46 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Kalesh Singh <kaleshsingh@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
-        "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
-        Juan Yescas <jyescas@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52081E9B0B
+	for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 12:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740055469; cv=none; b=Z3r2rVEWMKGznos+BdgKaLyQJiHyRw3lEUXKomR25js4fmrngUdqkGgQWApe2AHC6OuMQKk1fLh/8scOC1lj793BlOgbteybUWLja3nLb/kuMpRN5lA4SgFKP2Jf1ZPl72LoY1mcnEbxbeJ+jXLaSl9UCkCMc9qJHBDLmhK2DlY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740055469; c=relaxed/simple;
+	bh=bPFiUomZF13Dz9mQWRWn2aK4Lk9XxmWw21ZdXhWu68M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RkiCjcrtdx1YjZktIj8Ko9GcuaA+4OfBAnuYUB9pBoIdsvOE/2L3uR5bMNog4NazPPmh7uUpl6S9afBvwxgPpNkJXOmqQC4HFCYpVfMkIFcPvQfzDHfpqiFpnFT/5w0Rpg6jKcRwrEjOc4xNECUX1GfpUGCdNKbghrkax1BMBJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V5rRcDv7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740055466;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Aw2uty6j9x0fqEkPxv/nF0HlVK8X1BpwPiiIHwWFu90=;
+	b=V5rRcDv7Rb/HXjvRU5rhyNkn/fvuR5f2nwzfP9PBCaMhGsOr2tD/0xkyXvnFAxvTC6Jyb/
+	xlWz3mEarLAsmADN3FBr8RCbAghSyZOX/ZqKAZVh4w/EzBWAYRjcXAU6z3AqrgpkcMbUFt
+	ukOyNXF7Hz+9B/RRqqbsKtGNNTBHsUU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-101-doruQ0GFNq6sLsqNve3uaA-1; Thu, 20 Feb 2025 07:44:25 -0500
+X-MC-Unique: doruQ0GFNq6sLsqNve3uaA-1
+X-Mimecast-MFC-AGG-ID: doruQ0GFNq6sLsqNve3uaA_1740055464
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-38f4e3e9c5bso393077f8f.1
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 04:44:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740055464; x=1740660264;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Aw2uty6j9x0fqEkPxv/nF0HlVK8X1BpwPiiIHwWFu90=;
+        b=vW6ZTyNh061R9zv6eKdKyquLFNXbZEZGEuKpZDrVhGpX2vLJpxNQGxsgsbUqrfAQpK
+         oXJVr1etWzOJhJaF+PtCHR1Xjgw/DmS3oUIqPmOtKF+GyGD51dTKAVv7a6j5GgNq3lHw
+         0xrPtM8ZhrjH5F0vJb+fGQqmG2nUdhDo3WZwJsKMxZfnETEpmb61eBOs1AIGu44FZz8Q
+         A7ESDXcF/9AL6EMbGKfd/Hq9Euu1DZ7ugcjgWtmNDrEmOtATII5FwnDNjpnNLvxxmRBX
+         VNuI05yZqWo7ZfxthhZB2XoYEyDpWTw0MLnjYHICMF8GM4Tp8s3ZR4Zzyg5T4klr8Nhw
+         dH5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWZw9zJDuEcWFbBxZOMpxURhkWPXRCeu7KuZ9xzLY+X1Puc0YFMiMvN9sWpCL0sqR6NJO/cdYuxupM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlK7eg5cqoutx2d49dr/npKARv0X0YPltRPgnAF5s3+FezYyCB
+	vIBOzbZFoc9T4vwqEU5+uJ0wQoxaYFTRE/2PeLfrawMzEyi2ZTu1/W4hucQiZ8U2SRFbn1sc4sN
+	MNfrGKwQEuqnf2KYemoFss5vOeq8m/mE/ujkbSM/a28tU+PT+13vnrtIp2w==
+X-Gm-Gg: ASbGnctwbf1goUATnz8DWHqQ5qITMvqwFgOCHlwaogmAoF/lnLdTGOYXQIkl15h3bcs
+	5Q4zNTeX0SDNB8cQcKCAYg3LHo9ieiuROWDq6N4OdtruJC9zUuJ/sE0pP9QTlfJafOodEl3LwYQ
+	v4PdlsA0paGoY6xZJRYSkcSGKR1GCaz8TZfSOx/2ZkgS5gSzwDNZGPhtqqg1R7MWHtKIsVufOAg
+	uvbNNW30dZnW8K60gDkwGfMzPvm5TR/VJybrsWH58QlcOqXxAKm8wKaRG/5J6FBUVxjgimKvN2a
+	abRJkNLgebuMhWRclO8NeaVG+qUADEom1DFZ6B9QAtq+FetCVW2nIiN5VdGrUoNCKZdzGsxdKyf
+	0BAys+njEPuUbyqEFiAwILwYxBixpSQ==
+X-Received: by 2002:a5d:58c3:0:b0:38d:e61a:bc7 with SMTP id ffacd0b85a97d-38f3406cd95mr18809405f8f.40.1740055464402;
+        Thu, 20 Feb 2025 04:44:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHWR1r+x5fxTVDkaeTb+DGmJUge83PhPNpWxQET+3WOp7mEtvkA8YLL3jY58yOBXvJyv+SzYA==
+X-Received: by 2002:a5d:58c3:0:b0:38d:e61a:bc7 with SMTP id ffacd0b85a97d-38f3406cd95mr18809375f8f.40.1740055463978;
+        Thu, 20 Feb 2025 04:44:23 -0800 (PST)
+Received: from ?IPV6:2003:cb:c706:2000:e44c:bc46:d8d3:be5? (p200300cbc7062000e44cbc46d8d30be5.dip0.t-ipconnect.de. [2003:cb:c706:2000:e44c:bc46:d8d3:be5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915146sm20836738f8f.56.2025.02.20.04.44.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 04:44:22 -0800 (PST)
+Message-ID: <bd4597b5-2da2-484c-9410-384e04336a9d@redhat.com>
+Date: Thu, 20 Feb 2025 13:44:20 +0100
+Precedence: bulk
+X-Mailing-List: linux-api@vger.kernel.org
+List-Id: <linux-api.vger.kernel.org>
+List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/4] mm: permit guard regions for file-backed/shmem
  mappings
-Message-ID: <1e959451-2534-44b7-bf62-bc75305048fe@lucifer.local>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Kalesh Singh <kaleshsingh@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+ linux-api@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ Juan Yescas <jyescas@google.com>
 References: <a2e12142-3eb2-48c9-b0d9-35a86cb56eec@lucifer.local>
  <CAC_TJvf6fOACObzR0ANFFrD+ecrP8MbXEZ_ZdzRu0Lg4RunS9g@mail.gmail.com>
  <e07dfd31-197c-49d0-92bd-12aad02daa7e@lucifer.local>
@@ -105,206 +113,186 @@ References: <a2e12142-3eb2-48c9-b0d9-35a86cb56eec@lucifer.local>
  <387f3516-99f2-41e9-967e-4b051a8d21b8@redhat.com>
  <72e044ba-64af-49c0-8b87-ead508654fb7@lucifer.local>
  <4f5a9c19-9bdd-47eb-bb14-205e3dcced90@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f5a9c19-9bdd-47eb-bb14-205e3dcced90@redhat.com>
-X-ClientProxiedBy: LO4P123CA0153.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:188::14) To BYAPR10MB3366.namprd10.prod.outlook.com
- (2603:10b6:a03:14f::25)
-Precedence: bulk
-X-Mailing-List: linux-api@vger.kernel.org
-List-Id: <linux-api.vger.kernel.org>
-List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|PH7PR10MB6276:EE_
-X-MS-Office365-Filtering-Correlation-Id: e508f5da-de35-4a44-ca1e-08dd51978c2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xXUqRutaDMenqlLIJ576DX4/w9YvmGr9D9d/3P1f2EySLUk4xOUtuLD38oeN?=
- =?us-ascii?Q?guh/3tGxNIlQhHcCfsCCcVR2qB2IMglu8JeKVO6pAFceZNaKxfz0ka43hegH?=
- =?us-ascii?Q?qc99yNErIurrpAYAU9rrw5+imK15+TCvr9c/evaNfCBxoT3tYaCYnMM0eMw1?=
- =?us-ascii?Q?YlnAGdZ+1/10CLRytxfJYvVHUTXrIhvoUGyPgt+igzcg4AMhzL1BNre3e1j5?=
- =?us-ascii?Q?kMTpiVS7tX4boOFU925Fhr2mQTnw10fRKfdTkKng1/z7Qnemd0Y3qF+beAiv?=
- =?us-ascii?Q?wnLyskJDTNR7guhEWnZl9l5+ZLS077qBCEGOPIt/Joyj0u5JpHV503Oo9Ojo?=
- =?us-ascii?Q?9gmQdRLdHBkGMu6AE1qeE3pHqmtNkKBX4mpgm78Yx57+fJ32jZei438AplVp?=
- =?us-ascii?Q?fByV6pPirgkynHf18RtGHUc0SZiLW2FEudGEM24+jDbI/NInIohqGlRBX1gF?=
- =?us-ascii?Q?5L2JXs9wUfMYBZYRfM9acxYkZJLRbpKr39iBau4X823tmpmcdfeYxxeXmGLM?=
- =?us-ascii?Q?2Ti6gVwr9pm/4qiPRJr7/pVBG1eeZzqyU1sfGe9KEV8+yLJn9ELhGVY5dtsy?=
- =?us-ascii?Q?K1lPyMnMpfmRy8pa2Fq2wBOzdjGYEWTQhsIUEK5bYBHwPpdEUz34oH+cFdy6?=
- =?us-ascii?Q?Q3azMldtSU4dPnRt/wrtQiCdAISdm2HMgof3hDuOAuxZz18SJ+2bCNYJ+LNX?=
- =?us-ascii?Q?JyF1I2RZCbzuaP9ILSfh9R7PvajO+mHfK9tCPHymSqxouEboyOmTDdscLdq3?=
- =?us-ascii?Q?nIm9OXFd/eaFKiKPoFqNFIo/o//nR2aaB1XWm5LiwPN3f6eH5BYXxaeHtZCB?=
- =?us-ascii?Q?cfALR5RyL1Q9gmTpFyUx1RvzhPNBnJu7jxdvO6drTos5a3lKHxxyA6c+MWLM?=
- =?us-ascii?Q?0RSG6oph6OPUMiLMM3WM4c1c9G9AdbPkgCQazD8nyAOAbhIOVGuzvZ5vY8z0?=
- =?us-ascii?Q?6yIVDTE9EixrZtWjVDHyLJLl1BkoMdLWZwxZaHoWnhhYp3G624RVERu5JE+v?=
- =?us-ascii?Q?wGrr11WyoCotSgikITeVbLWSTkXibwOSCwTKxv1jOmQnxtlf943n+sBFeB8F?=
- =?us-ascii?Q?Nyz45duHfCd4cnY/kjsXA1rvNC84tDCt8ennznzr+HKcLsPdQUhu8lmm1DNt?=
- =?us-ascii?Q?7r+oFgz09MMc0XkpDW8+8djzJULyGsCAYHib2FqCnHA2cDM1/0A3feqfryfT?=
- =?us-ascii?Q?OZYt7b5fela0ydDb8442Xxh04TECq4sHTUMVL85tIYWVYifSMAAuS6VxqtU8?=
- =?us-ascii?Q?Xwl0ZC0VdV2cGYhm+FVyKhKPivixwiDqYA2gMZjH05aiAlojwgH/6nDc8kEG?=
- =?us-ascii?Q?s6swSVoUnB0ODAZeI/tfFw5/TlbWFebG9r2NcfZfU/HS23NNVlc7IyYuPDpR?=
- =?us-ascii?Q?e9zULuiPY5TjxaFxQDnNrrynQW54?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3366.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?F9KUbYagdyymxQEbGK+Mxo47RRZzQx7xiJvoMTIpZNZ6d+XW/cVromhTs19H?=
- =?us-ascii?Q?yIWY4cyzNv2OhJnM219uCNmffGLDkArp2H739LwGE+h+ErEuF5h0igSR1Wuo?=
- =?us-ascii?Q?LZQ0MODL9rNUiO7wEaqbDC9m9Mhe5RdsxBMN0/WjpsRFaMbxZ18qi+7EO4IX?=
- =?us-ascii?Q?+Vyz0mHmIMBzPkMf4hsFGe2r0Pd0kVFUPzdJjBydUWw6aUhVPxPKcQhJAMXu?=
- =?us-ascii?Q?qV6rU/twTYCAWuCHahmxotywlvO7TKQH3eNbtcdv8pGaybnNeCDSBidOGUOo?=
- =?us-ascii?Q?N3Bwzl4YznFBiIRT+Tmy0Opm9f1C6dS2pUR/qckiI+CYGEWhwgscjMPjBoFU?=
- =?us-ascii?Q?dt8QYLQfivs3Kde/azYk9AvUc8nPhM7ZjBuqKGPZYGQHvwyfc1l4OHgrnX3z?=
- =?us-ascii?Q?g8EpGt66u7VOti8EL71jT1cZtS4Ue7Wx84+CouwbCrYC17eeGWDJaWGlpemh?=
- =?us-ascii?Q?eNWjV9z7YWB5QjLHmhJDW0O2Lh0PL4BKAOYtYPsJ/PlEjDEZq9lafmgOIu1c?=
- =?us-ascii?Q?UHCoZlAGpsVgP7lM4IeUrvpJUs577PrQ4H/4fnsrJ+GhQ6iv71bajW/Kv7kn?=
- =?us-ascii?Q?DEpItExTVxUC0zpmNm/XSeg5/KOJhO2R6IOSgezkuEmdhtWI7gPpB6yHxCc6?=
- =?us-ascii?Q?1U/iHfu8Ze6K8susnI16vHEarXng0/DtTYKJ4LeeRyj5lZg4fySC5BT5lnp2?=
- =?us-ascii?Q?mMGappx9Zb7kVE4Mm/yEErtqFcXjqlZokl3O6PHyHfAeKi75m52TcJmqK9pB?=
- =?us-ascii?Q?N7J7tZS1bOpogkpY7Dn6A3JL7j6MW/CRnG+Na8imJ5VqdqDABbBE6jCWBv50?=
- =?us-ascii?Q?btUfZPHgHiLuKlYJgaL0evBiPUVitDi8XK24z6Ywp1vzbWMv9pKLlgnvNUNY?=
- =?us-ascii?Q?1q4KDOT3XsMymlE3HVJyR2SSA0Lp84osxMVgX9iBYH1Z41UG6Ariqjx9dFAF?=
- =?us-ascii?Q?yDfaCJZ85EJuTs47125QTKUHK3zsm8NaycgkME7K+lEgGHBFM8ZSEUJYGU5t?=
- =?us-ascii?Q?mlSJW0qdMsHfpvFaEtCvQdJMzOn9KITpgdwE6uZJRv3tRU7V/Fp0DrNlYkmb?=
- =?us-ascii?Q?4t1lLYPnHcg/RMKnn/qYrhyA9PhXVdDl6oQSaO+JDBN+ac2scNdBrbAc/ZBt?=
- =?us-ascii?Q?XEH+K+xbOAhfv+7TxcMoJ00r7a1boNMy+00tPfe7jYawoJn3gte/oS5doO9o?=
- =?us-ascii?Q?tEZqA/2HhOCZq64oTHpiJz33zfqdepQQQjic4VP+6ac53l6qHLjdAVGED7lF?=
- =?us-ascii?Q?F5HpjjOd8THBUUwORufAf2xOWhbSSxd8CI0hptN2Pmm6jgfKjj2l9416xrD0?=
- =?us-ascii?Q?0+Muga9+NSPP30dhwCMn8hej8WIX4jypnOi7CAEwrfKqy0K1uBCXxydiz8dJ?=
- =?us-ascii?Q?lkDpqmy2wcNBCB3hBdTt2OQHDRm6uwYqbt1Iqu5EP9mYMlR9kXX9/BPl0W3d?=
- =?us-ascii?Q?Fq5zANaRICduyQJf0V05vILlT1GaamYcGNqrKSg7q5eTrCZBoL/dvxiuFrNH?=
- =?us-ascii?Q?/Dnf3SB+1hpsg8On693GkYHEs5UBbAqsv3DJ4vfeSxQkwhJwoX9OHVEQGzM3?=
- =?us-ascii?Q?GFh+Nfs0WVqiPELFQySbbU45usZNcaAg/R1nHrjklApdUsjLBVdHB+tOBV6A?=
- =?us-ascii?Q?eQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	igxln12qRMwm40q4IwE2l6ShquU4iP0l8OHL8xWGfK5WeobjlwcLz2vkiARdg6h9raPo7FghFfnzKdCZZdwmkyrbyDfbxaM4aoeeFrPPTL0UZG0nAhevMfjz2YwO6P5oHvoeXWo/gxXWE4VJ/oSm+/PG/gJTy/yYyFJuK1VOfOEJoiAGDetEqjr9qd9mZLZdbBxBMGO+x0wRTlNVstdjvetfi65qhM//Q0tXcOTZnqYG9hZGQ+m6El+Mj/BpeCuUHXNcMR7KIJwxZWtY/Yh0bKlG2Of0OfBRIV3py6VX9qh7NHMcmuIG5qzvbFZkM4XuZjG8O+qzWkzdvfX4JKMy54V+hznB10+GsLMmVch5GTfF3FNXUHxkn/2+ybSrg+gyrf1wUnQeHiSmkVcMekj5iFuwOCtfAKXoto743eqT/PLQ4bp3n/+Ptag2Fv/2AmsQooRqAzhcjxJPqcpL/CDUx1sxULNqFmwE9ximf88VHWQ+e+upMHcgbzdHFWFlKXBziWBTf5AhMmB0Ps6oropK8HQrbNkS5srX0IY3rtiKceXGdTyn8/ldb5jUjVRX9haTTYineqNHaCqkGEFC5uC0aF+I8ef9Rq+X8B/0o/Yargw=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e508f5da-de35-4a44-ca1e-08dd51978c2c
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 10:15:49.1288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uvIS+4ika9iPg4L7qyTBg91cMs9Suwj9ng8EaaTnqdGtA+7CDvqxhsOpltFsSX1Id+0/9g8zCWpSTnmHftruycCA3MI4U4xgtpftVeqtc7w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6276
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_04,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0 bulkscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
- definitions=main-2502200075
-X-Proofpoint-ORIG-GUID: NpeHblSQnszMcZh9_Ql6Dw6lQzqQHP-I
-X-Proofpoint-GUID: NpeHblSQnszMcZh9_Ql6Dw6lQzqQHP-I
+ <1e959451-2534-44b7-bf62-bc75305048fe@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <1e959451-2534-44b7-bf62-bc75305048fe@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 20, 2025 at 11:03:02AM +0100, David Hildenbrand wrote:
-> > > Your conclusion is 'did not participate with upstream'; I don't agree with
-> > > that. But maybe you and Kalesh have a history on that that let's you react
-> > > on his questions IMHO more emotionally than it should have been.
-> >
-> > This is wholly unfair, I have been very reasonable in response to this
-> > thread. I have offered to find solutions, I have tried to understand the
-> > problem in spite of having gone to great lengths to try to discuss the
-> > limitations of the proposed approach in every venue I possibly could.
-> >
-> > I go out of my way to deal professionally and objectively with what is
-> > presented. Nothing here is emotional. So I'd ask that you please abstain
-> > from making commentary like this which has no basis.
->
-> I appreciate everything you write below. But this request is just
-> impossible. I will keep raising my opinion and misunderstandings will
-> happen.
+On 20.02.25 11:15, Lorenzo Stoakes wrote:
+> On Thu, Feb 20, 2025 at 11:03:02AM +0100, David Hildenbrand wrote:
+>>>> Your conclusion is 'did not participate with upstream'; I don't agree with
+>>>> that. But maybe you and Kalesh have a history on that that let's you react
+>>>> on his questions IMHO more emotionally than it should have been.
+>>>
+>>> This is wholly unfair, I have been very reasonable in response to this
+>>> thread. I have offered to find solutions, I have tried to understand the
+>>> problem in spite of having gone to great lengths to try to discuss the
+>>> limitations of the proposed approach in every venue I possibly could.
+>>>
+>>> I go out of my way to deal professionally and objectively with what is
+>>> presented. Nothing here is emotional. So I'd ask that you please abstain
+>>> from making commentary like this which has no basis.
+>>
+>> I appreciate everything you write below. But this request is just
+>> impossible. I will keep raising my opinion and misunderstandings will
+>> happen.
+> 
+> Well I wouldn't ask you not to express your opinion David, you know I respect
+> and like you, and by all means push back hard or call out what you think is bad
+> behaviour :)
+> 
+> I just meant to say, in my view, that there was no basis, but I appreciate
+> miscommunications happen.
+ > > So apologies if I came off as being difficult or rude, it actually 
+wasn't
+> intended. And to re-emphasise - I have zero personal issue with anybody in this
+> thread whatsoever!
 
-Well I wouldn't ask you not to express your opinion David, you know I respect
-and like you, and by all means push back hard or call out what you think is bad
-behaviour :)
+It sounded to me like you were trying to defend your work (again, IMHO 
+too emotionally, and I might have completely misinterpreted that) and 
+slowly switching to "friendly fire" (towards me). Apologies from my side 
+if I completely misunderstood/misinterpreted that.
 
-I just meant to say, in my view, that there was no basis, but I appreciate
-miscommunications happen.
+To recap: what we have upstream is great; you did a great job. Yes, the 
+mechanism has its drawbacks, but that's just part of the design.
 
-So apologies if I came off as being difficult or rude, it actually wasn't
-intended. And to re-emphasise - I have zero personal issue with anybody in this
-thread whatsoever!
+Some people maybe have wrong expectations, maybe there were 
+misunderstandings, or maybe there are requirements that only now pop up; 
+it's sometimes unavoidable, and that's ok.
 
-I just want to find the best way forward, technically and am willing to do
-whatever work is required to make the guard region implementation as good as it
-possibly can be.
+We can try to document it better (and I was trying to find clues why 
+people might be mislead), and see if/how we could sort out these 
+requirements. But we can likely not make it perfect in any possible way 
+(I'm sure there are plenty of use cases where what we currently have is 
+more than sufficient).
 
->
-> Note that the whole "Honestly David you and the naming. .." thing could have
-> been written as "I don't think it's a naming problem."
+ > > I just want to find the best way forward, technically and am 
+willing to do
+> whatever work is required to make the guard region implementation as good as it
+> possibly can be.
+> 
+>>
+>> Note that the whole "Honestly David you and the naming. .." thing could have
+>> been written as "I don't think it's a naming problem."
+> 
+> I feel like I _always_ get in trouble when I try to write in a 'tongue-in-cheek'
+> style, which is what this was meant to be... so I think herein lies the basis of
+> the miscommunication :)
+> 
+> I apologise, the household is ill, which maybe affects my judgment in how I
+> write these, but in general text is a very poor medium. It was meant to be said
+> in a jolly tone with a wink...
+> 
+> I think maybe I should learn my lesson with these things, I thought the ':p'
+> would make this clear but yeah, text, poor medium.
+> 
+> Anyway apologies if this seemed disrespectful.
 
-I feel like I _always_ get in trouble when I try to write in a 'tongue-in-cheek'
-style, which is what this was meant to be... so I think herein lies the basis of
-the miscommunication :)
+No worries, it's hard to really make me angry, and I appreciate your 
+openness and your apology (well, and you and your work, obviously).
 
-I apologise, the household is ill, which maybe affects my judgment in how I
-write these, but in general text is a very poor medium. It was meant to be said
-in a jolly tone with a wink...
+I'll note, though, if my memory serves me right, that nobody so far ever 
+  criticized the way I communicate upstream, or even told me to abstain 
+from certain communication.
 
-I think maybe I should learn my lesson with these things, I thought the ':p'
-would make this clear but yeah, text, poor medium.
+That probably hurt most, now that a couple of hours passed. Nothing that 
+a couple of beers and a bit of self-reflection on my communication style 
+can't fix ;)
 
-Anyway apologies if this seemed disrespectful.
+[...]
 
->
-> > >
-> > >
-> > > >
-> > > > >
-> > > > > [...]
-> > > > >
-> > > > > >
-> > > > > > As I said to you earlier, the _best_ we could do in smaps would be to add a
-> > > > > > flag like 'Grd' or something to indicate some part of the VMA is
-> > > > > > guarded. But I won't do that unless somebody has an -actual use case- for
-> > > > > > it.
-> > > > >
-> > > > > Right, and that would limit where you have to manually scan. Something
-> > > > > similar is being done with uffd-wp markers IIRC.
-> > > >
-> > > > Yeah that's a good point, but honestly if you're reading smaps that reads
-> > > > the page tables, then reading /proc/$pid/pagemaps and reading page tables
-> > > > TWICE that seems inefficient vs. just reading /proc/$pid/maps, then reading
-> > > > /proc/$pid/pagemaps and reading page tables once.
-> > >
-> > > Right; I recently wished that we would have an interface to obtain more VMA
-> > > flags without having to go through smaps
-> >
-> > Well maybe that lends itself to the idea of adding a whole new interface in
-> > general...
->
-> An extended "maps" interface might be reasonable, that allows for exposing
-> more things without walking the page tables. (e.g., flags)
->
-> Maybe one could have an indicator that says "ever had guard regions in this
-> mapping" without actually walking the page tables.
+>>>>> Yeah that's a good point, but honestly if you're reading smaps that reads
+>>>>> the page tables, then reading /proc/$pid/pagemaps and reading page tables
+>>>>> TWICE that seems inefficient vs. just reading /proc/$pid/maps, then reading
+>>>>> /proc/$pid/pagemaps and reading page tables once.
+>>>>
+>>>> Right; I recently wished that we would have an interface to obtain more VMA
+>>>> flags without having to go through smaps
+>>>
+>>> Well maybe that lends itself to the idea of adding a whole new interface in
+>>> general...
+>>
+>> An extended "maps" interface might be reasonable, that allows for exposing
+>> more things without walking the page tables. (e.g., flags)
+>>
+>> Maybe one could have an indicator that says "ever had guard regions in this
+>> mapping" without actually walking the page tables.
+> 
+> Yeah this is something we've discussed before, but it's a little fraught. Let's
+> say it was a VMA flag, in this case we'd have to make this flag 'sticky' and not
+> impact merging (easy enough) to account for splits/merges.
+ > > The problem comes in that we would then need to acquire the VMA 
+write lock to do
+> it, something we don't currently require on application of guard regions.
 
-Yeah this is something we've discussed before, but it's a little fraught. Let's
-say it was a VMA flag, in this case we'd have to make this flag 'sticky' and not
-impact merging (easy enough) to account for splits/merges.
+Right, and we shouldn't write-lock the mmap. We'd need some way to just 
+atomically set such an indicator on a VMA.
 
-The problem comes in that we would then need to acquire the VMA write lock to do
-it, something we don't currently require on application of guard regions.
+I'll also note that it might be helpful for smallish region, but 
+especially for large ones (including when they are split and the 
+indicator is wrong), it's less helpful. I don't have to tell you about 
+the VMA merging implications, probably it would be like VM_SOFTDIRTY 
+handling :)
 
-We'd also have to make sure nothing else makes any assumptions about VMA flags
-implying differences in VMAs in this one instance (though we do already do this
-for VM_SOFTDIRTY).
+> 
+> We'd also have to make sure nothing else makes any assumptions about VMA flags
+> implying differences in VMAs in this one instance (though we do already do this
+> for VM_SOFTDIRTY).
+> 
+> I saw this as possibly something like VM_MAYBE_GUARD_REGIONS or something.
 
-I saw this as possibly something like VM_MAYBE_GUARD_REGIONS or something.
+Yes.
 
->
-> --
-> Cheers,
->
-> David / dhildenb
->
->
+-- 
+Cheers,
+
+David / dhildenb
+
 
