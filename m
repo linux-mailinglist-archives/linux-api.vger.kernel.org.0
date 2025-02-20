@@ -1,72 +1,73 @@
-Return-Path: <linux-api+bounces-3266-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3267-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8623A3E09E
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 17:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E2EA3E369
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 19:09:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FBF93A4706
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 16:22:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18E903BCB4C
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 18:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EF281FE46F;
-	Thu, 20 Feb 2025 16:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9357B214210;
+	Thu, 20 Feb 2025 18:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yU+jcc7g"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tHNxAt9C"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835251EDA1F
-	for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 16:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F2F213E61
+	for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 18:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068532; cv=none; b=nbu0K62VPMEzeGblDlWwOQHxCrantsIhJKOX0rpp7FmOL7/Jm1tzMCgcrPSsFNJ4mBTP+Qzq1UPxgDp0HQaoqfg9Yig0amUkJaZZQqZJK+1Qsvk9lIgCgBRWkgxC002yoNvMSzq9YVyFOj+t3mdocMiTPyNJwtAMa/gwE56kNfU=
+	t=1740074931; cv=none; b=FzH5O1Pi7rsSnhI3t9MfW5bBOe7MjMGZKZdFCWR/F7fA15nuAfehb85TRuSB9dwxiojTraol0LnKcUp+Zbesb9SvQzIUEhPaU1PkFYRhnh1B1svTi8VJMl3NtStf26rG/gwDBreYGFDEu3V9W5sw6Tn6+Tv0u3BC+UQiH65Quzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068532; c=relaxed/simple;
-	bh=C5RWv4Oht+LsTsTvLtn0X1kIsGJ2QBZ4Q1SHZfo5328=;
+	s=arc-20240116; t=1740074931; c=relaxed/simple;
+	bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NoyUIdZRoNLQSMMiPX4yCdxgvipt2WwpQxZhQT+6KWNetbN+r0WM6f2qeskD2mBv9aXBWK8x3alhVapsIlUI//SuncwJZ+wgAHGMRgr96bfXAE6XSh33YwhuRn/t6YvtwfPtjAfktRCdwsKuN4EHFiSXIZd7gdc/5Vi6lP3TIgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yU+jcc7g; arc=none smtp.client-ip=209.85.128.42
+	 To:Cc:Content-Type; b=ZBBej3GsthcpUpcsgRKBJN9vToIsAs/jcQz9w2ANVGhmMKk0tI8ZOULZFvb03Xbat8RLLu65AUBu26s8k8JXpmKjoeikc5Xy8G4W4nqHrbwctuPSycjO1eWE5WDC9PfA79QqBJVHLyVM9GtoLrZILzaxxKrcZtw6u1ADvmDeWtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tHNxAt9C; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-439849103c8so68575e9.0
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 08:22:10 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2212222d4cdso10045ad.0
+        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 10:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740068529; x=1740673329; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1740074929; x=1740679729; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C5RWv4Oht+LsTsTvLtn0X1kIsGJ2QBZ4Q1SHZfo5328=;
-        b=yU+jcc7gTJr2wnn5KigsB351k4YK/gJ7mjSAKHBWWPF9YiCTSoubdNnxAZlN5rHfQs
-         /Fg4cGMpMy0fvOeVyZ77Ze0euGebUDhvgYvcfuqT4FKhcLebRuScwWp37mc63NXXQJV0
-         mmL3D0Gc1h/oTps1goBLL3D8kJ3i4T1M7qON3wo4/8x0g6UK9H/jFVjf3k78c9ekB2YE
-         S/Y5/b+Zumu2l8Etjk8Lbx6nTi83gOeP370nSSFAHj//wJfU8Z/iKbsBLZuKZ6iVsTzF
-         Rlau8swbE4eQwCV+GnJIgFRxlbNjJHeyTDtU7VgC79XtEL/kKOkXaQtT05N2/Wy9EI6i
-         sTzA==
+        bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
+        b=tHNxAt9CS77Pt2+tdmEvRkzIj4drq3QAK9GIIJchikgp/FgaPZPRjTJFrvir+svepX
+         nrB7YRaik7VRIU6kW4PE8MqQianYl5wb9UzDb3+hBzmu1mHVM8F6ixyBWOM3D1g75L5k
+         WIjiyPn6b/+tRHZAFDJ1YFUyz/n8Z0vJRL2A00tnWecuXBX02gJldYP+0o19JSwKHlBx
+         jyptbrTUa4ztXO7bCG/g1/0ChK02c9PfOHD2wiRHXamRv8/T5RmPacXUgU38pX7e9dIX
+         OAfM4u0YY24NhddV1jCjgKvC0m0Pgl+Wi58ER547FeGI+ktLMcpe+SuiI96sfrMwnIGF
+         HvZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740068529; x=1740673329;
+        d=1e100.net; s=20230601; t=1740074929; x=1740679729;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C5RWv4Oht+LsTsTvLtn0X1kIsGJ2QBZ4Q1SHZfo5328=;
-        b=jOw1jDZarqJjnDJ1MVMjn0Hhi4fkmBXT8q4OTErWwUzjeiIRppRsQWwJYhBzctiw+3
-         JgHkhjsY1jQBSFFD0GEt0pBzFSRKNswdUYr1kojPjK9VMmvfGhSpf0hAILm+u643zfK8
-         uPBR3hjQlB80DXVxQDhYBt/AYah9xhAznLxqp6nEhr9dXX3YhtjIvhR/DQZQ3VXMfIGU
-         nw6C2VsilaNWnSfXm+AbOwbZIX+70o7A/vUeB4nMSkpeFrTBk76donSIWRfrJVdc1S+G
-         ESR/VYt/2b3jId4EJede5gIAcRJ5e6tbnREQ3PQ1oyf1NvsS33RS0c5n4HuTB9mX+sap
-         ESYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0A1ZdSmsAbQ1Pk1YNQT7W0c7VxPrAP1TWeVKfCZv4knj73kME456HtsA0D13/9sysdkrqx5vKvfU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDoNs4ySKwCEKr6dkIgfqpGonkv0Ywa9xO4YH6X+9Veojitg7M
-	IrOJkXkfiJADvH+AaxcY1aVQkVKSIoSeKMwmazYl1vFNBZejQZh1VhFeGQMi8S+9TLLUh50nbV1
-	9FX68Yk9W6YATkmnIABOJujHHIBopniAEK+wg
-X-Gm-Gg: ASbGncv8fbdo/zeBwvD78xY1mhjLvALO0pWYOHEoI+rIu4oq5pfC86Ak6mRkx/s9X5O
-	gyox9H0CPKQLEx2fZpT3A4+Zh/QLLI+vGZQE6ZRsvjmJm1u8fAaVY60JM2Axlkz6tNdW/ICPA
-X-Google-Smtp-Source: AGHT+IEOrIguQcBOjXWtiHCKwopXN+WtboolRWXtVmDAQGp+1Z6t0KvSTIc5/WYVKx9BFIkZehap41ICQaQzIQ/Xh1c=
-X-Received: by 2002:a05:600c:210f:b0:439:7fc2:c7ad with SMTP id
- 5b1f17b1804b1-439a4767feamr1201225e9.7.1740068528532; Thu, 20 Feb 2025
- 08:22:08 -0800 (PST)
+        bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
+        b=bKMNeLnh4OfCSU+DAfWz3N2BPU+LT33VL3kONrPFajYhe0Znw9AcweL+6DJdUd2vrz
+         3Hi1zgXDrexrunyZeb2WByty5NXcWfUL9aTChuWAps+CluOCv+ngYy+IEZRbukcd4WhN
+         24Hy+QEL2W6nR35O0/S2ILoQz6Pbi/wVhTOGFp85RgKGpEbDkmHBYGI7YbNqONRxsc2i
+         tm+PE9ybKajf9gv2JjKB16VNFFbqi/fxao1J9tV8bKHT8uY1aFIZC04OfYkA/Qs8Wy17
+         xsQHa1YFkTo8+TDm7DZc9ye4pRny57S1KMEV7gpeZ2pH7x2DstBWrF8Te/qr4fLL3HWX
+         XpDw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmEUuJxTEH1eVfobx9L8dor23gbXckYgcrpTewMfCEKYhhYTBewhDU7E2pQxvK1xGkXWJyULF0w9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyRQsO27Q30BPQNNJR7dUKRPaf8hGWHIX1dZR4Acupxzvek0MV
+	EDxN6u7U1kBAFbcukFeY2+IdW29Bz8IHGZDeexc1iutGEVlmqesq/SYH7EVANvVukdNZDo3GO0A
+	uTh+UVqSKwkUsaeewS6+WYFgyQMLo46ak7gel
+X-Gm-Gg: ASbGncsTC8PQ7jslPqb5Q6EggliDw9IOAB5/uZVd0HSTA7KYE7m/exVyzYmB1F6RDxI
+	nN2kUrKqtBtJh4a8/5OzTkq83adreKaPPD+4nlKXgVPHv/um0YWgsYguoXqYLDjGU2hUGdRmSiQ
+	gHFdnApzFkXQzQLFFzKBewx2Ns9w8=
+X-Google-Smtp-Source: AGHT+IGZYPDV28Cz7sYINJpTnmjw8EhukaY1/WmWGcdUtzSTAPhvLJwj66QqkFOK0m59IebD7nMgwWPPoi4mjkkZ9So=
+X-Received: by 2002:a17:902:d584:b0:212:26e:1b46 with SMTP id
+ d9443c01a7336-2218ffb83a8mr3053025ad.23.1740074928718; Thu, 20 Feb 2025
+ 10:08:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -79,15 +80,15 @@ References: <e07dfd31-197c-49d0-92bd-12aad02daa7e@lucifer.local>
  <b0a95f2c-093c-45fd-b4a2-2ba5cbc37e2c@lucifer.local> <387f3516-99f2-41e9-967e-4b051a8d21b8@redhat.com>
  <72e044ba-64af-49c0-8b87-ead508654fb7@lucifer.local> <4f5a9c19-9bdd-47eb-bb14-205e3dcced90@redhat.com>
  <1e959451-2534-44b7-bf62-bc75305048fe@lucifer.local> <bd4597b5-2da2-484c-9410-384e04336a9d@redhat.com>
- <31a007c0-884f-495d-ba27-08e3e0dd767d@lucifer.local>
-In-Reply-To: <31a007c0-884f-495d-ba27-08e3e0dd767d@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 20 Feb 2025 08:21:54 -0800
-X-Gm-Features: AWEUYZmUc3XJIdBmrSxEVAYvHGFXnZ-DZGtTP2XuTCRhGTOphXLfooYmt5dVI1Y
-Message-ID: <CAJuCfpHpchh0CzEgh5CKmRLwpscBLx32A-mGi4eudpir1wm=cQ@mail.gmail.com>
+ <31a007c0-884f-495d-ba27-08e3e0dd767d@lucifer.local> <CAJuCfpHpchh0CzEgh5CKmRLwpscBLx32A-mGi4eudpir1wm=cQ@mail.gmail.com>
+In-Reply-To: <CAJuCfpHpchh0CzEgh5CKmRLwpscBLx32A-mGi4eudpir1wm=cQ@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Thu, 20 Feb 2025 10:08:36 -0800
+X-Gm-Features: AWEUYZldDtJoTDPcjQKD0pHhJ973ZEAcjadmBHGExUTRQr9Y3pOVfjnjWolS78o
+Message-ID: <CAC_TJvd2Y-EnavZkt5_nQUXmRpjo8AYMu6rND7eMUwXn27ab0A@mail.gmail.com>
 Subject: Re: [PATCH 0/4] mm: permit guard regions for file-backed/shmem mappings
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>, Kalesh Singh <kaleshsingh@google.com>, 
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, 
 	Andrew Morton <akpm@linux-foundation.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
 	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, 
 	"Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org, 
@@ -97,265 +98,296 @@ Cc: David Hildenbrand <david@redhat.com>, Kalesh Singh <kaleshsingh@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 20, 2025 at 5:18=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
+On Thu, Feb 20, 2025 at 8:22=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
 >
-> On Thu, Feb 20, 2025 at 01:44:20PM +0100, David Hildenbrand wrote:
-> > On 20.02.25 11:15, Lorenzo Stoakes wrote:
-> > > On Thu, Feb 20, 2025 at 11:03:02AM +0100, David Hildenbrand wrote:
-> > > > > > Your conclusion is 'did not participate with upstream'; I don't=
- agree with
-> > > > > > that. But maybe you and Kalesh have a history on that that let'=
-s you react
-> > > > > > on his questions IMHO more emotionally than it should have been=
-.
-> > > > >
-> > > > > This is wholly unfair, I have been very reasonable in response to=
- this
-> > > > > thread. I have offered to find solutions, I have tried to underst=
-and the
-> > > > > problem in spite of having gone to great lengths to try to discus=
-s the
-> > > > > limitations of the proposed approach in every venue I possibly co=
-uld.
-> > > > >
-> > > > > I go out of my way to deal professionally and objectively with wh=
-at is
-> > > > > presented. Nothing here is emotional. So I'd ask that you please =
-abstain
-> > > > > from making commentary like this which has no basis.
-> > > >
-> > > > I appreciate everything you write below. But this request is just
-> > > > impossible. I will keep raising my opinion and misunderstandings wi=
-ll
-> > > > happen.
-> > >
-> > > Well I wouldn't ask you not to express your opinion David, you know I=
- respect
-> > > and like you, and by all means push back hard or call out what you th=
-ink is bad
-> > > behaviour :)
-> > >
-> > > I just meant to say, in my view, that there was no basis, but I appre=
-ciate
-> > > miscommunications happen.
-> > > > So apologies if I came off as being difficult or rude, it actually
-> > wasn't
-> > > intended. And to re-emphasise - I have zero personal issue with anybo=
-dy in this
-> > > thread whatsoever!
+> On Thu, Feb 20, 2025 at 5:18=E2=80=AFAM Lorenzo Stoakes
+> <lorenzo.stoakes@oracle.com> wrote:
 > >
-> > It sounded to me like you were trying to defend your work (again, IMHO =
-too
-> > emotionally, and I might have completely misinterpreted that) and slowl=
-y
-> > switching to "friendly fire" (towards me). Apologies from my side if I
-> > completely misunderstood/misinterpreted that.
->
-> Right this was not at all my intent, sorry if it seemed that way. I may w=
-ell
-> have communicated terribly, so apologies on my side too.
-
-Sorry for being late to the party. Was sick for a couple of days.
-Lorenzo is right, there was a breakdown in communication at Google and
-he has all the rights to be upset. The issue with obfuscators should
-have been communicated once it was discovered. I was in regular
-discussions with Lorenzo but wasn't directly involved with this
-particular project and wasn't aware or did not realize that the
-obfuscator issue renders guards unusable for this usecase. My
-apologies, I should have asked more questions about it. I suspect
-Lorenzo would have implemented this anyway...
-
-To make guard regions work for this usecase, first we (Android) need
-to abstract /proc/pid/maps accesses. Only then we can use additional
-interfaces like /proc/pid/pagemaps to obtain guard region information.
-I'll start figuring out what it takes to insert such an abstraction.
-Thanks,
-Suren.
-
-
->
-> >
-> > To recap: what we have upstream is great; you did a great job. Yes, the
-> > mechanism has its drawbacks, but that's just part of the design.
->
-> Thanks :)
->
-> >
-> > Some people maybe have wrong expectations, maybe there were
-> > misunderstandings, or maybe there are requirements that only now pop up=
-;
-> > it's sometimes unavoidable, and that's ok.
-> >
-> > We can try to document it better (and I was trying to find clues why pe=
-ople
-> > might be mislead), and see if/how we could sort out these requirements.=
- But
-> > we can likely not make it perfect in any possible way (I'm sure there a=
-re
-> > plenty of use cases where what we currently have is more than sufficien=
-t).
->
-> Sure and I"m very open to adding a documentation page for guard regions, =
-in
-> fact was considering this very thing recently. I already added man pages
-> but be good to be able to go into more depth.
->
-> >
-> > > > I just want to find the best way forward, technically and am willin=
-g to
-> > do
-> > > whatever work is required to make the guard region implementation as =
-good as it
-> > > possibly can be.
-> > >
-> > > >
-> > > > Note that the whole "Honestly David you and the naming. .." thing c=
-ould have
-> > > > been written as "I don't think it's a naming problem."
-> > >
-> > > I feel like I _always_ get in trouble when I try to write in a 'tongu=
-e-in-cheek'
-> > > style, which is what this was meant to be... so I think herein lies t=
-he basis of
-> > > the miscommunication :)
-> > >
-> > > I apologise, the household is ill, which maybe affects my judgment in=
- how I
-> > > write these, but in general text is a very poor medium. It was meant =
-to be said
-> > > in a jolly tone with a wink...
-> > >
-> > > I think maybe I should learn my lesson with these things, I thought t=
-he ':p'
-> > > would make this clear but yeah, text, poor medium.
-> > >
-> > > Anyway apologies if this seemed disrespectful.
-> >
-> > No worries, it's hard to really make me angry, and I appreciate your
-> > openness and your apology (well, and you and your work, obviously).
-> >
-> > I'll note, though, if my memory serves me right, that nobody so far eve=
-r
-> > criticized the way I communicate upstream, or even told me to abstain f=
-rom
-> > certain communication.
->
-> I wish I could say the same haha, so perhaps this was a problem on my sid=
-e
-> honestly. I do have a habit of being 'tongue in cheek' and failing to
-> communicate that which I did say the last time I wouldn't repeat. It is n=
-ot
-> intended, I promise.
->
-> As the abstain, was more a British turn of phrase, meaning to say - I
-> dispute the claim that this is an emotional thing and please don't say th=
-is
-> if it isn't so.
->
-> But I understand that of course, you may have interpreted it as so, due t=
-o
-> my having failed to communicate it well.
->
-> Again, I must say, text remains replete with possibilities for
-> miscommunication, misunderstanding and it can so often be difficult to
-> communicate one's intent.
->
-> But again of course, I apologise if I overstepped the line in any way!
->
-> >
-> > That probably hurt most, now that a couple of hours passed. Nothing tha=
-t a
-> > couple of beers and a bit of self-reflection on my communication style =
-can't
-> > fix ;)
->
-> Ugh sorry, man. Not my intent. And it seems - I literally OWE YOU pints
-> now. :) we will fix this at lsf...
->
-> Perhaps owe Kalesh some too should he be there... will budget
-> accordingly... :P
->
-> >
-> > [...]
-> >
-> > > > > > > Yeah that's a good point, but honestly if you're reading smap=
-s that reads
-> > > > > > > the page tables, then reading /proc/$pid/pagemaps and reading=
- page tables
-> > > > > > > TWICE that seems inefficient vs. just reading /proc/$pid/maps=
-, then reading
-> > > > > > > /proc/$pid/pagemaps and reading page tables once.
+> > On Thu, Feb 20, 2025 at 01:44:20PM +0100, David Hildenbrand wrote:
+> > > On 20.02.25 11:15, Lorenzo Stoakes wrote:
+> > > > On Thu, Feb 20, 2025 at 11:03:02AM +0100, David Hildenbrand wrote:
+> > > > > > > Your conclusion is 'did not participate with upstream'; I don=
+'t agree with
+> > > > > > > that. But maybe you and Kalesh have a history on that that le=
+t's you react
+> > > > > > > on his questions IMHO more emotionally than it should have be=
+en.
 > > > > > >
-> > > > > > Right; I recently wished that we would have an interface to obt=
-ain more VMA
-> > > > > > flags without having to go through smaps
+> > > > > > This is wholly unfair, I have been very reasonable in response =
+to this
+> > > > > > thread. I have offered to find solutions, I have tried to under=
+stand the
+> > > > > > problem in spite of having gone to great lengths to try to disc=
+uss the
+> > > > > > limitations of the proposed approach in every venue I possibly =
+could.
+> > > > > >
+> > > > > > I go out of my way to deal professionally and objectively with =
+what is
+> > > > > > presented. Nothing here is emotional. So I'd ask that you pleas=
+e abstain
+> > > > > > from making commentary like this which has no basis.
 > > > > >
-> > > > > Well maybe that lends itself to the idea of adding a whole new in=
-terface in
-> > > > > general...
+> > > > > I appreciate everything you write below. But this request is just
+> > > > > impossible. I will keep raising my opinion and misunderstandings =
+will
+> > > > > happen.
 > > > >
-> > > > An extended "maps" interface might be reasonable, that allows for e=
-xposing
-> > > > more things without walking the page tables. (e.g., flags)
+> > > > Well I wouldn't ask you not to express your opinion David, you know=
+ I respect
+> > > > and like you, and by all means push back hard or call out what you =
+think is bad
+> > > > behaviour :)
 > > > >
-> > > > Maybe one could have an indicator that says "ever had guard regions=
- in this
-> > > > mapping" without actually walking the page tables.
+> > > > I just meant to say, in my view, that there was no basis, but I app=
+reciate
+> > > > miscommunications happen.
+> > > > > So apologies if I came off as being difficult or rude, it actuall=
+y
+> > > wasn't
+> > > > intended. And to re-emphasise - I have zero personal issue with any=
+body in this
+> > > > thread whatsoever!
 > > >
-> > > Yeah this is something we've discussed before, but it's a little frau=
-ght. Let's
-> > > say it was a VMA flag, in this case we'd have to make this flag 'stic=
-ky' and not
-> > > impact merging (easy enough) to account for splits/merges.
-> > > > The problem comes in that we would then need to acquire the VMA wri=
-te
-> > lock to do
-> > > it, something we don't currently require on application of guard regi=
-ons.
+> > > It sounded to me like you were trying to defend your work (again, IMH=
+O too
+> > > emotionally, and I might have completely misinterpreted that) and slo=
+wly
+> > > switching to "friendly fire" (towards me). Apologies from my side if =
+I
+> > > completely misunderstood/misinterpreted that.
 > >
-> > Right, and we shouldn't write-lock the mmap. We'd need some way to just
-> > atomically set such an indicator on a VMA.
+> > Right this was not at all my intent, sorry if it seemed that way. I may=
+ well
+> > have communicated terribly, so apologies on my side too.
+
+Hi everyone,
+
+Thank you for all the discussion.
+
+I don't find any personal issues with the communication in this
+thread, but I appreciate David being the object voice of reason.
+
+I understand it can be frustrating since you have made many efforts to
+communicate these tradeoffs. Unfortunately these issues were not known
+for the file-backed ELF guard regions for my particular use case.
+
 >
-> Hm yeah, could be tricky, we definitely can't manage a new field in
-> vm_area_struct, this is a very sensitive subject at the moment really wit=
-h
-> Suren's work with VMAs allocated via SLAB_TYPESAFE_BY_RCU, putting the lo=
-ck
-> into the VMA and the alignment requirements.
+> Sorry for being late to the party. Was sick for a couple of days.
+> Lorenzo is right, there was a breakdown in communication at Google and
+> he has all the rights to be upset. The issue with obfuscators should
+> have been communicated once it was discovered. I was in regular
+> discussions with Lorenzo but wasn't directly involved with this
+> particular project and wasn't aware or did not realize that the
+> obfuscator issue renders guards unusable for this usecase. My
+> apologies, I should have asked more questions about it. I suspect
+> Lorenzo would have implemented this anyway...
 >
-> Not sure what precedent we'd have with atomic setting of a VMA flag for
-> this... could be tricky.
+
+Suren's use case is different from mine and this design fits perfectly
+for anon guard regions from the allocator. :)
+
+So I think in conclusion, these aren't VMAs and shouldn't be treated
+as such; we will advertise them from pagemap for those who need to
+know.
+
+-- Kalesh
+
+
+> To make guard regions work for this usecase, first we (Android) need
+> to abstract /proc/pid/maps accesses. Only then we can use additional
+> interfaces like /proc/pid/pagemaps to obtain guard region information.
+> I'll start figuring out what it takes to insert such an abstraction.
+> Thanks,
+> Suren.
 >
-> >
-> > I'll also note that it might be helpful for smallish region, but especi=
-ally
-> > for large ones (including when they are split and the indicator is wron=
-g),
-> > it's less helpful. I don't have to tell you about the VMA merging
-> > implications, probably it would be like VM_SOFTDIRTY handling :)
->
-> Yeah indeed now we've simplified merging a lot of possibilities emerge,
-> this is one!
 >
 > >
 > > >
-> > > We'd also have to make sure nothing else makes any assumptions about =
-VMA flags
-> > > implying differences in VMAs in this one instance (though we do alrea=
-dy do this
-> > > for VM_SOFTDIRTY).
+> > > To recap: what we have upstream is great; you did a great job. Yes, t=
+he
+> > > mechanism has its drawbacks, but that's just part of the design.
+> >
+> > Thanks :)
+> >
 > > >
-> > > I saw this as possibly something like VM_MAYBE_GUARD_REGIONS or somet=
-hing.
+> > > Some people maybe have wrong expectations, maybe there were
+> > > misunderstandings, or maybe there are requirements that only now pop =
+up;
+> > > it's sometimes unavoidable, and that's ok.
+> > >
+> > > We can try to document it better (and I was trying to find clues why =
+people
+> > > might be mislead), and see if/how we could sort out these requirement=
+s. But
+> > > we can likely not make it perfect in any possible way (I'm sure there=
+ are
+> > > plenty of use cases where what we currently have is more than suffici=
+ent).
 > >
-> > Yes.
+> > Sure and I"m very open to adding a documentation page for guard regions=
+, in
+> > fact was considering this very thing recently. I already added man page=
+s
+> > but be good to be able to go into more depth.
 > >
-> > --
-> > Cheers,
+> > >
+> > > > > I just want to find the best way forward, technically and am will=
+ing to
+> > > do
+> > > > whatever work is required to make the guard region implementation a=
+s good as it
+> > > > possibly can be.
+> > > >
+> > > > >
+> > > > > Note that the whole "Honestly David you and the naming. .." thing=
+ could have
+> > > > > been written as "I don't think it's a naming problem."
+> > > >
+> > > > I feel like I _always_ get in trouble when I try to write in a 'ton=
+gue-in-cheek'
+> > > > style, which is what this was meant to be... so I think herein lies=
+ the basis of
+> > > > the miscommunication :)
+> > > >
+> > > > I apologise, the household is ill, which maybe affects my judgment =
+in how I
+> > > > write these, but in general text is a very poor medium. It was mean=
+t to be said
+> > > > in a jolly tone with a wink...
+> > > >
+> > > > I think maybe I should learn my lesson with these things, I thought=
+ the ':p'
+> > > > would make this clear but yeah, text, poor medium.
+> > > >
+> > > > Anyway apologies if this seemed disrespectful.
+> > >
+> > > No worries, it's hard to really make me angry, and I appreciate your
+> > > openness and your apology (well, and you and your work, obviously).
+> > >
+> > > I'll note, though, if my memory serves me right, that nobody so far e=
+ver
+> > > criticized the way I communicate upstream, or even told me to abstain=
+ from
+> > > certain communication.
 > >
-> > David / dhildenb
+> > I wish I could say the same haha, so perhaps this was a problem on my s=
+ide
+> > honestly. I do have a habit of being 'tongue in cheek' and failing to
+> > communicate that which I did say the last time I wouldn't repeat. It is=
+ not
+> > intended, I promise.
 > >
->
-> Best, Lorenzo
+> > As the abstain, was more a British turn of phrase, meaning to say - I
+> > dispute the claim that this is an emotional thing and please don't say =
+this
+> > if it isn't so.
+> >
+> > But I understand that of course, you may have interpreted it as so, due=
+ to
+> > my having failed to communicate it well.
+> >
+> > Again, I must say, text remains replete with possibilities for
+> > miscommunication, misunderstanding and it can so often be difficult to
+> > communicate one's intent.
+> >
+> > But again of course, I apologise if I overstepped the line in any way!
+> >
+> > >
+> > > That probably hurt most, now that a couple of hours passed. Nothing t=
+hat a
+> > > couple of beers and a bit of self-reflection on my communication styl=
+e can't
+> > > fix ;)
+> >
+> > Ugh sorry, man. Not my intent. And it seems - I literally OWE YOU pints
+> > now. :) we will fix this at lsf...
+> >
+> > Perhaps owe Kalesh some too should he be there... will budget
+> > accordingly... :P
+> >
+> > >
+> > > [...]
+> > >
+> > > > > > > > Yeah that's a good point, but honestly if you're reading sm=
+aps that reads
+> > > > > > > > the page tables, then reading /proc/$pid/pagemaps and readi=
+ng page tables
+> > > > > > > > TWICE that seems inefficient vs. just reading /proc/$pid/ma=
+ps, then reading
+> > > > > > > > /proc/$pid/pagemaps and reading page tables once.
+> > > > > > >
+> > > > > > > Right; I recently wished that we would have an interface to o=
+btain more VMA
+> > > > > > > flags without having to go through smaps
+> > > > > >
+> > > > > > Well maybe that lends itself to the idea of adding a whole new =
+interface in
+> > > > > > general...
+> > > > >
+> > > > > An extended "maps" interface might be reasonable, that allows for=
+ exposing
+> > > > > more things without walking the page tables. (e.g., flags)
+> > > > >
+> > > > > Maybe one could have an indicator that says "ever had guard regio=
+ns in this
+> > > > > mapping" without actually walking the page tables.
+> > > >
+> > > > Yeah this is something we've discussed before, but it's a little fr=
+aught. Let's
+> > > > say it was a VMA flag, in this case we'd have to make this flag 'st=
+icky' and not
+> > > > impact merging (easy enough) to account for splits/merges.
+> > > > > The problem comes in that we would then need to acquire the VMA w=
+rite
+> > > lock to do
+> > > > it, something we don't currently require on application of guard re=
+gions.
+> > >
+> > > Right, and we shouldn't write-lock the mmap. We'd need some way to ju=
+st
+> > > atomically set such an indicator on a VMA.
+> >
+> > Hm yeah, could be tricky, we definitely can't manage a new field in
+> > vm_area_struct, this is a very sensitive subject at the moment really w=
+ith
+> > Suren's work with VMAs allocated via SLAB_TYPESAFE_BY_RCU, putting the =
+lock
+> > into the VMA and the alignment requirements.
+> >
+> > Not sure what precedent we'd have with atomic setting of a VMA flag for
+> > this... could be tricky.
+> >
+> > >
+> > > I'll also note that it might be helpful for smallish region, but espe=
+cially
+> > > for large ones (including when they are split and the indicator is wr=
+ong),
+> > > it's less helpful. I don't have to tell you about the VMA merging
+> > > implications, probably it would be like VM_SOFTDIRTY handling :)
+> >
+> > Yeah indeed now we've simplified merging a lot of possibilities emerge,
+> > this is one!
+> >
+> > >
+> > > >
+> > > > We'd also have to make sure nothing else makes any assumptions abou=
+t VMA flags
+> > > > implying differences in VMAs in this one instance (though we do alr=
+eady do this
+> > > > for VM_SOFTDIRTY).
+> > > >
+> > > > I saw this as possibly something like VM_MAYBE_GUARD_REGIONS or som=
+ething.
+> > >
+> > > Yes.
+> > >
+> > > --
+> > > Cheers,
+> > >
+> > > David / dhildenb
+> > >
+> >
+> > Best, Lorenzo
 
