@@ -1,393 +1,125 @@
-Return-Path: <linux-api+bounces-3267-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3268-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E2EA3E369
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 19:09:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C12A3E4FE
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 20:23:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18E903BCB4C
-	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 18:08:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 943831774C0
+	for <lists+linux-api@lfdr.de>; Thu, 20 Feb 2025 19:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9357B214210;
-	Thu, 20 Feb 2025 18:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8276D213E80;
+	Thu, 20 Feb 2025 19:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tHNxAt9C"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="XJUV1HHL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F2F213E61
-	for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 18:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2EF415A858;
+	Thu, 20 Feb 2025 19:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740074931; cv=none; b=FzH5O1Pi7rsSnhI3t9MfW5bBOe7MjMGZKZdFCWR/F7fA15nuAfehb85TRuSB9dwxiojTraol0LnKcUp+Zbesb9SvQzIUEhPaU1PkFYRhnh1B1svTi8VJMl3NtStf26rG/gwDBreYGFDEu3V9W5sw6Tn6+Tv0u3BC+UQiH65Quzo=
+	t=1740079435; cv=none; b=lGFRqisdmft0vpWuLdzSsw2xm8pT26EfUEJjjO76q7lYKDxHsaeOKaHM1UBs9HHbd+elMcD0M36nVyUTXol5IlTqvhprA5I+eb5nX7OT17E+MvvNadXlt5sqFRpSxJ0oJRxjW4sAAdoXkl03K/wyjcFDtf/Wh5UiYH+z5qu45Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740074931; c=relaxed/simple;
-	bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZBBej3GsthcpUpcsgRKBJN9vToIsAs/jcQz9w2ANVGhmMKk0tI8ZOULZFvb03Xbat8RLLu65AUBu26s8k8JXpmKjoeikc5Xy8G4W4nqHrbwctuPSycjO1eWE5WDC9PfA79QqBJVHLyVM9GtoLrZILzaxxKrcZtw6u1ADvmDeWtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tHNxAt9C; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2212222d4cdso10045ad.0
-        for <linux-api@vger.kernel.org>; Thu, 20 Feb 2025 10:08:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740074929; x=1740679729; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
-        b=tHNxAt9CS77Pt2+tdmEvRkzIj4drq3QAK9GIIJchikgp/FgaPZPRjTJFrvir+svepX
-         nrB7YRaik7VRIU6kW4PE8MqQianYl5wb9UzDb3+hBzmu1mHVM8F6ixyBWOM3D1g75L5k
-         WIjiyPn6b/+tRHZAFDJ1YFUyz/n8Z0vJRL2A00tnWecuXBX02gJldYP+0o19JSwKHlBx
-         jyptbrTUa4ztXO7bCG/g1/0ChK02c9PfOHD2wiRHXamRv8/T5RmPacXUgU38pX7e9dIX
-         OAfM4u0YY24NhddV1jCjgKvC0m0Pgl+Wi58ER547FeGI+ktLMcpe+SuiI96sfrMwnIGF
-         HvZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740074929; x=1740679729;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D53WxB+5XGbLoWd50Ahi6aTeZn7Ht74o0ERsJkFY5B4=;
-        b=bKMNeLnh4OfCSU+DAfWz3N2BPU+LT33VL3kONrPFajYhe0Znw9AcweL+6DJdUd2vrz
-         3Hi1zgXDrexrunyZeb2WByty5NXcWfUL9aTChuWAps+CluOCv+ngYy+IEZRbukcd4WhN
-         24Hy+QEL2W6nR35O0/S2ILoQz6Pbi/wVhTOGFp85RgKGpEbDkmHBYGI7YbNqONRxsc2i
-         tm+PE9ybKajf9gv2JjKB16VNFFbqi/fxao1J9tV8bKHT8uY1aFIZC04OfYkA/Qs8Wy17
-         xsQHa1YFkTo8+TDm7DZc9ye4pRny57S1KMEV7gpeZ2pH7x2DstBWrF8Te/qr4fLL3HWX
-         XpDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXmEUuJxTEH1eVfobx9L8dor23gbXckYgcrpTewMfCEKYhhYTBewhDU7E2pQxvK1xGkXWJyULF0w9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyRQsO27Q30BPQNNJR7dUKRPaf8hGWHIX1dZR4Acupxzvek0MV
-	EDxN6u7U1kBAFbcukFeY2+IdW29Bz8IHGZDeexc1iutGEVlmqesq/SYH7EVANvVukdNZDo3GO0A
-	uTh+UVqSKwkUsaeewS6+WYFgyQMLo46ak7gel
-X-Gm-Gg: ASbGncsTC8PQ7jslPqb5Q6EggliDw9IOAB5/uZVd0HSTA7KYE7m/exVyzYmB1F6RDxI
-	nN2kUrKqtBtJh4a8/5OzTkq83adreKaPPD+4nlKXgVPHv/um0YWgsYguoXqYLDjGU2hUGdRmSiQ
-	gHFdnApzFkXQzQLFFzKBewx2Ns9w8=
-X-Google-Smtp-Source: AGHT+IGZYPDV28Cz7sYINJpTnmjw8EhukaY1/WmWGcdUtzSTAPhvLJwj66QqkFOK0m59IebD7nMgwWPPoi4mjkkZ9So=
-X-Received: by 2002:a17:902:d584:b0:212:26e:1b46 with SMTP id
- d9443c01a7336-2218ffb83a8mr3053025ad.23.1740074928718; Thu, 20 Feb 2025
- 10:08:48 -0800 (PST)
+	s=arc-20240116; t=1740079435; c=relaxed/simple;
+	bh=Kx3ZupbIX8xeCne7SCB3FZ/6eiMVlar2Wd0jfNp1a3I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dYI6pm2VjPRfz6MyYbhR79PEwEO1pYj7Q0vC9p8KxrtQB+Hkzg2r0jPzuW8iQh7ubT9pNUfawzLsHounYOV5eyVFwvYArpcmH8fsy2zQRGIcg2QM0PLu3J12EKwFGOOfTb44zdMVU1gcLn9MZIr71+GGerbltWigjBdekFlllKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=XJUV1HHL; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Content-Transfer-Encoding:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=VTAamiveZ7VJKCdH6aCZIa8fM2hkXCdc+A0NTGbTtzc=; b=XJUV1HHLpi3ILn83GM9vOvANay
+	pKI3SGRJto0q1Afrv49JpGbRMoyr+Cj2qP2Lj4tQJyOFs8hdhHLUEgE+1KpR0B4qQUKrkyBNAyKAr
+	rAmW4DViRs7iQ81QfK1C4amukIOy2mn0uLk2yvIhVS5PBEmglKa6acb+JxBpznRjoHb2htmAbVOs3
+	vDXU5RiVv8JMoxpHcrjxZppXxefq+R0/BlUpbjNYkfx64MRyrqD8EDD8nGmPp0i3VfIFdMQRzBTX+
+	amqqDDF4ucMwjeEgsYwxqu2+hbo1swT+yB8CSn/h7q4MzEnxJ3bGVXDnPwFNbvqJigUZJYBw4ucht
+	kreJAFqQ==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1tlC9C-00HTKa-2l;
+	Thu, 20 Feb 2025 13:23:46 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	Elizabeth Figura <zfigura@codeweavers.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] ntsync: Check wait count based on byte size.
+Date: Thu, 20 Feb 2025 13:23:34 -0600
+Message-ID: <20250220192334.549167-1-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <e07dfd31-197c-49d0-92bd-12aad02daa7e@lucifer.local>
- <CAC_TJvfBvZZc=xyB0jez2VCDit-rettfQf7H4xhQbN7bYxKw-A@mail.gmail.com>
- <6e356431-5ac9-4363-b876-78a69ae7622a@lucifer.local> <4aa97b5c-3ddc-442b-8ec9-cc43ebe9e599@redhat.com>
- <b0a95f2c-093c-45fd-b4a2-2ba5cbc37e2c@lucifer.local> <387f3516-99f2-41e9-967e-4b051a8d21b8@redhat.com>
- <72e044ba-64af-49c0-8b87-ead508654fb7@lucifer.local> <4f5a9c19-9bdd-47eb-bb14-205e3dcced90@redhat.com>
- <1e959451-2534-44b7-bf62-bc75305048fe@lucifer.local> <bd4597b5-2da2-484c-9410-384e04336a9d@redhat.com>
- <31a007c0-884f-495d-ba27-08e3e0dd767d@lucifer.local> <CAJuCfpHpchh0CzEgh5CKmRLwpscBLx32A-mGi4eudpir1wm=cQ@mail.gmail.com>
-In-Reply-To: <CAJuCfpHpchh0CzEgh5CKmRLwpscBLx32A-mGi4eudpir1wm=cQ@mail.gmail.com>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Thu, 20 Feb 2025 10:08:36 -0800
-X-Gm-Features: AWEUYZldDtJoTDPcjQKD0pHhJ973ZEAcjadmBHGExUTRQr9Y3pOVfjnjWolS78o
-Message-ID: <CAC_TJvd2Y-EnavZkt5_nQUXmRpjo8AYMu6rND7eMUwXn27ab0A@mail.gmail.com>
-Subject: Re: [PATCH 0/4] mm: permit guard regions for file-backed/shmem mappings
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, 
-	John Hubbard <jhubbard@nvidia.com>, Juan Yescas <jyescas@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 20, 2025 at 8:22=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Thu, Feb 20, 2025 at 5:18=E2=80=AFAM Lorenzo Stoakes
-> <lorenzo.stoakes@oracle.com> wrote:
-> >
-> > On Thu, Feb 20, 2025 at 01:44:20PM +0100, David Hildenbrand wrote:
-> > > On 20.02.25 11:15, Lorenzo Stoakes wrote:
-> > > > On Thu, Feb 20, 2025 at 11:03:02AM +0100, David Hildenbrand wrote:
-> > > > > > > Your conclusion is 'did not participate with upstream'; I don=
-'t agree with
-> > > > > > > that. But maybe you and Kalesh have a history on that that le=
-t's you react
-> > > > > > > on his questions IMHO more emotionally than it should have be=
-en.
-> > > > > >
-> > > > > > This is wholly unfair, I have been very reasonable in response =
-to this
-> > > > > > thread. I have offered to find solutions, I have tried to under=
-stand the
-> > > > > > problem in spite of having gone to great lengths to try to disc=
-uss the
-> > > > > > limitations of the proposed approach in every venue I possibly =
-could.
-> > > > > >
-> > > > > > I go out of my way to deal professionally and objectively with =
-what is
-> > > > > > presented. Nothing here is emotional. So I'd ask that you pleas=
-e abstain
-> > > > > > from making commentary like this which has no basis.
-> > > > >
-> > > > > I appreciate everything you write below. But this request is just
-> > > > > impossible. I will keep raising my opinion and misunderstandings =
-will
-> > > > > happen.
-> > > >
-> > > > Well I wouldn't ask you not to express your opinion David, you know=
- I respect
-> > > > and like you, and by all means push back hard or call out what you =
-think is bad
-> > > > behaviour :)
-> > > >
-> > > > I just meant to say, in my view, that there was no basis, but I app=
-reciate
-> > > > miscommunications happen.
-> > > > > So apologies if I came off as being difficult or rude, it actuall=
-y
-> > > wasn't
-> > > > intended. And to re-emphasise - I have zero personal issue with any=
-body in this
-> > > > thread whatsoever!
-> > >
-> > > It sounded to me like you were trying to defend your work (again, IMH=
-O too
-> > > emotionally, and I might have completely misinterpreted that) and slo=
-wly
-> > > switching to "friendly fire" (towards me). Apologies from my side if =
-I
-> > > completely misunderstood/misinterpreted that.
-> >
-> > Right this was not at all my intent, sorry if it seemed that way. I may=
- well
-> > have communicated terribly, so apologies on my side too.
+GCC versions below 13 incorrectly detect the copy size as being static and too
+small to fit in the "fds" array. Work around this by explicitly calculating the
+size and returning EINVAL based on that, instead of based on the object count.
 
-Hi everyone,
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202502072019.LYoCR9bF-lkp@intel.com/
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 
-Thank you for all the discussion.
+--
 
-I don't find any personal issues with the communication in this
-thread, but I appreciate David being the object voice of reason.
+Suggested-by as per Arnd's request, but the only thing I changed was preserving
+array_size() [as noted by Geert in the linked thread]. I tested and found no
+regressions.
 
-I understand it can be frustrating since you have made many efforts to
-communicate these tradeoffs. Unfortunately these issues were not known
-for the file-backed ELF guard regions for my particular use case.
+v2: Add missing sign-off
 
->
-> Sorry for being late to the party. Was sick for a couple of days.
-> Lorenzo is right, there was a breakdown in communication at Google and
-> he has all the rights to be upset. The issue with obfuscators should
-> have been communicated once it was discovered. I was in regular
-> discussions with Lorenzo but wasn't directly involved with this
-> particular project and wasn't aware or did not realize that the
-> obfuscator issue renders guards unusable for this usecase. My
-> apologies, I should have asked more questions about it. I suspect
-> Lorenzo would have implemented this anyway...
->
+---
+ drivers/misc/ntsync.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Suren's use case is different from mine and this design fits perfectly
-for anon guard regions from the allocator. :)
+diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+index 586b86243e1d..24cb2f71186a 100644
+--- a/drivers/misc/ntsync.c
++++ b/drivers/misc/ntsync.c
+@@ -873,6 +873,7 @@ static int setup_wait(struct ntsync_device *dev,
+ {
+ 	int fds[NTSYNC_MAX_WAIT_COUNT + 1];
+ 	const __u32 count = args->count;
++	size_t size = array_size(count, sizeof(fds[0]));
+ 	struct ntsync_q *q;
+ 	__u32 total_count;
+ 	__u32 i, j;
+@@ -880,15 +881,14 @@ static int setup_wait(struct ntsync_device *dev,
+ 	if (args->pad || (args->flags & ~NTSYNC_WAIT_REALTIME))
+ 		return -EINVAL;
+ 
+-	if (args->count > NTSYNC_MAX_WAIT_COUNT)
++	if (size >= sizeof(fds))
+ 		return -EINVAL;
+ 
+ 	total_count = count;
+ 	if (args->alert)
+ 		total_count++;
+ 
+-	if (copy_from_user(fds, u64_to_user_ptr(args->objs),
+-			   array_size(count, sizeof(*fds))))
++	if (copy_from_user(fds, u64_to_user_ptr(args->objs), size))
+ 		return -EFAULT;
+ 	if (args->alert)
+ 		fds[count] = args->alert;
+-- 
+2.47.2
 
-So I think in conclusion, these aren't VMAs and shouldn't be treated
-as such; we will advertise them from pagemap for those who need to
-know.
-
--- Kalesh
-
-
-> To make guard regions work for this usecase, first we (Android) need
-> to abstract /proc/pid/maps accesses. Only then we can use additional
-> interfaces like /proc/pid/pagemaps to obtain guard region information.
-> I'll start figuring out what it takes to insert such an abstraction.
-> Thanks,
-> Suren.
->
->
-> >
-> > >
-> > > To recap: what we have upstream is great; you did a great job. Yes, t=
-he
-> > > mechanism has its drawbacks, but that's just part of the design.
-> >
-> > Thanks :)
-> >
-> > >
-> > > Some people maybe have wrong expectations, maybe there were
-> > > misunderstandings, or maybe there are requirements that only now pop =
-up;
-> > > it's sometimes unavoidable, and that's ok.
-> > >
-> > > We can try to document it better (and I was trying to find clues why =
-people
-> > > might be mislead), and see if/how we could sort out these requirement=
-s. But
-> > > we can likely not make it perfect in any possible way (I'm sure there=
- are
-> > > plenty of use cases where what we currently have is more than suffici=
-ent).
-> >
-> > Sure and I"m very open to adding a documentation page for guard regions=
-, in
-> > fact was considering this very thing recently. I already added man page=
-s
-> > but be good to be able to go into more depth.
-> >
-> > >
-> > > > > I just want to find the best way forward, technically and am will=
-ing to
-> > > do
-> > > > whatever work is required to make the guard region implementation a=
-s good as it
-> > > > possibly can be.
-> > > >
-> > > > >
-> > > > > Note that the whole "Honestly David you and the naming. .." thing=
- could have
-> > > > > been written as "I don't think it's a naming problem."
-> > > >
-> > > > I feel like I _always_ get in trouble when I try to write in a 'ton=
-gue-in-cheek'
-> > > > style, which is what this was meant to be... so I think herein lies=
- the basis of
-> > > > the miscommunication :)
-> > > >
-> > > > I apologise, the household is ill, which maybe affects my judgment =
-in how I
-> > > > write these, but in general text is a very poor medium. It was mean=
-t to be said
-> > > > in a jolly tone with a wink...
-> > > >
-> > > > I think maybe I should learn my lesson with these things, I thought=
- the ':p'
-> > > > would make this clear but yeah, text, poor medium.
-> > > >
-> > > > Anyway apologies if this seemed disrespectful.
-> > >
-> > > No worries, it's hard to really make me angry, and I appreciate your
-> > > openness and your apology (well, and you and your work, obviously).
-> > >
-> > > I'll note, though, if my memory serves me right, that nobody so far e=
-ver
-> > > criticized the way I communicate upstream, or even told me to abstain=
- from
-> > > certain communication.
-> >
-> > I wish I could say the same haha, so perhaps this was a problem on my s=
-ide
-> > honestly. I do have a habit of being 'tongue in cheek' and failing to
-> > communicate that which I did say the last time I wouldn't repeat. It is=
- not
-> > intended, I promise.
-> >
-> > As the abstain, was more a British turn of phrase, meaning to say - I
-> > dispute the claim that this is an emotional thing and please don't say =
-this
-> > if it isn't so.
-> >
-> > But I understand that of course, you may have interpreted it as so, due=
- to
-> > my having failed to communicate it well.
-> >
-> > Again, I must say, text remains replete with possibilities for
-> > miscommunication, misunderstanding and it can so often be difficult to
-> > communicate one's intent.
-> >
-> > But again of course, I apologise if I overstepped the line in any way!
-> >
-> > >
-> > > That probably hurt most, now that a couple of hours passed. Nothing t=
-hat a
-> > > couple of beers and a bit of self-reflection on my communication styl=
-e can't
-> > > fix ;)
-> >
-> > Ugh sorry, man. Not my intent. And it seems - I literally OWE YOU pints
-> > now. :) we will fix this at lsf...
-> >
-> > Perhaps owe Kalesh some too should he be there... will budget
-> > accordingly... :P
-> >
-> > >
-> > > [...]
-> > >
-> > > > > > > > Yeah that's a good point, but honestly if you're reading sm=
-aps that reads
-> > > > > > > > the page tables, then reading /proc/$pid/pagemaps and readi=
-ng page tables
-> > > > > > > > TWICE that seems inefficient vs. just reading /proc/$pid/ma=
-ps, then reading
-> > > > > > > > /proc/$pid/pagemaps and reading page tables once.
-> > > > > > >
-> > > > > > > Right; I recently wished that we would have an interface to o=
-btain more VMA
-> > > > > > > flags without having to go through smaps
-> > > > > >
-> > > > > > Well maybe that lends itself to the idea of adding a whole new =
-interface in
-> > > > > > general...
-> > > > >
-> > > > > An extended "maps" interface might be reasonable, that allows for=
- exposing
-> > > > > more things without walking the page tables. (e.g., flags)
-> > > > >
-> > > > > Maybe one could have an indicator that says "ever had guard regio=
-ns in this
-> > > > > mapping" without actually walking the page tables.
-> > > >
-> > > > Yeah this is something we've discussed before, but it's a little fr=
-aught. Let's
-> > > > say it was a VMA flag, in this case we'd have to make this flag 'st=
-icky' and not
-> > > > impact merging (easy enough) to account for splits/merges.
-> > > > > The problem comes in that we would then need to acquire the VMA w=
-rite
-> > > lock to do
-> > > > it, something we don't currently require on application of guard re=
-gions.
-> > >
-> > > Right, and we shouldn't write-lock the mmap. We'd need some way to ju=
-st
-> > > atomically set such an indicator on a VMA.
-> >
-> > Hm yeah, could be tricky, we definitely can't manage a new field in
-> > vm_area_struct, this is a very sensitive subject at the moment really w=
-ith
-> > Suren's work with VMAs allocated via SLAB_TYPESAFE_BY_RCU, putting the =
-lock
-> > into the VMA and the alignment requirements.
-> >
-> > Not sure what precedent we'd have with atomic setting of a VMA flag for
-> > this... could be tricky.
-> >
-> > >
-> > > I'll also note that it might be helpful for smallish region, but espe=
-cially
-> > > for large ones (including when they are split and the indicator is wr=
-ong),
-> > > it's less helpful. I don't have to tell you about the VMA merging
-> > > implications, probably it would be like VM_SOFTDIRTY handling :)
-> >
-> > Yeah indeed now we've simplified merging a lot of possibilities emerge,
-> > this is one!
-> >
-> > >
-> > > >
-> > > > We'd also have to make sure nothing else makes any assumptions abou=
-t VMA flags
-> > > > implying differences in VMAs in this one instance (though we do alr=
-eady do this
-> > > > for VM_SOFTDIRTY).
-> > > >
-> > > > I saw this as possibly something like VM_MAYBE_GUARD_REGIONS or som=
-ething.
-> > >
-> > > Yes.
-> > >
-> > > --
-> > > Cheers,
-> > >
-> > > David / dhildenb
-> > >
-> >
-> > Best, Lorenzo
 
