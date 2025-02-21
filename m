@@ -1,307 +1,195 @@
-Return-Path: <linux-api+bounces-3276-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3277-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F8DA3F811
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2025 16:10:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA5FA3FD0B
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2025 18:12:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64F01701E9B
-	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2025 15:08:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDE45425616
+	for <lists+linux-api@lfdr.de>; Fri, 21 Feb 2025 17:11:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EEE821018C;
-	Fri, 21 Feb 2025 15:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A82C24E4A2;
+	Fri, 21 Feb 2025 17:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="gNAhgefJ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZWCwY+GT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3065320FAB4;
-	Fri, 21 Feb 2025 15:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637DC24C69B
+	for <linux-api@vger.kernel.org>; Fri, 21 Feb 2025 17:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740150529; cv=none; b=IyoeSIv4CYXi5NnCxpBP1oZstIJFtvTePoOjEH/zQqxW8D0uiBx1CmGgzCJf51S1UpzoyAQnwoWfYBvlHvcZ45lJb2Buu0wzYMzBLHPSREJ0nKR2JoZQewnPDNDMz9p2fyvSH5QXWUVggQO8Qe4UPlIOXMy9tYizJBPF3bvEwco=
+	t=1740157857; cv=none; b=mopOYhhWKQo2YLPR8Bo0fgrDPKIakKBlug+DWROQvWTb+AZH7t1yxBnGbuOMeOmR9pC4bZY8lsL8Oh1yPyJrBsKL2av5xGnD4llQH401zvGYWMrZU/guLjPSA23Jd09A1IGS5L6QAAKD9hv7Wdt/0lZkOKN72aurtYLwFSr1+8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740150529; c=relaxed/simple;
-	bh=wOUwuoMFBlbf4VclPsw4Y8bvqcLAlISZ+OpN2COxUT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/nZQXRTdKNHbGiaI6466srdtdhNvEOi1gz7xkzqakBzHhvab2RYxMoaNKYvHKf9OjFOc8DN89azDRbrFVtvjvRyFuOChQOvWfbvgIr3bpi7WfglqaOYypsxOnptYaV/cumxmYDwXllzTBvMkMKn+G8SnUor+H2otWEIQi9mr04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=gNAhgefJ; arc=none smtp.client-ip=83.166.143.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Yztn21Cvqzp7v;
-	Fri, 21 Feb 2025 16:08:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1740150518;
-	bh=HAdXvLK8vfW//A0RH2Z8Vgvri1ljkOe8we8oEw/BRJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gNAhgefJNSQqmpn1R7GjmCDcL8sBVj9Jy8ELxGlJDuSkOcQnFPususm4DJtyM7z3K
-	 N5uOW38hzFreoU0UXhfBHpXriYHLasoIWkBI7w0rFt5bmnCxNP0I8oGntObZgmF0Jy
-	 3Dxnzo71DVTvLCBMWTvR36ekCTxZrE3oQm+YSPuM=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Yztmx6Tb2zB0s;
-	Fri, 21 Feb 2025 16:08:33 +0100 (CET)
-Date: Fri, 21 Feb 2025 16:08:33 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Andrey Albershteyn <aalbersh@redhat.com>, 
-	Paul Moore <paul@paul-moore.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Arnd Bergmann <arnd@arndb.de>, linux-alpha@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v3] fs: introduce getfsxattrat and setfsxattrat syscalls
-Message-ID: <20250221.ahB8jei2Chie@digikod.net>
-References: <20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org>
+	s=arc-20240116; t=1740157857; c=relaxed/simple;
+	bh=zLivjvSwcKhzlo3svCNKQUA1a6rIcuwqxFgzLbvteDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=miKDELnxUg/n0n43UObFXhRR/QNxKauB8vu0rwbVXkIkigOC5Ykw5Yg/LzbOjsn4Aqg1JyhpfqL6H4idvAFR/ymBeFl41HzkRf5b5yLw3NLnDYVLtUxYCBAOt+fqbx32jP6ZXX4XnQRuAspCRw1XoCD9eXpgbkeXfuZ8qZNRvZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZWCwY+GT; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22117c396baso183245ad.1
+        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2025 09:10:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740157854; x=1740762654; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v/06cutobvSL148SHg+rXF1/EKMBeC15diJi2NLvYxY=;
+        b=ZWCwY+GTFO1iI+FQVPsHIwyBpRTmBQ7AxQKENZYhr1JVm/AArUyEyHaZatbtEJ4ZJk
+         XaGGpLFyLhmmClseqZACnUYcxfghU/pK4dxF96CuHC7xVNQF5rBmM6hKmIJe+f0uYh0z
+         VG8kiDRAiYyikaVcQpYy4OwWw4JoescXotRxPKgdqdb8rO6wcyF9IhiiW8Uer2iFripx
+         aR6a+rRCu33U7ThjgnX6ri1cMtgiW4qDoLwcigOe9X58ywAq+XUfyvyBeLHEzYVr0EeB
+         iwV3SIBdjEobm53uMmoG188zeGM5U0585Rrfm5qOQbcwz0Sj9VBDAde5c5CkJ++dy7sT
+         +1bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740157854; x=1740762654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v/06cutobvSL148SHg+rXF1/EKMBeC15diJi2NLvYxY=;
+        b=YLKEtdZUSe4eqo9CliXCi1aEXmOrXn7H0nE6tMZlaAoo5tWwbyGf1AGxq1hrSw+63a
+         corNQqSnsBOCM2/orL5utatmKEgBAvUswLMQd3IlagO2uBZA34w/S0kjU9GsBs6muhQM
+         7EUZVPQ0OJEoXThwltwNps+MpqCJSELt6Z7V9OyTC01KJsb5BvNDEh4rWNoQaogiEGZ2
+         sWWLKq9tZi5WCn9RyRwCR+GF9JNCRO5fQ11mPYgQGwF8G7IaCKVKbl5jZC6ky1CuFAmg
+         Wdq/Cm8BhVhzT1sejhYw7iSTDELxRuV5NIPhQZjV8fzyMk8AVitR5zWauE0qsIdTAGLI
+         Vkvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHe43Bm03uPJiGknjLSr+fUe+Z4UX2HPvy2b2sXz9tAeVyZqMrEF1jT656yr3vo+YvCHsJKu7wSQQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX9UMWFnTkfbxDNTFdUGH/7oWdpDdimpu2o1i/hqRNtyWthz0R
+	PaNbeXfKpDcvyo0Zr84MsQLe6ziwO+lNBxPXFqNLkh3su/2zE1tNb4tL8iqcM5bnH0zgkd7Pm8I
+	UkwAf49h9ShXFYZ0SJAos/mnPCWUgLLgjylac
+X-Gm-Gg: ASbGncsBf9dkfCto9E1oS7mew3QtFxxDgByJk+QX+OJcotsGp2LGlLcEAKjC6sOa5p0
+	LwcWQP5TbRtmUrfiijmGwHLodC8jjDhNnI42Vl6S+Qhu0DzR0aWbpJVC6UXCnr6c8F+chyn6hV6
+	ICYigKsVU/lGXa3JvOzdl/kX4z389lOH/SVpS1Wp6R
+X-Google-Smtp-Source: AGHT+IGldTX8YPxNiHq5GCgGriPX+2NeZhhwxRgXaqAzM2MGUPniBZmpaA4CLGFWvvlR3adETlTMpcRMFGLlc6gV27Q=
+X-Received: by 2002:a17:902:e5c6:b0:215:8723:42d1 with SMTP id
+ d9443c01a7336-221a0417e96mr2978475ad.10.1740157854187; Fri, 21 Feb 2025
+ 09:10:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org>
-X-Infomaniak-Routing: alpha
+References: <cover.1740139449.git.lorenzo.stoakes@oracle.com> <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Fri, 21 Feb 2025 09:10:42 -0800
+X-Gm-Features: AWEUYZnbM5nA9kkqZnhzwGTEHPz7kvvIuks0mem2iJOt7iRv8etO859ySZMIHY4
+Message-ID: <CAC_TJvf-R6MuSS9e0b4orhxLrFwXTnvZV-vf3sB+BnSbEqsprw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, David Hildenbrand <david@redhat.com>, 
+	Suren Baghdasaryan <surenb@google.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, Juan Yescas <jyescas@google.com>, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It looks security checks are missing.  With IOCTL commands, file
-permissions are checked at open time, but with these syscalls the path
-is only resolved but no specific access seems to be checked (except
-inode_owner_or_capable via vfs_fileattr_set).
-
-On Tue, Feb 11, 2025 at 06:22:47PM +0100, Andrey Albershteyn wrote:
-> From: Andrey Albershteyn <aalbersh@redhat.com>
-> 
-> Introduce getfsxattrat and setfsxattrat syscalls to manipulate inode
-> extended attributes/flags. The syscalls take parent directory fd and
-> path to the child together with struct fsxattr.
-> 
-> This is an alternative to FS_IOC_FSSETXATTR ioctl with a difference
-> that file don't need to be open as we can reference it with a path
-> instead of fd. By having this we can manipulated inode extended
-> attributes not only on regular files but also on special ones. This
-> is not possible with FS_IOC_FSSETXATTR ioctl as with special files
-> we can not call ioctl() directly on the filesystem inode using fd.
-> 
-> This patch adds two new syscalls which allows userspace to get/set
-> extended inode attributes on special files by using parent directory
-> and a path - *at() like syscall.
-> 
-> Also, as vfs_fileattr_set() is now will be called on special files
-> too, let's forbid any other attributes except projid and nextents
-> (symlink can have an extent).
-> 
-> CC: linux-api@vger.kernel.org
-> CC: linux-fsdevel@vger.kernel.org
-> CC: linux-xfs@vger.kernel.org
-> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
+On Fri, Feb 21, 2025 at 4:05=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> Currently there is no means by which users can determine whether a given
+> page in memory is in fact a guard region, that is having had the
+> MADV_GUARD_INSTALL madvise() flag applied to it.
+>
+> This is intentional, as to provide this information in VMA metadata would
+> contradict the intent of the feature (providing a means to change fault
+> behaviour at a page table level rather than a VMA level), and would requi=
+re
+> VMA metadata operations to scan page tables, which is unacceptable.
+>
+> In many cases, users have no need to reflect and determine what regions
+> have been designated guard regions, as it is the user who has established
+> them in the first place.
+>
+> But in some instances, such as monitoring software, or software that reli=
+es
+> upon being able to ascertain the nature of mappings within a remote proce=
+ss
+> for instance, it becomes useful to be able to determine which pages have
+> the guard region marker applied.
+>
+> This patch makes use of an unused pagemap bit (58) to provide this
+> information.
+>
+> This patch updates the documentation at the same time as making the chang=
+e
+> such that the implementation of the feature and the documentation of it a=
+re
+> tied together.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 > ---
-> v1:
-> https://lore.kernel.org/linuxppc-dev/20250109174540.893098-1-aalbersh@kernel.org/
-> 
-> Previous discussion:
-> https://lore.kernel.org/linux-xfs/20240520164624.665269-2-aalbersh@redhat.com/
-> 
-> XFS has project quotas which could be attached to a directory. All
-> new inodes in these directories inherit project ID set on parent
-> directory.
-> 
-> The project is created from userspace by opening and calling
-> FS_IOC_FSSETXATTR on each inode. This is not possible for special
-> files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
-> with empty project ID. Those inodes then are not shown in the quota
-> accounting but still exist in the directory. Moreover, in the case
-> when special files are created in the directory with already
-> existing project quota, these inode inherit extended attributes.
-> This than leaves them with these attributes without the possibility
-> to clear them out. This, in turn, prevents userspace from
-> re-creating quota project on these existing files.
-> ---
-> Changes in v3:
-> - Remove unnecessary "dfd is dir" check as it checked in user_path_at()
-> - Remove unnecessary "same filesystem" check
-> - Use CLASS() instead of directly calling fdget/fdput
-> - Link to v2: https://lore.kernel.org/r/20250122-xattrat-syscall-v2-1-5b360d4fbcb2@kernel.org
-> ---
->  arch/alpha/kernel/syscalls/syscall.tbl      |  2 +
->  arch/arm/tools/syscall.tbl                  |  2 +
->  arch/arm64/tools/syscall_32.tbl             |  2 +
->  arch/m68k/kernel/syscalls/syscall.tbl       |  2 +
->  arch/microblaze/kernel/syscalls/syscall.tbl |  2 +
->  arch/mips/kernel/syscalls/syscall_n32.tbl   |  2 +
->  arch/mips/kernel/syscalls/syscall_n64.tbl   |  2 +
->  arch/mips/kernel/syscalls/syscall_o32.tbl   |  2 +
->  arch/parisc/kernel/syscalls/syscall.tbl     |  2 +
->  arch/powerpc/kernel/syscalls/syscall.tbl    |  2 +
->  arch/s390/kernel/syscalls/syscall.tbl       |  2 +
->  arch/sh/kernel/syscalls/syscall.tbl         |  2 +
->  arch/sparc/kernel/syscalls/syscall.tbl      |  2 +
->  arch/x86/entry/syscalls/syscall_32.tbl      |  2 +
->  arch/x86/entry/syscalls/syscall_64.tbl      |  2 +
->  arch/xtensa/kernel/syscalls/syscall.tbl     |  2 +
->  fs/inode.c                                  | 75 +++++++++++++++++++++++++++++
->  fs/ioctl.c                                  | 16 +++++-
->  include/linux/fileattr.h                    |  1 +
->  include/linux/syscalls.h                    |  4 ++
->  include/uapi/asm-generic/unistd.h           |  8 ++-
->  21 files changed, 133 insertions(+), 3 deletions(-)
-> 
+>  Documentation/admin-guide/mm/pagemap.rst | 3 ++-
+>  fs/proc/task_mmu.c                       | 6 +++++-
+>  2 files changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/adm=
+in-guide/mm/pagemap.rst
+> index caba0f52dd36..a297e824f990 100644
+> --- a/Documentation/admin-guide/mm/pagemap.rst
+> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> @@ -21,7 +21,8 @@ There are four components to pagemap:
+>      * Bit  56    page exclusively mapped (since 4.2)
+>      * Bit  57    pte is uffd-wp write-protected (since 5.13) (see
+>        Documentation/admin-guide/mm/userfaultfd.rst)
+> -    * Bits 58-60 zero
+> +    * Bit  58    pte is a guard region (since 6.15) (see madvise (2) man=
+ page)
 
-[...]
+Should this be 6.14 ?
 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 6b4c77268fc0ecace4ac78a9ca777fbffc277f4a..b2dddd9db4fabaf67a6cbf541a86978b290411ec 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -23,6 +23,9 @@
->  #include <linux/rw_hint.h>
->  #include <linux/seq_file.h>
->  #include <linux/debugfs.h>
-> +#include <linux/syscalls.h>
-> +#include <linux/fileattr.h>
-> +#include <linux/namei.h>
->  #include <trace/events/writeback.h>
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/timestamp.h>
-> @@ -2953,3 +2956,75 @@ umode_t mode_strip_sgid(struct mnt_idmap *idmap,
->  	return mode & ~S_ISGID;
->  }
->  EXPORT_SYMBOL(mode_strip_sgid);
-> +
-> +SYSCALL_DEFINE4(getfsxattrat, int, dfd, const char __user *, filename,
-> +		struct fsxattr __user *, fsx, unsigned int, at_flags)
-> +{
-> +	CLASS(fd, dir)(dfd);
-> +	struct fileattr fa;
-> +	struct path filepath;
-> +	int error;
-> +	unsigned int lookup_flags = 0;
-> +
-> +	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
-> +		return -EINVAL;
-> +
-> +	if (at_flags & AT_SYMLINK_FOLLOW)
-> +		lookup_flags |= LOOKUP_FOLLOW;
-> +
-> +	if (at_flags & AT_EMPTY_PATH)
-> +		lookup_flags |= LOOKUP_EMPTY;
-> +
-> +	if (fd_empty(dir))
-> +		return -EBADF;
-> +
-> +	error = user_path_at(dfd, filename, lookup_flags, &filepath);
-> +	if (error)
-> +		return error;
+Other than that: Reviewed-by: Kalesh Singh <kaleshsingh@google.com>
 
-security_inode_getattr() should probably be called here.
+Thanks,
+Kalesh
 
-> +
-> +	error = vfs_fileattr_get(filepath.dentry, &fa);
-> +	if (!error)
-> +		error = copy_fsxattr_to_user(&fa, fsx);
-> +
-> +	path_put(&filepath);
-> +	return error;
-> +}
-> +
-> +SYSCALL_DEFINE4(setfsxattrat, int, dfd, const char __user *, filename,
-> +		struct fsxattr __user *, fsx, unsigned int, at_flags)
-> +{
-> +	CLASS(fd, dir)(dfd);
-> +	struct fileattr fa;
-> +	struct path filepath;
-> +	int error;
-> +	unsigned int lookup_flags = 0;
-> +
-> +	if ((at_flags & ~(AT_SYMLINK_FOLLOW | AT_EMPTY_PATH)) != 0)
-> +		return -EINVAL;
-> +
-> +	if (at_flags & AT_SYMLINK_FOLLOW)
-> +		lookup_flags |= LOOKUP_FOLLOW;
-> +
-> +	if (at_flags & AT_EMPTY_PATH)
-> +		lookup_flags |= LOOKUP_EMPTY;
-> +
-> +	if (fd_empty(dir))
-> +		return -EBADF;
-> +
-> +	if (copy_fsxattr_from_user(&fa, fsx))
-> +		return -EFAULT;
-> +
-> +	error = user_path_at(dfd, filename, lookup_flags, &filepath);
-> +	if (error)
-> +		return error;
-> +
-> +	error = mnt_want_write(filepath.mnt);
-> +	if (!error) {
-
-security_inode_setattr() should probably be called too.
-
-> +		error = vfs_fileattr_set(file_mnt_idmap(fd_file(dir)),
-> +					 filepath.dentry, &fa);
-> +		mnt_drop_write(filepath.mnt);
-> +	}
-> +
-> +	path_put(&filepath);
-> +	return error;
-> +}
-> diff --git a/fs/ioctl.c b/fs/ioctl.c
-> index 638a36be31c14afc66a7fd6eb237d9545e8ad997..dc160c2ef145e4931d625f1f93c2a8ae7f87abf3 100644
-> --- a/fs/ioctl.c
-> +++ b/fs/ioctl.c
-> @@ -558,8 +558,7 @@ int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
->  }
->  EXPORT_SYMBOL(copy_fsxattr_to_user);
->  
-> -static int copy_fsxattr_from_user(struct fileattr *fa,
-> -				  struct fsxattr __user *ufa)
-> +int copy_fsxattr_from_user(struct fileattr *fa, struct fsxattr __user *ufa)
->  {
->  	struct fsxattr xfa;
->  
-> @@ -646,6 +645,19 @@ static int fileattr_set_prepare(struct inode *inode,
->  	if (fa->fsx_cowextsize == 0)
->  		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
->  
-> +	/*
-> +	 * The only use case for special files is to set project ID, forbid any
-> +	 * other attributes
-> +	 */
-> +	if (!(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode))) {
-> +		if (fa->fsx_xflags & ~FS_XFLAG_PROJINHERIT)
-> +			return -EINVAL;
-> +		if (!S_ISLNK(inode->i_mode) && fa->fsx_nextents)
-> +			return -EINVAL;
-> +		if (fa->fsx_extsize || fa->fsx_cowextsize)
-> +			return -EINVAL;
-> +	}
-> +
->  	return 0;
->  }
->  
-> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-
-[...]
+> +    * Bits 59-60 zero
+>      * Bit  61    page is file-page or shared-anon (since 3.5)
+>      * Bit  62    page swapped
+>      * Bit  63    page present
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index f02cd362309a..c17615e21a5d 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -1632,6 +1632,7 @@ struct pagemapread {
+>  #define PM_SOFT_DIRTY          BIT_ULL(55)
+>  #define PM_MMAP_EXCLUSIVE      BIT_ULL(56)
+>  #define PM_UFFD_WP             BIT_ULL(57)
+> +#define PM_GUARD_REGION                BIT_ULL(58)
+>  #define PM_FILE                        BIT_ULL(61)
+>  #define PM_SWAP                        BIT_ULL(62)
+>  #define PM_PRESENT             BIT_ULL(63)
+> @@ -1732,6 +1733,8 @@ static pagemap_entry_t pte_to_pagemap_entry(struct =
+pagemapread *pm,
+>                         page =3D pfn_swap_entry_to_page(entry);
+>                 if (pte_marker_entry_uffd_wp(entry))
+>                         flags |=3D PM_UFFD_WP;
+> +               if (is_guard_swp_entry(entry))
+> +                       flags |=3D  PM_GUARD_REGION;
+>         }
+>
+>         if (page) {
+> @@ -1931,7 +1934,8 @@ static const struct mm_walk_ops pagemap_ops =3D {
+>   * Bit  55    pte is soft-dirty (see Documentation/admin-guide/mm/soft-d=
+irty.rst)
+>   * Bit  56    page exclusively mapped
+>   * Bit  57    pte is uffd-wp write-protected
+> - * Bits 58-60 zero
+> + * Bit  58    pte is a guard region
+> + * Bits 59-60 zero
+>   * Bit  61    page is file-page or shared-anon
+>   * Bit  62    page swapped
+>   * Bit  63    page present
+> --
+> 2.48.1
+>
 
