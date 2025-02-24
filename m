@@ -1,127 +1,210 @@
-Return-Path: <linux-api+bounces-3284-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3285-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527D9A4043A
-	for <lists+linux-api@lfdr.de>; Sat, 22 Feb 2025 01:34:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2A6A4192A
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 10:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9457A1890B89
-	for <lists+linux-api@lfdr.de>; Sat, 22 Feb 2025 00:34:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9BF43ACD9B
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 09:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5CA47082F;
-	Sat, 22 Feb 2025 00:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181E11C8605;
+	Mon, 24 Feb 2025 09:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OUaLZ8oR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SJxGMmQx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F43546434
-	for <linux-api@vger.kernel.org>; Sat, 22 Feb 2025 00:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B21158558
+	for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 09:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740184454; cv=none; b=K9FPHmhT/saAjrURfo0tTknbnDcSYaCmtqT6dks1V6XwuCSke5yToC7d/+/v7pdbLEgXgIxmQyxBxCX6vK66JvjkiZWCZO6wqIrkBVAyFP96TQ32jFTuL6A3eh9HvBkBD/1faXZDtKX93ijbvp4apRbpSxo/w+KF/lKIdLvNf/E=
+	t=1740389257; cv=none; b=psqs8rkNV7sGgjpIre6Q+kvIt5RWx/PDGItz4lH/7DYlrP9ctvOn+XRT8LL3DnuC2YFH7IuvjanN3SeFnD8FuIG/owAG/Xvnam+/IkQMBRlv2gkuUY0hOienfLLZz722gpFO6hbVEaoScpGAqDUvGpq3U/OKLCkMu+1654O8QSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740184454; c=relaxed/simple;
-	bh=VBQHljTSYFVCaj1bbqPfTOtZckZuFzfefk82naOnO1A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uGmETVQwgI0JlQ5XFJJKDQB63HWlFCE3Gbfpf5Ix42Is2tz6yUq7T0NjYUeunKj95jolra6Y8LMgeEXenBUeayYzhYpdFbNKoVqi7CwNO4s1NhqOtXej488gMuMlce1pbV/thCmxLfJun50QptGU7xEeAZTY2mvYuLP+pLVpW50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OUaLZ8oR; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6ef60e500d7so23714457b3.0
-        for <linux-api@vger.kernel.org>; Fri, 21 Feb 2025 16:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1740184450; x=1740789250; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vwm1CmURc5ve7fRU7CIVjr3XJe8XTIamKjt5b8I2oxA=;
-        b=OUaLZ8oRu1P66C9ZZZkX3ynr5GVCRqOCfxm+eS10iyjZ/PQSQVzJcOLZ6xUj2SVdYN
-         M4K8v7SJJNGtsVfIa8UAf/TytFgQB7jB17v0YqxAZeaJ0z7poxTRKJtsLNNfDGLEzCtl
-         seyhz1IBRRwX+if/gK7lWjT9j8r22Ve4Q5tw8y7tH4v0VO86On+zdAarH3tOUkuAZpC+
-         42QHcKAyfH9frZU0Zmd2KD7X742j4GBihhNWnbrr+XZUDJUe8nnJrCAFuMuLqqZIBe++
-         7xlE0daBQ4baD0AJRZFXYr9quFZHlK3q3UVtm8HMqcrK9PO0mdFobh1wMMbzoIxycBMQ
-         K8pg==
+	s=arc-20240116; t=1740389257; c=relaxed/simple;
+	bh=I8ik0VnxEst77sjXmH68GWfeYOl9b9AYZW0gqNH3qq0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SHy/aA+6yATJdUxIXKix30LkC/cAZb0MoyCB8XBYnt7+6tA3htrumjZbQhze4QNtAoiClC8HiDaZgXw3A6gr13eTqDboJdjZHDYR1EqoxkZ4ehWk9tPOFKy8j2e8UJSSJD1q1AYzGOcyP/5LShBB3wIhcIN3OR76cQqV0rKkJc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SJxGMmQx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740389254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7Zn6SZZblvU2KN6afeUfX6cSk2JfetNjQceFn+mshcA=;
+	b=SJxGMmQxPEZqkSp8d52n1bsCEjk6aWGXiL8xOaVmVwd50eHBT1UqVAOt0IpRSqGwhwTUJo
+	SEoq5xLuGWdPO5D9VuhNV5faP4g2ua3dq+yGWHFrpWKeoBZ9TFvoUcH1BVgzkF9M+Vx6N3
+	zoSt3Of++JSGeBAqd/ZZWWgFaypBL3I=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-tD_ExN2XMLCQcf2kszSarg-1; Mon, 24 Feb 2025 04:27:32 -0500
+X-MC-Unique: tD_ExN2XMLCQcf2kszSarg-1
+X-Mimecast-MFC-AGG-ID: tD_ExN2XMLCQcf2kszSarg_1740389251
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-38f39352f1dso1524834f8f.0
+        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 01:27:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740184450; x=1740789250;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vwm1CmURc5ve7fRU7CIVjr3XJe8XTIamKjt5b8I2oxA=;
-        b=cHzeWEGWdKSwybvHg95zJvujnZSJIKgq7RiWtVozfaYbogXkIHGvHJlVs6LwGWkRgM
-         KH/jVAiL//IWIKjb4q5ohmX/vWry7JwhaaQpN7FLQOuGY0dy4EP5ymAYVcPJtsVmwd47
-         XeXbbxoaiZe7rBnHYahmah2szcO3AJJGySdqUTS2qw2AIeqexefTYZKET+2UcXHZYOUT
-         qtr7EQKBgID5ESmHnLudSbOMhmTX3PcPGJlCQ85o2ewsLrk+tK0ONvvJfk6/w15AMxOn
-         STEx3B4QwAYtx7PO7VMTAXoPItzBz4BGFan/XDNJvxKWe4MomLNOZzKJ490XoXPRejOh
-         ED+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXME+jcOlIYL+DR6cqgv7/jhqT5DxM9spAa5UfucPK8M3rwYxWsUreT7Pd8xbQOf2KRdr26a54yZNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGJ0OUdt6BKNZ7wMoWEzfQtY9Yy7Cu9SjbFkgu3e/QooK4NcG+
-	C4ybvhG1uL7QBTl4Nq0hrGkXMzYRCHmR/cf68lljZHA5v5wI9BtZDfd1bRxwunIEH7gS8HWzf0Z
-	r8+vg/WHSx+E8mUx5RrsuHfb1EwV6HNRKbpaP
-X-Gm-Gg: ASbGncs1Mz46KxuaAvhpOrdOTfLN07iSs/7jgN6pPqDbAmMtTgbXp2GM1ll1uKui1WM
-	HSEUtwUx1ZcCtF8/XWOLu2Z93678sFsjkBXXfKRkAdoxFtLNCpEdrzJXsYoswf0pr5xU1oewAj+
-	WHJQvGzX0=
-X-Google-Smtp-Source: AGHT+IHU8mqrXQveakYlLhZ7AQnDt8Huldya+naR0jPDiYuZo2FksnUyR3yBLKwefOB052PduAKRpiO/vKqO0ObiYCs=
-X-Received: by 2002:a05:690c:3506:b0:6f6:c937:2cf4 with SMTP id
- 00721157ae682-6fbcc81835dmr37934927b3.23.1740184450404; Fri, 21 Feb 2025
- 16:34:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740389251; x=1740994051;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7Zn6SZZblvU2KN6afeUfX6cSk2JfetNjQceFn+mshcA=;
+        b=UVAAKCxJY7uNGXdYGe1Y1dbyZ40sgasTP49dCJqy0D80ahE8sgcDMy4bPoCyBOiZZi
+         2GTkm07w5eVXLPCYdDbuxvyEcIopNVvn53GVTZiek7nnYjqUDsVLU2NzqPkWPaygdGRc
+         4RYEHnOQvUfWCGHjSUEv8N88sj+GHy14fA6GPiNQ6F8myKTYAdcBtxLh21d9effMbdvo
+         rxLZ0rlKHwmQNuNpsYzcmm1ZaeDBflHY9yTzyeQzj1AxaH/gYBcu+Sq9lQTCAZTCRaFW
+         DcrpvrQ+WfCkxEU/3chx4MPC8pErbfYBrdLzPhIPVRoq+AXuH4w1TpH+4HNB93c61lX1
+         X/4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVplXrn+eWPRsMU13cWEAGvyWF5KkTq3ozt/xdjBnxuijncjnztSLouyT3FZ9CkutCh/JOCvZ+ielA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPWQB8oGiK7BtlUUYQ51EQj3+pQ7bcJi5B9+epW3lqCE7LI2VR
+	hmsdwiNlndJWuxjaJlwV3YpNF5XeTIIVOp9e7dfHbI5fJQoMQwaJo1pdqPCiUh8pR/4Du7kIUJn
+	cJgzVKOYanfShYbBti+y4pyXsos6izGhTz9zpKQQkKKm177w5RTrr8U7Tsw==
+X-Gm-Gg: ASbGncsNj7ZaF2Hkz0/L8uGkKd5iULHdXPCjKU/D06py0FKZUuWouYEOHQsmoJO7j1o
+	n7o06qQhKoPj+saGNfidPFXy9Ec/OSs2sjkXkp+GC/IKtKgqLZtwCJsvyxdkdb2CG5GFhJHTkwK
+	HEruIApjcizFhKqS/rWZfnoD9MP8mKopISbFD/Ir3Nkg/uyYrr/9oVZCt2hPS8cgJ/+67VpLTpb
+	nryOWGDQ9cG3WlnkO7qJ1ZCt7N7gDfVdzU9CM6WddZpdoYVCUZ0hCS1U6rQ/jdyuN6jKWPm1P83
+	R+O0F7PVtq22yzEoEcxkQBMhp2DvzSUmZDu6xCvEw/uwCo5dtHsIXvcAmaQ+7vpo9pQ14bXLfRu
+	tih9iEmVWOviNu60dSvs5CADH4pZpFw97V7EExm3NJOg=
+X-Received: by 2002:a5d:59a7:0:b0:38d:e304:7478 with SMTP id ffacd0b85a97d-38f7082b185mr12874183f8f.38.1740389251247;
+        Mon, 24 Feb 2025 01:27:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE5HbPThRylS4ilKU1oY0b9sapnTNZTmqh2oQkysSGqBLm2fMAB+eMOTjT2FNPL02czMER6nQ==
+X-Received: by 2002:a5d:59a7:0:b0:38d:e304:7478 with SMTP id ffacd0b85a97d-38f7082b185mr12874144f8f.38.1740389250835;
+        Mon, 24 Feb 2025 01:27:30 -0800 (PST)
+Received: from ?IPV6:2003:cb:c735:1900:ac8b:7ae5:991f:54fc? (p200300cbc7351900ac8b7ae5991f54fc.dip0.t-ipconnect.de. [2003:cb:c735:1900:ac8b:7ae5:991f:54fc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25a0fa38sm31629174f8f.98.2025.02.24.01.27.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 01:27:30 -0800 (PST)
+Message-ID: <857b2c3f-7be7-44e8-a825-82a7353665fb@redhat.com>
+Date: Mon, 24 Feb 2025 10:27:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org> <20250221.ahB8jei2Chie@digikod.net>
-In-Reply-To: <20250221.ahB8jei2Chie@digikod.net>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 21 Feb 2025 19:33:59 -0500
-X-Gm-Features: AWEUYZkJvdf7eQZPTJrwhKnqZP-Y8wnVSUpipQ3Me6WvrrB1wQej040Y9lsHrww
-Message-ID: <CAHC9VhSnP=j_T30ctVmzQ8TwhD6YFcrWhLbqa_oG3WSAPUPOaA@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: introduce getfsxattrat and setfsxattrat syscalls
-To: Andrey Albershteyn <aalbersh@redhat.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-xfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kalesh Singh
+ <kaleshsingh@google.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+ Juan Yescas <jyescas@google.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-api@vger.kernel.org
+References: <cover.1740139449.git.lorenzo.stoakes@oracle.com>
+ <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 21, 2025 at 10:08=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digi=
-kod.net> wrote:
->
-> It looks security checks are missing.  With IOCTL commands, file
-> permissions are checked at open time, but with these syscalls the path
-> is only resolved but no specific access seems to be checked (except
-> inode_owner_or_capable via vfs_fileattr_set).
+On 21.02.25 13:05, Lorenzo Stoakes wrote:
+> Currently there is no means by which users can determine whether a given
+> page in memory is in fact a guard region, that is having had the
+> MADV_GUARD_INSTALL madvise() flag applied to it.
+> 
+> This is intentional, as to provide this information in VMA metadata would
+> contradict the intent of the feature (providing a means to change fault
+> behaviour at a page table level rather than a VMA level), and would require
+> VMA metadata operations to scan page tables, which is unacceptable.
+> 
+> In many cases, users have no need to reflect and determine what regions
+> have been designated guard regions, as it is the user who has established
+> them in the first place.
+> 
+> But in some instances, such as monitoring software, or software that relies
+> upon being able to ascertain the nature of mappings within a remote process
+> for instance, it becomes useful to be able to determine which pages have
+> the guard region marker applied.
+> 
+> This patch makes use of an unused pagemap bit (58) to provide this
+> information.
+> 
+> This patch updates the documentation at the same time as making the change
+> such that the implementation of the feature and the documentation of it are
+> tied together.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
 
-Thanks for reviewing the patch and catching this Micka=C3=ABl.  I agree
-with the hooks identified and their placement; it should be fairly
-straightforward with only a few lines added in each case.
 
---=20
-paul-moore.com
+Acked-by: David Hildenbrand <david@redhat.com>
+
+Something that might be interesting is also extending the PAGEMAP_SCAN 
+ioctl.
+
+
+See do_pagemap_scan().
+
+The benefit here might be that one could effectively search/filter for 
+guard regions without copying 64bit per base-page to user space.
+
+But the idea would be to indicate something like PAGE_IS_GUARD_REGION as 
+a category when we hit a guard region entry in pagemap_page_category().
+
+(the code is a bit complicated, and I am not sure why we indicate 
+PAGE_IS_SWAPPED for non-swap entries, likely wrong ...)
+
+-- 
+Cheers,
+
+David / dhildenb
+
 
