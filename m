@@ -1,295 +1,312 @@
-Return-Path: <linux-api+bounces-3292-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3293-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553A1A42285
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 15:11:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3598FA42732
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 17:02:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B390179E86
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 14:03:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 234D9168D0D
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 16:00:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FC713B7AE;
-	Mon, 24 Feb 2025 14:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7EBC261580;
+	Mon, 24 Feb 2025 16:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VCK8+T99";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="HJTQKqQf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Aro6OxaQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC3251C4A;
-	Mon, 24 Feb 2025 14:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740405778; cv=fail; b=new0FK8jC61rXANZGlpoF09w7KrB8lccdg+vvxoEhdJw2wvp/pksaqrNvXhALTAogdSCovFU6KuD46Jn7XApCSWmGnDyKucgwqJ23R/1XqMvYxT8Ws/0wnqcWYuNnRrZkrIzyjHAgpFgsWEKvhlAwacWXj5oHN5VCCbvN3EpmN0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740405778; c=relaxed/simple;
-	bh=XQnmmzZ577UxLTzZrRPpkNhesL1HM/UERwiS1B1NAiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LCDFv0BYNk/WOpxZBGfbdMdOj3AO+/HRvZSrOoyP8f6L24X4IkgHWatw+0XyCcNhUaD+Tk+EeGC08ViRi7RDsn88H5IR7IwMY3mqDAp6j8XMOsYUaP18s4CCoQss7Xv+FMxMK6jje9I41xPsaGgcYme/OO49NKprJEiF9jPCmF4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VCK8+T99; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=HJTQKqQf; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51OBMYYW009988;
-	Mon, 24 Feb 2025 14:02:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=8iklp5VKfcqvhhpvWT
-	2H8PC3Gih9hjfKEZJ7C9D7sak=; b=VCK8+T99ATtfpQV1RNo+TWh6cx5zRbGVDn
-	4yzKc2H9EKn69AhWOFVNDQfC8PenRdn9j5Ape1NQuzeVrlMYd3a0ARtt5tyO3IwK
-	ualQEsFo1MNdyRm/EtZ1yfLcjDx2tWf+5Pq6y3KNFxX+6WOQddosXxFjNIazt2TP
-	m1xLgRqGdKnMCH8PyaWl6NoS1t5kDrQd/wonbuCG+dwsiBrnwKzmb8Tdy9psnv/Q
-	DepcM9WUsLJfwUcLUAuie361ufdFDcdu//egqrRPdYV7vFhpoOk7uxlHCLpiKouH
-	Yc7W81LT4bkVrEZe5sGFGVk5dkObgkWmCmy4a97RGOzWO++VLD5Q==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44y6mbjm6s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 24 Feb 2025 14:02:37 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51OD91SK024289;
-	Mon, 24 Feb 2025 14:02:37 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2042.outbound.protection.outlook.com [104.47.55.42])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44y517p7j5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 24 Feb 2025 14:02:37 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bFkZvnTuDTtF+js5VDXuhQz5f80aX+qIT+DpifmvuH8xzkCafaFmv3leaK1ewfynLmHFZya8KMlBKgUk8Q+cXWUJLh5XTDYhT3HZS27oQJzJQCdsxweCtlEtgfBbl9JqVmPXc1/iOdmujJ47eFolONmFrXou1DXIdlMt4BzrbXowWQ/jBlbPrNCGsHNXUiAU7dl4SRpB/MNu2kzqdkH+//5Gf5QmuLcjr+B+TZUQ8++hEoGyv43ELchqzzreYEy/OojkSJqGgQho7SuEUjS4wNwqPW6cZ3pSnQ3f6C/i5wXt38/sniM8vJ1nJljMdUO0UnA6eJZVl0dupaxL3R0oBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8iklp5VKfcqvhhpvWT2H8PC3Gih9hjfKEZJ7C9D7sak=;
- b=TgcGVVLwt8MolCX/XGl5Jcz5cj/mZpegRYxBLdm1OPrBUCuH+yvO4eN5BMX6lWQl3x/oJxIN3GjI0X6FdxdDhHpvRajoDWc0xNwlZCk1i50I7qbhSFv7NWPXC7cU+dyq3h1K2F9DB+CBuCan/x0MF/4dFcd7CLH4gbmkCq+GcmSjYOFtxZlOn0wD2DSQB3HVRUSoChxk534l9Y1+exJqBkEx2dh9sJ4AhxZ3zrki5puvMgm/PSH/qDenO4jZNn3tf08QqjWYBMpUCuShKzxz0KaJvhJnkZyGQfdABIqONbzCBjSOVMgtDZq923JHr6TI7gcRecfB4G05amy5INDZMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8iklp5VKfcqvhhpvWT2H8PC3Gih9hjfKEZJ7C9D7sak=;
- b=HJTQKqQfmH21dsotJ3IZtG0y9ukLA2j8duViuX5fD5jce6lp9dlSlv0SVgaHRh2lV+BpNbL22AaFrId9Wl8fGSq0Lg6PdauwU+qPVQNmG1eTI0xYxCpWJrIkKhk9MxMgAUadcHhFeGMybFfajS8UwNrlDIVS9k13J0EGVqwTda0=
-Received: from MN2PR10MB4112.namprd10.prod.outlook.com (2603:10b6:208:11e::33)
- by DS7PR10MB5006.namprd10.prod.outlook.com (2603:10b6:5:3a0::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Mon, 24 Feb
- 2025 14:02:29 +0000
-Received: from MN2PR10MB4112.namprd10.prod.outlook.com
- ([fe80::3256:3c8c:73a9:5b9c]) by MN2PR10MB4112.namprd10.prod.outlook.com
- ([fe80::3256:3c8c:73a9:5b9c%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 14:02:29 +0000
-Date: Mon, 24 Feb 2025 14:02:26 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Suren Baghdasaryan <surenb@google.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
-        "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
-        David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-        John Hubbard <jhubbard@nvidia.com>, Juan Yescas <jyescas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>
-Subject: Re: [PATCH 1/4] mm: allow guard regions in file-backed and read-only
- mappings
-Message-ID: <d68af630-7fda-439f-98e2-6d7381c1bff1@lucifer.local>
-References: <cover.1739469950.git.lorenzo.stoakes@oracle.com>
- <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d885cb259174736c2830a5dfe07f81b214ef3faa.1739469950.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO4P123CA0479.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a8::16) To MN2PR10MB4112.namprd10.prod.outlook.com
- (2603:10b6:208:11e::33)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6694B26158C
+	for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 16:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740412815; cv=none; b=LwxQwnwH0HcQStqdY5o3qlKIVrVTwHdhowXuQmBj77e3B4/6k5f5rsOV3p+UWl18+4ZIaHOcBWCUT8HF9jIEaai8CksfV9gfieMCkvG0TiLjTu9pIxthA0kw6oDmkg+DKze25ycJgsxTIvqKJgnf7FXCtwNE/+f196We3JCsoBg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740412815; c=relaxed/simple;
+	bh=AdyXgY16YNekp+2cH5s3+823NmA4/JzTMk5uuqG/0jY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsY808AGVqNm+LPB1+982VNI49BtotNXJ1k1hQobL/S63r32ph9zhWGamizce2IE1sW5zT6DLC+/65pPzecDMz+2R9syfWTnAhge4e+SbztCv6PoUPbb4yxKKZPkvqCTgl6TCub+76BwGeKei3TxR0H0eSov+EKiIgsvQnascfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Aro6OxaQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740412812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gpJsnx/DlFS+m2+wC+CtveEzavYNI09p8+P4b7TZQL4=;
+	b=Aro6OxaQhBTSCpw+SFQ8/+FoXDGqEnXdQ8qBM9ZfutBAOC+LpDoHq6zNSiXDquG2NzscA0
+	phZ93KxeA0d/xBFmQox0eHgmN2aqQA5/LuumZoWZoHF3+mAZ4lyU39VQEt8E2htn95PrZZ
+	CwLksM2zWtdFNUgTgpWNDhz84Y7VJi4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-65-uvR6rYUPP--lZ9vhYzznng-1; Mon, 24 Feb 2025 11:00:10 -0500
+X-MC-Unique: uvR6rYUPP--lZ9vhYzznng-1
+X-Mimecast-MFC-AGG-ID: uvR6rYUPP--lZ9vhYzznng_1740412809
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-38f2726c0faso4581697f8f.0
+        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 08:00:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740412809; x=1741017609;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gpJsnx/DlFS+m2+wC+CtveEzavYNI09p8+P4b7TZQL4=;
+        b=oz1WM6uTvsDjxwVU0NfI3Hkdk3jZvO0U4f41ir1/GVBoELo4MKSjXtp1weioqxwPLJ
+         pifphAsuXa0qWPke0O0lgMJHz94Ao7OhHwr54WjO7yOXQUQZSLKTirlIRn6NuDbLHL7f
+         NR8GLngdxvXlZmUFVGSBL66kzbtW/p1XjtMEC/fp5AzRm7ihcyBjpDBuqGwXR4CtANTU
+         XeLwAkIoVIgOLG19S3iU+ozb0Wf3UJmg4RCEJM8EV5hXg8Y9+sUEbth9FPsf2ElFbWtO
+         LT1/8z4z+Ddt2M15muSUp97tG6OTI0nt8N0hvYJZUiXI0yBoUInSEn1fWG0gd4WbCXhF
+         RJVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjdaTFa2wbrOB8m75JduaMMCZKMAzMrDXDGKFbch531PDgKZXYQde/GR8bj+9Eplg+oNI+RsSsxKQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2I4glmnMe5jA/kUolnk2/mAYlz7RTkhEPax6CASQ19N1yWQGZ
+	5PCAbx2UBbPjBN4eJGzXJqEIZ2xyj9QruAyPm8ZpggguqlyyQqy9H/qqTta2wjcw/IPKnG7H85s
+	0puhgOQYcL9ZfmImA/W+9s7wDS+1CKeSEJJHj+wdTSYuLM0e2zonTv485
+X-Gm-Gg: ASbGncsbd+jA/a82j+bK+zFPfUltW3BY3+SiaRI2kIEu4LVtw2a6dFMfCx69JRIQgzU
+	z8fh1Q76N9504iqvnN7xq+57M9w/hvN+oS28IeKgC6A5XQYwvPJBS2603EAJeP0QY80YrgGnvAv
+	pMoDZn/uFC0GV5/GU6tfTDmui+LwrQJNYdbia+FtRUHG8doWKErA2KZPfw/PfuGkfOBZRFgzJGF
+	EkAMh1LL/D+rRKlY9JL37MDRX21vsC7bxWioKvaLvpt5RLsYU1C7Xf3+xeHRpBZDUNg0e7JwUKZ
+	O22Y72UAeyXW/ED4lhLtPGLDk99SIeuF8TM=
+X-Received: by 2002:a05:6000:1fa1:b0:38f:4cdc:5d21 with SMTP id ffacd0b85a97d-38f6e97a9dcmr12224792f8f.24.1740412809206;
+        Mon, 24 Feb 2025 08:00:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHRB2XHSy5TyYjE+T5i1FHBWJzQQ+oKxvmCxdX7G981Poru458aCvgYJqnx5VUZ7SWREA2qKg==
+X-Received: by 2002:a05:6000:1fa1:b0:38f:4cdc:5d21 with SMTP id ffacd0b85a97d-38f6e97a9dcmr12224740f8f.24.1740412808720;
+        Mon, 24 Feb 2025 08:00:08 -0800 (PST)
+Received: from thinky (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbab9e9863sm1469799966b.64.2025.02.24.08.00.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 08:00:08 -0800 (PST)
+Date: Mon, 24 Feb 2025 17:00:06 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Paul Moore <paul@paul-moore.com>, 
+	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Arnd Bergmann <arnd@arndb.de>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v3] fs: introduce getfsxattrat and setfsxattrat syscalls
+Message-ID: <jvo6uj7ro5czlo5ukw3vtf5mpqgrbuksqq4j63s2i6gwrjpz4m@kghpcqyi7gwb>
+References: <20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org>
+ <20250221.ahB8jei2Chie@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4112:EE_|DS7PR10MB5006:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c289be6-179c-49c0-3e7d-08dd54dbe06d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?GH7H9uyXFGHNprY4r5e/siLOOrhrF1flGAmtliIIPEXKoDPZrf8BYc15KjLH?=
- =?us-ascii?Q?m7ePb1JEL4bbEER56utYQcBTayUmTSeHxU8XWWrqjyQyPTv7k13v8ZvhjaVi?=
- =?us-ascii?Q?Z0lX3jwcVUPFFoaBFpWqhQNWb/Ie/KSGCS25M1eV3smOsDoHylQxnbCzjk+7?=
- =?us-ascii?Q?bQIMsQrdV2cqDRjGF3MqCUWEvaKuDFmBPTT7ORsrFNZnYhvjwMyaHVs4iNc1?=
- =?us-ascii?Q?WlG26DQ9vecPRv+U8C76rxa0UwI/A2wEoYPE95AoERazAakszQ6+9qQ6m/P0?=
- =?us-ascii?Q?XusTpBXlRJtKLkFgh2pWp05e8tRGiDECI8zxxXovlv8fcdCYF4b4bKbuouia?=
- =?us-ascii?Q?dBZSlyoFYbB0z7xeqXdR84TyL9eyMG0F5L4XtxxOOyWaJ4TjgkQU6BINGlty?=
- =?us-ascii?Q?TezPWZi7BqaKeB79HUaq6cUHGAye72IPZJXOH5MnPKYe0FFj2ZyKrv7WHGhi?=
- =?us-ascii?Q?/IOSOKGx7IihZV0BemHQDNcl0nlDgfc3FjwRuA2V7Bq2ytPVkMmevxqHRyGP?=
- =?us-ascii?Q?m6zfAgcijTEyobwQxg2SaqZjW9I7q0nlca6O8YMQJm+PPYJsCrtTvjS7WaOd?=
- =?us-ascii?Q?hUcEeUWT7I/5qLUvMebxUJoSWEWFJH/kYu4bFUsTPm1QU3rSIe3v1NVQL+wL?=
- =?us-ascii?Q?VkF/457JlQCj9UmD5kkIPMCj7hqOdwX9A3D8pzmlyrlfK55ZAvL1kK81DYq8?=
- =?us-ascii?Q?IOkyLPv4si05ZBaHpJSKDS23WWX9icqsXIqYW2jUjMVPfDCpF6QAkG1/iFZa?=
- =?us-ascii?Q?Ok5sBhrw4I+ptHXrpfTl2viouzJyTlSFUGxzKJB/1jkM0lHwjt1S/T4oK9RE?=
- =?us-ascii?Q?/B5hICJIirEjpvIBs68K/2B0/Nuy7NcPEJT4QgROHWAATh0exxNpkAhes6dW?=
- =?us-ascii?Q?oYmbDTrClfG7vgftFqadlYtWOD4k5LCwUF6Z6vnbAWj4OhrZeESLtNi209Vn?=
- =?us-ascii?Q?h4xrkbAlmPzukDpGA62osA6eDhrlpfC6fJf0MtKBmNQ/nRKFIkde6P6FjOqi?=
- =?us-ascii?Q?IBcrxPew2g5biOgtnmmLG+olkXmecXqf416MswVVIV2ybSTp/epFYqGETzCN?=
- =?us-ascii?Q?yLirxW1/4vBUMkPDladKZonBvQlDDOglXGk53g1Qr2a6UGT36gvggkO8eRC/?=
- =?us-ascii?Q?35W36ol8sosbn9JSsb4ISQFuiEVNMoNzT8u/chwAz8kCfSfYGYPOGuovpuSL?=
- =?us-ascii?Q?J2RNb/O1kv04FYoLYk0jxe9DH/tOoSeTZzxU2z17CxtFydMfMkbvTEgIj6A/?=
- =?us-ascii?Q?4B3NuDTrqCWpif4qJuO2cgJMhefOtz5So/vQ5r8lXZ63477D6j8oa2vLQdDy?=
- =?us-ascii?Q?JTN1IYUTO0eV4dcuAdkAC4Ii/g+7kJQIG3jnL2K9icB7mn/m7/fQL3N1BcqO?=
- =?us-ascii?Q?O4bRD0e6/KzL2tlRGVO9KyBvMjdN?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB4112.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?nxdA7lzMGEVmhKssqDOHsQsG6iuFci/pXLfcdztwIC9jiptOAnQnUqePA+9p?=
- =?us-ascii?Q?KSnQ/2qRVrfb/lSRFGuvZmQr/BC4ahYeMhVt8rdQP71VTpsKWE17adEihWKM?=
- =?us-ascii?Q?9O0TMNKoqg7fu3MbwGiWBUBMdZ3Ink2q/0VvoCkNZ8lEtFPd6tRMauu6xxcu?=
- =?us-ascii?Q?vC+7XpVAthtiLPtYrbtz6YsWK3JUr3iNIhQHmkNzCt/XbLfQ+3PY4UyxTlkC?=
- =?us-ascii?Q?I7PstTpUCjcKhTNDgK9ILhJlR9Y8Eicn3KlVzXT/1lv2C/2Nn+8xKzFMVood?=
- =?us-ascii?Q?ECROVMbArqnSjMXAeeC2fpOBc8KjAHEVnfjjJ8q9+IN43J42cWTQ3qkKhAVf?=
- =?us-ascii?Q?sojK4RvMvgYlB7iqPScno1Oen/9mwJsp+VsLom3Fsox060XOYJrGO5DUfsYj?=
- =?us-ascii?Q?1NUmlHH3efUbXTHSRyMk9jR09IumtCjHVerB+G/f+XDhRC+fCYlWaxNeHowI?=
- =?us-ascii?Q?QJAhATrcAH7bVL31+N62g9t3RN6PXKESVK9AHnBPCnLavomfJbf0H/Xnv+TN?=
- =?us-ascii?Q?IvKCcEbf3zpPr/uWhXew3DWuqNzOI2uyEx6jUBFD3Hz8n2Zj0UTCbkVFcnzE?=
- =?us-ascii?Q?AJwQN6M+fWAeSecH2x98VBNo+So6uXkmu+7nMdwMh7fSxGc+l0SZdJ3uJCm7?=
- =?us-ascii?Q?DeuIYZf5Nuf2Ne62QJMUPSsTvZ004UFyqlEMhA2/OHGzoAYcjSJlwSgQs8Hi?=
- =?us-ascii?Q?g0D/xfx+/s5jS+n+Npx/DgxEg5Jx2tA8LDaaARd6PgZqpZ0yb4gwIAIbtqa5?=
- =?us-ascii?Q?OwerxBuZk3GuuJWFAk69yzxsxpgB+83umDsJlZrDtz8fiT1wCkjN+qtwUD1v?=
- =?us-ascii?Q?qxI35IiAzBRzhmPWlbWcnN4jwM6aV/ehDBSiQRGKSJW7QARqfhUOEyWI+z1m?=
- =?us-ascii?Q?r8CDXn6eFZChlIc3byCGScg1iodN0mLnE6MQvC8oirpmOKxUafZmL0xaWEwv?=
- =?us-ascii?Q?ePz3VYun3bsY2bqPcAfjXJQUq4Ezt1xbf8a3z10n1nqUC2BJ6a4D2LQIy8i0?=
- =?us-ascii?Q?cjRT0IiOhYZaXgiRHY3RV0aV9gVqMZp+XsSTZXYKweq1Nk94/N7UmGSUNC0u?=
- =?us-ascii?Q?0pPD2t9gIaUScWK9OCKPc9L/uoaWZ/ilk7EUKn9E0RNNyhmwLqcPjDKWdVFv?=
- =?us-ascii?Q?gpvQWjOzz8N+8HDb5/h+hKdlD20K37BwtAHUIOwaR7nR4cl/m4fFii/ubYPB?=
- =?us-ascii?Q?9xzEVwzzj5ZbjIqIiMC5iiKU9cXlVyVeaTaXTBzGSsthEoxOF5kdE2wH7keU?=
- =?us-ascii?Q?T4tQGOBeRefoMtlawoKCH7lHfcNrfqKOA10RXx8SqBBSTXpoGiBbPqWVceGJ?=
- =?us-ascii?Q?uJvoL4hBv/pITyZALIX8Z7Wr5Udblf9/bLZXxDr6bsk5vn0ElKHYWwtqobke?=
- =?us-ascii?Q?JGbBoLI4iSk1niYPyMUxCbpd1vsRix8eltAkQBBsXMB8XmYElH+Nm17re32p?=
- =?us-ascii?Q?DZ72Af4DdfAv+tIRdEIHSdQqUnRlUC5Dg07UtZ50wT7TEa/vfN5U9mVqpMnp?=
- =?us-ascii?Q?MclU6cguhXJb4gDz9ZQYhLEvov6Czq49J8Dkn56I9LT8UpqVQ/Z3H8yyzOuh?=
- =?us-ascii?Q?nciR0n5pAKoc7nsDVufOrQpI1kXB14M2tqjrwMchxYEWP6JXv0rCHFwXW+bd?=
- =?us-ascii?Q?VQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	pZ8owOKvl57d6BrnKOkJllnYyFJe0EKjIvwwcHVNn2DOwqExRN06c2u5CnYfm4sZnHV/c93YHYtP3qX7h4IJr/hrOdEQMGbKMvp+6tCY7AEisHJoIONZQDmUh6BH1CQVUNKrr2zzObhF4yqTzDrIzsP5acyL9u1KITB2PemAP6heQK2KtBXhx8z4ufO56Xd8+nMvkoyD+R5KdEefnbG5TzVwRfRnTV880SWTMciqINv+sJBpICK0h1WGShG7sVm5fH7FTTgy4TkTrqrby4mswnUCG54gAaQ/2vk3oEWRi3D6/aVBZtTcW2r9sKWvIS/Wg1wVAzipOLP3yv33ktkvsuRQh5/rzVdwtmGT/cvX3WD+L8gbvro+gWfAxarmm3bnxeHO3QMRXCL6EURdf9MG4qDGOQThJq/mva5PMmK12CBbz3Fwa49uHGfnQgMnJVHBCsnrLLVkx4jQCrlHHlYuo49oLdZ9cGQvgJ5n7x9oRNiSqL8jh3WtFoN2Li/5UMNNAlSHyDbOVeoDXMmX9cZdp3Hxrs7pnBQ1uMvyvydGasM9tM+Fn377/X4Y3Yppsm70oONOk3bUwR5kU2X5u6mGZZVGI1rDqkw9V0Jbua+MGos=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c289be6-179c-49c0-3e7d-08dd54dbe06d
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4112.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 14:02:29.7753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XBSFT7psttYuWEp6nY374ajXYhwYzzrpiNfMpEJFCu+QAk6RNxSlmJ/436d/q7trOw7JF1MynfKjirnQZs8GoxmvmL3/jrkmZTAVHWNWQFE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5006
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_06,2025-02-24_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2502100000 definitions=main-2502240101
-X-Proofpoint-ORIG-GUID: 2sDLCOuw0pL9Rc3KYRsxqfZIymBg28MT
-X-Proofpoint-GUID: 2sDLCOuw0pL9Rc3KYRsxqfZIymBg28MT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250221.ahB8jei2Chie@digikod.net>
 
-One thing to note with this series is that it now implies file-backed VMAs
-which install guard regions will now have an anon_vma installed if not
-already present (i.e. if not post-CoW MAP_PRIVATE).
+On 2025-02-21 16:08:33, Mickaël Salaün wrote:
+> It looks security checks are missing.  With IOCTL commands, file
+> permissions are checked at open time, but with these syscalls the path
+> is only resolved but no specific access seems to be checked (except
+> inode_owner_or_capable via vfs_fileattr_set).
+> 
+> On Tue, Feb 11, 2025 at 06:22:47PM +0100, Andrey Albershteyn wrote:
+> > From: Andrey Albershteyn <aalbersh@redhat.com>
+> > 
+> > Introduce getfsxattrat and setfsxattrat syscalls to manipulate inode
+> > extended attributes/flags. The syscalls take parent directory fd and
+> > path to the child together with struct fsxattr.
+> > 
+> > This is an alternative to FS_IOC_FSSETXATTR ioctl with a difference
+> > that file don't need to be open as we can reference it with a path
+> > instead of fd. By having this we can manipulated inode extended
+> > attributes not only on regular files but also on special ones. This
+> > is not possible with FS_IOC_FSSETXATTR ioctl as with special files
+> > we can not call ioctl() directly on the filesystem inode using fd.
+> > 
+> > This patch adds two new syscalls which allows userspace to get/set
+> > extended inode attributes on special files by using parent directory
+> > and a path - *at() like syscall.
+> > 
+> > Also, as vfs_fileattr_set() is now will be called on special files
+> > too, let's forbid any other attributes except projid and nextents
+> > (symlink can have an extent).
+> > 
+> > CC: linux-api@vger.kernel.org
+> > CC: linux-fsdevel@vger.kernel.org
+> > CC: linux-xfs@vger.kernel.org
+> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
+> > ---
+> > v1:
+> > https://lore.kernel.org/linuxppc-dev/20250109174540.893098-1-aalbersh@kernel.org/
+> > 
+> > Previous discussion:
+> > https://lore.kernel.org/linux-xfs/20240520164624.665269-2-aalbersh@redhat.com/
+> > 
+> > XFS has project quotas which could be attached to a directory. All
+> > new inodes in these directories inherit project ID set on parent
+> > directory.
+> > 
+> > The project is created from userspace by opening and calling
+> > FS_IOC_FSSETXATTR on each inode. This is not possible for special
+> > files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
+> > with empty project ID. Those inodes then are not shown in the quota
+> > accounting but still exist in the directory. Moreover, in the case
+> > when special files are created in the directory with already
+> > existing project quota, these inode inherit extended attributes.
+> > This than leaves them with these attributes without the possibility
+> > to clear them out. This, in turn, prevents userspace from
+> > re-creating quota project on these existing files.
+> > ---
+> > Changes in v3:
+> > - Remove unnecessary "dfd is dir" check as it checked in user_path_at()
+> > - Remove unnecessary "same filesystem" check
+> > - Use CLASS() instead of directly calling fdget/fdput
+> > - Link to v2: https://lore.kernel.org/r/20250122-xattrat-syscall-v2-1-5b360d4fbcb2@kernel.org
+> > ---
+> >  arch/alpha/kernel/syscalls/syscall.tbl      |  2 +
+> >  arch/arm/tools/syscall.tbl                  |  2 +
+> >  arch/arm64/tools/syscall_32.tbl             |  2 +
+> >  arch/m68k/kernel/syscalls/syscall.tbl       |  2 +
+> >  arch/microblaze/kernel/syscalls/syscall.tbl |  2 +
+> >  arch/mips/kernel/syscalls/syscall_n32.tbl   |  2 +
+> >  arch/mips/kernel/syscalls/syscall_n64.tbl   |  2 +
+> >  arch/mips/kernel/syscalls/syscall_o32.tbl   |  2 +
+> >  arch/parisc/kernel/syscalls/syscall.tbl     |  2 +
+> >  arch/powerpc/kernel/syscalls/syscall.tbl    |  2 +
+> >  arch/s390/kernel/syscalls/syscall.tbl       |  2 +
+> >  arch/sh/kernel/syscalls/syscall.tbl         |  2 +
+> >  arch/sparc/kernel/syscalls/syscall.tbl      |  2 +
+> >  arch/x86/entry/syscalls/syscall_32.tbl      |  2 +
+> >  arch/x86/entry/syscalls/syscall_64.tbl      |  2 +
+> >  arch/xtensa/kernel/syscalls/syscall.tbl     |  2 +
+> >  fs/inode.c                                  | 75 +++++++++++++++++++++++++++++
+> >  fs/ioctl.c                                  | 16 +++++-
+> >  include/linux/fileattr.h                    |  1 +
+> >  include/linux/syscalls.h                    |  4 ++
+> >  include/uapi/asm-generic/unistd.h           |  8 ++-
+> >  21 files changed, 133 insertions(+), 3 deletions(-)
+> > 
+> 
+> [...]
+> 
+> > diff --git a/fs/inode.c b/fs/inode.c
+> > index 6b4c77268fc0ecace4ac78a9ca777fbffc277f4a..b2dddd9db4fabaf67a6cbf541a86978b290411ec 100644
+> > --- a/fs/inode.c
+> > +++ b/fs/inode.c
+> > @@ -23,6 +23,9 @@
+> >  #include <linux/rw_hint.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/debugfs.h>
+> > +#include <linux/syscalls.h>
+> > +#include <linux/fileattr.h>
+> > +#include <linux/namei.h>
+> >  #include <trace/events/writeback.h>
+> >  #define CREATE_TRACE_POINTS
+> >  #include <trace/events/timestamp.h>
+> > @@ -2953,3 +2956,75 @@ umode_t mode_strip_sgid(struct mnt_idmap *idmap,
+> >  	return mode & ~S_ISGID;
+> >  }
+> >  EXPORT_SYMBOL(mode_strip_sgid);
+> > +
+> > +SYSCALL_DEFINE4(getfsxattrat, int, dfd, const char __user *, filename,
+> > +		struct fsxattr __user *, fsx, unsigned int, at_flags)
+> > +{
+> > +	CLASS(fd, dir)(dfd);
+> > +	struct fileattr fa;
+> > +	struct path filepath;
+> > +	int error;
+> > +	unsigned int lookup_flags = 0;
+> > +
+> > +	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+> > +		return -EINVAL;
+> > +
+> > +	if (at_flags & AT_SYMLINK_FOLLOW)
+> > +		lookup_flags |= LOOKUP_FOLLOW;
+> > +
+> > +	if (at_flags & AT_EMPTY_PATH)
+> > +		lookup_flags |= LOOKUP_EMPTY;
+> > +
+> > +	if (fd_empty(dir))
+> > +		return -EBADF;
+> > +
+> > +	error = user_path_at(dfd, filename, lookup_flags, &filepath);
+> > +	if (error)
+> > +		return error;
+> 
+> security_inode_getattr() should probably be called here.
+> 
+> > +
+> > +	error = vfs_fileattr_get(filepath.dentry, &fa);
+> > +	if (!error)
+> > +		error = copy_fsxattr_to_user(&fa, fsx);
+> > +
+> > +	path_put(&filepath);
+> > +	return error;
+> > +}
+> > +
+> > +SYSCALL_DEFINE4(setfsxattrat, int, dfd, const char __user *, filename,
+> > +		struct fsxattr __user *, fsx, unsigned int, at_flags)
+> > +{
+> > +	CLASS(fd, dir)(dfd);
+> > +	struct fileattr fa;
+> > +	struct path filepath;
+> > +	int error;
+> > +	unsigned int lookup_flags = 0;
+> > +
+> > +	if ((at_flags & ~(AT_SYMLINK_FOLLOW | AT_EMPTY_PATH)) != 0)
+> > +		return -EINVAL;
+> > +
+> > +	if (at_flags & AT_SYMLINK_FOLLOW)
+> > +		lookup_flags |= LOOKUP_FOLLOW;
+> > +
+> > +	if (at_flags & AT_EMPTY_PATH)
+> > +		lookup_flags |= LOOKUP_EMPTY;
+> > +
+> > +	if (fd_empty(dir))
+> > +		return -EBADF;
+> > +
+> > +	if (copy_fsxattr_from_user(&fa, fsx))
+> > +		return -EFAULT;
+> > +
+> > +	error = user_path_at(dfd, filename, lookup_flags, &filepath);
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	error = mnt_want_write(filepath.mnt);
+> > +	if (!error) {
+> 
+> security_inode_setattr() should probably be called too.
 
-I have audited kernel source for instances of vma->anon_vma checks and
-found nowhere where this would be problematic for pure file-backed mappings.
+Aren't those checks for something different - inode attributes
+ATTR_*?
+(sorry, the naming can't be more confusing)
 
-I also discussed (off-list) with Matthew who confirmed he can't see any
-issue with this.
+Looking into security_inode_setattr() it seems to expect struct
+iattr, which works with inode attributes (mode, time, uid/gid...).
+These new syscalls work with filesystem inode extended flags/attributes
+FS_XFLAG_* in fsxattr->fsx_xflags. Let me know if I missing
+something here
 
-In effect, we treat these VMAs as if they are MAP_PRIVATE, only with 0
-CoW'd pages. As a result, the rmap never has a reason to reference the
-anon_vma from folios at any point and thus no unexpected or weird behaviour
-results.
+-- 
+- Andrey
 
-The anon_vma logic tries to avoid unnecessary anon_vma propagation on fork
-so we ought to at least minimise overhead.
-
-However, this is still overhead, and unwelcome overhead.
-
-The whole reason we do this (in madvise_guard_install()) is to ensure that
-fork _copies page tables_. Otherwise, in vma_needs_copy(), nothing will
-indicate that we should do so.
-
-This was already an unpleasant thing to have to do, but without a new VMA
-flag we really have no reasonable means of ensuring this happens.
-
-Going forward, I intend to add a new VMA flag, VM_MAYBE_GUARDED or
-something like this.
-
-This would have specific behaviour - for the purposes of merging, it would
-be ignored. However on both split and merge, it will be propagated. It is
-therefore 'sticky'.
-
-This is to avoid having to traverse page tables to determine which parts of
-a VMA contain guard regions and of course to maintain the desirable
-qualities of guard regions - the lack of VMA propagation (+ thus slab
-allocations of VMAs).
-
-Adding this flag and adjusting vma_needs_copy() to reference it would
-resolve the issue.
-
-However :) we have a VMA flag space issue, so it'd render this a 64-bit
-feature only.
-
-Having discussed with Matthew a plan by which to perhaps extend available
-flags for 32-bit we may going forward be able to avoid this. But this may
-be a longer term project.
-
-In the meantime, we'd have to resort to the anon_vma hack for 32-bit, using
-the flag for 64-bit. The issue with this however is if we do then intend to
-allow the flag to enable /proc/$pid/maps visibility (something this could
-allow), it would also end up being 64-bit only which would be a pity.
-
-Regardless - I wanted to highlight this behaviour as it is perhaps somewhat
-surprising.
-
-On Thu, Feb 13, 2025 at 06:17:00PM +0000, Lorenzo Stoakes wrote:
-> There is no reason to disallow guard regions in file-backed mappings -
-> readahead and fault-around both function correctly in the presence of PTE
-> markers, equally other operations relating to memory-mapped files function
-> correctly.
->
-> Additionally, read-only mappings if introducing guard-regions, only
-> restrict the mapping further, which means there is no violation of any
-> access rights by permitting this to be so.
->
-> Removing this restriction allows for read-only mapped files (such as
-> executable files) correctly which would otherwise not be permitted.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
->  mm/madvise.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 6ecead476a80..e01e93e179a8 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1051,13 +1051,7 @@ static bool is_valid_guard_vma(struct vm_area_struct *vma, bool allow_locked)
->  	if (!allow_locked)
->  		disallowed |= VM_LOCKED;
->
-> -	if (!vma_is_anonymous(vma))
-> -		return false;
-> -
-> -	if ((vma->vm_flags & (VM_MAYWRITE | disallowed)) != VM_MAYWRITE)
-> -		return false;
-> -
-> -	return true;
-> +	return !(vma->vm_flags & disallowed);
->  }
->
->  static bool is_guard_pte_marker(pte_t ptent)
-> --
-> 2.48.1
->
 
