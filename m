@@ -1,84 +1,84 @@
-Return-Path: <linux-api+bounces-3303-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3304-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D713A4288B
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 17:58:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B276BA428AC
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 18:02:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EA307A7BFE
-	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 16:57:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09B2816C9CE
+	for <lists+linux-api@lfdr.de>; Mon, 24 Feb 2025 16:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEDA92661A8;
-	Mon, 24 Feb 2025 16:56:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1B7526657D;
+	Mon, 24 Feb 2025 16:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JYa7MR4Q"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jKgbasYB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D884026563D
-	for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 16:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57242641C7
+	for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 16:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740416185; cv=none; b=RmHJRVSWOjjPDeJf/K605BwxvVVr5RXRRSGGbAoCUFYi8LMu4YWW/1QzGcsein9FMpmZV+LGCUoKiJwhJVHRlvXhF9Y0uE7iVCg8fLrAQtsrNYAP0NWds/+Z0Ak74647E+EhENNbcdjaR3iRu+Pf78U0sdcdSToA51hYULyNL5k=
+	t=1740416187; cv=none; b=SqrsIT+HtL5XTO2ZgWrVBcosYe7VEax4/mASKdnD3/DtoTLexDef1ibsVRn4Uhk8MFVOH8CUmp/9T9bTtMGDIT1dZd679dfF4wZC/TPatgx2TUOsfmMNbTq/eaqDX5q5HaFShpwvM7xgwjzmkd2PC4sHJb7bDi3aCLshN0TD6Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740416185; c=relaxed/simple;
-	bh=s7pp9IdgM2n/jUNyLSIifV8ruKPYElCOLPo+/ycD/IY=;
+	s=arc-20240116; t=1740416187; c=relaxed/simple;
+	bh=jBMc/6KfiUuhsqx8U3JCMjpv5FKb+tGdfD4lU0RajKI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ErZgM0mxkzAhBYMnheI+eFgvPRcU6UrFBxjajWiMcC9trf/0DPXRfnrnTiFGMCrV23skjzWiu6yp8D9Jrlo5pzzKN4+NXCFP6ln0N0jbeXSPP/XmrQldImTBhsza5BRygS/gm2RzaO0vNUTVVOz3aRcT3g0UbsTO9eLIhzh19H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JYa7MR4Q; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=U1DcJ6Q3vIB0cZ30rDjCqYS7FcthiTPHtMuelUzt4Po/h8hTvDaOYeIAq/85BNlfpMGGSsXSrAHc6/f6bzRFUF4z/qU5P6IxgAkv7UYuLoLJaIn7c7b+ar0QzaHrsjN4pbUVSt0yGPB0biPKUIBQE4AxFBpp5YVS4SqfHrf7HWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jKgbasYB; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740416182;
+	s=mimecast20190719; t=1740416184;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=evcOi+TBEtbvV15MXszgYeJTQO+N+ZLjDDY2W9tEmL0=;
-	b=JYa7MR4QrNOY7VqutCaD0Mpxe2JCDKfj8UASUcHCjtUEOS3bd1To2g4jdw2cTeF8PxkBfg
-	qksulTjgC+vIB6j1i++eqFMP3HfwBVTKqwwRhHwQj3NeiZ6JGTX10+2KRX50m8GCNqADRD
-	86Dfy0NXEggeNw6qLzITfCaCd7R0ECI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=lWnUBbJbNal4OtQP6KylSC1HMhJkWgV+LTGJMK3tR3E=;
+	b=jKgbasYB02yaCJ73nPuVCeeVAphtL8YpC5H4XOWwKtenVzDrvTUTyFqKUe9uXJhFjT5WBX
+	TqdsBWlqI++5GO8x5frdfGpYkxKrOKjO3uoimWASuYTwvOv4OYsKMnveTyxybBo58ZMsz4
+	vi5jdc/VBOGS1bxCvpKQwbh9KrLUacw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-zmYnfqOaN7GJ9Nl8j76TYw-1; Mon, 24 Feb 2025 11:56:21 -0500
-X-MC-Unique: zmYnfqOaN7GJ9Nl8j76TYw-1
-X-Mimecast-MFC-AGG-ID: zmYnfqOaN7GJ9Nl8j76TYw_1740416180
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43995bff469so39046315e9.2
-        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 08:56:21 -0800 (PST)
+ us-mta-523-3mR6vNvPNTyjkk7FVUTpPg-1; Mon, 24 Feb 2025 11:56:23 -0500
+X-MC-Unique: 3mR6vNvPNTyjkk7FVUTpPg-1
+X-Mimecast-MFC-AGG-ID: 3mR6vNvPNTyjkk7FVUTpPg_1740416182
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38f2f78aee1so1894146f8f.0
+        for <linux-api@vger.kernel.org>; Mon, 24 Feb 2025 08:56:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740416180; x=1741020980;
+        d=1e100.net; s=20230601; t=1740416182; x=1741020982;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=evcOi+TBEtbvV15MXszgYeJTQO+N+ZLjDDY2W9tEmL0=;
-        b=do337NCtY8gTt5D1g3qYsrrxiliGFXskmPj9qlr0e0EQQOT3t6IAYFQ2mtKvVrvbv8
-         kumzed/6PNonjypMSNyvAWchGp6AH9gk7kTLdzMdDTRZnAUvqLr4p3fziLyNnm+AKgO4
-         sXwODw7LDW/hakLKMBjemcWnF5NzR/YRKEmmXtMBLdTMzYEbOtbXR2YN11i3H1Sh5vat
-         xdg96/Ih+V2ov/qcULLnTdMHY1KwF5ZK5ErEMKuOwt4/s7SDmPe3qSU0zNFrX+iDDUH6
-         bgZwo6XpcGoFlTjCBj66ST6hZaQZVsM9rp5Ixa+YA0h+L8HjpnUMPpluudp1kIU+Yosm
-         TLAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMGcZHaTz7Xogjt4jrn2mKXjxZw13KdKWAuheXOjyM+ytNxVgRGP/XioydTzyH8DOA+OcXL0hVDBc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw04+vRfN1Je2t5SdkYMxMBZkpG8c9GCNu53BIEE3+dsNv8zjNM
-	Fte/f6NkXtD4YN3M5Y94VOekpOpjJ3CwoTaduohtHW7lmleqAXoRYXT+p94rqRp6J5Suz0ucfgI
-	DTAbZEmkEB9OZdz+ID7utdA5+cbaUmGdVgzDWveIDEZFGQbZURHSJQ8G6hJePjAPN/qxD
-X-Gm-Gg: ASbGnctQ0rFmQrID2PYKWVQDsd5Rgea3OGWPxEvQAQYLLS4nFqjHH6SsoF7UBy380bK
-	2KXtggui+sKo3K+ZHGKjPjVvmaUlfOAedyJsB+hDm5Ef/vCatAdt8HlDJU7i0o7wrZwCLnhIxnj
-	ur1+GEQfQy6SbXtD9fr2JySV61hzL2KyjS7utYjP3ZWG8n4j482nzPtOxfpSv7CYQGRM48hispA
-	f1t3vlyC+/ujr27T31/GF2TSR9jyBrycqQgL21b4PgEdgtAK+AT9FW8SMVWQ8V6gJTeUNPcFGgH
-	8F9zj2ZzidapiGX6E4+Bbo+o99iXWnyCqrbL6ONDzg==
-X-Received: by 2002:a05:6000:18a2:b0:38f:50bd:ad11 with SMTP id ffacd0b85a97d-38f707840afmr10692074f8f.5.1740416180207;
-        Mon, 24 Feb 2025 08:56:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHJ0CTZOs7oip6JQ6V5mLo1AyAa7BC2bCEfy4T3EJKtPxndTNVUXGmx+vtnsEhrmmF+DjMIVg==
-X-Received: by 2002:a05:6000:18a2:b0:38f:50bd:ad11 with SMTP id ffacd0b85a97d-38f707840afmr10692042f8f.5.1740416179763;
-        Mon, 24 Feb 2025 08:56:19 -0800 (PST)
+        bh=lWnUBbJbNal4OtQP6KylSC1HMhJkWgV+LTGJMK3tR3E=;
+        b=PQQJhldj8I5mCxl+UeNwJoEERquPuUpudo4ALRaWfhNyRI4fZHykBSvuY2e+GAcOqc
+         xlNtsnihw696yOv9dfaNsAod7/2WMAgdpGnHZXoiT3WQlQpM/Yeoe6amWkFWNjmGg/LY
+         sV3DwM3XoHdemXfbDRfI3A4fZaQFOZ87D8XjeSvDChKQ4S7IYMLSsViE3G5AquYklHtF
+         VwekS0OA9xTldyBZMpJomasmd+o8KuKjP6YcY8VGM29gB6090/DTe1Vdq7qGMAvLb+D3
+         sl33UDRMZD25ivtclmFHXN9smSoEbbmdNpLr7uo8HyrVVf/Gf5UZZPBhjOtHo9xSElxw
+         8Ahg==
+X-Forwarded-Encrypted: i=1; AJvYcCV57++H+cGdeEhuG44ukYvUPExuJ8v/GN8Pe+MBM1Wxm4MqPaDClvnuztV2NFHzJFgOVT1dkG2ITHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynXJLofX0KExYPgrxKUcRbHW9MEL5brr118R7ForxXR59WWBu1
+	P3f74kyIrZjyfHCpDg3Db939kUR4csnqgI4vyz9hbPRwGDHbwdGYAinHJGBsNPPngzQJLKKEQnM
+	aOBVv7C8Ks5kw22MsJFIwHCvc0JEFuJ4rbydY7JxYwn7X5ZLHgJnvXRvssA==
+X-Gm-Gg: ASbGnctqV3YDxNoxrj5Ks9DEwMJrlVyhRLZZ3ZeE3hWPMHr58NBRIGCft90IRHmVGx0
+	UBumTs/liHurUgyg/KTcC2Sbkoc23MBUUefWFYOFlur82EvwPwuQxthj5PAzZgpt6yHIvhne9WF
+	QkIqr5C28KAIBNub282/O7M2OQpuU2FVBv3h8131EbVmA33kmDGYCLML79JgZn2OEx7hm+W+drt
+	+CzNngDIZ4HrKYukWdHvnvYE083w4wAgl4eDUMRG0YSYOohVqyzUgt8/hHGKVGvc+2cWsUFHJrZ
+	iq0BbH8Opo4ZJkivdnE4tU/IyFq4uRuwRnwGtPEfmw==
+X-Received: by 2002:a5d:6d82:0:b0:38a:4184:14ec with SMTP id ffacd0b85a97d-38f6f3c507amr11123613f8f.1.1740416182303;
+        Mon, 24 Feb 2025 08:56:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHG35xVnH9LhIY4oSSBr3n8xfuxml7Goul51SSXyqtQOXZX4W9oDib+9PjJY2pvFXqp8djOQA==
+X-Received: by 2002:a5d:6d82:0:b0:38a:4184:14ec with SMTP id ffacd0b85a97d-38f6f3c507amr11123573f8f.1.1740416181836;
+        Mon, 24 Feb 2025 08:56:21 -0800 (PST)
 Received: from localhost (p4ff234b6.dip0.t-ipconnect.de. [79.242.52.182])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-439b02e489esm111463335e9.21.2025.02.24.08.56.18
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38f259f8115sm32604557f8f.92.2025.02.24.08.56.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 08:56:19 -0800 (PST)
+        Mon, 24 Feb 2025 08:56:21 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -104,9 +104,9 @@ Cc: linux-doc@vger.kernel.org,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Jann Horn <jannh@google.com>
-Subject: [PATCH v2 07/20] mm/rmap: pass dst_vma to folio_dup_file_rmap_pte() and friends
-Date: Mon, 24 Feb 2025 17:55:49 +0100
-Message-ID: <20250224165603.1434404-8-david@redhat.com>
+Subject: [PATCH v2 08/20] mm/rmap: pass vma to __folio_add_rmap()
+Date: Mon, 24 Feb 2025 17:55:50 +0100
+Message-ID: <20250224165603.1434404-9-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250224165603.1434404-1-david@redhat.com>
 References: <20250224165603.1434404-1-david@redhat.com>
@@ -118,203 +118,47 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We'll need access to the destination MM when modifying the large mapcount
-of a non-hugetlb large folios next. So pass in the destination VMA.
+We'll need access to the destination MM when modifying the mapcount
+large folios next. So pass in the VMA.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/rmap.h | 42 +++++++++++++++++++++++++-----------------
- mm/huge_memory.c     |  2 +-
- mm/memory.c          | 10 +++++-----
- 3 files changed, 31 insertions(+), 23 deletions(-)
+ mm/rmap.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 6abf7960077aa..e795610bade80 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -335,7 +335,8 @@ static inline void hugetlb_remove_rmap(struct folio *folio)
+diff --git a/mm/rmap.c b/mm/rmap.c
+index bcec8677f68df..8a7d023b02e0c 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1242,8 +1242,8 @@ int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
  }
  
- static __always_inline void __folio_dup_file_rmap(struct folio *folio,
--		struct page *page, int nr_pages, enum rmap_level level)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		enum rmap_level level)
+ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
+-		struct page *page, int nr_pages, enum rmap_level level,
+-		int *nr_pmdmapped)
++		struct page *page, int nr_pages, struct vm_area_struct *vma,
++		enum rmap_level level, int *nr_pmdmapped)
  {
+ 	atomic_t *mapped = &folio->_nr_pages_mapped;
  	const int orig_nr_pages = nr_pages;
+@@ -1411,7 +1411,7 @@ static __always_inline void __folio_add_anon_rmap(struct folio *folio,
  
-@@ -366,45 +367,47 @@ static __always_inline void __folio_dup_file_rmap(struct folio *folio,
-  * @folio:	The folio to duplicate the mappings of
-  * @page:	The first page to duplicate the mappings of
-  * @nr_pages:	The number of pages of which the mapping will be duplicated
-+ * @dst_vma:	The destination vm area
-  *
-  * The page range of the folio is defined by [page, page + nr_pages)
-  *
-  * The caller needs to hold the page table lock.
-  */
- static inline void folio_dup_file_rmap_ptes(struct folio *folio,
--		struct page *page, int nr_pages)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma)
- {
--	__folio_dup_file_rmap(folio, page, nr_pages, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, nr_pages, dst_vma, RMAP_LEVEL_PTE);
- }
+ 	VM_WARN_ON_FOLIO(!folio_test_anon(folio), folio);
  
- static __always_inline void folio_dup_file_rmap_pte(struct folio *folio,
--		struct page *page)
-+		struct page *page, struct vm_area_struct *dst_vma)
- {
--	__folio_dup_file_rmap(folio, page, 1, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, 1, dst_vma, RMAP_LEVEL_PTE);
- }
+-	nr = __folio_add_rmap(folio, page, nr_pages, level, &nr_pmdmapped);
++	nr = __folio_add_rmap(folio, page, nr_pages, vma, level, &nr_pmdmapped);
  
- /**
-  * folio_dup_file_rmap_pmd - duplicate a PMD mapping of a page range of a folio
-  * @folio:	The folio to duplicate the mapping of
-  * @page:	The first page to duplicate the mapping of
-+ * @dst_vma:	The destination vm area
-  *
-  * The page range of the folio is defined by [page, page + HPAGE_PMD_NR)
-  *
-  * The caller needs to hold the page table lock.
-  */
- static inline void folio_dup_file_rmap_pmd(struct folio *folio,
--		struct page *page)
-+		struct page *page, struct vm_area_struct *dst_vma)
- {
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	__folio_dup_file_rmap(folio, page, HPAGE_PMD_NR, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, HPAGE_PMD_NR, dst_vma, RMAP_LEVEL_PTE);
- #else
- 	WARN_ON_ONCE(true);
- #endif
- }
+ 	if (likely(!folio_test_ksm(folio)))
+ 		__page_check_anon_rmap(folio, page, vma, address);
+@@ -1582,7 +1582,7 @@ static __always_inline void __folio_add_file_rmap(struct folio *folio,
  
- static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
--		struct page *page, int nr_pages, struct vm_area_struct *src_vma,
--		enum rmap_level level)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma, enum rmap_level level)
- {
- 	const int orig_nr_pages = nr_pages;
- 	bool maybe_pinned;
-@@ -470,6 +473,7 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
-  * @folio:	The folio to duplicate the mappings of
-  * @page:	The first page to duplicate the mappings of
-  * @nr_pages:	The number of pages of which the mapping will be duplicated
-+ * @dst_vma:	The destination vm area
-  * @src_vma:	The vm area from which the mappings are duplicated
-  *
-  * The page range of the folio is defined by [page, page + nr_pages)
-@@ -488,16 +492,18 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
-  * Returns 0 if duplicating the mappings succeeded. Returns -EBUSY otherwise.
-  */
- static inline int folio_try_dup_anon_rmap_ptes(struct folio *folio,
--		struct page *page, int nr_pages, struct vm_area_struct *src_vma)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
--	return __folio_try_dup_anon_rmap(folio, page, nr_pages, src_vma,
--					 RMAP_LEVEL_PTE);
-+	return __folio_try_dup_anon_rmap(folio, page, nr_pages, dst_vma,
-+					 src_vma, RMAP_LEVEL_PTE);
- }
+ 	VM_WARN_ON_FOLIO(folio_test_anon(folio), folio);
  
- static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
--		struct page *page, struct vm_area_struct *src_vma)
-+		struct page *page, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
--	return __folio_try_dup_anon_rmap(folio, page, 1, src_vma,
-+	return __folio_try_dup_anon_rmap(folio, page, 1, dst_vma, src_vma,
- 					 RMAP_LEVEL_PTE);
- }
+-	nr = __folio_add_rmap(folio, page, nr_pages, level, &nr_pmdmapped);
++	nr = __folio_add_rmap(folio, page, nr_pages, vma, level, &nr_pmdmapped);
+ 	__folio_mod_stat(folio, nr, nr_pmdmapped);
  
-@@ -506,6 +512,7 @@ static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
-  *				 of a folio
-  * @folio:	The folio to duplicate the mapping of
-  * @page:	The first page to duplicate the mapping of
-+ * @dst_vma:	The destination vm area
-  * @src_vma:	The vm area from which the mapping is duplicated
-  *
-  * The page range of the folio is defined by [page, page + HPAGE_PMD_NR)
-@@ -524,11 +531,12 @@ static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
-  * Returns 0 if duplicating the mapping succeeded. Returns -EBUSY otherwise.
-  */
- static inline int folio_try_dup_anon_rmap_pmd(struct folio *folio,
--		struct page *page, struct vm_area_struct *src_vma)
-+		struct page *page, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	return __folio_try_dup_anon_rmap(folio, page, HPAGE_PMD_NR, src_vma,
--					 RMAP_LEVEL_PMD);
-+	return __folio_try_dup_anon_rmap(folio, page, HPAGE_PMD_NR, dst_vma,
-+					 src_vma, RMAP_LEVEL_PMD);
- #else
- 	WARN_ON_ONCE(true);
- 	return -EBUSY;
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 13152313e77ce..a3264d88d4b49 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1782,7 +1782,7 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 	src_folio = page_folio(src_page);
- 
- 	folio_get(src_folio);
--	if (unlikely(folio_try_dup_anon_rmap_pmd(src_folio, src_page, src_vma))) {
-+	if (unlikely(folio_try_dup_anon_rmap_pmd(src_folio, src_page, dst_vma, src_vma))) {
- 		/* Page maybe pinned: split and retry the fault on PTEs. */
- 		folio_put(src_folio);
- 		pte_free(dst_mm, pgtable);
-diff --git a/mm/memory.c b/mm/memory.c
-index cacf6d53bdf32..ef74c4f009f84 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -845,7 +845,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 		folio_get(folio);
- 		rss[mm_counter(folio)]++;
- 		/* Cannot fail as these pages cannot get pinned. */
--		folio_try_dup_anon_rmap_pte(folio, page, src_vma);
-+		folio_try_dup_anon_rmap_pte(folio, page, dst_vma, src_vma);
- 
- 		/*
- 		 * We do not preserve soft-dirty information, because so
-@@ -999,14 +999,14 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		folio_ref_add(folio, nr);
- 		if (folio_test_anon(folio)) {
- 			if (unlikely(folio_try_dup_anon_rmap_ptes(folio, page,
--								  nr, src_vma))) {
-+								  nr, dst_vma, src_vma))) {
- 				folio_ref_sub(folio, nr);
- 				return -EAGAIN;
- 			}
- 			rss[MM_ANONPAGES] += nr;
- 			VM_WARN_ON_FOLIO(PageAnonExclusive(page), folio);
- 		} else {
--			folio_dup_file_rmap_ptes(folio, page, nr);
-+			folio_dup_file_rmap_ptes(folio, page, nr, dst_vma);
- 			rss[mm_counter_file(folio)] += nr;
- 		}
- 		if (any_writable)
-@@ -1024,7 +1024,7 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		 * guarantee the pinned page won't be randomly replaced in the
- 		 * future.
- 		 */
--		if (unlikely(folio_try_dup_anon_rmap_pte(folio, page, src_vma))) {
-+		if (unlikely(folio_try_dup_anon_rmap_pte(folio, page, dst_vma, src_vma))) {
- 			/* Page may be pinned, we have to copy. */
- 			folio_put(folio);
- 			err = copy_present_page(dst_vma, src_vma, dst_pte, src_pte,
-@@ -1034,7 +1034,7 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		rss[MM_ANONPAGES]++;
- 		VM_WARN_ON_FOLIO(PageAnonExclusive(page), folio);
- 	} else {
--		folio_dup_file_rmap_pte(folio, page);
-+		folio_dup_file_rmap_pte(folio, page, dst_vma);
- 		rss[mm_counter_file(folio)]++;
- 	}
- 
+ 	/* See comments in folio_add_anon_rmap_*() */
 -- 
 2.48.1
 
