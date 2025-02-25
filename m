@@ -1,333 +1,198 @@
-Return-Path: <linux-api+bounces-3343-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3347-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB06AA44A9A
-	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2025 19:36:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6905A44DAD
+	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2025 21:37:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58AA917B3CA
-	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2025 18:36:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18DBA19C7002
+	for <lists+linux-api@lfdr.de>; Tue, 25 Feb 2025 20:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9651A2567;
-	Tue, 25 Feb 2025 18:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFD520DD71;
+	Tue, 25 Feb 2025 20:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="aZe0CTf1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCTyihQ/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE0F189B91;
-	Tue, 25 Feb 2025 18:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308941448E3;
+	Tue, 25 Feb 2025 20:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740508573; cv=none; b=KstE8sm4D+UvDJIMUWoe8VEsH4TX/8/AOEUJ6MoGwUiEDB2ywgepy4Co8pIBg8YpPhrw5hO9Mpt9JtbzwoXSKv4seKZmvYkX3alPxM4X7GJ+QFQAgVb1BOB0b9jGqm5kgPT/dsmBzG30m2M7VFi/HNDljD/zVeKsxmGuz0PrvZo=
+	t=1740515686; cv=none; b=F2p5tOjySuBqv/hN/G4l2YDNnrmnI0WymtaqX2Mt/TW4K+E/ad/4hWPECJ26fN/mE06jPlqCirBU6IHiEK4nMBcd2XqIQU+wdwKmhyFiC1djM8i6sFOXE8mp0ifMZsGHF6yh4ZLS73uvxzxI8vwL8LyVei3uwqp8W03Z0P1oUjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740508573; c=relaxed/simple;
-	bh=Kr1Aoxz1jc0w/MFdevMCJFBQi8H+SUq0DzMJxpDwQgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hj1cf0NLtRU9+pt8S41Z/23OFHXCgAZ2duspkeH22LRJ6Stgta+kemhI9ffuhksTE0ArgZhyGN5iKgsGZIV6yEhO0eHqO5NpYRikc4a9UsyKhCwfPROsZR6e+VVxM1SrZSS374zuJu6/ct+/Hj5feqBOODwFXSos3uleQpOxZuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=aZe0CTf1; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=W4MmNdoMd9oJsfw/bLHr7MLfSZfrHsMdh/doUblxfYo=; b=aZe0CTf1bg3ejYPY6qskfHb8PF
-	SxgHtFT4CvPcRW8RtxeFZMpCtvlkPv0JrjuXYZEf8XYT8oMAxbIe1zmcANZHcrN5AvDkJUATVF0R2
-	Rt0/p2Sd0F/y8qdW5BeT5fZvxaVQ4XvnHk5kq1q+9iPIIV57yzjDp08oW/CneFnp6PxS/M0YoV/S/
-	Cq6bKhANLw4AjN+FAaPppJ87s9qVTHTUsxuVLsg4ginzQZC1ZyMxm/wnHdQ3tvjLZp7JqRd5UqSE1
-	A9EmbHEjaR79nNbjX8dM1Lb18aYk8DlBlf6cE3mW0tn6NYTnpBXH4PJm2VfxxUHsqPwqaV/KHMnOh
-	GvDN5twQ==;
-Received: from [191.204.194.148] (helo=localhost.localdomain)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1tmzmZ-000WtH-UG; Tue, 25 Feb 2025 19:35:58 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	sonicadvance1@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	linux-api@vger.kernel.org,
-	Vinicius Peixoto <vpeixoto@lkcamp.dev>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v4 5/5] selftests: futex: Expand robust list test for the new interface
-Date: Tue, 25 Feb 2025 15:35:31 -0300
-Message-ID: <20250225183531.682556-6-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225183531.682556-1-andrealmeid@igalia.com>
-References: <20250225183531.682556-1-andrealmeid@igalia.com>
+	s=arc-20240116; t=1740515686; c=relaxed/simple;
+	bh=BRDE49GDK1WZQtOVWzMxOTVjKgnZs4mLJeGOsJR4KcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ni1RrSHaKfp711JMMLwThXNesiPTzabJSRHR7R29m4FMdHRgAl5MnZB+9sJZL2r04gvYvRzXMXbqJAggNm0ms7qeJEW2PLEFquQJPTCCE9U8gS8knwIkZhz0+X+9uPQoKemH+L1FU9XTWw6sm9QuSkApA+2eXJrJ3B7/NL4QJ40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCTyihQ/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A12C4CEDD;
+	Tue, 25 Feb 2025 20:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740515685;
+	bh=BRDE49GDK1WZQtOVWzMxOTVjKgnZs4mLJeGOsJR4KcY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GCTyihQ/b2fTjWjL/w3eMUhECoP7pQUVh6qE6TXIEJ1BjHjigwTdvaXZ8aa1oOZW9
+	 oKgOEDdFkHlCFZJGO4qmPSlQfmqTMdR4q6AaRRkwLGJ3tn5IsA6CVTfZngMu04uwvU
+	 USQQvX2Ui2Py5GmeTon0UPIp4jb3Kllog7qTR84ZVlGPWnNhBglvmgANXSDfz/nF8C
+	 fe6Ei8S+wY4QXqwkmTNtltifZ28vYDexOBzcB6Jx/JDAMQqYWr6bIziStGJLhdUGBs
+	 KFr35I0nEjHgGeGnYKE+sCz27ig69d53549TBv6xK6RZKoaFrkcXukrE4yB0TGFtgY
+	 hJMWUKlbR87Lg==
+Received: by pali.im (Postfix)
+	id 5A20189B; Tue, 25 Feb 2025 21:34:32 +0100 (CET)
+Date: Tue, 25 Feb 2025 21:34:32 +0100
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>,
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	Linux-Arch <linux-arch@vger.kernel.org>, linux-xfs@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH v3] fs: introduce getfsxattrat and setfsxattrat syscalls
+Message-ID: <20250225203432.o2lxjbimka4jldrx@pali>
+References: <20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org>
+ <20250221181135.GW21808@frogsfrogsfrogs>
+ <CAOQ4uxgyYBFqkq6cQsso4LxJsPJ4uECOdskXmz-nmGhhV5BQWg@mail.gmail.com>
+ <20250224-klinke-hochdekoriert-3f6be89005a8@brauner>
+ <6b51ffa2-9d67-4466-865e-e703c1243352@app.fastmail.com>
+ <20250225-strom-kopflos-32062347cd13@brauner>
+ <3c860dc0-ba8d-4324-b286-c160b7d8d2c4@app.fastmail.com>
+ <20250225-testfahrt-seilwinde-64e6f44c01ce@brauner>
+ <20250225155926.GD6265@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250225155926.GD6265@frogsfrogsfrogs>
+User-Agent: NeoMutt/20180716
 
-Expand the current robust list test for the new set_robust_list2
-syscall. Create an option to make it possible to run the same tests
-using the new syscall, and also add two new relevant test: test long
-lists (bigger than ROBUST_LIST_LIMIT) and for unaligned addresses.
+On Tuesday 25 February 2025 07:59:26 Darrick J. Wong wrote:
+> On Tue, Feb 25, 2025 at 12:24:08PM +0100, Christian Brauner wrote:
+> > On Tue, Feb 25, 2025 at 11:40:51AM +0100, Arnd Bergmann wrote:
+> > > On Tue, Feb 25, 2025, at 11:22, Christian Brauner wrote:
+> > > > On Tue, Feb 25, 2025 at 09:02:04AM +0100, Arnd Bergmann wrote:
+> > > >> On Mon, Feb 24, 2025, at 12:32, Christian Brauner wrote:
+> > > >> 
+> > > >> The ioctl interface relies on the existing behavior, see
+> > > >> 0a6eab8bd4e0 ("vfs: support FS_XFLAG_COWEXTSIZE and get/set of
+> > > >> CoW extent size hint") for how it was previously extended
+> > > >> with an optional flag/word. I think that is fine for the syscall
+> > > >> as well, but should be properly documented since it is different
+> > > >> from how most syscalls work.
+> > > >
+> > > > If we're doing a new system call I see no reason to limit us to a
+> > > > pre-existing structure or structure layout.
+> > > 
+> > > Obviously we could create a new structure, but I also see no
+> > > reason to do so. The existing ioctl interface was added in
+> > > in 2002 as part of linux-2.5.35 with 16 bytes of padding, half
+> > > of which have been used so far.
+> > > 
+> > > If this structure works for another 23 years before we run out
+> > > of spare bytes, I think that's good enough. Building in an
+> > > incompatible way to handle potential future contents would
+> > > just make it harder to use for any userspace that wants to
+> > > use the new syscalls but still needs a fallback to the
+> > > ioctl version.
+> > 
+> > The fact that this structure has existed since the dawn of time doesn't
+> > mean it needs to be retained when adding a completely new system call.
+> > 
+> > People won't mix both. They either switch to the new interface because
+> > they want to get around the limitations of the old interface or they
+> > keep using the old interface and the associated workarounds.
+> > 
+> > In another thread they keep arguing about new extensions for Windows
+> > that are going to be added to the ioctl interface and how to make it fit
+> > into this. That just shows that it's very hard to predict from the
+> > amount of past changes how many future changes are going to happen. And
+> > if an interface is easy to extend it might well invite new changes that
+> > people didn't want to or couldn't make using the old interface.
+> 
+> Agreed, I don't think it's hard to enlarge struct fsxattr in the
+> existing ioctl interface; either we figure out how to make the kernel
+> fill out the "missing" bytes with an internal getfsxattr call, or we
+> make it return some errno if we would be truncating real output due to
+> struct size limits and leave a note in the manpage that "EL3HLT means
+> use a bigger structure definition"
+> 
+> Then both interfaces can plod along for another 30 years. :)
+> 
+> --D
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- .../selftests/futex/functional/robust_list.c  | 160 +++++++++++++++++-
- 1 file changed, 156 insertions(+), 4 deletions(-)
+For Windows attributes, there are for sure needed new 11 bits for
+attributes which can be both get and set, additional 4 bits for get-only
+attributes, and plus there are 9 reserved bits (which Windows can start
+using it and exporting over NTFS or SMB). And it is possible that
+Windows can reuse some bits which were previously assigned for things
+which today does not appear on NTFS.
 
-diff --git a/tools/testing/selftests/futex/functional/robust_list.c b/tools/testing/selftests/futex/functional/robust_list.c
-index 42690b2440fd..201acbeeac5a 100644
---- a/tools/testing/selftests/futex/functional/robust_list.c
-+++ b/tools/testing/selftests/futex/functional/robust_list.c
-@@ -35,16 +35,45 @@
- #include <stddef.h>
- #include <sys/mman.h>
- #include <sys/wait.h>
-+#include <stdint.h>
- 
- #define STACK_SIZE (1024 * 1024)
- 
- #define FUTEX_TIMEOUT 3
- 
-+#define SYS_set_robust_list2 467
-+
-+enum robust_list2_type {
-+        ROBUST_LIST_32BIT,
-+        ROBUST_LIST_64BIT,
-+};
-+
- static pthread_barrier_t barrier, barrier2;
- 
-+bool robust2 = false;
-+
- int set_robust_list(struct robust_list_head *head, size_t len)
- {
--	return syscall(SYS_set_robust_list, head, len);
-+	int ret, flags;
-+
-+	if (!robust2) {
-+		return syscall(SYS_set_robust_list, head, len);
-+	}
-+
-+	if (sizeof(head) == 8)
-+		flags = ROBUST_LIST_64BIT;
-+	else
-+		flags = ROBUST_LIST_32BIT;
-+
-+	/*
-+	 * We act as we have just one list here. We try to use the first slot,
-+	 * but if it hasn't been alocated yet we allocate it.
-+	 */
-+	ret = syscall(SYS_set_robust_list2, head, 0, flags);
-+	if (ret == -1 && errno == ENOENT)
-+		ret = syscall(SYS_set_robust_list2, head, -1, flags);
-+
-+	return ret;
- }
- 
- int get_robust_list(int pid, struct robust_list_head **head, size_t *len_ptr)
-@@ -246,6 +275,11 @@ static void test_set_robust_list_invalid_size(void)
- 	size_t head_size = sizeof(struct robust_list_head);
- 	int ret;
- 
-+	if (robust2) {
-+		ksft_test_result_skip("This test is only for old robust interface\n");
-+		return;
-+	}
-+
- 	ret = set_robust_list(&head, head_size);
- 	ASSERT_EQ(ret, 0);
- 
-@@ -321,6 +355,11 @@ static void test_get_robust_list_child(void)
- 	struct robust_list_head head, *get_head;
- 	size_t len_ptr;
- 
-+	if (robust2) {
-+		ksft_test_result_skip("Not implemented in the new robust interface\n");
-+		return;
-+	}
-+
- 	ret = pthread_barrier_init(&barrier, NULL, 2);
- 	ret = pthread_barrier_init(&barrier2, NULL, 2);
- 	ASSERT_EQ(ret, 0);
-@@ -332,7 +371,7 @@ static void test_get_robust_list_child(void)
- 
- 	ret = get_robust_list(tid, &get_head, &len_ptr);
- 	ASSERT_EQ(ret, 0);
--	ASSERT_EQ(&head, get_head);
-+	ASSERT_EQ(get_head, &head);
- 
- 	pthread_barrier_wait(&barrier2);
- 
-@@ -507,11 +546,119 @@ static void test_circular_list(void)
- 	ksft_test_result_pass("%s\n", __func__);
- }
- 
-+#define ROBUST_LIST_LIMIT	2048
-+#define CHILD_LIST_LIMIT (ROBUST_LIST_LIMIT + 10)
-+
-+static int child_robust_list_limit(void *arg)
-+{
-+	struct lock_struct *locks;
-+	struct robust_list *list;
-+	struct robust_list_head head;
-+	int ret, i;
-+
-+	locks = (struct lock_struct *) arg;
-+
-+	ret = set_list(&head);
-+	if (ret)
-+		ksft_test_result_fail("set_list error\n");
-+
-+	/*
-+	 * Create a very long list of locks
-+	 */
-+	head.list.next = &locks[0].list;
-+
-+	list = head.list.next;
-+	for (i = 0; i < CHILD_LIST_LIMIT - 1; i++) {
-+		list->next = &locks[i+1].list;
-+		list = list->next;
-+	}
-+	list->next = &head.list;
-+
-+	/*
-+	 * Grab the lock in the last one, and die without releasing it
-+	 */
-+	mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-+	pthread_barrier_wait(&barrier);
-+
-+	sleep(1);
-+
-+	return 0;
-+}
-+
-+/*
-+ * The old robust list used to have a limit of 2048 items from the kernel side.
-+ * After this limit the kernel stops walking the list and ignore the other
-+ * futexes, causing deadlocks.
-+ *
-+ * For the new interface, test if we can wait for a list of more than 2048
-+ * elements.
-+ */
-+static void test_robust_list_limit(void)
-+{
-+	struct lock_struct locks[CHILD_LIST_LIMIT + 1];
-+	_Atomic(unsigned int) *futex = &locks[CHILD_LIST_LIMIT].futex;
-+	struct robust_list_head head;
-+	int ret;
-+
-+	if (!robust2) {
-+		ksft_test_result_skip("This test is only for new robust interface\n");
-+		return;
-+	}
-+
-+	*futex = 0;
-+
-+	ret = set_list(&head);
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = pthread_barrier_init(&barrier, NULL, 2);
-+	ASSERT_EQ(ret, 0);
-+
-+	create_child(child_robust_list_limit, locks);
-+
-+	/*
-+	 * After the child thread creates the very long list of locks, wait on
-+	 * the last one.
-+	 */
-+	pthread_barrier_wait(&barrier);
-+	ret = mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-+
-+	if (ret != 0)
-+		printf("futex wait returned %d\n", errno);
-+	ASSERT_EQ(ret, 0);
-+
-+	ASSERT_TRUE(*futex | FUTEX_OWNER_DIED);
-+
-+	wait(NULL);
-+	pthread_barrier_destroy(&barrier);
-+
-+	ksft_test_result_pass("%s\n", __func__);
-+}
-+
-+/*
-+ * The kernel should refuse an unaligned head pointer
-+ */
-+static void test_unaligned_address(void)
-+{
-+	struct robust_list_head head, *h;
-+	int ret;
-+
-+	if (!robust2) {
-+		ksft_test_result_skip("This test is only for new robust interface\n");
-+		return;
-+	}
-+
-+	h = (struct robust_list_head *) ((uintptr_t) &head + 1);
-+	ret = set_list(h);
-+	ASSERT_EQ(ret, -1);
-+	ASSERT_EQ(errno, EINVAL);
-+}
-+
- void usage(char *prog)
- {
- 	printf("Usage: %s\n", prog);
- 	printf("  -c	Use color\n");
- 	printf("  -h	Display this help message\n");
-+	printf("  -n	Use robust2 syscall\n");
- 	printf("  -v L	Verbosity level: %d=QUIET %d=CRITICAL %d=INFO\n",
- 	       VQUIET, VCRITICAL, VINFO);
- }
-@@ -520,7 +667,7 @@ int main(int argc, char *argv[])
- {
- 	int c;
- 
--	while ((c = getopt(argc, argv, "cht:v:")) != -1) {
-+	while ((c = getopt(argc, argv, "chnt:v:")) != -1) {
- 		switch (c) {
- 		case 'c':
- 			log_color(1);
-@@ -531,6 +678,9 @@ int main(int argc, char *argv[])
- 		case 'v':
- 			log_verbosity(atoi(optarg));
- 			break;
-+		case 'n':
-+			robust2 = true;
-+			break;
- 		default:
- 			usage(basename(argv[0]));
- 			exit(1);
-@@ -538,7 +688,7 @@ int main(int argc, char *argv[])
- 	}
- 
- 	ksft_print_header();
--	ksft_set_plan(7);
-+	ksft_set_plan(8);
- 
- 	test_robustness();
- 
-@@ -548,6 +698,8 @@ int main(int argc, char *argv[])
- 	test_set_list_op_pending();
- 	test_robust_list_multiple_elements();
- 	test_circular_list();
-+	test_robust_list_limit();
-+	test_unaligned_address();
- 
- 	ksft_print_cnts();
- 	return 0;
--- 
-2.48.1
+I think that fsx_xflags does not have enough free bits for all these
+attributes. So it would be really nice to design API/ABI in away which
+can be extended for new fields.
 
+Also another two points, for this new syscalls. I have not looked at the
+current changes (I was added to CC just recently), but it would be nice:
+
+1) If syscall API allows to operate on the symlink itself. This is
+   because NTFS and also SMB symlink also contains attributes. ioctl
+   interface currently does not support to get/set these symlink
+   attributes.
+
+2) If syscall API contains ability to just change subset of attributes.
+   And provide an error reporting to userspace if userspace application
+   is trying to set attribute which is not supported by the filesystem.
+   This error reporting is needed for possible "cp -a" or possible
+   "rsync" implementation which informs when some metadata cannot be
+   backup/restored. There are more filesystems which supports only
+   subset of attributes, this applies also for windows attributes.
+   For example UDF fs supports only "hidden" attribute.
 
