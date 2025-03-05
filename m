@@ -1,352 +1,332 @@
-Return-Path: <linux-api+bounces-3376-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3377-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5283AA4EB45
-	for <lists+linux-api@lfdr.de>; Tue,  4 Mar 2025 19:22:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDE5A4FBF5
+	for <lists+linux-api@lfdr.de>; Wed,  5 Mar 2025 11:30:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA5C7189A020
-	for <lists+linux-api@lfdr.de>; Tue,  4 Mar 2025 18:17:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24C811892BE0
+	for <lists+linux-api@lfdr.de>; Wed,  5 Mar 2025 10:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42640294EC2;
-	Tue,  4 Mar 2025 18:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3A24207656;
+	Wed,  5 Mar 2025 10:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fZh3vfUL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from beeline3.cc.itu.edu.tr (beeline3.cc.itu.edu.tr [160.75.25.117])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9B225DCEC
-	for <linux-api@vger.kernel.org>; Tue,  4 Mar 2025 18:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741111333; cv=pass; b=iD3vFg4KE6EwZly+1yRZm8JRwEFHh3y9VY0aJ+o1Qz9TZtu5sZMUWdFKZVuP1nQ0XSIQShrOM/DiL6jRChw7blvQCR3WMOOLrI/eH/VxWL/PYIHm9u4OxGZTZRgd/r6o4Imkr3mAbMvPVgOxBjAzVpE5OfF8RCp9M+IjNVFCld4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741111333; c=relaxed/simple;
-	bh=i/mv86q/EEkpO+5vvH8tZGjrQa/WXUHTfjDzQ+Vh+Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SlIdDJPYh6Rz6n3jdmEda82qczSWcjZlOOn8deBCPQRlBdf0DH19jRHbIBtwVPKp0OEtG22Q9PSSjAVA6R2+Bfbe97f0xgGPVQBnve5uma17wZ7xEI0+zAmFt5euWwQ+VUFAP5kX3ac64IhXZdPNVakRbKwN7AxxsK9Gd86l48s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=none smtp.mailfrom=cc.itu.edu.tr; arc=none smtp.client-ip=194.107.17.57; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=pass smtp.client-ip=160.75.25.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
-Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by beeline3.cc.itu.edu.tr (Postfix) with ESMTPS id 6AAFB40CFBBE
-	for <linux-api@vger.kernel.org>; Tue,  4 Mar 2025 21:02:09 +0300 (+03)
-X-Envelope-From: <root@cc.itu.edu.tr>
-Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6g7c0PWfzG1Kn
-	for <linux-api@vger.kernel.org>; Tue,  4 Mar 2025 18:48:12 +0300 (+03)
-Received: by le1 (Postfix, from userid 0)
-	id 409E342723; Tue,  4 Mar 2025 18:48:04 +0300 (+03)
-X-Envelope-From: <linux-kernel+bounces-541567-bozkiru=itu.edu.tr@vger.kernel.org>
-Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
-	by le2 (Postfix) with ESMTP id 946AB4214A
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:33:21 +0300 (+03)
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by fgw1.itu.edu.tr (Postfix) with SMTP id 2BD853063EFE
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 14:33:11 +0300 (+03)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 532863BC30B
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 11:23:07 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624941F75A6;
-	Mon,  3 Mar 2025 11:20:50 +0000 (UTC)
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E801F3D49;
-	Mon,  3 Mar 2025 11:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F9A2063F8
+	for <linux-api@vger.kernel.org>; Wed,  5 Mar 2025 10:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741000847; cv=none; b=U9VY9mMQy1Tu/s7dGgzNH4MYlv1fzZjdzEPb3eMj9Rs8uN24K6HhQWfAttx2AXGevtrHzYd99e5SYC5isngNqdc9BEUnlfodxU3D+gOfal9HWBVWHgsaiTxPBGF2iSRTelEP6JeyY8EfW0xAq4EBgzSXv4lXqf5bRvP1GPYA3e4=
+	t=1741170602; cv=none; b=Z8+i5tWgQ/xp9Zu7MigrE7uDCSXkoDTtmzpHhdUzvnuO9yXQ/Q5MlDzCKoyQuTZKFOzc30r3rMtgYyRiEJ+XGH8+ihTjF9aJmVX8SbQx3me0j092QxnSjn7jTkrUhJsOkxr/bH12ZYW80vZ/yL/01uoSlFUKcwUkkrFtdf2u3hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741000847; c=relaxed/simple;
-	bh=i/mv86q/EEkpO+5vvH8tZGjrQa/WXUHTfjDzQ+Vh+Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oKrsqinWmTuhisupsVLMGnlfobaAG2tEiSMLDrw64JuEHgBh+W23YFbEuJGqhKhkDZCpffGIXlQgIGdBeoeTDv6hswPhPAeItmM7v4ca5aKQpGok4issJwuvFpLLPhiD84nLWSnqms2nUIqAkhTCVudxS6ivUmV0+YmSPgqFfXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 83B3972C980;
-	Mon,  3 Mar 2025 14:20:44 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 70B307CCB3A; Mon,  3 Mar 2025 13:20:44 +0200 (IST)
-Date: Mon, 3 Mar 2025 13:20:44 +0200
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, Alexey Gladkov <legion@kernel.org>,
-	Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [PATCH v7 5/6] ptrace: introduce PTRACE_SET_SYSCALL_INFO request
-Message-ID: <20250303112044.GF24170@strace.io>
-Precedence: bulk
+	s=arc-20240116; t=1741170602; c=relaxed/simple;
+	bh=ZIqceabQfJX8R/JGfPkeny57EsKqNJLvxvryLCwHQ+A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AkzEgyiXo2hKhyfKQ0S7GD3j+qwksN3cw2A9sQeNPwI9trRb8McnaU2DkumPx6qOfc9jcm+ezwSXr1WBpdif6FAOvSVSiLpWQwkg6Sb5cAkTqWn6NsZGyflazKf6fgQTLKeEEOo7g6/X1oqYLH2q6CcQ043HNL9Z1/iGr9ksAYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fZh3vfUL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741170599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DwfrVJB2IPkMjhKdEJbWHuXqPqDoaFm43Z3NiVADH/M=;
+	b=fZh3vfULo/RqEKU58tfpvrrgZ4/Kf3F2OYBxl/+gN+g8EmimaELkfazC5U77+8785WDzG1
+	TUtSQeKkk+jU9ARIarFPqkKFerURRW2Xe5o+GcbhHeVNPd45qu1lbcOU8jAM2Wm9tT3zp1
+	VF6rdwqDVfMId4MH11sXzOuk2yNbYg8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-279-RPSG0epAOoGhOTb3XYatAA-1; Wed, 05 Mar 2025 05:29:58 -0500
+X-MC-Unique: RPSG0epAOoGhOTb3XYatAA-1
+X-Mimecast-MFC-AGG-ID: RPSG0epAOoGhOTb3XYatAA_1741170597
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-391189236e7so1134925f8f.0
+        for <linux-api@vger.kernel.org>; Wed, 05 Mar 2025 02:29:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741170597; x=1741775397;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DwfrVJB2IPkMjhKdEJbWHuXqPqDoaFm43Z3NiVADH/M=;
+        b=aW98l5CyyL+SXENYO5mG1ldBJbi1VQWEpXBz3cOKEQFx9JzyCE41+XPwRCbQVL+wZV
+         X8QrOu1IdjsRZeAST9xv30EAiP9Po3g0ivknMxBaKGxHloulGkmlAfh+Ecvy2yaEmdzT
+         pylQ5iapfwYWGujtiTjpxD3693yk+9TMVHljRkrzG2RpiOwbF+RVo0u1xRA6cZlLgkmL
+         1U6HLHMK0iHE04rxddcUWZt4RBkI7plFo+DSuisZPAzxowcDvR0To6tTP/Uq7o6YGaqi
+         SSaMAenEd7e6ng6tGT82tXnnWEiIAVFalFxtU2TYtdLMPtjvseXBQiyDhAN8OP0hZ2t8
+         ex5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXlmn/kjBdFbMgy2uuswchMpfSqPcG+mwAftNohdWdzx3IxumKEydVhbTEC9+dFwJ1sb+tIguNwfNA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTDpEQ2Yj5pQvJ7XfXRddePdhuP6n0czPhGgsj3++n8bTltqOt
+	zZCz99gaQGo5ZfD1G6J8eKb2p9rpY8DZuqg8t/tfv3OFgR4oXTtYphxfzz7D4qz9FuorYGzKvCA
+	2RnnbSCQ1BkmaoLU3MYMw0dK33Y1Uhphso/cjRUkCUysM6F3ciXzKSSWPTA==
+X-Gm-Gg: ASbGncvRcWoJD+2PFGorYS43/nZeenBJoOlY4N6akCb8FjCFbMIbP1VpPUvFcF4EEWL
+	YDEOL7TlZzBxJjWjrBBzHioZy/i9kD5v7SvOoS/ocVnUkQDv/pyzfuzHc9esbeA8jbNMbsQ1jzN
+	HUHnMUhknHM4h49H6tn4pYIalm5+ictqRH+sWsVu4ZFKnbLAw3typb2CYZJnfKSMQ82DGnSxK/z
+	4QCQKlXD8gX25yLFnvzMsmbCmSgqgtgj/PtHtL2RJXz5ab/IBuyRposhYjE369zfd0YuPHWf+A6
+	PUkhrK25+rMRq9MunHLpaJFOjceW9oC0VARHVJ0PROpA2mp1Dg==
+X-Received: by 2002:a5d:6c62:0:b0:38f:503a:d93f with SMTP id ffacd0b85a97d-3911f7b349cmr1849712f8f.40.1741170596798;
+        Wed, 05 Mar 2025 02:29:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEWt7nqNGJWcxZ3sniy7h3PrfZcFzKDyC306gbJ7KAAn7ebAdfJmPYIrJ3yzoj/ABCPOc+44w==
+X-Received: by 2002:a5d:6c62:0:b0:38f:503a:d93f with SMTP id ffacd0b85a97d-3911f7b349cmr1849668f8f.40.1741170596371;
+        Wed, 05 Mar 2025 02:29:56 -0800 (PST)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47a6a9fsm20821992f8f.36.2025.03.05.02.29.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 02:29:55 -0800 (PST)
+Message-ID: <a97f8a91-ec41-4796-81e3-7c9e0e491ba4@redhat.com>
+Date: Wed, 5 Mar 2025 11:29:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250303111910.GA24170@strace.io>
-X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6g7c0PWfzG1Kn
-X-ITU-Libra-ESVA: No virus found
-X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741715995.29736@5mOfBrgOl5pE7GAjkJIW8w
-X-ITU-MailScanner-SpamCheck: not spam
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/20] mm: let _folio_nr_pages overlay memcg_data in
+ first tail page
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Muchun Song <muchun.song@linux.dev>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20250303163014.1128035-1-david@redhat.com>
+ <20250303163014.1128035-4-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20250303163014.1128035-4-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PTRACE_SET_SYSCALL_INFO is a generic ptrace API that complements
-PTRACE_GET_SYSCALL_INFO by letting the ptracer modify details of
-system calls the tracee is blocked in.
+On 03.03.25 17:29, David Hildenbrand wrote:
+> Let's free up some more of the "unconditionally available on 64BIT"
+> space in order-1 folios by letting _folio_nr_pages overlay memcg_data in
+> the first tail page (second folio page). Consequently, we have the
+> optimization now whenever we have CONFIG_MEMCG, independent of 64BIT.
+> 
+> We have to make sure that page->memcg on tail pages does not return
+> "surprises". page_memcg_check() already properly refuses PageTail().
+> Let's do that earlier in print_page_owner_memcg() to avoid printing
+> wrong "Slab cache page" information. No other code should touch that
+> field on tail pages of compound pages.
+> 
+> Reset the "_nr_pages" to 0 when splitting folios, or when freeing them
+> back to the buddy (to avoid false page->memcg_data "bad page" reports).
+> 
+> Note that in __split_huge_page(), folio_nr_pages() would stop working
+> already as soon as we start messing with the subpages.
+> 
+> Most kernel configs should have at least CONFIG_MEMCG enabled, even if
+> disabled at runtime. 64byte "struct memmap" is what we usually have
+> on 64BIT.
+> 
+> While at it, rename "_folio_nr_pages" to "_nr_pages".
+> 
+> Hopefully memdescs / dynamically allocating "strut folio" in the future
+> will further clean this up, e.g., making _nr_pages available in all
+> configs and maybe even in small folios. Doing that should be fairly easy
+> on top of this change.
+> 
+> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   include/linux/mm.h       |  4 ++--
+>   include/linux/mm_types.h | 30 ++++++++++++++++++++++--------
+>   mm/huge_memory.c         | 16 +++++++++++++---
+>   mm/internal.h            |  4 ++--
+>   mm/page_alloc.c          |  6 +++++-
+>   mm/page_owner.c          |  2 +-
+>   6 files changed, 45 insertions(+), 17 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index a743321dc1a5d..694704217df8a 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1199,10 +1199,10 @@ static inline unsigned int folio_large_order(const struct folio *folio)
+>   	return folio->_flags_1 & 0xff;
+>   }
+>   
+> -#ifdef CONFIG_64BIT
+> +#ifdef NR_PAGES_IN_LARGE_FOLIO
+>   static inline long folio_large_nr_pages(const struct folio *folio)
+>   {
+> -	return folio->_folio_nr_pages;
+> +	return folio->_nr_pages;
+>   }
+>   #else
+>   static inline long folio_large_nr_pages(const struct folio *folio)
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 689b2a7461892..e81be20bbabc6 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -287,6 +287,11 @@ typedef struct {
+>   	unsigned long val;
+>   } swp_entry_t;
+>   
+> +#if defined(CONFIG_MEMCG) || defined(CONFIG_SLAB_OBJ_EXT)
+> +/* We have some extra room after the refcount in tail pages. */
+> +#define NR_PAGES_IN_LARGE_FOLIO
+> +#endif
+> +
+>   /**
+>    * struct folio - Represents a contiguous set of bytes.
+>    * @flags: Identical to the page flags.
+> @@ -312,7 +317,7 @@ typedef struct {
+>    * @_large_mapcount: Do not use directly, call folio_mapcount().
+>    * @_nr_pages_mapped: Do not use outside of rmap and debug code.
+>    * @_pincount: Do not use directly, call folio_maybe_dma_pinned().
+> - * @_folio_nr_pages: Do not use directly, call folio_nr_pages().
+> + * @_nr_pages: Do not use directly, call folio_nr_pages().
+>    * @_hugetlb_subpool: Do not use directly, use accessor in hugetlb.h.
+>    * @_hugetlb_cgroup: Do not use directly, use accessor in hugetlb_cgroup.h.
+>    * @_hugetlb_cgroup_rsvd: Do not use directly, use accessor in hugetlb_cgroup.h.
+> @@ -377,13 +382,20 @@ struct folio {
+>   			unsigned long _flags_1;
+>   			unsigned long _head_1;
+>   	/* public: */
+> -			atomic_t _large_mapcount;
+> -			atomic_t _entire_mapcount;
+> -			atomic_t _nr_pages_mapped;
+> -			atomic_t _pincount;
+> -#ifdef CONFIG_64BIT
+> -			unsigned int _folio_nr_pages;
+> -#endif
+> +			union {
+> +				struct {
+> +					atomic_t _large_mapcount;
+> +					atomic_t _entire_mapcount;
+> +					atomic_t _nr_pages_mapped;
+> +					atomic_t _pincount;
+> +				};
+> +				unsigned long _usable_1[4];
+> +			};
+> +			atomic_t _mapcount_1;
+> +			atomic_t _refcount_1;
+> +#ifdef NR_PAGES_IN_LARGE_FOLIO
+> +			unsigned int _nr_pages;
+> +#endif /* NR_PAGES_IN_LARGE_FOLIO */
+>   	/* private: the union with struct page is transitional */
 
-This API allows ptracers to obtain and modify system call details in a
-straightforward and architecture-agnostic way, providing a consistent way
-of manipulating the system call number and arguments across architectures.
+@Andrew
 
-As in case of PTRACE_GET_SYSCALL_INFO, PTRACE_SET_SYSCALL_INFO also
-does not aim to address numerous architecture-specific system call ABI
-peculiarities, like differences in the number of system call arguments
-for such system calls as pread64 and preadv.
+The following on top to make htmldoc happy.
 
-The current implementation supports changing only those bits of system call
-information that are used by strace system call tampering, namely, syscall
-number, syscall arguments, and syscall return value.
+There will be two conflicts to be resolved in two patches because of
+the added "/* private: " under "_pincount".
 
-Support of changing additional details returned by PTRACE_GET_SYSCALL_INFO,
-such as instruction pointer and stack pointer, could be added later if
-needed, by using struct ptrace_syscall_info.flags to specify the additional
-details that should be set.  Currently, "flags" and "reserved" fields of
-struct ptrace_syscall_info must be initialized with zeroes; "arch",
-"instruction_pointer", and "stack_pointer" fields are currently ignored.
+It's fairly straight forward to resolve (just keep "/* private:" below
+any changes), but let me know if I should resend a v4 instead for this.
 
-PTRACE_SET_SYSCALL_INFO currently supports only PTRACE_SYSCALL_INFO_ENTRY,
-PTRACE_SYSCALL_INFO_EXIT, and PTRACE_SYSCALL_INFO_SECCOMP operations.
-Other operations could be added later if needed.
 
-Ideally, PTRACE_SET_SYSCALL_INFO should have been introduced along with
-PTRACE_GET_SYSCALL_INFO, but it didn't happen.  The last straw that
-convinced me to implement PTRACE_SET_SYSCALL_INFO was apparent failure
-to provide an API of changing the first system call argument on riscv
-architecture.
+ From 9d9ff38c2ea14f1b4dab29f099ec0f6be683f3fe Mon Sep 17 00:00:00 2001
+From: David Hildenbrand <david@redhat.com>
+Date: Wed, 5 Mar 2025 11:14:52 +0100
+Subject: [PATCH] fixup: mm: let _folio_nr_pages overlay memcg_data in first
+  tail page
 
-ptrace(2) man page:
+Make "make htmldoc" happy by marking non-private placeholder entries
+private.
 
-long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
-...
-PTRACE_SET_SYSCALL_INFO
-       Modify information about the system call that caused the stop.
-       The "data" argument is a pointer to struct ptrace_syscall_info
-       that specifies the system call information to be set.
-       The "addr" argument should be set to sizeof(struct ptrace_syscall_info)).
-
-Link: https://lore.kernel.org/all/59505464-c84a-403d-972f-d4b2055eeaac@gmail.com/
-Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-Reviewed-by: Alexey Gladkov <legion@kernel.org>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
-Tested-by: Charlie Jenkins <charlie@rivosinc.com>
-Reviewed-by: Eugene Syromiatnikov <esyr@redhat.com>
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/uapi/linux/ptrace.h |   7 ++-
- kernel/ptrace.c             | 121 +++++++++++++++++++++++++++++++++++-
- 2 files changed, 126 insertions(+), 2 deletions(-)
+  include/linux/mm_types.h | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index 72c038fc71d0..5f8ef6156752 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -74,6 +74,7 @@ struct seccomp_metadata {
- };
- 
- #define PTRACE_GET_SYSCALL_INFO		0x420e
-+#define PTRACE_SET_SYSCALL_INFO		0x4212
- #define PTRACE_SYSCALL_INFO_NONE	0
- #define PTRACE_SYSCALL_INFO_ENTRY	1
- #define PTRACE_SYSCALL_INFO_EXIT	2
-@@ -81,7 +82,8 @@ struct seccomp_metadata {
- 
- struct ptrace_syscall_info {
- 	__u8 op;	/* PTRACE_SYSCALL_INFO_* */
--	__u8 pad[3];
-+	__u8 reserved;
-+	__u16 flags;
- 	__u32 arch;
- 	__u64 instruction_pointer;
- 	__u64 stack_pointer;
-@@ -98,6 +100,7 @@ struct ptrace_syscall_info {
- 			__u64 nr;
- 			__u64 args[6];
- 			__u32 ret_data;
-+			__u32 reserved2;
- 		} seccomp;
- 	};
- };
-@@ -142,6 +145,8 @@ struct ptrace_sud_config {
- 	__u64 len;
- };
- 
-+/* 0x4212 is PTRACE_SET_SYSCALL_INFO */
-+
- /*
-  * These values are stored in task->ptrace_message
-  * by ptrace_stop to describe the current syscall-stop.
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index 22e7d74cf4cd..75a84efad40f 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -944,7 +944,10 @@ ptrace_get_syscall_info_seccomp(struct task_struct *child, struct pt_regs *regs,
- 	ptrace_get_syscall_info_entry(child, regs, info);
- 	info->seccomp.ret_data = child->ptrace_message;
- 
--	/* ret_data is the last field in struct ptrace_syscall_info.seccomp */
-+	/*
-+	 * ret_data is the last non-reserved field
-+	 * in struct ptrace_syscall_info.seccomp
-+	 */
- 	return offsetofend(struct ptrace_syscall_info, seccomp.ret_data);
- }
- 
-@@ -1016,6 +1019,118 @@ ptrace_get_syscall_info(struct task_struct *child, unsigned long user_size,
- 	write_size = min(actual_size, user_size);
- 	return copy_to_user(datavp, &info, write_size) ? -EFAULT : actual_size;
- }
-+
-+static int
-+ptrace_set_syscall_info_entry(struct task_struct *child, struct pt_regs *regs,
-+			      struct ptrace_syscall_info *info)
-+{
-+	unsigned long args[ARRAY_SIZE(info->entry.args)];
-+	int nr = info->entry.nr;
-+	int i;
-+
-+	/*
-+	 * Check that the syscall number specified in info->entry.nr
-+	 * is either a value of type "int" or a sign-extended value
-+	 * of type "int".
-+	 */
-+	if (nr != info->entry.nr)
-+		return -ERANGE;
-+
-+	for (i = 0; i < ARRAY_SIZE(args); i++) {
-+		args[i] = info->entry.args[i];
-+		/*
-+		 * Check that the syscall argument specified in
-+		 * info->entry.args[i] is either a value of type
-+		 * "unsigned long" or a sign-extended value of type "long".
-+		 */
-+		if (args[i] != info->entry.args[i])
-+			return -ERANGE;
-+	}
-+
-+	syscall_set_nr(child, regs, nr);
-+	/*
-+	 * If the syscall number is set to -1, setting syscall arguments is not
-+	 * just pointless, it would also clobber the syscall return value on
-+	 * those architectures that share the same register both for the first
-+	 * argument of syscall and its return value.
-+	 */
-+	if (nr != -1)
-+		syscall_set_arguments(child, regs, args);
-+
-+	return 0;
-+}
-+
-+static int
-+ptrace_set_syscall_info_seccomp(struct task_struct *child, struct pt_regs *regs,
-+				struct ptrace_syscall_info *info)
-+{
-+	/*
-+	 * info->entry is currently a subset of info->seccomp,
-+	 * info->seccomp.ret_data is currently ignored.
-+	 */
-+	return ptrace_set_syscall_info_entry(child, regs, info);
-+}
-+
-+static int
-+ptrace_set_syscall_info_exit(struct task_struct *child, struct pt_regs *regs,
-+			     struct ptrace_syscall_info *info)
-+{
-+	long rval = info->exit.rval;
-+
-+	/*
-+	 * Check that the return value specified in info->exit.rval
-+	 * is either a value of type "long" or a sign-extended value
-+	 * of type "long".
-+	 */
-+	if (rval != info->exit.rval)
-+		return -ERANGE;
-+
-+	if (info->exit.is_error)
-+		syscall_set_return_value(child, regs, rval, 0);
-+	else
-+		syscall_set_return_value(child, regs, 0, rval);
-+
-+	return 0;
-+}
-+
-+static int
-+ptrace_set_syscall_info(struct task_struct *child, unsigned long user_size,
-+			const void __user *datavp)
-+{
-+	struct pt_regs *regs = task_pt_regs(child);
-+	struct ptrace_syscall_info info;
-+
-+	if (user_size < sizeof(info))
-+		return -EINVAL;
-+
-+	/*
-+	 * The compatibility is tracked by info.op and info.flags: if user-space
-+	 * does not instruct us to use unknown extra bits from future versions
-+	 * of ptrace_syscall_info, we are not going to read them either.
-+	 */
-+	if (copy_from_user(&info, datavp, sizeof(info)))
-+		return -EFAULT;
-+
-+	/* Reserved for future use. */
-+	if (info.flags || info.reserved)
-+		return -EINVAL;
-+
-+	/* Changing the type of the system call stop is not supported yet. */
-+	if (ptrace_get_syscall_info_op(child) != info.op)
-+		return -EINVAL;
-+
-+	switch (info.op) {
-+	case PTRACE_SYSCALL_INFO_ENTRY:
-+		return ptrace_set_syscall_info_entry(child, regs, &info);
-+	case PTRACE_SYSCALL_INFO_EXIT:
-+		return ptrace_set_syscall_info_exit(child, regs, &info);
-+	case PTRACE_SYSCALL_INFO_SECCOMP:
-+		return ptrace_set_syscall_info_seccomp(child, regs, &info);
-+	default:
-+		/* Other types of system call stops are not supported yet. */
-+		return -EINVAL;
-+	}
-+}
- #endif /* CONFIG_HAVE_ARCH_TRACEHOOK */
- 
- int ptrace_request(struct task_struct *child, long request,
-@@ -1234,6 +1349,10 @@ int ptrace_request(struct task_struct *child, long request,
- 	case PTRACE_GET_SYSCALL_INFO:
- 		ret = ptrace_get_syscall_info(child, addr, datavp);
- 		break;
-+
-+	case PTRACE_SET_SYSCALL_INFO:
-+		ret = ptrace_set_syscall_info(child, addr, datavp);
-+		break;
- #endif
- 
- 	case PTRACE_SECCOMP_GET_FILTER:
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index e81be20bbabc..6062c12c3871 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -381,18 +381,20 @@ struct folio {
+  		struct {
+  			unsigned long _flags_1;
+  			unsigned long _head_1;
+-	/* public: */
+  			union {
+  				struct {
++	/* public: */
+  					atomic_t _large_mapcount;
+  					atomic_t _entire_mapcount;
+  					atomic_t _nr_pages_mapped;
+  					atomic_t _pincount;
++	/* private: the union with struct page is transitional */
+  				};
+  				unsigned long _usable_1[4];
+  			};
+  			atomic_t _mapcount_1;
+  			atomic_t _refcount_1;
++	/* public: */
+  #ifdef NR_PAGES_IN_LARGE_FOLIO
+  			unsigned int _nr_pages;
+  #endif /* NR_PAGES_IN_LARGE_FOLIO */
 -- 
-ldv
+2.48.1
+
+
+-- 
+Cheers,
+
+David / dhildenb
 
 
