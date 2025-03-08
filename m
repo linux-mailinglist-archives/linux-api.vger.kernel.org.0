@@ -1,72 +1,63 @@
-Return-Path: <linux-api+bounces-3379-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3380-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A512EA54927
-	for <lists+linux-api@lfdr.de>; Thu,  6 Mar 2025 12:22:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD8AA57DAA
+	for <lists+linux-api@lfdr.de>; Sat,  8 Mar 2025 20:07:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B96F173790
-	for <lists+linux-api@lfdr.de>; Thu,  6 Mar 2025 11:22:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24D981890E78
+	for <lists+linux-api@lfdr.de>; Sat,  8 Mar 2025 19:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5829320A5C3;
-	Thu,  6 Mar 2025 11:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A59B1DB122;
+	Sat,  8 Mar 2025 19:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fiRmzsrT"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="oo1KqDGW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [83.166.143.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221551FC7CC;
-	Thu,  6 Mar 2025 11:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459B71A7AF7;
+	Sat,  8 Mar 2025 19:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741260158; cv=none; b=C3d2LoVtSJEPGF0FUrp1nfIU7BzoUsW2rH7na9x9o6bZTD4/w3hKIXHfkEKgYJ5xak92dIx3bhg7fhq/ca9LUB5Txm5vPhwFPW+lVv0JBkfSMKZJYZcyu/y6JpVR5f7+46Vega0yEj+Biemujhr7GeO5U6vKzd47qKPStHZC+K0=
+	t=1741460874; cv=none; b=I/8cl+zZ/g+s8MvX7dvYUYkyrXt0PCHe1Ew7eS7ULsQ7ZNumzw5cZiPu+gG+Et4pSTptJebAsYww7LlHJOY5k00gL89QcMA16+oypOaKzXciNZrUXeFaRG7ubWT6yc7Hx1mf0XPj66q9Jt8WnPKlmOIFBrIGn/Ailyv1bKqjTxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741260158; c=relaxed/simple;
-	bh=A5vWqVVEhD1qhbiazA8Hzh5/5bAJFQ8kYAx13LBjVQA=;
+	s=arc-20240116; t=1741460874; c=relaxed/simple;
+	bh=THc5PjFSh26dJztWketOIiTRbPaphYyQuraCE/AUSuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ty5/1ecHkB+1r1KRNN8pVVkmnklj8BmVlBO72X9v+SDkr0FliJ8vt+jSZV0Eu/6HN79Jfi5ObiGysKf7+LPogAmI4Nc1xHjy7mZ7eeH8epAXnAjubJJ+MUZ0f4MO+o0oNj6ndonMiqS0utRh9axr7EimzVfDIyVi8nK38W4X268=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fiRmzsrT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A48C4CEE0;
-	Thu,  6 Mar 2025 11:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741260157;
-	bh=A5vWqVVEhD1qhbiazA8Hzh5/5bAJFQ8kYAx13LBjVQA=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lz4VujO62C8ysQ/AjfDmWv5ihqWATlwn1ji8imGo2NiTOysmH8gnISDRU7uZI52DwwxrmlT5vISJaRd5nEI8XOXUZ7fzsDlt2wzK7u9rKZP1Xu9goKKegE6KjYK1IZdeHA8yvlB55S/J6LmZhn3dJf4PT+kFcgxE0D2TmBmb0wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=oo1KqDGW; arc=none smtp.client-ip=83.166.143.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Z9CN54dFFzX08;
+	Sat,  8 Mar 2025 20:07:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1741460869;
+	bh=sISBkW3X76z2jrfrrXF7V/EAtXAqZupD5pfeuVfxY7A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fiRmzsrTc1BdjZep8qFZW3HTCkQ+1p+2ogJtnzDMnx4FuuqWH7hf5U5LYZw1YXlTD
-	 Dch0S8f0ozH8E3LObpHBJwpyNzYGfhMQsU29ZwsFz9zn936g5ByiCMfYU6zr0nbQNd
-	 yfcHMxjBkv4oQ2nNcakOsff08vTg6GhqrcnfoznnNEoc11XiWgkI4QrVZjsr6fmsLW
-	 M6mPEAI92mf46iveTCYSXRkglQjYMeSvI5fqw87ko3lvgaiXICSPKzv+uK0a22hlO4
-	 axJ+qkLGRT9IjmaEmDshFEBnkkA1B2LUoMDzdipw4gCjEchAF/PPBU3hWbldnEbusw
-	 JowSONo9xkTMQ==
-Date: Thu, 6 Mar 2025 12:22:30 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Kees Cook <kees@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eyal Birger <eyal.birger@gmail.com>, stable@vger.kernel.org,
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, bpf@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Deepak Gupta <debug@rivosinc.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: Re: [PATCHv3 perf/core] uprobes: Harden uretprobe syscall trampoline
- check
-Message-ID: <Z8mFditQWBjxO2vn@gmail.com>
-References: <20250212220433.3624297-1-jolsa@kernel.org>
- <CALCETrVFdAFVinbpPK+q7pSQHo3=JgGxZSPZVz-y7oaG=xP3fA@mail.gmail.com>
- <Z623ZcZj6Wsbnrhs@krava>
- <CALCETrVt=N-QG3zGyPspNCF=8tA4icC75RVVe70-DvJfsh7Sww@mail.gmail.com>
- <Z7MnB3yf2u9eR1yp@krava>
- <Z8l_ipCn8tBE1d9Q@krava>
+	b=oo1KqDGWtL5HWRmhUE9eBt1oRJ+Ga1KJAU5v9B6gWi/Q93uQgI3CCKTNDooIgmMFT
+	 /zL8GDBTjTqA/TKJb6q21MwBScX2h/6heZ4PtqjrxUJCrav+RsSzBlkTwZRKCFBjvu
+	 3H1XJ/6QZ0sLu5A6bjaN6GIlMpIvHPYPqysPBuKY=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Z9CN46QVwzxHd;
+	Sat,  8 Mar 2025 20:07:48 +0100 (CET)
+Date: Sat, 8 Mar 2025 20:07:48 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Tingmao Wang <m@maowtm.org>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Jan Kara <jack@suse.cz>, linux-security-module@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Matthew Bobrowski <repnop@google.com>, 
+	linux-fsdevel@vger.kernel.org, Tycho Andersen <tycho@tycho.pizza>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Jann Horn <jannh@google.com>, 
+	Andy Lutomirski <luto@amacapital.net>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH 5/9] Define user structure for events and responses.
+Message-ID: <20250306.aej5ieg1Hi6j@digikod.net>
+References: <cover.1741047969.git.m@maowtm.org>
+ <cde6bbf0b52710b33170f2787fdcb11538e40813.1741047969.git.m@maowtm.org>
+ <20250304.eichiDu9iu4r@digikod.net>
+ <fbb8e557-0b63-4bbe-b8ac-3f7ba2983146@maowtm.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,63 +67,200 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z8l_ipCn8tBE1d9Q@krava>
+In-Reply-To: <fbb8e557-0b63-4bbe-b8ac-3f7ba2983146@maowtm.org>
+X-Infomaniak-Routing: alpha
 
-
-* Jiri Olsa <olsajiri@gmail.com> wrote:
-
-> On Mon, Feb 17, 2025 at 01:09:43PM +0100, Jiri Olsa wrote:
-> > On Thu, Feb 13, 2025 at 09:58:29AM -0800, Andy Lutomirski wrote:
-> > > On Thu, Feb 13, 2025 at 1:16 AM Jiri Olsa <olsajiri@gmail.com> wrote:
-> > > >
-> > > > On Wed, Feb 12, 2025 at 05:37:11PM -0800, Andy Lutomirski wrote:
-> > > > > On Wed, Feb 12, 2025 at 2:04 PM Jiri Olsa <jolsa@kernel.org> wrote:
-> > > > > >
-> > > > > > Jann reported [1] possible issue when trampoline_check_ip returns
-> > > > > > address near the bottom of the address space that is allowed to
-> > > > > > call into the syscall if uretprobes are not set up.
-> > > > > >
-> > > > > > Though the mmap minimum address restrictions will typically prevent
-> > > > > > creating mappings there, let's make sure uretprobe syscall checks
-> > > > > > for that.
-> > > > >
-> > > > > It would be a layering violation, but we could perhaps do better here:
-> > > > >
-> > > > > > -       if (regs->ip != trampoline_check_ip())
-> > > > > > +       /* Make sure the ip matches the only allowed sys_uretprobe caller. */
-> > > > > > +       if (unlikely(regs->ip != trampoline_check_ip(tramp)))
-> > > > > >                 goto sigill;
-> > > > >
-> > > > > Instead of SIGILL, perhaps this should do the seccomp action?  So the
-> > > > > logic in seccomp would be (sketchily, with some real mode1 mess):
-> > > > >
-> > > > > if (is_a_real_uretprobe())
-> > > > >     skip seccomp;
-> > > >
-> > > > IIUC you want to move the address check earlier to the seccomp path..
-> > > > with the benefit that we would kill not allowed caller sooner?
-> > > 
-> > > The benefit would be that seccomp users that want to do something
-> > > other than killing a process (returning an error code, getting
-> > > notified, etc) could retain that functionality without the new
-> > > automatic hole being poked for uretprobe() in cases where uprobes
-> > > aren't in use or where the calling address doesn't match the uprobe
-> > > trampoline.  IOW it would reduce the scope to which we're making
-> > > seccomp behave unexpectedly.
+On Thu, Mar 06, 2025 at 03:05:10AM +0000, Tingmao Wang wrote:
+> On 3/4/25 19:49, Mickaël Salaün wrote:
+> > On Tue, Mar 04, 2025 at 01:13:01AM +0000, Tingmao Wang wrote:
+> [...]
+> > > +	/**
+> > > +	 * @cookie: Opaque identifier to be included in the response.
+> > > +	 */
+> > > +	__u32 cookie;
 > > 
-> > Kees, any thoughts about this approach?
+> > I guess we could use a __u64 index counter per layer instead.  That
+> > would also help to order requests if they are treated by different
+> > supervisor threads.
 > 
-> ping, any idea?
+> I don't immediately see a use for ordering requests (if we get more than one
+> event at once, they are coming from different threads anyway so there can't
+> be any dependencies between them, and the supervisor threads can use
+> timestamps), but I think making it a __u64 is probably a good idea
+> regardless, as it means we don't have to do some sort of ID allocation, and
+> can just increment an atomic.
 
-So in any case I think the seccomp QoL tie-in suggested by Andy should 
-be done in a separate patch, and I've applied the -v3 patch to 
-tip:perf/core as-is.
+Indeed, we should follow the seccomp unotify approach with a random u64
+incremented per request.
 
-( I've added Alexei's Acked-by too, which as I've read the v2 thread's 
-  discussion was a given as long as his ~0 suggestion was implemented,
-  which you did. )
+> 
+> > > +};
+> > > +
+> > > +struct landlock_supervise_event {
+> > > +	struct landlock_supervise_event_hdr hdr;
+> > > +	__u64 access_request;
+> > > +	__kernel_pid_t accessor;
+> > > +	union {
+> > > +		struct {
+> > > +			/**
+> > > +			 * @fd1: An open file descriptor for the file (open,
+> > > +			 * delete, execute, link, readdir, rename, truncate),
+> > > +			 * or the parent directory (for create operations
+> > > +			 * targeting its child) being accessed.  Must be
+> > > +			 * closed by the reader.
+> > > +			 *
+> > > +			 * If this points to a parent directory, @destname
+> > > +			 * will contain the target filename. If @destname is
+> > > +			 * empty, this points to the target file.
+> > > +			 */
+> > > +			int fd1;
+> > > +			/**
+> > > +			 * @fd2: For link or rename requests, a second file
+> > > +			 * descriptor for the target parent directory.  Must
+> > > +			 * be closed by the reader.  @destname contains the
+> > > +			 * destination filename.  This field is -1 if not
+> > > +			 * used.
+> > > +			 */
+> > > +			int fd2;
+> > 
+> > Can we just use one FD but identify the requested access instead and
+> > send one event for each, like for the audit patch series?
+> 
+> I haven't managed to read or test out the audit patch yet (I will do), but I
+> think having the ability to specifically tell whether the child is trying to
+> move / rename / create a hard link of an existing file, and what it's trying
+> to use as destination, might be useful (either for security, or purely for
+> UX)?
+> 
+> For example, imagine something trying to link or move ~/.ssh/id_ecdsa to
+> /tmp/innocent-tmp-file then read the latter. The supervisor can warn the
+> user on the initial link attempt, and the shenanigan will probably be
+> stopped there (although still, being able to say "[program] wants to link
+> ~/.ssh/id_ecdsa to /tmp/innocent-tmp-file" seems better than just "[program]
+> wants to create a link for ~/.ssh/id_ecdsa"), but even if somehow this ends
+> up allowed, later on for the read request it could say something like
+> 
+> 	[program] wants to read /tmp/innocent-tmp-file
+> 	    (previously moved from ~/.ssh/id_ecdsa)
+> 
+> Maybe this is a bit silly, but there might be other use cases for knowing
+> the exact details of a rename/link request, either for at-the-time decision
+> making, or tracking stuff for future requests?
 
-Thanks,
+This pattern looks like datagram packets.  I think we should use the
+netlink attributes.  There were concern about using a netlink socket for
+the seccomp unotification though:
+https://lore.kernel.org/all/CALCETrXeZZfVzXh7SwKhyB=+ySDk5fhrrdrXrcABsQ=JpQT7Tg@mail.gmail.com/
 
-	Ingo
+There are two main differences with seccomp unotify:
+- the supervisor should be able to receive arbitrary-sized data (e.g.
+  file name, not path);
+- the supervisor should be able to receive file descriptors (instead of
+  path).
+
+Sockets are created with socket(2) whereas in our case we should only
+get a supervisor FD (indirectly) through landlock_restrict_self(2),
+which clearly identifies a kernel object.  Another issue would be to
+deal with network namespaces, probably by creating a private one.
+Sockets are powerful but we don't needs all the routing complexity.
+Moreover, we should only need a blocking communication channel to avoid
+issues managing in-flight object references (transformed to FDs when
+received).  That makes me think that a socket might not be the right
+construct, but we can still rely on the NLA macros to define a proper
+protocol with dynamically-sized events, received and send with dedicated
+IOCTL commands.
+
+Netlink already provides a way to send a cookie, and
+netlink_attribute_type defines the types we'll need, including string.
+
+For instance, a link request/event could include 3 packets, one for each
+of these properties:
+1. the source file FD;
+2. the destination directory FD;
+3. the destination filename string.
+
+This way we would avoid the union defined in this patch.
+
+There is still the question about receiving FDs though. It would be nice
+to have a (set of?) dedicated IOCTL(s) to receive an FD, but I'm not
+sure how this could be properly handled wrt NLA.
+
+> 
+> I will try out the audit patch to see how things like these appears in the
+> log before commenting further on this. Maybe there is a way to achieve this
+> while still simplifying the event structure?
+> 
+> > 
+> > > +			/**
+> > > +			 * @destname: A filename for a file creation target.
+> > > +			 *
+> > > +			 * If either of fd1 or fd2 points to a parent
+> > > +			 * directory rather than the target file, this is the
+> > > +			 * NULL-terminated name of the file that will be
+> > > +			 * newly created.
+> > > +			 *
+> > > +			 * Counting the NULL terminator, this field will
+> > > +			 * contain one or more NULL padding at the end so
+> > > +			 * that the length of the whole struct
+> > > +			 * landlock_supervise_event is a multiple of 8 bytes.
+> > > +			 *
+> > > +			 * This is a variable length member, and the length
+> > > +			 * including the terminating NULL(s) can be derived
+> > > +			 * from hdr.length - offsetof(struct
+> > > +			 * landlock_supervise_event, destname).
+> > > +			 */
+> > > +			char destname[];
+> > 
+> > I'd prefer to avoid sending file names for now.  I don't think it's
+> > necessary, and that could encourage supervisors to filter access
+> > according to names.
+> > 
+> 
+> This is also motivated by the potential UX I'm thinking of. For example, if
+> a newly installed application tries to create ~/.app-name, it will be much
+> more reassuring and convenient to the user if we can show something like
+> 
+> 	[program] wants to mkdir ~/.app-name. Allow this and future
+> 	access to the new directory?
+> 
+> rather than just "[program] wants to mkdir under ~". (The "Allow this and
+> future access to the new directory" bit is made possible by the supervisor
+> knowing the name of the file/directory being created, and can remember them
+> / write them out to a persistent profile etc)
+> 
+> Note that this is just the filename under the dir represented by fd - this
+> isn't a path or anything that can be subject to symlink-related attacks,
+> etc.  If a program calls e.g.
+> mkdirat or openat (dfd -> "/some/", pathname="dir/stuff", O_CREAT)
+> my understanding is that fd1 will point to /some/dir, and destname would be
+> "stuff"
+
+Right, this file name information would be useful.  In the case of
+audit, the goal is to efficiently and asynchronously log security events
+(and align with other LSM logs and related limitations), not primarily
+to debug sandboxed apps nor to enrich this information for decision
+making, but the supervisor feature would help here.  The patch message
+should include this rationale.
+
+
+> 
+> Actually, in case your question is "why not send a fd to represent the newly
+> created file, instead of sending the name" -- I'm not sure whether you can
+> open even an O_PATH fd to a non-existent file.
+
+That would not be possible because it would not exist yet, a file name
+(not file path) is OK for this case.
+
+> 
+> > > +		};
+> > > +		struct {
+> > > +			__u16 port;
+> > > +		};
+> > > +	};
+> > > +};
+> > > +
+> > 
+> > [...]
+> 
+> 
 
