@@ -1,188 +1,317 @@
-Return-Path: <linux-api+bounces-3384-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3385-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0535A58C6A
-	for <lists+linux-api@lfdr.de>; Mon, 10 Mar 2025 08:02:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8C2A5CF64
+	for <lists+linux-api@lfdr.de>; Tue, 11 Mar 2025 20:29:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1669B7A1D4D
-	for <lists+linux-api@lfdr.de>; Mon, 10 Mar 2025 07:01:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BDDC173B56
+	for <lists+linux-api@lfdr.de>; Tue, 11 Mar 2025 19:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731E51C9B62;
-	Mon, 10 Mar 2025 07:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8AE226461B;
+	Tue, 11 Mar 2025 19:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qx+lJhgs"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="T++1tmpc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [185.125.25.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15AB1A9B29
-	for <linux-api@vger.kernel.org>; Mon, 10 Mar 2025 07:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BC4261376;
+	Tue, 11 Mar 2025 19:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741590171; cv=none; b=dWsLCIOBWqNo93kqfGXcfKnn5ROlNxd2w9Oc95+oZkLnWir25ep1+onaFZ0pxcooJRHobbwo7vLYH/0PSZFgkZcDCZ+6piWuZpGirIAVfexBCeGxToFvHhkMh1yn7tX36mD1PrwymeW4Ordh4ChQwr13Tq48yF9ek8yKqEmc6ac=
+	t=1741721355; cv=none; b=jeoJrGMryUD5Q/AOEmumwvyGUra7XHcBa7+eFXSn4JOUoH4nVSf6UYYHYTaVwZn9RyXkvj/93bfcn0cA8sWBZMuvcT7iAgRjSyS7WWbAAuVsU77TeE5m3WFTrXnE9QdQbPC3nFMHgRukcrdpE6gBasHGxKjclfniCUYprghWK+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741590171; c=relaxed/simple;
-	bh=wsGKS3Fr04RmYigMGjKeDJiiOm55ccB7rp5ESNSHMtc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mlkCkTT5OZaDcLle7+QNWUuHKv0N0vxatjzQxlTNpcT1U7Cp23RsQQd2EJkLA2Hgmdoa2iSd/cIvXJ8HwNkUy4lsxZzNc3DQLG3CmBQQYHUurOP1x8sRZsPNkrRaFhUK2qYXrlNlXcY71giuFpXXW6dIoIXqNk+07iYRtXb0kJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qx+lJhgs; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-47520132245so29600001cf.2
-        for <linux-api@vger.kernel.org>; Mon, 10 Mar 2025 00:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741590169; x=1742194969; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=giaMGz9fAIj0nasLN8wHzPqrCDCPt7HgRY0B2DvcrSk=;
-        b=qx+lJhgslFc2WODYs5vzHce2cRTGwDHeUsQpCGlklDx5G5JHZpRaj1+lDeO74Dis+p
-         knH02NQyWU8pHnnecUVaEIDLgWWmfuD+EtpLBtLjv3/MnvHBF7q8BEfdWIkv3JkGVFZZ
-         UJtgzOTDmc1gG0TsJetVrmqq09L/t8RzK7vEhUhsdvk6i3VcpJ7ungloDBbeeY4/k+JQ
-         40GH4ah/5VpDdEJQflW/d1TpNzqt6J5hpEtMopePUHDg3zP1NP1Z091OIolE8uUQiKM8
-         xS6l24YEOOkchcQ09w0hVA41loLegCnszWwPly1CYoiBReBbAd5DoUHOf0BVLXPt8Ko8
-         Ln9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741590169; x=1742194969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=giaMGz9fAIj0nasLN8wHzPqrCDCPt7HgRY0B2DvcrSk=;
-        b=G1K9jQFI1Ipv0bMMXYJd+pSJ9CniF953/1fHekg4YpzYN3Orbs8b6qCqji4xvax2UW
-         X0fmAo/YDL6Xxy0c2C/JMdZGS7Y42gOyXFVeIcBZ24jmIstFbuzl1hi8KA08rxWD5zQc
-         FlfZcizcXuAc0S+7pKsTrRpzdrKcIyz/ZbBbhI+a1QzHVS7IDxiyLMnY58TKuu1aLu6N
-         RxfyHzkDAU1prkvT8rduZwYF46mqPr/zZ0V5ktcYzV/DUPufwjE0QzNCYsrMuasLxn1z
-         E+Cvls/8rhA42BRjUHYmmSsKUYtdnVmcoRMShlyKmm87DjJRP8fzy9jAV/6wXXI1qH7y
-         1JWA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+Mwlats2/UW7zFol4LsB8noY+htn4Wfx08wzLzmFbuixDgM1SjwwIY+GREAR4grJFh1JHb15zSJY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAB6YyJY2emp1UabkGXpSfxlmw+4eOSTUYddukU5Hw6mBupTBw
-	dPo+batxLiZ9F9gB90HuiwDjjcRE3F9HcGnDr7ZuUHlgit5e4WnHc5ixjTMn1QfA2bHafakqIca
-	vCi4QCKkKPvwiJrxjlnW+kpL/1g8SD+Xz5gbS
-X-Gm-Gg: ASbGncvm0m0nZCRg5rEwIEN3w3UbATDEFaexVg4miIjEdMwB7/j8Om9gAimQsabLE98
-	J3aASICKGBDhG4RcebuZZQQ59KpY7mY17jvd1kXs2OvjxAwvy71wuKCtAOuI6yKfnnx/hBZQoYA
-	NFvnBmmCuSEyHhR9Cgan3pyquxdg==
-X-Google-Smtp-Source: AGHT+IFJOd4jBZTcTRTsGIyLvZXhWoVoSmhput8s2vumSWXEKK7hiyNdtl8nnfloxJ2B+Mtj2MRYgs2139AIqVtLxA8=
-X-Received: by 2002:ac8:5f0f:0:b0:475:9b5:131d with SMTP id
- d75a77b69052e-4761097f7bamr167257151cf.12.1741590168320; Mon, 10 Mar 2025
- 00:02:48 -0700 (PDT)
+	s=arc-20240116; t=1741721355; c=relaxed/simple;
+	bh=b2NEw6Wz96aWbr8ryieBICdpbOMt+epYFQ+3Sz7i+to=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kpKAx9rr/P4kb1hgCWrJkWkxD93sVdZtr+s10hS+4vf0LD9qL76Mg4b5qh/5d3E/mnf5D8jzwEAs9SFGkvwYPbOeqSvDH63RzE7Qbr6uZrnqmLGym3zpVtT3iIyt4X8D5c4Ce1BPYSyPQTocXmykHsJXH/SAJLGKiFpAonD0+KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=T++1tmpc; arc=none smtp.client-ip=185.125.25.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ZC3jD2zv8zKx3;
+	Tue, 11 Mar 2025 20:29:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1741721344;
+	bh=UsGPQfbexIWlwwVOURZE46iwB05+ckJyVchhKkSJMCo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T++1tmpcp5j5bQLP9rdLXEkprUNRDx9CuSsK8XSb2AQALQBWrqoIDh2SXxCjLDr65
+	 ic1TxjogWpIFNERQMd83kLXYHM1LubKO/8ARqxGskUs8TTP2mfV6bv2y/qE2KrFUIs
+	 msiZAjWGCoQ2tb+6AJiEZUMbHinqbAGytnOKGX5U=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ZC3jC5C17zXbt;
+	Tue, 11 Mar 2025 20:29:03 +0100 (CET)
+Date: Tue, 11 Mar 2025 20:29:03 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Tingmao Wang <m@maowtm.org>
+Cc: Tycho Andersen <tycho@tycho.pizza>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Jan Kara <jack@suse.cz>, linux-security-module@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Matthew Bobrowski <repnop@google.com>, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jann Horn <jannh@google.com>, 
+	Andy Lutomirski <luto@amacapital.net>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH 5/9] Define user structure for events and responses.
+Message-ID: <20250311.iezie7On5Jae@digikod.net>
+References: <cover.1741047969.git.m@maowtm.org>
+ <cde6bbf0b52710b33170f2787fdcb11538e40813.1741047969.git.m@maowtm.org>
+ <20250304.eichiDu9iu4r@digikod.net>
+ <fbb8e557-0b63-4bbe-b8ac-3f7ba2983146@maowtm.org>
+ <20250306.aej5ieg1Hi6j@digikod.net>
+ <4b0b693d-a152-42c0-bb2c-73e705c3c9b0@maowtm.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <FC9BF302-0724-49F3-AD7C-6761D65024A1@Easton24.com>
-In-Reply-To: <FC9BF302-0724-49F3-AD7C-6761D65024A1@Easton24.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 10 Mar 2025 08:02:37 +0100
-X-Gm-Features: AQ5f1JrN8ZxP41V31M-8yqG6yQvKxQyjZqOPrl6XDCknts7GjzyDXy8V9AM6iwg
-Message-ID: <CANn89iL1gca+f=3pJaNqnVk6yRd7q+8g-33NhfXbCzp9TLGLUw@mail.gmail.com>
-Subject: Re: Add sysctl for tcp_delayed_ack
-To: Andrew Easton <Andrew@easton24.com>
-Cc: "David S. Miller" <davem@davemloft.net>, "David S. Ahern" <dsahern@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	"Linux Kernel Mailing List, Network Subsystem" <netdev@vger.kernel.org>, 
-	"Linux Kernel Mailing List, Sysctl API ABI" <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4b0b693d-a152-42c0-bb2c-73e705c3c9b0@maowtm.org>
+X-Infomaniak-Routing: alpha
 
-On Mon, Mar 10, 2025 at 2:20=E2=80=AFAM Andrew Easton <Andrew@easton24.com>=
- wrote:
->
-> Subject: Add sysctl for tcp_delayed_ack
->
-> Hi everyone,
+On Mon, Mar 10, 2025 at 12:39:08AM +0000, Tingmao Wang wrote:
+> On 3/8/25 19:07, Mickaël Salaün wrote:
+> > On Thu, Mar 06, 2025 at 03:05:10AM +0000, Tingmao Wang wrote:
+> > > On 3/4/25 19:49, Mickaël Salaün wrote:
+> > > > On Tue, Mar 04, 2025 at 01:13:01AM +0000, Tingmao Wang wrote:
+> > > [...]
+> > > > > +	/**
+> > > > > +	 * @cookie: Opaque identifier to be included in the response.
+> > > > > +	 */
+> > > > > +	__u32 cookie;
+> > > > 
+> > > > I guess we could use a __u64 index counter per layer instead.  That
+> > > > would also help to order requests if they are treated by different
+> > > > supervisor threads.
+> > > 
+> > > I don't immediately see a use for ordering requests (if we get more than one
+> > > event at once, they are coming from different threads anyway so there can't
+> > > be any dependencies between them, and the supervisor threads can use
+> > > timestamps), but I think making it a __u64 is probably a good idea
+> > > regardless, as it means we don't have to do some sort of ID allocation, and
+> > > can just increment an atomic.
+> > 
+> > Indeed, we should follow the seccomp unotify approach with a random u64
+> > incremented per request.
+> 
+> Do you mean a random starting value, incremented by one per request, or
 
-Hi Andrew
+Yes
 
->
-> this is a proposed patch for adding a sysctl for
-> disabling TCP delayed ACK (IETF RFC 1122)  without
-> having to patch software to constantly poke sockets
-> with TCP_QUICKACK which apparently resets on
-> subsequent operations, see tcp(7).
->
-> For my personal computer networks experimenting with
-> globally disabling TCP delayed ACK across two other
-> operating systems seems to have considerably improved
-> congestion control.  (While I propose only anecdotal
-> evidence, there is more to it.  Am open to the
-> ensuing technical discussion, but only if that turns
-> out to be a good use of other people's time.)
->
-> This is my first proposed kernel patch and it is
-> likely missing a whole bunch of details.  For
-> example:
->
-> 1. Where is the TCP ACK delay computed for IPv6?
-> Could not identify this in file net/ipv6/tcp_ipv6.c .
+> something like the landlock_id in the audit patch (random increments too)?
 
-No need to change tcp_ipv6.c
+There is no need for that because the supervisor is more privileged than
+the sandbox.
 
-Generating ACK is generic, thus code is in net/ipv4
+> 
+> > 
+> > > 
+> > > > > +};
+> > > > > +
+> > > > > +struct landlock_supervise_event {
+> > > > > +	struct landlock_supervise_event_hdr hdr;
+> > > > > +	__u64 access_request;
+> > > > > +	__kernel_pid_t accessor;
+> > > > > +	union {
+> > > > > +		struct {
+> > > > > +			/**
+> > > > > +			 * @fd1: An open file descriptor for the file (open,
+> > > > > +			 * delete, execute, link, readdir, rename, truncate),
+> > > > > +			 * or the parent directory (for create operations
+> > > > > +			 * targeting its child) being accessed.  Must be
+> > > > > +			 * closed by the reader.
+> > > > > +			 *
+> > > > > +			 * If this points to a parent directory, @destname
+> > > > > +			 * will contain the target filename. If @destname is
+> > > > > +			 * empty, this points to the target file.
+> > > > > +			 */
+> > > > > +			int fd1;
+> > > > > +			/**
+> > > > > +			 * @fd2: For link or rename requests, a second file
+> > > > > +			 * descriptor for the target parent directory.  Must
+> > > > > +			 * be closed by the reader.  @destname contains the
+> > > > > +			 * destination filename.  This field is -1 if not
+> > > > > +			 * used.
+> > > > > +			 */
+> > > > > +			int fd2;
+> > > > 
+> > > > Can we just use one FD but identify the requested access instead and
+> > > > send one event for each, like for the audit patch series?
+> > > 
+> > > I haven't managed to read or test out the audit patch yet (I will do), but I
+> > > think having the ability to specifically tell whether the child is trying to
+> > > move / rename / create a hard link of an existing file, and what it's trying
+> > > to use as destination, might be useful (either for security, or purely for
+> > > UX)?
+> > > 
+> > > For example, imagine something trying to link or move ~/.ssh/id_ecdsa to
+> > > /tmp/innocent-tmp-file then read the latter. The supervisor can warn the
+> > > user on the initial link attempt, and the shenanigan will probably be
+> > > stopped there (although still, being able to say "[program] wants to link
+> > > ~/.ssh/id_ecdsa to /tmp/innocent-tmp-file" seems better than just "[program]
+> > > wants to create a link for ~/.ssh/id_ecdsa"), but even if somehow this ends
+> > > up allowed, later on for the read request it could say something like
+> > > 
+> > > 	[program] wants to read /tmp/innocent-tmp-file
+> > > 	    (previously moved from ~/.ssh/id_ecdsa)
+> > > 
+> > > Maybe this is a bit silly, but there might be other use cases for knowing
+> > > the exact details of a rename/link request, either for at-the-time decision
+> > > making, or tracking stuff for future requests?
+> > 
+> > This pattern looks like datagram packets.  I think we should use the
+> > netlink attributes.  There were concern about using a netlink socket for
+> > the seccomp unotification though:
+> > https://lore.kernel.org/all/CALCETrXeZZfVzXh7SwKhyB=+ySDk5fhrrdrXrcABsQ=JpQT7Tg@mail.gmail.com/
+> > 
+> > There are two main differences with seccomp unotify:
+> > - the supervisor should be able to receive arbitrary-sized data (e.g.
+> >    file name, not path);
+> > - the supervisor should be able to receive file descriptors (instead of
+> >    path).
+> > 
+> > Sockets are created with socket(2) whereas in our case we should only
+> > get a supervisor FD (indirectly) through landlock_restrict_self(2),
+> > which clearly identifies a kernel object.  Another issue would be to
+> > deal with network namespaces, probably by creating a private one.
+> > Sockets are powerful but we don't needs all the routing complexity.
+> > Moreover, we should only need a blocking communication channel to avoid
+> > issues managing in-flight object references (transformed to FDs when
+> > received).  That makes me think that a socket might not be the right
+> > construct, but we can still rely on the NLA macros to define a proper
+> > protocol with dynamically-sized events, received and send with dedicated
+> > IOCTL commands.
+> > 
+> > Netlink already provides a way to send a cookie, and
+> > netlink_attribute_type defines the types we'll need, including string.
+> > 
+> > For instance, a link request/event could include 3 packets, one for each
+> > of these properties:
+> > 1. the source file FD;
+> > 2. the destination directory FD;
+> > 3. the destination filename string.
+> > 
+> > This way we would avoid the union defined in this patch.
+> 
+> I had no idea about netlink - I will take a look.  Do you know if there is
+> any existing code which uses it in a similar way (i.e. not creating an
+> actual socket, but using netlink messages)?
 
->
-> 2. Perhaps, adding kernel configuration options for
-> the ncurses interface is desireable.  What is a good
-> example to learn from?
+I don't know.
 
-No need. per net-ns sysctl and/or per-socket options are far better
-for this case.
+> 
+> I think in the end seccomp-unotify went with an ioctl with a custom struct
+> seccomp_notif due to friction with the NL API [1] - do you think we will
+> face the same problem here? (I will take a deeper look at netlink after
+> sending this.)
+> 
+> (Tycho - could you weigh in?)
+> 
+> [1]: https://lore.kernel.org/all/CAGXu5jKsLDSBjB74SrvCvmGy_RTEjBsMtR5dk1CcRFrHEQfM_g@mail.gmail.com/
 
->
-> 3. Perhaps, setting constants in file
-> include/uapi/linux/sysctl.h may be unnecessary, but I
-> have not found any guidelines on when these CTL
-> numbers are necessary.  Likely, because I did not
-> read the documentation carefully enough.  Any
-> pointers are appreciated.
+We need to check if the NLA API could work.  Kees's answer was missing
+explanation.  Otherwise we should get inspiration from fanotify
+messages.
 
-sysctl.h is absolutely deprecated.
-No need for NET_IPV4_TCP_DELAYED_ACK,
-No ctl_name in 'struct ctl_table'
+> 
+> > 
+> > There is still the question about receiving FDs though. It would be nice
+> > to have a (set of?) dedicated IOCTL(s) to receive an FD, but I'm not
+> > sure how this could be properly handled wrt NLA.
+> 
+> Also, if we go with netlink messages, why do we need additional IOCTLs? Can
+> we open the fd when we write out the message? (Maybe I will end up realizing
+> the reason for this after reading netlink code, but I would )
 
->
-> 4. The default should probably be a value like
-> net.ipv4.tcp_delayed_ack=3D1 that preserves the current
-> behavior and hence is backwards compatible for user
-> space.  A value of net.ipv4.tcp_delayed_ack=3D0 should
-> globally (for IPv4) disable TCP delayed ACK.  Would
-> also like to add the option for IPv6, but see point
-> (1).
->
->
-> In case a similar sysctl has already been proposed
-> and rejected in the past, please point me to the
-> mailing list archives, if that is not too
-> inconvenient.
->
->
-> Which questions have I failed to ask that I should
-> have asked?
->
-> Errors and lack of research are on me.
->
+It's much easier to have static-sized struct, both for developers and
+for introspection tools (e.g. strace).  However, in this case we also
+would also have variable-lenght data.  See my other reply discussing the
+IOCTL idea.
 
-Make sure to compile/test your patch on top of net-next tree, and send
-it inline,
-not as an attachment, so that we can comment on it.
-
-Also next time add benchmark results
-like netperf -t TCP_RR (200 flows)
-of netper/tcp_rr -F 1000
-
-No delaying ACK for small RPC is essentially doubling the number of
-packets to send and receive.
-
-> Thank you for sharing your time.
->
-> Andrew
->
->
->
->
->
+> 
+> > 
+> > > 
+> > > I will try out the audit patch to see how things like these appears in the
+> > > log before commenting further on this. Maybe there is a way to achieve this
+> > > while still simplifying the event structure?
+> > > 
+> > > > 
+> > > > > +			/**
+> > > > > +			 * @destname: A filename for a file creation target.
+> > > > > +			 *
+> > > > > +			 * If either of fd1 or fd2 points to a parent
+> > > > > +			 * directory rather than the target file, this is the
+> > > > > +			 * NULL-terminated name of the file that will be
+> > > > > +			 * newly created.
+> > > > > +			 *
+> > > > > +			 * Counting the NULL terminator, this field will
+> > > > > +			 * contain one or more NULL padding at the end so
+> > > > > +			 * that the length of the whole struct
+> > > > > +			 * landlock_supervise_event is a multiple of 8 bytes.
+> > > > > +			 *
+> > > > > +			 * This is a variable length member, and the length
+> > > > > +			 * including the terminating NULL(s) can be derived
+> > > > > +			 * from hdr.length - offsetof(struct
+> > > > > +			 * landlock_supervise_event, destname).
+> > > > > +			 */
+> > > > > +			char destname[];
+> > > > 
+> > > > I'd prefer to avoid sending file names for now.  I don't think it's
+> > > > necessary, and that could encourage supervisors to filter access
+> > > > according to names.
+> > > > 
+> > > 
+> > > This is also motivated by the potential UX I'm thinking of. For example, if
+> > > a newly installed application tries to create ~/.app-name, it will be much
+> > > more reassuring and convenient to the user if we can show something like
+> > > 
+> > > 	[program] wants to mkdir ~/.app-name. Allow this and future
+> > > 	access to the new directory?
+> > > 
+> > > rather than just "[program] wants to mkdir under ~". (The "Allow this and
+> > > future access to the new directory" bit is made possible by the supervisor
+> > > knowing the name of the file/directory being created, and can remember them
+> > > / write them out to a persistent profile etc)
+> > > 
+> > > Note that this is just the filename under the dir represented by fd - this
+> > > isn't a path or anything that can be subject to symlink-related attacks,
+> > > etc.  If a program calls e.g.
+> > > mkdirat or openat (dfd -> "/some/", pathname="dir/stuff", O_CREAT)
+> > > my understanding is that fd1 will point to /some/dir, and destname would be
+> > > "stuff"
+> > 
+> > Right, this file name information would be useful.  In the case of
+> > audit, the goal is to efficiently and asynchronously log security events
+> > (and align with other LSM logs and related limitations), not primarily
+> > to debug sandboxed apps nor to enrich this information for decision
+> > making, but the supervisor feature would help here.  The patch message
+> > should include this rationale.
+> 
+> Will do
+> 
+> > 
+> > > 
+> > > Actually, in case your question is "why not send a fd to represent the newly
+> > > created file, instead of sending the name" -- I'm not sure whether you can
+> > > open even an O_PATH fd to a non-existent file.
+> > 
+> > That would not be possible because it would not exist yet, a file name
+> > (not file path) is OK for this case.
+> > 
+> > > 
+> > > > > +		};
+> > > > > +		struct {
+> > > > > +			__u16 port;
+> > > > > +		};
+> > > > > +	};
+> > > > > +};
+> > > > > +
+> > > > 
+> > > > [...]
+> > > 
+> > > 
+> 
 
