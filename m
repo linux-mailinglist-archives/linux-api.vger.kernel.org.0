@@ -1,102 +1,62 @@
-Return-Path: <linux-api+bounces-3396-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3397-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50571A68150
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 01:19:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE18A68659
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 09:05:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 160D77ABE96
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 00:18:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBB4616DEC0
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 08:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A2D1D6DA9;
-	Wed, 19 Mar 2025 00:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB812500BC;
+	Wed, 19 Mar 2025 08:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="vYT0YI/q"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2IwkNzvV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2151CF284
-	for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 00:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD1A206F04;
+	Wed, 19 Mar 2025 08:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742343355; cv=none; b=aGP1+yx3NmaUuEpOOVVMeXoK+Ly55h8CyFMSLvNwEK++dVR5iQtgXK2cfznA6s4VliUlZniGu299x63fwguaHbIWSkhRWx14j0voHiYeQp+rs8P929hTqXYreYuDaGg0thgGMyuE7Rk4qqWRLYjvAYwIIP/b5SXWoTwocWFfv8M=
+	t=1742371493; cv=none; b=NOBeM/2has9Gq69ZmWiTEP5fss/FXnwXHPWqzL4033Y3wNKnn1+1sqDOkt9EtsewzhfZ/HJTrmoZO/M1HbIDkECnJLPWmVoNWKuPyupC06yf+SykjWhW7g+tlQdU4wk8ic3JQ2+kklKIhLJX8NjgyVWMwFvXooXSTcTu0M3vap4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742343355; c=relaxed/simple;
-	bh=l6eI5FceV5Cykwuzpt3OkcP+LeKArrcDOklFOAM4Tzc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d/J7DIu0HxkZb3ZGngLNslAZavYMIit8JiKLzs089kiJ62+0MVUytQQqPSTWG3OeBy9I6ihs34uTi71YK8Y92VwfIfEtbD3uWIba9mDn6Zx1jlEhdqlpKhlSzjAjEFWpFU0KsD24kGGuLeAnKloaHHD3D8b4lLHNLAfTY1KCm50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=vYT0YI/q; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22398e09e39so134548915ad.3
-        for <linux-api@vger.kernel.org>; Tue, 18 Mar 2025 17:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1742343353; x=1742948153; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GCjuaqhwOiDHFc+loZsxbFlVswHaNNd+fRkOYDgDDk0=;
-        b=vYT0YI/qIAMQv3nwASjjKB0WzkosloZq27M6ZaOiU5+It2z5k7Ckq1fd8arWHQ05i3
-         wxR1l1GQrwWKjpIlNNTBNYB2rEzDuaQJgbUfW/2mHQsbksSmYmMTVPYFOmI7E5UQKA1C
-         xYAsqpUnAZ9BU3ZJQJTRdY0g5RYiuHIfb6Iqo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742343353; x=1742948153;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GCjuaqhwOiDHFc+loZsxbFlVswHaNNd+fRkOYDgDDk0=;
-        b=F/X7b2rhCoQlnQJdaSRyJXMRB0iDIuTRZ60Cq0w5DYoe+T1nnWWBQFPZ99ih1SpVLk
-         mea0eGmCZj+dfRcWj5hxLY0omExNmgtPu43p0OVGAy5ZYgedeOnMzYbrhHM1iKfdoE0G
-         TP59e2VVFE/lPbViyPuP8TzRQnRM/zT6UgElHKkrCTBk/W68yq7hNHFSgJQeV7e/URRz
-         JZ3VxwNFU1o1Mn/rnab/IZKsLX0bOINvKamsBJwxci3dnyBC5gO6g8QT3fFCvSh1E+eT
-         xcaEzSHL635L708fntm3LSpls5Z91GYRU9v0kIyzQUvsTyZTTILQ5LacmxpZkh25EpO7
-         UiKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwudJJzIPUEwhQkqiIgZVIRwCDmbDxVQxMsqV5TrIeJaAQ1DooqvSEJwTFbFSR2Hss3cLmlVbDbH0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhFq1UpKGRGkHZoLzE7c6JmRKY3LqZXCPrqR+2+QNWA6yS17tt
-	WuYTuC21l/6cKoB8Wvvf7T1qbH8u5P7Mdb3cpa2WL+6B9/gy5DFXFVl1iPf+uzk=
-X-Gm-Gg: ASbGncu6HuN1XBC5e1+BjVAKepK/WKLR56B7dPnx8GUBme/Y0BGXW1OMfzo5o3EOOoX
-	ZfXfXOUe5U67FiC7pG48tILzXivc6UEqcYwijo2yFrGj/lxRLkzeqGO1ZNSB1yVO6rj/S1D03gy
-	BayiYkZ/IQqekrNHnLSmi7yJptd/pRXJJiS3+shN+knPYJ9OirSKVyuHQyE6z/eDA/WmRQIXhkm
-	Zoexh3WVEsCP51Lv/+f6T0El4P9nIXxFU7qRVSmJjbbYqPHCYi74H8MyjqHit9cxQWLkd2hNXvz
-	z7hRNOCA5Z9nsOKcGn4E92cT9Z7+c77cV6/IiQF9bOM+K/TigNMIypWcvVrS/KA=
-X-Google-Smtp-Source: AGHT+IGyJJUfiVi7domxxVJWnLd5oPGvI2NnmEftJelHGqwd1vZMeJiUnL793ZEEGGeMZjX9WP3DFw==
-X-Received: by 2002:a17:902:f60d:b0:223:3b76:4e22 with SMTP id d9443c01a7336-2264980c773mr9656025ad.6.1742343353358;
-        Tue, 18 Mar 2025 17:15:53 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a4876sm101281375ad.70.2025.03.18.17.15.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 17:15:52 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	asml.silence@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	kuba@kernel.org,
-	shuah@kernel.org,
-	sdf@fomichev.me,
-	mingo@redhat.com,
-	arnd@arndb.de,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	tglx@linutronix.de,
-	jolsa@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Joe Damato <jdamato@fastly.com>
-Subject: [RFC -next 10/10] selftests: Add sendfile zerocopy notification test
-Date: Wed, 19 Mar 2025 00:15:21 +0000
-Message-ID: <20250319001521.53249-11-jdamato@fastly.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250319001521.53249-1-jdamato@fastly.com>
+	s=arc-20240116; t=1742371493; c=relaxed/simple;
+	bh=FSNFV5aiawfVEPuMK3UBCZZb3/nWmzSnJzh+8OKYIrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p5UNZfX3Davbj33OJihXvKkCurGXSDpkdPYpZLhzQ8RfExo+/mMtaaQAafByh1sS3e1wl59ZEAmaZgboKd7/RfM+gG4VmUvv1cmsRjlNWnwhyTE8FJUxbtI12039lLfdYaP1yr3GjhSsDizyHijftQyKnYWZuSXpvmip2egV4VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2IwkNzvV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FSNFV5aiawfVEPuMK3UBCZZb3/nWmzSnJzh+8OKYIrk=; b=2IwkNzvVlrZXNwyCeTEPJQ8F07
+	mHBnaZm+2SYzj9yte8H+h4ugukyHaooQN44YZ5VaYs/3ou0ePckDXk74CwhuRgUqJuOEPMfF6iUDe
+	hQcdu6v22lTgEkab4Iq6naRWcxrNTluRM+NprIS7DRr0K8wcCDfiM/OR9YYYL4flt14X9gs8tVHON
+	anS8xHd3sCoM8QzTE9EC30hBSL7mM7IG+1kla2ZQFM5VNpzj6JCVcSNivw+5a2PlLbRmVqasI3wrH
+	w9n+03TD5fFP8m+W6G2FuB3u4cNsXCeDEjRFy5YwdefmTPW/57pJqwp9vqByYtsQToDwsMDe5Qz0v
+	YcjedCWg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tuoPw-00000008IXM-33MY;
+	Wed, 19 Mar 2025 08:04:48 +0000
+Date: Wed, 19 Mar 2025 01:04:48 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asml.silence@gmail.com, linux-fsdevel@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, kuba@kernel.org,
+	shuah@kernel.org, sdf@fomichev.me, mingo@redhat.com, arnd@arndb.de,
+	brauner@kernel.org, akpm@linux-foundation.org, tglx@linutronix.de,
+	jolsa@kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC -next 00/10] Add ZC notifications to splice and sendfile
+Message-ID: <Z9p6oFlHxkYvUA8N@infradead.org>
 References: <20250319001521.53249-1-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -104,163 +64,18 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250319001521.53249-1-jdamato@fastly.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Extend the existing the msg_zerocopy test to allow testing sendfile to
-ensure that notifications are generated.
+On Wed, Mar 19, 2025 at 12:15:11AM +0000, Joe Damato wrote:
+> One way to fix this is to add zerocopy notifications to sendfile similar
+> to how MSG_ZEROCOPY works with sendmsg. This is possible thanks to the
+> extensive work done by Pavel [1].
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- tools/testing/selftests/net/msg_zerocopy.c  | 54 ++++++++++++++++++++-
- tools/testing/selftests/net/msg_zerocopy.sh |  5 ++
- 2 files changed, 58 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/net/msg_zerocopy.c b/tools/testing/selftests/net/msg_zerocopy.c
-index 7ea5fb28c93d..20e334b25fbd 100644
---- a/tools/testing/selftests/net/msg_zerocopy.c
-+++ b/tools/testing/selftests/net/msg_zerocopy.c
-@@ -30,6 +30,7 @@
- #include <arpa/inet.h>
- #include <error.h>
- #include <errno.h>
-+#include <fcntl.h>
- #include <limits.h>
- #include <linux/errqueue.h>
- #include <linux/if_packet.h>
-@@ -50,6 +51,7 @@
- #include <stdlib.h>
- #include <string.h>
- #include <sys/ioctl.h>
-+#include <sys/sendfile.h>
- #include <sys/socket.h>
- #include <sys/stat.h>
- #include <sys/time.h>
-@@ -74,6 +76,14 @@
- #define MSG_ZEROCOPY	0x4000000
- #endif
- 
-+#ifndef SENDFILE_ZC
-+#define SENDFILE_ZC (0x2)
-+#endif
-+
-+#ifndef __NR_sendfile2
-+#define __NR_sendfile2 467
-+#endif
-+
- static int  cfg_cork;
- static bool cfg_cork_mixed;
- static int  cfg_cpu		= -1;		/* default: pin to last cpu */
-@@ -87,6 +97,8 @@ static int  cfg_verbose;
- static int  cfg_waittime_ms	= 500;
- static int  cfg_notification_limit = 32;
- static bool cfg_zerocopy;
-+static bool cfg_sendfile;
-+static const char *cfg_sendfile_path;
- 
- static socklen_t cfg_alen;
- static struct sockaddr_storage cfg_dst_addr;
-@@ -182,6 +194,37 @@ static void add_zcopy_cookie(struct msghdr *msg, uint32_t cookie)
- 	memcpy(CMSG_DATA(cm), &cookie, sizeof(cookie));
- }
- 
-+static bool do_sendfile(int fd)
-+{
-+	int from_fd = open(cfg_sendfile_path, O_RDONLY, 0);
-+	struct stat buf;
-+	ssize_t total = 0;
-+	ssize_t ret = 0;
-+	off_t off = 0;
-+
-+	if (fd < 0)
-+		error(1, errno, "couldn't open sendfile path");
-+
-+	if (fstat(from_fd, &buf))
-+		error(1, errno, "couldn't fstat");
-+
-+	while (total < buf.st_size) {
-+		ret = syscall(__NR_sendfile2, fd, from_fd, &off, buf.st_size,
-+			      SENDFILE_ZC);
-+		if (ret < 0)
-+			error(1, errno, "unable to sendfile");
-+		total += ret;
-+		sends_since_notify++;
-+		bytes += ret;
-+		packets++;
-+		if (ret > 0)
-+			expected_completions++;
-+	}
-+
-+	close(from_fd);
-+	return total == buf.st_size;
-+}
-+
- static bool do_sendmsg(int fd, struct msghdr *msg, bool do_zerocopy, int domain)
- {
- 	int ret, len, i, flags;
-@@ -550,6 +593,8 @@ static void do_tx(int domain, int type, int protocol)
- 	do {
- 		if (cfg_cork)
- 			do_sendmsg_corked(fd, &msg);
-+		else if (cfg_sendfile)
-+			do_sendfile(fd);
- 		else
- 			do_sendmsg(fd, &msg, cfg_zerocopy, domain);
- 
-@@ -715,7 +760,7 @@ static void parse_opts(int argc, char **argv)
- 
- 	cfg_payload_len = max_payload_len;
- 
--	while ((c = getopt(argc, argv, "46c:C:D:i:l:mp:rs:S:t:vz")) != -1) {
-+	while ((c = getopt(argc, argv, "46c:C:D:i:l:mp:rs:S:t:vzf:w:")) != -1) {
- 		switch (c) {
- 		case '4':
- 			if (cfg_family != PF_UNSPEC)
-@@ -767,9 +812,16 @@ static void parse_opts(int argc, char **argv)
- 		case 'v':
- 			cfg_verbose++;
- 			break;
-+		case 'f':
-+			cfg_sendfile = true;
-+			cfg_sendfile_path = optarg;
-+			break;
- 		case 'z':
- 			cfg_zerocopy = true;
- 			break;
-+		case 'w':
-+			cfg_waittime_ms = 200 + strtoul(optarg, NULL, 10) * 1000;
-+			break;
- 		}
- 	}
- 
-diff --git a/tools/testing/selftests/net/msg_zerocopy.sh b/tools/testing/selftests/net/msg_zerocopy.sh
-index 89c22f5320e0..c735e4ab86b5 100755
---- a/tools/testing/selftests/net/msg_zerocopy.sh
-+++ b/tools/testing/selftests/net/msg_zerocopy.sh
-@@ -74,6 +74,7 @@ esac
- cleanup() {
- 	ip netns del "${NS2}"
- 	ip netns del "${NS1}"
-+	rm -f sendfile_data
- }
- 
- trap cleanup EXIT
-@@ -106,6 +107,9 @@ ip -netns "${NS2}" addr add       fd::2/64 dev "${DEV}" nodad
- # Optionally disable sg or csum offload to test edge cases
- # ip netns exec "${NS1}" ethtool -K "${DEV}" sg off
- 
-+# create sendfile test data
-+dd if=/dev/zero of=sendfile_data bs=1M count=8 2> /dev/null
-+
- do_test() {
- 	local readonly ARGS="$1"
- 
-@@ -118,4 +122,5 @@ do_test() {
- 
- do_test "${EXTRA_ARGS}"
- do_test "-z ${EXTRA_ARGS}"
-+do_test "-z -f sendfile_data ${EXTRA_ARGS}"
- echo ok
--- 
-2.43.0
+What is a "zerocopy notification" and why aren't you simply plugging
+this into io_uring and generate a CQE so that it works like all other
+asynchronous operations?
 
 
