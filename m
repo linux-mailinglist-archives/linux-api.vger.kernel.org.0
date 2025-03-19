@@ -1,244 +1,308 @@
-Return-Path: <linux-api+bounces-3409-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3410-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CA8A69828
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 19:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C88A698C9
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 20:13:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E68B4255F1
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 18:37:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 313921633FB
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 19:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D982220CCDB;
-	Wed, 19 Mar 2025 18:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 576D1211A00;
+	Wed, 19 Mar 2025 19:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="rY4aAwr7"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="m5vdCV+G";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="xX48XyDN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A371620B808
-	for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 18:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742409454; cv=none; b=g/Zlqy4IjqqG93wVPBh/tboUJPGJFQ1xcdsCzMc4lc2CGRREHi5uJajstkpILAqZF11ussUDIrV5YRqRWF7i6ew24E3OBT0xGIzjo/p/SMl5EyC5DBcg8cuMITmxLxVIvxQaRqA9grRQCkttS28pEzb6WB/fOWKxYCfR+eCvqlE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742409454; c=relaxed/simple;
-	bh=Kfa8G/vNjaGYGNW0JEQ3dlKDH4NKHYZbxfNqGPSjPo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=V+IA6ovyzYB6fhnsyxSw49nw1tLt8I/bKVzLoCxDviPepuRH5qQ4Mqfc6M//AcUareeXBST97M2v23HN1frhiz6N3Lbyt1fUeZ/8gwXD2Yzqc4Gyt6d81FI3pYoLDqoOZO7gSUdP6fyfecYhwvv8keb67aJIfXHrgEqgby/vP0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=rY4aAwr7; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-85b40a5120eso171003239f.1
-        for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 11:37:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1F1B0F1E;
+	Wed, 19 Mar 2025 19:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742411596; cv=fail; b=aK2j5MVUSDrglljZiRdPWoK7RDgFJlYp+Ng76ft3JXwqIq3er2Np5i8TW1mXqfVZQzE3b+knOn9RNVjQK4k2QvBHQz/jBq073tSGFEkz0fU6oUN6KJSem9/bmaIHlCUBzSbpy4DzWpQq9bsplqgsbOR/JfrtN1N67dg1Pj1c8gY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742411596; c=relaxed/simple;
+	bh=kWUn+F+ZUJHzqFZ1IfaIxXcAlH1zowzxpnl+tfewGG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=itJbU+vJcJ5Vvc2X/jS8NIsad38nmi5P7AGmT7suHJjidZznu+TLhe7cfXWopAU8Qe9hP5H01x+OmsUrK82Kddz7IM68AFV9NbSviKeMigt3Mg3HnbzXPmimSbvrAQN3XAOUV8XvSDETZKAZsefMCo0X0vNuu5VdjP2zgaanmxc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=m5vdCV+G; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=xX48XyDN; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52JH0sBs012161;
+	Wed, 19 Mar 2025 19:12:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=h6OzWPmsi6tg30rdXGdMzkQ8YDnuGC/WhwLMDZ5wgOA=; b=
+	m5vdCV+GUBe8gYUMYV47McGjynFu22vFq8Fo79XqV38mk/WvumUNpDC826jkXEC7
+	gDk8lFoiR4otVZxQeY85OlabHvjkErfm7I43vc7SrrfrbGHw6gc5xFhu9/0KsdXz
+	CNX2CUVW7v6SH3uWehFFCmvQPpl5lGflkicA5txOfCWcXVtoavqeS1Y0t6aIpxSs
+	F6Si53T/5Eoi7/gNWInycJ+eaMNWGD2MaNZBilaeOGP4vIZ1+xWxtEy/7qPZ1JB9
+	zzGmJX2+3t3Nq6+H/jUDryKRzS/2gmUUsP/rje0VqK+cfn8td6CHeA2LucwwHSwi
+	5AfeRy8fVGR/uRhWjB9Mww==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45d23s47ge-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Mar 2025 19:12:53 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52JHgSCY022502;
+	Wed, 19 Mar 2025 19:12:52 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45dxc7hrb7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Mar 2025 19:12:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zFhY14Kwy/Ob/HrBceZJBKTtaSPee1+9MlGfv8JynU0UPVKZW4JxL1VNu3Z/XHt0GChkUTGqzpJDID1VRA4wQmc9LsCIH3B1UxLTOOkhgB3Z6Ib1xCSE3jgHFWQn/s3gOiV2cz+cF9dnxuvzApSsN4WcDiC/0DwlchZHgoA21L0hEWEpzXsxMmQnsM+RFHdh0VvQGw0JbXkfYqh6lRs2raHyLTtCm1B2pz0dPCp/694bXVb+knbDoqwgLulMJlJCMjp9MR9RBaTwc1BnaXrjUnfbIY1RbIRatpr3sS8VKi5Eds1xklM6qB1oCB1ru+GZAG5YYxi23+LKmqTYYbepdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h6OzWPmsi6tg30rdXGdMzkQ8YDnuGC/WhwLMDZ5wgOA=;
+ b=yf1lCCsfr5Jlzi1oGzHkey1mtbZQguzcsnxOcvoYgc502nODhEsoTQ1VCFUlnC1nQ6GIcWpstlsNUQOQv2lkzL9WK+Pr/Wlyig+U4O8tnUSY0h/FHjpUTR8oi/1RZzv0lnhYU4cstxrCWMn/hxtsc+hmyucqAlpHbNk0rdHGq3h5QnBlkx5jFeshTJy7vTNkrtD0bRcb8+f5dokmOPWzCC+r5++yBGAd69YZ42CTMRQe1icZ3K+hBZHOfWeSMKlvLNcOjelIAcMd4tXAK2um56FdASVG2NyjEKwVXugNYXSXCXjXwHuChMObn3YX+z9PZgDzTcNhO9ixp/zBM6jx+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742409452; x=1743014252; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tOU2TrWkWar/3vjS2cdu6jloemO8+tWZ3XM9RPU5SBM=;
-        b=rY4aAwr7MzroRirr+3kEnWfq9zhfrbVCQVhgq+OcvrjnPB2546k1DLITEOxdeavOYw
-         J/xv7QmLV2guZ0GpbEcemzbnmVSzjYkDJp7PgXCwo5dtCEP9UuXjcb92T5Tttx71t1H1
-         vkfVxatNPm6NRhDBdTWuTkdv0Jhw9U5pV20pDh8fdhJgHZvsd+6p9fXwMCdyBG012J9O
-         OPzVwQY96LHOn9KtXYAUmlwMV9Sc6NMvEM0w8bq+6QAk62DCCQEuqNgLJbLJ25CBaHfx
-         TKswsw1IPaW6VXT+b/mKN4vDGNsyA8ro3GgbgUEb30mw5dK9HB11bEQDcBGCkR9s0FYE
-         OFFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742409452; x=1743014252;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOU2TrWkWar/3vjS2cdu6jloemO8+tWZ3XM9RPU5SBM=;
-        b=jXl6r8pd6rGK1smWukKsZsz28WoU+FgKZZjwr1Y8P3CcgtSisXVUCzQnCLkplRbi7+
-         hZHokCaRv72AQ3NX8zk/gt2vYO6B7O6Pq0fI+ZFO/caqLaXEycB4kkSRm6RL5bzNx9FP
-         Tx1hnSUPTeosV7+Aco16fRp29MaYEAxuje+qgLwDDQJgigQVnq5VB/8wyJJlhBLI+QwM
-         N2gTiYRmN6v7nZSKDvf3F6H90bbrw194qrArfQTXgETLpidzMn77Q/g1iKkxK7081PbV
-         YdrCEKHTRzcMmr3R2uUjz+9rI8pC/K/W2sSCGt4w8ox+VnNwszC9Cy7UoiaB0tLW6JeA
-         reFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWAV8KTxIUIgD6Hu28JjjGzCfBnuilziMWY3FHuqih8BXIIq3nowsawarsqfUskyEAGX64ejXFLy2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUuC9r1mMU/+itCV9rDFffCpXsogYaklIqYGvIHAPxPKshg6Wm
-	Aa+iHqWpejZAW/CzYv9maGWv2ahwZ8XUx38yOctbaEr245/K44zuhkAfrS6tD04=
-X-Gm-Gg: ASbGnctXCG1yTrMc3J+z5g61wH2Z2cMNytLPMRkNxdnpDjlYLyOQbCX9vh57iNpPjWn
-	AZDDfht+lTy3qKVBwXTBoQRqHVhs/Skg7ooslRnMZanLyt/q1aDSC7t94Ln0oafY8GX1wwHqrvp
-	nrzevMpMvoKJv112K3mYvzG703bQIwcAhIj4Xa9ysFDhxYADnCN41dsKXE4dd101wdP4boVgucF
-	X3kjbtcvNpI3rW4VxllEgXTjPb4e7kXw7Ws13L4KfZpqyY0M7XfQm8lrqp0tqBOVIPr2QizD3kV
-	t1EUGPEcmbwl0oGZuEnH9ig3kOiD1A7DYg2cYpx3E40xg3wMBL8=
-X-Google-Smtp-Source: AGHT+IECcYnfpxvlC0iwBwA5lQBypcp+EaJg23jC62c//8nQymJPnN/mdYzW4CY8JWkJ1PAm8TMlJw==
-X-Received: by 2002:a05:6602:3587:b0:85d:a69f:371d with SMTP id ca18e2360f4ac-85e137b6f82mr529954939f.4.1742409451617;
-        Wed, 19 Mar 2025 11:37:31 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f263702081sm3364488173.14.2025.03.19.11.37.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 11:37:31 -0700 (PDT)
-Message-ID: <dc3ebb86-f4b2-443a-9b0d-f5470fd773f1@kernel.dk>
-Date: Wed, 19 Mar 2025 12:37:29 -0600
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h6OzWPmsi6tg30rdXGdMzkQ8YDnuGC/WhwLMDZ5wgOA=;
+ b=xX48XyDNWX+x7cxx7kxS68DxGYDc0zsbDFEgjkLYFYmA4fpizaeneBEYr2+/H48bQYlRwDsdRZgrkJPliiIgIApuhi0r+tLhIE2Mg5NjFmcNkHWpP61zZNVUCms44ZKspPtUisBeuDDEmVI0rZ6bGWOqIvGVZbr+Ipsfmy72Qrk=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CH3PR10MB7211.namprd10.prod.outlook.com (2603:10b6:610:125::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Wed, 19 Mar
+ 2025 19:12:48 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%7]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
+ 19:12:47 +0000
+Date: Wed, 19 Mar 2025 19:12:45 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrei Vagin <avagin@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+        "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+        Juan Yescas <jyescas@google.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-api@vger.kernel.org, criu@lists.linux.dev,
+        Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+        Pavel Tikhomirov <snorcht@gmail.com>,
+        Mike Rapoport <mike.rapoport@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
+Message-ID: <10c3e304-1a6d-45ac-a3ad-7c0c8d00e03f@lucifer.local>
+References: <cover.1740139449.git.lorenzo.stoakes@oracle.com>
+ <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+ <857b2c3f-7be7-44e8-a825-82a7353665fb@redhat.com>
+ <cd57ed04-c6b1-4df3-a5cb-a33078a08e74@lucifer.local>
+ <09d7ca19-e6cc-4aa9-8474-8975373bdebd@redhat.com>
+ <CANaxB-yMBSFeYcTr-PaevooSeHUkCN9GWTUkLZUNW2vxKzm0sg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANaxB-yMBSFeYcTr-PaevooSeHUkCN9GWTUkLZUNW2vxKzm0sg@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0545.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:319::13) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC -next 00/10] Add ZC notifications to splice and sendfile
-To: Joe Damato <jdamato@fastly.com>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- asml.silence@gmail.com, linux-fsdevel@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, linux-api@vger.kernel.org,
- linux-arch@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
- kuba@kernel.org, shuah@kernel.org, sdf@fomichev.me, mingo@redhat.com,
- arnd@arndb.de, brauner@kernel.org, akpm@linux-foundation.org,
- tglx@linutronix.de, jolsa@kernel.org, linux-kselftest@vger.kernel.org
-References: <20250319001521.53249-1-jdamato@fastly.com>
- <Z9p6oFlHxkYvUA8N@infradead.org> <Z9rjgyl7_61Ddzrq@LQ3V64L9R2>
- <2d68bc91-c22c-4b48-a06d-fa9ec06dfb25@kernel.dk>
- <Z9r5JE3AJdnsXy_u@LQ3V64L9R2>
- <19e3056c-2f7b-4f41-9c40-98955c4a9ed3@kernel.dk>
- <Z9sCsooW7OSTgyAk@LQ3V64L9R2>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Z9sCsooW7OSTgyAk@LQ3V64L9R2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CH3PR10MB7211:EE_
+X-MS-Office365-Filtering-Correlation-Id: def4bcf9-17c2-4b66-6563-08dd671a0914
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eWVTNzJxNXk0cTl6ZXhERVRNU0hKb2tsaWhhWG5CaUhHdE9OTWdnT2k0OWZN?=
+ =?utf-8?B?SWFZQzIyR09VR1dzTGxheS9oYm11N1hlK2U4UHZYMFltTVdnY0pXV0hXSld6?=
+ =?utf-8?B?a0hYcE1oWENzZ3hsUzVCVkREZkpBNldKSDJmSHdpbmRHdVlCVU9jZHRjNGxI?=
+ =?utf-8?B?NEhYaWpKL3ZXRzJKbG5wcU1WVDIvTzgzR0w4V3l1V0plUXFIRmNVQ1dkK3hw?=
+ =?utf-8?B?OFo2S2E5aEREalhTaUdIM2hwK0pPN2lnMDE0UUpJbmwwZ0pKc1Zod1dqSjhK?=
+ =?utf-8?B?ZzBEdHlveURUOGdMaWEyazFxditMOVNSdi9CMWR1KzcySmRQRjlrMWhHcThu?=
+ =?utf-8?B?YmhReklXV21NV2lVeCs1VEwyVWVrbTBqTUlFYkd0aXVScUNMcllLRE53b1lh?=
+ =?utf-8?B?dkpmc1IyeS9TdW9IN1hjaVBaaU94NThnU0hKdVJYaUVMdmRCQy9SMDhabGwv?=
+ =?utf-8?B?RFFmb1AyaGNWb3JzK0Qvby8rVExyTnhtc2VFcjc5NXhjVzl0Y2k5dUhkaGU3?=
+ =?utf-8?B?aWY2b3J0WVRYTk5RUmJNVS92Sk1WQzFHUlNnanRTSU5LU0RraEVaeHFydlVn?=
+ =?utf-8?B?cHU1MFFlMDJkZzRqd1Q3Rm9MSDZTQW4yN0RFME44MndiN2U4Y1dkQ2E3a1dO?=
+ =?utf-8?B?YkloMFdENmJtakdhZkNZTWlKQWlHVlBDaFIvaXJVUUFha2QydzUwWGQ2czZr?=
+ =?utf-8?B?T3FJUytGVTVVU0ZxcUh5YzJkUjIyRmdVMFZYbjh0ZytoaEFQaDYrS1c2VUNE?=
+ =?utf-8?B?WlhwQ0l4bjJQNnY3aFdZbG9HS3A4VXRqMnlHU1E2ZzZBRHZ3dTcvUUhud251?=
+ =?utf-8?B?ZmIzM0cxSU1XYlpYYWtlOXZTZVhsS3hGbGU0ZVpkeG13Z3FKQjc0SWt5Qm04?=
+ =?utf-8?B?MjZ2ekp3ZEdWUW9jRWV4MFphRlBPWEdkSU85Q09TY0Zqc2pBRXBuN3VrNDQ1?=
+ =?utf-8?B?OE5KQ25jVFp2U0dZOVE2eDV6cU9zam5XZ3NIS3JwWERpeC91SHVNVldGd3dJ?=
+ =?utf-8?B?bGxzQjRtQSt1Q0twYVZMaDB5UExVMEJiQlMxOXVDZnNZbkJRZzRFWmkxZzVt?=
+ =?utf-8?B?NGczb0Q5bEJXaDMvREZsT0xMMTFabFZ3d2lzRmZmK2JOME1BcWtRWENpajNp?=
+ =?utf-8?B?RlRmeUJYRWdadHFNRm0zS29WR2FhWVRxcWduY0xscXhvUkNMOXlMZ2ZDWU9t?=
+ =?utf-8?B?dVNLdVFmd2tlTDZxNXhIRmU3UnIzSk44QjlYU2ZxZ2RCNjJDajhNUWtiUjVy?=
+ =?utf-8?B?cVJZVmR4aVd5WUJFa0w5aXNoLzhCLzczNFFyUDhaYmFqbHJudXh6WnN1SXVQ?=
+ =?utf-8?B?MDhhUGhYSWZ6Z2ZKc2JaR0hwbkwzRzVmRXV1dHBtNlVJQlorSGhwQ2ZmZTlS?=
+ =?utf-8?B?TGdYbnQwb080YmxxQVhDWXdzaE5KTm1wODhtTmdXbXFpMGl3bGFjUzd3YXBk?=
+ =?utf-8?B?UmlnalE0N29xWWttYVpMdTQ4eVF1ZXNROTNhbFB5Y0d2SUxNUVVEVlBRSE5h?=
+ =?utf-8?B?MHdQRTh5K3RYaWtEcjlvc1VnRVhJN1dmcWU4LzJaZVp6MXZMTXk0cHkxeXFl?=
+ =?utf-8?B?L2h1OXZyd0Zhems3ZzJ3NmwvU2ZXVHBIQkIyYlA2WldyOU01YjY1N214cU5t?=
+ =?utf-8?B?NFdKNVVhOURmZUZpNDdSa0VqMUV2QzVJRURPNDM1SkgrZ3FteG9qQnkvUXVx?=
+ =?utf-8?B?SjRoeWpyMzQycWJ2MGtlSS94QkRIT0FYYjZOQjJyMnpBNmxnb2Jacy8zdjdU?=
+ =?utf-8?B?aWJuY3A1NGRkNEJ0UWQrSzdxOS8wZC9SUkhCYTYvNHg5ODBuZkpvd3VwVkw4?=
+ =?utf-8?B?dGRZeTJGWENtanJvVEdnQT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VU83SG5XUFFBbSs4UU9kRy9DR2FtN1NZMHNCY1BTdzh2ZXhud1B1c3MrVjlN?=
+ =?utf-8?B?djE0akhJdkxSZFd5Z0NrODljUTBFa3ljTFBGbWxkR1FnSFo5R3FUNTNHS1J6?=
+ =?utf-8?B?MWUwRkFVNXhMOHB5RzNzL0VONHk4blpDRFVEWVhxb1NrQkErU1pEL1NtU003?=
+ =?utf-8?B?d3JTOVdKbGJkaHNPZnB3RGNaNW1HTnZhSTVHc0NicmdVL0wxWUV0bTFWVjhO?=
+ =?utf-8?B?KzJFT0N0eUttc0V5am00c1cwVGVSUFVTSUFLRFV6aXRzVUVIKy92dndrdGRU?=
+ =?utf-8?B?dytJSS84WWRDVk9qVGJHdEluaFR3UnJWdWk1NU9Cd0NDTXdnWHUrWmdGZDJI?=
+ =?utf-8?B?KzlrL0taMjhpNW54RWM4T3JaUXFpWmluVHc2ZG8wODJjbWg4YjBMYVBKZi9m?=
+ =?utf-8?B?MThzdW9BMUVKeHg3TVRxRjB1R0RVLy94MXhQRFpMUDVLTzhSektmUGJFT2hJ?=
+ =?utf-8?B?clZZbUpOUXVEcTdnSlpMYjJYTWxCSENqRkRsVlJaYTlsVFBpdUZueFJxenRm?=
+ =?utf-8?B?bXZIUFhybHlXaUJ3MnpVekhHOGdxK1RycW5YdHRhNG81TWlGZStDOHlCdUtN?=
+ =?utf-8?B?dGIraFhMOU0yTkxlVWFPdWlxQjN0ZVVvZlRBT2IrRDErT2FKU0FTcE96UkFC?=
+ =?utf-8?B?bGJyeVB4Q3VBSW9wYThDTHJuaFpIWUFsRThuQmpCM0pqWlA3VEJEaXpaY2Zx?=
+ =?utf-8?B?ZXVDaGI2VTcvZEJOR2dJMDNZN08zR2RUZU05eEpOWUhITG1wU3pNbFlINjZZ?=
+ =?utf-8?B?Q0hZQU5vdXdjRkQyTExxV2lhUmJ5UWo3WlRlR2hOY0JBNm9iYWlOSU9ZYnNv?=
+ =?utf-8?B?YmhuVmpNSDZobGw3NVhEUWROek11K0JjNVV3OFgxUkIwVWhUTnpIc1FZZFVI?=
+ =?utf-8?B?b2FrdkxYQmorRDQvUGNxR3c0Vmd6Y3VLOHhua0NKdEJNNWNXZ1owaXVrbHhT?=
+ =?utf-8?B?QVJVbytwV1dEMjdHc2hYNlVnb2NmdnAyRGVKWFVERzhwZ2k4Z3dQSC9MZ0dF?=
+ =?utf-8?B?L05ielJEbDlac21rbGRXSml4U3BTNHlIMHJHRis0ODJaQ2MrRmpkU2NjQzVK?=
+ =?utf-8?B?TXAveGRJRG1WdXlHUUhIcVc5QXlHakxNYS9aNFlNUjJuTWhuWEtzV1cxT1Nv?=
+ =?utf-8?B?M2xmOERia0o2dDVDNUMrTWhlY0tHTnJUdGZiM1FQTjRDRFJHTnFtZWFqMVJx?=
+ =?utf-8?B?b3lzTTRIT0Rrc0MyZFRwOEtPbGxPbHFVZEVBL2xpZGF2ZjJGTFp4bTFVZTlP?=
+ =?utf-8?B?L1hJQTgweTlKMUxURlAvL2xuS0VtYVV1NkNkWVlibHdQSFdoNlpZUHpaNDM5?=
+ =?utf-8?B?SkRYR0RSenpvamFyd0ZnY0ZxWkFra3E5SFBkVHFOVU1GblVMSkZFYnRBT2k0?=
+ =?utf-8?B?VEZTMjFpSDUxOTlMNVNaY1M0RjFzaEVpTnltVHgvQkRBc0o4ZDZWRFp4YjFa?=
+ =?utf-8?B?VGIyeFNnRlcxZGh1MFM1MW5rUkxXNjBqZ05WNG5BYjFhZTBmVlZYa1lzQzhB?=
+ =?utf-8?B?N2xWdmxGZGpTTmI3QjVBNWx5YTdZUkhpMnNLOVlxWk1aTjU0WXJrR3VBb1hw?=
+ =?utf-8?B?dkxJUHFWcGlnVHVVSVJ3NmZ6VFdHaExWMlZLYVlaMS9BaVQwN0tkVWJ3K24w?=
+ =?utf-8?B?QjUzakRYTTA0TzVIQndaRDQrN0JmcjFMSXZ3WE02eEZKZzB2RThQQWZuUW1q?=
+ =?utf-8?B?YmxVcXpCWmtpZEMrZXQxOG9BelBDZ0l4L2ZIMEpUTGF0SE8zMWpYK2VYS2wv?=
+ =?utf-8?B?VVVQR25PR1NySUZWVDJFVy84MCtpQUIyRkQyYXJJZk9vUkpUTFBST1VhU3B4?=
+ =?utf-8?B?VFhzM2E1VytiNENFNkxsb2c1T0JzSkN1bFJGL1V0L3dUUHJQSnZucTdWUElk?=
+ =?utf-8?B?VEgzQlVOWnpUYk96KzkwSk5LbVJNaGM5Tm8zUmpQSUNCTGRJTW56MHFqTncy?=
+ =?utf-8?B?SFVkN293TGJ5TFJzNU5FbUxVUng2dFBsQ2lGTFMzbkhJMXZaZGY5OXBUUmk2?=
+ =?utf-8?B?RnhYRnBvRGJEci8wYlN2K2hib09xOWM3L3E3V2tBaGswTHRQYXlDK2c0R2hC?=
+ =?utf-8?B?WEp1Z2NXUzk5YWNDb2F4YStESk1pa2VGbDZESVlSYmFaQWpxS1RQRUZMQ0JY?=
+ =?utf-8?B?emFpOEJvZUZURk1WY1Y5ZXZkU2pqNGh6SGtBamtzSWNpcS9rZ1NhY1FhWGVp?=
+ =?utf-8?B?cnc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	VQfuSQyVgxkbmrh9jB2Slp3Tu5TaL5y0xnr6FaaJX0xlDiScYmlhvCOoBHGRJDlxv+17IZb4ElF0TXeoTRZNyodQZscfdjxvQkr15SZye9muIyS/l9vbun8cXIwEvCLGOSJf25FxA8RsMb8aXgX8RZZPVj+qDlcaNH/NiRI1JyOhsx7u6NWKyAyBoUQzE8GcicM5LrjzPwQxrRIXOmk/D7CGK4x53WQByJLKHEn1x+wGncB/7N59p5Lvij5aiMI3vwuNugwYNcrA9zM6BSxrcTGRdkEznWsidJ20MPieXHUsqjBON8+OW/qMnUY2umwTCrD68rSq+XTQ2yrABUI2P1HB5AhbgohGAgY0lDShC0l+Y5yV6wZbwuz6Gbq5KRSyZIFu4wnzYmjF9vtOhKpJXevtjOTanVT84qy2JSIOdKtU5rsE3bD8NYZ+cyuisuOFs2I2ZEvGiEork5C+UvrHozBHHhpCzWf/6w8y8hYJJ3CkVG0MAkZLvNS6qLNT2kKoGqVuPlgM3DVNLTb2s/T8Q34ryREAK0T8yQ9w8nF4IqVKmXzBPjOt7nmj2SWXJd5X54zZ4bZztl9N9R55m5Yn6LUMHTEuJCpvS9yAjwUEnr8=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: def4bcf9-17c2-4b66-6563-08dd671a0914
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 19:12:47.6528
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A7Yzc2jzEzwblicBran11f7WPlvX+R6xoHFLizjkg7uDXIq03oCnN1LQvLQjUD00cWfBdxW966qfzSeZ2YSkf5fntEq1iQRWS+zGPh8Ru6I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7211
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-19_06,2025-03-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
+ definitions=main-2503190128
+X-Proofpoint-GUID: PETW3lGC2LqfcR2YqkalJfG19aIAX2Mr
+X-Proofpoint-ORIG-GUID: PETW3lGC2LqfcR2YqkalJfG19aIAX2Mr
 
-On 3/19/25 11:45 AM, Joe Damato wrote:
-> On Wed, Mar 19, 2025 at 11:20:50AM -0600, Jens Axboe wrote:
->> On 3/19/25 11:04 AM, Joe Damato wrote:
->>> On Wed, Mar 19, 2025 at 10:07:27AM -0600, Jens Axboe wrote:
->>>> On 3/19/25 9:32 AM, Joe Damato wrote:
->>>>> On Wed, Mar 19, 2025 at 01:04:48AM -0700, Christoph Hellwig wrote:
->>>>>> On Wed, Mar 19, 2025 at 12:15:11AM +0000, Joe Damato wrote:
->>>>>>> One way to fix this is to add zerocopy notifications to sendfile similar
->>>>>>> to how MSG_ZEROCOPY works with sendmsg. This is possible thanks to the
->>>>>>> extensive work done by Pavel [1].
->>>>>>
->>>>>> What is a "zerocopy notification" 
->>>>>
->>>>> See the docs on MSG_ZEROCOPY [1], but in short when a user app calls
->>>>> sendmsg and passes MSG_ZEROCOPY a completion notification is added
->>>>> to the error queue. The user app can poll for these to find out when
->>>>> the TX has completed and the buffer it passed to the kernel can be
->>>>> overwritten.
->>>>>
->>>>> My series provides the same functionality via splice and sendfile2.
->>>>>
->>>>> [1]: https://www.kernel.org/doc/html/v6.13/networking/msg_zerocopy.html
->>>>>
->>>>>> and why aren't you simply plugging this into io_uring and generate
->>>>>> a CQE so that it works like all other asynchronous operations?
->>>>>
->>>>> I linked to the iouring work that Pavel did in the cover letter.
->>>>> Please take a look.
->>>>>
->>>>> That work refactored the internals of how zerocopy completion
->>>>> notifications are wired up, allowing other pieces of code to use the
->>>>> same infrastructure and extend it, if needed.
->>>>>
->>>>> My series is using the same internals that iouring (and others) use
->>>>> to generate zerocopy completion notifications. Unlike iouring,
->>>>> though, I don't need a fully customized implementation with a new
->>>>> user API for harvesting completion events; I can use the existing
->>>>> mechanism already in the kernel that user apps already use for
->>>>> sendmsg (the error queue, as explained above and in the
->>>>> MSG_ZEROCOPY documentation).
->>>>
->>>> The error queue is arguably a work-around for _not_ having a delivery
->>>> mechanism that works with a sync syscall in the first place. The main
->>>> question here imho would be "why add a whole new syscall etc when
->>>> there's already an existing way to do accomplish this, with
->>>> free-to-reuse notifications". If the answer is "because splice", then it
->>>> would seem saner to plumb up those bits only. Would be much simpler
->>>> too...
->>>
->>> I may be misunderstanding your comment, but my response would be:
->>>
->>>   There are existing apps which use sendfile today unsafely and
->>>   it would be very nice to have a safe sendfile equivalent. Converting
->>>   existing apps to using iouring (if I understood your suggestion?)
->>>   would be significantly more work compared to calling sendfile2 and
->>>   adding code to check the error queue.
->>
->> It's really not, if you just want to use it as a sync kind of thing. If
->> you want to have multiple things in flight etc, yeah it could be more
->> work, you'd also get better performance that way. And you could use
->> things like registered buffers for either of them, which again would
->> likely make it more efficient.
-> 
-> I haven't argued that performance would be better using sendfile2
-> compared to iouring, just that existing apps which already use
-> sendfile (but do so unsafely) would probably be more likely to use a
-> safe alternative with existing examples of how to harvest completion
-> notifications vs something more complex, like wrapping iouring.
++cc Greg for stable question
 
-Sure and I get that, just not sure it'd be worth doing on the kernel
-side for such (fairly) weak reasoning. The performance benefit is just a
-side note in that if you did do it this way, you'd potentially be able
-to run it more efficiently too. And regardless what people do or use
-now, they are generally always interested in that aspect.
+On Wed, Mar 19, 2025 at 11:22:40AM -0700, Andrei Vagin wrote:
+> On Mon, Feb 24, 2025 at 2:39 AM David Hildenbrand <david@redhat.com> wrote:
+> >
+> > On 24.02.25 11:18, Lorenzo Stoakes wrote:
 
->> If you just use it as a sync thing, it'd be pretty trivial to just wrap
->> a my_sendfile_foo() in a submit_and_wait operation, which issues and
->> waits on the completion in a single syscall. And if you want to wait on
->> the notification too, you could even do that in the same syscall and
->> wait on 2 CQEs. That'd be a downright trivial way to provide a sync way
->> of doing the same thing.
-> 
-> I don't disagree; I just don't know if app developers:
->   a.) know that this is possible to do, and
->   b.) know how to do it
+[snip]
+> > >>
+> > >> Acked-by: David Hildenbrand <david@redhat.com>
+> > >
+> > > Thanks! :)
+> > >>
+> > >> Something that might be interesting is also extending the PAGEMAP_SCAN
+> > >> ioctl.
+> > >
+> > > Yeah, funny you should mention that, I did see that, but on reading the man
+> > > page it struck me that it requires the region to be uffd afaict? All the
+> > > tests seem to establish uffd, and the man page implies it:
+> > >
+> > >         To start tracking the written state (flag) of a page or range of
+> > >         memory, the UFFD_FEATURE_WP_ASYNC must be enabled by UFFDIO_API
+> > >         ioctl(2) on userfaultfd and memory range must be registered with
+> > >         UFFDIO_REGISTER ioctl(2) in UFFDIO_REGISTER_MODE_WP mode.
+> > >
+> > > It would be a bit of a weird edge case to add support there. I was excited
+> > > when I first saw this ioctl, then disappointed afterwards... but maybe I
+> > > got it wrong?
+>
+> > >
+> >
+> > I never managed to review that fully, but I thing that
+> > UFFD_FEATURE_WP_ASYNC thingy is only required for PM_SCAN_CHECK_WPASYNC
+> > and PM_SCAN_WP_MATCHING.
+> >
+> > See pagemap_scan_test_walk().
+> >
+> > I do recall that it works on any VMA.
+> >
+> > Ah yes, tools/testing/selftests/mm/vm_util.c ends up using it for
+> > pagemap_is_swapped() and friends via page_entry_is() to sanity check
+> > that what pagemap gives us is consistent with what pagemap_scan gives us.
+> >
+> > So it should work independent of the uffd magic.
+> > I might be wrong, though ...
+>
+>
+> PAGEMAP_SCAN can work without the UFFD magic. CRIU utilizes PAGEMAP_SCAN
+> as a more efficient alternative to /proc/pid/pagemap:
+> https://github.com/checkpoint-restore/criu/blob/d18912fc88f3dc7bde5fdfa3575691977eb21753/criu/pagemap-cache.c#L178
+>
 
-Writing that wrapper would be not even a screenful of code. Yes maybe
-they don't know how to do it now, but it's _really_ trivial to do. It'd
-take me roughly 1 min to do that, would be happy to help out with that
-side so it could go into a commit or man page or whatever.
+Yeah we ascertained that - is on my list, LSF coming up next week means we
+aren't great on timing here, but I'll prioritise this. When I'm back.
 
-> In general: it does seem a bit odd to me that there isn't a safe
-> sendfile syscall in Linux that uses existing completion notification
-> mechanisms.
+> For CRIU, obtaining information about guard regions is critical.
+> Without this functionality in the kernel, CRIU is broken. We probably should
+> consider backporting these changes to the 6.13 and 6.14 stable branches.
+>
 
-Pretty natural, I think. sendfile(2) predates that by quite a bit, and
-the last real change to sendfile was using splice underneath. Which I
-did, and that was probably almost 20 years ago at this point...
+I'm not sure on precedent for backporting a feature like this - Greg? Am
+happy to do it though.
 
-I do think it makes sense to have a sendfile that's both fast and
-efficient, and can be used sanely with buffer reuse without relying on
-odd heuristics.
+As a stop gap we can backport the pagemap feature if Greg feels this is
+appropriate?
 
->>> I would also argue that there are likely user apps out there that
->>> use both sendmsg MSG_ZEROCOPY for certain writes (for data in
->>> memory) and also use sendfile (for data on disk). One example would
->>> be a reverse proxy that might write HTTP headers to clients via
->>> sendmsg but transmit the response body with sendfile.
->>>
->>> For those apps, the code to check the error queue already exists for
->>> sendmsg + MSG_ZEROCOPY, so swapping in sendfile2 seems like an easy
->>> way to ensure safe sendfile usage.
->>
->> Sure that is certainly possible. I didn't say that wasn't the case,
->> rather that the error queue approach is a work-around in the first place
->> for not having some kind of async notification mechanism for when it's
->> free to reuse.
-> 
-> Of course, I certainly agree that the error queue is a work around.
-> But it works, app use it, and its fairly well known. I don't see any
-> reason, other than historical context, why sendmsg can use this
-> mechanism, splice can, but sendfile shouldn't?
+[snip]
 
-My argument would be the same as for other features - if you can do it
-simpler this other way, why not consider that? The end result would be
-the same, you can do fast sendfile() with sane buffer reuse. But the
-kernel side would be simpler, which is always a kernel main goal for
-those of us that have to maintain it.
+> > My thinking was, that if you have a large VMA, with ordinary pagemap you
+> > have to copy 8byte per entry (and have room for that somewhere in user
+> > space). In theory, with the scanning feature, you can leave that ...
+> > scanning to the kernel and don't have to do any copying/allocate space
+> > for it in user space etc.
+>
+> PAGEMAP_SCAN doesn't have this issue and it was one of the reasons to
+> implement it.
 
-Just adding sendfile2() works in the sense that it's an easier drop in
-replacement for an app, though the error queue side does mean it needs
-to change anyway - it's not just replacing one syscall with another. And
-if we want to be lazy, sure that's fine. I just don't think it's the
-best way to do it when we literally have a mechanism that's designed for
-this and works with reuse already with normal send zc (and receive side
-too, in the next kernel).
+Ack.
 
--- 
-Jens Axboe
+>
+> Thanks,
+> Andrei
 
