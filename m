@@ -1,317 +1,214 @@
-Return-Path: <linux-api+bounces-3385-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3386-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8C2A5CF64
-	for <lists+linux-api@lfdr.de>; Tue, 11 Mar 2025 20:29:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F230A6811C
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 01:15:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BDDC173B56
-	for <lists+linux-api@lfdr.de>; Tue, 11 Mar 2025 19:29:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 313FA3BAC62
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 00:15:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8AE226461B;
-	Tue, 11 Mar 2025 19:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0F617BCE;
+	Wed, 19 Mar 2025 00:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="T++1tmpc"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="nk345Hev"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [185.125.25.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BC4261376;
-	Tue, 11 Mar 2025 19:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDADA935
+	for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 00:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741721355; cv=none; b=jeoJrGMryUD5Q/AOEmumwvyGUra7XHcBa7+eFXSn4JOUoH4nVSf6UYYHYTaVwZn9RyXkvj/93bfcn0cA8sWBZMuvcT7iAgRjSyS7WWbAAuVsU77TeE5m3WFTrXnE9QdQbPC3nFMHgRukcrdpE6gBasHGxKjclfniCUYprghWK+o=
+	t=1742343338; cv=none; b=PZDrKDXN6amuWbTk+hkwKoxfJgSOhAeinYya7mW5+B1ZItOh+BNTmnv9LtiddYnPh1esmve7fBqJmDWiwLmCoCFkCioA1H5Mw+bSvnHJFNmdqlpLxJQ3Nvuc+F8FOxHwdzh1LqpD09auN6Q1cQligtjBaniarIHDJbjTCGgg2oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741721355; c=relaxed/simple;
-	bh=b2NEw6Wz96aWbr8ryieBICdpbOMt+epYFQ+3Sz7i+to=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kpKAx9rr/P4kb1hgCWrJkWkxD93sVdZtr+s10hS+4vf0LD9qL76Mg4b5qh/5d3E/mnf5D8jzwEAs9SFGkvwYPbOeqSvDH63RzE7Qbr6uZrnqmLGym3zpVtT3iIyt4X8D5c4Ce1BPYSyPQTocXmykHsJXH/SAJLGKiFpAonD0+KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=T++1tmpc; arc=none smtp.client-ip=185.125.25.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ZC3jD2zv8zKx3;
-	Tue, 11 Mar 2025 20:29:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1741721344;
-	bh=UsGPQfbexIWlwwVOURZE46iwB05+ckJyVchhKkSJMCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T++1tmpcp5j5bQLP9rdLXEkprUNRDx9CuSsK8XSb2AQALQBWrqoIDh2SXxCjLDr65
-	 ic1TxjogWpIFNERQMd83kLXYHM1LubKO/8ARqxGskUs8TTP2mfV6bv2y/qE2KrFUIs
-	 msiZAjWGCoQ2tb+6AJiEZUMbHinqbAGytnOKGX5U=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ZC3jC5C17zXbt;
-	Tue, 11 Mar 2025 20:29:03 +0100 (CET)
-Date: Tue, 11 Mar 2025 20:29:03 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Tingmao Wang <m@maowtm.org>
-Cc: Tycho Andersen <tycho@tycho.pizza>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Jan Kara <jack@suse.cz>, linux-security-module@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Matthew Bobrowski <repnop@google.com>, 
-	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jann Horn <jannh@google.com>, 
-	Andy Lutomirski <luto@amacapital.net>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH 5/9] Define user structure for events and responses.
-Message-ID: <20250311.iezie7On5Jae@digikod.net>
-References: <cover.1741047969.git.m@maowtm.org>
- <cde6bbf0b52710b33170f2787fdcb11538e40813.1741047969.git.m@maowtm.org>
- <20250304.eichiDu9iu4r@digikod.net>
- <fbb8e557-0b63-4bbe-b8ac-3f7ba2983146@maowtm.org>
- <20250306.aej5ieg1Hi6j@digikod.net>
- <4b0b693d-a152-42c0-bb2c-73e705c3c9b0@maowtm.org>
+	s=arc-20240116; t=1742343338; c=relaxed/simple;
+	bh=pHQtgKFyhe1UEM5H1CkXAkQ9ckxP7iar9/3rqYLA8vg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GQFNh92H9PwbzOIIzWTJ7QlBEDB1JKpn9JiubtGJGSSiBjrr/AWswa0VQmeYmPwXUPui2OMNlOHoN7/1A3Pzyusaaqrp2+z0TuPJwXaL15KeNV3JOcF8+6bPx6FYUSN1/zkE8zQoi+LugnRVIJUssHf0LSbfbOxUHPr+zAbxSvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=nk345Hev; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-224019ad9edso6963635ad.1
+        for <linux-api@vger.kernel.org>; Tue, 18 Mar 2025 17:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1742343336; x=1742948136; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D+sBSgchPHWEySP2bfLrt8df0wwyowAu2mvbj20TByA=;
+        b=nk345HevUR7Q//BQX4OH2ApWTTxQWu7RzOO4UWTlq6Z+7yBat+zUay0hQOo3Xq9cUS
+         tr5tXyf2nFLDLxF3AWvhvuxljTtoNpPXFx5wJv+rdsQUjMXb9wlz/ap314zIRJTxT0wc
+         guhhaJT2dEcojI086aYopFnWAV51/HgX8zp+k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742343336; x=1742948136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D+sBSgchPHWEySP2bfLrt8df0wwyowAu2mvbj20TByA=;
+        b=N2tzaeXZBje0u9kN/w0QV14EPIwv+LCTfL6vt4FnsxfLPEzm7yauOWkv3nEG1eJqxj
+         zj76WG9QnVQ51u284uwcntHd21n/593pcLvPMDOL38A4KwjRoke+kbzRo/bg55/oXoao
+         hyiRm8tanBf1mKvmtUrwif3R7kvlmXefc6cJRgwVTHuIG7hhW7UCGJezRkp8vW4FmVcX
+         c8iLIeXTSQMqWSM8djMchvFAYhDkAEh3bVaCq7Q+19nPxWaBBZoq+BN93QgJzg8rHp30
+         XhmZZ/Vm4hBduFGGc6xwHVS7etHFphMTu3zghKup51zUoOuCpyusMA5ozxo5pTpkDZ7+
+         5JCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcaMJlzhXCPMcEgeIlnHrmJ9vp2pIecmiF9vTnwN72bkDknGZaPrkijocnbjD5osBQSM3jjiLZbHk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOSizKPQBns841Zj1ZxN8uW2HjyV6hyR0MGv5UvkJQi53rPeYo
+	UwTrb1DKMR64+n0Oa98Zu8DDvfMobixlGh6JYRPbr0jEqCvsxUspjgc4z+BT5xA=
+X-Gm-Gg: ASbGncv61jN+3oBJp+nWWzmBrI1L/HLqk3E6TJbJWMba0tyUPeTH43/ckaTI+RfEmF2
+	dJiwHa6u8z9jpEkOMU+QSu+kQ7cj2ytjVKHNADo9KmqjuUNddHOemGaTW82RW6WESzgV2YUD9dG
+	Eva9fCmmFAunnTXtaQ0RbN1EHMwCkPvXhqfANkgLKgjdJOJMKYcooXaiTQyuMBmcIZmcc6ScDT6
+	6aPxKLiWaTIkIN/ubQh6weJseA7REJ5fZcJ6i6ZwZs0SGw/pHSEyl7I7/xaAUiO/eKhSd9zFB/r
+	EqbnujvJUFGEFPO+kvLuFXCgIcdwrCocVOONRPwVDsvMVtFHBOyP
+X-Google-Smtp-Source: AGHT+IFUgmcp5ziiDMwrHetBewK21buOCfSn83hSdnwL6/awTXwLICTCoy55xovATS5hzbKk/tpnkQ==
+X-Received: by 2002:a17:902:f646:b0:223:90ec:80f0 with SMTP id d9443c01a7336-22649a3170emr9678415ad.22.1742343336040;
+        Tue, 18 Mar 2025 17:15:36 -0700 (PDT)
+Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a4876sm101281375ad.70.2025.03.18.17.15.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 17:15:35 -0700 (PDT)
+From: Joe Damato <jdamato@fastly.com>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	asml.silence@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	kuba@kernel.org,
+	shuah@kernel.org,
+	sdf@fomichev.me,
+	mingo@redhat.com,
+	arnd@arndb.de,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	tglx@linutronix.de,
+	jolsa@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Joe Damato <jdamato@fastly.com>
+Subject: [RFC -next 00/10] Add ZC notifications to splice and sendfile
+Date: Wed, 19 Mar 2025 00:15:11 +0000
+Message-ID: <20250319001521.53249-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b0b693d-a152-42c0-bb2c-73e705c3c9b0@maowtm.org>
-X-Infomaniak-Routing: alpha
 
-On Mon, Mar 10, 2025 at 12:39:08AM +0000, Tingmao Wang wrote:
-> On 3/8/25 19:07, Mickaël Salaün wrote:
-> > On Thu, Mar 06, 2025 at 03:05:10AM +0000, Tingmao Wang wrote:
-> > > On 3/4/25 19:49, Mickaël Salaün wrote:
-> > > > On Tue, Mar 04, 2025 at 01:13:01AM +0000, Tingmao Wang wrote:
-> > > [...]
-> > > > > +	/**
-> > > > > +	 * @cookie: Opaque identifier to be included in the response.
-> > > > > +	 */
-> > > > > +	__u32 cookie;
-> > > > 
-> > > > I guess we could use a __u64 index counter per layer instead.  That
-> > > > would also help to order requests if they are treated by different
-> > > > supervisor threads.
-> > > 
-> > > I don't immediately see a use for ordering requests (if we get more than one
-> > > event at once, they are coming from different threads anyway so there can't
-> > > be any dependencies between them, and the supervisor threads can use
-> > > timestamps), but I think making it a __u64 is probably a good idea
-> > > regardless, as it means we don't have to do some sort of ID allocation, and
-> > > can just increment an atomic.
-> > 
-> > Indeed, we should follow the seccomp unotify approach with a random u64
-> > incremented per request.
-> 
-> Do you mean a random starting value, incremented by one per request, or
+Greetings:
 
-Yes
+Welcome to the RFC.
 
-> something like the landlock_id in the audit patch (random increments too)?
+Currently, when a user app uses sendfile the user app has no way to know
+if the bytes were transmit; sendfile simply returns, but it is possible
+that a slow client on the other side may take time to receive and ACK
+the bytes. In the meantime, the user app which called sendfile has no
+way to know whether it can overwrite the data on disk that it just
+sendfile'd.
 
-There is no need for that because the supervisor is more privileged than
-the sandbox.
+One way to fix this is to add zerocopy notifications to sendfile similar
+to how MSG_ZEROCOPY works with sendmsg. This is possible thanks to the
+extensive work done by Pavel [1].
 
-> 
-> > 
-> > > 
-> > > > > +};
-> > > > > +
-> > > > > +struct landlock_supervise_event {
-> > > > > +	struct landlock_supervise_event_hdr hdr;
-> > > > > +	__u64 access_request;
-> > > > > +	__kernel_pid_t accessor;
-> > > > > +	union {
-> > > > > +		struct {
-> > > > > +			/**
-> > > > > +			 * @fd1: An open file descriptor for the file (open,
-> > > > > +			 * delete, execute, link, readdir, rename, truncate),
-> > > > > +			 * or the parent directory (for create operations
-> > > > > +			 * targeting its child) being accessed.  Must be
-> > > > > +			 * closed by the reader.
-> > > > > +			 *
-> > > > > +			 * If this points to a parent directory, @destname
-> > > > > +			 * will contain the target filename. If @destname is
-> > > > > +			 * empty, this points to the target file.
-> > > > > +			 */
-> > > > > +			int fd1;
-> > > > > +			/**
-> > > > > +			 * @fd2: For link or rename requests, a second file
-> > > > > +			 * descriptor for the target parent directory.  Must
-> > > > > +			 * be closed by the reader.  @destname contains the
-> > > > > +			 * destination filename.  This field is -1 if not
-> > > > > +			 * used.
-> > > > > +			 */
-> > > > > +			int fd2;
-> > > > 
-> > > > Can we just use one FD but identify the requested access instead and
-> > > > send one event for each, like for the audit patch series?
-> > > 
-> > > I haven't managed to read or test out the audit patch yet (I will do), but I
-> > > think having the ability to specifically tell whether the child is trying to
-> > > move / rename / create a hard link of an existing file, and what it's trying
-> > > to use as destination, might be useful (either for security, or purely for
-> > > UX)?
-> > > 
-> > > For example, imagine something trying to link or move ~/.ssh/id_ecdsa to
-> > > /tmp/innocent-tmp-file then read the latter. The supervisor can warn the
-> > > user on the initial link attempt, and the shenanigan will probably be
-> > > stopped there (although still, being able to say "[program] wants to link
-> > > ~/.ssh/id_ecdsa to /tmp/innocent-tmp-file" seems better than just "[program]
-> > > wants to create a link for ~/.ssh/id_ecdsa"), but even if somehow this ends
-> > > up allowed, later on for the read request it could say something like
-> > > 
-> > > 	[program] wants to read /tmp/innocent-tmp-file
-> > > 	    (previously moved from ~/.ssh/id_ecdsa)
-> > > 
-> > > Maybe this is a bit silly, but there might be other use cases for knowing
-> > > the exact details of a rename/link request, either for at-the-time decision
-> > > making, or tracking stuff for future requests?
-> > 
-> > This pattern looks like datagram packets.  I think we should use the
-> > netlink attributes.  There were concern about using a netlink socket for
-> > the seccomp unotification though:
-> > https://lore.kernel.org/all/CALCETrXeZZfVzXh7SwKhyB=+ySDk5fhrrdrXrcABsQ=JpQT7Tg@mail.gmail.com/
-> > 
-> > There are two main differences with seccomp unotify:
-> > - the supervisor should be able to receive arbitrary-sized data (e.g.
-> >    file name, not path);
-> > - the supervisor should be able to receive file descriptors (instead of
-> >    path).
-> > 
-> > Sockets are created with socket(2) whereas in our case we should only
-> > get a supervisor FD (indirectly) through landlock_restrict_self(2),
-> > which clearly identifies a kernel object.  Another issue would be to
-> > deal with network namespaces, probably by creating a private one.
-> > Sockets are powerful but we don't needs all the routing complexity.
-> > Moreover, we should only need a blocking communication channel to avoid
-> > issues managing in-flight object references (transformed to FDs when
-> > received).  That makes me think that a socket might not be the right
-> > construct, but we can still rely on the NLA macros to define a proper
-> > protocol with dynamically-sized events, received and send with dedicated
-> > IOCTL commands.
-> > 
-> > Netlink already provides a way to send a cookie, and
-> > netlink_attribute_type defines the types we'll need, including string.
-> > 
-> > For instance, a link request/event could include 3 packets, one for each
-> > of these properties:
-> > 1. the source file FD;
-> > 2. the destination directory FD;
-> > 3. the destination filename string.
-> > 
-> > This way we would avoid the union defined in this patch.
-> 
-> I had no idea about netlink - I will take a look.  Do you know if there is
-> any existing code which uses it in a similar way (i.e. not creating an
-> actual socket, but using netlink messages)?
+To support this, two important user ABI changes are proposed:
 
-I don't know.
+  - A new splice flag, SPLICE_F_ZC, which allows users to signal that
+    splice should generate zerocopy notifications if possible.
 
-> 
-> I think in the end seccomp-unotify went with an ioctl with a custom struct
-> seccomp_notif due to friction with the NL API [1] - do you think we will
-> face the same problem here? (I will take a deeper look at netlink after
-> sending this.)
-> 
-> (Tycho - could you weigh in?)
-> 
-> [1]: https://lore.kernel.org/all/CAGXu5jKsLDSBjB74SrvCvmGy_RTEjBsMtR5dk1CcRFrHEQfM_g@mail.gmail.com/
+  - A new system call, sendfile2, which is similar to sendfile64 except
+    that it takes an additional argument, flags, which allows the user
+    to specify either a "regular" sendfile or a sendfile with zerocopy
+    notifications enabled.
 
-We need to check if the NLA API could work.  Kees's answer was missing
-explanation.  Otherwise we should get inspiration from fanotify
-messages.
+In either case, user apps can read notifications from the error queue
+(like they would with MSG_ZEROCOPY) to determine when their call to
+sendfile has completed.
 
-> 
-> > 
-> > There is still the question about receiving FDs though. It would be nice
-> > to have a (set of?) dedicated IOCTL(s) to receive an FD, but I'm not
-> > sure how this could be properly handled wrt NLA.
-> 
-> Also, if we go with netlink messages, why do we need additional IOCTLs? Can
-> we open the fd when we write out the message? (Maybe I will end up realizing
-> the reason for this after reading netlink code, but I would )
+I tested this RFC using the selftest modified in the last patch and also
+by using the selftest between two different physical hosts:
 
-It's much easier to have static-sized struct, both for developers and
-for introspection tools (e.g. strace).  However, in this case we also
-would also have variable-lenght data.  See my other reply discussing the
-IOCTL idea.
+# server
+./msg_zerocopy -4 -i eth0 -t 2 -v -r tcp
 
-> 
-> > 
-> > > 
-> > > I will try out the audit patch to see how things like these appears in the
-> > > log before commenting further on this. Maybe there is a way to achieve this
-> > > while still simplifying the event structure?
-> > > 
-> > > > 
-> > > > > +			/**
-> > > > > +			 * @destname: A filename for a file creation target.
-> > > > > +			 *
-> > > > > +			 * If either of fd1 or fd2 points to a parent
-> > > > > +			 * directory rather than the target file, this is the
-> > > > > +			 * NULL-terminated name of the file that will be
-> > > > > +			 * newly created.
-> > > > > +			 *
-> > > > > +			 * Counting the NULL terminator, this field will
-> > > > > +			 * contain one or more NULL padding at the end so
-> > > > > +			 * that the length of the whole struct
-> > > > > +			 * landlock_supervise_event is a multiple of 8 bytes.
-> > > > > +			 *
-> > > > > +			 * This is a variable length member, and the length
-> > > > > +			 * including the terminating NULL(s) can be derived
-> > > > > +			 * from hdr.length - offsetof(struct
-> > > > > +			 * landlock_supervise_event, destname).
-> > > > > +			 */
-> > > > > +			char destname[];
-> > > > 
-> > > > I'd prefer to avoid sending file names for now.  I don't think it's
-> > > > necessary, and that could encourage supervisors to filter access
-> > > > according to names.
-> > > > 
-> > > 
-> > > This is also motivated by the potential UX I'm thinking of. For example, if
-> > > a newly installed application tries to create ~/.app-name, it will be much
-> > > more reassuring and convenient to the user if we can show something like
-> > > 
-> > > 	[program] wants to mkdir ~/.app-name. Allow this and future
-> > > 	access to the new directory?
-> > > 
-> > > rather than just "[program] wants to mkdir under ~". (The "Allow this and
-> > > future access to the new directory" bit is made possible by the supervisor
-> > > knowing the name of the file/directory being created, and can remember them
-> > > / write them out to a persistent profile etc)
-> > > 
-> > > Note that this is just the filename under the dir represented by fd - this
-> > > isn't a path or anything that can be subject to symlink-related attacks,
-> > > etc.  If a program calls e.g.
-> > > mkdirat or openat (dfd -> "/some/", pathname="dir/stuff", O_CREAT)
-> > > my understanding is that fd1 will point to /some/dir, and destname would be
-> > > "stuff"
-> > 
-> > Right, this file name information would be useful.  In the case of
-> > audit, the goal is to efficiently and asynchronously log security events
-> > (and align with other LSM logs and related limitations), not primarily
-> > to debug sandboxed apps nor to enrich this information for decision
-> > making, but the supervisor feature would help here.  The patch message
-> > should include this rationale.
-> 
-> Will do
-> 
-> > 
-> > > 
-> > > Actually, in case your question is "why not send a fd to represent the newly
-> > > created file, instead of sending the name" -- I'm not sure whether you can
-> > > open even an O_PATH fd to a non-existent file.
-> > 
-> > That would not be possible because it would not exist yet, a file name
-> > (not file path) is OK for this case.
-> > 
-> > > 
-> > > > > +		};
-> > > > > +		struct {
-> > > > > +			__u16 port;
-> > > > > +		};
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > 
-> > > > [...]
-> > > 
-> > > 
-> 
+# client (does the sendfiling)
+dd if=/dev/zero of=sendfile_data bs=1M count=8
+./msg_zerocopy -4 -i eth0 -D $SERVER_IP -v -l 1 -t 2 -z -f sendfile_data tcp
+
+I would love to get high level feedback from folks on a few things:
+
+  - Is this functionality, at a high level, something that would be
+    desirable / useful? I think so, but I'm of course I am biased ;)
+
+  - Is this approach generally headed in the right direction? Are the
+    proposed user ABI changes reasonable?
+
+If the above two points are generally agreed upon then I'd welcome
+feedback on the patches themselves :)
+
+This is kind of a net thing, but also kind of a splice thing so hope I
+am sending this to right places to get appropriate feedback. I based my
+code on the vfs/for-next tree, but am happy to rebase on another tree if
+desired. The cc-list got a little out of control, so I manually trimmed
+it down quite a bit; sorry if I missed anyone I should have CC'd in the
+process.
+
+Thanks,
+Joe
+
+[1]: https://lore.kernel.org/netdev/cover.1657643355.git.asml.silence@gmail.com/
+
+Joe Damato (10):
+  splice: Add ubuf_info to prepare for ZC
+  splice: Add helper that passes through splice_desc
+  splice: Factor splice_socket into a helper
+  splice: Add SPLICE_F_ZC and attach ubuf
+  fs: Add splice_write_sd to file operations
+  fs: Extend do_sendfile to take a flags argument
+  fs: Add sendfile2 which accepts a flags argument
+  fs: Add sendfile flags for sendfile2
+  fs: Add sendfile2 syscall
+  selftests: Add sendfile zerocopy notification test
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
+ arch/arm/tools/syscall.tbl                  |  1 +
+ arch/arm64/tools/syscall_32.tbl             |  1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
+ arch/s390/kernel/syscalls/syscall.tbl       |  1 +
+ arch/sh/kernel/syscalls/syscall.tbl         |  1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
+ fs/read_write.c                             | 40 +++++++---
+ fs/splice.c                                 | 87 +++++++++++++++++----
+ include/linux/fs.h                          |  2 +
+ include/linux/sendfile.h                    | 10 +++
+ include/linux/splice.h                      |  7 +-
+ include/linux/syscalls.h                    |  2 +
+ include/uapi/asm-generic/unistd.h           |  4 +-
+ net/socket.c                                |  1 +
+ scripts/syscall.tbl                         |  1 +
+ tools/testing/selftests/net/msg_zerocopy.c  | 54 ++++++++++++-
+ tools/testing/selftests/net/msg_zerocopy.sh |  5 ++
+ 27 files changed, 200 insertions(+), 29 deletions(-)
+ create mode 100644 include/linux/sendfile.h
+
+
+base-commit: 2e72b1e0aac24a12f3bf3eec620efaca7ab7d4de
+-- 
+2.43.0
+
 
