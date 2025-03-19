@@ -1,72 +1,74 @@
-Return-Path: <linux-api+bounces-3386-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3387-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F230A6811C
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 01:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E119BA68129
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 01:16:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 313FA3BAC62
-	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 00:15:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EA873BADFE
+	for <lists+linux-api@lfdr.de>; Wed, 19 Mar 2025 00:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0F617BCE;
-	Wed, 19 Mar 2025 00:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B638528E;
+	Wed, 19 Mar 2025 00:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="nk345Hev"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="c15ZypT8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDADA935
-	for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 00:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E20BEACD
+	for <linux-api@vger.kernel.org>; Wed, 19 Mar 2025 00:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742343338; cv=none; b=PZDrKDXN6amuWbTk+hkwKoxfJgSOhAeinYya7mW5+B1ZItOh+BNTmnv9LtiddYnPh1esmve7fBqJmDWiwLmCoCFkCioA1H5Mw+bSvnHJFNmdqlpLxJQ3Nvuc+F8FOxHwdzh1LqpD09auN6Q1cQligtjBaniarIHDJbjTCGgg2oU=
+	t=1742343341; cv=none; b=UkZ6ly24ceQllWE7n29eim4Hdzt3VLmyE6P0VhawMaC5iAqNW+OrF5SoWm2nsvUSk4mhmOrX9W+c8Rck+VenkCy6TeSpA7Llmr2pyWtI3Aw8kwfDfyeJuF/mZiIfM9hBjn1y8N85bMw6mMbmaqC/B3Sj+oRNxuoPoKLoM2hKaZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742343338; c=relaxed/simple;
-	bh=pHQtgKFyhe1UEM5H1CkXAkQ9ckxP7iar9/3rqYLA8vg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GQFNh92H9PwbzOIIzWTJ7QlBEDB1JKpn9JiubtGJGSSiBjrr/AWswa0VQmeYmPwXUPui2OMNlOHoN7/1A3Pzyusaaqrp2+z0TuPJwXaL15KeNV3JOcF8+6bPx6FYUSN1/zkE8zQoi+LugnRVIJUssHf0LSbfbOxUHPr+zAbxSvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=nk345Hev; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1742343341; c=relaxed/simple;
+	bh=F+Fl+hJmeyq3YWzTs6D9ZDaWGOG6IPUOQDfOlysIeuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DsGWSNN6xm1oqeNbX9Arj6eZQ8a5KEJ2y5ZvSn7mOMp/IeUdAM9a2v5GEn8vDFYUConW1QX8852itwmtugnxrz7NEpmRjjQM8kXDBiJh1vVju5vRnEwcKpO7vop+ZOGLgPbF+TzzPikLI+XJsfmESl+MgdsJh+Nfkq50uQRihq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=c15ZypT8; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-224019ad9edso6963635ad.1
-        for <linux-api@vger.kernel.org>; Tue, 18 Mar 2025 17:15:36 -0700 (PDT)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-300fefb8e06so7127273a91.0
+        for <linux-api@vger.kernel.org>; Tue, 18 Mar 2025 17:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1742343336; x=1742948136; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D+sBSgchPHWEySP2bfLrt8df0wwyowAu2mvbj20TByA=;
-        b=nk345HevUR7Q//BQX4OH2ApWTTxQWu7RzOO4UWTlq6Z+7yBat+zUay0hQOo3Xq9cUS
-         tr5tXyf2nFLDLxF3AWvhvuxljTtoNpPXFx5wJv+rdsQUjMXb9wlz/ap314zIRJTxT0wc
-         guhhaJT2dEcojI086aYopFnWAV51/HgX8zp+k=
+        d=fastly.com; s=google; t=1742343338; x=1742948138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ciean/zWrbirFJ6x0i1/pN9FA0IKn0ZUFy/flQBxt2c=;
+        b=c15ZypT8L1mzw749Vu6yvbOQWTg1d566iXrxBwFUrtc04MkaXhvFKCRKYekK66oUAe
+         hniCMAklfD3Okow66BOahdsnXukn+F4oQMvLgsBOSizEUMOcBMjoBpiUQYnPgv6OUxjM
+         DqbVqJAsPDX3z3pJnmykkXGWnIM9tc5E4SuiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742343336; x=1742948136;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D+sBSgchPHWEySP2bfLrt8df0wwyowAu2mvbj20TByA=;
-        b=N2tzaeXZBje0u9kN/w0QV14EPIwv+LCTfL6vt4FnsxfLPEzm7yauOWkv3nEG1eJqxj
-         zj76WG9QnVQ51u284uwcntHd21n/593pcLvPMDOL38A4KwjRoke+kbzRo/bg55/oXoao
-         hyiRm8tanBf1mKvmtUrwif3R7kvlmXefc6cJRgwVTHuIG7hhW7UCGJezRkp8vW4FmVcX
-         c8iLIeXTSQMqWSM8djMchvFAYhDkAEh3bVaCq7Q+19nPxWaBBZoq+BN93QgJzg8rHp30
-         XhmZZ/Vm4hBduFGGc6xwHVS7etHFphMTu3zghKup51zUoOuCpyusMA5ozxo5pTpkDZ7+
-         5JCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcaMJlzhXCPMcEgeIlnHrmJ9vp2pIecmiF9vTnwN72bkDknGZaPrkijocnbjD5osBQSM3jjiLZbHk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOSizKPQBns841Zj1ZxN8uW2HjyV6hyR0MGv5UvkJQi53rPeYo
-	UwTrb1DKMR64+n0Oa98Zu8DDvfMobixlGh6JYRPbr0jEqCvsxUspjgc4z+BT5xA=
-X-Gm-Gg: ASbGncv61jN+3oBJp+nWWzmBrI1L/HLqk3E6TJbJWMba0tyUPeTH43/ckaTI+RfEmF2
-	dJiwHa6u8z9jpEkOMU+QSu+kQ7cj2ytjVKHNADo9KmqjuUNddHOemGaTW82RW6WESzgV2YUD9dG
-	Eva9fCmmFAunnTXtaQ0RbN1EHMwCkPvXhqfANkgLKgjdJOJMKYcooXaiTQyuMBmcIZmcc6ScDT6
-	6aPxKLiWaTIkIN/ubQh6weJseA7REJ5fZcJ6i6ZwZs0SGw/pHSEyl7I7/xaAUiO/eKhSd9zFB/r
-	EqbnujvJUFGEFPO+kvLuFXCgIcdwrCocVOONRPwVDsvMVtFHBOyP
-X-Google-Smtp-Source: AGHT+IFUgmcp5ziiDMwrHetBewK21buOCfSn83hSdnwL6/awTXwLICTCoy55xovATS5hzbKk/tpnkQ==
-X-Received: by 2002:a17:902:f646:b0:223:90ec:80f0 with SMTP id d9443c01a7336-22649a3170emr9678415ad.22.1742343336040;
-        Tue, 18 Mar 2025 17:15:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742343338; x=1742948138;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ciean/zWrbirFJ6x0i1/pN9FA0IKn0ZUFy/flQBxt2c=;
+        b=oGpL6z8HVPlhc5eK1oASAJqUh7MWDZXQh3KzOlGMgHx8hw6GCsi48ytuWvaotvzDVq
+         rafyTnIvO1wrfRmToHBdom8eoR2tMa7zOL9Jjq4MoblPqnUDXr182Oenw2rWcL1YzqdG
+         mVe1g/ZL60XO/oDglJnhuh3ofkxdZq0mypLcepSwY5r5/u8vyiISOszc91w+J9WWjhNm
+         PV4aExAKiwj0FwofS2ZfW9CAW8jtL5f6ylDbhyFOQOqMyPY6BzgfRpqBmFIGgVglU6Cr
+         4AKT08tJzNEuVRRH+jlBBCzs9mLA9bwSsFmC20LjzTk9jJKBySZ74LZGWiJFX48yndHz
+         JEiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVoAf+2HmkKZJ8Xp0kVmeyAg5/qCvI9Ae66GwzgsW9qTBC4tOvNqfTldDSHanTrWcwHaMIKxOHHzAg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGsXMooLNlCP7khrjy7kwTReTSCi0Eo/Y5uxksk/jEiYklTHNS
+	xP7o8B9mWaxZJnfs8YjRO00MP4yrBGwmNvDPPMFgnBBPLM8CxoL97e8KYNAyNPI=
+X-Gm-Gg: ASbGnct7dWtEDn+r5cyb2btlKIA1ODgOYPNLQRrS+zkMg2oscd0S4CmkLtwAHTk+mLl
+	Fj50oHec0q5FTHPH3qviCHZNe12R/HMPDat//JDxV4M9QyjDzBr/Zq6ecy4TyibtJrCvk/zBnuY
+	/UDMN/Jimzxu0ZZh0c8i06+u2De9WQ68gwmSfr5H+2wn0yBtoi9fi/lfFwy3dZK40iS+ZZUCbAJ
+	REakCwiL2FA2OhZqXQ6jVYj2altb0yPEVdyylgEUptE9u/wXIC8l5owwgROtdqAfy5O8cNH5pzN
+	VJwioodF39PTGPiadlSHIwQs4aj1dgLBwv19zm9S6ZErqOsVIJMDr2l26DD2Dso=
+X-Google-Smtp-Source: AGHT+IHkLC7P0qxfNOZ7am8oGQAhk+QCLx5pooxaYbMLyunCN1d9iFhe6ACMIi4+onLyvuY52I93jw==
+X-Received: by 2002:a17:90b:17c5:b0:2fe:b907:3b05 with SMTP id 98e67ed59e1d1-301be205cfamr891476a91.29.1742343337829;
+        Tue, 18 Mar 2025 17:15:37 -0700 (PDT)
 Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a4876sm101281375ad.70.2025.03.18.17.15.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a4876sm101281375ad.70.2025.03.18.17.15.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 17:15:35 -0700 (PDT)
+        Tue, 18 Mar 2025 17:15:37 -0700 (PDT)
 From: Joe Damato <jdamato@fastly.com>
 To: netdev@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -90,10 +92,12 @@ Cc: linux-kernel@vger.kernel.org,
 	jolsa@kernel.org,
 	linux-kselftest@vger.kernel.org,
 	Joe Damato <jdamato@fastly.com>
-Subject: [RFC -next 00/10] Add ZC notifications to splice and sendfile
-Date: Wed, 19 Mar 2025 00:15:11 +0000
-Message-ID: <20250319001521.53249-1-jdamato@fastly.com>
+Subject: [RFC -next 01/10] splice: Add ubuf_info to prepare for ZC
+Date: Wed, 19 Mar 2025 00:15:12 +0000
+Message-ID: <20250319001521.53249-2-jdamato@fastly.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250319001521.53249-1-jdamato@fastly.com>
+References: <20250319001521.53249-1-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -102,112 +106,34 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Greetings:
+Update struct splice_desc to include ubuf_info to prepare splice for
+zero copy notifications.
 
-Welcome to the RFC.
+Signed-off-by: Joe Damato <jdamato@fastly.com>
+---
+ include/linux/splice.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Currently, when a user app uses sendfile the user app has no way to know
-if the bytes were transmit; sendfile simply returns, but it is possible
-that a slow client on the other side may take time to receive and ACK
-the bytes. In the meantime, the user app which called sendfile has no
-way to know whether it can overwrite the data on disk that it just
-sendfile'd.
-
-One way to fix this is to add zerocopy notifications to sendfile similar
-to how MSG_ZEROCOPY works with sendmsg. This is possible thanks to the
-extensive work done by Pavel [1].
-
-To support this, two important user ABI changes are proposed:
-
-  - A new splice flag, SPLICE_F_ZC, which allows users to signal that
-    splice should generate zerocopy notifications if possible.
-
-  - A new system call, sendfile2, which is similar to sendfile64 except
-    that it takes an additional argument, flags, which allows the user
-    to specify either a "regular" sendfile or a sendfile with zerocopy
-    notifications enabled.
-
-In either case, user apps can read notifications from the error queue
-(like they would with MSG_ZEROCOPY) to determine when their call to
-sendfile has completed.
-
-I tested this RFC using the selftest modified in the last patch and also
-by using the selftest between two different physical hosts:
-
-# server
-./msg_zerocopy -4 -i eth0 -t 2 -v -r tcp
-
-# client (does the sendfiling)
-dd if=/dev/zero of=sendfile_data bs=1M count=8
-./msg_zerocopy -4 -i eth0 -D $SERVER_IP -v -l 1 -t 2 -z -f sendfile_data tcp
-
-I would love to get high level feedback from folks on a few things:
-
-  - Is this functionality, at a high level, something that would be
-    desirable / useful? I think so, but I'm of course I am biased ;)
-
-  - Is this approach generally headed in the right direction? Are the
-    proposed user ABI changes reasonable?
-
-If the above two points are generally agreed upon then I'd welcome
-feedback on the patches themselves :)
-
-This is kind of a net thing, but also kind of a splice thing so hope I
-am sending this to right places to get appropriate feedback. I based my
-code on the vfs/for-next tree, but am happy to rebase on another tree if
-desired. The cc-list got a little out of control, so I manually trimmed
-it down quite a bit; sorry if I missed anyone I should have CC'd in the
-process.
-
-Thanks,
-Joe
-
-[1]: https://lore.kernel.org/netdev/cover.1657643355.git.asml.silence@gmail.com/
-
-Joe Damato (10):
-  splice: Add ubuf_info to prepare for ZC
-  splice: Add helper that passes through splice_desc
-  splice: Factor splice_socket into a helper
-  splice: Add SPLICE_F_ZC and attach ubuf
-  fs: Add splice_write_sd to file operations
-  fs: Extend do_sendfile to take a flags argument
-  fs: Add sendfile2 which accepts a flags argument
-  fs: Add sendfile flags for sendfile2
-  fs: Add sendfile2 syscall
-  selftests: Add sendfile zerocopy notification test
-
- arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
- arch/arm/tools/syscall.tbl                  |  1 +
- arch/arm64/tools/syscall_32.tbl             |  1 +
- arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
- arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
- arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
- arch/s390/kernel/syscalls/syscall.tbl       |  1 +
- arch/sh/kernel/syscalls/syscall.tbl         |  1 +
- arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
- arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
- arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
- fs/read_write.c                             | 40 +++++++---
- fs/splice.c                                 | 87 +++++++++++++++++----
- include/linux/fs.h                          |  2 +
- include/linux/sendfile.h                    | 10 +++
- include/linux/splice.h                      |  7 +-
- include/linux/syscalls.h                    |  2 +
- include/uapi/asm-generic/unistd.h           |  4 +-
- net/socket.c                                |  1 +
- scripts/syscall.tbl                         |  1 +
- tools/testing/selftests/net/msg_zerocopy.c  | 54 ++++++++++++-
- tools/testing/selftests/net/msg_zerocopy.sh |  5 ++
- 27 files changed, 200 insertions(+), 29 deletions(-)
- create mode 100644 include/linux/sendfile.h
-
-
-base-commit: 2e72b1e0aac24a12f3bf3eec620efaca7ab7d4de
+diff --git a/include/linux/splice.h b/include/linux/splice.h
+index 9dec4861d09f..7477df3916e2 100644
+--- a/include/linux/splice.h
++++ b/include/linux/splice.h
+@@ -10,6 +10,7 @@
+ #define SPLICE_H
+ 
+ #include <linux/pipe_fs_i.h>
++#include <linux/skbuff.h>
+ 
+ /*
+  * Flags passed in from splice/tee/vmsplice
+@@ -43,6 +44,7 @@ struct splice_desc {
+ 	loff_t *opos;			/* sendfile: output position */
+ 	size_t num_spliced;		/* number of bytes already spliced */
+ 	bool need_wakeup;		/* need to wake up writer */
++	struct ubuf_info *ubuf_info;    /* zerocopy infrastructure */
+ };
+ 
+ struct partial_page {
 -- 
 2.43.0
 
