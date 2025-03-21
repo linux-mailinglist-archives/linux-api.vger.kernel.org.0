@@ -1,151 +1,189 @@
-Return-Path: <linux-api+bounces-3434-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3435-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DF8A6C48E
-	for <lists+linux-api@lfdr.de>; Fri, 21 Mar 2025 21:51:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC72A6C526
+	for <lists+linux-api@lfdr.de>; Fri, 21 Mar 2025 22:28:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A418E3B3CD2
-	for <lists+linux-api@lfdr.de>; Fri, 21 Mar 2025 20:51:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 54835189E591
+	for <lists+linux-api@lfdr.de>; Fri, 21 Mar 2025 21:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A718B230BD2;
-	Fri, 21 Mar 2025 20:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E58232367;
+	Fri, 21 Mar 2025 21:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYk8PV1U"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="rFDwWK0a"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26FA1E9B32;
-	Fri, 21 Mar 2025 20:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA82231A5F
+	for <linux-api@vger.kernel.org>; Fri, 21 Mar 2025 21:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742590253; cv=none; b=QrFL3P7tiQy8CQ187FvGR49YHt4iI4UvRd29F0104pBLS8wgSfHYR1iGcEH59bgit+hNzkQYX1J1Kfzxf1q03YQ3ZMLyxogVUyNRPJHNc6LMUoJKh6/hTY18C9ZCElVPwSkPI7AtnDEzu3HzIJShUWsiCp88ZAx69iwnO/TVhMg=
+	t=1742592501; cv=none; b=AYJmtpEOO5qrNdVj577fUe8Uv1C45f56Al4OM1gi0hbcLL4UHCTRxEfSDaYJLIGr4EvU8MBFLpUNlMkmkjg/ScDLSdP8xrHcWD6sry8l5ah3NbNkfBLCOe5tSPS/c5BVBb8lGtW5G9NDJvTHrNOWN9CSkqXFSjGHZnWeTUla9OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742590253; c=relaxed/simple;
-	bh=fvyqCqDcCaEX4mI7phytQuw5UOBiV1RnJVgwLEE5YY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cne4Pgm5KORLInBRRmiyPHgWS7ltjRTk40yCIxNkLzQUveLZppksRh7MMpCC8uZkDnTiFR4i2qub6sYpP1rOyeiWLgdfqU0h2kcQiRQJPyFnWmqbS8gQLx362fKqGmFLHq8JciKyg1rl6NQdIcWTKjDkmAlXmXdW3tRVkpZIidI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYk8PV1U; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2c663a3daso481684766b.2;
-        Fri, 21 Mar 2025 13:50:51 -0700 (PDT)
+	s=arc-20240116; t=1742592501; c=relaxed/simple;
+	bh=qXj971FSFP/wOZUPcfSsBiuTp/DvOZnX2IFBROliFJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QPA3bPbU0aMGJKWC+Fgs+vXjvaUGLPeLngxJ5Ldm+7Tjx9OIn6urouBdjfQmouQHPCej4mMgHnn73Vv31zatSDHa51FbrTDx/yVZFSfWSso36d5tbTL3OnEm6li8pWznHwTRETi7g6ynTJIPbP80C6hy+pDAE17tlWry9xrIIkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=rFDwWK0a; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22423adf751so50985895ad.2
+        for <linux-api@vger.kernel.org>; Fri, 21 Mar 2025 14:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742590250; x=1743195050; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JEdzPwVO0oWNN0wAc8zMe+O8cay5/vcOYcIsMyGQbi4=;
-        b=GYk8PV1UK2TdMhedUDB6F0q0vxX4SLyPLCfdY4Z2wL3aqqBmyX48qNfmMbdf/XN0jf
-         IJGJUm5TjWugDm/2E9EHMySYSR1Ry4yDUM4hjG99FUrUi/it5XwNmGqr5TZroEzbiQPC
-         P7wlkU33o78BnPrhSXJX1CQxpX/3Znf47T7SfOsUc7C19+oM8vDlDaI7LIIPNjZtS1s9
-         SKagdYwsUXxFhkEOnotvGT6bvEHBjpWJnJC2wKs5ZxfkJrb5zmXHCx70+B5gigqjDPVp
-         Z95BHgqkVm/puSDaGo/0psT76NROHWsjoTNBfOkj71wclwvM3z0D55SgW+yXN8ZiCobw
-         WlFA==
+        d=fastly.com; s=google; t=1742592499; x=1743197299; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qXTCW1lYI/NO5ybgxR6jIW3fidKxOfziUSy+malvYvc=;
+        b=rFDwWK0avfNl2NXF/Sm0Tagbux0abRnzSNOxgj+WraKAiZfbGSb4JJVF5QP7dqmZat
+         /g/aOJHETXEcyx+Vh4kNiV5hNc9m4Fxxh42XDwIKQPrFvrLCyHwXRQblSjNucTbQRnw6
+         f08J7WmZ1APGQii0GT/oLDh/wAlOlP+Jz2E7s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742590250; x=1743195050;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1742592499; x=1743197299;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JEdzPwVO0oWNN0wAc8zMe+O8cay5/vcOYcIsMyGQbi4=;
-        b=KDsx7xFkF+jwrO+LKlMovabfzZED/JO/D7bRI/do+kqFonbmf5ggvzAmgdzSzpTdmP
-         yYNc/Qs1XJm9rfkA+pd0QMzI9tCGRkaWb7vSC5nmBhGV5GOyLVmw8HtNXrjZ2CupK9xj
-         1b+yJhhRTnd/3nvNbMkWw8UPSI27SiuHuw36SAL3TPn2ZLuBCqrr5bzdelGDjaBA0nqy
-         kv0GHC1HIPhGISqO2ZLJTmk+jliFtGPtR3FwrYt23uPS8e7S9afNhzmkNnnYZ3/WNUEB
-         sG7Tq/WZM3IPpStVDzLRJZWg9+MtVLQ0jwgCNJ62m7mjj1WV6Lz/0YbmAeQ/zJO4cjJp
-         qCWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUO2vFSc9qJB3YB3KWwNWy0xwL+ABoEHQFZohEY6M00kIjbUU65wz1KMVIQ5nIGRMrh2Cy0aComS/eHLqOR@vger.kernel.org, AJvYcCUkkfrg5NQ260XxSytz8LJUP7H7vCE91Bh1wHPw0YKLta/EuFPZH3wQKLl0wv/nFhwiylXPJmTc@vger.kernel.org, AJvYcCVG4WmbyQKcrHo+8Rz42xv/+JjoZF5N9hAvXfEwpb/RrwtezWWPDXETAhoCKq9GLbvJbsGseXLPY714CQ==@vger.kernel.org, AJvYcCVP8P8V2drOUAOnnnyXCzGAfQ9jTU3MA6p151JqWwRoMsys+3fmwsICVDGrLtTCT4aDRkJAHWapZ+6DhmLj6Q==@vger.kernel.org, AJvYcCW55ufPwODavjErm0kf4aWFWeb/4NLlOwbdmiYVam4zGlf2gHMobKqD4TqaZSlR2Ow9fTSw05W1lg9UhciUKrXw@vger.kernel.org, AJvYcCWIFc9/3RHrpDKgNN6dNYeh/ar4WHBj7/nJLOn0j+UyjlGvSP1R+vol9pzH2jgm8Q8Y+/lTxqreJ5s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKctUmZ7TJnD/805WILrckjv5l3Tspsj94Bw8xVN4iHelThGxZ
-	4UwakOQgQSYZK6CBBvbqVITJlsmr3as+ERSCMyO/xfCQjNhEWOPs
-X-Gm-Gg: ASbGncuokCnw8Dd7FkPt3FUimGmMRImVi3ED3mgyZuCgjZX577UOybCrPpcGRLHrnwW
-	MQopRMaebFpizgZ0pf04Cq6JEG2dL4Tk/oFvJbKo2qFjABoLPxJv4n2kvpw7O9VJDOExcwjm17w
-	WnaSxoahNJDeWKwsGUCfPBAtiVHETVFJ49V9YqqPaDwsIv8oofTKkQ8CWigqlEGqapuOt0OVSUj
-	REnZATjLiYB9pU1kv+xvk8VRRtDloIKbVxdjwnqPnlscqMr3SXlrdPNqHdu8fasMqLpICnacSTo
-	hvPo8p/oFk/c4XpkqzXzb77yls4npRS8uj6D4jzNtn7nEu8HllFYQg==
-X-Google-Smtp-Source: AGHT+IFnVEhxSIgWde7XpMHbJeBcjFQtRapjJMQGPcFXYnPNvOU7oIf092XK7zlewafDkwDIpcyxag==
-X-Received: by 2002:a17:907:7ea7:b0:ac4:4c9:c044 with SMTP id a640c23a62f3a-ac404c9c637mr147567866b.15.1742590249590;
-        Fri, 21 Mar 2025 13:50:49 -0700 (PDT)
-Received: from [192.168.8.100] ([85.255.236.254])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3efbd3d3esm211035166b.130.2025.03.21.13.50.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 13:50:48 -0700 (PDT)
-Message-ID: <f7c5a71e-b935-4e87-aa9a-e404b9a0bca0@gmail.com>
-Date: Fri, 21 Mar 2025 20:51:41 +0000
+        bh=qXTCW1lYI/NO5ybgxR6jIW3fidKxOfziUSy+malvYvc=;
+        b=lMgm3gGwJzd9jS3AZtWjBffjnt0Pp16q9RuA6vkB75rO1bm/0GVrtIOVXHryreCEil
+         8W/Nl+5wc0/YCSLTgYn/LxOaNgXwHjmUSDzgg9ZqbXtKxLpdKzYBMvMurrfVwrnT9SVC
+         CmoyuWuYw4kCjkjf3pqgWnl7HxQnZfZrDHAukzlVEFx/gxB5IJ61m4OLefWX5ZP7z8x/
+         jvapNLErTtl1Pa+JVQ3M3GOBBxZmuHu/rHGp4ux/5o9docHUbIBgFLALB7SfK9bzhWVd
+         M3dAcugFJ22ZsOpBiu076wCFqJE2Lmz9J8irJCYHPFiJ2gulm6mwX9C1oVj2vWbpakou
+         bCaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPaTgyq2vx22GEmCdPYmGOFbo8rj6fcPpfLBs3blcJkwVVaKJtaEjIXODryAjrdAZLLnskydL7XrU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGFhlWfJWNAO5n5Hve1D7cj2M+Neh4/KqVzdX3qUlCD5y0BhdA
+	xDfyuiKxVdN/4hgOGprj+bf4ejleNmTIC+CnnpP1PPW67lOsnLDHobKDlZdO+KM=
+X-Gm-Gg: ASbGncsg3PJOBV7CgVhbV6mrxUr5pm87DXLKNFN9cUEKtb7J+CHDqHIMpQjj6j0UzoI
+	BH6XVqQQgUu535OFg4BlGvlNkc9ucF5U2kfXcwZrqdoc1IpXVX4ojSgeaOhS11WBZqFhq7/OpLY
+	KFoNjdvZhLF57QY0g85MWY3trP9RbXv/qg8Hzah6aUfM3+VeNNk6uBhCW3Y74DLRDQYLMsoyNbh
+	iviijuolldnC+90nLkO7RNi0RSDviRGR+ACRr9CLb7DCs/tc6trW0fpRp7k/lr/pzR6/R5hTZpw
+	9Y19BJkiAPsY4mSXQ0BEmZoQUDe1xQ9zromj86l3hy4/W9RDWxwvtGYdRIf5kkrUQNE308xEYee
+	Qd5opVPh6xVxd7fus8Y7s6LwvR+s=
+X-Google-Smtp-Source: AGHT+IFQHiH1Q74zGSjuGJPSwRB6B0nITzjFmSBxRdVQxaFhw5xJuOEQUfZo/n55kU3kKM/0M7AFag==
+X-Received: by 2002:a17:903:2cb:b0:221:78a1:27fb with SMTP id d9443c01a7336-22780c50872mr79615365ad.11.1742592499418;
+        Fri, 21 Mar 2025 14:28:19 -0700 (PDT)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2278120a552sm22391275ad.256.2025.03.21.14.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 14:28:18 -0700 (PDT)
+Date: Fri, 21 Mar 2025 14:28:15 -0700
+From: Joe Damato <jdamato@fastly.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asml.silence@gmail.com,
+	linux-fsdevel@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, horms@kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	kuba@kernel.org, shuah@kernel.org, sdf@fomichev.me,
+	mingo@redhat.com, arnd@arndb.de, brauner@kernel.org,
+	akpm@linux-foundation.org, tglx@linutronix.de, jolsa@kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC -next 00/10] Add ZC notifications to splice and sendfile
+Message-ID: <Z93Z73vG9NYUNQtE@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asml.silence@gmail.com, linux-fsdevel@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, kuba@kernel.org,
+	shuah@kernel.org, sdf@fomichev.me, mingo@redhat.com, arnd@arndb.de,
+	brauner@kernel.org, akpm@linux-foundation.org, tglx@linutronix.de,
+	jolsa@kernel.org, linux-kselftest@vger.kernel.org
+References: <Z9r5JE3AJdnsXy_u@LQ3V64L9R2>
+ <19e3056c-2f7b-4f41-9c40-98955c4a9ed3@kernel.dk>
+ <Z9sCsooW7OSTgyAk@LQ3V64L9R2>
+ <Z9uuSQ7SrigAsLmt@infradead.org>
+ <Z9xdPVQeLBrB-Anu@LQ3V64L9R2>
+ <Z9z_f-kR0lBx8P_9@infradead.org>
+ <ca1fbeba-b749-4c34-b4be-c80056eccc3a@kernel.dk>
+ <Z92VkgwS1SAaad2Q@LQ3V64L9R2>
+ <Z93Mc27xaz5sAo5m@LQ3V64L9R2>
+ <67a82595-0e2a-4218-92d4-a704ccb57125@kernel.dk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC -next 00/10] Add ZC notifications to splice and sendfile
-To: Stefan Metzmacher <metze@samba.org>, Jens Axboe <axboe@kernel.dk>,
- Joe Damato <jdamato@fastly.com>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- viro@zeniv.linux.org.uk, jack@suse.cz, kuba@kernel.org, shuah@kernel.org,
- sdf@fomichev.me, mingo@redhat.com, arnd@arndb.de, brauner@kernel.org,
- akpm@linux-foundation.org, tglx@linutronix.de, jolsa@kernel.org,
- linux-kselftest@vger.kernel.org
-Cc: David Wei <dw@davidwei.uk>
-References: <20250319001521.53249-1-jdamato@fastly.com>
- <Z9p6oFlHxkYvUA8N@infradead.org> <Z9rjgyl7_61Ddzrq@LQ3V64L9R2>
- <2d68bc91-c22c-4b48-a06d-fa9ec06dfb25@kernel.dk>
- <Z9r5JE3AJdnsXy_u@LQ3V64L9R2>
- <19e3056c-2f7b-4f41-9c40-98955c4a9ed3@kernel.dk>
- <Z9sCsooW7OSTgyAk@LQ3V64L9R2>
- <dc3ebb86-f4b2-443a-9b0d-f5470fd773f1@kernel.dk>
- <356ce660-fc2e-4016-a0d9-6896936669c2@samba.org>
- <fbcd759e-2453-4570-a2a0-c9ad67ae9277@gmail.com>
- <0fc1032f-908c-4e59-8f64-f22b380ae639@samba.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <0fc1032f-908c-4e59-8f64-f22b380ae639@samba.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67a82595-0e2a-4218-92d4-a704ccb57125@kernel.dk>
 
-On 3/21/25 07:55, Stefan Metzmacher wrote:
-> Am 20.03.25 um 11:46 schrieb Pavel Begunkov:
->> On 3/19/25 19:15, Stefan Metzmacher wrote:
->>> Am 19.03.25 um 19:37 schrieb Jens Axboe:
->>>> On 3/19/25 11:45 AM, Joe Damato wrote:
->>>>> On Wed, Mar 19, 2025 at 11:20:50AM -0600, Jens Axboe wrote:
->> ...
->>>> My argument would be the same as for other features - if you can do it
->>>> simpler this other way, why not consider that? The end result would be
->>>> the same, you can do fast sendfile() with sane buffer reuse. But the
->>>> kernel side would be simpler, which is always a kernel main goal for
->>>> those of us that have to maintain it.
->>>>
->>>> Just adding sendfile2() works in the sense that it's an easier drop in
->>>> replacement for an app, though the error queue side does mean it needs
->>>> to change anyway - it's not just replacing one syscall with another. And
->>>> if we want to be lazy, sure that's fine. I just don't think it's the
->>>> best way to do it when we literally have a mechanism that's designed for
->>>> this and works with reuse already with normal send zc (and receive side
->>>> too, in the next kernel).
->>>
->>> A few month (or even years) back, Pavel came up with an idea
->>> to implement some kind of splice into a fixed buffer, if that
->>> would be implemented I guess it would help me in Samba too.
->>> My first usage was on the receive side (from the network).
->>
->> I did it as a testing ground for infra needed for ublk zerocopy,
->> but if that's of interest I can resurrect the patches and see
->> where it goes, especially since the aforementioned infra just got
->> queued.
+On Fri, Mar 21, 2025 at 02:33:16PM -0600, Jens Axboe wrote:
+> On 3/21/25 2:30 PM, Joe Damato wrote:
+> > On Fri, Mar 21, 2025 at 09:36:34AM -0700, Joe Damato wrote:
+> >> On Fri, Mar 21, 2025 at 05:14:59AM -0600, Jens Axboe wrote:
+> >>> On 3/20/25 11:56 PM, Christoph Hellwig wrote:
+> >>>>> I don't know the entire historical context, but I presume sendmsg
+> >>>>> did that because there was no other mechanism at the time.
+> >>>>
+> >>>> At least aio had been around for about 15 years at the point, but
+> >>>> networking folks tend to be pretty insular and reinvent things.
+> >>>
+> >>> Yep...
+> >>>
+> >>>>> It seems like Jens suggested that plumbing this through for splice
+> >>>>> was a possibility, but sounds like you disagree.
+> >>>>
+> >>>> Yes, very strongly.
+> >>>
+> >>> And that is very much not what I suggested, fwiw.
+> >>
+> >> Your earlier message said:
+> >>
+> >>   If the answer is "because splice", then it would seem saner to
+> >>   plumb up those bits only. Would be much simpler too...
+> >>
+> >> wherein I interpreted "plumb those bits" to mean plumbing the error
+> >> queue notifications on TX completions.
+> >>
+> >> My sincere apologies that I misunderstood your prior message and/or
+> >> misconstrued what you said -- it was not clear to me what you meant.
+> > 
+> > I think what added to my confusion here was this bit, Jens:
+> > 
+> >   > > As far as the bit about plumbing only the splice bits, sorry if I'm
+> >   > > being dense here, do you mean plumbing the error queue through to
+> >   > > splice only and dropping sendfile2?
+> >   > >
+> >   > > That is an option. Then the apps currently using sendfile could use
+> >   > > splice instead and get completion notifications on the error queue.
+> >   > > That would probably work and be less work than rewriting to use
+> >   > > iouring, but probably a bit more work than using a new syscall.
+> >   > 
+> >   > Yep
+> > 
+> > I thought I was explicitly asking if adding SPLICE_F_ZC and plumbing
+> > through the error queue notifications was OK and your response here
+> > ("Yep") suggested to me that it would be a suitable path to
+> > consider.
+> > 
+> > I take it from your other responses, though, that I was mistaken.
 > 
-> Would be great!
-> 
-> Have you posted the work in progress somewhere?
+> I guess I missed your error queue thing here, I was definitely pretty
+> clear in other ones that I consider that part a hack and something that
+> only exists because networking never looked into doing a proper async
+> API for anything.
 
-Nope apart from a dirty hack I believe I posted back then.
+OK, so then I have no idea what you meant in your earlier response
+with "Yep" :)
 
--- 
-Pavel Begunkov
+Combing everything said amongst a set of emails it sounds like the
+summary is something like:
 
+    A safe, synchronous sendfile can be implemented in userland
+    using iouring, so there is no need to do anything in the kernel
+    at all. At most, some documentation or examples are needed
+    somewhere so people who want a safe version of sendfile know
+    what to do instead.
+
+Is that right?
+
+If so, then great, I guess there is nothing for me to do except
+figure out what documentation or man pages to update.
 
