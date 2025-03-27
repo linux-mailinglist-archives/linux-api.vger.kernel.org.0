@@ -1,268 +1,190 @@
-Return-Path: <linux-api+bounces-3449-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3450-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7D1A7324E
-	for <lists+linux-api@lfdr.de>; Thu, 27 Mar 2025 13:32:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CABEA73E83
+	for <lists+linux-api@lfdr.de>; Thu, 27 Mar 2025 20:26:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 420E37A6E72
-	for <lists+linux-api@lfdr.de>; Thu, 27 Mar 2025 12:31:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3041B18975A8
+	for <lists+linux-api@lfdr.de>; Thu, 27 Mar 2025 19:26:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CACE13C682;
-	Thu, 27 Mar 2025 12:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A58861C5D7C;
+	Thu, 27 Mar 2025 19:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NPoancez";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="q0PRQMJp";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NPoancez";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="q0PRQMJp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QVvBARqG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD1A2144C5
-	for <linux-api@vger.kernel.org>; Thu, 27 Mar 2025 12:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E7F74BE1;
+	Thu, 27 Mar 2025 19:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743078730; cv=none; b=s4TcJ53Mh4Bo+nhbqi8oQrd0p97XI3iD+TlRFQiMly6FkcvIflWkR6eRmMCHPEeyf5vsDiaSoC9+O4J9ZpsAM1HBn9cn3x9qunJn9Qmcem7JggOFjjfKAGREeNp74/XO+zCedK/kQ33gYlBAmiqe7Y396+BidV+9VBQHP/nGj/Q=
+	t=1743103605; cv=none; b=MfngSO+pkZ1KfHN4dXUTOvV7LIGHy7QhF0xA1NfrqzL0t9CwDrknBIU/fAjJRHsfWZ5kZz9h7b0vUdBCU29Td917OVDV9OdH1voEYtwPClnmUIAKwjLytATcNyrb4YQzrzB/KRVnr1eYO1+iQ57kubwU8xBm5dny6PJgyy3CDLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743078730; c=relaxed/simple;
-	bh=Qwf5Jo1BHYvJLfqvwao6j95TasaeAbEnTX2yPLsqNvc=;
+	s=arc-20240116; t=1743103605; c=relaxed/simple;
+	bh=g1CYlQqdxlwZLruKDHJtfRscrIkZVdAluXQtGU8MRKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTcGUf8usoOJTxuiSXL88n6s83PNvksk+5mnJYy0JZ5eByqzViDLJB+l33ghNhsuAIJina1Q6zo8/hMFc1KKaKPrfZNp2GtZoX0z+c0wYKHk72+PJOhIOTdH76zuJIku394QXLL8ZPzVtV9IV8Fq4Oy4kgk0QjQdNVWCKRnMhd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NPoancez; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=q0PRQMJp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NPoancez; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=q0PRQMJp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 58BF41F453;
-	Thu, 27 Mar 2025 12:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1743078726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YZG14QR51a53B21JvKh9jT0ARcAKPuGiQLGnJ/TJfNE=;
-	b=NPoancez8cGcz158aaFuQXkVY/Rk1QSp1PE1iTEKex7C/C6X4QLcYqBAD5m89kw8rjhMNU
-	qLNSQY0CuaoqJZN1TVHH9NoiYdImWpdI1HwDYKNvGJ1GaDOt2WHALfPiUMy1v+/zTFQFpJ
-	P60x1ligl+CU3bHS59kivJz4FrbDU4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1743078726;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YZG14QR51a53B21JvKh9jT0ARcAKPuGiQLGnJ/TJfNE=;
-	b=q0PRQMJpRAwDi+liitWJVrsE7LN8A7E7Cwjwebt1a90Ufw/FNfaGyDh2IYj4ix0C5xBiRH
-	N3Vu1DNqSuDGdnBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=NPoancez;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=q0PRQMJp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1743078726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YZG14QR51a53B21JvKh9jT0ARcAKPuGiQLGnJ/TJfNE=;
-	b=NPoancez8cGcz158aaFuQXkVY/Rk1QSp1PE1iTEKex7C/C6X4QLcYqBAD5m89kw8rjhMNU
-	qLNSQY0CuaoqJZN1TVHH9NoiYdImWpdI1HwDYKNvGJ1GaDOt2WHALfPiUMy1v+/zTFQFpJ
-	P60x1ligl+CU3bHS59kivJz4FrbDU4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1743078726;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YZG14QR51a53B21JvKh9jT0ARcAKPuGiQLGnJ/TJfNE=;
-	b=q0PRQMJpRAwDi+liitWJVrsE7LN8A7E7Cwjwebt1a90Ufw/FNfaGyDh2IYj4ix0C5xBiRH
-	N3Vu1DNqSuDGdnBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CAA4139D4;
-	Thu, 27 Mar 2025 12:32:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RkbMDkZF5WfIPAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 27 Mar 2025 12:32:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EEF6AA082A; Thu, 27 Mar 2025 13:32:05 +0100 (CET)
-Date: Thu, 27 Mar 2025 13:32:05 +0100
-From: Jan Kara <jack@suse.cz>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v4 2/3] fs: split fileattr/fsxattr converters into helpers
-Message-ID: <7por3exi45jfmlprgp6v573n3mwdzoxglzfypygvsocw3x42v4@7wvnedauzi5f>
+	 Content-Type:Content-Disposition:In-Reply-To; b=TemvPxwLw9ysPgvdH9e3SvnkoYicb4zmcrTMgTARNamEMksG8vzirWKXXyt/UNV1TXo8OFLfhdLakRodlCEaBRVOwcCu3Bd8Y7A2YtnFInMv6Hgo/MTFle7NOwreV8k67KdOSJmgBIaY3blyPNC+uOWiRhlgoL42AlfEH/8ijY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QVvBARqG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94481C4CEDD;
+	Thu, 27 Mar 2025 19:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743103605;
+	bh=g1CYlQqdxlwZLruKDHJtfRscrIkZVdAluXQtGU8MRKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QVvBARqGWv0La9m5OD6QDfWqM9kOlX+iu8S7VdV0a3+BiKOoX7iyf19xR8d084NJE
+	 X1zYvhSfbd+RX1TIl/Bfrfc3Q9RStkqq+I33SjeBdL3rbFVYoZ5mFxGK8qI53tgWhG
+	 E6mcP1CgG1E+q44I66ol4u4AHCkZMht3LsXbAsn7vmffwlODEHOCmWg/b+WE6Q9U6/
+	 b02uVG8iTfSg6I2dn4Kk+KUlaD5N37Wo5lJQJSyN3f6Ociw2MEYrLpjJKtxIWJ64j5
+	 opIEUTU1kj8mWi/xXf+XCIv9e+n8yqAy4VDIpHMidzJ06JW9buLjpZU7A5J8P70XMi
+	 M9Nm3l25jb54A==
+Received: by pali.im (Postfix)
+	id 490BC81B; Thu, 27 Mar 2025 20:26:29 +0100 (CET)
+Date: Thu, 27 Mar 2025 20:26:29 +0100
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, selinux@vger.kernel.org,
+	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] fs: introduce getfsxattrat and setfsxattrat
+ syscalls
+Message-ID: <20250327192629.ivnarhlkfbhbzjcl@pali>
 References: <20250321-xattrat-syscall-v4-0-3e82e6fb3264@kernel.org>
- <20250321-xattrat-syscall-v4-2-3e82e6fb3264@kernel.org>
+ <CAOQ4uxjQDUg8HFG+mSxMkR54zen7nC2jttzOKqh13Bx-uosh3Q@mail.gmail.com>
+ <20250323103234.2mwhpsbigpwtiby4@pali>
+ <CAOQ4uxiTKhGs1H-w1Hv-+MqY284m92Pvxfem0iWO+8THdzGvuA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250321-xattrat-syscall-v4-2-3e82e6fb3264@kernel.org>
-X-Rspamd-Queue-Id: 58BF41F453
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLdxgs459xdbsauns6rcjztsec)];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,armlinux.org.uk,arm.com,kernel.org,linux-m68k.org,monstr.eu,alpha.franken.de,hansenpartnership.com,gmx.de,linux.ibm.com,ellerman.id.au,csgroup.eu,users.sourceforge.jp,libc.org,physik.fu-berlin.de,davemloft.net,gaisler.com,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com,zankel.net,zeniv.linux.org.uk,suse.cz,digikod.net,google.com,arndb.de,paul-moore.com,namei.org,hallyn.com,vger.kernel.org,lists.infradead.org,lists.linux-m68k.org,lists.ozlabs.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.01
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxiTKhGs1H-w1Hv-+MqY284m92Pvxfem0iWO+8THdzGvuA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 
-On Fri 21-03-25 20:48:41, Andrey Albershteyn wrote:
-> This will be helpful for get/setfsxattrat syscalls to convert
-> between fileattr and fsxattr.
+On Thursday 27 March 2025 12:47:02 Amir Goldstein wrote:
+> On Sun, Mar 23, 2025 at 11:32 AM Pali Rohár <pali@kernel.org> wrote:
+> >
+> > On Sunday 23 March 2025 09:45:06 Amir Goldstein wrote:
+> > > On Fri, Mar 21, 2025 at 8:50 PM Andrey Albershteyn <aalbersh@redhat.com> wrote:
+> > > >
+> > > > This patchset introduced two new syscalls getfsxattrat() and
+> > > > setfsxattrat(). These syscalls are similar to FS_IOC_FSSETXATTR ioctl()
+> > > > except they use *at() semantics. Therefore, there's no need to open the
+> > > > file to get an fd.
+> > > >
+> > > > These syscalls allow userspace to set filesystem inode attributes on
+> > > > special files. One of the usage examples is XFS quota projects.
+> > > >
+> > > > XFS has project quotas which could be attached to a directory. All
+> > > > new inodes in these directories inherit project ID set on parent
+> > > > directory.
+> > > >
+> > > > The project is created from userspace by opening and calling
+> > > > FS_IOC_FSSETXATTR on each inode. This is not possible for special
+> > > > files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
+> > > > with empty project ID. Those inodes then are not shown in the quota
+> > > > accounting but still exist in the directory. This is not critical but in
+> > > > the case when special files are created in the directory with already
+> > > > existing project quota, these new inodes inherit extended attributes.
+> > > > This creates a mix of special files with and without attributes.
+> > > > Moreover, special files with attributes don't have a possibility to
+> > > > become clear or change the attributes. This, in turn, prevents userspace
+> > > > from re-creating quota project on these existing files.
+> > > >
+> > > > Christian, if this get in some mergeable state, please don't merge it
+> > > > yet. Amir suggested these syscalls better to use updated struct fsxattr
+> > > > with masking from Pali Rohár patchset, so, let's see how it goes.
+> > >
+> > > Andrey,
+> > >
+> > > To be honest I don't think it would be fair to delay your syscalls more
+> > > than needed.
+> >
+> > I agree.
+> >
+> > > If Pali can follow through and post patches on top of your syscalls for
+> > > next merge window that would be great, but otherwise, I think the
+> > > minimum requirement is that the syscalls return EINVAL if fsx_pad
+> > > is not zero. we can take it from there later.
+> >
+> > IMHO SYS_getfsxattrat is fine in this form.
+> >
+> > For SYS_setfsxattrat I think there are needed some modifications
+> > otherwise we would have problem again with backward compatibility as
+> > is with ioctl if the syscall wants to be extended in future.
+> >
+> > I would suggest for following modifications for SYS_setfsxattrat:
+> >
+> > - return EINVAL if fsx_xflags contains some reserved or unsupported flag
+> >
+> > - add some flag to completely ignore fsx_extsize, fsx_projid, and
+> >   fsx_cowextsize fields, so SYS_setfsxattrat could be used just to
+> >   change fsx_xflags, and so could be used without the preceding
+> >   SYS_getfsxattrat call.
+> >
+> > What do you think about it?
 > 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/ioctl.c               | 32 +++++++++++++++++++++-----------
->  include/linux/fileattr.h |  2 ++
->  2 files changed, 23 insertions(+), 11 deletions(-)
+> I think all Andrey needs to do now is return -EINVAL if fsx_pad is not zero.
 > 
-> diff --git a/fs/ioctl.c b/fs/ioctl.c
-> index 4434c97bc5dff5a3e8635e28745cd99404ff353e..840283d8c406623d8d26790f89b62ebcbd39e2de 100644
-> --- a/fs/ioctl.c
-> +++ b/fs/ioctl.c
-> @@ -538,6 +538,16 @@ int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
->  }
->  EXPORT_SYMBOL(vfs_fileattr_get);
->  
-> +void fileattr_to_fsxattr(const struct fileattr *fa, struct fsxattr *fsx)
-> +{
-> +	memset(fsx, 0, sizeof(struct fsxattr));
-> +	fsx->fsx_xflags = fa->fsx_xflags;
-> +	fsx->fsx_extsize = fa->fsx_extsize;
-> +	fsx->fsx_nextents = fa->fsx_nextents;
-> +	fsx->fsx_projid = fa->fsx_projid;
-> +	fsx->fsx_cowextsize = fa->fsx_cowextsize;
-> +}
-> +
->  /**
->   * copy_fsxattr_to_user - copy fsxattr to userspace.
->   * @fa:		fileattr pointer
-> @@ -549,12 +559,7 @@ int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
->  {
->  	struct fsxattr xfa;
->  
-> -	memset(&xfa, 0, sizeof(xfa));
-> -	xfa.fsx_xflags = fa->fsx_xflags;
-> -	xfa.fsx_extsize = fa->fsx_extsize;
-> -	xfa.fsx_nextents = fa->fsx_nextents;
-> -	xfa.fsx_projid = fa->fsx_projid;
-> -	xfa.fsx_cowextsize = fa->fsx_cowextsize;
-> +	fileattr_to_fsxattr(fa, &xfa);
->  
->  	if (copy_to_user(ufa, &xfa, sizeof(xfa)))
->  		return -EFAULT;
-> @@ -563,6 +568,15 @@ int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
->  }
->  EXPORT_SYMBOL(copy_fsxattr_to_user);
->  
-> +void fsxattr_to_fileattr(const struct fsxattr *fsx, struct fileattr *fa)
-> +{
-> +	fileattr_fill_xflags(fa, fsx->fsx_xflags);
-> +	fa->fsx_extsize = fsx->fsx_extsize;
-> +	fa->fsx_nextents = fsx->fsx_nextents;
-> +	fa->fsx_projid = fsx->fsx_projid;
-> +	fa->fsx_cowextsize = fsx->fsx_cowextsize;
-> +}
-> +
->  static int copy_fsxattr_from_user(struct fileattr *fa,
->  				  struct fsxattr __user *ufa)
->  {
-> @@ -571,11 +585,7 @@ static int copy_fsxattr_from_user(struct fileattr *fa,
->  	if (copy_from_user(&xfa, ufa, sizeof(xfa)))
->  		return -EFAULT;
->  
-> -	fileattr_fill_xflags(fa, xfa.fsx_xflags);
-> -	fa->fsx_extsize = xfa.fsx_extsize;
-> -	fa->fsx_nextents = xfa.fsx_nextents;
-> -	fa->fsx_projid = xfa.fsx_projid;
-> -	fa->fsx_cowextsize = xfa.fsx_cowextsize;
-> +	fsxattr_to_fileattr(&xfa, fa);
->  
->  	return 0;
->  }
-> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-> index 47c05a9851d0600964b644c9c7218faacfd865f8..31888fa2edf10050be134f587299256088344365 100644
-> --- a/include/linux/fileattr.h
-> +++ b/include/linux/fileattr.h
-> @@ -33,7 +33,9 @@ struct fileattr {
->  	bool	fsx_valid:1;
->  };
->  
-> +void fileattr_to_fsxattr(const struct fileattr *fa, struct fsxattr *fsx);
->  int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa);
-> +void fsxattr_to_fileattr(const struct fsxattr *fsx, struct fileattr *fa);
->  
->  void fileattr_fill_xflags(struct fileattr *fa, u32 xflags);
->  void fileattr_fill_flags(struct fileattr *fa, u32 flags);
+> You can use this later to extend for the semantics of flags/fields mask
+> and we can have a long discussion later on what this semantics should be.
 > 
-> -- 
-> 2.47.2
+> Right?
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Amir.
+
+It is really enough? All new extensions later would have to be added
+into fsx_pad fields, and currently unused bits in fsx_xflags would be
+unusable for extensions.
 
