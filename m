@@ -1,442 +1,266 @@
-Return-Path: <linux-api+bounces-3492-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3493-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618D4A8AB54
-	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 00:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B583AA8AC21
+	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 01:31:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F9084420B2
-	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 22:36:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBED34428FC
+	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 23:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA58829A3F8;
-	Tue, 15 Apr 2025 22:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67022257AFF;
+	Tue, 15 Apr 2025 23:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ig9yW8xi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hxlq5Ozr"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F07128934F;
-	Tue, 15 Apr 2025 22:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371D01DED7B;
+	Tue, 15 Apr 2025 23:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744756586; cv=none; b=WupjYMOZlc/59mH4LLgjS2k8SfFYvt7KCLwzDmkcGfSEAvYuYar/vQaQzYFy7/rHae7LEekV1qRBq/26xb/v/leXnhjIMwh8eG5NcHo7gLwupncbw6bAlxkmHKz2D6XHuZ2M26+Gct4VngOTDamNPZ1FDZbN4ZDQSCtITLJApZU=
+	t=1744759905; cv=none; b=fh01OXJVORyYsoM539Bu0aXnzdVQFoDZ3ejDnLAgkZ7WhNMl9anorilzs5y4f+YxtRq5qyQ8aoP3Dn3a1GkTxiH6frLMPqYGRB3yuFNF5EW/dJmFmdZ63XE18SVroHTm58b0hFJwavYbxwkFbgVJXiSL/LZyGaaaIjkh4Uhpf08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744756586; c=relaxed/simple;
-	bh=WH9UUYC9KfYUqg0sqxc9yszTOLHLDkGjbDfqpf0VXyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h52R8rRFqx9lk9uRNcmGUxaTW00JMwhIc3IEaxSoEh9JHlCB9DG1vxQiTPg2P7nGDqnLr/x4A+6+W+9VO3/nWkGL6xhigZdUrwy67pxAFWQWNthvRmUjUqhZ/Mg7GfnqcT31Lsc/tSM1K7IUZ1vjn2cXsih/Jc1egGsKBBcOHxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ig9yW8xi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFBFDC4CEE7;
-	Tue, 15 Apr 2025 22:36:25 +0000 (UTC)
+	s=arc-20240116; t=1744759905; c=relaxed/simple;
+	bh=nXgL6F39vpHzkM6e5ZcbHwoBd74utXCYGaGgv0MkesY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Zz4BWkY3liz8gksFT9Ry/+n675iEyHInrF03GC+PWIPCWsb55OVdejKd+O90dAXucCSdDqQg/Yl51YdbuKjqHz+nbDvDGBjU8wW+eWBWH8RjMHjooUPUbOqqOWuVOdaHohroab/2DELQ7MNu9o7TzKQMGi6aV0E67JURsWw+vUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hxlq5Ozr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F818C4CEE7;
+	Tue, 15 Apr 2025 23:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744756586;
-	bh=WH9UUYC9KfYUqg0sqxc9yszTOLHLDkGjbDfqpf0VXyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ig9yW8xiyq/yYI2T+rIi6tW27/MPx3vy+r3c5uLxC2GrFQAK3emXTIpUTY101glIm
-	 2ARQVigqRQuYnGQ9mqzELsA/P8F0pMP/mxu/bMi2nLPAEPpVoMOkcDJkb1sBt7WI8H
-	 3i48eZufU6uxyYa/NBi6EEbW+CZlybo/fIcmNlhMVOo6gdquB32a/udCnQJI/586Sw
-	 3Fuos32s9IQFIqPxgSNQK2UrWNj9zwbXzPVBjuvLrRrTo4ea2olm4eArXn1m+V3YVj
-	 a+tAQAEIS5awDLzGrgc4YrOvZbZ+6G99WKqTGCxOTlFtZ/QwGWY5vvcmY4gdMP4Dnu
-	 G6Zo+zVfiMxsA==
-Date: Tue, 15 Apr 2025 15:36:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: brauner@kernel.org, hch@lst.de, viro@zeniv.linux.org.uk, jack@suse.cz,
-	cem@kernel.org, linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
-	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
-	linux-api@vger.kernel.org
-Subject: [PATCH v7.1 14/14] xfs: allow sysadmins to specify a maximum atomic
- write limit at mount time
-Message-ID: <20250415223625.GV25675@frogsfrogsfrogs>
-References: <20250415121425.4146847-1-john.g.garry@oracle.com>
- <20250415121425.4146847-15-john.g.garry@oracle.com>
+	s=k20201202; t=1744759904;
+	bh=nXgL6F39vpHzkM6e5ZcbHwoBd74utXCYGaGgv0MkesY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Hxlq5OzrL+JbqMUDn0B3iREQqiDJMqT+zjmr1Q2qL6xHodJ7eePWZ76d4l5H2U2OG
+	 JZ6SSxKqUk/PmZ3cX23E9yzWpeSO81KWBSok0D6A3ci8fElrjH3X231w/yZdtQkf4X
+	 ffxrMCTpArgsbcE/idm1z285YJ3/B6Yu0YZRL2aIXXhngWOr59cl/feHk1r9WCtLmm
+	 VqeVWN440ikK53+QZZqC/cq6sAU2uOQQ2WYqEcQMzg+pdDx+fifakPCVEyP5KaUV2Q
+	 TWXCkqhNKQPlZVDLvclZwG8i6i74l2meFqrYYViX/I8lcngX6C0AqWsV1vs+FrbfDb
+	 IoFlFP/KF7H4g==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v16 0/8] fork: Support shadow stacks in clone3()
+Date: Wed, 16 Apr 2025 00:31:07 +0100
+Message-Id: <20250416-clone3-shadow-stack-v16-0-2ffc9ca3917b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250415121425.4146847-15-john.g.garry@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADvs/mcC/3XSwW7cIBCA4VeJfK4rZgYGyKmnPkDVW9UDmCFrJ
+ VpXduS2ivbdi1013gpzNBafzfC/dYvMoyzd48NbN8s6LuN0LQ/AHx664RKuT9KPqSx0qJBAge+
+ Hl+kq1C+XkKaf/fIahuceTNIqYcyGuCs7f8ySx187+6378vlr970sXsbldZp/759aYX/1F0U6R
+ VfoVZ8c26Ri8ZP69CzzVV4+TvPTDq54IAD6HMGCRAbKjh2AMRVCdwiqc4QKEmx0kkgwDEOF6Hv
+ EnSO6IC6iy1l0ZssVYv4hWqFqzMQUhBAH9sY70bFC+EC4NVguiBex1lGEHH2F2AOxBOeI3WbiD
+ aFIzBFShbgDcaoxE1cQFYZMdggZdD1Yf4c04lv9dhzGZHX2XrOuEFB3CjbOA2r7FxZnvY1e67o
+ UeI9Wg1KmwWzVYuCAMXFiAzWDd0xrurB1a8GRRBdFwNYMHUwzF9jK9RSdDw6CkfqW4D1dU6rjB
+ rO3q0w0FLKlk2LAHIxu3Tbs9eaA2gwsFOU/5na7/QEyrti2jwQAAA==
+X-Change-ID: 20231019-clone3-shadow-stack-15d40d2bf536
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ Yury Khrustalev <yury.khrustalev@arm.com>, 
+ Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Kees Cook <kees@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8046; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=nXgL6F39vpHzkM6e5ZcbHwoBd74utXCYGaGgv0MkesY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBn/uxTqFSCMu2ZTWkPMsMjlxvxhVKRG6+uF88Tk8dQ
+ 8vCd3jCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ/7sUwAKCRAk1otyXVSH0FLvB/
+ 9D+Bk3dkt4MKTb1N+r024JxDqTA9YBzIOQgMaeIdasV3dnzcZrKKLHsyMCwAfk1nFmK/KhO3TO4cbd
+ 40tDKbhGY2JemhSitLW1vhLz1GCcQiUCtBA6pgx42+b0KZwwTy7XQTqEIvS7ol6izCYdIrQZ9FeU1I
+ z/ENsydsrCTEnOaI4UP8isdK1yfVOyYQ77WJMyDwLvCkikeISz4FbaZXdgSgpwwnukAGxSs79Ei+jR
+ LlJT9F/5FY5QdVCHJna27l5LdosXFG0FYdveng72CaPw2X7SilNbH0mDyBqIL2f5OJ9JKXQP+DVysT
+ vSA+oo+Im9NenBS86PWLvWkS014J/6
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Darrick J. Wong <djwong@kernel.org>
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-Introduce a mount option to allow sysadmins to specify the maximum size
-of an atomic write.  If the filesystem can work with the supplied value,
-that becomes the new guaranteed maximum.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
-The value mustn't be too big for the existing filesystem geometry (max
-write size, max AG/rtgroup size).  We dynamically recompute the
-tr_atomic_write transaction reservation based on the given block size,
-check that the current log size isn't less than the new minimum log size
-constraints, and set a new maximum.
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process, keeping the current
+implicit allocation behaviour if one is not specified either with
+clone3() or through the use of clone().  The user must provide a shadow
+stack pointer, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with an architecture specified shadow stack
+token at the top of the stack.
 
-The actual software atomic write max is still computed based off of
-tr_atomic_ioend the same way it has for the past few commits.
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET available to me.
 
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-Signed-off-by: John Garry <john.g.garry@oracle.com>
+[1] https://lore.kernel.org/linux-arm-kernel/20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org/T/#mc58f97f27461749ccf400ebabf6f9f937116a86b
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
-v7.1: make all the tweaks I already complained about here
----
- fs/xfs/libxfs/xfs_trans_resv.h    |    2 +
- fs/xfs/xfs_mount.h                |    6 ++++
- fs/xfs/xfs_trace.h                |   33 ++++++++++++++++++++
- Documentation/admin-guide/xfs.rst |   11 +++++++
- fs/xfs/libxfs/xfs_trans_resv.c    |   53 +++++++++++++++++++++++++++++++++
- fs/xfs/xfs_mount.c                |   59 ++++++++++++++++++++++++++++++++++++
- fs/xfs/xfs_super.c                |   60 ++++++++++++++++++++++++++++++++++++-
- 7 files changed, 222 insertions(+), 2 deletions(-)
+Changes in v16:
+- Rebase onto v6.15-rc2.
+- Roll in fixes from x86 testing from Rick Edgecombe.
+- Rework so that the argument is shadow_stack_token.
+- Link to v15: https://lore.kernel.org/r/20250408-clone3-shadow-stack-v15-0-3fa245c6e3be@kernel.org
 
-diff --git a/fs/xfs/libxfs/xfs_trans_resv.h b/fs/xfs/libxfs/xfs_trans_resv.h
-index a6d303b836883f..ea50a239c31107 100644
---- a/fs/xfs/libxfs/xfs_trans_resv.h
-+++ b/fs/xfs/libxfs/xfs_trans_resv.h
-@@ -122,5 +122,7 @@ unsigned int xfs_calc_write_reservation_minlogsize(struct xfs_mount *mp);
- unsigned int xfs_calc_qm_dqalloc_reservation_minlogsize(struct xfs_mount *mp);
- 
- xfs_extlen_t xfs_calc_max_atomic_write_fsblocks(struct xfs_mount *mp);
-+bool xfs_calc_atomic_write_reservation(struct xfs_mount *mp,
-+		xfs_extlen_t blockcount);
- 
- #endif	/* __XFS_TRANS_RESV_H__ */
-diff --git a/fs/xfs/xfs_mount.h b/fs/xfs/xfs_mount.h
-index c0eff3adfa31f6..68e2acc00b5321 100644
---- a/fs/xfs/xfs_mount.h
-+++ b/fs/xfs/xfs_mount.h
-@@ -236,6 +236,9 @@ typedef struct xfs_mount {
- 	bool			m_update_sb;	/* sb needs update in mount */
- 	unsigned int		m_max_open_zones;
- 
-+	/* max_atomic_write mount option value */
-+	unsigned long long	m_awu_max_bytes;
-+
- 	/*
- 	 * Bitsets of per-fs metadata that have been checked and/or are sick.
- 	 * Callers must hold m_sb_lock to access these two fields.
-@@ -798,4 +801,7 @@ static inline void xfs_mod_sb_delalloc(struct xfs_mount *mp, int64_t delta)
- 	percpu_counter_add(&mp->m_delalloc_blks, delta);
- }
- 
-+int xfs_set_max_atomic_write_opt(struct xfs_mount *mp,
-+		unsigned long long new_max_bytes);
-+
- #endif	/* __XFS_MOUNT_H__ */
-diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-index 24d73e9bbe83f4..d41885f1efe25b 100644
---- a/fs/xfs/xfs_trace.h
-+++ b/fs/xfs/xfs_trace.h
-@@ -230,6 +230,39 @@ TRACE_EVENT(xfs_calc_max_atomic_write_fsblocks,
- 		  __entry->blockcount)
- );
- 
-+TRACE_EVENT(xfs_calc_max_atomic_write_reservation,
-+	TP_PROTO(struct xfs_mount *mp, unsigned int per_intent,
-+		 unsigned int step_size, unsigned int blockcount,
-+		 unsigned int min_logblocks, unsigned int logres),
-+	TP_ARGS(mp, per_intent, step_size, blockcount, min_logblocks, logres),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(unsigned int, per_intent)
-+		__field(unsigned int, step_size)
-+		__field(unsigned int, blockcount)
-+		__field(unsigned int, min_logblocks)
-+		__field(unsigned int, cur_logblocks)
-+		__field(unsigned int, logres)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = mp->m_super->s_dev;
-+		__entry->per_intent = per_intent;
-+		__entry->step_size = step_size;
-+		__entry->blockcount = blockcount;
-+		__entry->min_logblocks = min_logblocks;
-+		__entry->cur_logblocks = mp->m_sb.sb_logblocks;
-+		__entry->logres = logres;
-+	),
-+	TP_printk("dev %d:%d per_intent %u step_size %u blockcount %u min_logblocks %u logblocks %u logres %u",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->per_intent,
-+		  __entry->step_size,
-+		  __entry->blockcount,
-+		  __entry->min_logblocks,
-+		  __entry->cur_logblocks,
-+		  __entry->logres)
-+);
-+
- TRACE_EVENT(xlog_intent_recovery_failed,
- 	TP_PROTO(struct xfs_mount *mp, const struct xfs_defer_op_type *ops,
- 		 int error),
-diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-index b67772cf36d6dc..0f6e5d4784f9c3 100644
---- a/Documentation/admin-guide/xfs.rst
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -143,6 +143,17 @@ When mounting an XFS filesystem, the following options are accepted.
- 	optional, and the log section can be separate from the data
- 	section or contained within it.
- 
-+  max_atomic_write=value
-+	Set the maximum size of an atomic write.  The size may be
-+	specified in bytes, in kilobytes with a "k" suffix, in megabytes
-+	with a "m" suffix, or in gigabytes with a "g" suffix.  The size
-+	cannot be larger than the maximum write size, larger than the
-+	size of any allocation group, or larger than the size of a
-+	remapping operation that the log can complete atomically.
-+
-+	The default value is to set the maximum I/O completion size
-+	to allow each CPU to handle one at a time.
-+
-   noalign
- 	Data allocations will not be aligned at stripe unit
- 	boundaries. This is only relevant to filesystems created
-diff --git a/fs/xfs/libxfs/xfs_trans_resv.c b/fs/xfs/libxfs/xfs_trans_resv.c
-index f530aa5d72f552..48e75c7ba2bb69 100644
---- a/fs/xfs/libxfs/xfs_trans_resv.c
-+++ b/fs/xfs/libxfs/xfs_trans_resv.c
-@@ -1475,3 +1475,56 @@ xfs_calc_max_atomic_write_fsblocks(
- 
- 	return ret;
- }
-+
-+/*
-+ * Compute the log reservation needed to complete an atomic write of a given
-+ * number of blocks.  Worst case, each block requires separate handling.
-+ * Returns true if the blockcount is supported, false otherwise.
-+ */
-+bool
-+xfs_calc_atomic_write_reservation(
-+	struct xfs_mount	*mp,
-+	xfs_extlen_t		blockcount)
-+{
-+	struct xfs_trans_res	*curr_res = &M_RES(mp)->tr_atomic_ioend;
-+	unsigned int		per_intent, step_size;
-+	unsigned int		logres;
-+	uint			old_logres =
-+		M_RES(mp)->tr_atomic_ioend.tr_logres;
-+	int			min_logblocks;
-+
-+	/*
-+	 * If the caller doesn't ask for a specific atomic write size, then
-+	 * we'll use conservatively use tr_itruncate as the basis for computing
-+	 * a reasonable maximum.
-+	 */
-+	if (blockcount == 0) {
-+		curr_res->tr_logres = M_RES(mp)->tr_itruncate.tr_logres;
-+		return true;
-+	}
-+
-+	/* Untorn write completions require out of place write remapping */
-+	if (!xfs_has_reflink(mp))
-+		return false;
-+
-+	per_intent = xfs_calc_atomic_write_ioend_geometry(mp, &step_size);
-+
-+	if (check_mul_overflow(blockcount, per_intent, &logres))
-+		return false;
-+	if (check_add_overflow(logres, step_size, &logres))
-+		return false;
-+
-+	curr_res->tr_logres = logres;
-+	min_logblocks = xfs_log_calc_minimum_size(mp);
-+
-+	trace_xfs_calc_max_atomic_write_reservation(mp, per_intent, step_size,
-+			blockcount, min_logblocks, curr_res->tr_logres);
-+
-+	if (min_logblocks > mp->m_sb.sb_logblocks) {
-+		/* Log too small, revert changes. */
-+		curr_res->tr_logres = old_logres;
-+		return false;
-+	}
-+
-+	return true;
-+}
-diff --git a/fs/xfs/xfs_mount.c b/fs/xfs/xfs_mount.c
-index cec202cf7803d8..1eda18dfb1f667 100644
---- a/fs/xfs/xfs_mount.c
-+++ b/fs/xfs/xfs_mount.c
-@@ -737,6 +737,61 @@ xfs_compute_atomic_write_unit_max(
- 			max_agsize, max_rgsize);
- }
- 
-+/*
-+ * Try to set the atomic write maximum to a new value that we got from
-+ * userspace via mount option.
-+ */
-+int
-+xfs_set_max_atomic_write_opt(
-+	struct xfs_mount	*mp,
-+	unsigned long long	new_max_bytes)
-+{
-+	xfs_filblks_t		new_max_fsbs = XFS_B_TO_FSBT(mp, new_max_bytes);
-+
-+	if (new_max_bytes) {
-+		xfs_extlen_t	max_write_fsbs =
-+			rounddown_pow_of_two(XFS_B_TO_FSB(mp, MAX_RW_COUNT));
-+		xfs_extlen_t	max_group_fsbs =
-+			max(mp->m_groups[XG_TYPE_AG].blocks,
-+			    mp->m_groups[XG_TYPE_RTG].blocks);
-+
-+		ASSERT(max_write_fsbs <= U32_MAX);
-+
-+		if (new_max_bytes % mp->m_sb.sb_blocksize > 0) {
-+			xfs_warn(mp,
-+ "max atomic write size of %llu bytes not aligned with fsblock",
-+					new_max_bytes);
-+			return -EINVAL;
-+		}
-+
-+		if (new_max_fsbs > max_write_fsbs) {
-+			xfs_warn(mp,
-+ "max atomic write size of %lluk cannot be larger than max write size %lluk",
-+					new_max_bytes >> 10,
-+					XFS_FSB_TO_B(mp, max_write_fsbs) >> 10);
-+			return -EINVAL;
-+		}
-+
-+		if (new_max_fsbs > max_group_fsbs) {
-+			xfs_warn(mp,
-+ "max atomic write size of %lluk cannot be larger than allocation group size %lluk",
-+					new_max_bytes >> 10,
-+					XFS_FSB_TO_B(mp, max_group_fsbs) >> 10);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (!xfs_calc_atomic_write_reservation(mp, new_max_fsbs)) {
-+		xfs_warn(mp,
-+ "cannot support completing atomic writes of %lluk",
-+				new_max_bytes >> 10);
-+		return -EINVAL;
-+	}
-+
-+	xfs_compute_atomic_write_unit_max(mp);
-+	return 0;
-+}
-+
- /* Compute maximum possible height for realtime btree types for this fs. */
- static inline void
- xfs_rtbtree_compute_maxlevels(
-@@ -1158,7 +1213,9 @@ xfs_mountfs(
- 	 * derived from transaction reservations, so we must do this after the
- 	 * log is fully initialized.
- 	 */
--	xfs_compute_atomic_write_unit_max(mp);
-+	error = xfs_set_max_atomic_write_opt(mp, mp->m_awu_max_bytes);
-+	if (error)
-+		goto out_agresv;
- 
- 	return 0;
- 
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index b2dd0c0bf50979..9f422bcf651801 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -111,7 +111,7 @@ enum {
- 	Opt_prjquota, Opt_uquota, Opt_gquota, Opt_pquota,
- 	Opt_uqnoenforce, Opt_gqnoenforce, Opt_pqnoenforce, Opt_qnoenforce,
- 	Opt_discard, Opt_nodiscard, Opt_dax, Opt_dax_enum, Opt_max_open_zones,
--	Opt_lifetime, Opt_nolifetime,
-+	Opt_lifetime, Opt_nolifetime, Opt_max_atomic_write,
- };
- 
- static const struct fs_parameter_spec xfs_fs_parameters[] = {
-@@ -159,6 +159,7 @@ static const struct fs_parameter_spec xfs_fs_parameters[] = {
- 	fsparam_u32("max_open_zones",	Opt_max_open_zones),
- 	fsparam_flag("lifetime",	Opt_lifetime),
- 	fsparam_flag("nolifetime",	Opt_nolifetime),
-+	fsparam_string("max_atomic_write",	Opt_max_atomic_write),
- 	{}
- };
- 
-@@ -241,6 +242,9 @@ xfs_fs_show_options(
- 
- 	if (mp->m_max_open_zones)
- 		seq_printf(m, ",max_open_zones=%u", mp->m_max_open_zones);
-+	if (mp->m_awu_max_bytes)
-+		seq_printf(m, ",max_atomic_write=%lluk",
-+				mp->m_awu_max_bytes >> 10);
- 
- 	return 0;
- }
-@@ -1334,6 +1338,42 @@ suffix_kstrtoint(
- 	return ret;
- }
- 
-+static int
-+suffix_kstrtoull(
-+	const char		*s,
-+	unsigned int		base,
-+	unsigned long long	*res)
-+{
-+	int			last, shift_left_factor = 0;
-+	unsigned long long	_res;
-+	char			*value;
-+	int			ret = 0;
-+
-+	value = kstrdup(s, GFP_KERNEL);
-+	if (!value)
-+		return -ENOMEM;
-+
-+	last = strlen(value) - 1;
-+	if (value[last] == 'K' || value[last] == 'k') {
-+		shift_left_factor = 10;
-+		value[last] = '\0';
-+	}
-+	if (value[last] == 'M' || value[last] == 'm') {
-+		shift_left_factor = 20;
-+		value[last] = '\0';
-+	}
-+	if (value[last] == 'G' || value[last] == 'g') {
-+		shift_left_factor = 30;
-+		value[last] = '\0';
-+	}
-+
-+	if (kstrtoull(value, base, &_res))
-+		ret = -EINVAL;
-+	kfree(value);
-+	*res = _res << shift_left_factor;
-+	return ret;
-+}
-+
- static inline void
- xfs_fs_warn_deprecated(
- 	struct fs_context	*fc,
-@@ -1518,6 +1558,14 @@ xfs_fs_parse_param(
- 	case Opt_nolifetime:
- 		parsing_mp->m_features |= XFS_FEAT_NOLIFETIME;
- 		return 0;
-+	case Opt_max_atomic_write:
-+		if (suffix_kstrtoull(param->string, 10,
-+				     &parsing_mp->m_awu_max_bytes)) {
-+			xfs_warn(parsing_mp,
-+ "max atomic write size must be positive integer");
-+			return -EINVAL;
-+		}
-+		return 0;
- 	default:
- 		xfs_warn(parsing_mp, "unknown mount option [%s].", param->key);
- 		return -EINVAL;
-@@ -2114,6 +2162,16 @@ xfs_fs_reconfigure(
- 	if (error)
- 		return error;
- 
-+	/* Validate new max_atomic_write option before making other changes */
-+	if (mp->m_awu_max_bytes != new_mp->m_awu_max_bytes) {
-+		error = xfs_set_max_atomic_write_opt(mp,
-+				new_mp->m_awu_max_bytes);
-+		if (error)
-+			return error;
-+
-+		mp->m_awu_max_bytes = new_mp->m_awu_max_bytes;
-+	}
-+
- 	/* inode32 -> inode64 */
- 	if (xfs_has_small_inums(mp) && !xfs_has_small_inums(new_mp)) {
- 		mp->m_features &= ~XFS_FEAT_SMALL_INUMS;
+Changes in v15:
+- Rebase onto v6.15-rc1.
+- Link to v14: https://lore.kernel.org/r/20250206-clone3-shadow-stack-v14-0-805b53af73b9@kernel.org
+
+Changes in v14:
+- Rebase onto v6.14-rc1.
+- Link to v13: https://lore.kernel.org/r/20241203-clone3-shadow-stack-v13-0-93b89a81a5ed@kernel.org
+
+Changes in v13:
+- Rebase onto v6.13-rc1.
+- Link to v12: https://lore.kernel.org/r/20241031-clone3-shadow-stack-v12-0-7183eb8bee17@kernel.org
+
+Changes in v12:
+- Add the regular prctl() to the userspace API document since arm64
+  support is queued in -next.
+- Link to v11: https://lore.kernel.org/r/20241005-clone3-shadow-stack-v11-0-2a6a2bd6d651@kernel.org
+
+Changes in v11:
+- Rebase onto arm64 for-next/gcs, which is based on v6.12-rc1, and
+  integrate arm64 support.
+- Rework the interface to specify a shadow stack pointer rather than a
+  base and size like we do for the regular stack.
+- Link to v10: https://lore.kernel.org/r/20240821-clone3-shadow-stack-v10-0-06e8797b9445@kernel.org
+
+Changes in v10:
+- Integrate fixes & improvements for the x86 implementation from Rick
+  Edgecombe.
+- Require that the shadow stack be VM_WRITE.
+- Require that the shadow stack base and size be sizeof(void *) aligned.
+- Clean up trailing newline.
+- Link to v9: https://lore.kernel.org/r/20240819-clone3-shadow-stack-v9-0-962d74f99464@kernel.org
+
+Changes in v9:
+- Pull token validation earlier and report problems with an error return
+  to parent rather than signal delivery to the child.
+- Verify that the top of the supplied shadow stack is VM_SHADOW_STACK.
+- Rework token validation to only do the page mapping once.
+- Drop no longer needed support for testing for signals in selftest.
+- Fix typo in comments.
+- Link to v8: https://lore.kernel.org/r/20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org
+
+Changes in v8:
+- Fix token verification with user specified shadow stack.
+- Don't track user managed shadow stacks for child processes.
+- Link to v7: https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
+
+Changes in v7:
+- Rebase onto v6.11-rc1.
+- Typo fixes.
+- Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
+
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (8):
+      arm64/gcs: Return a success value from gcs_alloc_thread_stack()
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  44 +++++
+ arch/arm64/include/asm/gcs.h                      |   8 +-
+ arch/arm64/kernel/process.c                       |   8 +-
+ arch/arm64/mm/gcs.c                               |  61 +++++-
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           |  57 +++++-
+ include/asm-generic/cacheflush.h                  |  11 ++
+ include/linux/sched/task.h                        |  17 ++
+ include/uapi/linux/sched.h                        |   9 +-
+ kernel/fork.c                                     |  96 +++++++--
+ tools/testing/selftests/clone3/clone3.c           | 226 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  65 ++++++-
+ tools/testing/selftests/ksft_shstk.h              |  98 ++++++++++
+ 15 files changed, 633 insertions(+), 81 deletions(-)
+---
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
 
