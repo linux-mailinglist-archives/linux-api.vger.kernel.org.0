@@ -1,143 +1,101 @@
-Return-Path: <linux-api+bounces-3483-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3484-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D97A89EAE
-	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 14:56:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE64A8A2DF
+	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 17:36:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4189188E489
-	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 12:56:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F90B1668F9
+	for <lists+linux-api@lfdr.de>; Tue, 15 Apr 2025 15:36:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A70296D1C;
-	Tue, 15 Apr 2025 12:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E3B27F74F;
+	Tue, 15 Apr 2025 15:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKFQTpTO"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V8O48bD1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B5928E61D;
-	Tue, 15 Apr 2025 12:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BEF1F09AF;
+	Tue, 15 Apr 2025 15:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744721792; cv=none; b=BY6U4RNVylTBeAIUTKTAXfWdc8naXWEt9UCW00qSWSSNgrqd2zodJHg16geJL8o7uFDkNJzPJAE6odcjifSAEvNBpxVks0ZfRAf7S7A9KsiJ2WeRPwJJgUIu5ESpQ40JPPbgcg3tbDNbOZ5TkMFkG0ySpIqJ1Ps14yemGXehTuk=
+	t=1744731365; cv=none; b=apaSVX4tuoSehWoRREHHdOtikrwemhFy/s52gamMELEnM11C02rhf976ZpyXbWpcR2IWHj9z7qV3927bDORU82KIvRowPy4WcgWr6Nvx7E069X9uD5DovZhyph8bSqLfIuMGIkA5tsZxtEoXm3hTQEzAUaeabYXiA9YlkppRMdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744721792; c=relaxed/simple;
-	bh=JRDcI9XTL6/McMvP9bm95+ugxrRXAWejJmT4xuEZ0Kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nA0j38sQ/cEmtbRraTAAAQRkYglGb6a+m67lEO5ZwFIResp6jhtcyFze13F6zeAvdXddmhxkb8xfeMBqRxa/LpdXyEQWbn/n6rrBkiPxnOnkTbL/GyYvfh77x9R90WdQEMl2w7s9Dh991ZRO867k68m3zLDqu6r5XxQ84Qj1SKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKFQTpTO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC31C4CEDD;
-	Tue, 15 Apr 2025 12:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744721792;
-	bh=JRDcI9XTL6/McMvP9bm95+ugxrRXAWejJmT4xuEZ0Kc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bKFQTpTOYJTq9Xbi4PMEhhH6FlQ6iSYPS357S2a4IgeH0WZ7YuCStXAjBWTFacPm6
-	 ho1VNMgc66AbfbBZ1J94dSV1qq6F8g6VfWgYUH6GQXOmAjGWnVhywfKh/OceFYCgLb
-	 QNlr6a0wrP2H7GFV7pCwuYhxk4WaIV3pj124FI8TpjRqYEYVHHXwIdO7GOlFRGIFEF
-	 OfvzQ7nXMRdlMStl7bMzakbBpEm+Ik5NCueeQy+S6cLr2+Xbw9/EWx+uy1qa4C4mO6
-	 NXJv0Q9mBg+j6/i7NcsJNsJcbCc0L22yAPufZdkN2ngxHqqZFMkPfzAeKdKBEfeG9E
-	 U7GbztbFaaAIw==
-Date: Tue, 15 Apr 2025 13:56:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"yury.khrustalev@arm.com" <yury.khrustalev@arm.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"wilco.dijkstra@arm.com" <wilco.dijkstra@arm.com>,
-	"kees@kernel.org" <kees@kernel.org>
-Subject: Re: [PATCH RFT v15 4/8] fork: Add shadow stack support to clone3()
-Message-ID: <e0bd1091-0342-447e-a74d-4d2ce01144fa@sirena.org.uk>
-References: <20250408-clone3-shadow-stack-v15-0-3fa245c6e3be@kernel.org>
- <20250408-clone3-shadow-stack-v15-4-3fa245c6e3be@kernel.org>
- <b15bf40b530f74d3339a313e7f5f5cb09205d348.camel@intel.com>
+	s=arc-20240116; t=1744731365; c=relaxed/simple;
+	bh=W/qEKmgYzhiwPl5j8TnuD6Qnqwc+H0JuT1WT0usuDCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Tw+HsHeW5rfUOkkSwNHXfjjRnZ/IXhJaJ470D3VfDYdT9fS+t8MdNNA38ialnAzmgJ2yz/9vN528nTA13Mxcx8jTkw3xGA2X3t/WbmWwQxTEE8YqAnbKmORBoshNQkRLog4Vmy6wEonVg2zAq5ftlypqlFZlWaCpWCH3a4d4e6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V8O48bD1; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=Y5WRKY0PJcWuc/36tZ7KYhFDUz9cW/oiKnyGh3ryV/Q=; b=V8O48bD1Yfzj7zB/z/ntXm/eoW
+	v/gPxeiGNeMQl0++zd5F2Z6yWu64burgeyCuO4vYpoVLnUOzQGlXbkBwl+P22QcFzIWXbD2Wq+vKa
+	z+vDh/OozEfMzGeBJktFI7+jLhxtuZk13kR+y2FdKs26WW6SNro13Lesvuq3cCeXY5Ca+JZAxphfh
+	OvveyOmjOki8vxVNw85a21+EsTFWgix1bkVwOzGARma1KHIPrcK9B8kYvuEfvMnw9vrKkjRHGdpOQ
+	w8vMla1+npAsADURYifIPOl0k2AjW4efrUFv0WMHGiSUqcoIEG9pc0c268PF+O7mI3+YENRMoYtn7
+	MPmeJ7sg==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1u4iKK-00000008kMv-3wcJ;
+	Tue, 15 Apr 2025 15:35:57 +0000
+Message-ID: <bf2ed5d6-0e15-4e18-898e-317f9885099d@infradead.org>
+Date: Tue, 15 Apr 2025 08:35:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AwGzYJdIo8nWtgmb"
-Content-Disposition: inline
-In-Reply-To: <b15bf40b530f74d3339a313e7f5f5cb09205d348.camel@intel.com>
-X-Cookie: 10.0 times 0.1 is hardly ever 1.0.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 14/14] xfs: allow sysadmins to specify a maximum atomic
+ write limit at mount time
+To: John Garry <john.g.garry@oracle.com>, brauner@kernel.org,
+ djwong@kernel.org, hch@lst.de, viro@zeniv.linux.org.uk, jack@suse.cz,
+ cem@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
+ linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ojaswin@linux.ibm.com, ritesh.list@gmail.com, martin.petersen@oracle.com,
+ linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
+ catherine.hoang@oracle.com, linux-api@vger.kernel.org
+References: <20250415121425.4146847-1-john.g.garry@oracle.com>
+ <20250415121425.4146847-15-john.g.garry@oracle.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250415121425.4146847-15-john.g.garry@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---AwGzYJdIo8nWtgmb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Apr 14, 2025 at 06:28:14PM +0000, Edgecombe, Rick P wrote:
+On 4/15/25 5:14 AM, John Garry wrote:
+> diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
+> index b67772cf36d6..715019ec4f24 100644
+> --- a/Documentation/admin-guide/xfs.rst
+> +++ b/Documentation/admin-guide/xfs.rst
+> @@ -143,6 +143,14 @@ When mounting an XFS filesystem, the following options are accepted.
+>  	optional, and the log section can be separate from the data
+>  	section or contained within it.
+>  
+> +  max_atomic_write=value
+> +	Set the maximum size of an atomic write.  The size may be
+> +	specified in bytes, in kilobytes with a "k" suffix, in megabytes
+> +	with a "m" suffix, or in gigabytes with a "g" suffix.
+> +
+> +	The default value is to set the maximum io completion size
 
-> First of all, sorry for not contributing on this since v9. I've had an unusual
-> enormous project conflict (TDX) combined with my test HW dieing.
+Preferably                                      I/O or IO
 
-No worries, there doesn't seem to have been huge urgency on this one :(
+> +	to allow each CPU to handle one at a time.
+> +
 
-> Both fixed in the diff below, but in debugging the off-by-one errors I've
-> realized this implementation wastes a shadow stack frame.
+-- 
+~Randy
 
-I rolled your diff into the series, thanks.
-
-> Do we want this? On arm there is SHADOW_STACK_SET_MARKER, which leaves a marker
-> token. But on clone3 it will also leave behind a zero frame from the CMPXCHGed
-> token. So if you use SHADOW_STACK_SET_MARKER you get two marker tokens. And on
-> x86 you will get one one for clone3 but not others, until x86 implements
-> SHADOW_STACK_SET_MARKER. At which point x86 has to diverge from arm (bad) or
-> also have the double marker frame.
-
-> The below fixes the x86 functionally, but what do you think of the wasted frame?
-> One fix would be to change shadow_stack_pointer to shadow_stack_token, and then
-> have each arch consume it in the normal HW way, leaving the new thread with:
-
->    SSP = clone_args->shadow_stack_token + 8
-
-I think that's a good point with the extra frame, your suggestion is
-sensible.  This didn't translate well when refactoring from specifying
-the extent of the shadow stack.
-
---AwGzYJdIo8nWtgmb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf+V3cACgkQJNaLcl1U
-h9DNCwf/d/78n/7YKAbpKnphufPOLaov4Aev9sMXOF3KDwmLA+ibe20td6Crz1ew
-If3etKclVlGQO0noH/YaRgSDdnddkDQt6RP7F9xEjM2Od2EFPGeSLgiMrLxGJfGz
-BGTwb86QvFglWwg2ohgMAQnMlEMCYJdSibhiid54Lj4iNwPrG/yMF7X4aZ4wJhVn
-mXn4/I+2Nc+sVI8lIPvUar+sXyYweNWcImeBHHy+KL64g6wUWFh8kP7gap6CHjEI
-vPr6UWB3PbD2TGkDzaxjecuLJSDewd78R551z3d60pS+46BEm3+Po28+bgvLrZbx
-ClDJ3HX6nnZtNBytKOSpXs5lG/cHJg==
-=OXqt
------END PGP SIGNATURE-----
-
---AwGzYJdIo8nWtgmb--
 
