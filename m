@@ -1,163 +1,119 @@
-Return-Path: <linux-api+bounces-3503-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3504-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE471A908C7
-	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 18:27:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27952A90956
+	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 18:50:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EA151905FC2
-	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 16:27:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35D7D444D1D
+	for <lists+linux-api@lfdr.de>; Wed, 16 Apr 2025 16:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A0EF212D6C;
-	Wed, 16 Apr 2025 16:26:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6D4E211276;
+	Wed, 16 Apr 2025 16:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAVkrKNC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9VhNfAS"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1EB212D69;
-	Wed, 16 Apr 2025 16:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1B818870C;
+	Wed, 16 Apr 2025 16:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744820810; cv=none; b=I+EsxZvDU7tHaFY5bHgDWYZEZYCz9e9GrgcHrshSxlq4/iyQoMDdFZKQS2pOj5WtBAmA0lbPQyT/zzU5AB5vX29wrOCr2lvLYEBWwNhAp9hNlGxL16rMkJ/GHs5QUTE9KLJ4BDjIdoPjsLINrjt/Ema9Hi1f6j96PBZ2ScJHyNw=
+	t=1744822205; cv=none; b=DCtXqbk85ZkDWWzHON4LvLAkFYsbmvReYtCXjt/S3Jny2IjgKna5TUz7gFBLYBiD151rmXkeT8VD0srCY9stGqMCxA/YIJdRKOwqHSVIkgPHccHl0zP0BIOnVnN8x97Z1cyzD6Pc8Y4/AoKOVkdtZuJErMC2+TWSpUEs/qvxz9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744820810; c=relaxed/simple;
-	bh=RYGOuCC7qfaii7HzSw7mAkhXbeZOScoiAgqxLmoftKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kL3EUtCSgokgVYT5lZQ9JyElhSktr1AVKO70yKZQjrv0dHkt5ijpRabiZQIjalsSnbIwS4f+Uy2FfeMtRV4MUsg1FI09umD0nC5IvBl1OvfIzPDK6W7GpdmkmLhNeE0LI5xnTnqkJdpMEMfotQVWzfXVR+LLWmyqJ8C63/9gOeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAVkrKNC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA67C4CEED;
-	Wed, 16 Apr 2025 16:26:49 +0000 (UTC)
+	s=arc-20240116; t=1744822205; c=relaxed/simple;
+	bh=1+ifTZyI53YM2GlAgIO+mtfpNgSWUgqm+FdbCehVshk=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j/xUFgQf2CVWmiEX38N8FNSXSCkW6GVcffxw8vA/b0E+OIBrFdAoQ+DeSG/VfcSnXJ09JPYihkWFnMksy41/szJ20+fvULvhZf/m2dqeVDZmTHSOjrOyZSbBUtDAGdw0vaXPT2h1JXFPmpqeizoX+j9QBhfRJ90CA/0pJg/pPXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9VhNfAS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6212C4CEE9;
+	Wed, 16 Apr 2025 16:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744820809;
-	bh=RYGOuCC7qfaii7HzSw7mAkhXbeZOScoiAgqxLmoftKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XAVkrKNCwP2vYfhZWMcATIhRkbwS1dCVXvWCnD05O1ekkxGPTF8zXweoSQBwFjexo
-	 qjf9Wwp14Jt1OUMD+GtBi6kO3Crcp8dkvF7c3SNxbvb4M+ZW0BuePMWQZH6rGvKBej
-	 wLZCk2/LkAtfYfymKuipf04MyynDKNmNI5P+PDAJm0AIVSEBssXElV3JQBGuKSrOrG
-	 l+2MRXGhhvi05MK7a5oiDkxZZicr4oMa5lXqCKCa1xAHWOdVScStdjTdUTIUuya5hr
-	 fkb3cekkDXV0N2cT0o2zqYso0b4v1TZrfy9AdDgk4B6ZiYafukL57X9jXZ8XNesnAz
-	 YSGeXiT6ov/yQ==
-Date: Wed, 16 Apr 2025 09:26:49 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: brauner@kernel.org, hch@lst.de, viro@zeniv.linux.org.uk, jack@suse.cz,
-	cem@kernel.org, linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
-	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v7.1 14/14] xfs: allow sysadmins to specify a maximum
- atomic write limit at mount time
-Message-ID: <20250416162649.GJ25675@frogsfrogsfrogs>
-References: <20250415121425.4146847-1-john.g.garry@oracle.com>
- <20250415121425.4146847-15-john.g.garry@oracle.com>
- <20250415223625.GV25675@frogsfrogsfrogs>
- <81f0fe3e-4c1a-497d-b20e-1f8d182ed208@oracle.com>
+	s=k20201202; t=1744822205;
+	bh=1+ifTZyI53YM2GlAgIO+mtfpNgSWUgqm+FdbCehVshk=;
+	h=Date:From:To:Subject:From;
+	b=W9VhNfASEB7fM/Cz84q841fLePLdO4yeUm58f2tNIwFtXAy64jxI5wuaRlZmrgMUI
+	 rRgUNNOd8oxAMPtjlnZQaT6ga1ioDt9O78txcbxVLbPTYPEIC5coUjT9GPbSHNLKse
+	 IJaidwvybajxom7lq2j9wplvZUVRb27g5GHt0ZwjG5g2JesE62flY7er1cwYm9DZVF
+	 NL79wvwwF9fxBSVwTuWfKMZPIYPcviJRuD+Oa1gg/MVlOSAyTOKXCnM6rNvv/BEKcr
+	 a8Cn6Tx1+lfFGTbSQqzZfqc9ZB+5TbeUzLi3806lkDnqj0aea3NEZBnSMEcFUfbFYI
+	 0pUb0uxEJ098w==
+Date: Wed, 16 Apr 2025 18:50:00 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-man@vger.kernel.org
+Subject: newlines in filenames; POSIX.1-2024
+Message-ID: <iezzxq25mqdcapusb32euu3fgvz7djtrn5n66emb72jb3bqltx@lr2545vnc55k>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2lojv22jhdhxnsjb"
 Content-Disposition: inline
-In-Reply-To: <81f0fe3e-4c1a-497d-b20e-1f8d182ed208@oracle.com>
 
-On Wed, Apr 16, 2025 at 11:08:25AM +0100, John Garry wrote:
-> On 15/04/2025 23:36, Darrick J. Wong wrote:
-> 
-> Thanks for this, but it still seems to be problematic for me.
-> 
-> In my test, I have agsize=22400, and when I attempt to mount with
-> atomic_write_max=8M, it passes when it shouldn't. It should not because
-> max_pow_of_two_factor(22400) = 128, and 8MB > 128 FSB.
-> 
-> How about these addition checks:
-> 
-> > +
-> > +	if (new_max_bytes) {
-> > +		xfs_extlen_t	max_write_fsbs =
-> > +			rounddown_pow_of_two(XFS_B_TO_FSB(mp, MAX_RW_COUNT));
-> > +		xfs_extlen_t	max_group_fsbs =
-> > +			max(mp->m_groups[XG_TYPE_AG].blocks,
-> > +			    mp->m_groups[XG_TYPE_RTG].blocks);
-> > +
-> > +		ASSERT(max_write_fsbs <= U32_MAX);
-> 
-> 		if (!is_power_of_2(new_max_bytes)) {
-> 			xfs_warn(mp,
->  "max atomic write size of %llu bytes is not a power-of-2",
-> 					new_max_bytes);
-> 			return -EINVAL;
-> 		}
 
-Long-term I'm not convinced that we really need to have all these power
-of two checks because the software fallback can remap just about
-anything, but for now I see no harm in doing this because
-generic_atomic_write_valid enforces that property on the IO length.
+--2lojv22jhdhxnsjb
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-man@vger.kernel.org
+Subject: newlines in filenames; POSIX.1-2024
+MIME-Version: 1.0
 
-> > +
-> > +		if (new_max_bytes % mp->m_sb.sb_blocksize > 0) {
-> > +			xfs_warn(mp,
-> > + "max atomic write size of %llu bytes not aligned with fsblock",
-> > +					new_max_bytes);
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		if (new_max_fsbs > max_write_fsbs) {
-> > +			xfs_warn(mp,
-> > + "max atomic write size of %lluk cannot be larger than max write size %lluk",
-> > +					new_max_bytes >> 10,
-> > +					XFS_FSB_TO_B(mp, max_write_fsbs) >> 10);
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		if (new_max_fsbs > max_group_fsbs) {
-> > +			xfs_warn(mp,
-> > + "max atomic write size of %lluk cannot be larger than allocation group size %lluk",
-> > +					new_max_bytes >> 10,
-> > +					XFS_FSB_TO_B(mp, max_group_fsbs) >> 10);
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> 
-> 	if (new_max_fsbs > max_pow_of_two_factor(max_group_fsbs)) {
-> 		xfs_warn(mp,
->  "max atomic write size of %lluk not aligned with allocation group size
-> %lluk",
-> 				new_max_bytes >> 10,
-> 				XFS_FSB_TO_B(mp, max_group_fsbs) >> 10);
-> 		return -EINVAL;
+Hi,
 
-I think I'd rather clean up these bits:
+I'm updating the manual pages for POSIX.1-2024.  One of the changes in
+this revision is that POSIX now encourages implementations to disallow
+using new-line characters in file names.
 
-	if (mp->m_ddev_targp->bt_bdev_awu_min > 0)
-		max_agsize = max_pow_of_two_factor(mp->m_sb.sb_agblocks);
-	else
-		max_agsize = mp->m_ag_max_usable;
+Historically, Linux (and maybe all existing POSIX systems?) has allowed
+new-line characters in file names.
 
-and
+I guess there's no intention to change that behavior.  But I should ask.
+I thought of adding this paragraph to all pages that create file names:
 
-	if (mp->m_rtdev_targp && mp->m_rtdev_targp->bt_bdev_awu_min > 0)
-		max_rgsize = max_pow_of_two_factor(rgs->blocks);
-	else
-		max_rgsize = rgs->blocks;
+	+.SH CAVEATS
+	+POSIX.1-2024 encourages implementations to
+	+disallow creation of filenames containing new-line characters.
+	+Linux doesn't follow this,
+	+and allows using new-line characters.
 
-into a shared helper for xfs_compute_atomic_write_unit_max so that we
-use the exact same logic in both places.  But I agree with the general
-direction.
+Are there any comments?
 
---D
 
-> 	}
-> 
-> thanks,
-> John
-> 
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--2lojv22jhdhxnsjb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmf/37AACgkQ64mZXMKQ
+wqm0oA//XdtiN62u+4Hl1dowNTe1wL3mQ4PkoRlVX8HZZ6bKn2veSSENQScZtFRd
+yTmH0XKcz0a7lgbllIX8TwS1ROdCNTwuFBITB/+s8CP4x9vqC0ufEI8l/Ebn9OwG
+acsQ3Jg1sdFdvbHg7997uSMsi1NV+QxzK7DKdP4L5QQGkyohw6PJelYoL7NHeEZr
+HIU84cvqeiihkPoQtXelYCdD5JCC2BJdAtQJOprKEANTH5+Ko9z/yhWKWQ0HsHIe
+IV9PMpnILwtbnh0/n2QtKX1/vTowj8mP3paMm5ov0Uc5mRVUEpe7YIk3MrEHyQj7
+lpyEXF02auuCR2zhLziOdakpuHhxZsxqhdkKJkcskKjdKkMWTLtc/VVwlXyUAT+Z
+01p9LvZMVKwA75BQu6vUnZnSMa7v7HxSuik6M0GqKkfLjUvcPeCGpbdFG8vEeGgl
+KmnRmK6oq57R2myBRLtl+C/qzM7IttO2iBjiE600vk1zHpAzYA28qEn2o9TtsKRK
+kAZhFK9fC9JhbozT2cSNwEBCO3JQ26tnSLBWRiOnFpcaPN8eTpTvyGdxyjCwWecs
+ZDJjt5Ja6enGtDwChmbMYa2WNhdrTNveboHj1um4aD8qONUF3guyV96OBOIw/0Mu
+mTp0CPwj4pNLpMdT4Ah64wox+uduLZ0Cfh8jXoCdQ85c4OCbJfg=
+=7SQM
+-----END PGP SIGNATURE-----
+
+--2lojv22jhdhxnsjb--
 
