@@ -1,135 +1,194 @@
-Return-Path: <linux-api+bounces-3510-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3511-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7BAA948FA
-	for <lists+linux-api@lfdr.de>; Sun, 20 Apr 2025 21:17:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C11A4A94BCA
+	for <lists+linux-api@lfdr.de>; Mon, 21 Apr 2025 06:00:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 058AC3AB8F9
-	for <lists+linux-api@lfdr.de>; Sun, 20 Apr 2025 19:16:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC2791891058
+	for <lists+linux-api@lfdr.de>; Mon, 21 Apr 2025 04:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50D331BCA0F;
-	Sun, 20 Apr 2025 19:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49EEE257455;
+	Mon, 21 Apr 2025 04:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVWROH4M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eruI6xRT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC33F19B5B8;
-	Sun, 20 Apr 2025 19:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4E4257422;
+	Mon, 21 Apr 2025 04:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745176617; cv=none; b=S1/5NrLGYQgUSkSz7pfr90wGlUw5UwP0KROeJvb+bNFYCUrzeEo3PmINnaZUqYzWS2Yp3QQUGX9jmJsPP3ezHoEiHADOtuUclyY6tP09cxWYW60RBIQIwiVgozkq4GzOUYGYmDTWPKyYcTOE2zQ9R1M3pq4/wRCXljJ+ZTfLbak=
+	t=1745208004; cv=none; b=T6KxyrA/bFDnUhewPL/7FwbVzZBR7rNGEHC38u3p4U1xLI5edY/4Rymto5ZafmD9TdDFPVohLWTKA70gK2f1STzGHWYT0UoMq63H2tcSK7hBUxAWXSIhq/n09HY6J31VZS45EtdB37YTbnnbdLCKtJ94inrwZz287m0NY/ahO2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745176617; c=relaxed/simple;
-	bh=bhJ3YWrCT+v6YJ1pnpPZRiRNVL+HYKAjRaKngCmTWVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OWjN0YOX38ZvXIR/W7R92MrWJnjZ2F6Qtk4VwLG1ASw6CLtONTFJZBuzUUY5a/65acyBVB6jYiiYEcGuLkVnI82dBB6PV2WT/7bXwjUfGO30TMtocUXM2ZGDIC2p6X5dNO3yr8oJIELaBjG4qpT0rde6DVeQkJlSqQF5i8Q9NXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVWROH4M; arc=none smtp.client-ip=209.85.215.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f196.google.com with SMTP id 41be03b00d2f7-af548cb1f83so3293566a12.3;
-        Sun, 20 Apr 2025 12:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745176614; x=1745781414; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LPV63PL8/TxpXvMaz1I5ZEE6LMusimG3NpoJZlCfiyg=;
-        b=OVWROH4MEweKcttDOBz5SBtJsoIF21+CfXQTxyhKe6K86OD4EYoAyuCKzT9j+5GGb0
-         lzwl4ltgdoGaAi8fqPaT+TTF8xyyOtBK3AR+byo7+WxubCXMvyMsfyLCOZ9ucJHIuYxE
-         /eTpUf9ZhdO9UQPqQz+egDTFVc1K4koinOiiGNOQpopeH0MLR2Ay4LBoW0gRt8+6MGne
-         +DWq6l3TEP8pL7MfPdCeOv3GVRmK6CUF5sQViU3UOxw080RQL35u3RHsZMsn/i175Tk/
-         XIEECCpbjL6S3fLzUpd5PGTQciVRvFwOxZwe7nafTpGjLamsYwlOaiaVxkFnj91jsdnf
-         5vzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745176614; x=1745781414;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LPV63PL8/TxpXvMaz1I5ZEE6LMusimG3NpoJZlCfiyg=;
-        b=xSzEyDGWCAjyXwJb8uI/diMcsfZPwnsTyqIXXzcWBWgSh4vkLwDSON+OzZ31mBk7px
-         PNbEOv3FnFKQfUBKVnIZbBayn2pHNUgWUXmCZaYoo+JzAV3u3TyimbAiaNo0ZpWDJ6eP
-         eXaos4CN3IW0nwmIysxACdKMZEagIV3qdazbwGRTrmil9petfivkC+2nv6981kbb54qw
-         d0wfp06PHy6tuYYQrUm1ETMQK5P917nxnEB1TlKt9S82a2Hpccm5uTZYE8bHLf7/m9qo
-         s31uMhogY1NdfrWaKy/BBoAOs5HtjwdW+hfvsA+FLJKWTAddepjJrWaEOmJF8Yen7iog
-         xq0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVynUxyPecZXCISaqLUg3BL0G9Rf8SGBzH+coDjKlDpLLuAYGNHmToDdZ3uN2lp4tMd+0v84gOJ5lg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFwD3OQMicSN1kgyX9zAVUNm6Pehab5xefFwG1ICIEKZPNutGh
-	ztM0K3X79XQNsD79NalOpXtj/b4PWlIuKPpKRvDrHSNXhj3o9BAY
-X-Gm-Gg: ASbGnctT0tnafHmRmUsz5veAtMBPFwU8DjIawhmH7eeXGNzts8oobeUUkdazPtCM2V2
-	PrqxZV9tWTulwCTF9OV7uUWDS6c2CHBfYZEDYwdRrFk0GDCFGLjtrmUVYY57hEhNP4nVpoSP4Ph
-	FGg/kc84NNRjczIgBzNNSGXMSDjP+8zSSPmSaYYHMTW1fOAyDIj6mS/u283Y9lSksrZA/QoVSbK
-	IJujU1fawxtk0N2XpxcfIY95aKNafF9KtgnplOXT9jpwGz6dPBe2tG+XtcGaBG+hyOvckWyKpVm
-	3mrQpMu8/6t4bnVgHDtdCt9CpyF6H3U4calpqS9m8PylQRBD8d9jGkE=
-X-Google-Smtp-Source: AGHT+IGnR7hgaghygtJs6vKtnNOpzDkaKShg7ztYy8QA3/llrsiMnapfAu1K779wyAELBd5PlVLOhw==
-X-Received: by 2002:a17:902:d545:b0:22c:33b2:e420 with SMTP id d9443c01a7336-22c53285a12mr121863515ad.7.1745176613899;
-        Sun, 20 Apr 2025 12:16:53 -0700 (PDT)
-Received: from localhost.localdomain ([121.171.113.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50eb48ebsm50944015ad.122.2025.04.20.12.16.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Apr 2025 12:16:53 -0700 (PDT)
-From: devhoodit <devhoodit@gmail.com>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	devhoodit <devhoodit@gmail.com>,
-	Carlos O'Donell <carlos@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and CLONE_NEWUSER flag
-Date: Mon, 21 Apr 2025 04:16:03 +0900
-Message-ID: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1745208004; c=relaxed/simple;
+	bh=RW11lH/vgZHjN0mrmXY31n6A+FJGXzaLFXSDkuu3JhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qxpDjYsHPPeuy0VTbb0oEzyv7DjN8JzAUtrpjDmI9iblnS0AHeHxGlT8Xe+YgKXLZSGAfp5UHCGyfxRNXRSz7uCbzjdaz5AzMpmc7z2K8kYnrNJWZqh8cjByzzBZ0g8Gmz4Va85JjnAVJLSOkgaypotEEFh8d1jv/lgf3TI7lDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eruI6xRT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 776C2C4CEEB;
+	Mon, 21 Apr 2025 04:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745208003;
+	bh=RW11lH/vgZHjN0mrmXY31n6A+FJGXzaLFXSDkuu3JhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eruI6xRT0hI3rN17Hfjkve1biEZD3zMDpyRPPNuGgED/1kYdIk4M15eqoZl8ABBgv
+	 mfdRfOybmACfFl85C7b0M6MzK8rbHXnzVrweWDm0QDBMHnrNYfapjpr82Hbet3ckE6
+	 IlGsMeb01/zjSDKI+B43tHwVaQtRtXM7r7obyR4mG8OVuVtQ7kwzKfcEWPyCaueRqO
+	 6sM0gAh/dfTyTcFvwoeguYBtdG87SdzzdqRgBF23d/mVaCsXxfXx7dQTge11nZYGN3
+	 yRIJp+H9l0U5oEvJTEhKGRyyv1dmrtiKWxw3dXd76ONaTsAE5qDohgA0ZTya2lIf4J
+	 OBWKhNQ3p/aFw==
+Date: Sun, 20 Apr 2025 21:00:02 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: brauner@kernel.org, hch@lst.de, viro@zeniv.linux.org.uk, jack@suse.cz,
+	cem@kernel.org, linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v7 11/14] xfs: add xfs_file_dio_write_atomic()
+Message-ID: <20250421040002.GU25675@frogsfrogsfrogs>
+References: <20250415121425.4146847-1-john.g.garry@oracle.com>
+ <20250415121425.4146847-12-john.g.garry@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415121425.4146847-12-john.g.garry@oracle.com>
 
-CLONE_NEWPID and CLONE_PARENT can be used together, but not CLONE_THREAD.  Similarly, CLONE_NEWUSER and CLONE_PARENT can be used together, but not CLONE_THREAD.
-This was discussed here: <https://lore.kernel.org/linux-man/06febfb3-e2e2-4363-bc34-83a07692144f@redhat.com/T/>
-Relevant code: <https://github.com/torvalds/linux/blob/219d54332a09e8d8741c1e1982f5eae56099de85/kernel/fork.c#L1815>
+On Tue, Apr 15, 2025 at 12:14:22PM +0000, John Garry wrote:
+> Add xfs_file_dio_write_atomic() for dedicated handling of atomic writes.
+> 
+> The function works based on two operating modes:
+> - HW offload, i.e. REQ_ATOMIC-based
+> - CoW based with out-of-places write and atomic extent remapping
+> 
+> The preferred method is HW offload as it will be faster. If HW offload is
+> not possible, then we fallback to the CoW-based method.
+> 
+> HW offload would not be possible for the write length exceeding the HW
+> offload limit, the write spanning multiple extents, unaligned disk blocks,
+> etc.
+> 
+> Apart from the write exceeding the HW offload limit, other conditions for
+> HW offload can only be detected in the iomap handling for the write. As
+> such, we use a fallback method to issue the write if we detect in the
+> ->iomap_begin() handler that HW offload is not possible. Special code
+> -ENOPROTOOPT is returned from ->iomap_begin() to inform that HW offload
+> not possible.
+> 
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  fs/xfs/xfs_file.c | 68 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+> 
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index ba4b02abc6e4..81a377f65aa3 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -728,6 +728,72 @@ xfs_file_dio_write_zoned(
+>  	return ret;
+>  }
+>  
+> +/*
+> + * Handle block atomic writes
+> + *
+> + * Two methods of atomic writes are supported:
+> + * - REQ_ATOMIC-based, which would typically use some form of HW offload in the
+> + *   disk
+> + * - COW-based, which uses a COW fork as a staging extent for data updates
+> + *   before atomically updating extent mappings for the range being written
+> + *
+> + */
+> +static noinline ssize_t
+> +xfs_file_dio_write_atomic(
+> +	struct xfs_inode	*ip,
+> +	struct kiocb		*iocb,
+> +	struct iov_iter		*from)
+> +{
+> +	unsigned int		iolock = XFS_IOLOCK_SHARED;
+> +	ssize_t			ret, ocount = iov_iter_count(from);
+> +	const struct iomap_ops	*dops;
+> +
+> +	/*
+> +	 * HW offload should be faster, so try that first if it is already
+> +	 * known that the write length is not too large.
+> +	 */
+> +	if (ocount > xfs_inode_buftarg(ip)->bt_bdev_awu_max)
+> +		dops = &xfs_atomic_write_cow_iomap_ops;
+> +	else
+> +		dops = &xfs_direct_write_iomap_ops;
+> +
+> +retry:
+> +	ret = xfs_ilock_iocb_for_write(iocb, &iolock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	/* Demote similar to xfs_file_dio_write_aligned() */
+> +	if (iolock == XFS_IOLOCK_EXCL) {
+> +		xfs_ilock_demote(ip, XFS_IOLOCK_EXCL);
+> +		iolock = XFS_IOLOCK_SHARED;
+> +	}
+> +
+> +	trace_xfs_file_direct_write(iocb, from);
+> +	ret = iomap_dio_rw(iocb, from, dops, &xfs_dio_write_ops,
+> +			0, NULL, 0);
+> +
+> +	/*
+> +	 * The retry mechanism is based on the ->iomap_begin method returning
+> +	 * -ENOPROTOOPT, which would be when the REQ_ATOMIC-based write is not
+> +	 * possible. The REQ_ATOMIC-based method typically not be possible if
+> +	 * the write spans multiple extents or the disk blocks are misaligned.
+> +	 */
+> +	if (ret == -ENOPROTOOPT && dops == &xfs_direct_write_iomap_ops) {
+> +		xfs_iunlock(ip, iolock);
+> +		dops = &xfs_atomic_write_cow_iomap_ops;
+> +		goto retry;
+> +	}
+> +
+> +out_unlock:
+> +	if (iolock)
+> +		xfs_iunlock(ip, iolock);
+> +	return ret;
+> +}
+> +
+>  /*
+>   * Handle block unaligned direct I/O writes
+>   *
+> @@ -843,6 +909,8 @@ xfs_file_dio_write(
+>  		return xfs_file_dio_write_unaligned(ip, iocb, from);
+>  	if (xfs_is_zoned_inode(ip))
+>  		return xfs_file_dio_write_zoned(ip, iocb, from);
 
-Cc: Carlos O'Donell <carlos@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: devhoodit <devhoodit@gmail.com>
----
- man/man2/clone.2 | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+What happens to an IOCB_ATOMIC write to a zoned file?  I think the
+ioend for an atomic write to a zoned file involves a similar change as
+an outofplace atomic write to a file (one big transaction to absorb
+all the mapping changes) but I don't think the zoned code quite does
+that...?
 
-diff --git a/man/man2/clone.2 b/man/man2/clone.2
-index 1b74e4c92..b9561125a 100644
---- a/man/man2/clone.2
-+++ b/man/man2/clone.2
-@@ -776,9 +776,7 @@ .SS The flags mask
- no privileges are needed to create a user namespace.
- .IP
- This flag can't be specified in conjunction with
--.B CLONE_THREAD
--or
--.BR CLONE_PARENT .
-+.BR CLONE_THREAD .
- For security reasons,
- .\" commit e66eded8309ebf679d3d3c1f5820d1f2ca332c71
- .\" https://lwn.net/Articles/543273/
-@@ -1319,11 +1317,10 @@ .SH ERRORS
- mask.
- .TP
- .B EINVAL
-+Both
- .B CLONE_NEWPID
--and one (or both) of
-+and
- .B CLONE_THREAD
--or
--.B CLONE_PARENT
- were specified in the
- .I flags
- mask.
--- 
-2.49.0
+--D
 
+> +	if (iocb->ki_flags & IOCB_ATOMIC)
+> +		return xfs_file_dio_write_atomic(ip, iocb, from);
+>  	return xfs_file_dio_write_aligned(ip, iocb, from,
+>  			&xfs_direct_write_iomap_ops, &xfs_dio_write_ops, NULL);
+>  }
+> -- 
+> 2.31.1
+> 
+> 
 
