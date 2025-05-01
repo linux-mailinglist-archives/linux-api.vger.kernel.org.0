@@ -1,133 +1,144 @@
-Return-Path: <linux-api+bounces-3632-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3633-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FD1AA644B
-	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 21:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A50AA6465
+	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 21:52:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9E1216DD3B
-	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 19:50:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C069D1703C0
+	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 19:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E3323507E;
-	Thu,  1 May 2025 19:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629A621C190;
+	Thu,  1 May 2025 19:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bpFTZwi5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sp0ZpHah"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F5B23506A
-	for <linux-api@vger.kernel.org>; Thu,  1 May 2025 19:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0514BFA2;
+	Thu,  1 May 2025 19:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746129008; cv=none; b=kCG/KCOgDc0ITlFD8M8n2UFZE1gpc0dBP82EgtfMckaa2M8E/2ERzVC/Lh7qsBXiwoIFCGItKBVlHUSSSw/cOLtwbuCdCPQqGaFUA/8t4SIg2u22HgV8mZzdVoILGmrbc/EFPZ1trd/s/V6JO7uA47Sr8RtvpqNXVU9YdHOIlMk=
+	t=1746129129; cv=none; b=P/1268AM25huWpVAl0DkRjqMxDDvquHPwSFMmelxftppVr9fkfJLYYqDKzVLn0w/o483GNzV3MBVxEXLZrSF2IROJuHGspQntgNnJKL0LuVn5b08ZxQVOMHTgZuU09e+7dZvahqzXhMapA5FXjAg/2rgBWAdhrE1pxps2ZgF8yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746129008; c=relaxed/simple;
-	bh=2+apnvaLBiIzvCpdS7UmoaeaZD+fLMfXuixakTq8zyk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ttDioLIlvsytTqqdKAzQrIBi6oyk4mf7UYMWtJorXkwtJS7uE51njZyLk47ebeVLe8+XlX6y7eQ3DTaXuAb13o3Pq3JFkXP0mdfU/5EvAgfYB+aX9dMY3LQijkNgW7/9OBAlWV5VxNyM5/G8gic3G/Tk3aArCg+wI8ThUylVj10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bpFTZwi5; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-227e2faab6dso10147315ad.1
-        for <linux-api@vger.kernel.org>; Thu, 01 May 2025 12:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746129006; x=1746733806; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WkPY+IyOhaPmE7ksJuei+YjVRdCjQvuKQAGefphhn0=;
-        b=bpFTZwi50S7LXvNlzOnQyeJuZ3GZGCohxBKXiVlskaDx/TglZ6YLxjgD5TbjwYg2OT
-         1vnxEC0B8DsTpdb983vd5QpSGyvSbLC+SNQAxp8ng66soqc2wq0fCcsGFI6hxHs1iPsX
-         p6MBNFfFmKMNp7tYdpNqwiVKJV6PwAupUIwgbPKsb0jPIy+mbE9O1ypO/6nKS7xyh7dX
-         HITdMRVW9o6/OpFntqpsZTb5khSgDcbAZYj9DQUNo7vIaUhCJjD9BRz8MGLn36u6tGAH
-         PjM2TOBNxUJf6KbK49spwKpvFHGv46S3Sxg07b2CeQjefTHSNjsFUN/tr3nNPhfNPmGr
-         AWpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746129006; x=1746733806;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WkPY+IyOhaPmE7ksJuei+YjVRdCjQvuKQAGefphhn0=;
-        b=H7P/0yMtLxPXq8+N1y63YESbv3Rdww/ZUBd/S1h+dqqr5VvaCBQth4dhLRUFVtCORn
-         Kz7iRbE13cPdqd/2cKMCSNo9H11SdpbIn8J2c0q0tr7s0PhKLxG5kZlTRNu+UzuozjSq
-         9XaJjzyayqe/AHG2g4CDkrjFpHxrqQkMkPB7XUawdA3jUQwuu9SR7FDx8i2P4CXANTRO
-         Rp/05tOMBhgXMBOQUxbgbKWlHZB4CAAqCXbZEZAMUY6iPUSGL9ly1Tmhtl+0frv0MmfF
-         DBedfCiEO/90rSAthDFEppfFmRdwuIrdKRBahRixQrkWZBOsHLohBnwHkjMSj3f43kWY
-         D8RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX5lucGmf3jJstNs6vM7AdL8cXCX84IZXT/+mNmTAD+cO4JRNFd2eBGQoeA9V9BSQCN9QDm3GQuwoo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsubAlkcLPyY05WxOXdo48Yq2WZcBE7FUpJTYAyaKu7mpMWOVR
-	3KKmw7KZ0Dhp4dosv3PhgDACvmUocaLN64YGsy2LHDUWmX1TBp0nKHPzipmyvHsZdCpj2Jc3muJ
-	1cw==
-X-Google-Smtp-Source: AGHT+IHPnH1hW0IfvKQ+lBW/azDi6UujtOpIW5dmyw0EC5ljOGt6t59+v/zFX71H5UcxugE1fcSMml30hc0=
-X-Received: from pjbsq5.prod.google.com ([2002:a17:90b:5305:b0:308:6685:55e6])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:cf0c:b0:21f:2ded:76ea
- with SMTP id d9443c01a7336-22e103b4341mr4441965ad.36.1746129006451; Thu, 01
- May 2025 12:50:06 -0700 (PDT)
-Date: Thu, 1 May 2025 12:50:04 -0700
-In-Reply-To: <20250501124646.GC4356@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1746129129; c=relaxed/simple;
+	bh=aH6SZdXyk5U3M7I6JGEIYeVkKFyJiBbPRkFQRB9H3CY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IbnvW3rcb6QH8ZRsyanOOr3MlcLn1qj2v6mD6DoqT1yzSZwjNy1Xsg7iBA6MYFcUJmjZVRDwz4B+ScJcaVsEpekbBTcmFz322tcINy2d5MRKqWXvT1PDubW1npGv3AWQwY6QWo+oCZqK/frEwAc/sKysZsRz6F93IGwsiKnubvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sp0ZpHah; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A57C9C4CEE4;
+	Thu,  1 May 2025 19:52:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746129128;
+	bh=aH6SZdXyk5U3M7I6JGEIYeVkKFyJiBbPRkFQRB9H3CY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sp0ZpHahkGRWhi6np6c7D3WRQqjE0EDN1CPh6cn8Rmj1HRPmddqRdgx3q+TNWTMNE
+	 jNrl85vjuhj5zp/YVyKH+UadqP/UQTwxOv9AXkX173xDM2crMfY2em1bGPgKeQbmMI
+	 w5NqOJMx6mYTS6MxXCBYkqUS3uhlNEripHcKyZh5e6W3E09gF+M28O+FC4Y54+o3zH
+	 YUSjdrWeGYJ2ZFAEUfpZ1jIEL6DMScFOnUXNdCWTSnn5yL8f+yo3nrH2XWLz2WMlgZ
+	 r8wNyA72DejFPHLuzNiwOPIF5QUFfazJVbvQYeNbuKT3S9/qMhsBlcMijVU9WrdqNR
+	 k5s76+LE2285A==
+Date: Thu, 1 May 2025 12:52:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: brauner@kernel.org, hch@lst.de, viro@zeniv.linux.org.uk, jack@suse.cz,
+	cem@kernel.org, linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
+	linux-api@vger.kernel.org
+Subject: [PATCH 16/15] xfs: only call xfs_setsize_buftarg once per buffer
+ target
+Message-ID: <20250501195208.GF25675@frogsfrogsfrogs>
+References: <20250501165733.1025207-1-john.g.garry@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
- <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
- <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
- <a6133831-3fc3-49aa-83c6-f9aeef3713c9@lucifer.local> <5b0b8e1e-6f50-4e18-bf46-39b00376c26e@nvidia.com>
- <20250501114235.GP4198@noisy.programming.kicks-ass.net> <20250501124646.GC4356@noisy.programming.kicks-ass.net>
-Message-ID: <aBPQbNlccOPoS5Nu@google.com>
-Subject: Re: [PATCH v3 3/3] selftests: pidfd: add tests for PIDFD_SELF_*
-From: Sean Christopherson <seanjc@google.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: John Hubbard <jhubbard@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Christian Brauner <christian@brauner.io>, 
-	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250501165733.1025207-1-john.g.garry@oracle.com>
 
-On Thu, May 01, 2025, Peter Zijlstra wrote:
-> On Thu, May 01, 2025 at 01:42:35PM +0200, Peter Zijlstra wrote:
-> > On Wed, Oct 16, 2024 at 07:14:34PM -0700, John Hubbard wrote:
-> > > Peter Zijlstra's "NAK NAK NAK" response [1] last year was the most
-> > > colorful, so I'll helpfully cite it here. :)
-> > 
-> > Let me re-try this.
-> > 
-> > This is driving me insane. I've spend the past _TWO_ days trying to
-> > build KVM selftests and I'm still failing.
-> > 
-> > This is absolute atrocious crap and is costing me valuable time.
-> > 
-> > Please fix this fucking selftests shit to just build. This is unusable
-> > garbage.
-> 
-> So after spending more time trying to remember how to debug Makefiles (I
-> hate my life), I found that not only do I need this headers shit, the
-> kvm selftests Makefile is actively broken if you use: make O=foo
-> 
-> -INSTALL_HDR_PATH = $(top_srcdir)/usr
-> +INSTALL_HDR_PATH = $(top_srcdir)/$(O)/usr
-> 
-> 
-> And then finally, I can do:
-> 
-> make O=foo headers_install
-> make O=foo -C tools/testing/selftests/kvm/
+From: Darrick J. Wong <djwong@kernel.org>
 
-This doesn't actually work either, because for whatever reason, the selftests
-infrastructure uses OUTPUT, not O, for the output directory.
+It's silly to call xfs_setsize_buftarg from xfs_alloc_buftarg with the
+block device LBA size because we don't need to ask the block layer to
+validate a geometry number that it provided us.  Instead, set the
+preliminary bt_meta_sector* fields to the LBA size in preparation for
+reading the primary super.
 
-And the whole top_srcdir crud doesn't work if O/OUTPUT is completely out-of-tree,
-e.g. I use absolute paths that have nothing to do with the source tree.
+It's ok to lose the sync_blockdev call at buftarg creation time for the
+external log and rt devices because we don't read from them until after
+calling xfs_setup_devices.  We do need an explicit sync for the data
+device because we read the primary super before calling
+xfs_setup_devices.
 
-I am more than happy to support any cleanup of KVM selftests, but I've more or
-less given up myself because so much of the ugliness is inhereted from selftests.
-I've resorted to hacked wrappers to make it work for my setup.  E.g. I force
-KHDR_INCLUDES and INSTALL_HDR_PATH so that make doesn't try to grab usr/ files
-from the source tree.
+This will enable the next patch to validate hw atomic write geometry
+against the filesystem geometry.
+
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+---
+ fs/xfs/xfs_buf.h   |    5 +++++
+ fs/xfs/xfs_buf.c   |    8 ++++----
+ fs/xfs/xfs_super.c |    6 +++++-
+ 3 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/fs/xfs/xfs_buf.h b/fs/xfs/xfs_buf.h
+index 6f691779887f77..2f809e33ec66da 100644
+--- a/fs/xfs/xfs_buf.h
++++ b/fs/xfs/xfs_buf.h
+@@ -384,6 +384,11 @@ int xfs_buf_reverify(struct xfs_buf *bp, const struct xfs_buf_ops *ops);
+ bool xfs_verify_magic(struct xfs_buf *bp, __be32 dmagic);
+ bool xfs_verify_magic16(struct xfs_buf *bp, __be16 dmagic);
+ 
++static inline int xfs_buftarg_sync(struct xfs_buftarg *btp)
++{
++	return sync_blockdev(btp->bt_bdev);
++}
++
+ /* for xfs_buf_mem.c only: */
+ int xfs_init_buftarg(struct xfs_buftarg *btp, size_t logical_sectorsize,
+ 		const char *descr);
+diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+index c1bd5654c3afa8..437fef08b7cf7b 100644
+--- a/fs/xfs/xfs_buf.c
++++ b/fs/xfs/xfs_buf.c
+@@ -1837,10 +1837,10 @@ xfs_alloc_buftarg(
+ 	 * When allocating the buftargs we have not yet read the super block and
+ 	 * thus don't know the file system sector size yet.
+ 	 */
+-	if (xfs_setsize_buftarg(btp, bdev_logical_block_size(btp->bt_bdev)))
+-		goto error_free;
+-	if (xfs_init_buftarg(btp, bdev_logical_block_size(btp->bt_bdev),
+-			mp->m_super->s_id))
++	btp->bt_meta_sectorsize = bdev_logical_block_size(btp->bt_bdev);
++	btp->bt_meta_sectormask = btp->bt_meta_sectorsize - 1;
++
++	if (xfs_init_buftarg(btp, btp->bt_meta_sectorsize, mp->m_super->s_id))
+ 		goto error_free;
+ 
+ 	return btp;
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index f021bdf8d0b592..b6b6fb4ce8ca65 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -507,7 +507,11 @@ xfs_open_devices(
+ 			bdev_fput(logdev_file);
+ 	}
+ 
+-	return 0;
++	/*
++	 * Flush and invalidate the data device pagecache before reading the
++	 * primary super because XFS doesn't use the bdev pagecache.
++	 */
++	return xfs_buftarg_sync(mp->m_ddev_targp);
+ 
+  out_free_rtdev_targ:
+ 	if (mp->m_rtdev_targp)
 
