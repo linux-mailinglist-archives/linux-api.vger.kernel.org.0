@@ -1,122 +1,161 @@
-Return-Path: <linux-api+bounces-3635-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3636-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22090AA6472
-	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 21:53:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362ECAA657C
+	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 23:30:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87303176551
-	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 19:53:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCF533B8511
+	for <lists+linux-api@lfdr.de>; Thu,  1 May 2025 21:29:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2DF23506A;
-	Thu,  1 May 2025 19:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D891F288DA;
+	Thu,  1 May 2025 21:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvxxJahx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gbf2+5C0"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DF5235069;
-	Thu,  1 May 2025 19:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDFF20EB;
+	Thu,  1 May 2025 21:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746129229; cv=none; b=tVKVT0ckchcf3hUEcRsO7ioFYLL06F9jSNf2wFvzUadRQJhz0nru+dC9HuUULT0kCzyuNPqTSgrAoL4tzAsn15Azef8QV9cxD13QMBZEorpLydbh6Ns5r9YIBT8+X3uuBi1rjOmNQHXEx+MANjQtt/s7XswLhqc6veznZEEdLng=
+	t=1746135013; cv=none; b=kWELMD49qvItgMW/L70NQGagsTYR3TffIigEx/Q5eioLDtWpBL+VpL+qIUqhvexEz6tZdjBPuumC0Clw1d3rOcAyIGqvmyGU1Lo6zbFzCrcxCch272L8YqabexbQ7+5Btb86Gj7yBcxIfknFYfR9wFNCzT2WNm+aDpC2A7128KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746129229; c=relaxed/simple;
-	bh=yseky+6nMqu8zW66EyDaMuMbkyGJiRf5HJSmPi71rhU=;
+	s=arc-20240116; t=1746135013; c=relaxed/simple;
+	bh=g+49zlVnfqLLpX+3cIMgHETxR66bAaSMqa7oRRtLsZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxvumCUXWqVG1nFGNyeRj2KmGQjZy2Ju2cdEvff3/eTAAOwCGbwQMvMhRbaIsK4oUA5xCJr6FWecADDD2lQjSC/jaz9++U75V7PCF3T4mK/t6VHhxdgxe9RTfW/P6k7sApxfU9TdhiFacMRST5tG/ciNDtRFmIAf0zM77PyRxdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvxxJahx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE4BC4CEE3;
-	Thu,  1 May 2025 19:53:49 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcPI4bUuhF9c+twZjeN6fb8HIthpugIiU4++KQx7ZEba4Pxpva+xvIcPXmz4wCHu6EJzUlOY7L/xreHWXiECOV60xyho0YydfvKrdNdXfPGNNUGbyjyD4URIJZAKtRRHa3UZB0765Obwc2QbsiJo9c2UeoGBvQuGeu+zwO8WUCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gbf2+5C0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC404C4CEE3;
+	Thu,  1 May 2025 21:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746129229;
-	bh=yseky+6nMqu8zW66EyDaMuMbkyGJiRf5HJSmPi71rhU=;
+	s=k20201202; t=1746135013;
+	bh=g+49zlVnfqLLpX+3cIMgHETxR66bAaSMqa7oRRtLsZk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FvxxJahxj98DdcATmX2NuCi1yRRapON+UkQuq2EiTPHM66kagvudZv0QRTYPgb1bo
-	 tpTeKwW86JGfmy9YzQLp8bkghVS7xDB3GtIRJO6tJxE8ofebqIsY88kvldxgEXhOuG
-	 jN0xaG0APqnaXZA6oGT7uM80Ejk8Rfw73E9Z74BMt/pAUKybG97jyNyRgUwb7qB4rI
-	 1XiNEbIDwlwzjEucfPcx8yQcWqfJd9KI6RvIwXddeMZoKtv5jJ7VXEg/q5MBQQhRJo
-	 178cgoqG/UlzaBM/sic9EjAZ7QdiWh6dk8SmGzav4BSf1NZIIFZv/nvWKISh6BLkUI
-	 m17w/bJ4ZMKsg==
-Date: Thu, 1 May 2025 12:53:48 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: John Garry <john.g.garry@oracle.com>, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, cem@kernel.org,
-	linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
-	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v9 05/15] xfs: ignore HW which cannot atomic write a
- single block
-Message-ID: <20250501195348.GH25675@frogsfrogsfrogs>
-References: <20250425164504.3263637-1-john.g.garry@oracle.com>
- <20250425164504.3263637-6-john.g.garry@oracle.com>
- <20250429122105.GA12603@lst.de>
- <20250429144446.GD25655@frogsfrogsfrogs>
- <20250430125906.GB834@lst.de>
- <20250501162216.GB25675@frogsfrogsfrogs>
+	b=Gbf2+5C0j/tKtTjlADO7Yt2E0p39Oo3Guo1jxtq+p+mo8KJj+aKobyFLrH2E5jVPN
+	 vW3XwoOCZqcdO0KXfvdlz6i7wDcHGV+s4+uFNVRHHb9uII3P1MHCYiacA2avG+Jd8k
+	 4bScrlSHtV/qfCsZGlRamD1O6Tw0ZHglidqh6seXVGPzk7qb/WncGSjx7WTUJ2C6R5
+	 yGoLrld7HW1fnwTcpKoN6p4f+nNaAFe6YDbaWApKBCmWEKqMLf1dN2G67rL4bzx3ow
+	 FeP91UWoLldRoNpqpsYOO9Oyz24BheG13LT1AXuR8y1zHmuq/ggF1OLSmMIpjNQFJH
+	 OKEivWUyl8VEQ==
+Date: Thu, 1 May 2025 23:30:09 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: devhoodit <devhoodit@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	Carlos O'Donell <carlos@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
+ CLONE_NEWUSER flag
+Message-ID: <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
+References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ijle2fdzb2f3bast"
 Content-Disposition: inline
-In-Reply-To: <20250501162216.GB25675@frogsfrogsfrogs>
+In-Reply-To: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
 
-On Thu, May 01, 2025 at 09:22:16AM -0700, Darrick J. Wong wrote:
-> On Wed, Apr 30, 2025 at 02:59:06PM +0200, Christoph Hellwig wrote:
-> > On Tue, Apr 29, 2025 at 07:44:46AM -0700, Darrick J. Wong wrote:
-> > > > So this can't be merged into xfs_setsize_buftarg as suggeted last round
-> > > > instead of needing yet another per-device call into the buftarg code?
-> > > 
-> > > Oh, heh, I forgot that xfs_setsize_buftarg is called a second time by
-> > > xfs_setup_devices at the end of fill_super.
-> > 
-> > That's actually the real call.  The first is just a dummy to have
-> > bt_meta_sectorsize/bt_meta_sectormask initialized because if we didn't
-> > do that some assert in the block layer triggered.  We should probably
-> > remove that call and open code the two assignments..
-> > 
-> > > I don't like the idea of merging the hw atomic write detection into
-> > > xfs_setsize_buftarg itself because (a) it gets called for the data
-> > > device before we've read the fs blocksize so the validation is
-> > > meaningless and (b) that makes xfs_setsize_buftarg's purpose less
-> > > cohesive.
-> > 
-> > As explained last round this came up I'd of course rename it if
-> > we did that.  But I can do that later.
-> 
-> <nod> Would you be willing to review this patch as it is now and either
-> you or me can just tack a new cleanup patch on the end?  I tried writing
-> a patch to clean this up, but ran into questions:
-> 
-> At first I thought that the xfs_setsize_buftarg call in
-> xfs_alloc_buftarg could be replaced by open-coding the bt_meta_sector*
-> assignment, checking that bdev_validate_blocksize is ok, and dropping
-> the sync_blockdev.
-> 
-> Once we get to xfs_setup_devices, we can call xfs_setsize_buftarg on the
-> three buftargs, and xfs_setsize_buftarg will configure the atomic writes
-> geometry.
-> 
-> But then as I was reading the patch, it occurred to me that at least for
-> the data device, we actually /do/ want that sync_blockdev call so that
-> any dirty pagecache for the superblock actually get written to disk.
-> Maybe that can go at the end of xfs_open_devices?  But would it be
-> preferable to sync all the devices prior to trying to read the primary
-> sb?  I don't think there's a need, but maybe someone else has a
-> different viewpoint?
 
-Eh, since John posted a V10 I'll just tack my new patches on the end of
-that so everyone can look at them.
+--ijle2fdzb2f3bast
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: devhoodit <devhoodit@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	Carlos O'Donell <carlos@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
+ CLONE_NEWUSER flag
+References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
 
---D
+Hi Carlos,
+
+On Mon, Apr 21, 2025 at 04:16:03AM +0900, devhoodit wrote:
+> CLONE_NEWPID and CLONE_PARENT can be used together, but not CLONE_THREAD.=
+  Similarly, CLONE_NEWUSER and CLONE_PARENT can be used together, but not C=
+LONE_THREAD.
+> This was discussed here: <https://lore.kernel.org/linux-man/06febfb3-e2e2=
+-4363-bc34-83a07692144f@redhat.com/T/>
+> Relevant code: <https://github.com/torvalds/linux/blob/219d54332a09e8d874=
+1c1e1982f5eae56099de85/kernel/fork.c#L1815>
+>=20
+> Cc: Carlos O'Donell <carlos@redhat.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: devhoodit <devhoodit@gmail.com>
+
+Could you please review this patch?
+
+
+Have a lovely night!
+Alex
+
+> ---
+>  man/man2/clone.2 | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/man/man2/clone.2 b/man/man2/clone.2
+> index 1b74e4c92..b9561125a 100644
+> --- a/man/man2/clone.2
+> +++ b/man/man2/clone.2
+> @@ -776,9 +776,7 @@ .SS The flags mask
+>  no privileges are needed to create a user namespace.
+>  .IP
+>  This flag can't be specified in conjunction with
+> -.B CLONE_THREAD
+> -or
+> -.BR CLONE_PARENT .
+> +.BR CLONE_THREAD .
+>  For security reasons,
+>  .\" commit e66eded8309ebf679d3d3c1f5820d1f2ca332c71
+>  .\" https://lwn.net/Articles/543273/
+> @@ -1319,11 +1317,10 @@ .SH ERRORS
+>  mask.
+>  .TP
+>  .B EINVAL
+> +Both
+>  .B CLONE_NEWPID
+> -and one (or both) of
+> +and
+>  .B CLONE_THREAD
+> -or
+> -.B CLONE_PARENT
+>  were specified in the
+>  .I flags
+>  mask.
+> --=20
+> 2.49.0
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--ijle2fdzb2f3bast
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmgT5+EACgkQ64mZXMKQ
+wqlxIA//a3T/CsDruQhANJ6jm98fhUlfXEMCddNlnVrlzKdbmb9uWpjmY9r+l8R7
+jity3F2bYhJbAr4AIpSwPh8JqbZSV3tSPecK/k3sFCbqXxPEHB/surK6x6SvM+E2
+nCzITLBawhlZAAWSxvse/NQ0QiqcwpWKfBCQU1OSrKIYJZJWLib5yPdGQDerupVe
+YhfBo5t+w8toIjCxEDSIi9PsNUw3DvQrGU5/Yun2e0D7Y2BskkPvbck03zOzypx6
+xxMlMdYQlV+RqVN/WihWlzNOpPdFk66gcGixooW3sgoGVmil9Cp02yyy4nLwPnW8
+/I6qzp2KlaUqxii2iNjJLNdT54Ru7j2gkqYhlfmQRLMigAaQJpOJlHhfrpFyJW2R
+lhCIbVQX4jVoeUMsWMlN9VJoLukMK7bsu8kSpD+SgTiR1ml25Va+SPtCfvLRGAwD
+b8Dmmo9HoYThbSp6YC6sxnFkQM/IST9Wus31gHdgwv4VZel4wLeQoNHa1XmPuN9I
+g26sd8riA3hwo9yukBRXpehQ2xL+LE/Kixu1grOQ0406ifhG5YCkGSAr4zpKVo1K
+KsnQFEnvZCaAa62MzHJOP/yWnTPhxMgzQh+VTGIDbgasuSFd3NtzZNKaxgdXTHoH
+K26DWtEo2GQs8GvyUrRHhhorD1QMzSFZ4Y74s2mu39cPf7555m8=
+=HQhQ
+-----END PGP SIGNATURE-----
+
+--ijle2fdzb2f3bast--
 
