@@ -1,40 +1,50 @@
-Return-Path: <linux-api+bounces-3638-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3639-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0E4AA6B20
-	for <lists+linux-api@lfdr.de>; Fri,  2 May 2025 08:58:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201F6AA779E
+	for <lists+linux-api@lfdr.de>; Fri,  2 May 2025 18:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C1CE18952E5
-	for <lists+linux-api@lfdr.de>; Fri,  2 May 2025 06:59:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 851417B4905
+	for <lists+linux-api@lfdr.de>; Fri,  2 May 2025 16:43:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 402E1266B76;
-	Fri,  2 May 2025 06:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F08225D1E2;
+	Fri,  2 May 2025 16:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGY8Ts1r"
 X-Original-To: linux-api@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BA01D554;
-	Fri,  2 May 2025 06:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AE125EFBB;
+	Fri,  2 May 2025 16:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746169130; cv=none; b=C/46EzitOLpT58P00/T8xEClEzJlgCtM6932Egtd4jzGRqTPB1bDogFOjPuD5Y7QOk0+wkV8SDQoFRkBkBZu6qVKpk48y9stW8vYuaqBpZ8R7U+zWfXnErs87jFWEogfykWJ2/l6BQPhqk9O7aUTDKau+tQnsp/qQTJnlT628ec=
+	t=1746204266; cv=none; b=DK8JEbo0NRkNGBiOZTL4i+4/dXoWfUXPPfeLHVQ+A3HbVUeole1Wt0/p9WMSwgG54SOskpI4suwO5yNuKeh7aaTf6YrDa/0ON3MtTXKrZDvzyrrQ90p4FHmnuQX+stpz/yjUlIULeqEKD/96B+8uLrUWymY/dcYeZvxUwcaYDAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746169130; c=relaxed/simple;
-	bh=u0QYB/yQYMVBEeETEU3lrgrJnUshqMxwaLV+dMtj5M8=;
+	s=arc-20240116; t=1746204266; c=relaxed/simple;
+	bh=lusvwOhXbDnfRhmLRU1E/sjRB2/jznK6wsy2qGyuVgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GHeaMOlPOS/4r5Ez9tFm0rkA0BRdlZWVTJ8tgfnamEI0LbYG0B/SixwKT7Uo/OQKZU35MM+h5pRUhy4Wp9JWrDpjdSz5g8PlC/OGqrSrzTn+Iw4kWmTlKcmL+vlUjpJK8IDOV7vFnOrZIvNbgm6bjxszP2u8y5LdNWOSBzCHwOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0038D68BEB; Fri,  2 May 2025 08:58:41 +0200 (CEST)
-Date: Fri, 2 May 2025 08:58:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Garry <john.g.garry@oracle.com>, brauner@kernel.org, hch@lst.de,
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1KZwxVw0GtJqhQslL8O0/l20QARyUsHIzX03hzHmvH5obGPgED1kuLJHYR6kZyifzXCvHXMcYsifPx/PB30W4o+AKjUfoOsmB8cP3OWjGs3nnJvMm6sssrcEVGBJ6uM+f7kRr6lh9tpQCbQHFAQo6hzlLMJEBoywCzB75D2Kho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGY8Ts1r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57930C4CEE9;
+	Fri,  2 May 2025 16:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746204265;
+	bh=lusvwOhXbDnfRhmLRU1E/sjRB2/jznK6wsy2qGyuVgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QGY8Ts1r9bETAdAko31lN2Ol1l9jh3v9jTEzkvwlTco+H8xV9YyxCOilxNcmyzuB3
+	 iVpJav6QJIIupPEgG0nDyMywJtpgu1Fg9B3vSHRhQd5iEKFLfRn7pP+8AfN8YlQxIj
+	 LHjqm73dIcJ6wIgC9bAyFWTk0tKGyUqu8tbk9MPd0DIqKJp/92+JYyVKobh/wLihP6
+	 OVr/rVGfVJwdw1I/rjokOoBeWL6J58rE159TrR8Uspk/CIERFFTKlvitokQ1B8XLaN
+	 Edv2BE4xe1Rtri996q48oLn+mf1T1ZILNj17R42C3/pGKX8A70OKl7nOHztqbcwoiB
+	 HCoDBGr3pxLiw==
+Date: Fri, 2 May 2025 09:44:24 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: John Garry <john.g.garry@oracle.com>, brauner@kernel.org,
 	viro@zeniv.linux.org.uk, jack@suse.cz, cem@kernel.org,
 	linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
 	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -42,10 +52,12 @@ Cc: John Garry <john.g.garry@oracle.com>, brauner@kernel.org, hch@lst.de,
 	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
 	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
 	linux-api@vger.kernel.org
-Subject: Re: [PATCH 17/15] xfs: move buftarg atomic write geometry config
- to setsize_buftarg
-Message-ID: <20250502065841.GB8309@lst.de>
-References: <20250501165733.1025207-1-john.g.garry@oracle.com> <20250501195305.GG25675@frogsfrogsfrogs>
+Subject: Re: [PATCH 16/15] xfs: only call xfs_setsize_buftarg once per buffer
+ target
+Message-ID: <20250502164424.GO25675@frogsfrogsfrogs>
+References: <20250501165733.1025207-1-john.g.garry@oracle.com>
+ <20250501195208.GF25675@frogsfrogsfrogs>
+ <20250502065726.GA8309@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -54,15 +66,33 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250501195305.GG25675@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20250502065726.GA8309@lst.de>
 
-On Thu, May 01, 2025 at 12:53:05PM -0700, Darrick J. Wong wrote:
-> hch: is this better?  patch 16 can move up, and this can be folded into
-> patch 5
+On Fri, May 02, 2025 at 08:57:26AM +0200, Christoph Hellwig wrote:
+> On Thu, May 01, 2025 at 12:52:08PM -0700, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > It's silly to call xfs_setsize_buftarg from xfs_alloc_buftarg with the
+> > block device LBA size because we don't need to ask the block layer to
+> > validate a geometry number that it provided us.  Instead, set the
+> > preliminary bt_meta_sector* fields to the LBA size in preparation for
+> > reading the primary super.
+> > 
+> > It's ok to lose the sync_blockdev call at buftarg creation time for the
+> > external log and rt devices because we don't read from them until after
+> > calling xfs_setup_devices.  We do need an explicit sync for the data
+> > device because we read the primary super before calling
+> > xfs_setup_devices.
+> 
+> Should we just it for all of them in open_devices now that the sync
+> is decoupled from setting the block size?
 
-Much better.  Although I'd also rename xfs_setsize_buftarg to
-xfs_configure_buftarg and xfs_buftarg_config_atomic_writes to
-xfs_buftarg_configure_atomic_writes for consistency.
+Yeah.
 
+> Otherwise this looks good, but I guess this should go before the atomic
+> writes series in the end?
+
+Yep.
+
+--D
 
