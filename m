@@ -1,156 +1,115 @@
-Return-Path: <linux-api+bounces-3671-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3672-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEF0AA949B
-	for <lists+linux-api@lfdr.de>; Mon,  5 May 2025 15:35:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4640AA9596
+	for <lists+linux-api@lfdr.de>; Mon,  5 May 2025 16:22:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D95E4189AFA3
-	for <lists+linux-api@lfdr.de>; Mon,  5 May 2025 13:35:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2936916B97B
+	for <lists+linux-api@lfdr.de>; Mon,  5 May 2025 14:22:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99241250BED;
-	Mon,  5 May 2025 13:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451532505D6;
+	Mon,  5 May 2025 14:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkF1cTFv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TV3Z2C4+"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BED2040B6;
-	Mon,  5 May 2025 13:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F509846C;
+	Mon,  5 May 2025 14:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746452119; cv=none; b=GkdW+QDPMht/RcvlnQpjhltlURthfFCsiSbieehNI+4KIUJZEHAeu9hfG2N+fPUNw5SFWq+WTAQ6x7fn4YpqHDBvtKKhaNBqp6WoNnlAvrINlJqDSnoMguwLcE4ALWmHufUkFN2u2SDApSTq/G5SKUUWecHKz9a9GLKt5mF0n1k=
+	t=1746454957; cv=none; b=hFaWWnfxjgGRVs2B3nr1sOWoZBhS61HwljPnd57NHs+eF4ZFaUL/+rJESD1X0oUJmVD9OMbUMSPVmMoox/cE8zyk3Q5nOSGGaOcJZmt2V9mOA4akswMMk10Dl+G/Zk/JMhS3QT5sXw3DTzyuXaGjaZcprISzNzNWNbc33Y8ovc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746452119; c=relaxed/simple;
-	bh=lZYJj5+RvlpcB3C/3nThNIVF+4ts/zwD2yTL3wPkp6I=;
+	s=arc-20240116; t=1746454957; c=relaxed/simple;
+	bh=YKNW51Oj6jwIFNQC6Q50xPijXy2UdxETS26563QVe3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuaOK6RC86zHlAzerYOF/Royd3zJyVZI7hNQkbToyOu9662p7Z8k/qZW8q90uesOxoT/LyIFWhTJlqZjFjNKBFjwTN6G873sR7o424MKWNExTaUdcpKniWkJe5ntmbxnSx9gwhMrxMK8aN+4yg3kIHz5vClh2vDmrsBtroBrXKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkF1cTFv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4726BC4CEE4;
-	Mon,  5 May 2025 13:35:15 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YnxpFmSieyTMyDU+HKA8UHdIJCG18vlUxAnLLQu/xkUHV6xhgKL6ztS/kLe1JmCmo1yJMKS2JaYB8a7rx3gsBDJmTAVk9KMwp7UgMctM0/l6LmK0ak3KOirltoZtoFtnxxmkIT7Vw9P3/0cFFVa6URYmvd/0fdHfzecXCt8AXaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TV3Z2C4+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D48C4CEE4;
+	Mon,  5 May 2025 14:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746452118;
-	bh=lZYJj5+RvlpcB3C/3nThNIVF+4ts/zwD2yTL3wPkp6I=;
+	s=k20201202; t=1746454955;
+	bh=YKNW51Oj6jwIFNQC6Q50xPijXy2UdxETS26563QVe3g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkF1cTFvbhP4Ye7NeV9917c1PkBLXuYnLDbiOErKUKsUumdsSQbOSMNV+zqY18Rek
-	 iMgcsmDQnKKTGn+zuxvwpTgU95tKAC7axgb/oimBwIeWBH4Qdl//jsdS4phegc4QB6
-	 Od8s6UqytlBBSYBU6sYpgrW0+Xp5QP9sPiVwNULR2e9TANRtMUkmw+uXdjg01d79Ln
-	 oApceD/DookzKf4fYwsDQNTRHGg1JtviuRWBg02Cwd5WEcQ0XvCA/LXEG/YJP63KIn
-	 sUWf6i8bS2nrfk6KNE3ZE7xDcac83jrNRzGftJ/nnH7mqWNvilg2dKT7aNvbAlNFVZ
-	 3fsRCjlhW9PCw==
-Date: Mon, 5 May 2025 15:35:13 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: John Hubbard <jhubbard@nvidia.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Christian Brauner <christian@brauner.io>, Shuah Khan <shuah@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>, seanjc@google.com
-Subject: Re: [PATCH v3 3/3] selftests: pidfd: add tests for PIDFD_SELF_*
-Message-ID: <20250505-postablage-drinnen-ddaa539abc18@brauner>
-References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
- <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
- <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
- <a6133831-3fc3-49aa-83c6-f9aeef3713c9@lucifer.local>
- <5b0b8e1e-6f50-4e18-bf46-39b00376c26e@nvidia.com>
- <20250501114235.GP4198@noisy.programming.kicks-ass.net>
- <20250501124646.GC4356@noisy.programming.kicks-ass.net>
+	b=TV3Z2C4+UL/Mk5nBP3PIITQF9fiKzEQ5TYSxDbr50CbBn+Jk3bqvlHN8onbP2G1oO
+	 H+RmQHSy0s0DmE/dM6Ep61r5S4aeoWY0Q1Cwe4rlWwF5VfmccNIH0h2mZJftjZi6se
+	 ZTqb6giZBEH9co6ScHyhyWwlhdLKyprgbEZweKnn6Q+adHKDc2tT+4JHcWwBqyK082
+	 zPFAgIjiuJMBAseIz7Ms2EMiD3u1C8PDB6E+/s/XaKuUGQapwv79B65BUjWDF67Avp
+	 AaWzjCvne0Urzo+Eobo5axLk7aHbBYf8PW6/RStfGUuoRqL0z6ARhR9n1Raxu/Uaa2
+	 8C5gkmFeIgrAQ==
+Date: Mon, 5 May 2025 07:22:34 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, cem@kernel.org,
+	linux-fsdevel@vger.kernel.org, dchinner@redhat.com,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+	martin.petersen@oracle.com, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, catherine.hoang@oracle.com,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v11 02/16] xfs: only call xfs_setsize_buftarg once per
+ buffer target
+Message-ID: <20250505142234.GG1035866@frogsfrogsfrogs>
+References: <20250504085923.1895402-1-john.g.garry@oracle.com>
+ <20250504085923.1895402-3-john.g.garry@oracle.com>
+ <20250505054031.GA20925@lst.de>
+ <8ea91e81-9b96-458e-bd4e-64eada31e184@oracle.com>
+ <20250505104901.GA10128@lst.de>
+ <bb8efa28-19e6-42f5-9a26-cdc0bc48926e@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250501124646.GC4356@noisy.programming.kicks-ass.net>
+In-Reply-To: <bb8efa28-19e6-42f5-9a26-cdc0bc48926e@oracle.com>
 
-On Thu, May 01, 2025 at 02:46:46PM +0200, Peter Zijlstra wrote:
-> On Thu, May 01, 2025 at 01:42:35PM +0200, Peter Zijlstra wrote:
-> > On Wed, Oct 16, 2024 at 07:14:34PM -0700, John Hubbard wrote:
-> > > On 10/16/24 3:06 PM, Lorenzo Stoakes wrote:
-> > > > On Wed, Oct 16, 2024 at 02:00:27PM -0600, Shuah Khan wrote:
-> > > > > On 10/16/24 04:20, Lorenzo Stoakes wrote:
-> > > ...
-> > > > > > diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
-> > > > > > index 88d6830ee004..1640b711889b 100644
-> > > > > > --- a/tools/testing/selftests/pidfd/pidfd.h
-> > > > > > +++ b/tools/testing/selftests/pidfd/pidfd.h
-> > > > > > @@ -50,6 +50,14 @@
-> > > > > >    #define PIDFD_NONBLOCK O_NONBLOCK
-> > > > > >    #endif
-> > > > > > +/* System header file may not have this available. */
-> > > > > > +#ifndef PIDFD_SELF_THREAD
-> > > > > > +#define PIDFD_SELF_THREAD -100
-> > > > > > +#endif
-> > > > > > +#ifndef PIDFD_SELF_THREAD_GROUP
-> > > > > > +#define PIDFD_SELF_THREAD_GROUP -200
-> > > > > > +#endif
-> > > > > > +
-> > > > > 
-> > > > > As mentioned in my response to v1 patch:
-> > > > > 
-> > > > > kselftest has dependency on "make headers" and tests include
-> > > > > headers from linux/ directory
-> > > > 
-> > > > Right but that assumes you install the kernel headers on the build system,
-> > > > which is quite a painful thing to have to do when you are quickly iterating
-> > > > on a qemu setup.
-> > > > 
-> > > > This is a use case I use all the time so not at all theoretical.
-> > > > 
+On Mon, May 05, 2025 at 11:55:13AM +0100, John Garry wrote:
+> On 05/05/2025 11:49, Christoph Hellwig wrote:
+> > On Mon, May 05, 2025 at 11:04:55AM +0100, John Garry wrote:
+> > > @@ -503,6 +509,9 @@ xfs_open_devices(
+> > >   		mp->m_logdev_targp = xfs_alloc_buftarg(mp, logdev_file);
+> > >   		if (!mp->m_logdev_targp)
+> > >   			goto out_free_rtdev_targ;
+> > > +		error = sync_blockdev(mp->m_logdev_targp->bt_bdev);
+> > > +		if (error)
+> > > +			goto out_free_rtdev_targ;
+> > >   	} else {
+> > >   		mp->m_logdev_targp = mp->m_ddev_targp;
+> > >   		/* Handle won't be used, drop it */
 > > > 
-> > > This is turning out to be a fairly typical reaction from kernel
-> > > developers, when presented with the "you must first run make headers"
-> > > requirement for kselftests.
 > > > 
-> > > Peter Zijlstra's "NAK NAK NAK" response [1] last year was the most
-> > > colorful, so I'll helpfully cite it here. :)
-> > 
-> > Let me re-try this.
-> > 
-> > This is driving me insane. I've spend the past _TWO_ days trying to
-> > build KVM selftests and I'm still failing.
-> > 
-> > This is absolute atrocious crap and is costing me valuable time.
-> > 
-> > Please fix this fucking selftests shit to just build. This is unusable
-> > garbage.
+> > > Right?
+> > Yes.  Or in fact just folding it into xfs_alloc_buftarg, which might
+> > be even simpler.
 > 
-> So after spending more time trying to remember how to debug Makefiles (I
-> hate my life), I found that not only do I need this headers shit, the
-> kvm selftests Makefile is actively broken if you use: make O=foo
+> Yes, that was my next question..
 > 
-> -INSTALL_HDR_PATH = $(top_srcdir)/usr
-> +INSTALL_HDR_PATH = $(top_srcdir)/$(O)/usr
+> >  While you're at it adding a command why we are doing
+> > the sync would also be really useful, and having it in just one place
+> > helps with that.
 > 
+> ok, there was such comment in xfs_preflush_devices().
 > 
-> And then finally, I can do:
-> 
-> make O=foo headers_install
-> make O=foo -C tools/testing/selftests/kvm/
-> 
-> So yeah, thank you very much for wasting my time *AGAIN*.
-> 
-> 
-> Seriously, I want to be able to do:
-> 
->   cd tools/testing/selftests/foo; make
-> 
-> and have it just work. I would strongly suggest every subsystem to
-> reclaim their selftests and make it so again.
-> 
-> And on that, let me go merge the fixes I need to have x86 and futex
-> build without this headers shit.
+> @Darrick, please comment on whether happy with changes discussed.
 
-I'm completely lost as to what's happening here or whether the test here
-is somehow at fault for something.
+I put the sync_blockdev calls in a separate function so that the
+EIO/ENOSPC/whatever errors that come from the block device sync don't
+get morphed into ENOMEM by xfs_alloc_buftarg before being passed up.  I
+suppose we could make that function return an ERR_PTR, but I was trying
+to avoid making even more changes at the last minute, again.
 
-The pidfd.h head explicitly has no dependency on the pidfd uapi header
-itself and I will NAK anything that makes it so. It's just a giant pain.
+--D
+
+> Thanks,
+> John
+> 
+> 
 
