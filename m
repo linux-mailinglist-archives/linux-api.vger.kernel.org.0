@@ -1,89 +1,89 @@
-Return-Path: <linux-api+bounces-3712-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3713-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94384AAE4F4
-	for <lists+linux-api@lfdr.de>; Wed,  7 May 2025 17:37:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E04AAE4F9
+	for <lists+linux-api@lfdr.de>; Wed,  7 May 2025 17:37:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EBB73AFF8F
-	for <lists+linux-api@lfdr.de>; Wed,  7 May 2025 15:37:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61F5F1C278DA
+	for <lists+linux-api@lfdr.de>; Wed,  7 May 2025 15:37:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48AAB28A70A;
-	Wed,  7 May 2025 15:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39E5328AB0D;
+	Wed,  7 May 2025 15:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="BZlELZsJ"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="YEEtBq8k"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F1E289E1A
-	for <linux-api@vger.kernel.org>; Wed,  7 May 2025 15:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E50E28A71C
+	for <linux-api@vger.kernel.org>; Wed,  7 May 2025 15:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746632249; cv=none; b=TMOFAuWfdfSl6Woorjwb+/MSf9W5G8I3s1GMD01AE/IAvtbdGSLEyp1xdiZjz0J+gyIctGPjFE+N9+gkhaI0X3okZYNpBnVIOFBWFnY8FGQJMWLzyK33nPOAEfsrY7sMt6JhniRjyKOFajaIN5rnIy3VzYDkqAFGgINHIo5C4mc=
+	t=1746632254; cv=none; b=aBx/iu+mGfcX7Nka2OzH7UayCrHCKRfZlMd1EbM9kCIIp1LK0L89+IJvD1CSOsgWgkpCQ6nYbccwUSjuBRFOdhVnQpBz0E5NykZW8Xxl8UEG/kVbYWHvgUZ3CVeIW8PVI3iOHn8G6Z3cdiWB/OU5qhMncQk9gKxHHIgLFT3Hcow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746632249; c=relaxed/simple;
-	bh=4W2fXISKY74fWUKebM25xkg9gTyS5/XCfGEdHtg6GQ8=;
+	s=arc-20240116; t=1746632254; c=relaxed/simple;
+	bh=itefw7osb12hSN2O1c0KuZaS6PgNbKAO+Y/ON68WOpQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S39bDF5CYhhsVl9/Gy+n40vonKQFnKYkt2B/aCtENB2xH3Nu3xU8Pn7/pFeXD7/Nenk9Sgn0XAS+mTZoV7C+Djt7EKyVo34yppMHePRgKZg1Fu2ZtM66P4jHlKaIKWT0I6aOtkI317+dy3Rh6nd6MpnuuF2uHw1hlvk8lGKEP1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=BZlELZsJ; arc=none smtp.client-ip=185.125.188.123
+	 In-Reply-To:Content-Type; b=mhwPot7IqzR3SPb49vMdWCcR9hdwAx4fISxoTAvzcU0FB7VpvXYyQoPSvtMmUFHd/gQkwDX1/LvBX1tb4j8PT1TtTR2U0NnEs6ExRlrIl2yfUJJ/QGCaE+pD8aBLaMKfL7AUBqqmHvwgWT4wYJvYo4s5/L5/JZrWJ7yImqADDV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=YEEtBq8k; arc=none smtp.client-ip=185.125.188.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0A3033F29C
-	for <linux-api@vger.kernel.org>; Wed,  7 May 2025 15:37:23 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A5AFA3F174
+	for <linux-api@vger.kernel.org>; Wed,  7 May 2025 15:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1746632243;
-	bh=bkW8q66ZO+SNrvIdDdMXlBX3whDIjDtZFpXpMH9RNXs=;
+	s=20210705; t=1746632249;
+	bh=fr9yeU7dVZUGfHuigq4Ki6OIiok3yQVQgVBSFzRvIM8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
 	 In-Reply-To:Content-Type;
-	b=BZlELZsJ2/Jh0dgKQubIudVNaJ1qEaDzrqXH6Vf4JX9df4QmSH0F3+no8NJYdMNYB
-	 vLW/ulKkuoKoNNfTQPepNs5sevRfkVJgY63x0lZPqXaKVd0NHNxADk9jGFMw1IBVO8
-	 ls+kWtUQZlcLPsBGwjKliOHRqzSQLC259y4WPyvnELMpFq4u2hUeP2WOv0XMJjKjhb
-	 WQFSiEZwipFm5NHoOYyiTdkf6ZKPKglxNGC5+TJKukUnB6C2pni3TseCN02t8+HnMT
-	 Wj/mhAsddU7VpEDttg3bcYhoMxOHZbEhaBHz4AnsR41yT9P93BpTV8Y0xaalbX/a2X
-	 AOMUM+wcWBYGQ==
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ace99fe4282so4070566b.1
-        for <linux-api@vger.kernel.org>; Wed, 07 May 2025 08:37:23 -0700 (PDT)
+	b=YEEtBq8k3pUOamZwPvE0TraNlTMzDuXi+Lgc+QYOHcJbqk2jKPMlR5S81LL153EuR
+	 uUyItELMo8a/ybko7mXc5tn6Yts9Gf1EkMdKI+fAH4VSY4NbwWrqOZzuqXoBZdeI2X
+	 ULy7fIFnoNR1vYvksGGzrKZwJvzdcz3nqKECxQMqHuPc+yQ7YbvXr113DmYMkQkLPm
+	 MFhA807gKdPRA95DD42kXtG9McTUg0ql58VR2mzeebHk8EH5RgsXj5Dq54mdyjgjJA
+	 YbYBsdAW38IOA6BzIj7lLEnuPTvX4/M4muHVvbRSGFHISqj9jObHcAoubS3btyD0Es
+	 bZ+1k0W3QKqmg==
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-acb67aad0e2so4839566b.0
+        for <linux-api@vger.kernel.org>; Wed, 07 May 2025 08:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746632239; x=1747237039;
+        d=1e100.net; s=20230601; t=1746632247; x=1747237047;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bkW8q66ZO+SNrvIdDdMXlBX3whDIjDtZFpXpMH9RNXs=;
-        b=D+CA7lw6+nyu5cEdHDJHMXe2hC59dFZ/6Lll14sfyKdgNTHJE0wZJfbKiNbDYgO+jq
-         O0jmEHGmoKvxISl0EpMUxQmbi6mxsvSR2JnXuQ+Pu+eTdD03J3mNPRXQHaZi1tSPyG9b
-         iZGulzK4BeefUc3LNPABxsBoIQ3Wo/E7o70qu2AjGEQetpD9Q5OVADYwaCwkdijWNZyE
-         dr2BSPSuBlxueIBgAbHTJs79KPDwMqpC/8Nfq8s3muEh/x9TA6Ctl79UlJaSwPS2SlLz
-         hEU7JAAJCFKWeA5Nzn44wZXFb+IM4c/zE72InGNqyrUmehNhF8QZP1G+uSsyMqID8s0M
-         3I6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVAejHFaI6kgBMOfwKx7HePoivhm/DRY21F/ByfDTzVa+nbpZDC/EFICYFntNkktpDfPrRcSqzO5mA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyasNXdeavQyoAqwNep9HHybtgX0FV7/U6RTh3MTCmm3w3CifP3
-	8Yx/ynSzAzJz0LddQTWW5Fs8sRMal5a4acYYiy63ojMpvKqYpveGRp2bN1yq38niBy58Ti5FS/u
-	GYLm5xT5Whs7Ran1TfzzXAK9O2LCC/dpCOPHVRH4B2HzyX9TBZ1On9Am95W434TTCr4SpM469SA
+        bh=fr9yeU7dVZUGfHuigq4Ki6OIiok3yQVQgVBSFzRvIM8=;
+        b=KnJAdakWI+fe36z07JyzaM5UTd/s/cS5QbjVyQ4Ur3Wk3WEsLXiC1W8mIIC1PQtIAs
+         NZKj5rBBwSHBURi66BqftUgCzyXdXo5/ms8ZmlBGY4qxA5ap9sTeR0GUMnRFywQX5P7j
+         XqU/WxeyKosqaKwt9H8Qs4lZ0TtmLKyIseJeT0UvFjzZ9hiL+yIkymtDejQrnNbhYt+s
+         +ASGNI1s7aw3R0Em56VavuZwftNMzGAv5igsfB03OhECSfaVNrvlksM5ke8yZx1JBvVa
+         raNLUBod0wx6E45yulDthjP3tyhYiLfi696CkHBrpO9NdABjSrdeTL7VCOKyTItrAIyd
+         a8mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAIAycqfsxzbLQdHtvF3uWpnVwYtTbsN5fA8EuFdpvM4FsThjRxLmxL5jwpcl6lwF3zuUhso90yeU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPB6gfi185OYyIhOIcfDDwQBSYcD2dNCZAlBYmJEcUokgPENHD
+	tQ+1gkgQD0j6khmIjpOj5ztRqsZxnTqtQ9CEwCGFQNz0OcIU6WtMloEsAOIB7pvYF2sIdK8X6v4
+	/4xDtVQL2LEvGxsOglM3UiGVewtMVmJnq3PSfLohEf2IhsiLgghOTP8llU58XXrl2g56sqvITVg
 	==
-X-Gm-Gg: ASbGnct44TcglKBqiW8hRsT3+0KUABY4P9+cBbSwsTmb5uTZpyf6IWgrAjuRBCBM7H4
-	QXYnvnhgopSpbGIJ2g9xnujv/VZ+7F4L5vbcbMXlqZ3ytGCkGdRt+KxTAcz7iLk1LgcywNosEPE
-	hTve4W2LCjyk8uFbQbIJzVTv04SnjkbHSv096bzw9hdRNU1HBDVAIJlkUxeKcLD1ZXJCGUr5VTp
-	XQOHEKlrRUqh5GhaDfMCIsUOdbwbEv3xXyztGCCc9xvwGXwpQeqGRvgk9DzheHKaHsf4vIf+sxN
-	QmRG5wIyr+yTq7YOo0bSbYbaUxy3ofumy6VOrRG7IEamn3P1bEcWxtwv70iVwamXHXQ=
-X-Received: by 2002:a17:907:3e10:b0:acb:23fc:d766 with SMTP id a640c23a62f3a-ad1eb220effmr394475866b.28.1746632239358;
-        Wed, 07 May 2025 08:37:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHGDfHN4YXKsHalMKITw8b9LdZdamAx7Tp0LP7mnnYECPy56ZQWZHnn2y5WeYlqgoF2dlOh8Q==
-X-Received: by 2002:a17:907:3e10:b0:acb:23fc:d766 with SMTP id a640c23a62f3a-ad1eb220effmr394472766b.28.1746632238982;
-        Wed, 07 May 2025 08:37:18 -0700 (PDT)
+X-Gm-Gg: ASbGncvrOO99dOaLcM+Jx79jowPOVBC5IhKyd+kiu3jChirKIV0fOgdvGq9jF+bi/dj
+	1JavgicLILrpXY8MmMvX75YLzVzMo7gWM2QqKgNWRn7JFXzLt8N4BU0mRW2KsPidGO4s60elFMh
+	LkeHdWbgJAcWEuQUcMSI2svMb2GPM4NX0OtnJW9H4UYBbPhVm+mrQCyEY+LtGhqicZSf3LoiOq9
+	vecO2KdIP+tsqWQk8wCGliGFskAISqt2oAYUe7rDP6SNprC/XwicZ0lwAGYd8m29ORtlo0JDtmG
+	JOTwHEbmsqAbJvi7ZVc4cRDPjMYvfFWotnbTr5R8ijtN24WQg/nw04UyGMYnkYBu6Nc=
+X-Received: by 2002:a17:907:cd0d:b0:ace:be7c:11df with SMTP id a640c23a62f3a-ad1eaefaedcmr364827466b.6.1746632246821;
+        Wed, 07 May 2025 08:37:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE3LQvsicm0YBjAOHirumoX4UDCK+hCXE9ScCJp5xtKINT4FyusXCl/66Pqvnso9XRhvIDAPw==
+X-Received: by 2002:a17:907:cd0d:b0:ace:be7c:11df with SMTP id a640c23a62f3a-ad1eaefaedcmr364824366b.6.1746632246505;
+        Wed, 07 May 2025 08:37:26 -0700 (PDT)
 Received: from ?IPV6:2001:861:3280:410:2ef0:5dff:fe60:6274? ([2001:861:3280:410:2ef0:5dff:fe60:6274])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1895410b2sm912485666b.181.2025.05.07.08.37.18
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891ef1e0sm923525466b.77.2025.05.07.08.37.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 May 2025 08:37:18 -0700 (PDT)
-Message-ID: <aa3c41f9-6b25-4871-a4be-e08430e59730@canonical.com>
-Date: Wed, 7 May 2025 17:37:17 +0200
+        Wed, 07 May 2025 08:37:26 -0700 (PDT)
+Message-ID: <bc252425-2703-48c4-a1fa-9268124c2386@canonical.com>
+Date: Wed, 7 May 2025 17:37:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -91,7 +91,7 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] Wire up the lsm_manage_policy syscall
+Subject: Re: [PATCH 2/3] lsm: introduce security_lsm_manage_policy hook
 To: Song Liu <song@kernel.org>
 Cc: linux-security-module@vger.kernel.org, john.johansen@canonical.com,
  paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net,
@@ -100,8 +100,8 @@ Cc: linux-security-module@vger.kernel.org, john.johansen@canonical.com,
  linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
  linux-kernel@vger.kernel.org
 References: <20250506143254.718647-1-maxime.belair@canonical.com>
- <20250506143254.718647-2-maxime.belair@canonical.com>
- <CAPhsuW4qY9B3KdhqrUOZoNBWQmO_RDwbH46my314WxrFwxbwkQ@mail.gmail.com>
+ <20250506143254.718647-3-maxime.belair@canonical.com>
+ <CAPhsuW7q1hvOG7-uG2C8d_wWnOhEmvTmwnBcXZYVX-oJ8=5FJQ@mail.gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>
 Autocrypt: addr=maxime.belair@canonical.com; keydata=
@@ -138,86 +138,61 @@ Autocrypt: addr=maxime.belair@canonical.com; keydata=
  oRAG5XUu5Q1PWG0oY4cZ6XN1z8nkj5Mj23SRhBwVjh2PY2p4cyFRTBrBDaNV38LHw6tVjdhk
  8YNqGOVqceueWdZmWbp8b88a0wzOcrPAvcxJ14FhMyMO9P7FblDYLNYr0oAYj+UyhxOPbRZz
  yriCIKEAbLqHTyj+RhbroZmv5q3X7iVq
-In-Reply-To: <CAPhsuW4qY9B3KdhqrUOZoNBWQmO_RDwbH46my314WxrFwxbwkQ@mail.gmail.com>
+In-Reply-To: <CAPhsuW7q1hvOG7-uG2C8d_wWnOhEmvTmwnBcXZYVX-oJ8=5FJQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 5/7/25 08:26, Song Liu wrote:
+On 5/7/25 08:19, Song Liu wrote:
 > On Tue, May 6, 2025 at 7:40 AM Maxime Bélair
 > <maxime.belair@canonical.com> wrote:
 >>
->> Add support for the new lsm_manage_policy syscall, providing a unified
->> API for loading and modifying LSM policies without requiring the LSM’s
->> pseudo-filesystem.
+>> Define a new LSM hook security_lsm_manage_policy and wire it into the
+>> lsm_manage_policy() syscall so that LSMs can register a unified interface
+>> for policy management. This initial, minimal implementation only supports
+>> the LSM_POLICY_LOAD operation to limit changes.
 >>
->> Benefits:
->>   - Works even if the LSM pseudo-filesystem isn’t mounted or available
->>     (e.g. in containers)
->>   - Offers a logical and unified interface rather than multiple
->>     heterogeneous pseudo-filesystems.
+>> Signed-off-by: Maxime Bélair <maxime.belair@canonical.com>
+> [...]
+>> diff --git a/security/security.c b/security/security.c
+>> index fb57e8fddd91..256104e338b1 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -5883,6 +5883,27 @@ int security_bdev_setintegrity(struct block_device *bdev,
+>>  }
+>>  EXPORT_SYMBOL(security_bdev_setintegrity);
+>>
+>> +/**
+>> + * security_lsm_manage_policy() - Manage the policies of LSMs
+>> + * @lsm_id: id of the lsm to target
+>> + * @op: Operation to perform (one of the LSM_POLICY_XXX values)
+>> + * @buf:  userspace pointer to policy data
+>> + * @size: size of @buf
+>> + * @flags: lsm policy management flags
+>> + *
+>> + * Manage the policies of a LSM. This notably allows to update them even when
+>> + * the lsmfs is unavailable is restricted. Currently, only LSM_POLICY_LOAD is
+>> + * supported.
+>> + *
+>> + * Return: Returns 0 on success, error on failure.
+>> + */
+>> +int security_lsm_manage_policy(u32 lsm_id, u32 op, void __user *buf,
+>> +                              size_t size, u32 flags)
+>> +{
+>> +       return call_int_hook(lsm_manage_policy, lsm_id, op, buf, size, flags);
 > 
-> These two do not feel like real benefits:
-> - One syscall cannot fit all use cases well...
+> If the LSM doesn't implement this hook, sys_lsm_manage_policy will return 0
+> for any inputs, right? This is gonna be so confusing for users.
 
-This syscall is not intended to cover every case, nor to replace existing kernel
-interfaces.
+Indeed, that was an oversight. It will return -EOPNOTSUPP in the next patch revision.
 
-Each LSM can decide which operations it wants to support (if any). For example, when
-loading policies, an LSM may choose to allow only policies that further restrict
-privileges.
-
-> - Not working in containers is often not an issue, but a feature.
-
-Indeed, using this syscall requires appropriate capabilities and will not permit
-unprivileged containers to manage policies arbitrarily.
-
-With this syscall, capability checks remain the responsibility of each LSM.
-
-For instance, in the AppArmor patch, a profile can be loaded only if
-aa_policy_admin_capable() succeeds (which requires CAP_MAC_ADMIN). Moreover, by design,
-policies can be loaded only in the current namespace.
-
-I see this syscall as a middle point between exposing the entire sysfs, creating a large
-attack surface, and blocking everything.
-
-Landlock’s existing syscalls already improve security by allowing processes to further
-restrict their ambient rights while adding only a modest attack surface.
-
-This syscall is a further step in that direction: it lets LSMs add restrictive policies 
-without requiring exposing every other interface.
-
-Again, each module decides which operations to expose through this syscall. In many cases
-the operation will still require CAP_SYS_ADMIN or a similar capability, so environments
-that choose this interface remain secure while gaining its advantages.
-
->>   - Avoids overhead of other kernel interfaces for better efficiency
 > 
-> .. and it is is probably less efficient, because everything need to
-> fit in the same API.
-
-As shown below, the syscall can significantly improve the performance of policy management.
-A more detailed benchmark is available in [1].
-
-The following table presents the time required to load an AppArmor profile.
-
-For every cell, the first value is the total time taken by aa-load, and the value in
-parentheses is the time spent to load the policy in the kernel only (total - dry‑run).
-
-Results are in microseconds and are averaged over 10 000 runs to reduce variance. 
-
-
-| t (µs)    | syscall     | pseudofs    | Speedup       |
-|-----------|-------------|-------------|---------------|
-| 1password | 4257 (1127) | 3333 (192)  | x1.28 (x5.86) |
-| Xorg      | 6099 (2961) | 5167 (2020) | x1.18 (x1.47) |
-
-If an LSM wants to allow several operations for a single LSM_POLICY_XXX it can multiplex a sub‑opcode in flags, and select the appropriate handler, this incurs negligible overhead.
+> Thanks,
+> Song
 
 Thanks,
 
 Maxime
 
-[1] https://gitlab.com/-/snippets/4840792
 
