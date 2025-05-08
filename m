@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3724-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3725-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E3BAAF5A3
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 10:27:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9685CAAF5AB
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 10:29:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A63AB7BF11F
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 08:24:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B95E3A1FC6
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 08:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 812E4253344;
-	Thu,  8 May 2025 08:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 954A0229B27;
+	Thu,  8 May 2025 08:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Dw9J3hY0"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="VWXbskEa"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CD023BF8F;
-	Thu,  8 May 2025 08:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2D9211A00;
+	Thu,  8 May 2025 08:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746692724; cv=none; b=M0+vMpUEWafyqBrdAf57lGM7/zTPdWcN0AQkvEoUAB7W6to4R04jW9oDclDuUjsvfkdvBQqJvS+Nt2x2fyO8NOMobGXrCF8e3i9Fx6I9nMjUAzYr4U0vm6u3BG+cYJtKvJzzNr2YpF5BqpKeesClfsNOiZ/Z4kNNPY7F0J+vz3Y=
+	t=1746692949; cv=none; b=mJ6lK2KZO9dwc5GUJo3qQYNIkA0Z+Mir8r7nj/IPjn7GQNsJlymLFXkbeeRJXaLEyjn7CbfgTSUTFrpdxPPR0EZktI+0wTFR4ZO5nfWi2yfarExSWZaKJ7BdborGwhIpez3WqS80c0FxnuP4/3412znIzehPgQ6mZxIk5RdvT8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746692724; c=relaxed/simple;
-	bh=g15rcFr659pqlIf8WP1lPDOUnktbo9upOFU+g/jjDO4=;
+	s=arc-20240116; t=1746692949; c=relaxed/simple;
+	bh=CnVgTZ1UWFqStpjsVhnGhCEa95pvZ6Tf/34ZQ4x8thY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=psyvgY8NHuIZZ9s5Csl/Cr+FFVzbxTDlYReHDEej0f6UvZ4k1hoR6WQwY4rBt1N+sJTXilzn6uSQskUdtJBiwEwYld++70aF0S8UZ3c0n4u0z2MFkEVJ0Rq7ErlOWbR7WhXdMd7qQpx/whOy86Rd1zXCfiqrmREr8pXhN4hBmE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=Dw9J3hY0; arc=none smtp.client-ip=185.125.188.121
+	 In-Reply-To:Content-Type; b=g8L+7AKHh9DV16b8za7VIx048V7ZM8wZkkHyQMDJLZRxrtSoNAzmZXaC+MraZk0Q0z6bDGZf0BKvfRREW7ud71YO8Ga1gtdx1W8bQf3nZpHzTw/aYXCglHult9LNjJsuUoXRRE1bPj154IJ7MDDejLj9Q/weK7ZGz54SYMUuP4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=VWXbskEa; arc=none smtp.client-ip=185.125.188.121
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Received: from [10.101.3.5] (unknown [213.157.19.150])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id F04A13FB95;
-	Thu,  8 May 2025 08:25:19 +0000 (UTC)
+	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id D27DB3FB95;
+	Thu,  8 May 2025 08:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1746692720;
-	bh=R+HBIELU/mr5etBwZZ2ZwuOSlSkfomUQCsQIiupH+I8=;
+	s=20210705; t=1746692944;
+	bh=XH6y8mEZBmq1o1/i4oq6k0EFSwlQLCoZgzRUJn0bYTw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
 	 In-Reply-To:Content-Type;
-	b=Dw9J3hY0wd5U1CH2nIUbymXPKnrL7FajpGovL4rEzxlpiA536TVbqZ4ZdsN2l7ilY
-	 1X5gls5IFTqCPTrE+p5Zycrj6lJgHyJgBf9/Tisn0T7QAm3EiNNtA++aP6abBIxAeY
-	 GT9LmPwIcoAosNidYhL9g402ixiu3ylurfzf5ISaxEDe6Okngf/fRd22sw3zu2JWuF
-	 O/AZ9fFA/aEXPTIlX6Oa3uDPrtlNPU9dNkDY2wND+fN9sshqXow528GWdrpIlsApHJ
-	 PZK/M4PY8DDeBUL5NuRarFLi3nnljfC7koWCYZ0K57zi8iOe0rLJ4UVKg2gXkkOwNX
-	 S4TsgxOqddiww==
-Message-ID: <6d785712-6d8e-491c-86d4-1cbe5895778f@canonical.com>
-Date: Thu, 8 May 2025 01:25:19 -0700
+	b=VWXbskEaMUU1lOtE23N0HYO48Z06BA7n7d1GhyKORBKUVGtn+m6zGkKh6We5k9OhR
+	 08iJOvUwiwiq4a3YZsdCx87gcXgPYwayGCf1VvPgP/QtgbTzMui5U51KfKBSJAVM3y
+	 wgfqg63pGUPSvH3Qehisb9aUfruaLveArl9G85pNbZ5shrs23utIkwbd1JnKDTbI8Z
+	 J4AMHgvVKA33Ae5OQGPMVHOU2Yff+rMHk5LxYO1uUn7ieQUDsNrIPeYJ6+ooJQwDpw
+	 uYjt4RWkcDmxwVzY6Hcd6Jdc1D+aNLCpEEjBL3MDrYWBS1MEK/1k4yWQ+Lmf7z6x6r
+	 Pkps6xwnEM86g==
+Message-ID: <120954c2-87b7-4bda-958b-2b4f0180a736@canonical.com>
+Date: Thu, 8 May 2025 01:29:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -58,16 +58,17 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] lsm: introduce security_lsm_manage_policy hook
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
- linux-security-module@vger.kernel.org
-Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+To: Paul Moore <paul@paul-moore.com>,
+ =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ linux-security-module@vger.kernel.org, jmorris@namei.org, serge@hallyn.com,
  mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
  casey@schaufler-ca.com, takedakn@nttdata.co.jp, linux-api@vger.kernel.org,
  apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org
 References: <20250506143254.718647-1-maxime.belair@canonical.com>
  <20250506143254.718647-3-maxime.belair@canonical.com>
  <9c68743f-5efa-4a77-a29b-d3e8f2b2a462@I-love.SAKURA.ne.jp>
+ <CAHC9VhRKwB4quqBtYQyxRqCX2C6fCgTbyAP3Ov+NdQ06t1aFdA@mail.gmail.com>
 Content-Language: en-US
 From: John Johansen <john.johansen@canonical.com>
 Autocrypt: addr=john.johansen@canonical.com; keydata=
@@ -113,41 +114,54 @@ Autocrypt: addr=john.johansen@canonical.com; keydata=
  +T7sv9+iY+e0Y+SolyJgTxMYeRnDWE6S77g6gzYYHmcQOWP7ZMX+MtD4SKlf0+Q8li/F9GUL
  p0rw8op9f0p1+YAhyAd+dXWNKf7zIfZ2ME+0qKpbQnr1oizLHuJX/Telo8KMmHter28DPJ03 lT9Q
 Organization: Canonical
-In-Reply-To: <9c68743f-5efa-4a77-a29b-d3e8f2b2a462@I-love.SAKURA.ne.jp>
+In-Reply-To: <CAHC9VhRKwB4quqBtYQyxRqCX2C6fCgTbyAP3Ov+NdQ06t1aFdA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 5/7/25 03:40, Tetsuo Handa wrote:
-> On 2025/05/06 23:32, Maxime Bélair wrote:
->> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
->> index dcaad8818679..b39e6635a7d5 100644
->> --- a/security/lsm_syscalls.c
->> +++ b/security/lsm_syscalls.c
->> @@ -122,5 +122,10 @@ SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, u32 __user *, size,
->>   SYSCALL_DEFINE5(lsm_manage_policy, u32, lsm_id, u32, op, void __user *, buf, u32
->>   		__user *, size, u32, flags)
->>   {
->> -	return 0;
->> +	size_t usize;
->> +
->> +	if (get_user(usize, size))
->> +		return -EFAULT;
->> +
->> +	return security_lsm_manage_policy(lsm_id, op, buf, usize, flags);
->>   }
+On 5/7/25 13:25, Paul Moore wrote:
+> On Wed, May 7, 2025 at 6:41 AM Tetsuo Handa
+> <penguin-kernel@i-love.sakura.ne.jp> wrote:
+>> On 2025/05/06 23:32, Maxime Bélair wrote:
+>>> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+>>> index dcaad8818679..b39e6635a7d5 100644
+>>> --- a/security/lsm_syscalls.c
+>>> +++ b/security/lsm_syscalls.c
+>>> @@ -122,5 +122,10 @@ SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, u32 __user *, size,
+>>>   SYSCALL_DEFINE5(lsm_manage_policy, u32, lsm_id, u32, op, void __user *, buf, u32
+>>>                __user *, size, u32, flags)
+>>>   {
+>>> -     return 0;
+>>> +     size_t usize;
+>>> +
+>>> +     if (get_user(usize, size))
+>>> +             return -EFAULT;
+>>> +
+>>> +     return security_lsm_manage_policy(lsm_id, op, buf, usize, flags);
+>>>   }
+>>
+>> syzbot will report user-controlled unbounded huge size memory allocation attempt. ;-)
+>>
+>> This interface might be fine for AppArmor, but TOMOYO won't use this interface because
+>> TOMOYO's policy is line-oriented ASCII text data where the destination is switched via
+>> pseudo‑filesystem's filename ...
 > 
-> syzbot will report user-controlled unbounded huge size memory allocation attempt. ;-)
-> 
-> This interface might be fine for AppArmor, but TOMOYO won't use this interface because
-> TOMOYO's policy is line-oriented ASCII text data where the destination is switched via
-> pseudo‑filesystem's filename; use of filename helps restricting which type of policy
-> can be manipulated by which process.
+> While Tetsuo's comment is limited to TOMOYO, I believe the argument
+> applies to a number of other LSMs as well.  The reality is that there
+> is no one policy ideal shared across LSMs and that complicates things
+> like the lsm_manage_policy() proposal.  I'm intentionally saying
+> "complicates" and not "prevents" because I don't want to flat out
+> reject something like this, but I think there needs to be a larger
+> discussion among the different LSM groups about what such an API
+> should look like.  We may not need to get every LSM to support this
+> new API, but we need to get something that would work for a
+> significant majority and would be general/extensible enough that we
+> would expect it to work with the majority of future LSMs (as much as
+> we can predict the future anyway).
 > 
 
-That is fine. But curious I am curious what the interface would look like to fit TOMOYO's
-needs. I look at the current implementation as an opening discussion of what the syscall
-should look like. I have no delusions that we are going to get something that will fit
-all LSMs but without requirements, we won't be able to even attempt to hash something
-better out.
+yep, I look at this is just a starting point for discussion. There
+isn't going to be any discussion without some code, so here is a v1
+that supports a single LSM let the bike shedding begin.
+
 
 
