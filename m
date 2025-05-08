@@ -1,55 +1,76 @@
-Return-Path: <linux-api+bounces-3728-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3729-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75AABAAFD90
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 16:45:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 100F5AAFE97
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 17:12:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0F033A96DC
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 14:44:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5CFF18884C3
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 15:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D719274FDE;
-	Thu,  8 May 2025 14:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 531E228689F;
+	Thu,  8 May 2025 15:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="OpOzMxlL"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qq5FMn76"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46C11DC988;
-	Thu,  8 May 2025 14:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F77286881
+	for <linux-api@vger.kernel.org>; Thu,  8 May 2025 15:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746715490; cv=none; b=grFiKKR56wsnyhul7JJBglHRL3pat47OjCH0zLFTn2nq6wDxmMsJhSQE6Lbj9kn5R4TghiwwiFv4zE86g3RoIwRR3TYZ4z/wtL92Zjcy2Mdv+OW6bkfrki0GRTJuhQyBsksZmMG15tgyGZ3dd0e5L+smAcCG3w/+ATin/3Xw3RY=
+	t=1746716807; cv=none; b=S8ow/rGzRq96tDXnesg6Vltt3gO8/Xgc+aBPgQDqPF5R6VugH11SRfRl6yX5j6IWhEg3DuP2fPPaXP1ulK9gIvZ9FvCUy9SYCnJ4xCyZuYZ4NeDqFrr0uOBtEvEZdZ8rLf0o/zwKaUo/JdZ7gGRICruwtZa+4RxKKtkgmb4+Y0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746715490; c=relaxed/simple;
-	bh=zoXYYC+c7XNfXbe1Q3trYWbEfennF8neMKfcj1VzL3o=;
+	s=arc-20240116; t=1746716807; c=relaxed/simple;
+	bh=0SRez/e73G2FWCDWOJtPCRgCBM6jPJuo3QCvOOny7xY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ai68gbOwpR+IW6gvpgirYIyWgdTCqRXDTLNe+R6zeyHkQKf8qmWGPI1+ZCtuoOKJasxp2FcQh5qIpyIApel08PhUIwk2F36W/BJH5W+6KE5oD+6tjneDVws/QdJjUTm8D6fJNJAqOS7CKx0A9gvVzQdc2Pq4yibpTuKD68ucPqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=OpOzMxlL; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from [10.101.3.5] (unknown [213.157.19.150])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id BE4B93FADC;
-	Thu,  8 May 2025 14:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1746715478;
-	bh=BWgTpyvhSg2I0Mj7v5Ya0qGVTuqLchObBKbl7tEYJ6c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=OpOzMxlLfXje4ko3/yLococDQo0z4GJ/ENDf7kkWXu6ec1qdysmVXkGamY2Jp8Ss7
-	 rMaUfZTJoIp/71w39Dl/JgxCCmeum4EJmPya56um5gdGKravwGscSLZdwGd2ZDJ0ri
-	 tuLZNPc1DlewpI8rqVShr9qOpSSISXOJb4zHRPRl6TljHnykXxkuv/KzxPo6Sz0A+a
-	 H08YTyK3IzHafxO4d4VAtOpBnMjMgfZ5TAcKqmqhdldSZX5bnIHuaEg87clOtv2+CC
-	 xBmB8X06j0WI8mYicdTDn0VtEqltRAw0Dxw92zbSMbv9sK4tz4e3nR42s4RCSIebJd
-	 KWXrWfxk0cUPw==
-Message-ID: <07a496b2-ed1f-4a18-88d1-7be36dba3a8a@canonical.com>
-Date: Thu, 8 May 2025 07:44:35 -0700
+	 In-Reply-To:Content-Type; b=Spqf51rlnt8AUmxs9ln4f4nluvkQ2f7h9krhhYkrkkM0opOe1MQuEugfu31qrBvVtW1y4or9vqnHvnCVYd4MnBhcBN6lRG/L/5aWbHOWji6/w6C2KWd9K/5mCR4ZYlZYQAnwKD1L84B4wTWVjJ4mGlLt2RR0G1pcwwDhxnK7PYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qq5FMn76; arc=none smtp.client-ip=209.85.166.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3d7f111e9e1so10367385ab.1
+        for <linux-api@vger.kernel.org>; Thu, 08 May 2025 08:06:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1746716804; x=1747321604; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6/7ueoYgZ3OR3TB39uAN4klcPC2fDyaTwTbVZ+ISQok=;
+        b=Qq5FMn76UWOpSv2KpN9Y5VyqG5duqr7VItW2NSDU3FbF6vKsYHaPPN2s5M1xqyDYg2
+         gRLJFcvZoEFB8tYMb0N9MBk18PXvKrPu7reZNKyNKwZfu+usb9Q5fQ+suQcC6c4jh3dB
+         QAABcrvMIKqMp4EoHiyDXLozzCydIpDvjjiZ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746716804; x=1747321604;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6/7ueoYgZ3OR3TB39uAN4klcPC2fDyaTwTbVZ+ISQok=;
+        b=f0EeuTmRAC4ADQ3nUQJivz6spU2qYpTZ2InvcXEyNQaiiEfCLhDa6VeF3eT7wLQkF5
+         9tXHI6OZuLpCPROfpu0vWgY6KPNYi2p5Q7pHN0bcJI2FbDyTzv1k56jL6xfejlu4cMap
+         E+DnJB/EOWtq17HdYGmhSllUAk/fftQkH/cmY2b8XSKFIKNtXeWeRplHloAiUqcwjkJT
+         pwcROPjeXv286W1fgNULsBOKAlaizt27f7kPP4Z+Iv54HGW0byX2mcO6ft3Xd0Xu2va+
+         pi9CaRuVHgeecnc7wVcjw5qRO5e6o+HJmw68FBLpH+3ipw+Qzl0atkEQbnbqKhEAkE6B
+         OYMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtCM4NB8IP7POAYZx9v57rsfOytdxxgUVFNf8kMM5rvo9H6fXAbtgqftAxKTrr2CYwZLENIbalFoc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz11jeRyENSgZXs36CzrHHPgCj++ybgcygESkh/sOLPdpN38/1
+	/D9jTppo4dozP1rvB+He2BJ+4/253V6Y7quMOeWs9TR9Cn7LO20BVTGWKFZK4DU=
+X-Gm-Gg: ASbGnctaLMiVqdPiPk/hkUTAl0RhfSzw6hgotSMGA3hmLZhAtlm/HQ7XBHDsbF2Irzi
+	WmF4MK6Gc+bPhztJJ83anQq5iPJxhshSWXTsa8/I8SKFwbzSWwX7juLdkhH0qXh2JRA8rTlxL+q
+	3U2yaxzku+OXz8Jg4PwkcU+g9ZB0/RyEAYOwvGTF33s7wpulCh0ggV0mNEs9k+xgcRdhbmZu8+L
+	0XhOio97QmT/QxreIGs1E7qjE02ksgOCCZO0s3ZqI8QVK5L5Sby3LoRFXMivyRW0mF1UrxPuMmA
+	dEi9xO+zK640O1Kz21FNgyI3YfI4U0J332CPaCv8VuyuUdd8pZY=
+X-Google-Smtp-Source: AGHT+IEmzmvQ4SB42hghmafdzG3t4YyXDL1hlYw77sgyCL2ktMv/2tM0lwmDTfO/AIM4bcI7oMIiEw==
+X-Received: by 2002:a05:6e02:3cca:b0:3d8:1bd0:9a79 with SMTP id e9e14a558f8ab-3da785ae55fmr54026135ab.21.1746716802693;
+        Thu, 08 May 2025 08:06:42 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d975e7d0c6sm38491925ab.27.2025.05.08.08.06.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 May 2025 08:06:42 -0700 (PDT)
+Message-ID: <b547d83f-6e9d-4b11-9207-aca8fd575794@linuxfoundation.org>
+Date: Thu, 8 May 2025 09:06:41 -0600
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -57,84 +78,53 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] lsm: introduce security_lsm_manage_policy hook
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
- linux-security-module@vger.kernel.org
-Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
- mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
- casey@schaufler-ca.com, takedakn@nttdata.co.jp, linux-api@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org
-References: <20250506143254.718647-1-maxime.belair@canonical.com>
- <20250506143254.718647-3-maxime.belair@canonical.com>
- <9c68743f-5efa-4a77-a29b-d3e8f2b2a462@I-love.SAKURA.ne.jp>
- <6d785712-6d8e-491c-86d4-1cbe5895778f@canonical.com>
- <75c0385c-b649-46b0-907f-903e2217f460@I-love.SAKURA.ne.jp>
+Subject: Re: The "make headers" requirement, revisited: [PATCH v3 3/3]
+ selftests: pidfd: add tests for PIDFD_SELF_*
+To: Sean Christopherson <seanjc@google.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Peter Zijlstra
+ <peterz@infradead.org>, Shuah Khan <shuah@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Oliver Sang <oliver.sang@intel.com>, Christian Brauner
+ <christian@brauner.io>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
+ <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
+ <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
+ <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com>
+ <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
+ <3687348f-7ee0-4fe1-a953-d5a2edd02ce8@nvidia.com>
+ <e87bbc68-0403-4d67-ae2d-64065e36a011@linuxfoundation.org>
+ <aBy5503w_GuNTu9B@google.com>
 Content-Language: en-US
-From: John Johansen <john.johansen@canonical.com>
-Autocrypt: addr=john.johansen@canonical.com; keydata=
- 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 lT9Q
-Organization: Canonical
-In-Reply-To: <75c0385c-b649-46b0-907f-903e2217f460@I-love.SAKURA.ne.jp>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <aBy5503w_GuNTu9B@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/8/25 05:55, Tetsuo Handa wrote:
-> On 2025/05/08 17:25, John Johansen wrote:
->> That is fine. But curious I am curious what the interface would look like to fit TOMOYO's
->> needs.
+On 5/8/25 08:04, Sean Christopherson wrote:
+> On Wed, May 07, 2025, Shuah Khan wrote:
+>> The issues Peter is seeing regarding KHDR_INCLUDES in the following
+>> tests can be easily fixed by simply changing the test Makefile. These
+>> aren't framework related.
+>>
+>> kvm/Makefile.kvm:    -I ../rseq -I.. $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
 > 
-> Stream (like "FILE *") with restart from the beginning (like rewind(fp)) support.
-> That is, the caller can read/write at least one byte at a time, and written data
-> is processed upon encountering '\n'.
+> ...
 > 
+>> You can make the change to remove the reference to KHDR_INCLUDES.
+>> If don't have the time/bandwidth to do it, I will take care of it.
+> 
+> Please don't remove the KHDR_INCLUDES usage in KVM's selftests, KVM routinely
+> adds tests for new uAPI.  Having to manually install headers is annoying, but
+> IMO it's the least awful solution we have.
 
-that can be emulated within the current sycall, where the lsm maintains a buffer.
-Are you asking to also read data back out as well, that could be added, but doing
-a syscall per byte here or through the fs is going to have fairly high overhead.
+Thank you for confirming that KHDR_INCLUDES customization is necessary
+for some tests such as kvm.
 
-Without understanding the requirement it would seem to me, that it would be
-better to emulate that file buffer manipulation in userspace similar say C++
-stringstreams, and then write the syscall when done.
-
+thanks,
+-- Shuah
 
