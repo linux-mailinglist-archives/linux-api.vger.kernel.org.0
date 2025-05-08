@@ -1,76 +1,46 @@
-Return-Path: <linux-api+bounces-3729-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3730-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100F5AAFE97
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 17:12:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B16AAFEC8
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 17:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5CFF18884C3
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 15:11:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13DA21885A6B
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 15:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 531E228689F;
-	Thu,  8 May 2025 15:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qq5FMn76"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E1C279329;
+	Thu,  8 May 2025 15:08:46 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F77286881
-	for <linux-api@vger.kernel.org>; Thu,  8 May 2025 15:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837871D7E41;
+	Thu,  8 May 2025 15:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746716807; cv=none; b=S8ow/rGzRq96tDXnesg6Vltt3gO8/Xgc+aBPgQDqPF5R6VugH11SRfRl6yX5j6IWhEg3DuP2fPPaXP1ulK9gIvZ9FvCUy9SYCnJ4xCyZuYZ4NeDqFrr0uOBtEvEZdZ8rLf0o/zwKaUo/JdZ7gGRICruwtZa+4RxKKtkgmb4+Y0U=
+	t=1746716926; cv=none; b=HCEYS6jXi7oykoSG5i2irVhEEvgvHdWa0mIjxaP4S8WZRIqJfdwNL8O8/VDmYCMMlVpaT22yjxyjDYG3L9r+xVJY8kEkS984iHf9fm2IGL351X/1pzByXqNRuL3ke8MP0wlCfAPIldZ13xeaUEwtksRdRbQSu/DszqJcjD68Xmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746716807; c=relaxed/simple;
-	bh=0SRez/e73G2FWCDWOJtPCRgCBM6jPJuo3QCvOOny7xY=;
+	s=arc-20240116; t=1746716926; c=relaxed/simple;
+	bh=pO36bLXEqsI5dmjb3fZVSCZpu0F+ckPnsDM8jsyHElA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Spqf51rlnt8AUmxs9ln4f4nluvkQ2f7h9krhhYkrkkM0opOe1MQuEugfu31qrBvVtW1y4or9vqnHvnCVYd4MnBhcBN6lRG/L/5aWbHOWji6/w6C2KWd9K/5mCR4ZYlZYQAnwKD1L84B4wTWVjJ4mGlLt2RR0G1pcwwDhxnK7PYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qq5FMn76; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3d7f111e9e1so10367385ab.1
-        for <linux-api@vger.kernel.org>; Thu, 08 May 2025 08:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1746716804; x=1747321604; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6/7ueoYgZ3OR3TB39uAN4klcPC2fDyaTwTbVZ+ISQok=;
-        b=Qq5FMn76UWOpSv2KpN9Y5VyqG5duqr7VItW2NSDU3FbF6vKsYHaPPN2s5M1xqyDYg2
-         gRLJFcvZoEFB8tYMb0N9MBk18PXvKrPu7reZNKyNKwZfu+usb9Q5fQ+suQcC6c4jh3dB
-         QAABcrvMIKqMp4EoHiyDXLozzCydIpDvjjiZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746716804; x=1747321604;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6/7ueoYgZ3OR3TB39uAN4klcPC2fDyaTwTbVZ+ISQok=;
-        b=f0EeuTmRAC4ADQ3nUQJivz6spU2qYpTZ2InvcXEyNQaiiEfCLhDa6VeF3eT7wLQkF5
-         9tXHI6OZuLpCPROfpu0vWgY6KPNYi2p5Q7pHN0bcJI2FbDyTzv1k56jL6xfejlu4cMap
-         E+DnJB/EOWtq17HdYGmhSllUAk/fftQkH/cmY2b8XSKFIKNtXeWeRplHloAiUqcwjkJT
-         pwcROPjeXv286W1fgNULsBOKAlaizt27f7kPP4Z+Iv54HGW0byX2mcO6ft3Xd0Xu2va+
-         pi9CaRuVHgeecnc7wVcjw5qRO5e6o+HJmw68FBLpH+3ipw+Qzl0atkEQbnbqKhEAkE6B
-         OYMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWtCM4NB8IP7POAYZx9v57rsfOytdxxgUVFNf8kMM5rvo9H6fXAbtgqftAxKTrr2CYwZLENIbalFoc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz11jeRyENSgZXs36CzrHHPgCj++ybgcygESkh/sOLPdpN38/1
-	/D9jTppo4dozP1rvB+He2BJ+4/253V6Y7quMOeWs9TR9Cn7LO20BVTGWKFZK4DU=
-X-Gm-Gg: ASbGnctaLMiVqdPiPk/hkUTAl0RhfSzw6hgotSMGA3hmLZhAtlm/HQ7XBHDsbF2Irzi
-	WmF4MK6Gc+bPhztJJ83anQq5iPJxhshSWXTsa8/I8SKFwbzSWwX7juLdkhH0qXh2JRA8rTlxL+q
-	3U2yaxzku+OXz8Jg4PwkcU+g9ZB0/RyEAYOwvGTF33s7wpulCh0ggV0mNEs9k+xgcRdhbmZu8+L
-	0XhOio97QmT/QxreIGs1E7qjE02ksgOCCZO0s3ZqI8QVK5L5Sby3LoRFXMivyRW0mF1UrxPuMmA
-	dEi9xO+zK640O1Kz21FNgyI3YfI4U0J332CPaCv8VuyuUdd8pZY=
-X-Google-Smtp-Source: AGHT+IEmzmvQ4SB42hghmafdzG3t4YyXDL1hlYw77sgyCL2ktMv/2tM0lwmDTfO/AIM4bcI7oMIiEw==
-X-Received: by 2002:a05:6e02:3cca:b0:3d8:1bd0:9a79 with SMTP id e9e14a558f8ab-3da785ae55fmr54026135ab.21.1746716802693;
-        Thu, 08 May 2025 08:06:42 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d975e7d0c6sm38491925ab.27.2025.05.08.08.06.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 08:06:42 -0700 (PDT)
-Message-ID: <b547d83f-6e9d-4b11-9207-aca8fd575794@linuxfoundation.org>
-Date: Thu, 8 May 2025 09:06:41 -0600
+	 In-Reply-To:Content-Type; b=SjqG9YibNvIChqjG4TXAZkA2cZKLb3Dk8bj36LYGGA4YqgaNNZdY9gKWWwNudycpYfsD4Luv4yXOVkUoGu5rYBMznxCwRaYfYN6qjTCJFuhk57CTX4W95a7t/dBdNt/s4VjcElqn12khfHnnHEJEaMO4KRrmZFsTR6Ii2o7JzEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 548F7qGx083296;
+	Fri, 9 May 2025 00:07:52 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 548F7o6P083277
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 9 May 2025 00:07:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <75c7424b-fec9-469b-8f73-50ab86948a24@I-love.SAKURA.ne.jp>
+Date: Fri, 9 May 2025 00:07:48 +0900
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -78,53 +48,57 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: The "make headers" requirement, revisited: [PATCH v3 3/3]
- selftests: pidfd: add tests for PIDFD_SELF_*
-To: Sean Christopherson <seanjc@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Peter Zijlstra
- <peterz@infradead.org>, Shuah Khan <shuah@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
- pedro.falcato@gmail.com, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Oliver Sang <oliver.sang@intel.com>, Christian Brauner
- <christian@brauner.io>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
- <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
- <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
- <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com>
- <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
- <3687348f-7ee0-4fe1-a953-d5a2edd02ce8@nvidia.com>
- <e87bbc68-0403-4d67-ae2d-64065e36a011@linuxfoundation.org>
- <aBy5503w_GuNTu9B@google.com>
+Subject: Re: [PATCH 2/3] lsm: introduce security_lsm_manage_policy hook
+To: John Johansen <john.johansen@canonical.com>,
+        =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
+        linux-security-module@vger.kernel.org
+Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net,
+        kees@kernel.org, stephen.smalley.work@gmail.com,
+        casey@schaufler-ca.com, takedakn@nttdata.co.jp,
+        linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
+        linux-kernel@vger.kernel.org
+References: <20250506143254.718647-1-maxime.belair@canonical.com>
+ <20250506143254.718647-3-maxime.belair@canonical.com>
+ <9c68743f-5efa-4a77-a29b-d3e8f2b2a462@I-love.SAKURA.ne.jp>
+ <6d785712-6d8e-491c-86d4-1cbe5895778f@canonical.com>
+ <75c0385c-b649-46b0-907f-903e2217f460@I-love.SAKURA.ne.jp>
+ <07a496b2-ed1f-4a18-88d1-7be36dba3a8a@canonical.com>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <aBy5503w_GuNTu9B@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <07a496b2-ed1f-4a18-88d1-7be36dba3a8a@canonical.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav402.rs.sakura.ne.jp
 
-On 5/8/25 08:04, Sean Christopherson wrote:
-> On Wed, May 07, 2025, Shuah Khan wrote:
->> The issues Peter is seeing regarding KHDR_INCLUDES in the following
->> tests can be easily fixed by simply changing the test Makefile. These
->> aren't framework related.
+On 2025/05/08 23:44, John Johansen wrote:
+> On 5/8/25 05:55, Tetsuo Handa wrote:
+>> On 2025/05/08 17:25, John Johansen wrote:
+>>> That is fine. But curious I am curious what the interface would look like to fit TOMOYO's
+>>> needs.
 >>
->> kvm/Makefile.kvm:    -I ../rseq -I.. $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
+>> Stream (like "FILE *") with restart from the beginning (like rewind(fp)) support.
+>> That is, the caller can read/write at least one byte at a time, and written data
+>> is processed upon encountering '\n'.
+>>
 > 
-> ...
-> 
->> You can make the change to remove the reference to KHDR_INCLUDES.
->> If don't have the time/bandwidth to do it, I will take care of it.
-> 
-> Please don't remove the KHDR_INCLUDES usage in KVM's selftests, KVM routinely
-> adds tests for new uAPI.  Having to manually install headers is annoying, but
-> IMO it's the least awful solution we have.
+> that can be emulated within the current sycall, where the lsm maintains a buffer.
 
-Thank you for confirming that KHDR_INCLUDES customization is necessary
-for some tests such as kvm.
+That cannot be emulated, for there is no event that is automatically triggered when
+the process terminates (i.e. implicit close() upon exit()) in order to release the
+buffer the LSM maintains.
 
-thanks,
--- Shuah
+> Are you asking to also read data back out as well, that could be added, but doing
+> a syscall per byte here or through the fs is going to have fairly high overhead.
+
+At least one byte means arbitrary bytes; that is, the caller does not need to read
+or write the whole policy at one syscall.
+
+> 
+> Without understanding the requirement it would seem to me, that it would be
+> better to emulate that file buffer manipulation in userspace similar say C++
+> stringstreams, and then write the syscall when done.
+
+The size of the whole policy in byte varies a lot.
+
 
