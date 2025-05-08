@@ -1,80 +1,109 @@
-Return-Path: <linux-api+bounces-3726-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3727-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8201AAFAB5
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 14:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E493CAAFC54
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 16:04:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A34C9E21EC
-	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 12:56:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75E549E0C3A
+	for <lists+linux-api@lfdr.de>; Thu,  8 May 2025 14:04:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A5BA21ABAE;
-	Thu,  8 May 2025 12:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E4A242928;
+	Thu,  8 May 2025 14:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eXgSkB2N"
 X-Original-To: linux-api@vger.kernel.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2036E219319;
-	Thu,  8 May 2025 12:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DB8239E8B
+	for <linux-api@vger.kernel.org>; Thu,  8 May 2025 14:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746709018; cv=none; b=lpEUa03uM5eqRgVr++HNILchneOnFCs4s38OY/1VFR5bIqXB3CaVgdha6bUxkn9Yz9/3QTq7XVQ+qv7nC2Ze/oYb+wDiJfB/guVgLJc7f7OAZJQb9iu7tOvJuVmnQq2974PDxz3+ZCWWWBCgpODFFts3rf1l9kitiWgptD0mlWM=
+	t=1746713067; cv=none; b=avPbAiUD9biCFAh6RMKex0DGNQcFGmKSRKPnbv1uhypnRw/x7ryXv923AUEm4jj9ehE65bucv1M1IF37FNyWDiPVlaAuZcQ2E1CQoN19GlNDjkP9pNlsfrc5vvP4bbVLcsfWNQJVGVJ9XfIiUYKSRP9VDm65GupwvhqHoMIDkVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746709018; c=relaxed/simple;
-	bh=VnYy99ctH9dGOn0PvoJ8+o42P5BdUgrrCJD+hHpOR5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZpzH/hE8jv8ydHc1Be98kc9bYsOJTCUFD9hh0EA/ZnNI4/M3+WEPjLMQCyoxIQuflwRcXD2TGp6amru0OY85UI1Q613Il2Yyj6d8nvAepvUpYKudVEO9Or+bja5YcufPx5netf1Hei8K9SD33dE6XGt5TC69ueAW96JUrPsHk7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 548CtjHW039304;
-	Thu, 8 May 2025 21:55:45 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 548Ctjkt039300
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 8 May 2025 21:55:45 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <75c0385c-b649-46b0-907f-903e2217f460@I-love.SAKURA.ne.jp>
-Date: Thu, 8 May 2025 21:55:45 +0900
+	s=arc-20240116; t=1746713067; c=relaxed/simple;
+	bh=RbK/9v+ee2pYpO2N9wpE0C8ABX7e2vw/PINumgYZ1XE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=J5EJwb6vMSoFIxdUx9+cInW8dDiCZM8qQZQkn73PMsVKrQZXmDQFkF/u/XTJORfN78KWnpD7AS3XIAZdg3PYofyLMtFM0ps9W6ZvFjxU3Duq6FN/FXEEWGZiArKrrwt8g2DiVSbsb/OCOJMbVUs7lClhqWVbz+F2LG+vjdJyo4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eXgSkB2N; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-b048d1abbbfso1048786a12.0
+        for <linux-api@vger.kernel.org>; Thu, 08 May 2025 07:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746713065; x=1747317865; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2tf3xEZy1dGL+3t3eFy4J00XNnFfVlwiE6sUM4MGp4=;
+        b=eXgSkB2N7iJ0p3fztNgeCYvb2nWZq+W0DWu9tB3u8Wxo8sDcEzXdq4rtYbFa4D47hK
+         XjYPu/ikWw4fyudax7CLUQ8gf5KYeeSpmTIZu3Dg26xAFQQVLi8eWzSfIeWQIcKCK2Qf
+         8d6pjTy7z1DgldpI6ZEQ1udKyAEpHP8/qitsnM2nZajHG/KrEWg034fLheTnpQqrO/Uh
+         aFvThM6gY7UQbuht/FJjHG+Nvuz2c9R68XkCihVCWoCI/mq63GYiBHhvaZLf+5ccX1mV
+         h1n+9WLIfbdoeCwntY0r7sOevEuD1oKnlswD/NKebnlidHYmJWW29NDQfIr48nPf0pGO
+         SblQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746713065; x=1747317865;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2tf3xEZy1dGL+3t3eFy4J00XNnFfVlwiE6sUM4MGp4=;
+        b=oWSqaGo/ellBjgdaPW7Goie5RH8x1lrsjAfUR11yReNVVFFdgBuAozTIlDzi26fa3Q
+         ykYbHV3Zj0nagszrCcAl/5cx222ZKik32XnCE/4JHT3A3BfAv8R4GlJhwqW6BMh4Gm2r
+         bYHzTrXIMXImYKiAydXoMLjMuN477fIbB52lbjaw6Ndqf2dP+8ayqnBpzOSSJOm+tQPE
+         zraeycVBm5uaN0kCj+oE7AHeM6Lmmv02qfj+vCnwxBjtlvypZar1MTz7oWUmwOxth/Dj
+         bUIEu8VI/lcKgIpfFTwjsa7KIu3JBj6SWIo4R3p/8FWt2R823WG+xLvkFW0Gh7R3MuVM
+         ZoEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWX1p1uR6f8Knvbhn7dCdvaA25Ajuf603PZRAiV6KZfHkixeUeIxgIh2j6zdmOfEwrF0VtsIq1mNvE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxwl84Y6AtjzOaEspe/d3PHJ24Nj4JDPDtDjqd+uEeWLsgxUxe6
+	YA7d9FWzOKyAW31IfgZBo+wU08R2OH9xpCBU/Vq9SxpdIK8gMGsvGwb7WyvWqPUE3VbSiWQbfC6
+	P/g==
+X-Google-Smtp-Source: AGHT+IHihdEq9WLfghzMNio7YGXsAlKJr+fbU3ATJJQrX+sg9sIwzP998JJJm0pKRjkHt2JyM4XtawG+d/Q=
+X-Received: from pjbpb5.prod.google.com ([2002:a17:90b:3c05:b0:30a:8ffa:9154])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1e08:b0:2fe:a515:4a98
+ with SMTP id 98e67ed59e1d1-30aac2bb314mr10385069a91.31.1746713065404; Thu, 08
+ May 2025 07:04:25 -0700 (PDT)
+Date: Thu, 8 May 2025 07:04:23 -0700
+In-Reply-To: <e87bbc68-0403-4d67-ae2d-64065e36a011@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] lsm: introduce security_lsm_manage_policy hook
-To: John Johansen <john.johansen@canonical.com>,
-        =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
-        linux-security-module@vger.kernel.org
-Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net,
-        kees@kernel.org, stephen.smalley.work@gmail.com,
-        casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-        linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
-        linux-kernel@vger.kernel.org
-References: <20250506143254.718647-1-maxime.belair@canonical.com>
- <20250506143254.718647-3-maxime.belair@canonical.com>
- <9c68743f-5efa-4a77-a29b-d3e8f2b2a462@I-love.SAKURA.ne.jp>
- <6d785712-6d8e-491c-86d4-1cbe5895778f@canonical.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <6d785712-6d8e-491c-86d4-1cbe5895778f@canonical.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav103.rs.sakura.ne.jp
+Mime-Version: 1.0
+References: <cover.1729073310.git.lorenzo.stoakes@oracle.com>
+ <c083817403f98ae45a70e01f3f1873ec1ba6c215.1729073310.git.lorenzo.stoakes@oracle.com>
+ <a3778bea-0a1e-41b7-b41c-15b116bcbb32@linuxfoundation.org>
+ <6dd57f0e-34b4-4456-854b-a8abdba9163b@nvidia.com> <e0b9d4ad-0d47-499a-9ec8-7307b67cae5c@linuxfoundation.org>
+ <3687348f-7ee0-4fe1-a953-d5a2edd02ce8@nvidia.com> <e87bbc68-0403-4d67-ae2d-64065e36a011@linuxfoundation.org>
+Message-ID: <aBy5503w_GuNTu9B@google.com>
+Subject: Re: The "make headers" requirement, revisited: [PATCH v3 3/3]
+ selftests: pidfd: add tests for PIDFD_SELF_*
+From: Sean Christopherson <seanjc@google.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: John Hubbard <jhubbard@nvidia.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Shuah Khan <shuah@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, pedro.falcato@gmail.com, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Oliver Sang <oliver.sang@intel.com>, 
+	Christian Brauner <christian@brauner.io>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On 2025/05/08 17:25, John Johansen wrote:
-> That is fine. But curious I am curious what the interface would look like to fit TOMOYO's
-> needs.
+On Wed, May 07, 2025, Shuah Khan wrote:
+> The issues Peter is seeing regarding KHDR_INCLUDES in the following
+> tests can be easily fixed by simply changing the test Makefile. These
+> aren't framework related.
+> 
+> kvm/Makefile.kvm:    -I ../rseq -I.. $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
 
-Stream (like "FILE *") with restart from the beginning (like rewind(fp)) support.
-That is, the caller can read/write at least one byte at a time, and written data
-is processed upon encountering '\n'.
+...
 
+> You can make the change to remove the reference to KHDR_INCLUDES.
+> If don't have the time/bandwidth to do it, I will take care of it.
+
+Please don't remove the KHDR_INCLUDES usage in KVM's selftests, KVM routinely
+adds tests for new uAPI.  Having to manually install headers is annoying, but
+IMO it's the least awful solution we have.
 
