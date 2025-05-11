@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3737-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3738-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B9CAB27C9
-	for <lists+linux-api@lfdr.de>; Sun, 11 May 2025 12:47:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6831FAB27E2
+	for <lists+linux-api@lfdr.de>; Sun, 11 May 2025 13:10:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CE2D1894480
-	for <lists+linux-api@lfdr.de>; Sun, 11 May 2025 10:47:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD8F7173298
+	for <lists+linux-api@lfdr.de>; Sun, 11 May 2025 11:10:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 788E21A5B88;
-	Sun, 11 May 2025 10:47:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE69F1D5154;
+	Sun, 11 May 2025 11:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="eHRIbcz5"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="CVWROG4u"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54330184E;
-	Sun, 11 May 2025 10:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677DF1CA84;
+	Sun, 11 May 2025 11:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746960456; cv=none; b=shzqedjy8xVTM5fiInE7PFUI3DDCTUqs6TaSLB9x1y5JOmbp8wwEjfupWcs8N2ICs+1raRVFwSStOJh1SGaOnyBzxgRztAuYn4jUlU/BGRO8yaAI0lChQcpuJeUMrtkKfJA0CJGDgNdYEWT5n2R0bwEp9QuD77Jo78LmvQIvueI=
+	t=1746961805; cv=none; b=V8npoRGYe2xRuaEo1rbpd9rj8hf48tovPSb31ZeqluwUnybnb3KGB7oEDahKxR8/nV4FOhhEYVMkyRTKPeXo/GpnHUBx75vwEAKRq4POGbsEDJJ5n9JWRkT6fygF129EYdCHMyvGjne63W9mkI37RW91i+Cmzwjde6on1AW1ksw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746960456; c=relaxed/simple;
-	bh=+AT3YEnKLWJwakDMoKjF/CGOZ4nw7zPET4ecXHGX9B4=;
+	s=arc-20240116; t=1746961805; c=relaxed/simple;
+	bh=jMQBK9nDENFw/bCN1t0pnnaMpP8NqWeKB9vcg7JDZWs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JAWt1HA7SJM2bX5HC5slUO5p3jYZ8mbJBxcEymdykROdY1XZjHqdmq9hs5/01O4LstB33SSMzZse6Fv9buIEHtRPxRpQKqg/+obBZNHWYpeGJperFDDB7CWihF745NfWNFw/nDTz8e5FztCyktIISTb2inchm15dIMDQiXWVM4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=eHRIbcz5; arc=none smtp.client-ip=185.125.188.121
+	 In-Reply-To:Content-Type; b=Ue9GmP0rdSu+8R6VG8do+bvu60tt8TeXmgjBKAF9U3FgOrFJPuKzCKhu6VwVqZK7Q0anIOkBZSv7i3/ey4n5CsIuVmecnUWyaGW5wg+zrbAbw/gmFH4efNQ83ufA2PW0wapZoavWt5bPPEfk84/dIowMc1O0e9mcn9Zbi1T8DCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=CVWROG4u; arc=none smtp.client-ip=185.125.188.121
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Received: from [172.20.3.254] (unknown [213.157.19.135])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 28AC93FF1F;
-	Sun, 11 May 2025 10:47:23 +0000 (UTC)
+	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id CC9DE3FE1C;
+	Sun, 11 May 2025 11:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1746960443;
-	bh=U4WbwpaVb0Qo8GQJAxkR1Cw5Qxdz8WjqLdu5gfIlk4Q=;
+	s=20210705; t=1746961800;
+	bh=+uL/f0wq2ESOTZKET8OH5w68gAIopfy0QxnsRwSKynA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
 	 In-Reply-To:Content-Type;
-	b=eHRIbcz5An47S7IqSD3295q2vstefzGinmpchT86M923+Ec0KK37z/Vp9qOwbbRZ6
-	 GCezsUaumSP6MCxH68OBmAiB/YB4H2lUmSq8Q/EcN6Z75GCndJQD0EzRabSwykYuc0
-	 fXgPgEJwh9AFj7+EWncqYB25djZXV6snTymLZzOiAh4oIc4MR5k9TvHXIlg0/rnPEX
-	 lYpsCccLmOFXWEoDOMpqeuhidq1A2wZyFD+YCdJiS8FwEVg2AwZ+7qbXtIKzB4Hd0n
-	 3yC/qXJwudSF6aroNLZ1hhmxs5xB9dR31ySzbUesTSeOawtrGMt8WLux52qiG07gUM
-	 yWS9Lb+roGGKQ==
-Message-ID: <19313f6b-42d7-4845-9a4b-93c7546aadb9@canonical.com>
-Date: Sun, 11 May 2025 03:47:21 -0700
+	b=CVWROG4uQt7gdi6SeZNs+j1hdq8C0KxT1gYttB2rwjZ8p3p8Ve8cXz63QDccn1vgd
+	 ZufUZ6uuZryPfeGeqYwuPDA7FSnRyzekaeJv+/d8eaBTngoC57k7EUthBC44H9Xj3L
+	 Dlg70sv6C/tIwmXePcdoHKqAKnYZY+92FjQmigGcqYRy5bEv06fDqB13dDz/+EOOad
+	 moP+Hu3ogc0qdPGGRL9sYNs2WKN4GNrIO7Q85ZhngceGUIGq88+mLYuJFssK0dYKLw
+	 GCEO+9544qn7wPU4ngsei+p5UgAZSuUp9JwYLorM8SLq2ouxyze5inYAh7kAxwQw9Y
+	 FUJPaHiC1vdGw==
+Message-ID: <c8faa0ca-1cbd-439f-bdf7-0bf34c2b9d91@canonical.com>
+Date: Sun, 11 May 2025 04:09:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -59,20 +59,21 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] Wire up the lsm_manage_policy syscall
 To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Song Liu <song@kernel.org>, =?UTF-8?Q?Maxime_B=C3=A9lair?=
- <maxime.belair@canonical.com>, linux-security-module@vger.kernel.org,
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
+ Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org,
  paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, kees@kernel.org,
  stephen.smalley.work@gmail.com, casey@schaufler-ca.com,
- takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp,
- linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+ takedakn@nttdata.co.jp, linux-api@vger.kernel.org,
+ apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>
 References: <20250506143254.718647-1-maxime.belair@canonical.com>
  <20250506143254.718647-2-maxime.belair@canonical.com>
  <CAPhsuW4qY9B3KdhqrUOZoNBWQmO_RDwbH46my314WxrFwxbwkQ@mail.gmail.com>
  <aa3c41f9-6b25-4871-a4be-e08430e59730@canonical.com>
- <CAPhsuW4FVMS7v8p_C-QzE8nBxCb6xDRhEecm_KHZ3KbKUjOXrQ@mail.gmail.com>
- <9aaeda3a-8ef5-4820-b2e4-9180b73fb368@canonical.com>
- <20250509.ePu7gaim1Foo@digikod.net>
+ <470689f0-223e-4d26-a919-8d48f383883b@I-love.SAKURA.ne.jp>
+ <7da224cd-fd9c-4c80-9a23-cb977420f50b@canonical.com>
+ <20250509.bokeiCho2oov@digikod.net>
 Content-Language: en-US
 From: John Johansen <john.johansen@canonical.com>
 Autocrypt: addr=john.johansen@canonical.com; keydata=
@@ -118,196 +119,155 @@ Autocrypt: addr=john.johansen@canonical.com; keydata=
  +T7sv9+iY+e0Y+SolyJgTxMYeRnDWE6S77g6gzYYHmcQOWP7ZMX+MtD4SKlf0+Q8li/F9GUL
  p0rw8op9f0p1+YAhyAd+dXWNKf7zIfZ2ME+0qKpbQnr1oizLHuJX/Telo8KMmHter28DPJ03 lT9Q
 Organization: Canonical
-In-Reply-To: <20250509.ePu7gaim1Foo@digikod.net>
+In-Reply-To: <20250509.bokeiCho2oov@digikod.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 5/9/25 03:26, Mickaël Salaün wrote:
-> On Thu, May 08, 2025 at 01:18:20AM -0700, John Johansen wrote:
->> On 5/7/25 23:06, Song Liu wrote:
->>> On Wed, May 7, 2025 at 8:37 AM Maxime Bélair
->>> <maxime.belair@canonical.com> wrote:
->>> [...]
->>>>>
->>>>> These two do not feel like real benefits:
->>>>> - One syscall cannot fit all use cases well...
->>>>
->>>> This syscall is not intended to cover every case, nor to replace existing kernel
->>>> interfaces.
->>>>
->>>> Each LSM can decide which operations it wants to support (if any). For example, when
->>>> loading policies, an LSM may choose to allow only policies that further restrict
->>>> privileges.
->>>>
->>>>> - Not working in containers is often not an issue, but a feature.
->>>>
->>>> Indeed, using this syscall requires appropriate capabilities and will not permit
->>>> unprivileged containers to manage policies arbitrarily.
->>>>
->>>> With this syscall, capability checks remain the responsibility of each LSM.
->>>>
->>>> For instance, in the AppArmor patch, a profile can be loaded only if
->>>> aa_policy_admin_capable() succeeds (which requires CAP_MAC_ADMIN). Moreover, by design,
->>>> policies can be loaded only in the current namespace.
->>>>
->>>> I see this syscall as a middle point between exposing the entire sysfs, creating a large
->>>> attack surface, and blocking everything.
->>>>
->>>> Landlock’s existing syscalls already improve security by allowing processes to further
->>>> restrict their ambient rights while adding only a modest attack surface.
->>>>
->>>> This syscall is a further step in that direction: it lets LSMs add restrictive policies
->>>> without requiring exposing every other interface.
->>>
->>> I don't think a syscall makes the API more secure. If necessary, we can add
->>
->> It exposes a different attack surface. Requiring mounting of the fs to where it is visible
->> in the container, provides attack surface, and requires additional external configuration.
-> 
-> We should also keep in mind that syscalls could be accessible from
-> everywhere, by everyone, which may increase the attack surface compared
-> to a privileged filesystem interface.  Adding a second interface may
-> also introduce issues.  Anyway, I'm definitely not against syscalls, but
-> I don't see why the filesystem interface would be "less secure" in this
-> context.
-> 
-
-yes syscalls being accessible from everywhere is another form of attack
-surface, that needs to be mediated.
-
-the fs can be mediated, its expose is a multiple lsms with multiple
-different interfaces on the files within it. What really is more
-problematic is makng the fs available in the container. Yes a
-container manager can do it but then you are dependent on the
-container manager making your interface available.
-
-Other wise you are looking at making mount available to your app
-within the container.
-
->>
->> Then there is the whole issue of getting the various LSMs to allow another LSM in the
->> stack to be able manage its own policy.
-> 
-> Right, and it's a similar issue with seccomp policies wrt syscalls.
-> 
-yes, though seccomp I have found to be the easier one to deal with
-
->>
->>> permission check to each pseudo file. The downside of the syscall, however,
->>> is that all the permission checks are hard-coded in the kernel (except for
->>
->> The permission checks don't have to be hard coded. Each LSM can define how it handles
->> or manages the syscall. The default is that it isn't supported, but if an lsm decides
->> to support it, there is now reason that its policy can't determine the use of the
->> syscall.
-> 
->  From an interface design point of view, it would be better to clearly
-> specify the scope of a command (e.g. which components could be impacted
-> by a command), and make sure the documentation reflect that as well.
-> Even better, have a syscalls per required privileges and impact (e.g.
-> privileged or unprivileged).  Going this road, I'm not sure if a
-> privileged syscall would make sense given the existing filesystem
-> interface.
-> 
-
-uhhhmmm, not just privileged. As you well know we are looking to use
-this for unprivileged policy. The LSM can limit to privileged if it
-wants but it doesn't have to limit it to privileged policy.
-
->>
->>> BPF LSM); while the sys admin can configure permissions of the pseudo
->>> files in user space.
->>>
->> Other LSMs also have policy that can control access to pseudo filesystems and
->> other resources. Again, the control doesn't have to be hard coded. And seccomp can
->> be used to block the syscall.
->>
->>
->>
+On 5/9/25 03:25, Mickaël Salaün wrote:
+> On Thu, May 08, 2025 at 12:52:55AM -0700, John Johansen wrote:
+>> On 5/7/25 15:04, Tetsuo Handa wrote:
+>>> On 2025/05/08 0:37, Maxime Bélair wrote:
 >>>> Again, each module decides which operations to expose through this syscall. In many cases
 >>>> the operation will still require CAP_SYS_ADMIN or a similar capability, so environments
 >>>> that choose this interface remain secure while gaining its advantages.
->>>>
->>>>>>     - Avoids overhead of other kernel interfaces for better efficiency
->>>>>
->>>>> .. and it is is probably less efficient, because everything need to
->>>>> fit in the same API.
->>>>
->>>> As shown below, the syscall can significantly improve the performance of policy management.
->>>> A more detailed benchmark is available in [1].
->>>>
->>>> The following table presents the time required to load an AppArmor profile.
->>>>
->>>> For every cell, the first value is the total time taken by aa-load, and the value in
->>>> parentheses is the time spent to load the policy in the kernel only (total - dry‑run).
->>>>
->>>> Results are in microseconds and are averaged over 10 000 runs to reduce variance.
->>>>
->>>>
->>>> | t (µs)    | syscall     | pseudofs    | Speedup       |
->>>> |-----------|-------------|-------------|---------------|
->>>> | 1password | 4257 (1127) | 3333 (192)  | x1.28 (x5.86) |
->>>> | Xorg      | 6099 (2961) | 5167 (2020) | x1.18 (x1.47) |
->>>>
 >>>
->>> I am not sure the performance of loading security policies is on any
->>> critical path.
+>>> If the interpretation of "flags" argument varies across LSMs, it sounds like ioctl()'s
 >>
->> generally speaking I agree, but I am also not going to turn down a
->> performance improvement either. Its a nice to have, but not a strong
->> argument for need.
+>> yes that does feel like ioctls(), on the other hand defining them at the LSM level won't
+>> offer LSMs flexibility making it so the syscall covers fewer use cases. I am not opposed
+>> to either, it just hashing out what people want, and what is acceptable.
 >>
->>> The implementation calls the hook for each LSM, which is why I think the
->>> syscall is not efficient.
+>>> "cmd" argument. Also, there is prctl() which can already carry string-ish parameters
+>>> without involving open(). Why can't we use prctl() instead of lsm_manage_policy() ?
 >>>
->> it should only call the LSM identified by the lsmid in the call.
 >>
->>> Overall, I am still not convinced a syscall for all LSMs is needed. To
->>> justify such
+>> prctl() can be used, I used it for the unprivileged policy demo. It has its own set of
+>> problems. While LSM policy could be associated with the process doing the load/replacement
+>> or what ever operation, it isn't necessarily tied to it. A lot of LSM policy is not
+>> process specific making prctl() a poor fit.
 >>
->> its not needed by all LSMs, just a subset of them, and some nebulous
->> subset of potentially future LSMs that is entirely undefinable.
+>> prctl() requires allocating a global prctl()
 >>
->> If we had had appropriate LSM syscalls landlock wouldn't have needed
->> to have landlock specific syscalls. Having another LSM go that route
->> feels wrong especially now that we have some LSM syscalls.
+>> prctl() are already being filtered/controlled by LSMs making them a poort fit for
+>> use by an LSM in a stacking situation as it requires updating the policy of other
+>> LSMs on the system. Yes seccomp can filter the syscall but that still is an easier
+>> barrier to overcome than having to have instruction for how to allow your LSMs
+>> prctl() in multiple LSMs.
+>>
+>>
+>> Mickaël already argued the need for landlock to have syscalls. See
 > 
-> I don't agree.  Dedicated syscalls are a good thing.  See my other
-> reply.
+> Landlock indeed requires syscalls mainly because of its unprivileged
+> nature.
 > 
 
-I think we can just disagree on this point.
+yes that is the dominant reason
 
->> If a
->> syscall is needed by an LSM its better to try hashing something out
->> that might have utility for multiple LSMs or at the very least,
->> potentially have utility in the future.
->>
->>
->>> a syscall, I think we need to show that it is useful in multiple LSMs.
->>> Also, if we
->>> really want to have single set of APIs for all LSMs, we may also need
->>> get_policy,
->>
->> We are never going to get a single set of APIs for all LSMs. I will
->> settle for an api that has utility for a subset
->>
->>> remove_policy, etc. This set as-is appears to be an incomplete design. The
->>
->> To have a complete design, there needs to be feedback and discussion
->> from multiple LSMs. This is a starting point.
->>
->>> implementation, with call_int_hook, is also problematic. It can easily
->>> cause some> controversial behaviors.
->>>
->> agreed it shouldn't be doing a straight call_int_hook, it should only
->> call it against the lsm identified by the lsmid
+>> https://lore.kernel.org/lkml/20200511192156.1618284-7-mic@digikod.net/
+>> and the numerous iterations before that.
 > 
-> Yes, but then, I don't see the point of a "generic" LSM syscall.
+> This link might be misleading though, it points to an initial version of
+> the syscall proposal (v17) and it was then decided to create one syscall
+> per operation (v34), which is why we ended with 3 syscalls.  See the
+> changelog:
+> https://lore.kernel.org/r/20210422154123.13086-9-mic@digikod.net
+> 
 
-its not a generic LSM syscall. Its a syscall or maybe a set of syscalls
-for a specific scoped problem of loading/managing policy.
+yes and no. I am well aware landlock's syscall got split into three syscalls.
 
-Can we come to something acceptable? I don't know but we are going to
-look at it before trying for an apparmor specific syscall.
+All I was trying to do is reference to the start of the discussion on why
+landlock needed a syscall(s). I thought the details of why you have three
+etc, really didn't add to the discussion. But yeah not also pointing to
+v34 could be considered misleading.
+
+
+>>
+>> Ideally those could have been LSM syscalls, with landlock leveraging them.
+> 
+> I don't agree.  The Landlock syscalls have a well-defined semantic, with
+
+First I don't begrudge Landlock its syscalls, I think at the time it was
+the only way forward.
+
+> documented security requirements, and they deal with specific kernel
+> objects identified with file descriptors, including a dedicated one:
+> [landlock-ruleset].
+
+I am aware. Those semantics could have been kept and documented, within
+a set of LSM syscalls. Yes landlock's syscalls shouldn't have been done
+behind a single LSM syscall, I am not advocating for that but maybe
+behind several LSM syscalls.
+
+>  For the features provided by these Landlock
+> syscalls, it would not have been a good idea to reuse existing syscalls,
+> nor to rely on the syscall proposed in this series because the interface
+> is too specific to some of the current privileged LSMs (i.e. ingest a
+> policy blob).  Making this interface more generic would lead to even
+> less defined semantic though.
+
+Right, so again not a generic LSM syscall. But "generic" LSM syscalls
+for certain purposes. Let me walk my statement back a little, what I
+find unfortunate was that the landlock LSM syscalls didn't get discussed
+as a set of generic LSM syscall's with landlock being the first to
+implement them.
+
+The question is hashing out where the generic semantics are vs. the
+individual LSMs. Having an LSM syscall to deal with specific kernel
+objects idenetified with file descriptors, and allowing each LSMs
+to deal with that if it needs is possible.
+
+Its a matter of figuring something out. It could be it turns out it is
+not worth it. And some individual LSM syscalls like landlocks are the
+way to go, its that it wasn't explored. I don't fault you, and think
+it really wasn't even an option at the time.
+
+> 
+>> AppArmor
+>> is getting to where it has similar needs to landlock. Yes we can use ioctls, prctls,
+>> netlink, the fs, etc. it doesn't mean that those are the best interfaces to do so,
+> 
+> I think it would make sense to propose AppArmor-specific syscalls.
+> 
+
+that may be the case, but I think we should explore providing a more
+LSM generic interface first.
+
+>> and ideally any interface we use will be of benefit to some other LSMs in the future.
+> 
+> The LSM syscalls may make sense to deal with LSM blobs managed by the
+> LSM framework (e.g. get/set properties) when the operations are
+> common/generic.
+> 
+> Security policies are specific to each LSM and they should implement
+> their own well-defined interface (e.g. filesystem, netlink, syscall).
+> 
+policies at some level are just blobs too. It is worth at least
+exploring whether there can be a common interface.
+
+> The LSM framework doesn't provide nor manage any security policy, it
+> mainly provides a set of consistent and well-defined kernel hooks with
+> security blobs to enforce a security policy.  I don't think it makes
+> sense to add LSM syscalls to manage things not managed by the LSM
+> framework.
+
+we aren't talking about the LSM framework managing security policy,
+just whether it makes sense for it to provide a common interface that
+an LSM can choose to use to provide it a blob of policy that it
+can then manage.
+
+Its just a mechanism. This isn't all that different than using the
+filesystem, netlink, or other mechanisms to shuttle the blob
+between userspace to the kernel, and then the LSM manages its
+policy and data.
+
+The big difference is that using the syscall opens unprivileged
+policy up to the LSM more broadly. If we are going to go the syscall
+route for apparmor, we might as well see if we can't make that
+mechanism more broadly available, and make it easier for other
+LSMs in the future.
+
+Again, it might turn out its a fools errand, and we have to do
+an apparmor specific syscall, but it is worth exploring first.
+
+
 
