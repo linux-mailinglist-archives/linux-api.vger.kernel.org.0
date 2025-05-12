@@ -1,173 +1,373 @@
-Return-Path: <linux-api+bounces-3741-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3744-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5231DAB34DE
-	for <lists+linux-api@lfdr.de>; Mon, 12 May 2025 12:27:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77FCAB3880
+	for <lists+linux-api@lfdr.de>; Mon, 12 May 2025 15:20:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABE103B431F
-	for <lists+linux-api@lfdr.de>; Mon, 12 May 2025 10:27:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94904189415A
+	for <lists+linux-api@lfdr.de>; Mon, 12 May 2025 13:20:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6483125F7BB;
-	Mon, 12 May 2025 10:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B289E2957B9;
+	Mon, 12 May 2025 13:19:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="cXHjOrCw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jOHBWsgB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [45.157.188.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D93ADDCD
-	for <linux-api@vger.kernel.org>; Mon, 12 May 2025 10:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FA12951DB
+	for <linux-api@vger.kernel.org>; Mon, 12 May 2025 13:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747045643; cv=none; b=Me1Zrms7rF4gC1JGr3URZdEEZ0js3KA9CBdo9W3XdP1StZFNl/5tMu6DiR/FuSvdxOJqEQY3kJ37hC1em3Y0p27nueOXEQ/yl9TqZ1FgIoWhiLc0RNnGFHCapkBRU8fb1EO5hAJccPNeC9hQOcwhlTd/Mx8pXqEZdFBtEWcVirA=
+	t=1747055971; cv=none; b=OMAwqBxawItkD8rckxSl2ae8rgHWXGq6epCt599nRNhr0HYHxFHJwPv4Q2nuxVHa9zl3zVh3gAv6NADha3+O7EIq1g7ZuugaOpS59PSq7O44DTJCgusy0f+PlZUgGfAippjqYzF99h2omKhG93rJu+NVnbIlFAbpAoi8YcXNNNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747045643; c=relaxed/simple;
-	bh=6PyUSfSeDt+qrZ7gKYTCOlNsC8uzlizpIqblSVVblaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdvgFZqx0N3KIDrof6gC+IJ+Y0O8/WAkjKgZtt7yGJaQ3trJbJxByeOVPRG4qVJMMgsRXYo6Fc3tQoZZb/040baPxQioRpMLrunBgHxh4YjsconrcrwzZsnWlsCZL53Vv/aIIW5iwChP2OrEwhYKbFSy6ezmiImlIFxEJmFHFLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=cXHjOrCw; arc=none smtp.client-ip=45.157.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Zwwbq65GhzRqZ;
-	Mon, 12 May 2025 12:20:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1747045239;
-	bh=HKDy2NyuH72JIpt1/Jm7vWzRW2C7DYCw8qZzBmjUWGU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cXHjOrCwuUn8TC6ShxbnXraAJ1ElmjQ/PAN7KmzV7OlSlw93UX4pFzKFC5GTHNX0Q
-	 gMuMhKfYUPaEDYi/vdICQggBT2IohYzNnoEhvQ9myosU5qqAXvkopgqapKrZkbAz9L
-	 iVFnEYDDtGKVIzd6yYKVz8E9kaN+Erb5xxFfySiA=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Zwwbn4lZ8zDLf;
-	Mon, 12 May 2025 12:20:37 +0200 (CEST)
-Date: Mon, 12 May 2025 12:20:36 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: John Johansen <john.johansen@canonical.com>
-Cc: Song Liu <song@kernel.org>, 
-	Maxime =?utf-8?Q?B=C3=A9lair?= <maxime.belair@canonical.com>, linux-security-module@vger.kernel.org, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, kees@kernel.org, 
-	stephen.smalley.work@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
-	penguin-kernel@i-love.sakura.ne.jp, linux-api@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/3] Wire up the lsm_manage_policy syscall
-Message-ID: <20250512.Uong6eCaVuwu@digikod.net>
-References: <20250506143254.718647-1-maxime.belair@canonical.com>
- <20250506143254.718647-2-maxime.belair@canonical.com>
- <CAPhsuW4qY9B3KdhqrUOZoNBWQmO_RDwbH46my314WxrFwxbwkQ@mail.gmail.com>
- <aa3c41f9-6b25-4871-a4be-e08430e59730@canonical.com>
- <CAPhsuW4FVMS7v8p_C-QzE8nBxCb6xDRhEecm_KHZ3KbKUjOXrQ@mail.gmail.com>
- <9aaeda3a-8ef5-4820-b2e4-9180b73fb368@canonical.com>
- <20250509.ePu7gaim1Foo@digikod.net>
- <19313f6b-42d7-4845-9a4b-93c7546aadb9@canonical.com>
+	s=arc-20240116; t=1747055971; c=relaxed/simple;
+	bh=DoJT2dz8txJo2HLysgqy6uqVMVeur99HqA28GNGz35o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Nhds04YyibS7UqnPxV8zb8lZkSjlnmtkVMqblnsBGQPVZpSCCu5jxdSd9GKOP6bsf9vkRqKLeB37a0UjHHCP1linNsXsifTKgEeWU9TfKp0437NJUrTxN+CXyX2WuGPlTzHK/LQHldKVwSBpmiEfKKahNJaRitnjc5x12b+osSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jOHBWsgB; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747055966;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=znSs0IWOkqtw8MwO3eoXgDf53PvMGgHP2+ODqAezjoE=;
+	b=jOHBWsgBvX5HHF3PKKf0W/Wz8v8Yk7tsws2OewYz6hHItNmJye/9WHoq0bw43a6IuF/L1d
+	L23kS+Pk4/THxB3Z3C0DEWWLuYcSxgumAn5U13AWFa+fEnV7Cjvn/qVBzaVIU3Dxs/senV
+	4sCjl0Mg8jeEdN91sZeUWT2ucE2Lz+Y=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-317-FuCXaDY1MXSBGir0pZ84Ow-1; Mon, 12 May 2025 09:19:22 -0400
+X-MC-Unique: FuCXaDY1MXSBGir0pZ84Ow-1
+X-Mimecast-MFC-AGG-ID: FuCXaDY1MXSBGir0pZ84Ow_1747055959
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ad240e3f501so160997366b.1
+        for <linux-api@vger.kernel.org>; Mon, 12 May 2025 06:19:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747055955; x=1747660755;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=znSs0IWOkqtw8MwO3eoXgDf53PvMGgHP2+ODqAezjoE=;
+        b=C4Rce/ruEg5JY+qEGPYqmo1+gOxMuvuH5YePEhNPUhevl9vFUeMsz61kpZQYGTMXD5
+         YlOFMIaH6A20Pot8YpqBX5/KFpdBlzfddx5IoyQ8dzM3zgtYOml3DhNGNRn7qOnSEjYc
+         XxxIImP1A8j7ThKFFNV0XR6qaRN69VHMu6/NoNrJwBsmP3CVlGrgRnsynkj16mob1FNx
+         pwNC6hT2IuBeG0VwywHJAr5zZ68qEK0VpoMGARc76xGhgmczSVAcplyyM5pQ7X5f6/Dr
+         XcVvfTumOobRzya0RYJvWJklQUGvQgyagCytxZ7MobtciR0PoPHvDSf11HMlVSp88IhL
+         UaoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWaT3/AJ4DE5orQlhDiKYHKaQUPDE8Fsn2r86SElVvemTKeesilfjGDP8GbJlqW6N3YN6HjHCfB9x0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOQkjYqOtIztrL0PUXxz6oRHA+djSaSuzLhQ+wYcDPBOmFImuq
+	o9JrVtC2AfMOMDv/dg6DgqBQV0tvjNus549ATjZbpmsl/7k1nGONAd67QQQkdXCW+LNAdw6j+cn
+	SFa/ojB7v2YU1S/kzEB6UTlnKnGAeVhAJ6dEN9bKyu74QoA4ArtOnpRSx
+X-Gm-Gg: ASbGnct253RKU22Mdvur9dWb6U2t4BdIiOnPC1itqdYVc9ngjdUsp/q/qPXkM3Y4f43
+	Bb/YDj/o7foy398YI9uZoXIXhCbHDu+lwX0QIXWsWtG+EQXwpJ/qnaHxQrFP70YZrC5se+qXh6G
+	4pwvubpYmgNGTOSqKUxHZs0yZ6UQeT3HG2Fg2EIvWmQ7pp8IKUiwG21B36RSasEI3LjfiB7KN7U
+	zH9+COXDk3USwfhP8K88gadEyocV5d5N+LPHy4u2pXjsL79zN3v1cWSa9ZjyeRCiXg5BhRTJ5cc
+	XRynWhPjJARMtHp8+BP3oCSPMXM=
+X-Received: by 2002:a17:907:3e1f:b0:ad2:4fa0:88d1 with SMTP id a640c23a62f3a-ad24fa08b96mr397883466b.9.1747055954489;
+        Mon, 12 May 2025 06:19:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF2gaN4nId6A/kunm1rnCP/+7J7Yrf/475CQq5wTNUNFEpBtRjClSuGrdC8wxlG4kjN+bjbbw==
+X-Received: by 2002:a17:907:3e1f:b0:ad2:4fa0:88d1 with SMTP id a640c23a62f3a-ad24fa08b96mr397878666b.9.1747055953940;
+        Mon, 12 May 2025 06:19:13 -0700 (PDT)
+Received: from [127.0.0.1] (109-92-26-237.static.isp.telekom.rs. [109.92.26.237])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bde09sm612328766b.125.2025.05.12.06.19.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 May 2025 06:19:13 -0700 (PDT)
+From: Andrey Albershteyn <aalbersh@redhat.com>
+X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
+Subject: [PATCH v5 0/7] fs: introduce file_getattr and file_setattr
+ syscalls
+Date: Mon, 12 May 2025 15:18:53 +0200
+Message-Id: <20250512-xattrat-syscall-v5-0-a88b20e37aae@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <19313f6b-42d7-4845-9a4b-93c7546aadb9@canonical.com>
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD31IWgC/23NTQrCMBCG4auUrI0kkx9bV95DXCTNRIOllaSEl
+ tK7m4ogosv3g3lmIQljwESO1UIi5pDC0JdQu4q0N9NfkQZXmgADxTiXdDLjGM1I05xa03VUG86
+ FduCsaki5ekT0YXqJ50vpW0jjEOfXgwzb+rYAfqwMlFNlhWZOettaON0x9tjth3glG5bFBwDOf
+ wFRAMMOjitfN/UfQH4AAX8ASRkVWANqbwVo+QWs6/oEtac3pDEBAAA=
+X-Change-ID: 20250114-xattrat-syscall-6a1136d2db59
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+ selinux@vger.kernel.org, ecryptfs@vger.kernel.org, 
+ linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ Andrey Albershteyn <aalbersh@kernel.org>, 
+ Andrey Albershteyn <aalbersh@redhat.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7943; i=aalbersh@kernel.org;
+ h=from:subject:message-id; bh=DoJT2dz8txJo2HLysgqy6uqVMVeur99HqA28GNGz35o=;
+ b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMhS/+ikUz/+zKeDcJU4Vu/2bX35T2jNhmd4FXg6HD
+ +dm71lmfeB2RykLgxgXg6yYIss6aa2pSUVS+UcMauRh5rAygQxh4OIUgIk8E2D4p9yRo7vd7Fx2
+ +08doV9xDvUxK48fv6Khpfy+e1bF/469nIwMx3ZVrBNbc1PypFML49PkHfx7zu9tPaBw836nz26
+ zZV/5OQBQ90ss
+X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
+ fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
 
-On Sun, May 11, 2025 at 03:47:21AM -0700, John Johansen wrote:
-> On 5/9/25 03:26, Mickaël Salaün wrote:
-> > On Thu, May 08, 2025 at 01:18:20AM -0700, John Johansen wrote:
-> > > On 5/7/25 23:06, Song Liu wrote:
-> > > > On Wed, May 7, 2025 at 8:37 AM Maxime Bélair
-> > > > <maxime.belair@canonical.com> wrote:
-> > > > [...]
+This patchset introduced two new syscalls file_getattr() and
+file_setattr(). These syscalls are similar to FS_IOC_FSSETXATTR ioctl()
+except they use *at() semantics. Therefore, there's no need to open the
+file to get a fd.
 
-> > > > permission check to each pseudo file. The downside of the syscall, however,
-> > > > is that all the permission checks are hard-coded in the kernel (except for
-> > > 
-> > > The permission checks don't have to be hard coded. Each LSM can define how it handles
-> > > or manages the syscall. The default is that it isn't supported, but if an lsm decides
-> > > to support it, there is now reason that its policy can't determine the use of the
-> > > syscall.
-> > 
-> >  From an interface design point of view, it would be better to clearly
-> > specify the scope of a command (e.g. which components could be impacted
-> > by a command), and make sure the documentation reflect that as well.
-> > Even better, have a syscalls per required privileges and impact (e.g.
-> > privileged or unprivileged).  Going this road, I'm not sure if a
-> > privileged syscall would make sense given the existing filesystem
-> > interface.
-> > 
-> 
-> uhhhmmm, not just privileged. As you well know we are looking to use
-> this for unprivileged policy. The LSM can limit to privileged if it
-> wants but it doesn't have to limit it to privileged policy.
+These syscalls allow userspace to set filesystem inode attributes on
+special files. One of the usage examples is XFS quota projects.
 
-Yes, I meant to say having a syscall for unprivileged actions, and maybe
-another one for privileged ones, but this might be a hard sell. :)
+XFS has project quotas which could be attached to a directory. All
+new inodes in these directories inherit project ID set on parent
+directory.
 
-To say it another way, for your use case, do you need this syscall(s)
-for privileged operations?  Do you plan to drop (or stop extending) the
-filesystem interface or do you think it would be good for (AppArmor)
-privileged operations too?  I know syscalls might be attractive and
-could be used for everything, but it's good to have a well-defined plan
-and semantic to avoid using such syscall as another multiplexer with
-unrelated operations and required privileges.
+The project is created from userspace by opening and calling
+FS_IOC_FSSETXATTR on each inode. This is not possible for special
+files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
+with empty project ID. Those inodes then are not shown in the quota
+accounting but still exist in the directory. This is not critical but in
+the case when special files are created in the directory with already
+existing project quota, these new inodes inherit extended attributes.
+This creates a mix of special files with and without attributes.
+Moreover, special files with attributes don't have a possibility to
+become clear or change the attributes. This, in turn, prevents userspace
+from re-creating quota project on these existing files.
 
-If this syscall should also be a way to do privileged operations, should
-we also agree on a common set of permissions (e.g. global CAP_MAC_ADMIN
-or user namespace one)?
+NAME
 
-[...]
+	file_getattr/file_setattr - get/set filesystem inode attributes
 
-> > > > Overall, I am still not convinced a syscall for all LSMs is needed. To
-> > > > justify such
-> > > 
-> > > its not needed by all LSMs, just a subset of them, and some nebulous
-> > > subset of potentially future LSMs that is entirely undefinable.
-> > > 
-> > > If we had had appropriate LSM syscalls landlock wouldn't have needed
-> > > to have landlock specific syscalls. Having another LSM go that route
-> > > feels wrong especially now that we have some LSM syscalls.
-> > 
-> > I don't agree.  Dedicated syscalls are a good thing.  See my other
-> > reply.
-> > 
-> 
-> I think we can just disagree on this point.
-> 
-> > > If a
-> > > syscall is needed by an LSM its better to try hashing something out
-> > > that might have utility for multiple LSMs or at the very least,
-> > > potentially have utility in the future.
-> > > 
-> > > 
-> > > > a syscall, I think we need to show that it is useful in multiple LSMs.
-> > > > Also, if we
-> > > > really want to have single set of APIs for all LSMs, we may also need
-> > > > get_policy,
-> > > 
-> > > We are never going to get a single set of APIs for all LSMs. I will
-> > > settle for an api that has utility for a subset
-> > > 
-> > > > remove_policy, etc. This set as-is appears to be an incomplete design. The
-> > > 
-> > > To have a complete design, there needs to be feedback and discussion
-> > > from multiple LSMs. This is a starting point.
-> > > 
-> > > > implementation, with call_int_hook, is also problematic. It can easily
-> > > > cause some> controversial behaviors.
-> > > > 
-> > > agreed it shouldn't be doing a straight call_int_hook, it should only
-> > > call it against the lsm identified by the lsmid
-> > 
-> > Yes, but then, I don't see the point of a "generic" LSM syscall.
-> 
-> its not a generic LSM syscall. Its a syscall or maybe a set of syscalls
-> for a specific scoped problem of loading/managing policy.
-> 
-> Can we come to something acceptable? I don't know but we are going to
-> look at it before trying for an apparmor specific syscall.
+SYNOPSIS
 
-I understand and it's good to have this discussion.
+	#include <sys/syscall.h>    /* Definition of SYS_* constants */
+	#include <unistd.h>
+
+	long syscall(SYS_file_getattr, int dirfd, const char *pathname,
+		struct fsxattr *fsx, size_t size, unsigned int at_flags);
+	long syscall(SYS_file_setattr, int dirfd, const char *pathname,
+		struct fsxattr *fsx, size_t size, unsigned int at_flags);
+
+	Note: glibc doesn't provide for file_getattr()/file_setattr(),
+	use syscall(2) instead.
+
+DESCRIPTION
+
+	The syscalls take fd and path. If path is absolute, fd is not
+	used. If path is empty, fd can be AT_FDCWD or any valid fd which
+	will be used to get/set attributes on.
+
+	This is an alternative to FS_IOC_FSGETXATTR/FS_IOC_FSSETXATTR
+	ioctl with a difference that file don't need to be open as we
+	can reference it with a path instead of fd. By having this we
+	can manipulated filesystem inode attributes not only on regular
+	files but also on special ones. This is not possible with
+	FS_IOC_FSSETXATTR ioctl as with special files we can not call
+	ioctl() directly on the filesystem inode using file descriptor.
+
+	at_flags can be set to AT_SYMLINK_NOFOLLOW or AT_EMPTY_PATH.
+
+RETURN VALUE
+
+	On success, 0 is returned.  On error, -1 is returned, and errno
+	is set to indicate the error.
+
+ERRORS
+
+	EINVAL		Invalid at_flag specified (only
+			AT_SYMLINK_NOFOLLOW and AT_EMPTY_PATH is
+			supported).
+
+	EINVAL		Size was smaller than any known version of
+			struct fsxattr.
+
+	EINVAL		Invalid combination of parameters provided in
+			fsxattr for this type of file.
+
+	E2BIG		Size of input argument **struct fsxattr** is too
+			big.
+
+	EBADF		Invalid file descriptor was provided.
+
+	EPERM		No permission to change this file.
+
+	EOPNOTSUPP	Filesystem does not support setting attributes
+			on this type of inode
+
+HISTORY
+
+	Added in Linux 6.15.
+
+EXAMPLE
+
+Create directory and file "mkdir ./dir && touch ./dir/foo" and then
+execute the following program:
+
+	#include <fcntl.h>
+	#include <errno.h>
+	#include <string.h>
+	#include <linux/fs.h>
+	#include <stdio.h>
+	#include <sys/syscall.h>
+	#include <unistd.h>
+
+	int
+	main(int argc, char **argv) {
+		int dfd;
+		int error;
+		struct fsxattr fsx;
+
+		dfd = open("./dir", O_RDONLY);
+		if (dfd == -1) {
+			printf("can not open ./dir");
+			return dfd;
+		}
+
+		error = syscall(467, dfd, "./foo", &fsx, 0);
+		if (error) {
+			printf("can not call 467: %s", strerror(errno));
+			return error;
+		}
+
+		printf("dir/foo flags: %d\n", fsx.fsx_xflags);
+
+		fsx.fsx_xflags |= FS_XFLAG_NODUMP;
+		error = syscall(468, dfd, "./foo", &fsx, 0);
+		if (error) {
+			printf("can not call 468: %s", strerror(errno));
+			return error;
+		}
+
+		printf("dir/foo flags: %d\n", fsx.fsx_xflags);
+
+		return error;
+	}
+
+SEE ALSO
+
+	ioctl(2), ioctl_iflags(2), ioctl_xfs_fsgetxattr(2)
+
+---
+Changes in v5:
+- Remove setting of LOOKUP_EMPTY flags which does not have any effect
+- Return -ENOSUPP from vfs_fileattr_set()
+- Add fsxattr masking (by Amir)
+- Fix UAF issue dentry
+- Fix getname_maybe_null() issue with NULL path
+- Implement file_getattr/file_setattr hooks
+- Return LSM return code from file_setattr
+- Rename from getfsxattrat/setfsxattrat to file_getattr/file_setattr
+- Link to v4: https://lore.kernel.org/r/20250321-xattrat-syscall-v4-0-3e82e6fb3264@kernel.org
+
+Changes in v4:
+- Use getname_maybe_null() for correct handling of dfd + path semantic
+- Remove restriction for special files on which flags are allowed
+- Utilize copy_struct_from_user() for better future compatibility
+- Add draft man page to cover letter
+- Convert -ENOIOCTLCMD to -EOPNOSUPP as more appropriate for syscall
+- Add missing __user to header declaration of syscalls
+- Link to v3: https://lore.kernel.org/r/20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org
+
+Changes in v3:
+- Remove unnecessary "dfd is dir" check as it checked in user_path_at()
+- Remove unnecessary "same filesystem" check
+- Use CLASS() instead of directly calling fdget/fdput
+- Link to v2: https://lore.kernel.org/r/20250122-xattrat-syscall-v2-1-5b360d4fbcb2@kernel.org
+
+v1:
+https://lore.kernel.org/linuxppc-dev/20250109174540.893098-1-aalbersh@kernel.org/
+
+Previous discussion:
+https://lore.kernel.org/linux-xfs/20240520164624.665269-2-aalbersh@redhat.com/
+
+---
+Amir Goldstein (1):
+      fs: prepare for extending file_get/setattr()
+
+Andrey Albershteyn (6):
+      fs: split fileattr related helpers into separate file
+      lsm: introduce new hooks for setting/getting inode fsxattr
+      selinux: implement inode_file_[g|s]etattr hooks
+      fs: split fileattr/fsxattr converters into helpers
+      fs: make vfs_fileattr_[get|set] return -EOPNOSUPP
+      fs: introduce file_getattr and file_setattr syscalls
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   2 +
+ arch/arm/tools/syscall.tbl                  |   2 +
+ arch/arm64/tools/syscall_32.tbl             |   2 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   2 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   2 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   2 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   2 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   2 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   2 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   2 +
+ fs/Makefile                                 |   3 +-
+ fs/ecryptfs/inode.c                         |   8 +-
+ fs/file_attr.c                              | 475 ++++++++++++++++++++++++++++
+ fs/ioctl.c                                  | 309 ------------------
+ fs/overlayfs/inode.c                        |   2 +-
+ include/linux/fileattr.h                    |  26 ++
+ include/linux/lsm_hook_defs.h               |   2 +
+ include/linux/security.h                    |  16 +
+ include/linux/syscalls.h                    |   6 +
+ include/uapi/asm-generic/unistd.h           |   8 +-
+ include/uapi/linux/fs.h                     |   3 +
+ security/security.c                         |  30 ++
+ security/selinux/hooks.c                    |  14 +
+ 29 files changed, 621 insertions(+), 313 deletions(-)
+---
+base-commit: 0d8d44db295ccad20052d6301ef49ff01fb8ae2d
+change-id: 20250114-xattrat-syscall-6a1136d2db59
+
+Best regards,
+-- 
+Andrey Albershteyn <aalbersh@kernel.org>
+
 
