@@ -1,157 +1,102 @@
-Return-Path: <linux-api+bounces-3777-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3778-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0134BAB9CA1
-	for <lists+linux-api@lfdr.de>; Fri, 16 May 2025 14:52:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E9EAB9D22
+	for <lists+linux-api@lfdr.de>; Fri, 16 May 2025 15:21:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FFDB1B64729
-	for <lists+linux-api@lfdr.de>; Fri, 16 May 2025 12:52:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B36AA16A34B
+	for <lists+linux-api@lfdr.de>; Fri, 16 May 2025 13:21:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D77323F291;
-	Fri, 16 May 2025 12:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6EHBt3S"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CED8E171C9;
+	Fri, 16 May 2025 13:21:02 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71F923E336;
-	Fri, 16 May 2025 12:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C408314F90
+	for <linux-api@vger.kernel.org>; Fri, 16 May 2025 13:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747399932; cv=none; b=FRquQmnL8TPWMnSBshUxNXtqb/0RSL5f7cbWqF1lbLu0Ib11LAkoXrrrr4aWNNCEpH5bkpSTgZMy2HR3c5yNZYJHI+4oZyEbKveVv6QZ4tKT+W55bF0vAUQxtYR1t4pQANZoMITR+OnC01f2tFiE5wHTsaTU4ykHWGwKPlJG8aE=
+	t=1747401662; cv=none; b=RcfMozv/2H6L8+DGwydmqBkmI0GrANPInEHxt1O/avQXtxPfxAQVpqeqARuGWZOtppvO8b6tdSvZz7T1d7JxPNssnvubzr0xQjFvF3iYja4NmOMR+km4bgknnhQPqB2+WsH9079dz6H0iXNOuvEPROvc1Mo/w4rhRi24POPaCok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747399932; c=relaxed/simple;
-	bh=5XNbJn2Os6XRURBhbHEbR26xbDn53Gzi/Niz2e844T0=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8VwVLhe+VW3rqvn8z5yRmSvvxoQ7EnwVP3OHtKh+GmhMmP/cgydIKoU3pWqS2Qc4rIs/f/QZLM7WglQvYTmatSF4viQuCema0w3EiiSYEdcfkt/yMucVS758FLWLmffadkj7kz9VXOHc5WNZ6VRTXYK4Xhuo+53NQymNlflLIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6EHBt3S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79295C4CEE9;
-	Fri, 16 May 2025 12:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747399931;
-	bh=5XNbJn2Os6XRURBhbHEbR26xbDn53Gzi/Niz2e844T0=;
-	h=Date:From:Cc:Subject:References:In-Reply-To:From;
-	b=U6EHBt3SuYdyVL+ZXYeIFCoJPrBp6/N+rm73qneLENMr4zcTsWet/yDGnnlLVE5jv
-	 tjh4M38fBOMJICYf4+oAPi2ZK/Vr4byMoACkSEPbeE7WtvAGGI0H5R/4NbuR7dhadx
-	 Mo6Q7eERm/3pgjr1V0ycZcDsAm1dMt+Cd/zYnsJpr+OBz06v+3MCbbuRPQqeXDLRcN
-	 U4d09CXCtIyDHJtVkrtqrAS2mSQM4NWvI58RWoMVBa5LMM9sKFfnLByVtgOFHv7AmE
-	 P2htj2Ooxvm/OVC1mZix50GIlXDVwvXJHeC6phemVUTxq/zjUgizk+kpU1OiPSTiiY
-	 k0YSrNioaH61Q==
-Date: Fri, 16 May 2025 14:52:05 +0200
-From: Alejandro Colomar <alx@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Rich Felker <dalias@libc.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	s=arc-20240116; t=1747401662; c=relaxed/simple;
+	bh=ZcNFTz1rLTZNKpe46827scpjzNrDvZjwTAsLcHZnmAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PNOLfw+J5TyFZw+0+6JVVoompDch4kglyYaTrhhIQN5i8qz3KGrqxP5YDDMqc6+Citu7lBViz7Exfe2hs9xEkVdKwin+I1cesV+XiRNyTrWVZOHbXrsmyrEg6R2Du4h1j0MgaJHl6NmKEa3yZWeU9ydrudMdEHAuFLCq5hN679k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=aerifal.cx; arc=none smtp.client-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
+Date: Fri, 16 May 2025 09:05:47 -0400
+From: Rich Felker <dalias@libc.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
 	libc-alpha@sourceware.org
-Subject: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
+Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
  POSIX.1-2024
-Message-ID: <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
-X-Mailer: git-send-email 2.49.0
+Message-ID: <20250516130547.GV1509@brightrain.aerifal.cx>
 References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
+ <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
+In-Reply-To: <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 
-POSIX.1-2024 now mandates a behavior different from what Linux (and many
-other implementations) does.  It requires that we report EINPROGRESS for
-what now is EINTR.
+On Fri, May 16, 2025 at 02:52:05PM +0200, Alejandro Colomar wrote:
+> POSIX.1-2024 now mandates a behavior different from what Linux (and many
+> other implementations) does.  It requires that we report EINPROGRESS for
+> what now is EINTR.
+> 
+> There are no plans to conform to POSIX.1-2024 within the Linux kernel,
+> so document this divergence.  Keep POSIX.1-2008 as the standard to
+> which we conform in STANDARDS.
+> 
+> Link: <https://sourceware.org/bugzilla/show_bug.cgi?id=14627>
+> Link: <https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: <linux-fsdevel@vger.kernel.org>
+> Cc: <linux-api@vger.kernel.org>
+> Cc: <libc-alpha@sourceware.org>
+> Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> ---
+> 
+> Hi,
+> 
+> I've prepared this draft for discussion.  While doing so, I've noticed
+> the glibc bug ticket, which sounds possibly reasonable: returning 0
+> instead of reporting an error on EINTR.  That would be an option that
+> would make us conforming to POSIX.1-2024.  And given that a user can
+> (and must) do nothing after seeing EINTR, returning 0 wouldn't change
+> things.
+> 
+> So, I'll leave this patch open for discussion.
 
-There are no plans to conform to POSIX.1-2024 within the Linux kernel,
-so document this divergence.  Keep POSIX.1-2008 as the standard to
-which we conform in STANDARDS.
+FWIW musl adopted the EINPROGRESS as soon as we were made aware of the
+issue, and later changed it to returning 0 since applications
+(particularly, any written prior to this interpretation) are prone to
+interpret EINPROGRESS as an error condition rather than success and
+possibly misinterpret it as meaning the fd is still open and valid to
+pass to close again.
 
-Link: <https://sourceware.org/bugzilla/show_bug.cgi?id=14627>
-Link: <https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Rich Felker <dalias@libc.org>
-Cc: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-api@vger.kernel.org>
-Cc: <libc-alpha@sourceware.org>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
+In general, raw kernel interfaces do not conform to any version of
+POSIX; they're just a low-impedance-mismatch set of inferfaces that
+facilitate implementing POSIX at the userspace libc layer. So I don't
+think this should be documented as "Linux doesn't conform" but
+(hopefully, once glibc fixes this) "old versions of glibc did not
+conform".
 
-Hi,
-
-I've prepared this draft for discussion.  While doing so, I've noticed
-the glibc bug ticket, which sounds possibly reasonable: returning 0
-instead of reporting an error on EINTR.  That would be an option that
-would make us conforming to POSIX.1-2024.  And given that a user can
-(and must) do nothing after seeing EINTR, returning 0 wouldn't change
-things.
-
-So, I'll leave this patch open for discussion.
-
-
-Have a lovely day!
-Alex
-
- man/man2/close.2 | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
-
-diff --git a/man/man2/close.2 b/man/man2/close.2
-index b25ea4de9..9d5e26eed 100644
---- a/man/man2/close.2
-+++ b/man/man2/close.2
-@@ -191,10 +191,7 @@ .SS Dealing with error returns from close()
- meaning that the file descriptor was invalid)
- even if they subsequently report an error on return from
- .BR close ().
--POSIX.1 is currently silent on this point,
--but there are plans to mandate this behavior in the next major release
--.\" Issue 8
--of the standard.
-+POSIX.1-2008 was silent on this point.
- .P
- A careful programmer who wants to know about I/O errors may precede
- .BR close ()
-@@ -206,7 +203,7 @@ .SS Dealing with error returns from close()
- error is a somewhat special case.
- Regarding the
- .B EINTR
--error, POSIX.1-2008 says:
-+error, POSIX.1-2008 said:
- .P
- .RS
- If
-@@ -243,16 +240,10 @@ .SS Dealing with error returns from close()
- error, and on at least one,
- .BR close ()
- must be called again.
--There are plans to address this conundrum for
--the next major release of the POSIX.1 standard.
--.\" FIXME . for later review when Issue 8 is one day released...
--.\" POSIX proposes further changes for EINTR
--.\" http://austingroupbugs.net/tag_view_page.php?tag_id=8
--.\" http://austingroupbugs.net/view.php?id=529
--.\"
--.\" FIXME .
--.\" Review the following glibc bug later
--.\" https://sourceware.org/bugzilla/show_bug.cgi?id=14627
-+.P
-+POSIX.1-2024 standardized the behavior of HP-UX,
-+making Linux and many other implementations non-conforming.
-+There are no plans to change the behavior on Linux.
- .SH SEE ALSO
- .BR close_range (2),
- .BR fcntl (2),
-
-Range-diff against v0:
--:  --------- > 1:  efaffc5a4 man/man2/close.2: CAVEATS: Document divergence from POSIX.1-2024
-
-base-commit: 978b017d93e4e32b752b33877e44a8365644630c
--- 
-2.49.0
-
+Rich
 
