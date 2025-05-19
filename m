@@ -1,282 +1,220 @@
-Return-Path: <linux-api+bounces-3807-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3808-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A07ABBC9F
-	for <lists+linux-api@lfdr.de>; Mon, 19 May 2025 13:38:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6489ABBD4D
+	for <lists+linux-api@lfdr.de>; Mon, 19 May 2025 14:06:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A29F5164CA9
-	for <lists+linux-api@lfdr.de>; Mon, 19 May 2025 11:37:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDFEB18863D0
+	for <lists+linux-api@lfdr.de>; Mon, 19 May 2025 12:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5379C27585C;
-	Mon, 19 May 2025 11:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B121527586A;
+	Mon, 19 May 2025 12:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="pXTAcIz/"
+	dkim=pass (1024-bit key) header.d=ansys.com header.i=@ansys.com header.b="XBqq/2ES"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2092.outbound.protection.outlook.com [40.107.92.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B547274657
-	for <linux-api@vger.kernel.org>; Mon, 19 May 2025 11:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747654632; cv=none; b=DIB5q4JBIn1nW4DL/k2WFYG+weO84cQQdCfYn9iRI0Bwicu/KxSz0KDYS6XPuzCW0zYEdV7+KHDeiOvY2IQSdKXsFgu+BChazkhztfpSHoQFx+wLBE6Mod7rHiqQuByyPAJkgKcwUmifFEChX+7kBq4sVAd9gWmgpb/BFDu27eE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747654632; c=relaxed/simple;
-	bh=GFhTh8qt5cp6q80eo9lSCWZXWbRWYcGWMwJc66usfSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H6a1OkG+jVa01LmUQK/BfRW0muwJqUuIqQVIEFWMzc5bfuP12bB86hoksRE/VEVzyI5rmyvWi7hO0zpJGZML/gYV7tVWDYr3rEZ9pTyzo6AySxl8fe9wqcvKKz06bCf0OJEt8XsTkLg9D+Uvcn0CyJhKWJC6ebEmh13Jae8B/Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=pXTAcIz/; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-742af84818cso2037901b3a.1
-        for <linux-api@vger.kernel.org>; Mon, 19 May 2025 04:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1747654629; x=1748259429; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DkYbc28ZqmxwTCsqpy3spmOraOHqionupf/htIjrysQ=;
-        b=pXTAcIz/GgulyAu0QLlBT9UeD2DHbX4hsEBS6moydy6FP2YFBc9EthoupgN62flhpp
-         xn4ElzxeEaMRoUdjcGLCr/6T8U743jjlDHrhPc3nJlHNeJ9D90PDD/0qwvCbTEtXXnQ1
-         RPgaQQzoByYMNfLhMY+SSeSgYFHJurzhD/epDXsLrHJ8QKO7/mzSdR8ta0wu1TJyzets
-         o/9yD05HLIBtFYJ+IxgsqFOQ7YKNTaFJLRWWee9LxcELfTQnG9oVJybE/EP025yFndXb
-         f9adaN7VXFOsgSuBp7xl2mwq7q5rjr2T9EvmymBmqQ1mhIcKEwe4NG3DJCgDkmIhbGVz
-         5ryg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747654629; x=1748259429;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DkYbc28ZqmxwTCsqpy3spmOraOHqionupf/htIjrysQ=;
-        b=sW4+Z/YcMbgM4SUHWGEdQp+ir9YSsQ1DlKyvhH4YpV/XlPrfF/fWOV5jGSuVa/oRVc
-         h5ZcglebP8H2kPQ6fR+UboDPP6C1dgx78nguBcH+EljhyACF4z6PVxzaR7o5cTLfkFxY
-         UCI03npR/3FcgDN/ZaOuTKFGRWYRtfF9xWVUqfL1jM84XCAijUAxzJ3DV5ghtEnH+ZEv
-         wLa6lQe/oEUzlVTfg5khlk9FRRP5lJ7+M90ZLkVZ6CND/UD/ftqF2NFdS5MIYad3mxnA
-         HDuuV9DzEoeu7E0vJh37liK+WI7nQLUP71mRWZVRKXhJLZ9gZbtCp3gdgh/Pvp3kbz97
-         4OAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvfuRRrQznXSdrLpwXH4Ex1yB+n8o8M3c+wzjhE4ArzhIFaZNbN3k8fDgFz/3A3eAZcTNFk+xZRP4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0q5uZnBrh3kzc3lFdpBES3dDVOSUB4c0Ic/6vNkhrAMAibx4J
-	nuwLEn0OApxejGPw+tCjLOmxDqMYQkqhCJlCYQTmPbEbz5xoFR04SeQ3fswdAHMEPT8=
-X-Gm-Gg: ASbGnctWlNWw7ZR6VM2ngIbGI4vJt+dIaKljQ6Sc6watHNqkIDPC4aJpTGxKPCfoMrE
-	unqnM740wl1MKW8KADSF0dIgm+ZJpgsELviJerrjq6jZ5ioSKhbEyPHccGNMfHbyy4tJFesOSmU
-	cyRVcCaLI9LBk7rXvOGhZA86VYG5gR3NtGGrcgFEPdeX0cycsTZaogwM2+VP6Ntsbj+mWGytmNX
-	1gS4WfDLwZAJd7RRM8Bt6SRmRoLyraq9QK6NGUqQ+XQm22pMPsAsx4gDaLKYe/on7Vaysx6G5O1
-	hhY/w6pKQ6C7VSE23s3LmKTa0e+NxBeqoObY+JufpS7J3A600sRWN4AAiiqCS2qWLWRthhZ7cKI
-	sScbu5CAYZDlD/W54FKbMze4rE3s=
-X-Google-Smtp-Source: AGHT+IEUy25uZy6yhylI082QEDzxGQ+0mJz25NQX6XuPMH4jpAhK+MU3tNtraGB6TKng6SdbDnt0Eg==
-X-Received: by 2002:a05:6a00:3a20:b0:736:a6e0:e66d with SMTP id d2e1a72fcca58-742a97a6df2mr15123631b3a.6.1747654628667;
-        Mon, 19 May 2025 04:37:08 -0700 (PDT)
-Received: from dread.disaster.area (pa49-180-184-88.pa.nsw.optusnet.com.au. [49.180.184.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a973a2f8sm5957134b3a.81.2025.05.19.04.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 04:37:08 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.98.2)
-	(envelope-from <david@fromorbit.com>)
-	id 1uGyno-00000005Si8-44qA;
-	Mon, 19 May 2025 21:37:04 +1000
-Date: Mon, 19 May 2025 21:37:04 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	Linux-Arch <linux-arch@vger.kernel.org>, selinux@vger.kernel.org,
-	ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v5 0/7] fs: introduce file_getattr and file_setattr
- syscalls
-Message-ID: <aCsX4LTpAnGfFjHg@dread.disaster.area>
-References: <20250513-xattrat-syscall-v5-0-22bb9c6c767f@kernel.org>
- <399fdabb-74d3-4dd6-9eee-7884a986dab1@app.fastmail.com>
- <20250515-bedarf-absagen-464773be3e72@brauner>
- <CAOQ4uxicuEkOas2UR4mqfus9Q2RAeKKYTwbE2XrkcE_zp8oScQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF1913D52F;
+	Mon, 19 May 2025 12:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747656362; cv=fail; b=fzf0iF29n/xg0LcaAVrma9ZAHgtiHCWemvnqTN9NxibLb1iG53os6r8hmSOkVK1R/vkJ1068o7lH9ozyGrZSruTswq67IguRhh+sDyxHe48Z5z1UHor4pgGdKyp/uXK1fyhvbn538emuK6cScOnWXl+ZrJs19Dc0P325MglWggQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747656362; c=relaxed/simple;
+	bh=I4/B6sahnwFM/AL4puipQCvN1sdctVigonLINaxD4Sw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hDLsKA8mv925ubshss2fowDZ2qhO48jbCzETWDk//frx/QwLmCvA4YYknM2I0wnFnGjusS7zFl3cRSnGjYzXvrE1FQ+BqcptsF8zV0ZAiP+mJNmDdGySA7YidCtiZIt9HQQvwVnzu4D4hjFiB0Dat58W0IND7StG+s4ugBA/xWQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ansys.com; spf=pass smtp.mailfrom=ansys.com; dkim=pass (1024-bit key) header.d=ansys.com header.i=@ansys.com header.b=XBqq/2ES; arc=fail smtp.client-ip=40.107.92.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ansys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ansys.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y7Yw3v+tqAwh1RM0ep4ksZ5Ing0TbcRaXoEsRLF7K4Df1yqZVFqeLmSwSsLKUQOrsv8L7MFXWDYeBH8jyZpKRRFKGGuD6HLswtTL/QGRUmwq3FdwfnATnuP+EG18EhHT2B4tqL5wl9B4eNXhxz4WUvorroJn846lAB7zazqc0vyt2PxBhQrDVjw9uw8gahiTkQf+F43t2vOZdq/+KdnOjtPWOMVz4hrt/gK7wUktcdnpNMmYL3eamb9T6WF6G3lV6ZktpzEDc1u8AvIDFUY4hDWRjz9XpVOTJni8DAZPxrdUwZq70W9jGKLPTPgP57pVOGPr1uyqKmManIkcl4geSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I4/B6sahnwFM/AL4puipQCvN1sdctVigonLINaxD4Sw=;
+ b=Q0lm8GeCvwYSjdO6aO0cv20uVbqGySqQUCnvdUvquDlJKWAmXbkJMJ1XpYbUXbzP4jsZy2VvQEnIuPQ+SKBDBfo1dhhHB9+tj7lWWDvUqvFNmNalmPuY6Vdfe+KpBZml0JUOn6QYzXATTFVmGJ6Os6J8tPduaXF+UYOk5zlEABY8tPwItCN37p08m1JxRbvTB19u3ugy9UIVZzdC2h3VuOHnyaN5+mrINZuRQnv77fRjVQyUEmXjHWwHA6z3pK37Er3/nByoeYf3a1r9Cs+UmSOEQMwrPaVWtO4jGsOi193xfMlo0zfrgn+vzP4zaZCeK2j5hTt2ybsSDvDNWhVxLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ansys.com; dmarc=pass action=none header.from=ansys.com;
+ dkim=pass header.d=ansys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I4/B6sahnwFM/AL4puipQCvN1sdctVigonLINaxD4Sw=;
+ b=XBqq/2ESm8xb0JGky2q5i1xYnv1dGd1hDSPww1GGAnuGMiyM/YdRRuWcHh4T8MdtADnh/YAbGWWpg1Cow7/OBMBrF7uKsa1iqCyKkBIIU/T7ioBtEkY8saEb5fS9xgG0rSWFZS9KNis8cxDvmMYGZvKmc+OjlsDBB9bK6/cTyf4=
+Received: from SJ2PR01MB8345.prod.exchangelabs.com (2603:10b6:a03:537::11) by
+ CO1PR01MB6584.prod.exchangelabs.com (2603:10b6:303:f1::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8746.31; Mon, 19 May 2025 12:05:55 +0000
+Received: from SJ2PR01MB8345.prod.exchangelabs.com
+ ([fe80::6b00:1585:571d:c7a9]) by SJ2PR01MB8345.prod.exchangelabs.com
+ ([fe80::6b00:1585:571d:c7a9%3]) with mapi id 15.20.8746.030; Mon, 19 May 2025
+ 12:05:55 +0000
+From: Bharat Agrawal <bharat.agrawal@ansys.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "hughd@google.com" <hughd@google.com>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "rientjes@google.com" <rientjes@google.com>,
+	"zhangyiru3@huawei.com" <zhangyiru3@huawei.com>, "liuzixian4@huawei.com"
+	<liuzixian4@huawei.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"wuxu.wu@huawei.com" <wuxu.wu@huawei.com>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"legion@kernel.org" <legion@kernel.org>
+Subject: Re: mlock ulimits for SHM_HUGETLB
+Thread-Topic: mlock ulimits for SHM_HUGETLB
+Thread-Index: AQHbyKcHO9z3CBT88UaaZrmPml1IQ7PZvpe2gAATngCAAAb6nIAAAh4t
+Date: Mon, 19 May 2025 12:05:55 +0000
+Message-ID:
+ <SJ2PR01MB83456E99684DBBAAEAD7F9288E9CA@SJ2PR01MB8345.prod.exchangelabs.com>
+References:
+ <SJ2PR01MB8345DF192742AC4DB3D2CBB78E9CA@SJ2PR01MB8345.prod.exchangelabs.com>
+ <SJ2PR01MB834515EA00BD7C362A77972F8E9CA@SJ2PR01MB8345.prod.exchangelabs.com>
+ <2025051914-bounding-outscore-4d50@gregkh>
+ <SJ2PR01MB834507D46F44F65980FE09668E9CA@SJ2PR01MB8345.prod.exchangelabs.com>
+In-Reply-To:
+ <SJ2PR01MB834507D46F44F65980FE09668E9CA@SJ2PR01MB8345.prod.exchangelabs.com>
+Accept-Language: en-US, en-IN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ansys.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR01MB8345:EE_|CO1PR01MB6584:EE_
+x-ms-office365-filtering-correlation-id: 3a9ff1eb-ec4d-4e2e-18d7-08dd96cd8234
+x-ansys-tr-msexprocessed: True
+x-ansys-tr-senderinternal: True
+x-ansys-tr-recipientexternal: True
+x-ansys-tr-notconnectorflow: True
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?J2Wrml9OMEjuI1r+LBX9DrAZoRSoDmaU85y+5f9PXHn1sgKhN9D6/+Hzdh?=
+ =?iso-8859-1?Q?X8pMX3F1IgKJ/TAYGfsDauDMUFKLfsTKzdz/jSRj2LR5pssCDVKgd/dvxK?=
+ =?iso-8859-1?Q?OM8vHaM4IAdjCSk87l9dkpq9u7BOQGCgpUq/c7FMh4MGxWFjC/puouwlQo?=
+ =?iso-8859-1?Q?y3a5nFL7Vxab4kVRosGO61538IGMqr2kEr+mspKFbxcDQMPDMWiNXFo14/?=
+ =?iso-8859-1?Q?TTi2uPf1XMM/OZvs1O5hTDy6fZiHKna1SlbBEIBcjzkJWrxcNTsDODOd76?=
+ =?iso-8859-1?Q?UwDyM3OdigG2IBau8G7sPcc0UJKjrA7zHt2yyOIhDpx6jhxkkYROAMOick?=
+ =?iso-8859-1?Q?8AqJoZud1OVf497MziGV/5ZHtmJQizHzh/oDIWnPsVh0ozt4rmkpdHE/7y?=
+ =?iso-8859-1?Q?wC6uFPBHYwfJHA6W7flE7q4tLVVoMmAz/evW8dOKjf3O+yT53jDRhxR8hI?=
+ =?iso-8859-1?Q?SlUmK6G5YM5rKwivt6FCfDEqZNsJHpUnl401zNK8dKxVQwvIOXi14JiTkY?=
+ =?iso-8859-1?Q?bDRhQGz/kBmn/lwXI4vY0CxH3UuQcY6nHddPLLqfyDRYhSAklWyBbcuQMy?=
+ =?iso-8859-1?Q?oOv2dQLmLm3pTqcsp1xXTaET7tBCHAtIg/Gtq00Oh7xmCQON0sZeerM+p2?=
+ =?iso-8859-1?Q?SeZOYpp2pgzx/bTxkoyFYanIfGwh8DDHa8RBAuj1xrTmbUhqHgrhUkH51l?=
+ =?iso-8859-1?Q?RkzKeDIRDLY4AVLQLCEaAgpDdIPYewwoqOSy0aasP/n2qYVNOLQrNDTeUf?=
+ =?iso-8859-1?Q?BSy1ZM+iRqPXnoqy51bNnLT0mNtYvoBOQkgc/X0j6AYLmm0lBne5BbCz6z?=
+ =?iso-8859-1?Q?vyuXa5s2Suc4LmrHX030/1YFknBBTCVF6hLhfaL2veLgcvJIgNaS3zwk2m?=
+ =?iso-8859-1?Q?Jbh4yx9g8uVHZo44YtIxQO5g6IOx9DLPH89STr2jns4hNJTiB5iktHKU6Y?=
+ =?iso-8859-1?Q?UOvGv57o8ecfmeXhSMV+uPezL6IYm5+Fsn9Ecn8CC1fw3CevQ8C3M5Exqb?=
+ =?iso-8859-1?Q?j6JvB4bGEpu7ZeRNsVT7fS9xaFMz/fQDC0xqRqf4QVrFVMtJinuAJKcrPa?=
+ =?iso-8859-1?Q?sHZLB1S/QnzFRCUpAlQJVym/V3VuHN+TaToEWSviimjHUtP8XvfmJzxCbH?=
+ =?iso-8859-1?Q?Y1bwxPeuqqwLOw+4s7YvagBYURReA1+odb3zqT9yHyUyo+/+ew+iyq3Qdg?=
+ =?iso-8859-1?Q?s7wbypVJCiPnZ87C/W3niiSeUnJE+0pW/+MuuhmZnDo4X+wcxR8O+A6XtB?=
+ =?iso-8859-1?Q?VFmACMl7iV4UnQ90L+vZfhHRry4+z6gu1+3cUPYn9bqBesaxvDFS8PwVey?=
+ =?iso-8859-1?Q?UTKB/cbPuQlMLy3j6yKh5nlY5P7pjNWR1Fc5ibUS/QMOwbuo7+J7VhbypO?=
+ =?iso-8859-1?Q?6P6smAwhbIpgxXlEQgJbGcJLNwEHgWJrcfiH7RiU55i5qh3lmrnLHsShm6?=
+ =?iso-8859-1?Q?IWstF7BuWWq8k1wx/dhtsy7k4oEMFu0EJAdhFIWbx+Tj36ZOGYBxX+JaPw?=
+ =?iso-8859-1?Q?ZW+d9giF+iY133wag9bHBLur5ovZp7AnVz4UyvVh1X6OIhB7azR27B+RjF?=
+ =?iso-8859-1?Q?jkgfVR4=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR01MB8345.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?MV0FNLralsylV58tNPV66zmz/yUV6txdge2kaCsHe3mUsrd7jqHkJuGlEt?=
+ =?iso-8859-1?Q?Cdnws7slvQpOwK9tYOz6kwg4TRt+Inxg/rZoCfg+kLSDqh2LcpdaD3wZyX?=
+ =?iso-8859-1?Q?jnokXKHGBI7401XMG26CJYvsRn7Tfcf/ftfSFkMG2paYXswq0je2cek4Vx?=
+ =?iso-8859-1?Q?KF/Z4J0tugiZnU93hL9RxdZTFMMYoXzv8OH2zNUo0ggWfxY17GhCzZMT/I?=
+ =?iso-8859-1?Q?WI0p9u+CXc9aPpPvzbYkk3TuVdUtJvh0Tku3qShVj19aYe0HAlvp+Ufy2h?=
+ =?iso-8859-1?Q?QQKi3kkWzqxbi+X5SEKao69XbtobtAn7hojoMuXN29fkVOHDXpDETO5zXa?=
+ =?iso-8859-1?Q?54jDvUq5zXMsDgnvq2O5Mom9XX0vZQXPjnKw7vJ3MC7sOJggcLJpgjNrIK?=
+ =?iso-8859-1?Q?Ik/B7zVv4NegzHFe/IK95IeLnfOnV85TecbMOzhPEgStxPUPou9gsyIul/?=
+ =?iso-8859-1?Q?kcdge+j2rBGYz1rJJJA9HK8zvQx3JLMqrcfxB+T216/DRxCXLlIlDXWBa5?=
+ =?iso-8859-1?Q?T68hnrN06MQq6LJfzTlTn+oAK/FsNDazXwHBFMR6dGSzp3z+QWynOuTine?=
+ =?iso-8859-1?Q?QO8IUDYF1JJGIOuAxnHwM5sdUNX7DlCi2OBYN79QrJLi7TO1SVeNJYNsmF?=
+ =?iso-8859-1?Q?Xk13dHIak2xd7IJ/ZiPEAn76HBWbnmDvnzhVVdSRJ7DPQ2LiUe1NKC4xo4?=
+ =?iso-8859-1?Q?yzQNIzCvbXzh15+fuOh6LkgKnHlmRzZDHdFVjQ+56d9OZjtg0Rhb8eRtU1?=
+ =?iso-8859-1?Q?OFIm7X9YST9Zjhjjw86lEmb8bAlz/4q4pK98ES9/j/JT7Rud8ded2njO8/?=
+ =?iso-8859-1?Q?XG3Y0SNaMCa/yhkC98Qyjtz+sA2VEE8WB0zWd+Y/ugiDPm9F5sFOATXdkB?=
+ =?iso-8859-1?Q?rgEKv8DWJQp2ScddAgxlOtY3uBGiR0oFwytHlOWzkzBfShqMzozkScIFij?=
+ =?iso-8859-1?Q?EfoiiC9tC/I2cQEDYLjmdD4PYG3ABdkO0Z5uA1fyzZwIpyfIfwgPhCkIF0?=
+ =?iso-8859-1?Q?pqzN30/8PKOtM/bBmqehCaGnE7yFKCbQFW+zh5yhTJZERiMnlzSfVwssz3?=
+ =?iso-8859-1?Q?pNyFEPp6nhbywyYeLKzfTcBYktgEoalqOf9RUGYDV6LlVfQB2nlY7uRo6k?=
+ =?iso-8859-1?Q?v215ySsElRH3rOaKYX3JsqA++iV+UJEunWRaR4SLKvGj6Mc870QeXVo9hO?=
+ =?iso-8859-1?Q?5RKpEmngpDkdS7TH1QEHi2t5N1QH8UzZDcE5Qf7f/bbCL2eY6rI0DHb/l4?=
+ =?iso-8859-1?Q?vIHjwBswRObvQzV1sagywj+L+xx1AEe4FRSjG+GfGmpLBeoBvHdexJ+36L?=
+ =?iso-8859-1?Q?tVhKuZkfjXkNlubbVjf6CC3oz6En6Gk7es/7I8adPc5GCFD3rnVKXWzhu4?=
+ =?iso-8859-1?Q?ixqIacmtFxItjT+T1penTIzxUiu1P0eEhOjfbp5S1r9kU5DW31i9ZGIkwA?=
+ =?iso-8859-1?Q?B5zSNq/PEPw4s97D5e5IUVMofOIu7Ckc0J7m9gdFxOY/U156fxPYV/gZ5K?=
+ =?iso-8859-1?Q?vT/xUC+v06kYQehSeAPrZr1fvDeaB0Ddd8VArkHqeXmnZgmI1mzEe7TB7I?=
+ =?iso-8859-1?Q?Q5A+fh0qwWJ6OM2vE5+2SXVZqNONv75iTOnLpbbHfLlvIWfU266kVSzyVN?=
+ =?iso-8859-1?Q?TJJlttvXY1fZR4X3So5Bd9KLEZhFmOgA92?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxicuEkOas2UR4mqfus9Q2RAeKKYTwbE2XrkcE_zp8oScQ@mail.gmail.com>
+X-OriginatorOrg: ansys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR01MB8345.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a9ff1eb-ec4d-4e2e-18d7-08dd96cd8234
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2025 12:05:55.3211
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 34c6ce67-15b8-4eff-80e9-52da8be89706
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BSAyC/y1+cCBCdaO+bGuEid0hcA29Z/Nxc99jmh4/Smoq43MgAq0dMqN8XsHWpWEjAG3rrp3YHn2yfqnLIZRuNOAau2SyhxXENdLyAlPuXk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB6584
 
-On Thu, May 15, 2025 at 12:33:31PM +0200, Amir Goldstein wrote:
-> On Thu, May 15, 2025 at 11:02 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On Tue, May 13, 2025 at 11:53:23AM +0200, Arnd Bergmann wrote:
-> > > On Tue, May 13, 2025, at 11:17, Andrey Albershteyn wrote:
-> > >
-> > > >
-> > > >     long syscall(SYS_file_getattr, int dirfd, const char *pathname,
-> > > >             struct fsxattr *fsx, size_t size, unsigned int at_flags);
-> > > >     long syscall(SYS_file_setattr, int dirfd, const char *pathname,
-> > > >             struct fsxattr *fsx, size_t size, unsigned int at_flags);
-> > >
-> > > I don't think we can have both the "struct fsxattr" from the uapi
-> > > headers, and a variable size as an additional argument. I would
-> > > still prefer not having the extensible structure at all and just
-> >
-> > We're not going to add new interfaces that are fixed size unless for the
-> > very basic cases. I don't care if we're doing that somewhere else in the
-> > kernel but we're not doing that for vfs apis.
-> >
-> > > use fsxattr, but if you want to make it extensible in this way,
-> > > it should use a different structure (name). Otherwise adding
-> > > fields after fsx_pad[] would break the ioctl interface.
-> >
-> > Would that really be a problem? Just along the syscall simply add
-> > something like:
-> >
-> > diff --git a/fs/ioctl.c b/fs/ioctl.c
-> > index c91fd2b46a77..d3943805c4be 100644
-> > --- a/fs/ioctl.c
-> > +++ b/fs/ioctl.c
-> > @@ -868,12 +868,6 @@ static int do_vfs_ioctl(struct file *filp, unsigned int fd,
-> >         case FS_IOC_SETFLAGS:
-> >                 return ioctl_setflags(filp, argp);
-> >
-> > -       case FS_IOC_FSGETXATTR:
-> > -               return ioctl_fsgetxattr(filp, argp);
-> > -
-> > -       case FS_IOC_FSSETXATTR:
-> > -               return ioctl_fssetxattr(filp, argp);
-> > -
-> >         case FS_IOC_GETFSUUID:
-> >                 return ioctl_getfsuuid(filp, argp);
-> >
-> > @@ -886,6 +880,20 @@ static int do_vfs_ioctl(struct file *filp, unsigned int fd,
-> >                 break;
-> >         }
-> >
-> > +       switch (_IOC_NR(cmd)) {
-> > +       case _IOC_NR(FS_IOC_FSGETXATTR):
-> > +               if (WARN_ON_ONCE(_IOC_TYPE(cmd) != _IOC_TYPE(FS_IOC_FSGETXATTR)))
-> > +                       return SOMETHING_SOMETHING;
-> > +               /* Only handle original size. */
-> > +               return ioctl_fsgetxattr(filp, argp);
-> > +
-> > +       case _IOC_NR(FFS_IOC_FSSETXATTR):
-> > +               if (WARN_ON_ONCE(_IOC_TYPE(cmd) != _IOC_TYPE(FFS_IOC_FSSETXATTR)))
-> > +                       return SOMETHING_SOMETHING;
-> > +               /* Only handle original size. */
-> > +               return ioctl_fssetxattr(filp, argp);
-> > +       }
-> > +
-> 
-> I think what Arnd means is that we will not be able to change struct
-> sfxattr in uapi
-> going forward, because we are not going to deprecate the ioctls and
-
-There's no need to deprecate anything to rev an ioctl API.  We have
-had to solve this "changing struct size" problem previously in XFS
-ioctls. See XFS_IOC_FSGEOMETRY and the older XFS_IOC_FSGEOMETRY_V4
-and XFS_IOC_FSGEOMETRY_V1 versions of the API/ABI.
-
-If we need to increase the structure size, we can rename the existing
-ioctl and struct to fix the version in the API, then use the
-original name for the new ioctl and structure definition.
-
-The only thing we have to make sure of is that the old and new
-structures have exactly the same overlapping structure. i.e.
-extension must always be done by appending new varibles, they can't
-be put in the middle of the structure.
-
-This way applications being rebuild will pick up the new definition
-automatically when the system asserts that it is suppored, whilst
-existing binaries will always still be supported by the kernel.
-
-If the application wants/needs to support all possible kernels, then
-if XFS_IOC_FSGEOMETRY is not supported, call XFS_IOC_FSGEOMETRY_V4,
-and if that fails (only on really old irix!) or you only need
-something in that original subset, call XFS_IOC_FSGEOMETRY_V1 which
-will always succeed....
-
-> Should we will need to depart from this struct definition and we might
-> as well do it for the initial release of the syscall rather than later on, e.g.:
-> 
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -148,6 +148,17 @@ struct fsxattr {
->         unsigned char   fsx_pad[8];
->  };
-> 
-> +/*
-> + * Variable size structure for file_[sg]et_attr().
-> + */
-> +struct fsx_fileattr {
-> +       __u32           fsx_xflags;     /* xflags field value (get/set) */
-> +       __u32           fsx_extsize;    /* extsize field value (get/set)*/
-> +       __u32           fsx_nextents;   /* nextents field value (get)   */
-> +       __u32           fsx_projid;     /* project identifier (get/set) */
-> +       __u32           fsx_cowextsize; /* CoW extsize field value (get/set)*/
-> +};
-> +
-> +#define FSXATTR_SIZE_VER0 20
-> +#define FSXATTR_SIZE_LATEST FSXATTR_SIZE_VER0
-
-If all the structures overlap the same, all that is needed in the
-code is to define the structure size that should be copied in and
-parsed. i.e:
-
-	case FSXATTR..._V1:
-		return ioctl_fsxattr...(args, sizeof(fsx_fileattr_v1));
-	case FSXATTR..._V2:
-		return ioctl_fsxattr...(args, sizeof(fsx_fileattr_v2));
-	case FSXATTR...:
-		return ioctl_fsxattr...(args, sizeof(fsx_fileattr));
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Thanks Greg for the response. RHEL has not been very helpful. I'm not looki=
+ng to ask for patches because of the old versions.=0A=
+These messages appear in production runs, raising concerns about possible f=
+ailures. Thus, the question is: Can they be ignored safely?=0A=
+=0A=
+=0A=
+Best,=0A=
+Bharat=0A=
+=0A=
+________________________________________=0A=
+From:=A0Greg KH <gregkh@linuxfoundation.org>=0A=
+Sent:=A0Monday, May 19, 2025 05:02 PM=0A=
+To:=A0Bharat Agrawal <bharat.agrawal@ansys.com>=0A=
+Cc:=A0hughd@google.com <hughd@google.com>; akpm@linux-foundation.org <akpm@=
+linux-foundation.org>; rientjes@google.com <rientjes@google.com>; zhangyiru=
+3@huawei.com <zhangyiru3@huawei.com>; liuzixian4@huawei.com <liuzixian4@hua=
+wei.com>; mhocko@suse.com <mhocko@suse.com>; wuxu.wu@huawei.com <wuxu.wu@hu=
+awei.com>; linux-fsdevel@vger.kernel.org <linux-fsdevel@vger.kernel.org>; l=
+inux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>; linux-api@vger.=
+kernel.org <linux-api@vger.kernel.org>; linux-mm@kvack.org <linux-mm@kvack.=
+org>=0A=
+Subject:=A0Re: mlock ulimits for SHM_HUGETLB=0A=
+=A0=0A=
+[External Sender]=0A=
+=0A=
+On Mon, May 19, 2025 at 10:23:33AM +0000, Bharat Agrawal wrote:=0A=
+> Hi all,=0A=
+>=0A=
+> Could anyone please help comment on the risks associated with an applicat=
+ion throwing the "Using mlock ulimits for SHM_HUGETLB is deprecated" messag=
+e on RHEL 8.9 with 4.18.0-513.18.1.el8_9.x86_64 Linux kernel?=0A=
+=0A=
+Why not ask RHEL support, given that you are paying them for that in=0A=
+order to be using that kernel version, right?=0A=
+=0A=
+Also note that 4.18.y is VERY old and obsolete and not supported by the=0A=
+community at all.=0A=
+=0A=
+Good luck!=0A=
+=0A=
+greg k-h=
 
