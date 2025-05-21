@@ -1,35 +1,35 @@
-Return-Path: <linux-api+bounces-3832-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3834-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860B0ABF34C
-	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 13:50:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D8ABF351
+	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 13:50:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6EFA54A179E
-	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 11:50:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BF713B0FC4
+	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 11:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4615826460B;
-	Wed, 21 May 2025 11:49:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A09DF265607;
+	Wed, 21 May 2025 11:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="CWthe4og";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="Vl8/Nhma"
+	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="RQd4A3Pk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="qjubHqEF"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mx.wizmail.org (smtp.wizmail.org [85.158.153.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB51264A61;
-	Wed, 21 May 2025 11:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509B025A2AF;
+	Wed, 21 May 2025 11:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.158.153.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747828195; cv=none; b=GSWQXeN7F3LUOnqYYqRZ/Qr6DtcDKS9eAGY45dtyxg0GCWRfgyfMsJ8r255W8COczGcYRgLBc5dTQhb6MEG6POjoGud8oWYkR9HfWoJkSQyqHLFANP7MZbHUPPGG7UDHjow4ZDwNIF8mcDwWeuNub4rjcXvQr/9gfiuCwiizTrw=
+	t=1747828200; cv=none; b=ezb1DxWHo0CvybSi3KbiRBPkxjk+UQSVhnFMsA8GExSJOPJyQQhmAcUrvURvr/G/YBDaZZql4MiZM8SiVpDuqG0On+sxJFGTSbpjVIMo1vyqIqhRJTHngG2Vv7Lw9FquqtAqYRASr3jCIU10C3NAlW1Nopc3l/yfJAL5Ed4CbnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747828195; c=relaxed/simple;
-	bh=/8EsM6BRyc0g3vlGm/7x0a+DxL/gOg3Vrr7yYO/oCPw=;
+	s=arc-20240116; t=1747828200; c=relaxed/simple;
+	bh=GOmNOUxIjL7FpfpdDBjTyoaeUXKoUvzhkneuD7WUxtM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FfpNbBYgY4T1T0L3almRX7wzBAX9iHM40WCYkKE14jKIOWt3kYgpolGr95POeZMkHQhenYuGtDg3Q6NcZGeI+CB6WvXdkIF/vVc7bEGCe7BVavlaDXqFEa9VrViGOphJKbhHcVnri12KoTClNkIUH/qCvSxilMpAO6xaiDAKdL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=CWthe4og; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=Vl8/Nhma; arc=none smtp.client-ip=85.158.153.28
+	 MIME-Version; b=qLJkTcQxP7HWzc8YKFnH2kf8fsTFJaysrXKtca7MyTIIgx9BVhqxXVgr/9m5jEUZzrvj0aFyiAP0Jdaesqc0m2+xvDJ2BVYkQVWDKXmFNduiZHPvVx9Z0b/jUuD2fz+yJfjHSAzdaZRSSQFQcE11MjI9a9UTDqLawdf9FsuFbiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=RQd4A3Pk; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=qjubHqEF; arc=none smtp.client-ip=85.158.153.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=exim.org
 DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -39,8 +39,8 @@ DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=dwa9n0vM+saGNiHuv80Sdy07xurtcNugWn6VvuI+IR4=; b=CWthe4ogQ4VTbQd
-	BvvwazX8GidDe0OVhiQboLoCNNvBFAsTFfphIPJqyE06T8kEdHMf+m3qhpJJJEqv1OG1AAQ==;
+	Autocrypt; bh=X1jUlirJuPk7kGbfN3el3gS5c708I/qfwMVd/PFAGjY=; b=RQd4A3PkyhPL5Rt
+	VjBwtSl9fHxB855KDiudNgGY1H287iaDykVau4Y746KR86Nyz+54RnxLS2gja3EYMGaTfBw==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	; s=r202001; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
@@ -48,31 +48,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=dwa9n0vM+saGNiHuv80Sdy07xurtcNugWn6VvuI+IR4=; b=Vl8/NhmawY9MVSS
-	nEkV2C805MMpnMKauNkmoQlmILYzrOt3hQzvRuCPq+4+tqDur3urmejuWsBF1O2GyXC8F7vsAMI9r
-	/eyuXV0JHK5CII+Y2UYbcK0XfaMm/zPd3Hc+nLHDl5YadF39FUzqPkz3FhXItHz7qg9dfGQJX0e+r
-	OiWcpJsR4+pyxwySGQAp7W6842pU1ZN465yrjduMOdb0tdSUxaqbub8Vhr88MxIyJRUPMDZg8xr6k
-	+pEFu3ahPzWYRcYRU2+lUmocm2aelScI4dcVaAjZQpT3KtsOX0ef0b7oDqX79vY0e4wmmBtsVIq2d
-	7HiafIGn1HLZTFymOKQ==;
+	Autocrypt; bh=X1jUlirJuPk7kGbfN3el3gS5c708I/qfwMVd/PFAGjY=; b=qjubHqEFRo1XDt9
+	EDC/WEs9gRXLmVLj0LV0FW24VHwrbYNSwEQ4DWeCskUqq4+s41HRRg74lTAYZAzRmV53loZqqQbm2
+	YwILHXGqI/d919OebDfwDOXJ12yEGePmjwzUCMsp8sjGMQieoh1FNjRK7XQ8aWthNANChVd6xMLy6
+	H9naiFKER7mGlfxGgjZ9cM6/MSnJpcF2E7yzDBfl+8m83/f6iD6umn5c75hmBemCMY3vnF13Kxv2S
+	krFDGuPxcNksTuEu5y5MXm6QvpIymZ2y3MaLQKj3deUtWImAUfapdPoXQ4cxsXrqKExfX+yNgCZ9E
+	SpKVnKbwElUGp3Hl4sg==;
 Authentication-Results: wizmail.org;
 	iprev=pass (hellmouth.gulag.org.uk) smtp.remote-ip=85.158.153.62;
 	auth=pass (PLAIN) smtp.auth=jgh@wizmail.org
 Received: from hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain)
-	by wizmail.org (Exim 4.98.115)
+	by www.wizmail.org (Exim 4.98.115)
 	(TLS1.3) tls TLS_AES_256_GCM_SHA384
 	with esmtpsa
-	id 1uHht9-00000001yTm-3N9O
+	id 1uHhtA-00000001yTm-0C5v
 	(return-path <jgh@exim.org>);
-	Wed, 21 May 2025 11:45:35 +0000
+	Wed, 21 May 2025 11:45:36 +0000
 From: Jeremy Harris <jgh@exim.org>
 To: netdev@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	edumazet@google.com,
 	ncardwell@google.com,
 	Jeremy Harris <jgh@exim.org>
-Subject: [PATCH net-next v2 4/6] tcp: transmit any pending data on receipt of 3rd-ack
-Date: Wed, 21 May 2025 12:45:03 +0100
-Message-ID: <46cd124e7d2bce9fb4174c130f055db40eea54a4.1747826775.git.jgh@exim.org>
+Subject: [PATCH net-next v2 5/6] tcp: fastopen: retransmit data when only the SYN of a synack-with-data is acked
+Date: Wed, 21 May 2025 12:45:04 +0100
+Message-ID: <685024553d541e6c06d7428f2cfe9160e8fc9ff4.1747826775.git.jgh@exim.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1747826775.git.jgh@exim.org>
 References: <cover.1747826775.git.jgh@exim.org>
@@ -85,29 +85,39 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Pcms-Received-Sender: hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain) with esmtpsa
 
-For the non-fastopen case of prelaod, when the 3rd-ack arrives there
-will be data on the write queue. Transmit it immediately
-by allowing the SYN_SENT state to run the xmit-recovery code.
+A corner-case for the 3rd-ack after a data-on-synack is for only
+the SYN to be acked. Handle this by, in ack processing, when in
+SYN_RECV state (the state is not yet updated to ESTABLISHED)
+marking the retransmit-queue sk_buff as having been lost.
 
 Signed-off-by: Jeremy Harris <jgh@exim.org>
 ---
- net/ipv4/tcp_input.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ net/ipv4/tcp_input.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index 8ec92dec321a..345a08baaf02 100644
+index 345a08baaf02..a53021edddd5 100644
 --- a/net/ipv4/tcp_input.c
 +++ b/net/ipv4/tcp_input.c
-@@ -3900,7 +3900,8 @@ static void tcp_xmit_recovery(struct sock *sk, int rexmit)
- {
- 	struct tcp_sock *tp = tcp_sk(sk);
+@@ -4069,6 +4069,18 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
+ 				      &rexmit);
+ 	}
  
--	if (rexmit == REXMIT_NONE || sk->sk_state == TCP_SYN_SENT)
-+	if ((rexmit == REXMIT_NONE && sk->sk_state != TCP_SYN_RECV) ||
-+	    sk->sk_state == TCP_SYN_SENT)
- 		return;
- 
- 	if (unlikely(rexmit == REXMIT_NEW)) {
++	/* On receiving a 3rd-ack, if we never sent a packet via
++	 * the normal means (which counts them), yet there is data
++	 * remaining for retransmit, it was data-on-synack not acked;
++	 * mark the skb for retransmission.
++	 */
++	if (sk->sk_state == TCP_SYN_RECV && tp->segs_out == 0) {
++		struct sk_buff *skb = tcp_rtx_queue_head(sk);
++
++		if (skb)
++			tcp_mark_skb_lost(sk, skb);
++	}
++
+ 	/* If needed, reset TLP/RTO timer when RACK doesn't set. */
+ 	if (flag & FLAG_SET_XMIT_TIMER)
+ 		tcp_set_xmit_timer(sk);
 -- 
 2.49.0
 
