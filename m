@@ -1,182 +1,142 @@
-Return-Path: <linux-api+bounces-3843-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3844-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC3AC0B67
-	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 14:12:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8ABAC16BE
+	for <lists+linux-api@lfdr.de>; Fri, 23 May 2025 00:26:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B02B31B63738
-	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 12:12:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B2F03A4B35
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 22:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B3928A1E3;
-	Thu, 22 May 2025 12:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94D4277039;
+	Thu, 22 May 2025 22:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ebuxk8DE"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PE8bp2bC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817423771C;
-	Thu, 22 May 2025 12:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD1A270EA7
+	for <linux-api@vger.kernel.org>; Thu, 22 May 2025 22:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747915934; cv=none; b=UW0vUcw61nO4jAiIGia48/S2XsZNOY5QTwMqdP89z7cox3OIkJ6F6/SsYMW09ljdq2XmIgFoegSOvveq6hbgVfjjvYwi5NIWbGWrEDeYvTXxrpbxur/VanwH6ilanLtDFV5v3s8NlIdRAU+pobrmohjQS1/e/d9HFbc0Y0yInvM=
+	t=1747952772; cv=none; b=Tdsi9i0JXo4u2uHp0tScgvlAxKdcrv2QrFRKaBt3jWzkch/TP2uHLLYKXI0iw/ylVgx7DkFsgqrz6OAx+b69Vz4OIYHHsT+aYAzoFhiIPbTHzAzxavl3o+ZIDWsSKCzKG9WOUKMza1sT3NExr/u6H0x51pMQwqeLoIhyWeMpoSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747915934; c=relaxed/simple;
-	bh=StgdFeaMD6HJ9Me6GTfwzhiv4ow8/NpvUc+y4NUni2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pfmFtGhT908SmHbjXIjk2kwhobkSmEm+UsPSijFEIV+cxLH/GtftxvuPy1tJxwjfjwB19AaCTOZUNjDfoPok5K1zOb/GnGPrOgeQYqJiuCcAriDZkOzlLe9kwoNH5z1HyrOdkzh6tUS/P5tDOUhYlw7uRoeZcxEynpJn8JFCGys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ebuxk8DE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20577C4CEE4;
-	Thu, 22 May 2025 12:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747915933;
-	bh=StgdFeaMD6HJ9Me6GTfwzhiv4ow8/NpvUc+y4NUni2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ebuxk8DElK2tjp5ZvQk37kLGix2yfChyW3I8J7FaPYbTLnjfLorYdKkX+7JjgSqgl
-	 LY5N5YuC/VI1iHjtA8x39j2I5hf52LIGXT+m6csvpWdIx/AuCTHq5Md2yu1gfQcfoH
-	 YQnRPECrpFToWi9CiW2CUoy1kaCr5lcz9r0UNC+ql9WEcasfbFweM5E/h5jhl1C23y
-	 zUYk/oiHGTD2iNYap4ZuSBn7FBR7jllob9uHds31/Q4MKcCGD5K2SHdX8Vt5oShScH
-	 61P8SWTu0oAQ3/REBM85O1ghJY686cDchWGnVILgvEbFYcTF6BiEDn7lOAe3Q2h4qr
-	 mnnenoduIsqMA==
-Date: Thu, 22 May 2025 15:12:05 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	SeongJae Park <sj@kernel.org>, Usama Arif <usamaarif642@gmail.com>,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH 0/5] add process_madvise() flags to modify behaviour
-Message-ID: <aC8UlSupN7_YXfma@kernel.org>
-References: <cover.1747686021.git.lorenzo.stoakes@oracle.com>
+	s=arc-20240116; t=1747952772; c=relaxed/simple;
+	bh=yXfmq+fsOH2ydhYAaJ/O8G8cyrnfKS0KGUVUMAH0MGk=;
+	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
+	 References:In-Reply-To; b=E0gE8tFdEkLx92qrRnNfjAxb7jjO2Z5F1Zyv6ZPuTMTSGubSpWFy/zOwAZfutWDCQNf1tDFyadp9vHB2OQVmnmsqqbRj/vlRkoLlMYSkvwsQqGpTJQjtNxGASkec5dEqDrNO8iJ63Gfl4RSLaKBmluq+HjPWar0JmPtBaEgOXyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PE8bp2bC; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f0ad74483fso90570796d6.1
+        for <linux-api@vger.kernel.org>; Thu, 22 May 2025 15:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1747952767; x=1748557567; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :mime-version:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
+        b=PE8bp2bC2u+7hVMWFXDxIhgHhKxulbXWcGxnUpIhrgzangQno0wz8wTj2SBpQlx+RH
+         HWbPzJONY/k5V5KhKxFzRg0mqcSuevNUob7nbBRkNe4zNv5ta0ZZRbKuMkupvRu1j4H/
+         L5g61hkwn3G2TrJtCWpQppB/pCl9f/CPqdvv0wvc5m0YvonN/44WK2eHjcRrBNO9b+Bz
+         rMI5Soc4po1JoBDybn3lJlA6EaENodtYQjDPfzlCn/d0jltsqZogc7KaymbExTqk6b2E
+         5S0ojIzkilaxs5NcdiEorb9gq51ZYUhzmmerYI6Csq70Rwqskc1RTDHHPC4a/b2ToWTE
+         +pXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747952767; x=1748557567;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :mime-version:message-id:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
+        b=bHZB0GhHPXOtxBGnU0UU/FhRdlMCoc2pf+TcVMpVinpymyOHqaMVXAoLvQFVZGx5KF
+         bghVs3aIUtlaFqePekpyo4HBCiDpJPyFECeLLcNyyP/tVXfCiO9o9xd32jbUZivwkato
+         Bj93VKV5lP5sxGcYk9vNl6TKLkT9gJGY8cUF43xq1E1MjxjLcndM1qm1VgwWG7GwW1lR
+         qAzTNVCVEilnA+rcpBFqQLeVfrw99+sEduyzIzD5EiyKLhPbvLp9Tal5NWIjuwEJMo1K
+         /dDFDh3pr5EQKf1BEn7bBH4hhUC+Iqm1Ws3maXyuCz4jZtR52uwTRsldsrPuH4fDUrdz
+         BcXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVS9rqza9A+OO5xNBGo/0gGt5Mw/xKXeGywk46Jo1hbMM1No/FuGBmtRQ0sWtElhRTNpQmgEXuXzTw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe11p04Gcrb8a5P92FAPom6u7sb61xH6QoKAzQg+SY8mZ7TV2Z
+	n0/U1Fthjh8i5rSXh2W4+7lz/VKtuQSEYFUMMVI0DjXYIJga0YZQlefmS/zPdKIDnQ==
+X-Gm-Gg: ASbGnctsWiHrgf7VQwdj5+wuZa/OjpOPIEKrvvO4kgGBifQL1nqbqbNmps0AY6Rk9Kl
+	Ww6cNb0bf/7VWh6kS2dylglg26ymwlnkc5VMa530OEwSAyeRjW56DNjNw28rxdoIn/mtLvxTMuU
+	bZKKrHyXV60r2GogH8lH/UFBcwqBS2yJTFlIJap1N9mu5Du5V1STruXNJ8BR8Ceg+INvkMnBKrd
+	3twhYZb5THA3BkBONrFFQVf9N9yAPKUSyWIPGIpBD39RnFWPNYrCKoxlMa9DzLkv5Ssk03vmthB
+	8n/OMWiqNwdDhsYQJ9p+lPJT8/kOasvs2Y3VqACmHjgr7zbhiEdJkRg9GcptIMr0sR30sGYrdAt
+	wk+k/8F1XewM+HPawXkHf
+X-Google-Smtp-Source: AGHT+IE2zN7SH+0SaGrs2tzepSFkLMKNXBgIbbn8M9DQcRbDJBs1dDzlx85ZuSxbIPErdUE31K4qXg==
+X-Received: by 2002:a05:6214:1947:b0:6f2:b094:430e with SMTP id 6a1803df08f44-6f8b0829131mr503375636d6.25.1747952766984;
+        Thu, 22 May 2025 15:26:06 -0700 (PDT)
+Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6f8b0987259sm105076766d6.120.2025.05.22.15.26.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 15:26:06 -0700 (PDT)
+Date: Thu, 22 May 2025 18:26:05 -0400
+Message-ID: <0bb73a49ccbc93e90ea87c0dbb4097ae@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1747686021.git.lorenzo.stoakes@oracle.com>
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=UTF-8 
+Content-Transfer-Encoding: 8bit 
+X-Mailer: pstg-pwork:20250522_1740/pstg-lib:20250522_1730/pstg-pwork:20250522_1740
+From: Paul Moore <paul@paul-moore.com>
+To: Andrey Albershteyn <aalbersh@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, 
+	Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Amir Goldstein <amir73il@gmail.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, selinux@vger.kernel.org, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH v5 2/7] lsm: introduce new hooks for setting/getting inode  fsxattr
+References: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
+In-Reply-To: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
 
-(cc'ing linux-api)
+On May 13, 2025 Andrey Albershteyn <aalbersh@redhat.com> wrote:
+> 
+> Introduce new hooks for setting and getting filesystem extended
+> attributes on inode (FS_IOC_FSGETXATTR).
+> 
+> Cc: selinux@vger.kernel.org
+> Cc: Paul Moore <paul@paul-moore.com>
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/file_attr.c                | 19 ++++++++++++++++---
+>  include/linux/lsm_hook_defs.h |  2 ++
+>  include/linux/security.h      | 16 ++++++++++++++++
+>  security/security.c           | 30 ++++++++++++++++++++++++++++++
+>  4 files changed, 64 insertions(+), 3 deletions(-)
 
-On Mon, May 19, 2025 at 09:52:37PM +0100, Lorenzo Stoakes wrote:
-> REVIEWERS NOTES:
-> ================
-> 
-> This is a VERY EARLY version of the idea, it's relatively untested, and I'm
-> 'putting it out there' for feedback. Any serious version of this will add a
-> bunch of self-tests to assert correct behaviour and I will more carefully
-> confirm everything's working.
-> 
-> This is based on discussion arising from Usama's series [0], SJ's input on
-> the thread around process_madvise() behaviour [1] (and a subsequent
-> response by me [2]) and prior discussion about a new madvise() interface
-> [3].
-> 
-> [0]: https://lore.kernel.org/linux-mm/20250515133519.2779639-1-usamaarif642@gmail.com/
-> [1]: https://lore.kernel.org/linux-mm/20250517162048.36347-1-sj@kernel.org/
-> [2]: https://lore.kernel.org/linux-mm/e3ba284c-3cb1-42c1-a0ba-9c59374d0541@lucifer.local/
-> [3]: https://lore.kernel.org/linux-mm/c390dd7e-0770-4d29-bb0e-f410ff6678e3@lucifer.local/
-> 
-> ================
-> 
-> Currently, we are rather restricted in how madvise() operations
-> proceed. While effort has been put in to expanding what process_madvise()
-> can do (that is - unrestricted application of advice to the local process
-> alongside recent improvements on the efficiency of TLB operations over
-> these batvches), we are still constrained by existing madvise() limitations
-> and default behaviours.
-> 
-> This series makes use of the currently unused flags field in
-> process_madvise() to provide more flexiblity.
-> 
-> It introduces four flags:
-> 
-> 1. PMADV_SKIP_ERRORS
-> 
-> Currently, when an error arises applying advice in any individual VMA
-> (keeping in mind that a range specified to madvise() or as part of the
-> iovec passed to process_madvise()), the operation stops where it is and
-> returns an error.
-> 
-> This might not be the desired behaviour of the user, who may wish instead
-> for the operation to be 'best effort'. By setting this flag, that behaviour
-> is obtained.
-> 
-> Since process_madvise() would trivially, if skipping errors, simply return
-> the input vector size, we instead return the number of entries in the
-> vector which completed successfully without error.
-> 
-> The PMADV_SKIP_ERRORS flag implicitly implies PMADV_NO_ERROR_ON_UNMAPPED.
-> 
-> 2. PMADV_NO_ERROR_ON_UNMAPPED
-> 
-> Currently madvise() has the peculiar behaviour of, if the range specified
-> to it contains unmapped range(s), completing the full operation, but
-> ultimately returning -ENOMEM.
-> 
-> In the case of process_madvise(), this is fatal, as the operation will stop
-> immediately upon this occurring.
-> 
-> By setting PMADV_NO_ERROR_ON_UNMAPPED, the user can indicate that it wishes
-> unmapped areas to simply be entirely ignored.
-> 
-> 3. PMADV_SET_FORK_EXEC_DEFAULT
-> 
-> It may be desirable for a user to specify that all VMAs mapped in a process
-> address space default to having an madvise() behaviour established by
-> default, in such a fashion as that this persists across fork/exec.
-> 
-> Since this is a very powerful option that would make no sense for many
-> advice modes, we explicitly only permit known-safe flags here (currently
-> MADV_HUGEPAGE and MADV_NOHUGEPAGE only).
-> 
-> 4. PMADV_ENTIRE_ADDRESS_SPACE
-> 
-> It can be annoying, should a user wish to apply madvise() to all VMAs in an
-> address space, to have to add a singular large entry to the input iovec.
-> 
-> So provide sugar to permit this - PMADV_ENTIRE_ADDRESS_SPACE. If specified,
-> we expect the user to pass NULL and -1 to the vec and vlen parameters
-> respectively so they explicitly acknowledge that these will be ignored,
-> e.g.:
-> 
-> 	process_madvise(PIDFD_SELF, NULL, -1, MADV_HUGEPAGE,
-> 			PMADV_ENTIRE_ADDRESS_SPACE | PMADV_SKIP_ERRORS);
-> 
-> Usually a user ought to prefer setting PMADV_SKIP_ERRORS here as it may
-> well be the case that incompatible VMAs will be encountered that ought to
-> be skipped.
-> 
-> If this is not set, the PMADV_NO_ERROR_ON_UNMAPPED (which was otherwise
-> implicitly implied by PMADV_SKIP_ERRORS) ought to be set as of course, the
-> entire address space spans at least some gaps.
-> 
-> Lorenzo Stoakes (5):
->   mm: madvise: refactor madvise_populate()
->   mm/madvise: add PMADV_SKIP_ERRORS process_madvise() flag
->   mm/madvise: add PMADV_NO_ERROR_ON_UNMAPPED process_madvise() flag
->   mm/madvise: add PMADV_SET_FORK_EXEC_DEFAULT process_madvise() flag
->   mm/madvise: add PMADV_ENTIRE_ADDRESS_SPACE process_madvise() flag
-> 
->  include/uapi/asm-generic/mman-common.h |   6 +
->  mm/madvise.c                           | 206 +++++++++++++++++++------
->  2 files changed, 168 insertions(+), 44 deletions(-)
-> 
-> --
-> 2.49.0
-> 
+The only thing that gives me a slight pause is that on a set operation
+we are going to hit both the get and set LSM hooks, but since the code
+does call into the getter on a set operation this is arguably the right
+thing.
 
--- 
-Sincerely yours,
-Mike.
+Acked-by: Paul Moore <paul@paul-moore.com>
+
+--
+paul-moore.com
 
