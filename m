@@ -1,223 +1,179 @@
-Return-Path: <linux-api+bounces-3839-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3840-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAB2ABFDCD
-	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 22:23:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B40AC05D7
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 09:36:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 592481BA67BA
-	for <lists+linux-api@lfdr.de>; Wed, 21 May 2025 20:23:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81B913AD6AD
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 07:36:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BE428FA98;
-	Wed, 21 May 2025 20:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E957222568;
+	Thu, 22 May 2025 07:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WbNNJ0DR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXuAoVVf"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E65228F933;
-	Wed, 21 May 2025 20:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6079E1E32A3;
+	Thu, 22 May 2025 07:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747858997; cv=none; b=Vc3KlT967CwLuOhOXfW3m4FGGrUIOTBLV0s7m9AB/09KqJV7fVqjXpMjrNvJbDorhpitySwimVXgxx2l3t1+j0ZcgOiETMOMcSmzdl0Smc8vDclKU96EDod9pkBJz0umT5OlA2Kc9GH6HeIVhr+7ujnZxfHSMaMRRoovTjQdUEo=
+	t=1747899382; cv=none; b=B+dUWtvzJTrRsZcZxH5dfPxXAB3kmcRqUFCWODxIiI3MXFOHBdqRi1o2nLXCLxZ8fCX88Oz8N7V5Fz4UOCjpewK9y2uzF2i4PiOr0DczJy0UxEHqOSmjaBnsUGk5CAXIa7k1jo9qvsAmbK9K/YEfm7bm4KERwzkdQTDBlRfbbt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747858997; c=relaxed/simple;
-	bh=K/2pXTpvDQfBZ0ep8HpGFETI5nYmsq+WiQ0VjG+uwy8=;
+	s=arc-20240116; t=1747899382; c=relaxed/simple;
+	bh=F4i3Fk1Idix54PmX458wB/iZLA9kMy518Cyiy+f/9Eg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jQTPQxraxD0tzT4tDhzSFj1zDji4URTRvioicQ3qSFt+nY+bAIoGfta8/sQJlRgaQPxf5t/c1NdAi9gxeQYTaEb2w8nfTpjnaJ9t6aVJ9VE0Vgm0pEe2dJ1CxieDt3GSwS/vmCJOg1iEIi3he2lsYb8eOJ9NWXehfHGA8VRlqYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WbNNJ0DR; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=MuhCpdzX+WycsK0zlb4UXsC4o0jG8QWfGcXKkemEgChd7bMIniF966oqHyOAi1E04cOI3CEWrB55CB8MvrC5a+TgkEw5tM1ONZOOy81jfSOHW6TKs20FJ1AqLZx6uDxk0RLC6KprdvUdlLqRp8PGb8IJcwEroaq5DtaVdodb/10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXuAoVVf; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747858996; x=1779394996;
+  t=1747899380; x=1779435380;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=K/2pXTpvDQfBZ0ep8HpGFETI5nYmsq+WiQ0VjG+uwy8=;
-  b=WbNNJ0DRRm2l4mREAkcnZV3iK0UGQxiBTNQj7mxLJLkou5OEcHWfqRJ2
-   Jmc498cXBvh3SHq2BN+6Rrzvw0NSCqkATIdwbcJs9xWHCWtYXpM5x9e+0
-   Wz5HOuyRHvpg/EHgApAULWfvm63+kE3+xByFSHwx3zfWsTw1WVwEa4f4q
-   r8Sb7F3Vs0K6gxWoB9FK4rVgtCTF2a7ZkBAac+9xutGqC2k+0ZqoGiPZZ
-   8nHxabkeUQijbKZPi9CKC1YEyis4vUV1+NY2YCuuWsq4J6kcKcePw+P0R
-   wNHE+/pWu1Gq1g6+I0tiZXTAPp8od+9bwT2XvOSBhd63nmRuR7FmxskvB
-   g==;
-X-CSE-ConnectionGUID: bcLCS7rBSEKVu7N71KNfoQ==
-X-CSE-MsgGUID: xK1hrQlTRcCQqw0kc321Iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49845372"
-X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="49845372"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 13:23:15 -0700
-X-CSE-ConnectionGUID: x4VnkjI8Sgqy8LNgJw13Gw==
-X-CSE-MsgGUID: RB6n9MKzQwedhiImKbruyg==
+   mime-version:in-reply-to;
+  bh=F4i3Fk1Idix54PmX458wB/iZLA9kMy518Cyiy+f/9Eg=;
+  b=ZXuAoVVfY4nhXv6GyKdc/mzOx5wU2ixfDhw0x/wBewM1/pHunpO2HMUE
+   M9+SmpCOSkQTLZmzhWnq7zzjSo+w3iGQIB9pUHKlX8OBTLOGPKq5LFU0P
+   YQqGy/ZOr3WiiKkR/8VKmnNGyy75cjpFzLtm7FJuiKDKj2gXGb7Np3lR8
+   JeIFcaWyxVNWoCv0snJSBxoOL2QE5r9I56V31IOPrdwf2o3tC3x8gZ1RF
+   Dxsu7MPmxVk+WNvcFwQVNDS02xJxrfjjLU3v8U800mlHJVaz14eGw1Ed/
+   xU4jxWOm54vJ5mVWLzRLBfGl2EFbidrD3Jw8CnKFKt0SlSWXLQDkFG/Z+
+   w==;
+X-CSE-ConnectionGUID: fJJLOPzpTT6tZnT/WPJxAw==
+X-CSE-MsgGUID: wX/s3yz3SoC1BpOP8b3Q3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60150992"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="60150992"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 00:36:19 -0700
+X-CSE-ConnectionGUID: rNnNqRNBRoe/uwtG46fbIg==
+X-CSE-MsgGUID: w1bwDTdSThC9NBAcrX3C7A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="171103030"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="140989093"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 May 2025 13:23:12 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 May 2025 00:36:16 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHpy1-000OaS-0R;
-	Wed, 21 May 2025 20:23:09 +0000
-Date: Thu, 22 May 2025 04:23:02 +0800
+	id 1uI0TN-000P34-2F;
+	Thu, 22 May 2025 07:36:13 +0000
+Date: Thu, 22 May 2025 15:36:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Waiman Long <longman@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v4 5/7] futex: Wire up set_robust_list2 syscall
-Message-ID: <202505220350.ZektmdF0-lkp@intel.com>
-References: <20250520-tonyk-robust_futex-v4-5-1123093e59de@igalia.com>
+To: Jeremy Harris <jgh@exim.org>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-api@vger.kernel.org, edumazet@google.com,
+	ncardwell@google.com, Jeremy Harris <jgh@exim.org>
+Subject: Re: [PATCH net-next v2 1/6]     tcp: support writing to a socket in
+ listening state
+Message-ID: <202505221529.hEVx1YPV-lkp@intel.com>
+References: <d3f47c9b5b08237b6e76f7b0739d59089683c86e.1747826775.git.jgh@exim.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250520-tonyk-robust_futex-v4-5-1123093e59de@igalia.com>
+In-Reply-To: <d3f47c9b5b08237b6e76f7b0739d59089683c86e.1747826775.git.jgh@exim.org>
 
-Hi André,
+Hi Jeremy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3ee84e3dd88e39b55b534e17a7b9a181f1d46809]
+[auto build test WARNING on f685204c57e87d2a88b159c7525426d70ee745c9]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/selftests-futex-Add-ASSERT_-macros/20250521-045231
-base:   3ee84e3dd88e39b55b534e17a7b9a181f1d46809
-patch link:    https://lore.kernel.org/r/20250520-tonyk-robust_futex-v4-5-1123093e59de%40igalia.com
-patch subject: [PATCH v4 5/7] futex: Wire up set_robust_list2 syscall
-config: arc-randconfig-001-20250521 (https://download.01.org/0day-ci/archive/20250522/202505220350.ZektmdF0-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220350.ZektmdF0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Harris/tcp-support-writing-to-a-socket-in-listening-state/20250521-195234
+base:   f685204c57e87d2a88b159c7525426d70ee745c9
+patch link:    https://lore.kernel.org/r/d3f47c9b5b08237b6e76f7b0739d59089683c86e.1747826775.git.jgh%40exim.org
+patch subject: [PATCH net-next v2 1/6]     tcp: support writing to a socket in listening state
+config: i386-buildonly-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221529.hEVx1YPV-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221529.hEVx1YPV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220350.ZektmdF0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221529.hEVx1YPV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:460:1: note: in expansion of macro '__SYSCALL'
-     460 | __SYSCALL(459, sys_lsm_get_self_attr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:461:1: note: in expansion of macro '__SYSCALL'
-     461 | __SYSCALL(460, sys_lsm_set_self_attr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[460]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:461:1: note: in expansion of macro '__SYSCALL'
-     461 | __SYSCALL(460, sys_lsm_set_self_attr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:462:1: note: in expansion of macro '__SYSCALL'
-     462 | __SYSCALL(461, sys_lsm_list_modules)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[461]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:462:1: note: in expansion of macro '__SYSCALL'
-     462 | __SYSCALL(461, sys_lsm_list_modules)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:463:1: note: in expansion of macro '__SYSCALL'
-     463 | __SYSCALL(462, sys_mseal)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[462]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:463:1: note: in expansion of macro '__SYSCALL'
-     463 | __SYSCALL(462, sys_mseal)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:464:1: note: in expansion of macro '__SYSCALL'
-     464 | __SYSCALL(463, sys_setxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[463]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:464:1: note: in expansion of macro '__SYSCALL'
-     464 | __SYSCALL(463, sys_setxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:465:1: note: in expansion of macro '__SYSCALL'
-     465 | __SYSCALL(464, sys_getxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[464]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:465:1: note: in expansion of macro '__SYSCALL'
-     465 | __SYSCALL(464, sys_getxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:466:1: note: in expansion of macro '__SYSCALL'
-     466 | __SYSCALL(465, sys_listxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[465]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:466:1: note: in expansion of macro '__SYSCALL'
-     466 | __SYSCALL(465, sys_listxattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:467:1: note: in expansion of macro '__SYSCALL'
-     467 | __SYSCALL(466, sys_removexattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[466]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:467:1: note: in expansion of macro '__SYSCALL'
-     467 | __SYSCALL(466, sys_removexattrat)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:468:1: note: in expansion of macro '__SYSCALL'
-     468 | __SYSCALL(467, sys_open_tree_attr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[467]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:468:1: note: in expansion of macro '__SYSCALL'
-     468 | __SYSCALL(467, sys_open_tree_attr)
-         | ^~~~~~~~~
->> ./arch/arc/include/generated/asm/syscall_table_32.h:469:16: error: 'sys_set_robust_list2' undeclared here (not in a function); did you mean 'sys_set_robust_list'?
-     469 | __SYSCALL(468, sys_set_robust_list2)
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:37: note: in definition of macro '__SYSCALL'
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                     ^~~~
+>> net/ipv4/tcp.c:1065:23: warning: variable 'sockc' set but not used [-Wunused-but-set-variable]
+    1065 |         struct sockcm_cookie sockc;
+         |                              ^
+   1 warning generated.
+
+
+vim +/sockc +1065 net/ipv4/tcp.c
+
+  1059	
+  1060	/* Cut-down version of tcp_sendmsg_locked(), for writing on a listen socket
+  1061	 */
+  1062	static int tcp_sendmsg_preload(struct sock *sk, struct msghdr *msg)
+  1063	{
+  1064		struct sk_buff *skb;
+> 1065		struct sockcm_cookie sockc;
+  1066		int flags, err, copied = 0;
+  1067		int size_goal;
+  1068		int process_backlog = 0;
+  1069		long timeo;
+  1070	
+  1071		if (sk->sk_state != TCP_LISTEN)
+  1072			return -EINVAL;
+  1073	
+  1074		flags = msg->msg_flags;
+  1075	
+  1076		sockc = (struct sockcm_cookie){ .tsflags = READ_ONCE(sk->sk_tsflags) };
+  1077	
+  1078		timeo = sock_sndtimeo(sk, flags & MSG_DONTWAIT);
+  1079	
+  1080		/* Ok commence sending. */
+  1081	restart:
+  1082		/* Use a arbitrary "mss" value */
+  1083		size_goal = 1000;
+  1084	
+  1085		err = -EPIPE;
+  1086		if (sk->sk_err || (sk->sk_shutdown & SEND_SHUTDOWN))
+  1087			goto do_error;
+  1088	
+  1089		while (msg_data_left(msg)) {
+  1090			ssize_t copy = 0;
+  1091	
+  1092			skb = tcp_write_queue_tail(sk);
+  1093			if (skb)
+  1094				copy = size_goal - skb->len;
+  1095	
+  1096			trace_tcp_sendmsg_locked(sk, msg, skb, size_goal);
+  1097	
+  1098			if (copy <= 0 || !tcp_skb_can_collapse_to(skb)) {
+  1099				bool first_skb = !skb;
+  1100	
+  1101				/* Limit to only one skb on the sk write queue */
+  1102	
+  1103				if (!first_skb)
+  1104					goto out_nopush;
+  1105	
+  1106				if (!sk_stream_memory_free(sk))
+  1107					goto wait_for_space;
+  1108	
+  1109				if (unlikely(process_backlog >= 16)) {
+  1110					process_backlog = 0;
+  1111					if (sk_flush_backlog(sk))
+  1112						goto restart;
+  1113				}
+  1114	
+  1115				skb = tcp_stream_alloc_skb(sk, sk->sk_allocation,
+  1116							   first_skb);
+  1117				if (!skb)
+  1118					goto wait_for_space;
+  1119	
+  1120				process_backlog++;
+  1121	
 
 -- 
 0-DAY CI Kernel Test Service
