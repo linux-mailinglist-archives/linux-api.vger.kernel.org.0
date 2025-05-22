@@ -1,60 +1,61 @@
-Return-Path: <linux-api+bounces-3842-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3843-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A98AC0B60
-	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 14:10:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC3AC0B67
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 14:12:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F145166835
-	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 12:11:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B02B31B63738
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 12:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E192289813;
-	Thu, 22 May 2025 12:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B3928A1E3;
+	Thu, 22 May 2025 12:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkXM5PH1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ebuxk8DE"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014317D098;
-	Thu, 22 May 2025 12:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817423771C;
+	Thu, 22 May 2025 12:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747915856; cv=none; b=UwWh13DPwYICMWlEHVUP8iwJYHzS7m49dFd+t9P2VPSHo9smLxju4530CbtZolITppbGdOthMqCTVG8kIS5jmF13m8/hnKFQnCIvIkDE3edoyZ8NBt5Cp8Ar2Z6YTHPCuvB9AQP+ionNdAVSLYYyJBjWWO14QpmQve+zca0wiiA=
+	t=1747915934; cv=none; b=UW0vUcw61nO4jAiIGia48/S2XsZNOY5QTwMqdP89z7cox3OIkJ6F6/SsYMW09ljdq2XmIgFoegSOvveq6hbgVfjjvYwi5NIWbGWrEDeYvTXxrpbxur/VanwH6ilanLtDFV5v3s8NlIdRAU+pobrmohjQS1/e/d9HFbc0Y0yInvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747915856; c=relaxed/simple;
-	bh=b6ul/IexOU3UrwM7guWXvrzYe6FDI+7LVqnn9ABwBxo=;
+	s=arc-20240116; t=1747915934; c=relaxed/simple;
+	bh=StgdFeaMD6HJ9Me6GTfwzhiv4ow8/NpvUc+y4NUni2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ieaQOjL+smqxwFrGoiRGDaz6Ek/nLxQ9AW3U1pus2BQojWT6Kj+oAuYRYu+kIUEwRKq2BNXtorQWX4diQuIvzn5s1wnYmBTxHCEIXDGupXNonjbkcR4WTTA0sz4VAdH2ib4IL/KpjlqfLbSTr3VJ2gZh4TB+ZVKI+yaCXb69fCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkXM5PH1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB4FC4CEE4;
-	Thu, 22 May 2025 12:10:48 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=pfmFtGhT908SmHbjXIjk2kwhobkSmEm+UsPSijFEIV+cxLH/GtftxvuPy1tJxwjfjwB19AaCTOZUNjDfoPok5K1zOb/GnGPrOgeQYqJiuCcAriDZkOzlLe9kwoNH5z1HyrOdkzh6tUS/P5tDOUhYlw7uRoeZcxEynpJn8JFCGys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ebuxk8DE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20577C4CEE4;
+	Thu, 22 May 2025 12:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747915855;
-	bh=b6ul/IexOU3UrwM7guWXvrzYe6FDI+7LVqnn9ABwBxo=;
+	s=k20201202; t=1747915933;
+	bh=StgdFeaMD6HJ9Me6GTfwzhiv4ow8/NpvUc+y4NUni2E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nkXM5PH1UOY51ngJLl4uZllA5Ci9jw+TjLfP4hokuQwbhjcCdah0S/N3QkANGMK3d
-	 wImkWwJrreuMgBRLezTB1cM8ix5QDJVeLulJnbY9ASowqZehW3HzJtfLPbmM7/TdPd
-	 c/xaiJ6DDLhPr1hlw6GwDrYBVxoRJgl5Y72IJ9oCYylCPJLF3k2Nx5xQJ8BwqcXeuL
-	 iRZL5xmqqdMyhwSRvf+h8/1MWC0k2SC+qcVfOpBadGUH3moerBLvgy57loUsrEl4cO
-	 M3Y+x2H0F+uX+vM6C1K/u5b1M9UKz2kyRNByPZPSbenwRDULvmGyZZqnHQqDTsbMmT
-	 lqam+yTFz3vAQ==
-Date: Thu, 22 May 2025 15:10:45 +0300
+	b=Ebuxk8DElK2tjp5ZvQk37kLGix2yfChyW3I8J7FaPYbTLnjfLorYdKkX+7JjgSqgl
+	 LY5N5YuC/VI1iHjtA8x39j2I5hf52LIGXT+m6csvpWdIx/AuCTHq5Md2yu1gfQcfoH
+	 YQnRPECrpFToWi9CiW2CUoy1kaCr5lcz9r0UNC+ql9WEcasfbFweM5E/h5jhl1C23y
+	 zUYk/oiHGTD2iNYap4ZuSBn7FBR7jllob9uHds31/Q4MKcCGD5K2SHdX8Vt5oShScH
+	 61P8SWTu0oAQ3/REBM85O1ghJY686cDchWGnVILgvEbFYcTF6BiEDn7lOAe3Q2h4qr
+	 mnnenoduIsqMA==
+Date: Thu, 22 May 2025 15:12:05 +0300
 From: Mike Rapoport <rppt@kernel.org>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
-	linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
-	riel@surriel.com, ziy@nvidia.com, laoar.shao@gmail.com,
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
-	vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] prctl: introduce PR_SET/GET_THP_POLICY
-Message-ID: <aC8URbAzw06Ob4T8@kernel.org>
-References: <20250519223307.3601786-1-usamaarif642@gmail.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	SeongJae Park <sj@kernel.org>, Usama Arif <usamaarif642@gmail.com>,
+	linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH 0/5] add process_madvise() flags to modify behaviour
+Message-ID: <aC8UlSupN7_YXfma@kernel.org>
+References: <cover.1747686021.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -63,109 +64,116 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519223307.3601786-1-usamaarif642@gmail.com>
+In-Reply-To: <cover.1747686021.git.lorenzo.stoakes@oracle.com>
 
 (cc'ing linux-api)
 
-On Mon, May 19, 2025 at 11:29:52PM +0100, Usama Arif wrote:
-> This series allows to change the THP policy of a process, according to the
-> value set in arg2, all of which will be inherited during fork+exec:
-> - PR_DEFAULT_MADV_HUGEPAGE: This will set VM_HUGEPAGE and clear VM_NOHUGEPAGE
->   for the default VMA flags. It will also iterate through every VMA in the
->   process and call hugepage_madvise on it, with MADV_HUGEPAGE policy.
->   This effectively allows setting MADV_HUGEPAGE on the entire process.
->   In an environment where different types of workloads are run on the
->   same machine, this will allow workloads that benefit from always having
->   hugepages to do so, without regressing those that don't.
-> - PR_DEFAULT_MADV_NOHUGEPAGE: This will set VM_NOHUGEPAGE and clear VM_HUGEPAGE
->   for the default VMA flags. It will also iterate through every VMA in the
->   process and call hugepage_madvise on it, with MADV_NOHUGEPAGE policy.
->   This effectively allows setting MADV_NOHUGEPAGE on the entire process.
->   In an environment where different types of workloads are run on the
->   same machine,this will allow workloads that benefit from having
->   hugepages on an madvise basis only to do so, without regressing those
->   that benefit from having hugepages always.
-> - PR_THP_POLICY_SYSTEM: This will reset (clear) both VM_HUGEPAGE and
->   VM_NOHUGEPAGE process for the default flags.
+On Mon, May 19, 2025 at 09:52:37PM +0100, Lorenzo Stoakes wrote:
+> REVIEWERS NOTES:
+> ================
 > 
-> In hyperscalers, we have a single THP policy for the entire fleet.
-> We have different types of workloads (e.g. AI/compute/databases/etc)
-> running on a single server.
-> Some of these workloads will benefit from always getting THP at fault
-> (or collapsed by khugepaged), some of them will benefit by only getting
-> them at madvise.
+> This is a VERY EARLY version of the idea, it's relatively untested, and I'm
+> 'putting it out there' for feedback. Any serious version of this will add a
+> bunch of self-tests to assert correct behaviour and I will more carefully
+> confirm everything's working.
 > 
-> This series is useful for 2 usecases:
-> 1) global system policy = madvise, while we want some workloads to get THPs
-> at fault and by khugepaged :- some processes (e.g. AI workloads) benefits
-> from getting THPs at fault (and collapsed by khugepaged). Other workloads
-> like databases will incur regression (either a performance regression or
-> they are completely memory bound and even a very slight increase in memory
-> will cause them to OOM). So what these patches will do is allow setting
-> prctl(PR_DEFAULT_MADV_HUGEPAGE) on the AI workloads, (This is how
-> workloads are deployed in our (Meta's/Facebook) fleet at this moment).
+> This is based on discussion arising from Usama's series [0], SJ's input on
+> the thread around process_madvise() behaviour [1] (and a subsequent
+> response by me [2]) and prior discussion about a new madvise() interface
+> [3].
 > 
-> 2) global system policy = always, while we want some workloads to get THPs
-> only on madvise basis :- Same reason as 1). What these patches
-> will do is allow setting prctl(PR_DEFAULT_MADV_NOHUGEPAGE) on the database
-> workloads. (We hope this is us (Meta) in the near future, if a majority of
-> workloads show that they benefit from always, we flip the default host
-> setting to "always" across the fleet and workloads that regress can opt-out
-> and be "madvise". New services developed will then be tested with always by
-> default. "always" is also the default defconfig option upstream, so I would
-> imagine this is faced by others as well.)
+> [0]: https://lore.kernel.org/linux-mm/20250515133519.2779639-1-usamaarif642@gmail.com/
+> [1]: https://lore.kernel.org/linux-mm/20250517162048.36347-1-sj@kernel.org/
+> [2]: https://lore.kernel.org/linux-mm/e3ba284c-3cb1-42c1-a0ba-9c59374d0541@lucifer.local/
+> [3]: https://lore.kernel.org/linux-mm/c390dd7e-0770-4d29-bb0e-f410ff6678e3@lucifer.local/
 > 
-> v2->v3: (Thanks Lorenzo for all the below feedback!)
-> v2: https://lore.kernel.org/all/20250515133519.2779639-1-usamaarif642@gmail.com/
-> - no more flags2.
-> - no more MMF2_...
-> - renamed policy to PR_DEFAULT_MADV_(NO)HUGEPAGE
-> - mmap_write_lock_killable acquired in PR_GET_THP_POLICY
-> - mmap_write lock fixed in PR_SET_THP_POLICY
-> - mmap assert check in process_default_madv_hugepage
-> - check if hugepage_global_enabled is enabled in the call and account for s390
-> - set mm->def_flags VM_HUGEPAGE and VM_NOHUGEPAGE according to the policy in
->   the way done by madvise(). I believe VM merge will not be broken in
->   this way.
-> - process_default_madv_hugepage function that does for_each_vma and calls
->   hugepage_madvise.
+> ================
 > 
-> v1->v2:
-> - change from modifying the THP decision making for the process, to modifying
->   VMA flags only. This prevents further complicating the logic used to
->   determine THP order (Thanks David!)
-> - change from using a prctl per policy change to just using PR_SET_THP_POLICY
->   and arg2 to set the policy. (Zi Yan)
-> - Introduce PR_THP_POLICY_DEFAULT_NOHUGE and PR_THP_POLICY_DEFAULT_SYSTEM
-> - Add selftests and documentation.
->  
-> Usama Arif (7):
->   mm: khugepaged: extract vm flag setting outside of hugepage_madvise
->   prctl: introduce PR_DEFAULT_MADV_HUGEPAGE for the process
->   prctl: introduce PR_DEFAULT_MADV_NOHUGEPAGE for the process
->   prctl: introduce PR_THP_POLICY_SYSTEM for the process
->   selftests: prctl: introduce tests for PR_DEFAULT_MADV_NOHUGEPAGE
->   selftests: prctl: introduce tests for PR_THP_POLICY_DEFAULT_HUGE
->   docs: transhuge: document process level THP controls
+> Currently, we are rather restricted in how madvise() operations
+> proceed. While effort has been put in to expanding what process_madvise()
+> can do (that is - unrestricted application of advice to the local process
+> alongside recent improvements on the efficiency of TLB operations over
+> these batvches), we are still constrained by existing madvise() limitations
+> and default behaviours.
 > 
->  Documentation/admin-guide/mm/transhuge.rst    |  42 +++
->  include/linux/huge_mm.h                       |   2 +
->  include/linux/mm.h                            |   2 +-
->  include/linux/mm_types.h                      |   4 +-
->  include/uapi/linux/prctl.h                    |   6 +
->  kernel/sys.c                                  |  53 ++++
->  mm/huge_memory.c                              |  13 +
->  mm/khugepaged.c                               |  26 +-
->  tools/include/uapi/linux/prctl.h              |   6 +
->  .../trace/beauty/include/uapi/linux/prctl.h   |   6 +
->  tools/testing/selftests/prctl/Makefile        |   2 +-
->  tools/testing/selftests/prctl/thp_policy.c    | 286 ++++++++++++++++++
->  12 files changed, 436 insertions(+), 12 deletions(-)
->  create mode 100644 tools/testing/selftests/prctl/thp_policy.c
+> This series makes use of the currently unused flags field in
+> process_madvise() to provide more flexiblity.
 > 
-> -- 
-> 2.47.1
+> It introduces four flags:
 > 
+> 1. PMADV_SKIP_ERRORS
+> 
+> Currently, when an error arises applying advice in any individual VMA
+> (keeping in mind that a range specified to madvise() or as part of the
+> iovec passed to process_madvise()), the operation stops where it is and
+> returns an error.
+> 
+> This might not be the desired behaviour of the user, who may wish instead
+> for the operation to be 'best effort'. By setting this flag, that behaviour
+> is obtained.
+> 
+> Since process_madvise() would trivially, if skipping errors, simply return
+> the input vector size, we instead return the number of entries in the
+> vector which completed successfully without error.
+> 
+> The PMADV_SKIP_ERRORS flag implicitly implies PMADV_NO_ERROR_ON_UNMAPPED.
+> 
+> 2. PMADV_NO_ERROR_ON_UNMAPPED
+> 
+> Currently madvise() has the peculiar behaviour of, if the range specified
+> to it contains unmapped range(s), completing the full operation, but
+> ultimately returning -ENOMEM.
+> 
+> In the case of process_madvise(), this is fatal, as the operation will stop
+> immediately upon this occurring.
+> 
+> By setting PMADV_NO_ERROR_ON_UNMAPPED, the user can indicate that it wishes
+> unmapped areas to simply be entirely ignored.
+> 
+> 3. PMADV_SET_FORK_EXEC_DEFAULT
+> 
+> It may be desirable for a user to specify that all VMAs mapped in a process
+> address space default to having an madvise() behaviour established by
+> default, in such a fashion as that this persists across fork/exec.
+> 
+> Since this is a very powerful option that would make no sense for many
+> advice modes, we explicitly only permit known-safe flags here (currently
+> MADV_HUGEPAGE and MADV_NOHUGEPAGE only).
+> 
+> 4. PMADV_ENTIRE_ADDRESS_SPACE
+> 
+> It can be annoying, should a user wish to apply madvise() to all VMAs in an
+> address space, to have to add a singular large entry to the input iovec.
+> 
+> So provide sugar to permit this - PMADV_ENTIRE_ADDRESS_SPACE. If specified,
+> we expect the user to pass NULL and -1 to the vec and vlen parameters
+> respectively so they explicitly acknowledge that these will be ignored,
+> e.g.:
+> 
+> 	process_madvise(PIDFD_SELF, NULL, -1, MADV_HUGEPAGE,
+> 			PMADV_ENTIRE_ADDRESS_SPACE | PMADV_SKIP_ERRORS);
+> 
+> Usually a user ought to prefer setting PMADV_SKIP_ERRORS here as it may
+> well be the case that incompatible VMAs will be encountered that ought to
+> be skipped.
+> 
+> If this is not set, the PMADV_NO_ERROR_ON_UNMAPPED (which was otherwise
+> implicitly implied by PMADV_SKIP_ERRORS) ought to be set as of course, the
+> entire address space spans at least some gaps.
+> 
+> Lorenzo Stoakes (5):
+>   mm: madvise: refactor madvise_populate()
+>   mm/madvise: add PMADV_SKIP_ERRORS process_madvise() flag
+>   mm/madvise: add PMADV_NO_ERROR_ON_UNMAPPED process_madvise() flag
+>   mm/madvise: add PMADV_SET_FORK_EXEC_DEFAULT process_madvise() flag
+>   mm/madvise: add PMADV_ENTIRE_ADDRESS_SPACE process_madvise() flag
+> 
+>  include/uapi/asm-generic/mman-common.h |   6 +
+>  mm/madvise.c                           | 206 +++++++++++++++++++------
+>  2 files changed, 168 insertions(+), 44 deletions(-)
+> 
+> --
+> 2.49.0
 > 
 
 -- 
