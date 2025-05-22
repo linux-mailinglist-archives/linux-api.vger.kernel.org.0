@@ -1,80 +1,80 @@
-Return-Path: <linux-api+bounces-3844-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3845-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8ABAC16BE
-	for <lists+linux-api@lfdr.de>; Fri, 23 May 2025 00:26:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239FFAC16C1
+	for <lists+linux-api@lfdr.de>; Fri, 23 May 2025 00:26:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B2F03A4B35
-	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 22:26:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFD323A6406
+	for <lists+linux-api@lfdr.de>; Thu, 22 May 2025 22:26:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94D4277039;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1469278146;
 	Thu, 22 May 2025 22:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PE8bp2bC"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ToVMF8Pc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD1A270EA7
-	for <linux-api@vger.kernel.org>; Thu, 22 May 2025 22:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD1272E77
+	for <linux-api@vger.kernel.org>; Thu, 22 May 2025 22:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747952772; cv=none; b=Tdsi9i0JXo4u2uHp0tScgvlAxKdcrv2QrFRKaBt3jWzkch/TP2uHLLYKXI0iw/ylVgx7DkFsgqrz6OAx+b69Vz4OIYHHsT+aYAzoFhiIPbTHzAzxavl3o+ZIDWsSKCzKG9WOUKMza1sT3NExr/u6H0x51pMQwqeLoIhyWeMpoSc=
+	t=1747952772; cv=none; b=YrTH2qUm2X/DkPSl08FMYIiX5uEofMBEA84ifqP/ApFm4BJQ2B7z9Nu6MpKeE3RYMX7/iXUWzgrFD50XehQAgfFPjjKSAgtMuek3rKOVs93l8agU7452MFvx0oSWwTF3uvHmT06bSHwOjWiPM3ETtFHyVaUSSJsxAFFmJFiGYL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747952772; c=relaxed/simple;
-	bh=yXfmq+fsOH2ydhYAaJ/O8G8cyrnfKS0KGUVUMAH0MGk=;
+	bh=ERIIFgKxrnPwjSVA6jXYtUfeYroUqJBM9v+L48OiIjw=;
 	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=E0gE8tFdEkLx92qrRnNfjAxb7jjO2Z5F1Zyv6ZPuTMTSGubSpWFy/zOwAZfutWDCQNf1tDFyadp9vHB2OQVmnmsqqbRj/vlRkoLlMYSkvwsQqGpTJQjtNxGASkec5dEqDrNO8iJ63Gfl4RSLaKBmluq+HjPWar0JmPtBaEgOXyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PE8bp2bC; arc=none smtp.client-ip=209.85.219.50
+	 References:In-Reply-To; b=P0+HMMYHOxHi01d/oyjqOdVCwJpj2HHe1RH83pH3L+fDJmv9ttCcV6KnJLWCluJ/drYoL94QkCmvrPRuhp6r5BPs9qMvhTfsnY5Yh0I/CwehFKXDTS2bNzIFXrs4VKAyW2JYmRoMrs7YNM7fDMAlRe5zatstPTe6YPojko3LXhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ToVMF8Pc; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f0ad74483fso90570796d6.1
-        for <linux-api@vger.kernel.org>; Thu, 22 May 2025 15:26:07 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c542ffec37so948106785a.2
+        for <linux-api@vger.kernel.org>; Thu, 22 May 2025 15:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747952767; x=1748557567; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1747952768; x=1748557568; darn=vger.kernel.org;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
-        b=PE8bp2bC2u+7hVMWFXDxIhgHhKxulbXWcGxnUpIhrgzangQno0wz8wTj2SBpQlx+RH
-         HWbPzJONY/k5V5KhKxFzRg0mqcSuevNUob7nbBRkNe4zNv5ta0ZZRbKuMkupvRu1j4H/
-         L5g61hkwn3G2TrJtCWpQppB/pCl9f/CPqdvv0wvc5m0YvonN/44WK2eHjcRrBNO9b+Bz
-         rMI5Soc4po1JoBDybn3lJlA6EaENodtYQjDPfzlCn/d0jltsqZogc7KaymbExTqk6b2E
-         5S0ojIzkilaxs5NcdiEorb9gq51ZYUhzmmerYI6Csq70Rwqskc1RTDHHPC4a/b2ToWTE
-         +pXQ==
+        bh=yW4BwrWRPMGZw+m/ri6EFRKCjP4k+SeXSk6ZWrWvJiA=;
+        b=ToVMF8PcVy37DRcyydOqAzRtU8MIfxnsQYcyTujtaPP+6rNuh10GiSxHl8BpEOL7Vl
+         xP549yj/DsBJfMi3qCROE0CjVVteyRyHylhdLw04oGcxRiQntTqkGaj0qxDt91en7Yaf
+         k+SmxoaFBB+G/5sErCk+bkQleUrTH6XQJe2p+LIipbvb4fbPmu1wnSD2q+VMoi0xxJsW
+         gaMrvrcaiHSnHiky9rJUvXODz2114Xg3/bkQmKiZIEtphocJflv5aC1cQ1XzMR2q+5M1
+         e5C3pB8Uc+2bJywG7HLAABdlrHUZ45rP3ykqZkmL5ezlodK/YayNjCLBFI5pn3kcMbPH
+         Giow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747952767; x=1748557567;
+        d=1e100.net; s=20230601; t=1747952768; x=1748557568;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
-        b=bHZB0GhHPXOtxBGnU0UU/FhRdlMCoc2pf+TcVMpVinpymyOHqaMVXAoLvQFVZGx5KF
-         bghVs3aIUtlaFqePekpyo4HBCiDpJPyFECeLLcNyyP/tVXfCiO9o9xd32jbUZivwkato
-         Bj93VKV5lP5sxGcYk9vNl6TKLkT9gJGY8cUF43xq1E1MjxjLcndM1qm1VgwWG7GwW1lR
-         qAzTNVCVEilnA+rcpBFqQLeVfrw99+sEduyzIzD5EiyKLhPbvLp9Tal5NWIjuwEJMo1K
-         /dDFDh3pr5EQKf1BEn7bBH4hhUC+Iqm1Ws3maXyuCz4jZtR52uwTRsldsrPuH4fDUrdz
-         BcXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVS9rqza9A+OO5xNBGo/0gGt5Mw/xKXeGywk46Jo1hbMM1No/FuGBmtRQ0sWtElhRTNpQmgEXuXzTw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe11p04Gcrb8a5P92FAPom6u7sb61xH6QoKAzQg+SY8mZ7TV2Z
-	n0/U1Fthjh8i5rSXh2W4+7lz/VKtuQSEYFUMMVI0DjXYIJga0YZQlefmS/zPdKIDnQ==
-X-Gm-Gg: ASbGnctsWiHrgf7VQwdj5+wuZa/OjpOPIEKrvvO4kgGBifQL1nqbqbNmps0AY6Rk9Kl
-	Ww6cNb0bf/7VWh6kS2dylglg26ymwlnkc5VMa530OEwSAyeRjW56DNjNw28rxdoIn/mtLvxTMuU
-	bZKKrHyXV60r2GogH8lH/UFBcwqBS2yJTFlIJap1N9mu5Du5V1STruXNJ8BR8Ceg+INvkMnBKrd
-	3twhYZb5THA3BkBONrFFQVf9N9yAPKUSyWIPGIpBD39RnFWPNYrCKoxlMa9DzLkv5Ssk03vmthB
-	8n/OMWiqNwdDhsYQJ9p+lPJT8/kOasvs2Y3VqACmHjgr7zbhiEdJkRg9GcptIMr0sR30sGYrdAt
-	wk+k/8F1XewM+HPawXkHf
-X-Google-Smtp-Source: AGHT+IE2zN7SH+0SaGrs2tzepSFkLMKNXBgIbbn8M9DQcRbDJBs1dDzlx85ZuSxbIPErdUE31K4qXg==
-X-Received: by 2002:a05:6214:1947:b0:6f2:b094:430e with SMTP id 6a1803df08f44-6f8b0829131mr503375636d6.25.1747952766984;
-        Thu, 22 May 2025 15:26:06 -0700 (PDT)
+        bh=yW4BwrWRPMGZw+m/ri6EFRKCjP4k+SeXSk6ZWrWvJiA=;
+        b=YZhu+AGb8jLh2DksVqkdXcZOAolD0eG2/lTvnm82DbZm4HLLskmldqOr4ych+bTzaX
+         SFRi55nAbXlnoPLLPoalxlUrIFYltucEIhTuAbMZb91hfzqq2lv6ZzNtBDQ9Cjbu2JbR
+         lH8SUzhIZnCqtGRBu9732kGFrM6Fs9Lc8IAnpdmlH8k/VbLi8Znu69qtmhpRQrCR12Gb
+         e2hNQ/EPgcm10Qd9yUnagiPp4I7iKC3vbJj6Vk0htMAuEX6jqL/da8uoAs1A/LybzCKS
+         kkivxBAgJLWHgWnP9XWOAa+dWa6Yku+3AA8fgnAIWM6rWFLnauIIyBsGmwfXoShihKw/
+         eSRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTvcsBgPSBkDppOUjN75UueA1ZCt0D0BJP5DwquvSu+uKIwDFjUX8sPgGSN5VQQdbE4wmVl/jUzuk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlWdLuZE1/3rMgXq3CZp57JJL3Orr4LQ9qMU/0PFYvMYaajdm3
+	zj1oM/S6P6pmJQJunIbw9nFf9mzMxZE7BJY6Ezhs0EHoI3oJRDGr515qEMfNjyPuCA==
+X-Gm-Gg: ASbGncvRuoIEILjilBhpeaBr3JBcu6ILOdujK89jcN3moanUTi2ZCVEdT7WtV3xF/Hw
+	WCELX3DwHgT+2EOnJt2FiRJRBawXwRFk2KOjLg65VT6f+xmse6cuZFNMj5l0eYqKjzozXwAaYLm
+	zxxRsFkPSaUrzcIj0Ig2mw3ihCqb8m9zgR3+TYGorzf2koEBm/hsCQjboUoQ6a3gY5TM4rEuqTn
+	FuImSeymJGPrGumT7VdvK6KN0Dv0wqC0aVB8DhNJuS43zOiDiOqbMnr/NJtvEmGsmTkwrmN22Vo
+	7i+8wPL0PmxDr/rU+fN+BN3CYV3twzCcutGcPe6sSB7hmzOmGDogJl3cDGpLMJQIN3QwXWfjs3g
+	IjR6Fgfkl8zIPQSSBLOnJ
+X-Google-Smtp-Source: AGHT+IHmIlyqjG6e3vdHM+wi0UqPbDaDdVTY/IdBlClNAbyXhci/B2Ul0PB2ozu0sL7+1EWeTaPM2w==
+X-Received: by 2002:a05:620a:408e:b0:7ce:d352:668f with SMTP id af79cd13be357-7ced352670emr1334278485a.47.1747952768087;
+        Thu, 22 May 2025 15:26:08 -0700 (PDT)
 Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6f8b0987259sm105076766d6.120.2025.05.22.15.26.06
+        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-7cd468b69dfsm1089029585a.79.2025.05.22.15.26.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 15:26:06 -0700 (PDT)
-Date: Thu, 22 May 2025 18:26:05 -0400
-Message-ID: <0bb73a49ccbc93e90ea87c0dbb4097ae@paul-moore.com>
+        Thu, 22 May 2025 15:26:07 -0700 (PDT)
+Date: Thu, 22 May 2025 18:26:07 -0400
+Message-ID: <8bf36078ef8f3e884a1d3d8415834680@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -110,30 +110,21 @@ To: Andrey Albershteyn <aalbersh@redhat.com>, Richard Henderson <richard.henders
 	Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>, 
 	Amir Goldstein <amir73il@gmail.com>
 Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, selinux@vger.kernel.org, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v5 2/7] lsm: introduce new hooks for setting/getting inode  fsxattr
-References: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
-In-Reply-To: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
+Subject: Re: [PATCH v5 3/7] selinux: implement inode_file_[g|s]etattr hooks
+References: <20250513-xattrat-syscall-v5-3-22bb9c6c767f@kernel.org>
+In-Reply-To: <20250513-xattrat-syscall-v5-3-22bb9c6c767f@kernel.org>
 
 On May 13, 2025 Andrey Albershteyn <aalbersh@redhat.com> wrote:
 > 
-> Introduce new hooks for setting and getting filesystem extended
-> attributes on inode (FS_IOC_FSGETXATTR).
+> These hooks are called on inode extended attribute retrieval/change.
 > 
 > Cc: selinux@vger.kernel.org
 > Cc: Paul Moore <paul@paul-moore.com>
 > 
 > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 > ---
->  fs/file_attr.c                | 19 ++++++++++++++++---
->  include/linux/lsm_hook_defs.h |  2 ++
->  include/linux/security.h      | 16 ++++++++++++++++
->  security/security.c           | 30 ++++++++++++++++++++++++++++++
->  4 files changed, 64 insertions(+), 3 deletions(-)
-
-The only thing that gives me a slight pause is that on a set operation
-we are going to hit both the get and set LSM hooks, but since the code
-does call into the getter on a set operation this is arguably the right
-thing.
+>  security/selinux/hooks.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
 Acked-by: Paul Moore <paul@paul-moore.com>
 
