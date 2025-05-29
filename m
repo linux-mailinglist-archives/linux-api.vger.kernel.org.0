@@ -1,123 +1,131 @@
-Return-Path: <linux-api+bounces-3856-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3857-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628E3AC8252
-	for <lists+linux-api@lfdr.de>; Thu, 29 May 2025 20:50:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3C7AC8379
+	for <lists+linux-api@lfdr.de>; Thu, 29 May 2025 23:14:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3851A234BD
-	for <lists+linux-api@lfdr.de>; Thu, 29 May 2025 18:50:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85C3D4E4941
+	for <lists+linux-api@lfdr.de>; Thu, 29 May 2025 21:14:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 353C1230D0E;
-	Thu, 29 May 2025 18:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46C8293469;
+	Thu, 29 May 2025 21:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="PN2Ob3W2"
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="Vxs6T9k+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B781230BE0
-	for <linux-api@vger.kernel.org>; Thu, 29 May 2025 18:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8193829208E
+	for <linux-api@vger.kernel.org>; Thu, 29 May 2025 21:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748544645; cv=none; b=ToAPz9KXj7g+JifAB97ojsufzgxaywSQSxWFTLyYli1+xeFtCXw3yBhVon89qmJ8WqCU9KI0BvFilpOkHKPtmYz7mhUAvE1wkXx0FwMv+t3DA8HjFkcVguzAHfOm8/ayeptnhc+ZogSfRoeIi0rLj5YYEVy7hoOSF1u5zBdXOnU=
+	t=1748553271; cv=none; b=kBSr2Q4Xt9TNGasMwmk0fRFTCToLVrUdpeb3zq3+ZEJij1h9Hip/c/HaWMhBXRGghFNa5qhFChE0UAcDxmOVb4CFxmr09Vn7utkp41DjXFiRp7cNVfsTrFs0fV0KiuRoDoGV7E1yt9JwhzmjO4j50FzKdrl3WXxdMcSK4uEk3do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748544645; c=relaxed/simple;
-	bh=wca2f04yGSNetikYQNq4fZhabQgWlYOojnVD8BcpKdU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UVCBSjR670pDzCmVRNpeX6uo64BdtMt2MKe1ddI5EPXnZxXilpAGeMDCTkBObAmN/GmIjTyHQ2BVgeaH062o2+E5YzIyDbqT+cUxjzLcJvvlYooMV4k3N83t/c4Kra0pNZflDyRJGMT8Dirl4vmofsNmyIGQD26O2NijPmRRvKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=PN2Ob3W2; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32a6a91f0easo4990371fa.0
-        for <linux-api@vger.kernel.org>; Thu, 29 May 2025 11:50:42 -0700 (PDT)
+	s=arc-20240116; t=1748553271; c=relaxed/simple;
+	bh=f2V+KIgGDqpJw5DRwUoi2QcYVW2mJSTHqLwExpmGN88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJVLQcSj1TUoXck4HfmWbaISB4tTLcy0dzd5AvZ+X3TRa234keOzwEkKtIddz8IdgVNHJurqbARfcRW53nULGionVnC52hDtr1vdJcWGwcINeYRNY3Yop9/kvCfeAqoxtpgKwFTeTXuczl1/oSy0Lhq9VM326BYXWQc7IXE+v0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=Vxs6T9k+; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so13906366d6.1
+        for <linux-api@vger.kernel.org>; Thu, 29 May 2025 14:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1748544641; x=1749149441; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cZR+bV/RpEv69QT29h8o3+icO6BNVEjRkOnd0TqgTeg=;
-        b=PN2Ob3W269WV9lE5hwiaOHucANKYmYvgncgsi7P/AAMb+Zd9m/tLBDLqYzF2pABmSv
-         TuOOon5OSbfLNwT3SE4arJhXnofJL9mqq1CXnvvVQKIiyi5SsW8qKx3HYxilQkF1gA3i
-         7PTmZ7qLP+TeLyxC/qge7TaVP9oOpOkK8HlaVAMY1A9nyPM1dLNveaOX8UWNB8e662cQ
-         sIhznuFtfse4c81pCj7Zj5PowvQSXD6asRk/DtT2F7Wo16w/ktw5qIFb1AFvvg1gptya
-         ap4ZAjyZCzcQtoe7uTqfbSxAZ9S/ay4BWYuKTQbB8C1Bw10D/1HMuPiqGN4yUUucJUuu
-         qI5w==
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1748553268; x=1749158068; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Inx4pxLodq6Sj+uZt6mETSZ7jbelrfRf7zZ42eNDTk=;
+        b=Vxs6T9k+ecjQRDHhWyPzMZw+Lto4eguiKjed1CtN7lrbqeY382pBYLPZVomk0G/UCG
+         J4vpPAwy+lOBUMFHI/2hCR5RNKxlStexzZUKrn67BjtJP6m19mmZut8QinQzdkmKepuu
+         rivQHK8dWJyeteALAfRy7nqs7qWZKrU7mSKrGDFxQ2h9GLlRb1RQEBJBNSlPYHSUnEwd
+         AwmSWxz1yZPvGiYJn7VVqOWas/vYRhrIfjvHWH6eQOpB4MVNZdyIfj0UJF2emoE41Trr
+         Uzhnb9QinScEoltgNvnhnjmGt/+2/n+afWq/e6Ef29la1A6AQW3PGpmTLBq4ITopkk3o
+         hlTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748544641; x=1749149441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cZR+bV/RpEv69QT29h8o3+icO6BNVEjRkOnd0TqgTeg=;
-        b=sCilfx2Ye5oANbYKhNUpA0r7EjcosyYyPDXZPPPZ2G5l/ZsxH6aXJ4MZg+nSYlHASe
-         LR7pxwkAyn8L9L0GXzJTsPCBveT1RQ3G4U23A0rXZxN5Xwf6vOwDVpQrqYwHeeoHR07r
-         cwxZ8vKcbbBKgm3Ml/ktXtSYvWKL3NDk3JJMz5QBex0fWu5blApiiVbL9X9kNqPCtByd
-         Y1PAXYCLNwCHR8OllfojAvdi2O3EXpYPSfPVkxeXbNhCrCjK5vu8Y4bhwwEPk66CeYFD
-         CnVxglB+nFdR3gBhAsWhAwmvCP1CXnIEpNOUwbNEegT5zxKkfQeJ2O3xxNt40zOdtG3Q
-         m3Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNwrSQ8iObHH1MOlBCp+CgCC+wMYJgLW2mU9JiNlWOfat1FPaAHwHT64pLSOjlcJRXGPSI03oKGp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhaLS+nrM17/VjF872qx2tHf2+L/28ia0NavJx6GZssY5PHnCu
-	C7+ptGownhTISoqn/7HCrxz96XVQLO4i3ugKD6eOrclEb9NqlZdB6qR1JQ+016GlU4URHdZyDEC
-	X9SZwtPYN1AfrlC5C5NGKO1Rmt3LC2HfxGRmNLwmN
-X-Gm-Gg: ASbGncup/quhzErfdGJzmv7GFC9NWuc8f8nG9NaSsP4SP2sd2kHSXwtF/8SYTvT03qw
-	pZB0n6nqumz083CiNXTZzwRrzP4UNtS30kiksBKqZkoKkLZhdE31vMbyOzSzlPv6cEG3F0+5OC3
-	Ct1xi21rVMN+XWvG6jNgLSI1zpluki6sCE2rTM6fPgYQ==
-X-Google-Smtp-Source: AGHT+IHvzZNFmorgbMvPjPmVBKaNoD8JL8vbWNjA3kvxqIbWCqlAQjdL2EaLHdbNkYIonfwMKxJEVmqVJFx1wvfSHiQ=
-X-Received: by 2002:a05:651c:3050:b0:32a:8631:c41b with SMTP id
- 38308e7fff4ca-32a8ce7ff5cmr3131261fa.40.1748544641324; Thu, 29 May 2025
- 11:50:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748553268; x=1749158068;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Inx4pxLodq6Sj+uZt6mETSZ7jbelrfRf7zZ42eNDTk=;
+        b=jWToI68yTeYSfKkHnbOGpisgauD4TFNmD2P1rY77YO3GHLvxuO4AOhZPRKERiKiaeX
+         B/hZXv39QixB3grJeU4ci24BRGQu08i7Q3j/M3z0shJY2PFow7QqJbMzIA5zuXNCnkrX
+         FsiBNlmXrDQD4KaqQx4k/PWbH1c+sVv5jMt9jOent9vof5GhzRLlccB+TxnApN3XIcE9
+         Xq7eFSOYhaMpB5kWhjoCrZ/wfZDeVohDrLpEAe/DLvDR9DxjcZJGyB29F4as7evUhjMt
+         7bRqU8u9HECVHdsW6Rr/obPgi5cMNdDEu7MNfxbUtwpHkEI39l+wuuGSSuBM28yewYj0
+         wjtg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0vKJWu52qeLFsvDECN/r10BgoX+DXeIcpYWw/ouSBdxhryyvpZu2jBM+rGv5/cA5Q9+kS+dFsK+c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB2WNGp3dF3rVqIAg7M47avPZdBX/CRK87JoRgURerT2lgx46v
+	0z4bZPEQ5GQdm5PaV84D3FiAqTTYo+oi6UYIk0gdE9qZKOUA4qf5g9oshssSWblGvzo=
+X-Gm-Gg: ASbGncvCDkHdh37SEbyEM5s8ZpW7Gi4XY6b6IWS9ztFoeRxOPbLxPvDcbEl7uf/RNQn
+	sGmMV4YLmbyT7owk5fG3IeDG2QjHmRxxwZJm7T7yGl7qdDJd8QkEp4i3s6YfDGd/z+8VbFYr9uW
+	xJPxiogKrqr1TzzlUJ6i6FcohJ7oaBFHq0tnw1PdLifhPfx0rNEhvr3A56aHHfkJmDec9hZuzBV
+	O/A9NO4EoP1j4q3oHUCPhayom7pTXixcoFedS1NUi2QrTgctv2MnRoyrQd/64NX2boMGUiR55WW
+	j5N0rGnNyLLIEdsxfcbTelzuBVLUSp6VL4UGbGfnCuK8AE8VZZCMi5XD6jDR
+X-Google-Smtp-Source: AGHT+IEtpO+KBuKwXes6mRCZhJwg+8UYV6qbO186Z2ilCwNYWWNTEzqraIWYWGdjAj73bOoeHhCr7g==
+X-Received: by 2002:a05:6214:d02:b0:6f8:bfbf:5d29 with SMTP id 6a1803df08f44-6faceb61b39mr19113466d6.5.1748553268059;
+        Thu, 29 May 2025 14:14:28 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6fac6d4d77fsm13583166d6.47.2025.05.29.14.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 14:14:27 -0700 (PDT)
+Date: Thu, 29 May 2025 17:14:23 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	SeongJae Park <sj@kernel.org>, Usama Arif <usamaarif642@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>, Barry Song <21cnbao@gmail.com>,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Pedro Falcato <pfalcato@suse.de>
+Subject: Re: [DISCUSSION] proposed mctl() API
+Message-ID: <20250529211423.GA1271329@cmpxchg.org>
+References: <85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local>
+ <aDh9LtSLCiTLjg2X@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local>
-In-Reply-To: <85778a76-7dc8-4ea8-8827-acb45f74ee05@lucifer.local>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 29 May 2025 11:50:29 -0700
-X-Gm-Features: AX0GCFspfSh1KbGnhihvv0QMDvvSEVkz0UOx1CDZtHwOavk_KVICQNzB6RwmT6E
-Message-ID: <CALCETrUdgn=eXiGR4pH+EdCGb69bw7n21goJGQbt6mNh0mhTmw@mail.gmail.com>
-Subject: Re: [DISCUSSION] proposed mctl() API
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, SeongJae Park <sj@kernel.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Barry Song <21cnbao@gmail.com>, 
-	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, Pedro Falcato <pfalcato@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDh9LtSLCiTLjg2X@casper.infradead.org>
 
-On Thu, May 29, 2025 at 7:44=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> The behaviour will be tailored to each action taken.
->
-> To begin with, I propose a single flag:
->
-> - MCTL_SET_DEFAULT_EXEC - Persists this behaviour across fork/exec.
+On Thu, May 29, 2025 at 04:28:46PM +0100, Matthew Wilcox wrote:
+> Barry's problem is that we're all nervous about possibly regressing
+> performance on some unknown workloads.  Just try Barry's proposal, see
+> if anyone actually compains or if we're just afraid of our own shadows.
 
-It's hard to comment without a more complete proposal (*what* behavior
-is persisted?), but off the top of my head, this isn't so great.
+I actually explained why I think this is a terrible idea. But okay, I
+tried the patch anyway.
 
-First, the name means nothing to me.  What's "default exec"?  Even
-aside from that, why are fork and exec the same flag?
+This is 'git log' on a hot kernel repo after a large IO stream:
 
-Beyond this, persisting anything across exec is a giant can of worms.
-We have PR_SET_NO_NEW_PRIVS to make it less hazardous, but, in
-general, it's risky and potentially quite confusing to do anything
-that affects exec'd processes.
+                                     VANILLA                      BARRY
+Real time                 49.93 (    +0.00%)         60.36 (   +20.48%)
+User time                 32.10 (    +0.00%)         32.09 (    -0.04%)
+System time               14.41 (    +0.00%)         14.64 (    +1.50%)
+pgmajfault              9227.00 (    +0.00%)      18390.00 (   +99.30%)
+workingset_refault_file  184.00 (    +0.00%)    236899.00 (+127954.05%)
 
-Oh, and this whole scheme is also potentially nasty for a different
-reason: it's not thread safe.  If one thread wants to spawn a process,
-it should not interfere with another thread doing something else.  So
-making an mm flag that persists across close can interfere a bit, and
-persisting it across clone + exec is even gnarlier.
+Clearly we can't generally ignore page cache hits just because the
+mmaps() are intermittent.
 
-For any of these, there should be matching query features -- CRIU,
-debugging, etc should not be an afterthought.
+The whole point is to cache across processes and their various
+apertures into a common, long-lived filesystem space.
+
+Barry knows something about the relationship between certain processes
+and certain files that he could exploit with MADV_COLD-on-exit
+semantics. But that's not something the kernel can safely assume. Not
+without defeating the page cache for an entire class of file accesses.
 
