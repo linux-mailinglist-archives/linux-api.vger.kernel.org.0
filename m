@@ -1,35 +1,35 @@
-Return-Path: <linux-api+bounces-3886-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3887-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB31AD2350
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 18:07:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36369AD234E
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 18:07:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAF8B3B2C99
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 16:05:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B63E16E47E
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 16:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C0F21A426;
-	Mon,  9 Jun 2025 16:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 850B221883E;
+	Mon,  9 Jun 2025 16:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="Z0j2H2Yi";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="Xc1Vkzt/"
+	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="vNQwzUAk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="cfH64tgT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx.wizmail.org (mx.wizmail.org [85.158.153.28])
+Received: from smtp.wizmail.org (smtp.wizmail.org [85.158.153.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FE721770D;
-	Mon,  9 Jun 2025 16:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9656921A43D;
+	Mon,  9 Jun 2025 16:05:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.158.153.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749485144; cv=none; b=kAPiudOaVLVNH+JwiswcxY7oe/wTr+EMb1fNbzlt72Hlyqb7wQez27CI6e2PSy1P/LTPO++akGaEb0RTnz3ntOmP6FLj6bxOeZQlgBXBCI/s+fAIqehQpXCqB34hJmRJvqIvR6+nc5/+bdhEpa1M7SqJ5InUHsX+RxFXPeKPUg8=
+	t=1749485147; cv=none; b=MwsQxJof7lFOFwLmLPSJbXpmJNcPJLTFdH7zKpWXMg1HfY6NLEUFWw8zSAF+C70kbjs07EJDha8PimVmiHFfxaXyPlzJ2YzhJ3yt5/+KwIDe4MP3OUFHzRxYzPebIMKHVp/2AUpBi+Q8Df2W71BHiGv3OFeB9zB0IpK4y1Ywvu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749485144; c=relaxed/simple;
-	bh=8R+W4oVEJoSwN26pxY0PmMLqYAqygI+BWRqAhVn6+5U=;
+	s=arc-20240116; t=1749485147; c=relaxed/simple;
+	bh=n7GL3JfX/o1loCKYYkVIDuL0l6MlqVUcQldRYUX0bvE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Eo1UROPpS/cbYoclaH615JUNNe937Xe/kTNKpDb6qbBp4w6tuyFmQgKpjh+kjv5paeo0B6qhJCaYtyi9MeSRpFJ3qUX2QntpKkTFPZG1Oo1L4AUApW5afKt5JPYlHquqE0BuVOYgxgbQYess+JWy1X2hc4HdiRp6me5lmqdcNAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=Z0j2H2Yi; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=Xc1Vkzt/; arc=none smtp.client-ip=85.158.153.28
+	 MIME-Version; b=LZs+9IjoNzmeU6b8/YRNMvgOTJ6K5ykC8dvgm3WAkjVrB9tMab6x4/xZNWrgRPNnPSEbBIWUX5kdyELO2cxb0xQPZ3tOEFM5Mf+AcPe+fvYnXY+pJAepZPMnySG3wzUyrzmxda/fSajtPfdtwoeGCoxJ6IJ019a4AHu+rX2gVms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=vNQwzUAk; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=cfH64tgT; arc=none smtp.client-ip=85.158.153.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=exim.org
 DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -39,8 +39,8 @@ DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=NZq41W+GrtefNdEUbFkTNDa8Ss05cbXfFVdbvBLZRlQ=; b=Z0j2H2YiEqrsUsj
-	sw5uQdKBji1jjGwjAFMNOK6neRVrc0gbAY5KaRiF26O3v+EWQI+I7I94bXRHSKIaV4dgQBA==;
+	Autocrypt; bh=nb9WRft/OW0n5bm53JjdN0ibz9K5wZCUesZrN5O6JLQ=; b=vNQwzUAk0XOD3aF
+	G3PR5UcLxeaoyOH7FDh4MoU4KwNKHzbuC7LR6x1qpuCFawIZwXYnzJjzeQ9hXJldpheO3DA==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	; s=r202001; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
@@ -48,31 +48,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=NZq41W+GrtefNdEUbFkTNDa8Ss05cbXfFVdbvBLZRlQ=; b=Xc1Vkzt/a72QIbz
-	JULdvSG9NhdspK4IZa9QsO59FBzKCTYNbmWSqrk3omd1yZEIS61Yx3JeIg09FgqPj0bpHQQBgUx+/
-	mmnud5V8tWDqRnNZj5PqH2VjqeEHsDqvbhdzQbTWqSyytu0LdQEsO5GT3KiRubrRYune1exC5cn5d
-	9DWaLirYVkAjXb9XtjuNzZ20tmobhifjJ9M4bsrb1gSs5MpAstiydHEOk/DFb4qDxuqZsKeqBvqGA
-	htowkGirUc4jUmPoIXFRUUXBQE/aDJknqkFz06dP78Cq8/+CqKLkhLbDWgWCxlXl2zDPxp7Qc/yWo
-	vyANpFapc6D+Rh85elA==;
+	Autocrypt; bh=nb9WRft/OW0n5bm53JjdN0ibz9K5wZCUesZrN5O6JLQ=; b=cfH64tgT63y3Z31
+	oqWvsRzckiUezfL5nMXCqizSDq1NtnL6FTYSJOqK37FHCIV7ejpow7duPnIInf4GzbHSqy1kI2cuR
+	QFuKSi6XdkpV+CR2k8oJgCBpdJFgffRBXKjIvyjqVub7iAb7vnbBOyQ6SDSW700OFsdDStZlZvx62
+	yBgP5f9tt5cIJstnU75wkACEkI4Lx8Sfs/+seso3ED7uMDeD2abeDKGdFyIyqQkfpkVJdPtld/9Ac
+	/PbN5OW2dMX36CiEcRnXpOVpBKJAufwMpvJPHUvzVQTM1Sg1o29ky3I4ud+eOWNjOKwZg/v8pnUi8
+	pJKf/cwosmaHYDm1X7w==;
 Authentication-Results: wizmail.org;
 	iprev=pass (hellmouth.gulag.org.uk) smtp.remote-ip=85.158.153.62;
 	auth=pass (PLAIN) smtp.auth=jgh@wizmail.org
 Received: from hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain)
-	by www.wizmail.org (Exim 4.98.114)
+	by wizmail.org (Exim 4.98.114)
 	(TLS1.3) tls TLS_AES_256_GCM_SHA384
 	with esmtpsa
-	id 1uOf0G-00000000n6h-2qzZ
+	id 1uOf0J-00000000n6h-00Fy
 	(return-path <jgh@exim.org>);
-	Mon, 09 Jun 2025 16:05:40 +0000
+	Mon, 09 Jun 2025 16:05:43 +0000
 From: Jeremy Harris <jgh@exim.org>
 To: netdev@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	edumazet@google.com,
 	ncardwell@google.com,
 	Jeremy Harris <jgh@exim.org>
-Subject: [PATCH net-next v3 2/6] tcp: copy write-data from listen socket to accept child socket
-Date: Mon,  9 Jun 2025 17:05:18 +0100
-Message-ID: <838b683c8a47d7df158c6a5da440f38b38096068.1749466540.git.jgh@exim.org>
+Subject: [PATCH net-next v3 3/6] tcp: fastopen: add write-data to fastopen synack packet
+Date: Mon,  9 Jun 2025 17:05:19 +0100
+Message-ID: <48256759ccac8fcbce0907c202dfe5fd72d07e8f.1749466540.git.jgh@exim.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1749466540.git.jgh@exim.org>
 References: <cover.1749466540.git.jgh@exim.org>
@@ -85,140 +85,79 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Pcms-Received-Sender: hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain) with esmtpsa
 
-Set the request_sock flag for fastopen earlier, making it available
-to the af_ops SYN-handler function.
-
-In that function copy data from the listen socket write queue into an
-sk_buff, allocating if needed and adding to the write queue of the
-newly-created child socket.
-Set sequence number values depending on the fastopen status.
+While building the synack packet, for a fastopen socket
+copy data from write queue to the packet.
+Move the data from write queue to retransmit queue.
 
 Signed-off-by: Jeremy Harris <jgh@exim.org>
 ---
- net/ipv4/tcp_fastopen.c  |  3 ++-
- net/ipv4/tcp_ipv4.c      |  4 +--
- net/ipv4/tcp_minisocks.c | 58 ++++++++++++++++++++++++++++++++++++----
- 3 files changed, 57 insertions(+), 8 deletions(-)
+ net/ipv4/tcp_output.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/net/ipv4/tcp_fastopen.c b/net/ipv4/tcp_fastopen.c
-index 9b83d639b5ac..03a86d0b87ba 100644
---- a/net/ipv4/tcp_fastopen.c
-+++ b/net/ipv4/tcp_fastopen.c
-@@ -245,6 +245,8 @@ static struct sock *tcp_fastopen_create_child(struct sock *sk,
- 	struct sock *child;
- 	bool own_req;
+diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+index 3ac8d2d17e1f..c50553c1c795 100644
+--- a/net/ipv4/tcp_output.c
++++ b/net/ipv4/tcp_output.c
+@@ -3702,7 +3702,7 @@ int tcp_send_synack(struct sock *sk)
  
-+	tcp_rsk(req)->tfo_listener = true;
+ /**
+  * tcp_make_synack - Allocate one skb and build a SYNACK packet.
+- * @sk: listener socket
++ * @sk: listener socket (or child socket for fastopen)
+  * @dst: dst entry attached to the SYNACK. It is consumed and caller
+  *       should not use it again.
+  * @req: request_sock pointer
+@@ -3719,6 +3719,7 @@ struct sk_buff *tcp_make_synack(const struct sock *sk, struct dst_entry *dst,
+ 	struct inet_request_sock *ireq = inet_rsk(req);
+ 	const struct tcp_sock *tp = tcp_sk(sk);
+ 	struct tcp_out_options opts;
++	struct sock *fastopen_sk = (struct sock *)sk;
+ 	struct tcp_key key = {};
+ 	struct sk_buff *skb;
+ 	int tcp_header_size;
+@@ -3748,7 +3749,7 @@ struct sk_buff *tcp_make_synack(const struct sock *sk, struct dst_entry *dst,
+ 		 * cpu might call us concurrently.
+ 		 * sk->sk_wmem_alloc in an atomic, we can promote to rw.
+ 		 */
+-		skb_set_owner_w(skb, (struct sock *)sk);
++		skb_set_owner_w(skb, fastopen_sk);
+ 		break;
+ 	}
+ 	skb_dst_set(skb, dst);
+@@ -3831,6 +3832,33 @@ struct sk_buff *tcp_make_synack(const struct sock *sk, struct dst_entry *dst,
+ 	th->window = htons(min(req->rsk_rcv_wnd, 65535U));
+ 	tcp_options_write(th, NULL, tcp_rsk(req), &opts, &key);
+ 	th->doff = (tcp_header_size >> 2);
 +
- 	child = inet_csk(sk)->icsk_af_ops->syn_recv_sock(sk, skb, req, NULL,
- 							 NULL, &own_req);
- 	if (!child)
-@@ -261,7 +263,6 @@ static struct sock *tcp_fastopen_create_child(struct sock *sk,
- 	tp = tcp_sk(child);
- 
- 	rcu_assign_pointer(tp->fastopen_rsk, req);
--	tcp_rsk(req)->tfo_listener = true;
- 
- 	/* RFC1323: The window in SYN & SYN/ACK segments is never
- 	 * scaled. So correct it appropriately.
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index 6a14f9e6fef6..e488effdbdb2 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -1747,8 +1747,8 @@ EXPORT_IPV6_MOD(tcp_v4_conn_request);
- 
- 
- /*
-- * The three way handshake has completed - we got a valid synack -
-- * now create the new socket.
-+ * The three way handshake has completed - we got a valid synack
-+ * (or a FASTOPEN syn) - now create the new socket.
-  */
- struct sock *tcp_v4_syn_recv_sock(const struct sock *sk, struct sk_buff *skb,
- 				  struct request_sock *req,
-diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-index 43d7852ce07e..d471531b4a78 100644
---- a/net/ipv4/tcp_minisocks.c
-+++ b/net/ipv4/tcp_minisocks.c
-@@ -529,7 +529,7 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
- 	struct inet_connection_sock *newicsk;
- 	const struct tcp_sock *oldtp;
- 	struct tcp_sock *newtp;
--	u32 seq;
-+	u32 seq, a_seq, n_seq;
- 
- 	if (!newsk)
- 		return NULL;
-@@ -550,9 +550,55 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
- 	newtp->segs_in = 1;
- 
- 	seq = treq->snt_isn + 1;
--	newtp->snd_sml = newtp->snd_una = seq;
--	WRITE_ONCE(newtp->snd_nxt, seq);
--	newtp->snd_up = seq;
-+	n_seq = seq;
-+	a_seq = seq;
-+	newtp->write_seq = seq;
-+	newtp->snd_una = seq;
-+
-+	/* If there is write-data sitting on the listen socket, copy it to
-+	 * the accept socket. If FASTOPEN we will send it on the synack,
-+	 * otherwise it sits there until 3rd-ack arrives.
++	/* If this is a FASTOPEN, and there is write-data on the accept socket,
++	 * re-copy it to the synack segment. If not FASTOPEN. any data waits
++	 * until 3rd-ack arrival.
 +	 */
 +
-+	if (unlikely(!skb_queue_empty(&sk->sk_write_queue))) {
-+		struct sk_buff *l_skb = tcp_send_head(sk),
-+				*a_skb = tcp_write_queue_tail(newsk);
-+		ssize_t copy = 0;
++	if (synack_type == TCP_SYNACK_FASTOPEN &&
++	    !skb_queue_empty(&sk->sk_write_queue)) {
++		struct sk_buff *a_skb = tcp_write_queue_tail(sk);
++		int copy = min_t(int, a_skb->len, skb_tailroom(skb));
 +
-+		if (a_skb)
-+			copy = l_skb->len - a_skb->len;
++		skb_put_data(skb, a_skb->data, copy);
++		TCP_SKB_CB(skb)->end_seq += copy;
 +
-+		if (copy <= 0 || !tcp_skb_can_collapse_to(a_skb)) {
-+			bool first_skb = tcp_rtx_and_write_queues_empty(newsk);
++		tcp_skb_pcount_set(a_skb, 1);
++		WRITE_ONCE(tcp_sk(fastopen_sk)->write_seq,
++			   TCP_SKB_CB(a_skb)->end_seq);
 +
-+			a_skb = tcp_stream_alloc_skb(newsk,
-+						     newsk->sk_allocation,
-+						     first_skb);
-+			if (!a_skb) {
-+				/* is this the correct free? */
-+				bh_unlock_sock(newsk);
-+				sk_free(newsk);
-+				return NULL;
-+			}
++		skb_set_delivery_time(a_skb, now, SKB_CLOCK_MONOTONIC);
 +
-+			tcp_skb_entail(newsk, a_skb);
-+		}
-+		copy = min_t(int, l_skb->len, skb_tailroom(a_skb));
-+		skb_put_data(a_skb, l_skb->data, copy);
-+
-+		TCP_SKB_CB(a_skb)->end_seq += copy;
-+
-+		a_seq += l_skb->len;
-+
-+		if (treq->tfo_listener)
-+			seq = a_seq;
-+
-+		/* assumes only one skb on the listen write queue */
++		/* Move the data to the retransmit queue.
++		 * Code elsewhere implies this is a full child socket and
++		 * can be treated as writeable - permitting the cast.
++		 */
++		tcp_event_new_data_sent(fastopen_sk, a_skb);
 +	}
 +
-+	newtp->snd_sml = seq;
-+	WRITE_ONCE(newtp->snd_nxt, a_seq);
-+	newtp->snd_up = n_seq;
+ 	TCP_INC_STATS(sock_net(sk), TCP_MIB_OUTSEGS);
  
- 	INIT_LIST_HEAD(&newtp->tsq_node);
- 	INIT_LIST_HEAD(&newtp->tsorted_sent_queue);
-@@ -567,7 +613,9 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
- 	newtp->total_retrans = req->num_retrans;
- 
- 	tcp_init_xmit_timers(newsk);
--	WRITE_ONCE(newtp->write_seq, newtp->pushed_seq = treq->snt_isn + 1);
-+
-+	newtp->pushed_seq = n_seq;
-+	WRITE_ONCE(newtp->write_seq, a_seq);
- 
- 	if (sock_flag(newsk, SOCK_KEEPOPEN))
- 		tcp_reset_keepalive_timer(newsk, keepalive_time_when(newtp));
+ 	/* Okay, we have all we need - do the md5 hash if needed */
 -- 
 2.49.0
 
