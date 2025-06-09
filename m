@@ -1,35 +1,35 @@
-Return-Path: <linux-api+bounces-3885-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3886-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676FFAD2343
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 18:05:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB31AD2350
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 18:07:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC458161EAE
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 16:05:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAF8B3B2C99
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jun 2025 16:05:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61590217660;
-	Mon,  9 Jun 2025 16:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C0F21A426;
+	Mon,  9 Jun 2025 16:05:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="LOG6g3JT";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="O3X/oNQw"
+	dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="Z0j2H2Yi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b="Xc1Vkzt/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.wizmail.org (smtp.wizmail.org [85.158.153.28])
+Received: from mx.wizmail.org (mx.wizmail.org [85.158.153.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ECF217659;
-	Mon,  9 Jun 2025 16:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FE721770D;
+	Mon,  9 Jun 2025 16:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.158.153.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749485135; cv=none; b=HYAGJ1+DEmXH5IipPl8IQ8xnc1ZMdmngfz0OlB3cdwM4fD6GJZ0spJghYVvo0SpnfggUF5Ff74+T8s6WBca3r4AkNQbPUDhHfI+iwc9m9qYxrcG+ezs1n9dH6BN4jCb3fAxYOheiOsl/5oHzdpTByLf9Dbswz8ociB0GbLQO4zs=
+	t=1749485144; cv=none; b=kAPiudOaVLVNH+JwiswcxY7oe/wTr+EMb1fNbzlt72Hlyqb7wQez27CI6e2PSy1P/LTPO++akGaEb0RTnz3ntOmP6FLj6bxOeZQlgBXBCI/s+fAIqehQpXCqB34hJmRJvqIvR6+nc5/+bdhEpa1M7SqJ5InUHsX+RxFXPeKPUg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749485135; c=relaxed/simple;
-	bh=SBkrgM14OUuhdHvcfsWwWoAR8JQKd4xY6qaEO7io8Cw=;
+	s=arc-20240116; t=1749485144; c=relaxed/simple;
+	bh=8R+W4oVEJoSwN26pxY0PmMLqYAqygI+BWRqAhVn6+5U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jjaeL8FRol97ivT7S7RYLShOYfJGGpSCN1a6Uerqgra+ldehqsMZd3Uaj5J8WtiE6a95IeklLAe6x1BF/RscP/70EZt2x4R5TEfvgIKVGwlu3813k9Mz6KIRBenTk7ASBaeIy5MKo8H7eHKetL/zQ9gtwjf1+bgIVzrR4Kktd1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=LOG6g3JT; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=O3X/oNQw; arc=none smtp.client-ip=85.158.153.28
+	 MIME-Version; b=Eo1UROPpS/cbYoclaH615JUNNe937Xe/kTNKpDb6qbBp4w6tuyFmQgKpjh+kjv5paeo0B6qhJCaYtyi9MeSRpFJ3qUX2QntpKkTFPZG1Oo1L4AUApW5afKt5JPYlHquqE0BuVOYgxgbQYess+JWy1X2hc4HdiRp6me5lmqdcNAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org; spf=fail smtp.mailfrom=exim.org; dkim=permerror (0-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=Z0j2H2Yi; dkim=pass (2048-bit key) header.d=wizmail.org header.i=@wizmail.org header.b=Xc1Vkzt/; arc=none smtp.client-ip=85.158.153.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exim.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=exim.org
 DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -39,8 +39,8 @@ DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=TzWrBe6M7YpW3JNszYeApf3YkYVZKUXl3s/EAj+fAgE=; b=LOG6g3JTbyMDBF+
-	3apqtfQ+pjdjj/4J9HZxV755WuOwWPbe2Vgb19QKREY7vtWS0Ps1g52GPTj7cGTg+vI2LCg==;
+	Autocrypt; bh=NZq41W+GrtefNdEUbFkTNDa8Ss05cbXfFVdbvBLZRlQ=; b=Z0j2H2YiEqrsUsj
+	sw5uQdKBji1jjGwjAFMNOK6neRVrc0gbAY5KaRiF26O3v+EWQI+I7I94bXRHSKIaV4dgQBA==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	; s=r202001; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
@@ -48,31 +48,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizmail.org
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	Autocrypt; bh=TzWrBe6M7YpW3JNszYeApf3YkYVZKUXl3s/EAj+fAgE=; b=O3X/oNQw4nlyirf
-	eXvwdCpf0iWQdfYEsqUWziBh3PJgrhhBRg3i6SlXKweKyoL7dJSmaa/jxZnoqH36Ga3cIrVpXPTwS
-	J4YVWFw6vwfVsmICtpCVCmV5TSVUYmdYxxDARZCWng7TG/iA7Q9uMqE5HCGNo5qMa4J2KMsQ0Hkwg
-	O//fb08qk0sa6Bt+O85ERpnGdOCVVKvMF1YoS7vJVQBfuAyn1dHIb+e5POWd5EKFZIQ8Ou88/PKzi
-	LoPkGApnMg0SNJeLCFgaEZj5GH8x2EL40NY2ZMscVoNjOhJrgn8b9yqq4t95yQkJYt6NNQuXRvce2
-	/l6/thBAnHlHkwkng4w==;
+	Autocrypt; bh=NZq41W+GrtefNdEUbFkTNDa8Ss05cbXfFVdbvBLZRlQ=; b=Xc1Vkzt/a72QIbz
+	JULdvSG9NhdspK4IZa9QsO59FBzKCTYNbmWSqrk3omd1yZEIS61Yx3JeIg09FgqPj0bpHQQBgUx+/
+	mmnud5V8tWDqRnNZj5PqH2VjqeEHsDqvbhdzQbTWqSyytu0LdQEsO5GT3KiRubrRYune1exC5cn5d
+	9DWaLirYVkAjXb9XtjuNzZ20tmobhifjJ9M4bsrb1gSs5MpAstiydHEOk/DFb4qDxuqZsKeqBvqGA
+	htowkGirUc4jUmPoIXFRUUXBQE/aDJknqkFz06dP78Cq8/+CqKLkhLbDWgWCxlXl2zDPxp7Qc/yWo
+	vyANpFapc6D+Rh85elA==;
 Authentication-Results: wizmail.org;
 	iprev=pass (hellmouth.gulag.org.uk) smtp.remote-ip=85.158.153.62;
 	auth=pass (PLAIN) smtp.auth=jgh@wizmail.org
 Received: from hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain)
-	by wizmail.org (Exim 4.98.114)
+	by www.wizmail.org (Exim 4.98.114)
 	(TLS1.3) tls TLS_AES_256_GCM_SHA384
 	with esmtpsa
-	id 1uOf05-00000000n6h-3POZ
+	id 1uOf0G-00000000n6h-2qzZ
 	(return-path <jgh@exim.org>);
-	Mon, 09 Jun 2025 16:05:29 +0000
+	Mon, 09 Jun 2025 16:05:40 +0000
 From: Jeremy Harris <jgh@exim.org>
 To: netdev@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	edumazet@google.com,
 	ncardwell@google.com,
 	Jeremy Harris <jgh@exim.org>
-Subject: [PATCH net-next v3 1/6]     tcp: support writing to a socket in listening state
-Date: Mon,  9 Jun 2025 17:05:17 +0100
-Message-ID: <7facb17b78f6cbbdb38f140872e02a345a0023f7.1749466540.git.jgh@exim.org>
+Subject: [PATCH net-next v3 2/6] tcp: copy write-data from listen socket to accept child socket
+Date: Mon,  9 Jun 2025 17:05:18 +0100
+Message-ID: <838b683c8a47d7df158c6a5da440f38b38096068.1749466540.git.jgh@exim.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1749466540.git.jgh@exim.org>
 References: <cover.1749466540.git.jgh@exim.org>
@@ -85,186 +85,140 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Pcms-Received-Sender: hellmouth.gulag.org.uk ([85.158.153.62] helo=macbook.dom.ain) with esmtpsa
 
-    In the tcp sendmsg handler, permit a write in LISTENING state if
-    a MSG_PRELOAD flag is used.  Copy from iovec to a linear sk_buff
-    for placement on the socket write queue.
+Set the request_sock flag for fastopen earlier, making it available
+to the af_ops SYN-handler function.
+
+In that function copy data from the listen socket write queue into an
+sk_buff, allocating if needed and adding to the write queue of the
+newly-created child socket.
+Set sequence number values depending on the fastopen status.
 
 Signed-off-by: Jeremy Harris <jgh@exim.org>
 ---
- include/linux/socket.h                        |   1 +
- net/ipv4/tcp.c                                | 112 ++++++++++++++++++
- .../perf/trace/beauty/include/linux/socket.h  |   1 +
- tools/perf/trace/beauty/msg_flags.c           |   3 +
- 4 files changed, 117 insertions(+)
+ net/ipv4/tcp_fastopen.c  |  3 ++-
+ net/ipv4/tcp_ipv4.c      |  4 +--
+ net/ipv4/tcp_minisocks.c | 58 ++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 57 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/socket.h b/include/linux/socket.h
-index 3b262487ec06..b41f4cd4dc97 100644
---- a/include/linux/socket.h
-+++ b/include/linux/socket.h
-@@ -330,6 +330,7 @@ struct ucred {
- #define MSG_SOCK_DEVMEM 0x2000000	/* Receive devmem skbs as cmsg */
- #define MSG_ZEROCOPY	0x4000000	/* Use user data in kernel path */
- #define MSG_SPLICE_PAGES 0x8000000	/* Splice the pages from the iterator in sendmsg() */
-+#define MSG_PRELOAD	0x10000000	/* Preload tx data while listening */
- #define MSG_FASTOPEN	0x20000000	/* Send data in TCP SYN */
- #define MSG_CMSG_CLOEXEC 0x40000000	/* Set close_on_exec for file
- 					   descriptor received through
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index f64f8276a73c..c0a787c1649d 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -1057,6 +1057,115 @@ int tcp_sendmsg_fastopen(struct sock *sk, struct msghdr *msg, int *copied,
- 	return err;
- }
+diff --git a/net/ipv4/tcp_fastopen.c b/net/ipv4/tcp_fastopen.c
+index 9b83d639b5ac..03a86d0b87ba 100644
+--- a/net/ipv4/tcp_fastopen.c
++++ b/net/ipv4/tcp_fastopen.c
+@@ -245,6 +245,8 @@ static struct sock *tcp_fastopen_create_child(struct sock *sk,
+ 	struct sock *child;
+ 	bool own_req;
  
-+/* Cut-down version of tcp_sendmsg_locked(), for writing on a listen socket
-+ */
-+static int tcp_sendmsg_preload(struct sock *sk, struct msghdr *msg)
-+{
-+	struct sk_buff *skb;
-+	int flags, err, copied = 0;
-+	int size_goal;
-+	int process_backlog = 0;
-+	long timeo;
++	tcp_rsk(req)->tfo_listener = true;
 +
-+	if (sk->sk_state != TCP_LISTEN)
-+		return -EINVAL;
+ 	child = inet_csk(sk)->icsk_af_ops->syn_recv_sock(sk, skb, req, NULL,
+ 							 NULL, &own_req);
+ 	if (!child)
+@@ -261,7 +263,6 @@ static struct sock *tcp_fastopen_create_child(struct sock *sk,
+ 	tp = tcp_sk(child);
+ 
+ 	rcu_assign_pointer(tp->fastopen_rsk, req);
+-	tcp_rsk(req)->tfo_listener = true;
+ 
+ 	/* RFC1323: The window in SYN & SYN/ACK segments is never
+ 	 * scaled. So correct it appropriately.
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 6a14f9e6fef6..e488effdbdb2 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1747,8 +1747,8 @@ EXPORT_IPV6_MOD(tcp_v4_conn_request);
+ 
+ 
+ /*
+- * The three way handshake has completed - we got a valid synack -
+- * now create the new socket.
++ * The three way handshake has completed - we got a valid synack
++ * (or a FASTOPEN syn) - now create the new socket.
+  */
+ struct sock *tcp_v4_syn_recv_sock(const struct sock *sk, struct sk_buff *skb,
+ 				  struct request_sock *req,
+diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+index 43d7852ce07e..d471531b4a78 100644
+--- a/net/ipv4/tcp_minisocks.c
++++ b/net/ipv4/tcp_minisocks.c
+@@ -529,7 +529,7 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+ 	struct inet_connection_sock *newicsk;
+ 	const struct tcp_sock *oldtp;
+ 	struct tcp_sock *newtp;
+-	u32 seq;
++	u32 seq, a_seq, n_seq;
+ 
+ 	if (!newsk)
+ 		return NULL;
+@@ -550,9 +550,55 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+ 	newtp->segs_in = 1;
+ 
+ 	seq = treq->snt_isn + 1;
+-	newtp->snd_sml = newtp->snd_una = seq;
+-	WRITE_ONCE(newtp->snd_nxt, seq);
+-	newtp->snd_up = seq;
++	n_seq = seq;
++	a_seq = seq;
++	newtp->write_seq = seq;
++	newtp->snd_una = seq;
 +
-+	flags = msg->msg_flags;
++	/* If there is write-data sitting on the listen socket, copy it to
++	 * the accept socket. If FASTOPEN we will send it on the synack,
++	 * otherwise it sits there until 3rd-ack arrives.
++	 */
 +
-+	timeo = sock_sndtimeo(sk, flags & MSG_DONTWAIT);
-+
-+	/* Ok commence sending. */
-+restart:
-+	/* Use a arbitrary "mss" value */
-+	size_goal = 1000;
-+
-+	err = -EPIPE;
-+	if (sk->sk_err || (sk->sk_shutdown & SEND_SHUTDOWN))
-+		goto do_error;
-+
-+	while (msg_data_left(msg)) {
++	if (unlikely(!skb_queue_empty(&sk->sk_write_queue))) {
++		struct sk_buff *l_skb = tcp_send_head(sk),
++				*a_skb = tcp_write_queue_tail(newsk);
 +		ssize_t copy = 0;
 +
-+		skb = tcp_write_queue_tail(sk);
-+		if (skb)
-+			copy = size_goal - skb->len;
++		if (a_skb)
++			copy = l_skb->len - a_skb->len;
 +
-+		trace_tcp_sendmsg_locked(sk, msg, skb, size_goal);
++		if (copy <= 0 || !tcp_skb_can_collapse_to(a_skb)) {
++			bool first_skb = tcp_rtx_and_write_queues_empty(newsk);
 +
-+		if (copy <= 0 || !tcp_skb_can_collapse_to(skb)) {
-+			bool first_skb = !skb;
-+
-+			/* Limit to only one skb on the sk write queue */
-+
-+			if (!first_skb)
-+				goto out_nopush;
-+
-+			if (!sk_stream_memory_free(sk))
-+				goto wait_for_space;
-+
-+			if (unlikely(process_backlog >= 16)) {
-+				process_backlog = 0;
-+				if (sk_flush_backlog(sk))
-+					goto restart;
++			a_skb = tcp_stream_alloc_skb(newsk,
++						     newsk->sk_allocation,
++						     first_skb);
++			if (!a_skb) {
++				/* is this the correct free? */
++				bh_unlock_sock(newsk);
++				sk_free(newsk);
++				return NULL;
 +			}
 +
-+			skb = tcp_stream_alloc_skb(sk, sk->sk_allocation,
-+						   first_skb);
-+			if (!skb)
-+				goto wait_for_space;
-+
-+			process_backlog++;
-+
-+#ifdef CONFIG_SKB_DECRYPTED
-+			skb->decrypted = !!(flags & MSG_SENDPAGE_DECRYPTED);
-+#endif
-+			tcp_skb_entail(sk, skb);
-+			copy = size_goal;
++			tcp_skb_entail(newsk, a_skb);
 +		}
++		copy = min_t(int, l_skb->len, skb_tailroom(a_skb));
++		skb_put_data(a_skb, l_skb->data, copy);
 +
-+		/* Try to append data to the end of skb. */
-+		if (copy > msg_data_left(msg))
-+			copy = msg_data_left(msg);
++		TCP_SKB_CB(a_skb)->end_seq += copy;
 +
-+		copy = min_t(int, copy, skb_tailroom(skb));
-+		err = skb_add_data_nocache(sk, skb, &msg->msg_iter, copy);
-+		if (err)
-+			goto do_error;
++		a_seq += l_skb->len;
 +
-+		TCP_SKB_CB(skb)->end_seq += copy;
-+		tcp_skb_pcount_set(skb, 0);
++		if (treq->tfo_listener)
++			seq = a_seq;
 +
-+		copied += copy;
-+		goto out_nopush;
-+
-+wait_for_space:
-+		set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		tcp_remove_empty_skb(sk);
-+
-+		err = sk_stream_wait_memory(sk, &timeo);
-+		if (err != 0)
-+			goto do_error;
++		/* assumes only one skb on the listen write queue */
 +	}
 +
-+out_nopush:
-+	return copied;
-+
-+do_error:
-+	tcp_remove_empty_skb(sk);
-+
-+	if (copied)
-+		goto out_nopush;
-+
-+	err = sk_stream_error(sk, flags, err);
-+	/* make sure we wake any epoll edge trigger waiter */
-+	if (unlikely(tcp_rtx_and_write_queues_empty(sk) && err == -EAGAIN)) {
-+		sk->sk_write_space(sk);
-+		tcp_chrono_stop(sk, TCP_CHRONO_SNDBUF_LIMITED);
-+	}
-+
-+	return err;
-+}
-+
- int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
- {
- 	struct net_devmem_dmabuf_binding *binding = NULL;
-@@ -1129,6 +1238,9 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
- 			goto out_err;
- 	}
++	newtp->snd_sml = seq;
++	WRITE_ONCE(newtp->snd_nxt, a_seq);
++	newtp->snd_up = n_seq;
  
-+	if (unlikely(flags & MSG_PRELOAD))
-+		return tcp_sendmsg_preload(sk, msg);
-+
- 	timeo = sock_sndtimeo(sk, flags & MSG_DONTWAIT);
+ 	INIT_LIST_HEAD(&newtp->tsq_node);
+ 	INIT_LIST_HEAD(&newtp->tsorted_sent_queue);
+@@ -567,7 +613,9 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+ 	newtp->total_retrans = req->num_retrans;
  
- 	tcp_rate_check_app_limited(sk);  /* is sending application-limited? */
-diff --git a/tools/perf/trace/beauty/include/linux/socket.h b/tools/perf/trace/beauty/include/linux/socket.h
-index c3322eb3d686..e9ea498169f3 100644
---- a/tools/perf/trace/beauty/include/linux/socket.h
-+++ b/tools/perf/trace/beauty/include/linux/socket.h
-@@ -330,6 +330,7 @@ struct ucred {
- #define MSG_SOCK_DEVMEM 0x2000000	/* Receive devmem skbs as cmsg */
- #define MSG_ZEROCOPY	0x4000000	/* Use user data in kernel path */
- #define MSG_SPLICE_PAGES 0x8000000	/* Splice the pages from the iterator in sendmsg() */
-+#define MSG_PRELOAD	0x10000000	/* Preload tx data while listening */
- #define MSG_FASTOPEN	0x20000000	/* Send data in TCP SYN */
- #define MSG_CMSG_CLOEXEC 0x40000000	/* Set close_on_exec for file
- 					   descriptor received through
-diff --git a/tools/perf/trace/beauty/msg_flags.c b/tools/perf/trace/beauty/msg_flags.c
-index 2da581ff0c80..27e40da9b02d 100644
---- a/tools/perf/trace/beauty/msg_flags.c
-+++ b/tools/perf/trace/beauty/msg_flags.c
-@@ -20,6 +20,9 @@
- #ifndef MSG_SPLICE_PAGES
- #define MSG_SPLICE_PAGES	0x8000000
- #endif
-+#ifndef MSG_PRELOAD
-+#define MSG_PRELOAD		0x10000000
-+#endif
- #ifndef MSG_FASTOPEN
- #define MSG_FASTOPEN		0x20000000
- #endif
+ 	tcp_init_xmit_timers(newsk);
+-	WRITE_ONCE(newtp->write_seq, newtp->pushed_seq = treq->snt_isn + 1);
++
++	newtp->pushed_seq = n_seq;
++	WRITE_ONCE(newtp->write_seq, a_seq);
+ 
+ 	if (sock_flag(newsk, SOCK_KEEPOPEN))
+ 		tcp_reset_keepalive_timer(newsk, keepalive_time_when(newtp));
 -- 
 2.49.0
 
