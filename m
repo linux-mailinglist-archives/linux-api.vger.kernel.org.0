@@ -1,336 +1,174 @@
-Return-Path: <linux-api+bounces-3903-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3904-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE6EAD6C7D
-	for <lists+linux-api@lfdr.de>; Thu, 12 Jun 2025 11:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C23AAD6F2B
+	for <lists+linux-api@lfdr.de>; Thu, 12 Jun 2025 13:38:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A644F3AE53A
-	for <lists+linux-api@lfdr.de>; Thu, 12 Jun 2025 09:45:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3F993B116F
+	for <lists+linux-api@lfdr.de>; Thu, 12 Jun 2025 11:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D1920F07C;
-	Thu, 12 Jun 2025 09:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKF38VES"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1841821FF5B;
+	Thu, 12 Jun 2025 11:37:48 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0038C1F92E;
-	Thu, 12 Jun 2025 09:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B32F4333;
+	Thu, 12 Jun 2025 11:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749721543; cv=none; b=HiCvbMIcakXnwjxgRLOOjfJTCuPMcGERw97QI/1Kgul2H+G7lTNejjw1/smkPDSMYT6RYPUagl3qBTCBzfAB5OMc+IeqCNoez5tVAsiYoSl2BkspEG8CxFgGTsbevCzUtmOJPnD3y7lK6A2nf32SDjaU8eldn/zFIYzHSykMFC4=
+	t=1749728268; cv=none; b=hSOPXz5xcMHpNfbiAjyc7+Vn1XBdowCH7ua2uQxaozNkhGH+sjdAaF8UjMO7MPeoLdN4V9pXmJDjYD6WSCQapfhPiPdc2Uo19Mz+Iw91LDgTQ30ILvQwqrOH3foIW2hCzOXlu/1mOCSAofDOk6kj+pMPjeoWKBBBLC+dmuTBcmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749721543; c=relaxed/simple;
-	bh=ISSwJzQtcPMgDfooxcBBf4ZtPTrjUOw20WkC/jwELYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJfWKUi5qTbba3yd40rUzDHBqkPBNfHcgD1bYalCvm/RYsRA7JtgDkb8MDetBi01LNYLBETNvZGXhlrfl0QCXnJrgp2J/8E0xANR3o++HZqSNuhSSWqj4Tt2H6rtuSEtpUu87Gj6x5pLSczxuHjS9POH1YgsB8CVJoJfReNGVN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKF38VES; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BA1C4CEEA;
-	Thu, 12 Jun 2025 09:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749721542;
-	bh=ISSwJzQtcPMgDfooxcBBf4ZtPTrjUOw20WkC/jwELYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fKF38VESGU0+8srBj0ZYtbybtVz02QgkU6rGWBDVTttfuUomHrfnmOnKaTPAgzNYR
-	 F4NDpGJbh/3Eb/WAcglsv8Djp6SsxK6KsZOQwcU3NRNgHLCzBC8UITwlDv7DuG2hcS
-	 F6aAbN67DuvdaZvcJNXc4kxeLDCg/AHp0F+QSvln0BYS8rNlwFVvBe66a5jFUdhVME
-	 4DqKwlU2gVoaqH3ZNbkqfyrNdvMMQlAQllO0K4ecW2WJEx9UBnDfysifySWavQbCg2
-	 6td9aQcZyyZeqv8Bv89ErSbUccAf/ogOZlDl+gZqggQ9vdO5cmS+i26nprxdNyR43M
-	 acYHWxinUo7og==
-Date: Thu, 12 Jun 2025 11:45:36 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Zhengyi Fu <i@fuzy.me>
-Cc: linux-man@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>, 
-	Mike Rapoport <rppt@linux.ibm.com>, David Rheinsberg <david@readahead.eu>, 
-	Hugh Dickins <hughd@google.com>, Hagen Paul Pfeifer <hagen@jauu.net>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Andy Lutomirski <luto@amacapital.net>, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH] man/man2/memfd_secret.2: Correct the flags
-Message-ID: <7umhm4evxdbhvoezkcnpnt4vpaqoylwia25pzusby6evmvkoib@nfanksvdoq3c>
-References: <20250612061705.1177931-1-i@fuzy.me>
+	s=arc-20240116; t=1749728268; c=relaxed/simple;
+	bh=1hME+q7q5I+jjLm/t72QKjRqfoHtJN7hkve8S00L+WE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iW4W95KG9jb9KG8+tASQF0M91Z9u0VrjAaAr/YvGnA/tVpdNTsObEouIkzhMPwgRSQx1RziF1GKWg1ZlA3Kt3W+9aXxbd2+3t4qi+x3NK4RQBO+RKnRH5QYrwhKpw54ojqd+wOi2cnESBGbw4pVSXVTGztvlWxPm21imrK3fhZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bJ0rR4SwYzKHN95;
+	Thu, 12 Jun 2025 19:37:43 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id ECED01A01A4;
+	Thu, 12 Jun 2025 19:37:41 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgAXe18DvEpoJoUoPQ--.21926S3;
+	Thu, 12 Jun 2025 19:37:41 +0800 (CST)
+Message-ID: <b14aaa15-9d41-45cf-9bd8-fe92d256070d@huaweicloud.com>
+Date: Thu, 12 Jun 2025 19:37:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="y4mw2jlmwswrkrl3"
-Content-Disposition: inline
-In-Reply-To: <20250612061705.1177931-1-i@fuzy.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/10] fs: introduce FALLOC_FL_WRITE_ZEROES to fallocate
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de,
+ tytso@mit.edu, john.g.garry@oracle.com, bmarzins@redhat.com,
+ chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+ martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com, linux-api@vger.kernel.org
+References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
+ <20250604020850.1304633-8-yi.zhang@huaweicloud.com>
+ <20250611150555.GB6134@frogsfrogsfrogs>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250611150555.GB6134@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgAXe18DvEpoJoUoPQ--.21926S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGrykKF4xGr1UuryUJryUAwb_yoWrWF45pF
+	W3Ca4UKr4kGFyfC3s3Z3Z7Cry5Zws3Kr43ZrW2gr1jvr15Wr1fKFsFgryYva4xJrs7Aa1Y
+	qr40vFy3ua4DZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
+	0PDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+On 2025/6/11 23:05, Darrick J. Wong wrote:
+> [cc linux-api about a fallocate uapi change]
+> 
+> On Wed, Jun 04, 2025 at 10:08:47AM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> With the development of flash-based storage devices, we can quickly
+>> write zeros to SSDs using the WRITE_ZERO command if the devices do not
+>> actually write physical zeroes to the media. Therefore, we can use this
+>> command to quickly preallocate a real all-zero file with written
+>> extents. This approach should be beneficial for subsequent pure
+>> overwriting within this file, as it can save on block allocation and,
+>> consequently, significant metadata changes, which should greatly improve
+>> overwrite performance on certain filesystems.
+>>
+>> Therefore, introduce a new operation FALLOC_FL_WRITE_ZEROES to
+>> fallocate. This flag is used to convert a specified range of a file to
+>> zeros by issuing a zeroing operation. Blocks should be allocated for the
+>> regions that span holes in the file, and the entire range is converted
+>> to written extents. If the underlying device supports the actual offload
+>> write zeroes command, the process of zeroing out operation can be
+>> accelerated. If it does not, we currently don't prevent the file system
+>> from writing actual zeros to the device. This provides users with a new
+>> method to quickly generate a zeroed file, users no longer need to write
+>> zero data to create a file with written extents.
+>>
+>> Users can determine whether a disk supports the unmap write zeroes
+>> operation through querying this sysfs interface:
+>>
+>>     /sys/block/<disk>/queue/write_zeroes_unmap
+>>
+>> Finally, this flag cannot be specified in conjunction with the
+>> FALLOC_FL_KEEP_SIZE since allocating written extents beyond file EOF is
+>> not permitted. In addition, filesystems that always require out-of-place
+>> writes should not support this flag since they still need to allocated
+>> new blocks during subsequent overwrites.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  fs/open.c                   |  1 +
+>>  include/linux/falloc.h      |  3 ++-
+>>  include/uapi/linux/falloc.h | 18 ++++++++++++++++++
+>>  3 files changed, 21 insertions(+), 1 deletion(-)
+>>
+[...]
+>> diff --git a/include/uapi/linux/falloc.h b/include/uapi/linux/falloc.h
+>> index 5810371ed72b..265aae7ff8c1 100644
+>> --- a/include/uapi/linux/falloc.h
+>> +++ b/include/uapi/linux/falloc.h
+>> @@ -78,4 +78,22 @@
+>>   */
+>>  #define FALLOC_FL_UNSHARE_RANGE		0x40
+>>  
+>> +/*
+>> + * FALLOC_FL_WRITE_ZEROES is used to convert a specified range of a file to
+>> + * zeros by issuing a zeroing operation. Blocks should be allocated for the
+>> + * regions that span holes in the file, and the entire range is converted to
+>> + * written extents.
+> 
+> I think you could simplify this a bit by talking only about the end
+> state after a successful call:
+> 
+> "FALLOC_FL_WRITE_ZEROES zeroes a specified file range in such a way that
+> subsequent writes to that range do not require further changes to file
+> mapping metadata."
+> 
+> Note that we don't say how the filesystem gets to this goal.  Presumably
+> the first implementations will send a zeroing operation to the block
+> device during allocation and the fs will create written mappings, but
+> there are other ways to get there -- a filesystem could maintain a pool
+> of pre-zeroed space and hand those out; or it could zero space on
+> freeing and mounting such that all new mappings can be created as
+> written even without the block device zeroing operation.
+> 
+> Or you could be running on some carefully engineered system where you
+> know the storage will always be zeroed at allocation time due to some
+> other aspect of the system design, e.g. a single-use throwaway cloud vm
+> where you allocate to the end of the disk and reboot the node.
 
---y4mw2jlmwswrkrl3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Zhengyi Fu <i@fuzy.me>
-Cc: linux-man@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>, 
-	Mike Rapoport <rppt@linux.ibm.com>, David Rheinsberg <david@readahead.eu>, 
-	Hugh Dickins <hughd@google.com>, Hagen Paul Pfeifer <hagen@jauu.net>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Andy Lutomirski <luto@amacapital.net>, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH] man/man2/memfd_secret.2: Correct the flags
-References: <20250612061705.1177931-1-i@fuzy.me>
-MIME-Version: 1.0
-In-Reply-To: <20250612061705.1177931-1-i@fuzy.me>
+Indeed, it makes sense to me. It appears to be more generic and obscures
+the methods by which different file systems may achieve this goal. Thank
+you for the suggestion.
 
-[CC +=3D people related to memfd_{create,secret}(2) in the kernel]
+Best regards,
+Yi.
 
-Hi Zhengyi,
-
-On Thu, Jun 12, 2025 at 02:17:05PM +0800, Zhengyi Fu wrote:
-> memfd_secret returns EINVAL when called with FD_CLOEXEC.  The
-> correct flag should be O_CLOEXEC.
-
-Thanks for the report!  It seems like a bug in the kernel.  The
-documentation was written (relatively) consistent with memfd_create(2),
-but the implementation was made different.  I say the documentation was
-relatively consistent, because memfd_create(2) uses MFD_CLOEXEC, and
-memfd_secret(2) documents FD_CLOEXEC, which could be confused, and since
-they have the same value, it could be considered just a typo.  However,
-O_CLOEXEC is an entirely different flag, which doesn't seem to make
-sense here.
-
-	$ grepc -tfld memfd_create . | grep -A4 -e '^[{}.]' -e CLOEXEC;
-	./mm/memfd.c:SYSCALL_DEFINE2(memfd_create,
-			const char __user *, uname,
-			unsigned int, flags)
-	{
-		struct file *file;
-		int fd, error;
-		char *name;
-
-	--
-		fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-		if (fd < 0) {
-			error =3D fd;
-			goto err_name;
-		}
-	--
-	}
-
-	$ grepc -tfld memfd_secret . | grep -A3 -e '^[{}.]' -e CLOEXEC;
-	./mm/secretmem.c:SYSCALL_DEFINE1(memfd_secret, unsigned int, flags)
-	{
-		struct file *file;
-		int fd, err;
-
-	--
-		BUILD_BUG_ON(SECRETMEM_FLAGS_MASK & O_CLOEXEC);
-
-		if (!secretmem_enable || !can_set_direct_map())
-			return -ENOSYS;
-	--
-		if (flags & ~(SECRETMEM_FLAGS_MASK | O_CLOEXEC))
-			return -EINVAL;
-		if (atomic_read(&secretmem_users) < 0)
-			return -ENFILE;
-	--
-		fd =3D get_unused_fd_flags(flags & O_CLOEXEC);
-		if (fd < 0)
-			return fd;
-
-	--
-	}
-
-Let's see who added memfd_create(2):
-
-	alx@devuan:~/src/linux/linux/master$ git blame -- ./mm/memfd.c | grep _CLO=
-EXEC
-	105ff5339f498 (Jeff Xu                 2022-12-15 00:12:03 +0000 306) #def=
-ine MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | MFD_NOEX=
-EC_SEAL | MFD_EXEC)
-	f5dbcd90dacd3 (Isaac J. Manjarres      2025-01-10 08:58:59 -0800 475) 	fd =
-=3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	alx@devuan:~/src/linux/linux/master$ git show f5dbcd90dacd3 | grep -e _CLO=
-EXEC -e ^diff | grep -B1 -v ^d
-	diff --git a/mm/memfd.c b/mm/memfd.c
-	-	fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	+	fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	alx@devuan:~/src/linux/linux/master$ git blame f5dbcd90dacd3^ -- mm/memfd.=
-c | grep _CLOEXEC
-	105ff5339f498 (Jeff Xu                 2022-12-15 00:12:03 +0000 305) #def=
-ine MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | MFD_NOEX=
-EC_SEAL | MFD_EXEC)
-	5d752600a8c37 (Mike Kravetz            2018-06-07 17:06:01 -0700 423) 	fd =
-=3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	alx@devuan:~/src/linux/linux/master$ git show 5d752600a8c37 | grep -e _CLO=
-EXEC -e ^diff | grep -B1 -v ^d
-	diff --git a/mm/memfd.c b/mm/memfd.c
-	+#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-	+	fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	diff --git a/mm/shmem.c b/mm/shmem.c
-	-#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-	-	fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	alx@devuan:~/src/linux/linux/master$ git blame 5d752600a8c37^ -- mm/shmem.=
-c | grep _CLOEXEC
-	749df87bd7bee (Mike Kravetz            2017-09-06 16:24:16 -0700 3684) #de=
-fine MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-	9183df25fe7b1 (David Rheinsberg        2014-08-08 14:25:29 -0700 3729) 	fd=
- =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-	alx@devuan:~/src/linux/linux/master$ git show 9183df25fe7b1 | grep -e _CLO=
-EXEC -e ^diff | grep -B1 -v ^d
-	diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-	+#define MFD_CLOEXEC		0x0001U
-	--
-	diff --git a/mm/shmem.c b/mm/shmem.c
-	+#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING)
-	+	fd =3D get_unused_fd_flags((flags & MFD_CLOEXEC) ? O_CLOEXEC : 0);
-
-	alx@devuan:~/src/linux/linux/master$ git show 9183df25fe7b1 | head -n5
-	commit 9183df25fe7b194563db3fec6dc3202a5855839c
-	Author: David Rheinsberg <david@readahead.eu>
-	Date:   Fri Aug 8 14:25:29 2014 -0700
-
-	    shm: add memfd_create() syscall
-
-	alx@devuan:~/src/linux/linux/master$ git log -1 9183df25fe7b1 | grep @
-	Author: David Rheinsberg <david@readahead.eu>
-	    Signed-off-by: David Herrmann <dh.herrmann@gmail.com>
-	    Acked-by: Hugh Dickins <hughd@google.com>
-	    Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-	    Cc: Ryan Lortie <desrt@desrt.ca>
-	    Cc: Lennart Poettering <lennart@poettering.net>
-	    Cc: Daniel Mack <zonque@gmail.com>
-	    Cc: Andy Lutomirski <luto@amacapital.net>
-	    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-	    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-
-And memfd_secret(2):
-
-	alx@devuan:~/src/linux/linux/master$ git blame -- ./mm/secretmem.c | grep =
-_CLOEXEC
-	1507f51255c9f (Mike Rapoport           2021-07-07 18:08:03 -0700 238) 	BUI=
-LD_BUG_ON(SECRETMEM_FLAGS_MASK & O_CLOEXEC);
-	1507f51255c9f (Mike Rapoport           2021-07-07 18:08:03 -0700 243) 	if =
-(flags & ~(SECRETMEM_FLAGS_MASK | O_CLOEXEC))
-	1507f51255c9f (Mike Rapoport           2021-07-07 18:08:03 -0700 248) 	fd =
-=3D get_unused_fd_flags(flags & O_CLOEXEC);
-	alx@devuan:~/src/linux/linux/master$ git show 1507f51255c9f | grep -e _CLO=
-EXEC -e ^diff | grep -B1 -v ^d
-	diff --git a/mm/secretmem.c b/mm/secretmem.c
-	+	BUILD_BUG_ON(SECRETMEM_FLAGS_MASK & O_CLOEXEC);
-	+	if (flags & ~(SECRETMEM_FLAGS_MASK | O_CLOEXEC))
-	+	fd =3D get_unused_fd_flags(flags & O_CLOEXEC);
-	alx@devuan:~/src/linux/linux/master$ git show 1507f51255c9f | head -n5
-	commit 1507f51255c9ff07d75909a84e7c0d7f3c4b2f49
-	Author: Mike Rapoport <rppt@kernel.org>
-	Date:   Wed Jul 7 18:08:03 2021 -0700
-
-	    mm: introduce memfd_secret system call to create "secret" memory areas
-	alx@devuan:~/src/linux/linux/master$ git log -1 1507f51255c9f | grep @
-	Author: Mike Rapoport <rppt@kernel.org>
-	    [1] https://lore.kernel.org/linux-mm/213b4567-46ce-f116-9cdf-bbd0c884e=
-b3c@linux.intel.com/
-	    [akpm@linux-foundation.org: suppress Kconfig whine]
-	    Link: https://lkml.kernel.org/r/20210518072034.31572-5-rppt@kernel.org
-	    Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-	    Acked-by: Hagen Paul Pfeifer <hagen@jauu.net>
-	    Acked-by: James Bottomley <James.Bottomley@HansenPartnership.com>
-	    Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-	    Cc: Andy Lutomirski <luto@kernel.org>
-	    Cc: Arnd Bergmann <arnd@arndb.de>
-	    Cc: Borislav Petkov <bp@alien8.de>
-	    Cc: Catalin Marinas <catalin.marinas@arm.com>
-	    Cc: Christopher Lameter <cl@linux.com>
-	    Cc: Dan Williams <dan.j.williams@intel.com>
-	    Cc: Dave Hansen <dave.hansen@linux.intel.com>
-	    Cc: Elena Reshetova <elena.reshetova@intel.com>
-	    Cc: "H. Peter Anvin" <hpa@zytor.com>
-	    Cc: Ingo Molnar <mingo@redhat.com>
-	    Cc: James Bottomley <jejb@linux.ibm.com>
-	    Cc: "Kirill A. Shutemov" <kirill@shutemov.name>
-	    Cc: Matthew Wilcox <willy@infradead.org>
-	    Cc: Mark Rutland <mark.rutland@arm.com>
-	    Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-	    Cc: Palmer Dabbelt <palmer@dabbelt.com>
-	    Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-	    Cc: Paul Walmsley <paul.walmsley@sifive.com>
-	    Cc: Peter Zijlstra <peterz@infradead.org>
-	    Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
-	    Cc: Roman Gushchin <guro@fb.com>
-	    Cc: Shakeel Butt <shakeelb@google.com>
-	    Cc: Shuah Khan <shuah@kernel.org>
-	    Cc: Thomas Gleixner <tglx@linutronix.de>
-	    Cc: Tycho Andersen <tycho@tycho.ws>
-	    Cc: Will Deacon <will@kernel.org>
-	    Cc: David Hildenbrand <david@redhat.com>
-	    Cc: kernel test robot <lkp@intel.com>
-	    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-	    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-
-I've added to CC everyone who had something different than Cc, and
-everyone who had Cc in both.
-
-Now about the situation: it seems there is only one user of CLOEXEC
-with memfd_secret(2) in Debian: systemtap.
-<https://codesearch.debian.net/search?q=3Dmemfd_secret.*CLOEXEC&literal=3D0>
-
-Do we want to fix the bug, or do we want to document it?  This is for
-kernel people to respond.
-
-Also, was O_CLOEXEC used on purpose, or was it by accident?  I expect
-that either MFD_CLOEXEC should have been used, by imitating
-memfd_create(2), or a new MFDS_CLOEXEC could have been invented, but
-O_CLOEXEC doesn't make much sense, IMO.
-
-
-Have a lovely day!
-Alex
-
->=20
-> Signed-off-by: Zhengyi Fu <i@fuzy.me>
-> ---
->  man/man2/memfd_secret.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man/man2/memfd_secret.2 b/man/man2/memfd_secret.2
-> index 5ba7813c1..c6abd2f5f 100644
-> --- a/man/man2/memfd_secret.2
-> +++ b/man/man2/memfd_secret.2
-> @@ -51,7 +51,7 @@ The following values may be bitwise ORed in
->  to control the behavior of
->  .BR memfd_secret ():
->  .TP
-> -.B FD_CLOEXEC
-> +.B O_CLOEXEC
->  Set the close-on-exec flag on the new file descriptor,
->  which causes the region to be removed from the process on
->  .BR execve (2).
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---y4mw2jlmwswrkrl3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmhKoboACgkQ64mZXMKQ
-wqlzeQ/+K5xch9iM3q4DGbnPGkxzDEmxrRjZdLkg8gQ8eEK95ENojQie/eSI2F/Z
-PbEaGb2rQz3re4H0jLAKTo9Yyu40JmFuFLQxYmOaouZE+74zQ/hV/67axyic7Kf6
-pV5SUq1s57WZEq0vqCbRBWURNup5bJD7Ijtv/7XPMI77hJDIEBNwceh6+kQ0OxMb
-Tm9dnuuaaT6Yk2rjko3SkCy8DA/RCii76suUmRdT0qL57XAW3PA0w27bJg/pBKNh
-eaZLynwd2QhxGdVJf0fYBH04bpdz8PySd5tBKdxXCIP5N78GqIl3HrpKSjYY44Uc
-bmUWTVf+BvU2wclKC+h5jDU5S9ZgSQH4s6gKstGUPeSDtICn1dA2AB0pb9NTIgsu
-mGNfsbSyKIGPsQNV68AOrRd0BTSx1lBxfXrimO8fE+HCA9+FoGIGgcOeT+sjcddl
-1Zs0FC8XetFUDvnojUKVKLrPvsa0+fuElX9hcwtaVO4s2mbyGx9EugQiof8f4MUr
-zHxpJF8TPJhOQSGHS/mS4QtQjg8o5HxcMWJU5MjANDGea+auAYQ0u4RK7ZpAXiVX
-4priCtY1yJYkYe8flBhIKL9j2iwXmvOMx61MdXNu3bqEvWB+9XSxiIUtKw5H3D8W
-0QTM+dQR1eUBqwzP1bdo+oJbPvrrF1Z5Ydej7GzxG4TNPY9PdAI=
-=PZp/
------END PGP SIGNATURE-----
-
---y4mw2jlmwswrkrl3--
 
