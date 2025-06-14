@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3916-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3917-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB3CAD9D20
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9148EAD9D21
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:51:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EDE43B80E8
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:50:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D29D43B80EA
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F632E7F07;
-	Sat, 14 Jun 2025 13:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 532102E7F23;
+	Sat, 14 Jun 2025 13:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBRH/LRE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k58zgvBL"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E44B2E7F00;
-	Sat, 14 Jun 2025 13:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286332E7F1A;
+	Sat, 14 Jun 2025 13:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749908951; cv=none; b=KTMeDrVNo5Jti+Telzyi45RZZJ5f9rtnYWhcxMelP6Ts8OZ0c76Exmt8U0IBQFT7FAecC0u6Sj9gYlpoM4YQg5rwk32BxQeXme7FVokH/xTPw/jn6jequ2HF8il+nzhV83szyS3ND7KeHanCVSfs/9O2jxK2/rtTU4lkRX2KC5w=
+	t=1749908952; cv=none; b=ZCpjvbLvsJHlZblW7YI0g9hi5wDr6RB+wxTuZsIdsIlxD9WXJUvnau2ut125+ExLC9hPmmlOdO4Di2wE6OyUFhU9r0AyJVcTI5oPBGrxIHipQOTnB6gPK2FEphS1GwVErp7/CZbc2r/nrSlDYk096iy0x0o/3OvuWj/XXPyA0A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749908951; c=relaxed/simple;
-	bh=ibJSxGhn2sy6Pn+cpIBXMz0mb1TNNGHU2JUEIbkLD1g=;
+	s=arc-20240116; t=1749908952; c=relaxed/simple;
+	bh=zS8ZFG4HpWsJFM53jLyQzCNYlIU54deOx6WKkgpE/6M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gGa3rWwr2ngu9Ml3HGX/CKVzXjkMsQ7R/cqZN4WIKu61Mz63j+suo/1y0kqf82zNVTiutiOC+SusHL9w/bSxtwPTGmJMr1jIMzx6R6WwEWT+pcAd7Izhg/Tng8way31PfJ9lIgg54H/UFwgXRyTq8nMO9CIlWq0N4wLQXGysBUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBRH/LRE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C966C4AF0D;
-	Sat, 14 Jun 2025 13:49:10 +0000 (UTC)
+	 MIME-Version; b=fbE98vsPaSKzq4QagMECsaNzRapsiZ/V99Wno3LvCbbmmGgLWuLFLS8ptcMhhgJdj/GwogHJFo0iplaG4Dwx9EZdG4fTOk598jMxV+81AuQtDTTJsk9WnvrvIyt+KQlA0yaJKSOUdaQEql2vJ4HGi2UqxbmWlMuYRmruUC8PDeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k58zgvBL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B13C4CEEE;
+	Sat, 14 Jun 2025 13:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749908951;
-	bh=ibJSxGhn2sy6Pn+cpIBXMz0mb1TNNGHU2JUEIbkLD1g=;
+	s=k20201202; t=1749908952;
+	bh=zS8ZFG4HpWsJFM53jLyQzCNYlIU54deOx6WKkgpE/6M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OBRH/LREvhPgizuyQuBDGiMMBTIqbwq9Lhv2Rul0dlMPCKmj+aLlehwm35hroE+ws
-	 Qgq9BZjAkIU95QmHziCfPFO2B0y9w0/KLJgzSizwHHzXFPRjK6cIA1/u+dsKg7/q2R
-	 /xLCEuBtJr/sr+pWsYo2KiooY/kq3sJy3ot1uXhqrc8MN53MtWgCgQPFV0OPX971w9
-	 BJvhhqekig9Nb7EZ/SzfOk9xktVpDzrCNXjD2n7fCSPQkbR9Kp5uVd6uj3i5dsA3LY
-	 YNPevAmvOThRpejPizMm1bMrPE9bo6hfNFNie9LzQOXnjp69WG/KxsV9ZNn7XD0jqh
-	 Xv+m9J//tom6Q==
+	b=k58zgvBLLy0GEluPrFS97RLZTXqYzyMII1P2FBtNLubbBpcLo6eDz037z66PqhQWq
+	 c5WR6OMwXXrx21oJbG2Ygwf8wjTqheqhSt3uJ4MZIbYq9l/pUABWNUxWMyd6otiJt6
+	 NfvW/8KdkxUyEw727dM9gz5VtQZ1czcJr4IDxEVgwbaGZW5hTAlf+yLa0EZh/7topF
+	 QpdjGgn5gvq2lut7ivNMLaqZp5KTwrN9021R1lN/wKMsXeMHUtcBhilRTz85fTwwfD
+	 aIBH8OC5ATf0f0iepRflqRNO+sVkG4U58QiuvRlUAGC61raQEvyAun/6/BBq8yUODQ
+	 fCgcoHJXiIwhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	workflows@vger.kernel.org,
 	tools@kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC 11/19] mm/mlock: add API specification for mlock2
-Date: Sat, 14 Jun 2025 09:48:50 -0400
-Message-Id: <20250614134858.790460-12-sashal@kernel.org>
+Subject: [RFC 12/19] mm/mlock: add API specification for mlockall
+Date: Sat, 14 Jun 2025 09:48:51 -0400
+Message-Id: <20250614134858.790460-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
 References: <20250614134858.790460-1-sashal@kernel.org>
@@ -61,50 +61,36 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add kernel API specification for the mlock2() system call.
+Add kernel API specification for the mlockall() system call.
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- mm/mlock.c | 148 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 148 insertions(+)
+ mm/mlock.c | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 144 insertions(+)
 
 diff --git a/mm/mlock.c b/mm/mlock.c
-index a37102df54b01..af2ab78acc226 100644
+index af2ab78acc226..95ee707c5922f 100644
 --- a/mm/mlock.c
 +++ b/mm/mlock.c
-@@ -768,6 +768,154 @@ SYSCALL_DEFINE2(mlock, unsigned long, start, size_t, len)
- 	return do_mlock(start, len, VM_LOCKED);
+@@ -997,6 +997,150 @@ static int apply_mlockall_flags(int flags)
+ 	return 0;
  }
  
 +
-+DEFINE_KERNEL_API_SPEC(sys_mlock2)
-+	KAPI_DESCRIPTION("Lock pages in memory with flags")
-+	KAPI_LONG_DESC("Enhanced version of mlock() that supports flags. "
-+		       "MLOCK_ONFAULT flag allows locking pages on fault rather than immediately.")
++DEFINE_KERNEL_API_SPEC(sys_mlockall)
++	KAPI_DESCRIPTION("Lock all process pages in memory")
++	KAPI_LONG_DESC("Locks all pages mapped into the process address space. "
++		       "MCL_CURRENT locks current pages, MCL_FUTURE locks future mappings, "
++		       "MCL_ONFAULT defers locking until page fault.")
 +	KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
 +
 +	/* Parameters */
-+	KAPI_PARAM(0, "start", "unsigned long", "Starting address of memory range to lock")
-+		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
-+		.type = KAPI_TYPE_UINT,
-+		.constraint_type = KAPI_CONSTRAINT_NONE,
-+		.constraints = "Rounded down to page boundary",
-+	KAPI_PARAM_END
-+
-+	KAPI_PARAM(1, "len", "size_t", "Length of memory range to lock in bytes")
-+		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
-+		.type = KAPI_TYPE_UINT,
-+		.constraint_type = KAPI_CONSTRAINT_RANGE,
-+		KAPI_PARAM_RANGE(0, LONG_MAX)
-+		.constraints = "Rounded up to page boundary",
-+	KAPI_PARAM_END
-+
-+	KAPI_PARAM(2, "flags", "int", "Flags controlling lock behavior")
++	KAPI_PARAM(0, "flags", "int", "Flags controlling which pages to lock")
 +		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
 +		.type = KAPI_TYPE_INT,
 +		.constraint_type = KAPI_CONSTRAINT_MASK,
-+		.valid_mask = MLOCK_ONFAULT,
-+		.constraints = "Only MLOCK_ONFAULT flag is currently supported",
++		.valid_mask = MCL_CURRENT | MCL_FUTURE | MCL_ONFAULT,
++		.constraints = "Must specify MCL_CURRENT and/or MCL_FUTURE; MCL_ONFAULT can be OR'd",
 +	KAPI_PARAM_END
 +
 +	/* Return specification */
@@ -115,11 +101,11 @@ index a37102df54b01..af2ab78acc226 100644
 +	KAPI_RETURN_END
 +
 +	/* Error codes */
-+	KAPI_ERROR(0, -EINVAL, "EINVAL", "Invalid flags", "Unknown flags were specified (flags & ~MLOCK_ONFAULT).")
-+	KAPI_ERROR(1, -ENOMEM, "ENOMEM", "Address range issue", "Some of the specified range is not mapped, has unmapped gaps, or the lock would cause the number of mapped regions to exceed the limit.")
-+	KAPI_ERROR(2, -EPERM, "EPERM", "Insufficient privileges", "The caller is not privileged (no CAP_IPC_LOCK) and RLIMIT_MEMLOCK is 0.")
-+	KAPI_ERROR(3, -EAGAIN, "EAGAIN", "Some or all memory could not be locked", "Some or all of the specified address range could not be locked.")
-+	KAPI_ERROR(4, -EINTR, "EINTR", "Interrupted by signal", "The operation was interrupted by a fatal signal before completion.")
++	KAPI_ERROR(0, -EINVAL, "EINVAL", "Invalid flags", "Invalid combination of flags specified, or no flags set, or only MCL_ONFAULT without MCL_CURRENT or MCL_FUTURE.")
++	KAPI_ERROR(1, -EPERM, "EPERM", "Insufficient privileges", "The caller is not privileged (no CAP_IPC_LOCK) and RLIMIT_MEMLOCK is 0.")
++	KAPI_ERROR(2, -ENOMEM, "ENOMEM", "Insufficient resources", "MCL_CURRENT is set and total VM size exceeds RLIMIT_MEMLOCK and caller lacks CAP_IPC_LOCK.")
++	KAPI_ERROR(3, -EINTR, "EINTR", "Interrupted by signal", "The operation was interrupted by a signal before completion.")
++	KAPI_ERROR(4, -EAGAIN, "EAGAIN", "Some memory could not be locked", "Some pages could not be locked, possibly due to memory pressure.")
 +
 +	/* Signal specifications */
 +	KAPI_SIGNAL(0, 0, "FATAL_SIGNALS", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_RETURN)
@@ -131,69 +117,79 @@ index a37102df54b01..af2ab78acc226 100644
 +	KAPI_SIGNAL(1, SIGBUS, "SIGBUS", KAPI_SIGNAL_SEND, KAPI_SIGNAL_ACTION_DEFAULT)
 +		KAPI_SIGNAL_TARGET("Current process")
 +		KAPI_SIGNAL_CONDITION("Memory access to locked page fails")
-+		KAPI_SIGNAL_DESC("Can be generated if accessing a locked page that cannot be brought into memory (e.g., truncated file mapping)")
++		KAPI_SIGNAL_DESC("Can be generated later if accessing a locked page that cannot be brought into memory (e.g., truncated file mapping)")
 +	KAPI_SIGNAL_END
 +
 +	/* Side effects */
 +	KAPI_SIDE_EFFECT(0, KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY,
-+			 "process memory",
-+			 "Locks pages into physical memory, preventing swapping")
++			 "all process memory",
++			 "Locks all current pages into physical memory, preventing swapping")
 +		KAPI_EFFECT_REVERSIBLE
-+		KAPI_EFFECT_CONDITION("Pages become resident in RAM")
++		KAPI_EFFECT_CONDITION("MCL_CURRENT flag set")
 +	KAPI_SIDE_EFFECT_END
 +
 +	KAPI_SIDE_EFFECT(1, KAPI_EFFECT_MODIFY_STATE,
++			 "mm->def_flags",
++			 "Sets VM_LOCKED in default flags for future mappings")
++		KAPI_EFFECT_REVERSIBLE
++		KAPI_EFFECT_CONDITION("MCL_FUTURE flag set")
++	KAPI_SIDE_EFFECT_END
++
++	KAPI_SIDE_EFFECT(2, KAPI_EFFECT_MODIFY_STATE,
 +			 "mm->locked_vm",
-+			 "Increases process locked memory counter")
++			 "Increases process locked memory counter for entire address space")
 +		KAPI_EFFECT_REVERSIBLE
-+		KAPI_EFFECT_CONDITION("Counted against RLIMIT_MEMLOCK")
++		KAPI_EFFECT_CONDITION("MCL_CURRENT flag set")
 +	KAPI_SIDE_EFFECT_END
 +
-+	KAPI_SIDE_EFFECT(2, KAPI_EFFECT_ALLOC_MEMORY,
++	KAPI_SIDE_EFFECT(3, KAPI_EFFECT_ALLOC_MEMORY,
 +			 "page tables",
-+			 "May allocate and populate page table entries")
-+		KAPI_EFFECT_CONDITION("Pages not already present")
++			 "May allocate and populate page table entries for all mappings")
++		KAPI_EFFECT_CONDITION("MCL_CURRENT without MCL_ONFAULT")
 +	KAPI_SIDE_EFFECT_END
 +
-+	KAPI_SIDE_EFFECT(3, KAPI_EFFECT_MODIFY_STATE,
++	KAPI_SIDE_EFFECT(4, KAPI_EFFECT_MODIFY_STATE,
 +			 "VMA flags",
-+			 "Sets VM_LOCKED and optionally VM_LOCKONFAULT on affected VMAs")
++			 "Sets VM_LOCKED on all existing VMAs")
 +		KAPI_EFFECT_REVERSIBLE
++		KAPI_EFFECT_CONDITION("MCL_CURRENT flag set")
 +	KAPI_SIDE_EFFECT_END
 +
-+	KAPI_SIDE_EFFECT(4, KAPI_EFFECT_FILESYSTEM,
-+			 "page fault behavior",
-+			 "With MLOCK_ONFAULT, changes how future page faults are handled")
-+		KAPI_EFFECT_CONDITION("MLOCK_ONFAULT flag specified")
++	KAPI_SIDE_EFFECT(5, KAPI_EFFECT_SCHEDULE,
++			 "mm_populate",
++			 "Triggers population of entire address space")
++		KAPI_EFFECT_CONDITION("MCL_CURRENT without MCL_ONFAULT")
 +	KAPI_SIDE_EFFECT_END
 +
 +	/* State transitions */
-+	KAPI_STATE_TRANS(0, "memory pages",
++	KAPI_STATE_TRANS(0, "all memory pages",
 +			 "swappable", "locked in RAM",
-+			 "Pages become non-swappable and pinned in physical memory")
-+		KAPI_STATE_TRANS_COND("Without MLOCK_ONFAULT")
++			 "All pages in process become non-swappable")
++		KAPI_STATE_TRANS_COND("MCL_CURRENT flag set")
 +	KAPI_STATE_TRANS_END
 +
-+	KAPI_STATE_TRANS(1, "VMA flags",
-+			 "unlocked", "VM_LOCKED set",
-+			 "Virtual memory area marked as locked")
++	KAPI_STATE_TRANS(1, "future mappings",
++			 "normal", "auto-locked",
++			 "New mappings will be automatically locked")
++		KAPI_STATE_TRANS_COND("MCL_FUTURE flag set")
 +	KAPI_STATE_TRANS_END
 +
 +	KAPI_STATE_TRANS(2, "VMA flags",
-+			 "normal fault", "VM_LOCKONFAULT set",
-+			 "VMA marked to lock pages on future faults")
-+		KAPI_STATE_TRANS_COND("MLOCK_ONFAULT flag specified")
++			 "varied", "all VM_LOCKED",
++			 "All virtual memory areas marked as locked")
++		KAPI_STATE_TRANS_COND("MCL_CURRENT flag set")
 +	KAPI_STATE_TRANS_END
 +
-+	KAPI_STATE_TRANS(3, "page residency",
-+			 "may be swapped", "resident in memory",
-+			 "Pages brought into RAM and kept there")
-+		KAPI_STATE_TRANS_COND("Without MLOCK_ONFAULT")
++	KAPI_STATE_TRANS(3, "page fault behavior",
++			 "normal faulting", "lock on fault",
++			 "Pages locked when faulted in rather than immediately")
++		KAPI_STATE_TRANS_COND("MCL_ONFAULT flag set")
 +	KAPI_STATE_TRANS_END
 +
 +	KAPI_STATE_TRANS(4, "process statistics",
-+			 "normal memory accounting", "locked memory accounting",
-+			 "Memory counted against RLIMIT_MEMLOCK")
++			 "partial locked memory", "all memory locked",
++			 "Entire VM size counted against RLIMIT_MEMLOCK")
++		KAPI_STATE_TRANS_COND("MCL_CURRENT flag set")
 +	KAPI_STATE_TRANS_END
 +
 +	/* Locking information */
@@ -201,32 +197,32 @@ index a37102df54b01..af2ab78acc226 100644
 +		KAPI_LOCK_DESC("Process memory map write lock")
 +		KAPI_LOCK_ACQUIRED
 +		KAPI_LOCK_RELEASED
-+		KAPI_LOCK_DESC("Protects VMA modifications during lock operation")
++		KAPI_LOCK_DESC("Protects VMA modifications during mlockall operation")
 +	KAPI_LOCK_END
 +
 +	KAPI_LOCK(1, "lru_lock", KAPI_LOCK_SPINLOCK)
 +		KAPI_LOCK_DESC("Per-memcg LRU list lock")
 +		KAPI_LOCK_ACQUIRED
 +		KAPI_LOCK_RELEASED
-+		KAPI_LOCK_DESC("Taken when moving pages to unevictable list when locking pages")
++		KAPI_LOCK_DESC("Taken when moving pages to unevictable list for all locked pages")
 +	KAPI_LOCK_END
 +
 +	.error_count = 5,
-+	.param_count = 3,
-+	.since_version = "4.4",
++	.param_count = 1,
++	.since_version = "2.0",
 +	.signal_count = 2,
-+	.side_effect_count = 5,
++	.side_effect_count = 6,
 +	.state_trans_count = 5,
 +	.lock_count = 2,
-+	.examples = "mlock2(addr, len, 0);            // Same as mlock()\n"
-+		    "mlock2(addr, len, MLOCK_ONFAULT); // Lock on fault",
-+	.notes = "MLOCK_ONFAULT flag defers actual page locking until pages are accessed. "
-+		 "Memory locks do not stack. Locks are not inherited by child processes.",
++	.examples = "mlockall(MCL_CURRENT);                    // Lock current mappings\n"
++		    "mlockall(MCL_CURRENT | MCL_FUTURE);       // Lock current and future\n"
++		    "mlockall(MCL_CURRENT | MCL_ONFAULT);      // Lock current on fault",
++	.notes = "Affects all current VMAs and optionally future mappings via mm->def_flags",
 +KAPI_END_SPEC;
 +
- SYSCALL_DEFINE3(mlock2, unsigned long, start, size_t, len, int, flags)
+ SYSCALL_DEFINE1(mlockall, int, flags)
  {
- 	vm_flags_t vm_flags = VM_LOCKED;
+ 	unsigned long lock_limit;
 -- 
 2.39.5
 
