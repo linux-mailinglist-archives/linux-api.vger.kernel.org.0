@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3920-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3922-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748B6AD9D28
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:51:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B4DAD9D29
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:52:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8B3D7AE18B
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:50:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1FD33A7CFE
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED8E2E92C6;
-	Sat, 14 Jun 2025 13:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF1C2EA493;
+	Sat, 14 Jun 2025 13:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0d38YO0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+F/2xVY"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F1C2E92BA;
-	Sat, 14 Jun 2025 13:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105922EA486;
+	Sat, 14 Jun 2025 13:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749908954; cv=none; b=OQwigceYZjSGPu71WdidGDd/A/YDcKJ1atigrWHnlQ4ppN57qu1Nb48O1HnZSxyCQz18kTzcLKYOsxCnkClRpqK4Iw7eUOYRImefgNm7s7C+YOyqTLXsHUpDFns2a62OTg5pDXPJhE5M8Gz/V1KCbKEkNuCwcB8eq7HNlYFdeFA=
+	t=1749908957; cv=none; b=QfYrCuIKBC/T42x1ADhM2LASTkA9GnZQKV80beM2RdxPFzeUYkYbSvpzg/aymFfgEK610vUW12M/8KME9AZt+QN6as04tr7cBirbNio+5vBSkO6AzSHD/UmiFBtSOzTH/oNW8cuspngnnPp1r44MET8qdVrlKwb8UhapE8eXD4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749908954; c=relaxed/simple;
-	bh=P2s5mEiKe4Hy2Gm3hQTnSt3MLEij7AIBPkgx8m8Hkmk=;
+	s=arc-20240116; t=1749908957; c=relaxed/simple;
+	bh=GI44pLwmhBFun8knb7fvgIc7M6bBnm5MRa+vS7fKwr4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=P1MwlOArzRLh9u+IguNGgYWX642awVCw27KtoW73TbGwQJzfeiHepJ9oCUo4r3s7P8LDeZqSxKj1lztJtAGQVD3SqOsJDC3yLaBeUIjt5kzpVXyE9RX4MqAVtElHnPJvWnwmJh57Np+2yQR7y/eYsdidUuO0rJKrhthstLpxBpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0d38YO0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FED6C4CEEE;
+	 MIME-Version; b=Of0V+WhkaMQfiNkztgkhN+0kZwt9b5+fnr3pnfEwGETaGjS7yMepeOeXKLEnyB8+xUMSU4eAdYoLeRMso4aSo1yhZWAQDeIhcq775m9BIsTiwXo3pF93L2OggI3V+9N3yO2i5ChhvmIT/QHMh7p7KoOIyKh1uB6sLvFgUhBoDx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+F/2xVY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 081E9C4CEF1;
 	Sat, 14 Jun 2025 13:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749908954;
-	bh=P2s5mEiKe4Hy2Gm3hQTnSt3MLEij7AIBPkgx8m8Hkmk=;
+	s=k20201202; t=1749908955;
+	bh=GI44pLwmhBFun8knb7fvgIc7M6bBnm5MRa+vS7fKwr4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y0d38YO0V7cSIQa9gNWPQEmosLQ9xaGbh3d2Rj3ooFmw1nZuO4YWVEwo3Ph6yi4Zi
-	 IIWXaUsH+hf+AX/oPgQ/Bugws3/yW8iUjLBKO2i51+bhYIPmPg0sxEa1uZb9P7pIm+
-	 IFHKvVcn4NRaB7eq0d3xbkYkKz2uk7WiGjmMgezcRTYp8iRMS2Ce9OLVAxh2NXTdGq
-	 QNbQr3uXawQPP2r6AADIW8FR4MMhlEzuvR9cebLnFY6HbecvLie3l5+8Z/3vdKcwAW
-	 sxwPe8wAL8t7FBs7G6AYZNUQQMAtzFFxOT7O9wD2lIAGkHCFZM0obvV08lRqShOlRN
-	 M0KviSoiuuilw==
+	b=L+F/2xVYT9Rfkf2heHdSWUjzyn1HxlZbdab0/2+LyZudEA1u/SE7d9XsQxFyPu/q4
+	 r/6irRC862b0by83XBD4oKuObnWc5ZOzbh7Z5Cf+CGJRtmDNf3kx1ocqpjjkKUYP0I
+	 ogQ+n8Ypb4xv1ZmhBxjY2HTvpxJQXC5UcwE1Gv9Cng9dmnmr1U2LXLo+hgrvo6mmz+
+	 teLJpiiEuSrID4G+Q1p+bl9ApzdI7nOoIvF+UXr3Dq8aeeK7boJiO/HckkFkgQ3SEq
+	 h2jIQ1W3AlMnLnB3SYdW7fOO64SLhY02I5kYi/IyYaYoN/IIiE0TQBhCz+iY9nLV4N
+	 TSWwBW1Qz43+A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	workflows@vger.kernel.org,
 	tools@kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC 15/19] kernel/api: add debugfs interface for kernel API specifications
-Date: Sat, 14 Jun 2025 09:48:54 -0400
-Message-Id: <20250614134858.790460-16-sashal@kernel.org>
+Subject: [RFC 16/19] kernel/api: add IOCTL specification infrastructure
+Date: Sat, 14 Jun 2025 09:48:55 -0400
+Message-Id: <20250614134858.790460-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
 References: <20250614134858.790460-1-sashal@kernel.org>
@@ -61,425 +61,1076 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a debugfs interface to expose kernel API specifications at runtime.
-This allows tools and users to query the complete API specifications
-through the debugfs filesystem.
+Add IOCTL API specification support to the kernel API specification
+framework. This enables detailed documentation and runtime validation of
+IOCTL interfaces.
 
-The interface provides:
-- /sys/kernel/debug/kapi/list - lists all available API specifications
-- /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+Key features:
+- IOCTL specification structure with command info and parameter details
+- Registration/unregistration functions for IOCTL specs
+- Helper macros for defining IOCTL specifications
+- KAPI_IOCTL_SPEC_DRIVER macro for simplified driver integration
+- Runtime validation support with KAPI_DEFINE_FOPS wrapper
+- Validation of IOCTL parameters and return values
+- Integration with existing kernel API spec infrastructure
 
-Each specification file includes:
-- Function name, version, and descriptions
-- Execution context requirements and flags
-- Parameter details with types, flags, and constraints
-- Return value specifications and success conditions
-- Error codes with descriptions and conditions
-- Locking requirements and constraints
-- Signal handling specifications
-- Examples, notes, and deprecation status
-
-This enables runtime introspection of kernel APIs for documentation
-tools, static analyzers, and debugging purposes.
+The validation framework checks:
+- Parameter constraints (ranges, enums, masks)
+- User pointer validity
+- Buffer size constraints
+- Return value correctness against specification
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/api/Kconfig        |  20 +++
- kernel/api/Makefile       |   5 +-
- kernel/api/kapi_debugfs.c | 340 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 364 insertions(+), 1 deletion(-)
- create mode 100644 kernel/api/kapi_debugfs.c
+ include/linux/ioctl_api_spec.h  | 540 ++++++++++++++++++++++++++++++++
+ include/linux/kernel_api_spec.h |   2 +-
+ kernel/api/Makefile             |   5 +-
+ kernel/api/ioctl_validation.c   | 360 +++++++++++++++++++++
+ kernel/api/kernel_api_spec.c    |  90 +++++-
+ 5 files changed, 994 insertions(+), 3 deletions(-)
+ create mode 100644 include/linux/ioctl_api_spec.h
+ create mode 100644 kernel/api/ioctl_validation.c
 
-diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
-index fde25ec70e134..d2754b21acc43 100644
---- a/kernel/api/Kconfig
-+++ b/kernel/api/Kconfig
-@@ -33,3 +33,23 @@ config KAPI_RUNTIME_CHECKS
- 	  development. The checks use WARN_ONCE to report violations.
- 
- 	  If unsure, say N.
-+
-+config KAPI_SPEC_DEBUGFS
-+	bool "Export kernel API specifications via debugfs"
-+	depends on KAPI_SPEC
-+	depends on DEBUG_FS
-+	help
-+	  This option enables exporting kernel API specifications through
-+	  the debugfs filesystem. When enabled, specifications can be
-+	  accessed at /sys/kernel/debug/kapi/.
-+
-+	  The debugfs interface provides:
-+	  - A list of all available API specifications
-+	  - Detailed information for each API including parameters,
-+	    return values, errors, locking requirements, and constraints
-+	  - Complete machine-readable representation of the specs
-+
-+	  This is useful for documentation tools, static analyzers, and
-+	  runtime introspection of kernel APIs.
-+
-+	  If unsure, say N.
-diff --git a/kernel/api/Makefile b/kernel/api/Makefile
-index 4120ded7e5cf1..07b8c007ec156 100644
---- a/kernel/api/Makefile
-+++ b/kernel/api/Makefile
-@@ -4,4 +4,7 @@
- #
- 
- # Core API specification framework
--obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
-\ No newline at end of file
-+obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
-+
-+# Debugfs interface for kernel API specs
-+obj-$(CONFIG_KAPI_SPEC_DEBUGFS)	+= kapi_debugfs.o
-\ No newline at end of file
-diff --git a/kernel/api/kapi_debugfs.c b/kernel/api/kapi_debugfs.c
+diff --git a/include/linux/ioctl_api_spec.h b/include/linux/ioctl_api_spec.h
 new file mode 100644
-index 0000000000000..bf65ea6a49205
+index 0000000000000..ab3337449ad77
 --- /dev/null
-+++ b/kernel/api/kapi_debugfs.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/include/linux/ioctl_api_spec.h
+@@ -0,0 +1,540 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Kernel API specification debugfs interface
++ * ioctl_api_spec.h - IOCTL API specification framework
 + *
-+ * This provides a debugfs interface to expose kernel API specifications
-+ * at runtime, allowing tools and users to query the complete API specs.
++ * Extends the kernel API specification framework to support ioctl validation
++ * and documentation.
 + */
 +
-+#include <linux/debugfs.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+#include <linux/seq_file.h>
++#ifndef _LINUX_IOCTL_API_SPEC_H
++#define _LINUX_IOCTL_API_SPEC_H
++
 +#include <linux/kernel_api_spec.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
++#include <linux/ioctl.h>
++#include <linux/types.h>
 +
-+/* External symbols for kernel API spec section */
-+extern struct kernel_api_spec __start_kapi_specs[];
-+extern struct kernel_api_spec __stop_kapi_specs[];
++/* Forward declarations */
++struct file;
 +
-+static struct dentry *kapi_debugfs_root;
++/**
++ * struct kapi_ioctl_spec - IOCTL-specific API specification
++ * @api_spec: Base API specification
++ * @cmd: IOCTL command number
++ * @cmd_name: Human-readable command name
++ * @input_size: Size of input structure (0 if none)
++ * @output_size: Size of output structure (0 if none)
++ * @file_ops_name: Name of the file_operations structure
++ */
++struct kapi_ioctl_spec {
++	struct kernel_api_spec api_spec;
++	unsigned int cmd;
++	const char *cmd_name;
++	size_t input_size;
++	size_t output_size;
++	const char *file_ops_name;
++};
 +
-+/* Helper function to print parameter type as string */
-+static const char *param_type_str(enum kapi_param_type type)
++/* Registry functions for IOCTL specifications */
++#ifdef CONFIG_KAPI_SPEC
++int kapi_register_ioctl_spec(const struct kapi_ioctl_spec *spec);
++void kapi_unregister_ioctl_spec(unsigned int cmd);
++const struct kapi_ioctl_spec *kapi_get_ioctl_spec(unsigned int cmd);
++
++/* IOCTL validation functions */
++#ifdef CONFIG_KAPI_RUNTIME_CHECKS
++int kapi_validate_ioctl(struct file *filp, unsigned int cmd, void __user *arg);
++int kapi_validate_ioctl_struct(const struct kapi_ioctl_spec *spec,
++			       const void *data, size_t size);
++#else
++static inline int kapi_validate_ioctl(struct file *filp, unsigned int cmd,
++				      void __user *arg)
 +{
-+	switch (type) {
-+	case KAPI_TYPE_INT: return "int";
-+	case KAPI_TYPE_UINT: return "uint";
-+	case KAPI_TYPE_PTR: return "ptr";
-+	case KAPI_TYPE_STRUCT: return "struct";
-+	case KAPI_TYPE_UNION: return "union";
-+	case KAPI_TYPE_ARRAY: return "array";
-+	case KAPI_TYPE_FD: return "fd";
-+	case KAPI_TYPE_ENUM: return "enum";
-+	case KAPI_TYPE_USER_PTR: return "user_ptr";
-+	case KAPI_TYPE_PATH: return "path";
-+	case KAPI_TYPE_FUNC_PTR: return "func_ptr";
-+	case KAPI_TYPE_CUSTOM: return "custom";
-+	default: return "unknown";
++	return 0;
++}
++#endif /* CONFIG_KAPI_RUNTIME_CHECKS */
++
++#else /* !CONFIG_KAPI_SPEC */
++static inline int kapi_register_ioctl_spec(const struct kapi_ioctl_spec *spec)
++{
++	return 0;
++}
++static inline void kapi_unregister_ioctl_spec(unsigned int cmd) {}
++static inline const struct kapi_ioctl_spec *kapi_get_ioctl_spec(unsigned int cmd)
++{
++	return NULL;
++}
++#endif /* CONFIG_KAPI_SPEC */
++
++/* Helper macros for IOCTL specification */
++
++/**
++ * DEFINE_IOCTL_API_SPEC - Start an IOCTL API specification
++ * @name: Unique identifier for the specification
++ * @cmd: IOCTL command number
++ * @cmd_name_str: String name of the command
++ */
++#define DEFINE_IOCTL_API_SPEC(name, cmd, cmd_name_str)			\
++static const struct kapi_ioctl_spec name##_spec = {			\
++	.cmd = cmd,							\
++	.cmd_name = cmd_name_str,					\
++	.api_spec = {							\
++		.name = #name,
++
++/**
++ * KAPI_IOCTL_SIZE - Specify input/output structure sizes
++ * @in_size: Size of input structure
++ * @out_size: Size of output structure
++ */
++#define KAPI_IOCTL_SIZE(in_size, out_size)				\
++	},								\
++	.input_size = in_size,						\
++	.output_size = out_size,
++
++/**
++ * KAPI_IOCTL_FILE_OPS - Specify the file_operations structure name
++ * @ops_name: Name of the file_operations structure
++ */
++#define KAPI_IOCTL_FILE_OPS(ops_name)					\
++	.file_ops_name = #ops_name,
++
++/**
++ * Common IOCTL parameter specifications
++ */
++#define KAPI_IOCTL_PARAM_SIZE							\
++	KAPI_PARAM(0, "size", "__u32", "Size of the structure")		\
++		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)					\
++		.type = KAPI_TYPE_UINT,						\
++		.constraint_type = KAPI_CONSTRAINT_CUSTOM,			\
++		.constraints = "Must match sizeof(struct)",			\
++	KAPI_PARAM_END
++
++#define KAPI_IOCTL_PARAM_FLAGS							\
++	KAPI_PARAM(1, "flags", "__u32", "Feature flags")			\
++		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)					\
++		.type = KAPI_TYPE_UINT,						\
++		.constraint_type = KAPI_CONSTRAINT_MASK,			\
++		.valid_mask = 0,	/* 0 means no flags currently */	\
++	KAPI_PARAM_END
++
++/**
++ * KAPI_IOCTL_PARAM_USER_BUF - User buffer parameter
++ * @idx: Parameter index
++ * @name: Parameter name
++ * @desc: Parameter description
++ * @len_idx: Index of the length parameter
++ */
++#define KAPI_IOCTL_PARAM_USER_BUF(idx, name, desc, len_idx)		\
++	KAPI_PARAM(idx, name, "__aligned_u64", desc)			\
++		KAPI_PARAM_FLAGS(KAPI_PARAM_IN | KAPI_PARAM_USER_PTR)	\
++		.type = KAPI_TYPE_USER_PTR,				\
++		.size_param_idx = len_idx,				\
++	KAPI_PARAM_END
++
++/**
++ * KAPI_IOCTL_PARAM_USER_OUT_BUF - User output buffer parameter
++ * @idx: Parameter index
++ * @name: Parameter name
++ * @desc: Parameter description
++ * @len_idx: Index of the length parameter
++ */
++#define KAPI_IOCTL_PARAM_USER_OUT_BUF(idx, name, desc, len_idx)	\
++	KAPI_PARAM(idx, name, "__aligned_u64", desc)			\
++		KAPI_PARAM_FLAGS(KAPI_PARAM_OUT | KAPI_PARAM_USER_PTR)	\
++		.type = KAPI_TYPE_USER_PTR,				\
++		.size_param_idx = len_idx,				\
++	KAPI_PARAM_END
++
++/**
++ * KAPI_IOCTL_PARAM_LEN - Buffer length parameter
++ * @idx: Parameter index
++ * @name: Parameter name
++ * @desc: Parameter description
++ * @max_size: Maximum allowed size
++ */
++#define KAPI_IOCTL_PARAM_LEN(idx, name, desc, max_size)		\
++	KAPI_PARAM(idx, name, "__u32", desc)				\
++		KAPI_PARAM_FLAGS(KAPI_PARAM_INOUT)			\
++		.type = KAPI_TYPE_UINT,					\
++		.constraint_type = KAPI_CONSTRAINT_RANGE,		\
++		.min_value = 0,						\
++		.max_value = max_size,					\
++	KAPI_PARAM_END
++
++/* End the IOCTL specification */
++#define KAPI_IOCTL_END_SPEC						\
++};									\
++									\
++static int __init name##_spec_init(void)				\
++{									\
++	return kapi_register_ioctl_spec(&name##_spec);			\
++}									\
++									\
++static void __exit name##_spec_exit(void)				\
++{									\
++	kapi_unregister_ioctl_spec(name##_spec.cmd);			\
++}									\
++									\
++module_init(name##_spec_init);						\
++module_exit(name##_spec_exit);
++
++/* Inline IOCTL specification support */
++
++/* Forward declaration */
++struct fwctl_ucmd;
++
++/**
++ * struct kapi_ioctl_handler - IOCTL handler with inline specification
++ * @spec: IOCTL specification
++ * @handler: Original IOCTL handler function
++ */
++struct kapi_ioctl_handler {
++	struct kapi_ioctl_spec spec;
++	int (*handler)(struct fwctl_ucmd *ucmd);
++};
++
++/**
++ * DEFINE_IOCTL_HANDLER - Define an IOCTL handler with inline specification
++ * @name: Handler name
++ * @cmd: IOCTL command number
++ * @handler_func: Handler function
++ * @struct_type: Structure type for this IOCTL
++ * @last_field: Last field in the structure
++ */
++#define DEFINE_IOCTL_HANDLER(name, cmd, handler_func, struct_type, last_field)	\
++static const struct kapi_ioctl_handler name = {				\
++	.spec = {							\
++		.cmd = cmd,						\
++		.cmd_name = #cmd,					\
++		.input_size = sizeof(struct_type),			\
++		.output_size = sizeof(struct_type),			\
++		.api_spec = {						\
++			.name = #name,
++
++#define KAPI_IOCTL_HANDLER_END						\
++		},							\
++	},								\
++	.handler = handler_func,					\
++}
++
++/**
++ * kapi_ioctl_wrapper - Wrapper function for transparent IOCTL validation
++ * @filp: File pointer
++ * @cmd: IOCTL command
++ * @arg: User argument
++ * @real_ioctl: The real ioctl handler
++ *
++ * This wrapper performs validation before and after the actual IOCTL call
++ */
++static inline long kapi_ioctl_wrapper(struct file *filp, unsigned int cmd,
++				      unsigned long arg,
++				      long (*real_ioctl)(struct file *, unsigned int, unsigned long))
++{
++	long ret;
++
++#ifdef CONFIG_KAPI_RUNTIME_CHECKS
++	/* Pre-validation */
++	ret = kapi_validate_ioctl(filp, cmd, (void __user *)arg);
++	if (ret)
++		return ret;
++#endif
++
++	/* Call the real IOCTL handler */
++	ret = real_ioctl(filp, cmd, arg);
++
++#ifdef CONFIG_KAPI_RUNTIME_CHECKS
++	/* Post-validation could be added here if needed */
++	/* For example, validating output parameters */
++#endif
++
++	return ret;
++}
++
++/**
++ * KAPI_IOCTL_OPS - Define file_operations with transparent validation
++ * @name: Name of the file_operations structure
++ * @real_ioctl: The real ioctl handler function
++ * @... : Other file operation handlers
++ */
++#define KAPI_IOCTL_OPS(name, real_ioctl, ...)				\
++static long name##_validated_ioctl(struct file *filp, unsigned int cmd, \
++				   unsigned long arg)			\
++{									\
++	return kapi_ioctl_wrapper(filp, cmd, arg, real_ioctl);		\
++}									\
++									\
++static const struct file_operations name = {				\
++	.unlocked_ioctl = name##_validated_ioctl,			\
++	__VA_ARGS__							\
++}
++
++/**
++ * KAPI_IOCTL_OP_ENTRY - Define an IOCTL operation table entry with spec
++ * @_ioctl: IOCTL command macro
++ * @_handler: Handler structure (defined with DEFINE_IOCTL_HANDLER)
++ * @_struct: Structure type
++ * @_last: Last field name
++ */
++#define KAPI_IOCTL_OP_ENTRY(_ioctl, _handler, _struct, _last)		\
++	[_IOC_NR(_ioctl) - FWCTL_CMD_BASE] = {				\
++		.size = sizeof(_struct) +				\
++			BUILD_BUG_ON_ZERO(sizeof(union fwctl_ucmd_buffer) < \
++					  sizeof(_struct)),		\
++		.min_size = offsetofend(_struct, _last),		\
++		.ioctl_num = _ioctl,					\
++		.execute = _handler.handler,				\
 +	}
++
++/* Helper to register all handlers in a module */
++#define KAPI_REGISTER_IOCTL_HANDLERS(handlers, count)			\
++static int __init kapi_ioctl_handlers_init(void)			\
++{									\
++	int i, ret;							\
++	for (i = 0; i < count; i++) {					\
++		ret = kapi_register_ioctl_spec(&handlers[i].spec);	\
++		if (ret) {						\
++			while (--i >= 0)				\
++				kapi_unregister_ioctl_spec(handlers[i].spec.cmd); \
++			return ret;					\
++		}							\
++	}								\
++	return 0;							\
++}									\
++									\
++static void __exit kapi_ioctl_handlers_exit(void)			\
++{									\
++	int i;								\
++	for (i = 0; i < count; i++)					\
++		kapi_unregister_ioctl_spec(handlers[i].spec.cmd);	\
++}									\
++									\
++module_init(kapi_ioctl_handlers_init);					\
++module_exit(kapi_ioctl_handlers_exit)
++
++/**
++ * KAPI_REGISTER_IOCTL_SPECS - Register an array of IOCTL specifications
++ * @specs: Array of pointers to kapi_ioctl_spec
++ * @count: Number of specifications
++ *
++ * This macro generates init/exit functions to register/unregister
++ * the IOCTL specifications. The functions return 0 on success or
++ * negative error code on failure.
++ *
++ * Usage:
++ *   static const struct kapi_ioctl_spec *my_ioctl_specs[] = {
++ *       &spec1, &spec2, &spec3,
++ *   };
++ *   KAPI_REGISTER_IOCTL_SPECS(my_ioctl_specs, ARRAY_SIZE(my_ioctl_specs))
++ *
++ * Then call the generated functions in your module init/exit:
++ *   ret = kapi_register_##name();
++ *   kapi_unregister_##name();
++ */
++#define KAPI_REGISTER_IOCTL_SPECS(name, specs)				\
++static int kapi_register_##name(void)					\
++{									\
++	int i, ret;							\
++	for (i = 0; i < ARRAY_SIZE(specs); i++) {			\
++		ret = kapi_register_ioctl_spec(specs[i]);		\
++		if (ret) {						\
++			pr_warn("Failed to register IOCTL spec for %s: %d\n", \
++				specs[i]->cmd_name, ret);		\
++			while (--i >= 0)				\
++				kapi_unregister_ioctl_spec(specs[i]->cmd); \
++			return ret;					\
++		}							\
++	}								\
++	pr_info("Registered %zu IOCTL specifications\n", 		\
++		ARRAY_SIZE(specs));					\
++	return 0;							\
++}									\
++									\
++static void kapi_unregister_##name(void)				\
++{									\
++	int i;								\
++	for (i = 0; i < ARRAY_SIZE(specs); i++)			\
++		kapi_unregister_ioctl_spec(specs[i]->cmd);		\
 +}
 +
-+/* Helper to print parameter flags */
-+static void print_param_flags(struct seq_file *m, u32 flags)
-+{
-+	seq_printf(m, "    flags: ");
-+	if (flags & KAPI_PARAM_IN) seq_printf(m, "IN ");
-+	if (flags & KAPI_PARAM_OUT) seq_printf(m, "OUT ");
-+	if (flags & KAPI_PARAM_INOUT) seq_printf(m, "INOUT ");
-+	if (flags & KAPI_PARAM_OPTIONAL) seq_printf(m, "OPTIONAL ");
-+	if (flags & KAPI_PARAM_CONST) seq_printf(m, "CONST ");
-+	if (flags & KAPI_PARAM_USER) seq_printf(m, "USER ");
-+	if (flags & KAPI_PARAM_VOLATILE) seq_printf(m, "VOLATILE ");
-+	if (flags & KAPI_PARAM_DMA) seq_printf(m, "DMA ");
-+	if (flags & KAPI_PARAM_ALIGNED) seq_printf(m, "ALIGNED ");
-+	seq_printf(m, "\n");
++/**
++ * KAPI_DEFINE_IOCTL_SPEC - Define a single IOCTL specification
++ * @name: Name of the specification variable
++ * @cmd: IOCTL command number
++ * @cmd_name: String name of the command
++ * @in_size: Input structure size
++ * @out_size: Output structure size
++ * @fops_name: Name of the file_operations structure
++ *
++ * This macro starts the definition of an IOCTL specification.
++ * It must be followed by the API specification details and
++ * ended with KAPI_END_IOCTL_SPEC.
++ *
++ * Example:
++ *   KAPI_DEFINE_IOCTL_SPEC(my_ioctl_spec, MY_IOCTL, "MY_IOCTL",
++ *                          sizeof(struct my_input), sizeof(struct my_output),
++ *                          "my_fops")
++ *   KAPI_DESCRIPTION("Description here")
++ *   ...
++ *   KAPI_END_IOCTL_SPEC;
++ */
++#define KAPI_DEFINE_IOCTL_SPEC(name, cmd, cmd_name_str, in_size, out_size, fops) \
++static const struct kapi_ioctl_spec name = {				\
++	.cmd = (cmd),							\
++	.cmd_name = cmd_name_str,					\
++	.input_size = in_size,						\
++	.output_size = out_size,					\
++	.file_ops_name = fops,						\
++	.api_spec = {							\
++		.name = #name,
++
++#define KAPI_END_IOCTL_SPEC						\
++	},								\
 +}
 +
-+/* Helper to print context flags */
-+static void print_context_flags(struct seq_file *m, u32 flags)
-+{
-+	seq_printf(m, "Context flags: ");
-+	if (flags & KAPI_CTX_PROCESS) seq_printf(m, "PROCESS ");
-+	if (flags & KAPI_CTX_HARDIRQ) seq_printf(m, "HARDIRQ ");
-+	if (flags & KAPI_CTX_SOFTIRQ) seq_printf(m, "SOFTIRQ ");
-+	if (flags & KAPI_CTX_NMI) seq_printf(m, "NMI ");
-+	if (flags & KAPI_CTX_SLEEPABLE) seq_printf(m, "SLEEPABLE ");
-+	if (flags & KAPI_CTX_ATOMIC) seq_printf(m, "ATOMIC ");
-+	if (flags & KAPI_CTX_PREEMPT_DISABLED) seq_printf(m, "PREEMPT_DISABLED ");
-+	if (flags & KAPI_CTX_IRQ_DISABLED) seq_printf(m, "IRQ_DISABLED ");
-+	seq_printf(m, "\n");
++/**
++ * KAPI_IOCTL_SPEC_DRIVER - Complete IOCTL specification for a driver
++ * @driver_name: Name of the driver (used for logging)
++ * @specs_array: Name of the array containing IOCTL spec pointers
++ *
++ * This macro provides everything needed for IOCTL spec registration:
++ * 1. Generates the specs array declaration
++ * 2. Creates init/exit functions for registration
++ * 3. Provides simple function names to call from module init/exit
++ *
++ * Usage:
++ *   // Define individual specs
++ *   KAPI_DEFINE_IOCTL_SPEC(spec1, ...) ... KAPI_END_IOCTL_SPEC;
++ *   KAPI_DEFINE_IOCTL_SPEC(spec2, ...) ... KAPI_END_IOCTL_SPEC;
++ *
++ *   // Create the driver registration (at end of file)
++ *   KAPI_IOCTL_SPEC_DRIVER("my_driver", {
++ *       &spec1,
++ *       &spec2,
++ *   })
++ *
++ *   // In module init: ret = kapi_ioctl_specs_init();
++ *   // In module exit: kapi_ioctl_specs_exit();
++ */
++#define KAPI_IOCTL_SPEC_DRIVER(driver_name, ...)			\
++static const struct kapi_ioctl_spec *__kapi_ioctl_specs[] = __VA_ARGS__;									\
++									\
++static int __init kapi_ioctl_specs_init(void)				\
++{									\
++	int i, ret;							\
++	for (i = 0; i < ARRAY_SIZE(__kapi_ioctl_specs); i++) {		\
++		ret = kapi_register_ioctl_spec(__kapi_ioctl_specs[i]);	\
++		if (ret) {						\
++			pr_warn("%s: Failed to register %s: %d\n",	\
++				driver_name,				\
++				__kapi_ioctl_specs[i]->cmd_name, ret);	\
++			while (--i >= 0)				\
++				kapi_unregister_ioctl_spec(		\
++					__kapi_ioctl_specs[i]->cmd);	\
++			return ret;					\
++		}							\
++	}								\
++	pr_info("%s: Registered %zu IOCTL specifications\n",		\
++		driver_name, ARRAY_SIZE(__kapi_ioctl_specs));		\
++	return 0;							\
++}									\
++									\
++static void kapi_ioctl_specs_exit(void)				\
++{									\
++	int i;								\
++	for (i = 0; i < ARRAY_SIZE(__kapi_ioctl_specs); i++)		\
++		kapi_unregister_ioctl_spec(__kapi_ioctl_specs[i]->cmd);\
 +}
 +
-+/* Show function for individual API spec */
-+static int kapi_spec_show(struct seq_file *m, void *v)
++/* Transparent IOCTL validation wrapper support */
++
++#ifdef CONFIG_KAPI_RUNTIME_CHECKS
++
++/**
++ * struct kapi_fops_wrapper - Wrapper for file_operations with validation
++ * @real_fops: Original file_operations
++ * @wrapped_fops: Modified file_operations with validation wrapper
++ * @real_ioctl: Original unlocked_ioctl handler
++ */
++struct kapi_fops_wrapper {
++	const struct file_operations *real_fops;
++	const struct file_operations *wrapped_fops;
++	long (*real_ioctl)(struct file *, unsigned int, unsigned long);
++};
++
++/* Forward declarations */
++long kapi_ioctl_validation_wrapper(struct file *filp, unsigned int cmd,
++				   unsigned long arg);
++void kapi_register_wrapper(struct kapi_fops_wrapper *wrapper);
++
++/**
++ * kapi_wrap_file_operations - Wrap file_operations for transparent validation
++ * @fops: Original file_operations to wrap
++ *
++ * This creates a wrapper that intercepts ioctl calls for validation.
++ * The wrapper is stored in a static variable in the calling module.
++ */
++#define kapi_wrap_file_operations(fops)					\
++({										\
++	static struct kapi_fops_wrapper __kapi_wrapper = {		\
++		.real_fops = &(fops),					\
++	};								\
++	if (__kapi_wrapper.real_fops->unlocked_ioctl) {		\
++		__kapi_wrapper.wrapped_fops = (fops);			\
++		__kapi_wrapper.real_ioctl = (fops).unlocked_ioctl;	\
++		__kapi_wrapper.wrapped_fops.unlocked_ioctl = 		\
++			kapi_ioctl_validation_wrapper;			\
++		&__kapi_wrapper.wrapped_fops;				\
++	} else {							\
++		&(fops);						\
++	}								\
++})
++
++
++/**
++ * KAPI_DEFINE_FOPS - Define file_operations with automatic validation
++ * @name: Name of the file_operations structure
++ * @... : File operation handlers
++ *
++ * Usage:
++ *   KAPI_DEFINE_FOPS(my_fops,
++ *       .owner = THIS_MODULE,
++ *       .open = my_open,
++ *       .unlocked_ioctl = my_ioctl,
++ *   );
++ *
++ * Then in your module init, call: kapi_init_fops_##name()
++ */
++#define KAPI_DEFINE_FOPS(name, ...)					\
++static const struct file_operations __kapi_real_##name = {		\
++	__VA_ARGS__							\
++};									\
++static struct file_operations __kapi_wrapped_##name;			\
++static struct kapi_fops_wrapper __kapi_wrapper_##name;			\
++static const struct file_operations *name;				\
++static void kapi_init_fops_##name(void)				\
++{									\
++	if (__kapi_real_##name.unlocked_ioctl) {			\
++		__kapi_wrapped_##name = __kapi_real_##name;		\
++		__kapi_wrapper_##name.real_fops = &__kapi_real_##name;	\
++		__kapi_wrapper_##name.wrapped_fops = &__kapi_wrapped_##name; \
++		__kapi_wrapper_##name.real_ioctl = 			\
++			__kapi_real_##name.unlocked_ioctl;		\
++		__kapi_wrapped_##name.unlocked_ioctl = 		\
++			kapi_ioctl_validation_wrapper;			\
++		kapi_register_wrapper(&__kapi_wrapper_##name);		\
++		name = &__kapi_wrapped_##name;				\
++	} else {							\
++		name = &__kapi_real_##name;				\
++	}								\
++}
++
++#else /* !CONFIG_KAPI_RUNTIME_CHECKS */
++
++/* When runtime checks are disabled, no wrapping occurs */
++#define kapi_wrap_file_operations(fops) (&(fops))
++#define KAPI_DEFINE_FOPS(name, ...) \
++static const struct file_operations name = { __VA_ARGS__ }; \
++static inline void kapi_init_fops_##name(void) {}
++
++#endif /* CONFIG_KAPI_RUNTIME_CHECKS */
++
++#endif /* _LINUX_IOCTL_API_SPEC_H */
+\ No newline at end of file
+diff --git a/include/linux/kernel_api_spec.h b/include/linux/kernel_api_spec.h
+index 04df5892bc6d6..9590fe3bb007c 100644
+--- a/include/linux/kernel_api_spec.h
++++ b/include/linux/kernel_api_spec.h
+@@ -849,7 +849,7 @@ struct kernel_api_spec {
+ #define KAPI_PARAM_OUT		(KAPI_PARAM_OUT)
+ #define KAPI_PARAM_INOUT	(KAPI_PARAM_IN | KAPI_PARAM_OUT)
+ #define KAPI_PARAM_OPTIONAL	(KAPI_PARAM_OPTIONAL)
+-#define KAPI_PARAM_USER_PTR	(KAPI_PARAM_USER | KAPI_PARAM_PTR)
++#define KAPI_PARAM_USER_PTR	(KAPI_PARAM_USER)
+ 
+ /* Validation and runtime checking */
+ 
+diff --git a/kernel/api/Makefile b/kernel/api/Makefile
+index 07b8c007ec156..9d2daf38f0029 100644
+--- a/kernel/api/Makefile
++++ b/kernel/api/Makefile
+@@ -6,5 +6,8 @@
+ # Core API specification framework
+ obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
+ 
++# IOCTL validation framework
++obj-$(CONFIG_KAPI_SPEC)		+= ioctl_validation.o
++
+ # Debugfs interface for kernel API specs
+-obj-$(CONFIG_KAPI_SPEC_DEBUGFS)	+= kapi_debugfs.o
+\ No newline at end of file
++obj-$(CONFIG_KAPI_SPEC_DEBUGFS)	+= kapi_debugfs.o
+diff --git a/kernel/api/ioctl_validation.c b/kernel/api/ioctl_validation.c
+new file mode 100644
+index 0000000000000..25f6db8cb33eb
+--- /dev/null
++++ b/kernel/api/ioctl_validation.c
+@@ -0,0 +1,360 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * ioctl_validation.c - Runtime validation for IOCTL API specifications
++ *
++ * Provides functions to validate ioctl parameters against their specifications
++ * at runtime when CONFIG_KAPI_RUNTIME_CHECKS is enabled.
++ */
++
++#include <linux/kernel.h>
++#include <linux/ioctl_api_spec.h>
++#include <linux/kernel_api_spec.h>
++#include <linux/uaccess.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/slab.h>
++#include <linux/container_of.h>
++#include <linux/export.h>
++#include <uapi/fwctl/fwctl.h>
++
++#ifdef CONFIG_KAPI_RUNTIME_CHECKS
++
++/**
++ * kapi_validate_ioctl - Validate an ioctl call against its specification
++ * @filp: File pointer
++ * @cmd: IOCTL command
++ * @arg: IOCTL argument
++ *
++ * Return: 0 if valid, negative errno if validation fails
++ */
++int kapi_validate_ioctl(struct file *filp, unsigned int cmd, void __user *arg)
 +{
-+	struct kernel_api_spec *spec = m->private;
++	const struct kapi_ioctl_spec *spec;
++	const struct kernel_api_spec *api_spec;
++	void *data = NULL;
++	size_t copy_size;
++	int ret = 0;
 +	int i;
 +
-+	seq_printf(m, "Kernel API Specification\n");
-+	seq_printf(m, "========================\n\n");
++	spec = kapi_get_ioctl_spec(cmd);
++	if (!spec)
++		return 0; /* No spec, can't validate */
 +
-+	/* Basic info */
-+	seq_printf(m, "Name: %s\n", spec->name);
-+	seq_printf(m, "Version: %u\n", spec->version);
-+	seq_printf(m, "Description: %s\n", spec->description);
-+	if (strlen(spec->long_description) > 0)
-+		seq_printf(m, "Long description: %s\n", spec->long_description);
++	api_spec = &spec->api_spec;
 +
-+	/* Context */
-+	print_context_flags(m, spec->context_flags);
-+	seq_printf(m, "\n");
++	pr_debug("kapi: validating ioctl %s (0x%x)\n", spec->cmd_name, cmd);
 +
-+	/* Parameters */
-+	if (spec->param_count > 0) {
-+		seq_printf(m, "Parameters (%u):\n", spec->param_count);
-+		for (i = 0; i < spec->param_count; i++) {
-+			struct kapi_param_spec *param = &spec->params[i];
-+			seq_printf(m, "  [%d] %s:\n", i, param->name);
-+			seq_printf(m, "    type: %s (%s)\n",
-+				   param_type_str(param->type), param->type_name);
-+			print_param_flags(m, param->flags);
-+			if (strlen(param->description) > 0)
-+				seq_printf(m, "    description: %s\n", param->description);
-+			if (param->size > 0)
-+				seq_printf(m, "    size: %zu\n", param->size);
-+			if (param->alignment > 0)
-+				seq_printf(m, "    alignment: %zu\n", param->alignment);
++	/* Check if this ioctl requires specific capabilities */
++	if (api_spec->param_count > 0) {
++		for (i = 0; i < api_spec->param_count; i++) {
++			const struct kapi_param_spec *param = &api_spec->params[i];
 +
-+			/* Print constraints if any */
-+			if (param->constraint_type != KAPI_CONSTRAINT_NONE) {
-+				seq_printf(m, "    constraints:\n");
-+				switch (param->constraint_type) {
-+				case KAPI_CONSTRAINT_RANGE:
-+					seq_printf(m, "      type: range\n");
-+					seq_printf(m, "      min: %lld\n", param->min_value);
-+					seq_printf(m, "      max: %lld\n", param->max_value);
-+					break;
-+				case KAPI_CONSTRAINT_MASK:
-+					seq_printf(m, "      type: mask\n");
-+					seq_printf(m, "      valid_bits: 0x%llx\n", param->valid_mask);
-+					break;
-+				case KAPI_CONSTRAINT_ENUM:
-+					seq_printf(m, "      type: enum\n");
-+					seq_printf(m, "      count: %u\n", param->enum_count);
-+					break;
-+				case KAPI_CONSTRAINT_CUSTOM:
-+					seq_printf(m, "      type: custom\n");
-+					if (strlen(param->constraints) > 0)
-+						seq_printf(m, "      description: %s\n",
-+							   param->constraints);
-+					break;
-+				default:
-+					break;
-+				}
++			/* Check for capability requirements in constraints */
++			if (param->constraint_type == KAPI_CONSTRAINT_CUSTOM &&
++			    param->constraints[0] && strstr(param->constraints, "CAP_")) {
++				/* Could add capability checks here if needed */
 +			}
-+			seq_printf(m, "\n");
 +		}
 +	}
 +
-+	/* Return value */
-+	seq_printf(m, "Return value:\n");
-+	seq_printf(m, "  type: %s\n", spec->return_spec.type_name);
-+	if (strlen(spec->return_spec.description) > 0)
-+		seq_printf(m, "  description: %s\n", spec->return_spec.description);
++	/* For ioctls with input/output structures, copy and validate */
++	if (spec->input_size > 0 || spec->output_size > 0) {
++		copy_size = max(spec->input_size, spec->output_size);
 +
-+	switch (spec->return_spec.check_type) {
-+	case KAPI_RETURN_EXACT:
-+		seq_printf(m, "  success: == %lld\n", spec->return_spec.success_value);
++		/* Allocate temporary buffer for validation */
++		data = kzalloc(copy_size, GFP_KERNEL);
++		if (!data)
++			return -ENOMEM;
++
++		/* Copy input data from user */
++		if (spec->input_size > 0) {
++			ret = copy_from_user(data, arg, spec->input_size);
++			if (ret) {
++				ret = -EFAULT;
++				goto out;
++			}
++		}
++
++		/* Validate structure fields */
++		ret = kapi_validate_ioctl_struct(spec, data, copy_size);
++		if (ret)
++			goto out;
++	}
++
++out:
++	kfree(data);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(kapi_validate_ioctl);
++
++/**
++ * struct field_offset - Maps structure fields to their offsets
++ * @field_idx: Parameter index
++ * @offset: Offset in structure
++ * @size: Size of field
++ */
++struct field_offset {
++	int field_idx;
++	size_t offset;
++	size_t size;
++};
++
++/* Common ioctl structure layouts */
++static const struct field_offset fwctl_info_offsets[] = {
++	{0, 0, sizeof(u32)},  /* size */
++	{1, 4, sizeof(u32)},  /* flags */
++	{2, 8, sizeof(u32)},  /* out_device_type */
++	{3, 12, sizeof(u32)}, /* device_data_len */
++	{4, 16, sizeof(u64)}, /* out_device_data */
++};
++
++static const struct field_offset fwctl_rpc_offsets[] = {
++	{0, 0, sizeof(u32)},  /* size */
++	{1, 4, sizeof(u32)},  /* scope */
++	{2, 8, sizeof(u32)},  /* in_len */
++	{3, 12, sizeof(u32)}, /* out_len */
++	{4, 16, sizeof(u64)}, /* in */
++	{5, 24, sizeof(u64)}, /* out */
++};
++
++/**
++ * get_field_offsets - Get field offset information for an ioctl
++ * @cmd: IOCTL command
++ * @count: Returns number of fields
++ *
++ * Return: Array of field offsets or NULL
++ */
++static const struct field_offset *get_field_offsets(unsigned int cmd, int *count)
++{
++	switch (cmd) {
++	case FWCTL_INFO:
++		*count = ARRAY_SIZE(fwctl_info_offsets);
++		return fwctl_info_offsets;
++	case FWCTL_RPC:
++		*count = ARRAY_SIZE(fwctl_rpc_offsets);
++		return fwctl_rpc_offsets;
++	default:
++		*count = 0;
++		return NULL;
++	}
++}
++
++/**
++ * extract_field_value - Extract a field value from structure
++ * @data: Structure data
++ * @param: Parameter specification
++ * @offset_info: Field offset information
++ *
++ * Return: Field value or 0 on error
++ */
++static s64 extract_field_value(const void *data,
++			       const struct kapi_param_spec *param,
++			       const struct field_offset *offset_info)
++{
++	const void *field = data + offset_info->offset;
++
++	switch (param->type) {
++	case KAPI_TYPE_UINT:
++		if (offset_info->size == sizeof(u32))
++			return *(u32 *)field;
++		else if (offset_info->size == sizeof(u64))
++			return *(u64 *)field;
 +		break;
-+	case KAPI_RETURN_RANGE:
-+		seq_printf(m, "  success: [%lld, %lld]\n",
-+			   spec->return_spec.success_min,
-+			   spec->return_spec.success_max);
++	case KAPI_TYPE_INT:
++		if (offset_info->size == sizeof(s32))
++			return *(s32 *)field;
++		else if (offset_info->size == sizeof(s64))
++			return *(s64 *)field;
 +		break;
-+	case KAPI_RETURN_FD:
-+		seq_printf(m, "  success: valid file descriptor (>= 0)\n");
-+		break;
-+	case KAPI_RETURN_ERROR_CHECK:
-+		seq_printf(m, "  success: error check\n");
-+		break;
-+	case KAPI_RETURN_CUSTOM:
-+		seq_printf(m, "  success: custom check\n");
-+		break;
++	case KAPI_TYPE_USER_PTR:
++		/* User pointers are typically u64 in ioctl structures */
++		return (s64)(*(u64 *)field);
 +	default:
 +		break;
 +	}
-+	seq_printf(m, "\n");
 +
-+	/* Errors */
-+	if (spec->error_count > 0) {
-+		seq_printf(m, "Errors (%u):\n", spec->error_count);
-+		for (i = 0; i < spec->error_count; i++) {
-+			struct kapi_error_spec *err = &spec->errors[i];
-+			seq_printf(m, "  %s (%d): %s\n",
-+				   err->name, err->error_code, err->description);
-+			if (strlen(err->condition) > 0)
-+				seq_printf(m, "    condition: %s\n", err->condition);
-+		}
-+		seq_printf(m, "\n");
-+	}
++	return 0;
++}
 +
-+	/* Locks */
-+	if (spec->lock_count > 0) {
-+		seq_printf(m, "Locks (%u):\n", spec->lock_count);
-+		for (i = 0; i < spec->lock_count; i++) {
-+			struct kapi_lock_spec *lock = &spec->locks[i];
-+			const char *type_str;
-+			switch (lock->lock_type) {
-+			case KAPI_LOCK_MUTEX: type_str = "mutex"; break;
-+			case KAPI_LOCK_SPINLOCK: type_str = "spinlock"; break;
-+			case KAPI_LOCK_RWLOCK: type_str = "rwlock"; break;
-+			case KAPI_LOCK_SEMAPHORE: type_str = "semaphore"; break;
-+			case KAPI_LOCK_RCU: type_str = "rcu"; break;
-+			case KAPI_LOCK_SEQLOCK: type_str = "seqlock"; break;
-+			default: type_str = "unknown"; break;
++/**
++ * kapi_validate_ioctl_struct - Validate an ioctl structure against specification
++ * @spec: IOCTL specification
++ * @data: Structure data
++ * @size: Size of the structure
++ *
++ * Return: 0 if valid, negative errno if validation fails
++ */
++int kapi_validate_ioctl_struct(const struct kapi_ioctl_spec *spec,
++				const void *data, size_t size)
++{
++	const struct kernel_api_spec *api_spec = &spec->api_spec;
++	const struct field_offset *offsets;
++	int offset_count;
++	int i, j;
++
++	if (!spec || !data)
++		return -EINVAL;
++
++	/* Get field offset information for this ioctl */
++	offsets = get_field_offsets(spec->cmd, &offset_count);
++
++	/* Validate each parameter in the structure */
++	for (i = 0; i < api_spec->param_count && i < KAPI_MAX_PARAMS; i++) {
++		const struct kapi_param_spec *param = &api_spec->params[i];
++		const struct field_offset *offset_info = NULL;
++		s64 value;
++
++		/* Find offset information for this parameter */
++		if (offsets) {
++			for (j = 0; j < offset_count; j++) {
++				if (offsets[j].field_idx == i) {
++					offset_info = &offsets[j];
++					break;
++				}
 +			}
-+			seq_printf(m, "  %s (%s): %s\n",
-+				   lock->lock_name, type_str, lock->description);
-+			if (lock->acquired)
-+				seq_printf(m, "    acquired by function\n");
-+			if (lock->released)
-+				seq_printf(m, "    released by function\n");
 +		}
-+		seq_printf(m, "\n");
-+	}
 +
-+	/* Constraints */
-+	if (spec->constraint_count > 0) {
-+		seq_printf(m, "Additional constraints (%u):\n", spec->constraint_count);
-+		for (i = 0; i < spec->constraint_count; i++) {
-+			seq_printf(m, "  - %s\n", spec->constraints[i].description);
++		if (!offset_info) {
++			pr_debug("kapi: no offset info for param %d\n", i);
++			continue;
 +		}
-+		seq_printf(m, "\n");
-+	}
 +
-+	/* Signals */
-+	if (spec->signal_count > 0) {
-+		seq_printf(m, "Signal handling (%u):\n", spec->signal_count);
-+		for (i = 0; i < spec->signal_count; i++) {
-+			struct kapi_signal_spec *sig = &spec->signals[i];
-+			seq_printf(m, "  %s (%d):\n", sig->signal_name, sig->signal_num);
-+			seq_printf(m, "    direction: ");
-+			if (sig->direction & KAPI_SIGNAL_SEND) seq_printf(m, "send ");
-+			if (sig->direction & KAPI_SIGNAL_RECEIVE) seq_printf(m, "receive ");
-+			if (sig->direction & KAPI_SIGNAL_HANDLE) seq_printf(m, "handle ");
-+			if (sig->direction & KAPI_SIGNAL_BLOCK) seq_printf(m, "block ");
-+			if (sig->direction & KAPI_SIGNAL_IGNORE) seq_printf(m, "ignore ");
-+			seq_printf(m, "\n");
-+			seq_printf(m, "    action: ");
-+			switch (sig->action) {
-+			case KAPI_SIGNAL_ACTION_DEFAULT: seq_printf(m, "default"); break;
-+			case KAPI_SIGNAL_ACTION_TERMINATE: seq_printf(m, "terminate"); break;
-+			case KAPI_SIGNAL_ACTION_COREDUMP: seq_printf(m, "coredump"); break;
-+			case KAPI_SIGNAL_ACTION_STOP: seq_printf(m, "stop"); break;
-+			case KAPI_SIGNAL_ACTION_CONTINUE: seq_printf(m, "continue"); break;
-+			case KAPI_SIGNAL_ACTION_CUSTOM: seq_printf(m, "custom"); break;
-+			case KAPI_SIGNAL_ACTION_RETURN: seq_printf(m, "return"); break;
-+			case KAPI_SIGNAL_ACTION_RESTART: seq_printf(m, "restart"); break;
-+			default: seq_printf(m, "unknown"); break;
++		/* Extract field value */
++		value = extract_field_value(data, param, offset_info);
++
++		/* Special handling for user pointers */
++		if (param->type == KAPI_TYPE_USER_PTR) {
++			/* Check if pointer looks valid (non-kernel address) */
++			if (value && (value >= TASK_SIZE)) {
++				pr_warn("ioctl %s: parameter %s has kernel pointer %llx\n",
++					spec->cmd_name, param->name, value);
++				return -EINVAL;
 +			}
-+			seq_printf(m, "\n");
-+			if (strlen(sig->description) > 0)
-+				seq_printf(m, "    description: %s\n", sig->description);
++
++			/* For size validation, check against size_param_idx */
++			if (param->size_param_idx >= 0 &&
++			    param->size_param_idx < offset_count) {
++				const struct field_offset *size_offset = NULL;
++
++				for (j = 0; j < offset_count; j++) {
++					if (offsets[j].field_idx == param->size_param_idx) {
++						size_offset = &offsets[j];
++						break;
++					}
++				}
++
++				if (size_offset) {
++					s64 buf_size = extract_field_value(data,
++						&api_spec->params[param->size_param_idx],
++						size_offset);
++
++					/* Validate buffer size constraints */
++					if (buf_size > 0 &&
++					    !kapi_validate_param(&api_spec->params[param->size_param_idx],
++								 buf_size)) {
++						pr_warn("ioctl %s: buffer size %lld invalid for %s\n",
++							spec->cmd_name, buf_size, param->name);
++						return -EINVAL;
++					}
++				}
++			}
++		} else {
++			/* Validate using the standard parameter validation */
++			if (!kapi_validate_param(param, value)) {
++				pr_warn("ioctl %s: parameter %s validation failed (value=%lld)\n",
++					spec->cmd_name, param->name, value);
++				return -EINVAL;
++			}
 +		}
-+		seq_printf(m, "\n");
-+	}
-+
-+	/* Additional info */
-+	if (strlen(spec->examples) > 0) {
-+		seq_printf(m, "Examples:\n%s\n\n", spec->examples);
-+	}
-+	if (strlen(spec->notes) > 0) {
-+		seq_printf(m, "Notes:\n%s\n\n", spec->notes);
-+	}
-+	if (strlen(spec->since_version) > 0) {
-+		seq_printf(m, "Since: %s\n", spec->since_version);
-+	}
-+	if (spec->deprecated) {
-+		seq_printf(m, "DEPRECATED");
-+		if (strlen(spec->replacement) > 0)
-+			seq_printf(m, " - use %s instead", spec->replacement);
-+		seq_printf(m, "\n");
 +	}
 +
 +	return 0;
 +}
++EXPORT_SYMBOL_GPL(kapi_validate_ioctl_struct);
 +
-+static int kapi_spec_open(struct inode *inode, struct file *file)
++/* Global registry of wrappers - in real implementation this would be per-module */
++static struct kapi_fops_wrapper *kapi_global_wrapper;
++
++/**
++ * kapi_register_wrapper - Register a wrapper (called from macro)
++ * @wrapper: Wrapper to register
++ */
++void kapi_register_wrapper(struct kapi_fops_wrapper *wrapper)
 +{
-+	return single_open(file, kapi_spec_show, inode->i_private);
++	/* Simple implementation - just store the last one */
++	kapi_global_wrapper = wrapper;
++}
++EXPORT_SYMBOL_GPL(kapi_register_wrapper);
++
++/**
++ * kapi_find_wrapper - Find wrapper for given file_operations
++ * @fops: File operations structure to check
++ *
++ * Return: Wrapper structure or NULL if not wrapped
++ */
++static struct kapi_fops_wrapper *kapi_find_wrapper(const struct file_operations *fops)
++{
++	/* Simple implementation - just return the global one if it matches */
++	if (kapi_global_wrapper && kapi_global_wrapper->wrapped_fops == fops)
++		return kapi_global_wrapper;
++	return NULL;
 +}
 +
-+static const struct file_operations kapi_spec_fops = {
-+	.open = kapi_spec_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+/* Show all available API specs */
-+static int kapi_list_show(struct seq_file *m, void *v)
++/**
++ * kapi_ioctl_validation_wrapper - Wrapper function for transparent validation
++ * @filp: File pointer
++ * @cmd: IOCTL command
++ * @arg: User argument
++ *
++ * This function is called instead of the real ioctl handler when validation
++ * is enabled. It performs pre-validation, calls the real handler, then does
++ * post-validation.
++ *
++ * Return: Result from the real ioctl handler or error
++ */
++long kapi_ioctl_validation_wrapper(struct file *filp, unsigned int cmd,
++				   unsigned long arg)
 +{
-+	struct kernel_api_spec *spec;
-+	int count = 0;
++	struct kapi_fops_wrapper *wrapper;
++	const struct kapi_ioctl_spec *spec;
++	long ret;
 +
-+	seq_printf(m, "Available Kernel API Specifications\n");
-+	seq_printf(m, "===================================\n\n");
++	wrapper = kapi_find_wrapper(filp->f_op);
++	if (!wrapper || !wrapper->real_ioctl)
++		return -EINVAL;
 +
-+	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
-+		seq_printf(m, "%s - %s\n", spec->name, spec->description);
-+		count++;
++	/* Pre-validation */
++	spec = kapi_get_ioctl_spec(cmd);
++	if (spec) {
++		ret = kapi_validate_ioctl(filp, cmd, (void __user *)arg);
++		if (ret)
++			return ret;
 +	}
 +
-+	seq_printf(m, "\nTotal: %d specifications\n", count);
-+	return 0;
-+}
++	/* Call the real ioctl handler */
++	ret = wrapper->real_ioctl(filp, cmd, arg);
 +
-+static int kapi_list_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, kapi_list_show, NULL);
-+}
-+
-+static const struct file_operations kapi_list_fops = {
-+	.open = kapi_list_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static int __init kapi_debugfs_init(void)
-+{
-+	struct kernel_api_spec *spec;
-+	struct dentry *spec_dir;
-+
-+	/* Create main directory */
-+	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
-+
-+	/* Create list file */
-+	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
-+
-+	/* Create specs subdirectory */
-+	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
-+
-+	/* Create a file for each API spec */
-+	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
-+		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
++	/* Post-validation - check return value against spec */
++	if (spec && spec->api_spec.error_count > 0) {
++		/* Validate that returned error is in the spec */
++		if (ret < 0) {
++			int i;
++			bool found = false;
++			for (i = 0; i < spec->api_spec.error_count; i++) {
++				if (ret == spec->api_spec.errors[i].error_code) {
++					found = true;
++					break;
++				}
++			}
++			if (!found) {
++				pr_warn("IOCTL %s returned unexpected error %ld\n",
++					spec->cmd_name, ret);
++			}
++		}
 +	}
 +
-+	pr_info("Kernel API debugfs interface initialized\n");
-+	return 0;
++	return ret;
 +}
++EXPORT_SYMBOL_GPL(kapi_ioctl_validation_wrapper);
 +
-+static void __exit kapi_debugfs_exit(void)
-+{
-+	debugfs_remove_recursive(kapi_debugfs_root);
-+}
-+
-+/* Initialize as part of kernel, not as a module */
-+fs_initcall(kapi_debugfs_init);
++#endif /* CONFIG_KAPI_RUNTIME_CHECKS */
+diff --git a/kernel/api/kernel_api_spec.c b/kernel/api/kernel_api_spec.c
+index 29c0c84d87f7c..70e16a49f5dbe 100644
+--- a/kernel/api/kernel_api_spec.c
++++ b/kernel/api/kernel_api_spec.c
+@@ -1166,4 +1166,92 @@ static int __init kapi_debugfs_init(void)
+ 
+ late_initcall(kapi_debugfs_init);
+ 
+-#endif /* CONFIG_DEBUG_FS */
 \ No newline at end of file
++#endif /* CONFIG_DEBUG_FS */
++
++/* IOCTL specification registry */
++#ifdef CONFIG_KAPI_SPEC
++
++#include <linux/ioctl_api_spec.h>
++
++static DEFINE_MUTEX(ioctl_spec_mutex);
++static LIST_HEAD(ioctl_specs);
++
++struct ioctl_spec_entry {
++	struct list_head list;
++	const struct kapi_ioctl_spec *spec;
++};
++
++/**
++ * kapi_register_ioctl_spec - Register an IOCTL API specification
++ * @spec: IOCTL specification to register
++ *
++ * Return: 0 on success, negative error code on failure
++ */
++int kapi_register_ioctl_spec(const struct kapi_ioctl_spec *spec)
++{
++	struct ioctl_spec_entry *entry;
++
++	if (!spec || !spec->cmd_name)
++		return -EINVAL;
++
++	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
++	if (!entry)
++		return -ENOMEM;
++
++	entry->spec = spec;
++
++	mutex_lock(&ioctl_spec_mutex);
++	list_add_tail(&entry->list, &ioctl_specs);
++	mutex_unlock(&ioctl_spec_mutex);
++
++	pr_debug("Registered IOCTL spec: %s (0x%x)\n", spec->cmd_name, spec->cmd);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(kapi_register_ioctl_spec);
++
++/**
++ * kapi_unregister_ioctl_spec - Unregister an IOCTL API specification
++ * @cmd: IOCTL command number to unregister
++ */
++void kapi_unregister_ioctl_spec(unsigned int cmd)
++{
++	struct ioctl_spec_entry *entry, *tmp;
++
++	mutex_lock(&ioctl_spec_mutex);
++	list_for_each_entry_safe(entry, tmp, &ioctl_specs, list) {
++		if (entry->spec->cmd == cmd) {
++			list_del(&entry->list);
++			kfree(entry);
++			pr_debug("Unregistered IOCTL spec for cmd 0x%x\n", cmd);
++			break;
++		}
++	}
++	mutex_unlock(&ioctl_spec_mutex);
++}
++EXPORT_SYMBOL_GPL(kapi_unregister_ioctl_spec);
++
++/**
++ * kapi_get_ioctl_spec - Retrieve IOCTL specification by command number
++ * @cmd: IOCTL command number
++ *
++ * Return: Pointer to the specification or NULL if not found
++ */
++const struct kapi_ioctl_spec *kapi_get_ioctl_spec(unsigned int cmd)
++{
++	struct ioctl_spec_entry *entry;
++	const struct kapi_ioctl_spec *spec = NULL;
++
++	mutex_lock(&ioctl_spec_mutex);
++	list_for_each_entry(entry, &ioctl_specs, list) {
++		if (entry->spec->cmd == cmd) {
++			spec = entry->spec;
++			break;
++		}
++	}
++	mutex_unlock(&ioctl_spec_mutex);
++
++	return spec;
++}
++EXPORT_SYMBOL_GPL(kapi_get_ioctl_spec);
++
++#endif /* CONFIG_KAPI_SPEC */
 -- 
 2.39.5
 
