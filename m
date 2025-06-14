@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3911-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3912-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279B0AD9D14
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:49:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D38AD9D17
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:50:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F0237A79C7
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:48:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 660123B7E38
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF772E336F;
-	Sat, 14 Jun 2025 13:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62D52E6121;
+	Sat, 14 Jun 2025 13:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NsnFNkM1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXUQ1eBV"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C212E2F0E;
-	Sat, 14 Jun 2025 13:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E21A2E1733;
+	Sat, 14 Jun 2025 13:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749908946; cv=none; b=YOl81LAb7zPKpVi4jr5PCV+hL0Q/j2RhYFs9lBXP/gsYsRCg+ILHS156nt7vNYZX7QSlU6jSZN7sXnm2ljJbxBkYARKbkjE6r334ByE9HdL8SX5YEPWERhB9lok3USOnN3lV7pA6IY4zv3TUOklmC46/dQpuo38qT3r5cS6sq1o=
+	t=1749908947; cv=none; b=TTruaolGLmVxZeVeqQ41btYX46CfMSSosVJjSDSLlTUmVthsvzAcd0I5Hm9ckAHGt6Q8++qaSAN6sDJRKMxub1hqScT4WmIW54hxjek2hUfa3bpZ4SNNunSZypMHvxELlEilgVgKxDZZxvHHHumdq3PBSyzUPHOIkFSMne5mpTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749908946; c=relaxed/simple;
-	bh=2/7buoiE7ii59cXEfLsm+K3hxqXnF9MpkV59KWDmUSw=;
+	s=arc-20240116; t=1749908947; c=relaxed/simple;
+	bh=L9tgqs/QBzmOmiI24xd5dFd0SfY+ckEh0qbjk7cnIwY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ib2RZ2l8/uTN47yRtj8naiXtSXzPw4zqiTbog3ibXHdo9Eb43jffhWjDQ1Sr1YEP+Nu7xgYDq9ulEPX7OhQB2yPX3lLOsZbnjZSV+TnTwafze19IfOF0/AAX3cheMK2mGvjWs2mFwDIdF+YxBcwebdQ3NaeM7MvdZ20HvWiTHm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsnFNkM1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE603C4CEEB;
-	Sat, 14 Jun 2025 13:49:05 +0000 (UTC)
+	 MIME-Version; b=SrsNpx3IkRnToz9H0Yi5wRornEMrEB6ODdobmV+PZEn+pdGWgBhEFOOHvrc73xdZHtcEW3klS3uk8j5L5TZSmSlOdfMvzzM4KA8ZdEqZwc31X6dg3NEeUcyHEcYN552SEOsGmwQDDc+dtxxkTBPIKYBQe9wPl8GYUIHplsV0uG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXUQ1eBV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABB9C4CEEB;
+	Sat, 14 Jun 2025 13:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749908946;
-	bh=2/7buoiE7ii59cXEfLsm+K3hxqXnF9MpkV59KWDmUSw=;
+	s=k20201202; t=1749908947;
+	bh=L9tgqs/QBzmOmiI24xd5dFd0SfY+ckEh0qbjk7cnIwY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NsnFNkM1DDcwiR4YRbbQlgS9bfKqcEttPgXJ1HtW7Ko3oXEAxV3tGFie5Jk8v/wEN
-	 cCU0RF8r3iLKNrv1n2vDwAwjJgXRvgUIIp9VzflHI03YjDtpqDPbcuOTytm93piNDx
-	 W3Z/EHBsQ5tba9KnSRvETmJif+IoM46SBHHM7fVvPl5/5GfPPM7qnrpkL6CJEpgC2+
-	 0DcP8lRCNS4NSHHOmKwLDoQZHvTfRnaukNh0fH+wWTWXRZ7j2uvPoHxjjZFseKaYEN
-	 9z+/OwJCOkhH3wwqGcSTWTIlcgkMaWL0YMwI3Sfqp/Fdbr5P8IeDdCxuFx1wW19Kd+
-	 RWBd0e3wcggAQ==
+	b=SXUQ1eBVWz5hPnjhg4D6PDzc61CX3vk9IoYr9X/PkHXySYUU303GOEcO7GdgM6JmX
+	 JTusTbzNbSGgj7fZFrBJfYNbjWtEt0pgAhkG1J/6dNvuxIc0EP2iAY04d6pB7c/oM1
+	 OD7uW9T9t/7z2u+e31htbmSMQ2R3RwywG1701272OcbfzG0qdlpcYmmKzslyMNzLzU
+	 AZkCnGPo8yG+gJ64GUUZW5vH3Baiz3fYH1RPPRxNEiWAg26ch8yzZ6QSpd1iNjBULA
+	 tdgL1vpdZdEazPY2pOohcUSEIOcZg6x5ZdqFvk9CNQNqGNookN/h/Yg8abaGE3eUl3
+	 vx+iNFtIQv6Jw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	workflows@vger.kernel.org,
 	tools@kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC 06/19] eventpoll: add API specification for epoll_pwait
-Date: Sat, 14 Jun 2025 09:48:45 -0400
-Message-Id: <20250614134858.790460-7-sashal@kernel.org>
+Subject: [RFC 07/19] eventpoll: add API specification for epoll_pwait2
+Date: Sat, 14 Jun 2025 09:48:46 -0400
+Message-Id: <20250614134858.790460-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
 References: <20250614134858.790460-1-sashal@kernel.org>
@@ -61,29 +61,28 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add kernel API specification for the epoll_pwait() system call.
+Add kernel API specification for the epoll_pwait2() system call.
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/eventpoll.c | 230 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 230 insertions(+)
+ fs/eventpoll.c | 244 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 244 insertions(+)
 
 diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 254b50d687d37..8bd25f9230fc8 100644
+index 8bd25f9230fc8..0e90d66467010 100644
 --- a/fs/eventpoll.c
 +++ b/fs/eventpoll.c
-@@ -3148,6 +3148,236 @@ static int do_epoll_pwait(int epfd, struct epoll_event __user *events,
- 	return error;
+@@ -3389,6 +3389,250 @@ SYSCALL_DEFINE6(epoll_pwait, int, epfd, struct epoll_event __user *, events,
+ 			      sigmask, sigsetsize);
  }
  
 +
-+DEFINE_KERNEL_API_SPEC(sys_epoll_pwait)
-+	KAPI_DESCRIPTION("Wait for events on an epoll instance with signal handling")
-+	KAPI_LONG_DESC("Similar to epoll_wait(), but allows the caller to safely wait for "
-+		       "either events on the epoll instance or the delivery of a signal. "
-+		       "The sigmask argument specifies a signal mask which is atomically "
-+		       "set during the wait, allowing signals to be blocked while not waiting "
-+		       "and ensuring no signal is lost between checking for events and blocking.")
++DEFINE_KERNEL_API_SPEC(sys_epoll_pwait2)
++	KAPI_DESCRIPTION("Wait for events on an epoll instance with nanosecond precision timeout")
++	KAPI_LONG_DESC("Similar to epoll_pwait(), but takes a timespec structure that allows "
++		       "nanosecond precision for the timeout value. This provides more accurate "
++		       "timeout control compared to the millisecond precision of epoll_pwait(). "
++		       "Like epoll_pwait(), it atomically sets a signal mask during the wait.")
 +	KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
 +
 +	KAPI_PARAM(0, "epfd", "int", "File descriptor referring to the epoll instance")
@@ -110,11 +109,13 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +		.constraints = "Must be greater than zero and not exceed system limits",
 +	KAPI_PARAM_END
 +
-+	KAPI_PARAM(3, "timeout", "int", "Timeout in milliseconds")
-+		KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
-+		.type = KAPI_TYPE_INT,
++	KAPI_PARAM(3, "timeout", "const struct __kernel_timespec __user *", "Timeout with nanosecond precision")
++		KAPI_PARAM_FLAGS(KAPI_PARAM_IN | KAPI_PARAM_USER | KAPI_PARAM_OPTIONAL)
++		.type = KAPI_TYPE_USER_PTR,
++		KAPI_PARAM_SIZE(sizeof(struct __kernel_timespec))
 +		.constraint_type = KAPI_CONSTRAINT_NONE,
-+		.constraints = "-1 blocks indefinitely, 0 returns immediately, >0 specifies milliseconds to wait",
++		.constraints = "NULL means block indefinitely, {0, 0} returns immediately, "
++			       "negative values are invalid",
 +	KAPI_PARAM_END
 +
 +	KAPI_PARAM(4, "sigmask", "const sigset_t __user *", "Signal mask to atomically set during wait")
@@ -143,17 +144,17 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +	KAPI_ERROR(0, -EBADF, "EBADF", "epfd is not a valid file descriptor",
 +		   "The epoll file descriptor is invalid or has been closed.")
 +	KAPI_ERROR(1, -EFAULT, "EFAULT", "Memory area not accessible",
-+		   "The memory area pointed to by events or sigmask is not accessible.")
++		   "The memory area pointed to by events, timeout, or sigmask is not accessible.")
 +	KAPI_ERROR(2, -EINTR, "EINTR", "Call interrupted by signal handler",
 +		   "The call was interrupted by a signal handler before any events "
-+		   "became ready or the timeout expired; see signal(7).")
++		   "became ready or the timeout expired.")
 +	KAPI_ERROR(3, -EINVAL, "EINVAL", "Invalid parameters",
 +		   "epfd is not an epoll file descriptor, maxevents is less than or equal to zero, "
-+		   "or sigsetsize is not equal to sizeof(sigset_t).")
++		   "sigsetsize is not equal to sizeof(sigset_t), or timeout values are invalid.")
 +
 +	.error_count = 4,
 +	.param_count = 6,
-+	.since_version = "2.6.19",
++	.since_version = "5.11",
 +
 +	/* Side effects */
 +	KAPI_SIDE_EFFECT(0, KAPI_EFFECT_MODIFY_STATE,
@@ -172,8 +173,8 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +
 +	KAPI_SIDE_EFFECT(2, KAPI_EFFECT_SCHEDULE,
 +			 "process state",
-+			 "Blocks the calling thread until events are available, timeout, or signal")
-+		KAPI_EFFECT_CONDITION("When timeout != 0 and no events are immediately available")
++			 "Blocks the calling thread until events, timeout, or signal")
++		KAPI_EFFECT_CONDITION("When timeout != NULL or timeout->tv_sec/tv_nsec != 0")
 +	KAPI_SIDE_EFFECT_END
 +
 +	KAPI_SIDE_EFFECT(3, KAPI_EFFECT_MODIFY_STATE,
@@ -189,7 +190,13 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +		KAPI_EFFECT_REVERSIBLE
 +	KAPI_SIDE_EFFECT_END
 +
-+	KAPI_SIDE_EFFECT_COUNT(5)
++	KAPI_SIDE_EFFECT(5, KAPI_EFFECT_MODIFY_STATE,
++			 "timer precision",
++			 "Timeout may be rounded up to system timer granularity")
++		KAPI_EFFECT_CONDITION("When timeout is specified")
++	KAPI_SIDE_EFFECT_END
++
++	KAPI_SIDE_EFFECT_COUNT(6)
 +
 +	/* State transitions */
 +	KAPI_STATE_TRANS(0, "signal mask", "original mask", "user-specified mask",
@@ -199,17 +206,17 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +
 +	KAPI_STATE_TRANS(1, "process", "running", "blocked",
 +			 "Process blocks waiting for events with specified signal mask")
-+		KAPI_STATE_TRANS_COND("When no events available and timeout != 0")
++		KAPI_STATE_TRANS_COND("When no events available and not immediate return")
 +	KAPI_STATE_TRANS_END
 +
 +	KAPI_STATE_TRANS(2, "process", "blocked", "running",
-+			 "Process wakes up due to events, timeout, or unblocked signal")
++			 "Process wakes up due to events, timeout expiry, or unblocked signal")
 +		KAPI_STATE_TRANS_COND("When wait condition is satisfied")
 +	KAPI_STATE_TRANS_END
 +
 +	KAPI_STATE_TRANS(3, "signal mask", "user-specified mask", "original mask",
 +			 "Thread's signal mask is restored to its original value")
-+		KAPI_STATE_TRANS_COND("When returning from epoll_pwait")
++		KAPI_STATE_TRANS_COND("When returning from epoll_pwait2")
 +	KAPI_STATE_TRANS_END
 +
 +	KAPI_STATE_TRANS(4, "pending signals", "blocked", "deliverable",
@@ -217,53 +224,57 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +		KAPI_STATE_TRANS_COND("When signal mask is restored and signals were pending")
 +	KAPI_STATE_TRANS_END
 +
-+	KAPI_STATE_TRANS_COUNT(5)
++	KAPI_STATE_TRANS(5, "timeout timer", "not started", "armed with nanosecond precision",
++			 "High resolution timer is armed with the specified timeout")
++		KAPI_STATE_TRANS_COND("When timeout is specified and > 0")
++	KAPI_STATE_TRANS_END
++
++	KAPI_STATE_TRANS_COUNT(6)
 +
 +	/* Signal specifications */
 +	KAPI_SIGNAL(0, 0, "ANY_UNBLOCKED", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_RETURN)
 +		KAPI_SIGNAL_CONDITION("Signal not blocked by provided sigmask")
 +		KAPI_SIGNAL_DESC("Any signal not blocked by the sigmask parameter will interrupt "
-+				 "epoll_pwait() and cause it to return -EINTR. The signal mask is "
-+				 "atomically set via set_user_sigmask() and restored via "
-+				 "restore_saved_sigmask_unless() before returning.")
++				 "epoll_pwait2() and cause it to return -EINTR. Signal handling is "
++				 "identical to epoll_pwait().")
 +		KAPI_SIGNAL_RESTARTABLE
 +	KAPI_SIGNAL_END
 +
 +	KAPI_SIGNAL(1, SIGKILL, "SIGKILL", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_TERMINATE)
 +		KAPI_SIGNAL_CONDITION("Cannot be blocked by sigmask")
-+		KAPI_SIGNAL_DESC("SIGKILL cannot be blocked and will terminate the process immediately. "
-+				 "The epoll_pwait call will not return.")
++		KAPI_SIGNAL_DESC("SIGKILL cannot be blocked and will terminate the process immediately.")
 +	KAPI_SIGNAL_END
 +
 +	KAPI_SIGNAL(2, SIGSTOP, "SIGSTOP", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_STOP)
 +		KAPI_SIGNAL_CONDITION("Cannot be blocked by sigmask")
-+		KAPI_SIGNAL_DESC("SIGSTOP cannot be blocked and will stop the process. When continued "
-+				 "with SIGCONT, epoll_pwait may return -EINTR.")
++		KAPI_SIGNAL_DESC("SIGSTOP cannot be blocked and will stop the process.")
 +	KAPI_SIGNAL_END
 +
 +	KAPI_SIGNAL(3, 0, "BLOCKED_SIGNALS", KAPI_SIGNAL_BLOCK, KAPI_SIGNAL_ACTION_DEFAULT)
 +		KAPI_SIGNAL_CONDITION("Signals in provided sigmask")
-+		KAPI_SIGNAL_DESC("Signals specified in the sigmask parameter are blocked for the "
-+				 "duration of the epoll_pwait call. They remain pending and will be "
-+				 "delivered after the signal mask is restored.")
++		KAPI_SIGNAL_DESC("Signals specified in the sigmask parameter are blocked during "
++				 "the epoll_pwait2 call.")
 +	KAPI_SIGNAL_END
 +
 +	KAPI_SIGNAL(4, SIGCONT, "SIGCONT", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_CONTINUE)
 +		KAPI_SIGNAL_CONDITION("When process is stopped")
-+		KAPI_SIGNAL_DESC("SIGCONT resumes a stopped process. If epoll_pwait was interrupted "
++		KAPI_SIGNAL_DESC("SIGCONT resumes a stopped process. If epoll_pwait2 was interrupted "
 +				 "by SIGSTOP, it may return -EINTR when continued.")
 +	KAPI_SIGNAL_END
 +
-+	.signal_count = 5,
++	KAPI_SIGNAL(5, SIGALRM, "SIGALRM", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_RETURN)
++		KAPI_SIGNAL_CONDITION("Timer expiration")
++		KAPI_SIGNAL_DESC("SIGALRM or other timer signals will interrupt epoll_pwait2 with -EINTR "
++				 "if not blocked by sigmask")
++		KAPI_SIGNAL_RESTARTABLE
++	KAPI_SIGNAL_END
++
++	.signal_count = 6,
 +
 +	/* Signal mask specifications */
 +	KAPI_SIGNAL_MASK(0, "user_sigmask", "User-provided signal mask atomically applied")
-+		.description = "The signal mask provided in the sigmask parameter is atomically "
-+			       "set for the duration of the wait operation. This prevents race "
-+			       "conditions between checking for events and blocking. The original "
-+			       "signal mask is restored before epoll_pwait returns, unless the "
-+			       "return value is -EINTR (in which case the mask is restored by "
-+			       "the signal delivery mechanism)."
++		.description = "The signal mask is atomically set and restored exactly as in "
++			       "epoll_pwait(), providing the same race-condition prevention."
 +	KAPI_SIGNAL_MASK_END
 +
 +	.signal_mask_count = 1,
@@ -284,31 +295,34 @@ index 254b50d687d37..8bd25f9230fc8 100644
 +	.lock_count = 2,
 +
 +	.examples = "sigset_t sigmask;\n"
-+		    "struct epoll_event events[10];\n\n"
-+		    "/* Block SIGINT during epoll_pwait */\n"
++		    "struct epoll_event events[10];\n"
++		    "struct __kernel_timespec ts;\n\n"
++		    "/* Block SIGINT during epoll_pwait2 */\n"
 +		    "sigemptyset(&sigmask);\n"
 +		    "sigaddset(&sigmask, SIGINT);\n\n"
-+		    "int nfds = epoll_pwait(epfd, events, 10, 1000, &sigmask, sizeof(sigmask));\n"
++		    "/* Wait for 1.5 seconds */\n"
++		    "ts.tv_sec = 1;\n"
++		    "ts.tv_nsec = 500000000; /* 500 milliseconds */\n\n"
++		    "int nfds = epoll_pwait2(epfd, events, 10, &ts, &sigmask, sizeof(sigmask));\n"
 +		    "if (nfds == -1) {\n"
 +		    "    if (errno == EINTR) {\n"
 +		    "        /* Handle signal */\n"
 +		    "    }\n"
-+		    "    perror(\"epoll_pwait\");\n"
++		    "    perror(\"epoll_pwait2\");\n"
 +		    "    exit(EXIT_FAILURE);\n"
-+		    "}",
-+	.notes = "epoll_pwait() is equivalent to atomically executing:\n"
-+		 "    sigset_t origmask;\n"
-+		 "    pthread_sigmask(SIG_SETMASK, &sigmask, &origmask);\n"
-+		 "    ready = epoll_wait(epfd, events, maxevents, timeout);\n"
-+		 "    pthread_sigmask(SIG_SETMASK, &origmask, NULL);\n"
-+		 "This atomicity prevents race conditions where a signal could be delivered "
-+		 "after checking for events but before blocking in epoll_wait(). "
-+		 "The signal mask is always restored before epoll_pwait() returns.",
++		    "}\n\n"
++		    "/* Example with infinite timeout */\n"
++		    "nfds = epoll_pwait2(epfd, events, 10, NULL, &sigmask, sizeof(sigmask));",
++	.notes = "epoll_pwait2() provides nanosecond precision timeouts, addressing the limitation "
++		 "of epoll_pwait() which only supports millisecond precision. The timeout parameter "
++		 "uses struct __kernel_timespec which is compatible with 64-bit time values, making "
++		 "it Y2038-safe. Like epoll_pwait(), the signal mask operation is atomic. "
++		 "The timeout is still subject to system timer granularity and may be rounded up.",
 +KAPI_END_SPEC;
 +
- SYSCALL_DEFINE6(epoll_pwait, int, epfd, struct epoll_event __user *, events,
- 		int, maxevents, int, timeout, const sigset_t __user *, sigmask,
- 		size_t, sigsetsize)
+ SYSCALL_DEFINE6(epoll_pwait2, int, epfd, struct epoll_event __user *, events,
+ 		int, maxevents, const struct __kernel_timespec __user *, timeout,
+ 		const sigset_t __user *, sigmask, size_t, sigsetsize)
 -- 
 2.39.5
 
