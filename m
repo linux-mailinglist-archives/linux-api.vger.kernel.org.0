@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-3919-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3920-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F5FAD9D26
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:51:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748B6AD9D28
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 15:51:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3FA67A42AF
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:50:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8B3D7AE18B
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jun 2025 13:50:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B992E92A9;
-	Sat, 14 Jun 2025 13:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED8E2E92C6;
+	Sat, 14 Jun 2025 13:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZdXN6dy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0d38YO0"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5817E2E88BD;
-	Sat, 14 Jun 2025 13:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F1C2E92BA;
+	Sat, 14 Jun 2025 13:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749908954; cv=none; b=Xw2oMvAk9CjXcec8S/MI2sN4Scuaz8VN+4ojJqqa5RpqQ4cgljed1Xqh/4KxAn6NnVCOA7AjK3o1601z+7lgRPOCtttZ723ZhW1O+IIOGrHtRP/yB8iYN/juFgvwHYpOckDAQyBlzbgx2aka9rR6VCuIkuGBLl+WvtbntpjCm1Q=
+	t=1749908954; cv=none; b=OQwigceYZjSGPu71WdidGDd/A/YDcKJ1atigrWHnlQ4ppN57qu1Nb48O1HnZSxyCQz18kTzcLKYOsxCnkClRpqK4Iw7eUOYRImefgNm7s7C+YOyqTLXsHUpDFns2a62OTg5pDXPJhE5M8Gz/V1KCbKEkNuCwcB8eq7HNlYFdeFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749908954; c=relaxed/simple;
-	bh=X6Vv2g/1CFZ/HVdEzZ2DI37QD2R1mWa+3vYCt/c6zM0=;
+	bh=P2s5mEiKe4Hy2Gm3hQTnSt3MLEij7AIBPkgx8m8Hkmk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ldfCRDPQEkvZqr3tNojMp4NkrF1UBw5TEyvlwub+8e+uH8qKHBoZ55IQctnYdgH6o5tF+rQ8clFJYPmAVm7EGq9fET0EbjxKjsyUPS0tzD2rPd/7X8/qWRAju4rIWDrtI3UAHsg7bauY8Tf7Vo9Zu2VAy8qlL4POE+h9VSa7DT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZdXN6dy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37024C4CEF0;
-	Sat, 14 Jun 2025 13:49:13 +0000 (UTC)
+	 MIME-Version; b=P1MwlOArzRLh9u+IguNGgYWX642awVCw27KtoW73TbGwQJzfeiHepJ9oCUo4r3s7P8LDeZqSxKj1lztJtAGQVD3SqOsJDC3yLaBeUIjt5kzpVXyE9RX4MqAVtElHnPJvWnwmJh57Np+2yQR7y/eYsdidUuO0rJKrhthstLpxBpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0d38YO0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FED6C4CEEE;
+	Sat, 14 Jun 2025 13:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749908953;
-	bh=X6Vv2g/1CFZ/HVdEzZ2DI37QD2R1mWa+3vYCt/c6zM0=;
+	s=k20201202; t=1749908954;
+	bh=P2s5mEiKe4Hy2Gm3hQTnSt3MLEij7AIBPkgx8m8Hkmk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FZdXN6dyBaCOC/zOYipLnpKw1Y2J0Iz4hFXODov+4FN9AM+s19eF6kZVRCFMuRcls
-	 ZWMfV/xT9yGg11g9GxH2Ba4qjZJ2U7PsxttaFq5AOB6mwZNuulYxtlpEPH8OyS16uf
-	 SnY0SlbvZoZvqJyBK+Wc403Xt3Tb5J+oHtvhuIupt2803WMvlZksw3qgfhkzoZ/vc4
-	 Fa6aLYyWQ6ptyentM0hn/RCtY+7VX2tv9Tdds6T8Uv/FSERkfc+nuNAxGdxrNzdLh6
-	 fxMT/kPNC03m6W0Pr1bLFugiG9+r3WVKj+dib2jmH4qXZtdvwQTRIx4kFTHMNO84a9
-	 T+51Tt2i8AxYQ==
+	b=Y0d38YO0V7cSIQa9gNWPQEmosLQ9xaGbh3d2Rj3ooFmw1nZuO4YWVEwo3Ph6yi4Zi
+	 IIWXaUsH+hf+AX/oPgQ/Bugws3/yW8iUjLBKO2i51+bhYIPmPg0sxEa1uZb9P7pIm+
+	 IFHKvVcn4NRaB7eq0d3xbkYkKz2uk7WiGjmMgezcRTYp8iRMS2Ce9OLVAxh2NXTdGq
+	 QNbQr3uXawQPP2r6AADIW8FR4MMhlEzuvR9cebLnFY6HbecvLie3l5+8Z/3vdKcwAW
+	 sxwPe8wAL8t7FBs7G6AYZNUQQMAtzFFxOT7O9wD2lIAGkHCFZM0obvV08lRqShOlRN
+	 M0KviSoiuuilw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
 	workflows@vger.kernel.org,
 	tools@kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC 14/19] mm/mlock: add API specification for munlockall
-Date: Sat, 14 Jun 2025 09:48:53 -0400
-Message-Id: <20250614134858.790460-15-sashal@kernel.org>
+Subject: [RFC 15/19] kernel/api: add debugfs interface for kernel API specifications
+Date: Sat, 14 Jun 2025 09:48:54 -0400
+Message-Id: <20250614134858.790460-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
 References: <20250614134858.790460-1-sashal@kernel.org>
@@ -61,144 +61,425 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add kernel API specification for the munlockall() system call.
+Add a debugfs interface to expose kernel API specifications at runtime.
+This allows tools and users to query the complete API specifications
+through the debugfs filesystem.
+
+The interface provides:
+- /sys/kernel/debug/kapi/list - lists all available API specifications
+- /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+
+Each specification file includes:
+- Function name, version, and descriptions
+- Execution context requirements and flags
+- Parameter details with types, flags, and constraints
+- Return value specifications and success conditions
+- Error codes with descriptions and conditions
+- Locking requirements and constraints
+- Signal handling specifications
+- Examples, notes, and deprecation status
+
+This enables runtime introspection of kernel APIs for documentation
+tools, static analyzers, and debugging purposes.
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- mm/mlock.c | 120 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 120 insertions(+)
+ kernel/api/Kconfig        |  20 +++
+ kernel/api/Makefile       |   5 +-
+ kernel/api/kapi_debugfs.c | 340 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 364 insertions(+), 1 deletion(-)
+ create mode 100644 kernel/api/kapi_debugfs.c
 
-diff --git a/mm/mlock.c b/mm/mlock.c
-index ef691adc78ad7..80f51e932aa95 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -1299,6 +1299,126 @@ SYSCALL_DEFINE1(mlockall, int, flags)
- 	return ret;
- }
+diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+index fde25ec70e134..d2754b21acc43 100644
+--- a/kernel/api/Kconfig
++++ b/kernel/api/Kconfig
+@@ -33,3 +33,23 @@ config KAPI_RUNTIME_CHECKS
+ 	  development. The checks use WARN_ONCE to report violations.
  
+ 	  If unsure, say N.
 +
-+DEFINE_KERNEL_API_SPEC(sys_munlockall)
-+	KAPI_DESCRIPTION("Unlock all process pages")
-+	KAPI_LONG_DESC("Unlocks all pages mapped into the process address space and "
-+		       "clears the MCL_FUTURE flag if set.")
-+	KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
++config KAPI_SPEC_DEBUGFS
++	bool "Export kernel API specifications via debugfs"
++	depends on KAPI_SPEC
++	depends on DEBUG_FS
++	help
++	  This option enables exporting kernel API specifications through
++	  the debugfs filesystem. When enabled, specifications can be
++	  accessed at /sys/kernel/debug/kapi/.
 +
-+	/* No parameters - this is a SYSCALL_DEFINE0 */
-+	.param_count = 0,
++	  The debugfs interface provides:
++	  - A list of all available API specifications
++	  - Detailed information for each API including parameters,
++	    return values, errors, locking requirements, and constraints
++	  - Complete machine-readable representation of the specs
 +
-+	/* Return specification */
-+	KAPI_RETURN("long", "0 on success, negative error code on failure")
-+		.type = KAPI_TYPE_INT,
-+		.check_type = KAPI_RETURN_ERROR_CHECK,
-+		.success_value = 0,
-+	KAPI_RETURN_END
++	  This is useful for documentation tools, static analyzers, and
++	  runtime introspection of kernel APIs.
 +
-+	/* Error codes */
-+	KAPI_ERROR(0, -EINTR, "EINTR", "Interrupted by signal", "The operation was interrupted by a signal before completion.")
-+	KAPI_ERROR(1, -ENOMEM, "ENOMEM", "Memory operation failed", "Failed to modify memory mappings (should not normally occur).")
++	  If unsure, say N.
+diff --git a/kernel/api/Makefile b/kernel/api/Makefile
+index 4120ded7e5cf1..07b8c007ec156 100644
+--- a/kernel/api/Makefile
++++ b/kernel/api/Makefile
+@@ -4,4 +4,7 @@
+ #
+ 
+ # Core API specification framework
+-obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
+\ No newline at end of file
++obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
 +
-+	/* Signal specifications */
-+	KAPI_SIGNAL(0, 0, "FATAL_SIGNALS", KAPI_SIGNAL_RECEIVE, KAPI_SIGNAL_ACTION_RETURN)
-+		KAPI_SIGNAL_CONDITION("Fatal signal pending during mmap_write_lock_killable")
-+		KAPI_SIGNAL_DESC("Fatal signals (SIGKILL, SIGTERM, etc.) can interrupt the operation when acquiring mmap_write_lock_killable(), causing -EINTR return")
-+		KAPI_SIGNAL_RESTARTABLE
-+	KAPI_SIGNAL_END
++# Debugfs interface for kernel API specs
++obj-$(CONFIG_KAPI_SPEC_DEBUGFS)	+= kapi_debugfs.o
+\ No newline at end of file
+diff --git a/kernel/api/kapi_debugfs.c b/kernel/api/kapi_debugfs.c
+new file mode 100644
+index 0000000000000..bf65ea6a49205
+--- /dev/null
++++ b/kernel/api/kapi_debugfs.c
+@@ -0,0 +1,340 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Kernel API specification debugfs interface
++ *
++ * This provides a debugfs interface to expose kernel API specifications
++ * at runtime, allowing tools and users to query the complete API specs.
++ */
 +
-+	/* Side effects */
-+	KAPI_SIDE_EFFECT(0, KAPI_EFFECT_MODIFY_STATE,
-+			 "all process memory",
-+			 "Unlocks all pages, making entire address space swappable")
-+		KAPI_EFFECT_REVERSIBLE
-+		KAPI_EFFECT_CONDITION("Process had locked pages")
-+	KAPI_SIDE_EFFECT_END
++#include <linux/debugfs.h>
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/seq_file.h>
++#include <linux/kernel_api_spec.h>
++#include <linux/slab.h>
++#include <linux/string.h>
 +
-+	KAPI_SIDE_EFFECT(1, KAPI_EFFECT_MODIFY_STATE,
-+			 "mm->def_flags",
-+			 "Clears VM_LOCKED from default flags for future mappings")
-+		KAPI_EFFECT_REVERSIBLE
-+		KAPI_EFFECT_CONDITION("MCL_FUTURE was previously set")
-+	KAPI_SIDE_EFFECT_END
++/* External symbols for kernel API spec section */
++extern struct kernel_api_spec __start_kapi_specs[];
++extern struct kernel_api_spec __stop_kapi_specs[];
 +
-+	KAPI_SIDE_EFFECT(2, KAPI_EFFECT_MODIFY_STATE,
-+			 "mm->locked_vm",
-+			 "Resets process locked memory counter to zero")
-+		KAPI_EFFECT_REVERSIBLE
-+	KAPI_SIDE_EFFECT_END
++static struct dentry *kapi_debugfs_root;
 +
-+	KAPI_SIDE_EFFECT(3, KAPI_EFFECT_MODIFY_STATE,
-+			 "all VMA flags",
-+			 "Clears VM_LOCKED and VM_LOCKONFAULT from all VMAs")
-+		KAPI_EFFECT_REVERSIBLE
-+	KAPI_SIDE_EFFECT_END
++/* Helper function to print parameter type as string */
++static const char *param_type_str(enum kapi_param_type type)
++{
++	switch (type) {
++	case KAPI_TYPE_INT: return "int";
++	case KAPI_TYPE_UINT: return "uint";
++	case KAPI_TYPE_PTR: return "ptr";
++	case KAPI_TYPE_STRUCT: return "struct";
++	case KAPI_TYPE_UNION: return "union";
++	case KAPI_TYPE_ARRAY: return "array";
++	case KAPI_TYPE_FD: return "fd";
++	case KAPI_TYPE_ENUM: return "enum";
++	case KAPI_TYPE_USER_PTR: return "user_ptr";
++	case KAPI_TYPE_PATH: return "path";
++	case KAPI_TYPE_FUNC_PTR: return "func_ptr";
++	case KAPI_TYPE_CUSTOM: return "custom";
++	default: return "unknown";
++	}
++}
 +
-+	KAPI_SIDE_EFFECT(4, KAPI_EFFECT_MODIFY_STATE,
-+			 "page flags",
-+			 "Clears PG_mlocked flag from all locked pages")
-+		KAPI_EFFECT_CONDITION("Pages had PG_mlocked set")
-+	KAPI_SIDE_EFFECT_END
++/* Helper to print parameter flags */
++static void print_param_flags(struct seq_file *m, u32 flags)
++{
++	seq_printf(m, "    flags: ");
++	if (flags & KAPI_PARAM_IN) seq_printf(m, "IN ");
++	if (flags & KAPI_PARAM_OUT) seq_printf(m, "OUT ");
++	if (flags & KAPI_PARAM_INOUT) seq_printf(m, "INOUT ");
++	if (flags & KAPI_PARAM_OPTIONAL) seq_printf(m, "OPTIONAL ");
++	if (flags & KAPI_PARAM_CONST) seq_printf(m, "CONST ");
++	if (flags & KAPI_PARAM_USER) seq_printf(m, "USER ");
++	if (flags & KAPI_PARAM_VOLATILE) seq_printf(m, "VOLATILE ");
++	if (flags & KAPI_PARAM_DMA) seq_printf(m, "DMA ");
++	if (flags & KAPI_PARAM_ALIGNED) seq_printf(m, "ALIGNED ");
++	seq_printf(m, "\n");
++}
 +
-+	KAPI_SIDE_EFFECT(5, KAPI_EFFECT_MODIFY_STATE,
-+			 "LRU lists",
-+			 "Moves all pages from unevictable to normal LRU lists")
-+		KAPI_EFFECT_CONDITION("Pages were on unevictable list")
-+	KAPI_SIDE_EFFECT_END
++/* Helper to print context flags */
++static void print_context_flags(struct seq_file *m, u32 flags)
++{
++	seq_printf(m, "Context flags: ");
++	if (flags & KAPI_CTX_PROCESS) seq_printf(m, "PROCESS ");
++	if (flags & KAPI_CTX_HARDIRQ) seq_printf(m, "HARDIRQ ");
++	if (flags & KAPI_CTX_SOFTIRQ) seq_printf(m, "SOFTIRQ ");
++	if (flags & KAPI_CTX_NMI) seq_printf(m, "NMI ");
++	if (flags & KAPI_CTX_SLEEPABLE) seq_printf(m, "SLEEPABLE ");
++	if (flags & KAPI_CTX_ATOMIC) seq_printf(m, "ATOMIC ");
++	if (flags & KAPI_CTX_PREEMPT_DISABLED) seq_printf(m, "PREEMPT_DISABLED ");
++	if (flags & KAPI_CTX_IRQ_DISABLED) seq_printf(m, "IRQ_DISABLED ");
++	seq_printf(m, "\n");
++}
 +
-+	/* State transitions */
-+	KAPI_STATE_TRANS(0, "all memory pages",
-+			 "locked in RAM", "swappable",
-+			 "All pages in process become eligible for swap out")
-+	KAPI_STATE_TRANS_END
++/* Show function for individual API spec */
++static int kapi_spec_show(struct seq_file *m, void *v)
++{
++	struct kernel_api_spec *spec = m->private;
++	int i;
 +
-+	KAPI_STATE_TRANS(1, "future mappings",
-+			 "auto-locked", "normal",
-+			 "New mappings will no longer be automatically locked")
-+		KAPI_STATE_TRANS_COND("MCL_FUTURE was set")
-+	KAPI_STATE_TRANS_END
++	seq_printf(m, "Kernel API Specification\n");
++	seq_printf(m, "========================\n\n");
 +
-+	KAPI_STATE_TRANS(2, "all VMA flags",
-+			 "VM_LOCKED set", "VM_LOCKED cleared",
-+			 "All virtual memory areas no longer marked as locked")
-+	KAPI_STATE_TRANS_END
++	/* Basic info */
++	seq_printf(m, "Name: %s\n", spec->name);
++	seq_printf(m, "Version: %u\n", spec->version);
++	seq_printf(m, "Description: %s\n", spec->description);
++	if (strlen(spec->long_description) > 0)
++		seq_printf(m, "Long description: %s\n", spec->long_description);
 +
-+	KAPI_STATE_TRANS(3, "process statistics",
-+			 "all memory locked", "no memory locked",
-+			 "Entire locked memory accounting reset to zero")
-+	KAPI_STATE_TRANS_END
++	/* Context */
++	print_context_flags(m, spec->context_flags);
++	seq_printf(m, "\n");
 +
-+	KAPI_STATE_TRANS(4, "page LRU status",
-+			 "unevictable list", "active/inactive list",
-+			 "All pages moved to normal LRU lists for reclaim")
-+		KAPI_STATE_TRANS_COND("Pages were mlocked")
-+	KAPI_STATE_TRANS_END
++	/* Parameters */
++	if (spec->param_count > 0) {
++		seq_printf(m, "Parameters (%u):\n", spec->param_count);
++		for (i = 0; i < spec->param_count; i++) {
++			struct kapi_param_spec *param = &spec->params[i];
++			seq_printf(m, "  [%d] %s:\n", i, param->name);
++			seq_printf(m, "    type: %s (%s)\n",
++				   param_type_str(param->type), param->type_name);
++			print_param_flags(m, param->flags);
++			if (strlen(param->description) > 0)
++				seq_printf(m, "    description: %s\n", param->description);
++			if (param->size > 0)
++				seq_printf(m, "    size: %zu\n", param->size);
++			if (param->alignment > 0)
++				seq_printf(m, "    alignment: %zu\n", param->alignment);
 +
-+	/* Locking information */
-+	KAPI_LOCK(0, "mmap_lock", KAPI_LOCK_RWLOCK)
-+		KAPI_LOCK_DESC("Process memory map write lock")
-+		KAPI_LOCK_ACQUIRED
-+		KAPI_LOCK_RELEASED
-+		KAPI_LOCK_DESC("Protects VMA modifications during munlockall operation")
-+	KAPI_LOCK_END
++			/* Print constraints if any */
++			if (param->constraint_type != KAPI_CONSTRAINT_NONE) {
++				seq_printf(m, "    constraints:\n");
++				switch (param->constraint_type) {
++				case KAPI_CONSTRAINT_RANGE:
++					seq_printf(m, "      type: range\n");
++					seq_printf(m, "      min: %lld\n", param->min_value);
++					seq_printf(m, "      max: %lld\n", param->max_value);
++					break;
++				case KAPI_CONSTRAINT_MASK:
++					seq_printf(m, "      type: mask\n");
++					seq_printf(m, "      valid_bits: 0x%llx\n", param->valid_mask);
++					break;
++				case KAPI_CONSTRAINT_ENUM:
++					seq_printf(m, "      type: enum\n");
++					seq_printf(m, "      count: %u\n", param->enum_count);
++					break;
++				case KAPI_CONSTRAINT_CUSTOM:
++					seq_printf(m, "      type: custom\n");
++					if (strlen(param->constraints) > 0)
++						seq_printf(m, "      description: %s\n",
++							   param->constraints);
++					break;
++				default:
++					break;
++				}
++			}
++			seq_printf(m, "\n");
++		}
++	}
 +
-+	KAPI_LOCK(1, "lru_lock", KAPI_LOCK_SPINLOCK)
-+		KAPI_LOCK_DESC("Per-memcg LRU list lock")
-+		KAPI_LOCK_ACQUIRED
-+		KAPI_LOCK_RELEASED
-+		KAPI_LOCK_DESC("Taken when moving all pages from unevictable to normal LRU lists")
-+	KAPI_LOCK_END
++	/* Return value */
++	seq_printf(m, "Return value:\n");
++	seq_printf(m, "  type: %s\n", spec->return_spec.type_name);
++	if (strlen(spec->return_spec.description) > 0)
++		seq_printf(m, "  description: %s\n", spec->return_spec.description);
 +
-+	.error_count = 2,
-+	.since_version = "2.0",
-+	.signal_count = 1,
-+	.side_effect_count = 6,
-+	.state_trans_count = 5,
-+	.lock_count = 2,
-+	.examples = "munlockall();  // Unlock all pages",
-+	.notes = "Clears VM_LOCKED and VM_LOCKONFAULT from all VMAs and mm->def_flags",
-+KAPI_END_SPEC;
++	switch (spec->return_spec.check_type) {
++	case KAPI_RETURN_EXACT:
++		seq_printf(m, "  success: == %lld\n", spec->return_spec.success_value);
++		break;
++	case KAPI_RETURN_RANGE:
++		seq_printf(m, "  success: [%lld, %lld]\n",
++			   spec->return_spec.success_min,
++			   spec->return_spec.success_max);
++		break;
++	case KAPI_RETURN_FD:
++		seq_printf(m, "  success: valid file descriptor (>= 0)\n");
++		break;
++	case KAPI_RETURN_ERROR_CHECK:
++		seq_printf(m, "  success: error check\n");
++		break;
++	case KAPI_RETURN_CUSTOM:
++		seq_printf(m, "  success: custom check\n");
++		break;
++	default:
++		break;
++	}
++	seq_printf(m, "\n");
 +
- SYSCALL_DEFINE0(munlockall)
- {
- 	int ret;
++	/* Errors */
++	if (spec->error_count > 0) {
++		seq_printf(m, "Errors (%u):\n", spec->error_count);
++		for (i = 0; i < spec->error_count; i++) {
++			struct kapi_error_spec *err = &spec->errors[i];
++			seq_printf(m, "  %s (%d): %s\n",
++				   err->name, err->error_code, err->description);
++			if (strlen(err->condition) > 0)
++				seq_printf(m, "    condition: %s\n", err->condition);
++		}
++		seq_printf(m, "\n");
++	}
++
++	/* Locks */
++	if (spec->lock_count > 0) {
++		seq_printf(m, "Locks (%u):\n", spec->lock_count);
++		for (i = 0; i < spec->lock_count; i++) {
++			struct kapi_lock_spec *lock = &spec->locks[i];
++			const char *type_str;
++			switch (lock->lock_type) {
++			case KAPI_LOCK_MUTEX: type_str = "mutex"; break;
++			case KAPI_LOCK_SPINLOCK: type_str = "spinlock"; break;
++			case KAPI_LOCK_RWLOCK: type_str = "rwlock"; break;
++			case KAPI_LOCK_SEMAPHORE: type_str = "semaphore"; break;
++			case KAPI_LOCK_RCU: type_str = "rcu"; break;
++			case KAPI_LOCK_SEQLOCK: type_str = "seqlock"; break;
++			default: type_str = "unknown"; break;
++			}
++			seq_printf(m, "  %s (%s): %s\n",
++				   lock->lock_name, type_str, lock->description);
++			if (lock->acquired)
++				seq_printf(m, "    acquired by function\n");
++			if (lock->released)
++				seq_printf(m, "    released by function\n");
++		}
++		seq_printf(m, "\n");
++	}
++
++	/* Constraints */
++	if (spec->constraint_count > 0) {
++		seq_printf(m, "Additional constraints (%u):\n", spec->constraint_count);
++		for (i = 0; i < spec->constraint_count; i++) {
++			seq_printf(m, "  - %s\n", spec->constraints[i].description);
++		}
++		seq_printf(m, "\n");
++	}
++
++	/* Signals */
++	if (spec->signal_count > 0) {
++		seq_printf(m, "Signal handling (%u):\n", spec->signal_count);
++		for (i = 0; i < spec->signal_count; i++) {
++			struct kapi_signal_spec *sig = &spec->signals[i];
++			seq_printf(m, "  %s (%d):\n", sig->signal_name, sig->signal_num);
++			seq_printf(m, "    direction: ");
++			if (sig->direction & KAPI_SIGNAL_SEND) seq_printf(m, "send ");
++			if (sig->direction & KAPI_SIGNAL_RECEIVE) seq_printf(m, "receive ");
++			if (sig->direction & KAPI_SIGNAL_HANDLE) seq_printf(m, "handle ");
++			if (sig->direction & KAPI_SIGNAL_BLOCK) seq_printf(m, "block ");
++			if (sig->direction & KAPI_SIGNAL_IGNORE) seq_printf(m, "ignore ");
++			seq_printf(m, "\n");
++			seq_printf(m, "    action: ");
++			switch (sig->action) {
++			case KAPI_SIGNAL_ACTION_DEFAULT: seq_printf(m, "default"); break;
++			case KAPI_SIGNAL_ACTION_TERMINATE: seq_printf(m, "terminate"); break;
++			case KAPI_SIGNAL_ACTION_COREDUMP: seq_printf(m, "coredump"); break;
++			case KAPI_SIGNAL_ACTION_STOP: seq_printf(m, "stop"); break;
++			case KAPI_SIGNAL_ACTION_CONTINUE: seq_printf(m, "continue"); break;
++			case KAPI_SIGNAL_ACTION_CUSTOM: seq_printf(m, "custom"); break;
++			case KAPI_SIGNAL_ACTION_RETURN: seq_printf(m, "return"); break;
++			case KAPI_SIGNAL_ACTION_RESTART: seq_printf(m, "restart"); break;
++			default: seq_printf(m, "unknown"); break;
++			}
++			seq_printf(m, "\n");
++			if (strlen(sig->description) > 0)
++				seq_printf(m, "    description: %s\n", sig->description);
++		}
++		seq_printf(m, "\n");
++	}
++
++	/* Additional info */
++	if (strlen(spec->examples) > 0) {
++		seq_printf(m, "Examples:\n%s\n\n", spec->examples);
++	}
++	if (strlen(spec->notes) > 0) {
++		seq_printf(m, "Notes:\n%s\n\n", spec->notes);
++	}
++	if (strlen(spec->since_version) > 0) {
++		seq_printf(m, "Since: %s\n", spec->since_version);
++	}
++	if (spec->deprecated) {
++		seq_printf(m, "DEPRECATED");
++		if (strlen(spec->replacement) > 0)
++			seq_printf(m, " - use %s instead", spec->replacement);
++		seq_printf(m, "\n");
++	}
++
++	return 0;
++}
++
++static int kapi_spec_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, kapi_spec_show, inode->i_private);
++}
++
++static const struct file_operations kapi_spec_fops = {
++	.open = kapi_spec_open,
++	.read = seq_read,
++	.llseek = seq_lseek,
++	.release = single_release,
++};
++
++/* Show all available API specs */
++static int kapi_list_show(struct seq_file *m, void *v)
++{
++	struct kernel_api_spec *spec;
++	int count = 0;
++
++	seq_printf(m, "Available Kernel API Specifications\n");
++	seq_printf(m, "===================================\n\n");
++
++	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
++		seq_printf(m, "%s - %s\n", spec->name, spec->description);
++		count++;
++	}
++
++	seq_printf(m, "\nTotal: %d specifications\n", count);
++	return 0;
++}
++
++static int kapi_list_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, kapi_list_show, NULL);
++}
++
++static const struct file_operations kapi_list_fops = {
++	.open = kapi_list_open,
++	.read = seq_read,
++	.llseek = seq_lseek,
++	.release = single_release,
++};
++
++static int __init kapi_debugfs_init(void)
++{
++	struct kernel_api_spec *spec;
++	struct dentry *spec_dir;
++
++	/* Create main directory */
++	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
++
++	/* Create list file */
++	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
++
++	/* Create specs subdirectory */
++	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
++
++	/* Create a file for each API spec */
++	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
++		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
++	}
++
++	pr_info("Kernel API debugfs interface initialized\n");
++	return 0;
++}
++
++static void __exit kapi_debugfs_exit(void)
++{
++	debugfs_remove_recursive(kapi_debugfs_root);
++}
++
++/* Initialize as part of kernel, not as a module */
++fs_initcall(kapi_debugfs_init);
+\ No newline at end of file
 -- 
 2.39.5
 
