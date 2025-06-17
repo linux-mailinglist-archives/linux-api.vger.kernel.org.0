@@ -1,121 +1,110 @@
-Return-Path: <linux-api+bounces-3927-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3928-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A17ADC2F4
-	for <lists+linux-api@lfdr.de>; Tue, 17 Jun 2025 09:14:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D01DEADCAA9
+	for <lists+linux-api@lfdr.de>; Tue, 17 Jun 2025 14:12:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C5B5188FECE
-	for <lists+linux-api@lfdr.de>; Tue, 17 Jun 2025 07:14:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71BC83A9922
+	for <lists+linux-api@lfdr.de>; Tue, 17 Jun 2025 12:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B204F2609C8;
-	Tue, 17 Jun 2025 07:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652412E3395;
+	Tue, 17 Jun 2025 12:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MFZV9hsL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kB70X7OK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7C528C5D9
-	for <linux-api@vger.kernel.org>; Tue, 17 Jun 2025 07:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A9F2D9EDE;
+	Tue, 17 Jun 2025 12:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750144443; cv=none; b=AHgpIaVd6g1yj1RfA+wYP3IQ5m4mKFBTeZSfJ/fKlbXTYLqZPyFPbJV1piFyKOpFEavYAcYefjyrbA9oewdKMs0PZ0kGGHJ6MoCP/UCfDfIJETceS7AlvmHAKlQHkkoenQ62I63EfPlqD9xy5YQ5LH7h1SCYojiFzh08WKLAVnE=
+	t=1750162135; cv=none; b=DfVyZJ5YS8e95CAv0HLwdRI9d7OhLf+11UAwDkhWkPIkvZSZ8Y7sW2S3e6UBnXB47LPQAme81uVfpKVzdVIq37zTQJrHvdqSbRv205TwnNuB1nDyhnW2nsLiFJltKeUANXG5KqYew8WdJPdGEDKh7XdqqyMWyOboB+XfTibryhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750144443; c=relaxed/simple;
-	bh=qJY8bj9CtbYWcniHkdEgxnX7+YzcTn7+I2xj0uZMQIg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YnvAMwaxjX7ohGmUW80Eit0xNU5VmeZ4PzCq2ntCmH7P38ratOuKYiSVUpLJ+V/xoSRwH9XVPcxOhmjOiqpMbEu3YM40HFGxun8jvDPcmuFxsMCV7Ib/ko7XFNTSyhuyldwi9JdPxCIO7K+e5hjKMuzVnl5FeeXI5Cu7QpnEW+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MFZV9hsL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750144438;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OPf5/BotB2xeNpXMqUEi097upqbb8LBKJ2dT9gWuPvU=;
-	b=MFZV9hsLwXXChY8/hHicGASFvYKypJJ53J0+1yW7NgmLx8hQShJMeGxBS25qILzRmiE++z
-	hkQ0Efj5IeMa0Z0cJmpTOsjsH/TvG/KxUDJLxaFt2QpXoP7b1qhba569DPVZoRV7GKdjxS
-	/iC45c1/ytF9uQsR3aY2OZFxXCTe3xY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-5rCRh91LPYOqx456wpzUNA-1; Tue,
- 17 Jun 2025 03:13:51 -0400
-X-MC-Unique: 5rCRh91LPYOqx456wpzUNA-1
-X-Mimecast-MFC-AGG-ID: 5rCRh91LPYOqx456wpzUNA_1750144430
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 609A71809C80;
-	Tue, 17 Jun 2025 07:13:50 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.45.224.8])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 604C01956094;
-	Tue, 17 Jun 2025 07:13:48 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
+	s=arc-20240116; t=1750162135; c=relaxed/simple;
+	bh=hol8Y4KAFEPlWLZf5l4HrmnpL7xNmLx4AE9JLBSvKLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Za/sb7TJL0WlFfYUPRhCzV0Vst7Se4oTD2mRGyzRGEbLQ6lhoatzuelGEBADQWN5PR8i4iUYOygSEiTI/LUc6TZF2b7+3mCos1whEezz5a+dc7lXZvmBy2ZXJL4O50Q6MdeQevdNbXsHnN0XbSGLW0Eev2ZXOMjO+Ht2JodYD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kB70X7OK; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so48982935e9.3;
+        Tue, 17 Jun 2025 05:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750162132; x=1750766932; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
+        b=kB70X7OKz4bzu3EEv9bZZ4V4Bh+SVncjy3ie24fjmH1ziD5DIHPkUHrz9hLTJDTDUH
+         XN7ivPotv5C1pdWbjtN0hAJ/+g7Lg4usFKMm4HXenYb3D4RpPTSK5PkbBYHpgYIBfubS
+         f/Aut/Sm4HJnwtnVA3bB8BFz2PqNcWQDadkE9e2VYqgp/WH/GKSZbRnCfH6yoWp/P34v
+         FNMUTDbxxIvxELDOWmgDr9c1Cs7igAA4liqut7Qn2m/YJnN8P6zFuc+o+6YuIXIN1U8F
+         iqrN6iBEFAlp5qtVBJv3NHAELC2hWzdMa4F9w1WIHsY7L8P+7XqxI3lzgYiKnKou1xe8
+         Gi1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750162132; x=1750766932;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yr8tf490dLZcrTR7ZRtUOPxPJ+C3QiVC034zaGj7oxY=;
+        b=sbg0NUIZIHjETwhX6Qj/IZJuKIHB7m3LpL11p/OZDomc6b2UoGGqfM73PTBFmQOzeo
+         Cee6cxaR8zXqlffCX7Xv6N2/umT8BS2A9/z8dmlf0nhPbnxV+vmkCKrOw4KQ7pIz5aSp
+         kGjmdfkBrM8SjuHbJuB7nffC3MuQlxNMgV9Ubwb6x86F6LtCJDMGh/kiXswhxvem7o8d
+         96VzXInETTONEU6CESDmudYHd35eLANA3VmOpdHWYneq02npM3wM1w2E2805erZKZ9sZ
+         gWtNFj6w+s79UGby/RsgjMi4cR+OdRKBP2aXH1mWyDjW1WaRUYco45Smc2miYP8p7K/G
+         0AAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUOarPpPeYmkqyYms9bC0xS5dVBudzDsxHjMl+nrhLNdzK5OzXr/yIwbYsLB0dm1LBT6/CKPROjpIxX@vger.kernel.org, AJvYcCWnAFM5vSaehI3iHKaWCkCM7srQqs+2hWlwI+tljzdwqmGwEnLwaJGirI28VNCVMdsltJ3/9DRb9sA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSCegKrYianyRoyztqASdwAw/v+XokcBpRbGDRyUXiteWXUBUB
+	jKKTm2Yo00Z6wCwM2mG2jJRFTRMnJlvWunG/xIDGznf5b9OYZOnEvbm0Uu+akA==
+X-Gm-Gg: ASbGncu1HNz2gABIYhHtoBbJklPSmEtnRuKfGlakBhz5efTk4cpec3JhPDWckjg38hj
+	/L9efRgkmJr+rpsZbRn9pxYG4yA1WEq0jj/WM0s6uzC5GpF2lHCVluovoWeX3OEKk4vr7SdzrDU
+	SDkHmlCfavCsXVgRSq2SxDmwz1wOnNAGgmyReSibW+iqGjgab5rZ6DkDmQw6evuApyApL9vh5Iq
+	Rxz9ZftK7QMWvYw1piWeFJeuWzapgCC9u1Py1nTOhSq6zwhe0tYoMGADgNHdD39fXQyCRTRYvyB
+	gRjRqoJJ5Gz/WQo3CJstgJhA0BR0eb+MBj/bTbGB/9XAtwQP2JQRl8D5duweJkitRsJGnHO2avh
+	l1KZCLOabMyKPbiu5HRtYlH1W
+X-Google-Smtp-Source: AGHT+IEIOX1GzSo473MBZ+UaEARhaHXuzm5oUIXccFwfpiU+QMAiIUkNa3q26+k+e/fOeO+ip3BxCA==
+X-Received: by 2002:a05:600c:630f:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-4533ca8b32fmr156454475e9.10.1750162131655;
+        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e22460bsm183509415e9.6.2025.06.17.05.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 05:08:51 -0700 (PDT)
+Date: Tue, 17 Jun 2025 13:08:50 +0100
+From: David Laight <david.laight.linux@gmail.com>
 To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
-  workflows@vger.kernel.org,  tools@kernel.org
-Subject: Re: [RFC 08/19] exec: add API specification for execve
-In-Reply-To: <aFDKHhaqB75Qi212@lappy> (Sasha Levin's message of "Mon, 16 Jun
-	2025 21:51:26 -0400")
+Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+Message-ID: <20250617130850.4f558701@pumpkin>
+In-Reply-To: <20250614134858.790460-1-sashal@kernel.org>
 References: <20250614134858.790460-1-sashal@kernel.org>
-	<20250614134858.790460-9-sashal@kernel.org>
-	<87ikkvv018.fsf@oldenburg.str.redhat.com> <aFDKHhaqB75Qi212@lappy>
-Date: Tue, 17 Jun 2025 09:13:44 +0200
-Message-ID: <87y0tqu9g7.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-* Sasha Levin:
+On Sat, 14 Jun 2025 09:48:39 -0400
+Sasha Levin <sashal@kernel.org> wrote:
 
-> On Mon, Jun 16, 2025 at 11:39:31PM +0200, Florian Weimer wrote:
->>* Sasha Levin:
->>
->>> +	KAPI_RETURN("long", "Does not return on success; returns -1 on error")
->>> +		.type = KAPI_TYPE_INT,
->>> +		.check_type = KAPI_RETURN_ERROR_CHECK,
->>> +	KAPI_RETURN_END
->>
->>Is the -1 part correct?
->
-> Maybe :) That's one of the things I wasn't sure about: we're documenting
-> the execve syscall rather than the function itself. A user calling
-> execve() will end up with -1 on failure, and errno set with the error
-> code.
+> This patch series introduces a framework for formally specifying kernel
+> APIs, addressing the long-standing challenge of maintaining stable
+> interfaces between the kernel and user-space programs. As outlined in
+> previous discussions about kernel ABI stability, the lack of
+> machine-readable API specifications has led to inadvertent breakages and
+> inconsistent validation across system calls and IOCTLs.
 
-Well, it doesn't say execve, it says sys_execve.
+Ugg, looks horrid.
+Going to be worse than things like doxygen for getting out of step with
+the actual code and grep searches are going to hit the comment blocks.
 
-> You could argue that it's libc that sets errno and we're trying to spec
-> the kernel here, not the userspace interface to it.
-
-And I think this would be appropriate.
-
-Note that in the future, the glibc version of execve will not be a
-straightforward system call wrapper because we need to obtain a
-consistent snapshot of the environment array.  That is actually pretty
-hard because we cannot atomically replace the process image, unblock
-signals, and unmap a copy of the environment.
-
-So I think it's best for the kernel to stick with the system call
-interface and not try to document what libcs are doing.
-
-An even more thorny example are the setuid family of system calls, where
-the kernel is extremely far away from what POSIX requires, and we have
-to fix it in userspace.
-
-Thanks,
-Florian
-
+	David
 
