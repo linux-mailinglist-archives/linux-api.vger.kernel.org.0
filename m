@@ -1,172 +1,245 @@
-Return-Path: <linux-api+bounces-3960-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3961-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3609CAE6B3F
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 17:36:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 183EFAE6E13
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 20:07:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EDC53B4F84
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 15:33:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4AFB18931D5
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 18:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0EE274B4C;
-	Tue, 24 Jun 2025 15:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2A312E3B16;
+	Tue, 24 Jun 2025 18:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vvlrnM2f";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="du7Ec+1k";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vvlrnM2f";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="du7Ec+1k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGNrkdKo"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63990274B51
-	for <linux-api@vger.kernel.org>; Tue, 24 Jun 2025 15:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F6826CE08;
+	Tue, 24 Jun 2025 18:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750778836; cv=none; b=DWKNhFWJFR+7DzxUEjNnSSRdNOiFC9WSwoQsiwkCa3NmqQoa/VGRlIFMpBb+yw+uVcoG3B6rmEyXMWO6J+Oqn3/i3FMd0QE5sU+nOmCTAeLE49LOD1ioP5kKZjxzIEtrN+Mi9HZL3MF009QT8VV+qPc3GkXCafJU76DOLPV6EOk=
+	t=1750788467; cv=none; b=OQIGYXk+b/6P/q+KEgHP5a99epaUmtkaTE2bIMsBMogSF+Z5rzPSOEPSsD8mQRJSuY+AFrrwZEphKMrXym0F8xP8YqgFouBLmrCZ8wnUkHJPoEeAIGBf+kzBokOBq4cQwVSvJtqSQghFZR9E7hNDXfrd9jEHhp8GAXS35EFDRkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750778836; c=relaxed/simple;
-	bh=zjZ/DNIXvK66lZcm+P5jsRfEbkkov/vhsRsVKMmico0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qN+bDXmkGxNQ7VtNhYgwO9Cgp2SGghrl05+rZIVaN82H0yJgtdPQTWORev2l7G2/gQol2zhml3WVKIwRnb4xRy6jAZ/9+ghxjdFLdcxd38RwuQlFERUt2mnNg9rV5MxQNczL9PLmXHz+5RsXcKFgba25r9QFGhMgp/pAadwYqzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vvlrnM2f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=du7Ec+1k; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vvlrnM2f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=du7Ec+1k; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E97F21188;
-	Tue, 24 Jun 2025 15:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750778832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
-	b=vvlrnM2feTpV6+ta6uoKsfyvo3trinlhBI684D+M0ahVSjSaUP4cZoBGdLt58BhJywQwse
-	U98pFOyfr5XwpUaZ2FENX5MgnKN3Jkq52RzP/AQK+2SKFkcP5WgFRZnIADKx6xEt4C8T8X
-	gnzktuR3Y+USict2kCwJtnVz9DyEZR4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750778832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
-	b=du7Ec+1k9lAeD6cDmfItCTSD4+6O4OIyQYsdrFVetw2b9Kyw6tXD28putC1lfSJ5Uc/Xku
-	dId42Dp0uuXwQMBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vvlrnM2f;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=du7Ec+1k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750778832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
-	b=vvlrnM2feTpV6+ta6uoKsfyvo3trinlhBI684D+M0ahVSjSaUP4cZoBGdLt58BhJywQwse
-	U98pFOyfr5XwpUaZ2FENX5MgnKN3Jkq52RzP/AQK+2SKFkcP5WgFRZnIADKx6xEt4C8T8X
-	gnzktuR3Y+USict2kCwJtnVz9DyEZR4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750778832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
-	b=du7Ec+1k9lAeD6cDmfItCTSD4+6O4OIyQYsdrFVetw2b9Kyw6tXD28putC1lfSJ5Uc/Xku
-	dId42Dp0uuXwQMBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B2ED13A9D;
-	Tue, 24 Jun 2025 15:27:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sBX1GNDDWmi1DgAAD6G6ig
-	(envelope-from <chrubis@suse.cz>); Tue, 24 Jun 2025 15:27:12 +0000
-Date: Tue, 24 Jun 2025 17:27:51 +0200
-From: Cyril Hrubis <chrubis@suse.cz>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: sashal@kernel.org, kees@kernel.org, elver@google.com,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tools@kernel.org, workflows@vger.kernel.org
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-Message-ID: <aFrD9wuMky8TkhUW@yuki.lan>
-References: <aFNYQkbEctT6N0Hb@lappy>
- <20250623132803.26760-1-dvyukov@google.com>
- <aFqw5-PO4MjsEdYU@yuki.lan>
- <CACT4Y+Youc3M0z0U9arrTgyOC1+UKytav4zObhjUXn8-RLThMQ@mail.gmail.com>
+	s=arc-20240116; t=1750788467; c=relaxed/simple;
+	bh=2uM8ZfAK+2ebhVCKsRlO9mp2j5h+pjhyVWwUkYCCus0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A97iZjPJ6o7jQZeTc2KqlE20321c3Id/bCfI4Ey3ptJzNbEWY5iAorcSzISFTkqKIxE/rrlr3aN/QeTo/ftbMkHJ/50P94DDyzEjrZUnl5/WF5BRRQRzn/N/2Y3W1YUovSPXyVBjbmW6M0YOhoPYERA/tEgJFz5EV14YuIWrJjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGNrkdKo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA49EC4CEE3;
+	Tue, 24 Jun 2025 18:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750788467;
+	bh=2uM8ZfAK+2ebhVCKsRlO9mp2j5h+pjhyVWwUkYCCus0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QGNrkdKosWT9uHKYQ89vGG/xHUp+ntNVuJuDxWP6ZdUfkXvWIrIuu94aiDn97PTaT
+	 N9IRXQo+AeZRAD3jrNItAnHzQWyU6XK3S2wsyXS+KQmvAJAuIP0MTSljlWTN8D2iXI
+	 2yMhNDc5nouo0Gi1qxmk328ibwmM4mvmAE+s6qlDww/UdxAxQOO3UasiVwFfXRVPW1
+	 1oqcCs+cuVn4CI8ujyrbczXXSl4UzlrLfpT/PHG1J9FgjgJufU9PHTaKDNxN2vMTWh
+	 GxfvOe1LMrtsbcB85frl2+NBXYG2TVbs2vQ4pCxOvlXkbm10XIaxZW625QdlvN0XCN
+	 UoNoXzozoqPyg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [RFC v2 00/22] Kernel API specification framework
+Date: Tue, 24 Jun 2025 14:07:20 -0400
+Message-Id: <20250624180742.5795-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+Youc3M0z0U9arrTgyOC1+UKytav4zObhjUXn8-RLThMQ@mail.gmail.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7E97F21188
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.51
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-Hi!
-> > You may wonder if such kind of tests are useful at all, since quite a
-> > few of these errors are checked for and generated from a common
-> > functions. There are at least two cases I can think of. First of all it
-> > makes sure that errors are stable when particular function/subsystem is
-> > rewritten. And it can also make sure that errors are consistent across
-> > different implementation of the same functionality e.g. filesystems. I
-> > remember that some of the less used FUSE filesystems returned puzzling
-> > errors in certain corner cases.
-> 
-> I am not following how this is related to the validation part of the
-> patch series. Can you elaborate?
+Hey folks,
 
-This part is me trying to explain that generated conformance tests would
-be useful for development as well.
+This is a second attempt at a "Kernel API Specification" framework, addressing
+the feedback from the initial RFC and expanding the scope to include sysfs
+attribute specifications.
 
-> Generation of such conformance tests would need info about parameter
-> types and their semantic meaning, not the validation part.
-> The conformance tests should test that actual syscall checking of
-> arguments, not the validation added by this framework.
+Motivation
+==========
 
-Exactly.
+The Linux kernel has one fundamental promise to userspace: we don't
+break it.  This promise is the foundation of Linux's success, allowing
+applications written decades ago to still run on modern kernels. Yet
+despite this being our most important commitment, we lack reliable
+mechanisms to detect when we're about to break this promise.
 
-I do not think that it makes sense to encode the argument ranges and
-functions to generate a valid syscall parameters into the kernel. Rather
-than that the information should encoded in the extended types, if we do
-that well enough we can generate combination of different valid and
-invalid parameters for the tests based on that.
+Currently, we rely on:
+- Developer vigilance and review
+- User reports after release (often too late)
+- Limited testing that can't cover all API usage patterns
+- Documentation that's often incomplete or outdated
+
+This gap between our commitment and our tooling is a fundamental problem.
+We have sophisticated tools to catch memory leaks, race conditions, and
+other bugs, but no systematic way to catch API breakage before it impacts
+users.
+
+As the kernel continues to grow, so do the interfaces exposed by it. This
+applies to both the userspace API as well as the numerous internal APIs.
+Over the years, we've accumulated a lot of documentation, but it's
+sometimes lacking, spread out, and often out of date.
+
+In the same way that we have runtime and static checkers to validate that
+code is correct, we need a way to validate that the *use* of the various
+APIs is correct and that changes don't break existing contracts.
+
+This work aims to provide:
+
+1. A machine-readable format to describe APIs.
+2. Runtime validation of API contracts.
+3. Generation of documentation and other artifacts.
+4. Improved tooling for API exploration and debugging.
+5. Most importantly: automated detection of API breakage.
+
+With formal API specifications, we can:
+- Detect when patches change API behavior in incompatible ways
+- Validate that error codes, parameter constraints, and return values
+  remain consistent across kernel versions
+- Generate automated tests that verify API contracts
+- Provide userspace with machine-readable guarantees about kernel behavior
+- Catch subtle breakage (like removing error codes, changing semantics,
+  or tightening constraints) that manual review might miss
+
+The idea is to have an in-kernel API specification format that can be used
+by tools such as:
+
+- Static analysis tools (checkpatch, sparse, Coccinelle) to detect API
+  contract violations at compile time
+- CI/CD systems to automatically flag potential userspace breakage
+- Runtime verification (API contract validation) during testing
+- Tracing and debugging (better BPF/ftrace integration)
+- Documentation generation (automated, always up-to-date)
+- Userspace helpers (interceptors, mocking frameworks, etc.)
+- Fuzzers (can detect API contract violations, not just kernel crashes)
+
+Where are we now?
+=================
+
+This series introduces a framework that allows developers to declare API
+specifications directly in their subsystem code. These specifications are
+then:
+
+1. Exported via debugfs (making them runtime queryable)
+2. Compiled into the kernel binary (accessible to tools)
+3. Used for runtime validation (when enabled)
+
+The `kapi` tool in tools/kapi/ can extract API specifications from:
+- Source code (by parsing the KAPI macros)
+- Running kernel (via debugfs)
+- vmlinux binary (for offline analysis)
+
+It produces output in multiple formats (plain text, JSON, RST) for easy
+integration with existing workflows.
+
+Changes since v1
+================
+
+- Added sysfs attribute validation support (patches 19-20)
+- Added socket() syscall specification (patch 21)
+- Enhanced signal handling with new actions (QUEUE, DISCARD, TRANSFORM)
+- Expanded all API specifications with more detailed constraints
+- Improved error handling documentation across all patches
+- Added network/socket infrastructure to core framework
+- Plumbed in syscall runtime validation
+
+Sasha Levin (22):
+  kernel/api: introduce kernel API specification framework
+  eventpoll: add API specification for epoll_create1
+  eventpoll: add API specification for epoll_create
+  eventpoll: add API specification for epoll_ctl
+  eventpoll: add API specification for epoll_wait
+  eventpoll: add API specification for epoll_pwait
+  eventpoll: add API specification for epoll_pwait2
+  exec: add API specification for execve
+  exec: add API specification for execveat
+  mm/mlock: add API specification for mlock
+  mm/mlock: add API specification for mlock2
+  mm/mlock: add API specification for mlockall
+  mm/mlock: add API specification for munlock
+  mm/mlock: add API specification for munlockall
+  kernel/api: add debugfs interface for kernel API specifications
+  kernel/api: add IOCTL specification infrastructure
+  fwctl: add detailed IOCTL API specifications
+  binder: add detailed IOCTL API specifications
+  kernel/api: Add sysfs validation support to kernel API specification
+    framework
+  block: sysfs API specifications
+  net/socket: add API specification for socket()
+  tools/kapi: Add kernel API specification extraction tool
+
+ Documentation/admin-guide/kernel-api-spec.rst |  699 +++++++
+ MAINTAINERS                                   |    9 +
+ arch/um/kernel/dyn.lds.S                      |    3 +
+ arch/um/kernel/uml.lds.S                      |    3 +
+ arch/x86/kernel/vmlinux.lds.S                 |    3 +
+ block/blk-integrity.c                         |  131 ++
+ block/blk-sysfs.c                             |  243 +++
+ block/genhd.c                                 |   99 +
+ drivers/android/binder.c                      |  701 +++++++
+ drivers/fwctl/main.c                          |  285 ++-
+ fs/eventpoll.c                                | 1163 +++++++++++
+ fs/exec.c                                     |  702 +++++++
+ include/asm-generic/vmlinux.lds.h             |   20 +
+ include/linux/kernel_api_spec.h               | 1841 +++++++++++++++++
+ include/linux/syscall_api_spec.h              |  137 ++
+ include/linux/syscalls.h                      |   38 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    1 +
+ kernel/api/Kconfig                            |   55 +
+ kernel/api/Makefile                           |   13 +
+ kernel/api/ioctl_validation.c                 |  355 ++++
+ kernel/api/kapi_debugfs.c                     |  340 +++
+ kernel/api/kernel_api_spec.c                  | 1531 ++++++++++++++
+ mm/mlock.c                                    |  774 +++++++
+ net/socket.c                                  |  489 +++++
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.toml                         |   19 +
+ tools/kapi/src/extractor/debugfs.rs           |  415 ++++
+ tools/kapi/src/extractor/mod.rs               |  411 ++++
+ tools/kapi/src/extractor/source_parser.rs     | 1625 +++++++++++++++
+ .../src/extractor/vmlinux/binary_utils.rs     |  283 +++
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  989 +++++++++
+ tools/kapi/src/formatter/json.rs              |  420 ++++
+ tools/kapi/src/formatter/mod.rs               |  130 ++
+ tools/kapi/src/formatter/plain.rs             |  465 +++++
+ tools/kapi/src/formatter/rst.rs               |  468 +++++
+ tools/kapi/src/formatter/shall.rs             |  605 ++++++
+ tools/kapi/src/main.rs                        |  130 ++
+ 38 files changed, 15598 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/admin-guide/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/linux/syscall_api_spec.h
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/ioctl_validation.c
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/formatter/shall.rs
+ create mode 100644 tools/kapi/src/main.rs
 
 -- 
-Cyril Hrubis
-chrubis@suse.cz
+2.39.5
+
 
