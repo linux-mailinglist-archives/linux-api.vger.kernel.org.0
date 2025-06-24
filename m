@@ -1,249 +1,172 @@
-Return-Path: <linux-api+bounces-3959-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3960-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396E3AE6961
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 16:46:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3609CAE6B3F
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 17:36:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FA1116687A
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 14:40:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EDC53B4F84
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 15:33:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A802E88B4;
-	Tue, 24 Jun 2025 14:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0EE274B4C;
+	Tue, 24 Jun 2025 15:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="WNsqZBDE"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vvlrnM2f";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="du7Ec+1k";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vvlrnM2f";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="du7Ec+1k"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95932E6D0F;
-	Tue, 24 Jun 2025 14:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63990274B51
+	for <linux-api@vger.kernel.org>; Tue, 24 Jun 2025 15:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750775637; cv=none; b=ZIAXYYYotg7Csk7ceTllTNfgujWttAVOkfaU2AFRDT/egs4ry0Wl9V7zLKiIXgb5NmALwyfR3kQWiqkEomaTou+CJ701fOwsHrXVrU1r6fKF1oHZPsjX78TbfPwKqmoRp+oTl+EubktBtn8O4HKSXz5RJDzVO5R2TiaVuWgB04s=
+	t=1750778836; cv=none; b=DWKNhFWJFR+7DzxUEjNnSSRdNOiFC9WSwoQsiwkCa3NmqQoa/VGRlIFMpBb+yw+uVcoG3B6rmEyXMWO6J+Oqn3/i3FMd0QE5sU+nOmCTAeLE49LOD1ioP5kKZjxzIEtrN+Mi9HZL3MF009QT8VV+qPc3GkXCafJU76DOLPV6EOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750775637; c=relaxed/simple;
-	bh=d5M/Hk14yChGkT7tf/L/6oDfqdz4CsH3WSwtJxG4I+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mhN8jfWjAZ9ZsB7l4i5Ch/qLIzzrre8CXbqq9FIxQ9vcCT/znLb2NBaIPE6H013s5WSJCw0EtFsO0be7h4/DVaFuwkns8dH3ZZB4/QPexc/zObma8sFGU/pejiEazqSjDVNXxj9oi6c90RyPuhCB8depLDQL7PJMjYQp+mQ6Psw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=WNsqZBDE; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from sec2-plucky-amd64.. (lau06-h06-176-136-128-80.dsl.sta.abo.bbox.fr [176.136.128.80])
+	s=arc-20240116; t=1750778836; c=relaxed/simple;
+	bh=zjZ/DNIXvK66lZcm+P5jsRfEbkkov/vhsRsVKMmico0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qN+bDXmkGxNQ7VtNhYgwO9Cgp2SGghrl05+rZIVaN82H0yJgtdPQTWORev2l7G2/gQol2zhml3WVKIwRnb4xRy6jAZ/9+ghxjdFLdcxd38RwuQlFERUt2mnNg9rV5MxQNczL9PLmXHz+5RsXcKFgba25r9QFGhMgp/pAadwYqzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vvlrnM2f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=du7Ec+1k; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vvlrnM2f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=du7Ec+1k; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 7A4BD4018F;
-	Tue, 24 Jun 2025 14:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1750775629;
-	bh=X3yVcB/5qVhKayZUa41FaUh8FIUjAjD/QoJab4XolZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=WNsqZBDEdQ49baJVa2zBQXXd77lSSOW1kTOl4Rm5hknAVwup7AwSx1eR6no8KGF8c
-	 vA04/0hHt9mUrvgsGBjHmOsnz677LX/nJ5I4Os7wyOX9/tpG2cAPggiEZMR5WGrEpk
-	 9qlhuhKtQYPtHVg4Q+CIynLrulYwLW6kqagQa/k86hwJVzU9g6fdFeWwYmbW2x5Y4E
-	 meLRs/6jeLetM6BZsDA65Zd+dRLqhgBvKaGZHKDOaOV33bxdCPVwe32Y8H9YQlq+ko
-	 9OTgkxOMHaiPVJ4TNRcmfiNqh9RQevXlff1WhT+3q5YmcUFQso5IXJHf2fe015KY5W
-	 LY01HJdtwXg/Q==
-From: =?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
-To: linux-security-module@vger.kernel.org
-Cc: john.johansen@canonical.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	mic@digikod.net,
-	kees@kernel.org,
-	stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com,
-	takedakn@nttdata.co.jp,
-	penguin-kernel@I-love.SAKURA.ne.jp,
-	song@kernel.org,
-	rdunlap@infraread.org,
-	linux-api@vger.kernel.org,
-	apparmor@lists.ubuntu.com,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
-Subject: [PATCH v3 3/3] AppArmor: add support for lsm_config_self_policy and lsm_config_system_policy
-Date: Tue, 24 Jun 2025 16:30:42 +0200
-Message-ID: <20250624143211.436045-4-maxime.belair@canonical.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250624143211.436045-1-maxime.belair@canonical.com>
-References: <20250624143211.436045-1-maxime.belair@canonical.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E97F21188;
+	Tue, 24 Jun 2025 15:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750778832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
+	b=vvlrnM2feTpV6+ta6uoKsfyvo3trinlhBI684D+M0ahVSjSaUP4cZoBGdLt58BhJywQwse
+	U98pFOyfr5XwpUaZ2FENX5MgnKN3Jkq52RzP/AQK+2SKFkcP5WgFRZnIADKx6xEt4C8T8X
+	gnzktuR3Y+USict2kCwJtnVz9DyEZR4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750778832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
+	b=du7Ec+1k9lAeD6cDmfItCTSD4+6O4OIyQYsdrFVetw2b9Kyw6tXD28putC1lfSJ5Uc/Xku
+	dId42Dp0uuXwQMBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vvlrnM2f;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=du7Ec+1k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750778832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
+	b=vvlrnM2feTpV6+ta6uoKsfyvo3trinlhBI684D+M0ahVSjSaUP4cZoBGdLt58BhJywQwse
+	U98pFOyfr5XwpUaZ2FENX5MgnKN3Jkq52RzP/AQK+2SKFkcP5WgFRZnIADKx6xEt4C8T8X
+	gnzktuR3Y+USict2kCwJtnVz9DyEZR4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750778832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoiiUm2Fj9WK2+okdYgOSWwXKVvL+oEsvy7xNbG15iI=;
+	b=du7Ec+1k9lAeD6cDmfItCTSD4+6O4OIyQYsdrFVetw2b9Kyw6tXD28putC1lfSJ5Uc/Xku
+	dId42Dp0uuXwQMBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B2ED13A9D;
+	Tue, 24 Jun 2025 15:27:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sBX1GNDDWmi1DgAAD6G6ig
+	(envelope-from <chrubis@suse.cz>); Tue, 24 Jun 2025 15:27:12 +0000
+Date: Tue, 24 Jun 2025 17:27:51 +0200
+From: Cyril Hrubis <chrubis@suse.cz>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: sashal@kernel.org, kees@kernel.org, elver@google.com,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tools@kernel.org, workflows@vger.kernel.org
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+Message-ID: <aFrD9wuMky8TkhUW@yuki.lan>
+References: <aFNYQkbEctT6N0Hb@lappy>
+ <20250623132803.26760-1-dvyukov@google.com>
+ <aFqw5-PO4MjsEdYU@yuki.lan>
+ <CACT4Y+Youc3M0z0U9arrTgyOC1+UKytav4zObhjUXn8-RLThMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+Youc3M0z0U9arrTgyOC1+UKytav4zObhjUXn8-RLThMQ@mail.gmail.com>
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7E97F21188
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Score: -4.51
+X-Spam-Level: 
 
-Enable users to manage AppArmor policies through the new hooks
-lsm_config_self_policy and lsm_config_system_policy.
+Hi!
+> > You may wonder if such kind of tests are useful at all, since quite a
+> > few of these errors are checked for and generated from a common
+> > functions. There are at least two cases I can think of. First of all it
+> > makes sure that errors are stable when particular function/subsystem is
+> > rewritten. And it can also make sure that errors are consistent across
+> > different implementation of the same functionality e.g. filesystems. I
+> > remember that some of the less used FUSE filesystems returned puzzling
+> > errors in certain corner cases.
+> 
+> I am not following how this is related to the validation part of the
+> patch series. Can you elaborate?
 
-lsm_config_self_policy allows stacking existing policies in the kernel.
-This ensures that it can only further restrict the caller and can never
-be used to gain new privileges.
+This part is me trying to explain that generated conformance tests would
+be useful for development as well.
 
-lsm_config_system_policy allows loading or replacing AppArmor policies in
-any AppArmor namespace.
+> Generation of such conformance tests would need info about parameter
+> types and their semantic meaning, not the validation part.
+> The conformance tests should test that actual syscall checking of
+> arguments, not the validation added by this framework.
 
-Signed-off-by: Maxime Bélair <maxime.belair@canonical.com>
----
- security/apparmor/apparmorfs.c         | 31 +++++++++++
- security/apparmor/include/apparmorfs.h |  3 ++
- security/apparmor/lsm.c                | 71 ++++++++++++++++++++++++++
- 3 files changed, 105 insertions(+)
+Exactly.
 
-diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorfs.c
-index 6039afae4bfc..6df43299b045 100644
---- a/security/apparmor/apparmorfs.c
-+++ b/security/apparmor/apparmorfs.c
-@@ -439,6 +439,37 @@ static ssize_t policy_update(u32 mask, const char __user *buf, size_t size,
- 	return error;
- }
- 
-+/**
-+ * aa_profile_load_ns_name - load a profile into the current namespace identified by name
-+ * @name: The name of the namesapce to load the policy in. "" for root_ns
-+ * @name_size: size of @name. 0 For root ns
-+ * @buf: buffer containing the user-provided policy
-+ * @size: size of @buf
-+ * @ppos: position pointer in the file
-+ *
-+ * Returns: 0 on success, negative value on error
-+ */
-+ssize_t aa_profile_load_ns_name(char *name, size_t name_size, const void __user *buf,
-+				size_t size, loff_t *ppos)
-+{
-+	struct aa_ns *ns;
-+
-+	if (name_size == 0)
-+		ns = aa_get_ns(root_ns);
-+	else
-+		ns = aa_lookupn_ns(root_ns, name, name_size);
-+
-+	if (!ns)
-+		return -EINVAL;
-+
-+	int error = policy_update(AA_MAY_LOAD_POLICY | AA_MAY_REPLACE_POLICY,
-+				  buf, size, ppos, ns);
-+
-+	aa_put_ns(ns);
-+
-+	return error >= 0 ? 0 : error;
-+}
-+
- /* .load file hook fn to load policy */
- static ssize_t profile_load(struct file *f, const char __user *buf, size_t size,
- 			    loff_t *pos)
-diff --git a/security/apparmor/include/apparmorfs.h b/security/apparmor/include/apparmorfs.h
-index 1e94904f68d9..fd415afb7659 100644
---- a/security/apparmor/include/apparmorfs.h
-+++ b/security/apparmor/include/apparmorfs.h
-@@ -112,6 +112,9 @@ int __aafs_profile_mkdir(struct aa_profile *profile, struct dentry *parent);
- void __aafs_ns_rmdir(struct aa_ns *ns);
- int __aafs_ns_mkdir(struct aa_ns *ns, struct dentry *parent, const char *name,
- 		     struct dentry *dent);
-+ssize_t aa_profile_load_ns_name(char *name, size_t name_len, const void __user *buf,
-+				size_t size, loff_t *ppos);
-+
- 
- struct aa_loaddata;
- 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 9b6c2f157f83..7ca2eb8c0981 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1275,6 +1275,73 @@ static int apparmor_socket_shutdown(struct socket *sock, int how)
- 	return aa_sock_perm(OP_SHUTDOWN, AA_MAY_SHUTDOWN, sock);
- }
- 
-+/**
-+ * apparmor_lsm_config_self_policy - Stack a profile
-+ * @lsm_id: AppArmor ID (LSM_ID_APPARMOR). Unused here
-+ * @op: operation to perform. Currently, only LSM_POLICY_LOAD is supported
-+ * @buf: buffer containing the user-provided name of the profile to stack
-+ * @size: size of @buf
-+ * @flags: reserved for future use; must be zero
-+ *
-+ * Returns: 0 on success, negative value on error
-+ */
-+static int apparmor_lsm_config_self_policy(u32 lsm_id, u32 op, void __user *buf,
-+				      size_t size, u32 flags)
-+{
-+	char *name = kvmalloc(size, GFP_KERNEL);
-+	long name_size;
-+	int ret;
-+
-+	if (!name)
-+		return -ENOMEM;
-+
-+	if (op != LSM_POLICY_LOAD || flags)
-+		return -EOPNOTSUPP;
-+
-+	name_size = strncpy_from_user(name, buf, size);
-+	if (name_size < 0)
-+		return name_size;
-+
-+	ret = aa_change_profile(name, AA_CHANGE_STACK);
-+
-+	kvfree(name);
-+
-+	return ret;
-+}
-+
-+/**
-+ * apparmor_lsm_config_system_policy - Load or replace a system policy
-+ * @lsm_id: AppArmor ID (LSM_ID_APPARMOR). Unused here
-+ * @op: operation to perform. Currently, only LSM_POLICY_LOAD is supported
-+ * @buf: user-supplied buffer in the form "<ns>\0<policy>"
-+ *        <ns> is the namespace to load the policy into (empty string for root)
-+ *        <policy> is the policy to load
-+ * @size: size of @buf
-+ * @flags: reserved for future uses; must be zero
-+ *
-+ * Returns: 0 on success, negative value on error
-+ */
-+static int apparmor_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
-+				      size_t size, u32 flags)
-+{
-+	loff_t pos = 0; // Partial writing is not currently supported
-+	char name[256];
-+	long name_size;
-+
-+	if (op != LSM_POLICY_LOAD || flags)
-+		return -EOPNOTSUPP;
-+
-+	name_size = strncpy_from_user(name, buf, 256);
-+	if (name_size < 0)
-+		return name_size;
-+	else if (name_size == 256)
-+		return -E2BIG;
-+
-+	return aa_profile_load_ns_name(name, name_size, buf + name_size + 1,
-+				       size - name_size - 1, &pos);
-+}
-+
-+
- #ifdef CONFIG_NETWORK_SECMARK
- /**
-  * apparmor_socket_sock_rcv_skb - check perms before associating skb to sk
-@@ -1483,6 +1550,10 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(socket_getsockopt, apparmor_socket_getsockopt),
- 	LSM_HOOK_INIT(socket_setsockopt, apparmor_socket_setsockopt),
- 	LSM_HOOK_INIT(socket_shutdown, apparmor_socket_shutdown),
-+
-+	LSM_HOOK_INIT(lsm_config_self_policy, apparmor_lsm_config_self_policy),
-+	LSM_HOOK_INIT(lsm_config_system_policy,
-+		      apparmor_lsm_config_system_policy),
- #ifdef CONFIG_NETWORK_SECMARK
- 	LSM_HOOK_INIT(socket_sock_rcv_skb, apparmor_socket_sock_rcv_skb),
- #endif
+I do not think that it makes sense to encode the argument ranges and
+functions to generate a valid syscall parameters into the kernel. Rather
+than that the information should encoded in the extended types, if we do
+that well enough we can generate combination of different valid and
+invalid parameters for the tests based on that.
+
 -- 
-2.48.1
-
+Cyril Hrubis
+chrubis@suse.cz
 
