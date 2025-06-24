@@ -1,165 +1,210 @@
-Return-Path: <linux-api+bounces-3953-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-3954-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B755AE4352
-	for <lists+linux-api@lfdr.de>; Mon, 23 Jun 2025 15:31:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 164BAAE67D1
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 16:09:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E97497AAADD
-	for <lists+linux-api@lfdr.de>; Mon, 23 Jun 2025 13:28:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85542189E4B2
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jun 2025 14:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D6A8253F35;
-	Mon, 23 Jun 2025 13:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE4322D2386;
+	Tue, 24 Jun 2025 14:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z504OUye"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lNrOrHnV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QAr11eEI";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lNrOrHnV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QAr11eEI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FDC24C060
-	for <linux-api@vger.kernel.org>; Mon, 23 Jun 2025 13:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF232C374E
+	for <linux-api@vger.kernel.org>; Tue, 24 Jun 2025 14:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750685309; cv=none; b=NfsjHQA3HG13wczElLQt7OoFgs93/FHghEyDLLQ+yGUDJbCb+aEcRpMsG2kLlJF6oD7QHz2aS/MRsP0p44InLJeOfuUfwhG6UDYNM19VHvy6BgWUVMDaWjq91iJ0fUZgqO5G5UiW7enXtKtWOkq1Y0/GhtS3RFO9OZlsA+HGqcI=
+	t=1750773955; cv=none; b=rWw3cbB9Wp+ph337KsCkD0ugsNusgBs8dtTHAsZPi/u6jwhHnvMIY2eAkYCs9OKdQ+0zTglyCFj67hjWt252E0KOKZpqo/8eY39QX11+twxgl7KqfgV55iIu6THCZiilWiOsMdUnFN8n8jUazM9oLLkvS2A5qeDsOFaTiV/451g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750685309; c=relaxed/simple;
-	bh=M/05iL/gqplHdspF1H1P+EyauZRDiLKYUBnwAK+mrWw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MUQDQehAjAcQea9+IK0Idahbp77fOT4CJk+gNTrHfoS9Lu2OFC/RWTpQAGoFEYl3jQW64d8ZEpu7P5S+DTxF/PuokxlxQVoIYRJQcNxxP2TXtEIS8UNqjihfkcxTQXr+J/BBf1zvS6kGU9L50k8YkMvSTzysEwMIN2841RWWP4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dvyukov.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z504OUye; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dvyukov.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3a4f8fd1847so1422624f8f.1
-        for <linux-api@vger.kernel.org>; Mon, 23 Jun 2025 06:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750685306; x=1751290106; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/05iL/gqplHdspF1H1P+EyauZRDiLKYUBnwAK+mrWw=;
-        b=Z504OUyeesIWnc8Gny2GsczXVc9BC+g794X6DDmp47t/GWOw08BgiVetVnfweHpRYk
-         kBxzCwAwny3oWF0wRWf2Y/J5UHYxtelSm4Yz0s7kShTwPRARLESPdtd8mYMqThLaUJf4
-         UsKgAHUmSjI4/sRH/x5aUpgFLhtg6s5ANmCCenEq/BG5WlBrcRlXuKxOcj6U/2rCvPQk
-         a9jKMEEbFSOIIurSOLOJIwRUliCXGZf+7A8q7pgjj5cWQZ0d+aNaSfdAe1SMOnEvAtTr
-         JShjjR+PVnwx+Vu2ocNWrTBSpPQcBGXFa4vtK6XOJBXhInMnrM+IgeSxNrrC9D8xPTV4
-         emCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750685306; x=1751290106;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/05iL/gqplHdspF1H1P+EyauZRDiLKYUBnwAK+mrWw=;
-        b=eI7n1ovuH+UyyGN0+KKxBJCIXJ/OgHy62OEBtic5RqAriInvB6DI9fL0yaP4eU9nd/
-         NG4NCsoNUOlJ7xEz6Er68cMQ2dcnkcL6iFlfo6eKlngDBWpT/Nifcl+/QVGAMPz+4eui
-         gS2dcTMecmzWlvJKHk2HmvtxZmQQumo89yPeiZkyjfToOCQA2j/afMs4BcYmntvwgDhV
-         S+fVFoHRQIhD4knNYTXlyL9NoyLJJAJMFu532eMNlmmnNdq1sHvoyIzxtQY/cMXDZRbC
-         t/hM5jRMy1lTCMyh3NPHU8qpDL3m7kAWe8Su0ap1Fur+30NhKiHIgCMaoli8J/9IzFyn
-         YI4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVV/f8JQEaRIWeLswoU3OmtB0pPIE43GtvYDmQ0dCZ8n/s7J/MX8c6m11SoksG79Kj0uusOfm5gwnc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP1X2Yx2sOLCiT6LkCdDnc+D/pgT5iieGYs4Hj5ygHz2So/tkV
-	5phM/LU8BvLGEWNb9l35ozevkaLEMDuto0nZFK/03/VXPatgKLONEiL8K2b/3KWR3lkiGhJf4Tp
-	sQizfBYQ7TQ==
-X-Google-Smtp-Source: AGHT+IEQemU9U1qSUFKz2+7itsR5jiBLvrwnJtII5ZYSZrfv9r4t0m/l4xKKQuRElhwXLh7ukcOz5A85xW+D
-X-Received: from wrck9.prod.google.com ([2002:a5d:5249:0:b0:3a4:e841:e092])
- (user=dvyukov job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:1448:b0:3a5:25e0:1851
- with SMTP id ffacd0b85a97d-3a6d12fb2dfmr10350377f8f.7.1750685306572; Mon, 23
- Jun 2025 06:28:26 -0700 (PDT)
-Date: Mon, 23 Jun 2025 15:28:03 +0200
-In-Reply-To: <aFNYQkbEctT6N0Hb@lappy>
+	s=arc-20240116; t=1750773955; c=relaxed/simple;
+	bh=b82Sl48i4HaD9mfydXB7+D4f/xFkM7JWCjfJ/FznMvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xo19+LOV0/NQbhytRm6BUgqFNSxeGIMzPD4I19vRbvZ4IQymXrnGlZvZ6kdHX0jgMeCAd5ZJ5HmgW9tTjpklBC/opf2FDfn+avxyoaAKaxnBHXnD404iyMJOcotCXKVQci0GI93uBhaVYGHvhKPf8C1dxap7uw3Ts+q/+cm5LQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lNrOrHnV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QAr11eEI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lNrOrHnV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QAr11eEI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 483FC1F444;
+	Tue, 24 Jun 2025 14:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750773952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
+	b=lNrOrHnVnIa7wAHKfjbC7taRu2dDmbTchDvDF6lTwdNMe3+MJNigzqZoiLN53OoIrXIQZw
+	a88u2h2HVrWAYJO6tcWutQA+UKZxIBC6cEVPrp5PJUWb6ipcpgHWwNRcMgNLnmCp6Q1/Cw
+	Y351ixvev2IUmP3CI14cKBXeeopJ8l4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750773952;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
+	b=QAr11eEIQwDDlZeah0/BKey83ySm9x395yNpy7eoXQo/VfVD8wxFNsM2fmuGrU1/zYm1vC
+	d8oRQNJ7152rz1Dw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750773952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
+	b=lNrOrHnVnIa7wAHKfjbC7taRu2dDmbTchDvDF6lTwdNMe3+MJNigzqZoiLN53OoIrXIQZw
+	a88u2h2HVrWAYJO6tcWutQA+UKZxIBC6cEVPrp5PJUWb6ipcpgHWwNRcMgNLnmCp6Q1/Cw
+	Y351ixvev2IUmP3CI14cKBXeeopJ8l4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750773952;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IFQH2JgdAPVFzEwVQ4z26a3AfD97xOT2djRZ/ji3+L4=;
+	b=QAr11eEIQwDDlZeah0/BKey83ySm9x395yNpy7eoXQo/VfVD8wxFNsM2fmuGrU1/zYm1vC
+	d8oRQNJ7152rz1Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3637A13751;
+	Tue, 24 Jun 2025 14:05:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vFrEC8CwWmgedgAAD6G6ig
+	(envelope-from <chrubis@suse.cz>); Tue, 24 Jun 2025 14:05:52 +0000
+Date: Tue, 24 Jun 2025 16:06:31 +0200
+From: Cyril Hrubis <chrubis@suse.cz>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: sashal@kernel.org, kees@kernel.org, elver@google.com,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tools@kernel.org, workflows@vger.kernel.org
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+Message-ID: <aFqw5-PO4MjsEdYU@yuki.lan>
+References: <aFNYQkbEctT6N0Hb@lappy>
+ <20250623132803.26760-1-dvyukov@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <aFNYQkbEctT6N0Hb@lappy>
-X-Mailer: git-send-email 2.50.0.rc2.701.gf1e915cc24-goog
-Message-ID: <20250623132803.26760-1-dvyukov@google.com>
-Subject: Re: [RFC 00/19] Kernel API Specification Framework
-From: Dmitry Vyukov <dvyukov@google.com>
-To: sashal@kernel.org
-Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tools@kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250623132803.26760-1-dvyukov@google.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-Nice!
+Hi!
+> 6. What's the goal of validation of the input arguments?
+> Kernel code must do this validation anyway, right.
+> Any non-trivial validation is hard, e.g. even for open the validation function
+> for file name would need to have access to flags and check file precense for
+> some flags combinations. That may add significant amount of non-trivial code
+> that duplicates main syscall logic, and that logic may also have bugs and
+> memory leaks.
 
-A bag of assorted comments:
+I was looking at that part and thinking that we could generate (at least
+some) automated conformance tests based on this information. We could
+make sure that invalid parameters are properly rejected. For open(),
+some combinations would be difficuilt to model though, e.g. for
+O_DIRECTORY the pathname is supposed to be a path to a directory and
+also the file descriptor returned has different properties. Also O_CREAT
+requires third parameter and changes which kinds of filepaths are
+invalid. Demultiplexing syscalls like this is going to be difficult to
+get right.
 
-1. I share the same concern of duplicating info.
-If there are lots of duplication it may lead to failure of the whole effort
-since folks won't update these and/or they will get out of sync.
-If a syscall arg is e.g. umode_t, we already know that it's an integer
-of that enum type, and that it's an input arg.
-In syzkaller we have a Clang-tool:
-https://github.com/google/syzkaller/blob/master/tools/syz-declextract/clangtool/declextract.cpp
-that extracts a bunch of interfaces automatically:
-https://raw.githubusercontent.com/google/syzkaller/refs/heads/master/sys/linux/auto.txt
-Though, oviously that won't have user-readable string descriptions, can't be used as a source
-of truth, and may be challenging to integrate into kernel build process.
-Though, extracting some of that info automatically may be nice.
+As for testing purposes, most of the time it would be enough just to say
+something as "this parameter is an existing file". If we have this
+information in a machine parseable format we can generate automatic
+tests for various error conditions e.g. ELOOP, EACESS, ENAMETOOLONG,
+ENOENT, ...
 
-2. Does this framework ensure that the specified info about args is correct?
-E.g. number of syscall args, and their types match the actual ones?
-If such things are not tested/validated during build, I afraid they will be
-riddled with bugs over time.
+For paths we could have something as:
 
-3. To reduce duplication we could use more type information, e.g. I was always
-frustrated that close is just:
+file:existing
+file:notexisting
+file:replaced|nonexisting
+file:nonexisting|existing
+dir:existing
+dir:nonexisting
 
-SYSCALL_DEFINE1(close, unsigned int, fd)
+Then for open() syscall we can do:
 
-whereas if we would do:
+flags=O_DIRECTORY path=dir:existing
+flags=O_CREAT path=file:nonexisting|existing
+flags=O_CREAT|O_EXCL path=file:nonexisting
+...
 
-typedef int fd_t;
-SYSCALL_DEFINE1(close, fd_t, fd)
+You may wonder if such kind of tests are useful at all, since quite a
+few of these errors are checked for and generated from a common
+functions. There are at least two cases I can think of. First of all it
+makes sure that errors are stable when particular function/subsystem is
+rewritten. And it can also make sure that errors are consistent across
+different implementation of the same functionality e.g. filesystems. I
+remember that some of the less used FUSE filesystems returned puzzling
+errors in certain corner cases.
 
-then all semantic info about the arg is already in the code.
+Maybe it would be more useful to steer this towards a system that
+annotates better the types for the syscall parameters and return values.
+Something that would be an extension to a C types with a description on
+how particular string or integer is interpreted.
 
-4. If we specify e.g. error return values here with descirptions,
-can that be used as the source of truth to generate man pages?
-That would eliminate some duplication.
+> Side-effects specification potentially can be used to detect logical kernel bugs,
+> e.g. if a syscall does not claim to change fs state, but it does, it's a bug.
+> Though, a more useful check should be failure/concurrency atomicity.
+> Namely, if a syscall claims to not alter state on failure, it shouldn't do so.
+> Concurrency atomicity means linearizability of concurrent syscalls
+> (side-effects match one of 2 possible orders of syscalls).
+> But for these we would need to add additional flags to the descriptions
+> that say that a syscall supports failure/concurrency atomicity.
+> 
+> 8. It would be useful to have a mapping of file_operations to actual files in fs.
+> Otherwise the exposed info is not very actionable, since there is no way to understand
+> what actual file/fd the ioctl's can be applied to.
 
-5. We have a long standing dream that kernel developers add fuzzing descirpions
-along with new kernel interfaces. So far we got very few contributions to syzkaller
-from kernel developers. This framework can serve as the way to do it, which is nice.
++1 There are many different kinds of file descriptors and they differ
+wildy in what operations they support.
 
-6. What's the goal of validation of the input arguments?
-Kernel code must do this validation anyway, right.
-Any non-trivial validation is hard, e.g. even for open the validation function
-for file name would need to have access to flags and check file precense for
-some flags combinations. That may add significant amount of non-trivial code
-that duplicates main syscall logic, and that logic may also have bugs and
-memory leaks.
+Maybe we would need a subclass for a file descriptor, something as:
 
-7. One of the most useful uses of this framework that I see if testing kernel
-behavior correctness. I wonder what properties we can test with these descirptions,
-and if we can add more useful info for that purpose.
-Argument validation does not help here (it's userspace bugs at best).
-Return values potentially may be useful, e.g. if we see a return value that's
-not specified, potentially it's a kernel bug.
-Side-effects specification potentially can be used to detect logical kernel bugs,
-e.g. if a syscall does not claim to change fs state, but it does, it's a bug.
-Though, a more useful check should be failure/concurrency atomicity.
-Namely, if a syscall claims to not alter state on failure, it shouldn't do so.
-Concurrency atomicity means linearizability of concurrent syscalls
-(side-effects match one of 2 possible orders of syscalls).
-But for these we would need to add additional flags to the descriptions
-that say that a syscall supports failure/concurrency atomicity.
+fd:file
+fd:timerfd
+fd:pidfs
+...
 
-8. It would be useful to have a mapping of file_operations to actual files in fs.
-Otherwise the exposed info is not very actionable, since there is no way to understand
-what actual file/fd the ioctl's can be applied to.
-
-9. I see that syscalls and ioctls say:
-KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
-Can't we make this implicit? Are there any other options?
-Similarly an ioctl description says it releases a mutex (.released = true,),
-all ioctls/syscalls must release all acquired mutexes, no?
-Generally, the less verbose the descriptions are, the higher chances of their survival.
-+Marco also works static compiler-enforced lock checking annotations,
-I wonder if they can be used to describe this in a more useful way.
-
-
-
+-- 
+Cyril Hrubis
+chrubis@suse.cz
 
