@@ -1,78 +1,78 @@
-Return-Path: <linux-api+bounces-4013-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4014-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2007AE9268
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 01:27:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C42FFAE9263
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 01:26:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA4296A2A15
-	for <lists+linux-api@lfdr.de>; Wed, 25 Jun 2025 23:26:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 357D7168DC6
+	for <lists+linux-api@lfdr.de>; Wed, 25 Jun 2025 23:26:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC88D2E1C58;
-	Wed, 25 Jun 2025 23:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C00FE2E1C70;
+	Wed, 25 Jun 2025 23:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="RW0rI+zM"
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="fZcXEyXH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2862DD604
-	for <linux-api@vger.kernel.org>; Wed, 25 Jun 2025 23:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78912FCFC0
+	for <linux-api@vger.kernel.org>; Wed, 25 Jun 2025 23:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750893559; cv=none; b=PjeOhl2ivjDhgbkYFtZWt9ErRNJG0iT7dlzyRkbYpMpz6R4F06SylNq/s1kqra4VUQPJjnFLrzo/UC24mLTIJtTW8jLWeMo5JLR9dFyQks4Z5pS1r1tAix0D3CfCjfnG/+CSx6IFPaF9w8OdJjjmIBVAjxUGWQq3PSyeiv5zSk4=
+	t=1750893560; cv=none; b=sLlV0TYl20ZAbMekbuLVeZRGcF/egdM4858gz70PwQPvLFtXDCUgwBdteKaNsq6Pu/NR8qPw5mLHSci/C+dbvZLEh8Fiko4JGudE5t2WJm5A85nR7MiLk9grDiyaY1UlDzu3EXiaoUshN8kIICbTldnWZCnBvWUT9TutvAbzSag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750893559; c=relaxed/simple;
-	bh=BYE6CFYNp+bC24GEWjI/kpdlZd1bkuK5lqVnOzx7zbo=;
+	s=arc-20240116; t=1750893560; c=relaxed/simple;
+	bh=0K/tRVmbaZ0VX6fH8M8cdhr3USMmOz4iPh58HsL+dDs=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rf381uceRPConplYlYgYbsd+rPRhuChq3NUq4wfltZbXjT2R0/WF8/2qHOzSyThqTAaFVjnhHhg9TmuyZwqxuEQAwXkcNt7C3PMm4ZJb9MEa25UtP5C5QS89+KIHTzAXicxWu0xpjtTRhA1ifIe06+dV0SgooHFFA4z7fYklxd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=RW0rI+zM; arc=none smtp.client-ip=209.85.219.178
+	 MIME-Version; b=QyzOM3PaLTI/2URjfWhB4QJLIsV3rRghZyYYyL8u1YBri6mxwl184oQvFPDh/rpl4UcSOfLmaXcbwsLrgz+n/D+6z1Q7kvdDRNh4RDHti1Hxg/67402CbK0AHCEa4hxg9+XPXRD/Re82XbBKoH3r//RaQd89Fo68I099SPhKvro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=fZcXEyXH; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e81826d5b72so297478276.3
-        for <linux-api@vger.kernel.org>; Wed, 25 Jun 2025 16:19:17 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71173646662so4930817b3.2
+        for <linux-api@vger.kernel.org>; Wed, 25 Jun 2025 16:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750893556; x=1751498356; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750893558; x=1751498358; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+trs6zLLPmtqa3TLX7M9IRokbE5V0+8Th4y6mj0Kyj4=;
-        b=RW0rI+zMbscmhAeWoghYePJVe0R6sOaspstF9Pse4tQDYGOn3GicaZ4V9fq37rEW7k
-         JY6UmbNJ5Dv46YXzxrV7c6HrYz3bFqJdXbX6wcgFrqxvTfF8ec10zi4NfjzRdJy+zpyD
-         7fRzdUMyPecpA1rtMOeOxG4yscB0q0kcB3JlP9lyg7LzyrekJEdPbaKtA1RPsZ4oGLZ8
-         nfEjGRS6kkjraHdJklSIMpY3XNOGu4EQek+Vf/YwfBDZAp7FF7UFTiD+1fvkal1AJ1g2
-         ibrwBOv7kBRtlt4Ymkm8FzvGNonrcTzyWhHLefskUUCXULBiT47sDIUAaPanz09EbTCs
-         W7kg==
+        bh=/ZJDnzlkjFdal2Rjq5d+u9z1RQAbXbOPFvsyuVPVQrw=;
+        b=fZcXEyXHF9NuvYm8Whls0JQk1JDl8m27PgnvY39aUbeV1Euuq9WgtTgh/xHZLi//YI
+         BTaACvoBu5k510wQinRTpKUvGIIavm0n1sF1qxpz2c6delQeR6D5+fEoacCdF9bF570a
+         xdIQ+RiSkCeTmcTZVapDE4eJptI3OLfLlf9sINNuYP8EeoR4+DN+i7lQOHu+eM0kFG36
+         hZiTLNjYhdgIuqOQtQakDtOzQ8MC3pfCK+EgXumz98J8VrRo+cpBTWcsU7cL1Ot5LpW+
+         GgWqy0q3zg1l8H8HIGy5PfBcgllc17jXLogviZhhNkswaIKuImunvyLFCdhbd3umzyX2
+         iOMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750893556; x=1751498356;
+        d=1e100.net; s=20230601; t=1750893558; x=1751498358;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+trs6zLLPmtqa3TLX7M9IRokbE5V0+8Th4y6mj0Kyj4=;
-        b=GUXNQjhNHjm0hF/EG1JBpTR9Ah87RNBsMCYL4SAvYIESta8NoLhXdVd8tInTF1t9iG
-         wN0pSCE8hxG9y4WeDx/y63QFmZ5P63/poOOvV6peTyxvlJmSpaTkZyJcI9qQoEnES2r+
-         mWj/ohP2bT/ktv+z+4oo4jUjAn1X7IALfo5P4lI+X46zaL5rkzRTQDHFDAYtH9x/iKhx
-         S1e7l7r4kKBQwGhm79s4G+4fZHmbfCRZWw1iU+t1D9TeI6uT4oD81BGkafP8wLYNjhKT
-         dHncKXi306LwaeSBLlaZMnQGo0GV/UWYed7BU+lkpQYKsAjLhFMEP2Lnob8qEyZ9trdF
-         0bCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5K+uQfDaGzbQRVeo5gnq55afGoBom2iWMMuuZfeo/sg7J48DlAhPJRlR2jAHWSJJB9E1I8cTa5EM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzauDWsRM64fUfF+PUK+9E8QpVaH5gNWb41wZl9Rp30HvgT1PKu
-	6GgodpkxIlbumgmPN8G1RO9AvoO0r3dXac9Nyv4ziqcivgENfDD8oe3Ureq0acykgyk=
-X-Gm-Gg: ASbGncs8/3agzvXIir6RiS1B2XOOFq3I2bq7JDXNnRB/z7AFZ3yEs963foPXmmgoSlW
-	O3Om+8bMSw0fDnIzn9E9gDAHD/W14IQbmjFh9lQV3PY40wU8vZPLlsd5tdcF6dcYGZ0zlIGcwUj
-	oh+676pcM6zlxQ/X2j3YkVv4uVQXeH+iCgICFLWgnhyC5piagB66xgk8DHjsFHdLEoakAun2Uel
-	PI2k/bJTBIkz/DOWsQHjI2hCY1sGYNHlXMmMNt/cD+7CDorxX5G8EGYH8L87hRED01F0/2f4MVZ
-	fhDWKzlwjweRYj64QKr1ufz66E2vFyvBucmBktaQELYyZlsDbMMkoLUOajMpBAMBwzSwSjxf4dV
-	9iKeElBp24EJoMi/rDXY0y5y9/dkijDb6sFaXptAk9/zgNz1EW7SO
-X-Google-Smtp-Source: AGHT+IH/3Me+d0MJXQ76VamD4M41LLWG4p+AbovI1Fc939AypUIUrA9tKZEx4Bpr6+xiqohW1hf6SQ==
-X-Received: by 2002:a05:6902:1246:b0:e81:cab6:6db5 with SMTP id 3f1490d57ef6-e86016cfbebmr6754388276.8.1750893556113;
-        Wed, 25 Jun 2025 16:19:16 -0700 (PDT)
+        bh=/ZJDnzlkjFdal2Rjq5d+u9z1RQAbXbOPFvsyuVPVQrw=;
+        b=IXK0OoWKbNj9sLOXjEaQ0CNFpXeD+tqwSj++PiE/ubDyU1IVG7YGnDlMNCmdyPTYTc
+         3yqW4lvNrglkK62z8/0pC5ukz1oC6vkmqM3e3Yxin95ReNJL2t/xtcG9W4wpkzGk9A2l
+         iE/Ina1mqIb41Lbj4cw4NzbpT97+uYQvONvNWWxD2yTL+hxzwOPwE0/LeoVxU4PCI+7Q
+         /lRVky+7gjnFIVGoqovgbelMwFgqgy7LHyPcLir7k8GkTKm5y5fHjdHKvWVmralEzDVc
+         INzVh7zzyVpFWXrrpUhDestWu6W3oBA80fSvKjMgQge0OGZ1DzItIlV+r+SVJ/X833Zm
+         IDRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5PIiITOs0tqpIhazyVi6YikL3iDwbB9gevPH1/V2u7tzPOIx6ovsc6++5HDcGrbgZMSVx3IvM8xU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx85AnAPyo9ONAnZaysChXu4FrW3Sz8xkh0gblD0bgPPTtPpoQZ
+	kn5P2lqaoMxL0FwMvPFrIJQ9eRhhf2kOhDT9Ql8GwnirqFsIsKFVztDqL1mNPmaAAlQ=
+X-Gm-Gg: ASbGncsPKBLAI8cihBpKBfeHE7WFGt07amLyAva6r3qakcoqAL4o+AZbRfG49Mj/Mdu
+	kB91KHrGfqbOI57M5hvuoJPvoczXTK7EUDqAkAgzuhTA4PhxbJMoCNMC7nFimd6uas0/ZHXFknE
+	b4TSNOzscIVqps8zYdpgRBjnYpXIT/h/KkJ7ubZp3FnNe5pPcrMWd4LCJIQtDPS7I4P8puVn1Rl
+	jkOP3IorZF6KpQVCS1bRt2Pug5HhyeU6mMxFWFp6UEcI28Q4os1F0a0vVTT44JASn6aZ6ORvVvq
+	I5+Qk49/YI3F5IzifNDb1uWZazLmqh+zUGAmTvxy/HBZ52W/3ru9DY1cRj0KGnyer4o/itmXf9R
+	8JdE/DCSGkh2hfMB8LowoFORj8aL3HdUIaz7Ie10+oY0vH3NJLgKG
+X-Google-Smtp-Source: AGHT+IEy6gDp+TLxoQz7i8XJK92N1YqMToyOrPaa/RNISf+e+ji+erXXV1um4VBOajJ98t+L3IMAZw==
+X-Received: by 2002:a05:690c:6089:b0:70e:1474:63f2 with SMTP id 00721157ae682-71406c7cfb8mr66969267b3.7.1750893557847;
+        Wed, 25 Jun 2025 16:19:17 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e842ac5c538sm3942684276.33.2025.06.25.16.19.14
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e842ac5c538sm3942684276.33.2025.06.25.16.19.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 16:19:15 -0700 (PDT)
+        Wed, 25 Jun 2025 16:19:17 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -140,9 +140,9 @@ To: pratyush@kernel.org,
 	brauner@kernel.org,
 	linux-api@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v1 19/32] liveupdate: luo_files: luo_ioctl: session-based file descriptor tracking
-Date: Wed, 25 Jun 2025 23:18:06 +0000
-Message-ID: <20250625231838.1897085-20-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 20/32] kho: move kho debugfs directory to liveupdate
+Date: Wed, 25 Jun 2025 23:18:07 +0000
+Message-ID: <20250625231838.1897085-21-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 In-Reply-To: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
 References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
@@ -154,493 +154,83 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, file descriptors registered for preservation via
-/dev/liveupdate remain globally registered with the LUO core until
-explicitly unregistered. This behavior can lead to unintended
-consequences: if a userspace process (e.g., a VMM or
-an agent managing FDs) registers FDs for preservation and then crashes
-or exits prematurely before LUO transitions to a PREPARED state (and
-without explicitly unregistering them), these FDs would remain marked
-for preservation. This could result in unnecessary resources being
-carried over to the next kernel or stale state or leaks.
+Now, that LUO and KHO both live under kernel/liveupdate, it makes
+sense to also move the kho debugfs files to liveupdate/
 
-Introduce a session-based approach to FD preservation to address this
-issue. Each open instance of /dev/liveupdate now corresponds to a "LUO
-session," which tracks the FDs registered through it. If a LUO session
-is closed (i.e., the file descriptor for /dev/liveupdate is closed by
-userspace) while LUO is still in the NORMAL or UPDATED state, all FDs
-registered during that specific session are automatically unregistered.
+The old names:
+/sys/kernel/debug/kho/out/
+/sys/kernel/debug/kho/in/
 
-This ensures that FD preservations are tied to the lifetime of the
-controlling userspace entity's session, preventing unintentional leakage
-of preserved FD state into the next kernel if the live update process
-is not fully initiated and completed for those FDs. FDs are only
-globally committed for preservation if the LUO state machine progresses
-beyond NORMAL (i.e., into PREPARED or FROZEN) before the managing
-session is closed. In the future, we can relax this even further, and
-preserve only when the session is still open while we are already in
-reboot() system call.
+The new names:
+/sys/kernel/debug/liveupdate/kho_out/
+/sys/kernel/debug/liveupdate/kho_in/
+
+Also, export the liveupdate_debufs_root, so LUO selftests could use
+it as well.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- kernel/liveupdate/luo_files.c    | 225 ++++++++++++++++++++++++-------
- kernel/liveupdate/luo_internal.h |   9 +-
- kernel/liveupdate/luo_ioctl.c    |  20 ++-
- 3 files changed, 197 insertions(+), 57 deletions(-)
+ kernel/liveupdate/kexec_handover_debug.c | 11 ++++++-----
+ kernel/liveupdate/luo_internal.h         |  4 ++++
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/liveupdate/luo_files.c b/kernel/liveupdate/luo_files.c
-index cd956ea69f43..256b5261f81e 100644
---- a/kernel/liveupdate/luo_files.c
-+++ b/kernel/liveupdate/luo_files.c
-@@ -67,7 +67,6 @@
- #define LUO_FILES_COMPATIBLE	"file-descriptors-v1"
+diff --git a/kernel/liveupdate/kexec_handover_debug.c b/kernel/liveupdate/kexec_handover_debug.c
+index af4bad225630..f06d6cdfeab3 100644
+--- a/kernel/liveupdate/kexec_handover_debug.c
++++ b/kernel/liveupdate/kexec_handover_debug.c
+@@ -14,8 +14,9 @@
+ #include <linux/libfdt.h>
+ #include <linux/mm.h>
+ #include "kexec_handover_internal.h"
++#include "luo_internal.h"
  
- static DEFINE_XARRAY(luo_files_xa_in);
--static DEFINE_XARRAY(luo_files_xa_out);
- static bool luo_files_xa_in_recreated;
+-static struct dentry *debugfs_root;
++struct dentry *liveupdate_debugfs_root;
  
- /* Registered files. */
-@@ -81,6 +80,15 @@ static size_t luo_file_fdt_out_size;
+ struct fdt_debugfs {
+ 	struct list_head list;
+@@ -120,7 +121,7 @@ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
  
- static atomic64_t luo_files_count;
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
  
-+/* Opened sessions */
-+static DECLARE_RWSEM(luo_sessions_list_rwsem);
-+static LIST_HEAD(luo_sessions_list);
-+
-+struct luo_session {
-+	struct xarray files_xa_out;
-+	struct list_head list;
-+};
-+
- /**
-  * struct luo_file - Represents a file descriptor instance preserved
-  * across live update.
-@@ -262,6 +270,7 @@ static int luo_files_to_fdt(struct xarray *files_xa_out)
+-	dir = debugfs_create_dir("in", debugfs_root);
++	dir = debugfs_create_dir("in", liveupdate_debugfs_root);
+ 	if (IS_ERR(dir)) {
+ 		err = PTR_ERR(dir);
+ 		goto err_out;
+@@ -180,7 +181,7 @@ __init int kho_out_debugfs_init(struct kho_debugfs *dbg)
  
- static int luo_files_fdt_setup(void)
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
+ 
+-	dir = debugfs_create_dir("out", debugfs_root);
++	dir = debugfs_create_dir("out", liveupdate_debugfs_root);
+ 	if (IS_ERR(dir))
+ 		return -ENOMEM;
+ 
+@@ -214,8 +215,8 @@ __init int kho_out_debugfs_init(struct kho_debugfs *dbg)
+ 
+ __init int kho_debugfs_init(void)
  {
-+	struct luo_session *s;
- 	int ret;
- 
- 	luo_file_fdt_out_size = luo_files_fdt_size();
-@@ -300,9 +309,15 @@ static int luo_files_fdt_setup(void)
- 	if (ret < 0)
- 		goto exit_end_node;
- 
--	ret = luo_files_to_fdt(&luo_files_xa_out);
--	if (ret < 0)
--		goto exit_end_node;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		ret = luo_files_to_fdt(&s->files_xa_out);
-+		if (ret < 0) {
-+			up_read(&luo_sessions_list_rwsem);
-+			goto exit_end_node;
-+		}
-+	}
-+	up_read(&luo_sessions_list_rwsem);
- 
- 	ret = fdt_end_node(luo_file_fdt_out);
- 	if (ret < 0)
-@@ -405,44 +420,59 @@ static void luo_files_cancel_one(struct luo_file *h)
- 
- static void __luo_files_cancel(struct luo_file *boundary_file)
- {
-+	struct luo_session *s;
- 	unsigned long token;
- 	struct luo_file *h;
- 
--	xa_for_each(&luo_files_xa_out, token, h) {
--		if (h == boundary_file)
--			break;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		xa_for_each(&s->files_xa_out, token, h) {
-+			if (h == boundary_file)
-+				goto exit;
- 
--		luo_files_cancel_one(h);
-+			luo_files_cancel_one(h);
-+		}
- 	}
-+exit:
-+	up_read(&luo_sessions_list_rwsem);
- 	luo_files_fdt_cleanup();
- }
- 
- static int luo_files_commit_data_to_fdt(void)
- {
-+	struct luo_session *s;
- 	int node_offset, ret;
- 	unsigned long token;
- 	char token_str[19];
- 	struct luo_file *h;
- 
--	xa_for_each(&luo_files_xa_out, token, h) {
--		snprintf(token_str, sizeof(token_str), "%#0llx", (u64)token);
--		node_offset = fdt_subnode_offset(luo_file_fdt_out,
--						 0,
--						 token_str);
--		ret = fdt_setprop(luo_file_fdt_out, node_offset, "data",
--				  &h->private_data, sizeof(h->private_data));
--		if (ret < 0) {
--			pr_err("Failed to set data property for token %s: %s\n",
--			       token_str, fdt_strerror(ret));
--			return -ENOSPC;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		xa_for_each(&s->files_xa_out, token, h) {
-+			snprintf(token_str, sizeof(token_str), "%#0llx",
-+				 (u64)token);
-+			node_offset = fdt_subnode_offset(luo_file_fdt_out,
-+							 0, token_str);
-+			ret = fdt_setprop(luo_file_fdt_out, node_offset, "data",
-+					  &h->private_data,
-+					  sizeof(h->private_data));
-+			if (ret < 0) {
-+				up_read(&luo_sessions_list_rwsem);
-+				pr_err("Failed to set data property for token %s: %s\n",
-+				       token_str, fdt_strerror(ret));
-+				up_read(&luo_sessions_list_rwsem);
-+				return -ENOSPC;
-+			}
- 		}
- 	}
-+	up_read(&luo_sessions_list_rwsem);
- 
+-	debugfs_root = debugfs_create_dir("kho", NULL);
+-	if (IS_ERR(debugfs_root))
++	liveupdate_debugfs_root = debugfs_create_dir("liveupdate", NULL);
++	if (IS_ERR(liveupdate_debugfs_root))
+ 		return -ENOENT;
  	return 0;
  }
- 
- static int luo_files_prepare(void *arg, u64 *data)
- {
-+	struct luo_session *s;
- 	unsigned long token;
- 	struct luo_file *h;
- 	int ret;
-@@ -451,16 +481,21 @@ static int luo_files_prepare(void *arg, u64 *data)
- 	if (ret)
- 		return ret;
- 
--	xa_for_each(&luo_files_xa_out, token, h) {
--		ret = luo_files_prepare_one(h);
--		if (ret < 0) {
--			pr_err("Prepare failed for file token %#0llx handler '%s' [%d]\n",
--			       (u64)token, h->fh->compatible, ret);
--			__luo_files_cancel(h);
--
--			return ret;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		xa_for_each(&s->files_xa_out, token, h) {
-+			ret = luo_files_prepare_one(h);
-+			if (ret < 0) {
-+				pr_err("Prepare failed for file token %#0llx handler '%s' [%d]\n",
-+				       (u64)token, h->fh->compatible, ret);
-+				__luo_files_cancel(h);
-+				up_read(&luo_sessions_list_rwsem);
-+
-+				return ret;
-+			}
- 		}
- 	}
-+	up_read(&luo_sessions_list_rwsem);
- 
- 	ret = luo_files_commit_data_to_fdt();
- 	if (ret)
-@@ -473,20 +508,26 @@ static int luo_files_prepare(void *arg, u64 *data)
- 
- static int luo_files_freeze(void *arg, u64 *data)
- {
-+	struct luo_session *s;
- 	unsigned long token;
- 	struct luo_file *h;
- 	int ret;
- 
--	xa_for_each(&luo_files_xa_out, token, h) {
--		ret = luo_files_freeze_one(h);
--		if (ret < 0) {
--			pr_err("Freeze callback failed for file token %#0llx handler '%s' [%d]\n",
--			       (u64)token, h->fh->compatible, ret);
--			__luo_files_cancel(h);
--
--			return ret;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		xa_for_each(&s->files_xa_out, token, h) {
-+			ret = luo_files_freeze_one(h);
-+			if (ret < 0) {
-+				pr_err("Freeze callback failed for file token %#0llx handler '%s' [%d]\n",
-+				       (u64)token, h->fh->compatible, ret);
-+				__luo_files_cancel(h);
-+				up_read(&luo_sessions_list_rwsem);
-+
-+				return ret;
-+			}
- 		}
- 	}
-+	up_read(&luo_sessions_list_rwsem);
- 
- 	ret = luo_files_commit_data_to_fdt();
- 	if (ret)
-@@ -561,6 +602,7 @@ late_initcall(luo_files_startup);
- 
- /**
-  * luo_register_file - Register a file descriptor for live update management.
-+ * @s: Session for the file that is being registered
-  * @token: Token value for this file descriptor.
-  * @fd: file descriptor to be preserved.
-  *
-@@ -568,10 +610,11 @@ late_initcall(luo_files_startup);
-  *
-  * Return: 0 on success. Negative errno on failure.
-  */
--int luo_register_file(u64 token, int fd)
-+int luo_register_file(struct luo_session *s, u64 token, int fd)
- {
- 	struct liveupdate_file_handler *fh;
- 	struct luo_file *luo_file;
-+	struct luo_session *_s;
- 	bool found = false;
- 	int ret = -ENOENT;
- 	struct file *file;
-@@ -615,15 +658,20 @@ int luo_register_file(u64 token, int fd)
- 	mutex_init(&luo_file->mutex);
- 	luo_file->state = LIVEUPDATE_STATE_NORMAL;
- 
--	if (xa_load(&luo_files_xa_out, token)) {
--		ret = -EEXIST;
--		pr_warn("Token %llu is already taken\n", token);
--		mutex_destroy(&luo_file->mutex);
--		kfree(luo_file);
--		goto exit_unlock;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(_s, &luo_sessions_list, list) {
-+		if (xa_load(&_s->files_xa_out, token)) {
-+			up_read(&luo_sessions_list_rwsem);
-+			ret = -EEXIST;
-+			pr_warn("Token %llu is already taken\n", token);
-+			mutex_destroy(&luo_file->mutex);
-+			kfree(luo_file);
-+			goto exit_unlock;
-+		}
- 	}
-+	up_read(&luo_sessions_list_rwsem);
- 
--	ret = xa_err(xa_store(&luo_files_xa_out, token, luo_file,
-+	ret = xa_err(xa_store(&s->files_xa_out, token, luo_file,
- 			      GFP_KERNEL));
- 	if (ret < 0) {
- 		pr_warn("Failed to store file for token %llu in XArray: %d\n",
-@@ -646,6 +694,7 @@ int luo_register_file(u64 token, int fd)
- 
- /**
-  * luo_unregister_file - Unregister a file instance using its token.
-+ * @s: Session for the file that is being registered.
-  * @token: The unique token of the file instance to unregister.
-  *
-  * Finds the &struct luo_file associated with the @token in the
-@@ -659,7 +708,7 @@ int luo_register_file(u64 token, int fd)
-  *
-  * Return: 0 on success. Negative errno on failure.
-  */
--int luo_unregister_file(u64 token)
-+int luo_unregister_file(struct luo_session *s, u64 token)
- {
- 	struct luo_file *luo_file;
- 	int ret = 0;
-@@ -671,7 +720,7 @@ int luo_unregister_file(u64 token)
- 		return -EBUSY;
- 	}
- 
--	luo_file = xa_erase(&luo_files_xa_out, token);
-+	luo_file = xa_erase(&s->files_xa_out, token);
- 	if (luo_file) {
- 		fput(luo_file->file);
- 		mutex_destroy(&luo_file->mutex);
-@@ -736,6 +785,74 @@ int luo_retrieve_file(u64 token, struct file **filep)
- 	return ret;
- }
- 
-+/**
-+ * luo_create_session - Create and register a new LUO file preservation session.
-+ *
-+ * This function is called when a userspace process opens the /dev/liveupdate
-+ * character device.
-+ *
-+ * Each session allows a specific open instance of /dev/liveupdate to
-+ * independently register file descriptors for preservation. These registrations
-+ * are local to the session until LUO's prepare phase aggregates them.
-+ * If the /dev/liveupdate file descriptor is closed while LUO is still in
-+ * the NORMAL or UPDATES states, all file descriptors registered within that
-+ * session will be automatically unregistered by luo_destroy_session().
-+ *
-+ * Return: Pointer to the newly allocated &struct luo_session on success,
-+ *         NULL on memory allocation failure.
-+ */
-+struct luo_session *luo_create_session(void)
-+{
-+	struct luo_session *s;
-+
-+	s = kmalloc(sizeof(struct luo_session), GFP_KERNEL);
-+	if (s) {
-+		xa_init(&s->files_xa_out);
-+		INIT_LIST_HEAD(&s->list);
-+
-+		down_write(&luo_sessions_list_rwsem);
-+		list_add_tail(&s->list, &luo_sessions_list);
-+		up_write(&luo_sessions_list_rwsem);
-+	}
-+
-+	return s;
-+}
-+
-+/**
-+ * luo_destroy_session - Release a LUO file preservation session.
-+ * @s: Pointer to the &struct luo_session to be destroyed, previously obtained
-+ *     from luo_create_session().
-+ *
-+ * This function must be called when a userspace file descriptor for
-+ * /dev/liveupdate is being closed (typically from the .release file
-+ * operation). It is responsible for cleaning up all resources associated
-+ * with the given LUO session @s.
-+ */
-+void luo_destroy_session(struct luo_session *s)
-+{
-+	unsigned long token;
-+	struct luo_file *h;
-+
-+	down_write(&luo_sessions_list_rwsem);
-+	list_del(&s->list);
-+	up_write(&luo_sessions_list_rwsem);
-+
-+	luo_state_read_enter();
-+	if (!liveupdate_state_normal() && !liveupdate_state_updated()) {
-+		luo_state_read_exit();
-+		goto skip_unregister;
-+	}
-+
-+	xa_for_each(&s->files_xa_out, token, h)
-+		luo_unregister_file(s, token);
-+
-+	luo_state_read_exit();
-+
-+skip_unregister:
-+	xa_destroy(&s->files_xa_out);
-+	kfree(s);
-+}
-+
- /**
-  * liveupdate_register_file_handler - Register a file handler with LUO.
-  * @fh: Pointer to a caller-allocated &struct liveupdate_file_handler.
-@@ -796,6 +913,7 @@ EXPORT_SYMBOL_GPL(liveupdate_register_file_handler);
-  */
- int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
- {
-+	struct luo_session *s;
- 	unsigned long token;
- 	struct luo_file *h;
- 	int ret = 0;
-@@ -807,15 +925,18 @@ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
- 	}
- 
- 	down_write(&luo_register_file_list_rwsem);
--
--	xa_for_each(&luo_files_xa_out, token, h) {
--		if (h->fh == fh) {
--			up_write(&luo_register_file_list_rwsem);
--			luo_state_read_exit();
--			return -EBUSY;
-+	down_read(&luo_sessions_list_rwsem);
-+	list_for_each_entry(s, &luo_sessions_list, list) {
-+		xa_for_each(&s->files_xa_out, token, h) {
-+			if (h->fh == fh) {
-+				up_read(&luo_sessions_list_rwsem);
-+				up_write(&luo_register_file_list_rwsem);
-+				luo_state_read_exit();
-+				return -EBUSY;
-+			}
- 		}
- 	}
--
-+	up_read(&luo_sessions_list_rwsem);
- 	list_del_init(&fh->list);
- 	up_write(&luo_register_file_list_rwsem);
- 	luo_state_read_exit();
 diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index 05cd861ed2a8..8fef414e7e3e 100644
+index 8fef414e7e3e..fbb9c6642d19 100644
 --- a/kernel/liveupdate/luo_internal.h
 +++ b/kernel/liveupdate/luo_internal.h
-@@ -25,9 +25,14 @@ int luo_do_subsystems_freeze_calls(void);
- void luo_do_subsystems_finish_calls(void);
- void luo_do_subsystems_cancel_calls(void);
+@@ -40,4 +40,8 @@ void luo_sysfs_notify(void);
+ static inline void luo_sysfs_notify(void) {}
+ #endif
  
-+struct luo_session;
++#ifdef CONFIG_KEXEC_HANDOVER_DEBUG
++extern struct dentry *liveupdate_debugfs_root;
++#endif
 +
- int luo_retrieve_file(u64 token, struct file **filep);
--int luo_register_file(u64 token, int fd);
--int luo_unregister_file(u64 token);
-+int luo_register_file(struct luo_session *s, u64 token, int fd);
-+int luo_unregister_file(struct luo_session *s, u64 token);
-+
-+struct luo_session *luo_create_session(void);
-+void luo_destroy_session(struct luo_session *s);
- 
- #ifdef CONFIG_LIVEUPDATE_SYSFS_API
- void luo_sysfs_notify(void);
-diff --git a/kernel/liveupdate/luo_ioctl.c b/kernel/liveupdate/luo_ioctl.c
-index 3de1d243df5a..d2c49cf33dd3 100644
---- a/kernel/liveupdate/luo_ioctl.c
-+++ b/kernel/liveupdate/luo_ioctl.c
-@@ -62,6 +62,17 @@ static int luo_open(struct inode *inodep, struct file *filep)
- 	if (filep->f_flags & O_EXCL)
- 		return -EINVAL;
- 
-+	filep->private_data = luo_create_session();
-+	if (!filep->private_data)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+static int luo_release(struct inode *inodep, struct file *filep)
-+{
-+	luo_destroy_session(filep->private_data);
-+
- 	return 0;
- }
- 
-@@ -101,9 +112,11 @@ static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 			break;
- 		}
- 
--		ret = luo_register_file(luo_fd.token, luo_fd.fd);
-+		ret = luo_register_file(filep->private_data, luo_fd.token,
-+					luo_fd.fd);
- 		if (!ret && copy_to_user(argp, &luo_fd, sizeof(luo_fd))) {
--			WARN_ON_ONCE(luo_unregister_file(luo_fd.token));
-+			WARN_ON_ONCE(luo_unregister_file(filep->private_data,
-+							 luo_fd.token));
- 			ret = -EFAULT;
- 		}
- 		break;
-@@ -114,7 +127,7 @@ static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 			break;
- 		}
- 
--		ret = luo_unregister_file(token);
-+		ret = luo_unregister_file(filep->private_data, token);
- 		break;
- 
- 	case LIVEUPDATE_IOCTL_FD_RESTORE:
-@@ -140,6 +153,7 @@ static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- static const struct file_operations fops = {
- 	.owner          = THIS_MODULE,
- 	.open           = luo_open,
-+	.release	= luo_release,
- 	.unlocked_ioctl = luo_ioctl,
- };
- 
+ #endif /* _LINUX_LUO_INTERNAL_H */
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
