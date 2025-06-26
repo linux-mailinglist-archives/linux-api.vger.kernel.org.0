@@ -1,52 +1,52 @@
-Return-Path: <linux-api+bounces-4032-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4033-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E0AAE936B
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 02:30:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F25AE9457
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 04:43:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B94B4E0452
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 00:30:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E37FD165BF4
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 02:43:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68CE51885AB;
-	Thu, 26 Jun 2025 00:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56E7B1C8616;
+	Thu, 26 Jun 2025 02:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A2gLGXhk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BlvhXbm5"
 X-Original-To: linux-api@vger.kernel.org
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92202F1FC6;
-	Thu, 26 Jun 2025 00:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1510918C332;
+	Thu, 26 Jun 2025 02:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750897803; cv=none; b=nO2+5Re9wgJMc1/RNgXoUktiS4tGs6wXd/AuqElQJD359Ml8WksntuK5CuH3w3VaiD7H1Cmfj2HS/3l7nm31QB0yB64GgGjo60+prodJmbkQaiE3iKwfYf6VCxfPF19wuiTDgX1tKpYlSwKmHsDW+Re1ejTe/dbUJXlks8mKs7Y=
+	t=1750905784; cv=none; b=XfEg5/Tuz6sT5gLcxq0m8E/F7FkGQcOks954+Tzq6FcPiJG9nH3U8hm1fovyrJ0hEj1KtYnAkj4eODFrDifc9REZX2ZR4Rf+uZYB0pK/Y2q+54j0VztJ7K4Vdoc6SKWao6edJHdX9dzXC5Td5Qz5tJm0+3GyvZe8YJyDprJ7ju4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750897803; c=relaxed/simple;
-	bh=rQVlwmiRyQSv075kPvUyrgQeXP16QvD+Pp6G7Fgm8Fs=;
+	s=arc-20240116; t=1750905784; c=relaxed/simple;
+	bh=JBpdw75QCGr81iwmekoGx8INzICXSF22MAqQ7zgFJ2Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=rooqeUCVxqBlx5X/tyODig5eoHwey5PLDj+HD2bil1JGJOmBT2kVPAVRZJNyheyxcRwgyhOLetddjnEdx0kx/cD/Xb68k0HwJQ26p6rjwbAHqRW8+IMRCdhHoR8joCJSaUX0a7fkO/2BMD7u6BoIBGKtCblllJswivJt/tztRWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A2gLGXhk; arc=none smtp.client-ip=90.155.92.199
+	 In-Reply-To:Content-Type; b=F+dhke4beDRbPrqIPgnThgxyP/h5dOMQOV7iU9I/LOktqMgVfXWhoBd0zGBq2q9JtaEtu+8scUXvEr2zf2qH5YlUw9TKJP4MZNs0MNaTSZw8GzS6YfHuZx1TjKXbb+Iak3ntevbm0S2gKQDQUW6tLW+pNXc6heMMDxQ5a8Hjmm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BlvhXbm5; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
 	Reply-To:Cc:Content-ID:Content-Description;
-	bh=asEZ63uNdqnRmgnYrhTIGz393/XojMchHHXovIsLp68=; b=A2gLGXhkiJRwKraD1mBY5wWyCL
-	GeOZiJPwZvqcEt0qCRpRQMvepDgFVG03f30rNTBwO+RF3qi2U3CFi6jByUPjAzwg5zYnxkPOaNgq7
-	Osgw+RaQ71nqD9xutiRw9bBJUMzc3rPK4eRSEcC5MGy+0ppopQyaD1/NFX7S793wLpu7yUn7YrH6B
-	aclVA3UqCsQ/Q/kaxvG6A7zwrf+X+c/dC/db1atMMDdQJnLN7GbfgY0ViwOpvvrpgwiPPWNo0Y21M
-	YiSenSJp3vlkoDOoWzkCoZgPtjIIowycD8O23zl9ISm5G13ORwdKhhrfgniolA/D+Tr8ztFXarVLO
-	HcgDD7kA==;
+	bh=24+mUdtrCzI4Op7D58pQppiwPVluWWu23vHUqIu9MSA=; b=BlvhXbm5dSfUVXaU4o2nKEHlOP
+	/OZ1h5AtCfQReWwNK32UTQm/nbB5948isLYLinOiIeQaR5d4qLeiq6BY2P/R+PlVuWKiM240AFTe+
+	TYMq7XLpj/feFD+y9NIACgZa6f6oRCna93ugt2fVtp8oLq3nBsPgMt1B6Iu8fCjTR4S/JhWmhp01o
+	Rl8lJ1mpKOUAXI5/DH0ahDc0ogHF0EpU64NZkHj+ta47eRnvj3dFTu1eM6iKH1iEllPelFx+QLR0t
+	6/pMHT+TCDqBR37MjaBxcorzic0CROyJ093A/469TMPmW0ionInk5EmBxIdUPb9rbNHgGWBfHWWCA
+	nLm3aJcg==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUaUZ-000000060m1-18Zj;
-	Thu, 26 Jun 2025 00:29:27 +0000
-Message-ID: <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
-Date: Wed, 25 Jun 2025 17:29:15 -0700
+	id 1uUcZE-000000061UF-3fko;
+	Thu, 26 Jun 2025 02:42:26 +0000
+Message-ID: <5f7b85d3-5c72-482a-9f80-55578c786800@infradead.org>
+Date: Wed, 25 Jun 2025 19:42:07 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -54,8 +54,8 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 17/32] liveupdate: luo_sysfs: add sysfs state
- monitoring
+Subject: Re: [PATCH v1 29/32] docs: add documentation for memfd preservation
+ via LUO
 To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
  jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
  rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
@@ -79,89 +79,22 @@ To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
  stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
  brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
 References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
- <20250625231838.1897085-18-pasha.tatashin@soleen.com>
+ <20250625231838.1897085-30-pasha.tatashin@soleen.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250625231838.1897085-18-pasha.tatashin@soleen.com>
+In-Reply-To: <20250625231838.1897085-30-pasha.tatashin@soleen.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
 
 On 6/25/25 4:18 PM, Pasha Tatashin wrote:
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Documentation/ABI/testing/sysfs-kernel-liveupdate
-> new file mode 100644
-> index 000000000000..4cd4a4fe2f93
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
-> @@ -0,0 +1,51 @@
-> +What:		/sys/kernel/liveupdate/
-> +Date:		May 2025
-> +KernelVersion:	6.16.0
-> +Contact:	pasha.tatashin@soleen.com
-> +Description:	Directory containing interfaces to query the live
-> +		update orchestrator. Live update is the ability to reboot the
-> +		host kernel (e.g., via kexec, without a full power cycle) while
-> +		keeping specifically designated devices operational ("alive")
-> +		across the transition. After the new kernel boots, these devices
-> +		can be re-attached to their original workloads (e.g., virtual
-> +		machines) with their state preserved. This is particularly
-> +		useful, for example, for quick hypervisor updates without
-> +		terminating running virtual machines.
-> +
-> +
-> +What:		/sys/kernel/liveupdate/state
-> +Date:		May 2025
-> +KernelVersion:	6.16.0
-> +Contact:	pasha.tatashin@soleen.com
-> +Description:	Read-only file that displays the current state of the live
-> +		update orchestrator as a string. Possible values are:
-> +
-> +		"normal":	No live update operation is in progress. This is
-> +				the default operational state.
+> +Cancellation
+> +  If the liveupdate is canceled after going into prepared phase, the memfd
+> +  functions like in normal phase.
 
-Just an opinion, but the ':'s after each possible value aren't needed
-and just add noise.
-
-You could just drop the ':'s -- or you could make a table here, like
-Documentation/ABI/testing/sysfs-hypervisor-xen does, by adding
-
-                ===========     ================================================
-
-
-> +		"prepared":	The live update preparation phase has completed
-> +				successfully (e.g., triggered via the
-> +				/dev/liveupdate event). Kernel subsystems have
-> +				been notified via the %LIVEUPDATE_PREPARE
-> +				event/callback and should have initiated state
-> +				saving. User workloads (e.g., VMs) are generally
-> +				still running, but some operations (like device
-> +				unbinding or new DMA mappings) might be
-> +				restricted. The system is ready for the reboot
-> +				trigger.
-> +
-> +		"frozen":	The final reboot notification has been sent
-> +				(e.g., triggered via the 'reboot()' syscall),
-> +				corresponding to the %LIVEUPDATE_REBOOT kernel
-> +				event. Subsystems have had their final chance to
-> +				save state. User workloads must be suspended.
-> +				The system is about to execute the reboot into
-> +				the new kernel (imminent kexec). This state
-> +				corresponds to the "blackout window".
-> +
-> +		"updated":	The system has successfully rebooted into the
-> +				new kernel via live update. Restoration of
-> +				preserved resources can now occur (typically via
-> +				ioctl commands). The system is awaiting the
-> +				final 'finish' signal after user space completes
-> +				restoration tasks.
-
-and
-
-                ===========     ================================================
-
-Or just disagree or ignore. :)
+We accept one 'l' or two 'l's in cancel[l]ing words, but it would be nice to be
+consistent here.
 
 -- 
 ~Randy
