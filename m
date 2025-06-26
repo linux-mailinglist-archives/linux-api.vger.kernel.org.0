@@ -1,331 +1,95 @@
-Return-Path: <linux-api+bounces-4046-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4047-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2A3AEA43B
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 19:15:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC26AEA956
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 00:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C9D21799A0
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 17:14:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35A6D7B0DF6
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 22:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C02A2EF2B1;
-	Thu, 26 Jun 2025 17:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 947642609C8;
+	Thu, 26 Jun 2025 22:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="SYUJYT4w"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lf/H7SPI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GH86Pf0x"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8759E2EF29D;
-	Thu, 26 Jun 2025 17:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A3023B634;
+	Thu, 26 Jun 2025 22:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750958002; cv=none; b=Cfapwwv2crBxhKY1jTlbsZlDG9Y01tvPta2SkIvKvpD3mB8xnDfsziyEGl7I7f5IOYWbFsjLE1X7JkIVZJq5fL+Ppt/4277eCV1CCaiPIxP6uZtoDhc9aW0JGxWjwRZKXHeANfiWPYWRKNmWLvPkFsG/oqcG/ow9OpoOIIKEj0Y=
+	t=1750975672; cv=none; b=ftVnhJ9OgS1TQSd6eqc27s+5Yjk/N7WqazTkukrpqq8Og95S/fD3U1UizHCyPm3gbsm9WmLMzaS0nsPvV+Eu+Pt62nlD9j1wpGAhjsIebKlA21pzdcsneBSqxS0hDnaWqe//1CtLKZGFBq+8AHm9+fCg4scgM/GFt5rUv8nxTac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750958002; c=relaxed/simple;
-	bh=PecueBhb3qx1RHFBN98VuO4lhdtWIZM9jToHkTc/HLE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PvjkFNlZvC1ynEu+mst71gfJb22jUl28Eb94WpOF13H6++rbuxbAhr+mWZ/pTy1SB2h0/S7RqcHI29yjYwHkCRIRq0sFL49Nrtfcj7ecAWmwhS1n/edxQn6sELhFdgXE8CkX6YPReifvbrT9je067Zvdq5Ii6VjDcH2K6NIKulg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=SYUJYT4w; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=N5VA/SwJ6w5fExHAtI2s26hUsQkblQRmCfj6Ybce2s4=; b=SYUJYT4w+W5Lcn7hPJKEodcBzq
-	Bpeizrv3pA0LNvG3q6pNk4jh0KfyK8d56GoyS1or17M/ram/QU3ShKB4pVWvrC28Zi3s6/F1SWSEm
-	4MTPxKwH1+QSUZM/ZyoPCi+RW1cEvVB7TvccRlDtTgF5vsWT7jRZsyNMsCSnIGVg/PUpE1FaBrkKs
-	CaxQvM8Ecs8JaOtpt4co892aJSrJc1GAVnLnB3SGw5eIPT3nEPScUp3qdVPltoSJU0MtoBQqBUtzK
-	uiDYx53Sg016QOmKVgIBISbd39jsNqlrGimtgpN/azAI13SErdAHuIunQr/Jw+95fb2z3idV6W/YM
-	N9+f57lw==;
-Received: from [191.204.192.64] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uUqA1-009491-9G; Thu, 26 Jun 2025 19:13:17 +0200
-From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Date: Thu, 26 Jun 2025 14:11:31 -0300
-Subject: [PATCH v5 7/7] selftests: futex: Expand robust list test for the
- new interface
+	s=arc-20240116; t=1750975672; c=relaxed/simple;
+	bh=bUTpjLkfsFNOyjEtEopr5we1x3Roxq22HlCVo4NPojg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fE4fBLCowK+WBJogZPSWQ7l7VW/jFsULdUiK0c82H2u5xJsNwjBeBQn7iRZ4Bwz+CLA3Md9ICDLNRav6VovDOXNm+5n8Cl19aTR/H3AnG5zoQ8olTKmJ0PsMhJ7xJOpySVw513RZ52Z7wTb5Zrkk8qw7NHuup4FstLLF0rQF3SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Lf/H7SPI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GH86Pf0x; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750975668;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HC18m67HnK1X7lBUoyKEQKdHSun378qI4UuLYILh+NY=;
+	b=Lf/H7SPI9D1X41sl8/1PmcSDXSU+nBDjIp75Y8ag9fGOojziddK0AyFpAalXGu3vIbVxCA
+	XdE8ndUKS9SqPYuGgbBHs9yfM+pVczvyz/10yu1TfFDUF6CG1DYJKv0M5JqMJEgTPswQ51
+	I4e1doPL7tEQq4MViRBvq6YtpKV3dSBkfw6g5e6U1Gp27j3tOJJqBiukeC5uKq1avDA2b5
+	qzG/5SeV6IPNSTKgfOgsL0ByG8NQ5YHS+g7uTmQWVmYQQobRn0l0lf6myNo4hf5GQCyK+e
+	rig5SKzFcjIU0kJopQxB/s1r7D/9eTUMzC8yg/b46Wk8KZgepzxIthvKTO5L1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750975668;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HC18m67HnK1X7lBUoyKEQKdHSun378qI4UuLYILh+NY=;
+	b=GH86Pf0xVcsQMuaOc7ow/3xdfB1Ix9yyJQEkxG1NLTStZfk85b0HXAsHlgduJf47xXELdh
+	/GrYTgk9Z0qckhCw==
+To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>, Ingo Molnar
+ <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
+ Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Waiman Long <longman@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-api@vger.kernel.org, kernel-dev@igalia.com, =?utf-8?Q?Andr=C3=A9?=
+ Almeida
+ <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 1/7] selftests/futex: Add ASSERT_ macros
+In-Reply-To: <20250626-tonyk-robust_futex-v5-1-179194dbde8f@igalia.com>
+References: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
+ <20250626-tonyk-robust_futex-v5-1-179194dbde8f@igalia.com>
+Date: Fri, 27 Jun 2025 00:07:47 +0200
+Message-ID: <87ecv6p364.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250626-tonyk-robust_futex-v5-7-179194dbde8f@igalia.com>
-References: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
-In-Reply-To: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Waiman Long <longman@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-api@vger.kernel.org, kernel-dev@igalia.com, 
- =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Expand the current robust list test for the new set_robust_list2
-syscall. Create an option to make it possible to run the same tests
-using the new syscall, and also add two new relevant test: test long
-lists (bigger than ROBUST_LIST_LIMIT) and for unaligned addresses.
+On Thu, Jun 26 2025 at 14:11, Andr=C3=A9 Almeida wrote:
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- .../selftests/futex/functional/robust_list.c       | 160 ++++++++++++++++++++-
- 1 file changed, 156 insertions(+), 4 deletions(-)
+> Create ASSERT_{EQ, NE, TRUE, FALSE} macros to make test creation easier.
 
-diff --git a/tools/testing/selftests/futex/functional/robust_list.c b/tools/testing/selftests/futex/functional/robust_list.c
-index 42690b2440fd29a9b12c46f67f9645ccc93d1147..004ad79ff6171c411fd47e699e3c38889544218e 100644
---- a/tools/testing/selftests/futex/functional/robust_list.c
-+++ b/tools/testing/selftests/futex/functional/robust_list.c
-@@ -35,16 +35,45 @@
- #include <stddef.h>
- #include <sys/mman.h>
- #include <sys/wait.h>
-+#include <stdint.h>
- 
- #define STACK_SIZE (1024 * 1024)
- 
- #define FUTEX_TIMEOUT 3
- 
-+#define SYS_set_robust_list2 468
-+
-+enum robust_list2_type {
-+        ROBUST_LIST_32BIT,
-+        ROBUST_LIST_64BIT,
-+};
-+
- static pthread_barrier_t barrier, barrier2;
- 
-+bool robust2 = false;
-+
- int set_robust_list(struct robust_list_head *head, size_t len)
- {
--	return syscall(SYS_set_robust_list, head, len);
-+	int ret, flags;
-+
-+	if (!robust2) {
-+		return syscall(SYS_set_robust_list, head, len);
-+	}
-+
-+	if (sizeof(head) == 8)
-+		flags = ROBUST_LIST_64BIT;
-+	else
-+		flags = ROBUST_LIST_32BIT;
-+
-+	/*
-+	 * We act as we have just one list here. We try to use the first slot,
-+	 * but if it hasn't been alocated yet we allocate it.
-+	 */
-+	ret = syscall(SYS_set_robust_list2, head, 0, flags);
-+	if (ret == -1 && errno == ENOENT)
-+		ret = syscall(SYS_set_robust_list2, head, -1, flags);
-+
-+	return ret;
- }
- 
- int get_robust_list(int pid, struct robust_list_head **head, size_t *len_ptr)
-@@ -246,6 +275,11 @@ static void test_set_robust_list_invalid_size(void)
- 	size_t head_size = sizeof(struct robust_list_head);
- 	int ret;
- 
-+	if (robust2) {
-+		ksft_test_result_skip("This test is only for old robust interface\n");
-+		return;
-+	}
-+
- 	ret = set_robust_list(&head, head_size);
- 	ASSERT_EQ(ret, 0);
- 
-@@ -321,6 +355,11 @@ static void test_get_robust_list_child(void)
- 	struct robust_list_head head, *get_head;
- 	size_t len_ptr;
- 
-+	if (robust2) {
-+		ksft_test_result_skip("Not implemented in the new robust interface\n");
-+		return;
-+	}
-+
- 	ret = pthread_barrier_init(&barrier, NULL, 2);
- 	ret = pthread_barrier_init(&barrier2, NULL, 2);
- 	ASSERT_EQ(ret, 0);
-@@ -332,7 +371,7 @@ static void test_get_robust_list_child(void)
- 
- 	ret = get_robust_list(tid, &get_head, &len_ptr);
- 	ASSERT_EQ(ret, 0);
--	ASSERT_EQ(&head, get_head);
-+	ASSERT_EQ(get_head, &head);
- 
- 	pthread_barrier_wait(&barrier2);
- 
-@@ -507,11 +546,119 @@ static void test_circular_list(void)
- 	ksft_test_result_pass("%s\n", __func__);
- }
- 
-+#define ROBUST_LIST_LIMIT	2048
-+#define CHILD_LIST_LIMIT (ROBUST_LIST_LIMIT + 10)
-+
-+static int child_robust_list_limit(void *arg)
-+{
-+	struct lock_struct *locks;
-+	struct robust_list *list;
-+	struct robust_list_head head;
-+	int ret, i;
-+
-+	locks = (struct lock_struct *) arg;
-+
-+	ret = set_list(&head);
-+	if (ret)
-+		ksft_test_result_fail("set_list error\n");
-+
-+	/*
-+	 * Create a very long list of locks
-+	 */
-+	head.list.next = &locks[0].list;
-+
-+	list = head.list.next;
-+	for (i = 0; i < CHILD_LIST_LIMIT - 1; i++) {
-+		list->next = &locks[i+1].list;
-+		list = list->next;
-+	}
-+	list->next = &head.list;
-+
-+	/*
-+	 * Grab the lock in the last one, and die without releasing it
-+	 */
-+	mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-+	pthread_barrier_wait(&barrier);
-+
-+	sleep(1);
-+
-+	return 0;
-+}
-+
-+/*
-+ * The old robust list used to have a limit of 2048 items from the kernel side.
-+ * After this limit the kernel stops walking the list and ignore the other
-+ * futexes, causing deadlocks.
-+ *
-+ * For the new interface, test if we can wait for a list of more than 2048
-+ * elements.
-+ */
-+static void test_robust_list_limit(void)
-+{
-+	struct lock_struct locks[CHILD_LIST_LIMIT + 1];
-+	_Atomic(unsigned int) *futex = &locks[CHILD_LIST_LIMIT].futex;
-+	struct robust_list_head head;
-+	int ret;
-+
-+	if (!robust2) {
-+		ksft_test_result_skip("This test is only for new robust interface\n");
-+		return;
-+	}
-+
-+	*futex = 0;
-+
-+	ret = set_list(&head);
-+	ASSERT_EQ(ret, 0);
-+
-+	ret = pthread_barrier_init(&barrier, NULL, 2);
-+	ASSERT_EQ(ret, 0);
-+
-+	create_child(child_robust_list_limit, locks);
-+
-+	/*
-+	 * After the child thread creates the very long list of locks, wait on
-+	 * the last one.
-+	 */
-+	pthread_barrier_wait(&barrier);
-+	ret = mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-+
-+	if (ret != 0)
-+		printf("futex wait returned %d\n", errno);
-+	ASSERT_EQ(ret, 0);
-+
-+	ASSERT_TRUE(*futex | FUTEX_OWNER_DIED);
-+
-+	wait(NULL);
-+	pthread_barrier_destroy(&barrier);
-+
-+	ksft_test_result_pass("%s\n", __func__);
-+}
-+
-+/*
-+ * The kernel should refuse an unaligned head pointer
-+ */
-+static void test_unaligned_address(void)
-+{
-+	struct robust_list_head head, *h;
-+	int ret;
-+
-+	if (!robust2) {
-+		ksft_test_result_skip("This test is only for new robust interface\n");
-+		return;
-+	}
-+
-+	h = (struct robust_list_head *) ((uintptr_t) &head + 1);
-+	ret = set_list(h);
-+	ASSERT_EQ(ret, -1);
-+	ASSERT_EQ(errno, EINVAL);
-+}
-+
- void usage(char *prog)
- {
- 	printf("Usage: %s\n", prog);
- 	printf("  -c	Use color\n");
- 	printf("  -h	Display this help message\n");
-+	printf("  -n	Use robust2 syscall\n");
- 	printf("  -v L	Verbosity level: %d=QUIET %d=CRITICAL %d=INFO\n",
- 	       VQUIET, VCRITICAL, VINFO);
- }
-@@ -520,7 +667,7 @@ int main(int argc, char *argv[])
- {
- 	int c;
- 
--	while ((c = getopt(argc, argv, "cht:v:")) != -1) {
-+	while ((c = getopt(argc, argv, "chnt:v:")) != -1) {
- 		switch (c) {
- 		case 'c':
- 			log_color(1);
-@@ -531,6 +678,9 @@ int main(int argc, char *argv[])
- 		case 'v':
- 			log_verbosity(atoi(optarg));
- 			break;
-+		case 'n':
-+			robust2 = true;
-+			break;
- 		default:
- 			usage(basename(argv[0]));
- 			exit(1);
-@@ -538,7 +688,7 @@ int main(int argc, char *argv[])
- 	}
- 
- 	ksft_print_header();
--	ksft_set_plan(7);
-+	ksft_set_plan(8);
- 
- 	test_robustness();
- 
-@@ -548,6 +698,8 @@ int main(int argc, char *argv[])
- 	test_set_list_op_pending();
- 	test_robust_list_multiple_elements();
- 	test_circular_list();
-+	test_robust_list_limit();
-+	test_unaligned_address();
- 
- 	ksft_print_cnts();
- 	return 0;
+What's so futex special about this that it can't use the same muck in
 
--- 
-2.49.0
+tools/testing/selftests/kselftest_harness.h
 
+or at least share the implementation in some way?
+
+Thanks,
+
+        tglx
 
