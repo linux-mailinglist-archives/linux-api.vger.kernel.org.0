@@ -1,52 +1,52 @@
-Return-Path: <linux-api+bounces-4031-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4032-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51A4AE9332
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 02:07:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E0AAE936B
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 02:30:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5164416C730
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 00:07:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B94B4E0452
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 00:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB00B2AD32;
-	Thu, 26 Jun 2025 00:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68CE51885AB;
+	Thu, 26 Jun 2025 00:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kihzCd+/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A2gLGXhk"
 X-Original-To: linux-api@vger.kernel.org
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A78D2F1FFE;
-	Thu, 26 Jun 2025 00:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92202F1FC6;
+	Thu, 26 Jun 2025 00:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750896416; cv=none; b=Z05PnjYgjfF7s2hotQWuMZ8ulm6bg0eCCVscR8jbmHWTVh0AmBZYv+Rx7wHpA5WCIq4pUzgzaIT+zuNJ31tzc0KDDU9xyKD9QbUhg6udzQiuxSWyldVD9/AVQyu/SGGW+2pl+Rhq9Zcy8Wna+bdkcyAbfjSVRWTb9/b1zHDF17I=
+	t=1750897803; cv=none; b=nO2+5Re9wgJMc1/RNgXoUktiS4tGs6wXd/AuqElQJD359Ml8WksntuK5CuH3w3VaiD7H1Cmfj2HS/3l7nm31QB0yB64GgGjo60+prodJmbkQaiE3iKwfYf6VCxfPF19wuiTDgX1tKpYlSwKmHsDW+Re1ejTe/dbUJXlks8mKs7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750896416; c=relaxed/simple;
-	bh=eEqjGbSoovShjbdge3UkJFXT/FMIpos5T8CvZNZ0BeQ=;
+	s=arc-20240116; t=1750897803; c=relaxed/simple;
+	bh=rQVlwmiRyQSv075kPvUyrgQeXP16QvD+Pp6G7Fgm8Fs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I94sSQBP/dS2RyLQjXzicRlyheW+qmH9SM11pHUt1gl2+PlxyZHtLj9KD/T9htqDRI8mdrxGWpSXn5PYKNC0+LpCgIQ647ZGA5MmYcRiF7n0LxcoXpm6hu7J3jphOogimxbu7sIAZH1LYuiELJaFXG23bQTJr9bz7Z/CsU71y7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kihzCd+/; arc=none smtp.client-ip=90.155.92.199
+	 In-Reply-To:Content-Type; b=rooqeUCVxqBlx5X/tyODig5eoHwey5PLDj+HD2bil1JGJOmBT2kVPAVRZJNyheyxcRwgyhOLetddjnEdx0kx/cD/Xb68k0HwJQ26p6rjwbAHqRW8+IMRCdhHoR8joCJSaUX0a7fkO/2BMD7u6BoIBGKtCblllJswivJt/tztRWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A2gLGXhk; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
 	Reply-To:Cc:Content-ID:Content-Description;
-	bh=7OPjKGEprNsfxcHZCkamjZBCKBHpBSWh2A3k0lKJL0U=; b=kihzCd+/9fHsdU52PCGaMUBLbY
-	XbAOIB8miBJwza4l37/4KJOYSlo3CQmsPNF3xvZszakrH2z6nANGWvmTWtSQokEOPhin2Q1St5sqE
-	KXjhMcNY3f9tXR+PCuIcqxnSEO23ka6c+vvsuFiDoPvEwwZGkf5b+T63u19GnkRk+ERwtVss4O9xb
-	983h5xjcElMrq86eYGPKb5muxoW1J8ShPXCZm1FSlypwx9rBA9DzjlxTBvwhi2URktnaykkm2pVo1
-	ULoDoXtJPwLVTyL3bD+kLnJ8ceDF9aw2S2JImmryv1bFQjsXUB+ILfLb/jCH5JP51savgmVSD55ON
-	qfQ/BHTw==;
+	bh=asEZ63uNdqnRmgnYrhTIGz393/XojMchHHXovIsLp68=; b=A2gLGXhkiJRwKraD1mBY5wWyCL
+	GeOZiJPwZvqcEt0qCRpRQMvepDgFVG03f30rNTBwO+RF3qi2U3CFi6jByUPjAzwg5zYnxkPOaNgq7
+	Osgw+RaQ71nqD9xutiRw9bBJUMzc3rPK4eRSEcC5MGy+0ppopQyaD1/NFX7S793wLpu7yUn7YrH6B
+	aclVA3UqCsQ/Q/kaxvG6A7zwrf+X+c/dC/db1atMMDdQJnLN7GbfgY0ViwOpvvrpgwiPPWNo0Y21M
+	YiSenSJp3vlkoDOoWzkCoZgPtjIIowycD8O23zl9ISm5G13ORwdKhhrfgniolA/D+Tr8ztFXarVLO
+	HcgDD7kA==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUa8K-000000060eN-285a;
-	Thu, 26 Jun 2025 00:06:29 +0000
-Message-ID: <829fa3b2-58be-493f-b26c-8d68063b96ed@infradead.org>
-Date: Wed, 25 Jun 2025 17:06:10 -0700
+	id 1uUaUZ-000000060m1-18Zj;
+	Thu, 26 Jun 2025 00:29:27 +0000
+Message-ID: <d6e44430-ec9c-4d77-a00b-15e97ab9beab@infradead.org>
+Date: Wed, 25 Jun 2025 17:29:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -54,8 +54,8 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 21/32] liveupdate: add selftests for subsystems
- un/registration
+Subject: Re: [PATCH v1 17/32] liveupdate: luo_sysfs: add sysfs state
+ monitoring
 To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
  jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
  rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
@@ -79,43 +79,89 @@ To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
  stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
  brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
 References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
- <20250625231838.1897085-22-pasha.tatashin@soleen.com>
+ <20250625231838.1897085-18-pasha.tatashin@soleen.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250625231838.1897085-22-pasha.tatashin@soleen.com>
+In-Reply-To: <20250625231838.1897085-18-pasha.tatashin@soleen.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
 
 On 6/25/25 4:18 PM, Pasha Tatashin wrote:
-> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-> index 75a17ca8a592..db7bbff3edec 100644
-> --- a/kernel/liveupdate/Kconfig
-> +++ b/kernel/liveupdate/Kconfig
-> @@ -47,6 +47,21 @@ config LIVEUPDATE_SYSFS_API
->  
->  	  If unsure, say N.
->  
-> +config LIVEUPDATE_SELFTESTS
-> +	bool "Live Update Orchestrator - self tests"
-
-	                                 self-tests"
-
-as below...
-
-> +	depends on LIVEUPDATE
-> +	help
-> +	  Say Y here to build self-tests for the LUO framework. When enabled,
-> +	  these tests can be initiated via the ioctl interface to help verify
-> +	  the core live update functionality.
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+> new file mode 100644
+> index 000000000000..4cd4a4fe2f93
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+> @@ -0,0 +1,51 @@
+> +What:		/sys/kernel/liveupdate/
+> +Date:		May 2025
+> +KernelVersion:	6.16.0
+> +Contact:	pasha.tatashin@soleen.com
+> +Description:	Directory containing interfaces to query the live
+> +		update orchestrator. Live update is the ability to reboot the
+> +		host kernel (e.g., via kexec, without a full power cycle) while
+> +		keeping specifically designated devices operational ("alive")
+> +		across the transition. After the new kernel boots, these devices
+> +		can be re-attached to their original workloads (e.g., virtual
+> +		machines) with their state preserved. This is particularly
+> +		useful, for example, for quick hypervisor updates without
+> +		terminating running virtual machines.
 > +
-> +	  This option is primarily intended for developers working on the
-> +	  live update feature or for validation purposes during system
-> +	  integration.
 > +
-> +	  If you are unsure or are building a production kernel where size
-> +	  or attack surface is a concern, say N.
+> +What:		/sys/kernel/liveupdate/state
+> +Date:		May 2025
+> +KernelVersion:	6.16.0
+> +Contact:	pasha.tatashin@soleen.com
+> +Description:	Read-only file that displays the current state of the live
+> +		update orchestrator as a string. Possible values are:
+> +
+> +		"normal":	No live update operation is in progress. This is
+> +				the default operational state.
+
+Just an opinion, but the ':'s after each possible value aren't needed
+and just add noise.
+
+You could just drop the ':'s -- or you could make a table here, like
+Documentation/ABI/testing/sysfs-hypervisor-xen does, by adding
+
+                ===========     ================================================
+
+
+> +		"prepared":	The live update preparation phase has completed
+> +				successfully (e.g., triggered via the
+> +				/dev/liveupdate event). Kernel subsystems have
+> +				been notified via the %LIVEUPDATE_PREPARE
+> +				event/callback and should have initiated state
+> +				saving. User workloads (e.g., VMs) are generally
+> +				still running, but some operations (like device
+> +				unbinding or new DMA mappings) might be
+> +				restricted. The system is ready for the reboot
+> +				trigger.
+> +
+> +		"frozen":	The final reboot notification has been sent
+> +				(e.g., triggered via the 'reboot()' syscall),
+> +				corresponding to the %LIVEUPDATE_REBOOT kernel
+> +				event. Subsystems have had their final chance to
+> +				save state. User workloads must be suspended.
+> +				The system is about to execute the reboot into
+> +				the new kernel (imminent kexec). This state
+> +				corresponds to the "blackout window".
+> +
+> +		"updated":	The system has successfully rebooted into the
+> +				new kernel via live update. Restoration of
+> +				preserved resources can now occur (typically via
+> +				ioctl commands). The system is awaiting the
+> +				final 'finish' signal after user space completes
+> +				restoration tasks.
+
+and
+
+                ===========     ================================================
+
+Or just disagree or ignore. :)
 
 -- 
 ~Randy
