@@ -1,150 +1,148 @@
-Return-Path: <linux-api+bounces-4037-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4038-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8723AE9E0A
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 15:01:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAA8AEA36F
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 18:23:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36ED6189921C
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 13:01:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 13B567A4E54
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jun 2025 16:22:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5CDF2E336E;
-	Thu, 26 Jun 2025 13:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534D720D519;
+	Thu, 26 Jun 2025 16:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WO50tawx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZWOSUBy"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ED41D5CD7;
-	Thu, 26 Jun 2025 13:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F5A20AF62;
+	Thu, 26 Jun 2025 16:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750942867; cv=none; b=sQSSd4qcfAVqfl8e+ABC89PPn2GKXuaXpcC8LwWhlR2R4u+e6OMyqS2aC4jvrGtaam5kuDPQg3RlNYwMhg9Lc/95Ljb9xNa7PYn09GmFtpVM5x57AYiSfKE+RbAreg6/VW0zS+eZ/W1Nudx7IACuS6ajOKVKSRr77hQBvTNCv14=
+	t=1750955020; cv=none; b=ewlVG/D7KwYJ40QFatZt6R8A1zz94P68TU1KL+spSTnxt1ipLmdOdk7NZHEIJsiW0Se8FKW8BdUzawwFSBrNTDjCMLd+dECP9TKOjtjUJZMJg5MuPnEk/Ne0iAsbkNl83frbHXrEbKRFaLcKLu6fuGJ8NYrhjXbRwAHiA11LD3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750942867; c=relaxed/simple;
-	bh=p4+eXCQGMR9TWXBMv8y3A7wqhzvhbL3bNYb1Q71TM/s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Fv0Ez3t4C2NEDGDyyNCcXEftdEJJZHZsPBIgvyQuaQbm3JDGaeFFd+uncQcPZLDbH42NzCs3iX9+8SGVy8L2pVs/eFY1RYW+12C/pasox8AxRhOBKHeB748UxEIC/k1nq1s+bEehQKj3FVwLr8XdfUpZosA9m4z/6YJokKFG7mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WO50tawx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01354C4CEEB;
-	Thu, 26 Jun 2025 13:00:58 +0000 (UTC)
+	s=arc-20240116; t=1750955020; c=relaxed/simple;
+	bh=AL/ayqffGwaOW7aWfAzxONsmdVg4IhQmQQ3LDroZ/n8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0oOcIWt6oueISPvRwcNVJKlrdHCeT1t6jDaH9JyDToChkgVmxlaAYwKi5ijqiQOGun+ONNN0uJRmsiWebb23SWIVNBGEH0S1cGkgrVCDzATK9ziJeFkt7+CGOHs09M4fSrqDTOUFelI3iMz8Rfo4i6Xt+zqkwhXDly/oxubEx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZWOSUBy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A7BC4CEEB;
+	Thu, 26 Jun 2025 16:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750942867;
-	bh=p4+eXCQGMR9TWXBMv8y3A7wqhzvhbL3bNYb1Q71TM/s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WO50tawxIGQ06se51mzA9l/QQLICo0jdAR6OV4L11SY3W4xXWwfSSjdssiglQgbwL
-	 eZZxS3EsXxw3Shq08+OWHJBAqPCxx4iDeXMnLOeOwgseINi66n6UYrtKJD3cnqcinU
-	 XgbkmNLMcWrJcSyvMCP4xverSA2HWJXEtXdCmmAbsg2xm2W9BwPO7lgUOBMEsGHN0Y
-	 UHgSgVTsddG+9qGcLdQM1QtAt1OFtvIntbZCDjT6sJxPYgvGEbNnD9h1l0Lpv/Xvm8
-	 MZ0tjnfrsEJ0+jb/3LwnUrfV+nSYUtJ43Irz9/Y0A59IxrAOkQSMOe/jD1jjkBp9ZX
-	 pvbC+xSrgVbuw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 25/32] mm: shmem: use SHMEM_F_* flags instead of VM_*
- flags
-In-Reply-To: <20250625231838.1897085-26-pasha.tatashin@soleen.com>
-References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
-	<20250625231838.1897085-26-pasha.tatashin@soleen.com>
-Date: Thu, 26 Jun 2025 15:00:57 +0200
-Message-ID: <mafs01pr6u06u.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=k20201202; t=1750955019;
+	bh=AL/ayqffGwaOW7aWfAzxONsmdVg4IhQmQQ3LDroZ/n8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HZWOSUBy299in7RzwFOlzWIeKnbZ/oojfsiofevfcFNiv8PgZceL8LfAbLKWExolB
+	 4qGpmC6eoEa9GK+WyhQUzj/VEDrn9faCr1NZH35UPKbJ9fiVH6Yb3uXND2v6Rn4uKV
+	 3/puAXBpvkRuSTCE1ckgo7zzUpho3T8h+7eGgAxHUEM81y8AtNiG+pYHhMP7U1z24p
+	 FITvVnRIskxPdAMZpaQKeFkHfmAUD8//rmS/R/SkqzoC5ChQUges+CzavJud2SNPP2
+	 6+mKlEttw3EeQCiZzRHEoasfguKmbcJ+Z3IjNpqMpba44mTtzhmorycRgJL7cZRqXb
+	 oHFP6YZ25FYZQ==
+Date: Thu, 26 Jun 2025 12:23:38 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: kees@kernel.org, elver@google.com, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tools@kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [RFC 00/19] Kernel API Specification Framework
+Message-ID: <aF10Cu0GI092Sjr3@lappy>
+References: <aFNYQkbEctT6N0Hb@lappy>
+ <20250623132803.26760-1-dvyukov@google.com>
+ <aFsE0ogdbKupvt7o@lappy>
+ <CACT4Y+Y04JC359J3DnLzLzhMRPNLem11oj+u04GoEazhpmzWTw@mail.gmail.com>
+ <aFwb_3EE2VMEV_tf@lappy>
+ <CACT4Y+b9u6_wx9BU0hH0L6ogGKN_+R5T7OsgJVFAWm8yeD0E7Q@mail.gmail.com>
+ <CACT4Y+b1Sou9bzhsuJ_LAjwCtynWN1iNRnaUkkTecNWxLUfMUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+b1Sou9bzhsuJ_LAjwCtynWN1iNRnaUkkTecNWxLUfMUw@mail.gmail.com>
 
-Hi all,
-
-On Wed, Jun 25 2025, Pasha Tatashin wrote:
-
-> From: Pratyush Yadav <ptyadav@amazon.de>
+On Thu, Jun 26, 2025 at 10:37:33AM +0200, Dmitry Vyukov wrote:
+>On Thu, 26 Jun 2025 at 10:32, Dmitry Vyukov <dvyukov@google.com> wrote:
+>>
+>> On Wed, 25 Jun 2025 at 17:55, Sasha Levin <sashal@kernel.org> wrote:
+>> >
+>> > On Wed, Jun 25, 2025 at 10:52:46AM +0200, Dmitry Vyukov wrote:
+>> > >On Tue, 24 Jun 2025 at 22:04, Sasha Levin <sashal@kernel.org> wrote:
+>> > >
+>> > >> >6. What's the goal of validation of the input arguments?
+>> > >> >Kernel code must do this validation anyway, right.
+>> > >> >Any non-trivial validation is hard, e.g. even for open the validation function
+>> > >> >for file name would need to have access to flags and check file precense for
+>> > >> >some flags combinations. That may add significant amount of non-trivial code
+>> > >> >that duplicates main syscall logic, and that logic may also have bugs and
+>> > >> >memory leaks.
+>> > >>
+>> > >> Mostly to catch divergence from the spec: think of a scenario where
+>> > >> someone added a new param/flag/etc but forgot to update the spec - this
+>> > >> will help catch it.
+>> > >
+>> > >How exactly is this supposed to work?
+>> > >Even if we run with a unit test suite, a test suite may include some
+>> > >incorrect inputs to check for error conditions. The framework will
+>> > >report violations on these incorrect inputs. These are not bugs in the
+>> > >API specifications, nor in the test suite (read false positives).
+>> >
+>> > Right now it would be something along the lines of the test checking for
+>> > an expected failure message in dmesg, something along the lines of:
+>> >
+>> >         https://github.com/linux-test-project/ltp/blob/0c99c7915f029d32de893b15b0a213ff3de210af/testcases/commands/sysctl/sysctl02.sh#L67
+>> >
+>> > I'm not opposed to coming up with a better story...
 >
-> shmem_inode_info::flags can have the VM flags VM_NORESERVE and
-> VM_LOCKED. These are used to suppress pre-accounting or to lock the
-> pages in the inode respectively. Using the VM flags directly makes it
-> difficult to add shmem-specific flags that are unrelated to VM behavior
-> since one would need to find a VM flag not used by shmem and re-purpose
-> it.
+>If the goal of validation is just indirectly validating correctness of
+>the specification itself, then I would look for other ways of
+>validating correctness of the spec.
+>Either removing duplication between specification and actual code
+>(i.e. generating it from SYSCALL_DEFINE, or the other way around) ,
+>then spec is correct by construction. Or, cross-validating it with
+>info automatically extracted from the source (using
+>clang/dwarf/pahole).
+>This would be more scalable (O(1) work, rather than thousands more
+>manually written tests).
 >
-> Introduce SHMEM_F_NORESERVE and SHMEM_F_LOCKED which represent the same
-> information, but their bits are independent of the VM flags. Callers can
-> still pass VM_NORESERVE to shmem_get_inode(), but it gets transformed to
-> the shmem-specific flag internally.
->
-> No functional changes intended.
+>> Oh, you mean special tests for this framework (rather than existing tests).
+>> I don't think this is going to work in practice. Besides writing all
+>> these specifications, we will also need to write dozens of tests per
+>> each specification (e.g. for each fd arg one needs at least 3 tests:
+>> -1, valid fd, inclid fd; an enum may need 5 various inputs of
+>> something; let alone netlink specifications).
 
-I was reading through this patch again and just realized that I missed a
-spot. __shmem_file_setup() passes VM flags to shmem_{un,}acct_size(),
-even though it now expects SHMEM_F flag. Below fixup patch should fix
-that.
+I didn't mean just for the framework: being able to specify the APIs in
+machine readable format will enable us to automatically generate
+exhaustive tests for each such API.
 
---- 8< ---
-From d027524e390de15af1c6d9310bf6bea0194be79f Mon Sep 17 00:00:00 2001
-From: Pratyush Yadav <ptyadav@amazon.de>
-Date: Thu, 26 Jun 2025 14:50:27 +0200
-Subject: [PATCH] fixup! mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+I've been playing with the kapi tool (see last patch) which already
+supports different formatters. Right now it outputs human readable
+output, but I have proof-of-concept code that outputs testcases for
+specced APIs.
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
----
- mm/shmem.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The dream here is to be able to automatically generate
+hundreds/thousands of tests for each API in an automated fashion, and
+verify the results with:
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 6b13eb40e7dc2..83ae446f779ef 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -5809,8 +5809,10 @@ static inline struct inode *shmem_get_inode(struct mnt_idmap *idmap,
- /* common code */
- 
- static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
--			loff_t size, unsigned long flags, unsigned int i_flags)
-+			loff_t size, unsigned long vm_flags,
-+			unsigned int i_flags)
- {
-+	unsigned long flags = (vm_flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
- 	struct inode *inode;
- 	struct file *res;
- 
-@@ -5827,7 +5829,7 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
- 		return ERR_PTR(-ENOMEM);
- 
- 	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
--				S_IFREG | S_IRWXUGO, 0, flags);
-+				S_IFREG | S_IRWXUGO, 0, vm_flags);
- 	if (IS_ERR(inode)) {
- 		shmem_unacct_size(flags, size);
- 		return ERR_CAST(inode);
+1. Simply checking expected return value.
+
+2. Checking that the actual action happened (i.e. we called close(fd),
+verify that `fd` is really closed).
+
+3. Check for side effects (i.e. close(fd) isn't supposed to allocate
+memory - verify that it didn't allocate memory).
+
+4. Code coverage: our tests are supposed to cover 100% of the code in
+that APIs call chain, do we have code that didn't run (missing/incorrect
+specs).
+
 -- 
-Regards,
-Pratyush Yadav
+Thanks,
+Sasha
 
