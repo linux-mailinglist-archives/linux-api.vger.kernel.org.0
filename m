@@ -1,397 +1,172 @@
-Return-Path: <linux-api+bounces-4055-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4056-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9668AEB818
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 14:49:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 094F5AEBE5C
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 19:19:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23E931896315
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 12:49:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9976A7AE20B
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 17:18:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEAA2D8797;
-	Fri, 27 Jun 2025 12:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lqmuzra6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NeYoApK1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FED6213245;
+	Fri, 27 Jun 2025 17:19:42 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C762980BF;
-	Fri, 27 Jun 2025 12:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE911A5B86;
+	Fri, 27 Jun 2025 17:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751028538; cv=none; b=VFdPq0amJSCOcEkw/ns9LjkL89OIaAH5LCgp8Gp9yqYiqh9vPnFQOXqcrxy1/aRCKEh0oK/knz/ESz62Yf++YJ54qBpnuT6AbaqxQoYeiLbOShJFgjEgXSSnYysNlTvplP/p8dZHxv3CSd4Gc+IesvIg5YsOcWiTyhEp3Kcq0I0=
+	t=1751044782; cv=none; b=R+hHD0OUc+m8CXC+Odz93pjNZxHM/YFllXg71ZswcCTQDPhqJeSXVwQ3SI0TmtwB/3fgKz2+QpfSNozC1P20GT9M4er/jkhecT1CzRO6/LaNACv5BB3pH6r4IAxYbrLr+uVL7F7HKi1BBBjGw/ZnBPSzkQCEV6i+X63/mBRkVTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751028538; c=relaxed/simple;
-	bh=91g/Z0XKaGrm4enQreIzabrBw3Lf4UpDZ4SRKzVP1xo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=t8ccilJz6NrPEt8+PcA4shkbgEgU+8nJfSGdUB45A3oetuUh0c+jTsruGC8xLF1AeQtTamxBO0VS72GFOoEf1GCMxPSSxF+cN1l2Wt43WdqeNEC3mj6z6WIj1I15zluU2BHLx8aKDLoBR2QNOYOEwi+ydRfw/TnifRwAJl6z2Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lqmuzra6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NeYoApK1; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751028535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dahXu2LEDMAp26RbUOIDlGEe7yKn2tw8fEfvF1ZcJHA=;
-	b=lqmuzra6pRShzul0BKepI1sehWdXlq7GRY6s+aWJmehnFXVc2um1nmpnw+W5PC8U/NJeed
-	TEp78/NSPC28NRo1WAnF7CP31PZSGfJCFwRRRmVxySvvoNr7eOeWopOGLQ+THKJif4FlV+
-	bTctGp317l7qkQ2finUivmro66xG6b/ZBMLIGTS5xw8I191KKuTsfVoIuaj84tqSx4zCiQ
-	ADsG/VUW8/pakI+zv8Kj19k5AACZitEYI5Odea9pMasohs1ubkb8yNKkEAtaOJGhBL/cvE
-	7gbDuepex8RX2NJDmvuRJ19u7jAaMVdzOqWe6k75Q5Ha7rz8NUQ4EBnJY6owZA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751028535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dahXu2LEDMAp26RbUOIDlGEe7yKn2tw8fEfvF1ZcJHA=;
-	b=NeYoApK17LDa2m/ATlT2S+xXuEP1obxvXvQ2rZS4JhKRPbPkEy91xRAqFifQEHFCgw3wnx
-	irF2m56Q1/vYN5Ag==
-To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>, Ingo Molnar
- <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Waiman Long <longman@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-api@vger.kernel.org, kernel-dev@igalia.com, =?utf-8?Q?Andr=C3=A9?=
- Almeida
- <andrealmeid@igalia.com>
-Subject: Re: [PATCH v5 7/7] selftests: futex: Expand robust list test for
- the new interface
-In-Reply-To: <20250626-tonyk-robust_futex-v5-7-179194dbde8f@igalia.com>
-References: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
- <20250626-tonyk-robust_futex-v5-7-179194dbde8f@igalia.com>
-Date: Fri, 27 Jun 2025 14:48:54 +0200
-Message-ID: <87tt41nydl.ffs@tglx>
+	s=arc-20240116; t=1751044782; c=relaxed/simple;
+	bh=rCcbxMhqpoQ6osINMU5jCxlvC/HTzhRZbLAl8Q/QT3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YNgzAlJw3axPrtLAPqpsWwx3MsUd9tjIuNRNFlQloS5f3/oQPCOjOgX3u7WUIJbI90NvF0ekHV+mzCFn0MJ8HgRJLiIdvLr9mefgh8bxyv8+CxymTEJUq72uR/rH7ludQ/YQwQAgcnjQDPp/azMF9tuBDAFuCTu6dDW+pHq9iAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8082C4CEE3;
+	Fri, 27 Jun 2025 17:19:35 +0000 (UTC)
+Date: Fri, 27 Jun 2025 18:19:33 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Will Deacon <will@kernel.org>, jannh@google.com,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH RFT v17 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <aF7SpWSKfjEFTHBk@arm.com>
+References: <20250609-clone3-shadow-stack-v17-0-8840ed97ff6f@kernel.org>
+ <20250609-clone3-shadow-stack-v17-4-8840ed97ff6f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250609-clone3-shadow-stack-v17-4-8840ed97ff6f@kernel.org>
+X-TUID: NZDNe86Lhaxu
 
-On Thu, Jun 26 2025 at 14:11, Andr=C3=A9 Almeida wrote:
-
-> Expand the current robust list test for the new set_robust_list2
-> syscall. Create an option to make it possible to run the same tests
-> using the new syscall, and also add two new relevant test: test long
-> lists (bigger than ROBUST_LIST_LIMIT) and for unaligned addresses.
->
-> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> ---
->  .../selftests/futex/functional/robust_list.c       | 160 +++++++++++++++=
-+++++-
->  1 file changed, 156 insertions(+), 4 deletions(-)
->
-> diff --git a/tools/testing/selftests/futex/functional/robust_list.c b/too=
-ls/testing/selftests/futex/functional/robust_list.c
-> index 42690b2440fd29a9b12c46f67f9645ccc93d1147..004ad79ff6171c411fd47e699=
-e3c38889544218e 100644
-> --- a/tools/testing/selftests/futex/functional/robust_list.c
-> +++ b/tools/testing/selftests/futex/functional/robust_list.c
-> @@ -35,16 +35,45 @@
->  #include <stddef.h>
->  #include <sys/mman.h>
->  #include <sys/wait.h>
-> +#include <stdint.h>
->=20=20
->  #define STACK_SIZE (1024 * 1024)
->=20=20
->  #define FUTEX_TIMEOUT 3
->=20=20
-> +#define SYS_set_robust_list2 468
+On Mon, Jun 09, 2025 at 01:54:05PM +0100, Mark Brown wrote:
+> +int arch_shstk_validate_clone(struct task_struct *tsk,
+> +			      struct vm_area_struct *vma,
+> +			      struct page *page,
+> +			      struct kernel_clone_args *args)
+> +{
+> +	unsigned long gcspr_el0;
+> +	int ret = 0;
 > +
-> +enum robust_list2_type {
-> +        ROBUST_LIST_32BIT,
-> +        ROBUST_LIST_64BIT,
-> +};
-
-Why can't this use an updated header?
-
+> +	/* Ensure that a token written as a result of a pivot is visible */
+> +	gcsb_dsync();
+> +	gcspr_el0 = args->shadow_stack_token;
+> +	if (!gcs_consume_token(vma, page, gcspr_el0))
+> +		return -EINVAL;
 > +
->  static pthread_barrier_t barrier, barrier2;
->=20=20
-> +bool robust2 =3D false;
-
-global because ....
-
->  int set_robust_list(struct robust_list_head *head, size_t len)
->  {
-> -	return syscall(SYS_set_robust_list, head, len);
-> +	int ret, flags;
+> +	tsk->thread.gcspr_el0 = gcspr_el0 + sizeof(u64);
 > +
-> +	if (!robust2) {
-> +		return syscall(SYS_set_robust_list, head, len);
-> +	}
-
-Pointless brackets.
-
-> +	if (sizeof(head) =3D=3D 8)
-> +		flags =3D ROBUST_LIST_64BIT;
-> +	else
-> +		flags =3D ROBUST_LIST_32BIT;
+> +	/* Ensure that our token consumption visible */
+> +	gcsb_dsync();
 > +
-> +	/*
-> +	 * We act as we have just one list here. We try to use the first slot,
-> +	 * but if it hasn't been alocated yet we allocate it.
-> +	 */
-> +	ret =3D syscall(SYS_set_robust_list2, head, 0, flags);
-> +	if (ret =3D=3D -1 && errno =3D=3D ENOENT)
-> +		ret =3D syscall(SYS_set_robust_list2, head, -1, flags);
-
-What the heck is this?
-
 > +	return ret;
->  }
->=20=20
->  int get_robust_list(int pid, struct robust_list_head **head, size_t *len=
-_ptr)
-> @@ -246,6 +275,11 @@ static void test_set_robust_list_invalid_size(void)
->  	size_t head_size =3D sizeof(struct robust_list_head);
->  	int ret;
->=20=20
-> +	if (robust2) {
-> +		ksft_test_result_skip("This test is only for old robust interface\n");
-
-Why is it invoked in the first place?
-
-> +		return;
-> +	}
-> +
->  	ret =3D set_robust_list(&head, head_size);
->  	ASSERT_EQ(ret, 0);
->=20=20
-> @@ -321,6 +355,11 @@ static void test_get_robust_list_child(void)
->  	struct robust_list_head head, *get_head;
->  	size_t len_ptr;
->=20=20
-> +	if (robust2) {
-> +		ksft_test_result_skip("Not implemented in the new robust interface\n");
-
-For the very wrong reasons.
-
-> +		return;
-> +	}
-> +
->  	ret =3D pthread_barrier_init(&barrier, NULL, 2);
->  	ret =3D pthread_barrier_init(&barrier2, NULL, 2);
->  	ASSERT_EQ(ret, 0);
-> @@ -332,7 +371,7 @@ static void test_get_robust_list_child(void)
->=20=20
->  	ret =3D get_robust_list(tid, &get_head, &len_ptr);
->  	ASSERT_EQ(ret, 0);
-> -	ASSERT_EQ(&head, get_head);
-> +	ASSERT_EQ(get_head, &head);
-
-ROTFL
-
->=20=20
->  	pthread_barrier_wait(&barrier2);
->=20=20
-> @@ -507,11 +546,119 @@ static void test_circular_list(void)
->  	ksft_test_result_pass("%s\n", __func__);
->  }
->=20=20
-> +#define ROBUST_LIST_LIMIT	2048
-> +#define CHILD_LIST_LIMIT (ROBUST_LIST_LIMIT + 10)
-> +
-> +static int child_robust_list_limit(void *arg)
-> +{
-> +	struct lock_struct *locks;
-> +	struct robust_list *list;
-> +	struct robust_list_head head;
-> +	int ret, i;
-> +
-> +	locks =3D (struct lock_struct *) arg;
-> +
-> +	ret =3D set_list(&head);
-> +	if (ret)
-> +		ksft_test_result_fail("set_list error\n");
-
-Yet again the same broken crap.
-
-> +	/*
-> +	 * Create a very long list of locks
-> +	 */
-> +	head.list.next =3D &locks[0].list;
-> +
-> +	list =3D head.list.next;
-> +	for (i =3D 0; i < CHILD_LIST_LIMIT - 1; i++) {
-> +		list->next =3D &locks[i+1].list;
-> +		list =3D list->next;
-> +	}
-> +	list->next =3D &head.list;
-> +
-> +	/*
-> +	 * Grab the lock in the last one, and die without releasing it
-> +	 */
-> +	mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-> +	pthread_barrier_wait(&barrier);
-> +
-> +	sleep(1);
-> +
-> +	return 0;
 > +}
+
+What are the scenarios where we need the barriers? We have one via
+map_shadow_stack() that would cover the first one. IIUC, GCSSS2 also
+generates a GCSB event (or maybe I got it all wrong; I need to read the
+spec).
+
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 1ee8eb11f38b..89c19996235d 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1902,6 +1902,51 @@ static bool need_futex_hash_allocate_default(u64 clone_flags)
+>  	return true;
+>  }
+>  
+> +static int shstk_validate_clone(struct task_struct *p,
+> +				struct kernel_clone_args *args)
+> +{
+> +	struct mm_struct *mm;
+> +	struct vm_area_struct *vma;
+> +	struct page *page;
+> +	unsigned long addr;
+> +	int ret;
 > +
-> +/*
-> + * The old robust list used to have a limit of 2048 items from the kerne=
-l side.
-> + * After this limit the kernel stops walking the list and ignore the oth=
-er
+> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
+> +		return 0;
+> +
+> +	if (!args->shadow_stack_token)
+> +		return 0;
+> +
+> +	mm = get_task_mm(p);
+> +	if (!mm)
+> +		return -EFAULT;
+> +
+> +	mmap_read_lock(mm);
+> +
+> +	addr = untagged_addr_remote(mm, args->shadow_stack_token);
 
-ignores
+I think down the line, get_user_page_vma_remote() already does an
+untagged_addr_remote(). But it does it after the vma look-up, so we
+still need the untagging early.
 
-> + * futexes, causing deadlocks.
+That said, would we ever allowed a tagged pointer for the shadow stack?
+
+> @@ -2840,6 +2891,27 @@ static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
+>  	return true;
+>  }
+>  
+> +/**
+> + * clone3_shadow_stack_valid - check and prepare shadow stack
+> + * @kargs: kernel clone args
 > + *
-> + * For the new interface, test if we can wait for a list of more than 20=
-48
-> + * elements.
+> + * Verify that shadow stacks are only enabled if supported.
 > + */
-> +static void test_robust_list_limit(void)
+> +static inline bool clone3_shadow_stack_valid(struct kernel_clone_args *kargs)
 > +{
-> +	struct lock_struct locks[CHILD_LIST_LIMIT + 1];
-> +	_Atomic(unsigned int) *futex =3D &locks[CHILD_LIST_LIMIT].futex;
-> +	struct robust_list_head head;
-> +	int ret;
+> +	if (!kargs->shadow_stack_token)
+> +		return true;
 > +
-> +	if (!robust2) {
-> +		ksft_test_result_skip("This test is only for new robust interface\n");
-> +		return;
-> +	}
-> +
-> +	*futex =3D 0;
-> +
-> +	ret =3D set_list(&head);
-> +	ASSERT_EQ(ret, 0);
-> +
-> +	ret =3D pthread_barrier_init(&barrier, NULL, 2);
-> +	ASSERT_EQ(ret, 0);
-> +
-> +	create_child(child_robust_list_limit, locks);
+> +	if (!IS_ALIGNED(kargs->shadow_stack_token, sizeof(void *)))
+> +		return false;
 > +
 > +	/*
-> +	 * After the child thread creates the very long list of locks, wait on
-> +	 * the last one.
+> +	 * The architecture must check support on the specific
+> +	 * machine.
 > +	 */
-> +	pthread_barrier_wait(&barrier);
-> +	ret =3D mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
-> +
-> +	if (ret !=3D 0)
-> +		printf("futex wait returned %d\n", errno);
-> +	ASSERT_EQ(ret, 0);
+> +	return IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK);
 
-lalala.
+I don't understand the comment here. It implies some kind of fallback
+for further arch checks but it's just a return.
 
-> +
-> +	ASSERT_TRUE(*futex | FUTEX_OWNER_DIED);
+BTW, clone3_stack_valid() has an access_ok() check as well. Shall we add
+it here? That's where the size would have come in handy but IIUC the
+decision was to drop it (fine by me, just validate that the token is
+accessible).
 
-Copy and pasta does not make it more correct.
-
-> +	wait(NULL);
-> +	pthread_barrier_destroy(&barrier);
-> +
-> +	ksft_test_result_pass("%s\n", __func__);
-> +}
-> +
-> +/*
-> + * The kernel should refuse an unaligned head pointer
-> + */
-> +static void test_unaligned_address(void)
-> +{
-> +	struct robust_list_head head, *h;
-> +	int ret;
-> +
-> +	if (!robust2) {
-> +		ksft_test_result_skip("This test is only for new robust interface\n");
-> +		return;
-> +	}
-> +
-> +	h =3D (struct robust_list_head *) ((uintptr_t) &head + 1);
-> +	ret =3D set_list(h);
-> +	ASSERT_EQ(ret, -1);
-> +	ASSERT_EQ(errno, EINVAL);
-> +}
-> +
->  void usage(char *prog)
->  {
->  	printf("Usage: %s\n", prog);
->  	printf("  -c	Use color\n");
->  	printf("  -h	Display this help message\n");
-> +	printf("  -n	Use robust2 syscall\n");
-
-Right. We need a command line option to guarantee that the test is not
-executed by bots...
-
->  	printf("  -v L	Verbosity level: %d=3DQUIET %d=3DCRITICAL %d=3DINFO\n",
->  	       VQUIET, VCRITICAL, VINFO);
->  }
-> @@ -520,7 +667,7 @@ int main(int argc, char *argv[])
->  {
->  	int c;
->=20=20
-> -	while ((c =3D getopt(argc, argv, "cht:v:")) !=3D -1) {
-> +	while ((c =3D getopt(argc, argv, "chnt:v:")) !=3D -1) {
->  		switch (c) {
->  		case 'c':
->  			log_color(1);
-> @@ -531,6 +678,9 @@ int main(int argc, char *argv[])
->  		case 'v':
->  			log_verbosity(atoi(optarg));
->  			break;
-> +		case 'n':
-> +			robust2 =3D true;
-> +			break;
->  		default:
->  			usage(basename(argv[0]));
->  			exit(1);
-> @@ -538,7 +688,7 @@ int main(int argc, char *argv[])
->  	}
->=20=20
->  	ksft_print_header();
-> -	ksft_set_plan(7);
-> +	ksft_set_plan(8);
->
-
-Just check whether the new syscall is implemented and then set the
-number of tests accordingly.
-
->  	test_robustness();
->=20=20
-> @@ -548,6 +698,8 @@ int main(int argc, char *argv[])
->  	test_set_list_op_pending();
->  	test_robust_list_multiple_elements();
->  	test_circular_list();
-> +	test_robust_list_limit();
-> +	test_unaligned_address();
-
-and then do:
-
-	test_robustness();
-        ....
-	test_circular_list();
-
-        if (has_robust) {
-        	robust2 =3D true;
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                test_robustness();
-                ...
-                test_circular_list();
-		test_robust_list_limit();
-		test_unaligned_address();
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-        }=20=20=20=20=20=20=20=20
-
-or something like that.
-
-Time for a stiff drink....
+-- 
+Catalin
 
