@@ -1,59 +1,59 @@
-Return-Path: <linux-api+bounces-4054-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4055-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23876AEB790
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 14:23:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9668AEB818
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 14:49:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7B687A9E79
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 12:21:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23E931896315
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 12:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A8F2D29A5;
-	Fri, 27 Jun 2025 12:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEAA2D8797;
+	Fri, 27 Jun 2025 12:48:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rguzkvZm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+bKauc6Q"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lqmuzra6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NeYoApK1"
 X-Original-To: linux-api@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C44917A2F0;
-	Fri, 27 Jun 2025 12:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C762980BF;
+	Fri, 27 Jun 2025 12:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751026971; cv=none; b=DGadXM+/rvAycYtlqfxmMO+PDPtbvx2RAaScV6zYypOXs1E3/jtRykSZnF9NJWIdutKtoCouingonaWHW+gkFkrkbktaRx1m+xAEfsUyN2z371UFMs9tVMuYhGqZCHw5oS405Rxa+Mf82brZNmn6qR8bNXzoKPtAm/bo7lIfTVE=
+	t=1751028538; cv=none; b=VFdPq0amJSCOcEkw/ns9LjkL89OIaAH5LCgp8Gp9yqYiqh9vPnFQOXqcrxy1/aRCKEh0oK/knz/ESz62Yf++YJ54qBpnuT6AbaqxQoYeiLbOShJFgjEgXSSnYysNlTvplP/p8dZHxv3CSd4Gc+IesvIg5YsOcWiTyhEp3Kcq0I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751026971; c=relaxed/simple;
-	bh=ZH1O5sFB7vO18/fSp54SFUkm5kp1MbIbNtVFxFDzZsU=;
+	s=arc-20240116; t=1751028538; c=relaxed/simple;
+	bh=91g/Z0XKaGrm4enQreIzabrBw3Lf4UpDZ4SRKzVP1xo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=o6Kpw7SN1mzR4BZdAJot5WJsfFDr7/yavwCuJVAGdkvpFdDFQdE+4gZwxWV5P0DT4UNtVw/MI/z/8dJHpGvuNtb9zemQLaXjxT+YtK2qXVYy3bFIvd8q8NUSViY0GED9CvkUU2hv5j4pyBu953kaNlMGlSRX8wEBZKTRNuYeTKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rguzkvZm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+bKauc6Q; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=t8ccilJz6NrPEt8+PcA4shkbgEgU+8nJfSGdUB45A3oetuUh0c+jTsruGC8xLF1AeQtTamxBO0VS72GFOoEf1GCMxPSSxF+cN1l2Wt43WdqeNEC3mj6z6WIj1I15zluU2BHLx8aKDLoBR2QNOYOEwi+ydRfw/TnifRwAJl6z2Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lqmuzra6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NeYoApK1; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751026967;
+	s=2020; t=1751028535;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EtbN+fhOj6879PFfkihHug11BT+rDU03fP9A04+d78s=;
-	b=rguzkvZmWmn+qkAnhyFPWBYKZtbx8NdPU6iB1Pkz+SQR9mobvyF3zUpmEEYfRleHfyT9AP
-	lzaTVHd5SQZuSQLVF2v2ehXjmlOch5uez+AjRcxtJVvGMhCnnogdjd+SKd6F7QpgplkGsq
-	gEcgM941/B9oqB08xWA46yDo54jHcm5UF3KAfM217+kCz8YoS7FsUQ7pQ4LMQ0Yl+HyTON
-	h34lL0M2OgTYh0kLTQcoSJOzSNwAUzKTHIwwEJga6b+Hj1m9bYpmA2WN9NlIw/PrmVHuQI
-	qUfCsXzVj3Mhy6xw1WAwVNg5O26sX4pxsoUraxKNVt73sffKwKxDrnB8Cwv4rg==
+	bh=dahXu2LEDMAp26RbUOIDlGEe7yKn2tw8fEfvF1ZcJHA=;
+	b=lqmuzra6pRShzul0BKepI1sehWdXlq7GRY6s+aWJmehnFXVc2um1nmpnw+W5PC8U/NJeed
+	TEp78/NSPC28NRo1WAnF7CP31PZSGfJCFwRRRmVxySvvoNr7eOeWopOGLQ+THKJif4FlV+
+	bTctGp317l7qkQ2finUivmro66xG6b/ZBMLIGTS5xw8I191KKuTsfVoIuaj84tqSx4zCiQ
+	ADsG/VUW8/pakI+zv8Kj19k5AACZitEYI5Odea9pMasohs1ubkb8yNKkEAtaOJGhBL/cvE
+	7gbDuepex8RX2NJDmvuRJ19u7jAaMVdzOqWe6k75Q5Ha7rz8NUQ4EBnJY6owZA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751026967;
+	s=2020e; t=1751028535;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EtbN+fhOj6879PFfkihHug11BT+rDU03fP9A04+d78s=;
-	b=+bKauc6Qa39uLsKZRIKGIGFNi4mBNq3lp25x9xe1M4j06WeBEdZpjVTH1kS4G86M6bexhB
-	RxJSfAQ83AhpKaCA==
+	bh=dahXu2LEDMAp26RbUOIDlGEe7yKn2tw8fEfvF1ZcJHA=;
+	b=NeYoApK17LDa2m/ATlT2S+xXuEP1obxvXvQ2rZS4JhKRPbPkEy91xRAqFifQEHFCgw3wnx
+	irF2m56Q1/vYN5Ag==
 To: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>, Ingo Molnar
  <mingo@redhat.com>,
  Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
@@ -64,13 +64,13 @@ Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
  linux-api@vger.kernel.org, kernel-dev@igalia.com, =?utf-8?Q?Andr=C3=A9?=
  Almeida
  <andrealmeid@igalia.com>
-Subject: Re: [PATCH v5 5/7] futex: Remove the limit of elements for
- sys_set_robust_list2 lists
-In-Reply-To: <20250626-tonyk-robust_futex-v5-5-179194dbde8f@igalia.com>
+Subject: Re: [PATCH v5 7/7] selftests: futex: Expand robust list test for
+ the new interface
+In-Reply-To: <20250626-tonyk-robust_futex-v5-7-179194dbde8f@igalia.com>
 References: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
- <20250626-tonyk-robust_futex-v5-5-179194dbde8f@igalia.com>
-Date: Fri, 27 Jun 2025 14:22:46 +0200
-Message-ID: <87wm8xnzl5.ffs@tglx>
+ <20250626-tonyk-robust_futex-v5-7-179194dbde8f@igalia.com>
+Date: Fri, 27 Jun 2025 14:48:54 +0200
+Message-ID: <87tt41nydl.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -81,131 +81,317 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, Jun 26 2025 at 14:11, Andr=C3=A9 Almeida wrote:
-> Remove the limit of ROBUST_LIST_LIMIT elements that a robust list can
-> have, for the ones created with the new interface. This is done by
 
-With which new interface?
-
-> overwritten the list as it's proceeded in a way that we avoid circular
-
-overwriting each processed list entry to point at ...., which eliminates
-a potential circular list.
-
-
-> lists.
+> Expand the current robust list test for the new set_robust_list2
+> syscall. Create an option to make it possible to run the same tests
+> using the new syscall, and also add two new relevant test: test long
+> lists (bigger than ROBUST_LIST_LIMIT) and for unaligned addresses.
 >
-> For the old interface, we keep the limited behavior to avoid changing
-
-s/we//
-
-> the API.
-
-Which API would be violated?
-
-Overwriting the dying tasks robust list entries is not violating any
-ABI. The task's memory is on the way to be destroyed.
-
 > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 > ---
->  kernel/futex/core.c | 37 +++++++++++++++++++++++++++++--------
->  1 file changed, 29 insertions(+), 8 deletions(-)
+>  .../selftests/futex/functional/robust_list.c       | 160 +++++++++++++++=
++++++-
+>  1 file changed, 156 insertions(+), 4 deletions(-)
 >
-> diff --git a/kernel/futex/core.c b/kernel/futex/core.c
-> index 1049f8ef3ce3c611b3be0ca12df34a98f710121d..942b66facdea16cd7be2235d9=
-5c2bbbae8d7cc63 100644
-> --- a/kernel/futex/core.c
-> +++ b/kernel/futex/core.c
-> @@ -1152,7 +1152,8 @@ static inline int fetch_robust_entry(struct robust_=
-list __user **entry,
->   * We silently return on any sign of list-walking problem.
->   */
->  static void exit_robust_list64(struct task_struct *curr,
-> -			       struct robust_list_head __user *head)
-> +			       struct robust_list_head __user *head,
-> +			       bool destroyable)
->  {
->  	struct robust_list __user *entry, *next_entry, *pending;
->  	unsigned int limit =3D ROBUST_LIST_LIMIT, pi, pip;
-> @@ -1196,13 +1197,17 @@ static void exit_robust_list64(struct task_struct=
- *curr,
->  		}
->  		if (rc)
->  			return;
-> -		entry =3D next_entry;
-> -		pi =3D next_pi;
+> diff --git a/tools/testing/selftests/futex/functional/robust_list.c b/too=
+ls/testing/selftests/futex/functional/robust_list.c
+> index 42690b2440fd29a9b12c46f67f9645ccc93d1147..004ad79ff6171c411fd47e699=
+e3c38889544218e 100644
+> --- a/tools/testing/selftests/futex/functional/robust_list.c
+> +++ b/tools/testing/selftests/futex/functional/robust_list.c
+> @@ -35,16 +35,45 @@
+>  #include <stddef.h>
+>  #include <sys/mman.h>
+>  #include <sys/wait.h>
+> +#include <stdint.h>
+>=20=20
+>  #define STACK_SIZE (1024 * 1024)
+>=20=20
+>  #define FUTEX_TIMEOUT 3
+>=20=20
+> +#define SYS_set_robust_list2 468
 > +
->  		/*
->  		 * Avoid excessively long or circular lists:
->  		 */
-> -		if (!--limit)
-> +		if (!destroyable && !--limit)
->  			break;
-> +		else
-> +			put_user(&head->list, &entry->next);
+> +enum robust_list2_type {
+> +        ROBUST_LIST_32BIT,
+> +        ROBUST_LIST_64BIT,
+> +};
 
-Unchecked put_user() with zero explanation what it actually does.
+Why can't this use an updated header?
 
 > +
-> +		entry =3D next_entry;
-> +		pi =3D next_pi;
+>  static pthread_barrier_t barrier, barrier2;
 >=20=20
->  		cond_resched();
->  	}
-> @@ -1214,7 +1219,8 @@ static void exit_robust_list64(struct task_struct *=
-curr,
->  }
->  #else
->  static void exit_robust_list64(struct task_struct *curr,
-> -			       struct robust_list_head __user *head)
-> +			       struct robust_list_head __user *head,
-> +			       bool destroyable)
->  {
->  	pr_warn("32bit kernel should not allow ROBUST_LIST_64BIT");
->  }
-> @@ -1252,7 +1258,8 @@ fetch_robust_entry32(u32 *uentry, struct robust_lis=
-t __user **entry,
->   * We silently return on any sign of list-walking problem.
->   */
->  static void exit_robust_list32(struct task_struct *curr,
-> -			       struct robust_list_head32 __user *head)
-> +			       struct robust_list_head32 __user *head,
-> +			       bool destroyable)
->  {
->  	struct robust_list __user *entry, *next_entry, *pending;
->  	unsigned int limit =3D ROBUST_LIST_LIMIT, pi, pip;
+> +bool robust2 =3D false;
 
-So this get's a destroyable argument as well, but no implementation?
+global because ....
 
-> @@ -1474,10 +1481,19 @@ static void exit_pi_state_list(struct task_struct=
- *curr)
->  static inline void exit_pi_state_list(struct task_struct *curr) { }
->  #endif
+>  int set_robust_list(struct robust_list_head *head, size_t len)
+>  {
+> -	return syscall(SYS_set_robust_list, head, len);
+> +	int ret, flags;
+> +
+> +	if (!robust2) {
+> +		return syscall(SYS_set_robust_list, head, len);
+> +	}
+
+Pointless brackets.
+
+> +	if (sizeof(head) =3D=3D 8)
+> +		flags =3D ROBUST_LIST_64BIT;
+> +	else
+> +		flags =3D ROBUST_LIST_32BIT;
+> +
+> +	/*
+> +	 * We act as we have just one list here. We try to use the first slot,
+> +	 * but if it hasn't been alocated yet we allocate it.
+> +	 */
+> +	ret =3D syscall(SYS_set_robust_list2, head, 0, flags);
+> +	if (ret =3D=3D -1 && errno =3D=3D ENOENT)
+> +		ret =3D syscall(SYS_set_robust_list2, head, -1, flags);
+
+What the heck is this?
+
+> +	return ret;
+>  }
 >=20=20
+>  int get_robust_list(int pid, struct robust_list_head **head, size_t *len=
+_ptr)
+> @@ -246,6 +275,11 @@ static void test_set_robust_list_invalid_size(void)
+>  	size_t head_size =3D sizeof(struct robust_list_head);
+>  	int ret;
+>=20=20
+> +	if (robust2) {
+> +		ksft_test_result_skip("This test is only for old robust interface\n");
+
+Why is it invoked in the first place?
+
+> +		return;
+> +	}
+> +
+>  	ret =3D set_robust_list(&head, head_size);
+>  	ASSERT_EQ(ret, 0);
+>=20=20
+> @@ -321,6 +355,11 @@ static void test_get_robust_list_child(void)
+>  	struct robust_list_head head, *get_head;
+>  	size_t len_ptr;
+>=20=20
+> +	if (robust2) {
+> +		ksft_test_result_skip("Not implemented in the new robust interface\n");
+
+For the very wrong reasons.
+
+> +		return;
+> +	}
+> +
+>  	ret =3D pthread_barrier_init(&barrier, NULL, 2);
+>  	ret =3D pthread_barrier_init(&barrier2, NULL, 2);
+>  	ASSERT_EQ(ret, 0);
+> @@ -332,7 +371,7 @@ static void test_get_robust_list_child(void)
+>=20=20
+>  	ret =3D get_robust_list(tid, &get_head, &len_ptr);
+>  	ASSERT_EQ(ret, 0);
+> -	ASSERT_EQ(&head, get_head);
+> +	ASSERT_EQ(get_head, &head);
+
+ROTFL
+
+>=20=20
+>  	pthread_barrier_wait(&barrier2);
+>=20=20
+> @@ -507,11 +546,119 @@ static void test_circular_list(void)
+>  	ksft_test_result_pass("%s\n", __func__);
+>  }
+>=20=20
+> +#define ROBUST_LIST_LIMIT	2048
+> +#define CHILD_LIST_LIMIT (ROBUST_LIST_LIMIT + 10)
+> +
+> +static int child_robust_list_limit(void *arg)
+> +{
+> +	struct lock_struct *locks;
+> +	struct robust_list *list;
+> +	struct robust_list_head head;
+> +	int ret, i;
+> +
+> +	locks =3D (struct lock_struct *) arg;
+> +
+> +	ret =3D set_list(&head);
+> +	if (ret)
+> +		ksft_test_result_fail("set_list error\n");
+
+Yet again the same broken crap.
+
+> +	/*
+> +	 * Create a very long list of locks
+> +	 */
+> +	head.list.next =3D &locks[0].list;
+> +
+> +	list =3D head.list.next;
+> +	for (i =3D 0; i < CHILD_LIST_LIMIT - 1; i++) {
+> +		list->next =3D &locks[i+1].list;
+> +		list =3D list->next;
+> +	}
+> +	list->next =3D &head.list;
+> +
+> +	/*
+> +	 * Grab the lock in the last one, and die without releasing it
+> +	 */
+> +	mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
+> +	pthread_barrier_wait(&barrier);
+> +
+> +	sleep(1);
+> +
+> +	return 0;
+> +}
+> +
 > +/*
-> + * futex_cleanup - After the task exists, process the robust lists
-> + *
-> + * Walk through the linked list, parsing robust lists and freeing the
-> + * allocated lists. Lists created with the set_robust_list2 don't have a=
- limit
-> + * for sizing and can be destroyed while we walk on it to avoid circular=
- list.
-> + */
->  static void futex_cleanup(struct task_struct *tsk)
->  {
->  	struct robust_list2_entry *curr, *n;
->  	struct list_head *list2 =3D &tsk->robust_list2;
-> +	bool destroyable =3D true;
-> +	int i =3D 0;
->=20=20
->  	/*
->  	 * Walk through the linked list, parsing robust lists and freeing the
-> @@ -1485,15 +1501,20 @@ static void futex_cleanup(struct task_struct *tsk)
->  	 */
->  	if (unlikely(!list_empty(list2))) {
->  		list_for_each_entry_safe(curr, n, list2, list) {
-> +			destroyable =3D true;
-> +			if (tsk->robust_list_index =3D=3D i)
-> +				destroyable =3D false;
+> + * The old robust list used to have a limit of 2048 items from the kerne=
+l side.
+> + * After this limit the kernel stops walking the list and ignore the oth=
+er
 
-Oh well.....
+ignores
+
+> + * futexes, causing deadlocks.
+> + *
+> + * For the new interface, test if we can wait for a list of more than 20=
+48
+> + * elements.
+> + */
+> +static void test_robust_list_limit(void)
+> +{
+> +	struct lock_struct locks[CHILD_LIST_LIMIT + 1];
+> +	_Atomic(unsigned int) *futex =3D &locks[CHILD_LIST_LIMIT].futex;
+> +	struct robust_list_head head;
+> +	int ret;
+> +
+> +	if (!robust2) {
+> +		ksft_test_result_skip("This test is only for new robust interface\n");
+> +		return;
+> +	}
+> +
+> +	*futex =3D 0;
+> +
+> +	ret =3D set_list(&head);
+> +	ASSERT_EQ(ret, 0);
+> +
+> +	ret =3D pthread_barrier_init(&barrier, NULL, 2);
+> +	ASSERT_EQ(ret, 0);
+> +
+> +	create_child(child_robust_list_limit, locks);
+> +
+> +	/*
+> +	 * After the child thread creates the very long list of locks, wait on
+> +	 * the last one.
+> +	 */
+> +	pthread_barrier_wait(&barrier);
+> +	ret =3D mutex_lock(&locks[CHILD_LIST_LIMIT], &head, false);
+> +
+> +	if (ret !=3D 0)
+> +		printf("futex wait returned %d\n", errno);
+> +	ASSERT_EQ(ret, 0);
+
+lalala.
+
+> +
+> +	ASSERT_TRUE(*futex | FUTEX_OWNER_DIED);
+
+Copy and pasta does not make it more correct.
+
+> +	wait(NULL);
+> +	pthread_barrier_destroy(&barrier);
+> +
+> +	ksft_test_result_pass("%s\n", __func__);
+> +}
+> +
+> +/*
+> + * The kernel should refuse an unaligned head pointer
+> + */
+> +static void test_unaligned_address(void)
+> +{
+> +	struct robust_list_head head, *h;
+> +	int ret;
+> +
+> +	if (!robust2) {
+> +		ksft_test_result_skip("This test is only for new robust interface\n");
+> +		return;
+> +	}
+> +
+> +	h =3D (struct robust_list_head *) ((uintptr_t) &head + 1);
+> +	ret =3D set_list(h);
+> +	ASSERT_EQ(ret, -1);
+> +	ASSERT_EQ(errno, EINVAL);
+> +}
+> +
+>  void usage(char *prog)
+>  {
+>  	printf("Usage: %s\n", prog);
+>  	printf("  -c	Use color\n");
+>  	printf("  -h	Display this help message\n");
+> +	printf("  -n	Use robust2 syscall\n");
+
+Right. We need a command line option to guarantee that the test is not
+executed by bots...
+
+>  	printf("  -v L	Verbosity level: %d=3DQUIET %d=3DCRITICAL %d=3DINFO\n",
+>  	       VQUIET, VCRITICAL, VINFO);
+>  }
+> @@ -520,7 +667,7 @@ int main(int argc, char *argv[])
+>  {
+>  	int c;
+>=20=20
+> -	while ((c =3D getopt(argc, argv, "cht:v:")) !=3D -1) {
+> +	while ((c =3D getopt(argc, argv, "chnt:v:")) !=3D -1) {
+>  		switch (c) {
+>  		case 'c':
+>  			log_color(1);
+> @@ -531,6 +678,9 @@ int main(int argc, char *argv[])
+>  		case 'v':
+>  			log_verbosity(atoi(optarg));
+>  			break;
+> +		case 'n':
+> +			robust2 =3D true;
+> +			break;
+>  		default:
+>  			usage(basename(argv[0]));
+>  			exit(1);
+> @@ -538,7 +688,7 @@ int main(int argc, char *argv[])
+>  	}
+>=20=20
+>  	ksft_print_header();
+> -	ksft_set_plan(7);
+> +	ksft_set_plan(8);
+>
+
+Just check whether the new syscall is implemented and then set the
+number of tests accordingly.
+
+>  	test_robustness();
+>=20=20
+> @@ -548,6 +698,8 @@ int main(int argc, char *argv[])
+>  	test_set_list_op_pending();
+>  	test_robust_list_multiple_elements();
+>  	test_circular_list();
+> +	test_robust_list_limit();
+> +	test_unaligned_address();
+
+and then do:
+
+	test_robustness();
+        ....
+	test_circular_list();
+
+        if (has_robust) {
+        	robust2 =3D true;
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+                test_robustness();
+                ...
+                test_circular_list();
+		test_robust_list_limit();
+		test_unaligned_address();
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        }=20=20=20=20=20=20=20=20
+
+or something like that.
+
+Time for a stiff drink....
 
