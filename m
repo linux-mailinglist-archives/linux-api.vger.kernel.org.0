@@ -1,99 +1,198 @@
-Return-Path: <linux-api+bounces-4057-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4058-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EF0AEC0D0
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 22:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BDDAEC210
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 23:31:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C92551C632B0
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 20:23:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11F331BC2633
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jun 2025 21:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 350A421ADB7;
-	Fri, 27 Jun 2025 20:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D01228689A;
+	Fri, 27 Jun 2025 21:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="PgigF6B0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ulTQ0PDY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103C8C2FB;
-	Fri, 27 Jun 2025 20:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D5428688D;
+	Fri, 27 Jun 2025 21:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751055817; cv=none; b=HZjInVjr0UHBK0/zB7Qo2DzCHPKATZ8zCuTOIHuA90r5qoLfNk+eFgDUHIuWBfZ2dRcZt7hdL7unoGatbTWjFSHJV9847UGVxxSyFlSOUSRJofR8eXyWSch6qwLDSVMWfLtUijGoGy8C6cGdxj3iXafi46M08OT/TT74ba6v7Os=
+	t=1751059877; cv=none; b=FgBTMirkZ62IDARmRbWGHK4kO6xkUk52y62zQE91ocuK68rNGQi1/ODprfCEGKPwZlITvQLP1Ryt/yWnibvsOeJthkejZ7tM56urpg7jfOaGZ4ZIdJzgV4zkzJI3sauflRoYL5jctkmpVqEI3ju5NLRzKubI66YMWN68xY9nY1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751055817; c=relaxed/simple;
-	bh=8LRAvUFeTwmz4rDd900x+Z+XteT5wGFcJVnT+hGaLP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h3ReBkcaFyx0OS0n5PUmlfN73VlbtJEdBYwYPObiIYOtaVXVFEzNJyYyhJCV2JasNXRz5eW3TrWcCcgX+40c6mMe1a40YL+cOZNowhmeUb1ZYAmCfFvjmOTn32M5DaVI1gFx6GrjZryyoPU1rSbW15hNJI3v1ZAwPAWXH1fCFgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=PgigF6B0; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LNuHdZp1p8Oowbp9pqTlemJ4dhvpEIex6NkU/PUOyGM=; b=PgigF6B0mR7Bk3asa15fereY3a
-	LPqE/FIBEXopIv4s9QCLrpfaYUBgKU1u89vGKeK1muVH7XyHMxbqcQsGG2tS2YrSlQ1uHKiFWBQEz
-	Lr/2r9vFkbEvN0Xv/FYTMn4jCq9aCt2/oLa6gNJjtS2ZChMJNe8/S8m2QWzBrou4fAH4Ckyq127dp
-	tj0V8qFApRZZcxf5YQn2Q9uV1KnKj47ndCt9zpnmIylfOSfIRxx/LNeoDzL/a+dLMHTexTdZsIBNd
-	+4NjBh6x0TVn5T3yxmTcpMY8SqOr555P/xg7x87szaSOqTug4SXO2VZua01RaYpX5c5RbgEUHUhO6
-	4JV762+g==;
-Received: from [191.204.192.64] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uVFbI-009XtB-C6; Fri, 27 Jun 2025 22:23:08 +0200
-Message-ID: <96b3d0fa-7fd2-4d2b-a6d6-cc91ed1dca4e@igalia.com>
-Date: Fri, 27 Jun 2025 17:23:03 -0300
+	s=arc-20240116; t=1751059877; c=relaxed/simple;
+	bh=YLXV8EixeUReXW5ZLTeMWikhsalQi3MACoUyTuNGqz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QoAh5A1spShOA0I3Nt2m9t2MP7L7lr0ri2Mz7T/XRKvq86CS+GQbbvAI4jDv0AqmEjxpeunPmfAuETQQSzi9Z+fDmqK4hijRw2bjff26xzuLQg4l9RQ7UwjfStRUyRsAhAg27OxTVYbn6aApDHE9HX4aD+SYWWUf+tThciwJD7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ulTQ0PDY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24421C4CEE3;
+	Fri, 27 Jun 2025 21:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751059876;
+	bh=YLXV8EixeUReXW5ZLTeMWikhsalQi3MACoUyTuNGqz4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ulTQ0PDYilia4lKDRwJPu2ZtsqAJmLrrmFeA3ncmWPCu0uNCylWiIMhXujRtZYFX5
+	 i6N1zKT31M6wi7g5eTaQMsK/8up0dyNs/ma6PTWVEYichOeDToYhbkpa3E8nv4C149
+	 3p7JdGcTRkesEbC1z07vXA3dNBPKWpQV5cW5iUKmtnVv9lYNt1TvMYC8EBFwJfWE/V
+	 pFhcisB+U8S6BWD4aq2PUTw16uXiM/pQR2hutXGoGfO5gUXAsNxajOU8SucRSTGKEd
+	 YUlnuNs8vORjy1kyfMru4pq+rBfngF+BliDaJkTGJhNlCEpBidaQc/zMtvxCBMCXHu
+	 My99x6XeaLl0w==
+Date: Fri, 27 Jun 2025 22:31:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Will Deacon <will@kernel.org>, jannh@google.com,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH RFT v17 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <97702623-0a1e-4231-9550-79aaa9d41fac@sirena.org.uk>
+References: <20250609-clone3-shadow-stack-v17-0-8840ed97ff6f@kernel.org>
+ <20250609-clone3-shadow-stack-v17-4-8840ed97ff6f@kernel.org>
+ <aF7SpWSKfjEFTHBk@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] selftests/futex: Add ASSERT_ macros
-To: Thomas Gleixner <tglx@linutronix.de>, Shuah Khan <shuah@kernel.org>
-Cc: Davidlohr Bueso <dave@stgolabs.net>, Peter Zijlstra
- <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-api@vger.kernel.org, kernel-dev@igalia.com,
- Darren Hart <dvhart@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Waiman Long <longman@redhat.com>
-References: <20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com>
- <20250626-tonyk-robust_futex-v5-1-179194dbde8f@igalia.com>
- <87ecv6p364.ffs@tglx>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <87ecv6p364.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t93JckxzxlRIaiLJ"
+Content-Disposition: inline
+In-Reply-To: <aF7SpWSKfjEFTHBk@arm.com>
+X-Cookie: Avoid contact with eyes.
 
-Em 26/06/2025 19:07, Thomas Gleixner escreveu:
-> On Thu, Jun 26 2025 at 14:11, André Almeida wrote:
-> 
->> Create ASSERT_{EQ, NE, TRUE, FALSE} macros to make test creation easier.
-> 
-> What's so futex special about this that it can't use the same muck in
-> 
-> tools/testing/selftests/kselftest_harness.h
-> 
 
-My previous version of this test used kselftest_harness.h, but Shuah 
-request to keep consistency and don't use this header, giving that the 
-rest of futex test doesn't use it:
+--t93JckxzxlRIaiLJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://lore.kernel.org/lkml/fe02f42b-7ba8-4a3b-a86c-2a4a7942fd3b@linuxfoundation.org/
+On Fri, Jun 27, 2025 at 06:19:33PM +0100, Catalin Marinas wrote:
+> On Mon, Jun 09, 2025 at 01:54:05PM +0100, Mark Brown wrote:
 
-> or at least share the implementation in some way?
-> 
-> Thanks,
-> 
->          tglx
+> > +	/* Ensure that a token written as a result of a pivot is visible */
+> > +	gcsb_dsync();
+> > +	gcspr_el0 = args->shadow_stack_token;
+> > +	if (!gcs_consume_token(vma, page, gcspr_el0))
+> > +		return -EINVAL;
+> > +
+> > +	tsk->thread.gcspr_el0 = gcspr_el0 + sizeof(u64);
+> > +
+> > +	/* Ensure that our token consumption visible */
+> > +	gcsb_dsync();
 
+> What are the scenarios where we need the barriers? We have one via
+> map_shadow_stack() that would cover the first one. IIUC, GCSSS2 also
+> generates a GCSB event (or maybe I got it all wrong; I need to read the
+> spec).
+
+I think now that gcs_consume_token() does a cmpxchg they're redundant,
+your analysis covers the first one (anything that puts a valid token
+in memory should have a barrier) and now gcs_consume_token() does a
+cmpxchg the second one should also be redundant thanks to R_FZRGP.  It
+would be good if someone double checked though.
+
+Originally gcs_consume_token() was using regular accesses as for the
+example in DDI0487 L.a K3.3 and was tried on two addresses, I missed
+dropping the barriers when changing to a cmpxchg.
+
+> > +static int shstk_validate_clone(struct task_struct *p,
+> > +				struct kernel_clone_args *args)
+> > +{
+
+> > +	mmap_read_lock(mm);
+
+> > +	addr = untagged_addr_remote(mm, args->shadow_stack_token);
+
+> I think down the line, get_user_page_vma_remote() already does an
+> untagged_addr_remote(). But it does it after the vma look-up, so we
+> still need the untagging early.
+
+> That said, would we ever allowed a tagged pointer for the shadow stack?
+
+For arm64 you can architecturally use tags as per G_HMJHM.  I_WBHHX says
+that GCS accesses are tag unchecked, but tags are used on GCSSS1 as per
+I_MGLTC and I_MBHFS.  We'll need new ABI to allow userspace to get a
+PROT_MTE GCS though, I'd planned on extending map_shadow_stack() for
+that, and adding handling in the token validation here.
+
+There's also the fact that the untagging should be very cheap in the
+context of what we're doing so it seems sensible to just have it,
+especially generic code which applies to all arches.
+
+> > +static inline bool clone3_shadow_stack_valid(struct kernel_clone_args *kargs)
+> > +{
+> > +	if (!kargs->shadow_stack_token)
+> > +		return true;
+> > +
+> > +	if (!IS_ALIGNED(kargs->shadow_stack_token, sizeof(void *)))
+> > +		return false;
+> > +
+> > +	/*
+> > +	 * The architecture must check support on the specific
+> > +	 * machine.
+> > +	 */
+> > +	return IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK);
+
+> I don't understand the comment here. It implies some kind of fallback
+> for further arch checks but it's just a return.
+
+Here we're just doing initial triage that a shadow stack could possibly
+be valid, the check here is there to fail if there's one specified but
+there is no support in the kernel (eg, for architectures that don't have
+the feature at all like arm32).  The comment is trying to say that we're
+not attempting to validate that we can actually use shadow stacks on the
+current system, just that the support exists in the kernel.  I'll reword
+the comment, it's not clear.
+
+> BTW, clone3_stack_valid() has an access_ok() check as well. Shall we add
+> it here? That's where the size would have come in handy but IIUC the
+> decision was to drop it (fine by me, just validate that the token is
+> accessible).
+
+AIUI the main reason for doing that for the normal stack is to report an
+error before we actually start the thread and have it fault trying to
+access an invalid stack since we don't otherwise look at the memory,
+like you say with shadow stacks we'll consume the token before we start
+the new thread so we get the equivalent error reporting as part of that.
+I don't think the extra check would buy us much.
+
+--t93JckxzxlRIaiLJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhfDZgACgkQJNaLcl1U
+h9AmCQf9GAuPYyxk3xlRAPgt+lX60Z35ksp4eSnu/4Xa4MYPBSDLG9LH2n9UqtQB
+UJIwRXXfTTx7Lxj+Zf5IFD1HmvVLLj0rWRNABpL9NaeA2QuIrrTFSTw/G9rUOMGS
+8M/84Pshg7rvan+iWGkWq7MiHO3v0hp88q1SdeCgBoJkotb6+w6xEX5E+J1Muves
+JuBHZBpQJG4CMg/eqR90jUi+lZO57x2WEGXMSsv+R0NehA+bIH9mU3FvjepVXu4n
+VvBwsxnsH28MxcSQ+yHy89tSIYQ4NsECqFLpDMq+Ts4uFVrZ7zRKfq3hzsdIEe6b
+rM5vtRy2vC77grYez0CfjWPyYva5Ag==
+=373H
+-----END PGP SIGNATURE-----
+
+--t93JckxzxlRIaiLJ--
 
