@@ -1,88 +1,89 @@
-Return-Path: <linux-api+bounces-4066-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4067-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDC9AEE470
-	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 18:26:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C0EAEE44A
+	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 18:23:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF12A1893195
-	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 16:21:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D46587AEF37
+	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 16:20:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1127295DB2;
-	Mon, 30 Jun 2025 16:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C06129A336;
+	Mon, 30 Jun 2025 16:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YHNEn+uX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eqi/AGju"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C582292B46
-	for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 16:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CAD293C51
+	for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 16:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751300442; cv=none; b=CQWS/XYvrvnpgP3B0CkQ267d4NwHLaw9ZDEgfnk3RRHVCHyL1CtOogfVRZuGPFlTzF0cz27HUC9A6q+W2gBt3a4ng18tdmMlE1Fyz9DHg0m4x2OvJpZaRSWYar2cbGJMlYKzjYj39M931z05Nx3UkJFLca4CZ9Pq51SQ5pn6l2U=
+	t=1751300444; cv=none; b=RZxjhFtAWRDmVvws1UDHeLoOSpLs+QyNpQ5vXRhIQr8mI+GLM9yKtRsk5vo/V3PkQbj2FsKO0mVTWMg6Cbtfk4rEwUsOGS/aQZC9f6MgoCb5rBX6yPd67Wt4ZsfMPCLY33u8DmJb5gERGZne0U0qbT/12glWiNws7Uyd2ETtdqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751300442; c=relaxed/simple;
-	bh=foooJvFPpaD5U1NIc0z1whyvvGUcJuzLkZ/bh7+WhsI=;
+	s=arc-20240116; t=1751300444; c=relaxed/simple;
+	bh=/0DPgYqHwXH68zqTi+bZwoE769iGHAO3Kk0ZsNgUTCc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m9qAdAl0M4OT5dtIWfetGWpNdmoDIpqzmPLECijrksRzzwQAhjAgmo1s9GzEcINnXiaARN8sv3lQ32wytl8J64Snmrr16Vga6Cie/MEBsrPzCSyhXpjYXxGc9tlrrpB/N1sYIDz69N8WsE3NyYMdgff3qubgsFdnH1ObsxM6tDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YHNEn+uX; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=pBUs3kQwqQ+GjkrSYcv66jm4+ooI1HE65Ykwtx2NV18FRxbIEVFfvo5+6XQubKhVC8oqLHp2P/6LnpX+Kke/0RhCVvNWuGXFTG74gDi3WduZsQIK9FH6zHGSjwmr4h6yIzgkejRi3FiKMWcGvcT56hPc9uqpku+O13RUwzgjxQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eqi/AGju; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751300439;
+	s=mimecast20190719; t=1751300440;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DdCDc+5wwhrTWZmiggiHt07OVS9wseyBUBrB0c0lZSY=;
-	b=YHNEn+uXzVBzU/XwxZMw0/d3gYAWzStdYNp7808Xf182VgyNHjsLFfd0rfJZP9kymnNeZx
-	v3VjZ/Sd8k4prAq5sRilREDE9fb5j1kUNP2UL6CJBXV56Urf6brBzk0Zwz9RHYRwGE+50q
-	ylcqF6xEfztZE7DpDX7etb+b1wPWsHs=
+	bh=SoyF2Lbb+EmANh+ApKAOj3j7GqG7GRYmSFuKrQ30Lm4=;
+	b=eqi/AGjusGEXJ7cC4kcAJBeioWy8rFTNP/AazHji1FKYA3IncR2nr+ZFrWxz+rQJuHy+0i
+	EDhsjTpuod9cMQtgsd2ylFMtc9vVfjOBSUTYi4InI3olAbmRJ8VYDqjQDsSFjysu281nPR
+	nQpNFzPdVrh/3W/6rua0vuCx+UGWOU0=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-k1JI55dzOOqVvW6Nas5Scw-1; Mon, 30 Jun 2025 12:20:38 -0400
-X-MC-Unique: k1JI55dzOOqVvW6Nas5Scw-1
-X-Mimecast-MFC-AGG-ID: k1JI55dzOOqVvW6Nas5Scw_1751300437
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-450df53d461so19510105e9.1
-        for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 09:20:37 -0700 (PDT)
+ us-mta-569-VYSKQgrXPLy7-rSQ5OCH0g-1; Mon, 30 Jun 2025 12:20:38 -0400
+X-MC-Unique: VYSKQgrXPLy7-rSQ5OCH0g-1
+X-Mimecast-MFC-AGG-ID: VYSKQgrXPLy7-rSQ5OCH0g_1751300438
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-450df53d461so19510185e9.1
+        for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 09:20:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751300436; x=1751905236;
+        d=1e100.net; s=20230601; t=1751300437; x=1751905237;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DdCDc+5wwhrTWZmiggiHt07OVS9wseyBUBrB0c0lZSY=;
-        b=gbqXQ3zCNswfiOYY63Cxv1WIycwVzN+tknPJZrrjcnC7xn011WY7pQs8NMmNLtr1Dr
-         rq7sBtD4pom64CPguPymqRhCO/c4hME7s8vV36wytXINRPdsWOFZzF9uk7f4kzWQtayg
-         zhydNlQ3BCZakRhn/vGQ+rc39am3Pegg55CxyHrwt8r+tTrqX1FbEcwRaTYjL9Om+DKK
-         KSO/xcl+0qUS4gV/WZiz1Q5IXTeMPwtQNInA5SwJwekNu8xQWfd1Q1I8ZTU6jFSeTCil
-         OpFcAGR6e4mvC7yFtXuAKYR1b+WJvRZuAf0Z5PAwng0ewxMTJpQ8eWVzYZMdzOhWiKsL
-         PWsw==
-X-Gm-Message-State: AOJu0YwAlRudxZA1LUzZIQikZnFzzXF8oVC43XudTe92AO44N5o1t0oG
-	SnwP6Ol+TqL766fBPHl2lzurFTklPhGUP8qhhlI23NUbhmZyCRTZA3oTMJVliDqAPUdiqPFmeGl
-	Nwf07zQWK1XCGSrf/QH8KwKkCnxxCz1TmG9HdszNwG1cNVJdhdIcfP1rgQSKgKE94UPbTeZR2d4
-	lBq7Mrc5MzHW17tZcwGCjlvUFLxQhzAKtcDSDlu0HCf8IK
-X-Gm-Gg: ASbGncsFjGryU66CvDBSRG7fo/xNNqyn3nAZN+IoJTcDIoLlnFKYu2+HBDRbkOsBeOs
-	eGfc69768N64oluzOCax2eXAR06n7eJCRTYnw7xui3N625KeY/hCZvnsdGEXZfZy4VN545jX2mH
-	ysAblhgJoZZ1BW2LIsU0OP/RrTE1mrOH1EwyJu6x4hSFVYljHNtXDtJTVkd+WbnVxPGWNgclNu1
-	1uPZVPCztB0Cq2jYUnOAQYrIUukEe0u7Q/YqdUCagTZFUidJbOlqqbfVmayPSeL28u6uwL30rgH
-	RwWHpQasdigDyHeRuxTWAZ93dP3N
-X-Received: by 2002:a05:600c:83c6:b0:453:aca:4d05 with SMTP id 5b1f17b1804b1-453a7264638mr5226545e9.31.1751300436534;
-        Mon, 30 Jun 2025 09:20:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFBcIwNOVZbbeCVmBSm0GSwp6bviZIHyE1JnfXVzq6+huhRLCuA9yHQd2Lb4OcWzcyg0+4Wrw==
-X-Received: by 2002:a05:600c:83c6:b0:453:aca:4d05 with SMTP id 5b1f17b1804b1-453a7264638mr5226125e9.31.1751300436014;
+        bh=SoyF2Lbb+EmANh+ApKAOj3j7GqG7GRYmSFuKrQ30Lm4=;
+        b=eMJq9pyDpsbBC1pmJ4d0zyEYgttqVykbiGPfHK7ODbfXTTREtGSQcOlmO4XmZuRWTq
+         I7tB9/YZbju9drgKg+eBZD1ld3M4klssTp3TRc02YkLuKi2wCeLG78d8EjkqCUPnoPwj
+         R5EPxwyJvi1ibujxx01rNusVfX6WVQOQYN61V7FChKFEcPjIBwVMNclg55U55pwYd2+C
+         YEWO7d/D+938rfNZNO+wodQHMmCfvmG5y45RoXbY0QiOHVvEn5BddvF0/MmWZx+5OfhG
+         TK9JYnWx5NEkYzUgdr4Y6rHbJD9NjululxMIfaC76XM2XEopvuEDK4Hux5y7eRfclFai
+         wsqQ==
+X-Gm-Message-State: AOJu0YwZD3PHEqxnLUImlBHj/2qA8YOBX96bIUeLvKfZXEeTYoolcUbq
+	b9VB7Cv0O1qfkf6dO+3gNIC7WutjaJytCzvZ2XiU3WbzZjKaeYRlMTvumCNTte9qNOkeE1TDS53
+	JHQwFO0Tt/ExCb5Sdi2p9xJF3xHvGSw10ppZX0irMXWtdoSn59F3y8aF+59ZV/aDCJB/ecLd4Z8
+	TSh+C3xPHdnY2hkFb0BOPc9SLOFhRcJMWnW42uO165fIdt
+X-Gm-Gg: ASbGncvakc35L30bQHEt0MhTTOPUcyvUAZDlDaHQO++npypnasn8EFPhhrpcm8M/nE2
+	61XNF1O7JGVzFZr+4OZso2kr2b57HO/5NjIwW5pmzwAeKlwd0ZmsFxa7kYuF2Z5Q+ugXRokD9yg
+	1l4W+foo9LebgUIhaHZUhYYiSi1+YCyGzV7JUr4uhqw2cY9iJPKsEDve408VdmXeEpI2rBUCg8d
+	oPJNLGr9TiMMkhWslGeYxf+VnhLwkrr8YvB3Enp+22ChbcAS+mJDIkex4OZW6dPQITvVoVYSuH1
+	GRO1yIgLsNNhWUfV3Zq8pmgNX6ZV
+X-Received: by 2002:a05:600c:6285:b0:450:d01f:de6f with SMTP id 5b1f17b1804b1-4538ee51961mr161000565e9.15.1751300437356;
+        Mon, 30 Jun 2025 09:20:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtorg9o36AVQP+WBvPMzp87fcnrKpmxG66TjtrB1Pb0Yem+Q0XFJ/tFsqwzgrGlrSTf0Zcqw==
+X-Received: by 2002:a05:600c:6285:b0:450:d01f:de6f with SMTP id 5b1f17b1804b1-4538ee51961mr161000125e9.15.1751300436799;
         Mon, 30 Jun 2025 09:20:36 -0700 (PDT)
 Received: from [127.0.0.2] (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c1easm168769245e9.3.2025.06.30.09.20.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c1easm168769245e9.3.2025.06.30.09.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:20:34 -0700 (PDT)
+        Mon, 30 Jun 2025 09:20:36 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Date: Mon, 30 Jun 2025 18:20:15 +0200
-Subject: [PATCH v6 5/6] fs: prepare for extending file_get/setattr()
+Date: Mon, 30 Jun 2025 18:20:16 +0200
+Subject: [PATCH v6 6/6] fs: introduce file_getattr and file_setattr
+ syscalls
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -90,8 +91,8 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250630-xattrat-syscall-v6-5-c4e3bc35227b@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250630-xattrat-syscall-v6-6-c4e3bc35227b@kernel.org>
 References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
 In-Reply-To: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
 To: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
@@ -104,103 +105,479 @@ Cc: linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@redhat.com>, 
  Andrey Albershteyn <aalbersh@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3056; i=aalbersh@kernel.org;
- h=from:subject:message-id; bh=IIV2cRquSoQDpyjj3fxxhkDYmgsYRlcj84QBPmOyXno=;
- b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMpJ2epvKL1KqqgkNvm3IsfeBdK/GQ7Vj5kGz+g/JP
- HzuvPaEY2JHKQuDGBeDrJgiyzppralJRVL5Rwxq5GHmsDKBDGHg4hSAiTw8zvCHM/bZTbHepcd0
- TPsaqyd8c9JX2aGyiV17oUCzhl/651W7GRlu3/i+kvuc0IKOb351FTMWH2dpPJxivOQ0xzIFl6o
- LPLncAL7sRno=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=17773; i=aalbersh@kernel.org;
+ h=from:subject:message-id; bh=ZLLC0uab4T1vYFSlMig/IXObB26c+FZcBUGNwVHWico=;
+ b=kA0DAAoWRqfqGKwz4QgByyZiAGhiuUuhJ+RO7hD/JfzUzRBkyP8w2z93FUimejVHPUZNkWHxZ
+ Yh1BAAWCgAdFiEErhsqlWJyGm/EMHwfRqfqGKwz4QgFAmhiuUsACgkQRqfqGKwz4QhnewD/S9Nl
+ MnvwpB18h4axOdsLw8cZ4Q7S3k3edh73tjuUyi8A/1SlEIftICnrt8K3Xw2U8+GIv+c4gQ9Y2GV
+ vRCwGlq4K
 X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
  fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
 
-From: Amir Goldstein <amir73il@gmail.com>
+From: Andrey Albershteyn <aalbersh@redhat.com>
 
-We intend to add support for more xflags to selective filesystems and
-We cannot rely on copy_struct_from_user() to detect this extension.
+Introduce file_getattr() and file_setattr() syscalls to manipulate inode
+extended attributes. The syscalls takes pair of file descriptor and
+pathname. Then it operates on inode opened accroding to openat()
+semantics. The struct fsx_fileattr is passed to obtain/change extended
+attributes.
 
-In preparation of extending the API, do not allow setting xflags unknown
-by this kernel version.
+This is an alternative to FS_IOC_FSSETXATTR ioctl with a difference
+that file don't need to be open as we can reference it with a path
+instead of fd. By having this we can manipulated inode extended
+attributes not only on regular files but also on special ones. This
+is not possible with FS_IOC_FSSETXATTR ioctl as with special files
+we can not call ioctl() directly on the filesystem inode using fd.
 
-Also do not pass the read-only flags and read-only field fsx_nextents to
-filesystem.
+This patch adds two new syscalls which allows userspace to get/set
+extended inode attributes on special files by using parent directory
+and a path - *at() like syscall.
 
-These changes should not affect existing chattr programs that use the
-ioctl to get fsxattr before setting the new values.
-
-Link: https://lore.kernel.org/linux-fsdevel/20250216164029.20673-4-pali@kernel.org/
-Cc: Pali Rohár <pali@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+CC: linux-api@vger.kernel.org
+CC: linux-fsdevel@vger.kernel.org
+CC: linux-xfs@vger.kernel.org
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 ---
- fs/file_attr.c           |  8 +++++++-
- include/linux/fileattr.h | 20 ++++++++++++++++++++
- 2 files changed, 27 insertions(+), 1 deletion(-)
+ arch/alpha/kernel/syscalls/syscall.tbl      |   2 +
+ arch/arm/tools/syscall.tbl                  |   2 +
+ arch/arm64/tools/syscall_32.tbl             |   2 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   2 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   2 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   2 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   2 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   2 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   2 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   2 +
+ fs/file_attr.c                              | 148 ++++++++++++++++++++++++++++
+ include/linux/syscalls.h                    |   6 ++
+ include/uapi/asm-generic/unistd.h           |   8 +-
+ include/uapi/linux/fs.h                     |  18 ++++
+ scripts/syscall.tbl                         |   2 +
+ 21 files changed, 213 insertions(+), 1 deletion(-)
 
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 2dd6340de6b4..16dca28ebf17 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -507,3 +507,5 @@
+ 575	common	listxattrat			sys_listxattrat
+ 576	common	removexattrat			sys_removexattrat
+ 577	common	open_tree_attr			sys_open_tree_attr
++578	common	file_getattr			sys_file_getattr
++579	common	file_setattr			sys_file_setattr
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 27c1d5ebcd91..b07e699aaa3c 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -482,3 +482,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/arm64/tools/syscall_32.tbl b/arch/arm64/tools/syscall_32.tbl
+index 0765b3a8d6d6..8d9088bc577d 100644
+--- a/arch/arm64/tools/syscall_32.tbl
++++ b/arch/arm64/tools/syscall_32.tbl
+@@ -479,3 +479,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 9fe47112c586..f41d38dfbf13 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -467,3 +467,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 7b6e97828e55..580af574fe73 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -473,3 +473,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index aa70e371bb54..d824ffe9a014 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -406,3 +406,5 @@
+ 465	n32	listxattrat			sys_listxattrat
+ 466	n32	removexattrat			sys_removexattrat
+ 467	n32	open_tree_attr			sys_open_tree_attr
++468	n32	file_getattr			sys_file_getattr
++469	n32	file_setattr			sys_file_setattr
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 1e8c44c7b614..7a7049c2c307 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -382,3 +382,5 @@
+ 465	n64	listxattrat			sys_listxattrat
+ 466	n64	removexattrat			sys_removexattrat
+ 467	n64	open_tree_attr			sys_open_tree_attr
++468	n64	file_getattr			sys_file_getattr
++469	n64	file_setattr			sys_file_setattr
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 114a5a1a6230..d330274f0601 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -455,3 +455,5 @@
+ 465	o32	listxattrat			sys_listxattrat
+ 466	o32	removexattrat			sys_removexattrat
+ 467	o32	open_tree_attr			sys_open_tree_attr
++468	o32	file_getattr			sys_file_getattr
++469	o32	file_setattr			sys_file_setattr
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index 94df3cb957e9..88a788a7b18d 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -466,3 +466,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 9a084bdb8926..b453e80dfc00 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -558,3 +558,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index a4569b96ef06..8a6744d658db 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -470,3 +470,5 @@
+ 465  common	listxattrat		sys_listxattrat			sys_listxattrat
+ 466  common	removexattrat		sys_removexattrat		sys_removexattrat
+ 467  common	open_tree_attr		sys_open_tree_attr		sys_open_tree_attr
++468  common	file_getattr		sys_file_getattr		sys_file_getattr
++469  common	file_setattr		sys_file_setattr		sys_file_setattr
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 52a7652fcff6..5e9c9eff5539 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -471,3 +471,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index 83e45eb6c095..ebb7d06d1044 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -513,3 +513,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index ac007ea00979..4877e16da69a 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -473,3 +473,5 @@
+ 465	i386	listxattrat		sys_listxattrat
+ 466	i386	removexattrat		sys_removexattrat
+ 467	i386	open_tree_attr		sys_open_tree_attr
++468	i386	file_getattr		sys_file_getattr
++469	i386	file_setattr		sys_file_setattr
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index cfb5ca41e30d..92cf0fe2291e 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -391,6 +391,8 @@
+ 465	common	listxattrat		sys_listxattrat
+ 466	common	removexattrat		sys_removexattrat
+ 467	common	open_tree_attr		sys_open_tree_attr
++468	common	file_getattr		sys_file_getattr
++469	common	file_setattr		sys_file_setattr
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index f657a77314f8..374e4cb788d8 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -438,3 +438,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
 diff --git a/fs/file_attr.c b/fs/file_attr.c
-index 4e85fa00c092..62f08872d4ad 100644
+index 62f08872d4ad..fda9d847eee5 100644
 --- a/fs/file_attr.c
 +++ b/fs/file_attr.c
-@@ -99,9 +99,10 @@ EXPORT_SYMBOL(vfs_fileattr_get);
- int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
- {
- 	struct fsxattr xfa;
+@@ -3,6 +3,10 @@
+ #include <linux/security.h>
+ #include <linux/fscrypt.h>
+ #include <linux/fileattr.h>
++#include <linux/syscalls.h>
++#include <linux/namei.h>
++
++#include "internal.h"
+ 
+ /**
+  * fileattr_fill_xflags - initialize fileattr with xflags
+@@ -89,6 +93,19 @@ int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+ }
+ EXPORT_SYMBOL(vfs_fileattr_get);
+ 
++static void fileattr_to_fsx_fileattr(const struct fileattr *fa,
++				     struct fsx_fileattr *fsx)
++{
 +	__u32 mask = FS_XFLAGS_MASK;
++
++	memset(fsx, 0, sizeof(struct fsx_fileattr));
++	fsx->fsx_xflags = fa->fsx_xflags & mask;
++	fsx->fsx_extsize = fa->fsx_extsize;
++	fsx->fsx_nextents = fa->fsx_nextents;
++	fsx->fsx_projid = fa->fsx_projid;
++	fsx->fsx_cowextsize = fa->fsx_cowextsize;
++}
++
+ /**
+  * copy_fsxattr_to_user - copy fsxattr to userspace.
+  * @fa:		fileattr pointer
+@@ -115,6 +132,23 @@ int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
+ }
+ EXPORT_SYMBOL(copy_fsxattr_to_user);
  
- 	memset(&xfa, 0, sizeof(xfa));
--	xfa.fsx_xflags = fa->fsx_xflags;
-+	xfa.fsx_xflags = fa->fsx_xflags & mask;
- 	xfa.fsx_extsize = fa->fsx_extsize;
- 	xfa.fsx_nextents = fa->fsx_nextents;
- 	xfa.fsx_projid = fa->fsx_projid;
-@@ -118,11 +119,16 @@ static int copy_fsxattr_from_user(struct fileattr *fa,
- 				  struct fsxattr __user *ufa)
- {
- 	struct fsxattr xfa;
++static int fsx_fileattr_to_fileattr(const struct fsx_fileattr *fsx,
++				    struct fileattr *fa)
++{
 +	__u32 mask = FS_XFLAGS_MASK;
- 
- 	if (copy_from_user(&xfa, ufa, sizeof(xfa)))
- 		return -EFAULT;
- 
-+	if (xfa.fsx_xflags & ~mask)
++
++	if (fsx->fsx_xflags & ~mask)
 +		return -EINVAL;
 +
- 	fileattr_fill_xflags(fa, xfa.fsx_xflags);
++	fileattr_fill_xflags(fa, fsx->fsx_xflags);
 +	fa->fsx_xflags &= ~FS_XFLAG_RDONLY_MASK;
- 	fa->fsx_extsize = xfa.fsx_extsize;
- 	fa->fsx_nextents = xfa.fsx_nextents;
- 	fa->fsx_projid = xfa.fsx_projid;
-diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-index 6030d0bf7ad3..e2a2f4ae242d 100644
---- a/include/linux/fileattr.h
-+++ b/include/linux/fileattr.h
-@@ -14,6 +14,26 @@
- 	 FS_XFLAG_NODUMP | FS_XFLAG_NOATIME | FS_XFLAG_DAX | \
- 	 FS_XFLAG_PROJINHERIT)
++	fa->fsx_extsize = fsx->fsx_extsize;
++	fa->fsx_projid = fsx->fsx_projid;
++	fa->fsx_cowextsize = fsx->fsx_cowextsize;
++
++	return 0;
++}
++
+ static int copy_fsxattr_from_user(struct fileattr *fa,
+ 				  struct fsxattr __user *ufa)
+ {
+@@ -343,3 +377,117 @@ int ioctl_fssetxattr(struct file *file, void __user *argp)
+ 	return err;
+ }
+ EXPORT_SYMBOL(ioctl_fssetxattr);
++
++SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
++		struct fsx_fileattr __user *, ufsx, size_t, usize,
++		unsigned int, at_flags)
++{
++	struct fileattr fa;
++	struct path filepath __free(path_put) = {};
++	int error;
++	unsigned int lookup_flags = 0;
++	struct filename *name __free(putname) = NULL;
++	struct fsx_fileattr fsx;
++
++	BUILD_BUG_ON(sizeof(struct fsx_fileattr) < FSX_FILEATTR_SIZE_VER0);
++	BUILD_BUG_ON(sizeof(struct fsx_fileattr) != FSX_FILEATTR_SIZE_LATEST);
++
++	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
++		return -EINVAL;
++
++	if (!(at_flags & AT_SYMLINK_NOFOLLOW))
++		lookup_flags |= LOOKUP_FOLLOW;
++
++	if (usize > PAGE_SIZE)
++		return -E2BIG;
++
++	if (usize < FSX_FILEATTR_SIZE_VER0)
++		return -EINVAL;
++
++	name = getname_maybe_null(filename, at_flags);
++	if (IS_ERR(name))
++		return PTR_ERR(name);
++
++	if (!name && dfd >= 0) {
++		CLASS(fd, f)(dfd);
++
++		filepath = fd_file(f)->f_path;
++		path_get(&filepath);
++	} else {
++		error = filename_lookup(dfd, name, lookup_flags, &filepath,
++					NULL);
++		if (error)
++			return error;
++	}
++
++	error = vfs_fileattr_get(filepath.dentry, &fa);
++	if (error)
++		return error;
++
++	fileattr_to_fsx_fileattr(&fa, &fsx);
++	error = copy_struct_to_user(ufsx, usize, &fsx,
++				    sizeof(struct fsx_fileattr), NULL);
++
++	return error;
++}
++
++SYSCALL_DEFINE5(file_setattr, int, dfd, const char __user *, filename,
++		struct fsx_fileattr __user *, ufsx, size_t, usize,
++		unsigned int, at_flags)
++{
++	struct fileattr fa;
++	struct path filepath __free(path_put) = {};
++	int error;
++	unsigned int lookup_flags = 0;
++	struct filename *name __free(putname) = NULL;
++	struct fsx_fileattr fsx;
++
++	BUILD_BUG_ON(sizeof(struct fsx_fileattr) < FSX_FILEATTR_SIZE_VER0);
++	BUILD_BUG_ON(sizeof(struct fsx_fileattr) != FSX_FILEATTR_SIZE_LATEST);
++
++	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
++		return -EINVAL;
++
++	if (!(at_flags & AT_SYMLINK_NOFOLLOW))
++		lookup_flags |= LOOKUP_FOLLOW;
++
++	if (usize > PAGE_SIZE)
++		return -E2BIG;
++
++	if (usize < FSX_FILEATTR_SIZE_VER0)
++		return -EINVAL;
++
++	error = copy_struct_from_user(&fsx, sizeof(struct fsx_fileattr), ufsx,
++				      usize);
++	if (error)
++		return error;
++
++	error = fsx_fileattr_to_fileattr(&fsx, &fa);
++	if (error)
++		return error;
++
++	name = getname_maybe_null(filename, at_flags);
++	if (IS_ERR(name))
++		return PTR_ERR(name);
++
++	if (!name && dfd >= 0) {
++		CLASS(fd, f)(dfd);
++
++		filepath = fd_file(f)->f_path;
++		path_get(&filepath);
++	} else {
++		error = filename_lookup(dfd, name, lookup_flags, &filepath,
++					NULL);
++		if (error)
++			return error;
++	}
++
++	error = mnt_want_write(filepath.mnt);
++	if (!error) {
++		error = vfs_fileattr_set(mnt_idmap(filepath.mnt),
++					 filepath.dentry, &fa);
++		mnt_drop_write(filepath.mnt);
++	}
++
++	return error;
++}
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index e5603cc91963..179acbe28fec 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -371,6 +371,12 @@ asmlinkage long sys_removexattrat(int dfd, const char __user *path,
+ asmlinkage long sys_lremovexattr(const char __user *path,
+ 				 const char __user *name);
+ asmlinkage long sys_fremovexattr(int fd, const char __user *name);
++asmlinkage long sys_file_getattr(int dfd, const char __user *filename,
++				 struct fsx_fileattr __user *ufsx, size_t usize,
++				 unsigned int at_flags);
++asmlinkage long sys_file_setattr(int dfd, const char __user *filename,
++				 struct fsx_fileattr __user *ufsx, size_t usize,
++				 unsigned int at_flags);
+ asmlinkage long sys_getcwd(char __user *buf, unsigned long size);
+ asmlinkage long sys_eventfd2(unsigned int count, int flags);
+ asmlinkage long sys_epoll_create1(int flags);
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 2892a45023af..04e0077fb4c9 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -852,8 +852,14 @@ __SYSCALL(__NR_removexattrat, sys_removexattrat)
+ #define __NR_open_tree_attr 467
+ __SYSCALL(__NR_open_tree_attr, sys_open_tree_attr)
  
-+/* Read-only inode flags */
-+#define FS_XFLAG_RDONLY_MASK \
-+	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR)
++/* fs/inode.c */
++#define __NR_file_getattr 468
++__SYSCALL(__NR_file_getattr, sys_file_getattr)
++#define __NR_file_setattr 469
++__SYSCALL(__NR_file_setattr, sys_file_setattr)
 +
-+/* Flags to indicate valid value of fsx_ fields */
-+#define FS_XFLAG_VALUES_MASK \
-+	(FS_XFLAG_EXTSIZE | FS_XFLAG_COWEXTSIZE)
+ #undef __NR_syscalls
+-#define __NR_syscalls 468
++#define __NR_syscalls 470
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 0098b0ce8ccb..0784f2033ba4 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -148,6 +148,24 @@ struct fsxattr {
+ 	unsigned char	fsx_pad[8];
+ };
+ 
++/*
++ * Variable size structure for file_[sg]et_attr().
++ *
++ * Note. This is alternative to the structure 'struct fileattr'/'struct fsxattr'.
++ * As this structure is passed to/from userspace with its size, this can
++ * be versioned based on the size.
++ */
++struct fsx_fileattr {
++	__u32	fsx_xflags;	/* xflags field value (get/set) */
++	__u32	fsx_extsize;	/* extsize field value (get/set)*/
++	__u32	fsx_nextents;	/* nextents field value (get)   */
++	__u32	fsx_projid;	/* project identifier (get/set) */
++	__u32	fsx_cowextsize;	/* CoW extsize field value (get/set) */
++};
 +
-+/* Flags for directories */
-+#define FS_XFLAG_DIRONLY_MASK \
-+	(FS_XFLAG_RTINHERIT | FS_XFLAG_NOSYMLINKS | FS_XFLAG_EXTSZINHERIT)
-+
-+/* Misc settable flags */
-+#define FS_XFLAG_MISC_MASK \
-+	(FS_XFLAG_REALTIME | FS_XFLAG_NODEFRAG | FS_XFLAG_FILESTREAM)
-+
-+#define FS_XFLAGS_MASK \
-+	(FS_XFLAG_COMMON | FS_XFLAG_RDONLY_MASK | FS_XFLAG_VALUES_MASK | \
-+	 FS_XFLAG_DIRONLY_MASK | FS_XFLAG_MISC_MASK)
++#define FSX_FILEATTR_SIZE_VER0 20
++#define FSX_FILEATTR_SIZE_LATEST FSX_FILEATTR_SIZE_VER0
 +
  /*
-  * Merged interface for miscellaneous file attributes.  'flags' originates from
-  * ext* and 'fsx_flags' from xfs.  There's some overlap between the two, which
+  * Flags for the fsx_xflags field
+  */
+diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
+index 580b4e246aec..d1ae5e92c615 100644
+--- a/scripts/syscall.tbl
++++ b/scripts/syscall.tbl
+@@ -408,3 +408,5 @@
+ 465	common	listxattrat			sys_listxattrat
+ 466	common	removexattrat			sys_removexattrat
+ 467	common	open_tree_attr			sys_open_tree_attr
++468	common	file_getattr			sys_file_getattr
++469	common	file_setattr			sys_file_setattr
 
 -- 
 2.47.2
