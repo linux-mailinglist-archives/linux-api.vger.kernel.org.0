@@ -1,88 +1,89 @@
-Return-Path: <linux-api+bounces-4061-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4062-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76D3AEE453
-	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 18:23:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4209AEE43B
+	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 18:21:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61D853B3746
-	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 16:20:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51D5F171C83
+	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 16:21:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9966C291C05;
-	Mon, 30 Jun 2025 16:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 245F0292918;
+	Mon, 30 Jun 2025 16:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KQX5cQRk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TREwttse"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC298290080
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B101429009A
 	for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 16:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751300438; cv=none; b=PBiv0OA10Bot91BCd7vDntnFbYSVMsX6t3r4TbP33ahTm1euA+nWmFVX74OwxFqEHiU3dwQJ0uUwyhU1KOHp+0LSHrTfRjLoJiE79TjuOr83wSdjCiBVhXQyqqpyavjif7cG4Vm149s45zX7+7nqE+uWZ5B6Lyv3fuFD724qjh8=
+	t=1751300439; cv=none; b=PvHQ4MJhnPDbp+EWD39gWr+8V3PWQ69kFjcjKVKwcvKcn+fC0IQ7OM9DywARfGDi1KyJszxSG7oYfERkF1z18AwVEVf44mLUdMFc0KhMuoATMu69466qAQadxNY7yd9Nprf4p1GdDJ7D5IoJhnyLlRi5DR/LjI6EaxXRqLhyS5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751300438; c=relaxed/simple;
-	bh=UaZEmtTk6LQBIwpX1H3cI6wrEZYIs4ph5Bt1MCtdJSw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G61BfAZ++63Ehq4SVynR3ifTxHTJL3ZKvzk46B+D9GHw03Idwjfe+fZCfjCaIXwLwcDwq90K8n94xajfuUASzAbKIB7lA9hvAB515uBxKH0VoLicYjScEvkAcpNXsiw+QBJnK6nAF7mq0PVCKayS4rKxzLB9b6QBHqbRqVsAlgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KQX5cQRk; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1751300439; c=relaxed/simple;
+	bh=405yist4yMaxw4IS6RXGFCYMQ8sbLn5sxnAxnQbkXig=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=pvVg7EIq+DHX2g0oQzFll39lvPNEYGD8tSRoWbhTDYz3OL6RiGRhPoloKp0hfmjHIPEY2VKiipUWfhw4RQ8B/0wS5WS0qBVa/5pQQRW7bncdfrfoVOD7tpZyq/9tvYIT/a393gCD1FXHwVK8qatDRua7ooxU/0DuEU5hcisugr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TREwttse; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1751300434;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ecYMjHnv6x62Jglvhti1a5rHKVzWnYYSdcZZbJIOyU8=;
-	b=KQX5cQRkNt0Fn3/j6OjmYl2akFweVq8R3EFyJQLZ2D+1kZ6BdyhsOze32yfd9ldXipJzUU
-	XhtvATAiquV1yPd/tfXyfDo5rgmt6xwf5XbmxevIIAGgYpFvKbEjBrDJZWvcpLhv0wiKlc
-	UgYaWsGf+uTQ6x4HSvYU+Dip1lf3Xmk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uMw1MFnpojtypzHkn05zWpJethntAUQwYfXFArukH0Q=;
+	b=TREwttse5vjLG03CFEyuhPfTGZttNwPp1YWuYbltHqXqnmUPsVK/XMtwf9BTNVMI8ap7vc
+	EZCQvmKAD8/ZhiXVEEl3wZhzNb8XJW24my1eNu+y4ISRNpNBvtiYoxRctaYJoesKHBW8+H
+	oZqHTVkVfnhVYGOBiPoFV13dMr9HqHg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-510-jRjaBR14MXS9n2tfQsRthg-1; Mon, 30 Jun 2025 12:20:33 -0400
-X-MC-Unique: jRjaBR14MXS9n2tfQsRthg-1
-X-Mimecast-MFC-AGG-ID: jRjaBR14MXS9n2tfQsRthg_1751300431
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-451dda846a0so15745265e9.2
-        for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 09:20:32 -0700 (PDT)
+ us-mta-195-xBLJ2-EJMsWm8LDM1ZOW_A-1; Mon, 30 Jun 2025 12:20:33 -0400
+X-MC-Unique: xBLJ2-EJMsWm8LDM1ZOW_A-1
+X-Mimecast-MFC-AGG-ID: xBLJ2-EJMsWm8LDM1ZOW_A_1751300432
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-451ecc3be97so21050055e9.0
+        for <linux-api@vger.kernel.org>; Mon, 30 Jun 2025 09:20:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751300429; x=1751905229;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ecYMjHnv6x62Jglvhti1a5rHKVzWnYYSdcZZbJIOyU8=;
-        b=gIcbyn/zd8rKGSQie0/02nezDcuIZ0uK0w/nX3SK2f3APyHm15u3FDuEUdF7Y1DTjm
-         iHjJnpogyP22nw13LQCADttcBvn1mr4lKz2p+57EA6Ksyn5QuUsdgSevwR9bjaiUvI9i
-         ArwUpE+0zZ4CPSj3IALSEp51N4gm51IhXbAe59nGJm4zqbxdmOa7YMA71Go1ngcV36dY
-         f8hgqmQokz4zYisi8zHL4lGZ4TcjTqj9Jonlcr0V6qn81bYQCy0gpdswvQK8uLxCqICI
-         pROZb7BiwagqYROSGpiCb7r+1FV0NfSp1PQ4W2mYzArR/qkVSouLuMSqft1StnFcFsaW
-         HBPQ==
-X-Gm-Message-State: AOJu0YzDULfhPO7bWm4ZKtsJkAJUvmAGrby/9VeWfJ+WuJwHaIMKWCqS
-	sIUJxupPftUQ2UOl63FQnObawqSrAdhLW/18RDnOF0T9i2GRkha90gSymQ4unU5IC7kTtIDc106
-	j104jtScVwJPtYUEhqc9K2aAcWPQlRbgpCROUaVnk72v3UZWggcxqLwVhbdpyCTiOJLOPRRhbQC
-	3Mt1mD0BbZ/BZfQb+UkOPDwlTKALuf3z+zpocMuRoU8pEv
-X-Gm-Gg: ASbGncv/oTihmoCac5JQFWWk9e1AzWV92ZYHmCnUCW3MUEP7BJpVeWVxiuBx+drqxb7
-	Z0FUMKxqin4+m0pKCKZJ3D3iMBnD8vc1gp/vIV3TWKZnzP/MeSqXDEy3IDpeNgNKXmwsXneacLA
-	nANQJr4BNwIW6CDxke7/fR4sKlagkZclG3uD/M24sTrADd/8leWYhQYZdW7ViNiFTnpvvQy5qcZ
-	mvUHPD7CqBwhfYBC3+BF0MHAd2Ws6HhYX2xV3jXcUeG+Uw4JLP043zLlqufm9AdkmeQZmBGtjvy
-	ThOIk632ECjeOJnud5M1b3RdceD9
-X-Received: by 2002:a05:600c:a07:b0:442:f12f:bd9f with SMTP id 5b1f17b1804b1-4538ee8c552mr151673315e9.27.1751300428576;
+        d=1e100.net; s=20230601; t=1751300430; x=1751905230;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uMw1MFnpojtypzHkn05zWpJethntAUQwYfXFArukH0Q=;
+        b=GSurjDIcaIblZtNbXkPQN3uu6y6+3q/oHguCohY6AX5Nh6VeiR5ILTEw6XzOIbdbQB
+         BdRrcFaR4z4E8QyI4GSU7AAxoKyCGspZOFR9gzm3rH4tqKtkvGv3I7DNeEtrVQDbl500
+         uoU5l3FawiXYwsZN8Vs14foo9eAxodyo8wk4J0yaLg9QsgaC6BMJivIjlbkFEO+O3/vC
+         0Lxi5tvJefA41gGFLxmwskNMFezF9Pk1VGyNipC3t/1icBIg4yeDwEObx3qnPqDemvXj
+         Xt9xz4lW7TQRnFj850LCX0DOwIZ/sJ3NfVhLfD1rMMiIEC0FacGJ0brgNQGx/qPDaHif
+         bvZQ==
+X-Gm-Message-State: AOJu0YxZWujdOhzOfvv3pMGTFsogAP074UIOkjeLQe+dW5rM7v3aghZY
+	Is0ha9wV5ij58IJ0ZN6bNMhptxtuWR3QwEPeyj3pcB7U0+AGIvb6KuC9n5ihXA+ANmrwSG+lsIy
+	xWGwWIX78Mqw2maGBbw6Fxx0JFYbf4TEWEgNto14AymJV0EfnxBz6qW7030jcEcBcBHl3zYq0yk
+	nmGgM1r29AesvriyHNHy07GycfIk6uMWFBhBGwoKxtireO
+X-Gm-Gg: ASbGncu8xcMmzeUPKBkmzIP450mScIe2lhwyXXOlW6OFMcgMjZrzbycvYqvZT2tLEWW
+	ZGPMSVMC1wJom+hzHBtzWDZfeHzpdiYaFKrlDm5hTGv8Vz2QMvSjUBjOBC/DBuJ77KnNNPDb84R
+	6NCJ0ZrdiAfy9b0/HRDcQTnt+siBS3lkoO2kFPfcoUUYy5W5q2TUh+YS30ONFTifg7NVXemeFfs
+	/0ibQaWVU1yLqMSZ2m4jy1ECSMVf07fxnMPIKPpiTpjA4K+lpTS8FrnN2SaB63ZBi/v3gRiGgE2
+	BaHHGJ3lIxibEHRqBlOyPD3Go6T8
+X-Received: by 2002:a05:600c:1e0d:b0:43c:e478:889 with SMTP id 5b1f17b1804b1-4538edeb1e3mr161343765e9.0.1751300429539;
+        Mon, 30 Jun 2025 09:20:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFdkljFvCKeSQ1u0BXXsAm74xNUPB3nS5Hy8RFzspogoQFN7rnotzQQPQAQkzWhiN8lH4Wb6A==
+X-Received: by 2002:a05:600c:1e0d:b0:43c:e478:889 with SMTP id 5b1f17b1804b1-4538edeb1e3mr161343255e9.0.1751300428854;
         Mon, 30 Jun 2025 09:20:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEdUVDSeOrA0RtV7R3mFCcxfA131vGULaT/aJA9sbKcS86akLQJA8inrj2BetophhOUkdLpoA==
-X-Received: by 2002:a05:600c:a07:b0:442:f12f:bd9f with SMTP id 5b1f17b1804b1-4538ee8c552mr151672755e9.27.1751300427992;
-        Mon, 30 Jun 2025 09:20:27 -0700 (PDT)
 Received: from [127.0.0.2] (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c1easm168769245e9.3.2025.06.30.09.20.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c1easm168769245e9.3.2025.06.30.09.20.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:20:27 -0700 (PDT)
+        Mon, 30 Jun 2025 09:20:28 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Subject: [PATCH v6 0/6] fs: introduce file_getattr and file_setattr
- syscalls
-Date: Mon, 30 Jun 2025 18:20:10 +0200
-Message-Id: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
+Date: Mon, 30 Jun 2025 18:20:11 +0200
+Subject: [PATCH v6 1/6] fs: split fileattr related helpers into separate
+ file
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -91,12 +92,9 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADq5YmgC/23N3YrCMBCG4VuRHJslM/lp65H3sexBfiYaLK0kp
- SjSezeKUJZ6+H4wzzxYoZyosMPuwTLNqaRxqGH2O+bPdjgRT6E2Q4FaACh+s9OU7cTLvXjb99x
- YAGkCBqc7Vq+umWK6vcXfv9rnVKYx398PZnytHwtxY83IgWsnjQgqOu/weKE8UP8z5hN7YbNcA
- QTYArICVjQBdGy79gugVkDiF0BxwSW1SCY6iUZtAL0CGuQW0BVAdK7zxjemif+AZVmeVUu1RXI
- BAAA=
-X-Change-ID: 20250114-xattrat-syscall-6a1136d2db59
+Message-Id: <20250630-xattrat-syscall-v6-1-c4e3bc35227b@kernel.org>
+References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
+In-Reply-To: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
 To: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
  Casey Schaufler <casey@schaufler-ca.com>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
@@ -104,268 +102,704 @@ To: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
  Paul Moore <paul@paul-moore.com>
 Cc: linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>, 
- Andrey Albershteyn <aalbersh@redhat.com>
+ selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9249; i=aalbersh@kernel.org;
- h=from:subject:message-id; bh=UaZEmtTk6LQBIwpX1H3cI6wrEZYIs4ph5Bt1MCtdJSw=;
- b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMpJ2evEe4nygf2jSy/17NqzKMV77NWrN51k74wUOJ
- FQ8nvf893SZjlIWBjEuBlkxRZZ10lpTk4qk8o8Y1MjDzGFlAhnCwMUpABOxO8Dwv2bHKl2v83cP
- X11fNJv57pGt/P3rvC8dfLzq76NlfVPL6p4x/K98oRrEZ3JO/zJj23QL6ZzfFk+m3GA9P79/e+z
- b+edl9PkApuVPhQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=20201; i=aalbersh@kernel.org;
+ h=from:subject:message-id; bh=A9huJot8yJ6n24cQpc1B4SCSkRw4M/p64ocZxwkwKPA=;
+ b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMpJ2er1/wWyyk5njPCP7QZdlijMtuRYtntI8/6bIl
+ f9hYgdWTfnWUcrCIMbFICumyLJOWmtqUpFU/hGDGnmYOaxMIEMYuDgFYCICKxn+5xzeNFFOMV7H
+ h+vOUqsjn+db2Sic5D230YBfeLtf7pl7Fgz/DG/eXnvTrev1x0lm/Vt/Pbogs8n2vo4Rx/meOPb
+ 3Fron2AEDb0hD
 X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
  fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
 
-This patchset introduced two new syscalls file_getattr() and
-file_setattr(). These syscalls are similar to FS_IOC_FSSETXATTR ioctl()
-except they use *at() semantics. Therefore, there's no need to open the
-file to get a fd.
+From: Andrey Albershteyn <aalbersh@kernel.org>
 
-These syscalls allow userspace to set filesystem inode attributes on
-special files. One of the usage examples is XFS quota projects.
+This patch moves function related to file extended attributes
+manipulations to separate file. Refactoring only.
 
-XFS has project quotas which could be attached to a directory. All
-new inodes in these directories inherit project ID set on parent
-directory.
-
-The project is created from userspace by opening and calling
-FS_IOC_FSSETXATTR on each inode. This is not possible for special
-files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
-with empty project ID. Those inodes then are not shown in the quota
-accounting but still exist in the directory. This is not critical but in
-the case when special files are created in the directory with already
-existing project quota, these new inodes inherit extended attributes.
-This creates a mix of special files with and without attributes.
-Moreover, special files with attributes don't have a possibility to
-become clear or change the attributes. This, in turn, prevents userspace
-from re-creating quota project on these existing files.
-
-An xfstests test generic/766 with basic coverage is at:
-https://github.com/alberand/xfstests/commits/b4/file-attr/
-
-NAME
-
-	file_getattr/file_setattr - get/set filesystem inode attributes
-
-SYNOPSIS
-
-	#include <sys/syscall.h>    /* Definition of SYS_* constants */
-	#include <unistd.h>
-
-	long syscall(SYS_file_getattr, int dirfd, const char *pathname,
-		struct fsx_fileattr *fsx, size_t size,
-		unsigned int at_flags);
-	long syscall(SYS_file_setattr, int dirfd, const char *pathname,
-		struct fsx_fileattr *fsx, size_t size,
-		unsigned int at_flags);
-
-	Note: glibc doesn't provide for file_getattr()/file_setattr(),
-	use syscall(2) instead.
-
-DESCRIPTION
-
-	The file_getattr()/file_setattr() are used to set extended file
-	attributes. These syscalls take dirfd in conjunction with the
-	pathname argument. The syscall then operates on inode opened
-	according to openat(2) semantics.
-
-	This is an alternative to FS_IOC_FSGETXATTR/FS_IOC_FSSETXATTR
-	ioctl with a difference that file don't need to be open as file
-	can be referenced with a path instead of fd. By having this one
-	can manipulated filesystem inode attributes not only on regular
-	files but also on special ones. This is not possible with
-	FS_IOC_FSSETXATTR ioctl as ioctl() can not be called on special
-	files directly for the filesystem inode.
-
-	at_flags can be set to AT_SYMLINK_NOFOLLOW or AT_EMPTY_PATH.
-
-RETURN VALUE
-
-	On success, 0 is returned.  On error, -1 is returned, and errno
-	is set to indicate the error.
-
-ERRORS
-
-	EINVAL		Invalid at_flag specified (only
-			AT_SYMLINK_NOFOLLOW and AT_EMPTY_PATH is
-			supported).
-
-	EINVAL		Size was smaller than any known version of
-			struct fsx_fileattr.
-
-	EINVAL		Invalid combination of parameters provided in
-			fsx_fileattr for this type of file.
-
-	E2BIG		Size of input argument struct fsx_fileattr
-			is too big.
-
-	EBADF		Invalid file descriptor was provided.
-
-	EPERM		No permission to change this file.
-
-	EOPNOTSUPP	Filesystem does not support setting attributes
-			on this type of inode
-
-HISTORY
-
-	Added in Linux 6.16.
-
-EXAMPLE
-
-Create directory and file "mkdir ./dir && touch ./dir/foo" and then
-execute the following program:
-
-	#include <fcntl.h>
-	#include <errno.h>
-	#include <string.h>
-	#include <linux/fs.h>
-	#include <stdio.h>
-	#include <sys/syscall.h>
-	#include <unistd.h>
-
-	#if !defined(SYS_file_getattr) && defined(__x86_64__)
-	#define SYS_file_getattr 468
-	#define SYS_file_setattr 469
-
-	struct fsx_fileattr {
-	       __u32           fsx_xflags;
-	       __u32           fsx_extsize;
-	       __u32           fsx_nextents;
-	       __u32           fsx_projid;
-	       __u32           fsx_cowextsize;
-	};
-	#endif
-
-	int
-	main(int argc, char **argv) {
-	        int dfd;
-	        int error;
-	        struct fsx_fileattr fsx;
-
-	        dfd = open("./dir", O_RDONLY);
-	        if (dfd == -1) {
-	                printf("can not open ./dir");
-	                return dfd;
-	        }
-
-	        error = syscall(SYS_file_getattr, dfd, "./foo", &fsx,
-	                        sizeof(struct fsx_fileattr), 0);
-	        if (error) {
-	                printf("can not call SYS_file_getattr: %s",
-				strerror(errno));
-	                return error;
-	        }
-
-	        printf("./dir/foo flags: %d\n", fsx.fsx_xflags);
-
-	        fsx.fsx_xflags |= FS_XFLAG_NODUMP;
-	        error = syscall(SYS_file_setattr, dfd, "./foo", &fsx,
-	                        sizeof(struct fsx_fileattr), 0);
-	        if (error) {
-			printf("can not call SYS_file_setattr: %s",
-				strerror(errno));
-	                return error;
-	        }
-
-	        printf("./dir/foo flags: %d\n", fsx.fsx_xflags);
-
-	        return error;
-	}
-
-SEE ALSO
-
-	ioctl(2), ioctl_iflags(2), ioctl_xfs_fsgetxattr(2), openat(2)
-
+Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 ---
-Changes in v6:
-- Update cover letter example and docs
-- Applied __free() attribute for syscall stack objects
-- Introduced struct fsx_fileattr
-- Replace 'struct fsxattr' with 'struct fsx_fileattr'
-- Add helper to fill in fsx_fileattr from fileattr
-- Dropped copy_fsx_to_user() header declaration
-- Link to v5: https://lore.kernel.org/r/20250513-xattrat-syscall-v5-0-22bb9c6c767f@kernel.org
+ fs/Makefile              |   3 +-
+ fs/file_attr.c           | 318 +++++++++++++++++++++++++++++++++++++++++++++++
+ fs/ioctl.c               | 309 ---------------------------------------------
+ include/linux/fileattr.h |   4 +
+ 4 files changed, 324 insertions(+), 310 deletions(-)
 
-Changes in v5:
-- Remove setting of LOOKUP_EMPTY flags which does not have any effect
-- Return -ENOSUPP from vfs_fileattr_set()
-- Add fsxattr masking (by Amir)
-- Fix UAF issue dentry
-- Fix getname_maybe_null() issue with NULL path
-- Implement file_getattr/file_setattr hooks
-- Return LSM return code from file_setattr
-- Rename from getfsxattrat/setfsxattrat to file_getattr/file_setattr
-- Link to v4: https://lore.kernel.org/r/20250321-xattrat-syscall-v4-0-3e82e6fb3264@kernel.org
+diff --git a/fs/Makefile b/fs/Makefile
+index 79c08b914c47..334654f9584b 100644
+--- a/fs/Makefile
++++ b/fs/Makefile
+@@ -15,7 +15,8 @@ obj-y :=	open.o read_write.o file_table.o super.o \
+ 		pnode.o splice.o sync.o utimes.o d_path.o \
+ 		stack.o fs_struct.o statfs.o fs_pin.o nsfs.o \
+ 		fs_types.o fs_context.o fs_parser.o fsopen.o init.o \
+-		kernel_read_file.o mnt_idmapping.o remap_range.o pidfs.o
++		kernel_read_file.o mnt_idmapping.o remap_range.o pidfs.o \
++		file_attr.o
+ 
+ obj-$(CONFIG_BUFFER_HEAD)	+= buffer.o mpage.o
+ obj-$(CONFIG_PROC_FS)		+= proc_namespace.o
+diff --git a/fs/file_attr.c b/fs/file_attr.c
+new file mode 100644
+index 000000000000..2910b7047721
+--- /dev/null
++++ b/fs/file_attr.c
+@@ -0,0 +1,318 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/fs.h>
++#include <linux/security.h>
++#include <linux/fscrypt.h>
++#include <linux/fileattr.h>
++
++/**
++ * fileattr_fill_xflags - initialize fileattr with xflags
++ * @fa:		fileattr pointer
++ * @xflags:	FS_XFLAG_* flags
++ *
++ * Set ->fsx_xflags, ->fsx_valid and ->flags (translated xflags).  All
++ * other fields are zeroed.
++ */
++void fileattr_fill_xflags(struct fileattr *fa, u32 xflags)
++{
++	memset(fa, 0, sizeof(*fa));
++	fa->fsx_valid = true;
++	fa->fsx_xflags = xflags;
++	if (fa->fsx_xflags & FS_XFLAG_IMMUTABLE)
++		fa->flags |= FS_IMMUTABLE_FL;
++	if (fa->fsx_xflags & FS_XFLAG_APPEND)
++		fa->flags |= FS_APPEND_FL;
++	if (fa->fsx_xflags & FS_XFLAG_SYNC)
++		fa->flags |= FS_SYNC_FL;
++	if (fa->fsx_xflags & FS_XFLAG_NOATIME)
++		fa->flags |= FS_NOATIME_FL;
++	if (fa->fsx_xflags & FS_XFLAG_NODUMP)
++		fa->flags |= FS_NODUMP_FL;
++	if (fa->fsx_xflags & FS_XFLAG_DAX)
++		fa->flags |= FS_DAX_FL;
++	if (fa->fsx_xflags & FS_XFLAG_PROJINHERIT)
++		fa->flags |= FS_PROJINHERIT_FL;
++}
++EXPORT_SYMBOL(fileattr_fill_xflags);
++
++/**
++ * fileattr_fill_flags - initialize fileattr with flags
++ * @fa:		fileattr pointer
++ * @flags:	FS_*_FL flags
++ *
++ * Set ->flags, ->flags_valid and ->fsx_xflags (translated flags).
++ * All other fields are zeroed.
++ */
++void fileattr_fill_flags(struct fileattr *fa, u32 flags)
++{
++	memset(fa, 0, sizeof(*fa));
++	fa->flags_valid = true;
++	fa->flags = flags;
++	if (fa->flags & FS_SYNC_FL)
++		fa->fsx_xflags |= FS_XFLAG_SYNC;
++	if (fa->flags & FS_IMMUTABLE_FL)
++		fa->fsx_xflags |= FS_XFLAG_IMMUTABLE;
++	if (fa->flags & FS_APPEND_FL)
++		fa->fsx_xflags |= FS_XFLAG_APPEND;
++	if (fa->flags & FS_NODUMP_FL)
++		fa->fsx_xflags |= FS_XFLAG_NODUMP;
++	if (fa->flags & FS_NOATIME_FL)
++		fa->fsx_xflags |= FS_XFLAG_NOATIME;
++	if (fa->flags & FS_DAX_FL)
++		fa->fsx_xflags |= FS_XFLAG_DAX;
++	if (fa->flags & FS_PROJINHERIT_FL)
++		fa->fsx_xflags |= FS_XFLAG_PROJINHERIT;
++}
++EXPORT_SYMBOL(fileattr_fill_flags);
++
++/**
++ * vfs_fileattr_get - retrieve miscellaneous file attributes
++ * @dentry:	the object to retrieve from
++ * @fa:		fileattr pointer
++ *
++ * Call i_op->fileattr_get() callback, if exists.
++ *
++ * Return: 0 on success, or a negative error on failure.
++ */
++int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
++{
++	struct inode *inode = d_inode(dentry);
++
++	if (!inode->i_op->fileattr_get)
++		return -ENOIOCTLCMD;
++
++	return inode->i_op->fileattr_get(dentry, fa);
++}
++EXPORT_SYMBOL(vfs_fileattr_get);
++
++/**
++ * copy_fsxattr_to_user - copy fsxattr to userspace.
++ * @fa:		fileattr pointer
++ * @ufa:	fsxattr user pointer
++ *
++ * Return: 0 on success, or -EFAULT on failure.
++ */
++int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
++{
++	struct fsxattr xfa;
++
++	memset(&xfa, 0, sizeof(xfa));
++	xfa.fsx_xflags = fa->fsx_xflags;
++	xfa.fsx_extsize = fa->fsx_extsize;
++	xfa.fsx_nextents = fa->fsx_nextents;
++	xfa.fsx_projid = fa->fsx_projid;
++	xfa.fsx_cowextsize = fa->fsx_cowextsize;
++
++	if (copy_to_user(ufa, &xfa, sizeof(xfa)))
++		return -EFAULT;
++
++	return 0;
++}
++EXPORT_SYMBOL(copy_fsxattr_to_user);
++
++static int copy_fsxattr_from_user(struct fileattr *fa,
++				  struct fsxattr __user *ufa)
++{
++	struct fsxattr xfa;
++
++	if (copy_from_user(&xfa, ufa, sizeof(xfa)))
++		return -EFAULT;
++
++	fileattr_fill_xflags(fa, xfa.fsx_xflags);
++	fa->fsx_extsize = xfa.fsx_extsize;
++	fa->fsx_nextents = xfa.fsx_nextents;
++	fa->fsx_projid = xfa.fsx_projid;
++	fa->fsx_cowextsize = xfa.fsx_cowextsize;
++
++	return 0;
++}
++
++/*
++ * Generic function to check FS_IOC_FSSETXATTR/FS_IOC_SETFLAGS values and reject
++ * any invalid configurations.
++ *
++ * Note: must be called with inode lock held.
++ */
++static int fileattr_set_prepare(struct inode *inode,
++			      const struct fileattr *old_ma,
++			      struct fileattr *fa)
++{
++	int err;
++
++	/*
++	 * The IMMUTABLE and APPEND_ONLY flags can only be changed by
++	 * the relevant capability.
++	 */
++	if ((fa->flags ^ old_ma->flags) & (FS_APPEND_FL | FS_IMMUTABLE_FL) &&
++	    !capable(CAP_LINUX_IMMUTABLE))
++		return -EPERM;
++
++	err = fscrypt_prepare_setflags(inode, old_ma->flags, fa->flags);
++	if (err)
++		return err;
++
++	/*
++	 * Project Quota ID state is only allowed to change from within the init
++	 * namespace. Enforce that restriction only if we are trying to change
++	 * the quota ID state. Everything else is allowed in user namespaces.
++	 */
++	if (current_user_ns() != &init_user_ns) {
++		if (old_ma->fsx_projid != fa->fsx_projid)
++			return -EINVAL;
++		if ((old_ma->fsx_xflags ^ fa->fsx_xflags) &
++				FS_XFLAG_PROJINHERIT)
++			return -EINVAL;
++	} else {
++		/*
++		 * Caller is allowed to change the project ID. If it is being
++		 * changed, make sure that the new value is valid.
++		 */
++		if (old_ma->fsx_projid != fa->fsx_projid &&
++		    !projid_valid(make_kprojid(&init_user_ns, fa->fsx_projid)))
++			return -EINVAL;
++	}
++
++	/* Check extent size hints. */
++	if ((fa->fsx_xflags & FS_XFLAG_EXTSIZE) && !S_ISREG(inode->i_mode))
++		return -EINVAL;
++
++	if ((fa->fsx_xflags & FS_XFLAG_EXTSZINHERIT) &&
++			!S_ISDIR(inode->i_mode))
++		return -EINVAL;
++
++	if ((fa->fsx_xflags & FS_XFLAG_COWEXTSIZE) &&
++	    !S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
++		return -EINVAL;
++
++	/*
++	 * It is only valid to set the DAX flag on regular files and
++	 * directories on filesystems.
++	 */
++	if ((fa->fsx_xflags & FS_XFLAG_DAX) &&
++	    !(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode)))
++		return -EINVAL;
++
++	/* Extent size hints of zero turn off the flags. */
++	if (fa->fsx_extsize == 0)
++		fa->fsx_xflags &= ~(FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT);
++	if (fa->fsx_cowextsize == 0)
++		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
++
++	return 0;
++}
++
++/**
++ * vfs_fileattr_set - change miscellaneous file attributes
++ * @idmap:	idmap of the mount
++ * @dentry:	the object to change
++ * @fa:		fileattr pointer
++ *
++ * After verifying permissions, call i_op->fileattr_set() callback, if
++ * exists.
++ *
++ * Verifying attributes involves retrieving current attributes with
++ * i_op->fileattr_get(), this also allows initializing attributes that have
++ * not been set by the caller to current values.  Inode lock is held
++ * thoughout to prevent racing with another instance.
++ *
++ * Return: 0 on success, or a negative error on failure.
++ */
++int vfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
++		     struct fileattr *fa)
++{
++	struct inode *inode = d_inode(dentry);
++	struct fileattr old_ma = {};
++	int err;
++
++	if (!inode->i_op->fileattr_set)
++		return -ENOIOCTLCMD;
++
++	if (!inode_owner_or_capable(idmap, inode))
++		return -EPERM;
++
++	inode_lock(inode);
++	err = vfs_fileattr_get(dentry, &old_ma);
++	if (!err) {
++		/* initialize missing bits from old_ma */
++		if (fa->flags_valid) {
++			fa->fsx_xflags |= old_ma.fsx_xflags & ~FS_XFLAG_COMMON;
++			fa->fsx_extsize = old_ma.fsx_extsize;
++			fa->fsx_nextents = old_ma.fsx_nextents;
++			fa->fsx_projid = old_ma.fsx_projid;
++			fa->fsx_cowextsize = old_ma.fsx_cowextsize;
++		} else {
++			fa->flags |= old_ma.flags & ~FS_COMMON_FL;
++		}
++		err = fileattr_set_prepare(inode, &old_ma, fa);
++		if (!err)
++			err = inode->i_op->fileattr_set(idmap, dentry, fa);
++	}
++	inode_unlock(inode);
++
++	return err;
++}
++EXPORT_SYMBOL(vfs_fileattr_set);
++
++int ioctl_getflags(struct file *file, unsigned int __user *argp)
++{
++	struct fileattr fa = { .flags_valid = true }; /* hint only */
++	int err;
++
++	err = vfs_fileattr_get(file->f_path.dentry, &fa);
++	if (!err)
++		err = put_user(fa.flags, argp);
++	return err;
++}
++EXPORT_SYMBOL(ioctl_getflags);
++
++int ioctl_setflags(struct file *file, unsigned int __user *argp)
++{
++	struct mnt_idmap *idmap = file_mnt_idmap(file);
++	struct dentry *dentry = file->f_path.dentry;
++	struct fileattr fa;
++	unsigned int flags;
++	int err;
++
++	err = get_user(flags, argp);
++	if (!err) {
++		err = mnt_want_write_file(file);
++		if (!err) {
++			fileattr_fill_flags(&fa, flags);
++			err = vfs_fileattr_set(idmap, dentry, &fa);
++			mnt_drop_write_file(file);
++		}
++	}
++	return err;
++}
++EXPORT_SYMBOL(ioctl_setflags);
++
++int ioctl_fsgetxattr(struct file *file, void __user *argp)
++{
++	struct fileattr fa = { .fsx_valid = true }; /* hint only */
++	int err;
++
++	err = vfs_fileattr_get(file->f_path.dentry, &fa);
++	if (!err)
++		err = copy_fsxattr_to_user(&fa, argp);
++
++	return err;
++}
++EXPORT_SYMBOL(ioctl_fsgetxattr);
++
++int ioctl_fssetxattr(struct file *file, void __user *argp)
++{
++	struct mnt_idmap *idmap = file_mnt_idmap(file);
++	struct dentry *dentry = file->f_path.dentry;
++	struct fileattr fa;
++	int err;
++
++	err = copy_fsxattr_from_user(&fa, argp);
++	if (!err) {
++		err = mnt_want_write_file(file);
++		if (!err) {
++			err = vfs_fileattr_set(idmap, dentry, &fa);
++			mnt_drop_write_file(file);
++		}
++	}
++	return err;
++}
++EXPORT_SYMBOL(ioctl_fssetxattr);
+diff --git a/fs/ioctl.c b/fs/ioctl.c
+index 69107a245b4c..0248cb8db2d3 100644
+--- a/fs/ioctl.c
++++ b/fs/ioctl.c
+@@ -453,315 +453,6 @@ static int ioctl_file_dedupe_range(struct file *file,
+ 	return ret;
+ }
+ 
+-/**
+- * fileattr_fill_xflags - initialize fileattr with xflags
+- * @fa:		fileattr pointer
+- * @xflags:	FS_XFLAG_* flags
+- *
+- * Set ->fsx_xflags, ->fsx_valid and ->flags (translated xflags).  All
+- * other fields are zeroed.
+- */
+-void fileattr_fill_xflags(struct fileattr *fa, u32 xflags)
+-{
+-	memset(fa, 0, sizeof(*fa));
+-	fa->fsx_valid = true;
+-	fa->fsx_xflags = xflags;
+-	if (fa->fsx_xflags & FS_XFLAG_IMMUTABLE)
+-		fa->flags |= FS_IMMUTABLE_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_APPEND)
+-		fa->flags |= FS_APPEND_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_SYNC)
+-		fa->flags |= FS_SYNC_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_NOATIME)
+-		fa->flags |= FS_NOATIME_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_NODUMP)
+-		fa->flags |= FS_NODUMP_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_DAX)
+-		fa->flags |= FS_DAX_FL;
+-	if (fa->fsx_xflags & FS_XFLAG_PROJINHERIT)
+-		fa->flags |= FS_PROJINHERIT_FL;
+-}
+-EXPORT_SYMBOL(fileattr_fill_xflags);
+-
+-/**
+- * fileattr_fill_flags - initialize fileattr with flags
+- * @fa:		fileattr pointer
+- * @flags:	FS_*_FL flags
+- *
+- * Set ->flags, ->flags_valid and ->fsx_xflags (translated flags).
+- * All other fields are zeroed.
+- */
+-void fileattr_fill_flags(struct fileattr *fa, u32 flags)
+-{
+-	memset(fa, 0, sizeof(*fa));
+-	fa->flags_valid = true;
+-	fa->flags = flags;
+-	if (fa->flags & FS_SYNC_FL)
+-		fa->fsx_xflags |= FS_XFLAG_SYNC;
+-	if (fa->flags & FS_IMMUTABLE_FL)
+-		fa->fsx_xflags |= FS_XFLAG_IMMUTABLE;
+-	if (fa->flags & FS_APPEND_FL)
+-		fa->fsx_xflags |= FS_XFLAG_APPEND;
+-	if (fa->flags & FS_NODUMP_FL)
+-		fa->fsx_xflags |= FS_XFLAG_NODUMP;
+-	if (fa->flags & FS_NOATIME_FL)
+-		fa->fsx_xflags |= FS_XFLAG_NOATIME;
+-	if (fa->flags & FS_DAX_FL)
+-		fa->fsx_xflags |= FS_XFLAG_DAX;
+-	if (fa->flags & FS_PROJINHERIT_FL)
+-		fa->fsx_xflags |= FS_XFLAG_PROJINHERIT;
+-}
+-EXPORT_SYMBOL(fileattr_fill_flags);
+-
+-/**
+- * vfs_fileattr_get - retrieve miscellaneous file attributes
+- * @dentry:	the object to retrieve from
+- * @fa:		fileattr pointer
+- *
+- * Call i_op->fileattr_get() callback, if exists.
+- *
+- * Return: 0 on success, or a negative error on failure.
+- */
+-int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+-{
+-	struct inode *inode = d_inode(dentry);
+-
+-	if (!inode->i_op->fileattr_get)
+-		return -ENOIOCTLCMD;
+-
+-	return inode->i_op->fileattr_get(dentry, fa);
+-}
+-EXPORT_SYMBOL(vfs_fileattr_get);
+-
+-/**
+- * copy_fsxattr_to_user - copy fsxattr to userspace.
+- * @fa:		fileattr pointer
+- * @ufa:	fsxattr user pointer
+- *
+- * Return: 0 on success, or -EFAULT on failure.
+- */
+-int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
+-{
+-	struct fsxattr xfa;
+-
+-	memset(&xfa, 0, sizeof(xfa));
+-	xfa.fsx_xflags = fa->fsx_xflags;
+-	xfa.fsx_extsize = fa->fsx_extsize;
+-	xfa.fsx_nextents = fa->fsx_nextents;
+-	xfa.fsx_projid = fa->fsx_projid;
+-	xfa.fsx_cowextsize = fa->fsx_cowextsize;
+-
+-	if (copy_to_user(ufa, &xfa, sizeof(xfa)))
+-		return -EFAULT;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(copy_fsxattr_to_user);
+-
+-static int copy_fsxattr_from_user(struct fileattr *fa,
+-				  struct fsxattr __user *ufa)
+-{
+-	struct fsxattr xfa;
+-
+-	if (copy_from_user(&xfa, ufa, sizeof(xfa)))
+-		return -EFAULT;
+-
+-	fileattr_fill_xflags(fa, xfa.fsx_xflags);
+-	fa->fsx_extsize = xfa.fsx_extsize;
+-	fa->fsx_nextents = xfa.fsx_nextents;
+-	fa->fsx_projid = xfa.fsx_projid;
+-	fa->fsx_cowextsize = xfa.fsx_cowextsize;
+-
+-	return 0;
+-}
+-
+-/*
+- * Generic function to check FS_IOC_FSSETXATTR/FS_IOC_SETFLAGS values and reject
+- * any invalid configurations.
+- *
+- * Note: must be called with inode lock held.
+- */
+-static int fileattr_set_prepare(struct inode *inode,
+-			      const struct fileattr *old_ma,
+-			      struct fileattr *fa)
+-{
+-	int err;
+-
+-	/*
+-	 * The IMMUTABLE and APPEND_ONLY flags can only be changed by
+-	 * the relevant capability.
+-	 */
+-	if ((fa->flags ^ old_ma->flags) & (FS_APPEND_FL | FS_IMMUTABLE_FL) &&
+-	    !capable(CAP_LINUX_IMMUTABLE))
+-		return -EPERM;
+-
+-	err = fscrypt_prepare_setflags(inode, old_ma->flags, fa->flags);
+-	if (err)
+-		return err;
+-
+-	/*
+-	 * Project Quota ID state is only allowed to change from within the init
+-	 * namespace. Enforce that restriction only if we are trying to change
+-	 * the quota ID state. Everything else is allowed in user namespaces.
+-	 */
+-	if (current_user_ns() != &init_user_ns) {
+-		if (old_ma->fsx_projid != fa->fsx_projid)
+-			return -EINVAL;
+-		if ((old_ma->fsx_xflags ^ fa->fsx_xflags) &
+-				FS_XFLAG_PROJINHERIT)
+-			return -EINVAL;
+-	} else {
+-		/*
+-		 * Caller is allowed to change the project ID. If it is being
+-		 * changed, make sure that the new value is valid.
+-		 */
+-		if (old_ma->fsx_projid != fa->fsx_projid &&
+-		    !projid_valid(make_kprojid(&init_user_ns, fa->fsx_projid)))
+-			return -EINVAL;
+-	}
+-
+-	/* Check extent size hints. */
+-	if ((fa->fsx_xflags & FS_XFLAG_EXTSIZE) && !S_ISREG(inode->i_mode))
+-		return -EINVAL;
+-
+-	if ((fa->fsx_xflags & FS_XFLAG_EXTSZINHERIT) &&
+-			!S_ISDIR(inode->i_mode))
+-		return -EINVAL;
+-
+-	if ((fa->fsx_xflags & FS_XFLAG_COWEXTSIZE) &&
+-	    !S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
+-		return -EINVAL;
+-
+-	/*
+-	 * It is only valid to set the DAX flag on regular files and
+-	 * directories on filesystems.
+-	 */
+-	if ((fa->fsx_xflags & FS_XFLAG_DAX) &&
+-	    !(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode)))
+-		return -EINVAL;
+-
+-	/* Extent size hints of zero turn off the flags. */
+-	if (fa->fsx_extsize == 0)
+-		fa->fsx_xflags &= ~(FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT);
+-	if (fa->fsx_cowextsize == 0)
+-		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
+-
+-	return 0;
+-}
+-
+-/**
+- * vfs_fileattr_set - change miscellaneous file attributes
+- * @idmap:	idmap of the mount
+- * @dentry:	the object to change
+- * @fa:		fileattr pointer
+- *
+- * After verifying permissions, call i_op->fileattr_set() callback, if
+- * exists.
+- *
+- * Verifying attributes involves retrieving current attributes with
+- * i_op->fileattr_get(), this also allows initializing attributes that have
+- * not been set by the caller to current values.  Inode lock is held
+- * thoughout to prevent racing with another instance.
+- *
+- * Return: 0 on success, or a negative error on failure.
+- */
+-int vfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
+-		     struct fileattr *fa)
+-{
+-	struct inode *inode = d_inode(dentry);
+-	struct fileattr old_ma = {};
+-	int err;
+-
+-	if (!inode->i_op->fileattr_set)
+-		return -ENOIOCTLCMD;
+-
+-	if (!inode_owner_or_capable(idmap, inode))
+-		return -EPERM;
+-
+-	inode_lock(inode);
+-	err = vfs_fileattr_get(dentry, &old_ma);
+-	if (!err) {
+-		/* initialize missing bits from old_ma */
+-		if (fa->flags_valid) {
+-			fa->fsx_xflags |= old_ma.fsx_xflags & ~FS_XFLAG_COMMON;
+-			fa->fsx_extsize = old_ma.fsx_extsize;
+-			fa->fsx_nextents = old_ma.fsx_nextents;
+-			fa->fsx_projid = old_ma.fsx_projid;
+-			fa->fsx_cowextsize = old_ma.fsx_cowextsize;
+-		} else {
+-			fa->flags |= old_ma.flags & ~FS_COMMON_FL;
+-		}
+-		err = fileattr_set_prepare(inode, &old_ma, fa);
+-		if (!err)
+-			err = inode->i_op->fileattr_set(idmap, dentry, fa);
+-	}
+-	inode_unlock(inode);
+-
+-	return err;
+-}
+-EXPORT_SYMBOL(vfs_fileattr_set);
+-
+-static int ioctl_getflags(struct file *file, unsigned int __user *argp)
+-{
+-	struct fileattr fa = { .flags_valid = true }; /* hint only */
+-	int err;
+-
+-	err = vfs_fileattr_get(file->f_path.dentry, &fa);
+-	if (!err)
+-		err = put_user(fa.flags, argp);
+-	return err;
+-}
+-
+-static int ioctl_setflags(struct file *file, unsigned int __user *argp)
+-{
+-	struct mnt_idmap *idmap = file_mnt_idmap(file);
+-	struct dentry *dentry = file->f_path.dentry;
+-	struct fileattr fa;
+-	unsigned int flags;
+-	int err;
+-
+-	err = get_user(flags, argp);
+-	if (!err) {
+-		err = mnt_want_write_file(file);
+-		if (!err) {
+-			fileattr_fill_flags(&fa, flags);
+-			err = vfs_fileattr_set(idmap, dentry, &fa);
+-			mnt_drop_write_file(file);
+-		}
+-	}
+-	return err;
+-}
+-
+-static int ioctl_fsgetxattr(struct file *file, void __user *argp)
+-{
+-	struct fileattr fa = { .fsx_valid = true }; /* hint only */
+-	int err;
+-
+-	err = vfs_fileattr_get(file->f_path.dentry, &fa);
+-	if (!err)
+-		err = copy_fsxattr_to_user(&fa, argp);
+-
+-	return err;
+-}
+-
+-static int ioctl_fssetxattr(struct file *file, void __user *argp)
+-{
+-	struct mnt_idmap *idmap = file_mnt_idmap(file);
+-	struct dentry *dentry = file->f_path.dentry;
+-	struct fileattr fa;
+-	int err;
+-
+-	err = copy_fsxattr_from_user(&fa, argp);
+-	if (!err) {
+-		err = mnt_want_write_file(file);
+-		if (!err) {
+-			err = vfs_fileattr_set(idmap, dentry, &fa);
+-			mnt_drop_write_file(file);
+-		}
+-	}
+-	return err;
+-}
+-
+ static int ioctl_getfsuuid(struct file *file, void __user *argp)
+ {
+ 	struct super_block *sb = file_inode(file)->i_sb;
+diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
+index 47c05a9851d0..6030d0bf7ad3 100644
+--- a/include/linux/fileattr.h
++++ b/include/linux/fileattr.h
+@@ -55,5 +55,9 @@ static inline bool fileattr_has_fsx(const struct fileattr *fa)
+ int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa);
+ int vfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		     struct fileattr *fa);
++int ioctl_getflags(struct file *file, unsigned int __user *argp);
++int ioctl_setflags(struct file *file, unsigned int __user *argp);
++int ioctl_fsgetxattr(struct file *file, void __user *argp);
++int ioctl_fssetxattr(struct file *file, void __user *argp);
+ 
+ #endif /* _LINUX_FILEATTR_H */
 
-Changes in v4:
-- Use getname_maybe_null() for correct handling of dfd + path semantic
-- Remove restriction for special files on which flags are allowed
-- Utilize copy_struct_from_user() for better future compatibility
-- Add draft man page to cover letter
-- Convert -ENOIOCTLCMD to -EOPNOSUPP as more appropriate for syscall
-- Add missing __user to header declaration of syscalls
-- Link to v3: https://lore.kernel.org/r/20250211-xattrat-syscall-v3-1-a07d15f898b2@kernel.org
-
-Changes in v3:
-- Remove unnecessary "dfd is dir" check as it checked in user_path_at()
-- Remove unnecessary "same filesystem" check
-- Use CLASS() instead of directly calling fdget/fdput
-- Link to v2: https://lore.kernel.org/r/20250122-xattrat-syscall-v2-1-5b360d4fbcb2@kernel.org
-
-v1:
-https://lore.kernel.org/linuxppc-dev/20250109174540.893098-1-aalbersh@kernel.org/
-
-Previous discussion:
-https://lore.kernel.org/linux-xfs/20240520164624.665269-2-aalbersh@redhat.com/
-
----
-Amir Goldstein (1):
-      fs: prepare for extending file_get/setattr()
-
-Andrey Albershteyn (5):
-      fs: split fileattr related helpers into separate file
-      lsm: introduce new hooks for setting/getting inode fsxattr
-      selinux: implement inode_file_[g|s]etattr hooks
-      fs: make vfs_fileattr_[get|set] return -EOPNOSUPP
-      fs: introduce file_getattr and file_setattr syscalls
-
- arch/alpha/kernel/syscalls/syscall.tbl      |   2 +
- arch/arm/tools/syscall.tbl                  |   2 +
- arch/arm64/tools/syscall_32.tbl             |   2 +
- arch/m68k/kernel/syscalls/syscall.tbl       |   2 +
- arch/microblaze/kernel/syscalls/syscall.tbl |   2 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   |   2 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   |   2 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   |   2 +
- arch/parisc/kernel/syscalls/syscall.tbl     |   2 +
- arch/powerpc/kernel/syscalls/syscall.tbl    |   2 +
- arch/s390/kernel/syscalls/syscall.tbl       |   2 +
- arch/sh/kernel/syscalls/syscall.tbl         |   2 +
- arch/sparc/kernel/syscalls/syscall.tbl      |   2 +
- arch/x86/entry/syscalls/syscall_32.tbl      |   2 +
- arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
- arch/xtensa/kernel/syscalls/syscall.tbl     |   2 +
- fs/Makefile                                 |   3 +-
- fs/ecryptfs/inode.c                         |   8 +-
- fs/file_attr.c                              | 493 ++++++++++++++++++++++++++++
- fs/ioctl.c                                  | 309 -----------------
- fs/overlayfs/inode.c                        |   2 +-
- include/linux/fileattr.h                    |  24 ++
- include/linux/lsm_hook_defs.h               |   2 +
- include/linux/security.h                    |  16 +
- include/linux/syscalls.h                    |   6 +
- include/uapi/asm-generic/unistd.h           |   8 +-
- include/uapi/linux/fs.h                     |  18 +
- scripts/syscall.tbl                         |   2 +
- security/security.c                         |  30 ++
- security/selinux/hooks.c                    |  14 +
- 30 files changed, 654 insertions(+), 313 deletions(-)
----
-base-commit: d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
-change-id: 20250114-xattrat-syscall-6a1136d2db59
-
-Best regards,
 -- 
-Andrey Albershteyn <aalbersh@kernel.org>
+2.47.2
 
 
