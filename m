@@ -1,123 +1,95 @@
-Return-Path: <linux-api+bounces-4070-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4071-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB066AEEA16
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 00:21:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89923AEEC80
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 04:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5D983E1746
-	for <lists+linux-api@lfdr.de>; Mon, 30 Jun 2025 22:21:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFFE517E590
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 02:43:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08DE2405E4;
-	Mon, 30 Jun 2025 22:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94CE81CDA3F;
+	Tue,  1 Jul 2025 02:43:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHs5iPkD"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Aht7CT7O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20AC17A2F5;
-	Mon, 30 Jun 2025 22:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADBC1E522;
+	Tue,  1 Jul 2025 02:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751322063; cv=none; b=RIJ9MmnU8ylVMSH5HuQJwvO0d9a99VP119SjJ8u2GWHf6QCzOJofk6EnwCfcRpIqKAiOf0FLiygw/fCNcN4u/pQYyZ0CSV3Xt3yJjOtqAbumA2Ds8xV0XvlQ+8NtOA3d42hMyuGwufcgPNI9wrXUF+wy/z5x6Y9OhXzWJIxBH84=
+	t=1751337827; cv=none; b=p8vM/mnMqFcQh8GxBxni7tu44nHGQ2dONC/8FHnOEwONF2l5GFJI3sWXwV+goE4lmvDFVFJib0yNw1Pq3YtygGzT8CPEalfI1niq7HhAetvOS9ryNW0mC4O/+KPE6SxWtWHSKbwHGXHRBFEggYjt67nCCVg3Tc1KmPg4zAMFkXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751322063; c=relaxed/simple;
-	bh=T+kvLHHNBi3eAVSXnbHKPtUgScri0TI5apBm/HNsjRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nYsmJXPqKbVsaY0jRBLZ/5tr1B6oPo0nWxcZF9MhoYzzYtriZsTAADM0TsXsl1S3keHI2oK/3oEXbita6P5I7W/Xe56QSmslRnCUHEMFsY6hhCX4MY2XB3LeXGWiWuFT8NtS+sl8SN8awYtWjVKkSNr8pLro8at7kW919d3UFTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHs5iPkD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE43AC4CEE3;
-	Mon, 30 Jun 2025 22:21:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751322063;
-	bh=T+kvLHHNBi3eAVSXnbHKPtUgScri0TI5apBm/HNsjRE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kHs5iPkDoZZxhxZYpwqKb4DDzqlD1lh64iYCdhDr1E0GLc/snDI2wbqfSfbzzuZ91
-	 mnKEFDM4B8MZLwKMHWIVOIVev+4lfQaZSE8MzP3QBELT4QnwwhQpLdk7oHOjsE6ICw
-	 MXIqyNHDGVk6qrzAB7qOt99266YST7TB2eh+z6HTcdkhznz2UFTHPoqF10HDwVxgV0
-	 pNABKVmn9yYZhmSahUzzusFC7SXqfQS6gxPnS3/ft5GSIbNpgujPF8Cw90ECO5wdfC
-	 Zw7CTaTyW2fqigaXsi7hRbKyzt6apMHI8DS8TLJSmE8cipkqJ9od2LZsz21VI910xF
-	 RhGUSZrrSExhQ==
-Date: Tue, 1 Jul 2025 00:20:58 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org
-Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
- framework
-Message-ID: <20250701002058.1cae5a7e@foz.lan>
-In-Reply-To: <874ivxuht8.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1751337827; c=relaxed/simple;
+	bh=65U5dEGmfX2mApXDVeyXjr8YGGs/V15/sn4CLFT0eDg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eIkzDpDINv3gNMnGkAxhOtqbnZXY96YSzu/zcxXvAwqd+++bBzvrIsvAW7w46dZvV4ITu5NqTcCPJVIZd3v2TfTdzv5bHIDK9dIhqkcwvy11HKKX/V62qqOLEo0FfnobVjDGY616C0JiizrWup1dkGoxShE1rbQhuQwyO005dZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Aht7CT7O; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D2791406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751337823; bh=xeHNwLOewM8sWl5+rQguP1bjnm0CgxWiz2pC1ZhoPU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Aht7CT7OmmeMhBFEQHG/E8gKFVpjWz02sC6135CoC0Mvd+7hA4RXwUF4usNYGwXL8
+	 70Qt8b7oDql4PGHR5xNtCn4zpQwMpdGDz73ka/VfFi6ObZFqO2qzaJUSizLoW655Sr
+	 7wwaShFwSvvsxV69aDxaiT/ljIQQMb8aG3166lpcT1QnHzbNasTtAnzs5mwrF1Bcn8
+	 SmGHztDOoFq1LO/TVFAc+/eX7Bi/edT0THfLSvW9D8lKoRgAAdpb0Anwl0ujSOBQ3p
+	 eTavpXVrFx5/H+oIW4ahoBqnlkMgbTk3pZJ7Rq3xo83IKaGQYuChqn1XMI2855iW3h
+	 PWg7qBSh90nVA==
+Received: from pelicano.lwn.net (unknown [IPv6:2605:59c8:3258:6a10:f9:f236:69ec:d90e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D2791406FA;
+	Tue,  1 Jul 2025 02:43:42 +0000 (UTC)
+From: Jake Edge <jake@lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-api@vger.kernel.org,  workflows@vger.kernel.org,  tools@kernel.org
+Subject: Re: [RFC v2 00/22] Kernel API specification framework
+In-Reply-To: <20250624180742.5795-1-sashal@kernel.org> (Sasha Levin's message
+	of "Tue, 24 Jun 2025 14:07:20 -0400")
 References: <20250624180742.5795-1-sashal@kernel.org>
-	<20250624180742.5795-2-sashal@kernel.org>
-	<874ivxuht8.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Date: Mon, 30 Jun 2025 19:43:42 -0700
+Message-ID: <87qzz0aaw1.fsf@pelicano.edge2.net>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Mon, 30 Jun 2025 13:53:55 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Sasha Levin <sashal@kernel.org> writes:
-> 
-> > Add a comprehensive framework for formally documenting kernel APIs with
-> > inline specifications. This framework provides:
-> >
-> > - Structured API documentation with parameter specifications, return
-> >   values, error conditions, and execution context requirements
-> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
-> > - Export of specifications via debugfs for tooling integration
-> > - Support for both internal kernel APIs and system calls
-> >
-> > The framework stores specifications in a dedicated ELF section and
-> > provides infrastructure for:
-> > - Compile-time validation of specifications
-> > - Runtime querying of API documentation
-> > - Machine-readable export formats
-> > - Integration with existing SYSCALL_DEFINE macros
-> >
-> > This commit introduces the core infrastructure without modifying any
-> > existing APIs. Subsequent patches will add specifications to individual
-> > subsystems.
-> >
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  Documentation/admin-guide/kernel-api-spec.rst |  507 ++++++
-> 
-> You need to add that file to index.rst in that directory or it won't be
-> pulled into the docs build.
-> 
-> Wouldn't it be nice to integrate all this stuff with out existing
-> kerneldoc mechanism...? :)
+Hi Sasha,
 
-+1
+On Tue, Jun 24 2025 14:07 -0400, Sasha Levin <sashal@kernel.org> wrote:
 
-Having two different mechanisms (kapi and kerneldoc) makes a lot harder
-to maintain kAPI.
+> Hey folks,
+>
+> This is a second attempt at a "Kernel API Specification" framework,
+> addressing the feedback from the initial RFC and expanding the scope
+> to include sysfs attribute specifications.
 
-Also, IGT (a testing tool for DRM subsystem) used to have a macro
-based documentation system. It got outdated with time, as people
-ends forgetting to update the macros when changing the code. 
-Also, sometimes we want to add some rich text there, with graphs,
-tables, ...
+In light of your talk at OSS last week [1] (for non-subscribers [2]), I
+am wondering if any of this code has been written by coding LLMs.  It
+seems like the kind of unpleasant boilerplate that they are said to be
+good at generating, but also seems like an enormous blob of "code" to
+review. What is the status of this specification in that regard?
 
-More important than that: people end not remembering to add such macros.
-As kerneldoc markups are similar to Doxygen and normal C comments,
-it is more likely that people will remember.
+thanks!
 
-So, IMO the best would be to use kerneldoc syntax there, letting
-Kerneldoc Sphinx extension handling it for docs, while having
-tools to implement the other features you mentioned.
+jake
 
-Thanks,
-Mauro
+[1] https://lwn.net/Articles/1026558/
+[2] https://lwn.net/SubscriberLink/1026558/914fa4ec5964b0c5/
+
+-- 
+Jake Edge - LWN - jake@lwn.net - https://lwn.net
 
