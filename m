@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-4099-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4100-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A3EAF02CA
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 20:31:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDE4AF02EF
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 20:43:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C7081C202D5
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 18:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C9274833D6
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 18:42:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB7723B618;
-	Tue,  1 Jul 2025 18:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF0A27934E;
+	Tue,  1 Jul 2025 18:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j68Tw1vM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwD/gItj"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EAD15C0;
-	Tue,  1 Jul 2025 18:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BCB26B2AA;
+	Tue,  1 Jul 2025 18:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751394667; cv=none; b=X4uGKZM1fzNIru9kV9TI0bZctfPd49rygXpXa9ywdNlOttBev0Eq/mcLFlA1Otpk5zoBFdhb4vK6KFMH/9d+IgOfKQBFFdYO99m0xPMjRta9VmEgexZdFk5Ju3PP88YYGnNZdR0drw1udbGQ9aRKvjuhwhH1AjTjqcXujYOSyUM=
+	t=1751395399; cv=none; b=IXlp2suVySceBuVOZTuIFDDLopQMuRtERCDwnYMWPOs2lVgsAdlZbDF/D1fiSoOXiKzeL/328de9eaD/JSylIqSFisMAH2+uluNGaa8pd0hSlMScySIijyMySVAEM5HZLzQtGGpcjerPReqp4SKEps4qqXNr1Elm8UBPhZ2gXeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751394667; c=relaxed/simple;
-	bh=1qF0uAAhy9rWjNvzqRhzklZFFFDFguMIVmmdg9roblg=;
+	s=arc-20240116; t=1751395399; c=relaxed/simple;
+	bh=st9TTbuw9eE4bbi3qT1g6AMOzooHD90mIKVljY6K6Ws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dbBzkV6spSqiafdWz/HusiYtXMKUDln7FSp0ZYZX6Fa4ivXNbrH94aAwxFSSl08zkh3GohapgsQYHu+ckOl5NAjBOMAnpXjk9Q+z64tAMeshC2ZBx9/VApPskpRk4N1wVQpvcjjN2+A8UdhtmLu6BZwlV+xqsc7h+3HIJXC0bIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j68Tw1vM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E1EC4CEEB;
-	Tue,  1 Jul 2025 18:31:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xrj90GZnDPCXULHKoFrawPWeWHOFoAiS0ShePyPyf4de7+gMo62yDsv53+HSWy5RqdWF/8zImNOvaGN0pjR8ZbDhh0u1Pour27skYIV7uwUwhJODQO6/76o7YrSlOCfoiYo+/8KrJGTEt7WF/5oSmZIxcV6PECXOrr8u6TbtwjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwD/gItj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D482C4CEEB;
+	Tue,  1 Jul 2025 18:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751394666;
-	bh=1qF0uAAhy9rWjNvzqRhzklZFFFDFguMIVmmdg9roblg=;
+	s=k20201202; t=1751395398;
+	bh=st9TTbuw9eE4bbi3qT1g6AMOzooHD90mIKVljY6K6Ws=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j68Tw1vMHd3CBwu5wORUjPIgRxKDcVWXQZ91Xc6t0yQl5XJD/8eR6UQThtZA69P8o
-	 Yyo7aFRoAa1Rk1pze9iuQO8lJauXOukS+eznJccF39+TgqOccXSETnvsuP3uLmhrOK
-	 ALyKxhcCFMDoC5b0Uasn9aPykaC/kJ3Lx1ZvJawcUZkd9OadI051vrX1S6MIXcfF2M
-	 MYkQZv20gqam69c+xh2VlJRIe4Vfn9cEhNUzxOaM9CiTaW2UWMIsqaDCFPnWe4+1t7
-	 3M7mkCD2U22BxE/RiQ+tTXNxDSF3JWFmEjup9ACXEP0OpbRkmEgcCGPtGQ/eWWa0U0
-	 u4/GgxJC+/Zqg==
-Date: Tue, 1 Jul 2025 11:31:05 -0700
+	b=rwD/gItjO9VtgQ/NtPziOW0nlPHce6+cQCI6BETvirK97/569slxDBoLwPrmlHiyD
+	 3GEUQWu/YtQnFnlKA70YMQTJGlftUZ9F1hDLKgBnoMPhukTk+vuAHfVlCeDE2v5FE/
+	 B13zoC1G3sbXaoXYkUcU9h2HQymrp5p7f2RKI4skNIBhr61v5z5e3BqeCv/8YCrXYr
+	 CcXgUY9DTsT2nptAmNFa59NZrIpIYjMXG7wkp1TidihNkPlioxxS7ke1/Zo/QmotRw
+	 +GY3q5aDxzq6zskgcjb039RAcpVjPTYyfYKaIKlYmomEegyMbwxcYZ7s5upU2j3j5o
+	 s+dL2Bv19GK6A==
+Date: Tue, 1 Jul 2025 11:43:17 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Andrey Albershteyn <aalbersh@redhat.com>
 Cc: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -52,128 +52,134 @@ Cc: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-xfs@vger.kernel.org, selinux@vger.kernel.org,
 	Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v6 5/6] fs: prepare for extending file_get/setattr()
-Message-ID: <20250701183105.GP10009@frogsfrogsfrogs>
+Subject: Re: [PATCH v6 6/6] fs: introduce file_getattr and file_setattr
+ syscalls
+Message-ID: <20250701184317.GQ10009@frogsfrogsfrogs>
 References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
- <20250630-xattrat-syscall-v6-5-c4e3bc35227b@kernel.org>
+ <20250630-xattrat-syscall-v6-6-c4e3bc35227b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250630-xattrat-syscall-v6-5-c4e3bc35227b@kernel.org>
+In-Reply-To: <20250630-xattrat-syscall-v6-6-c4e3bc35227b@kernel.org>
 
-On Mon, Jun 30, 2025 at 06:20:15PM +0200, Andrey Albershteyn wrote:
-> From: Amir Goldstein <amir73il@gmail.com>
+On Mon, Jun 30, 2025 at 06:20:16PM +0200, Andrey Albershteyn wrote:
+> From: Andrey Albershteyn <aalbersh@redhat.com>
 > 
-> We intend to add support for more xflags to selective filesystems and
-> We cannot rely on copy_struct_from_user() to detect this extension.
+> Introduce file_getattr() and file_setattr() syscalls to manipulate inode
+> extended attributes. The syscalls takes pair of file descriptor and
+> pathname. Then it operates on inode opened accroding to openat()
+> semantics. The struct fsx_fileattr is passed to obtain/change extended
+> attributes.
 > 
-> In preparation of extending the API, do not allow setting xflags unknown
-> by this kernel version.
+> This is an alternative to FS_IOC_FSSETXATTR ioctl with a difference
+> that file don't need to be open as we can reference it with a path
+> instead of fd. By having this we can manipulated inode extended
+> attributes not only on regular files but also on special ones. This
+> is not possible with FS_IOC_FSSETXATTR ioctl as with special files
+> we can not call ioctl() directly on the filesystem inode using fd.
 > 
-> Also do not pass the read-only flags and read-only field fsx_nextents to
-> filesystem.
+> This patch adds two new syscalls which allows userspace to get/set
+> extended inode attributes on special files by using parent directory
+> and a path - *at() like syscall.
 > 
-> These changes should not affect existing chattr programs that use the
-> ioctl to get fsxattr before setting the new values.
-> 
-> Link: https://lore.kernel.org/linux-fsdevel/20250216164029.20673-4-pali@kernel.org/
-> Cc: Pali Rohár <pali@kernel.org>
-> Cc: Andrey Albershteyn <aalbersh@redhat.com>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> CC: linux-api@vger.kernel.org
+> CC: linux-fsdevel@vger.kernel.org
+> CC: linux-xfs@vger.kernel.org
 > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  fs/file_attr.c           |  8 +++++++-
->  include/linux/fileattr.h | 20 ++++++++++++++++++++
->  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
+
+<snip syscall table>
+
 > diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index 4e85fa00c092..62f08872d4ad 100644
+> index 62f08872d4ad..fda9d847eee5 100644
 > --- a/fs/file_attr.c
 > +++ b/fs/file_attr.c
-> @@ -99,9 +99,10 @@ EXPORT_SYMBOL(vfs_fileattr_get);
->  int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxattr __user *ufa)
->  {
->  	struct fsxattr xfa;
-> +	__u32 mask = FS_XFLAGS_MASK;
+> @@ -3,6 +3,10 @@
+>  #include <linux/security.h>
+>  #include <linux/fscrypt.h>
+>  #include <linux/fileattr.h>
+> +#include <linux/syscalls.h>
+> +#include <linux/namei.h>
+> +
+> +#include "internal.h"
 >  
->  	memset(&xfa, 0, sizeof(xfa));
-> -	xfa.fsx_xflags = fa->fsx_xflags;
-> +	xfa.fsx_xflags = fa->fsx_xflags & mask;
-
-I wonder, should it be an error if a filesystem sets an fsx_xflags bit
-outside of FS_XFLAGS_MASK?  I guess that's one way to prevent
-filesystems from overriding the VFS bits. ;)
-
-Though couldn't that be:
-
-	xfa.fsx_xflags = fa->fsx_xflags & FS_XFLAGS_MASK;
-
-instead?  And same below?
-
->  	xfa.fsx_extsize = fa->fsx_extsize;
->  	xfa.fsx_nextents = fa->fsx_nextents;
->  	xfa.fsx_projid = fa->fsx_projid;
-> @@ -118,11 +119,16 @@ static int copy_fsxattr_from_user(struct fileattr *fa,
->  				  struct fsxattr __user *ufa)
->  {
->  	struct fsxattr xfa;
-> +	__u32 mask = FS_XFLAGS_MASK;
+>  /**
+>   * fileattr_fill_xflags - initialize fileattr with xflags
+> @@ -89,6 +93,19 @@ int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+>  }
+>  EXPORT_SYMBOL(vfs_fileattr_get);
 >  
->  	if (copy_from_user(&xfa, ufa, sizeof(xfa)))
->  		return -EFAULT;
->  
-> +	if (xfa.fsx_xflags & ~mask)
-> +		return -EINVAL;
+> +static void fileattr_to_fsx_fileattr(const struct fileattr *fa,
+> +				     struct fsx_fileattr *fsx)
 
-I wonder if you want EOPNOTSUPP here?  We don't know how to support
-unknown xflags.  OTOH if you all have beaten this to death while I was
-out then don't start another round just for me. :P
+Er... "fsx_fileattr" is the struct that the system call uses?
+
+That's a little confusing considering that xfs already has a
+xfs_fill_fsxattr function that actually fills a struct fileattr.
+That could be renamed xfs_fill_fileattr.
+
+I dunno.  There's a part of me that would really rather that the
+file_getattr and file_setattr syscalls operate on a struct file_attr.
+
+More whining/bikeshedding to come.
+
+<snip stuff that looks ok to me>
+
+<<well, I still dislike the CLASS(fd, fd)(fd) syntax...>>
+
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 0098b0ce8ccb..0784f2033ba4 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -148,6 +148,24 @@ struct fsxattr {
+>  	unsigned char	fsx_pad[8];
+>  };
+>  
+> +/*
+> + * Variable size structure for file_[sg]et_attr().
+> + *
+> + * Note. This is alternative to the structure 'struct fileattr'/'struct fsxattr'.
+> + * As this structure is passed to/from userspace with its size, this can
+> + * be versioned based on the size.
+> + */
+> +struct fsx_fileattr {
+> +	__u32	fsx_xflags;	/* xflags field value (get/set) */
+
+Should this to be __u64 from the start?  Seeing as (a) this struct is
+not already a multiple of 8 bytes and (b) it's likely that we'll have to
+add a u64 field at some point.  That would also address brauner's
+comment about padding.
 
 --D
 
+> +	__u32	fsx_extsize;	/* extsize field value (get/set)*/
+> +	__u32	fsx_nextents;	/* nextents field value (get)   */
+> +	__u32	fsx_projid;	/* project identifier (get/set) */
+> +	__u32	fsx_cowextsize;	/* CoW extsize field value (get/set) */
+> +};
 > +
->  	fileattr_fill_xflags(fa, xfa.fsx_xflags);
-> +	fa->fsx_xflags &= ~FS_XFLAG_RDONLY_MASK;
->  	fa->fsx_extsize = xfa.fsx_extsize;
->  	fa->fsx_nextents = xfa.fsx_nextents;
->  	fa->fsx_projid = xfa.fsx_projid;
-> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-> index 6030d0bf7ad3..e2a2f4ae242d 100644
-> --- a/include/linux/fileattr.h
-> +++ b/include/linux/fileattr.h
-> @@ -14,6 +14,26 @@
->  	 FS_XFLAG_NODUMP | FS_XFLAG_NOATIME | FS_XFLAG_DAX | \
->  	 FS_XFLAG_PROJINHERIT)
->  
-> +/* Read-only inode flags */
-> +#define FS_XFLAG_RDONLY_MASK \
-> +	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR)
-> +
-> +/* Flags to indicate valid value of fsx_ fields */
-> +#define FS_XFLAG_VALUES_MASK \
-> +	(FS_XFLAG_EXTSIZE | FS_XFLAG_COWEXTSIZE)
-> +
-> +/* Flags for directories */
-> +#define FS_XFLAG_DIRONLY_MASK \
-> +	(FS_XFLAG_RTINHERIT | FS_XFLAG_NOSYMLINKS | FS_XFLAG_EXTSZINHERIT)
-> +
-> +/* Misc settable flags */
-> +#define FS_XFLAG_MISC_MASK \
-> +	(FS_XFLAG_REALTIME | FS_XFLAG_NODEFRAG | FS_XFLAG_FILESTREAM)
-> +
-> +#define FS_XFLAGS_MASK \
-> +	(FS_XFLAG_COMMON | FS_XFLAG_RDONLY_MASK | FS_XFLAG_VALUES_MASK | \
-> +	 FS_XFLAG_DIRONLY_MASK | FS_XFLAG_MISC_MASK)
+> +#define FSX_FILEATTR_SIZE_VER0 20
+> +#define FSX_FILEATTR_SIZE_LATEST FSX_FILEATTR_SIZE_VER0
 > +
 >  /*
->   * Merged interface for miscellaneous file attributes.  'flags' originates from
->   * ext* and 'fsx_flags' from xfs.  There's some overlap between the two, which
+>   * Flags for the fsx_xflags field
+>   */
+> diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
+> index 580b4e246aec..d1ae5e92c615 100644
+> --- a/scripts/syscall.tbl
+> +++ b/scripts/syscall.tbl
+> @@ -408,3 +408,5 @@
+>  465	common	listxattrat			sys_listxattrat
+>  466	common	removexattrat			sys_removexattrat
+>  467	common	open_tree_attr			sys_open_tree_attr
+> +468	common	file_getattr			sys_file_getattr
+> +469	common	file_setattr			sys_file_setattr
 > 
 > -- 
 > 2.47.2
