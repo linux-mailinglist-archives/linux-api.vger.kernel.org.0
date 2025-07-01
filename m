@@ -1,59 +1,56 @@
-Return-Path: <linux-api+bounces-4093-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4094-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B1DAEFC22
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 16:25:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7675AEFD51
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 16:57:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D292B18892B7
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 14:23:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C61BF7AF6C8
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 14:56:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C91A4239E82;
-	Tue,  1 Jul 2025 14:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B7327FB2D;
+	Tue,  1 Jul 2025 14:54:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cvrmez41"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qwyJlJsD"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E70DF49;
-	Tue,  1 Jul 2025 14:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3197027876E;
+	Tue,  1 Jul 2025 14:54:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751379785; cv=none; b=EDUniGrPUmX/f6u/CCX2Qa/VV2nT4W8G62+wDo8YXVGB7ekr4v8Ek3obfIpedb2Fw0dLzMB/FlmTaEeLCiRLAulem5Hy8oHN4BtRW6nmcEy/Yo/U3/3StpeUo/PBoN8sZd9sBv0GINjW6fX1YamS6MALXIyZSdlWDaxx6hUTx1Q=
+	t=1751381678; cv=none; b=aUPnVDpiskESJqvnwlHoZ/6r6/6PnoUAQbrk96SbnjpMfoabXht7iJcURMjd9CFLbeERwlGOocVFCZVQohlTJlNk0fHpBgEzmIc1uKlJgYnS2wcbI1Hprpd9p6XsCbBU06KTGJ+gTSxelaINAvuzfkYXm3pn39XCe+cgP97Gsqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751379785; c=relaxed/simple;
-	bh=19HqR+S7DS9HWEs5GXmKKrr14rS+lQ2AvqDBzeElGvE=;
+	s=arc-20240116; t=1751381678; c=relaxed/simple;
+	bh=aCxpkUcplD3ji4+uPWLO1qpdxvveygBxmNjoYKsar14=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZTlBZX6fBmdsGAIpCY7yMfy72jSRoBLl3ez130dIAWscSbRTidWRSTG1Rfp99/ceXWKdbZugVKvFuGwwU0vJExTOBh4hPbI7Zt8NvwA1PbklVK8utawsfsBJlXin0oASpgFg7pbwdDGXk3w9aakxA0XYUY3SQIK3ddMupKSL4d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cvrmez41; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D87C4CEEB;
-	Tue,  1 Jul 2025 14:23:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=HIIk4DmNhFMiaSJMDN+OhyYfc1MhQ4NT8cJmm3E1odqZZ69h0WnXiP0mhIiPGtY0/xudKcFCaOY6chVfC656rQ8WH38EwyieEaJVK3gDos4VzTq1yUs53Y9ndkXRChnDR+QKurL0P/3Xkl0N2NX+k694d626auiLGvQcL/LW/0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qwyJlJsD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805B6C4CEEB;
+	Tue,  1 Jul 2025 14:54:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751379785;
-	bh=19HqR+S7DS9HWEs5GXmKKrr14rS+lQ2AvqDBzeElGvE=;
+	s=k20201202; t=1751381677;
+	bh=aCxpkUcplD3ji4+uPWLO1qpdxvveygBxmNjoYKsar14=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cvrmez41qnkAH4K2wnjByJW22VMfh7vqEHdljJD1cnJpJfew8eYrvMAgzrBGpSvpH
-	 cM9Ydck+E//ShuSKBu9pruEb9+H7QhUtBsB+dBl00FOjh8bbASF60fmybGfWR7FxBj
-	 HQYxQCSgCK6YaYZd6w1Vol4LS2EUfzHuwC4tSXYrc51/SFur1rKPW33Z4cHVNWEj7q
-	 e+jAKAZueqk9uhdMRJnwBD5kTHxPyl4mZMCWExP1F1zfKNTcrZTy7GGwZ/d2+FERwD
-	 yw8slrHclpblB1giCbUxLFGXiIGFxFV3gFAlraKiWIlPAsonBtEjIalBykzv7RYDo6
-	 uaN25wCemp11Q==
-Date: Tue, 1 Jul 2025 10:23:03 -0400
+	b=qwyJlJsDvT5JL76u6bjrvdPgYY7L2Q2ag5a4/MYID22L0KMfwTFs0qiKG1Dyr2D29
+	 AUbdyOWwm4zQe6is9WO1vxK7QP569EFIklIT2E4VsCdw0++RuGoCIBMAXfOUJbJrjJ
+	 fUBdmvYxMmq34IA14pWNekXJSP4DgdxDknktnle+D1FSCp7Ot4Of0wvEsrDlAYUgCd
+	 YFmoOk85ChX2IudcL8xPylkAtuB7O+dRAaApmW+W3XCYjOrn2zJzhJPbqqzPUHJwLj
+	 PChjhZLoY+Q9O/y7RX1X7isXk2ZoipwsH84i6d2duf3SH7dHMJvj4yZj4R4PIdyZ5m
+	 L0pda2KdUd+VQ==
+Date: Tue, 1 Jul 2025 10:54:36 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org
-Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
- framework
-Message-ID: <aGPvR-Mj6aR4Y8B5@lappy>
+To: Jake Edge <jake@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org
+Subject: Re: [RFC v2 00/22] Kernel API specification framework
+Message-ID: <aGP2rMDoJGd9fB4s@lappy>
 References: <20250624180742.5795-1-sashal@kernel.org>
- <20250624180742.5795-2-sashal@kernel.org>
- <874ivxuht8.fsf@trenco.lwn.net>
- <20250701002058.1cae5a7e@foz.lan>
+ <87qzz0aaw1.fsf@pelicano.edge2.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -62,108 +59,44 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250701002058.1cae5a7e@foz.lan>
+In-Reply-To: <87qzz0aaw1.fsf@pelicano.edge2.net>
 
-On Tue, Jul 01, 2025 at 12:20:58AM +0200, Mauro Carvalho Chehab wrote:
->Em Mon, 30 Jun 2025 13:53:55 -0600
->Jonathan Corbet <corbet@lwn.net> escreveu:
+On Mon, Jun 30, 2025 at 07:43:42PM -0700, Jake Edge wrote:
 >
->> Sasha Levin <sashal@kernel.org> writes:
->>
->> > Add a comprehensive framework for formally documenting kernel APIs with
->> > inline specifications. This framework provides:
->> >
->> > - Structured API documentation with parameter specifications, return
->> >   values, error conditions, and execution context requirements
->> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
->> > - Export of specifications via debugfs for tooling integration
->> > - Support for both internal kernel APIs and system calls
->> >
->> > The framework stores specifications in a dedicated ELF section and
->> > provides infrastructure for:
->> > - Compile-time validation of specifications
->> > - Runtime querying of API documentation
->> > - Machine-readable export formats
->> > - Integration with existing SYSCALL_DEFINE macros
->> >
->> > This commit introduces the core infrastructure without modifying any
->> > existing APIs. Subsequent patches will add specifications to individual
->> > subsystems.
->> >
->> > Signed-off-by: Sasha Levin <sashal@kernel.org>
->> > ---
->> >  Documentation/admin-guide/kernel-api-spec.rst |  507 ++++++
->>
->> You need to add that file to index.rst in that directory or it won't be
->> pulled into the docs build.
->>
->> Wouldn't it be nice to integrate all this stuff with out existing
->> kerneldoc mechanism...? :)
+>Hi Sasha,
 >
->+1
+>On Tue, Jun 24 2025 14:07 -0400, Sasha Levin <sashal@kernel.org> wrote:
 >
->Having two different mechanisms (kapi and kerneldoc) makes a lot harder
->to maintain kAPI.
+>> Hey folks,
+>>
+>> This is a second attempt at a "Kernel API Specification" framework,
+>> addressing the feedback from the initial RFC and expanding the scope
+>> to include sysfs attribute specifications.
+>
+>In light of your talk at OSS last week [1] (for non-subscribers [2]), I
+>am wondering if any of this code has been written by coding LLMs.  It
+>seems like the kind of unpleasant boilerplate that they are said to be
+>good at generating, but also seems like an enormous blob of "code" to
+>review. What is the status of this specification in that regard?
 
-I hated the idea of not reusing kerneldoc.
+Hey Jake!
 
-My concern with kerneldoc was that I can't manipulate the
-information it stores in the context of a kernel build. So for example,
-I wasn't sure how I can expose information stored within kerneldoc via
-debugfs on a running system (or how I can store it within the vmlinux
-for later extraction from the binary built kernel).
+The macro definitions were done mostly manually: it ended up being
+more of a copy/paste/replace exercise to get all the different macros in
+place (which, yes, ended up being a huge blob).
 
-I did some research based on your proposal, and I think I was incorrect
-with the assumption above. I suppose we could do something like the
-following:
+For the syscall/ioctl/sysfs APIs I used to demonstrate the
+infrastructure, I started with defining the basic spec skeleton manually
+based on our existing docs and code review, but then had LLMs extend it
+based on it's review of the code.
 
-1. Add new section patterns to doc_sect regex in to include API
-specification sections: api-type, api-version, param-type, param-flags,
-param-constraint, error-code, capability, signal, lock-req, since...
-  
-2. Create new output module (scripts/lib/kdoc/kdoc_apispec.py?) to
-generate C macro invocations from parsed data.
+If we do proceed with something along the lines of this spec, I can see
+LLMs being useful at reviewing incoming code changes and alerting us of
+required updates/changes to the spec (or, alerting us that we're
+breaking the spec). Think of something like AUTOSEL but for
+classification of commits that affect the userspace API.
 
-Which will generate output like:
-
-    DEFINE_KERNEL_API_SPEC(function_name)
-        KAPI_DESCRIPTION("...") 
-        KAPI_PARAM(0, "name", "type", "desc")
-            KAPI_PARAM_TYPE(KAPI_TYPE_INT)
-            KAPI_PARAM_FLAGS(KAPI_PARAM_IN)
-        KAPI_PARAM_END
-    KAPI_END_SPEC 
-
-3. And then via makefile we can: 
-    - Generate API specs from kerneldoc comments
-    - Include generated specs conditionally based on CONFIG_KERNEL_API_SPEC
-
-Allowing us to just have these in the relevant source files:
-    #ifdef CONFIG_KERNEL_API_SPEC
-    #include "socket.apispec.h"
-    #endif
-
-
-In theory, all of that will let us have something like the following in
-kerneldoc:
-
-- @api-type: syscall
-- @api-version: 1
-- @context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
-- @param-type: family, KAPI_TYPE_INT
-- @param-flags: family, KAPI_PARAM_IN
-- @param-range: family, 0, 45
-- @param-mask: type, SOCK_TYPE_MASK | SOCK_CLOEXEC | SOCK_NONBLOCK
-- @error-code: -EAFNOSUPPORT, "Address family not supported"
-- @error-condition: -EAFNOSUPPORT, "family < 0 || family >= NPROTO"
-- @capability: CAP_NET_RAW, KAPI_CAP_GRANT_PERMISSION
-- @capability-allows: CAP_NET_RAW, "Create SOCK_RAW sockets"
-- @since: 2.0
-- @return-type: KAPI_TYPE_FD
-- @return-check: KAPI_RETURN_ERROR_CHECK
-
-How does it sound? I'm pretty excited about the possiblity to align this
-with kerneldoc. Please poke holes in the plan :)
+The tools/kapi/ code is mostly mostly LLM generated.
 
 -- 
 Thanks,
