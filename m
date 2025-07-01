@@ -1,157 +1,93 @@
-Return-Path: <linux-api+bounces-4083-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4084-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA7DAEF478
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 12:07:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B9FAEF87E
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 14:29:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CAF548232E
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 10:05:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA2B87A68E5
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jul 2025 12:28:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D2F2701C5;
-	Tue,  1 Jul 2025 10:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E498C270EDD;
+	Tue,  1 Jul 2025 12:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/5syfPQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44B32701BF;
-	Tue,  1 Jul 2025 10:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC37D26E173;
+	Tue,  1 Jul 2025 12:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751364189; cv=none; b=Xa3BCzOYLu8Zv30SRLhEmoSbJrwV9H56bGcr/erHzbb7CAHGMzM2xZQE5rySFSZvM7nSgU8LyFcZUyoO/yDzHjnM6YQ3nWaCWJ+3qUDsEVLG1xCbSdVg6U/mCLbSKJee2epJ+kb6VDSk+9XJzW/to1q2XR/2V3r2BbD2/bH+pw8=
+	t=1751372987; cv=none; b=FXV4EE0NIwI16M/oLUluUKvt9BAr1QL0CBsC2iAecgENPyPsDuoYc5NubRcMTN7j20UL23tH8XYBrs9KK8ythmgKgqQcHKvOFMKU+A0lObKIqHUZ2hQJLxnXfY/e3JZPcUFxpLemqXXJV/+bz4fBpm+X8Wb4Ek30inkt5LjrheY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751364189; c=relaxed/simple;
-	bh=NvbjkUgdlWSy3WOQbPWAgbYm4pYFUwIcipL4RztdTgg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rgZA0/e0oquRXAyoiRGtXZPNmDj9jidP6BuoAd719/x9ZiubbqFMrbmdtUMGJNdmzhXHY4ZRv1QibdUaBkG5IzpQnzFjuYacNRlmwkTv2Jrn0G0PruSTlk5ukzrHdyorzyGHtPh61+46XqsQqyEFUB0GCbLYXLE6Qxnpjixh/QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 561A1lZv068590;
-	Tue, 1 Jul 2025 19:01:47 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 561A1kQM068582
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 1 Jul 2025 19:01:47 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <8cf8c12d-65fc-4e3d-9c2e-fd7d40d38613@I-love.SAKURA.ne.jp>
-Date: Tue, 1 Jul 2025 19:01:46 +0900
+	s=arc-20240116; t=1751372987; c=relaxed/simple;
+	bh=j9I8HOGBGHBbRN4p6Ae04QWoztYWFTPWSDJVpPf/55s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ghmfu2Qur3opBfywF8cv/eJkvS9mXb7c7XyDdbldwJrqxS30rrSYFkdhyrKoJ5OwXAuiBbFcKdG9puSJ0mh3zrW1Ekuj3EymYF8cJlGGARf1LIgHU+tKm+c6jBF2ObZv/7IIvo8dqAf1ea8+ra/7SUwH5YZqEn1rsqihSlEPP8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/5syfPQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B50C4CEEB;
+	Tue,  1 Jul 2025 12:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751372987;
+	bh=j9I8HOGBGHBbRN4p6Ae04QWoztYWFTPWSDJVpPf/55s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z/5syfPQTlf+ZWQy7hY4VLoPj10mA+0NQtMwsDg8CG0nF7pvpHDnWOLMhZV8w9zHa
+	 vZRKggAozrfcYtz+O0k4N6E+bFTWUrxoZTt4XujZ81HYPGhziY6Hy5hh3+1f72pkO6
+	 I6cWXqzvdaT0VRJuUfNuN6hbv7B6oVIREhkr3ViJWMCGKBOL/2CnsSsHLpeafANQJw
+	 77MTXUluiFLuvrinrdz/t5N+y6z8vpzvbxfRdgwvAuSGTWsyfH7R3095ugkC5gkV5p
+	 3spjUZmH3V1LzxJhEbMox7ZSJYJBySZMDeh1rHjA3H/u7ou5k+Qs+1UIiPdo5v7IeT
+	 vBW4VLwsvxMMA==
+Date: Tue, 1 Jul 2025 14:29:42 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Jan Kara <jack@suse.cz>, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH v6 0/6] fs: introduce file_getattr and file_setattr
+ syscalls
+Message-ID: <20250701-quittung-garnieren-ceaf58dcb762@brauner>
+References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] AppArmor: add support for lsm_config_self_policy
- and lsm_config_system_policy
-To: =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>,
-        linux-security-module@vger.kernel.org
-Cc: john.johansen@canonical.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, mic@digikod.net, kees@kernel.org,
-        stephen.smalley.work@gmail.com, casey@schaufler-ca.com,
-        takedakn@nttdata.co.jp, song@kernel.org, rdunlap@infradead.org,
-        linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
-        linux-kernel@vger.kernel.org
-References: <20250701091904.395837-1-maxime.belair@canonical.com>
- <20250701091904.395837-4-maxime.belair@canonical.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <20250701091904.395837-4-maxime.belair@canonical.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Anti-Virus-Server: fsav105.rs.sakura.ne.jp
-X-Virus-Status: clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
 
-On 2025/07/01 18:17, Maxime Bélair wrote:
-> +static int apparmor_lsm_config_self_policy(u32 lsm_id, u32 op, void __user *buf,
-> +				      size_t size, u32 flags)
-> +{
-> +	char *name;
-> +	long name_size;
-> +	int ret;
-> +
-> +	if (op != LSM_POLICY_LOAD || flags)
-> +		return -EOPNOTSUPP;
-> +	if (size > AA_PROFILE_NAME_MAX_SIZE)
-> +		return -E2BIG;
-> +
-> +	name = kmalloc(size, GFP_KERNEL);
-> +	if (!name)
-> +		return -ENOMEM;
-> +
-> +
-> +	name_size = strncpy_from_user(name, buf, size);
-> +	if (name_size < 0) {
-> +		kfree(name);
-> +		return name_size;
-> +	}
-> +
-> +	ret = aa_change_profile(name, AA_CHANGE_STACK);
+On Mon, Jun 30, 2025 at 06:20:10PM +0200, Andrey Albershteyn wrote:
+> This patchset introduced two new syscalls file_getattr() and
+> file_setattr(). These syscalls are similar to FS_IOC_FSSETXATTR ioctl()
+> except they use *at() semantics. Therefore, there's no need to open the
+> file to get a fd.
+> 
+> These syscalls allow userspace to set filesystem inode attributes on
+> special files. One of the usage examples is XFS quota projects.
+> 
+> XFS has project quotas which could be attached to a directory. All
+> new inodes in these directories inherit project ID set on parent
+> directory.
+> 
+> The project is created from userspace by opening and calling
+> FS_IOC_FSSETXATTR on each inode. This is not possible for special
+> files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
+> with empty project ID. Those inodes then are not shown in the quota
+> accounting but still exist in the directory. This is not critical but in
+> the case when special files are created in the directory with already
+> existing project quota, these new inodes inherit extended attributes.
+> This creates a mix of special files with and without attributes.
+> Moreover, special files with attributes don't have a possibility to
+> become clear or change the attributes. This, in turn, prevents userspace
+> from re-creating quota project on these existing files.
 
-If size == 0, name == ZERO_SIZE_PTR and name_size == 0.
-Then, aa_change_profile() will oops due to ZERO_SIZE_PTR deref.
-
-> +
-> +	kfree(name);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * apparmor_lsm_config_system_policy - Load or replace a system policy
-> + * @lsm_id: AppArmor ID (LSM_ID_APPARMOR). Unused here
-> + * @op: operation to perform. Currently, only LSM_POLICY_LOAD is supported
-> + * @buf: user-supplied buffer in the form "<ns>\0<policy>"
-> + *        <ns> is the namespace to load the policy into (empty string for root)
-> + *        <policy> is the policy to load
-> + * @size: size of @buf
-> + * @flags: reserved for future uses; must be zero
-> + *
-> + * Returns: 0 on success, negative value on error
-> + */
-> +static int apparmor_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
-> +				      size_t size, u32 flags)
-> +{
-> +	loff_t pos = 0; // Partial writing is not currently supported
-> +	char name[AA_PROFILE_NAME_MAX_SIZE];
-> +	long name_size;
-> +
-> +	if (op != LSM_POLICY_LOAD || flags)
-> +		return -EOPNOTSUPP;
-> +	if (size > AA_PROFILE_MAX_SIZE)
-> +		return -E2BIG;
-> +
-> +	name_size = strncpy_from_user(name, buf, AA_PROFILE_NAME_MAX_SIZE);
-> +	if (name_size < 0)
-> +		return name_size;
-> +	else if (name_size == AA_PROFILE_NAME_MAX_SIZE)
-> +		return -E2BIG;
-> +
-> +	return aa_profile_load_ns_name(name, name_size, buf + name_size + 1,
-> +				       size - name_size - 1, &pos);
-
-If size == 0 and *name == '\0', name_size == 0. Then, size will be -1 at aa_profile_load_ns_name()
-and WARN_ON_ONCE() in __kvmalloc_node_noprof() from kvzalloc() from policy_update() will trigger?
-
-You need more stricter checks to verify that @buf is in the form "<ns>\0<policy>".
-strncpy_from_user() should not try to read more than @size bytes.
-
-> +}
-> +
-> +
-
-
-
-Also, in [PATCH v4 2/3], why do you need lines below?
-These functions are supposed to be called via only syscalls, aren't these?
-
-+EXPORT_SYMBOL(security_lsm_config_self_policy);
-+EXPORT_SYMBOL(security_lsm_config_system_policy);
-
+Only small nits I'm going to comment on that I can fix myself.
+Otherwise looks great.
 
