@@ -1,65 +1,61 @@
-Return-Path: <linux-api+bounces-4124-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4125-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D97DAF158A
-	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 14:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E76AAF15E3
+	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 14:40:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D77E64A4D1A
-	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 12:24:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A87A9167373
+	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 12:40:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE67226D4F1;
-	Wed,  2 Jul 2025 12:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EC782741C2;
+	Wed,  2 Jul 2025 12:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbuLl7NI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bBasmfAg"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A43260592;
-	Wed,  2 Jul 2025 12:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1EE271449;
+	Wed,  2 Jul 2025 12:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751459079; cv=none; b=lqXYjbVvWEE0JDfM4u025GaTAd0XkVUF0ZOnWLOOy/S6dHeH7UKKWT6/sM76hiHr2Hvnfq/n/C9+RbbIEsl7dNmMxZKDfUbvEg8+HUDyevI4FWGod/LkYL2t8y42WR60N8KdIdMsXw6f/WUoE7sUElEknqnNJShOjyLIZpPbWOs=
+	t=1751460025; cv=none; b=JhNK//WMO9jvdwvDGLyBozqkXWtuKZqIl11skCkYvzdxBYnKY+vWT+2CEM/04m6Jp7/J74iF7I87jPSiEFvppWp/J4vzvEVUiFblIz8UdCbAZIXqkraNsJ70FV8rujY+Xu8U+YOZs3oQF2LY9Fifc0I7zR7Ia9a3gLye3DLkJd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751459079; c=relaxed/simple;
-	bh=+4g/O9KavdfNBDEeSgTgC6+6CMsSSnI/shhS+omw080=;
+	s=arc-20240116; t=1751460025; c=relaxed/simple;
+	bh=PZV1Mjm8WRt0BTVC+LtJNn6scged36v1d0AnwXcvL8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U/Z+bAfZAX+IDdtj1XGib0r4XnIG0emmAr31eKjwZnMMKSfGJeFNGSI27tkxEqXaNaaTvKBZjHRcf+5SSiwxdr3iDUAWNPCXfhAdLAWOANrLSncJj8mFha4v4ztMcRjKGo0KuzjwUPxm+dg0spXcmDm7sgIKklpgTVxr6qq8pEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbuLl7NI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5D7C4CEED;
-	Wed,  2 Jul 2025 12:24:35 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=t6zbut5CK7gpufKaEblooIDyeU7LdIo/vgMGXkuASdvIAvvtKCHUeA4GNmQQyhzNkoNxCXR6devzBr9UfukxLMI6Lt2mAeM49Te2YkUnzlDE+3vga/hS59RWQRa7JtbBomwPauQmn8zM52hCOKodWJiT16ptsxmRrNU9ZtxFogM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bBasmfAg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BDF5C4CEF0;
+	Wed,  2 Jul 2025 12:40:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751459078;
-	bh=+4g/O9KavdfNBDEeSgTgC6+6CMsSSnI/shhS+omw080=;
+	s=k20201202; t=1751460024;
+	bh=PZV1Mjm8WRt0BTVC+LtJNn6scged36v1d0AnwXcvL8U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kbuLl7NIBnEYmnPsgKXjoq0qMYuLvGVLef1YLrQdw90i4COG97ap70uC43+frYYOu
-	 Sd0O2rrR8wdT1adpP97yHioNjM2+K1/XvJpRuOAP2H2qhS9ZmwP5Rmqb5NnJqlmbVh
-	 bKPQAq+P8vl+tMW2Vwnm1+Ow6FtjRpgWEKkB/UXdjyn53DE1IbZHylle0eJ+hjg5ls
-	 6ysAJe0Ovr5Ua1oxVYn9soULYh2jXiW/TqCItj+2tPZrcA69U8KE+r/71ubdNmu+R0
-	 resL4bBiogg/H4jipdni0N/OERFPyynRck/ckAZFilSAhmLSWI0DzJjJFcCjjwiBqm
-	 fhMRCIGA23zlA==
-Date: Wed, 2 Jul 2025 14:24:33 +0200
+	b=bBasmfAg4ZR2h68mT47lufx94gDB+Hsf6CVYKKtn5CI+M+wjJ29rLJB4wE98OjHoE
+	 iR8Nkc+0laghIBqOVV3hX1cPkmDLADa8zGLr6UMS+TBAsCsaHkyjbb+yeVzmPZsVVA
+	 KmtiKIsI0p1lyKA1/XY7EVdgiMlis3LUehPD67HdcomfR9EDD+IsXV/FoBKujEpX/y
+	 ez07gBaPGj7M6Ok28o29jixwxfPb5dEh4/EiJ5Cgp5/0G9T7DXLF8xtPi4UxPud90z
+	 h0/0OVfMJvrPZtn+fm7Ye22jQGBu8+rf0wPbRoLE62vzms5FYI5SlPitq4XnfxuMbE
+	 Z8zkoZ+NKdjLg==
+Date: Wed, 2 Jul 2025 14:40:18 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Jan Kara <jack@suse.cz>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, 
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Jan Kara <jack@suse.cz>, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
 	selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v6 5/6] fs: prepare for extending file_get/setattr()
-Message-ID: <20250702-herzrasen-anlocken-d4971baeba1b@brauner>
+Subject: Re: [PATCH v6 6/6] fs: introduce file_getattr and file_setattr
+ syscalls
+Message-ID: <20250702-stagnation-dackel-294bb4cd9f3d@brauner>
 References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
- <20250630-xattrat-syscall-v6-5-c4e3bc35227b@kernel.org>
- <20250701183105.GP10009@frogsfrogsfrogs>
- <CAOQ4uxiCpGcZ7V8OqssP2xKsN0ZiAO7mQ_1Qt705BrcHeSPmBg@mail.gmail.com>
- <20250701194002.GS10009@frogsfrogsfrogs>
- <20250701195405.xf27mjknu5bnunue@pali>
- <CAOQ4uxjZWGz2bqen4F+fkQqZYQjKyufFVky4tOTnwng4D5G4nQ@mail.gmail.com>
- <CAOQ4uxhrW--Du4XvSWficnRenv24U4hwnCQtNsH4F5d4jaPjFg@mail.gmail.com>
+ <20250630-xattrat-syscall-v6-6-c4e3bc35227b@kernel.org>
+ <20250701184317.GQ10009@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -68,24 +64,57 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhrW--Du4XvSWficnRenv24U4hwnCQtNsH4F5d4jaPjFg@mail.gmail.com>
+In-Reply-To: <20250701184317.GQ10009@frogsfrogsfrogs>
 
-> Christian,
+> Er... "fsx_fileattr" is the struct that the system call uses?
 > 
-> Can you please amend the return value in the following chunk:
+> That's a little confusing considering that xfs already has a
+> xfs_fill_fsxattr function that actually fills a struct fileattr.
+> That could be renamed xfs_fill_fileattr.
 > 
-> @@ -119,11 +120,16 @@ static int copy_fsxattr_from_user(struct fileattr *fa,
->                                   struct fsxattr __user *ufa)
->  {
->         struct fsxattr xfa;
-> +       __u32 mask = FS_XFLAGS_MASK;
-> 
->         if (copy_from_user(&xfa, ufa, sizeof(xfa)))
->                 return -EFAULT;
-> 
-> +       if (xfa.fsx_xflags & ~mask)
-> +               return -EOPNOTSUPP;
-> +
+> I dunno.  There's a part of me that would really rather that the
+> file_getattr and file_setattr syscalls operate on a struct file_attr.
 
-Done.
+Agreed, I'm pretty sure I suggested this during an earlier review. Fits
+in line with struct mount_attr and others. Fwiw, struct fileattr (the
+kernel internal thing) should've really been struct file_kattr or struct
+kernel_file_attr. This is a common pattern now:
+
+struct mount_attr vs struct mount_kattr
+
+struct clone_args vs struct kernel_clone_kargs
+
+etc.
+
+> 
+> More whining/bikeshedding to come.
+> 
+> <snip stuff that looks ok to me>
+> 
+> <<well, I still dislike the CLASS(fd, fd)(fd) syntax...>>
+
+Noted, and duly ignored...
+
+> 
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index 0098b0ce8ccb..0784f2033ba4 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -148,6 +148,24 @@ struct fsxattr {
+> >  	unsigned char	fsx_pad[8];
+> >  };
+> >  
+> > +/*
+> > + * Variable size structure for file_[sg]et_attr().
+> > + *
+> > + * Note. This is alternative to the structure 'struct fileattr'/'struct fsxattr'.
+> > + * As this structure is passed to/from userspace with its size, this can
+> > + * be versioned based on the size.
+> > + */
+> > +struct fsx_fileattr {
+> > +	__u32	fsx_xflags;	/* xflags field value (get/set) */
+> 
+> Should this to be __u64 from the start?  Seeing as (a) this struct is
+
+Agreed. I changed that.
 
