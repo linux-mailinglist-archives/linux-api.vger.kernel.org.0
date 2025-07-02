@@ -1,248 +1,285 @@
-Return-Path: <linux-api+bounces-4111-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4112-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BCEAF0C2B
-	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 09:03:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66791AF0E60
+	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 10:47:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 806AD1C03D72
-	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 07:04:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B43AA3BCD5E
+	for <lists+linux-api@lfdr.de>; Wed,  2 Jul 2025 08:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81EA922257B;
-	Wed,  2 Jul 2025 07:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EF6B23BD0F;
+	Wed,  2 Jul 2025 08:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMsVscb8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UwYXYLZP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90468DF42;
-	Wed,  2 Jul 2025 07:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F6F1FC0E3
+	for <linux-api@vger.kernel.org>; Wed,  2 Jul 2025 08:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751439825; cv=none; b=jhsJ5MJQ3x+Q/Z4IgiF6o/obEJpOGLrugaNfMffHH3D6Cu6nzNBBEOpkUTfbdEaRfz8vKlJcJYPtwIBtS3dAzZFXyj9Awei+UrtvvzhyBNy/VQkorVZN6FdjB2v/bwGWIGOO2tbHdgcJtpqvxzGAEZe/TNwQdM1HuU694+DMnv0=
+	t=1751446043; cv=none; b=HnvzxbRVoirtVY6BImo3dbnuXwJXtWbnK59uCKI5bQAh1nLcr4u9WNmxIHzRV+P46i98XcYfa/IPfQHwiiPKCCHkox3YkGv/zTiUD264f1V0ZccaXLt/nwoBAYDa4NlrkLSFXz2KxgQqRTpIe/m64/lAZxvHsD4AfvM3Rp2hymI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751439825; c=relaxed/simple;
-	bh=V6vCs0c8yyA0t3ljD5Y3SHjSTlVe2lP5Rg5mSGLSYDg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rKYellTlIRt+SJqaRugWFIMeS7Hbca9ma7FR7wJh3+PZruRM0aH7P80YqNQbezr00bAsxgV449A7zU41wijWOReIjvWKBjOIbUPazHht2JaTFh5UCgmPtMhp2cNb3t3bFYFsx69TegFCVi7eq3XftORnY+mFR81NHCbSlvfQGBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eMsVscb8; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ae0ccfd5ca5so572832466b.3;
-        Wed, 02 Jul 2025 00:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751439822; x=1752044622; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0frIadAGCzwpkQRRNha5PFzuZ3qy68wHuqlhythiwpU=;
-        b=eMsVscb85RgAXMQNjadqpKttgQulmti9h106KHfljhMmtCFbsTU/z9zkhWLEmpPG5Q
-         TVEtTKZj8Qt8P6a8b0Qir8yoNp5t5sb8XYff1AiqP57h2gFJ+iMQ+7LeA5waWNJnguIg
-         06Y1KLlrNCGYqW9QR2wABs6O6T0H+C8gQ9PK60/rSh8xgUZhvlYFkHF7RNLR5euMTgO4
-         qhiHzTgGkgoMRWyLzRHgd2RXC9bpeFq6wg7A2yOLk2frem0hEkPpoaidaCVvtNe0KpOn
-         cu5MkDAT8lk4ESEcAbSnAyC06s5oudqu1zt/z3QSlhWkByUhQQoBhGfr/JFuYz9Hjl8D
-         bLcA==
+	s=arc-20240116; t=1751446043; c=relaxed/simple;
+	bh=g8uu1mvO6t5QeTuuBjGU41Qgj/tlpY0/bI8Oq9kjVLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lgIZ135QiwZsfpvdTHOj5MOqiPv6dejTmaNv8mjDUdYY6FapCzgJYFSQ5nZdOSWQIo+dL7OHD7j+sWOq1ePj07VnHLTWVc+5B0LowhlJIQwA9zG+6xQiuDrODie/GurbyI/INL7Ayobev88SVV8ipzptHa227iFl9NOQK1PGXbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UwYXYLZP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751446040;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XGPvOMHCBki+0DGVKzrQx//itzBlHUfbVgGZ8KlxIMo=;
+	b=UwYXYLZPvFfCjW5LAr3PppF28+NPq8RPEatrU45WUfsp944QgFKO9K1AFXW6pm8SMHr/3S
+	70LUQ43wTi4O/FGJU8evukQryU/pjCpOI3fGKIt4qjyCfP0DNXHsJQ8hw+DmWB4wADcU2b
+	AguoLWVXxCYFMaw0LnNbe6epN8Mrs+Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-633-oBkHoZ8GPTaAzNeZ2RMKPw-1; Wed, 02 Jul 2025 04:47:19 -0400
+X-MC-Unique: oBkHoZ8GPTaAzNeZ2RMKPw-1
+X-Mimecast-MFC-AGG-ID: oBkHoZ8GPTaAzNeZ2RMKPw_1751446038
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a579058758so1633673f8f.1
+        for <linux-api@vger.kernel.org>; Wed, 02 Jul 2025 01:47:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751439822; x=1752044622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0frIadAGCzwpkQRRNha5PFzuZ3qy68wHuqlhythiwpU=;
-        b=lMz7ovE5Ay+u/EGcFAUpI7fK+lZw1v9RQX3Q08Ub0mAvUk7jQlxTOOvM9ChOtjoBoz
-         4d/AcsXGaOTKL8Ywd0hO98vwj4cI5at93s4kpWSD5fKk3qoy+eB3Y3fRM2FcIspp/1I+
-         h5zBYmAwlfdmBNjuLeQogyzp78wgXfcyE+1oqNkZqAjK/QIE5WnqBp2AqgXL/5FI2Ejy
-         8rJkxd/ybOl8Uc3crffSTxK/VJNGkwhp8mn0TJhXak3YMgshprVCkQ2RbTpnw/FdWiAP
-         PbEUm2FFpBK1Cg9cyI6xLZb5oC8dhgo4Hs2lhDfv+7tiLqOxEVBij9KwaTmP7HK+vS2I
-         Wpyg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+X4ZRHeE2/QPwEJCXMzhYj17cm2B3XhEV55KF8uLF/ZdfifPZR4lja+hw2JRIDMbcHJDA1xF4fdg=@vger.kernel.org, AJvYcCUv4fxdq7KPK38NkctSymFdMCI04Va/gCZXBJ3pyH2+BcG2g+DDUwGzo1SJCJRUiZWYeuCxxlUf+CvU@vger.kernel.org, AJvYcCVUeO8VuOSyvWmAqmePCxfnqC5l8f02AFmaqKpcK3GbjAnWe2ZoCozYPfLgX51lK9Hyt2PSUZyyXTPoK1ayCQ==@vger.kernel.org, AJvYcCX2BMTPqJEDQ58AwLpLrhvZoRYwoACsMbHtDYMMbCkRwRdLgj8pCdirgnOs1FB+DyxE+9wCSoMfxg==@vger.kernel.org, AJvYcCXLmcydCSg0xasHAqsW3rot9shVaUK1wdOGYqGioWgFWk9Jc/G6XpWc/h4UdftEGNN2pjWIvDpky9c4jhFR@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGQd6Ycwa+Q+1L52meoX+fMty0bvzeFVf1A8zS06NNGdghsER5
-	Xd+ZtQ5WlFClLZYwx/JV2KfRdA6Ox+UMF1JI+mDvqtrq9i7X5PQxaddPotYmWlC4YfKVOw8WT1+
-	JMGE9a+puC/V/RPhiZigUg8p9zfjaSQI=
-X-Gm-Gg: ASbGncvbl/1TI6c4tjMoR3dVWF7XqUbrk6GN1VXZ+7dyA+JJHy343KlmirOD+Nz7f8r
-	6HmyfbgyC2G3flum34M9h/CHxOVqGGJJk16HLl4MIOP2nA7a0sFZIPDyxAx0mEr1+IqC2zAyCgF
-	kY5RFAW47jmq+frWOY2uksKiDEQifl2yBrEpxXtjlpDIQ=
-X-Google-Smtp-Source: AGHT+IGMD2AU5x3an/OFXUbjEqkI5gyhDCd4v/OLCCvyRko2Nm8hqZl2hgGEc9WpyGFDasYi1aIion4MMfTDkJhJ7xs=
-X-Received: by 2002:a17:907:1c16:b0:ae0:c8f9:4529 with SMTP id
- a640c23a62f3a-ae3c2df35cfmr154148966b.49.1751439821267; Wed, 02 Jul 2025
- 00:03:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751446038; x=1752050838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XGPvOMHCBki+0DGVKzrQx//itzBlHUfbVgGZ8KlxIMo=;
+        b=TCrvTUHHXeITW5QrVAYs7jeT/GCILGf2TUggZW96jxcYKvQRKn/Ixl0mps9nH8X7U4
+         91DLg+5uOTQQaV6iYFiZutWhv9mNoU/XMOo43xbgWHd1d0p894yuyGe//KYG+nCbZfZJ
+         DOznV62DVaySN8rXkm1bY/YPZNQOZCozxbk1GJ6kwT5nFkcy/kGPTvsEVOktrURvOzWe
+         voVl1lkxFuBTeUZqbdPH6wfhNRNH448N5ODbtlHqYmRUStgJqkIs77CssTxTjEzhj7Ph
+         cgWHyopo0S/vPNd+CMMCCP+Lsfft2MZA9iypY2BPSQPRWApnLSUsHLvlduOWRvR6wtjv
+         HP1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXq9fOGOcTktLuK2N3UaIgaqDa9f7/wWORVTxLti9JIpRJ0sgyrfSCvvgr2A65n+XEnTJhA6y/nR1Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSA4g57+KbcJuipgtJbpK99pXYnPPpxGl+F8rpUCrVPgEtCztF
+	DukDdStLIgdToN5XkwnGiUArYka2vfrM8qFzSzLigZXEH33SYdB2o1j81/GFEZzNRgTpnDHCG68
+	G1lqcAKcfWYefPwrgOsD1El7A4XMYQFZS7ST0jZA6DItTtuy9eSt+dj0Mqt4/
+X-Gm-Gg: ASbGnctL2AZyUw4gsE342MMpr22GcMAoOU9SDkFlR7egbNAwrEtazjphP2R0n4ovZ7q
+	5a8o2GWY35SZEDnSAwrAu3eoIqCIeslkYMJVlLkqm4jeZlSiK07+nsvOqXOXzNTs9GBJ7eGdVJQ
+	l4b3H90974vAgnGYUaRrme3ywFkcgdkJwVcsjRrlNW4fxN7+AoGI4aVhhgh6ec0ytPQySwT4N58
+	8dX0XyL9wCCBKMAAhbEJ69Tx0LxV9tYXetxj6Q9445JiQwZ2QotdWv75LKng9zcGi9vIbRdgZP3
+	zei8kwWHSfV2h041dyx3vt9rQOkvn2vP2kZExqqM4w==
+X-Received: by 2002:a05:6000:4404:b0:3a4:dfc2:bb60 with SMTP id ffacd0b85a97d-3b200679d86mr863003f8f.26.1751446037763;
+        Wed, 02 Jul 2025 01:47:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGyJEiWrHlqXkFQrxUFEb5GHh9tMZ7D9Zr7fvg/6zlDjcdyq7cSpkw1286PNdbwkFSOxF/8sA==
+X-Received: by 2002:a05:6000:4404:b0:3a4:dfc2:bb60 with SMTP id ffacd0b85a97d-3b200679d86mr862981f8f.26.1751446037266;
+        Wed, 02 Jul 2025 01:47:17 -0700 (PDT)
+Received: from thinky (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e71dfsm15141298f8f.7.2025.07.02.01.47.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 01:47:16 -0700 (PDT)
+Date: Wed, 2 Jul 2025 10:47:14 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH v6 2/6] lsm: introduce new hooks for setting/getting
+ inode fsxattr
+Message-ID: <znxkpxdshpsnupmlxis5qmpfmbmetndfduah3hug4haxpbzftz@nhxyahwcl5mf>
+References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
+ <20250630-xattrat-syscall-v6-2-c4e3bc35227b@kernel.org>
+ <20250701181813.GN10009@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
- <20250630-xattrat-syscall-v6-5-c4e3bc35227b@kernel.org> <20250701183105.GP10009@frogsfrogsfrogs>
- <CAOQ4uxiCpGcZ7V8OqssP2xKsN0ZiAO7mQ_1Qt705BrcHeSPmBg@mail.gmail.com>
- <20250701194002.GS10009@frogsfrogsfrogs> <20250701195405.xf27mjknu5bnunue@pali>
-In-Reply-To: <20250701195405.xf27mjknu5bnunue@pali>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 2 Jul 2025 09:03:29 +0200
-X-Gm-Features: Ac12FXzpApZdbBfdtdr7BbHG_-JJ4nQlGUsVSEHxt4nNW1vlwAVqQ_bZMiyKoME
-Message-ID: <CAOQ4uxjZWGz2bqen4F+fkQqZYQjKyufFVky4tOTnwng4D5G4nQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] fs: prepare for extending file_get/setattr()
-To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Paul Moore <paul@paul-moore.com>, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250701181813.GN10009@frogsfrogsfrogs>
 
-On Tue, Jul 1, 2025 at 9:54=E2=80=AFPM Pali Roh=C3=A1r <pali@kernel.org> wr=
-ote:
->
-> On Tuesday 01 July 2025 12:40:02 Darrick J. Wong wrote:
-> > On Tue, Jul 01, 2025 at 09:27:38PM +0200, Amir Goldstein wrote:
-> > > On Tue, Jul 1, 2025 at 8:31=E2=80=AFPM Darrick J. Wong <djwong@kernel=
-.org> wrote:
-> > > >
-> > > > On Mon, Jun 30, 2025 at 06:20:15PM +0200, Andrey Albershteyn wrote:
-> > > > > From: Amir Goldstein <amir73il@gmail.com>
-> > > > >
-> > > > > We intend to add support for more xflags to selective filesystems=
- and
-> > > > > We cannot rely on copy_struct_from_user() to detect this extensio=
-n.
-> > > > >
-> > > > > In preparation of extending the API, do not allow setting xflags =
-unknown
-> > > > > by this kernel version.
-> > > > >
-> > > > > Also do not pass the read-only flags and read-only field fsx_next=
-ents to
-> > > > > filesystem.
-> > > > >
-> > > > > These changes should not affect existing chattr programs that use=
- the
-> > > > > ioctl to get fsxattr before setting the new values.
-> > > > >
-> > > > > Link: https://lore.kernel.org/linux-fsdevel/20250216164029.20673-=
-4-pali@kernel.org/
-> > > > > Cc: Pali Roh=C3=A1r <pali@kernel.org>
-> > > > > Cc: Andrey Albershteyn <aalbersh@redhat.com>
-> > > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > > > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > > > > ---
-> > > > >  fs/file_attr.c           |  8 +++++++-
-> > > > >  include/linux/fileattr.h | 20 ++++++++++++++++++++
-> > > > >  2 files changed, 27 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/fs/file_attr.c b/fs/file_attr.c
-> > > > > index 4e85fa00c092..62f08872d4ad 100644
-> > > > > --- a/fs/file_attr.c
-> > > > > +++ b/fs/file_attr.c
-> > > > > @@ -99,9 +99,10 @@ EXPORT_SYMBOL(vfs_fileattr_get);
-> > > > >  int copy_fsxattr_to_user(const struct fileattr *fa, struct fsxat=
-tr __user *ufa)
-> > > > >  {
-> > > > >       struct fsxattr xfa;
-> > > > > +     __u32 mask =3D FS_XFLAGS_MASK;
-> > > > >
-> > > > >       memset(&xfa, 0, sizeof(xfa));
-> > > > > -     xfa.fsx_xflags =3D fa->fsx_xflags;
-> > > > > +     xfa.fsx_xflags =3D fa->fsx_xflags & mask;
-> > > >
-> > > > I wonder, should it be an error if a filesystem sets an fsx_xflags =
-bit
-> > > > outside of FS_XFLAGS_MASK?  I guess that's one way to prevent
-> > > > filesystems from overriding the VFS bits. ;)
-> > >
-> > > I think Pali has a plan on how to ensure that later
-> > > when the mask is provided via the API.
-> > >
-> > > >
-> > > > Though couldn't that be:
-> > > >
-> > > >         xfa.fsx_xflags =3D fa->fsx_xflags & FS_XFLAGS_MASK;
-> > > >
-> > > > instead?  And same below?
-> > > >
-> > >
-> > > Indeed. There is a reason for the var, because the next series
-> > > by Pali will use a user provided mask, which defaults to FS_XFLAGS_MA=
-SK,
-> > > so I left it this way.
-> > >
-> > > I don't see a problem with it keeping as is, but if it bothers you
-> > > I guess we can re-add the var later.
-> >
-> > Nah, it doesn't bother me that much.
-> >
-> > > > >       xfa.fsx_extsize =3D fa->fsx_extsize;
-> > > > >       xfa.fsx_nextents =3D fa->fsx_nextents;
-> > > > >       xfa.fsx_projid =3D fa->fsx_projid;
-> > > > > @@ -118,11 +119,16 @@ static int copy_fsxattr_from_user(struct fi=
-leattr *fa,
-> > > > >                                 struct fsxattr __user *ufa)
-> > > > >  {
-> > > > >       struct fsxattr xfa;
-> > > > > +     __u32 mask =3D FS_XFLAGS_MASK;
-> > > > >
-> > > > >       if (copy_from_user(&xfa, ufa, sizeof(xfa)))
-> > > > >               return -EFAULT;
-> > > > >
-> > > > > +     if (xfa.fsx_xflags & ~mask)
-> > > > > +             return -EINVAL;
-> > > >
-> > > > I wonder if you want EOPNOTSUPP here?  We don't know how to support
-> > > > unknown xflags.  OTOH if you all have beaten this to death while I =
-was
-> > > > out then don't start another round just for me. :P
-> > >
-> > > We have beaten this API almost to death for sure ;)
-> > > I don't remember if we discussed this specific aspect,
-> > > but I am personally in favor of
-> > > EOPNOTSUPP :=3D the fs does not support the set/get operation
-> > > EINVAL :=3D some flags provided as value is invalid
-> > >
-> > > For example, if the get API provides you with a mask of the
-> > > valid flags that you can set, if you try to set flags outside of
-> > > that mask you get EINVAL.
-> > >
-> > > That's my interpretation, but I agree that EOPNOTSUPP can also
-> > > make sense in this situation.
-> >
-> > <nod> I think I'd rather EOPNOTSUPP for "bits are set that the kernel
-> > doesn't recognize" and EINVAL (or maybe something else like
-> > EPROTONOSUPPORT) for "fs driver will not let you change this bit".
-> > At least for the syscall interface; we probably have to flatten that to
-> > EOPNOTSUPP for both legacy ioctls.
+On 2025-07-01 11:18:13, Darrick J. Wong wrote:
+> On Mon, Jun 30, 2025 at 06:20:12PM +0200, Andrey Albershteyn wrote:
+> > Introduce new hooks for setting and getting filesystem extended
+> > attributes on inode (FS_IOC_FSGETXATTR).
+> > 
+> > Cc: selinux@vger.kernel.org
+> > Cc: Paul Moore <paul@paul-moore.com>
+> > 
+> > Acked-by: Paul Moore <paul@paul-moore.com>
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> 
+> I wonder, were FS_IOC_FS[GS]ETXATTR already covered by the
+> security_file_ioctl hook? 
 
-Given the precedents of returning EOPNOTSUPP in xfs_fileattr_set()
-and ext4_ioctl_setflags() for flags that cannot be set, I agree.
+looks like
 
->
-> ... and this starting to be complicated if the "fs driver" is network
-> based (as fs driver can support, but remote server not). See also:
-> https://lore.kernel.org/linux-fsdevel/20241224160535.pi6nazpugqkhvfns@pal=
-i/t/#u
->
-> For backup/restore application it would be very useful to distinguish bet=
-ween:
-> - "kernel does not support flag X"
-> - "target filesystem does not support flag X"
-> - "wrong structure was passed / syscall incorrectly called"
->
-> third option is bug in application - fatal error. second option is just
-> a warning for user (sorry, we cannot set NEW FEATURE on FAT32, but if
-> you would do restore to other fs, it is supported). and first option
-> happens when you run new application on older kernel version, it is an
-> recoverable error (or warning to user, but with more important level
-> then second option as switching to different FS would not help).
->
-> Could we return different errnos for these 3 situations?
+> If so, will an out of date security policy
+> on a 6.17 kernel now fail to check the new file_[gs]etattr syscalls?
 
-That would be nice, but actually according to your plan
-the get API returns the mask of flags supported by the filesystem
-(on that specific object even), so userspace in fact has a way to
-distinguish between the first two EOPNOTSUPP cases.
+Yeah, probably, not sure if policies can have 'don't allow unknown'
+but this is probably will need to be updated in the policy
 
-Thanks,
-Amir.
+> 
+> Though AFAICT the future of managing these "extra" file attributes is
+> the system call so it's probably appropriate to have an explicit
+> callout to LSMs.
+> 
+> Acked-by: "Darrick J. Wong" <djwong@kernel.org>
+> 
+> --D
+> 
+> > ---
+> >  fs/file_attr.c                | 19 ++++++++++++++++---
+> >  include/linux/lsm_hook_defs.h |  2 ++
+> >  include/linux/security.h      | 16 ++++++++++++++++
+> >  security/security.c           | 30 ++++++++++++++++++++++++++++++
+> >  4 files changed, 64 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/fs/file_attr.c b/fs/file_attr.c
+> > index 2910b7047721..be62d97cc444 100644
+> > --- a/fs/file_attr.c
+> > +++ b/fs/file_attr.c
+> > @@ -76,10 +76,15 @@ EXPORT_SYMBOL(fileattr_fill_flags);
+> >  int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+> >  {
+> >  	struct inode *inode = d_inode(dentry);
+> > +	int error;
+> >  
+> >  	if (!inode->i_op->fileattr_get)
+> >  		return -ENOIOCTLCMD;
+> >  
+> > +	error = security_inode_file_getattr(dentry, fa);
+> > +	if (error)
+> > +		return error;
+> > +
+> >  	return inode->i_op->fileattr_get(dentry, fa);
+> >  }
+> >  EXPORT_SYMBOL(vfs_fileattr_get);
+> > @@ -242,12 +247,20 @@ int vfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
+> >  		} else {
+> >  			fa->flags |= old_ma.flags & ~FS_COMMON_FL;
+> >  		}
+> > +
+> >  		err = fileattr_set_prepare(inode, &old_ma, fa);
+> > -		if (!err)
+> > -			err = inode->i_op->fileattr_set(idmap, dentry, fa);
+> > +		if (err)
+> > +			goto out;
+> > +		err = security_inode_file_setattr(dentry, fa);
+> > +		if (err)
+> > +			goto out;
+> > +		err = inode->i_op->fileattr_set(idmap, dentry, fa);
+> > +		if (err)
+> > +			goto out;
+> >  	}
+> > +
+> > +out:
+> >  	inode_unlock(inode);
+> > -
+> >  	return err;
+> >  }
+> >  EXPORT_SYMBOL(vfs_fileattr_set);
+> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> > index bf3bbac4e02a..9600a4350e79 100644
+> > --- a/include/linux/lsm_hook_defs.h
+> > +++ b/include/linux/lsm_hook_defs.h
+> > @@ -157,6 +157,8 @@ LSM_HOOK(int, 0, inode_removexattr, struct mnt_idmap *idmap,
+> >  	 struct dentry *dentry, const char *name)
+> >  LSM_HOOK(void, LSM_RET_VOID, inode_post_removexattr, struct dentry *dentry,
+> >  	 const char *name)
+> > +LSM_HOOK(int, 0, inode_file_setattr, struct dentry *dentry, struct fileattr *fa)
+> > +LSM_HOOK(int, 0, inode_file_getattr, struct dentry *dentry, struct fileattr *fa)
+> >  LSM_HOOK(int, 0, inode_set_acl, struct mnt_idmap *idmap,
+> >  	 struct dentry *dentry, const char *acl_name, struct posix_acl *kacl)
+> >  LSM_HOOK(void, LSM_RET_VOID, inode_post_set_acl, struct dentry *dentry,
+> > diff --git a/include/linux/security.h b/include/linux/security.h
+> > index dba349629229..9ed0d0e0c81f 100644
+> > --- a/include/linux/security.h
+> > +++ b/include/linux/security.h
+> > @@ -451,6 +451,10 @@ int security_inode_listxattr(struct dentry *dentry);
+> >  int security_inode_removexattr(struct mnt_idmap *idmap,
+> >  			       struct dentry *dentry, const char *name);
+> >  void security_inode_post_removexattr(struct dentry *dentry, const char *name);
+> > +int security_inode_file_setattr(struct dentry *dentry,
+> > +			      struct fileattr *fa);
+> > +int security_inode_file_getattr(struct dentry *dentry,
+> > +			      struct fileattr *fa);
+> >  int security_inode_need_killpriv(struct dentry *dentry);
+> >  int security_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry);
+> >  int security_inode_getsecurity(struct mnt_idmap *idmap,
+> > @@ -1052,6 +1056,18 @@ static inline void security_inode_post_removexattr(struct dentry *dentry,
+> >  						   const char *name)
+> >  { }
+> >  
+> > +static inline int security_inode_file_setattr(struct dentry *dentry,
+> > +					      struct fileattr *fa)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline int security_inode_file_getattr(struct dentry *dentry,
+> > +					      struct fileattr *fa)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> >  static inline int security_inode_need_killpriv(struct dentry *dentry)
+> >  {
+> >  	return cap_inode_need_killpriv(dentry);
+> > diff --git a/security/security.c b/security/security.c
+> > index 596d41818577..711b4de40b8d 100644
+> > --- a/security/security.c
+> > +++ b/security/security.c
+> > @@ -2622,6 +2622,36 @@ void security_inode_post_removexattr(struct dentry *dentry, const char *name)
+> >  	call_void_hook(inode_post_removexattr, dentry, name);
+> >  }
+> >  
+> > +/**
+> > + * security_inode_file_setattr() - check if setting fsxattr is allowed
+> > + * @dentry: file to set filesystem extended attributes on
+> > + * @fa: extended attributes to set on the inode
+> > + *
+> > + * Called when file_setattr() syscall or FS_IOC_FSSETXATTR ioctl() is called on
+> > + * inode
+> > + *
+> > + * Return: Returns 0 if permission is granted.
+> > + */
+> > +int security_inode_file_setattr(struct dentry *dentry, struct fileattr *fa)
+> > +{
+> > +	return call_int_hook(inode_file_setattr, dentry, fa);
+> > +}
+> > +
+> > +/**
+> > + * security_inode_file_getattr() - check if retrieving fsxattr is allowed
+> > + * @dentry: file to retrieve filesystem extended attributes from
+> > + * @fa: extended attributes to get
+> > + *
+> > + * Called when file_getattr() syscall or FS_IOC_FSGETXATTR ioctl() is called on
+> > + * inode
+> > + *
+> > + * Return: Returns 0 if permission is granted.
+> > + */
+> > +int security_inode_file_getattr(struct dentry *dentry, struct fileattr *fa)
+> > +{
+> > +	return call_int_hook(inode_file_getattr, dentry, fa);
+> > +}
+> > +
+> >  /**
+> >   * security_inode_need_killpriv() - Check if security_inode_killpriv() required
+> >   * @dentry: associated dentry
+> > 
+> > -- 
+> > 2.47.2
+> > 
+> > 
+> 
+
+-- 
+- Andrey
+
 
