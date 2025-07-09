@@ -1,152 +1,187 @@
-Return-Path: <linux-api+bounces-4142-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4143-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FD8AFB336
-	for <lists+linux-api@lfdr.de>; Mon,  7 Jul 2025 14:27:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D99AFE1D3
+	for <lists+linux-api@lfdr.de>; Wed,  9 Jul 2025 10:04:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 095AF1AA0CC9
-	for <lists+linux-api@lfdr.de>; Mon,  7 Jul 2025 12:27:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8792C1BC5A89
+	for <lists+linux-api@lfdr.de>; Wed,  9 Jul 2025 08:04:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB7729ACD4;
-	Mon,  7 Jul 2025 12:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEEA0235BE1;
+	Wed,  9 Jul 2025 08:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWdqClbn"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="IilcMi/v"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3729429A308
-	for <linux-api@vger.kernel.org>; Mon,  7 Jul 2025 12:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E7E22539E;
+	Wed,  9 Jul 2025 08:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751891227; cv=none; b=fD81dKXxJF84somULFP3lS8JFzg47vcRX8P6n9bpeyDbNuM7Ie7lamaV64ZcLKAKAXh81O6R46HDMbXE1Mr3yfNbw5L1w8UHIB4nOIxrhbhLTATT95VcjmkKMC1wVdwFTeohHD1bBq5TWGc22qIuCtRSBaGATBe/DnmLV3Lpx6Q=
+	t=1752048199; cv=none; b=d7FbPTl7klVDnDcmr3MNf6OZdBqtlom4LuHCd3F/QmhuVVStMYQnMJuZV3umJPcuFBr0aB7FSFDwA4zB1cohIUIwR3ldF96dcdehMBOtNAQIRxdtoxIQa01A9P2L8RX29qQWHUyGHrQgGefHBZc2FIFGoC/UAuWwYxdR61+6tkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751891227; c=relaxed/simple;
-	bh=N6aIrao9mvKWLRzYYG6kmQNDgyAReKkf4PPJ58kKg+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovwRE1WGkonIVN2xMim/tfiYEE71X/o7coy3+DTWkoBGZ+t/bcO3pIDmJNWeONxhWK0EkE0YzRo/bepK+mGY5Ij4Z3E4YJCyX/0CszR3WxU/UUBRM4YSxIjoKmzDu3Pa+12aFdAqW9PZdlDpAKKGsXVPgrnecwrKiZicZ94vBJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWdqClbn; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751891225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KHTeRzC+GAtalyuC61VSTswPDreUYA10fT25p2FdvD8=;
-	b=VWdqClbnL5DTDavf/VC57iQRyvqmO2pg5i3vlePnJpc9nApNQqLQh10DW4t+IVA/voyP/A
-	yzzWSuHMgADlmqb+8MEsC2abMSWAZ60RvOmLpTQ3hUzIwWpOhrXDpCaViwV8SLxNvgmTOC
-	7Ox+UeoxL87V3z1NImCDxWlSgSmv7O8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-122-gYv_Qp7dPDCXOEV40ewfmQ-1; Mon, 07 Jul 2025 08:27:04 -0400
-X-MC-Unique: gYv_Qp7dPDCXOEV40ewfmQ-1
-X-Mimecast-MFC-AGG-ID: gYv_Qp7dPDCXOEV40ewfmQ_1751891223
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ade5b98537dso306397466b.2
-        for <linux-api@vger.kernel.org>; Mon, 07 Jul 2025 05:27:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751891223; x=1752496023;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KHTeRzC+GAtalyuC61VSTswPDreUYA10fT25p2FdvD8=;
-        b=tH8Zp+TZHoTLD0r+gkt+PTPolLPph5mdfa9iCCnvvbkCRDga9n6QyRmfz69DhzXWv2
-         eYqrUd8exUxHoTkVtwikhgGBDVwzxVg4KxIVwhY+UEjdvdZUcAXjhLZOZW2rpubU4fTj
-         3WfEP+XQHjnMm/TtuAiYYNNJFlogswOKvmhMDGiE7tFds+Ggo2aIOdbpAA/w6TJx7wOh
-         I8b4Eos7/8kLHYRLurRgI63gZDJqNVePnakzf+KN7Rivl+EPq4asOGNKft2mgakihoyy
-         Lb6tF36bZCCfKW9Fch6q5w+woip0hD9f/wmFXza+sMbLUr6hUKE9vqMCPNYiq6zOn5lc
-         kk5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUDVgx4rWddkKgxmtYGHaAq2IpGtGy3cAgadghVkgSBXsIdUBJuxyhPuDnBA+Q6fAjc6a9t2bwBJ90=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzetB9n0FIrE/6rxrfCZ89C0+yMwL+Fam7kxd8ok707/HXtofMy
-	1sZEVMDZunons4kmJMKlgSNYO07M6W9fW6GIdVA2oKPP5Ar3d9yoOoIKS2h9WdUxSYod1ja2zeb
-	ZSKl2p1Ntr3M+jputaeIcgo9cKx2gL5rH8Mky1/YsIP6FvTjRZnCQAfp/nGe+Xnz7j2bd
-X-Gm-Gg: ASbGncuyQVpR38+9Fu3HRa+BTH03J7N6bFlYiEtKOUOvzzESWnMy+Kx+gF3iRxFnkNP
-	rrbRepJnkjEHrmNlVkEik8g68ALrKCEykCO1r5ECV/ls8ZHfIfeQNjOB7X4q80JHr7h3KTffFuA
-	sqjbasLk4zj/dBZClQmOmiMwL2CZNKPHHL1GdrKQ7Sr2HUk+b+9/HYvEzVM1xeRCsGdCBl6YKqO
-	qy3A7BcXuMMhK0zH2YFvOAvD7A+RwwUlaVSgLn+drP5KddefPnIJJUxJ8uYGjG03OgQU9EKPu7T
-	pY+l4iUW4L+BLlomYHzMugDqNw0VbEV9dIOP4K/M/A==
-X-Received: by 2002:a17:907:1b1c:b0:ae0:d903:2bc1 with SMTP id a640c23a62f3a-ae3fbe32085mr1269373066b.49.1751891222544;
-        Mon, 07 Jul 2025 05:27:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF+xNnEev9UxKSf7lcc6f2ZhivCo6t8UkYaBDX83sSiieaUIILsbAVwreWk30jTRbKc3uqazw==
-X-Received: by 2002:a17:907:1b1c:b0:ae0:d903:2bc1 with SMTP id a640c23a62f3a-ae3fbe32085mr1269369466b.49.1751891222070;
-        Mon, 07 Jul 2025 05:27:02 -0700 (PDT)
-Received: from thinky (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f66d9263sm700724366b.32.2025.07.07.05.27.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 05:27:01 -0700 (PDT)
-Date: Mon, 7 Jul 2025 14:27:00 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Jan Kara <jack@suse.cz>, 
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	selinux@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v6 0/6] fs: introduce file_getattr and file_setattr
- syscalls
-Message-ID: <rckjqvax4ciazuasmpiiflk6qgwnkfrcamw6xae4mvtofo3yxk@jj25of6o5ye2>
-References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
- <20250701-quittung-garnieren-ceaf58dcb762@brauner>
- <uzx3pdg2hz44n7qej5rlxejdmb25jny6tbv43as7dos4dit5nv@fyyvminolae6>
- <20250707-alben-kaffee-da62c14bb5c3@brauner>
+	s=arc-20240116; t=1752048199; c=relaxed/simple;
+	bh=spCwiESFX+5apWoOtPJqIiucwT8h3Bsj1plAMzmlSqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jos70NVH4FE/C6mdhTxwkcfimQ2UDNXgFAoFvNTaCEyYN9bkc+iO3CcntYUA3ksT8nyfT/UbJYwyfa5IHJ+EjdozM/tGfhJDVnu1L5s+elcgzjNKvU5mUWCEzMYKZTYYUq402lkbz96XOuVW+uNlDgZay+M6wbxhibovi63YBNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=IilcMi/v; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from sec2-plucky-amd64.. (lau06-h06-176-136-128-80.dsl.sta.abo.bbox.fr [176.136.128.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id A7DCC3F784;
+	Wed,  9 Jul 2025 08:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1752048186;
+	bh=MdZFOOAxxlhICgD522nsYR/hdSej8sTawvepD/fEmSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=IilcMi/v4ZaEkgx5sqzHP09W/V5mRgBQnl2RR1dqCfrZW+kLVHmKz0JHfUvbDhy87
+	 uN4dHnNcu88T+Bz0+yeWiiaqSG6fEh86ZaIf1fc+MA1bENf7jliIAMWBRZXoi40m20
+	 9KWytF3givwuiLMPdzt2XLs5RFdDXddOt+JOdTZCAn0c5UV1GLCHV68Ruc61ZdCelP
+	 5i8l6RQVtKYPItmszSPjHjJJv7GnXrM5xRm3VsIe86lzY7mn9okEwAIImTTiqm9Hax
+	 QeNT6S7dL+amd9kvm7yGckd+vjQj0EMUmEbe+za5fEPFJVqigYge2j6eC5ZYAEVdf1
+	 31KNtScwUDCbA==
+From: =?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
+To: linux-security-module@vger.kernel.org
+Cc: john.johansen@canonical.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	mic@digikod.net,
+	kees@kernel.org,
+	stephen.smalley.work@gmail.com,
+	casey@schaufler-ca.com,
+	takedakn@nttdata.co.jp,
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	song@kernel.org,
+	rdunlap@infradead.org,
+	linux-api@vger.kernel.org,
+	apparmor@lists.ubuntu.com,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
+Subject: [PATCH v5 0/3] lsm: introduce lsm_config_self_policy() and lsm_config_system_policy() syscalls
+Date: Wed,  9 Jul 2025 10:00:53 +0200
+Message-ID: <20250709080220.110947-1-maxime.belair@canonical.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250707-alben-kaffee-da62c14bb5c3@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2025-07-07 14:19:25, Christian Brauner wrote:
-> On Mon, Jul 07, 2025 at 02:05:10PM +0200, Andrey Albershteyn wrote:
-> > On 2025-07-01 14:29:42, Christian Brauner wrote:
-> > > On Mon, Jun 30, 2025 at 06:20:10PM +0200, Andrey Albershteyn wrote:
-> > > > This patchset introduced two new syscalls file_getattr() and
-> > > > file_setattr(). These syscalls are similar to FS_IOC_FSSETXATTR ioctl()
-> > > > except they use *at() semantics. Therefore, there's no need to open the
-> > > > file to get a fd.
-> > > > 
-> > > > These syscalls allow userspace to set filesystem inode attributes on
-> > > > special files. One of the usage examples is XFS quota projects.
-> > > > 
-> > > > XFS has project quotas which could be attached to a directory. All
-> > > > new inodes in these directories inherit project ID set on parent
-> > > > directory.
-> > > > 
-> > > > The project is created from userspace by opening and calling
-> > > > FS_IOC_FSSETXATTR on each inode. This is not possible for special
-> > > > files such as FIFO, SOCK, BLK etc. Therefore, some inodes are left
-> > > > with empty project ID. Those inodes then are not shown in the quota
-> > > > accounting but still exist in the directory. This is not critical but in
-> > > > the case when special files are created in the directory with already
-> > > > existing project quota, these new inodes inherit extended attributes.
-> > > > This creates a mix of special files with and without attributes.
-> > > > Moreover, special files with attributes don't have a possibility to
-> > > > become clear or change the attributes. This, in turn, prevents userspace
-> > > > from re-creating quota project on these existing files.
-> > > 
-> > > Only small nits I'm going to comment on that I can fix myself.
-> > > Otherwise looks great.
-> > > 
-> > 
-> > Hi Christian,
-> > 
-> > Let me know if you would like a new revision with all the comments
-> > included (and your patch on file_kattr rename) or you good with
-> > applying them while commit
-> 
-> It's all been in -next for a few days already. :)
-> 
+This patchset introduces two new syscalls: lsm_config_self_policy(),
+lsm_config_system_policy() and the associated Linux Security Module hooks
+security_lsm_config_*_policy(), providing a unified interface for loading
+and managing LSM policies. These syscalls complement the existing per‑LSM
+pseudo‑filesystem mechanism and work even when those filesystems are not
+mounted or available.
 
-Oh sorry, missed that, thanks!
+With these new syscalls, users and administrators may lock down access to
+the pseudo‑filesystem yet still manage LSM policies. Two tightly-scoped
+entry points then replace the many file operations exposed by those
+filesystems, significantly reducing the attack surface. This is
+particularly useful in containers or processes already confined by
+Landlock, where these pseudo‑filesystems are typically unavailable.
 
+Because they provide a logical and unified interface, these syscalls are
+simpler to use than several heterogeneous pseudo‑filesystems and avoid
+edge cases such as partially loaded policies. They also eliminates VFS
+overhead, yielding performance gains notably when many policies are
+loaded, for instance at boot time.
+
+This initial implementation is intentionally minimal to limit the scope
+of changes. Currently, only policy loading is supported, and only
+AppArmor registers this LSM hook. However, any LSM can adopt this
+interface, and future patches could extend this syscall to support more
+operations, such as replacing, removing, or querying loaded policies.
+
+Landlock already provides three Landlock‑specific syscalls (e.g.
+landlock_add_rule()) to restrict ambient rights for sets of processes
+without touching any pseudo-filesystem. lsm_config_*_policy() generalizes
+that approach to the entire LSM layer, so any module can choose to
+support either or both of these syscalls, and expose its policy
+operations through a uniform interface and reap the advantages outlined
+above.
+
+This patchset is available at [1], a minimal user space example
+showing how to use lsm_config_system_policy with AppArmor is at [2] and a
+performance benchmark of both syscalls is available at [3].
+
+[1] https://github.com/emixam16/linux/tree/lsm_syscall
+[2] https://gitlab.com/emixam16/apparmor/tree/lsm_syscall
+[3] https://gitlab.com/-/snippets/4864908
+
+---
+Changes in v5
+ - Improve syscall input verification
+ - Do not export security_lsm_config_*_policy symbols
+
+Changes in v4
+ - Make the syscall's maximum buffer size defined per module
+ - Fix a memory leak
+
+Changes in v3
+ - Fix typos
+
+Changes in v2
+ - Split lsm_manage_policy() into two distinct syscalls:
+   lsm_config_self_policy() and lsm_config_system_policy()
+ - The LSM hook now calls only the appropriate LSM (and not all LSMs)
+ - Add a configuration variable to limit the buffer size of these
+   syscalls
+ - AppArmor now allows stacking policies through lsm_config_self_policy()
+   and loading policies in any namespace through
+   lsm_config_system_policy()
+---
+
+Maxime Bélair (3):
+  Wire up lsm_config_self_policy and lsm_config_system_policy syscalls
+  lsm: introduce security_lsm_config_*_policy hooks
+  AppArmor: add support for lsm_config_self_policy and
+    lsm_config_system_policy
+
+ arch/alpha/kernel/syscalls/syscall.tbl        |  2 +
+ arch/arm/tools/syscall.tbl                    |  2 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |  2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |  2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |  2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |  2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |  2 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |  2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |  2 +
+ arch/s390/kernel/syscalls/syscall.tbl         |  2 +
+ arch/sh/kernel/syscalls/syscall.tbl           |  2 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |  2 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |  2 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |  2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |  2 +
+ include/linux/lsm_hook_defs.h                 |  4 +
+ include/linux/security.h                      | 20 +++++
+ include/linux/syscalls.h                      |  5 ++
+ include/uapi/asm-generic/unistd.h             |  6 +-
+ include/uapi/linux/lsm.h                      |  8 ++
+ kernel/sys_ni.c                               |  2 +
+ security/apparmor/apparmorfs.c                | 31 +++++++
+ security/apparmor/include/apparmor.h          |  4 +
+ security/apparmor/include/apparmorfs.h        |  3 +
+ security/apparmor/lsm.c                       | 84 +++++++++++++++++++
+ security/lsm_syscalls.c                       | 25 ++++++
+ security/security.c                           | 60 +++++++++++++
+ tools/include/uapi/asm-generic/unistd.h       |  6 +-
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |  2 +
+ 29 files changed, 288 insertions(+), 2 deletions(-)
+
+
+base-commit: 9c32cda43eb78f78c73aee4aa344b777714e259b
 -- 
-- Andrey
+2.48.1
 
 
