@@ -1,254 +1,501 @@
-Return-Path: <linux-api+bounces-4153-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4154-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4711FB01AF1
-	for <lists+linux-api@lfdr.de>; Fri, 11 Jul 2025 13:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A9FB01DBC
+	for <lists+linux-api@lfdr.de>; Fri, 11 Jul 2025 15:36:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74BBF18925C0
-	for <lists+linux-api@lfdr.de>; Fri, 11 Jul 2025 11:44:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 932AC1CC0836
+	for <lists+linux-api@lfdr.de>; Fri, 11 Jul 2025 13:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF87C2C1599;
-	Fri, 11 Jul 2025 11:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5D82E5B26;
+	Fri, 11 Jul 2025 13:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SR1V+OIW"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1/Vgmf2t";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eVdTB4kA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1/Vgmf2t";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eVdTB4kA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B202C08D7;
-	Fri, 11 Jul 2025 11:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724032E0410
+	for <linux-api@vger.kernel.org>; Fri, 11 Jul 2025 13:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752234178; cv=none; b=B+AIhU8YvFQUreqHJm/CFoZqP8jfJr5WiIrXoG8t1DPkwPxYY43BPvu+Haq/AKdw/tk4knMq6d+cyqhVeULMsOTOYsYRHj88EjwrlWfFRFEZZUEj4qlwLqEGTOziZ9liYVYrbZi6HPKWmgNYfSIWS0tSJz+DF6FU+9P7neLOm5o=
+	t=1752240869; cv=none; b=Aknr9xcQRTdREOKh7GOWrJhasoEINHVuBXmAaghyUJsd5SuPZ14l8GD3llBy+OXq7c+WRRslGT26nxAABZjQr5Hty4JqRYsc6OPOiqX6COjsjIzLY0sr4QS1KLufL5FlNFYSONuLVzBrNttyoW/5bZPeUXGZY1co7CqfC9tCcKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752234178; c=relaxed/simple;
-	bh=mH4DxSeqFEiPV+0p291Gj/PBkUkh2yw262PHRRCfYVA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=P5LI4QnGUMMP/JQRfJrfaygJ8/IlkcJ/6ADK6VtIcwXokJ4lD0SQ0aUqrnImfIGhQZTSrOclj7PjBJEyr2cVPfcd26kkYDuIqgwbowe0YlCLGpGp9TsySjFR0wLOuCbuKRhlk7bG819tmWVI77Cq5Yn3Kx6eBCua5ODlKGgxFmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SR1V+OIW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10288C4CEF7;
-	Fri, 11 Jul 2025 11:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752234178;
-	bh=mH4DxSeqFEiPV+0p291Gj/PBkUkh2yw262PHRRCfYVA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SR1V+OIWdC+q4GTaWsscWQKoXEYWpe35hKlqHuGH52p0ZXfIeK6zlVawkrF28bfvl
-	 k1T0c2qR0RozExW6kZzoivSnhIECyD6uwWSXqskGbvyoSPPTc2jUVQvC1FSwHROyym
-	 Gvg+DFhg6Iy7lRc3qcpfKwg6oura9pPxs/I3pjzGHvjOySUh0z4PITTfIOZT9trvaQ
-	 4XAUZPt11BaH6Sb3voKOgZhuj2SnQeXNt3xgohAE7KQzUZrZ+wuxFM90nr70vcCxDH
-	 W0SqK6EjwkZuRjoiyugUfCkVvVRtDO7cvLEJ6RRA8t5sfON9Uei7oGIihC6oX8YAe5
-	 gxaPaH/ng0T1A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	tools@kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [RFC v3 4/4] kernel/sched: add specs for sys_sched_setattr()
-Date: Fri, 11 Jul 2025 07:42:48 -0400
-Message-Id: <20250711114248.2288591-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250711114248.2288591-1-sashal@kernel.org>
-References: <20250711114248.2288591-1-sashal@kernel.org>
+	s=arc-20240116; t=1752240869; c=relaxed/simple;
+	bh=UNXw9c1c2o2uWn6RTYqLoQ98x0aWsTO1iB2+nShMBTg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i4HHY39ukL+VuL0oOtmZRaVE9maECNIi49GTauvBVFd9egHvqXOGczrIOpd904AuKWC29l6T7l0RvupP/j1F7OQyIJublfKi7i+pg2D7RSH9X+aikIOhf1TKzmT4zGuAQbqcv19RSbh7WaSuZgi75Ua5Fd3alMxNHnvVrzZtNdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1/Vgmf2t; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eVdTB4kA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1/Vgmf2t; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eVdTB4kA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8414F21199;
+	Fri, 11 Jul 2025 13:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1752240863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WBQLyd6g8XwFngSex5GoZ1oSlKSSXFd4IEqvid/+iMc=;
+	b=1/Vgmf2tDaoPkmKmnAn7OmkN8nsXDBRdE4GajYhCo7brg2M07nL1iF4s192rzWMtKDZiZQ
+	CpFDa6SJGt34QI9u1vG6fJLbgC6GigMT7ONXd6kC19UMlavGE2lrFFRmXERdAVsPjuKcTZ
+	d9/ynESSDnd0uhJGpaLe9tMHI+SR3a8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1752240863;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WBQLyd6g8XwFngSex5GoZ1oSlKSSXFd4IEqvid/+iMc=;
+	b=eVdTB4kAeATZlga6D42p12di/kJgwlZswsjPckvEcXntrJgi9iNmZ9Bzc3eJKcx/6/JKjY
+	oZRYT9uxstu/2FBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="1/Vgmf2t";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=eVdTB4kA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1752240863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WBQLyd6g8XwFngSex5GoZ1oSlKSSXFd4IEqvid/+iMc=;
+	b=1/Vgmf2tDaoPkmKmnAn7OmkN8nsXDBRdE4GajYhCo7brg2M07nL1iF4s192rzWMtKDZiZQ
+	CpFDa6SJGt34QI9u1vG6fJLbgC6GigMT7ONXd6kC19UMlavGE2lrFFRmXERdAVsPjuKcTZ
+	d9/ynESSDnd0uhJGpaLe9tMHI+SR3a8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1752240863;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WBQLyd6g8XwFngSex5GoZ1oSlKSSXFd4IEqvid/+iMc=;
+	b=eVdTB4kAeATZlga6D42p12di/kJgwlZswsjPckvEcXntrJgi9iNmZ9Bzc3eJKcx/6/JKjY
+	oZRYT9uxstu/2FBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 652851388B;
+	Fri, 11 Jul 2025 13:34:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CHVdGN8ScWikQgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 11 Jul 2025 13:34:23 +0000
+Message-ID: <dcdb3478-68ea-4d9f-af4f-2f5438de45d2@suse.cz>
+Date: Fri, 11 Jul 2025 15:34:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/10] mm/mremap: permit mremap() move of multiple VMAs
+Content-Language: en-US
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>
+References: <cover.1752232673.git.lorenzo.stoakes@oracle.com>
+ <8f41e72b0543953d277e96d5e67a52f287cdbac3.1752232673.git.lorenzo.stoakes@oracle.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <8f41e72b0543953d277e96d5e67a52f287cdbac3.1752232673.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email,oracle.com:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 8414F21199
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/sched/syscalls.c | 168 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 167 insertions(+), 1 deletion(-)
++cc linux-api - see the description of the new behavior below
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 547c1f05b667e..c9e0af72b5d4f 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -974,10 +974,176 @@ SYSCALL_DEFINE2(sched_setparam, pid_t, pid, struct sched_param __user *, param)
- }
- 
- /**
-- * sys_sched_setattr - same as above, but with extended sched_attr
-+ * sys_sched_setattr - set/change scheduling policy and attributes
-  * @pid: the pid in question.
-  * @uattr: structure containing the extended parameters.
-  * @flags: for future extension.
-+ *
-+ * long-desc: Sets the scheduling policy and attributes for a process,
-+ *   supporting multiple scheduling classes including real-time,
-+ *   deadline, and normal policies. Performs capability checks,
-+ *   validates parameters, enforces resource limits, and ensures
-+ *   bandwidth constraints for deadline tasks.
-+ * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
-+ * param-count: 3
-+ * param-type: pid, KAPI_TYPE_INT
-+ * param-flags: pid, KAPI_PARAM_IN
-+ * param-constraint-type: pid, KAPI_CONSTRAINT_RANGE
-+ * param-range: pid, 0, INT_MAX
-+ * param-constraint: pid, Must be >= 0, where 0 means current process
-+ * param-type: uattr, KAPI_TYPE_USER_PTR
-+ * param-flags: uattr, KAPI_PARAM_IN | KAPI_PARAM_USER
-+ * param-constraint-type: uattr, KAPI_CONSTRAINT_CUSTOM
-+ * param-constraint: uattr, Valid user pointer to struct sched_attr
-+ * struct-type: uattr, struct sched_attr
-+ * struct-field: size, __u32, Structure size for version compatibility
-+ * struct-field-range: size, 48, 512
-+ * struct-field-validate: size, uattr->size >= SCHED_ATTR_SIZE_VER0
-+ * struct-field: sched_policy, __u32, Scheduling policy selector
-+ * struct-field-enum: sched_policy, SCHED_NORMAL(0), SCHED_FIFO(1), SCHED_RR(2), SCHED_BATCH(3), SCHED_IDLE(5), SCHED_DEADLINE(6), SCHED_EXT(7)
-+ * struct-field: sched_flags, __u64, Policy modifier flags
-+ * struct-field-mask: sched_flags, SCHED_FLAG_ALL
-+ * struct-field: sched_nice, __s32, Nice value for CFS policies
-+ * struct-field-range: sched_nice, -20, 19
-+ * struct-field-policy: sched_nice, SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
-+ * struct-field: sched_priority, __u32, Priority for RT policies
-+ * struct-field-range: sched_priority, 1, 99
-+ * struct-field-policy: sched_priority, SCHED_FIFO, SCHED_RR
-+ * struct-field: sched_runtime, __u64, Runtime budget in nanoseconds
-+ * struct-field-policy: sched_runtime, SCHED_DEADLINE
-+ * struct-field: sched_deadline, __u64, Deadline in nanoseconds
-+ * struct-field-policy: sched_deadline, SCHED_DEADLINE
-+ * struct-field: sched_period, __u64, Period in nanoseconds (0 = use deadline)
-+ * struct-field-policy: sched_period, SCHED_DEADLINE
-+ * struct-field: sched_util_min, __u32, Minimum utilization hint (v1+)
-+ * struct-field-range: sched_util_min, 0, 1024
-+ * struct-field-version: sched_util_min, 1
-+ * struct-field-flag: sched_util_min, SCHED_FLAG_UTIL_CLAMP_MIN
-+ * struct-field: sched_util_max, __u32, Maximum utilization hint (v1+)
-+ * struct-field-range: sched_util_max, 0, 1024
-+ * struct-field-version: sched_util_max, 1
-+ * struct-field-flag: sched_util_max, SCHED_FLAG_UTIL_CLAMP_MAX
-+ * param-type: flags, KAPI_TYPE_UINT
-+ * param-flags: flags, KAPI_PARAM_IN
-+ * param-range: flags, 0, 0
-+ * param-constraint: flags, Must be 0 (reserved for future use)
-+ * validation-group: RT Policies
-+ * validation-policy: SCHED_FIFO, SCHED_RR
-+ * validation-rule: sched_priority must be in [1,99]
-+ * validation-rule: sched_nice must be 0
-+ * validation-rule: No deadline parameters
-+ * validation-group: CFS Policies
-+ * validation-policy: SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
-+ * validation-rule: sched_priority must be 0
-+ * validation-rule: sched_nice must be in [-20,19]
-+ * validation-rule: No deadline parameters
-+ * validation-group: Deadline Policy
-+ * validation-policy: SCHED_DEADLINE
-+ * validation-rule: sched_runtime > 0
-+ * validation-rule: sched_deadline >= sched_runtime
-+ * validation-rule: sched_period == 0 || sched_period >= sched_deadline
-+ * validation-rule: sched_priority must be 0
-+ * validation-rule: sched_nice must be 0
-+ * validation-group: Utilization Clamping
-+ * validation-flag: SCHED_FLAG_UTIL_CLAMP_MIN, SCHED_FLAG_UTIL_CLAMP_MAX
-+ * validation-rule: Requires struct version >= 1 (size >= 56)
-+ * validation-rule: util values must be in [0,1024]
-+ * validation-rule: util_min <= util_max
-+ * return-type: KAPI_TYPE_INT
-+ * return-check-type: KAPI_RETURN_ERROR_CHECK
-+ * return-success: 0
-+ * error-code: -EINVAL, EINVAL, Invalid parameters,
-+ *   Returned when uattr is NULL, pid < 0, flags != 0,
-+ *   attr.size < SCHED_ATTR_SIZE_VER0, invalid scheduling policy,
-+ *   invalid priority for policy, invalid sched_flags, or malformed
-+ *   sched_attr structure (e.g., DL runtime > deadline)
-+ * error-code: -ESRCH, ESRCH, Process not found,
-+ *   Returned when the specified pid does not exist
-+ * error-code: -EPERM, EPERM, Insufficient privileges,
-+ *   Returned when lacking CAP_SYS_NICE for privileged operations,
-+ *   trying to change another user's process without CAP_SYS_NICE,
-+ *   or resetting SCHED_RESET_ON_FORK flag without privileges
-+ * error-code: -E2BIG, E2BIG, Structure size mismatch,
-+ *   Returned when sched_attr size is larger than kernel expects
-+ * error-code: -EFAULT, EFAULT, Bad user pointer,
-+ *   Returned when copying from user space fails or uattr is not
-+ *   a valid readable user pointer
-+ * error-code: -EBUSY, EBUSY, Bandwidth exceeded,
-+ *   Returned when SCHED_DEADLINE bandwidth would be exceeded or
-+ *   deadline admission test fails
-+ * error-code: -EAGAIN, EAGAIN, Transient failure,
-+ *   Returned when unable to change cpus_allowed due to transient
-+ *   cpuset or CPU hotplug conditions
-+ * error-code: -ENOMEM, ENOMEM, Memory allocation failed,
-+ *   Returned when unable to allocate memory for CPU masks
-+ * error-code: -EOPNOTSUPP, EOPNOTSUPP, Feature not supported,
-+ *   Returned when utilization clamping is requested but
-+ *   CONFIG_UCLAMP_TASK is not enabled
-+ * since-version: 3.14
-+ * lock: rq->lock, KAPI_LOCK_SPINLOCK
-+ * lock-acquired: true
-+ * lock-released: true
-+ * lock-desc: Process runqueue lock for scheduler state changes
-+ * lock: p->pi_lock, KAPI_LOCK_SPINLOCK
-+ * lock-acquired: true
-+ * lock-released: true
-+ * lock-desc: Priority inheritance lock for PI chain adjustments
-+ * lock: cpuset_mutex, KAPI_LOCK_MUTEX
-+ * lock-acquired: true
-+ * lock-released: true
-+ * lock-desc: Cpuset mutex for SCHED_DEADLINE bandwidth checks
-+ * signal: SIGXCPU
-+ * signal-direction: KAPI_SIGNAL_SEND
-+ * signal-action: KAPI_SIGNAL_ACTION_DEFAULT
-+ * signal-condition: SCHED_FLAG_DL_OVERRUN is set and deadline is missed
-+ * signal-desc: Sent to task when it exceeds its SCHED_DEADLINE runtime.
-+ *   The signal is sent asynchronously from the scheduler tick or
-+ *   deadline timer. Unlike other scheduling policies, SCHED_DEADLINE
-+ *   can generate SIGXCPU for runtime overruns rather than just
-+ *   CPU time limit violations.
-+ * signal-timing: KAPI_SIGNAL_TIME_DURING
-+ * signal-priority: 0
-+ * signal-interruptible: no
-+ * signal-state-req: KAPI_SIGNAL_STATE_RUNNING
-+ * examples: sched_setattr(0, &attr, 0);  // Set attributes for current task
-+ *   sched_setattr(pid, &attr, 0);  // Set attributes for specific task
-+ * notes: The sched_attr structure supports forward/backward compatibility
-+ *   through its size field. Older kernels ignore newer fields. The syscall
-+ *   validates all parameters based on the scheduling policy. For SCHED_DEADLINE,
-+ *   it performs CBS (Constant Bandwidth Server) admission control. Priority
-+ *   changes may trigger immediate reschedule. RT policies require sched_priority
-+ *   in range [1,99]. Normal policies use nice values [-20,19] mapped to
-+ *   static_prio. Changes are atomic - either all succeed or none are applied.
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_PROCESS_STATE, task scheduling attributes, Updates policy/priority/deadline parameters atomically, reversible=yes
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE, runqueue, May requeue task with new priority and trigger reschedule, condition=Task is runnable
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE, deadline bandwidth, Allocates CBS bandwidth for SCHED_DEADLINE tasks, condition=Policy is SCHED_DEADLINE, reversible=yes
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE, timer slack, Sets timer slack to 0 for RT/DL policies, condition=RT or DEADLINE policy
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE, PI chain, Updates priority inheritance chain if task has PI waiters, condition=Task has PI waiters
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE, CPU, May migrate task to different CPU based on affinity/bandwidth, condition=SCHED_DEADLINE or cpuset changes
-+ * state-trans: task->policy, any policy, new policy, Task scheduling policy changes per sched_attr
-+ * state-trans: task->rt_priority, any, 0-99 or 0, RT priority updated for RT policies, 0 for others
-+ * state-trans: task->normal_prio, any, recalculated, Normal priority recalculated based on policy/nice
-+ * state-trans: task->sched_reset_on_fork, 0/1, 0/1, Reset-on-fork flag updated per SCHED_FLAG_RESET_ON_FORK
-+ * state-trans: task->dl, inactive/active, active/inactive, Deadline entity activated for SCHED_DEADLINE
-+ * capability: CAP_SYS_NICE, KAPI_CAP_BYPASS_CHECK, CAP_SYS_NICE capability
-+ * capability-allows: Set RT/DL policies, increase priority, nice < 0, change other users' tasks, remove SCHED_FLAG_RESET_ON_FORK
-+ * capability-without: Can only set SCHED_NORMAL/BATCH/IDLE, decrease priority, nice >= 0, modify own tasks
-+ * capability-condition: Checked when setting RT/DL policy, decreasing nice, or modifying other user's tasks
-+ * capability-priority: 0
-+ * constraint: Valid Scheduling Policy, The sched_policy field must be one of: SCHED_NORMAL (0), SCHED_FIFO (1), SCHED_RR (2), SCHED_BATCH (3), SCHED_IDLE (5), SCHED_DEADLINE (6), or SCHED_EXT (7) if configured. Invalid policies result in -EINVAL.
-+ * constraint-expr: Valid Scheduling Policy, uattr->sched_policy >= 0 && (uattr->sched_policy <= SCHED_DEADLINE || (uattr->sched_policy == SCHED_EXT && IS_ENABLED(CONFIG_SCHED_CLASS_EXT)))
-+ * constraint: RT Priority Range, For SCHED_FIFO and SCHED_RR policies, sched_priority must be in range [1, 99] where 1 is lowest and 99 is highest RT priority. For other policies, sched_priority must be 0.
-+ * constraint-expr: RT Priority Range, rt_policy(uattr->sched_policy) ? (uattr->sched_priority >= 1 && uattr->sched_priority <= 99) : (uattr->sched_priority == 0)
-+ * constraint: Nice Value Range, For SCHED_NORMAL, SCHED_BATCH, and SCHED_IDLE policies, the nice value must be in range [-20, 19] where -20 is highest priority (least nice) and 19 is lowest priority (most nice).
-+ * constraint-expr: Nice Value Range, fair_policy(uattr->sched_policy) ? (uattr->sched_nice >= MIN_NICE && uattr->sched_nice <= MAX_NICE) : 1
-+ * constraint: SCHED_DEADLINE CBS Rules, For SCHED_DEADLINE, must satisfy: sched_runtime > 0, sched_deadline >= sched_runtime, sched_period >= sched_deadline. If period is 0, it defaults to deadline.
-+ * constraint-expr: SCHED_DEADLINE CBS Rules, dl_policy(uattr->sched_policy) ? (uattr->sched_runtime > 0 && uattr->sched_runtime <= uattr->sched_deadline && (uattr->sched_period == 0 || uattr->sched_period >= uattr->sched_deadline)) : 1
-+ * constraint: Utilization Clamping Range, If sched_flags includes SCHED_FLAG_UTIL_CLAMP_MIN/MAX, the util_min and util_max values must be in range [0, 1024] where 1024 represents 100% utilization.
-+ * constraint-expr: Utilization Clamping Range, (uattr->sched_flags & SCHED_FLAG_UTIL_CLAMP) ? (uattr->sched_util_min >= 0 && uattr->sched_util_min <= SCHED_CAPACITY_SCALE && uattr->sched_util_max >= 0 && uattr->sched_util_max <= SCHED_CAPACITY_SCALE && uattr->sched_util_min <= uattr->sched_util_max) : 1
-+ * constraint: SCHED_DEADLINE Bandwidth, The sum of runtime/period ratios for all SCHED_DEADLINE tasks on the system must not exceed the available CPU capacity. This global bandwidth check prevents system overload.
-+ * constraint: Structure Size Compatibility, The attr.size field must be at least SCHED_ATTR_SIZE_VER0 (48 bytes) and no larger than the kernel's known structure size to ensure forward/backward compatibility.
-+ *
-+ * Context: Process context. May sleep. Takes various scheduler locks.
-  */
- SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
- 			       unsigned int, flags)
--- 
-2.39.5
+On 7/11/25 13:38, Lorenzo Stoakes wrote:
+> Historically we've made it a uAPI requirement that mremap() may only
+> operate on a single VMA at a time.
+> 
+> For instances where VMAs need to be resized, this makes sense, as it
+> becomes very difficult to determine what a user actually wants should they
+> indicate a desire to expand or shrink the size of multiple VMAs (truncate?
+> Adjust sizes individually? Some other strategy?).
+> 
+> However, in instances where a user is moving VMAs, it is restrictive to
+> disallow this.
+> 
+> This is especially the case when anonymous mapping remap may or may not be
+> mergeable depending on whether VMAs have or have not been faulted due to
+> anon_vma assignment and folio index alignment with vma->vm_pgoff.
+> 
+> Often this can result in surprising impact where a moved region is faulted,
+> then moved back and a user fails to observe a merge from otherwise
+> compatible, adjacent VMAs.
+> 
+> This change allows such cases to work without the user having to be
+> cognizant of whether a prior mremap() move or other VMA operations has
+> resulted in VMA fragmentation.
+> 
+> We only permit this for mremap() operations that do NOT change the size of
+> the VMA and DO specify MREMAP_MAYMOVE | MREMAP_FIXED.
+> 
+> Should no VMA exist in the range, -EFAULT is returned as usual.
+> 
+> If a VMA move spans a single VMA - then there is no functional change.
+> 
+> Otherwise, we place additional requirements upon VMAs:
+> 
+> * They must not have a userfaultfd context associated with them - this
+>   requires dropping the lock to notify users, and we want to perform the
+>   operation with the mmap write lock held throughout.
+> 
+> * If file-backed, they cannot have a custom get_unmapped_area handler -
+>   this might result in MREMAP_FIXED not being honoured, which could result
+>   in unexpected positioning of VMAs in the moved region.
+> 
+> There may be gaps in the range of VMAs that are moved:
+> 
+>                    X        Y                       X        Y
+>                  <--->     <->                    <--->     <->
+>          |-------|   |-----| |-----|      |-------|   |-----| |-----|
+>          |   A   |   |  B  | |  C  | ---> |   A'  |   |  B' | |  C' |
+>          |-------|   |-----| |-----|      |-------|   |-----| |-----|
+>         addr                           new_addr
+> 
+> The move will preserve the gaps between each VMA.
+
+AFAIU "moving a gap" doesn't mean we unmap anything pre-existing where the
+moved gap's range falls to, right? Worth pointing out explicitly.
+
+> Note that any failures encountered will result in a partial move. Since an
+> mremap() can fail at any time, this might result in only some of the VMAs
+> being moved.
+> 
+> Note that failures are very rare and typically require an out of a memory
+> condition or a mapping limit condition to be hit, assuming the VMAs being
+> moved are valid.
+> 
+> We don't try to assess ahead of time whether VMAs are valid according to
+> the multi VMA rules, as it would be rather unusual for a user to mix
+> uffd-enabled VMAs and/or VMAs which map unusual driver mappings that
+> specify custom get_unmapped_area() handlers in an aggregate operation.
+> 
+> So we optimise for the far, far more likely case of the operation being
+> entirely permissible.
+
+Guess it's the sanest thing to do given all the cirumstances.
+
+> In the case of the move of a single VMA, the above conditions are
+> permitted. This makes the behaviour identical for a single VMA as before.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
+Some nits:
+
+> ---
+>  mm/mremap.c | 157 +++++++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 150 insertions(+), 7 deletions(-)
+> 
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 8cb08ccea6ad..59f49de0f84e 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -69,6 +69,8 @@ struct vma_remap_struct {
+>  	enum mremap_type remap_type;	/* expand, shrink, etc. */
+>  	bool mmap_locked;		/* Is mm currently write-locked? */
+>  	unsigned long charged;		/* If VM_ACCOUNT, # pages to account. */
+> +	bool seen_vma;			/* Is >1 VMA being moved? */
+
+Seems this could be local variable of remap_move().
+
+> +	bool vmi_needs_reset;		/* Was the VMA iterator invalidated? */
+>  };
+>  
+>  static pud_t *get_old_pud(struct mm_struct *mm, unsigned long addr)
+> @@ -1188,6 +1190,9 @@ static int copy_vma_and_data(struct vma_remap_struct *vrm,
+>  		*new_vma_ptr = NULL;
+>  		return -ENOMEM;
+>  	}
+
+A newline here?
+
+> +	if (vma != vrm->vma)
+> +		vrm->vmi_needs_reset = true;
+
+A comment on what this condition means wouldn't hurt? Is it when "Source vma
+may have been merged into new_vma" in copy_vma(), or when not?
+
+(no comments bellow, remaining quoted part left for linux-api reference)
+
+> +
+>  	vrm->vma = vma;
+>  	pmc.old = vma;
+>  	pmc.new = new_vma;
+> @@ -1583,6 +1588,18 @@ static bool vrm_will_map_new(struct vma_remap_struct *vrm)
+>  	return false;
+>  }
+>  
+> +/* Does this remap ONLY move mappings? */
+> +static bool vrm_move_only(struct vma_remap_struct *vrm)
+> +{
+> +	if (!(vrm->flags & MREMAP_FIXED))
+> +		return false;
+> +
+> +	if (vrm->old_len != vrm->new_len)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static void notify_uffd(struct vma_remap_struct *vrm, bool failed)
+>  {
+>  	struct mm_struct *mm = current->mm;
+> @@ -1597,6 +1614,32 @@ static void notify_uffd(struct vma_remap_struct *vrm, bool failed)
+>  	userfaultfd_unmap_complete(mm, vrm->uf_unmap);
+>  }
+>  
+> +static bool vma_multi_allowed(struct vm_area_struct *vma)
+> +{
+> +	struct file *file;
+> +
+> +	/*
+> +	 * We can't support moving multiple uffd VMAs as notify requires
+> +	 * mmap lock to be dropped.
+> +	 */
+> +	if (userfaultfd_armed(vma))
+> +		return false;
+> +
+> +	/*
+> +	 * Custom get unmapped area might result in MREMAP_FIXED not
+> +	 * being obeyed.
+> +	 */
+> +	file = vma->vm_file;
+> +	if (file && !vma_is_shmem(vma) && !is_vm_hugetlb_page(vma)) {
+> +		const struct file_operations *fop = file->f_op;
+> +
+> +		if (fop->get_unmapped_area)
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static int check_prep_vma(struct vma_remap_struct *vrm)
+>  {
+>  	struct vm_area_struct *vma = vrm->vma;
+> @@ -1646,7 +1689,19 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
+>  			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
+>  		return -EINVAL;
+>  
+> -	/* We can't remap across vm area boundaries */
+> +	/*
+> +	 * We can't remap across the end of VMAs, as another VMA may be
+> +	 * adjacent:
+> +	 *
+> +	 *       addr   vma->vm_end
+> +	 *  |-----.----------|
+> +	 *  |     .          |
+> +	 *  |-----.----------|
+> +	 *        .<--------->xxx>
+> +	 *            old_len
+> +	 *
+> +	 * We also require that vma->vm_start <= addr < vma->vm_end.
+> +	 */
+>  	if (old_len > vma->vm_end - addr)
+>  		return -EFAULT;
+>  
+> @@ -1746,6 +1801,90 @@ static unsigned long check_mremap_params(struct vma_remap_struct *vrm)
+>  	return 0;
+>  }
+>  
+> +static unsigned long remap_move(struct vma_remap_struct *vrm)
+> +{
+> +	struct vm_area_struct *vma;
+> +	unsigned long start = vrm->addr;
+> +	unsigned long end = vrm->addr + vrm->old_len;
+> +	unsigned long new_addr = vrm->new_addr;
+> +	unsigned long target_addr = new_addr;
+> +	unsigned long res = -EFAULT;
+> +	unsigned long last_end;
+> +	bool allowed = true;
+> +	VMA_ITERATOR(vmi, current->mm, start);
+> +
+> +	/*
+> +	 * When moving VMAs we allow for batched moves across multiple VMAs,
+> +	 * with all VMAs in the input range [addr, addr + old_len) being moved
+> +	 * (and split as necessary).
+> +	 */
+> +	for_each_vma_range(vmi, vma, end) {
+> +		/* Account for start, end not aligned with VMA start, end. */
+> +		unsigned long addr = max(vma->vm_start, start);
+> +		unsigned long len = min(end, vma->vm_end) - addr;
+> +		unsigned long offset, res_vma;
+> +
+> +		if (!allowed)
+> +			return -EFAULT;
+> +
+> +		/* No gap permitted at the start of the range. */
+> +		if (!vrm->seen_vma && start < vma->vm_start)
+> +			return -EFAULT;
+> +
+> +		/*
+> +		 * To sensibly move multiple VMAs, accounting for the fact that
+> +		 * get_unmapped_area() may align even MAP_FIXED moves, we simply
+> +		 * attempt to move such that the gaps between source VMAs remain
+> +		 * consistent in destination VMAs, e.g.:
+> +		 *
+> +		 *           X        Y                       X        Y
+> +		 *         <--->     <->                    <--->     <->
+> +		 * |-------|   |-----| |-----|      |-------|   |-----| |-----|
+> +		 * |   A   |   |  B  | |  C  | ---> |   A'  |   |  B' | |  C' |
+> +		 * |-------|   |-----| |-----|      |-------|   |-----| |-----|
+> +		 *                               new_addr
+> +		 *
+> +		 * So we map B' at A'->vm_end + X, and C' at B'->vm_end + Y.
+> +		 */
+> +		offset = vrm->seen_vma ? vma->vm_start - last_end : 0;
+> +		last_end = vma->vm_end;
+> +
+> +		vrm->vma = vma;
+> +		vrm->addr = addr;
+> +		vrm->new_addr = target_addr + offset;
+> +		vrm->old_len = vrm->new_len = len;
+> +
+> +		allowed = vma_multi_allowed(vma);
+> +		if (vrm->seen_vma && !allowed)
+> +			return -EFAULT;
+> +
+> +		res_vma = check_prep_vma(vrm);
+> +		if (!res_vma)
+> +			res_vma = mremap_to(vrm);
+> +		if (IS_ERR_VALUE(res_vma))
+> +			return res_vma;
+> +
+> +		if (!vrm->seen_vma) {
+> +			VM_WARN_ON_ONCE(allowed && res_vma != new_addr);
+> +			res = res_vma;
+> +		}
+> +
+> +		/* mmap lock is only dropped on shrink. */
+> +		VM_WARN_ON_ONCE(!vrm->mmap_locked);
+> +		/* This is a move, no expand should occur. */
+> +		VM_WARN_ON_ONCE(vrm->populate_expand);
+> +
+> +		if (vrm->vmi_needs_reset) {
+> +			vma_iter_reset(&vmi);
+> +			vrm->vmi_needs_reset = false;
+> +		}
+> +		vrm->seen_vma = true;
+> +		target_addr = res_vma + vrm->new_len;
+> +	}
+> +
+> +	return res;
+> +}
+> +
+>  static unsigned long do_mremap(struct vma_remap_struct *vrm)
+>  {
+>  	struct mm_struct *mm = current->mm;
+> @@ -1763,13 +1902,17 @@ static unsigned long do_mremap(struct vma_remap_struct *vrm)
+>  		return -EINTR;
+>  	vrm->mmap_locked = true;
+>  
+> -	vrm->vma = vma_lookup(current->mm, vrm->addr);
+> -	res = check_prep_vma(vrm);
+> -	if (res)
+> -		goto out;
+> +	if (vrm_move_only(vrm)) {
+> +		res = remap_move(vrm);
+> +	} else {
+> +		vrm->vma = vma_lookup(current->mm, vrm->addr);
+> +		res = check_prep_vma(vrm);
+> +		if (res)
+> +			goto out;
+>  
+> -	/* Actually execute mremap. */
+> -	res = vrm_implies_new_addr(vrm) ? mremap_to(vrm) : mremap_at(vrm);
+> +		/* Actually execute mremap. */
+> +		res = vrm_implies_new_addr(vrm) ? mremap_to(vrm) : mremap_at(vrm);
+> +	}
+>  
+>  out:
+>  	failed = IS_ERR_VALUE(res);
 
 
