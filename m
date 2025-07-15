@@ -1,156 +1,255 @@
-Return-Path: <linux-api+bounces-4157-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4158-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71F2B0471A
-	for <lists+linux-api@lfdr.de>; Mon, 14 Jul 2025 20:07:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F684B06486
+	for <lists+linux-api@lfdr.de>; Tue, 15 Jul 2025 18:42:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCCB33BCFC6
-	for <lists+linux-api@lfdr.de>; Mon, 14 Jul 2025 18:07:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84EA3188DE42
+	for <lists+linux-api@lfdr.de>; Tue, 15 Jul 2025 16:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A444A26B96E;
-	Mon, 14 Jul 2025 18:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09A662777F1;
+	Tue, 15 Jul 2025 16:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVx6V50J"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMeWzDhg"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB69726B94E;
-	Mon, 14 Jul 2025 18:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0602E1EA7D2;
+	Tue, 15 Jul 2025 16:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752516476; cv=none; b=FZDQm7nY0Dnv8Pw+kJrIJtCMzKcJ0HljCl2mEdrYJE8sSAj+Ho+HjgRps7f8gNhZI/55B81fz9SPuA5g9QlYYFPvUEPCL9iomwM6EZ4YtsNwpD73sjF6GThlB09TiCbmtFHbQCnx2WJVVCqqqsycOgwsa4N4iCcWpQ1buy+9gAk=
+	t=1752597758; cv=none; b=JIBsuNM/jr0grusrzmkQT4SrvfSjOQA/mfGAm67NaeU81wF9ktiVGH5HaEPrV4IbG94WvzPH1//7PWQyUmi7TQgFGqgSb4JyKn40DaRK65XMoMp3CL1/XHOIImA91oVOGjnx/d/vzliIYe9hQXQWWrnPJnms4fn7ADbVDQMEr2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752516476; c=relaxed/simple;
-	bh=dAR/rUsYNa6PZyDHeSqqc2o3AIhtW8QY+gby5DdA4gM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtIQgJz1phDD7NMDBvsvfVAErrAllQv0NvGBkuMxcvRSlHkOT7HBygRNfQ2Ko0GsPCvQaFE+oiqXha8tUCXHCPT7FDIFBJ12EZ7LYIvGZeNl0iLDmE8loFDhVDZVJf5tq8DdrAnLhS9VlVIx6KtggEax2/hTajUgucjXcunwod8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVx6V50J; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752516475; x=1784052475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dAR/rUsYNa6PZyDHeSqqc2o3AIhtW8QY+gby5DdA4gM=;
-  b=iVx6V50JWGmUJLwHCIvFUDspkTcuqxHIq4T3i7wsUqKAj8dz3fTPVDtF
-   FP5sC9r9gENqFYvTc6SE5ZsUksgBWRIYJfzVAhmzMdKx08t7r9QtFTuTA
-   11+9wxG8D+tQUXUNguh5S99Ys+BtG1eshyfb3hHT2TP5YHu8zUoCbrssa
-   Obzp3D/slYq25zpNrH9uRvaw4+aYfY28ej/yGsEpKQN1l/bd2Iga0HLkC
-   sM7G7sCIJYNiN/0+JtNvYP/zbGnGojNuOe2It1BYs1U86qQ5OGESR48GT
-   Ij177bvz9XfoJaNLhBFYDFThOf+fHR/kzIT8VTUtF4WrhR7XzEiBwNtd7
-   A==;
-X-CSE-ConnectionGUID: 7zaGDubiSTW7PxV43NHsqg==
-X-CSE-MsgGUID: Agm7RjEqQSOhLDNSvNVxQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54845950"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="54845950"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:07:54 -0700
-X-CSE-ConnectionGUID: zTt/8AEyS6u9eDHt80S9tg==
-X-CSE-MsgGUID: fxml/+LHQEyTrbc2FF8K0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="188001945"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Jul 2025 11:07:50 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubNae-0009Ch-0V;
-	Mon, 14 Jul 2025 18:07:48 +0000
-Date: Tue, 15 Jul 2025 02:07:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, john.johansen@canonical.com,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org,
-	rdunlap@infradead.org, linux-api@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
-	Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>
-Subject: Re: [PATCH v5 3/3] AppArmor: add support for lsm_config_self_policy
- and lsm_config_system_policy
-Message-ID: <202507150132.xWRFcZgf-lkp@intel.com>
-References: <20250709080220.110947-4-maxime.belair@canonical.com>
+	s=arc-20240116; t=1752597758; c=relaxed/simple;
+	bh=TPUhTQYoGJnvLAjJ+OXXmgWuBxJHybKodUSVwfyXqRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qG8fw+Ch+WJsXzvWd9eo5UQXbsfkIt0OpuxULoTmOFxU3Ss2PAdXi0wTrmHwxH4p92c2rV8AX1K05XTgh/54LeTN5pSwPfdAw7YmSx4vnXkTuPBzx3od1NdMFYWtRYnOMB7coEGJKHZMKkWS2tepQSbz8TkDZHcQVzaboheqW/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMeWzDhg; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-acb5ec407b1so1011471966b.1;
+        Tue, 15 Jul 2025 09:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752597755; x=1753202555; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SymSV/e36/hkT0Dwb30Y9z4/6bpYXKF6g8wiS6N+Kj0=;
+        b=DMeWzDhgFhKsEBJutBKUIZPSE6uHBhe/ZGfdW55tQHwJmhFh9E+tavkbrqyjSs2CKn
+         fQlJSqI1WqRM9QlrXrd+SGfPmc6LEgbUgRoaHNctOeZMw7xuSZidQstbXqZf7KJ+GVsW
+         9EIlEf4qNFLCrtXXacj47XYGZVf+oayqEwzOiZFYgdsx7rae8k/0SJXi8mEj/gBX21hC
+         RMTEm6EHHt0l1ak7EfnFGItymbQdwqfzU+37Y5QW9SOKA6xEILj3gUkC1BU9CDwFG+53
+         1m1UF33igptEgemudROQNafExccrkgnF0+6w3RQUlbGfvxF5zWA7pAosuWL2dsmPpwjR
+         qCBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752597755; x=1753202555;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SymSV/e36/hkT0Dwb30Y9z4/6bpYXKF6g8wiS6N+Kj0=;
+        b=SRCk+biRmrfebQ6SSfOdD4EDMo48UBiqOU/RG1wS3KfXOZCnVZMBLf445KwhvnKH7D
+         QzEA2/wtyRyOvebX6SOSoiGivcpWPsj4dRCIwWUFfqtLdWvABbbc2K02VCnWpyueiQMv
+         EE/lL2YctqC3vRw4L7I0BcZ+ElE5eN6RWmSMDWXgaIK+Q9u+FZVp5QvCJGnaAzsaJuB4
+         V53AfakGkCYVk4kNFEnJaL2IdcfcoLpy/MYLp2E/GgubQMuT7B8wVjaONXxukbXPGDuW
+         58hpg8OyTupB1//+Wldfo01LqqUz37w9p3vrB3DyL7HbFjVkPNjBSMlUAt2hefKQC953
+         VaDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRLcQ3HKH4u3oemiOpAG5w2Ug2i35Ty9hyGk0Uq3Mpd9g0ut0wvEr6qPlRUFw5r/920P+IG9Fxp8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFztrR5qwVPgtxZpitNT34mprki2vuwjm718dXZwXg/kwQ2lfE
+	OqqQjwWgnxlCtR+1sfTrFnZzfGlf7al06LPXsvZEC7btdxxu3Fl5m4hC
+X-Gm-Gg: ASbGncs04yQBP0tGqQmZRZ3cRPErCSaiS/NdjnwHv8wsYrHXplLSRhSB4Be/uByM92n
+	WrEc1nYRrSkjCVGB3sJ9S7x7OsXv61nOm7CXVhRAal2r/bnjps6rgS/kCJMCvZFSwAvbCVCLpLp
+	ce10IHCXgjNOoEXILbszTFJM/xyHvN7jc92mHhgia5M4LlCjFkju6TVVkockzh0f2yqo/54O0e2
+	fvj6FSg2e+7WhumHQ3MeChZ4OyHJb+jyRZx44qMyGNsIbkrdUd93aedkvV2cfZ8qWmgKOqxs0xj
+	/JChKdoHWejLuUkU2ZtzOBNMb8L9J5qUX63MCwSFdAgF0nX3EO0qnUA7/00D/iuNt3dQnnLOmST
+	KAtWS29NDpR9oT9NJhCb+yqi12kYXUYNbJEdIIis=
+X-Google-Smtp-Source: AGHT+IHlWkyrdZVzSfi18e1LifRy3TtQLG75/9l0Me07g3QsJX5sWOIj8V7lYPeTkSt/AIFSz1A6aw==
+X-Received: by 2002:a17:907:d24:b0:ad5:a121:6ebc with SMTP id a640c23a62f3a-ae9c97a56bdmr25910966b.0.1752597754902;
+        Tue, 15 Jul 2025 09:42:34 -0700 (PDT)
+Received: from laptom.retis ([193.205.81.5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7c09dfdsm1021672766b.0.2025.07.15.09.42.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 09:42:34 -0700 (PDT)
+From: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>
+X-Google-Original-From: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+To: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+Subject: [PATCH] sched/deadline: sched_getattr(...flags=1) returns the runtime left and abs deadline for DEADLINE tasks
+Date: Tue, 15 Jul 2025 18:39:29 +0200
+Message-ID: <20250715164148.1151620-1-tommaso.cucinotta@santannapisa.it>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250709080220.110947-4-maxime.belair@canonical.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+The SCHED_DEADLINE scheduler allows reading the statically configured
+run-time, deadline, and period parameters through the sched_getattr()
+system call. However, there is no immediate way to access, from user space,
+the current parameters used within the scheduler: the instantaneous runtime
+left in the current cycle, as well as the current absolute deadline.
 
-kernel test robot noticed the following build warnings:
+The `flags' sched_getattr() parameter, so far mandated to contain zero,
+now supports the SCHED_GETATTR_FLAG_DL_DYNAMIC=1 flag, to request
+retrieval of the leftover runtime and absolute deadline, converted to a
+CLOCK_MONOTONIC reference, instead of the statically configured parameters.
 
-[auto build test WARNING on 9c32cda43eb78f78c73aee4aa344b777714e259b]
+This feature is useful for adaptive SCHED_DEADLINE tasks that need to
+modify their behavior depending on whether or not there is enough runtime
+left in the current period, and/or what is the current absolute deadline.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-B-lair/Wire-up-lsm_config_self_policy-and-lsm_config_system_policy-syscalls/20250709-160720
-base:   9c32cda43eb78f78c73aee4aa344b777714e259b
-patch link:    https://lore.kernel.org/r/20250709080220.110947-4-maxime.belair%40canonical.com
-patch subject: [PATCH v5 3/3] AppArmor: add support for lsm_config_self_policy and lsm_config_system_policy
-config: hexagon-randconfig-r072-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150132.xWRFcZgf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Notes:
+- before returning the instantaneous parameters, the runtime is updated;
+- the abs deadline is returned shifted from rq_clock() to ktime_get_ns(),
+  in CLOCK_MONOTONIC reference; this causes multiple invocations from the
+  same period to return values that may differ for a few ns (showing some
+  small drift), albeit the deadline doesn't move, in rq_clock() reference;
+- the abs deadline value returned to user-space, as unsigned 64-bit value,
+  can represent nearly 585 years since boot time;
+- setting flags=0 provides the old behavior (retrieve static parameters).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150132.xWRFcZgf-lkp@intel.com/
+See also the notes from discussion held at OSPM 2025 on the topic
+"Making user space aware of current deadline-scheduler parameters":
+https://lwn.net/Articles/1022054/
 
-smatch warnings:
-security/apparmor/lsm.c:1348 apparmor_lsm_config_system_policy() warn: unsigned 'ns_size' is never less than zero.
+Signed-off-by: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+---
+ include/uapi/linux/sched.h |  3 +++
+ kernel/sched/deadline.c    | 18 +++++++++++++++---
+ kernel/sched/sched.h       |  2 +-
+ kernel/sched/syscalls.c    | 16 +++++++++++-----
+ 4 files changed, 30 insertions(+), 9 deletions(-)
 
-vim +/ns_size +1348 security/apparmor/lsm.c
-
-  1319	
-  1320	/**
-  1321	 * apparmor_lsm_config_system_policy - Load or replace a system policy
-  1322	 * @lsm_id: AppArmor ID (LSM_ID_APPARMOR). Unused here
-  1323	 * @op: operation to perform. Currently, only LSM_POLICY_LOAD is supported
-  1324	 * @buf: user-supplied buffer in the form "<ns>\0<policy>"
-  1325	 *        <ns> is the namespace to load the policy into (empty string for root)
-  1326	 *        <policy> is the policy to load
-  1327	 * @size: size of @buf
-  1328	 * @flags: reserved for future uses; must be zero
-  1329	 *
-  1330	 * Returns: 0 on success, negative value on error
-  1331	 */
-  1332	static int apparmor_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
-  1333					      size_t size, u32 flags)
-  1334	{
-  1335		loff_t pos = 0; // Partial writing is not currently supported
-  1336		char ns_name[AA_PROFILE_NAME_MAX_SIZE];
-  1337		size_t ns_size;
-  1338		size_t max_ns_size = min(size, AA_PROFILE_NAME_MAX_SIZE);
-  1339	
-  1340		if (op != LSM_POLICY_LOAD || flags)
-  1341			return -EOPNOTSUPP;
-  1342		if (size < 2)
-  1343			return -EINVAL;
-  1344		if (size > AA_PROFILE_MAX_SIZE)
-  1345			return -E2BIG;
-  1346	
-  1347		ns_size = strncpy_from_user(ns_name, buf, max_ns_size);
-> 1348		if (ns_size < 0)
-  1349			return ns_size;
-  1350		if (ns_size == max_ns_size)
-  1351			return -E2BIG;
-  1352	
-  1353		return aa_profile_load_ns_name(ns_name, ns_size, buf + ns_size + 1,
-  1354					       size - ns_size - 1, &pos);
-  1355	}
-  1356	
-
+diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+index 359a14cc..52b69ce8 100644
+--- a/include/uapi/linux/sched.h
++++ b/include/uapi/linux/sched.h
+@@ -146,4 +146,7 @@ struct clone_args {
+ 			 SCHED_FLAG_KEEP_ALL		| \
+ 			 SCHED_FLAG_UTIL_CLAMP)
+ 
++/* Only for sched_getattr() own flag param, if task is SCHED_DEADLINE */
++#define SCHED_GETATTR_FLAG_DL_DYNAMIC	0x01
++
+ #endif /* _UAPI_LINUX_SCHED_H */
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 9c7d9528..1b5cd7fa 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -3290,13 +3290,25 @@ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+ 	dl_se->dl_density = to_ratio(dl_se->dl_deadline, dl_se->dl_runtime);
+ }
+ 
+-void __getparam_dl(struct task_struct *p, struct sched_attr *attr)
++void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+ {
+ 	struct sched_dl_entity *dl_se = &p->dl;
++	struct rq *rq = task_rq(p);
++	u64 adj_deadline;
+ 
+ 	attr->sched_priority = p->rt_priority;
+-	attr->sched_runtime = dl_se->dl_runtime;
+-	attr->sched_deadline = dl_se->dl_deadline;
++	if (flags & SCHED_GETATTR_FLAG_DL_DYNAMIC) {
++		guard(raw_spinlock_irq)(&rq->__lock);
++		update_rq_clock(rq);
++		update_curr_dl(rq);
++
++		attr->sched_runtime = dl_se->runtime;
++		adj_deadline = dl_se->deadline - rq_clock(rq) + ktime_get_ns();
++		attr->sched_deadline = adj_deadline;
++	} else {
++		attr->sched_runtime = dl_se->dl_runtime;
++		attr->sched_deadline = dl_se->dl_deadline;
++	}
+ 	attr->sched_period = dl_se->dl_period;
+ 	attr->sched_flags &= ~SCHED_DL_FLAGS;
+ 	attr->sched_flags |= dl_se->flags;
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 3058fb62..f69bf019 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -353,7 +353,7 @@ extern int  sched_dl_global_validate(void);
+ extern void sched_dl_do_global(void);
+ extern int  sched_dl_overflow(struct task_struct *p, int policy, const struct sched_attr *attr);
+ extern void __setparam_dl(struct task_struct *p, const struct sched_attr *attr);
+-extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr);
++extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags);
+ extern bool __checkparam_dl(const struct sched_attr *attr);
+ extern bool dl_param_changed(struct task_struct *p, const struct sched_attr *attr);
+ extern int  dl_cpuset_cpumask_can_shrink(const struct cpumask *cur, const struct cpumask *trial);
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 77ae87f3..c80b3568 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -928,10 +928,10 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+ 	return -E2BIG;
+ }
+ 
+-static void get_params(struct task_struct *p, struct sched_attr *attr)
++static void get_params(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+ {
+ 	if (task_has_dl_policy(p)) {
+-		__getparam_dl(p, attr);
++		__getparam_dl(p, attr, flags);
+ 	} else if (task_has_rt_policy(p)) {
+ 		attr->sched_priority = p->rt_priority;
+ 	} else {
+@@ -997,7 +997,7 @@ SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		return -ESRCH;
+ 
+ 	if (attr.sched_flags & SCHED_FLAG_KEEP_PARAMS)
+-		get_params(p, &attr);
++		get_params(p, &attr, 0);
+ 
+ 	return sched_setattr(p, &attr);
+ }
+@@ -1082,7 +1082,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 	int retval;
+ 
+ 	if (unlikely(!uattr || pid < 0 || usize > PAGE_SIZE ||
+-		      usize < SCHED_ATTR_SIZE_VER0 || flags))
++		     usize < SCHED_ATTR_SIZE_VER0))
+ 		return -EINVAL;
+ 
+ 	scoped_guard (rcu) {
+@@ -1090,6 +1090,12 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		if (!p)
+ 			return -ESRCH;
+ 
++		if (flags) {
++			if (!task_has_dl_policy(p)
++			    || flags != SCHED_GETATTR_FLAG_DL_DYNAMIC)
++				return -EINVAL;
++		}
++
+ 		retval = security_task_getscheduler(p);
+ 		if (retval)
+ 			return retval;
+@@ -1097,7 +1103,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		kattr.sched_policy = p->policy;
+ 		if (p->sched_reset_on_fork)
+ 			kattr.sched_flags |= SCHED_FLAG_RESET_ON_FORK;
+-		get_params(p, &kattr);
++		get_params(p, &kattr, flags);
+ 		kattr.sched_flags &= SCHED_FLAG_ALL;
+ 
+ #ifdef CONFIG_UCLAMP_TASK
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
 
