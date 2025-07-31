@@ -1,142 +1,185 @@
-Return-Path: <linux-api+bounces-4271-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4272-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB64B155EC
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jul 2025 01:23:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E16B16A81
+	for <lists+linux-api@lfdr.de>; Thu, 31 Jul 2025 04:40:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F39E17757D
-	for <lists+linux-api@lfdr.de>; Tue, 29 Jul 2025 23:23:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCDAC3B395B
+	for <lists+linux-api@lfdr.de>; Thu, 31 Jul 2025 02:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 191C428643C;
-	Tue, 29 Jul 2025 23:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781181F4262;
+	Thu, 31 Jul 2025 02:40:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExfrNWag"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rf0S6QkR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B5228469A;
-	Tue, 29 Jul 2025 23:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F267A18A6B0;
+	Thu, 31 Jul 2025 02:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753831421; cv=none; b=iL+jO/PXKf65OVWkj41qTZ6qPhSfKlXtibE5P1xbj7QyEPPdz6lxiiX8ib5ISz3cg4vwoQNxfYvgiDPTVut1upWPH6FSwfS68Y0Bu/E018M/WmvrNJrLRaVLRyu7WxPVmAHtgMHrXh7Bd8EEbYkI+yADMo3hiHcSliAe5GSn2D4=
+	t=1753929653; cv=none; b=glmYFDSp/1KWd7d+algUf0qntf3slRBSM272IMoM0oQJZ6Z8d4evouQQj0IPiDJXkY64VoLctHdU75UalhQ7WTt13xqc8CTqYxap76xt5U8Lv9mooshqbKc9DU3ZuvF3QnCwLMohu6XUXxkRm2/vq8HHkOQxUn9Zch6jHSszHZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753831421; c=relaxed/simple;
-	bh=k87dPy6BPkaKz6PVwZ9QExifXqUdGreO1XryLzhHrAU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SmnlwQsku4uADO/4WFv/7wRbq/RYURKDCICv53VR53zp/Jq27Gb8Bqzj0zHE0torXyvWWi7ZRPl1gRTx5R81RGC31yoOr3VQpdIvHz+sgbaQJQfHbW6Tm1s/L7PiMDDYqyuT9O1Tc93+mie++CkDsDSEYHiOHwyiNbekYQIGbGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ExfrNWag; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50991C4CEF7;
-	Tue, 29 Jul 2025 23:23:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753831420;
-	bh=k87dPy6BPkaKz6PVwZ9QExifXqUdGreO1XryLzhHrAU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ExfrNWagdnrOUCqpiU3Lx9CVfPIp7MiWDZf8en0ZPlkT/sSBVYPfQm95IJrm+lavz
-	 xO3ixcF5LdhPdpxIhjbbIDM//OnwrYz2GlfzTafjYRm0z9rgGffZIy49H4UOsMDIim
-	 MxXUAu7OBYRjdF+bOLfiMb3F2+nvBVDJfkZf1tOxdoGyMHEp5CPbGUpMX0Tde4Oc/A
-	 dUTAZX7snWGKF++MpaMUDxcAOcifca93aYE7gxxcGtOlyWyZOzVWPQRuHA8jp8SVV0
-	 Gsb68qtK7cOd352+mtgM9MLjS41RS3uKrcDMiOkE/kYX3hQeVqn6I0Nuhg1AD5dbxN
-	 XH02XJsRenO3A==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,  Thomas Gleixner <tglx@linutronix.de>,
-  Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
-  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
-  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  anna.schumaker@oracle.com,  song@kernel.org,  zhangguopeng@kylinos.cn,
-  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
-  gregkh@linuxfoundation.org,  mingo@redhat.com,  bp@alien8.de,
-  dave.hansen@linux.intel.com,  x86@kernel.org,  hpa@zytor.com,
-  rafael@kernel.org,  dakr@kernel.org,  bartosz.golaszewski@linaro.org,
-  cw00.choi@samsung.com,  myungjoo.ham@samsung.com,
-  yesanishhere@gmail.com,  Jonathan.Cameron@huawei.com,
-  quic_zijuhu@quicinc.com,  aleksander.lobakin@intel.com,
-  ira.weiny@intel.com,  andriy.shevchenko@linux.intel.com,
-  leon@kernel.org,  lukas@wunner.de,  bhelgaas@google.com,
-  wagi@kernel.org,  djeffery@redhat.com,  stuart.w.hayes@gmail.com,
-  lennart@poettering.net,  brauner@kernel.org,  linux-api@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  saeedm@nvidia.com,
-  ajayachandra@nvidia.com,  parav@nvidia.com,  leonro@nvidia.com,
-  witu@nvidia.com
-Subject: Re: [PATCH v2 31/32] libluo: introduce luoctl
-In-Reply-To: <20250729183548.49d6c2dc@gandalf.local.home>
-References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
-	<20250723144649.1696299-32-pasha.tatashin@soleen.com>
-	<20250729161450.GM36037@nvidia.com> <877bzqkc38.ffs@tglx>
-	<20250729222157.GT36037@nvidia.com>
-	<20250729183548.49d6c2dc@gandalf.local.home>
-Date: Wed, 30 Jul 2025 01:23:30 +0200
-Message-ID: <mafs07bzqeg3x.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1753929653; c=relaxed/simple;
+	bh=3a12tHqij9N3PVZUPClnk9cypm9n4czLihZ6VU4IrEw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hlxriqR7F1Hh0R1svxpD+n2H4mupSzuYK4fRtOoZZAJDTeV3QbUArsop/aBz7YuRvWIAoAzMgSUY+WoaynxAHE2Nvwuem5PmnR3q4R8E2A33djybVkLpVcQ37rh3DAcULezYeV28Oi5gsGabvdTYS8Wmrhml2Yy6ft+ysVpCZtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rf0S6QkR; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso431710a12.2;
+        Wed, 30 Jul 2025 19:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753929651; x=1754534451; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0CQqvk7Q1Awqd0peVfmJpjnN11IYasMyTNsOJwXbWQU=;
+        b=Rf0S6QkRzzxbJzaPU0IucJ/Dv+555gYZzENDOgnOlKNAybD3lm1uldy69CTELq/3nc
+         Uw1Csw9GKnaamAH1TV0yhHW4b8HA9lQIZdATIzXEYlKNVsXCG5gMrG71dElUmOquixiM
+         faGg5DLMykUbJVU55ziWSXGS5DLDKzUT5HMEpZukYawvRD4gAhA0BYqB0LIRag1cDYzc
+         N3eTcQ6rOJiPCl41VwfK3T9NqcKtw32zCaNXolDnyldfU0p6yudMgoNg7UtAxr42rIqx
+         a80VvM/GhhnG+zqiXL5Pnw59hLGHEf91vpHvke6DgcKNfQrOI6MC2pVfwoFJA1Q8HLTs
+         NooQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753929651; x=1754534451;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0CQqvk7Q1Awqd0peVfmJpjnN11IYasMyTNsOJwXbWQU=;
+        b=n96aeZf+p/Ad8489FSdprdkJn9OTQtnK3+yfGvp9dxUTRnopD47xYYFUTmp71wZapR
+         cbPr9D23qU0TML4iH2vFUkjBDwQxWH0hnNx87y8WezF4elLL+iaK7cXXkry7Ecru8ENU
+         xQYDKTmjI9uZ80AN88Aafxsy7FxcUV5obDp7kHj4kTeBezDeIhTqOU9W+Wlf2KtvJIyE
+         vMeleLsoZCFbg1DcjZaDAd7xZ0seXMFENZk88sr1Acg+T/GspjQ1Av1tldXmpY8IPql5
+         n/pqbf8/gRKGVYYepzF0diwoMLZTz0tId0DQyJ4Acy6nr2QufU2TmcxAOrDAcWuEtVB4
+         vFEg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4w5sDvUJhfsJ7zHMIYZ9hz5iptkK3EQp7XryagOH8FRVFEl53cICctzU2AbjS76gsLT6uc0+mDT5Sg7TxyQ==@vger.kernel.org, AJvYcCVS4YXibjph+2beS+A+4NAwBaGDofJkYlu0wAfsmC2A7QlJxZZ9Cb9tXynvW5MwhPNu4H+X9mnFQr0=@vger.kernel.org, AJvYcCWMDR4tIp/cuoP+xNy42LGTN2kopqDj0OAvVjqSEG21syZ34/BtwPR9Bud7AfPBkwsIuIk0/w35@vger.kernel.org, AJvYcCXjG+zCIEx+s0eRJRhNf5s5gd/ZcBMIx36cEpCJxmHmfAVogJKDJ8wnNaRm7GEs8m0H5g4deR6BMxM85vFw@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS2HJy01PGGh6uL+d0j2LCs3DRaRpP+E8CpqfjQoBwx2EA6qxc
+	VZKbIcR424ijt4hc8VkYXEL93nxD8GxFzQWWuw+HHqnxf6q5vnNS6owGNT0NhVynrtWq9X/JDMB
+	W4LZLFlOmK/KVlOQ7altyWh1xbS93XOE=
+X-Gm-Gg: ASbGncvKWTHiWIDbIvr1QzYVifLw7CmGjGnCaPEQdtaV+X/7M4EDkPK+e2u59JDFdxp
+	g/DsZHwAfsvn5Na60xTvfVE9IpPyC5vax9+1VitH0Esivmw6Th41BxQYnT3qFoqHd2lPCQPYpDL
+	p/PLXmBwcfinLK8IpyMVrNjAHO9yWJzbogQy4WLqPFT9DaOw+oAzS3c9seJp/x2UyqKslnBGoHl
+	WEokF2wF9HrwrCPsFNthxiwBW4T0BgGzIWJC6AZgJ0E4TTZCA==
+X-Google-Smtp-Source: AGHT+IEer314JEfgtgZ9Pz5/zv9i5Zh9oeAvswURdKpH+l/Yga0+wQP5lxV1mHKZaEO7wk2zN/VJyrOfcdvA0n3d2MA=
+X-Received: by 2002:a17:90b:39c5:b0:311:ea13:2e70 with SMTP id
+ 98e67ed59e1d1-31f5de3ceb7mr7878737a91.14.1753929651140; Wed, 30 Jul 2025
+ 19:40:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
+ <20250724230052.GW2580412@ZenIV> <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
+ <20250726175310.GB222315@ZenIV> <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
+In-Reply-To: <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
+From: Pavel Tikhomirov <snorcht@gmail.com>
+Date: Thu, 31 Jul 2025 10:40:40 +0800
+X-Gm-Features: Ac12FXyQt4pEAVf5fhzS5ubdEtkRViMRFtrqLTmfPA4sKpgrINaSaazpM3ky72k
+Message-ID: <CAE1zp74Myaab_U5ZswjCE=ND66bT907Y=vmsk14hV89R_ugbtg@mail.gmail.com>
+Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
+To: Andrei Vagin <avagin@google.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Andrei Vagin <avagin@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, criu@lists.linux.dev, 
+	Linux API <linux-api@vger.kernel.org>, stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 29 2025, Steven Rostedt wrote:
+If detached mounts are our only concern, it looks like the check instead of=
+:
 
-> On Tue, 29 Jul 2025 19:21:57 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+if (!check_mnt(mnt)) {
+        err =3D -EINVAL;
+        goto out_unlock;
+}
+
+could've been a more relaxed one:
+
+if (mnt_detached(mnt)) {
+        err =3D -EINVAL;
+        goto out_unlock;
+}
+
+bool mnt_detached(struct mount *mnt)
+{
+        return !mnt->mnt_ns;
+}
+
+not to allow propagation change only on detached mounts. (As
+umount_tree sets mnt_ns to NULL.)
+
+Also in do_mount_setattr we have a more relaxed check too:
+
+if ((mnt_has_parent(mnt) || !is_anon_ns(mnt->mnt_ns)) && !check_mnt(mnt))
+        goto out;
+
+Best Regards, Tikhomirov Pavel.
+
+On Sun, Jul 27, 2025 at 5:01=E2=80=AFAM Andrei Vagin <avagin@google.com> wr=
+ote:
 >
->> > As this is an evolving mechanism, having the corresponding library in
->> > the kernel similar to what we do with perf and other things makes a lot
->> > of sense.  
->> 
->> If we did this everywhere we'd have hundreds of libraries in the
->> kernel tree and I would feel bad for all the distros that have to deal
->> with packaging such a thing :(
->> 
->> It is great for development but I'm not sure mono-repo directions are
->> so good for the overall ecosystem.
+> On Sat, Jul 26, 2025 at 10:53=E2=80=AFAM Al Viro <viro@zeniv.linux.org.uk=
+> wrote:
+> >
+> > On Sat, Jul 26, 2025 at 10:12:34AM -0700, Andrei Vagin wrote:
+> > > On Thu, Jul 24, 2025 at 4:00=E2=80=AFPM Al Viro <viro@zeniv.linux.org=
+.uk> wrote:
+> > > >
+> > > > On Thu, Jul 24, 2025 at 01:02:48PM -0700, Andrei Vagin wrote:
+> > > > > Hi Al and Christian,
+> > > > >
+> > > > > The commit 12f147ddd6de ("do_change_type(): refuse to operate on
+> > > > > unmounted/not ours mounts") introduced an ABI backward compatibil=
+ity
+> > > > > break. CRIU depends on the previous behavior, and users are now
+> > > > > reporting criu restore failures following the kernel update. This=
+ change
+> > > > > has been propagated to stable kernels. Is this check strictly req=
+uired?
+> > > >
+> > > > Yes.
+> > > >
+> > > > > Would it be possible to check only if the current process has
+> > > > > CAP_SYS_ADMIN within the mount user namespace?
+> > > >
+> > > > Not enough, both in terms of permissions *and* in terms of "thou
+> > > > shalt not bugger the kernel data structures - nobody's priveleged
+> > > > enough for that".
+> > >
+> > > Al,
+> > >
+> > > I am still thinking in terms of "Thou shalt not break userspace"...
+> > >
+> > > Seriously though, this original behavior has been in the kernel for 2=
+0
+> > > years, and it hasn't triggered any corruptions in all that time.
+> >
+> > For a very mild example of fun to be had there:
+> >         mount("none", "/mnt", "tmpfs", 0, "");
+> >         chdir("/mnt");
+> >         umount2(".", MNT_DETACH);
+> >         mount(NULL, ".", NULL, MS_SHARED, NULL);
+> > Repeat in a loop, watch mount group id leak.  That's a trivial example
+> > of violating the assertion ("a mount that had been through umount_tree(=
+)
+> > is out of propagation graph and related data structures for good").
 >
-> I have to agree here. When libtraceevent was in the kernel, it was a pain
-> to orchestrate releases with distros. When it was moved out of the kernel,
-> it made it much easier to manage.
+> I wasn't referring to detached mounts. CRIU modifies mounts from
+> non-current namespaces.
 >
-> The main issue was versioning numbers. I know the kernel versioning is
-> simply just "hey we added more stuff" and the numbers are meaningless.
+> >
+> > As for the "CAP_SYS_ADMIN within the mount user namespace" - which
+> > userns do you have in mind?
+> >
 >
-> But a library usually has a different cycle than the kernel. If it doesn't
-> have any changes from one kernel release to the next, the distros will make
-> a new version anyway, as each kernel release means a new library release.
+> The user namespace of the target mount:
+> ns_capable(mnt->mnt_ns->user_ns, CAP_SYS_ADMIN)
 >
-> This luoctl.c isn't even a library, as it has a "main()" and looks to me
-> like an application. So my question is, why is it in tools/lib?
-
-luoctl isn't the library, it is a user of it. See previous patches for
-the main library. Don't get too excited though, it is only a thin
-wrapper around the ioctls. The more interesting stuff is in patch 32
-which shows the API in action.
-
-To add some context: one of the reasons to include it in the series as
-an RFC at the end was to showcase the userspace side of the API and have
-a way for people to see how it can be used. Seeing an API in action
-provides useful context for reviewing patches.
-
-I think Pasha forgot to add the RFC tags when he created v2, since it is
-only meant to be RFC right now and not proper patches.
-
-The point of moving out of tree was also brought up in the live update
-call and I agree with Jason's feedback on it. The plan is to drop it
-from the series in the next revision, and just leave a reference to it
-in the cover letter instead.
-
--- 
-Regards,
-Pratyush Yadav
 
