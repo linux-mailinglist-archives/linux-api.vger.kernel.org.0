@@ -1,277 +1,277 @@
-Return-Path: <linux-api+bounces-4276-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4277-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0794BB17324
-	for <lists+linux-api@lfdr.de>; Thu, 31 Jul 2025 16:22:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4866B18200
+	for <lists+linux-api@lfdr.de>; Fri,  1 Aug 2025 14:53:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A2221C20AC0
-	for <lists+linux-api@lfdr.de>; Thu, 31 Jul 2025 14:22:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93EDB4E78CA
+	for <lists+linux-api@lfdr.de>; Fri,  1 Aug 2025 12:53:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2754013D24D;
-	Thu, 31 Jul 2025 14:22:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 905372494F0;
+	Fri,  1 Aug 2025 12:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="fSxhT26R"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PfJxHhi0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996E72F24;
-	Thu, 31 Jul 2025 14:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357C12475F2
+	for <linux-api@vger.kernel.org>; Fri,  1 Aug 2025 12:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753971723; cv=none; b=KgyX3WVZ7HrO7lUIQ7Sg5m+HZ2pjE237dmRpvTmnUkecG4AWMWa0F35dJZUuzaMVyS8Kb+ghZKJaUYGozF2itgudnxQ89uRnz9V5bAAR3iv145aZ3LgqMa9NdjdcB1SAR+OFC8uyeIu9qBwBABkUAL0igLJmuHYlCLBP/JitgIw=
+	t=1754052807; cv=none; b=UVMIZJUg0dVOnW6bnSutbB6j9mzTGyCt+vZcFVml0boq8cRZ/CH0H2b+FXXgDc/8wyxBmOJ3wspn+qZJTmNdOzVw31IXXAb+l3nuuuFIjG+efjq4QrhsP+Qu+eUdAbS21LHv/CuDa3/7fCi+8XV726Cx2BaMt1yl8fkKdBy2tKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753971723; c=relaxed/simple;
-	bh=IraNA8HTuhadpvynlNEEmtD7drpccg1KpgtEBN3GQWY=;
+	s=arc-20240116; t=1754052807; c=relaxed/simple;
+	bh=XtWgiIWMoJllV9e1y806U0puc+WrmW9T2bEvClGfLOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WFxVGh0GcMe+w2uE6oeVVLU095BEWXEzk1Ci193e1igaDdN13U3x8HsogqVa1bnqTrgNVRMDyfRmza9sztKLtbWk9NXDd8g8zmQ6rJyAHhgx5zODGs5/Dv8CNnEzA11cU83PcqKQ8vvEIE2l3Q4pgpCUZbY29SxnAsMmehTOSgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=fSxhT26R; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4btB9C2WM7z9sQm;
-	Thu, 31 Jul 2025 16:21:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1753971711;
+	 Content-Type:Content-Disposition:In-Reply-To; b=PnX3DZJ2KdWQ3lV9TtgpELVFwMZsDmeIF6GeAMg4pXWPTebfXG0chfSTNGieS6xf19pUlm9kayoqsZSBp/vfFUqClk0aBhUbrUZgN7WY3OFGOQkD0zM8xR0LcVCQJI1hmI0Gq9N84yMJR25JcYWrrbNVgC1R2MiSbfxOMyIWN9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PfJxHhi0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1754052804;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Nx7s0z1EH5FszrdcRN7llIs5P/UhYM04dWI3hk+qTCc=;
-	b=fSxhT26R7FIdX7IsYL6TTqWc7hAA8xDFEG7EooVGRkH4Xvx17IgMaxM9Nx5o5ce8bgXYhE
-	SxtHz2Sxy96iUsi0+CyrFad/uWxefqow3XNHHuJ8R3Z6XTYLt7zxifpbtiQYqOgXcLnpHQ
-	ITXjikMtUK8NUBdfL1EW8vrL6HQKJbDIOJrAbaOzG1wSN3uKmskmwpaSP7BykvGwr5inyv
-	40JO2o+wdhzOLuwyrCH7PJNXMPZbQK3LXusXsDAuYHjRBWAYBOYmCLU2xv3Hm4b/YOM90u
-	ZQSqMTxdJMfR6uOBWcS9lfkJRRxJvm2JO47853ZKmXPDTOd3iMLnaAQV00lRTQ==
-Date: Fri, 1 Aug 2025 00:21:37 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
-Message-ID: <2025-07-31.1753971633-unlucky-spatula-dismal-smirk-chalky-beasts-Secy8D@cyphar.com>
-References: <20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
- <20250723-procfs-pidns-api-v2-3-621e7edd8e40@cyphar.com>
- <20250724-beobachten-verfassen-9a39c0318341@brauner>
- <2025-07-25.1753409614-vile-track-icky-epidemic-frail-antidote-d7NYuu@cyphar.com>
- <20250731-angliederung-mahlt-9e5811969817@brauner>
+	bh=ToMkPcgkrGjaTE7xYaILR6bhh6LbYVJ5c41vC3bW6kU=;
+	b=PfJxHhi0OjKNLFw57XFNUFJfc3iJrOpVQjMAV1/MpKYv65IF0ikoyvtJWE+33ZivITC0q4
+	4wpyIPMbEU0Ylkza5TArI6969f/I+RAKTRYTjOEe47se6XsfDtpQL/m7NFPjRjJQLeJIkN
+	8Oej92Z8GDKnvn7PiLD6ZaR+8BUG4bI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-411-kxTbSELUPZOgHLlfp24BLw-1; Fri, 01 Aug 2025 08:53:22 -0400
+X-MC-Unique: kxTbSELUPZOgHLlfp24BLw-1
+X-Mimecast-MFC-AGG-ID: kxTbSELUPZOgHLlfp24BLw_1754052802
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3b7851a096fso1123779f8f.1
+        for <linux-api@vger.kernel.org>; Fri, 01 Aug 2025 05:53:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754052802; x=1754657602;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ToMkPcgkrGjaTE7xYaILR6bhh6LbYVJ5c41vC3bW6kU=;
+        b=u25NIXBtoQ/PL0ZY/GAm9hsfnzeKVMD+1Wk0O6lFE9STi0ig5/WVZme+clPcQgHmKa
+         PVBzQJIW0Z1Gww0LLdYZS+XSDv04qXftb++zUelbrG23063qEgqXwMY9zTYskH4set0Q
+         Yz/9FS7ZmMaEoJuBzPsEGiU3pMH93KwBh2yvhFZ8oO8PPCVFe58VhVupMs6VwVKKFDr7
+         iguPBQQFzmTUJ1BuPp4+yLpThG37LwrdkGHHPP75X9mb1TYk24Y5hLhY+J+5899lzgM6
+         vCLHFKpfyG/vVk6d+sxyFEr+bacpCaTEmUEkuhMNAczWIDANyw7RKQPnMFhKD2Pp+XBq
+         oPmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWzr3Gxj3TrEU6GCIoXBB44vFqXZyFBpqlJFHHjMZjWjibWAPRgCsl3UG1cHu1N268dKUhTvLynVl4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyq9/k8P3oxz7CvBues6P6qbPKl2srTPllZyEth7Yhc3OZsLyHg
+	bbzWj8exfCF6GRdxcUUl8iGy7nuOSe4iqTT/TN8d56FHn//oSN9uVpPVpDy6FDMNLyZ4nZ7ghOP
+	mZa63mrvJHTznQLzZc0ph7EALxdhr5IJ0fvoQ0PRyxewWbh1y5FRgZyJE8Nk7JA==
+X-Gm-Gg: ASbGnctO3iiMchY3lVt1DEMPyFhtwwG04U6lzVUxs8KyUpCtyQxOgjG+fA6k84yxRRL
+	VyiCWkEwHlaEbCsMhyn/dvAKGzYZEiok+JyzFF2CxYgGVTwOhxWkz5Er1uxbtikN4TJCqq4d6U5
+	BchaUCsbNvw/0Tq4l1pxadOZLh7SjWNKU6igZWM8iQLpXVV0YlYfOZxgE5IhX6DLgjOk8WMTTQe
+	j5j3kdRuTlgcJVk8imp/j9Amp9IPjWZ1ShqKdtsiQR63bJM5cFw+wgS/4cJhYfjb4u+ek+PUbZ3
+	X8PI9siH/UoEnOadZCp8mSVc4KdG3IqlD3qn/wPNZnkB+h+OFe0DHf8h+tJ7phGroQPTYw==
+X-Received: by 2002:a05:6000:25c8:b0:3b6:1e6:c9fb with SMTP id ffacd0b85a97d-3b8d343ae4dmr2383016f8f.11.1754052801528;
+        Fri, 01 Aug 2025 05:53:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFg2ppPHTB4DYsb+w8Pi4WsTxsBWXyjNMNbInSaCwaEGMEhkeo7Iy3wCsgRDqHOwV/P+Dk9Bw==
+X-Received: by 2002:a05:6000:25c8:b0:3b6:1e6:c9fb with SMTP id ffacd0b85a97d-3b8d343ae4dmr2382992f8f.11.1754052801028;
+        Fri, 01 Aug 2025 05:53:21 -0700 (PDT)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.46.230])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458953eaed4sm98611525e9.27.2025.08.01.05.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 05:53:20 -0700 (PDT)
+Date: Fri, 1 Aug 2025 14:53:18 +0200
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+Subject: Re: [PATCH] sched/deadline: sched_getattr(...flags=1) returns the
+ runtime left and abs deadline for DEADLINE tasks
+Message-ID: <aIy4vmuBh9QemI63@jlelli-thinkpadt14gen4.remote.csb>
+References: <20250715164148.1151620-1-tommaso.cucinotta@santannapisa.it>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vqlqvmb7rrrsrgkq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250731-angliederung-mahlt-9e5811969817@brauner>
+In-Reply-To: <20250715164148.1151620-1-tommaso.cucinotta@santannapisa.it>
 
+Hi Tommaso,
 
---vqlqvmb7rrrsrgkq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC v2 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
-MIME-Version: 1.0
+On 15/07/25 18:39, Tommaso Cucinotta wrote:
+> The SCHED_DEADLINE scheduler allows reading the statically configured
+> run-time, deadline, and period parameters through the sched_getattr()
+> system call. However, there is no immediate way to access, from user space,
+> the current parameters used within the scheduler: the instantaneous runtime
+> left in the current cycle, as well as the current absolute deadline.
+> 
+> The `flags' sched_getattr() parameter, so far mandated to contain zero,
+> now supports the SCHED_GETATTR_FLAG_DL_DYNAMIC=1 flag, to request
+> retrieval of the leftover runtime and absolute deadline, converted to a
+> CLOCK_MONOTONIC reference, instead of the statically configured parameters.
+> 
+> This feature is useful for adaptive SCHED_DEADLINE tasks that need to
+> modify their behavior depending on whether or not there is enough runtime
+> left in the current period, and/or what is the current absolute deadline.
+> 
+> Notes:
+> - before returning the instantaneous parameters, the runtime is updated;
+> - the abs deadline is returned shifted from rq_clock() to ktime_get_ns(),
+>   in CLOCK_MONOTONIC reference; this causes multiple invocations from the
+>   same period to return values that may differ for a few ns (showing some
+>   small drift), albeit the deadline doesn't move, in rq_clock() reference;
+> - the abs deadline value returned to user-space, as unsigned 64-bit value,
+>   can represent nearly 585 years since boot time;
+> - setting flags=0 provides the old behavior (retrieve static parameters).
 
-On 2025-07-31, Christian Brauner <brauner@kernel.org> wrote:
-> On Fri, Jul 25, 2025 at 12:24:28PM +1000, Aleksa Sarai wrote:
-> > On 2025-07-24, Christian Brauner <brauner@kernel.org> wrote:
-> > > On Wed, Jul 23, 2025 at 09:18:53AM +1000, Aleksa Sarai wrote:
-> > > > /proc has historically had very opaque semantics about PID namespac=
-es,
-> > > > which is a little unfortunate for container runtimes and other prog=
-rams
-> > > > that deal with switching namespaces very often. One common issue is=
- that
-> > > > of converting between PIDs in the process's namespace and PIDs in t=
-he
-> > > > namespace of /proc.
-> > > >=20
-> > > > In principle, it is possible to do this today by opening a pidfd wi=
-th
-> > > > pidfd_open(2) and then looking at /proc/self/fdinfo/$n (which will
-> > > > contain a PID value translated to the pid namespace associated with=
- that
-> > > > procfs superblock). However, allocating a new file for each PID to =
-be
-> > > > converted is less than ideal for programs that may need to scan pro=
-cfs,
-> > > > and it is generally useful for userspace to be able to finally get =
-this
-> > > > information from procfs.
-> > > >=20
-> > > > So, add a new API for this in the form of an ioctl(2) you can call =
-on
-> > > > the root directory of procfs. The returned file descriptor will have
-> > > > O_CLOEXEC set. This acts as a sister feature to the new "pidns" mou=
-nt
-> > > > option, finally allowing userspace full control of the pid namespac=
-es
-> > > > associated with procfs instances.
-> > > >=20
-> > > > The permission model for this is a bit looser than that of the "pid=
-ns"
-> > > > mount option, but this is mainly because /proc/1/ns/pid provides the
-> > > > same information, so as long as you have access to that magic-link =
-(or
-> > > > something equivalently reasonable such as privileges with CAP_SYS_A=
-DMIN
-> > > > or being in an ancestor pid namespace) it makes sense to allow user=
-space
-> > > > to grab a handle. setns(2) will still have their own permission che=
-cks,
-> > > > so being able to open a pidns handle doesn't really provide too many
-> > > > other capabilities.
-> > > >=20
-> > > > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> > > > ---
-> > > >  Documentation/filesystems/proc.rst |  4 +++
-> > > >  fs/proc/root.c                     | 54 ++++++++++++++++++++++++++=
-++++++++++--
-> > > >  include/uapi/linux/fs.h            |  3 +++
-> > > >  3 files changed, 59 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/fil=
-esystems/proc.rst
-> > > > index c520b9f8a3fd..506383273c9d 100644
-> > > > --- a/Documentation/filesystems/proc.rst
-> > > > +++ b/Documentation/filesystems/proc.rst
-> > > > @@ -2398,6 +2398,10 @@ pidns=3D specifies a pid namespace (either a=
-s a string path to something like
-> > > >  will be used by the procfs instance when translating pids. By defa=
-ult, procfs
-> > > >  will use the calling process's active pid namespace.
-> > > > =20
-> > > > +Processes can check which pid namespace is used by a procfs instan=
-ce by using
-> > > > +the `PROCFS_GET_PID_NAMESPACE` ioctl() on the root directory of th=
-e procfs
-> > > > +instance.
-> > > > +
-> > > >  Chapter 5: Filesystem behavior
-> > > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > =20
-> > > > diff --git a/fs/proc/root.c b/fs/proc/root.c
-> > > > index 057c8a125c6e..548a57ec2152 100644
-> > > > --- a/fs/proc/root.c
-> > > > +++ b/fs/proc/root.c
-> > > > @@ -23,8 +23,10 @@
-> > > >  #include <linux/cred.h>
-> > > >  #include <linux/magic.h>
-> > > >  #include <linux/slab.h>
-> > > > +#include <linux/ptrace.h>
-> > > > =20
-> > > >  #include "internal.h"
-> > > > +#include "../internal.h"
-> > > > =20
-> > > >  struct proc_fs_context {
-> > > >  	struct pid_namespace	*pid_ns;
-> > > > @@ -418,15 +420,63 @@ static int proc_root_readdir(struct file *fil=
-e, struct dir_context *ctx)
-> > > >  	return proc_pid_readdir(file, ctx);
-> > > >  }
-> > > > =20
-> > > > +static long int proc_root_ioctl(struct file *filp, unsigned int cm=
-d, unsigned long arg)
-> > > > +{
-> > > > +	switch (cmd) {
-> > > > +#ifdef CONFIG_PID_NS
-> > > > +	case PROCFS_GET_PID_NAMESPACE: {
-> > > > +		struct pid_namespace *active =3D task_active_pid_ns(current);
-> > > > +		struct pid_namespace *ns =3D proc_pid_ns(file_inode(filp)->i_sb);
-> > > > +		bool can_access_pidns =3D false;
-> > > > +
-> > > > +		/*
-> > > > +		 * If we are in an ancestors of the pidns, or have join
-> > > > +		 * privileges (CAP_SYS_ADMIN), then it makes sense that we
-> > > > +		 * would be able to grab a handle to the pidns.
-> > > > +		 *
-> > > > +		 * Otherwise, if there is a root process, then being able to
-> > > > +		 * access /proc/$pid/ns/pid is equivalent to this ioctl and so
-> > > > +		 * we should probably match the permission model. For empty
-> > > > +		 * namespaces it seems unlikely for there to be a downside to
-> > > > +		 * allowing unprivileged users to open a handle to it (setns
-> > > > +		 * will fail for unprivileged users anyway).
-> > > > +		 */
-> > > > +		can_access_pidns =3D pidns_is_ancestor(ns, active) ||
-> > > > +				   ns_capable(ns->user_ns, CAP_SYS_ADMIN);
-> > >=20
-> > > This seems to imply that if @ns is a descendant of @active that the
-> > > caller holds privileges over it. Is that actually always true?
-> > >=20
-> > > IOW, why is the check different from the previous pidns=3D mount opti=
-on
-> > > check. I would've expected:
-> > >=20
-> > > ns_capable(_no_audit)(ns->user_ns) && pidns_is_ancestor(ns, active)
-> > >=20
-> > > and then the ptrace check as a fallback.
-> >=20
-> > That would mirror pidns_install(), and I did think about it. The primary
-> > (mostly handwave-y) reasoning I had for making it less strict was that:
-> >=20
-> >  * If you are in an ancestor pidns, then you can already see those
-> >    processes in your own /proc. In theory that means that you will be
-> >    able to access /proc/$pid/ns/pid for at least some subprocess there
-> >    (even if some subprocesses have SUID_DUMP_DISABLE, that flag is
-> >    cleared on ).
-> >=20
-> >    Though hypothetically if they are all running as a different user,
-> >    this does not apply (and you could create scenarios where a child
-> >    pidns is owned by a userns that you do not have privileges over -- if
-> >    you deal with setuid binaries). Maybe that risk means we should just
-> >    combine them, I'm not sure.
-> >=20
-> >  * If you have CAP_SYS_ADMIN permissions over the pidns, it seems
-> >    strange to disallow access even if it is not in an ancestor
-> >    namespace. This is distinct to pidns_install(), where you want to
-> >    ensure you cannot escape to a parent pid namespace, this is about
-> >    getting a handle to do other operations (i.e. NS_GET_{P,TG}ID_*_PIDN=
-S).
-> >=20
-> > Maybe they should be combined to match pidns_install(), but then I would
-> > expect the ptrace_may_access() check to apply to all processes in the
-> > pidns to make it less restrictive, which is not something you can
-> > practically do (and there is a higher chance that pid1 will have
-> > SUID_DUMP_DISABLE than some random subprocess, which almost certainly
-> > will not be SUID_DUMP_DISABLE).
-> >=20
-> > Fundamentally, I guess I'm still trying to see what the risk is of
-> > allowing a process to get a handle to a pidns that they have some kind
-> > of privilege over (whether it's CAP_SYS_ADMIN, or by the virtue of being
->=20
-> There shouldn't be. For example, you kinda implicitly do that with a
-> pidfd, no? Because you can pass the pidfd to setns() instead of a
-> namespace fd itself. Maybe that's the argument you're lookin for?
+As we discussed this offline before your submission you know that I was
+already on board with the idea, so I would really like to hear what
+Peter and others think about this.
 
-That argument works for me! I'll rewrite the commit message to make sure
-it sounds like I came up with it. ;)
+Still a few comments below.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+$SUBJECT can maybe simply be "sched/deadline: Add reporting of remaining
+time/abs deadline to sched_getattr".
 
---vqlqvmb7rrrsrgkq
-Content-Type: application/pgp-signature; name="signature.asc"
+> See also the notes from discussion held at OSPM 2025 on the topic
+> "Making user space aware of current deadline-scheduler parameters":
+> https://lwn.net/Articles/1022054/
 
------BEGIN PGP SIGNATURE-----
+I would probably remove the link from the changelog as it might
+disappear/change in the future.
 
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaIt78QAKCRAol/rSt+lE
-b4KJAP9yYgg+3KR8dfc439kDY8r9NIKyuj6dnu3tOYDwDw54KQD/WA6Kev9V9C0u
-YQgoYZsOxr+MhZz9igC+/6ZSuFIAXg0=
-=WpMr
------END PGP SIGNATURE-----
+> Signed-off-by: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+> ---
+>  include/uapi/linux/sched.h |  3 +++
+>  kernel/sched/deadline.c    | 18 +++++++++++++++---
+>  kernel/sched/sched.h       |  2 +-
+>  kernel/sched/syscalls.c    | 16 +++++++++++-----
+>  4 files changed, 30 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+> index 359a14cc..52b69ce8 100644
+> --- a/include/uapi/linux/sched.h
+> +++ b/include/uapi/linux/sched.h
+> @@ -146,4 +146,7 @@ struct clone_args {
+>  			 SCHED_FLAG_KEEP_ALL		| \
+>  			 SCHED_FLAG_UTIL_CLAMP)
+>  
+> +/* Only for sched_getattr() own flag param, if task is SCHED_DEADLINE */
+> +#define SCHED_GETATTR_FLAG_DL_DYNAMIC	0x01
+> +
+>  #endif /* _UAPI_LINUX_SCHED_H */
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 9c7d9528..1b5cd7fa 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -3290,13 +3290,25 @@ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+>  	dl_se->dl_density = to_ratio(dl_se->dl_deadline, dl_se->dl_runtime);
+>  }
+>  
+> -void __getparam_dl(struct task_struct *p, struct sched_attr *attr)
+> +void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+>  {
+>  	struct sched_dl_entity *dl_se = &p->dl;
+> +	struct rq *rq = task_rq(p);
+> +	u64 adj_deadline;
+>  
+>  	attr->sched_priority = p->rt_priority;
+> -	attr->sched_runtime = dl_se->dl_runtime;
+> -	attr->sched_deadline = dl_se->dl_deadline;
+> +	if (flags & SCHED_GETATTR_FLAG_DL_DYNAMIC) {
+> +		guard(raw_spinlock_irq)(&rq->__lock);
+> +		update_rq_clock(rq);
+> +		update_curr_dl(rq);
 
---vqlqvmb7rrrsrgkq--
+I p is not current maybe we don't need to call update_curr_dl() as p
+will still have sensible dynamic parameters updated last time it
+blocked?
+
+Also, even though this is superuser stuff and all, mildly fear this
+could be used as a DOS attack vector? Do we want to be super defensive
+and add some kind of rate limiting?
+
+> +
+> +		attr->sched_runtime = dl_se->runtime;
+> +		adj_deadline = dl_se->deadline - rq_clock(rq) + ktime_get_ns();
+> +		attr->sched_deadline = adj_deadline;
+> +	} else {
+> +		attr->sched_runtime = dl_se->dl_runtime;
+> +		attr->sched_deadline = dl_se->dl_deadline;
+> +	}
+>  	attr->sched_period = dl_se->dl_period;
+>  	attr->sched_flags &= ~SCHED_DL_FLAGS;
+>  	attr->sched_flags |= dl_se->flags;
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 3058fb62..f69bf019 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -353,7 +353,7 @@ extern int  sched_dl_global_validate(void);
+>  extern void sched_dl_do_global(void);
+>  extern int  sched_dl_overflow(struct task_struct *p, int policy, const struct sched_attr *attr);
+>  extern void __setparam_dl(struct task_struct *p, const struct sched_attr *attr);
+> -extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr);
+> +extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags);
+>  extern bool __checkparam_dl(const struct sched_attr *attr);
+>  extern bool dl_param_changed(struct task_struct *p, const struct sched_attr *attr);
+>  extern int  dl_cpuset_cpumask_can_shrink(const struct cpumask *cur, const struct cpumask *trial);
+> diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+> index 77ae87f3..c80b3568 100644
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -928,10 +928,10 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+>  	return -E2BIG;
+>  }
+>  
+> -static void get_params(struct task_struct *p, struct sched_attr *attr)
+> +static void get_params(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+>  {
+>  	if (task_has_dl_policy(p)) {
+> -		__getparam_dl(p, attr);
+> +		__getparam_dl(p, attr, flags);
+>  	} else if (task_has_rt_policy(p)) {
+>  		attr->sched_priority = p->rt_priority;
+>  	} else {
+> @@ -997,7 +997,7 @@ SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+>  		return -ESRCH;
+>  
+>  	if (attr.sched_flags & SCHED_FLAG_KEEP_PARAMS)
+> -		get_params(p, &attr);
+> +		get_params(p, &attr, 0);
+>  
+>  	return sched_setattr(p, &attr);
+>  }
+> @@ -1082,7 +1082,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+>  	int retval;
+>  
+>  	if (unlikely(!uattr || pid < 0 || usize > PAGE_SIZE ||
+> -		      usize < SCHED_ATTR_SIZE_VER0 || flags))
+> +		     usize < SCHED_ATTR_SIZE_VER0))
+>  		return -EINVAL;
+>  
+>  	scoped_guard (rcu) {
+> @@ -1090,6 +1090,12 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+>  		if (!p)
+>  			return -ESRCH;
+>  
+> +		if (flags) {
+> +			if (!task_has_dl_policy(p)
+> +			    || flags != SCHED_GETATTR_FLAG_DL_DYNAMIC)
+
+Nit pick. Formatting usually has line break after '||'.
+
+> +				return -EINVAL;
+> +		}
+> +
+
+Thanks!
+Juri
+
 
