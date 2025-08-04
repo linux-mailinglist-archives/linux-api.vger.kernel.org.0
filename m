@@ -1,138 +1,219 @@
-Return-Path: <linux-api+bounces-4285-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4286-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E601B1942E
-	for <lists+linux-api@lfdr.de>; Sun,  3 Aug 2025 16:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E03CB199C6
+	for <lists+linux-api@lfdr.de>; Mon,  4 Aug 2025 03:12:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50CDD1707A1
-	for <lists+linux-api@lfdr.de>; Sun,  3 Aug 2025 14:17:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A544F175C43
+	for <lists+linux-api@lfdr.de>; Mon,  4 Aug 2025 01:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2C7155CBD;
-	Sun,  3 Aug 2025 14:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 556351D63DF;
+	Mon,  4 Aug 2025 01:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fb5TUiPK"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="QEg4HgIR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC762CCDB;
-	Sun,  3 Aug 2025 14:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEA2A927
+	for <linux-api@vger.kernel.org>; Mon,  4 Aug 2025 01:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754230668; cv=none; b=YDJmHjMKt5PxDtsEcS6susM9H3piO+jTCb2QVC+SQNteSl0HU8ewenSimM0leVhN5yXm7Bo+eAMH0Xv3x9E98+0od7yESIE6i3L3aeXml1S/P6wXpbj3VWRM+dig/w2QUlpLUol6GLS14/4BocSA1Zd7LXtoEByf2+/OSCBeS/o=
+	t=1754269920; cv=none; b=tcfaMK6w3MOJC93mY3YAg8azsbreVju9v/uW6BfeauL8uAokE0XxaTK5XG0/dNzehi+Bnqlt4KvHv8UtlaBEkpp+JSFBPG8oPv0sKg+CfVMqVqIhBBM7ghUFjZoJOf6VPQRL8krgd6be452l9MmPgPttNL2GEatTJ+lULWmKezQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754230668; c=relaxed/simple;
-	bh=FbgQNoGCHeLVLQVUAZFP0ow2FoSrn4GCKNnKX4Sc35M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5n7iF5whdobCOX7djcE8q0PnOPPZdDekr7KlUUVPuu460rHWZwVq+q2ysXpBfOGGv4s07tfjLH/8A7vyuMHemtn2a4m9oEUB8y3PM+X0UYOpZ5TB/vtEixZdlayLFjhXDkc6noHNFXc8HRNyyrL25fSIF4/siwNWakPZwsK7Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fb5TUiPK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9FFC4CEEB;
-	Sun,  3 Aug 2025 14:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754230667;
-	bh=FbgQNoGCHeLVLQVUAZFP0ow2FoSrn4GCKNnKX4Sc35M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fb5TUiPKw60N/I/aG9k0oAaYyL7H5YJFfH2eaAT9UlGnDYdh65i7TuFV69owRmjmE
-	 moNVeK29xw0rhqtWVgUc6epzImQFlFh4c6zoLkxTuIT5UYZmy6r+523mJBnEBlh9hA
-	 zEYz2d76fDIl3Q+RlG6FABiLFtT0GqUi/8l6bPoClEH2vceJ1Pf6BOv3TKkFpri7bI
-	 V6LtmEzsWMv8iVRXX5m57lVB3fDTLvaQy4pxu0VibxE5R+oPDvq9NKdwidgpaXLBHh
-	 igQJXY6+IyZQNuVDAi+yxEsNDMDxW3NK3ta3NFxuJPD4irr0S5VBYtS5MgzHrAylIC
-	 mtGSLZZqUMEww==
-Date: Sun, 3 Aug 2025 16:17:39 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] man/man2/mremap.2: describe multiple mapping move
-Message-ID: <dizfk5jqwwzozotvkk6phb36blcpsve3yw53xrdjwqeut27djt@rftbd7lkgsjp>
-References: <cover.1753795807.git.lorenzo.stoakes@oracle.com>
- <1fd0223a6f903ffdd8ba644d0b67820b1921671f.1753795807.git.lorenzo.stoakes@oracle.com>
- <ngytuoex4uvu5epsdqhvhypnhqidkr7cpwmmcxrml6kpftgusb@jo5ql6eko2ir>
- <0e3d0dd8-994f-4665-969c-6daf332c5b94@lucifer.local>
+	s=arc-20240116; t=1754269920; c=relaxed/simple;
+	bh=dwYOkfkrLuTx/MFAcxiCoQ08IEU73UxalscP4C3rAnE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ez0xwf0EAbIDAw9EBkt+9aMmB/yNwmnWaDIEzZxLruBOQ9BHqk0WYxEDDyzG7vWK9VBKhpeije9z/k08S1sbm95KlA3tongq+xs0Xa5dAde3UdnYRX4arNZ4X4vZfyliD2WNrRNHo1kFUt3EtO1jq2fq5osRMR0mbqb8yWFwY90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=QEg4HgIR; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ab814c4f2dso58823041cf.1
+        for <linux-api@vger.kernel.org>; Sun, 03 Aug 2025 18:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1754269917; x=1754874717; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5EHC7Bo4Tna4lRMiPBPdxLTjpzf5j4XSXmXAx1SxHbs=;
+        b=QEg4HgIRS9N4H1et3Jj6itt+EpgeASfgoWdFChVLa/GpHmHZwTO749KMj/M0qVT9qL
+         t03TxH0ncEc9mOrotDxSviMm8Wsn8jBVAWn5QUdZa9EsZQJQCCopWG14kicCqUBRmSf+
+         zgyMYD06vPTJD7FWGjDJnvkoVZaRkM4z9SaLfM5pz6wTDpvpXgKLvQemlTfO0yvXOxrm
+         XpG6jq5Px5ZXBNxcfjI/msUyD8WDY2McIbKCyE9SRHLWbQnsUOY6KL7Y169EGI33wpHI
+         36WIDeDaj+pRUBYTf6UQNb8sk1lomqwWrRptXi9l2x9ysPDc/hwNqdbc0g3y+hmWbZUp
+         +YmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754269917; x=1754874717;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5EHC7Bo4Tna4lRMiPBPdxLTjpzf5j4XSXmXAx1SxHbs=;
+        b=lSjJukffxSikECcRZx8IP4pFeF2C2sX6RIOeewpS0OJzBEP+fS9qSjHO0woWBsQewj
+         2S4wwsynaf2UZdv1mvVCPS55wzi6U8eJFRatZRd+EbtVKi/BmYnSEN+DEKMRg6wKer5U
+         QCXwEze/gvFaXjzE42EJKZh4k9VPBl1zDO91o2AztfS0v+pbuDW7uh8qlLkoTond0/1S
+         TZtSbl+bfPIhggefdktnoib82gk3FlhWhej3/JmpUGIOnEmtQPA7NNcyl0TTeJMBPFEx
+         5/CxAeLz/AbMilzdjOwtrl2aGzr4YkXmE8aRxPKTekUnauBee9nTsk94GT7BXEFTfH3J
+         1wMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUito/gfnDRe9c8XuFMaENpcYOL8bBiepMucykqLmzAi8i9jABUFCTKuGeCrfoDk0p2h0sfUaXk190=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtKfYH8wOKMcA/BRNbjkDA/wV4jUIgUwbDToKNS4enIpGBDNw6
+	igMW38WNfi8cLCdwquI734nLnvElWeQAh1uSvFJpUVX7cK71FRuWWY6MICdB/TH/lI6g4heG7qV
+	o+skkMBaZ4+Dt09EdGnN6Aine/GSli1AqvZA56dXrJw==
+X-Gm-Gg: ASbGnctguKdI6RN+ymEvfDkniF5A93WRloCnHUmeb7N52+v08Soq/VWRvP4Fe/oNKKz
+	qPracp2gS6t1dGfjysd4nm/313rpa28tEyye++fvnbR9NNkHntin5ijGWbLw7wxD1g3So96Nw0v
+	HvKSjjtCU0uBWUCNfbO8l1X9hq/iznsN7kf7NA8dxzTSqlHooxrgqBp7jnFDlM4J6Pzd6/FTrif
+	qhhGKHMfdB5MM0=
+X-Google-Smtp-Source: AGHT+IElK+avqeyYUn54//o2iNNGJM5V66RJUxPCF/JnBBNYlvcJkU9/zn67Ob/Mjz52DPZ282PLlisDVXGG6S/YoQU=
+X-Received: by 2002:ac8:5a12:0:b0:4ab:7d96:bbca with SMTP id
+ d75a77b69052e-4af1098b133mr128405741cf.24.1754269917325; Sun, 03 Aug 2025
+ 18:11:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7kp2dlmi2ws6pkwy"
-Content-Disposition: inline
-In-Reply-To: <0e3d0dd8-994f-4665-969c-6daf332c5b94@lucifer.local>
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+ <20250723144649.1696299-11-pasha.tatashin@soleen.com> <20250729172812.GP36037@nvidia.com>
+In-Reply-To: <20250729172812.GP36037@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sun, 3 Aug 2025 21:11:20 -0400
+X-Gm-Features: Ac12FXyfTkQo6Oo5aMdGv4BzhEny3uN9Ow76q668n06TlX48YEn8zjMHGbMDq6Q
+Message-ID: <CA+CK2bCrfVef_sFWCQpdwe9N_go8F_pU4O-w+XBJZ6yEuXRj9g@mail.gmail.com>
+Subject: Re: [PATCH v2 10/32] liveupdate: luo_core: Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
+> > +enum liveupdate_event {
+> > +     LIVEUPDATE_PREPARE,
+> > +     LIVEUPDATE_FREEZE,
+> > +     LIVEUPDATE_FINISH,
+> > +     LIVEUPDATE_CANCEL,
+> > +};
+>
+> I saw a later patch moves these hunks, that is poor patch planning.
 
---7kp2dlmi2ws6pkwy
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] man/man2/mremap.2: describe multiple mapping move
-References: <cover.1753795807.git.lorenzo.stoakes@oracle.com>
- <1fd0223a6f903ffdd8ba644d0b67820b1921671f.1753795807.git.lorenzo.stoakes@oracle.com>
- <ngytuoex4uvu5epsdqhvhypnhqidkr7cpwmmcxrml6kpftgusb@jo5ql6eko2ir>
- <0e3d0dd8-994f-4665-969c-6daf332c5b94@lucifer.local>
-MIME-Version: 1.0
-In-Reply-To: <0e3d0dd8-994f-4665-969c-6daf332c5b94@lucifer.local>
+Yes, you're right. I have since moved this to uapi/linux/liveupdate.h
+in the introductory patch to improve the structure of the patch
+series.
 
-Hi Lorenzo,
+> Ideally an ioctl subsystem should start out with the first patch
+> introducing the basic cdev, file open, ioctl dispatch, ioctl uapi
+> header and related simple infrastructure.
 
-On Sun, Aug 03, 2025 at 12:15:15PM +0100, Lorenzo Stoakes wrote:
-> On Sun, Aug 03, 2025 at 08:47:28AM +0200, Alejandro Colomar wrote:
-> > Would it be possible to write a small C program that uses this new
-> > feature?
->=20
-> I could do, but it's an unusual use of mremap() and we don't currently ha=
-ve
-> example C code for the _general_ usage so I wonder if it might be somewhat
-> misleading to have example code only for this?
+I have modified the patch series as follows: The rudimentary parts of
+the cdev, including the uapi/liveupdate.h header, are now in this
+introductory patch. The rest of the ioctl interface is added in the
+old patch that introduced luo_ioctl.c.
 
-I didn't mean for the manual page.  It was more for helping review the
-changes.  If it's very small, it would be useful to include it in the
-commit message.  What do you think?
+> Then you'd go basically ioctl by ioctl adding the new ioctls and
+> explaining what they do in the patch commit messages.
+>
+> > +/**
+> > + * liveupdate_state_updated - Check if the system is in the live update
+> > + * 'updated' state.
+> > + *
+> > + * This function checks if the live update orchestrator is in the
+> > + * ``LIVEUPDATE_STATE_UPDATED`` state. This state indicates that the system has
+> > + * successfully rebooted into a new kernel as part of a live update, and the
+> > + * preserved devices are expected to be in the process of being reclaimed.
+> > + *
+> > + * This is typically used by subsystems during early boot of the new kernel
+> > + * to determine if they need to attempt to restore state from a previous
+> > + * live update.
+> > + *
+> > + * @return true if the system is in the ``LIVEUPDATE_STATE_UPDATED`` state,
+> > + * false otherwise.
+> > + */
+> > +bool liveupdate_state_updated(void)
+> > +{
+> > +     return is_current_luo_state(LIVEUPDATE_STATE_UPDATED);
+> > +}
+> > +EXPORT_SYMBOL_GPL(liveupdate_state_updated);
+>
+> Unless there are existing in tree users there should not be exports.
 
+Thank you, I have removed the exports from this patch and all others
+in the series.
 
-Have a lovely day!
-Alex
+> I'm also not really sure why there is global state, I would expect the
+> fd and session objects to record what kind of things they are, not
+> having weird globals.
 
->=20
-> Cheers, Lorenzo
+Having a global state is necessary for performance optimizations. This
+is similar to why we export the state to userspace via sysfs: it
+allows other subsystems to behave differently during a
+performance-optimized live update versus a normal boot.
 
---=20
-<https://www.alejandro-colomar.es/>
+For example, in our code base we have a driver that doesn't
+participate in the live update itself (it has no state to preserve).
+However, during boot, it checks this global state. If it's a live
+update boot, the driver skips certain steps, like loading firmware, to
+accelerate the overall boot time.
 
---7kp2dlmi2ws6pkwy
-Content-Type: application/pgp-signature; name="signature.asc"
+In other words, even before userspace starts, this global awareness
+enables optimizations that aren't necessary during a cold boot or a
+regular kexec.
 
------BEGIN PGP SIGNATURE-----
+> Like liveupdate_register_subsystem() stuff, it already has a lock,
+> &luo_subsystem_list_mutex, if you want to block mutation of the list
+> then, IMHO, it makes more sense to stick a specific variable
+> 'luo_subsystems_list_immutable' under that lock and make it very
+> obvious.
+>
+> Stuff like luo_files_startup() feels clunky to me:
+>
+> +       ret = liveupdate_register_subsystem(&luo_file_subsys);
+> +       if (ret) {
+> +               pr_warn("Failed to register luo_file subsystem [%d]\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       if (liveupdate_state_updated()) {
+>
+> Thats going to be a standard pattern - I would expect that
+> liveupdate_register_subsystem() would do the check for updated and
+> then arrange to call back something like
+> liveupdate_subsystem.ops.post_update()
+>
+> And then post_update() would get the info that is currently under
+> liveupdate_get_subsystem_data() as arguments instead of having to make
+> more functions calls.
+>
+> Maybe even the fdt_node_check_compatible() can be hoisted.
+>
+> That would remove a bunch more liveupdate_state_updated() calls.
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmiPb4IACgkQ64mZXMKQ
-wqm7ehAAq+62D9otkxXDciEZdNgfKcKYwXmnmx/aanrSC+e1o02i9wrRYgzlFzkA
-w22NDz2V7FPZhnZ3bGnuk5wrygmPWprtOJ0ux8p4qfKKScaGdPCmGcZbYDpoeUoQ
-pt8GOYPu2jDF4yAnfJOWtw3aU9tTvtju5UsZAdHIwbdRGMcbuxX6cZvre7pLKHN+
-kXijWJsuPKq6EbR/wiTRLJuNznpUpFAO7Stp8CkDrFOsM6KSDzgnPcL4MqXAieiQ
-ymgGsspvEyi0SBmaUlo9qlabHiyMqOtcGKSBuc0s9NicXoUJ4Gsq5F7dmGX0rDJn
-NihsZZ1PCFM+cWuoVIlXTNM6Ka2JEE5u8U4gapGVZs/QTpjuUNqBY8xnIchtErXf
-Dlj8RqzXCY5iZBpT53WkUZFx+DTD/hI4uHBe2bxtvO1ojZbIkczXYnEyiTngWm1p
-V8Tk27YGd+Wu3fPg/xtmpuO+rs3evYWDr34JBa9LnJjzWB0mkGDlfG4gb+HTdecV
-jNm97xJH37d+1a/dq7uniOQLxUb6f/RzbnEHUh0MqLcpYr7amjzDOPZpRJzYDugT
-mHpf2NAG2srrUhYnNVfOvbt2Hj4EurnfNABFm4sPosO4+6m6+GXj5HrmYb58BF9F
-ZnEl50IluTkiAa4dv/n4zr5p7a/FqnsF12PB4SZhMME8OlG3WMc=
-=Mknw
------END PGP SIGNATURE-----
+That's a good suggestion for a potential refactor. For now, the
+state-check call is inexpensive and is not in a performance-critical
+path. We can certainly implement this optimization later if it becomes
+necessary.
 
---7kp2dlmi2ws6pkwy--
+Thank you,
+Pasha
 
