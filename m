@@ -1,282 +1,473 @@
-Return-Path: <linux-api+bounces-4302-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4303-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E61B1B968
-	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 19:33:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A0EB1B9EF
+	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 20:20:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ECC718A71CB
-	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 17:33:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3E1717A2AE
+	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 18:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14EA20C469;
-	Tue,  5 Aug 2025 17:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B3E291C14;
+	Tue,  5 Aug 2025 18:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="L/U2sEwL";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BhrdeY18"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="LC0T23N7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACBE1514F7;
-	Tue,  5 Aug 2025 17:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754415202; cv=fail; b=JyXeV1CmlFFOkNtjh72ST9kxH9VK0ou4yGECvQQDa/tjs6NRsfUcqVcKYdv5vZAoI7bXdckIyffm5i4+LaN+yjpw7W4Wv53GLtz/nV9p5NcIw0xzqjUTi0qbKLiE1F8AYmXe6yrWQm++aRLTEwNcwhPQlPkOeh0FaGpF0z/Tz04=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754415202; c=relaxed/simple;
-	bh=GVl0J+opRiUgR3WVEYCOsZ68YsN4HKTUPcc4+wnXG0M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=r/ff1B7TKfOOAX0KNTyDhroBW263qW8pCIacEp8ndDq+dpnuCdewmdebMh3wHNp9HTIoZXfbHLPyX9FF5t5S6pFQz1s3UO8eLGdx1qFOQD0z2BA5lQmgDNl8yYbDFfEstqTcqB1BB/s4Hq+kDOYiA6DDtoY6WxVoTAqlRPr4pI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=L/U2sEwL; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=BhrdeY18; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575G16bM019945;
-	Tue, 5 Aug 2025 17:32:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=4nGx+EyaXj/T2kvftpSDel3d7Qe/xUU3MueglapTnuY=; b=
-	L/U2sEwLcOdGLvxrwXqbkYLINdB7ae0oWn3p3VqI50OeMj2tSB9E5QHW/tP8i8yN
-	kL+pbC63zdj3NeXecyRu9X1+8L07YglBCCkNE13zptAYtX+12ktUXPAcuw8AWvu5
-	VlR4tt77MszivSWF9KmfMkXc7TxqUc0yzI80Uir3AM3DXy7cKPttkElLBaWlyqz9
-	GvmvC1pJmg5sqTzE7SIn76XBjAsqFpqo5ldrTITnISxmzjwcIltrnyrA8C7ZHUnx
-	Bc4KXqNwBUVm7ZUUuPS6ZPIFsZ43PDLEhouXkFjl0VHG5fQ5CZ/kM5tVQf+zYk+N
-	a3IMUVtCyaxMqFgGhdzMMw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 489aqfnc0f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Aug 2025 17:32:16 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 575GLTbI012029;
-	Tue, 5 Aug 2025 17:32:15 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48a7q28w4n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Aug 2025 17:32:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RR5IWE9kFISekp0fi7J8DwtwlyRp+1T2y4tG9UmLd+KxCAqvEtDBgAxlXT/uqKRvHfmFt4jsGLnFdq+ai0XE9a/SwuE/7fQ9ykvmc7fioDevcqYCAyoLzzMMG3oGylpJUap43flCLIqTPFXU8Ir3Mv5fhpiqFMuSbc5vYnq+0F9vA2aWeVT3fhW0pQLEK64rVFIm7k2V5JMDO/tGPFpipb4Xp/hyNHTfwEjXMd7VSDS3qmysZR2FRM/eDRUZlTfpUR87UbuK3Btmae0PCiYwh9PaoYqa4dHeWagpoHEvFMCNDhS90e775uuD1VsCRuYrtuuL2K7pnPgw4TCpf/rw7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4nGx+EyaXj/T2kvftpSDel3d7Qe/xUU3MueglapTnuY=;
- b=pAFkijs05mLyPdlgDAjSkTQnxVuQztvqxh6f6+bo6arSW8tW9nCXlf+6Q8gemWp2eG1LadZEwCgNj2JcoxeNACOf2ZQ3hj65qNSt6vAVYSjOThaXohX5/fQVX7lChsm62XXPP/q9va1QyrAXh2HUs7jZbRUKfaBt03LS+Z/savELDN9zD1/955KTsBp2380ZK6zclpWnjnNkCbGj+XvRylRB6AHXwre3L+yYAiWof66ynbq/QJ/DAvdV6UaaBHnKdJvddaXupy2l7fiR4KYfoE/6e9J3n3JHHxGZMJxJSzJU5/pAXO+nQylr11ZEfjCIhPmvQ7h93dZziMDspP7v3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600BB20B1E8
+	for <linux-api@vger.kernel.org>; Tue,  5 Aug 2025 18:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754418004; cv=none; b=nUGUwr7bHh7zCooAozBwObu7FFpj8Q/QersdpGFjI+A4vwjk8lFK0v3W/xTkN4GvnhyuhAQTu5PWSbRg+J13sJ7tqMcjiH7bLxkdicBPS+oJzdLukPAN6IH+2WQhHBOE87Q0tItKPWiRngVYsyU+k9CvhJSTgM9fE//N8rYhdK8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754418004; c=relaxed/simple;
+	bh=SoWeAkL3iEjJwCLqt4FbJMg6xWcRvn6FBDhLLGVZRuE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hw/0+q4KDo4k+g+gUUPqwcS7LAZ4kEfeVGewwVbDz2d5NxR0BCwLqcLGp1EjRLmrzzAU1uVWXaZwJWZnL4pT5spAPVKw51u8HfgIoIQrkHB3arafQ6bWUaxyp5DpUJ/RPrpMA79CTpZwiUM777weJ9eLb7lZPh0uAXGZ8TCyDag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=LC0T23N7; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b062b6d51aso29395441cf.2
+        for <linux-api@vger.kernel.org>; Tue, 05 Aug 2025 11:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4nGx+EyaXj/T2kvftpSDel3d7Qe/xUU3MueglapTnuY=;
- b=BhrdeY18ga7IpfRVSS43i6AWx7TSw0VRPUfAJJ9ZW8547mZzsooug1r47owkICWvLsbNZEXDUZ5X1vAlV8qrfpXNZ3XcvWjcKj1hHiHVu+BYrCAEhezzb6nN6TELLaUfAvZIkos66D6x2cQMV5P9Yg+qzo2G2iPjW8RxzVde5SI=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by PH0PR10MB6436.namprd10.prod.outlook.com (2603:10b6:510:21c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.21; Tue, 5 Aug
- 2025 17:32:11 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9009.013; Tue, 5 Aug 2025
- 17:32:10 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-        Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH v4 2/2] man/man2/mremap.2: describe previously undocumented shrink behaviour
-Date: Tue,  5 Aug 2025 18:31:56 +0100
-Message-ID: <c7ba8ba09b1c0b015134c54824788ef4aa47fd46.1754414738.git.lorenzo.stoakes@oracle.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1754414738.git.lorenzo.stoakes@oracle.com>
-References: <cover.1754414738.git.lorenzo.stoakes@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0395.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::19) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+        d=soleen.com; s=google; t=1754418001; x=1755022801; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DJOL+OvU/nrmYX0+Cdrz/7P1lhjrc0IsETGcPgFQaaY=;
+        b=LC0T23N7XDZDcA3ZTmS2aaM1uuXEP0PNwtmn/5qQBlZ4XNcZ4jlH81gFkv+LLw6QEA
+         OATdrEEZ9tv4t6t3VMhNcaZtp7qd1tjc2Oxutg4mMg4kHu/YNspSa2AxVWPIXZzyfzog
+         leVg2iXlyF34xsRrPguJANxh4fRuhNsWPL9306jdcuA5tNsqvSxiEQaBCD8NaG/W1fOp
+         E0oqM2fhpTKVIU0VhDx+V99Yo83cGAIZbAqZf8/dB+qkdCnvInbESywwCCT/OvnHP1g1
+         DxqeliAcC37JtAwreDCDEkuc3vXvObgTzliIF/e/4bmxigRsHZGlMOzxiZ4Q2I6W81oJ
+         jVNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754418001; x=1755022801;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DJOL+OvU/nrmYX0+Cdrz/7P1lhjrc0IsETGcPgFQaaY=;
+        b=go54uKtPJMnyVF4nbgv6oKAjTC0Fkyene7XtcjZCJRo2wfzZ9+cWS/zN4UQ+CUaN0s
+         Zdy+S7SjDioluHWGc/mX0RmCyD+pJ92xf7WRRBtL35ftsYtgutY55O6NMmIoRD8TEWaC
+         YiOAn5lQm32+UmBibtUVpCxyJ1VqF1+CyohIENG+Ys3LHB8ktY2tNA3Z0gdWj8JU3nLk
+         R3I7WJuUV5zNHtZxnLNpLUsq3QekM27pcKdulCVbBjb0i7eIt4bwWT8zeqwMICErY/tJ
+         rtFMk3WGxYrmXuTYxHRCI70wg9dmiMqG6vH3x1fjWsw4imQyvhwVQuSiPeeli/MZb1VG
+         W1yA==
+X-Forwarded-Encrypted: i=1; AJvYcCWd82UWC36/QiFoTKnbuYBhDmN/6Ikj/qEczSfIqlfdizYZcPeViBOHlJ9lPT81weTLTQGmzg/iG0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+XvKDHcrNlZK2lrIvEpcNX4nKch+h+g2rqHgROjJFbd9enY1f
+	awlRAiaq7t+t5IFy60LOYhfDtPkfPSY6Q54dJZ6+6Q4nacVE2SxAjmpWpAHO7ii8nimz9E5vtlK
+	v+oVVIDTSGk2La0Q1/XuBbCbn2zw9Wgv2PBMO5F8t/g==
+X-Gm-Gg: ASbGncv0gkIj+jSZRM4H/df/MDGDcqjb9BaQdqKAq4FJSnlGr0EmT4oQ1k/hB5vd32k
+	VCXTD7bhVSbw/orkm4qlVVDd6RECraX6ZS75GKfNmYsfnWPoQKMVbfUbFYRdOcD+r/UbM5DEHSu
+	0lT+YfHVWqr3Ok/QCKhrsDUcVcSKRvq/KAOZYR0oRDu9ljWRW1ZG/0DXTGmCFkRnmQNB6IkwTYn
+	a/U
+X-Google-Smtp-Source: AGHT+IEw+lnJXb281yq+trj2cDJrjXcg+zACfYTXT195jbevAktpYuj5aCvlB20L+shR7ta89N5uGsQOoFo/By5YjC8=
+X-Received: by 2002:a05:622a:5c94:b0:4b0:67b0:867 with SMTP id
+ d75a77b69052e-4b067b02bd2mr149540751cf.27.1754418000991; Tue, 05 Aug 2025
+ 11:20:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|PH0PR10MB6436:EE_
-X-MS-Office365-Filtering-Correlation-Id: 740e8a9f-315b-44f8-fff2-08ddd446024f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YRuBEN4OuaXNOBhDIC2UW85uEdYcTi2geYqFeHT17BFLqSICXy3QCiA43dkG?=
- =?us-ascii?Q?OZCf0LZWaKtGdT70in/DLXBtpogFE8srowz8xwZ9B0rxy7DUkW6IxbvpLFgd?=
- =?us-ascii?Q?2Z04B/9vWAV84pTeK6nHekk0gIM4HcekWyx9XaPM4yZ7iUy9VehElWvV1Scv?=
- =?us-ascii?Q?IyOQMyo1buJLjAQuwj1Ii5cuW1X3OcwktSZF0lxqmDi/VQFqQhEEMHXSnMJf?=
- =?us-ascii?Q?DglBQWvOsr57oOx/Y4k8UQqE/T1lKZj/rMR2G9EIaI9nyzVkaA+HX0SshOaN?=
- =?us-ascii?Q?/Jg1mUXbiumYylJnpmrL+qLgDaufxPWwQwOGCNsfrzqSIdtXeDYsW6NHrNvg?=
- =?us-ascii?Q?1w7s3RyN3FVeozfgejCjvHj/n2rE04Q/bGDUIpbTiGvmSCM6XfMElJiapn3R?=
- =?us-ascii?Q?QxD7qT+Q0+gs8w1WVE/kJBTevz3iPO/wVUoGHpKWupy3voxaY9kU9NWZx7Rr?=
- =?us-ascii?Q?fg2KJegR3PcMSfmWnbZdFi1v6/M7+Yvg8hSbFoWarS54/orC5km8gM9PlNwh?=
- =?us-ascii?Q?6MtS3tgqbdOE+9bk0R7gnJlL/8u8K0IXw97x/YxaggINkQoyZgslfGrZRGkT?=
- =?us-ascii?Q?YIizYPv9B3hUoTg0ffC5ElD+jyCOUcsXx33bSJiznVX+t84mlAh6zIWbTf2b?=
- =?us-ascii?Q?ILgugkcJ5RHH20za1XSanjIQCvHfw8S4m8e3Ml8Ghu7OiYDuJT7bLrGu4oqp?=
- =?us-ascii?Q?l9XUJV7IFoqo7cQdfeXKvizBHcKofn2xqjwctej0Uz9gcdVb49SaZ9wFFz7M?=
- =?us-ascii?Q?VV+ahY0IYj9N09LrchKdC1QtETOpAZ80sVecR+bkD9ccW10nq5sN2GEHgRGv?=
- =?us-ascii?Q?hyBryDsn0EEo5dB0s/rTSuULXj65rJi0arSc/ITTx7bql31+1xHbUZ93C5sK?=
- =?us-ascii?Q?LNM/qWbUpxZXnWl+Q8eV4AnYEaeo/aMIjfMxpouPQJzRQaB3M1Ct6nn/ciOY?=
- =?us-ascii?Q?XVpXqATDy/QbyWJ9jpfc5AFkmTu4hWwoSMJPHBObJ1b23hS6+senK7zv3RzC?=
- =?us-ascii?Q?kmk+QWBo2aLwJV4ncJlzIpmT14hRUQt+O4qSOg/cxp6AG4J68kC3ndBv/Tii?=
- =?us-ascii?Q?HzgvlNLN52FsPSQAD8VUOXv3vg2PCFSJMJl8jWw9rf70scYqIIDbLy/2ymgf?=
- =?us-ascii?Q?r71dsySh1JNKN4U/yauVFDEHR6IevMDvCoh+GznZLiA6THmMqX286OAnJqOW?=
- =?us-ascii?Q?BH5en12QmMbVnWB76HbpgOEnUd3GOjIEAh99ZkmbCK/Dkfagdo91baf9BUHm?=
- =?us-ascii?Q?6txn7NilVeAm8EndmU6YZDefTNzquNRy2z9jJ3LgUEGoXcRAzYKebnjvTFtt?=
- =?us-ascii?Q?a+QZgBEI4Mggl78SKFgw4JUPz4CzrrpejQEpCKqqZ7DErynOmk2sK3pm1uV3?=
- =?us-ascii?Q?i5LCE6Z44zSKBMn7xOJxff1jyLdeAyL15myeKyeq5SmaNvto+3NV/9Jm1rjI?=
- =?us-ascii?Q?QdygWq2ZHAo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0MuuByg8cUcBC3lyJ1aHvuNSVQyoNBwjEU7IOLg5Stck28zfV32zkzQ6AUoG?=
- =?us-ascii?Q?ykmpbdJ0cW+nsxJFSuZEYG+SHvYL1sH3fHAuXKfV2+PV2NiBwwNeFWQhak7J?=
- =?us-ascii?Q?NfiHlz1/GInMszPd2xIwYhHg2MwlZ5W4Afs/GZlzdQxaK6yfwdHpBzFYOVfs?=
- =?us-ascii?Q?0N2V32wRER3itfe9kfpMMpb1AnQkXyTmoI3bBdaTsmKWp1RvrvQnY+kZYbGz?=
- =?us-ascii?Q?QaRWNyfPnzkMozDRhg7M3ngqR2ivRmdu4bhTcOE2VzGsplwCPusTkr6VlMml?=
- =?us-ascii?Q?lRxbV+QLNCoP+KxXgsk3lhmt7Evg/hO/OF346tA2ea99s9BFOwiiN/VAS+cg?=
- =?us-ascii?Q?XypbwsasozzwYYp07lgnPsB0dvgtVy6pm7n3S97Pa2qFRpeWLWaCKyyvI7xz?=
- =?us-ascii?Q?e5lX/NBLXAvlWdgswjy3cxgALuH0M9EqrYyGBn/dUgYT8m+b6/40n0nNUSFo?=
- =?us-ascii?Q?9/LY4rIJlprJ1qQIwia5qF9UibBkDGmNkd6Kl2zG+VXbXIo533gykpnkApwk?=
- =?us-ascii?Q?/bja5bGVavOJLzwZ04J83QYjNAmqhRJOqKkSGQWbtt6Wt/k8UFiBxLiINDv9?=
- =?us-ascii?Q?Z69rC0+mUFlhDP56jTcYj6XA7wJ3dFQHBtnrcXN9t2s0a7UabTPMNa7Qv3Rd?=
- =?us-ascii?Q?VFz9Ic+YthDbakciGJVLDScWy1J8En5ME2Ki+ZqB66e8IJmBzV3KodVww3OA?=
- =?us-ascii?Q?LpxKSj7E21egiejhP8TbSzjx7lyhLm+EkKW/UsbmSUYI8/sI2Fyq6OdEuRwB?=
- =?us-ascii?Q?X80CWlJ5nRUkK1f/iliLKf/K/pf8gVDO9uZ/X3IYi3qBSmkXWKnJ0qA7apj7?=
- =?us-ascii?Q?MDDQbpKa0iqaSEgwd/KzqwN0sNTb4olyz7fn8cdIQK2Y35pSvodFsbw1NS6a?=
- =?us-ascii?Q?ZeCISLxI5BjRebuwBHqcuWmQ9etUGx/QiKnm9Llxm5pjT2ZOVpj+UbUfUdRI?=
- =?us-ascii?Q?qCvUU/guG9lMlG8UGT0vX53VbBNyhTV7NvGcil2FCMRcwssFwjEZ0SGCUEUe?=
- =?us-ascii?Q?PgCkynn7LoOGDh+Xv77VMHTb82fxh21D8xjuqSvvTZDq4NPbWQZzGz5G4aaY?=
- =?us-ascii?Q?v8EecliIAwHjJDuhvCeB8SmcwYHiTdWPpdnfj1hDlMx4JARMOVIe+EGHgld7?=
- =?us-ascii?Q?Cbp3AheZqEijNrf3xDoHPNw+TTX6iSxrHH+rp+RbINJsNyHPjhfD2ejFb7wx?=
- =?us-ascii?Q?0/hYPMd0u16wAyeZxJO6OwMdBbCiBDQsA0cHaKteFEXgwOICBZLBSw0rJb9x?=
- =?us-ascii?Q?RGixmABclk3fzkP+4VzSoPmDMZhwU2iRSdIYYdmJPDVESqDCst05Mc14wF0l?=
- =?us-ascii?Q?v7ycsxsrufExLcC22WgOX6cjy+K9x66GGdOw0Fy/lDYj91CprB/B7T/I4luX?=
- =?us-ascii?Q?U++lh1TmPQcMY8KtVw04qjdVTFgvSG/P3s6cTpo1vQyUdgpdT4y0KwAUrfEL?=
- =?us-ascii?Q?iMd7SNkjc91PvioiWWW0d1iqClzJ2GvwksuRZDJBWefh58AFYB8kq6mR1Sgb?=
- =?us-ascii?Q?Q9eyV8hriCBmq7/QG1pqBWpmM/cEs8p8gIzJmb+PKXAVxv+ImKRRyI36QHJU?=
- =?us-ascii?Q?5MhKN+Sy4naS8NOOiE8GgRQ5KejW+Ivp27YS6Pz40CkbDkD+oRLf61zvKao8?=
- =?us-ascii?Q?Xg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	8ueiLVkbAtDKLA5yRA0ptbR4Tq1o8WXkaDYYia3m53gX8sDaLe+v7/bZv4aGx2YgMwM2g1imGSIuiOwOiuGdaBZv8hcwDd7CWx0TlG67rzLtywu40OG4nFRw3zoqfqU+eOTlEkTWXiQ4CSNv1esp1hO8FOv3sB2Ch0utX4YkLxNGYQxYF6FDDVYJUaZ53A2fWgLqHJKBGlJnl/AStUQb4SO3rNrQl8ugc4ecJ2hoTVNOJUhdJk4W1ezqLvPl3bOnLd6qTbDxE/vRd3All6l7tT7zaAB0r/s31U9XzubWsQ6+tBjM7i7DrGECPjiwHyzYpG3SLAKlRd4lpVJosTfSwl+owvlSIQD07jW3iF0wdUP4UAjdhvHbECToU1BRkuG2augJ5Ze97i49V5C0rlb4KoE1d80ohiA6aesCGLXnUZ9+JgXMf574ZHn3mOBrlC3TXfKt1f0iIDjztnmS8xpeBRgeSC97od//ZuYJFsOglQ2S7YidEXVyOs58fNMcLBq6U6G3ExEyhE9fAsmVyN+XwCvwCo2sBdObQgAhuVixL44UDPw1MQDrdFD53Ny8RzZ6jAmXsRGykwtcOT1REuyeH84UFQGAQZ9RH/oXiNo6X8w=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 740e8a9f-315b-44f8-fff2-08ddd446024f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 17:32:10.8610
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AZamujse3S1jBqXC6Z5m+PEsokaKDNyYszOCVTQj1FAyogg/dPpEDny5ra2P2AxulWfzchQcNQKFMJyeeOvTF4nm4aUW6UmE5+iIdqnVzKE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB6436
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- spamscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2508050122
-X-Authority-Analysis: v=2.4 cv=TrvmhCXh c=1 sm=1 tr=0 ts=68924020 b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
- a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=hqxEFHVobavvttKUrIwA:9 cc=ntf
- awl=host:12066
-X-Proofpoint-GUID: z_ePvDpij-gQ71sGK3MY0PIq9gmheCzp
-X-Proofpoint-ORIG-GUID: z_ePvDpij-gQ71sGK3MY0PIq9gmheCzp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEyMyBTYWx0ZWRfXyPV5IbfNP9kZ
- UDpEi7YG4O7Pl1l85He7lr4YGeHwKdlEsvN+HhkPer6mpu96ZdqCp/Gg+VzZG+JherA65evZYXs
- V9W4U/kpUd5JBeQi1KmwkOfhXTA7NCa7Xpc1NYQCH2on+jB4+kn3SeQTaBgRxkKt+Hw6BOmwtWV
- G+B0qBYGCh2t0Asypr2JjbLhT42j7Fm1C+tYg048ZOhpqoLltAagz0pL6/9FDlKiCSHS+O7Jwl/
- 81680V6oknMky+uSHFZBWUDib2z4HieMAvlTtrEQMh0OCEgCLO7JXFAQzg1rSuYO9/SdU138Gp4
- 6kbRPspqDwnq6L/cEFZWLBePVGI+z/bTZaO1Y08VyRZAyNHxRDwW6DAdN88rHp9MIasmFOPfS/5
- Bp/Itm99IPKjCc0wpUvwOJAsLUJ+cIQdlzszVz7A9oZh94PWemBzu1HkQz15fM5uLL37sETO
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+ <20250723144649.1696299-17-pasha.tatashin@soleen.com> <20250729163536.GN36037@nvidia.com>
+In-Reply-To: <20250729163536.GN36037@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 5 Aug 2025 18:19:23 +0000
+X-Gm-Features: Ac12FXz1LXAIJ7aYVxZ3KJkjC5AKnczPYVgMksSZ0RYc1suLLyDEIPbV7Oa9zmM
+Message-ID: <CA+CK2bBOu9oRiO7gih7JpePXQjds2vN8uFXodgHU48fxpP_bVQ@mail.gmail.com>
+Subject: Re: [PATCH v2 16/32] liveupdate: luo_ioctl: add ioctl interface
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is pre-existing logic that appears to be undocumented for an mremap()
-shrink operation, where it turns out that the usual 'input range must span
-a single mapping' requirement no longer applies.
+On Tue, Jul 29, 2025 at 12:35=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
+>
+> On Wed, Jul 23, 2025 at 02:46:29PM +0000, Pasha Tatashin wrote:
+> > Introduce the user-space interface for the Live Update Orchestrator
+> > via ioctl commands, enabling external control over the live update
+> > process and management of preserved resources.
+>
+> I strongly recommend copying something like fwctl (which is copying
+> iommufd, which is copying some other best practices). I will try to
+> outline the main points below.
+>
+> The design of the fwctl scheme allows alot of options for ABI
+> compatible future extensions and I very strongly recommend that
+> complex ioctl style APIs be built with that in mind. I have so many
+> scars from trying to undo fixed ABI design :)
 
-In fact, it turns out that the input range specified by [old_address,
-old_address + old_size) may span any number of mappings.
+Thank you for bringing this up, I have reviewed fwctl ioctl
+implementation, and also iommufd ioctl, and I made the necessary
+changes to make luo similar.
 
-If shrinking in-place (that is, neither the MREMAP_FIXED nor
-MREMAP_DONTUNMAP flags are specified), then the new span may also span any
-number of VMAs - [old_address, old_address + new_size).
+> > +/**
+> > + * struct liveupdate_fd - Holds parameters for preserving and restorin=
+g file
+> > + * descriptors across live update.
+> > + * @fd:    Input for %LIVEUPDATE_IOCTL_FD_PRESERVE: The user-space fil=
+e
+> > + *         descriptor to be preserved.
+> > + *         Output for %LIVEUPDATE_IOCTL_FD_RESTORE: The new file descr=
+iptor
+> > + *         representing the fully restored kernel resource.
+> > + * @flags: Unused, reserved for future expansion, must be set to 0.
+> > + * @token: Input for %LIVEUPDATE_IOCTL_FD_PRESERVE: An opaque, unique =
+token
+> > + *         preserved for preserved resource.
+> > + *         Input for %LIVEUPDATE_IOCTL_FD_RESTORE: The token previousl=
+y
+> > + *         provided to the preserve ioctl for the resource to be resto=
+red.
+> > + *
+> > + * This structure is used as the argument for the %LIVEUPDATE_IOCTL_FD=
+_PRESERVE
+> > + * and %LIVEUPDATE_IOCTL_FD_RESTORE ioctls. These ioctls allow specifi=
+c types
+> > + * of file descriptors (for example memfd, kvm, iommufd, and VFIO) to =
+have their
+> > + * underlying kernel state preserved across a live update cycle.
+> > + *
+> > + * To preserve an FD, user space passes this struct to
+> > + * %LIVEUPDATE_IOCTL_FD_PRESERVE with the @fd field set. On success, t=
+he
+> > + * kernel uses the @token field to uniquly associate the preserved FD.
+> > + *
+> > + * After the live update transition, user space passes the struct popu=
+lated with
+> > + * the *same* @token to %LIVEUPDATE_IOCTL_FD_RESTORE. The kernel uses =
+the @token
+> > + * to find the preserved state and, on success, populates the @fd fiel=
+d with a
+> > + * new file descriptor referring to the restored resource.
+> > + */
+> > +struct liveupdate_fd {
+> > +     int             fd;
+>
+> 'int' should not appear in uapi structs. Fds are __s32
 
-If shrinking and moving, the range specified by [old_address, old_address +
-new_size) must span a single VMA.
+done
 
-There must be at least one VMA contained within the [old_address,
-old_address + old_size) range, and old_address must be within the range of
-a VMA.
+>
+> > +     __u32           flags;
+> > +     __aligned_u64   token;
+> > +};
+> > +
+> > +/* The ioctl type, documented in ioctl-number.rst */
+> > +#define LIVEUPDATE_IOCTL_TYPE                0xBA
+>
+> I have found it very helpful to organize the ioctl numbering like this:
+>
+> #define IOMMUFD_TYPE (';')
+>
+> enum {
+>         IOMMUFD_CMD_BASE =3D 0x80,
+>         IOMMUFD_CMD_DESTROY =3D IOMMUFD_CMD_BASE,
+>         IOMMUFD_CMD_IOAS_ALLOC =3D 0x81,
+>         IOMMUFD_CMD_IOAS_ALLOW_IOVAS =3D 0x82,
+> [..]
+>
+> #define IOMMU_DESTROY _IO(IOMMUFD_TYPE, IOMMUFD_CMD_DESTROY)
+>
+> The numbers should be tightly packed and non-overlapping. It becomes
+> difficult to manage this if the numbers are sprinkled all over the
+> file. The above structuring will enforce git am conflicts if things
+> get muddled up. Saved me a few times already in iommufd.
 
-Explicitly document this.
+Done
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
----
- man/man2/mremap.2 | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+>
+> > +/**
+> > + * LIVEUPDATE_IOCTL_FD_PRESERVE - Validate and initiate preservation f=
+or a file
+> > + * descriptor.
+> > + *
+> > + * Argument: Pointer to &struct liveupdate_fd.
+> > + *
+> > + * User sets the @fd field identifying the file descriptor to preserve
+> > + * (e.g., memfd, kvm, iommufd, VFIO). The kernel validates if this FD =
+type
+> > + * and its dependencies are supported for preservation. If validation =
+passes,
+> > + * the kernel marks the FD internally and *initiates the process* of p=
+reparing
+> > + * its state for saving. The actual snapshotting of the state typicall=
+y occurs
+> > + * during the subsequent %LIVEUPDATE_IOCTL_PREPARE execution phase, th=
+ough
+> > + * some finalization might occur during freeze.
+> > + * On successful validation and initiation, the kernel uses the @token
+> > + * field with an opaque identifier representing the resource being pre=
+served.
+> > + * This token confirms the FD is targeted for preservation and is requ=
+ired for
+> > + * the subsequent %LIVEUPDATE_IOCTL_FD_RESTORE call after the live upd=
+ate.
+> > + *
+> > + * Return: 0 on success (validation passed, preservation initiated), n=
+egative
+> > + * error code on failure (e.g., unsupported FD type, dependency issue,
+> > + * validation failed).
+> > + */
+> > +#define LIVEUPDATE_IOCTL_FD_PRESERVE                                 \
+> > +     _IOW(LIVEUPDATE_IOCTL_TYPE, 0x00, struct liveupdate_fd)
+>
+> From a kdoc perspective I find it works much better to attach the kdoc
+> to the struct, not the ioctl:
+>
+> /**
+>  * struct iommu_destroy - ioctl(IOMMU_DESTROY)
+>  * @size: sizeof(struct iommu_destroy)
+>  * @id: iommufd object ID to destroy. Can be any destroyable object type.
+>  *
+>  * Destroy any object held within iommufd.
+>  */
+> struct iommu_destroy {
+>         __u32 size;
+>         __u32 id;
+> };
+> #define IOMMU_DESTROY _IO(IOMMUFD_TYPE, IOMMUFD_CMD_DESTROY)
+>
+> Generates this kdoc:
+>
+> https://docs.kernel.org/userspace-api/iommufd.html#c.iommu_destroy
 
-diff --git a/man/man2/mremap.2 b/man/man2/mremap.2
-index 6ba51310c..631c835b8 100644
---- a/man/man2/mremap.2
-+++ b/man/man2/mremap.2
-@@ -48,8 +48,35 @@ The
- .B MREMAP_DONTUNMAP
- flag may be specified.
- .P
--If the operation is not
--simply moving mappings,
-+Equally, if the operation performs a shrink,
-+that is if
-+.I old_size
-+is greater than
-+.IR new_size ,
-+then
-+.I old_size
-+may also span multiple mappings
-+which do not have to be
-+adjacent to one another.
-+If this shrink is performed
-+in-place,
-+that is,
-+neither
-+.BR MREMAP_FIXED ,
-+nor
-+.B MREMAP_DONTUNMAP
-+are specified,
-+.I new_size
-+may also span multiple VMAs.
-+However, if the range is moved,
-+then
-+.I new_size
-+must span only a single mapping.
-+.P
-+If the operation is neither a
-+.B MREMAP_FIXED
-+move
-+nor a shrink,
- then
- .I old_size
- must span only a single mapping.
--- 
-2.50.1
+Agreed, done the same as above.
 
+>
+> You should also make sure to link the uapi header into the kdoc build
+> under the "userspace API" chaper.
+>
+> The structs should also be self-describing. I am fairly strongly
+> against using the size mechanism in the _IOW macro, it is instantly
+> ABI incompatible and basically impossible to deal with from userspace.
+>
+> Hence why the IOMMFD version is _IO().
+
+Right, I came to the same conclusion while reviewing fwctl, I replaced
+everything with pure _IO().
+
+>
+> This means stick a size member in the first 4 bytes of every
+> struct. More on this later..
+>
+> > +/**
+> > + * LIVEUPDATE_IOCTL_FD_UNPRESERVE - Remove a file descriptor from the
+> > + * preservation list.
+> > + *
+> > + * Argument: Pointer to __u64 token.
+>
+> Every ioctl should have a struct, with the size header. If you want to
+> do more down the road you can not using this structure.
+
+Done
+
+>
+> > +#define LIVEUPDATE_IOCTL_FD_RESTORE                                  \
+> > +     _IOWR(LIVEUPDATE_IOCTL_TYPE, 0x02, struct liveupdate_fd)
+>
+> Strongly recommend that every ioctl have a unique struct. Sharing
+> structs makes future extend-ability harder.
+
+Done
+
+>
+> > +/**
+> > + * LIVEUPDATE_IOCTL_PREPARE - Initiate preparation phase and trigger s=
+tate
+> > + * saving.
+>
+> Perhaps these just want to be a single 'set state' ioctl with an enum
+> input argument?
+
+Added a IOCTL: LIVEUPDATE_SET_EVENT, and all events
+PREPARE/FINISH/CANCEL are now done through it.
+
+>
+> > @@ -7,4 +7,5 @@ obj-$(CONFIG_KEXEC_HANDOVER)          +=3D kexec_handov=
+er.o
+> >  obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)   +=3D kexec_handover_debug.o
+> >  obj-$(CONFIG_LIVEUPDATE)             +=3D luo_core.o
+> >  obj-$(CONFIG_LIVEUPDATE)             +=3D luo_files.o
+> > +obj-$(CONFIG_LIVEUPDATE)             +=3D luo_ioctl.o
+> >  obj-$(CONFIG_LIVEUPDATE)             +=3D luo_subsystems.o
+>
+> I don't think luo is modular, but I think it is generally better to
+> write the kbuilds as though it was anyhow if it has a lot of files:
+>
+> iommufd-y :=3D \
+>         device.o \
+>         eventq.o \
+>         hw_pagetable.o \
+>         io_pagetable.o \
+>         ioas.o \
+>         main.o \
+>         pages.o \
+>         vfio_compat.o \
+>         viommu.o
+> obj-$(CONFIG_IOMMUFD) +=3D iommufd.o
+
+Done
+
+>
+> Basically don't repeat obj-$(CONFIG_LIVEUPDATE), every one of those
+> lines creates a new module (if it was modular)
+>
+> > +static int luo_open(struct inode *inodep, struct file *filep)
+> > +{
+> > +     if (!capable(CAP_SYS_ADMIN))
+> > +             return -EACCES;
+>
+> IMHO file system permissions should control permission to open. No
+> capable check.
+
+Removed
+
+>
+> > +     if (filep->f_flags & O_EXCL)
+> > +             return -EINVAL;
+>
+> O_EXCL doesn't really do anything for cdev, I'd drop this.
+>
+> The open should have an atomic to check for single open though.
+
+Removed, and added an enforcement for a single open.
+
+>
+> > +static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned l=
+ong arg)
+> > +{
+> > +     void __user *argp =3D (void __user *)arg;
+> > +     struct liveupdate_fd luo_fd;
+> > +     enum liveupdate_state state;
+> > +     int ret =3D 0;
+> > +     u64 token;
+> > +
+> > +     if (_IOC_TYPE(cmd) !=3D LIVEUPDATE_IOCTL_TYPE)
+> > +             return -ENOTTY;
+>
+> The generic parse/disptach from fwctl is a really good idea here, you
+> can cut and paste it, change the names. It makes it really easy to manage=
+ future extensibility:
+>
+> List the ops and their structs:
+>
+> static const struct fwctl_ioctl_op fwctl_ioctl_ops[] =3D {
+>         IOCTL_OP(FWCTL_INFO, fwctl_cmd_info, struct fwctl_info, out_devic=
+e_data),
+>         IOCTL_OP(FWCTL_RPC, fwctl_cmd_rpc, struct fwctl_rpc, out),
+> };
+>
+> Index the list and copy_from_user the struct desribing the opt:
+>
+> static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
+>                                unsigned long arg)
+> {
+>         struct fwctl_uctx *uctx =3D filp->private_data;
+>         const struct fwctl_ioctl_op *op;
+>         struct fwctl_ucmd ucmd =3D {};
+>         union fwctl_ucmd_buffer buf;
+>         unsigned int nr;
+>         int ret;
+>
+>         nr =3D _IOC_NR(cmd);
+>         if ((nr - FWCTL_CMD_BASE) >=3D ARRAY_SIZE(fwctl_ioctl_ops))
+>                 return -ENOIOCTLCMD;
+>
+>         op =3D &fwctl_ioctl_ops[nr - FWCTL_CMD_BASE];
+>         if (op->ioctl_num !=3D cmd)
+>                 return -ENOIOCTLCMD;
+>
+>         ucmd.uctx =3D uctx;
+>         ucmd.cmd =3D &buf;
+>         ucmd.ubuffer =3D (void __user *)arg;
+>         // This is reading/checking the standard 4 byte size header:
+>         ret =3D get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
+>         if (ret)
+>                 return ret;
+>
+>         if (ucmd.user_size < op->min_size)
+>                 return -EINVAL;
+>
+>         ret =3D copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+>                                     ucmd.user_size);
+>
+>
+> Removes a bunch of boiler plate and easy to make wrong copy_from_users
+> in the ioctls. Centralizes size validation, zero padding checking/etc.
+
+Yeap, implemented as  above.
+
+>
+> > +             ret =3D luo_register_file(luo_fd.token, luo_fd.fd);
+> > +             if (!ret && copy_to_user(argp, &luo_fd, sizeof(luo_fd))) =
+{
+> > +                     WARN_ON_ONCE(luo_unregister_file(luo_fd.token));
+> > +                     ret =3D -EFAULT;
+>
+> Then for extensibility you'd copy back the struct:
+>
+> static int ucmd_respond(struct fwctl_ucmd *ucmd, size_t cmd_len)
+> {
+>         if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
+>                          min_t(size_t, ucmd->user_size, cmd_len)))
+>                 return -EFAULT;
+>         return 0;
+> }
+>
+> Which truncates it/etc according to some ABI extensibility rules.
+>
+> > +static int __init liveupdate_init(void)
+> > +{
+> > +     int err;
+> > +
+> > +     if (!liveupdate_enabled())
+> > +             return 0;
+> > +
+> > +     err =3D misc_register(&liveupdate_miscdev);
+> > +     if (err < 0) {
+> > +             pr_err("Failed to register misc device '%s': %d\n",
+> > +                    liveupdate_miscdev.name, err);
+>
+> Should remove most of the pr_err's, here too IMHO..
+
+Removed.
+
+>
+> Jason
+
+Thanks a lot for the thorough review!
+
+Pasha
 
