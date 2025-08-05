@@ -1,185 +1,239 @@
-Return-Path: <linux-api+bounces-4291-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4296-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E1FB1AB29
-	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 01:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C36FB1ADBC
+	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 07:54:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94709174096
-	for <lists+linux-api@lfdr.de>; Mon,  4 Aug 2025 23:01:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E827171D16
+	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 05:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AFD328C5C1;
-	Mon,  4 Aug 2025 23:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0589A20B1E8;
+	Tue,  5 Aug 2025 05:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="AYlBj9Vi"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="bBjDfKYW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FAF221FA0
-	for <linux-api@vger.kernel.org>; Mon,  4 Aug 2025 23:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AE3175A5;
+	Tue,  5 Aug 2025 05:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754348480; cv=none; b=l501ExEsSF/bflDlB9LMVIFp+m65dRCfLl6saTV90a1sX+b7a8pDSVHJK7pyy9SMcBpIm7yIwX5PEYEdOnz3fJe//zaLfZ+8Ouz0JNUz0S/NFk+ZPqPodckZICDU3JGjdaRIvLQQmEi73Xec+bJG7idwoJ+K8xwZKHWpCY5uQfQ=
+	t=1754373243; cv=none; b=ZBp17RtvMN/SPj4VqTRlHUJrzCBkQVSGk+8KHj1xzTk2Tuo12vypppyeB2IxUORm2oXeYchWy1Ygr1yh8KCyalqU1NKWrKsyl0daUedYDx4vxJsDPVGC1fz0UOEqrHLbZF77zKIH4YCW8goPzpTwbGy1pD0bl6z7GSmBmcEd4mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754348480; c=relaxed/simple;
-	bh=kh1Iqz0Yf5ok/S6yiGGNzHKbyS1kwiJn5rDTHcZSof0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eOUfh6cCLANYKQiI9jzvnT3OYIlzlldMiQfUglxOKO/VCsAtczxkby115lfulgVNYaqAWjLfGWmXEjYewhr314LgroFqit7nTt+PV+ZktPdmWtDcWq1s34L9bVrE3Oq1d2H91W5j7M+dM2D14wYdSl/PXWhoXCgXaciyXlf7BB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=AYlBj9Vi; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4aeb2edce3dso33847841cf.2
-        for <linux-api@vger.kernel.org>; Mon, 04 Aug 2025 16:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754348477; x=1754953277; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gU7gICCtCiiOkKgytm+DZgh/C6t4tnk/oqWk65I1YqY=;
-        b=AYlBj9Vi9oeeUhhAv7M5QYtp7yD49AbI2V4og/j1+jWMDyNGJYo7lda1IPfzY3cD90
-         rTMlqqfgz3jszmO0x9rvF5ik6kwMO3NH5Pv93491kLWzzGoEw/KBqgysLIqgEXrMxUqT
-         Ltm8yhBliuMaNAly/2dHYSjAGQjCJJvHwpW050fX3whlw1CEP05vA1b2nddYjrXK4aAr
-         OWh49iDlEufQ3wSfa6dN4iu+DmtG/8ZOrXkwPCwXXVQzRoJWzi32+MO9NQXeJkEpKy4L
-         +d+Ym6jGTy1WYAZTvJU3So0Uz+XA1JdFPaw8LuZ15O2bBax0WmrLBPcUG/JfBn6Ittl8
-         AUFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754348477; x=1754953277;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gU7gICCtCiiOkKgytm+DZgh/C6t4tnk/oqWk65I1YqY=;
-        b=kbnrwwT0NOzD+NBt2kq7Ac/fa2knTrgwMNHcgCxn6qmugE6o9sBktIo4rnARhTjHAj
-         zVyH4B0KJWlT7eHfmxGGpZAxG1IoN6waZyg3t0s2J/4c8OWOP3uiQFwJSJW5zJ6SWQUL
-         qtenZ8JrxLzhjfMCY5ig/BKdePuWDvrdzPrns0r5ssBCCEsmaCPg1aDFMTW87bJXfBEB
-         INLzoWDEnDQT1lRb3T2cncV4dQhhgYi1tENJmLPjKGePaiCv/W4KcLrwJGm4S1fR2IkE
-         JPHtPKxBU9+L8Y0dqlTMvuYjCtd63GwPUL4ifPjqfVu9AgOMkB/ez1pGPYLazcVdXdV7
-         gyEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXT6CD7kEmlQpDvsGVUnSO22/Ei0bSByxQD8z6KSR2TYlbTSs0bEAERn6AFWU97rWTwrehA9pi7QR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGx4jJ2ZsESSB6tVyT4PZH4btNzuxtzGPQtfA3yfE0m+LWIf8W
-	XLir0z1Ah/t7YMkgc+FQFzEwvIIjVx50bANa1MGplWRyoDx5T79bsZF00MJQ5Gm89QLV7j/rxBW
-	LtIZIXQ5e6X+hhmLVtWct6Pw3KIHeAOOr0fzWekeQKQ==
-X-Gm-Gg: ASbGnctXRf1N3ZvfyCR2wQXE/DtYIzCyWkrNVO/2tz5k2V9EFCTa+2y1fVnUATg/3SM
-	lcVa0KqYoBDxudzytszDDSXUqyrNw97Fyb4ZPNvxVoKD/E6k1gHZG40BdPmDOkdB7xBiCFnn0jL
-	UxHqr50j70Qe4N2azw+PjWJe8+zPP5nCHCnroiYKdgLGvk2pILG0wmrDZ9agMjbN7DiwDZQAvT4
-	u8C
-X-Google-Smtp-Source: AGHT+IHe63ELG7HHSW4Jr0p22ejEnswLaJpBTfGBY8KrlhhHwCd1xtHK5nLfdWJ/GzdTJH5a222X5rXcjnstQZeQWOo=
-X-Received: by 2002:ac8:57cf:0:b0:4af:c21:41b1 with SMTP id
- d75a77b69052e-4af10ad5bdbmr146282341cf.55.1754348476999; Mon, 04 Aug 2025
- 16:01:16 -0700 (PDT)
+	s=arc-20240116; t=1754373243; c=relaxed/simple;
+	bh=b3qLvidQt2IQmyqEcAsLJbmTR+wVyp6SbcerHb1qMcs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hy2vXOhRTo/c4zigZyhpweHyn1q2wDksmrE76+qAsU1UMAWCu1ch6Jw47tSkM1FynqTTNe4u0jny3VAb64+hmCfT9w5DYfkU9IASUpF2EodOtzmjQoshbe+CBtVoiUOhcKW84AOeykvGmk3oDQtdKL9zn9TwJ/P1zIq1lUtpNPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=bBjDfKYW; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bx2T60Psrz9t8l;
+	Tue,  5 Aug 2025 07:45:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1754372730;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bPF4WdQCtv984o72KwXLxMISxhU/aJPqgLwzYtsm72M=;
+	b=bBjDfKYWT21NFwvhbyK5aFKtO6yFlm8WKPH9dWAj5oD5m1o+cPDeaf3RswmG9jD83irGDi
+	OpSvCvXeZuBix3/tg2FMC3AL8+gyQwrHiZibGBamiSy0+gusfknYSXjoUG11XufHr79v3u
+	MlViEwFLGuQ3lGIcljKeXIn8m4w6+Fsj6atzQWPSheC0cBLTAigLG/UyXtsbl9AnMLXxvE
+	Xh3lR5sdmm9nFCjCaZpezk3FnoxlEBuDmYJ/6vqSp4OH4Sn5xcuTJsiKuPM5+mqs78ViPV
+	o17N3NWGq4KpbOeOgNto/Uksx9Cu4EwpetVbqhnax656nKXT5VIaTRzEDWBH9Q==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+From: Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH v4 0/4] procfs: make reference pidns more user-visible
+Date: Tue, 05 Aug 2025 15:45:07 +1000
+Message-Id: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
- <20250723144649.1696299-15-pasha.tatashin@soleen.com> <20250729173318.GQ36037@nvidia.com>
-In-Reply-To: <20250729173318.GQ36037@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 4 Aug 2025 23:00:39 +0000
-X-Gm-Features: Ac12FXy6p3_gSOnGWR1VjKZIJjskzeugSY4VSrqKY12UE9gHpXQr70kL51Ej-YY
-Message-ID: <CA+CK2bBEX6C6v63DrK-Fx2sE7fvLTZM=HX0y_j4aVDYcfrCXOg@mail.gmail.com>
-Subject: Re: [PATCH v2 14/32] liveupdate: luo_files: add infrastructure for FDs
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGOakWgC/23NTQ6CMBCG4auYrq3p9IcWV97DuCDtIF0ITWsaC
+ eHuFuICA8v3S+aZiSSMHhO5niYSMfvkh76EPJ+I7Zr+idS70oQzrpgGTUMcbJto8K5PtAmeGnS
+ gjJACWkbKWYjY+s9K3h+lO5/eQxzXDxmW9Ydx2GMZKKPKupoxjQq4u9kxdE282OFFFi3zrSAOB
+ F6EigNqdM6gZDtBbAV5IIgiSFsZZWtgNRd/wjzPX4EKj1I1AQAA
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Aleksa Sarai <cyphar@cyphar.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7460; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=b3qLvidQt2IQmyqEcAsLJbmTR+wVyp6SbcerHb1qMcs=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWRMnJV35/6lhU2bWe6c99t5d/cht20Cy821S3StD09t/
+ V617E/f4Y5SFgYxLgZZMUWWbX6eoZvmL76S/GklG8wcViaQIQxcnAIwEekljAwv5yivvVnkLrSR
+ vfXk4+Wpn166LLTnnrJ5VZB6vEPwv6z7jAzbNp5fo5x/vczhas+Cjh1/LR3a7bbue9Pf/bPhdPe
+ dCiEGAA==
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+X-Rspamd-Queue-Id: 4bx2T60Psrz9t8l
 
-> > +struct liveupdate_file_ops {
-> > +     int (*prepare)(struct file *file, void *arg, u64 *data);
-> > +     int (*freeze)(struct file *file, void *arg, u64 *data);
-> > +     void (*cancel)(struct file *file, void *arg, u64 data);
-> > +     void (*finish)(struct file *file, void *arg, u64 data, bool reclaimed);
-> > +     int (*retrieve)(void *arg, u64 data, struct file **file);
-> > +     bool (*can_preserve)(struct file *file, void *arg);
-> > +};
->
-> ops structures often have an owner = THIS_MODULE
+Ever since the introduction of pid namespaces, procfs has had very
+implicit behaviour surrounding them (the pidns used by a procfs mount is
+auto-selected based on the mounting process's active pidns, and the
+pidns itself is basically hidden once the mount has been constructed).
 
-Added here, and to subsystems.
+/* pidns mount option for procfs */
 
->
-> It wouldn't hurt to add it here too, and some appropriate module_get's
-> though I didn't try to figure what happens if userspace races a module
-> unload with other luo operations.
+This implicit behaviour has historically meant that userspace was
+required to do some special dances in order to configure the pidns of a
+procfs mount as desired. Examples include:
 
-I added try_module_get()/module_put() to register/unregister functions.
+ * In order to bypass the mnt_too_revealing() check, Kubernetes creates
+   a procfs mount from an empty pidns so that user namespaced containers
+   can be nested (without this, the nested containers would fail to
+   mount procfs). But this requires forking off a helper process because
+   you cannot just one-shot this using mount(2).
 
-> > +
-> > +/**
-> > + * struct liveupdate_file_handler - Represents a handler for a live-updatable
-> > + * file type.
-> > + * @ops:           Callback functions
-> > + * @compatible:    The compatibility string (e.g., "memfd-v1", "vfiofd-v1")
-> > + *                 that uniquely identifies the file type this handler supports.
-> > + *                 This is matched against the compatible string associated with
-> > + *                 individual &struct liveupdate_file instances.
-> > + * @arg:           An opaque pointer to implementation-specific context data
-> > + *                 associated with this file handler registration.
->
-> Why? This is not the normal way, if you want context data then
-> allocate a struct driver_liveupdate_file_handler and embed a normal
-> struct liveupdate_file_handler inside it, then use container_of.
+ * Container runtimes in general need to fork into a container before
+   configuring its mounts, which can lead to security issues in the case
+   of shared-pidns containers (a privileged process in the pidns can
+   interact with your container runtime process). While
+   SUID_DUMP_DISABLE and user namespaces make this less of an issue, the
+   strict need for this due to a minor uAPI wart is kind of unfortunate.
 
-Good point. I removed arg, and added handler as an argument to the
-callback functions.
+Things would be much easier if there was a way for userspace to just
+specify the pidns they want. Patch 1 implements a new "pidns" argument
+which can be set using fsconfig(2):
 
-> > +     fdt_for_each_subnode(file_node_offset, luo_file_fdt_in, 0) {
-> > +             bool handler_found = false;
-> > +             u64 token;
-> > +
-> > +             node_name = fdt_get_name(luo_file_fdt_in, file_node_offset,
-> > +                                      NULL);
-> > +             if (!node_name) {
-> > +                     panic("FDT subnode at offset %d: Cannot get name\n",
-> > +                           file_node_offset);
->
-> I think this approach will raise lots of questions..
->
-> I'd introduce a new function "luo_deserialize_failure" that does panic
-> internally.
->
-> Only called by places that are parsing the FDT & related but run into
-> trouble that cannot be savely recovered from.
+    fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
+    fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid", 0);
 
-Agreed. I added a new macro in luo_internal.h:
+or classic mount(2) / mount(8):
 
- 11 /*
- 12  * Handles a deserialization failure: devices and memory is in
-unpredictable
- 13  * state.
- 14  *
- 15  * Continuing the boot process after a failure is dangerous
-because it could
- 16  * lead to leaks of private data.
- 17  */
- 18 #define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
+    // mount -t proc -o pidns=/proc/self/ns/pid proc /tmp/proc
+    mount("proc", "/tmp/proc", "proc", MS_..., "pidns=/proc/self/ns/pid");
 
-And use it in places where we panic during deserialization.
+The initial security model I have in this RFC is to be as conservative
+as possible and just mirror the security model for setns(2) -- which
+means that you can only set pidns=... to pid namespaces that your
+current pid namespace is a direct ancestor of and you have CAP_SYS_ADMIN
+privileges over the pid namespace. This fulfils the requirements of
+container runtimes, but I suspect that this may be too strict for some
+usecases.
 
-Pasha
+The pidns argument is not displayed in mountinfo -- it's not clear to me
+what value it would make sense to show (maybe we could just use ns_dname
+to provide an identifier for the namespace, but this number would be
+fairly useless to userspace). I'm open to suggestions. Note that
+PROCFS_GET_PID_NAMESPACE (see below) does at least let userspace get
+information about this outside of mountinfo.
+
+Note that you cannot change the pidns of an already-created procfs
+instance. The primary reason is that allowing this to be changed would
+require RCU-protecting proc_pid_ns(sb) and thus auditing all of
+fs/proc/* and some of the users in fs/* to make sure they wouldn't UAF
+the pid namespace. Since creating procfs instances is very cheap, it
+seems unnecessary to overcomplicate this upfront. Trying to reconfigure
+procfs this way errors out with -EBUSY.
+
+/* ioctl(PROCFS_GET_PID_NAMESPACE) */
+
+In addition, being able to figure out what pid namespace is being used
+by a procfs mount is quite useful when you have an administrative
+process (such as a container runtime) which wants to figure out the
+correct way of mapping PIDs between its own namespace and the namespace
+for procfs (using NS_GET_{PID,TGID}_{IN,FROM}_PIDNS). There are
+alternative ways to do this, but they all rely on ancillary information
+that third-party libraries and tools do not necessarily have access to.
+
+To make this easier, add a new ioctl (PROCFS_GET_PID_NAMESPACE) which
+can be used to get a reference to the pidns that a procfs is using.
+
+Rather than copying the (fairly strict) security model for setns(2),
+apply a slightly looser model to better match what userspace can already
+do:
+
+ * Make the ioctl only valid on the root (meaning that a process without
+   access to the procfs root -- such as only having an fd to a procfs
+   file or some open_tree(2)-like subset -- cannot use this API). This
+   means that the process already has some level of access to the
+   /proc/$pid directories.
+
+ * If the calling process is in an ancestor pidns, then they can already
+   create pidfd for processes inside the pidns, which is morally
+   equivalent to a pidns file descriptor according to setns(2). So it
+   seems reasonable to just allow it in this case. (The justification
+   for this model was suggested by Christian.)
+
+ * If the process has access to /proc/1/ns/pid already (i.e. has
+   ptrace-read access to the pidns pid1), then this ioctl is equivalent
+   to just opening a handle to it that way.
+
+   Ideally we would check for ptrace-read access against all processes
+   in the pidns (which is very likely to be true for at least one
+   process, as SUID_DUMP_DISABLE is cleared on exec(2) and is rarely set
+   by most programs), but this would obviously not scale.
+
+I'm open to suggestions for whether we need to make this stricter (or
+possibly allow more cases).
+
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+Changes in v4:
+- Remove unneeded EXPORT_SYMBOL_GPL. [Christian Brauner]
+- Return -EOPNOTSUPP for new APIs for CONFIG_PID_NS=n rather than
+  pretending they don't exist entirely. [Christian Brauner]
+- PROCFS_IOCTL_MAGIC conflicts with XSDFEC_MAGIC, so we need to allocate
+  subvalues more carefully (switch to _IO(PROCFS_IOCTL_MAGIC, 32)).
+- Add some more selftests for PROCFS_GET_PID_NAMESPACE.
+- Reword argument for PROCFS_GET_PID_NAMESPACE security model based on
+  Christian's suggestion, and remove CAP_SYS_ADMIN edge-case (in most
+  cases, such a process would also have ptrace-read credentials over the
+  pidns pid1).
+- v3: <https://lore.kernel.org/r/20250724-procfs-pidns-api-v3-0-4c685c910923@cyphar.com>
+
+Changes in v3:
+- Disallow changing pidns for existing procfs instances, as we'd
+  probably have to RCU-protect everything that touches the pinned pidns
+  reference.
+- Improve tests with slightly nicer ASSERT_ERRNO* macros.
+- v2: <https://lore.kernel.org/r/20250723-procfs-pidns-api-v2-0-621e7edd8e40@cyphar.com>
+
+Changes in v2:
+- #ifdef CONFIG_PID_NS
+- Improve cover letter wording to make it clear we're talking about two
+  separate features with different permission models. [Andy Lutomirski]
+- Fix build warnings in pidns_is_ancestor() patch. [kernel test robot]
+- v1: <https://lore.kernel.org/r/20250721-procfs-pidns-api-v1-0-5cd9007e512d@cyphar.com>
+
+---
+Aleksa Sarai (4):
+      pidns: move is-ancestor logic to helper
+      procfs: add "pidns" mount option
+      procfs: add PROCFS_GET_PID_NAMESPACE ioctl
+      selftests/proc: add tests for new pidns APIs
+
+ Documentation/filesystems/proc.rst        |  12 ++
+ fs/proc/root.c                            | 166 +++++++++++++++-
+ include/linux/pid_namespace.h             |   9 +
+ include/uapi/linux/fs.h                   |   4 +
+ kernel/pid_namespace.c                    |  22 ++-
+ tools/testing/selftests/proc/.gitignore   |   1 +
+ tools/testing/selftests/proc/Makefile     |   1 +
+ tools/testing/selftests/proc/proc-pidns.c | 315 ++++++++++++++++++++++++++++++
+ 8 files changed, 514 insertions(+), 16 deletions(-)
+---
+base-commit: 66639db858112bf6b0f76677f7517643d586e575
+change-id: 20250717-procfs-pidns-api-8ed1583431f0
+
+Best regards,
+-- 
+Aleksa Sarai <cyphar@cyphar.com>
+
 
