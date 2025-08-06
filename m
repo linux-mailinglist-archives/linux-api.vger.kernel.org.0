@@ -1,151 +1,112 @@
-Return-Path: <linux-api+bounces-4306-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4307-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9DBB1BDD7
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 02:25:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91867B1BFA6
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 06:48:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4DC8182C35
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 00:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4639B62276F
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 04:48:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC6062745C;
-	Wed,  6 Aug 2025 00:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289ED1DB54C;
+	Wed,  6 Aug 2025 04:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="H8R01tOn"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="raC8khgk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3F7171C9;
-	Wed,  6 Aug 2025 00:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E652BA3F;
+	Wed,  6 Aug 2025 04:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754439924; cv=none; b=I6hi5Mhfv53sX/A9F5n5bytarsGAaCH6EL3JHr67NMwTc/g2aNY7k/azPOxGVwneZ0kqt3Y7tMsnd4xlBv/OQedAZ+aI+0AMxW9v+1K3KckIugIiM0cx99n1vdsrtA4o/F8QaZZeQxyWd+Bfw9F33XkAzXetGqvVPP6RpSG3xEI=
+	t=1754455734; cv=none; b=BypJWEURrgm/6RpiuZo3fOhNIijIaGj+IS15veVxBa0SPymUnKGB0PV79/XrQBgepKkWBBJiMEc9KcWfQrkzj1jP3zk+fjledlu6msFDT92f6v7U2Xgqb4gy7no417nCDflQo3Ku1mHL8trBWCgNZ7q/H2HwFumUyLQ99t+QOrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754439924; c=relaxed/simple;
-	bh=Xa8K2I92uLyO484B0qkAfsO5WwTjl3NToPDEdFw7lcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wjtwq6tBw5ge/E46UTDs6102S5txoXSxpQZtN9IorDsfI3dkdDFVOeUGpOi5v2tYq7tT2/qP+dRhc7BykzPbcCI/7KAfM2nRs0T/Cv+zfgokHGDSS2HVBpUOGxK/Uyy3J/3zMw5MYs9g6MxVh+zq31vEj4QwP+9gYhI3ZkIM4EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=H8R01tOn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zYA8n4MidVExydv3/JxDVqPaTJImy9qKxpLFRRwzZo0=; b=H8R01tOndR7j5SuRFu/C4Cwen/
-	qLz3YG25lqRLqoW6M+4RKs+nHpyWcdKTRyr0ZP5nxnd3D6HmKyoWDxmWXgRHGOUc1FW46lewgrfJ0
-	LSEMLCNC/IH9zpuV4kFdU5ByyPyffXWewCwvfb1ebK7EiQWMyfPZCLw9Yip1A6yH/v00SuK/Aqs9r
-	yWWWVYTuX6LZ/bobuRQDVZ5+aXzrH98yhIA2PePmC4XhJOeiyU8kpCGxyxKyfzMP+fo/jovz2+9tZ
-	lUUp2RUxQXVNT8j9kIlvm2bvsq+hkYJm/litTEgfQNXMZfHmBjQ/e3Ua0f38lvrIVRUjZ3fUNdyg0
-	clkeqPxw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujRy4-0000000E3ZF-3ciz;
-	Wed, 06 Aug 2025 00:25:20 +0000
-Message-ID: <9027aa89-b3b2-46c8-8338-6c37f1c5b97a@infradead.org>
-Date: Tue, 5 Aug 2025 17:25:19 -0700
+	s=arc-20240116; t=1754455734; c=relaxed/simple;
+	bh=stOywZDoIU0FaZ/HagCupK5dlv3tKXwhDvsLXMZLl1c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nj/Jg7l04Q42v/V6931/HiBTlniOyJXkNnSUVsoOPP5zwXvvxnIul3/rT0hJgLM6c6uAfLdisXMGLvicZqAcOufnW5s5BkoXsHvPxvxEJBoaSUxXZZjGLtMgX+zwWf6qEP8d99F5/FHvCKvkxJNJf9u/QbZAAh8j5CyvSW9MwPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=raC8khgk; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bxd9D39Bcz9tF7;
+	Wed,  6 Aug 2025 06:48:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1754455728;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4gNXonq3IuDgcBCcXQEGzxyOr4rIqlPjiQqPdv91WTg=;
+	b=raC8khgkTlQHbhuinFmhZbVfXQmzKX/L5T97sCacsTBlROFGPHUN+fxL2SN7ldUb6PAhPs
+	9/iz+Dy1XZnyVThraRcj0s6WhKXzIOdlsqtHYBDLCwyt1OP01h+Hhwx7JcxJ0kxGkUMtg6
+	fttknt5nzw1tcqKlAjrvOR0YGGkDwqhxFnBpLbhgIu/iHk/RCB6ADqoXqI/cr3Tq2A34Uc
+	oNyyDyL7pYvLovJeKYLJuIAwUQrCVWh0rK5FSEe+/h0oJ8X6uQURpiTP5gVVhhX5hjP/kN
+	4aARdnt7IhHGIwecvXKKYzIwadkbZco4yMiFwjiN0Q+SyjW6zMaG7FhbkobhXw==
+From: Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH 0/2] vfs: output mount_too_revealing() errors to fscontext
+Date: Wed, 06 Aug 2025 14:48:28 +1000
+Message-Id: <20250806-errorfc-mount-too-revealing-v1-0-536540f51560@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] procfs: add PROCFS_GET_PID_NAMESPACE ioctl
-To: Aleksa Sarai <cyphar@cyphar.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
- <20250805-procfs-pidns-api-v4-3-705f984940e7@cyphar.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250805-procfs-pidns-api-v4-3-705f984940e7@cyphar.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJzekmgC/x3MwQqDMAyA4VeRnA1kQu3cq4iHTlMXmI2kKgPx3
+ S07fof/PyGzCWd4VScYH5JFU8GjrmD8hDQzylQMDTWOnuSQzdTiiIvuacNNFUvG4StpRjd1sfX
+ 0Dt4TlMNqHOX3v/fDdd2VGirWbQAAAA==
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Aleksa Sarai <cyphar@cyphar.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1190; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=stOywZDoIU0FaZ/HagCupK5dlv3tKXwhDvsLXMZLl1c=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWRMurdyy8RI7hCz8r2etke0MqIVCn6KRPmLTj+X6bXvl
+ rR6wJQZHaUsDGJcDLJiiizb/DxDN81ffCX500o2mDmsTCBDGLg4BWAiGlqMDM9yXv+9MdV046Eo
+ Vg/NXt2T4vzFPyfm16g+PWOwWNlVJ5nhf8oswVNtHCv+RNyR1fp6dsK2N+57/b9GPVzZfNLv2YX
+ rUiwA
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 
+It makes little sense for fsmount() to output the warning message when
+mount_too_revealing() is violated to kmsg. Instead, the warning should
+be output (with a "VFS" prefix) to the fscontext log. In addition,
+include the same log message for mount_too_revealing() when doing a
+regular mount for consistency.
 
+With the newest fsopen()-based mount(8) from util-linux, the error
+messages now look like
 
-On 8/4/25 10:45 PM, Aleksa Sarai wrote:
-> /proc has historically had very opaque semantics about PID namespaces,
-> which is a little unfortunate for container runtimes and other programs
-> that deal with switching namespaces very often. One common issue is that
-> of converting between PIDs in the process's namespace and PIDs in the
-> namespace of /proc.
-> 
-> In principle, it is possible to do this today by opening a pidfd with
-> pidfd_open(2) and then looking at /proc/self/fdinfo/$n (which will
-> contain a PID value translated to the pid namespace associated with that
-> procfs superblock). However, allocating a new file for each PID to be
-> converted is less than ideal for programs that may need to scan procfs,
-> and it is generally useful for userspace to be able to finally get this
-> information from procfs.
-> 
-> So, add a new API to get the pid namespace of a procfs instance, in the
-> form of an ioctl(2) you can call on the root directory of said procfs.
-> The returned file descriptor will have O_CLOEXEC set. This acts as a
-> sister feature to the new "pidns" mount option, finally allowing
-> userspace full control of the pid namespaces associated with procfs
-> instances.
-> 
-> The permission model for this is a bit looser than that of the "pidns"
-> mount option (and also setns(2)) because /proc/1/ns/pid provides the
-> same information, so as long as you have access to that magic-link (or
-> something equivalently reasonable such as being in an ancestor pid
-> namespace) it makes sense to allow userspace to grab a handle. Ideally
-> we would check for ptrace-read access against all processes in the pidns
-> (which is very likely to be true for at least one process, as
-> SUID_DUMP_DISABLE is cleared on exec(2) and is rarely set by most
-> programs), but this would obviously not scale.
-> 
-> setns(2) will still have their own permission checks, so being able to
-> open a pidns handle doesn't really provide too many other capabilities.
-> 
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  Documentation/filesystems/proc.rst |  4 +++
->  fs/proc/root.c                     | 68 ++++++++++++++++++++++++++++++++++++--
->  include/uapi/linux/fs.h            |  4 +++
->  3 files changed, 74 insertions(+), 2 deletions(-)
-> 
+  # mount -t proc proc /tmp
+  mount: /tmp: fsmount() failed: VFS: Mount too revealing.
+	 dmesg(1) may have more information after failed mount system call.
 
+which could finally result in mount_too_revealing() errors being easier
+for users to detect and understand.
 
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 0bd678a4a10e..68e65e6d7d6b 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -435,8 +435,12 @@ typedef int __bitwise __kernel_rwf_t;
->  			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
->  			 RWF_DONTCACHE)
->  
-> +/* This matches XSDFEC_MAGIC, so we need to allocate subvalues carefully. */
->  #define PROCFS_IOCTL_MAGIC 'f'
->  
-> +/* procfs root ioctls */
-> +#define PROCFS_GET_PID_NAMESPACE	_IO(PROCFS_IOCTL_MAGIC, 32)
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+Aleksa Sarai (2):
+      fscontext: add custom-prefix log helpers
+      vfs: output mount_too_revealing() errors to fscontext
 
-Since the _IO() nr here is 32, Documentation/userspace-api/ioctl/ioctl-number.rst
-should be updated like:
+ fs/namespace.c             |  6 ++++--
+ include/linux/fs_context.h | 18 ++++++++++++++----
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+---
+base-commit: 66639db858112bf6b0f76677f7517643d586e575
+change-id: 20250805-errorfc-mount-too-revealing-5d9f670ba770
 
--'f'   00-0F  linux/fs.h                                                conflict!
-+'f'   00-1F  linux/fs.h                                                conflict!
-
-(17 is already used for PROCFS_IOCTL_MAGIC somewhere else, so that probably should
-have update the Doc/rst file.)
-
-> +
->  /* Pagemap ioctl */
->  #define PAGEMAP_SCAN	_IOWR(PROCFS_IOCTL_MAGIC, 16, struct pm_scan_arg)
->  
-> 
-Thanks.
+Best regards,
 -- 
-~Randy
+Aleksa Sarai <cyphar@cyphar.com>
 
 
