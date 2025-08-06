@@ -1,134 +1,149 @@
-Return-Path: <linux-api+bounces-4304-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4305-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D78AB1B9F7
-	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 20:24:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240DDB1BDD0
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 02:20:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3244189DB4E
-	for <lists+linux-api@lfdr.de>; Tue,  5 Aug 2025 18:25:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DEBE17F457
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 00:20:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720872951DD;
-	Tue,  5 Aug 2025 18:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949DFFBF0;
+	Wed,  6 Aug 2025 00:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="cxi2QUyk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TUPNyQX3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB32E277819
-	for <linux-api@vger.kernel.org>; Tue,  5 Aug 2025 18:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95F19A;
+	Wed,  6 Aug 2025 00:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754418286; cv=none; b=csVHrXzrIBNebR1H824xDwCsmuJowMMlmZKM+GhJBeuhLQ4QGm5bFHvU/RSLJGjiKArLbMrcSvAVcty8trYQu3bVXQkFyxxLGprRz3csH59rk4kuGSVnytk/NAhNhmIbh3dGKBK2cmtxjENXrgy2q+78CKgovTLVew3b8LxgLpc=
+	t=1754439596; cv=none; b=OyDNdH+Xy4lqVeBVG2Q/8lbB45U3i/29CEEBPNDGUk7boAo3yBrUKSmF7Jm/38OplFrjcHvu8qZCHGpXr2HP+x3C0cxhTChvFpbdVQYz9VRtKQJSt8dL2OISMGJD4iYOJj4yAxsPnmzCOCzMAwpM9cmtAI+OdBuNb5LCXz/tAh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754418286; c=relaxed/simple;
-	bh=OKVLqHIWmibana5VQZUJL0qfjT6gFJPBTJLNVk0SJRY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E2fwFgTx9aYBMbqqm6fBemRaammzWjRBDW07dSz28cUv0TOQLvOSVwsdbKb6Hfyy++59w/IrHBX2arTsCSPIWxN7Daj6x33n608wUGUCX6gT0SUonLciE429rRUejDwqH+M3yX5+ZEszGUol5NC2eyVIr7JpaoCY6MuGfCJvBcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=cxi2QUyk; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b07cd5019eso19878441cf.3
-        for <linux-api@vger.kernel.org>; Tue, 05 Aug 2025 11:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754418284; x=1755023084; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OKVLqHIWmibana5VQZUJL0qfjT6gFJPBTJLNVk0SJRY=;
-        b=cxi2QUyki+j6r+AUnCw3RvWjcY8wIMjzkQZNYirvohpuOLbHcTqWGlWYsBGih7XRuF
-         tFCgDzdFxy6+hDAK9GBcr0CwCPPSTwy13E2CkyC8rdhql8M8FQqKY38sbvSRrIlWDFTs
-         B5P1qDdfnbnVgRUf1c0JV/ymlLzeeThbf8FhGhHQKpXUFUnDRTn1dRmQr1/397jWil1z
-         MBOQ/FPyok5CCskwl9J7N9Lpeze7tBJCuK6DhWIjjRE0adMBmv58evpAHzHNds/ZuAbg
-         BBlCMsogK6zHRFvWBP6ULOgAGU1WCvIVdFaB0EUTN0AA4I7Hq8BBai8Umt/V/3EVI60R
-         GAEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754418284; x=1755023084;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OKVLqHIWmibana5VQZUJL0qfjT6gFJPBTJLNVk0SJRY=;
-        b=CP7VtnhjRtQDTPeNAYC3NWFkHwyKlk1DvRNGnAeHo+6Sks2v5o3/cCp+SBP0E5vXHD
-         2wt8rZnZ9kFMpQ4Y3GRMP1q9uTk/FtYshIRuf6uwYI9Uii09T2LxygpEhl0hM8R/NaGq
-         rrgTbsUVZw7gYVKwXLgsdmyRj0k5a8hzMfknZDxo473JttgXxWo9r7YkbHL3RlxNLjJy
-         BQoHNbm/4BJvPTv8a7PSAihrd5uzeQYiSt7j569D019/RD657qg3ofJkUfSvvUXHbOFl
-         3wVOEEuBfBTKds/2Erdx7qodEJtEbsjcslC2nwbtn1tMoH2eonrdHCZU0abk2De3gS4j
-         PUjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvRfzbBw9yUOTPeRRxzY/0rLWCgCiiah7IdIu8Vx/Ha2LJuo2lUwGV5Kng7w1q5pKm0oyYKgjEVrQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw16Pjp8PL/zT43w4CNhLNYhyNdGS7B18Cy0h+0wP0Z+456PBr7
-	U4ANE9ziVP4SiwMjelfXwab3exgTUjNWlKPNV34l66LFLyEs2G8+xy5lFybnwjUtXBFPvVNr8ft
-	QVQfh7Cqgx99jUysMpy/sMH3H0CIhsDCdcz7iENnvLg==
-X-Gm-Gg: ASbGncsGrt2DeSjuIAYnHAPW1JF0kfqBxLCJmljCgibNul+W6hqBy9Hz10KAdy+szqV
-	SatBFL1H8YGjoThXr6Py9Sihkddy++m0buG4R5PB22l+77aJLwmkxedEACsieF5mI58FWy9MFhO
-	zdm8yk3JlR8eD80/XO0TT9tZbq16Wu/l+KsA0aqsQ4xE3rXTauPdb+N00KRJ+5Hst7VaeHGgFcr
-	35A
-X-Google-Smtp-Source: AGHT+IECP/Qxkxwml/cf3BCEf7Q2B4NHOjK/2NaPxdggrpfuJmAft+1jLFMG+N7JFiUAXv2wscgyaif0s26EEgdezVo=
-X-Received: by 2002:a05:622a:191a:b0:4b0:86b4:251a with SMTP id
- d75a77b69052e-4b086b42b17mr42712121cf.25.1754418283817; Tue, 05 Aug 2025
- 11:24:43 -0700 (PDT)
+	s=arc-20240116; t=1754439596; c=relaxed/simple;
+	bh=OT3f/U4DpV8q91l9jRxEsTYFN/WOPBcjG9NXESoXWrs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pUQVGmjIJ4fuJx935Pi1E3V10FYxJ4zdVotbKbE+SkWEJhWTmFNDiu6yNakesvLhW7nX1iAHKPK5a/3j6GApCrG0QXO+u4sq3xAqwjA4CSFVbfliN883PMJ5JuMS66GeM9zjSVI3LWRGUKqKRzz3u2UDTHiVbBumCXrMxNoYOrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TUPNyQX3; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=nZYwsKOptSUZO0neyK/l0Qf2ovJ/CTbLtLm7FCTYX5s=; b=TUPNyQX3WyRtkdwpmO7RZqOyAo
+	WQMlt77Ff95hM004vnyaI6qjzqGPl4GufiP6o/4tEvS3XUVJpvn1kO3pzYRrWjSO5E454b802yoZm
+	oLiEUgEeQFUAfH+Pb7xC96Rgq5E9Wx16sY6NCvNtF9Dm+INNGPVRg18tqRZjXlPt9VkBEO3O6U104
+	7p52IsEO327eDPsZRW7D2bWUzGX0QaNELvDyH6K51qMbioYWFqMKZwqQRAJcXDQSc4GAYffRKF9wA
+	M5oQClEteyQL5XTcf/4PUe23ScgeDO2AcEtong/vrPmTCq4Ufml+0F0WbT0oK11ZJxjFXPOlzRkFc
+	07v8Ka0w==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ujRsg-0000000E3K1-3O8k;
+	Wed, 06 Aug 2025 00:19:46 +0000
+Message-ID: <c1ba0f8d-6b3c-4c2b-863c-2ce374df723c@infradead.org>
+Date: Tue, 5 Aug 2025 17:19:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
- <20250723144649.1696299-32-pasha.tatashin@soleen.com> <20250729161450.GM36037@nvidia.com>
- <877bzqkc38.ffs@tglx> <20250729222157.GT36037@nvidia.com> <20250729183548.49d6c2dc@gandalf.local.home>
- <mafs07bzqeg3x.fsf@kernel.org>
-In-Reply-To: <mafs07bzqeg3x.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 5 Aug 2025 18:24:05 +0000
-X-Gm-Features: Ac12FXzHvHvpYHaqyT4n7r9UBwaTJ5dSsQkeIlx-mzYjpvX_Sd5MnNPi6FTtCG4
-Message-ID: <CA+CK2bA=pmEtNWc5nN2hWcepq_+8HtbH2mTP2UUgabZ8ERaROw@mail.gmail.com>
-Subject: Re: [PATCH v2 31/32] libluo: introduce luoctl
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] procfs: add "pidns" mount option
+To: Aleksa Sarai <cyphar@cyphar.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
+ <20250805-procfs-pidns-api-v4-2-705f984940e7@cyphar.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250805-procfs-pidns-api-v4-2-705f984940e7@cyphar.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> To add some context: one of the reasons to include it in the series as
-> an RFC at the end was to showcase the userspace side of the API and have
-> a way for people to see how it can be used. Seeing an API in action
-> provides useful context for reviewing patches.
->
-> I think Pasha forgot to add the RFC tags when he created v2, since it is
-> only meant to be RFC right now and not proper patches.
+Hi,
 
-Correct, I accidently removed RFC from memfd patches in the version. I
-will include memfd preservation as RFCv1 in v3 submission.
+On 8/4/25 10:45 PM, Aleksa Sarai wrote:
+> Since the introduction of pid namespaces, their interaction with procfs
+> has been entirely implicit in ways that require a lot of dancing around
+> by programs that need to construct sandboxes with different PID
+> namespaces.
+> 
+> Being able to explicitly specify the pid namespace to use when
+> constructing a procfs super block will allow programs to no longer need
+> to fork off a process which does then does unshare(2) / setns(2) and
+> forks again in order to construct a procfs in a pidns.
+> 
+> So, provide a "pidns" mount option which allows such users to just
+> explicitly state which pid namespace they want that procfs instance to
+> use. This interface can be used with fsconfig(2) either with a file
+> descriptor or a path:
+> 
+>   fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
+>   fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid", 0);
+> 
+> or with classic mount(2) / mount(8):
+> 
+>   // mount -t proc -o pidns=/proc/self/ns/pid proc /tmp/proc
+>   mount("proc", "/tmp/proc", "proc", MS_..., "pidns=/proc/self/ns/pid");
+> 
+> As this new API is effectively shorthand for setns(2) followed by
+> mount(2), the permission model for this mirrors pidns_install() to avoid
+> opening up new attack surfaces by loosening the existing permission
+> model.
+> 
+> In order to avoid having to RCU-protect all users of proc_pid_ns() (to
+> avoid UAFs), attempting to reconfigure an existing procfs instance's pid
+> namespace will error out with -EBUSY. Creating new procfs instances is
+> quite cheap, so this should not be an impediment to most users, and lets
+> us avoid a lot of churn in fs/proc/* for a feature that it seems
+> unlikely userspace would use.
+> 
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
+>  Documentation/filesystems/proc.rst |  8 ++++
+>  fs/proc/root.c                     | 98 +++++++++++++++++++++++++++++++++++---
+>  2 files changed, 100 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 5236cb52e357..5a157dadea0b 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -2360,6 +2360,7 @@ The following mount options are supported:
+>  	hidepid=	Set /proc/<pid>/ access mode.
+>  	gid=		Set the group authorized to learn processes information.
+>  	subset=		Show only the specified subset of procfs.
+> +	pidns=		Specify a the namespace used by this procfs.
 
->
-> The point of moving out of tree was also brought up in the live update
-> call and I agree with Jason's feedback on it. The plan is to drop it
-> from the series in the next revision, and just leave a reference to it
-> in the cover letter instead.
+			drop ^^ a
 
- I will drop libluo/luoctl and will add a pointer to an external repo
-where they can be accessed from.
+>  	=========	========================================================
+>  
+>  hidepid=off or hidepid=0 means classic mode - everybody may access all
+> @@ -2392,6 +2393,13 @@ information about processes information, just add identd to this group.
+>  subset=pid hides all top level files and directories in the procfs that
+>  are not related to tasks.
+>  
+> +pidns= specifies a pid namespace (either as a string path to something like
+> +`/proc/$pid/ns/pid`, or a file descriptor when using `FSCONFIG_SET_FD`) that
+> +will be used by the procfs instance when translating pids. By default, procfs
+> +will use the calling process's active pid namespace. Note that the pid
+> +namespace of an existing procfs instance cannot be modified (attempting to do
+> +so will give an `-EBUSY` error).
+> +
+>  Chapter 5: Filesystem behavior
+>  ==============================
+>  
+-- 
+~Randy
 
-Pasha
 
