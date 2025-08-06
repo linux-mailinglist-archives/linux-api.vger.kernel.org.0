@@ -1,131 +1,92 @@
-Return-Path: <linux-api+bounces-4314-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4315-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64FBB1C048
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 08:08:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C25B1C438
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 12:25:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0A2A7A89F6
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 06:06:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF593187231
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 10:25:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82171207A0B;
-	Wed,  6 Aug 2025 06:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E443428AAFC;
+	Wed,  6 Aug 2025 10:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="d6nyFjaN"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="U3I5F5KD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6078206F23;
-	Wed,  6 Aug 2025 06:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754460456; cv=none; b=enlnE6572VGgoP26qDdnn9MM48dbxKnnvTsthHlOjxPlWuafbPlJ8293KHiPe62qRH/CDKghN1ZKpiOVv24eisKH4YbB8KJQZcWYcAR4NpSAxfKsnT7kcSVmqSN/qMuSosjnFLYzgdreHr0DdwsWiM4LSgh86+xrHIZDdtVcU78=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754460456; c=relaxed/simple;
-	bh=Ye39SgM+Etl8XRmkHnnUx23tWQlJ53yx1MHZm4Nu7EE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A4MwbGZ1GggTo0BYD+Wj2qDj7OU1s018fDXJe167cXWqziW9pdlrdEsMUCGoK8WxG2pqJv6PAjioRMrLKELQ4AlljlKttdtvCtEBAdCE993pf8F5SnfKD4jiQ9a4yRazsxyYOgVDCggHX8Vn3EsBmVYLnreZ4gLgEE5ctVezgMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=d6nyFjaN; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bxfvw6fHPz9tLZ;
-	Wed,  6 Aug 2025 08:07:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1754460445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hvjO1yXplYoS1k6lhx55wXs3NDrmm2HWfvZNqZWFq4s=;
-	b=d6nyFjaNUaChikrH0suD1BoCbuUJMFnx+GFSOkZsOjxZKvHX8j0IvtXg8KbpKn5Qk1AYfQ
-	LV97FsBEOhSjJrFCPB7NGoBhyME6wS6GVYXwlOwzPClPa8n7owq/eC6rkGmSPsNrXrlZ/B
-	noBvX7L7GbdxO5A/Priyb2mWuZ8gNii6AyGKEG5CHmJ5obR3m33N7VTVPZcYPbrt4SMvRx
-	kRvqB7lgDZTHrLZ7VBbtC5ePF3Jg+3999P4BRR5EcTXr9mtQxWpymgevAzRhb+DVexIXlp
-	Mqzv9wIeatYWOcdaKE0uhgyHPml8tmTcjtKFOiCIHzuqTpjWGRBCfomBwCvn5w==
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Wed, 06 Aug 2025 16:07:06 +1000
-Subject: [PATCH v2 2/2] vfs: output mount_too_revealing() errors to
- fscontext
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAE5207A22;
+	Wed,  6 Aug 2025 10:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754475939; cv=pass; b=pvzf4/FS/95vtAoGrRA8fEUpj+MXj8MGlnFhWT98zssD/P3otK8QqaxlnV6oVpsjDIVIVJT3GR80FAaveh/RKwj1A/FLE6IPClJ7euTOdyaOiyICnwWwly0RKpXvICZ3wx7mnxylPj5KX504fxTAvKdYLW0SO6uens68UDlm/aw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754475939; c=relaxed/simple;
+	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gmvyG/sc1cn8eEyPOBPBtRQN+Suzj5QJmuEiFbcjkMvkoxhT9/vVESia8v3ET+plvrYeDTb75B3cWRayRA6wloTOa7H4cmJH9oF8nlfCTkFDHHJ5UG3Y45DMIUMjQK990CZPtQwjHNC/WxtPa+GCPlZntUC2FdBPCKIqybHUt+I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=U3I5F5KD; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1754475910; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fepJ8qRfgN4zCRlmQcXewJjX7ndwkr9ZErcwug1fF/Qm4DmSeg0CtFZXIJbYf+F0xfwH7f/CECvYQPanzhikWH8O/BjUqDef0G9p41zZKS3zwx8o9HWSCtjm5koJhUTATq32wNwln4xbiCrj24wmFmfcGZAS/93DgCViOLuRcIA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1754475910; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=; 
+	b=hVATTcTbTnrdSRZYHokKzVn89UaAZFwSJiHoVgn25NRuEf9eaZydmSHv8+FY1BByvl0yZZPq8dgcb1ghDlZ/FgDz1ZZdaNcWkFy5hZGJlnz4xFwlFGZPt4v+dEFf9sTiW4q7wIyQaI3yYItV/AA3lh4qJpH9URv93h6skV3OOSY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754475910;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=;
+	b=U3I5F5KDYBTv3/hL6pjdw8mRCB0ECyCmCoRP/aqriH0MSxXaWoFSIv1w8BmYmWLz
+	e4V+2FbB/iEiLnq9uTfVGKgrFCzK14RYT1Ns0kLmSQHWUdXS+E0AfpUZj+IM2FkTgCV
+	/q0+57F21dqblHR/PNOwAZcgpHgsMiIgVhhH9/hk=
+Received: by mx.zohomail.com with SMTPS id 1754475907706352.8426825833187;
+	Wed, 6 Aug 2025 03:25:07 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: cyphar@cyphar.com
+Cc: amir73il@gmail.com,
+	brauner@kernel.org,
+	corbet@lwn.net,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	luto@amacapital.net,
+	shuah@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v4 2/4] procfs: add "pidns" mount option
+Date: Wed,  6 Aug 2025 13:25:01 +0300
+Message-ID: <20250806102501.75104-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <2025-08-05.1754378656-steep-harps-muscled-mailroom-lively-gosling-VVGNTP@cyphar.com>
+References: <2025-08-05.1754378656-steep-harps-muscled-mailroom-lively-gosling-VVGNTP@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250806-errorfc-mount-too-revealing-v2-2-534b9b4d45bb@cyphar.com>
-References: <20250806-errorfc-mount-too-revealing-v2-0-534b9b4d45bb@cyphar.com>
-In-Reply-To: <20250806-errorfc-mount-too-revealing-v2-0-534b9b4d45bb@cyphar.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1639; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=Ye39SgM+Etl8XRmkHnnUx23tWQlJ53yx1MHZm4Nu7EE=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWRM+shvsOc0v/rih8LTqlIP9V9Xt/ntUFQw44n2kZWHm
- janqb/N7ChlYRDjYpAVU2TZ5ucZumn+4ivJn1aywcxhZQIZwsDFKQAT+aXI8D/D+eTJf52CyvOc
- 11y/f1bNqcSDg+WYZZ3EgoAIpg1v0h0Z/vv4J8+ddHLaP4767nu5tX+SJpzRcFJz5//TXWguVyH
- ZwAIA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227cd007dd0b9c9dcb652e3ba8400007454c63885fa4739e1a2448e2dfcd94715a18ae97a0dffae61:zu08011227eb8290984d483d5d1a43e04000005dc1ce89a5e53403a5117830c5dff694efbf2d6162e2802556:rf0801122c8cf1f5d05d0e16bf0447132600008990b2a0cdb4e3567989e390629257cc551dc8fb0a863a8c551d183331cc:ZohoMail
+X-ZohoMailClient: External
 
-It makes little sense for fsmount() to output the warning message when
-mount_too_revealing() is violated to kmsg. Instead, the warning should
-be output (with a "VFS" prefix) to the fscontext log. In addition,
-include the same log message for mount_too_revealing() when doing a
-regular mount for consistency.
+> I just realised that we probably also want to support FSCONFIG_SET_PATH
 
-With the newest fsopen()-based mount(8) from util-linux, the error
-messages now look like
+I just checked kernel code. Indeed nobody uses FSCONFIG_SET_PATH. Moreover, fsparam_path macro is present since 5.1. And for all this time nobody used it. So, let's just remove FSCONFIG_SET_PATH. Nobody used it, so this will not break anything.
 
-  # mount -t proc proc /tmp
-  mount: /tmp: fsmount() failed: VFS: Mount too revealing.
-         dmesg(1) may have more information after failed mount system call.
+If you okay with that, I can submit patch, removing it.
 
-which could finally result in mount_too_revealing() errors being easier
-for users to detect and understand.
-
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- fs/namespace.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 55f28cebbe7d..1e1c2c257e2e 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3820,8 +3820,10 @@ static int do_new_mount_fc(struct fs_context *fc, struct path *mountpoint,
- 	int error;
- 
- 	error = security_sb_kern_mount(sb);
--	if (!error && mount_too_revealing(sb, &mnt_flags))
-+	if (!error && mount_too_revealing(sb, &mnt_flags)) {
-+		errorfcp(fc, "VFS", "Mount too revealing");
- 		error = -EPERM;
-+	}
- 
- 	if (unlikely(error)) {
- 		fc_drop_locked(fc);
-@@ -4547,7 +4549,7 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
- 
- 	ret = -EPERM;
- 	if (mount_too_revealing(fc->root->d_sb, &mnt_flags)) {
--		pr_warn("VFS: Mount too revealing\n");
-+		errorfcp(fc, "VFS", "Mount too revealing");
- 		goto err_unlock;
- 	}
- 
-
--- 
-2.50.1
-
+--
+Askar Safin
 
