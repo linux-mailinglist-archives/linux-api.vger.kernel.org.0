@@ -1,92 +1,120 @@
-Return-Path: <linux-api+bounces-4315-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4316-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C25B1C438
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 12:25:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2973BB1C589
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 14:03:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF593187231
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 10:25:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0FC56210B5
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 12:03:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E443428AAFC;
-	Wed,  6 Aug 2025 10:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3E023314B;
+	Wed,  6 Aug 2025 12:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="U3I5F5KD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jjiq6aMR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAE5207A22;
-	Wed,  6 Aug 2025 10:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754475939; cv=pass; b=pvzf4/FS/95vtAoGrRA8fEUpj+MXj8MGlnFhWT98zssD/P3otK8QqaxlnV6oVpsjDIVIVJT3GR80FAaveh/RKwj1A/FLE6IPClJ7euTOdyaOiyICnwWwly0RKpXvICZ3wx7mnxylPj5KX504fxTAvKdYLW0SO6uens68UDlm/aw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754475939; c=relaxed/simple;
-	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gmvyG/sc1cn8eEyPOBPBtRQN+Suzj5QJmuEiFbcjkMvkoxhT9/vVESia8v3ET+plvrYeDTb75B3cWRayRA6wloTOa7H4cmJH9oF8nlfCTkFDHHJ5UG3Y45DMIUMjQK990CZPtQwjHNC/WxtPa+GCPlZntUC2FdBPCKIqybHUt+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=U3I5F5KD; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1754475910; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=fepJ8qRfgN4zCRlmQcXewJjX7ndwkr9ZErcwug1fF/Qm4DmSeg0CtFZXIJbYf+F0xfwH7f/CECvYQPanzhikWH8O/BjUqDef0G9p41zZKS3zwx8o9HWSCtjm5koJhUTATq32wNwln4xbiCrj24wmFmfcGZAS/93DgCViOLuRcIA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1754475910; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=; 
-	b=hVATTcTbTnrdSRZYHokKzVn89UaAZFwSJiHoVgn25NRuEf9eaZydmSHv8+FY1BByvl0yZZPq8dgcb1ghDlZ/FgDz1ZZdaNcWkFy5hZGJlnz4xFwlFGZPt4v+dEFf9sTiW4q7wIyQaI3yYItV/AA3lh4qJpH9URv93h6skV3OOSY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754475910;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=+wmQqhO/faO6co4hBA9A8Ni4X+9sQBZZYbpDBYq8EfQ=;
-	b=U3I5F5KDYBTv3/hL6pjdw8mRCB0ECyCmCoRP/aqriH0MSxXaWoFSIv1w8BmYmWLz
-	e4V+2FbB/iEiLnq9uTfVGKgrFCzK14RYT1Ns0kLmSQHWUdXS+E0AfpUZj+IM2FkTgCV
-	/q0+57F21dqblHR/PNOwAZcgpHgsMiIgVhhH9/hk=
-Received: by mx.zohomail.com with SMTPS id 1754475907706352.8426825833187;
-	Wed, 6 Aug 2025 03:25:07 -0700 (PDT)
-From: Askar Safin <safinaskar@zohomail.com>
-To: cyphar@cyphar.com
-Cc: amir73il@gmail.com,
-	brauner@kernel.org,
-	corbet@lwn.net,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	luto@amacapital.net,
-	shuah@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v4 2/4] procfs: add "pidns" mount option
-Date: Wed,  6 Aug 2025 13:25:01 +0300
-Message-ID: <20250806102501.75104-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <2025-08-05.1754378656-steep-harps-muscled-mailroom-lively-gosling-VVGNTP@cyphar.com>
-References: <2025-08-05.1754378656-steep-harps-muscled-mailroom-lively-gosling-VVGNTP@cyphar.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7DF221729;
+	Wed,  6 Aug 2025 12:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754481783; cv=none; b=hUlE5cBz//zRb5zq2ZA+cvNkI1ftKc5kI6F7VaSYLW5qd/IeIQ4ThplhX7ymToCzSGf5xkgBpSFl4eTJYcCQOT2rcQnWjb1okygHujiAs+Q7QW8vlygbgkQIfEHoRRyXulQJ+N6C6JFfnXNNYveJHdenlGT+6FLF0cu8K7RwxEA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754481783; c=relaxed/simple;
+	bh=iM3DL6rk0RbOHKY0NOC2WS44N14rliZCsKY1vAOE0s4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tqdNiIjTyFgLPwAefJRTjfispK4zewykaRn8Bj3BXfdvPbNngb9naS3jKZ0qsUvD0zC1oDIKq6VsTj3j3spp+WPAr3QmBYQVft6nULAnrIseJGscMvSQIeyr+JCgejC3yFJ0nTPXoky5aiNADN0FsNXmsAwrDBFs1g45+q3tPV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jjiq6aMR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F95DC4CEEB;
+	Wed,  6 Aug 2025 12:02:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754481783;
+	bh=iM3DL6rk0RbOHKY0NOC2WS44N14rliZCsKY1vAOE0s4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Jjiq6aMRhbWCv5v74m8F3r/WETA/ORQJKafiqRDXRe1OAI+ZWJJuCD1Rb6RuQ930+
+	 cxGf4XAVSsFnHxzsV5imiaoQi0U6QxnVqa8b8jhLJGQVPqjYAJT4WtOESQLnTEBLcr
+	 PdrWB5UTHuhRc/Pnc1xgTVONPRQamGcj5PEpEu4aaFvYE69JKzAXlBMhCIo9lhfz44
+	 kEl96fvPjQh4UQOa0ISpr/HxTvDWPp2GXE9WRbQIt7uQJq4/rQk83yihh/4AsBrZd6
+	 q/rJ9lbo1yIC2+m/EGCJJXcKVBbUNpsA8xDbuSon0D+0WkBHxTLxmAIQsrl9vAYYOR
+	 Pcqs7riARcj7w==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Steven Rostedt
+ <rostedt@goodmis.org>,  Jason Gunthorpe <jgg@nvidia.com>,  Thomas Gleixner
+ <tglx@linutronix.de>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  anna.schumaker@oracle.com,  song@kernel.org,  zhangguopeng@kylinos.cn,
+  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
+  gregkh@linuxfoundation.org,  mingo@redhat.com,  bp@alien8.de,
+  dave.hansen@linux.intel.com,  x86@kernel.org,  hpa@zytor.com,
+  rafael@kernel.org,  dakr@kernel.org,  bartosz.golaszewski@linaro.org,
+  cw00.choi@samsung.com,  myungjoo.ham@samsung.com,
+  yesanishhere@gmail.com,  Jonathan.Cameron@huawei.com,
+  quic_zijuhu@quicinc.com,  aleksander.lobakin@intel.com,
+  ira.weiny@intel.com,  andriy.shevchenko@linux.intel.com,
+  leon@kernel.org,  lukas@wunner.de,  bhelgaas@google.com,
+  wagi@kernel.org,  djeffery@redhat.com,  stuart.w.hayes@gmail.com,
+  lennart@poettering.net,  brauner@kernel.org,  linux-api@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  saeedm@nvidia.com,
+  ajayachandra@nvidia.com,  parav@nvidia.com,  leonro@nvidia.com,
+  witu@nvidia.com
+Subject: Re: [PATCH v2 31/32] libluo: introduce luoctl
+In-Reply-To: <CA+CK2bA=pmEtNWc5nN2hWcepq_+8HtbH2mTP2UUgabZ8ERaROw@mail.gmail.com>
+References: <20250723144649.1696299-1-pasha.tatashin@soleen.com>
+	<20250723144649.1696299-32-pasha.tatashin@soleen.com>
+	<20250729161450.GM36037@nvidia.com> <877bzqkc38.ffs@tglx>
+	<20250729222157.GT36037@nvidia.com>
+	<20250729183548.49d6c2dc@gandalf.local.home>
+	<mafs07bzqeg3x.fsf@kernel.org>
+	<CA+CK2bA=pmEtNWc5nN2hWcepq_+8HtbH2mTP2UUgabZ8ERaROw@mail.gmail.com>
+Date: Wed, 06 Aug 2025 14:02:52 +0200
+Message-ID: <mafs0ectod5eb.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr08011227cd007dd0b9c9dcb652e3ba8400007454c63885fa4739e1a2448e2dfcd94715a18ae97a0dffae61:zu08011227eb8290984d483d5d1a43e04000005dc1ce89a5e53403a5117830c5dff694efbf2d6162e2802556:rf0801122c8cf1f5d05d0e16bf0447132600008990b2a0cdb4e3567989e390629257cc551dc8fb0a863a8c551d183331cc:ZohoMail
-X-ZohoMailClient: External
+Content-Type: text/plain
 
-> I just realised that we probably also want to support FSCONFIG_SET_PATH
+Hi Pasha,
 
-I just checked kernel code. Indeed nobody uses FSCONFIG_SET_PATH. Moreover, fsparam_path macro is present since 5.1. And for all this time nobody used it. So, let's just remove FSCONFIG_SET_PATH. Nobody used it, so this will not break anything.
+On Tue, Aug 05 2025, Pasha Tatashin wrote:
 
-If you okay with that, I can submit patch, removing it.
+>> To add some context: one of the reasons to include it in the series as
+>> an RFC at the end was to showcase the userspace side of the API and have
+>> a way for people to see how it can be used. Seeing an API in action
+>> provides useful context for reviewing patches.
+>>
+>> I think Pasha forgot to add the RFC tags when he created v2, since it is
+>> only meant to be RFC right now and not proper patches.
+>
+> Correct, I accidently removed RFC from memfd patches in the version. I
+> will include memfd preservation as RFCv1 in v3 submission.
 
---
-Askar Safin
+I didn't mean this for the memfd patches, only for libluo.
+
+I think the memfd patches are in decent shape. They aren't pristine, but
+I do think they are good enough to land and be improved iteratively.
+
+If you think otherwise, then what do you reckon needs to be done to make
+them _not_ RFC?
+
+-- 
+Regards,
+Pratyush Yadav
 
