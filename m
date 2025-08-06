@@ -1,130 +1,79 @@
-Return-Path: <linux-api+bounces-4309-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4310-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D86EB1BFAE
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 06:49:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE9EB1BFFD
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 07:41:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AC3D622CBD
-	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 04:49:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F6B93BBE17
+	for <lists+linux-api@lfdr.de>; Wed,  6 Aug 2025 05:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CEF11F5842;
-	Wed,  6 Aug 2025 04:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E546A1F4C85;
+	Wed,  6 Aug 2025 05:41:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Vsb5mhdU"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="p7nvMnp7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973831F4CBC;
-	Wed,  6 Aug 2025 04:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AEE1F0E2E;
+	Wed,  6 Aug 2025 05:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754455741; cv=none; b=XGLNYwHSdYvFLl+lcGvHlh0q90Gc4F4xZaw0s5YFNbJq9elJJozE5UHIUBXfjLvoSXdTzwTkDvVE953mYIYpSaFIWIhB1wqauYg/dU3BN/SVmh61fj3+6rJZ8iibs/3Ng3xDXlXpNiDtLJqyp2ZF2IG4NGEz3At6vghc1bPyvBY=
+	t=1754458883; cv=none; b=CR/FMfpfvGGSLuFtLidZCH4CqjH2ZrYpLuS2RRca3G/xtKPsnwPOLqchZjQqqs1TQIZXgUuYsYUHpJKMzesxhiy7DDPo2Qv5KHgbzRftwZqd7OdbNyZE88W4QUcKQv5DQ6vxs4pHv8wvligfThryi70/jH9zOizaNOWIDSyPfrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754455741; c=relaxed/simple;
-	bh=hE1jzhCIqDyIWqjL9YCdSp48W9E82NKQr3N/AJyoveA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rMtQ/bpVsAS1FF7AiyK4Vn9yx5gTI/ghkGKo8kJcr56GRPU2msPBc6ERg6J+tQT5CCki0MbVfIZmxyJvQ2L1wwfhrxXtAuHqzmTsBzlScTRhqQd9MtUDkDWVa+EHIWqy1pK5V0VnWuQuiC4G4yyi3ZJLkGXs+HKcKEDPTCRn7BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Vsb5mhdU; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bxd9N0mCsz9tBc;
-	Wed,  6 Aug 2025 06:48:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1754455736;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iOcmob/KBJLyEb2W1q46NfuHtAS0YPNzHthf2+pOIlc=;
-	b=Vsb5mhdUdVEPX9SNJKEOEnQHNvxL9oBMRd+iNbJvgkhG01xY7rtkxgS+BVLBlhMHlgJSE/
-	sfONYwyky1IDUj8vDvU7jHojb8o9Lh4t0aiXZ6Cyja8H85MExcD8SRgbHle0T1019L6l0I
-	aZmaE73bboQVYFUVams1dAE6ofnUP8I2wge34by98bqxGH1nh/e8qxAfBxldJQYPBXYags
-	CNzh6B7btQciNUY/44Av+vjikDPGb5kgJCI5LNYBZn5elMN5nlsXwd50P85Qik99an0hS2
-	X9udLBs9SvYStfFR0W0zD3ECKYEKD+aHu6+fXogkbp270HI2Ocd8BuJfsei1Ug==
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Wed, 06 Aug 2025 14:48:30 +1000
-Subject: [PATCH 2/2] vfs: output mount_too_revealing() errors to fscontext
+	s=arc-20240116; t=1754458883; c=relaxed/simple;
+	bh=CbrAc24voAonq0FxpUx0tqtAhEUeTM8bhqXy0ZlxRVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=djUcBHaiU8TWdjrRyrtyrWi44CSPbQF2LGQCvvv50Q8d6UQ+R/pnZleMPICD07JZUewauPGM7xMn6yKo3LGFjiWxjWSO69a7lJyazZTi+mnu1FY7IxCvb1ExdKv7KWt+hS2K9KosFedTvfs9Ptq5otLIYPiwpkh9vP35+JonBww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=p7nvMnp7; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3yF6x2WBzThIcjPuCPFKf/OWhZAB96WeFUkccy9IgHg=; b=p7nvMnp7TvqD920RDWePn0O7Ki
+	dw4cgVlWnYLPxDHzaNyanuIMdltSPUU29BYruUN+kykZUhLSyqxTAcLJc+LsrfY80fxtUZt2JDbCC
+	BM3mJKNuEUM97xc0ZcLPzYGM6F7yLCIV1ob9JTZUWy5k8dczHLekbg654xEf0KA+RqwdR3Jw/WPzJ
+	RI9CqZYzm6/rNA66jYMdFweP++9Ed1uqEGDeyDLrMvQ17loRmUQ5bKV9phou3y00CtOzA/Zlv/s7Y
+	q/udf6zL5SxAX9Mb5FxkEJ3oP0EkxD8//O7hTi6fgpj4lwpTw9g9vIEi+4YP4SosY5nT3BhSYoe0Z
+	Wb0E64Uw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ujWto-00000008jxW-3kKy;
+	Wed, 06 Aug 2025 05:41:17 +0000
+Date: Wed, 6 Aug 2025 06:41:16 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] vfs: output mount_too_revealing() errors to fscontext
+Message-ID: <20250806054116.GE222315@ZenIV>
+References: <20250806-errorfc-mount-too-revealing-v1-0-536540f51560@cyphar.com>
+ <20250806-errorfc-mount-too-revealing-v1-2-536540f51560@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250806-errorfc-mount-too-revealing-v1-2-536540f51560@cyphar.com>
-References: <20250806-errorfc-mount-too-revealing-v1-0-536540f51560@cyphar.com>
-In-Reply-To: <20250806-errorfc-mount-too-revealing-v1-0-536540f51560@cyphar.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1639; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=hE1jzhCIqDyIWqjL9YCdSp48W9E82NKQr3N/AJyoveA=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWRMurdqu8mTilSu2XnRAn46Wkv11ng98lwunXTgR4uf5
- YrwgN07OkpZGMS4GGTFFFm2+XmGbpq/+Eryp5VsMHNYmUCGMHBxCsBEmKMZ/pfsad/37aH/j/J7
- Mn1drm8ZNwTdKj0WNC/l6hR2YZ/MV1cZ/kqlf1P/x9FsENJq/Pb5bWdXQ5lVPc1/F5zwfWBlGx6
- zgQkA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806-errorfc-mount-too-revealing-v1-2-536540f51560@cyphar.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-It makes little sense for fsmount() to output the warning message when
-mount_too_revealing() is violated to kmsg. Instead, the warning should
-be output (with a "VFS" prefix) to the fscontext log. In addition,
-include the same log message for mount_too_revealing() when doing a
-regular mount for consistency.
+On Wed, Aug 06, 2025 at 02:48:30PM +1000, Aleksa Sarai wrote:
 
-With the newest fsopen()-based mount(8) from util-linux, the error
-messages now look like
+>  	error = security_sb_kern_mount(sb);
+> -	if (!error && mount_too_revealing(sb, &mnt_flags))
+> +	if (!error && mount_too_revealing(sb, &mnt_flags)) {
+>  		error = -EPERM;
+> +		errorfcp(fc, "VFS", "Mount too revealing");
+> +	}
 
-  # mount -t proc proc /tmp
-  mount: /tmp: fsmount() failed: VFS: Mount too revealing.
-         dmesg(1) may have more information after failed mount system call.
-
-which could finally result in mount_too_revealing() errors being easier
-for users to detect and understand.
-
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- fs/namespace.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 55f28cebbe7d..b2146857cbbd 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3820,8 +3820,10 @@ static int do_new_mount_fc(struct fs_context *fc, struct path *mountpoint,
- 	int error;
- 
- 	error = security_sb_kern_mount(sb);
--	if (!error && mount_too_revealing(sb, &mnt_flags))
-+	if (!error && mount_too_revealing(sb, &mnt_flags)) {
- 		error = -EPERM;
-+		errorfcp(fc, "VFS", "Mount too revealing");
-+	}
- 
- 	if (unlikely(error)) {
- 		fc_drop_locked(fc);
-@@ -4547,7 +4549,7 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
- 
- 	ret = -EPERM;
- 	if (mount_too_revealing(fc->root->d_sb, &mnt_flags)) {
--		pr_warn("VFS: Mount too revealing\n");
-+		errorfcp(fc, "VFS", "Mount too revealing");
- 		goto err_unlock;
- 	}
- 
-
--- 
-2.50.1
-
+Hmm...  For aesthetics sake, I'd probably do logging first; otherwise
+fine by me.
 
