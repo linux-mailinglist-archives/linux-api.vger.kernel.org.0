@@ -1,79 +1,79 @@
-Return-Path: <linux-api+bounces-4352-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4354-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916DDB1D07A
-	for <lists+linux-api@lfdr.de>; Thu,  7 Aug 2025 03:49:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59ACBB1D07B
+	for <lists+linux-api@lfdr.de>; Thu,  7 Aug 2025 03:50:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BA727261D8
-	for <lists+linux-api@lfdr.de>; Thu,  7 Aug 2025 01:49:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 503177A6202
+	for <lists+linux-api@lfdr.de>; Thu,  7 Aug 2025 01:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF87237708;
-	Thu,  7 Aug 2025 01:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E48246BB7;
+	Thu,  7 Aug 2025 01:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Nw1EKecB"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Uajcy2Nr"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BFF238159
-	for <linux-api@vger.kernel.org>; Thu,  7 Aug 2025 01:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD7623817E
+	for <linux-api@vger.kernel.org>; Thu,  7 Aug 2025 01:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754531119; cv=none; b=bdtpWSklq2gnzq1h/vsrrYqBpBaYeF3Cq5ZHT02Hl0t+0X67eSXtdv6QqKowGUtcCAZRfFs9SjrbVMCEK1/B6fOP26yIHiZ4+8wzSI7P8A3uwUwzeaPJrJt1/6y4J7Th6QcVACLs+8i9Awb1E4Esch56RjQUxgCPx6LhU7jQcbE=
+	t=1754531120; cv=none; b=dsSzyg6VGPizF9DS7xp7G1GO7sLY5XPFdNAUewIepCdsla6jVo3vO5/9qp1fncF1X33v4lqkDu+du7rk0x1ErcbtdiHzKz8c3t+9V5sDTFC7EEfD02KZryy5cpnoiBGGcjNpHo/8xJ0qHT/SpIzYXtUyPxxcOTGIEXCWS7xzyqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754531119; c=relaxed/simple;
-	bh=Hl2OWzV5OeCMKSdYvoQ+GWIuxcx97TV+rOlqTWLKO9U=;
+	s=arc-20240116; t=1754531120; c=relaxed/simple;
+	bh=Rx/tyv8veGFGG2JeXQPCv++VWJ0RVIdQqE9qIDTRPF8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oo1U/1iVPnx1Y8YadFaF5lggTotYdc+wolbNQtz+XZjkHPHP8i8IDuPrTeWrvxVFkE4gf6cYnevb4cS9gznUnmWMG0ocHZSBmFOLHRSTeQb6AAiaaDpYH7cHbLRi3A01uavvHECHvLOrfMl6yiRVzetUkhd4YIptH0JlFXglg0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Nw1EKecB; arc=none smtp.client-ip=209.85.160.174
+	 MIME-Version; b=XOuXX+2px1J+4qjkWN6XZ0eU85OKxbt0mAGdHfAA+9UYhuQXRTKfeZt5XZ88iX9akajIK4MfglvHQFl+iEwvWA/kmu/le9YUrtbQKw4cijOq5jtFULi5s+3SSxzCltgrpYocGAMqdKhsGqT7HrC5c5+7mqQLLkEscqu0Ih/Xipk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Uajcy2Nr; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4af1c1b5b38so6181721cf.1
-        for <linux-api@vger.kernel.org>; Wed, 06 Aug 2025 18:45:14 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4b0784e3153so8855971cf.2
+        for <linux-api@vger.kernel.org>; Wed, 06 Aug 2025 18:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754531114; x=1755135914; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1754531115; x=1755135915; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8hwgDrFusb37owy5fF2KCZv/M9EocMOsOhnKlUYr6eI=;
-        b=Nw1EKecB07eeizFO10GuFjzXY5fqX6xehIIoLU+3BP8Igtv9HlnIfQtwawRhgPTpCr
-         qNaUomW/zI0lrmxaqSj1cZgvpZNfypFxXbYaH0kw6PTg/1O3y+bdj6tl99wGaFcJhmEW
-         77n0eEQ1ZQnNlxrG6KwDCPmN9hAwGNbr+X0eFR3ne89J/zqhf1CMVqAY9gjqY1iCeCNb
-         g9cciSw0GflbS1PVDYKYj2cmllY2cOhUpm35E01xfyxeHNIh7HxZKSFD7uJOElmZCl9t
-         5CYvAdxiC6nefRNzNbdSa3cbV2S+CU+OqxzwyUo7aJQnfwEKFnk1Mj5+POj74EBRGRME
-         LqUQ==
+        bh=WF/QU/y7x54PCzdmrSK0bQUFRNe6CNoszBlEiHHR+XM=;
+        b=Uajcy2Nr8ISkpfSUxoYPN7gxJWft3y/BStQ2jcAbnCuX+OEf2eqz9w+02DVZTChAJ7
+         PyqjgWh+uICCm7U2fotjUUd8gvI1IcrEucWHvWYKUj880zxRYVzpULYnj2SYn6L5dKCZ
+         SPe91YqdlwP0B9stb914coi1OIuYq7c93R9H0VbPD0mthrTz51wJ/wPLPFz9GNn5lIAf
+         TJplvCEqoZt9tMrzXN/yMPTRd+FVgzLFZ/05zNmMqM8XeYJIQm1+S7aj9gaS1l6x1TKD
+         5Vmu7yM40tskG/zQXoktaX0G/2coRfhnqIUlSi9HsvH4838D3Vg6Q6Ms6AdfPkvRVUPM
+         LXhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754531114; x=1755135914;
+        d=1e100.net; s=20230601; t=1754531115; x=1755135915;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8hwgDrFusb37owy5fF2KCZv/M9EocMOsOhnKlUYr6eI=;
-        b=osxJyKSqzjIY/pa+M0rXO8m4e5ti4c9T33lfo56ybfH3EwnKnoNtrc2F0QzO8x9VVA
-         Z99k6ILX961XXvynI56xt2BmChD0ii7YEJKmpVpUX0Vk4CfBnOyUWp+eW5P9kGjZ3Pd9
-         rsyhLJhp8eCDb0CTSy+cnu68nJPo6hCgxbmbrUlT1yX3yZOd5/B6J+vC8M8Tbf2AFc61
-         a95Ta3HJYWljv/z0fTbFgiAvXDrWO2xDaF+QdrqLA15163a1ugKim3Msk8/uAP2Kq1lH
-         KDDlxKPPIF60YJ6MgOH7a69TZMu8W4/6b3Hs/Sk0V6IR9fS/4zd5MfaN4Yjqo6xwK7wg
-         DAwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV75KaC7fqV5XG7Ur4hjnTfuy2OyAL/EaxrqYJbSl7RUC5p/S93C98RGPfKu3r2ttV3/3uULAQcpgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEJ98mhfCJimQc8uxF8fDjhzcNamYP09S86CEB3PU/m/OUJpyM
-	6/58wGG7vD0szDrewc+mIDufQ2jP1lgL0bymork6CZjo14RSLjQLqWDgwAHiGDE/QY4=
-X-Gm-Gg: ASbGncsUiKNIDNOSteqL+WLDthBtQUtp8n0v8EttLN6h1hnJ0Kazr2AhAxLOcR0s4gQ
-	uYcSS6S+0eavmLmp4d/wx9cKe/gErA0ID7OhmW0yEs2T0wxRPvlfssgNv4ZYHSF5xVkmiUykGMJ
-	AwMX8IxxNgdp/AXfiAA8oj87rSCJNGTWy42K/5dbmdI5A1C9VFMSC47EQFQ6t/OzsdBWNmDnNVy
-	CxIqshofxT9dbcgfyyOkgf0D5beAlq0PKF/xlRwX4nKBNiaoxTJtiIEZy37FStIGmu49bCJKsXT
-	ftXYz/D2c4Rf3mtMI9pAZorp1wGi0PhrrUU/Z8Fb/HfaBunARUtFYAknfmpTFgxSfSTGRVg3sFU
-	T/42FsLhS57XXw7cfTc59MMk9Vhx6ubwd2Ucc+awvNnX2M5AiGTaROpxt1vszv4Ff/qAXDUNVV5
-	no6+3/ed8yw9ao
-X-Google-Smtp-Source: AGHT+IH4YzyGG4XPLy7NZ5fSOZd1AAebDYYOaRO7tsFemVfq331RBpfgGYjTHTH3NPqkKUhiEWNpgA==
-X-Received: by 2002:a05:622a:1211:b0:4b0:6965:dd97 with SMTP id d75a77b69052e-4b0915b344bmr63492861cf.44.1754531113855;
-        Wed, 06 Aug 2025 18:45:13 -0700 (PDT)
+        bh=WF/QU/y7x54PCzdmrSK0bQUFRNe6CNoszBlEiHHR+XM=;
+        b=tuCfPkVGPtlJW34KQBd7eP9IaSEqe+kKZD9ovLLyWgvRhVBxQztl13xpW3egEH7PaK
+         DYqGi2twmrI8bnb1JgbV3XnP3itMXd3sXgzfYI4JAN+GJ6/AwKUV0la4KscMWZiYiTBV
+         X+o5YSfk4WqiHryARs6LwCfcFsVq/KjDBZS+fvj1Psr9GV3Xq3Tcrad1LU0seKlNJmDg
+         t/ecU0ThcIS3pQOZ2AW+NgdwxrD85tpbwOdvvA+bbpPaz1/p6Hl4XTrd+xlvnTq1rgC8
+         vHgZOhOcS/qXW75LHLpE7wVuanmTXY6md6AoFowRd4Y0W+Uv4U6XE+ZiOPG8ur1p+MLr
+         wxpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXi8PYt2W37RTj/ls2qGrJvx9WWA6zgIhdMwmdPJC4qdrH+KnoPG6DrodYZAzoPqMrM7yGasj5pbc0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz49GhaJ3eJYD14wX1586ufnbUqqjkee25sgDB3p4Ib774s/cSs
+	4hufxc+xzBUc8atTNxNzwwBkayyOz38rI+I7DSiRdoPr7+8Rf3KQuEa8g9bWYX0VQNc=
+X-Gm-Gg: ASbGncsAcYtV1bbbbfPRDoaoXQZix1VC0JOFvDapHirc3siifQ5thFckSdTtiProFR7
+	aODzGAgC0jz0uMxN3qZaEVgjwFnaDRbisTMQf/gTAk/icx8pMqpvBjNNNpfNSZcSMu/RvCZQQPv
+	83QZVK1aOd0EAURmuFaD1a7P1/VYp1mKPrOemPx4zKjgkb5HWfQ2B49DT2deMGqDkfMFStKZPEp
+	MiQty39Sy4hpvnY7n6R1plc6Z6yKSJhon7Wo0vJG7zKB9RSiITh70ofqmV5k9fF5+VIuvFQ5beV
+	txh4jFGUMN6Fhw1/rHoRXBqyfd7guEjSPYmnlKIfi3kqNgReVHJT7lFDgmuA/0rhkCsGJtFMIC2
+	zlrkhqM54WuonOkpxdTnbQkZvwhvYXagtefJcOjiXS7/Ef4tC0kr51grVmYWftL1z1OFGHKzRY/
+	kOcXDpDD7cm1oAKPAzOjlvmEM=
+X-Google-Smtp-Source: AGHT+IFKHH1YeAK0b2tzEkZQep5rY0nibsccM8bhcvnZ6YiF0cNDdr12cF9wjVLlo+2LNmKUV8uQBg==
+X-Received: by 2002:ac8:6904:0:b0:4b0:6463:7d0d with SMTP id d75a77b69052e-4b0915c39d2mr77833781cf.42.1754531115362;
+        Wed, 06 Aug 2025 18:45:15 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (235.247.85.34.bc.googleusercontent.com. [34.85.247.235])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cde5a01sm92969046d6.70.2025.08.06.18.45.12
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cde5a01sm92969046d6.70.2025.08.06.18.45.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 18:45:13 -0700 (PDT)
+        Wed, 06 Aug 2025 18:45:14 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -147,9 +147,9 @@ To: pratyush@kernel.org,
 	parav@nvidia.com,
 	leonro@nvidia.com,
 	witu@nvidia.com
-Subject: [PATCH v3 18/30] liveupdate: luo_files: luo_ioctl: Add ioctls for per-file state management
-Date: Thu,  7 Aug 2025 01:44:24 +0000
-Message-ID: <20250807014442.3829950-19-pasha.tatashin@soleen.com>
+Subject: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state monitoring
+Date: Thu,  7 Aug 2025 01:44:25 +0000
+Message-ID: <20250807014442.3829950-20-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
 In-Reply-To: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
@@ -161,367 +161,255 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a set of new ioctls to allow a userspace agent to query and
-control the live update state of individual file descriptors that have
-been registered for preservation.
+Introduce a sysfs interface for the Live Update Orchestrator
+under /sys/kernel/liveupdate/. This interface provides a way for
+userspace tools and scripts to monitor the current state of the LUO
+state machine.
 
-Previously, state transitions (prepare, freeze, finish) were handled
-globally for all registered resources by the main LUO state machine.
-This patch provides a more granular interface, enabling a controlling
-agent to manage the lifecycle of specific FDs independently, which is
-useful for performance reasons.
+The main feature is a read-only file, state, which displays the
+current LUO state as a string ("normal", "prepared", "frozen",
+"updated"). The interface uses sysfs_notify to allow userspace
+listeners (e.g., via poll) to be efficiently notified of state changes.
 
--   Adds LIVEUPDATE_IOCTL_GET_FD_STATE to query the current state
-    (e.g., NORMAL, PREPARED, FROZEN) of a file identified by its token.
--   Adds LIVEUPDATE_IOCTL_SET_FD_EVENT to trigger state transitions
-    (PREPARE, FREEZE, CANCEL, FINISH) for a single file.
+ABI documentation for this new sysfs interface is added in
+Documentation/ABI/testing/sysfs-kernel-liveupdate.
+
+This read-only sysfs interface complements the main ioctl interface
+provided by /dev/liveupdate, which handles LUO control operations and
+resource management.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/uapi/linux/liveupdate.h  |  62 +++++++++++++
- kernel/liveupdate/luo_files.c    | 152 +++++++++++++++++++++++++++++++
- kernel/liveupdate/luo_internal.h |   8 ++
- kernel/liveupdate/luo_ioctl.c    |  48 ++++++++++
- 4 files changed, 270 insertions(+)
+ .../ABI/testing/sysfs-kernel-liveupdate       | 51 ++++++++++
+ kernel/liveupdate/Kconfig                     | 18 ++++
+ kernel/liveupdate/Makefile                    |  1 +
+ kernel/liveupdate/luo_core.c                  |  1 +
+ kernel/liveupdate/luo_internal.h              |  6 ++
+ kernel/liveupdate/luo_sysfs.c                 | 92 +++++++++++++++++++
+ 6 files changed, 169 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-liveupdate
+ create mode 100644 kernel/liveupdate/luo_sysfs.c
 
-diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
-index 37ec5656443b..833da5a8c064 100644
---- a/include/uapi/linux/liveupdate.h
-+++ b/include/uapi/linux/liveupdate.h
-@@ -128,6 +128,8 @@ enum {
- 	LIVEUPDATE_CMD_FD_RESTORE = 0x02,
- 	LIVEUPDATE_CMD_GET_STATE = 0x03,
- 	LIVEUPDATE_CMD_SET_EVENT = 0x04,
-+	LIVEUPDATE_CMD_GET_FD_STATE = 0x05,
-+	LIVEUPDATE_CMD_SET_FD_EVENT = 0x06,
- };
+diff --git a/Documentation/ABI/testing/sysfs-kernel-liveupdate b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+new file mode 100644
+index 000000000000..bb85cbae4943
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-kernel-liveupdate
+@@ -0,0 +1,51 @@
++What:		/sys/kernel/liveupdate/
++Date:		May 2025
++KernelVersion:	6.16.0
++Contact:	pasha.tatashin@soleen.com
++Description:	Directory containing interfaces to query the live
++		update orchestrator. Live update is the ability to reboot the
++		host kernel (e.g., via kexec, without a full power cycle) while
++		keeping specifically designated devices operational ("alive")
++		across the transition. After the new kernel boots, these devices
++		can be re-attached to their original workloads (e.g., virtual
++		machines) with their state preserved. This is particularly
++		useful, for example, for quick hypervisor updates without
++		terminating running virtual machines.
++
++
++What:		/sys/kernel/liveupdate/state
++Date:		May 2025
++KernelVersion:	6.16.0
++Contact:	pasha.tatashin@soleen.com
++Description:	Read-only file that displays the current state of the live
++		update orchestrator as a string. Possible values are:
++
++		"normal"	No live update operation is in progress. This is
++				the default operational state.
++
++		"prepared"	The live update preparation phase has completed
++				successfully (e.g., triggered via the
++				/dev/liveupdate event). Kernel subsystems have
++				been notified via the %LIVEUPDATE_PREPARE
++				event/callback and should have initiated state
++				saving. User workloads (e.g., VMs) are generally
++				still running, but some operations (like device
++				unbinding or new DMA mappings) might be
++				restricted. The system is ready for the reboot
++				trigger.
++
++		"frozen"	The final reboot notification has been sent
++				(e.g., triggered via the 'reboot()' syscall),
++				corresponding to the %LIVEUPDATE_REBOOT kernel
++				event. Subsystems have had their final chance to
++				save state. User workloads must be suspended.
++				The system is about to execute the reboot into
++				the new kernel (imminent kexec). This state
++				corresponds to the "blackout window".
++
++		"updated"	The system has successfully rebooted into the
++				new kernel via live update. Restoration of
++				preserved resources can now occur (typically via
++				ioctl commands). The system is awaiting the
++				final 'finish' signal after user space completes
++				restoration tasks.
+diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+index f6b0bde188d9..75a17ca8a592 100644
+--- a/kernel/liveupdate/Kconfig
++++ b/kernel/liveupdate/Kconfig
+@@ -29,6 +29,24 @@ config LIVEUPDATE
  
- /**
-@@ -334,4 +336,64 @@ struct liveupdate_ioctl_set_event {
- #define LIVEUPDATE_IOCTL_SET_EVENT					\
- 	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SET_EVENT)
+ 	  If unsure, say N.
  
-+/**
-+ * struct liveupdate_ioctl_get_fd_state - ioctl(LIVEUPDATE_IOCTL_GET_FD_STATE)
-+ * @size:     Input; sizeof(struct liveupdate_ioctl_get_fd_state)
-+ * @incoming: Input; If 1, query the state of a restored file from the incoming
-+ *            (previous kernel's) set. If 0, query a file being prepared for
-+ *            preservation in the current set.
-+ * @token:    Input; Token of FD for which to get state.
-+ * @state:    Output; The live update state of this FD.
-+ *
-+ * Query the current live update state of a specific preserved file descriptor.
-+ *
-+ * - %LIVEUPDATE_STATE_NORMAL:   Default state
-+ * - %LIVEUPDATE_STATE_PREPARED: Prepare callback has been performed on this FD.
-+ * - %LIVEUPDATE_STATE_FROZEN:   Freeze callback ahs been performed on this FD.
-+ * - %LIVEUPDATE_STATE_UPDATED:  The system has successfully rebooted into the
-+ *                               new kernel.
-+ *
-+ * See the definition of &enum liveupdate_state for more details on each state.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+struct liveupdate_ioctl_get_fd_state {
-+	__u32		size;
-+	__u8		incoming;
-+	__aligned_u64	token;
-+	__u32		state;
-+};
++config LIVEUPDATE_SYSFS_API
++	bool "Live Update sysfs monitoring interface"
++	depends on SYSFS
++	depends on LIVEUPDATE
++	help
++	  Enable a sysfs interface for the Live Update Orchestrator
++	  at /sys/kernel/liveupdate/.
 +
-+#define LIVEUPDATE_IOCTL_GET_FD_STATE					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_GET_FD_STATE)
++	  This allows monitoring the LUO state ('normal', 'prepared',
++	  'frozen', 'updated') via the read-only 'state' file.
 +
-+/**
-+ * struct liveupdate_ioctl_set_fd_event - ioctl(LIVEUPDATE_IOCTL_SET_FD_EVENT)
-+ * @size:  Input; sizeof(struct liveupdate_ioctl_set_fd_event)
-+ * @event: Input; The live update event.
-+ * @token: Input; Token of FD for which to set the provided event.
-+ *
-+ * Notify a specific preserved file descriptor of an event, that causes a state
-+ * transition for that file descriptor.
-+ *
-+ * Event, can be one of the following:
-+ *
-+ * - %LIVEUPDATE_PREPARE: Initiates the FD live update preparation phase.
-+ * - %LIVEUPDATE_FREEZE:  Initiates the FD live update freeze phase.
-+ * - %LIVEUPDATE_CANCEL:  Cancel the FD preparation or freeze phase.
-+ * - %LIVEUPDATE_FINISH:  FD Restoration completion and trigger cleanup.
-+ *
-+ * See the definition of &enum liveupdate_event for more details on each state.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+struct liveupdate_ioctl_set_fd_event {
-+	__u32		size;
-+	__u32		event;
-+	__aligned_u64	token;
-+};
++	  This interface complements the primary /dev/liveupdate ioctl
++	  interface, which handles the full update process.
++	  This sysfs API may be useful for scripting, or userspace monitoring
++	  needed to coordinate application restarts and minimize downtime.
 +
-+#define LIVEUPDATE_IOCTL_SET_FD_EVENT					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SET_FD_EVENT)
++	  If unsure, say N.
 +
- #endif /* _UAPI_LIVEUPDATE_H */
-diff --git a/kernel/liveupdate/luo_files.c b/kernel/liveupdate/luo_files.c
-index 63f8b086b785..0d68d0c8c45e 100644
---- a/kernel/liveupdate/luo_files.c
-+++ b/kernel/liveupdate/luo_files.c
-@@ -740,6 +740,158 @@ void luo_unregister_all_files(void)
- 	WARN_ON_ONCE(atomic64_read(&luo_files_count) != 0);
+ config KEXEC_HANDOVER
+ 	bool "kexec handover"
+ 	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
+diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+index c67fa2797796..47f5d0378a75 100644
+--- a/kernel/liveupdate/Makefile
++++ b/kernel/liveupdate/Makefile
+@@ -13,3 +13,4 @@ obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+ obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
+ 
+ obj-$(CONFIG_LIVEUPDATE)		+= luo.o
++obj-$(CONFIG_LIVEUPDATE_SYSFS_API)	+= luo_sysfs.o
+diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+index 64d53b31d6d8..bd07ee859112 100644
+--- a/kernel/liveupdate/luo_core.c
++++ b/kernel/liveupdate/luo_core.c
+@@ -100,6 +100,7 @@ static inline bool is_current_luo_state(enum liveupdate_state expected_state)
+ static void __luo_set_state(enum liveupdate_state state)
+ {
+ 	WRITE_ONCE(luo_state, state);
++	luo_sysfs_notify();
  }
  
-+/**
-+ * luo_file_get_state - Get the preservation state of a specific file.
-+ * @token: The token of the file to query.
-+ * @statep: Output pointer to store the file's current live update state.
-+ * @incoming: If true, query the state of a restored file from the incoming
-+ *            (previous kernel's) set. If false, query a file being prepared
-+ *            for preservation in the current set.
-+ *
-+ * Finds the file associated with the given @token in either the incoming
-+ * or outgoing tracking arrays and returns its current LUO state
-+ * (NORMAL, PREPARED, FROZEN, UPDATED).
-+ *
-+ * Return: 0 on success, -ENOENT if the token is not found.
-+ */
-+int luo_file_get_state(u64 token, enum liveupdate_state *statep, bool incoming)
-+{
-+	struct luo_file *luo_file;
-+	struct xarray *target_xa;
-+	int ret = 0;
-+
-+	luo_state_read_enter();
-+
-+	target_xa = incoming ? &luo_files_xa_in : &luo_files_xa_out;
-+	luo_file = xa_load(target_xa, token);
-+
-+	if (!luo_file) {
-+		ret = -ENOENT;
-+		goto out_unlock;
-+	}
-+
-+	scoped_guard(mutex, &luo_file->mutex)
-+		*statep = luo_file->state;
-+
-+out_unlock:
-+	luo_state_read_exit();
-+	return ret;
-+}
-+
-+/**
-+ * luo_file_prepare - Prepare a single registered file for live update.
-+ * @token: The token of the file to prepare.
-+ *
-+ * Finds the file associated with @token and transitions it to the PREPARED
-+ * state by invoking its handler's ->prepare() callback. This allows for
-+ * granular, per-file preparation before the global LUO PREPARE event.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+int luo_file_prepare(u64 token)
-+{
-+	struct luo_file *luo_file;
-+	int ret;
-+
-+	luo_state_read_enter();
-+	luo_file = xa_load(&luo_files_xa_out, token);
-+	if (!luo_file) {
-+		ret = -ENOENT;
-+		goto out_unlock;
-+	}
-+
-+	ret = luo_files_prepare_one(luo_file);
-+out_unlock:
-+	luo_state_read_exit();
-+	return ret;
-+}
-+
-+/**
-+ * luo_file_freeze - Freeze a single prepared file for live update.
-+ * @token: The token of the file to freeze.
-+ *
-+ * Finds the file associated with @token and transitions it from the PREPARED
-+ * to the FROZEN state by invoking its handler's ->freeze() callback. This is
-+ * typically used for final, "blackout window" state saving for a specific
-+ * file.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+int luo_file_freeze(u64 token)
-+{
-+	struct luo_file *luo_file;
-+	int ret;
-+
-+	luo_state_read_enter();
-+	luo_file = xa_load(&luo_files_xa_out, token);
-+	if (!luo_file) {
-+		ret = -ENOENT;
-+		goto out_unlock;
-+	}
-+
-+	ret = luo_files_freeze_one(luo_file);
-+out_unlock:
-+	luo_state_read_exit();
-+	return ret;
-+}
-+
-+int luo_file_cancel(u64 token)
-+{
-+	struct luo_file *luo_file;
-+	int ret = 0;
-+
-+	luo_state_read_enter();
-+	luo_file = xa_load(&luo_files_xa_out, token);
-+	if (!luo_file) {
-+		ret = -ENOENT;
-+		goto out_unlock;
-+	}
-+
-+	luo_files_cancel_one(luo_file);
-+out_unlock:
-+	luo_state_read_exit();
-+	return ret;
-+}
-+
-+/**
-+ * luo_file_finish - Clean-up a single restored file after live update.
-+ * @token: The token of the file to finalize.
-+ *
-+ * This function is called in the new kernel after a live update, typically
-+ * after a file has been restored via luo_retrieve_file() and is no longer
-+ * needed by the userspace agent in its preserved state. It invokes the
-+ * handler's ->finish() callback, allowing for any final cleanup of the
-+ * preserved state associated with this specific file.
-+ *
-+ * This must be called when LUO is in the UPDATED state.
-+ *
-+ * Return: 0 on success, -ENOENT if the token is not found, -EBUSY if not
-+ *         in the UPDATED state.
-+ */
-+int luo_file_finish(u64 token)
-+{
-+	struct luo_file *luo_file;
-+	int ret = 0;
-+
-+	luo_state_read_enter();
-+	if (!liveupdate_state_updated()) {
-+		pr_warn("finish can only be done in UPDATED state\n");
-+		ret = -EBUSY;
-+		goto out_unlock;
-+	}
-+
-+	luo_file = xa_load(&luo_files_xa_in, token);
-+	if (!luo_file) {
-+		ret = -ENOENT;
-+		goto out_unlock;
-+	}
-+
-+	luo_files_finish_one(luo_file);
-+out_unlock:
-+	luo_state_read_exit();
-+	return ret;
-+}
-+
- /**
-  * luo_retrieve_file - Find a registered file instance by its token.
-  * @token: The unique token of the file instance to retrieve.
+ static inline void luo_set_state(enum liveupdate_state state)
 diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index 189e032d7738..01bd0d3b023b 100644
+index 01bd0d3b023b..9091ed04c606 100644
 --- a/kernel/liveupdate/luo_internal.h
 +++ b/kernel/liveupdate/luo_internal.h
-@@ -8,6 +8,8 @@
- #ifndef _LINUX_LUO_INTERNAL_H
- #define _LINUX_LUO_INTERNAL_H
+@@ -47,4 +47,10 @@ int luo_file_freeze(u64 token);
+ int luo_file_cancel(u64 token);
+ int luo_file_finish(u64 token);
  
-+#include <uapi/linux/liveupdate.h>
-+
- /*
-  * Handles a deserialization failure: devices and memory is in unpredictable
-  * state.
-@@ -39,4 +41,10 @@ int luo_register_file(u64 token, int fd);
- int luo_unregister_file(u64 token);
- void luo_unregister_all_files(void);
- 
-+int luo_file_get_state(u64 token, enum liveupdate_state *statep, bool incoming);
-+int luo_file_prepare(u64 token);
-+int luo_file_freeze(u64 token);
-+int luo_file_cancel(u64 token);
-+int luo_file_finish(u64 token);
++#ifdef CONFIG_LIVEUPDATE_SYSFS_API
++void luo_sysfs_notify(void);
++#else
++static inline void luo_sysfs_notify(void) {}
++#endif
 +
  #endif /* _LINUX_LUO_INTERNAL_H */
-diff --git a/kernel/liveupdate/luo_ioctl.c b/kernel/liveupdate/luo_ioctl.c
-index 7ca33d1c868f..4c0f6708e411 100644
---- a/kernel/liveupdate/luo_ioctl.c
-+++ b/kernel/liveupdate/luo_ioctl.c
-@@ -127,6 +127,48 @@ static int luo_ioctl_set_event(struct luo_ucmd *ucmd)
- 	return ret;
- }
- 
-+static int luo_ioctl_get_fd_state(struct luo_ucmd *ucmd)
+diff --git a/kernel/liveupdate/luo_sysfs.c b/kernel/liveupdate/luo_sysfs.c
+new file mode 100644
+index 000000000000..935946bb741b
+--- /dev/null
++++ b/kernel/liveupdate/luo_sysfs.c
+@@ -0,0 +1,92 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2025, Google LLC.
++ * Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++/**
++ * DOC: LUO sysfs interface
++ *
++ * Provides a sysfs interface at ``/sys/kernel/liveupdate/`` for monitoring LUO
++ * state.  Live update allows rebooting the kernel (via kexec) while preserving
++ * designated device state for attached workloads (e.g., VMs), useful for
++ * minimizing downtime during hypervisor updates.
++ *
++ * /sys/kernel/liveupdate/state
++ * ----------------------------
++ * - Permissions:  Read-only
++ * - Description:  Displays the current LUO state string.
++ * - Valid States:
++ *     @normal
++ *       Idle state.
++ *     @prepared
++ *       Preparation phase complete (triggered via '/dev/liveupdate'). Resources
++ *       checked, state saving initiated via %LIVEUPDATE_PREPARE event.
++ *       Workloads mostly running but may be restricted. Ready forreboot
++ *       trigger.
++ *     @frozen
++ *       Final reboot notification sent (triggered via 'reboot'). Corresponds to
++ *       %LIVEUPDATE_REBOOT event. Final state saving. Workloads must be
++ *       suspended. System about to kexec ("blackout window").
++ *     @updated
++ *       New kernel booted via live update. Awaiting 'finish' signal.
++ *
++ * Userspace Interaction & Blackout Window Reduction
++ * -------------------------------------------------
++ * Userspace monitors the ``state`` file to coordinate actions:
++ *   - Suspend workloads before @frozen state is entered.
++ *   - Initiate resource restoration upon entering @updated state.
++ *   - Resume workloads after restoration, minimizing downtime.
++ */
++
++#include <linux/kobject.h>
++#include <linux/liveupdate.h>
++#include <linux/sysfs.h>
++#include "luo_internal.h"
++
++static bool luo_sysfs_initialized;
++
++#define LUO_DIR_NAME	"liveupdate"
++
++void luo_sysfs_notify(void)
 +{
-+	struct liveupdate_ioctl_get_fd_state *argp = ucmd->cmd;
-+	enum liveupdate_state state;
++	if (luo_sysfs_initialized)
++		sysfs_notify(kernel_kobj, LUO_DIR_NAME, "state");
++}
++
++/* Show the current live update state */
++static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
++			  char *buf)
++{
++	return sysfs_emit(buf, "%s\n", luo_current_state_str());
++}
++
++static struct kobj_attribute state_attribute = __ATTR_RO(state);
++
++static struct attribute *luo_attrs[] = {
++	&state_attribute.attr,
++	NULL
++};
++
++static struct attribute_group luo_attr_group = {
++	.attrs = luo_attrs,
++	.name = LUO_DIR_NAME,
++};
++
++static int __init luo_init(void)
++{
 +	int ret;
 +
-+	ret = luo_file_get_state(argp->token, &state, !!argp->incoming);
-+	if (ret)
++	ret = sysfs_create_group(kernel_kobj, &luo_attr_group);
++	if (ret) {
++		pr_err("Failed to create group\n");
 +		return ret;
++	}
 +
-+	argp->state = state;
-+	if (copy_to_user(ucmd->ubuffer, argp, ucmd->user_size))
-+		return -EFAULT;
++	luo_sysfs_initialized = true;
++	pr_info("Initialized\n");
 +
 +	return 0;
 +}
-+
-+static int luo_ioctl_set_fd_event(struct luo_ucmd *ucmd)
-+{
-+	struct liveupdate_ioctl_set_fd_event *argp = ucmd->cmd;
-+	int ret;
-+
-+	switch (argp->event) {
-+	case LIVEUPDATE_PREPARE:
-+		ret = luo_file_prepare(argp->token);
-+		break;
-+	case LIVEUPDATE_FREEZE:
-+		ret = luo_file_freeze(argp->token);
-+		break;
-+	case LIVEUPDATE_FINISH:
-+		ret = luo_file_finish(argp->token);
-+		break;
-+	case LIVEUPDATE_CANCEL:
-+		ret = luo_file_cancel(argp->token);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
- static int luo_open(struct inode *inodep, struct file *filep)
- {
- 	if (atomic_cmpxchg(&luo_device_in_use, 0, 1))
-@@ -149,6 +191,8 @@ union ucmd_buffer {
- 	struct liveupdate_ioctl_fd_restore	restore;
- 	struct liveupdate_ioctl_get_state	state;
- 	struct liveupdate_ioctl_set_event	event;
-+	struct liveupdate_ioctl_get_fd_state	fd_state;
-+	struct liveupdate_ioctl_set_fd_event	fd_event;
- };
- 
- struct luo_ioctl_op {
-@@ -179,6 +223,10 @@ static const struct luo_ioctl_op luo_ioctl_ops[] = {
- 		 struct liveupdate_ioctl_get_state, state),
- 	IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
- 		 struct liveupdate_ioctl_set_event, event),
-+	IOCTL_OP(LIVEUPDATE_IOCTL_GET_FD_STATE, luo_ioctl_get_fd_state,
-+		 struct liveupdate_ioctl_get_fd_state, token),
-+	IOCTL_OP(LIVEUPDATE_IOCTL_SET_FD_EVENT, luo_ioctl_set_fd_event,
-+		 struct liveupdate_ioctl_set_fd_event, token),
- };
- 
- static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
++subsys_initcall(luo_init);
 -- 
 2.50.1.565.gc32cd1483b-goog
 
