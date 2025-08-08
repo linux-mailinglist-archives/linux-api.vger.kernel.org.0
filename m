@@ -1,104 +1,195 @@
-Return-Path: <linux-api+bounces-4382-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4383-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D7BB1E593
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 11:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B3EB1E78F
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 13:42:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3041B7A3E6A
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 09:22:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7B847B4553
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 11:41:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1754126A0EE;
-	Fri,  8 Aug 2025 09:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35532274B34;
+	Fri,  8 Aug 2025 11:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="XZQx7x//"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="thXbzi8U"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4899A25A353;
-	Fri,  8 Aug 2025 09:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754645034; cv=pass; b=IhQJ1FaB3CGB+52qlcxVFxdpiDsNfCEE7OmIUw1Jrb8kZgGyb6x60MBpq314vYS3Ry0fdopA7WoFItiIWtroxRfoxzHYw/9hrBmAogF5dgX6TxSDY/UQEkh7Wi/WDeulETHYJzLzIsd6dOTRVgDvmtM8FfeaI3E0OqoECG71ZVQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754645034; c=relaxed/simple;
-	bh=SO2SWS87wrmr90aXp8MV7nXkIBbDNlFBsr2YdgnkMVA=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=igrhD6wVdUZ4Wljkznp6hW78eJhh7NIyNsTNkW7xn4a//0e3QhliD+aHjc13sXBtNe3Tkc0aDOJVOSNvMyyIvxzQpMr1FTCPZQ50xUO/7Xbt6TgqLjytLTRT9dV+kdW98BPPJTmM4QC00OmgIRGIIFiOxQ6OrNpa9B0t5ok6wuk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=XZQx7x//; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1754645009; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FYyq1fZz1IS22/RUCDhON+v9w6YMPgNkHfv610WORwmWPcasx3s99gRxbTOgWLftv8uwd+Kc2cVK/xJEfwYJ3RbBGlak+HoSz/K9rQ/LsVZ24XRUAry5TrLtFP9SyFgGiWplWRrcS/MG6K/DDUaM3P09zMdmApI2nR1sK/xlQk0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1754645009; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=hLRD0ttrjJcn9aSzGG4A6G4GZMfaAZS1OWrgULlUiZk=; 
-	b=mMQ0ljG0MVocbthBsArMfm+35uhG1a2FJNKJeAUMkp5HhYvagCxy9GhkniAs4P1UzU1riVcxe9iI3b9Hk8BcOgSapBMfxk/74pMks9LavQj8/6J6hSib6CHhfdY28+Ns9AR2hPw0C0TFRU/k6yTAjwn6Qa102HOsP8Rm+J23dNo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754645009;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=hLRD0ttrjJcn9aSzGG4A6G4GZMfaAZS1OWrgULlUiZk=;
-	b=XZQx7x//DmJwAXklbU3MaAI9HSAfsD0EL54z1Nc6L1TFNZ2HjXaa5pNudDyWTm0o
-	c1sWvIO/k75aI+m5tJIYoUGvuGk30U5F2D/yY3tLs+QUSwDMwEQcdz889WX76zJKLYb
-	/3Jdm4/kQsXlsDGLMaUByUm1K152Ipi22ryCJqdQ=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1754645008500552.794219999255; Fri, 8 Aug 2025 02:23:28 -0700 (PDT)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Fri, 8 Aug 2025 02:23:28 -0700 (PDT)
-Date: Fri, 08 Aug 2025 13:23:28 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "Aleksa Sarai" <cyphar@cyphar.com>
-Cc: "Alejandro Colomar" <alx@kernel.org>,
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>,
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
-	"linux-man" <linux-man@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>
-Message-ID: <19888fe1066.fcb132d640137.7051727418921685299@zohomail.com>
-In-Reply-To: <20250807-new-mount-api-v2-1-558a27b8068c@cyphar.com>
-References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com> <20250807-new-mount-api-v2-1-558a27b8068c@cyphar.com>
-Subject: Re: [PATCH v2 01/11] mount_setattr.2: document glibc >= 2.36
- syscall wrappers
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F136526A08D;
+	Fri,  8 Aug 2025 11:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754653353; cv=none; b=QcChV/Xh3pLwoJki2hZ7k8OxdnxdEtZ454vAKloriTB3WdJ7xq4rY6xfdFHk4G0o8ML7+BRX/nSw59Xy+919L9c76YaiwrDRZGT9zRHVCZIzW1n0djzpdVxfvSWJkd5aBDWHdiRGZo01mevoZTP34ErVdSBXIPRVCCop0ustjCU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754653353; c=relaxed/simple;
+	bh=+EXwIQbDINd7zs+mcit0rAyRB8QW/lOaVnLZfgR3OU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qpvyoAFN48+Sjc9MSla/10NG90t1jZ9wdmjOJZN1PVycl5eCbi78D5mC0Pz5k46aQ1k1PwORT48zjiRS3tb1DZRONCxjSlLF4MC9fRzR0TrO+AJVAqWd4STS/cf+HASs2gOg9dM29ratr/ucq9QDGzZJ1HkuySX2A9sZ0XLWTl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=thXbzi8U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F953C4CEED;
+	Fri,  8 Aug 2025 11:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754653352;
+	bh=+EXwIQbDINd7zs+mcit0rAyRB8QW/lOaVnLZfgR3OU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=thXbzi8UdXsRGC6Qoy3VJbFEU21MkSCOaDClxHC2JK1GJZt0rBKoB1Jn+AH6aCiwi
+	 b0g+JiFxsmHtOPyVLLIP38MuvNDBW1mHFNFAITJGNoRqJtYvVjkmjm6acnUCnynowh
+	 g6z3N7QQLflKhYJYtEJiZG04QlZIGfT09dmtF5670e5T2hm26OfS1CsXEtZzvJw83I
+	 w4zxtBzNlzwxi8sqj1C4dwf2LcZKCFKEp9F5c+F6rW5KqqUC9HWONnn97gcslfc0VX
+	 +QP/gzK0YMadigtYGs3vb06wIiT9fNCYpkbZ5lkp5/VOcN1BNMPTw9E1lQThAMnU6l
+	 PgoVhAgaXBGyg==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 01/30] kho: init new_physxa->phys_bits to fix lockdep
+In-Reply-To: <20250807014442.3829950-2-pasha.tatashin@soleen.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-2-pasha.tatashin@soleen.com>
+Date: Fri, 08 Aug 2025 13:42:22 +0200
+Message-ID: <mafs0o6sqavkx.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr0801122775f2f5b5d0340d94914587a70000844159bbf145211ba84f98e1226d87d858c029117558446855:zu08011227a1f057b002366232480c184100006cd47b3729268c142f6942b709ac7ce2d1f28b58774225b1bc:rf0801122bfa074accb980a2a2bb8578f500007a33d37bd93e79db2d35754a4271d7b933c92a7bd5492a2070e26039a3:ZohoMail
+Content-Type: text/plain
 
-When I render "mount_setattr" from this (v2) pathset, I see weird quote mark. I. e.:
+Hi Pasha,
 
-$ MANWIDTH=10000 man /path/to/mount_setattr.2
-...
-SYNOPSIS
-       #include <fcntl.h>       /* Definition of AT_* constants */
-       #include <sys/mount.h>
+On Thu, Aug 07 2025, Pasha Tatashin wrote:
 
-       int mount_setattr(int dirfd, const char *path, unsigned int flags,
-                         struct mount_attr *attr, size_t size);"
-...
+> Lockdep shows the following warning:
+>
+> INFO: trying to register non-static key.
+> The code is fine but needs lockdep annotation, or maybe
+> you didn't initialize this object before use?
+> turning off the locking correctness validator.
+>
+> [<ffffffff810133a6>] dump_stack_lvl+0x66/0xa0
+> [<ffffffff8136012c>] assign_lock_key+0x10c/0x120
+> [<ffffffff81358bb4>] register_lock_class+0xf4/0x2f0
+> [<ffffffff813597ff>] __lock_acquire+0x7f/0x2c40
+> [<ffffffff81360cb0>] ? __pfx_hlock_conflict+0x10/0x10
+> [<ffffffff811707be>] ? native_flush_tlb_global+0x8e/0xa0
+> [<ffffffff8117096e>] ? __flush_tlb_all+0x4e/0xa0
+> [<ffffffff81172fc2>] ? __kernel_map_pages+0x112/0x140
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff81359556>] lock_acquire+0xe6/0x280
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff8100b9e0>] _raw_spin_lock+0x30/0x40
+> [<ffffffff813ec327>] ? xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813ec327>] xa_load_or_alloc+0x67/0xe0
+> [<ffffffff813eb4c0>] kho_preserve_folio+0x90/0x100
+> [<ffffffff813ebb7f>] __kho_finalize+0xcf/0x400
+> [<ffffffff813ebef4>] kho_finalize+0x34/0x70
+>
+> This is becase xa has its own lock, that is not initialized in
+> xa_load_or_alloc.
+>
+> Modifiy __kho_preserve_order(), to properly call
+> xa_init(&new_physxa->phys_bits);
+>
+> Fixes: fc33e4b44b27 ("kexec: enable KHO support for memory preservation")
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  kernel/kexec_handover.c | 29 +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+> index e49743ae52c5..6240bc38305b 100644
+> --- a/kernel/kexec_handover.c
+> +++ b/kernel/kexec_handover.c
+> @@ -144,14 +144,35 @@ static int __kho_preserve_order(struct kho_mem_track *track, unsigned long pfn,
+>  				unsigned int order)
+>  {
+>  	struct kho_mem_phys_bits *bits;
+> -	struct kho_mem_phys *physxa;
+> +	struct kho_mem_phys *physxa, *new_physxa;
+>  	const unsigned long pfn_high = pfn >> order;
+>  
+>  	might_sleep();
+>  
+> -	physxa = xa_load_or_alloc(&track->orders, order, sizeof(*physxa));
+> -	if (IS_ERR(physxa))
+> -		return PTR_ERR(physxa);
+> +	physxa = xa_load(&track->orders, order);
+> +	if (!physxa) {
+> +		new_physxa = kzalloc(sizeof(*physxa), GFP_KERNEL);
+> +		if (!new_physxa)
+> +			return -ENOMEM;
+> +
+> +		xa_init(&new_physxa->phys_bits);
+> +		physxa = xa_cmpxchg(&track->orders, order, NULL, new_physxa,
+> +				    GFP_KERNEL);
+> +		if (xa_is_err(physxa)) {
+> +			int err = xa_err(physxa);
+> +
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +
+> +			return err;
+> +		}
+> +		if (physxa) {
+> +			xa_destroy(&new_physxa->phys_bits);
+> +			kfree(new_physxa);
+> +		} else {
+> +			physxa = new_physxa;
+> +		}
 
---
-Askar Safin
-https://types.pl/@safinaskar
+I suppose this could be simplified a bit to:
 
+	err = xa_err(physxa);
+        if (err || physxa) {
+        	xa_destroy(&new_physxa->phys_bits);
+                kfree(new_physxa);
+
+		if (err)
+                	return err;
+	} else {
+        	physxa = new_physxa;
+	}
+
+No strong preference though, so fine either way. Up to you.
+
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+
+> +	}
+>  
+>  	bits = xa_load_or_alloc(&physxa->phys_bits, pfn_high / PRESERVE_BITS,
+>  				sizeof(*bits));
+
+-- 
+Regards,
+Pratyush Yadav
 
