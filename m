@@ -1,175 +1,130 @@
-Return-Path: <linux-api+bounces-4406-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4407-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB38B1EEBE
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 21:08:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CEDB1EF01
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 21:51:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1DDA1C2420C
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 19:08:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAEB6622B52
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 19:51:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2715325CC62;
-	Fri,  8 Aug 2025 19:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AA902868A5;
+	Fri,  8 Aug 2025 19:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="DDNcni97"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="eCJDu3rB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FCB13790B;
-	Fri,  8 Aug 2025 19:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09CB265CDD
+	for <linux-api@vger.kernel.org>; Fri,  8 Aug 2025 19:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754680082; cv=none; b=s8rVMaVslwwMdne1QM0YEiNLJIAS7kuZ2Jj33lUz7Cvw9ej4c4qgQlbn8T8u7rOHg0xpoKfGjwTdXP8IKz6CMnp4QQksXwEIXZ7d3ghCp3UPRgoGTWozETIYXu9jCNxs43F4DLM0MSte4JU94XIl3pbWezhtR0XBD8auCie2Duc=
+	t=1754682702; cv=none; b=tOZNmqyQmOt881s4WUiXKL9GJaXrM9xpoKphTVGQOCkXDa/1jQm9RSbMzL5FoniJspmCpHE/jJ6do0YVsxOAZT4oOt5kE//Pg4oosLXS+68Aqtt/1xOeRGmywAlzR0oBaT/OzWaTO2x1eSgQM03v45OGGM/eG6gdU8KcoJFGJUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754680082; c=relaxed/simple;
-	bh=v90Z/z9h4SuuSRtazOa+PB8Cn9ZuFoeC1O34f0jk86s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mqwKlWJnrrEMhmp6fH9iZiEv0U6vF38qCeVPjECvh5LaQPOxHveesYWlxdK57zs/PM3rjDeJb9iTSf7/C2O0rAtcsNcfzG7u/15Bpy6pImNcYxsJJe7yi9NsCo2LU6rigLQI3GGlTPRYkzZIMzJZzwEEuhpxFV1xAQoYTg32kC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=DDNcni97; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bzD7b5SQHz9svT;
-	Fri,  8 Aug 2025 21:07:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1754680075;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YZ2Bfu9wA7mUyzKiz143rWYgufUqFCbjKIcINHsYjf8=;
-	b=DDNcni97QGO1rwlh61XyuEouz6fLhIGe8Nbw/FVqPQgBQDOdAG7y5B6cSfVlEbfJLwlsUt
-	pelgbA+icyy9+8+smKZB0WduFzmca1ySTvDtCJ/1ppxkeD31X47SEn5CuDAUqdzpqmlcB1
-	9ZVlJGlXtCmNHZfen5qLy99IpAv0C2E7iNgHKdCPiHixgfmiL74OcodTbRoVppWZjB0fg/
-	42fzmquvAuB5w6JlBkdtczklL8yCsfBiiQOytjXYXk5HVlrjAqJ7dQvF4Nc81dSsIep6xl
-	MICfP3pDTAvX/na3Ip2ogMbR3t2QBKROj7aAkcSe1mShvrQ4tqH3kLCHTGVS8w==
-Date: Sat, 9 Aug 2025 05:07:41 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v2 05/11] fsconfig.2: document 'new' mount api
-Message-ID: <2025-08-08.1754679911-hidden-varsity-charts-ragweed-wIijBm@cyphar.com>
-References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com>
- <20250807-new-mount-api-v2-5-558a27b8068c@cyphar.com>
- <19889fbe690.e80d252e42280.4347614991285137048@zohomail.com>
- <2025-08-08.1754666161-creaky-taboo-miso-cuff-mKwsCC@cyphar.com>
+	s=arc-20240116; t=1754682702; c=relaxed/simple;
+	bh=BHL0fkXpKKjHtLjXIr2YakBJO2tAgTy6UPx3ySoZ6f0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nqbZKXGbI7pdkisPzUsXGMUucIN3anNyUmS++3Q38yWK/AHOG8GrlThKobNXIqwLL8wD/JfZZT5XLhH54tDYN9tad9iudLgFwRDlJgLAf/GjqKUVbbtNuhyY5ssB8k6VwRa7N5CTtYgXdSGodWUGl7+eE7mP6HwoeOAU2QJOFHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=eCJDu3rB; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b0a2dd3a75so25367621cf.0
+        for <linux-api@vger.kernel.org>; Fri, 08 Aug 2025 12:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1754682699; x=1755287499; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZI3NF4nmF87wkVHXd95sZzslTewp5Rg+7HCCf5M8kbU=;
+        b=eCJDu3rB9W6i7ZSxgnM3kWTQIfXiFfn5dNp3bdZ1Ws91iRaiO+Gm0BaH2KvTX/vR2n
+         2lDowxIqVHUlKBiCwfboBUHzaWvRZ1yFADbz7hvbASCYag4cvkoX+x6FqvAGratVsRx9
+         YERtobn1eHy3IXvG2xoGNlNllu2GImAu2tqKjU4oIV8AKgIhUamt8x/O0xBi2PjyRCd9
+         iBlZoAdDd3Vl2EWSHjM+u2/WOzm4ZtVIqQQpgn0TRqUBV6wh46pwXyaAd/cJmCIZY1Au
+         9qEL7qQy2l0ROyUer/lJQEEJRC9m3eoY9B/QE0QjtRJFeyW1dB2NMTAHP2kX1OZxnKom
+         xntA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754682699; x=1755287499;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZI3NF4nmF87wkVHXd95sZzslTewp5Rg+7HCCf5M8kbU=;
+        b=xLKSYb4rWxYAeIfWbNT3wUrdf55muwx8DbR61A4qImWYsNgshIzsPBpj3eUHE3RFGS
+         70DzosmuMtRsK3/yhILgBVPA+Bf+xvQ8bEPxSSQ6C3GPMKmQ+7Yes/FOVzvRaGc9oPEh
+         yUIODBRuFoo4gseR38ZU8Y4cBqrj0zUi9N7v4aFmJ1DmA5GXqcEEXmp82VQoJH+aOEuH
+         A3Ro1N9kuTTon6z62qJuNXuChblw0SfYU0wjDp9/j1Johyj9xD+EVjq14gg8eCLABqap
+         QAjGBiAUCy/JGksklsrBaOCJBHdrxoby4XVWopelAiWaGFOzOX1EmDwTw9gRSDa9A2Od
+         8R4g==
+X-Forwarded-Encrypted: i=1; AJvYcCV9gOj8GZmKYSAchRGkMQTvzDCFFIgBAaWI1S2+jpHj9HGOcD8E+9a4F69xGfo4O2rMNxG560JYYmI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAgMVPfnPVbsvle27OMs1rviK60alC6KSQ3VqyTC0PrjGaTqQh
+	8n2QpgPj2ia9WRkzObfgvHKewAs8MymDuNQ+/lEitv4QQ9oEHzTISjkdIWH4ANTldeY7UfqyH+9
+	onvtB9S5JRIcUq5UUBXql9oRejfNYchHizz2a4IxX/A==
+X-Gm-Gg: ASbGnctekXB12MuEU7BF1ESxIyYjueRQdzV0xy8LXX+b/9aiTTdFpNF7pfr9eqh5FwS
+	Qcawnjs1LdY645WM1wzKDPX2KlysXZEi2yHDOilh01zoY76wpEiiYCi2M9rE70bY2ftQWTcnuUm
+	cpMnFgACdwNW3s40eupaoCx1HZp7NtqJ7cXMUN0V+L83WATxoVTYRdDa2Ay9b4dUjz+KrKzxIni
+	1kj
+X-Google-Smtp-Source: AGHT+IHCcrYg7/jG4VG+Cw86KyymKHrjmDEsAzQfWB1gMcCPUUW3z00Eo/TfCPxNGcOawpm+qrN8GOrYgzTiH++NeZ4=
+X-Received: by 2002:ac8:58d1:0:b0:4b0:82ee:f732 with SMTP id
+ d75a77b69052e-4b0aee3b087mr66564781cf.53.1754682699519; Fri, 08 Aug 2025
+ 12:51:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jrcgfz2nxvhfj7eo"
-Content-Disposition: inline
-In-Reply-To: <2025-08-08.1754666161-creaky-taboo-miso-cuff-mKwsCC@cyphar.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-2-pasha.tatashin@soleen.com> <mafs0o6sqavkx.fsf@kernel.org>
+ <mafs0bjoqav4j.fsf@kernel.org> <CA+CK2bBoMNEfyFKgvKR0JvECpZrGKP1mEbC_fo8SqystEBAQUA@mail.gmail.com>
+ <20250808120616.40842e9a9fdc056c9eb74123@linux-foundation.org>
+In-Reply-To: <20250808120616.40842e9a9fdc056c9eb74123@linux-foundation.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 8 Aug 2025 19:51:01 +0000
+X-Gm-Features: Ac12FXzwr7BB3_YD7FWm0iRwopXjM6LILZ73ll6nomRu2PpALziQgUA6db3Oe8A
+Message-ID: <CA+CK2bCVziiUZzdGaEabmPSB4Dq41QZe7gVxtgwy4pWmpo=D_w@mail.gmail.com>
+Subject: Re: [PATCH v3 01/30] kho: init new_physxa->phys_bits to fix lockdep
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
+> > Thanks Pratyush, I will make this simplification change if Andrew does
+> > not take this patch in before the next revision.
+> >
+>
+> Yes please on the simplification - the original has an irritating
+> amount of kinda duplication of things from other places.  Perhaps a bit
+> of a redo of these functions would clean things up.  But later.
+>
+> Can we please have this as a standalone hotfix patch with a cc:stable?
+> As Pratyush helpfully suggested in
+> https://lkml.kernel.org/r/mafs0sei2aw80.fsf@kernel.org.
 
---jrcgfz2nxvhfj7eo
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 05/11] fsconfig.2: document 'new' mount api
-MIME-Version: 1.0
+I think we should take the first three patches as hotfixes.
 
-On 2025-08-09, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> On 2025-08-08, Askar Safin <safinaskar@zohomail.com> wrote:
-> > Let's consider this example:
-> >=20
-> >            int fsfd, mntfd, nsfd, nsdirfd;
-> >=20
-> >            nsfd =3D open("/proc/self/ns/pid", O_PATH);
-> >            nsdirfd =3D open("/proc/1/ns", O_DIRECTORY);
-> >=20
-> >            fsfd =3D fsopen("proc", FSOPEN_CLOEXEC);
-> >            /* "pidns" changes the value each time. */
-> >            fsconfig(fsfd, FSCONFIG_SET_PATH, "pidns", "/proc/self/ns/pi=
-d", AT_FDCWD);
-> >            fsconfig(fsfd, FSCONFIG_SET_PATH, "pidns", "pid", NULL, nsdi=
-rfd);
-> >            fsconfig(fsfd, FSCONFIG_SET_PATH_EMPTY, "pidns", "", nsfd);
-> >            fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
-> >            fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> >            mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-> >            move_mount(mntfd, "", AT_FDCWD, "/proc", MOVE_MOUNT_F_EMPTY_=
-PATH);
-> >=20
-> > I don't like it. /proc/self/ns/pid is our namespace, which is default a=
-nyway.
-> > I. e. setting pidns to /proc/self/ns/pid is no-op (assuming that "pidns=
-" option is implemented in our kernel, of course).
-> > Moreover, if /proc is mounted properly, then /proc/1/ns/pid refers to o=
-ur namespace, too!
+Let me send them as a separate series in the next 15 minutes.
 
-This slightly depends on what you mean by "properly". If you deal with
-namespaces a lot, running into a situation whether the current process's
-pidns doesn't match /proc is quite common (we run into it with container
-runtimes all the time).
-
-A proper example with provably different pidns values (such as the
-selftests for the pidns parameter) would make for a very lengthy example
-program with very little use for readers.
-
-I'm tempted to just delete this example.
-
-> > Thus, *all* these fsconfig(FSCONFIG_SET_...) calls are no-op.
-> > Thus it is bad example.
-> >=20
-> > I suggest using, say, /proc/2/ns/pid . It has actual chance to refer to=
- some other namespace.
-> >=20
-> > Also, sentence '"pidns" changes the value each time' is a lie: as I exp=
-lained, all these calls are no-ops,
-> > they don't really change anything.
->=20
-> Right, I see your point.
->=20
-> One other problem with this example is that there is no
-> currently-existing parameter which accepts all of FSCONFIG_SET_PATH,
-> FSCONFIG_SET_PATH_EMPTY, FSCONFIG_SET_FD, and FSCONFIG_SET_STRING so
-> this example is by necessity a little contrived. I suspect that it'd be
-> better to remove this and re-add it once we actually something that
-> works this way...
->=20
-> You've replied to the pidns parameter patchset so I shouldn't repeat
-> myself here too much, but supporting this completely is my plan for the
-> next version I send. It's just not a thing that exists today (ditto for
-> overlayfs).
->=20
-> --=20
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> https://www.cyphar.com/
-
-
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
-
---jrcgfz2nxvhfj7eo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaJZK/QAKCRAol/rSt+lE
-b+/iAQDQhXvntGxO/K+rTCZQBBOfgc9JQ7KeTbPVMY04ldZghQEAgKQDzFjsiFpR
-FkCNDr4PJBoMmWGd6LUiPPR0hlXU4ws=
-=W/yu
------END PGP SIGNATURE-----
-
---jrcgfz2nxvhfj7eo--
+Pasha
 
