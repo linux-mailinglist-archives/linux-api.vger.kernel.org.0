@@ -1,73 +1,74 @@
-Return-Path: <linux-api+bounces-4397-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4398-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D85BB1E9A0
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 15:54:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18339B1E9C4
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 16:01:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDC5CA079A1
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 13:54:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9156161810
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:01:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26129252900;
-	Fri,  8 Aug 2025 13:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EA3727E7F9;
+	Fri,  8 Aug 2025 14:00:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jXaZG3tH"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fYzyli9L"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA83F81732
-	for <linux-api@vger.kernel.org>; Fri,  8 Aug 2025 13:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEAD26AC3
+	for <linux-api@vger.kernel.org>; Fri,  8 Aug 2025 14:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754661262; cv=none; b=owRCGUDv5ehWZ3znQRxoRKUzVbB4nLnJphHEj3PpOvI23HM1RA5fr007+4xfwtrbcOkhVBvwd6CvSJmwmk4yq5YbbLvsIdfxZY+uaodGU5skuZyoH6ZVb7jKo9DAO8TQ1//LNzbDm+9P+Iz6fB287RVIKCcFzZEzqy9GOxd5G5I=
+	t=1754661649; cv=none; b=iomgeelcphy66yQQib4mRkNm9PVeIoVZHr6OdB38rS+nrlm+yvspJoQVuXi2FbPZHZ6Y1p65NLKkSByj4Z5CDMxgQKh+3N4l8Bh2y57SpPFVgm/rAEF4Dr7KLhYL1oPGGMvkyJNgGmWuViYhjIbpsklipwG+rNwvwqyWz8DppVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754661262; c=relaxed/simple;
-	bh=jzUwRFYMwe0kkKb7Wpg8iUyhHURaS0YrhVvgitXw+xk=;
+	s=arc-20240116; t=1754661649; c=relaxed/simple;
+	bh=x4ha9INZKS3qtde5fpadJaWJod/g+Zi1d0xN7YAlf3E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VvEBNVKmCUw9/0n8HwjaojDohDrKWady/YkfOJ63/w7qhOLmjA6HilPSfaD6W4RtTfYcVn/1mSSaW3Grwxy816avRigaIC0VBNMi6I4ghFvoxHLPczUIvGe1TxM3pJHeq0pt8U+xHNi/EQJibJ8kRHV4lEwz1AYyHPfze/NsKU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jXaZG3tH; arc=none smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=r3SkSaI76oL/muL3b+6e3YKFleAkxadohzZxsKSnYYz4AzaQsRVEO76G4ruFd8TBjZhEA01CV2KCtLFH4aBalsn7U1q9E+Mjfd8I61HUz+ycH8QGt+Ln7sjclT7zF06xkuxUkt7YC7rfNfn7XhQ5mFPDn3S7hnqMKqWBY1spMtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fYzyli9L; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b0a13bb0b7so23951051cf.2
-        for <linux-api@vger.kernel.org>; Fri, 08 Aug 2025 06:54:19 -0700 (PDT)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b062b6d51aso25834901cf.2
+        for <linux-api@vger.kernel.org>; Fri, 08 Aug 2025 07:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754661258; x=1755266058; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzUwRFYMwe0kkKb7Wpg8iUyhHURaS0YrhVvgitXw+xk=;
-        b=jXaZG3tH1PMRB0OKnWtxvsHd1Rk10dwuOCEgRiZ5YbCBqxQQTw+Jz5KwUYNcNChoWY
-         xf4WD9V/Y23gBJQiJEVrIPi03TQslgT5miGCO0uzvGNjvtW1WMcFKZt2vM+ip1npFZHS
-         /7IqrN1uq38jyr+pHzz6F7KmXrCR7uYxwubanh4J6jGtp8ZBw4vJyUsbiEMcKnqocg4O
-         18KlT40DuLg1Ls3E1ao8KTRLE2eyQAhs2Ug1pzUcsExdnM2/sloRo03ahg2PY6lKrGv1
-         kvN898/zDWHpxKrb1Q4s38J4C2/MMk5prFbc22KsrleozyUhtwxKMRqLQEHRQy/mrOab
-         uzJw==
+        d=soleen.com; s=google; t=1754661645; x=1755266445; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qqINGqOAKkihtWhqv8aP2ZlDWCyF3eZIl3dlPcJlrEs=;
+        b=fYzyli9LeJhZI3OL2lOmQmUB/2hupW00LWygDlRVwGMxBR6yau6SZv2gOz0tzUT4ea
+         snHxd+H9EFl1H+/X1Kuw/Ay6esXEphiIW0Wea0tYgDRhnyH80AU1JlRrdlnyQFGH5nHQ
+         qBXOAOTE7nE66vqCtARk4xwfHgLypH8vftFTfMPNHT+4rD0HNyW2CCJB7skOr4/pZtNV
+         r5h6moz4C1iZV/8WF/H2qJoMGWJHm10+N2EdNBQ2C5BLDovti2qlpQwWWf4LSWkFatbg
+         CktxOs8XWJC4y8m4FEB8cFeqpPOvpFk4O7UwXT6V0ihyQxWLHFJ25SXcpb9rfinl3Gs7
+         AMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754661258; x=1755266058;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jzUwRFYMwe0kkKb7Wpg8iUyhHURaS0YrhVvgitXw+xk=;
-        b=jw7HzX5IHgUwuAhGra5B/LE4GJLgigmD3HpswVUrLk+tfb3J0Wgyerj8uWvNpX2Dhq
-         ajXIIEQCONDNvmKKxnDejx0WkE58zSX2u/NI8P3Bcr4YxD3sOWVw3H4x3v53vYg7Vh0e
-         zkiHAfPuBWX/8RX2lgjkpSYqRn8Z40wBAbQqZofPlPF8VfJdGNINH8f63fNrOAhGOydb
-         wAqg4QGjsfgqMdrz1RxpgvXmUejqKgy/4RKP0EQ/2qbEqiwwRvwMliUAXGl4oFhgAcOu
-         e3SfY7ntSF8NA+V9cWHqB/RbKmN6dFhvxx30BtuLm2nULksNlMUAv+oFTT/+extod1xu
-         B2FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVm4GKf1MfN0SXQyrKGMlT+IyzDZD5lXPKV8+Ixga+nK95uXKH0Gn9LH0xqvBrv8fas7BZAEEXZr4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB5K2iODEaOSYQVx5YYnejsxBteQ6FwNVenHm1ECRy9xfDLFgB
-	/yPfD4IInX5d1kQlEBO3RcJ0UF3dWgBc6kMDWVDIiJhfdDW8D4lV3x3RSolKH5YU/nHkKpLsuPb
-	I6DNqP2aNFgQ7XSIpSkTejNkMsDWhFFFXc23Edpzx7A==
-X-Gm-Gg: ASbGnct/Bbg8Lzjdu4iSLkFq9yhAHm8mpTTzIBjPnZBVLr5CtDOkqLYdFpnJkCbAbUB
-	TwNlSvyjz8VmOGayM5Sv3JJ+PRVnFIDjaVpm+PlSISxeeGX2Mfm0fJCRWN3be8NWG4ckT77xSF/
-	RluEYmI3bUDt8IBFJTu05Cr5Lepmn9KBnCWjfFLvQSWEI+x1mCKGuWazRhKAUKLyxTRMRrScv6Q
-	yHV
-X-Google-Smtp-Source: AGHT+IEJmYietSH5VpR6RMJMP415b7zyz18sRNUfhN29PGY7yEn2BPdHDpMV3lyr863RZFGEM9NfgFIb4ZTkLRTpI/s=
-X-Received: by 2002:a05:622a:1181:b0:4b0:7620:7351 with SMTP id
- d75a77b69052e-4b0aed29dfemr44241331cf.13.1754661258448; Fri, 08 Aug 2025
- 06:54:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754661645; x=1755266445;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qqINGqOAKkihtWhqv8aP2ZlDWCyF3eZIl3dlPcJlrEs=;
+        b=AibwfHZNWohosurQErZ/o2AxxG50A67Jt0FmQ5VmFHCACg4gA8IDA/JdqlIy8Rv2B0
+         E03V8X8VTf31QRFoOfnUgvp2y3HpJRD8iUIpQL1h/JKBjesTRfGlHGM587slYSoltVVs
+         V2QmP5sSrIl2cdhpU2wuAxK3IBlzTcBgDi/vJ8JXF2Ea35vIH+qvD0yHpqtX69VeExw9
+         oE81XRUBqc2AqpgSpNXxQaHx0igrXJ7txZ+l86sS4GSTgXg6ov5XN7WPPFJ/NzQB1qHN
+         SGobQ0ZKglqWNKZT7tE0yCieC/82DiMp9tSrqevUNZu3WVn9N6bvHwCq/dMDXdq8jZ7g
+         akMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUr1O8J03DuYqihAxPvkOO/268SpjNaiEbHBDTveItUia8UJKYMl1iI6040nXWWXeIs8ojn0TPpVnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztjRojihKINdDh0ANYBj2biTKiEaKHEGe6tDJIMjsMKzY1rinp
+	oA023UXo7t5nFvl9vPym4IxzLYf4EhKDVU+rHUetPoHWbPsazOf86TLjW0ZucVA0aoPisxJDr3Y
+	sk84BRo3Lrwnc7DWPgmB6UlkfVUWJHwBt4HBAIJ9Ubw==
+X-Gm-Gg: ASbGnctuKZbC1Rgtqx7RjrRkSBTleOo2xGGCA/IesujQqSfXGCRUNb8E7LlGN+zQvEL
+	GeuQ8+osT18ONuU+9IbHq9vF7GBbw8mrAOC1jOjTU61tUF6ay69SdynGTcZadOuuks+/ACZIxne
+	poNSrEO9yETgZD1mj3HNUMiu/sJInhDsMIBdC7utR+MEQuYEiVovjeBAdUmupdO1N2mXGFQUEE5
+	PPT
+X-Google-Smtp-Source: AGHT+IGU7X5qeX8OS2DQuYKdpYSGfIFno/a95GYTX1d6NB06BqBHy2416czan27fZPJSukzaA24gTw9e0PS+96Ajhto=
+X-Received: by 2002:a05:622a:5a0f:b0:4af:4bac:e523 with SMTP id
+ d75a77b69052e-4b0aed0f0e9mr39963141cf.8.1754661645094; Fri, 08 Aug 2025
+ 07:00:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -75,29 +76,30 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <b227482a-31ec-4c92-a856-bd19f72217b7@redhat.com> <mafs07bzeatmf.fsf@kernel.org>
-In-Reply-To: <mafs07bzeatmf.fsf@kernel.org>
+ <20250807014442.3829950-2-pasha.tatashin@soleen.com> <mafs0o6sqavkx.fsf@kernel.org>
+ <mafs0bjoqav4j.fsf@kernel.org>
+In-Reply-To: <mafs0bjoqav4j.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 8 Aug 2025 13:53:41 +0000
-X-Gm-Features: Ac12FXzC2ItcrNrnqIm-RSLWTwNqS2AX71-Cg7eUT1NgfRdHm0ajR1sU163K8_s
-Message-ID: <CA+CK2bCd9x0KA=cO8EauJ=_GJ-GzO+0Z7HXN5=cObxuGzFDzCA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+Date: Fri, 8 Aug 2025 14:00:08 +0000
+X-Gm-Features: Ac12FXyA0-d-njVDnQIR5bUTLVyM1KEOMfZexHnLlS_vPOyE1wA5_qbuL5SMqTM
+Message-ID: <CA+CK2bBoMNEfyFKgvKR0JvECpZrGKP1mEbC_fo8SqystEBAQUA@mail.gmail.com>
+Subject: Re: [PATCH v3 01/30] kho: init new_physxa->phys_bits to fix lockdep
 To: Pratyush Yadav <pratyush@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
 	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
 	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
@@ -105,16 +107,86 @@ Cc: David Hildenbrand <david@redhat.com>, jasonmiu@google.com, graf@amazon.com,
 	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
 	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>
+	witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Aug 8, 2025 at 11:52=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
 >
-> And now that I think about it, I suppose patch 29 should also add
-> memfd_luo.c under the SHMEM MAINTAINERS entry.
+> On Fri, Aug 08 2025, Pratyush Yadav wrote:
+> [...]
+> >> @@ -144,14 +144,35 @@ static int __kho_preserve_order(struct kho_mem_t=
+rack *track, unsigned long pfn,
+> >>                              unsigned int order)
+> >>  {
+> >>      struct kho_mem_phys_bits *bits;
+> >> -    struct kho_mem_phys *physxa;
+> >> +    struct kho_mem_phys *physxa, *new_physxa;
+> >>      const unsigned long pfn_high =3D pfn >> order;
+> >>
+> >>      might_sleep();
+> >>
+> >> -    physxa =3D xa_load_or_alloc(&track->orders, order, sizeof(*physxa=
+));
+> >> -    if (IS_ERR(physxa))
+> >> -            return PTR_ERR(physxa);
+> >> +    physxa =3D xa_load(&track->orders, order);
+> >> +    if (!physxa) {
+> >> +            new_physxa =3D kzalloc(sizeof(*physxa), GFP_KERNEL);
+> >> +            if (!new_physxa)
+> >> +                    return -ENOMEM;
+> >> +
+> >> +            xa_init(&new_physxa->phys_bits);
+> >> +            physxa =3D xa_cmpxchg(&track->orders, order, NULL, new_ph=
+ysxa,
+> >> +                                GFP_KERNEL);
+> >> +            if (xa_is_err(physxa)) {
+> >> +                    int err =3D xa_err(physxa);
+> >> +
+> >> +                    xa_destroy(&new_physxa->phys_bits);
+> >> +                    kfree(new_physxa);
+> >> +
+> >> +                    return err;
+> >> +            }
+> >> +            if (physxa) {
+> >> +                    xa_destroy(&new_physxa->phys_bits);
+> >> +                    kfree(new_physxa);
+> >> +            } else {
+> >> +                    physxa =3D new_physxa;
+> >> +            }
+> >
+> > I suppose this could be simplified a bit to:
+> >
+> >       err =3D xa_err(physxa);
+> >         if (err || physxa) {
+> >               xa_destroy(&new_physxa->phys_bits);
+> >                 kfree(new_physxa);
+> >
+> >               if (err)
+> >                       return err;
+> >       } else {
+> >               physxa =3D new_physxa;
+> >       }
+>
+> My email client completely messed the whitespace up so this is a bit
+> unreadable. Here is what I meant:
+>
+>         err =3D xa_err(physxa);
+>         if (err || physxa) {
+>                 xa_destroy(&new_physxa->phys_bits);
+>                 kfree(new_physxa);
+>
+>                 if (err)
+>                         return err;
+>         } else {
+>                 physxa =3D new_physxa;
+>         }
+>
+> [...]
 
-Right, let's update this in the next revision.
+Thanks Pratyush, I will make this simplification change if Andrew does
+not take this patch in before the next revision.
 
-Thanks,
 Pasha
 
