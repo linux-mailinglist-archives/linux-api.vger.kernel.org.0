@@ -1,119 +1,173 @@
-Return-Path: <linux-api+bounces-4399-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4400-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1249B1E9C5
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 16:01:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D468B1E9CA
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 16:02:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92E11AA0D6C
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:01:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1FB8172BAC
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE929277032;
-	Fri,  8 Aug 2025 14:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1487327A12C;
+	Fri,  8 Aug 2025 14:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="ZJy+b8A5"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YSHo12rd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA4026AC3;
-	Fri,  8 Aug 2025 14:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754661682; cv=pass; b=qw4M5s5rynXaLzkZ5muQ9pXU0MnTdqHnGmAU3O2lJB17TsC/RrNBMhFrt0DRvFm+w55ZW6Mcopo+EIfHRNA9KTd6PYrjkIdZNiTSHlriWjhqMqUeTDQu2v0l7K6yqr+5rA5rDmm9BtVTdk3jhLS785XGg9BB9fetpAgWm4JVbSg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754661682; c=relaxed/simple;
-	bh=rT3VzyH6Xn1glT38DkuRT8Gj02/qfEIf4SWBwVJK6uw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=FKETRv3cFAPjR4eKvIQ3Zg5lX8h+0f/Mm4FEkMt1oOtKrEfYwXdjYH5l1T7a7YtXryXQY7LAnIWqJxm3UfxAIZlEwcXcgYKjeRWnn9x/VWno4KY2EMy5lTQLyHg0V0fX3FF6NIyX1/Ay3azEgVxgX2QIOIEb7/d2tlWrqo4Pb88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=ZJy+b8A5; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1754661646; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=F3DH0S9y/LpE8St8iKYkkwyJXdFUODHoXmtvCqlFrZhZnkpG5DJS9ZhZQ46ZSTJH+qM5odKZbN8S6WqUJUZlmTBCbd76sZ3g98zyvY/SHm6M5ochVBHaw5RdTXMv84w2i1E3/tQmrRlyiOSZxDwMUH25nMl1JmPRAua4tMuNMvs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1754661646; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=M7IuwaQDdYjwYVpeTbAcgAwO0y6aDahsOmCDYXaJ2+o=; 
-	b=SoD79QwLNYx7W9+bD91y6gLXyT9fSaEh90BSHY4ZrZtLFuOw8qKaGHJRrzDvYJ3oyMP6ZOkuJmghrJTxkR5p+5GS5JX0WvH5lXJPqdId7o+7saHQS2uPrHo715PX4Rz3iW9yvr+I/L+xsNHzXLu77p7b0X78hfAYifwJroPorzU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754661646;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=M7IuwaQDdYjwYVpeTbAcgAwO0y6aDahsOmCDYXaJ2+o=;
-	b=ZJy+b8A5Zx6KJGcsPzbG82dCyS9LHI58Avgst6PxWJsswc1F3HcVz1mTypDg2INT
-	KoRODugjrc7ivZr7UNxrDtFmeBgXz5TwAJCgwI893qlpOY0diziM9VnZkO3I3NSN6x3
-	p3PYBtSKmHvSMJXp0D0h1TZZ6dSXmWKSt1Y3SEus=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1754661643941480.67059820000884; Fri, 8 Aug 2025 07:00:43 -0700 (PDT)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Fri, 8 Aug 2025 07:00:43 -0700 (PDT)
-Date: Fri, 08 Aug 2025 18:00:43 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "Aleksa Sarai" <cyphar@cyphar.com>
-Cc: "Alejandro Colomar" <alx@kernel.org>,
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>,
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
-	"linux-man" <linux-man@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>
-Message-ID: <19889fbe690.e80d252e42280.4347614991285137048@zohomail.com>
-In-Reply-To: <20250807-new-mount-api-v2-5-558a27b8068c@cyphar.com>
-References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com> <20250807-new-mount-api-v2-5-558a27b8068c@cyphar.com>
-Subject: Re: [PATCH v2 05/11] fsconfig.2: document 'new' mount api
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638F8246BCD
+	for <linux-api@vger.kernel.org>; Fri,  8 Aug 2025 14:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754661713; cv=none; b=pd9GJpadeSkPlDs24MMXZTRyxh1fbRCIpdHWIeV4SMxy2OO5CD8pNRR59GICJIvxSmPtLBtmhI1kLM0W9tO9v95/EqLtaVOR+TrO+PqnzCa1Qsxkh6NEzVzmI8F4Y+rXikgpItDwMyEnU6Dx0/5tspiXw0UCTu490HTaGWUZdZc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754661713; c=relaxed/simple;
+	bh=XudJJd4XOmhk26ypsQpMMb/lzwssZiORriOrX5Ocrbw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uawM+4axZgjDO1n/33rVrfq4k5xOO0/i5yZjskEKzj09hHc91B5v0w3lHiZOi6vXWXV6A/n37vB1CkUzDoPYmxOA0SFJk4WpgcfRXPI4IcIUmzEyMSWdp2qYYqTRQdNmp+OuTHVftcxoPKCEEn+l4qrxNGjwk+yrep44gMnvM8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=YSHo12rd; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b062b6d51aso25844471cf.2
+        for <linux-api@vger.kernel.org>; Fri, 08 Aug 2025 07:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1754661710; x=1755266510; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cgf3Gf6pf2QyMmdIpvCgXWMeWxUvQmvcME2UoQnjQWw=;
+        b=YSHo12rd43CZjqW43H4h42hhoZE0Xud+09tw6SvsSBoRb7hB8kynw5XuZmZEujxnso
+         4dp4ibV/DHw38LS1oiLTtZR1H1mXcFQeUXB3STrQ9ls6TgB2p1kUPDsp2gVAjBcVo6MC
+         ZY87Of0lUkgGaPCrGJRGNoDYDOvI8HJFkxolFIFdLpa0xqRXE31w2Rmmhj4heEjKwW24
+         HGqi4f5bZXfFRGI/zJDr9kfPj86cZjfwHeXIEGou1GlTH15pBV/gMKkkAeeW2c11Sd8t
+         Mck0ThFgWNTGZARQ3hlnbclT4AWvBW4nOJmnj5U+BAJEqOU9BRQ6pG4xnbHmdpHfTTpi
+         mXnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754661710; x=1755266510;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cgf3Gf6pf2QyMmdIpvCgXWMeWxUvQmvcME2UoQnjQWw=;
+        b=LhGqtgPDYU/0F5s+i2PHvNuLjJl/+Zt5fP3dszeVvCdccMADHrukOy1U7Gfx1m/bO/
+         R0Ebwi9hFU6aQ8F0PlNJUD7mtkiOnN+lnOXJVo25ILkyI8LptqSUe+/n7Bd1JDbFwBFX
+         bXTorVSjU6Y3Rzcku7O3l8qyHI6rExfqCWh6pLwPYLjc4yvf1uhcHnBJkL+G0vxMKmJ6
+         9r8yDM9EcebzHMsKz0co8nFRMwBCvZIoUWcmXjlC24NUWIbFvXFGwXqmGp3ArOZDTDff
+         kKZ/ghYQ3wSr/ovxJB7r2plwToTPKhKMiC3c3UPaamdou4i/HaRQR4x7V/pF0NjxqUln
+         4Y6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXrgr7JOX9u+7OiRQoXYZkE9sUCaTI+ptypQc1NhWYWXlr/D/Oaqyf0zx+hOZrMa2vMm+m9bYTUIiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvdILwk49dId8TQwSwj4tOXRrkwWyyEWry6qXI8ks6O6XY2ZVx
+	ppUGXbdSgyhNJgiCstkioU7Tdu7e6Fj/Z4ONnH3tH4AvYECP86GDQvYLwJfnO8j2Go1MkQs48fC
+	oWKH6RTL9m8V9DtDJfFsabmueVP0Ma21Loi0B0dyVWQ==
+X-Gm-Gg: ASbGncsENDoAMBRFZH2Ln8bfspXjs67zbU0XkkZWLhwalup8JUu9SpHA3tAdk9pWcUm
+	IbKi1pMeZL57Wyc9X0TJlfz4/XXHNMrY11QzoJhvdLt/ubYhNkuuVsrVSIkhI1svKG7YwCplA6x
+	hb0sbt1cEZJZYvsaKeDk9ENBlxN40p4GO5Ap6qX9WQLZ7+eWbzaK4xn6mInVS6EMs0s+nFRxwju
+	uQg
+X-Google-Smtp-Source: AGHT+IEH1BqMSX1yIRX4eK9XjBPS6pkTO1kxH3JapIOH8TKb2ESrqoA/iZRqQ2exr79E4dgeMXF8CiLL82TWwqJhOYQ=
+X-Received: by 2002:a05:622a:258e:b0:4ae:cc75:4703 with SMTP id
+ d75a77b69052e-4b0aee5afb9mr42782921cf.58.1754661709835; Fri, 08 Aug 2025
+ 07:01:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-3-pasha.tatashin@soleen.com> <mafs0jz3eavci.fsf@kernel.org>
+In-Reply-To: <mafs0jz3eavci.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 8 Aug 2025 14:01:13 +0000
+X-Gm-Features: Ac12FXzfZzUeYL8qqgO-oYE8dxdNMTs6gp9itdpmGem1pHDL8sFl_NAXG2JwrAk
+Message-ID: <CA+CK2bCqos=z0q+YsmFK_kFQ8PLyLQw32TkJB5SK2y4Y1kVErg@mail.gmail.com>
+Subject: Re: [PATCH v3 02/30] kho: mm: Don't allow deferred struct page with KHO
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr080112273483f9e25750bd5e64720e9300000a43eff5e06d646831b4925fdb282f74945ca5395047b5b966:zu08011227295a2319a843661c6004f60f0000f4c6cf4f655d584944e8f69f6a3a421beea4a6b920d39a4d09:rf0801122b8da7ca7ba25404bd0a9fc9bd0000b41b42decbf1c6f1f242aac919400a2b489e22dceb18c04293f4c63600:ZohoMail
+Content-Transfer-Encoding: quoted-printable
 
-Let's consider this example:
+On Fri, Aug 8, 2025 at 11:47=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+>
+> On Thu, Aug 07 2025, Pasha Tatashin wrote:
+>
+> > KHO uses struct pages for the preserved memory early in boot, however,
+> > with deferred struct page initialization, only a small portion of
+> > memory has properly initialized struct pages.
+> >
+> > This problem was detected where vmemmap is poisoned, and illegal flag
+> > combinations are detected.
+> >
+> > Don't allow them to be enabled together, and later we will have to
+> > teach KHO to work properly with deferred struct page init kernel
+> > feature.
+> >
+> > Fixes: 990a950fe8fd ("kexec: add config option for KHO")
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>
+> Nit: Drop the blank line before fixes. git interpret-trailers doesn't
 
-           int fsfd, mntfd, nsfd, nsdirfd;
+Makes sense.
 
-           nsfd = open("/proc/self/ns/pid", O_PATH);
-           nsdirfd = open("/proc/1/ns", O_DIRECTORY);
+> seem to recognize the fixes otherwise, so this may break some tooling.
+> Try it yourself:
+>
+>     $ git interpret-trailers --parse commit_message.txt
+>
+> Other than this,
+>
+> Acked-by: Pratyush Yadav <pratyush@kernel.org>
 
-           fsfd = fsopen("proc", FSOPEN_CLOEXEC);
-           /* "pidns" changes the value each time. */
-           fsconfig(fsfd, FSCONFIG_SET_PATH, "pidns", "/proc/self/ns/pid", AT_FDCWD);
-           fsconfig(fsfd, FSCONFIG_SET_PATH, "pidns", "pid", NULL, nsdirfd);
-           fsconfig(fsfd, FSCONFIG_SET_PATH_EMPTY, "pidns", "", nsfd);
-           fsconfig(fsfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
-           fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-           mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-           move_mount(mntfd, "", AT_FDCWD, "/proc", MOVE_MOUNT_F_EMPTY_PATH);
+Thank you for the review.
 
-I don't like it. /proc/self/ns/pid is our namespace, which is default anyway.
-I. e. setting pidns to /proc/self/ns/pid is no-op (assuming that "pidns" option is implemented in our kernel, of course).
-Moreover, if /proc is mounted properly, then /proc/1/ns/pid refers to our namespace, too!
-Thus, *all* these fsconfig(FSCONFIG_SET_...) calls are no-op.
-Thus it is bad example.
+Pasha
 
-I suggest using, say, /proc/2/ns/pid . It has actual chance to refer to some other namespace.
-
-Also, sentence '"pidns" changes the value each time' is a lie: as I explained, all these calls are no-ops,
-they don't really change anything.
-
---
-Askar Safin
-https://types.pl/@safinaskar
-
+>
+> > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > ---
+> >  kernel/Kconfig.kexec | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
+> > index 2ee603a98813..1224dd937df0 100644
+> > --- a/kernel/Kconfig.kexec
+> > +++ b/kernel/Kconfig.kexec
+> > @@ -97,6 +97,7 @@ config KEXEC_JUMP
+> >  config KEXEC_HANDOVER
+> >       bool "kexec handover"
+> >       depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FI=
+LE
+> > +     depends on !DEFERRED_STRUCT_PAGE_INIT
+> >       select MEMBLOCK_KHO_SCRATCH
+> >       select KEXEC_FILE
+> >       select DEBUG_FS
+>
+> --
+> Regards,
+> Pratyush Yadav
 
