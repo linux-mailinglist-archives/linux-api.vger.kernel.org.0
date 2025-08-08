@@ -1,57 +1,57 @@
-Return-Path: <linux-api+bounces-4385-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4386-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BD7B1E7B0
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 13:48:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890FAB1E7BF
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 13:52:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 457AB189BF8B
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 11:48:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47F5C3AA131
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 11:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6001425A2AB;
-	Fri,  8 Aug 2025 11:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E246527585E;
+	Fri,  8 Aug 2025 11:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwuuhoIs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDdmB93f"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30932274B4F;
-	Fri,  8 Aug 2025 11:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B49223DD9;
+	Fri,  8 Aug 2025 11:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754653695; cv=none; b=CJOZQjPtEdDRgAhMZTC277QqYRda3MS65pnHGzp7CN/rCnzvbiqX4sj5ZG46BflnbyHfjhiZFCY9Dmz8Kshl7GvKZvdz9lggYm9thMxt7p6Wen36pFfaxGTmn8LXjIt2bAEUOrhj5jyJqs8b7YY1FiBdHNzQ5qis9a6vqvXyHDM=
+	t=1754653943; cv=none; b=BeuX/Y2a6IhFwwJBH1ZjPAd4D7qiRHSnUycBtThvhli0Ewh/VBtzzYVTLeYG0NSd9O9BzTGBG0cfVzqLO/XpsUEPU8eKKsv6/67iMq9el90GooVCfNxlB457v9xQbGawLP1ju/wDVq42wp+5hSw/kjTXwpj6bxWsBi3g23dtgFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754653695; c=relaxed/simple;
-	bh=aUwwLEPyMUejn/6j3TbLyJ9dkoIcB9PsgLXsaIIn2ck=;
+	s=arc-20240116; t=1754653943; c=relaxed/simple;
+	bh=xSEzUb8y2xqXpVXNL7u1aJemA6z6EHDR87sROVoHVGk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i8cFrmaLeBsx7Hv59L4WK3su1HLDZxnc8fYIdP0VMI71tMeh6MG6WtxUpGj6MwJqHocd2Sm0Xhl2do2Zl9HSK7RPbJF1pgynMxtcAMxRDgsgl2TB7DcobvKasOl2ba+DC+0QRPoAKNwT/CmmWry2qlpjO7BOx1py2d/6gvQOl/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwuuhoIs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E4FC4CEED;
-	Fri,  8 Aug 2025 11:48:05 +0000 (UTC)
+	 MIME-Version:Content-Type; b=d4fwT2VtCxOR+eOqLCN41UkH9vXaeZvsNbZUeG4RNJoKtJuhGFXesmdyoVd+/F2ouwRMEn9gKWPSqCECULNmwu2H5/travcukERFRTMEns6Tvk5SPclWLGPibKJJd02QpF8e1hymX7eQztlPTxZLt0fNCNspnVzFwGSVRXaYVKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDdmB93f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0977FC4CEF1;
+	Fri,  8 Aug 2025 11:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754653694;
-	bh=aUwwLEPyMUejn/6j3TbLyJ9dkoIcB9PsgLXsaIIn2ck=;
+	s=k20201202; t=1754653943;
+	bh=xSEzUb8y2xqXpVXNL7u1aJemA6z6EHDR87sROVoHVGk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kwuuhoIsntxmMvjULGKR+fbMO5OmUIAC8z6hh0qq/hfqifRrQZ9ZNp0VHDryFvo3p
-	 Qaq986CkXgUCTmb1mavmiVcYwmoccQ/gwYcU1D09Uo6dbHfBeYqfdFknzMyllRlIyG
-	 q45GYr0i5+IW5iitggvfthDfgHoTwFBdodG55fDOdLOqkYNY1Gytqv/e9rQF2H1KUC
-	 rmMQwedbpyQydNhu7AkKxqo+WmXcl3I1f3h2q1q+jkqE4YewtLwtymcRJbJr541aBA
-	 +FNFurbzmb74Oe74otpLpOPjfDt0vgmbUznCo99XBgeVLrDa4og84ZtpljqbzEm/bi
-	 66xOz7BE/D+ZA==
+	b=uDdmB93f9xXYQw7pkccVTAZrASxgjPMDhOD4dK5a+xhpb/pMvvaduoXy2UTuDD4PR
+	 bXX5SxJeAHbarWlsYjOOfSdbQsa2Kg4b0aEtjXzZJNmW2ocmkCY33jH3ChlAGzHSSu
+	 U/cwCh0SZq0ZwcXNcEV5xM4/tMPsJRedE7liIKTRhR/8w4H2s7U0ZiG8y/hSAnn4W2
+	 wAFDEllgM2zeloAVeBdqRvUewuE/hXeMPpG7vhtP0DsUJ+1d8jB4ago0TZ7Q/GJp2u
+	 QgK18psr/pv4vsQbytQEYh4lAbzARwwolw9f5yGC6h89p1AtmQ0dGtKbWQb2WXd097
+	 +/moD7XmsFvkg==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
   dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
   rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
   zhangguopeng@kylinos.cn,  linux@weissschuh.net,
@@ -69,12 +69,13 @@ Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
   linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
   saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
   parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 03/30] kho: warn if KHO is disabled due to an error
-In-Reply-To: <20250807014442.3829950-4-pasha.tatashin@soleen.com>
+Subject: Re: [PATCH v3 01/30] kho: init new_physxa->phys_bits to fix lockdep
+In-Reply-To: <mafs0o6sqavkx.fsf@kernel.org>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-4-pasha.tatashin@soleen.com>
-Date: Fri, 08 Aug 2025 13:48:04 +0200
-Message-ID: <mafs0fre2avbf.fsf@kernel.org>
+	<20250807014442.3829950-2-pasha.tatashin@soleen.com>
+	<mafs0o6sqavkx.fsf@kernel.org>
+Date: Fri, 08 Aug 2025 13:52:12 +0200
+Message-ID: <mafs0bjoqav4j.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -84,19 +85,73 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Thu, Aug 07 2025, Pasha Tatashin wrote:
-
-> During boot scratch area is allocated based on command line
-> parameters or auto calculated. However, scratch area may fail
-> to allocate, and in that case KHO is disabled. Currently,
-> no warning is printed that KHO is disabled, which makes it
-> confusing for the end user to figure out why KHO is not
-> available. Add the missing warning message.
+On Fri, Aug 08 2025, Pratyush Yadav wrote:
+[...]
+>> @@ -144,14 +144,35 @@ static int __kho_preserve_order(struct kho_mem_track *track, unsigned long pfn,
+>>  				unsigned int order)
+>>  {
+>>  	struct kho_mem_phys_bits *bits;
+>> -	struct kho_mem_phys *physxa;
+>> +	struct kho_mem_phys *physxa, *new_physxa;
+>>  	const unsigned long pfn_high = pfn >> order;
+>>  
+>>  	might_sleep();
+>>  
+>> -	physxa = xa_load_or_alloc(&track->orders, order, sizeof(*physxa));
+>> -	if (IS_ERR(physxa))
+>> -		return PTR_ERR(physxa);
+>> +	physxa = xa_load(&track->orders, order);
+>> +	if (!physxa) {
+>> +		new_physxa = kzalloc(sizeof(*physxa), GFP_KERNEL);
+>> +		if (!new_physxa)
+>> +			return -ENOMEM;
+>> +
+>> +		xa_init(&new_physxa->phys_bits);
+>> +		physxa = xa_cmpxchg(&track->orders, order, NULL, new_physxa,
+>> +				    GFP_KERNEL);
+>> +		if (xa_is_err(physxa)) {
+>> +			int err = xa_err(physxa);
+>> +
+>> +			xa_destroy(&new_physxa->phys_bits);
+>> +			kfree(new_physxa);
+>> +
+>> +			return err;
+>> +		}
+>> +		if (physxa) {
+>> +			xa_destroy(&new_physxa->phys_bits);
+>> +			kfree(new_physxa);
+>> +		} else {
+>> +			physxa = new_physxa;
+>> +		}
 >
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> I suppose this could be simplified a bit to:
+>
+> 	err = xa_err(physxa);
+>         if (err || physxa) {
+>         	xa_destroy(&new_physxa->phys_bits);
+>                 kfree(new_physxa);
+>
+> 		if (err)
+>                 	return err;
+> 	} else {
+>         	physxa = new_physxa;
+> 	}
 
-Acked-by: Pratyush Yadav <pratyush@kernel.org>
+My email client completely messed the whitespace up so this is a bit
+unreadable. Here is what I meant:
+
+	err = xa_err(physxa);
+	if (err || physxa) {
+		xa_destroy(&new_physxa->phys_bits);
+		kfree(new_physxa);
+
+		if (err)
+			return err;
+	} else {
+		physxa = new_physxa;
+	}
+
+[...]
 
 -- 
 Regards,
