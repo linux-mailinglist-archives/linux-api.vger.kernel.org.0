@@ -1,173 +1,118 @@
-Return-Path: <linux-api+bounces-4400-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4401-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D468B1E9CA
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 16:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D01FB1E9FB
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 16:10:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1FB8172BAC
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:01:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC17B1727A0
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:10:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1487327A12C;
-	Fri,  8 Aug 2025 14:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E88D2797A0;
+	Fri,  8 Aug 2025 14:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YSHo12rd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9gIT0hV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638F8246BCD
-	for <linux-api@vger.kernel.org>; Fri,  8 Aug 2025 14:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487E0EAF9;
+	Fri,  8 Aug 2025 14:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754661713; cv=none; b=pd9GJpadeSkPlDs24MMXZTRyxh1fbRCIpdHWIeV4SMxy2OO5CD8pNRR59GICJIvxSmPtLBtmhI1kLM0W9tO9v95/EqLtaVOR+TrO+PqnzCa1Qsxkh6NEzVzmI8F4Y+rXikgpItDwMyEnU6Dx0/5tspiXw0UCTu490HTaGWUZdZc=
+	t=1754662203; cv=none; b=B/TmOuBMdFrtX4ioRPjhg6t02VevqEs+9GpD/3KMEmZOrmvfnp/+z04e1hURq8vEZ4p3Ie+ZSAEry1/vI/050jDWponJmnchjkkhmGQmWXr78gxUOu7AJ2tfjgpaybq5KXAQsFKTV+3fvHGonPhkt9pyC1IhadtS3QAiCkdgXVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754661713; c=relaxed/simple;
-	bh=XudJJd4XOmhk26ypsQpMMb/lzwssZiORriOrX5Ocrbw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uawM+4axZgjDO1n/33rVrfq4k5xOO0/i5yZjskEKzj09hHc91B5v0w3lHiZOi6vXWXV6A/n37vB1CkUzDoPYmxOA0SFJk4WpgcfRXPI4IcIUmzEyMSWdp2qYYqTRQdNmp+OuTHVftcxoPKCEEn+l4qrxNGjwk+yrep44gMnvM8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=YSHo12rd; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b062b6d51aso25844471cf.2
-        for <linux-api@vger.kernel.org>; Fri, 08 Aug 2025 07:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1754661710; x=1755266510; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cgf3Gf6pf2QyMmdIpvCgXWMeWxUvQmvcME2UoQnjQWw=;
-        b=YSHo12rd43CZjqW43H4h42hhoZE0Xud+09tw6SvsSBoRb7hB8kynw5XuZmZEujxnso
-         4dp4ibV/DHw38LS1oiLTtZR1H1mXcFQeUXB3STrQ9ls6TgB2p1kUPDsp2gVAjBcVo6MC
-         ZY87Of0lUkgGaPCrGJRGNoDYDOvI8HJFkxolFIFdLpa0xqRXE31w2Rmmhj4heEjKwW24
-         HGqi4f5bZXfFRGI/zJDr9kfPj86cZjfwHeXIEGou1GlTH15pBV/gMKkkAeeW2c11Sd8t
-         Mck0ThFgWNTGZARQ3hlnbclT4AWvBW4nOJmnj5U+BAJEqOU9BRQ6pG4xnbHmdpHfTTpi
-         mXnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754661710; x=1755266510;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cgf3Gf6pf2QyMmdIpvCgXWMeWxUvQmvcME2UoQnjQWw=;
-        b=LhGqtgPDYU/0F5s+i2PHvNuLjJl/+Zt5fP3dszeVvCdccMADHrukOy1U7Gfx1m/bO/
-         R0Ebwi9hFU6aQ8F0PlNJUD7mtkiOnN+lnOXJVo25ILkyI8LptqSUe+/n7Bd1JDbFwBFX
-         bXTorVSjU6Y3Rzcku7O3l8qyHI6rExfqCWh6pLwPYLjc4yvf1uhcHnBJkL+G0vxMKmJ6
-         9r8yDM9EcebzHMsKz0co8nFRMwBCvZIoUWcmXjlC24NUWIbFvXFGwXqmGp3ArOZDTDff
-         kKZ/ghYQ3wSr/ovxJB7r2plwToTPKhKMiC3c3UPaamdou4i/HaRQR4x7V/pF0NjxqUln
-         4Y6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXrgr7JOX9u+7OiRQoXYZkE9sUCaTI+ptypQc1NhWYWXlr/D/Oaqyf0zx+hOZrMa2vMm+m9bYTUIiY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvdILwk49dId8TQwSwj4tOXRrkwWyyEWry6qXI8ks6O6XY2ZVx
-	ppUGXbdSgyhNJgiCstkioU7Tdu7e6Fj/Z4ONnH3tH4AvYECP86GDQvYLwJfnO8j2Go1MkQs48fC
-	oWKH6RTL9m8V9DtDJfFsabmueVP0Ma21Loi0B0dyVWQ==
-X-Gm-Gg: ASbGncsENDoAMBRFZH2Ln8bfspXjs67zbU0XkkZWLhwalup8JUu9SpHA3tAdk9pWcUm
-	IbKi1pMeZL57Wyc9X0TJlfz4/XXHNMrY11QzoJhvdLt/ubYhNkuuVsrVSIkhI1svKG7YwCplA6x
-	hb0sbt1cEZJZYvsaKeDk9ENBlxN40p4GO5Ap6qX9WQLZ7+eWbzaK4xn6mInVS6EMs0s+nFRxwju
-	uQg
-X-Google-Smtp-Source: AGHT+IEH1BqMSX1yIRX4eK9XjBPS6pkTO1kxH3JapIOH8TKb2ESrqoA/iZRqQ2exr79E4dgeMXF8CiLL82TWwqJhOYQ=
-X-Received: by 2002:a05:622a:258e:b0:4ae:cc75:4703 with SMTP id
- d75a77b69052e-4b0aee5afb9mr42782921cf.58.1754661709835; Fri, 08 Aug 2025
- 07:01:49 -0700 (PDT)
+	s=arc-20240116; t=1754662203; c=relaxed/simple;
+	bh=c+tJGSE1kVOEJc+fqWaxQew8R9k0tADAYnXJUS2UMAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RksBn7cAAkhBW0JQaQOBHVHyevGnmDRpz/pgG/jZa5AMD0PGb9ARSy1doiRJojQ/XbloPk0eRJeZeVcFzvc508JZVYA/e/QlAXuaSKLIAJdWQV3J1oHB98jXSeWum/lr6Hhr6zcG+tCa7puaqCrvHDnHOqbmvHWeFGDZLkqehao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9gIT0hV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DB3C4CEED;
+	Fri,  8 Aug 2025 14:09:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754662202;
+	bh=c+tJGSE1kVOEJc+fqWaxQew8R9k0tADAYnXJUS2UMAo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h9gIT0hVpFdMcHPf5lG4Z06B5oBym7Tto9V3PjID66JBmGBrQxSBGyBjHkLB1l/g3
+	 gfBUBf79hzudX/Ta1zBJ6QUxsTynvw8JfkjUdSYx0Di9g8wAqucAhPzvdABaHyYWqH
+	 ez95kCmYwi7iu5he5uyyup9P1VoVJAnJm1zGkGj+4nNOUvCIQbqSBCxjKBNl3TmatD
+	 qNrUZyb5tqdpGRRWtC17AxkKWIQZrKbPXMDoBPlJErEKlfLIrebfabMNsUv4bgSB7T
+	 AGTRhxq5jnA4lOhrtNLf7s4G6QHq26t7tA2RCZJ4g9VYfU0v5fB6ERFsnvZtk2ADq6
+	 cKWelb0hKqpJQ==
+Date: Fri, 8 Aug 2025 16:09:57 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Askar Safin <safinaskar@zohomail.com>, amir73il@gmail.com, 
+	corbet@lwn.net, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, luto@amacapital.net, shuah@kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v4 2/4] procfs: add "pidns" mount option
+Message-ID: <20250808-kurswechsel-angekauft-ec6bfc2efa79@brauner>
+References: <2025-08-05.1754378656-steep-harps-muscled-mailroom-lively-gosling-VVGNTP@cyphar.com>
+ <20250806102501.75104-1-safinaskar@zohomail.com>
+ <2025-08-06.1754489257-elated-baubles-defiant-growls-beloved-jewelry-9Ofm2b@cyphar.com>
+ <2025-08-07.1754550206-glad-sneeze-upstate-sorts-swank-courts-YKmj7E@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-3-pasha.tatashin@soleen.com> <mafs0jz3eavci.fsf@kernel.org>
-In-Reply-To: <mafs0jz3eavci.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 8 Aug 2025 14:01:13 +0000
-X-Gm-Features: Ac12FXzfZzUeYL8qqgO-oYE8dxdNMTs6gp9itdpmGem1pHDL8sFl_NAXG2JwrAk
-Message-ID: <CA+CK2bCqos=z0q+YsmFK_kFQ8PLyLQw32TkJB5SK2y4Y1kVErg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/30] kho: mm: Don't allow deferred struct page with KHO
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2025-08-07.1754550206-glad-sneeze-upstate-sorts-swank-courts-YKmj7E@cyphar.com>
 
-On Fri, Aug 8, 2025 at 11:47=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> On Thu, Aug 07 2025, Pasha Tatashin wrote:
->
-> > KHO uses struct pages for the preserved memory early in boot, however,
-> > with deferred struct page initialization, only a small portion of
-> > memory has properly initialized struct pages.
-> >
-> > This problem was detected where vmemmap is poisoned, and illegal flag
-> > combinations are detected.
-> >
-> > Don't allow them to be enabled together, and later we will have to
-> > teach KHO to work properly with deferred struct page init kernel
-> > feature.
-> >
-> > Fixes: 990a950fe8fd ("kexec: add config option for KHO")
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Nit: Drop the blank line before fixes. git interpret-trailers doesn't
+On Thu, Aug 07, 2025 at 05:17:56PM +1000, Aleksa Sarai wrote:
+> On 2025-08-07, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2025-08-06, Askar Safin <safinaskar@zohomail.com> wrote:
+> > > > I just realised that we probably also want to support FSCONFIG_SET_PATH
+> > > 
+> > > I just checked kernel code. Indeed nobody uses FSCONFIG_SET_PATH.
+> > > Moreover, fsparam_path macro is present since 5.1. And for all this
+> > > time nobody used it. So, let's just remove FSCONFIG_SET_PATH. Nobody
+> > > used it, so this will not break anything.
+> > > 
+> > > If you okay with that, I can submit patch, removing it.
+> > 
+> > I would prefer you didn't -- "*at()" semantics are very useful to a lot
+> > of programs (*especially* AT_EMPTY_PATH). I would like the pidns= stuff
+> > to support it, and probably also overlayfs...
+> > 
+> > I suspect the primary issue is that when migrating to the new mount API,
+> > filesystem devs just went with the easiest thing to use
+> > (FSCONFIG_SET_STRING) even though FSCONFIG_SET_PATH would be better. I
+> > suspect the lack of documentation around fsconfig(2) played a part too.
+> > 
+> > My impression is that interest in the minutia about fsconfig(2) is quite
+> > low on the list of priorities for most filesystem devs, and so the neat
+> > aspects of fsconfig(2) haven't been fully utilised. (In LPC last year,
+> > we struggled to come to an agreement on how filesystems should use the
+> > read(2)-based error interface.)
+> > 
+> > We can very easily move fsparam_string() or fsparam_file_or_string()
+> > parameters to fsparam_path() and a future fsparam_file_or_path(). I
+> > would much prefer that as a user.
+> 
+> Actually, fsparam_bdev() accepts FSCONFIG_SET_PATH in a very roundabout
+> way (and the checker doesn't verify anything...?). So there is at least
+> one user (ext4's "journal_path"), it's just not well-documented (which
+> I'm trying to fix ;]).
+> 
+> My plan is to update fs_lookup_param() to be more useful for the (fairly
+> common) use-case of wanting to support paths and file descriptors, and
+> going through to clean up some of these unused fsparam_* helpers (or
+> fsparam_* helpers being abused to implement stuff that the fs_parser
+> core already supports).
+> 
+> At the very least, overlayfs, ext4, and this procfs patchset can make
+> use of it.
 
-Makes sense.
-
-> seem to recognize the fixes otherwise, so this may break some tooling.
-> Try it yourself:
->
->     $ git interpret-trailers --parse commit_message.txt
->
-> Other than this,
->
-> Acked-by: Pratyush Yadav <pratyush@kernel.org>
-
-Thank you for the review.
-
-Pasha
-
->
-> > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > ---
-> >  kernel/Kconfig.kexec | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
-> > index 2ee603a98813..1224dd937df0 100644
-> > --- a/kernel/Kconfig.kexec
-> > +++ b/kernel/Kconfig.kexec
-> > @@ -97,6 +97,7 @@ config KEXEC_JUMP
-> >  config KEXEC_HANDOVER
-> >       bool "kexec handover"
-> >       depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FI=
-LE
-> > +     depends on !DEFERRED_STRUCT_PAGE_INIT
-> >       select MEMBLOCK_KHO_SCRATCH
-> >       select KEXEC_FILE
-> >       select DEBUG_FS
->
-> --
-> Regards,
-> Pratyush Yadav
+I've never bothered with actually iplementing FSCONFIG_SET_PATH
+semantics because I think it's really weird to allow *at semantics when
+setting filesystem parameters. I always thought it's better to force
+userspace to provide a file descriptor for the final destination instead
+of doing some arcane lookup variant for mount configuration. But I'm
+happy to be convinced of its usefulness...
 
