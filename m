@@ -1,102 +1,131 @@
-Return-Path: <linux-api+bounces-4391-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4392-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA6B1E863
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:32:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14139B1E8A4
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 14:53:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3103E3BB2E3
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 12:32:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4172A01C41
+	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 12:53:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED705225413;
-	Fri,  8 Aug 2025 12:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516EF27A13D;
+	Fri,  8 Aug 2025 12:53:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="XFYuNxhQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZJA+da/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319E01EA6F;
-	Fri,  8 Aug 2025 12:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754656372; cv=pass; b=ph/XuEIo0z+R+Yf0GpOd92J+Nhc9EQbzsH/LnRntPPJNqoBKXVrCxlaHKVeHhALyLUBCpAkZbpbWyoMvRgcXVb+g6IaHv0sn1LQJ/jXPrUYZfX1eFWdkvgS+M5YnfO92Iwmkj2P6TJLDckBCnuQlV0hQE14UjZBfAMhxsfPWyus=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754656372; c=relaxed/simple;
-	bh=5RQ0+KlgYtKgJpnVIo+1qCVbmoXGajzKhpxHfMEn0WY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=MvtjYd96ZNENAJdXasb5WMu9wMCalWqEUjSYejotez1u0I1JmLL7R7IduYk9DKzOr6n3KhkKEKA/oirU214NoYgXsiYaFcyT0mrpkp6LRP56qX2h+L/neWq4i8dSbyGkDMPTHcHsULjpjIuecWqi7o6aaf1LhGPZFBW5v2NYGzw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=XFYuNxhQ; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1754656345; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UrDX7IR2VxvXfwtejFwdGZfS2v1hw8nj+cg5B2l3pDrVo5MTqw/+JmND8V0FIMfCM9CBXcimP1Gc08fXy4yU0o+DVA5un3rMf30OQ43NZztswVW8TJKAxSmuueOzao+Zi/tG3hxHF/vAbmz7ClLWFgKg5rKi/A7JvofgIoTKBnQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1754656345; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5RQ0+KlgYtKgJpnVIo+1qCVbmoXGajzKhpxHfMEn0WY=; 
-	b=Ye8gHmpoQgBExPR2Nr1sLutPFa7IFeImcLnKkO22YTlQtmvNXupQ+U339MGphPdq4E4t1wc/06uTFopgtnnT6hcNAporfmqx02xwz7gZCZFVqR6rzYdfMz/OoAgir3snTaLKd01bMKodI0g1iFRouI6tiH9ou8LfkNYz/iunJSY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754656345;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=5RQ0+KlgYtKgJpnVIo+1qCVbmoXGajzKhpxHfMEn0WY=;
-	b=XFYuNxhQ4V3dMbkA5Uv23BNwH7JMq9UrwR9O4Ex78upsvUoVeGi0fYp82IB3lz33
-	AP0AaXP1Fk/JV+Z+3IptAHnKBYd02K95LVqXFAvmueqUyqqGNgtlndfUnXfwaGWOvng
-	DmJMwIdr+sMcEroCQiPAvlrDZPL/QGzK8EBPc8/g=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1754656343428651.8436591123038; Fri, 8 Aug 2025 05:32:23 -0700 (PDT)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Fri, 8 Aug 2025 05:32:23 -0700 (PDT)
-Date: Fri, 08 Aug 2025 16:32:23 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "Aleksa Sarai" <cyphar@cyphar.com>
-Cc: "Alejandro Colomar" <alx@kernel.org>,
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>,
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
-	"linux-man" <linux-man@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>
-Message-ID: <19889ab0576.e4d2f37341528.6111844101094013469@zohomail.com>
-In-Reply-To: <20250807-new-mount-api-v2-8-558a27b8068c@cyphar.com>
-References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com> <20250807-new-mount-api-v2-8-558a27b8068c@cyphar.com>
-Subject: Re: [PATCH v2 08/11] open_tree.2: document 'new' mount api
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E85D2741D1;
+	Fri,  8 Aug 2025 12:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754657633; cv=none; b=N0AeJToqZptO6TDD50VQqHCI+azN6moP/uUiH9+HvJd715ANvv+8s4rkpquBq7D93ESfuKlSsrhlJ8/O1dHaMU+zwW/Lwbos+UzUp4c9QMBC8sbpvnuV7NvdtRacCLHHWfyX5OV36/8qFdD1J7RB3RRPdoAu0iWp4gMe5dB9q/s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754657633; c=relaxed/simple;
+	bh=WO0FlIg08o2IBcu84U1zzhJzmGWtJMLC/tfR01CGWgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqdRF1IL4zIqWmgv9RPWk/nioQ7unfq8p3jSLqQAaqhX2B1Zt9AW4FvvwxCrO7HP/0yS03W8W9/CGW+G+avOVukyt7O2INIsSTXJHSO7r0gD2LHl3osQtepVPbhcG96s0tKdvXBQKJn59q6lGR6DlAlHFHkDSJIdTcIVPB1mVHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZJA+da/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED05DC4CEED;
+	Fri,  8 Aug 2025 12:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754657632;
+	bh=WO0FlIg08o2IBcu84U1zzhJzmGWtJMLC/tfR01CGWgQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lZJA+da/or8+8WnNHkh/ZuV8Wbvk9tMOD5fjr7paCaCgKZb/SYhmxJ/LcHV7vepod
+	 nwP27zcd91Kgc2A0MdBrdemHxihCfA1qY2hgJlW0gV2uvOSK98MBOKDsaxREK/rzoO
+	 guUrcoWMbK8P6kXFcISRCFl3Mc7bEnxC1kk+D96PL8IuInGL3m21d02a98450HmJBm
+	 VYq8haJW2qKylZAQXVErITKRAgr6D/eYgYJKBZcNaEZnTs+8p1C32iPzNZv/QdAaMu
+	 J3iM9vZ5SpBuQu3ogFym1Af1NtHiB7Hjxtuy36avQHsQGPj1jcUiu7gxtvsP0cL+om
+	 4Jt5hrgY/lvOQ==
+Date: Fri, 8 Aug 2025 14:53:47 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Alejandro Colomar <alx@kernel.org>, 
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH v2 00/11] man2: add man pages for 'new' mount API
+Message-ID: <20250808-funkanstalt-erdrutsch-64a05ea8a737@brauner>
+References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr08011227ec3fb710edb18d71033cf66a0000f0b18623aa033c3fd537ebecad1b88db1fc808a4879d0a0e93:zu0801122783754bada4211323d45ed4b50000f21b461a6265b1713ea60e9de137aa5cde7232862d10e0b658:rf0801122b4eb2dc596efb65b1382cdee1000011cd5c6982eaed6fdedff49ce50371052af85a2b0623aad07268b14c1e:ZohoMail
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com>
 
-In "man open_tree":
+On Thu, Aug 07, 2025 at 03:44:34AM +1000, Aleksa Sarai wrote:
+> Back in 2019, the new mount API was merged into mainline[1]. David Howells
+> then set about writing man pages for these new APIs, and sent some
+> patches back in 2020[2]. Unfortunately, these patches were never merged,
+> which meant that these APIs were practically undocumented for many
+> years -- arguably this may have been a contributing factor to the
+> relatively slow adoption of these new (far better) APIs. I have often
+> discovered that many folks are unaware of the read(2)-based message
+> retrieval interface provided by filesystem context file descriptors.
+> 
+> In 2024, Christian Brauner set aside some time to provide some
+> documentation of these new APIs and so adapted David Howell's original
+> man pages into the easier-to-edit Markdown format and published them on
+> GitHub[3]. These have been maintained since, including updated
+> information on new features added since David Howells's 2020 draft pages
+> (such as MOVE_MOUNT_BENEATH).
+> 
+> While this was a welcome improvement to the previous status quo (that
+> had lasted over 6 years), speaking personally my experience is that not
+> having access to these man pages from the terminal has been a fairly
+> common painpoint.
+> 
+> So, this is a modern version of the man pages for these APIs, in the hopes
+> that we can finally (7 years later) get proper documentation for these
+> APIs in the man-pages project.
+> 
+> One important thing to note is that most of these were re-written by me,
+> with very minimal copying from the versions available from Christian[2].
+> The reasons for this are two-fold:
+> 
+>  * Both Howells's original version and Christian's maintained versions
+>    contain crucial mistakes that I have been bitten by in the past (the
 
-> As with "*at()" system calls, fspick() uses the dirfd argument in conjunction
+"Lies, damned lies, and statistics."
 
-You meant "open_tree"
+>    most obvious being that all of these APIs were merged in Linux 5.2,
+>    but the man pages all claim they were merged in different versions.)
+> 
+>  * As the man pages appear to have been written from Howells's
+>    perspective while implementing them, some of the wording is a little
+>    too tied to the implementation (or appears to describe features that
+>    don't really exist in the merged versions of these APIs).
+> 
+> I decided that the best way to resolve these issues is to rewrite them
+> from the perspective of an actual user of these APIs (me), and check
+> that we do not repeat the mistakes I found in the originals.
+> 
+> I have also done my best to resolve the issues raised by Michael Kerrisk
+> on the original patchset sent by Howells[1].
+> 
+> In addition, I have also included a man page for open_tree_attr(2) (as a
+> subsection of the new open_tree(2) man page), which was merged in Linux
+> 6.15.
+> 
+> [1]: https://lore.kernel.org/all/20190507204921.GL23075@ZenIV.linux.org.uk/
+> [2]: https://lore.kernel.org/linux-man/159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk/
+> [3]: https://github.com/brauner/man-pages-md
+> 
+> Co-developed-by: David Howells <dhowells@redhat.com>
+> Co-developed-by: Christian Brauner <brauner@kernel.org>
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
 
-> If flags does not contain OPEN_TREE_CLONE, open_tree() returns
-> a file descriptor that is exactly equivalent to one produced by open(2).
-
-Please, change "by open(2)" to "by openat(2) with O_PATH" (and other similar places).
-
---
-Askar Safin
-https://types.pl/@safinaskar
-
+Thanks for doing this! Just a point of order. If you add CdB you also
+need to add SoB for all of them.
 
