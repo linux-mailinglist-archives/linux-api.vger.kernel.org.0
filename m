@@ -1,169 +1,166 @@
-Return-Path: <linux-api+bounces-4422-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4423-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBB3B1EFD0
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 22:44:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF49B1F436
+	for <lists+linux-api@lfdr.de>; Sat,  9 Aug 2025 12:43:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAF27AA0DEB
-	for <lists+linux-api@lfdr.de>; Fri,  8 Aug 2025 20:43:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D0885604D5
+	for <lists+linux-api@lfdr.de>; Sat,  9 Aug 2025 10:43:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB7328A1D6;
-	Fri,  8 Aug 2025 20:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9770C263C9E;
+	Sat,  9 Aug 2025 10:42:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="nfmdhOZO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YDqKTywn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9826289E3C;
-	Fri,  8 Aug 2025 20:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EC41D5ACE;
+	Sat,  9 Aug 2025 10:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754685685; cv=none; b=o8Y6sNlQhDakdCu/L96E+wab7RgmVyOx/IRNkNebZSO1K98SOMBGpG2xzzX8iSutFlUccs2Q9aasFbPduXUr1OThIPQLOWIkQN1XAgyHdxw9d9Wt/AaP0bjr4L6hFcvNm3VxiJcWQzUsDVmNEH/1RxFoSPBDyucoxMt4R9jrbdM=
+	t=1754736178; cv=none; b=PEeV4fHjIDwDzoDxt03vmFj7s0Eee/kRWC0jzfKDv8mzoz5lxPxpvmgmjLTt8ESx2VVRWz6ocQK4zW/ml+7PhdcFe0Qp/Wrk/o/HBpk1Pb+bEiR/xlay4NcAi9/UG9AiWH8aIYVfCEIPaibM7yKvQtHnkCPMhwZOhNJG8vlLMbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754685685; c=relaxed/simple;
-	bh=kYsKPddX805RzOw4SP5aC06jULGnc9Yib7S66nFHI4k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Qj5GID6pGIikJLOVg62Urub12QEW1M9JKu6k55MTOnhPZ/Ic7riZDN61A+VsezsaS/fzpQr0Slisp/3XYC6KMGqX99a/m6DW0vyyVTzSZ8vW/xl0AaXw/1e4xJLgWk1dkSBjL5VaUoU+ftsyqyKOQ//OezD/NSVEDJk29ZmRuZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=nfmdhOZO; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bzGCM1f4lz9sc4;
-	Fri,  8 Aug 2025 22:41:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1754685679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bGPumx2Rqm3p1S+Eay5H6awP7U7X//hs66pgfwkfArc=;
-	b=nfmdhOZONZIqDdp2LMPb/i11Lmd7BC5zLRjXgy7cdKTk+PfUT+nNdMnwA0DYGSsoUtg4Ng
-	EJWmJp7VLE4GetNpIwiS68Xf5E3x8BQAS5/UjpCGsMws+quTJe2nBuIimRRhjqk0fLynYA
-	/Uir3/CIU207a2mMOKpVgNZYAoQoEgf6iS6VrEAfajgaD5iGZjVmmXTSvrbjvxpv/bZtrN
-	UpLRU/6LWMhxpMAObWDBxUS2ottC22sh5k7BCLpV9zeHQeiNdysLjBcZBPFNbj1iE8eD29
-	YEvna1o6ttRk47daFZpxxj7NuWc6lUahSsg7oi1feEodBxAyh+eCDWF8+qhbZA==
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Sat, 09 Aug 2025 06:39:56 +1000
-Subject: [PATCH v3 12/12] man/man2/{fsconfig,mount_setattr}.2: add note
- about attribute-parameter distinction
+	s=arc-20240116; t=1754736178; c=relaxed/simple;
+	bh=a8+UN8/ZSBO/sg2c/xViTOsohY3HngjC+LoJbCHsVEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pfNd/JCBQ6PzTSuYILtEmkJPYgJvgMHvMu/LEOFQMUZ3K6Cbk+uQvm1ADTzJfBTNL/H8huenSm2xAU7XGs5nJTA40tIHcg2HT/DU/3TOg1yo0Ko23Psmwi1J/3qxcCwRvs7YFgO3rahYkzKkmh9TjhywzaQ8EDnyeW/VR4XD6xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YDqKTywn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F15C4CEE7;
+	Sat,  9 Aug 2025 10:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754736178;
+	bh=a8+UN8/ZSBO/sg2c/xViTOsohY3HngjC+LoJbCHsVEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YDqKTywnRc8WgKFRX1w9DZ3/NL4s3ZkX6W5/rlg/5WFN87tXrkrpeIVLb+hfnoGeC
+	 7B4znkqz0L4jJkvotDRFDR8Roi+O9GruyarmlJRoadFPSzcBKpR+J22EJA0127pcVC
+	 mchr+wxMc4WgE+32mw1HTdV3G1eVrWq0r4isB81lIDonS3lxt6ipVG9mrt1PlYm4Ji
+	 R9MTZ3HwBWHSrGy5Gvp3noLR5btNMKi1BLVtu2K87kLmtVjybFAz+pYCL1Kftg72Nm
+	 96NhX8jTpot1/TkbKYoEP1HzmhJ47NDk+elNKPWbaUWDzi8IpoYmH/95YpDERMqtz2
+	 ttnAiY2zK2SjQ==
+Date: Sat, 9 Aug 2025 12:42:47 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Askar Safin <safinaskar@zohomail.com>, 
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v2 01/11] mount_setattr.2: document glibc >= 2.36 syscall
+ wrappers
+Message-ID: <j57inuu7wzzh2tm7sxfnhdogg4u7f4gf3vktmla4qlafuknh3p@ypu3peu3g5k6>
+References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com>
+ <20250807-new-mount-api-v2-1-558a27b8068c@cyphar.com>
+ <19888fe1066.fcb132d640137.7051727418921685299@zohomail.com>
+ <2025-08-08.1754653930-iffy-pickled-agencies-mother-K0e7Hn@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250809-new-mount-api-v3-12-f61405c80f34@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
-In-Reply-To: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Askar Safin <safinaskar@zohomail.com>, 
- "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
- linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
- Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2776; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=kYsKPddX805RzOw4SP5aC06jULGnc9Yib7S66nFHI4k=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWRMS5hxnHdanKCNzTLp9dW6i3QShXrV9rXotXxZE9wZ9
- /jD9RT5jlIWBjEuBlkxRZZtfp6hm+YvvpL8aSUbzBxWJpAhDFycAjCRcgFGhj3v50lNnc4+SW65
- qMPpBaE+K/NOt2X0nXrUaGKwrc3D/BzDf5+ICYGL2Tm+eE6+mL+7/ry5x8frldXMfLs2Nwfefiq
- nxwMA
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ad66n3krjtkx2hx6"
+Content-Disposition: inline
+In-Reply-To: <2025-08-08.1754653930-iffy-pickled-agencies-mother-K0e7Hn@cyphar.com>
 
-This was not particularly well documented in mount(8) nor mount(2), and
-since this is a fairly notable aspect of the new mount API, we should
-probably add some words about it.
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- man/man2/fsconfig.2      | 11 +++++++++++
- man/man2/mount_setattr.2 | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+--ad66n3krjtkx2hx6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Askar Safin <safinaskar@zohomail.com>, 
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v2 01/11] mount_setattr.2: document glibc >= 2.36 syscall
+ wrappers
+References: <20250807-new-mount-api-v2-0-558a27b8068c@cyphar.com>
+ <20250807-new-mount-api-v2-1-558a27b8068c@cyphar.com>
+ <19888fe1066.fcb132d640137.7051727418921685299@zohomail.com>
+ <2025-08-08.1754653930-iffy-pickled-agencies-mother-K0e7Hn@cyphar.com>
+MIME-Version: 1.0
+In-Reply-To: <2025-08-08.1754653930-iffy-pickled-agencies-mother-K0e7Hn@cyphar.com>
 
-diff --git a/man/man2/fsconfig.2 b/man/man2/fsconfig.2
-index 97c9aff0e0c195e6028e1c7bd70e40905ba9f994..a7642e1633541bf8f5cd537db22987a4ec70da06 100644
---- a/man/man2/fsconfig.2
-+++ b/man/man2/fsconfig.2
-@@ -522,6 +522,17 @@ .SS Generic filesystem parameters
- Linux Security Modules (LSMs)
- are also generic with respect to the underlying filesystem.
- See the documentation for the LSM you wish to configure for more details.
-+.SS Mount attributes and filesystem parameters
-+Some filesystem parameters
-+(traditionally associated with
-+.BR mount (8)-style
-+options)
-+are also mount attributes.
-+.P
-+For a description of the distinction between
-+mount attributes and filesystem parameters,
-+see the "Mount attributes and filesystem parameters" subsection of
-+.BR mount_setattr (2).
- .SH CAVEATS
- .SS Filesystem parameter types
- As a result of
-diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-index d98e7d70870c082144dfa47e31ddf091c8545e4f..2927b012eed1569e0d78a2fb91815f364fca124d 100644
---- a/man/man2/mount_setattr.2
-+++ b/man/man2/mount_setattr.2
-@@ -790,6 +790,43 @@ .SS ID-mapped mounts
- .BR chown (2)
- system call changes the ownership globally and permanently.
- .\"
-+.SS Mount attributes and filesystem parameters
-+Some mount attributes
-+(traditionally associated with
-+.BR mount (8)-style
-+options)
-+are also filesystem parameters.
-+For example, the
-+.I -o ro
-+option to
-+.BR mount (8)
-+can refer to the
-+"read-only" filesystem parameter,
-+or the "read-only" mount attribute.
-+.P
-+The distinction between these two kinds of option is that
-+mount object attributes are applied per-mount-object
-+(allowing different mount objects
-+derived from a given filesystem instance
-+to have different attributes),
-+while filesystem instance parameters
-+("superblock flags" in kernel-developer parlance)
-+apply to all mount objects
-+derived from the same filesystem instance.
-+.P
-+When using
-+.BR mount (2),
-+the line between these two types of mount options was blurred.
-+However, with
-+.BR mount_setattr ()
-+and
-+.BR fsconfig (2),
-+the distinction is made much clearer.
-+Mount attributes are configured with
-+.BR mount_setattr (),
-+while filesystem parameters can be configured using
-+.BR fsconfig (2).
-+.\"
- .SS Extensibility
- In order to allow for future extensibility,
- .BR mount_setattr ()
+Hi Aleksa, Askar,
 
--- 
-2.50.1
+On Fri, Aug 08, 2025 at 09:55:10PM +1000, Aleksa Sarai wrote:
+> On 2025-08-08, Askar Safin <safinaskar@zohomail.com> wrote:
+> > When I render "mount_setattr" from this (v2) pathset, I see weird quote=
+ mark. I. e.:
+> >=20
+> > $ MANWIDTH=3D10000 man /path/to/mount_setattr.2
+> > ...
+> > SYNOPSIS
+> >        #include <fcntl.h>       /* Definition of AT_* constants */
+> >        #include <sys/mount.h>
+> >=20
+> >        int mount_setattr(int dirfd, const char *path, unsigned int flag=
+s,
+> >                          struct mount_attr *attr, size_t size);"
+> > ...
+>=20
+> Ah, my bad. "make -R lint-man" told me to put end quotes on the synopsis
+> lines, but I missed that there was a separate quote missing. This should
+> fix it:
+>=20
+> diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
+> index d44fafc93a20..46fcba927dd8 100644
+> --- a/man/man2/mount_setattr.2
+> +++ b/man/man2/mount_setattr.2
+> @@ -14,7 +14,7 @@ .SH SYNOPSIS
+>  .B #include <sys/mount.h>
+>  .P
+>  .BI "int mount_setattr(int " dirfd ", const char *" path ", unsigned int=
+ " flags ","
+> -.BI "                  struct mount_attr *" attr ", size_t " size );"
+> +.BI "                  struct mount_attr *" attr ", size_t " size ");"
 
+Actually, I'd use
+
+=2EBI "                  struct mount_attr *" attr ", size_t " size );
+
+>  .fi
+>  .SH DESCRIPTION
+>  The
+
+Hmmm, thanks for the catch!  My CI server is down until I come back home
+and have a chance to fix it.
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--ad66n3krjtkx2hx6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmiXJicACgkQ64mZXMKQ
+wqnnbw//WMHggmA4jUE/nRABMPtJLZDCGULhgMy1N4WDcF/+TKjDOt0ExRzUDVru
+ItgtH8RM8Pp3sDxwaq3BonhA6gzg/JHKIJ8jxVJy5jpEOD+ovNOpCYbD7n1KCnAy
+efvU3E27J4t4liHsA05PPqugb0Ndu20snWa7eaVPKnBWVTAEzTYl6NNgjvE5K7i1
+noOwofQZt8wzNtAZzQyOfTh3RnamwJ0G/f9r15KiFOZ7Sq+ZVJJkhY18QS6lQVOO
+VjNft+KwyOXGF+vHnFVkDBUr8sRe2UiFbQkS+jB12Rp0YGGjk+eirsLMRSqTxlLo
+MBEq16FTOD8HPEgTn9Unvuml09SSluevUQlMOa8Hbnu62148zqL9ApGa0JS8ButU
+JRXrJCZOwqRtOgNlusc4e5Xhej7Gpvw5tbl+2AJpxRrnZGOxTXkRZFv4pRp6mOcz
+8kgMMZuZwuYyHYn5W3R5MXLHs/mkCLkcJXQXU0PwHiDDH/6RIwChUTJ2qha61Fqa
+Wkfln9v94TDWVVGCBKNy7A9TPS8+mAK8cVfYn/iqdWm5NpL18223l32qjw5rQt3Y
+0R+WgxjLdpjRRjcV4b1wGN5raLE7/yKUB0y3MR71q+oS7s8hj7t21LgZaxE4TiI3
+iN15mSC7sAns/N56Ig3367Hm9b8xr4/eZWfN0zVCWqzYg2Z4Cdk=
+=TkZt
+-----END PGP SIGNATURE-----
+
+--ad66n3krjtkx2hx6--
 
