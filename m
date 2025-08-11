@@ -1,63 +1,60 @@
-Return-Path: <linux-api+bounces-4435-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4436-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B911B203E4
-	for <lists+linux-api@lfdr.de>; Mon, 11 Aug 2025 11:38:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9B3B207D7
+	for <lists+linux-api@lfdr.de>; Mon, 11 Aug 2025 13:30:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FE293A4FE3
-	for <lists+linux-api@lfdr.de>; Mon, 11 Aug 2025 09:37:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83D991651FB
+	for <lists+linux-api@lfdr.de>; Mon, 11 Aug 2025 11:29:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEAFF22127B;
-	Mon, 11 Aug 2025 09:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB8A2D542A;
+	Mon, 11 Aug 2025 11:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqRU4AKC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pfsFj2CH"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F30C21C190;
-	Mon, 11 Aug 2025 09:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837822D640D;
+	Mon, 11 Aug 2025 11:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754905062; cv=none; b=qXJy5MQPNMN9md39OPuxiqtQljO++5ziDadbtjFiNTaK43bNoV2Z/4tCp9D/ywVzGH1eRUWSMqtgddwkTIBHfsZtUB8fcyJ8C9FmRRNSMIy9g96rvqAfNTKBjBv2rLRgkSTORiNE50h95QROP0L6CzmqwObUsr6EGSOgEw8bovs=
+	t=1754911627; cv=none; b=ClSIbvhbNJGE3wKatsgqdClIbOPu0WOFEbUZrGrLtA4Cirk0hgTGRVW+gxkBQ5METOzW3Rjpbwpr/1VD0V2W6gXXEBLB5Adb3okiir3XFVd0ywzZH4oWuMB3YtMqKTtNBqoGOz3k1LGV/0ISR3vX2I3sSSup+05jpGuY8z5SwxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754905062; c=relaxed/simple;
-	bh=/6rqaVzkcLqKJt+RONzwleWy3O1JwLSdS+WsTVizHyw=;
+	s=arc-20240116; t=1754911627; c=relaxed/simple;
+	bh=bdl1TE3wEYNNmMpNx13gcAItLicZx/LsJ5QraJekwKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bYNABGQzRL5x5HHuQNt/wpVdpTS1fDMXnolS6S0U3AE1N17V8EmA6WsEet82g5ghf0NisNmRbLE8wzWopOrapWNhTnPkcZ4imGuj+bTmKh3Q7P+0RK2qfi46ayihAPyf51y7nVqq6ZxpfR6v8YthPBm2i4fR1jLCr4rz+uMz8cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqRU4AKC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14F5BC4CEED;
-	Mon, 11 Aug 2025 09:37:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BIk3fXt795Nrxce9BdyqdHxayZyRrz21miOCLa2CvubnqRDYKVrw4ww0YE5jYDWEyAoOyFyPTCVIcDJr7uhPQbVWNFwoXmtHaAlKm5eq1Si1P6Y8hZiRPf+fdtn40c8YD7ku02zrIeRy+q/7YPgfyr2+KFmmDo9AUWgdJT+XDHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pfsFj2CH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709A3C4CEFC;
+	Mon, 11 Aug 2025 11:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754905062;
-	bh=/6rqaVzkcLqKJt+RONzwleWy3O1JwLSdS+WsTVizHyw=;
+	s=k20201202; t=1754911627;
+	bh=bdl1TE3wEYNNmMpNx13gcAItLicZx/LsJ5QraJekwKg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DqRU4AKChCeCXcAUEBbuEgv5eIzCLDRq+eEVCCwFshbb+yaKivcXn0h1hJPpLuE2L
-	 XUiK7OtQb9QiWROoqkLxg9ks5w/DgkZK0++fF+9rwVZf12xb7i3c7FVrOUoJrhef0A
-	 Yfv0nXpD+NTl++CFUiSHCGnsuZwpHFHqMyVM3HOo7WKiyEOonHxwy5LhGvNnfaTCcd
-	 TLbr4gtlCk88lLGyLIGlNZ+LaezjlTovdORwRzVEGtsAq90eFGvhIEzjeP/piNvs62
-	 W9qx3RJPXYDqApCLczBHLuwbpPeQ1FqiMAUBL5com96oOy54mhwKnC7jmEBdD3Ex0A
-	 0tZ0ioKOBtlQw==
-Date: Mon, 11 Aug 2025 11:37:35 +0200
+	b=pfsFj2CHlM89z0ZFtuDWWiWZpASfQ+arxzO+KODnqrurzTtbgAzfQmWC2OIa1vpbh
+	 bqe7Om44PlUC7J5obfnA62AIv0d/HP3MnYE9H6gM8hYja7qPYrtDnxqyFbCakKG3qg
+	 JC2RNj/YO4VzR4fPeIOblpNm95j4QQ7e+WzpzBkLyMNvIqI/PrTLtSHxNN0i8sxv9n
+	 A1JykCB1kJOJ5wDh9iMWLOtbb9aLo+xLpmg5v8gRestcNTjO8VNHosJoEQUAggyOEC
+	 iDQ3tEBdPXG1o9TzwpKKjIPMf7hZ1Ud/jLmndzjmtKAnew3HD2fqWsSf8W6xLew/NU
+	 dX2EUMYakuEpA==
+Date: Mon, 11 Aug 2025 13:27:01 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] man/man2/mremap.2: describe multiple mapping move
-Message-ID: <s2lpafv4ldpmwkx2455t3l566fnkrlid7upwfuebod3lyy25hm@lvokcxytqow7>
-References: <cover.1754414738.git.lorenzo.stoakes@oracle.com>
- <53e4284ffe80a63260c957369ccacea8f5c16adc.1754414738.git.lorenzo.stoakes@oracle.com>
- <ekjakm6zburrawhk34smm3fd43zufzguisfean4hmv7vyjp7fq@uvy6n47qbydl>
- <664b00e3-69a0-498a-a7dd-a3d294c0c188@lucifer.local>
- <iny6ro5f37vcthqwscklqx73jscahodilug5d6umleyzq6a67k@ecoey5ud3aer>
- <39fb9e1b-b806-47da-a711-20c6cc12913a@lucifer.local>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Askar Safin <safinaskar@zohomail.com>, 
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
+Message-ID: <5hwvf2iikfly5etcjmjmwvvlwwjx24vcxtcx5ph2tyddjei7ea@wismq7gycqtq>
+References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
+ <1988f5c48ef.e4a6fe4950444.5375980219736330538@zohomail.com>
+ <2025-08-09.1754760145-silky-magic-obituary-sting-3OnpC7@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -65,115 +62,110 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="plqexovqttxwvaev"
+	protocol="application/pgp-signature"; boundary="mhkatt56p6lnibbw"
 Content-Disposition: inline
-In-Reply-To: <39fb9e1b-b806-47da-a711-20c6cc12913a@lucifer.local>
+In-Reply-To: <2025-08-09.1754760145-silky-magic-obituary-sting-3OnpC7@cyphar.com>
 
 
---plqexovqttxwvaev
+--mhkatt56p6lnibbw
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] man/man2/mremap.2: describe multiple mapping move
-References: <cover.1754414738.git.lorenzo.stoakes@oracle.com>
- <53e4284ffe80a63260c957369ccacea8f5c16adc.1754414738.git.lorenzo.stoakes@oracle.com>
- <ekjakm6zburrawhk34smm3fd43zufzguisfean4hmv7vyjp7fq@uvy6n47qbydl>
- <664b00e3-69a0-498a-a7dd-a3d294c0c188@lucifer.local>
- <iny6ro5f37vcthqwscklqx73jscahodilug5d6umleyzq6a67k@ecoey5ud3aer>
- <39fb9e1b-b806-47da-a711-20c6cc12913a@lucifer.local>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Askar Safin <safinaskar@zohomail.com>, 
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
+References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
+ <1988f5c48ef.e4a6fe4950444.5375980219736330538@zohomail.com>
+ <2025-08-09.1754760145-silky-magic-obituary-sting-3OnpC7@cyphar.com>
 MIME-Version: 1.0
-In-Reply-To: <39fb9e1b-b806-47da-a711-20c6cc12913a@lucifer.local>
+In-Reply-To: <2025-08-09.1754760145-silky-magic-obituary-sting-3OnpC7@cyphar.com>
 
-On Mon, Aug 11, 2025 at 10:25:56AM +0100, Lorenzo Stoakes wrote:
-> On Mon, Aug 11, 2025 at 11:20:05AM +0200, Alejandro Colomar wrote:
-> > Hi Lorenzo,
-> >
-> > On Mon, Aug 11, 2025 at 06:30:38AM +0100, Lorenzo Stoakes wrote:
-> > > > > +Mappings can also simply be moved
-> > > > > +(without any resizing)
-> > > > > +by specifying equal
-> > > > > +.I old_size
-> > > > > +and
-> > > > > +.I new_size
-> > > > > +and using the
-> > > > > +.B MREMAP_FIXED
-> > > > > +flag
-> > > > > +(see below).
-> > > > > +Since Linux 6.17,
-> > > > > +while
-> > > > > +.I old_address
-> > > > > +must reside within a mapping,
-> > > >
-> > > > I don't understand this.  What does it mean that old_address must r=
-eside
-> > > > within a mapping?  It's a point, not a size, so I'm not sure I
-> > > > understand it.
-> > >
-> > > I think if it were a size it would be more confusing no?
-> > >
-> > > It's an address, the address must be located within an existing memor=
-y mapping.
-> >
-> > What I don't understand is: how could you not comply with that?  Could
-> > you pass some old_address that is in two mappings?  Being a single
-> > address, that would be impossible, right?
+Hi Aleksa,
+
+On Sun, Aug 10, 2025 at 03:32:25AM +1000, Aleksa Sarai wrote:
+> On 2025-08-09, Askar Safin <safinaskar@zohomail.com> wrote:
+> > I plan to do a lot of testing of "new" mount API on my computer.
+> > It is quiet possible that I will find some bugs in these manpages durin=
+g testing.
+> > (I already found some, but I'm not sure.)
+> > I think this will take 3-7 days.
+> > So, Alejandro Colomar, please, don't merge this patchset until then.
 >=20
-> It can be in an unmapped area. It's either in an unmapped area or a mappe=
-d one.
+> I don't plan to work on this again for the next week at least (I've
+> already spent over a week on these docs -- writing, rewriting, and then
+> rewriting once more for good measure; I've started seeing groff in my
+> nightmares...), so I will go through review comments after you're done.
+>
+> There are some rough edges on these APIs I found while writing these
+> docs, so I plan to fix those this cycle if possible (hopefully those
+> aren't the bugs you said you found in the docs). Two of the fixes have
+> already been merged in the vfs tree for 6.18 (the -ENODATA handling bug,
+> as well as a bug in open_tree_attr() that would've let userspace trigger
+> UAFs). (Once 6.18 is out, I will send a follow-up patchset to document
+> the fixes.)
 >=20
-> I could simply reword this as 'old_address must be mapped'?
+> FYI, I've already fixed the few ".BR \% FOO" typos. (My terminal font
+> doesn't have a bold typeface, so when reviewing the rendered man-pages,
+> mistakes involving .B are hard to spot.)
 
-Yup, that seems better.  Thanks!
+You can review in PDF if you want.  See the pdfman(1) script under
+src/bin/.  It's quite portable:
 
-Cheers,
+	$ cat src/bin/pdfman=20
+	#!/bin/bash
+	#
+	# Copyright, the authors of the Linux man-pages project
+	# SPDX-License-Identifier: GPL-3.0-or-later
+
+	set -Eeuo pipefail;
+	shopt -s lastpipe;
+
+	printf '%s\n' "${!#}.XXXXXX" \
+	| sed 's,.*/,,' \
+	| xargs mktemp -t \
+	| read -r tmp;
+
+	man -Tpdf "$@" >"$tmp";
+	xdg-open "$tmp";
+
+It works essentially like man(1), so you can pass any man(7) file as its
+argument to read it as a PDF.
+
+(You may or may not have it available in your system, if your distro
+ packages a recent enough version of the project.)
+
+
+Have a lovely day!
 Alex
-
-> > > Will replace with 'located' for clarity.
-> > >
-> > > >
-> > > > > +.I old_size
-> > > > > +may span multiple mappings
-> > > > > +which do not have to be
-> > > > > +adjacent to one another when
-> > > > > +performing a move like this.
-> >
-> >
-> > Have a lovely day!
-> > Alex
-> >
-> > --
-> > <https://www.alejandro-colomar.es/>
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---plqexovqttxwvaev
+--mhkatt56p6lnibbw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmiZud8ACgkQ64mZXMKQ
-wqlkrA/9HAR2TApLusgtvOtIEcmvr4OYlHs/NINEq18TtxegAhOR+eqw3RgcWSq5
-PcISRO1HRAXmI1HosvRBCncEWWByjgZapSkVkePnr/B0TlOvB4uORY6pErLZEiCc
-W5f0n8ZADVwuZJk4Bn13mk4i024SMdbBqpz9L9i/vLB2SsqffZkJ+s3G4oCMyjId
-aUejJ4wN0+yNHBIA0uDECodHjLONBm5DFMrw7JGP88jwT6lV8oEHRdcpzPEuvqWk
-Oq8R59G34BqkuBKL6yYADGl6iJwY0wcLJts1GT11++ZUqUokd/Nc4RQyHg9tYZOm
-OgNCg2RhL/Atpv3ReCoyVYpe3ua0etI0HXk+yC8GU8MfcVEYsE2ORf6Dg9cLONu9
-Zx961jOxrNFqmFWV5UZ3c7XBdX7WjlTZHwq2bblbzeJxcz0tYJicePrOWVPtmAb4
-D5eisEdofSjNXLoS4QzTpGvwGXxj4n4LYvrXWdShhm+B8NojdNxw8eIZy7dBvzpC
-rrbBN1DHwbT26Sp6kcZok3nflq06f0RKzcfypdwkVIBQQ9b5NNMpo3qPEegUtuCS
-B5odiQcif7jiIZuwh1BhDeQHNxmQ/gyT+Ioh8AitjU0m56aM3KWbLNh/Ow9MPO0E
-72Kw79HZxpm8d228vOzwmpEjoMAwvZnoX+rHzLEpxrJXrQYZNAE=
-=QY0W
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmiZ04UACgkQ64mZXMKQ
+wqn+Rg//cE0D1ACdqwB97w+VJ4X/09FRWYkNzZjdiAxipsgcbWHrt8mugn7T20mt
+BoePq0DkHPiRIA3TX6wnYQzkHBaji4Ncv9R4pe3yxWAoFa6KXbghhmaAePg/xHqi
+f7GlMVsx/8bSgXm+7cE/V+GRcSK9xLIzYCLRaNyZwaejt2GnNuZNpcvqkAsXi8dQ
+MPf4kAQpflai7RRnK3+EDPuqp5W0u76okd5TdXNvnA28Rg5DJOFGNqyK9qM0wjFE
+RGhWe0AlFdagzJB2AYawyyRJ1FpDZgtEs8y1C7v3Bxmt+XcxwdA7WsEpJvotF4Cp
+Dbq3fGNKKf/nCsminEtRj5h/ETdjPGT7Nd5BegwElDSFSAHTrvpt8S+rwlqG3fFM
+TFSqtSCezQkWH0bzdHKLXea5vSJ9bF4yzsS97FnaflZkHgVBKosJVrKA1zAeHfj2
+8JXEHp1wZEaWPDKOPv5wfJCRVuLXORxL/yqa+FOIgbk9u0JeGQKCltdcpMepqPiu
+bo5O2XRBDGf9KlMLjcrieZ3HWWYcmXe1uCM1+N6I1DBYSeOzKdv4e4d2U2AyueXI
+rHR/OT01pVwR6NmulQCjnbwDWsR7h6qJII+BnEyzyiPnvH2TYtRoZA1+cov6Z0Fa
+/w0TNO9CSPh4AKSpB4aTyTiPjfk6r+q+FE34Fun639xFhKT4ZOc=
+=TBCD
 -----END PGP SIGNATURE-----
 
---plqexovqttxwvaev--
+--mhkatt56p6lnibbw--
 
