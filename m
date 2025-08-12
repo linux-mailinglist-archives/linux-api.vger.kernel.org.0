@@ -1,168 +1,110 @@
-Return-Path: <linux-api+bounces-4441-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4442-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7244B218F6
-	for <lists+linux-api@lfdr.de>; Tue, 12 Aug 2025 01:11:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5996B222EF
+	for <lists+linux-api@lfdr.de>; Tue, 12 Aug 2025 11:23:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7B83460D3B
-	for <lists+linux-api@lfdr.de>; Mon, 11 Aug 2025 23:11:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E88C96E5141
+	for <lists+linux-api@lfdr.de>; Tue, 12 Aug 2025 09:18:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62FE423B611;
-	Mon, 11 Aug 2025 23:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D08EC2E54D1;
+	Tue, 12 Aug 2025 09:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YSHJWR2A"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="FtoVLQwr"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF9D238174
-	for <linux-api@vger.kernel.org>; Mon, 11 Aug 2025 23:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754953875; cv=none; b=KLNAKtlwWYSNdcknuf+2qTP5PR3h39DsAFGjJZmf4eYtnKjlTVgtFuAx31AXXYhfmfXewBGAQdBrsBgjKbJjCFoZNFupvVu2+QCbPeQGwsjsk0Qz8ty0KOA2lUfTNi+sodZG0VlJQ32pj0u3ugztz+Fkw7r8Y7BfQ37BC6LQUwA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754953875; c=relaxed/simple;
-	bh=XlKWe7hGY5MiFreFuz3bf4pAkpABAV4Hc9Q8DzXwtQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCRB46L/2AoRZLXnq/fx5CKNqcbe8ML9HM129ceQedIbw6Q+WPdqFaHVej4TBwwQdHbOflYZJWwzALDdiJ0Kx0rCXMIj+6dlhIfSfIUjwwvl9240PdfAGm3KMyoL0DLFMiSyP6tMJz6rVTsiu3D4wDjk48c3GDZ/SZ0Wupj9D3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YSHJWR2A; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-242d1e9c6b4so89655ad.0
-        for <linux-api@vger.kernel.org>; Mon, 11 Aug 2025 16:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754953873; x=1755558673; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t1oV7yVKsQ5TCnNZCaQ3AZrRbIoYDq2nQJuy1DeTjIQ=;
-        b=YSHJWR2Ak4gKSANGEL3Fqc1ZINt5iFRbA0zVKdnvL0nnrT5J7nx5tQuwEy6fGH1kka
-         UcFrLsH6sQOhTkcUt2VHNlaRXkU9eJ1/6gEJexK7A+fBYC5SgmkTbhrR4MBcBoVvyoOu
-         xAe7SjKWG6czv3spPAy4dOGwTs0FNxeCXIHWTScr7tItz/DAOpZJXqBfzWYHSHstTI8c
-         sF/Y7AffUIuqhEjogcjUewGZ1DURn34f9y3fS9Ai3O6go+qe4mZCoqKRayKPNgF97GcI
-         FZw/9GQTxy6T4Hn/S2l4EXMEaSdGc9j7admfGv6LthS+q7Ah1vmimLLWSXXFhPK5yOpN
-         RlrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754953873; x=1755558673;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t1oV7yVKsQ5TCnNZCaQ3AZrRbIoYDq2nQJuy1DeTjIQ=;
-        b=ONYkqA78UmZgdiAwLwna4kua/5Kw7P4XKZHIvB98vN49jjf3djs/KSg5SmkvLrsCWI
-         proIjDhDzxRycvj5Xn+y3m7bWf1GP8YB9l9we8xyf09DoiMJL2Yz0oLe5nrvtr11EuId
-         k0o9sm9nFSLvv9MvL+gv6TynZvi66LU/9UYneFxEY/9pqKoil+Y2L1u50mczsmm9Mz/f
-         4z9/FCw0YDPdKMGrAwdpPwbq/fH5cuIFxE1v2TcxUYVTywOBgtuHF6bZOHVzWat0sq0z
-         aOMB/vAqME40uxpuPeP6wjhITbh1zblzOuTszx5u8mUGVLVMs5sUdYrLxAPhphbWX8w9
-         blSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWiwymAuQ3a3ob8AVNHDjH8x+ct/0RkZEipr4CjC6TMET9vDTrFHvWq+aQ08DfxS9Mk2PkoOQV6Q5g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVIazxLJPc/0xDoFj/ousVP+QhSzmO/8KOOKWA+to8wwZZcZ+u
-	/bjc/xwZfzS3see9ANzxONzf8JXaOmAXDLcvc6pxUkpTYT+bX58qTs4HivVDB2ZguQ==
-X-Gm-Gg: ASbGnctgXVU0uIjSu2Bs2B1exisMC+ITDT4gZULi+LJ1Du+6olyJ1f9EL0OYOHs3TFa
-	tzRmPlcC6+IDuk9NYqxl0WkDi5d1hXXzOV3icuSZMaUZK23mrArNkgJ26dPXwCQGowRgm527000
-	mG44Rg/vIlUsqKpkr3DofOisWiDRSMH4mHC0hLtqf5NQnxUdBcN1RzcEWsI6+OjS8XrD++d5wgo
-	1ffm87+xmpoPW/DIjA1CB/yLnk3J9cKHDIQU44SzFRAZHz4PZ5WT08jvuwOqWauKQtlxxipRJwI
-	m85cm9opiR+ayMrlECcPNjS7rdSNRuDHZQQJoZHzHL/f3ihijEgQT2sx4HlEY6/bP8z96PyNP6f
-	ePrK7k87qNCP9XQw83Rz//m1DVHmHMk1LArBNl2zWMvpRMNJ0kC9mLgunIPr3dbXpsz0O7A==
-X-Google-Smtp-Source: AGHT+IFzyKR/w1E27eWm6IovhDIP1SONsBPcExVJWFEliFhx+rfqf71Fi48caAfu36gGEzgxJL2HPA==
-X-Received: by 2002:a17:903:41c5:b0:240:520b:3cbc with SMTP id d9443c01a7336-242fd3660c2mr1826635ad.14.1754953872909;
-        Mon, 11 Aug 2025 16:11:12 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccead450sm27859139b3a.54.2025.08.11.16.11.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 16:11:12 -0700 (PDT)
-Date: Mon, 11 Aug 2025 16:11:07 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com
-Subject: Re: [PATCH v3 26/30] mm: shmem: use SHMEM_F_* flags instead of VM_*
- flags
-Message-ID: <20250811231107.GA2328988.vipinsh@google.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-27-pasha.tatashin@soleen.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A05C2E9EAC;
+	Tue, 12 Aug 2025 09:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754990212; cv=pass; b=NhPAvFAK3CYgWKXCqbUX/DdiLQSNKUaadnfDTbW8X3/JWu2LBy3v+iGHpG35G+PvhiJTvLBcFBv490h0T0P+8m1l0ncW6KTkGuILtAztmCEJmgIXahkqLgl2Jmq0TuhZHkv1pFFsUh56FH9rNVrHoz3oq8Ifg0Y5KiA5fsDIvlc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754990212; c=relaxed/simple;
+	bh=WCHrfZ3FqSSAm8m6z10Yl9zXQWOEanY1aJ7VPxiQmRo=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=DzsTrNYkA52Jqo0R3dq/tnUVKxNa03tSHy3DNJdy6obpb5fDEWmb07rDWNSH4BC1HbJYMdM4zrYRK5LuLMwNVjf7N42wcUWMdd/aubtAs1BF1qS3VCmlhiN3AK6glQnKZ6eEZlM9jZ5FNMSTVbUFsfFsd3+CaW8eIdZxp7kAl6M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=FtoVLQwr; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1754990175; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=gCN4ceDMwS2sO8ua0KycD8kDVZEMv3eixn09ZfzQz/Ztr5XZoAdEy3KA31g9ocIkodVnnqsAoX55b9adHoCtAq5zDxMDRQtcc5EJFSj9XIxjgP25KziXfW/lUbL7FR068ElM+NPvW4WbuJENoDOSxuVHXkMPSeuUYvzkzA06soY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1754990175; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WCHrfZ3FqSSAm8m6z10Yl9zXQWOEanY1aJ7VPxiQmRo=; 
+	b=iMcPuzCl04jSwqNlE2sAPeShzAXgzKwA7qiSvmb9ypCEiflOXulFl5I+N+h8lwXz18CmrRWvgBumRahUcbFf1YjH/6lBNAw8WEk3m3uEIvIjDlchcH9+DewZGu1uQ/Gybl8snwGg3fr0YtnQg9dT6sTJ4+44Eu4NpmsTQ8Tjr6o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754990175;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=WCHrfZ3FqSSAm8m6z10Yl9zXQWOEanY1aJ7VPxiQmRo=;
+	b=FtoVLQwraAG7EAXtulrfuXSaw2gwbluX74+xju36oKIsCrXiw7ooeNSRckv/LTqq
+	g0FHB4adlSNa3RANqC/8J0cH/4MPWivdRkfzU5UUQ3wbweDmgQ/cNa+E/iqddZtg3uk
+	46YzxgyrYzt0v/FLH7dZFBPwgf5wB9CRrsMzx1g0=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1754990173829768.6252306582485; Tue, 12 Aug 2025 02:16:13 -0700 (PDT)
+Received: from  [212.73.77.104] by mail.zoho.com
+	with HTTP;Tue, 12 Aug 2025 02:16:13 -0700 (PDT)
+Date: Tue, 12 Aug 2025 13:16:13 +0400
+From: Askar Safin <safinaskar@zohomail.com>
+To: "Aleksa Sarai" <cyphar@cyphar.com>
+Cc: "Alejandro Colomar" <alx@kernel.org>,
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"Jan Kara" <jack@suse.cz>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"linux-man" <linux-man@vger.kernel.org>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"David Howells" <dhowells@redhat.com>,
+	"Christian Brauner" <brauner@kernel.org>
+Message-ID: <1989d90de76.d3b8b3cc73065.2447955224950374755@zohomail.com>
+In-Reply-To: <20250809-new-mount-api-v3-7-f61405c80f34@cyphar.com>
+References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com> <20250809-new-mount-api-v3-7-f61405c80f34@cyphar.com>
+Subject: Re: [PATCH v3 07/12] man/man2/fsmount.2: document "new" mount API
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807014442.3829950-27-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr08011227a2c34c5ab8c14803b4abf6dc00009210938a959c1bb3689b6ef1246a757dba4e101626c5a0942f:zu08011227dfb0fdd931ee86c1cd2f0e420000ba6a0a3185b7859d536a7a7d18ccd2a9382d444f4696fadf65:rf0801122bb274c5e08bb304d06800b10a0000bcecb4cdcc742b10fb5c526e9134a2da206c85f7656772d281405081c4:ZohoMail
 
-On 2025-08-07 01:44:32, Pasha Tatashin wrote:
-> From: Pratyush Yadav <ptyadav@amazon.de>
-> @@ -3123,7 +3123,9 @@ static struct inode *__shmem_get_inode(struct mnt_idmap *idmap,
->  	spin_lock_init(&info->lock);
->  	atomic_set(&info->stop_eviction, 0);
->  	info->seals = F_SEAL_SEAL;
-> -	info->flags = flags & VM_NORESERVE;
-> +	info->flags = 0;
+fsmount:
+> Unlike open_tree(2) with OPEN_TREE_CLONE, fsmount() can only be called once in the lifetime of a filesystem instance to produce a mount object.
 
-This is not needed as the 'info' is being set to 0 just above
-spin_lock_init.
+I don't understand what you meant here. This phrase in its current form is wrong.
+Consider this scenario: we did this:
+fsopen(...)
+fsconfig(..., FSCONFIG_SET_STRING, "source", ...)
+fsconfig(..., FSCONFIG_CMD_CREATE, ...)
+fsmount(...)
+fsopen(...)
+fsconfig(..., FSCONFIG_SET_STRING, "source", ...)
+fsconfig(..., FSCONFIG_CMD_CREATE, ...)
+fsmount(...)
 
-> +	if (flags & VM_NORESERVE)
-> +		info->flags |= SHMEM_F_NORESERVE;
+We used FSCONFIG_CMD_CREATE here as opposed to FSCONFIG_CMD_CREATE_EXCL, thus
+it is possible that second fsmount will return mount for the same superblock.
+Thus that statement "fsmount() can only be called once in the lifetime of a filesystem instance to produce a mount object"
+is not true.
 
-As info->flags will be 0, this can be just direct assignment '='.
+--
+Askar Safin
+https://types.pl/@safinaskar
 
->  	info->i_crtime = inode_get_mtime(inode);
->  	info->fsflags = (dir == NULL) ? 0 :
->  		SHMEM_I(dir)->fsflags & SHMEM_FL_INHERITED;
-> @@ -5862,8 +5864,10 @@ static inline struct inode *shmem_get_inode(struct mnt_idmap *idmap,
->  /* common code */
->  
->  static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
-> -			loff_t size, unsigned long flags, unsigned int i_flags)
-> +				       loff_t size, unsigned long vm_flags,
-> +				       unsigned int i_flags)
-
-Nit: Might be just my editor, but this alignment seems off.
-
->  {
-> +	unsigned long flags = (vm_flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
->  	struct inode *inode;
->  	struct file *res;
->  
-> @@ -5880,7 +5884,7 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
->  		return ERR_PTR(-ENOMEM);
->  
->  	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-> -				S_IFREG | S_IRWXUGO, 0, flags);
-> +				S_IFREG | S_IRWXUGO, 0, vm_flags);
->  	if (IS_ERR(inode)) {
->  		shmem_unacct_size(flags, size);
->  		return ERR_CAST(inode);
-> -- 
-> 2.50.1.565.gc32cd1483b-goog
-> 
 
