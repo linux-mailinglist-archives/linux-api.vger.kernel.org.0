@@ -1,95 +1,52 @@
-Return-Path: <linux-api+bounces-4467-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4468-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61165B253B6
-	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 21:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D3BB25407
+	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 21:41:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A65C23A8FAF
-	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 19:09:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA51A888343
+	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 19:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23293093D2;
-	Wed, 13 Aug 2025 19:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377321494CC;
+	Wed, 13 Aug 2025 19:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="m7LudP5S";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DbyPZntX"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aXOl58PK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB2F2F291A;
-	Wed, 13 Aug 2025 19:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035A32F99B6;
+	Wed, 13 Aug 2025 19:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755112176; cv=none; b=DPG2+baC4Fx7GSHuw2xcObs88Oc9DnBVf/jDChqXEBERdyUxUFRvVRdai0QOeaCJS5MTc4WynNqwVvLAbioY0T5MyzI62thhjdkL//9DogeyFIbMWYs8QbSYmdfajElQ8clILrjFih4hi1D8BRZjqkOSkzlder+g7FdssUFm1cM=
+	t=1755114111; cv=none; b=g2sf+irYoov9HPdLu14h3mYFRPZdiRpnuzReIYM5lp9Xm7/s9+SqyTh7hDyhJ0R60RqCCKO0dm0ys3ZhNmn6/51kZuQDhnSKOH1cQlCosDR6G1sWTb+KDvjBhSl1G09GOGnbJ9LaFs1r13GaoLFY7/heOHgJ22sgBg722SdjAOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755112176; c=relaxed/simple;
-	bh=//ic2nFiBCRf1x2UoLS8nXpje0IuO0EMaCXFBNgNjOE=;
+	s=arc-20240116; t=1755114111; c=relaxed/simple;
+	bh=qmwFwYVx9a9mOH/ygGkrp40YlHbmPY54wIWpg6RQYXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTXOsML6Ql7cPHw0/p9lPh9JxiOIYXIs5p+uVEvas99eWcyT7949Ocyb8yBtsKW91+v8WbImlhXHliIQhXCzI78lY7YS2xo6DoN78HtL0loq7tToI7aQ88G0kQGsLFwsxrLSl7yrZQOJFw5x5+uFKolgrZEekiHSbp3QVbwPRu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=m7LudP5S; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DbyPZntX; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 826B71D000DA;
-	Wed, 13 Aug 2025 15:09:32 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 13 Aug 2025 15:09:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1755112172; x=1755198572; bh=jr9Ko8fT5I
-	KARAdUzZexlb2pEFmEvxipKU3jq7TmXVA=; b=m7LudP5S1oszdsPDpeXYQ3mcad
-	1gIF1nBiEMz2G+1iBg2+uPEOt3o3r0/sB5522nS4n3BBbTArc/p/peMsMKKAMY1o
-	j/7KUCljeKqkWUGQt2972YRFAEKofuAhetz1KKmUDgW0Wi17Ty/Tj7b32rw+gHS9
-	OgrpSVrnlYs2E5X6/mhv7b+psQOHqYaX1GQJr+rUYHQqLAkquSxtUGOrJ9UxQt5t
-	Oxhe6qsD08Ilvg/TnRtnyrRMrp7f6KS2yBjN9QuMulsKXARD70922/N5v83ugft+
-	Z2/nFEI5GnCe48DHKy6tQNvkPJw97grpDg6W5bOcIgqggYlzrll9W+yx5nGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1755112172; x=1755198572; bh=jr9Ko8fT5IKARAdUzZexlb2pEFmEvxipKU3
-	jq7TmXVA=; b=DbyPZntXLCYS++FHWhAdvVZZJq/6mlFYKWHRw5I6xoR1RINC1en
-	MXf3OHePPm6mTJcM6WbwUBv8cnZRQwqOtJHAGeF7XmgAQ7PzVF5YZ9HzXmGHEcAH
-	S6NVD3EZmieQFCyQrIaRqizkJtLXTQPdwp7z1+1g6aknXR5/C/WIDZwEfeSX685K
-	PPzv+SRPH9fzwK6XH7s4yS2is41Wtl9/Oz78loHif0Rt8ouadHu40vH3FLkLQW8T
-	7UYJUkS4voI15mc9zZuhrqNGMRs3Wd54Tp8SxZPnzA2/Vsosr3b8xTGXMiHjviJv
-	RxoyROgOSoeJA+3d5I+yCKhCfbT9bm4iBdA==
-X-ME-Sender: <xms:6-KcaIsTs_cYWX3LK3Me1sDaZZKPqCdirO41D8_qegU-kZ90dGzTsw>
-    <xme:6-KcaFL2bHJxQ5KjcEE7V2MLEGKydsYAbznrZmpquqqrSI8j6wbPk46ukrCPH8S21
-    b6LK24JiQPDe7M5Gn4>
-X-ME-Received: <xmr:6-KcaPYSwy8IzjOXLkJUSRXOjvR-E73TSa6HEECLXHLakp5sjJ4IsswpQd8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufeeltdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghhohcu
-    tehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrfgrth
-    htvghrnhepueettdetgfejfeffheffffekjeeuveeifeduleegjedutdefffetkeelhfel
-    leetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepth
-    ihtghhohesthihtghhohdrphhiiiiirgdpnhgspghrtghpthhtohepledpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrd
-    hukhdprhgtphhtthhopegrvhgrghhinhesghhoohhglhgvrdgtohhmpdhrtghpthhtohep
-    rghvrghgihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrrghunhgvrheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegtrhhiuheslhhishhtshdrlhhinhhugidr
-    uggvvhdprhgtphhtthhopehlihhnuhigqdgrphhisehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:6-KcaHBaLl9llYBhKTQPLcxX4fxVMMSVrVEsX3ix97Btn26mhDl8Vw>
-    <xmx:6-KcaJb0IaJIpgnZE0BRJQnvZb1PejleE-oXI3hTCMgI6MVGjLp_vA>
-    <xmx:6-KcaPkCR-iZBrEUQXrQTuW_F__ezMfN6rD4hxAEIok8_UBBJ0T8Cw>
-    <xmx:6-KcaOpkpRsORVbp2PPfc7LqV5ucz6kENKEed79vwCVC6-5flIoF3A>
-    <xmx:7OKcaCwHBX5Vr6ORxSUqOOQZtCRppE-fykdWEFpX1y7MR6AtC-0p4Lr5>
-Feedback-ID: i21f147d5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Aug 2025 15:09:30 -0400 (EDT)
-Date: Wed, 13 Aug 2025 13:09:27 -0600
-From: Tycho Andersen <tycho@tycho.pizza>
-To: Al Viro <viro@zeniv.linux.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BACVQXqR9Rdr7CunxbSz/X187L44IWrjIh2fCpnSBkGS+bFb1zulhSpVGd/GUxwGAfyktnCmT5OP7a1wSnHDYnq3fgGbCrYjnrug22Iw/ebXeDJZtkB8g5BAb/4ab4HUZ2NVGf24bUC2u5Rji8FBekJp/Gd4OUM/aixOTFhe7Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aXOl58PK; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Q2DJiIdRH85a3SnMMNPhRxU1a6Qb8UVE6IdhEPXqXW4=; b=aXOl58PKRoLIYcpryVx+s7m3ac
+	LsARIRkp9tNud+gEzN4iL5zPRAIq9bu/xtqqNS9Vm+cXiCW3RSZe1XWNiHH2xY4gNR0BcYwAcka85
+	gKyWPuLvIRxBjtU7FiZjIxE2+kCn+NiJS5gPoTeocjsUSX9gYt0tEfZuXe7RSKNJ72VzWurad+5Hc
+	/IVFR9ls2m/DifhrPODQL+5SFdHwAllEV8jaFJ5bIqTNwrjsH8k0xajefTl32ySLy+frkxKcmLt0q
+	Yyqqv23FnkzQgtRNjD+av2kKXPmR65JVTxHnm/P1ho58RHh0KhSVk1ms4ox91bLNPc5TDJxLpUcDt
+	OTkRjGjw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umHM1-0000000Cmp5-0Pu1;
+	Wed, 13 Aug 2025 19:41:45 +0000
+Date: Wed, 13 Aug 2025 20:41:45 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Tycho Andersen <tycho@tycho.pizza>
 Cc: Andrei Vagin <avagin@google.com>, Andrei Vagin <avagin@gmail.com>,
 	Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -97,13 +54,14 @@ Cc: Andrei Vagin <avagin@google.com>, Andrei Vagin <avagin@gmail.com>,
 	Linux API <linux-api@vger.kernel.org>,
 	stable <stable@vger.kernel.org>
 Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
-Message-ID: <aJzi506tGJb8CzA3@tycho.pizza>
+Message-ID: <20250813194145.GK222315@ZenIV>
 References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
  <20250724230052.GW2580412@ZenIV>
  <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
  <20250726175310.GB222315@ZenIV>
  <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
  <20250813185601.GJ222315@ZenIV>
+ <aJzi506tGJb8CzA3@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -112,30 +70,43 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250813185601.GJ222315@ZenIV>
+In-Reply-To: <aJzi506tGJb8CzA3@tycho.pizza>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Wed, Aug 13, 2025 at 07:56:01PM +0100, Al Viro wrote:
-> @@ -3347,18 +3360,11 @@ static int do_set_group(struct path *from_path, struct path *to_path)
->  
->  	namespace_lock();
->  
-> -	err = -EINVAL;
-> -	/* To and From must be mounted */
-> -	if (!is_mounted(&from->mnt))
-> -		goto out;
-> -	if (!is_mounted(&to->mnt))
-> -		goto out;
-> -
-> -	err = -EPERM;
-> -	/* We should be allowed to modify mount namespaces of both mounts */
-> -	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
-> +	err = may_change_propagation(from);
-> +	if (err)
->  		goto out;
-> -	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
-> +	err = may_change_propagation(from);
+On Wed, Aug 13, 2025 at 01:09:27PM -0600, Tycho Andersen wrote:
+> On Wed, Aug 13, 2025 at 07:56:01PM +0100, Al Viro wrote:
+> > @@ -3347,18 +3360,11 @@ static int do_set_group(struct path *from_path, struct path *to_path)
+> >  
+> >  	namespace_lock();
+> >  
+> > -	err = -EINVAL;
+> > -	/* To and From must be mounted */
+> > -	if (!is_mounted(&from->mnt))
+> > -		goto out;
+> > -	if (!is_mounted(&to->mnt))
+> > -		goto out;
+> > -
+> > -	err = -EPERM;
+> > -	/* We should be allowed to modify mount namespaces of both mounts */
+> > -	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> > +	err = may_change_propagation(from);
+> > +	if (err)
+> >  		goto out;
+> > -	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> > +	err = may_change_propagation(from);
+> 
+> Just driving by, but I guess you mean "to" here.
 
-Just driving by, but I guess you mean "to" here.
+D'oh...  Yes, of course.  Fun question: would our selftests have caught
+that?
+[checks]
+move_mount_set_group_test.c doesn't have anything in that area, nothing in
+LTP or xfstests either, AFAICS...  And I don't see anything in
+https://github.com/checkpoint-restore/criu
+either - there are uses of MOVE_MOUNT_SET_GROUP, but they are well-buried
+and I don't see anything in their tests that would even try to poke into
+that thing...
 
-Tycho
+Before we go and try to cobble something up, does anybody know of a place
+where regression tests for MOVE_MOUNT_SET_GROUP could be picked from?
 
