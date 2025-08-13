@@ -1,176 +1,183 @@
-Return-Path: <linux-api+bounces-4465-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4466-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94CFB24B5A
-	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 15:59:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6C9B2536C
+	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 20:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73093163C68
-	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 13:55:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB3887AFD53
+	for <lists+linux-api@lfdr.de>; Wed, 13 Aug 2025 18:55:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BE32EAB93;
-	Wed, 13 Aug 2025 13:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA841305E0A;
+	Wed, 13 Aug 2025 18:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnkAXrTO"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="w0i5Dd/Q"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA072E765B;
-	Wed, 13 Aug 2025 13:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21482302CCC;
+	Wed, 13 Aug 2025 18:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755093332; cv=none; b=fSzv6hXI26GoNHM2kVsH4DoYb8ve3VV3uMWfMwGVPj8DFpNaSTmWxvauiiwNetzhtJN49bPckxPlijKXKwhqN8iPAJ+GH01YRdfqmXJWGfSkCovU8tOsEVvb1+UGPp5R8QfmH05M7Q/GCXBDhPuty/KWQdFPSElqbxS2rhTtuIY=
+	t=1755111368; cv=none; b=RJBhvqlm0p+xsiiJLLqib+8WqIgXONs5zP7aDcKkMCFyGOEmZvUJ7OgHLAC+Oumz2eEvaNobP4l8SxiGQ73BQ2xdUiHOA4eHvWluGg2O36u9xm3v+pxHPatUjRlPyNVKkoHKtJ5bMkfF6u5BgDa0Wkld8mDmqO0pl+RUZp5N/3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755093332; c=relaxed/simple;
-	bh=Z1FONCORgDMbbWMlyIGq1MppJNSEgOqZfpdQRbvLW+k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gmOJFkQ5RVnz9qT08f3EeVciXyXgfsafdmTt3at45Sf2VU1TWGWkXG/oP1dsn6RDm2YTpjLRc/QvWElZfP1GMyDnP+Lw4Gm3blOQnbKPPs/q+44uvL9RZkTr0OZY/cmPtwlz/xlKwJtqnPXGYU9L7Bfo+3NW1uDI/xs+yzaZLT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gnkAXrTO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82A15C4CEF6;
-	Wed, 13 Aug 2025 13:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755093331;
-	bh=Z1FONCORgDMbbWMlyIGq1MppJNSEgOqZfpdQRbvLW+k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gnkAXrTOpFI3ROP15wctp09tBwFzwxci6h4Y8PgwuC2CQV+he2WTSZRR+FnjF9f1x
-	 Pj07eQQVvToM6lkX1x/CDTozJVGPCLh8LDQ269n3k9lJmMdq4K3oPPOP/Dc7HCE2Fy
-	 0Ly35zrERwLE+KC5jD9+Y7eZHFOkJnC0wYk7pnWzfyehBIuVpu3pfe/eA7fu4oMh+E
-	 ZnmTH/cjAeavuoGSKKUP4jITmVsFPU5mprGHLDXDgE4BwnQRwHn1oglWjqJBsEeGbD
-	 axkt0DApgFSBC+AYL/rPSXnMQBqqfKXKyW7pWJMvrcL2WijEfmbxTjFYH6Yf5JDvGD
-	 5oB8EUJC2Qgzw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Vipin Sharma
- <vipinsh@google.com>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <CA+CK2bCmQ3hY+ACnLrVZ1qwiTiVvxEBCDNFmAHn_uVRagvshhw@mail.gmail.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250813063407.GA3182745.vipinsh@google.com>
-	<mafs0wm77wgjx.fsf@kernel.org>
-	<CA+CK2bCmQ3hY+ACnLrVZ1qwiTiVvxEBCDNFmAHn_uVRagvshhw@mail.gmail.com>
-Date: Wed, 13 Aug 2025 15:55:21 +0200
-Message-ID: <mafs0tt2buy0m.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1755111368; c=relaxed/simple;
+	bh=Fe19/ip8+CVxXl2aEKak9LtudYaMiDlEcAjExYvKYTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TfpowyCzyzn6FmXQtENFNq1SkbRDEJFowX5UqvflcflM7gRUv9j3sxGa4oFxiMcofOnHt1fa1LWW9HFmLLVMFbMkw6weaVrw9kn7V1qL0jwcwJro6bGmr2+LWEHO8vS8EzoomhWFvwD1gibCjTJ48tXjeB3NPO4ybLE6bhMk24s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=w0i5Dd/Q; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5lpkJos7qWPnLKHUIhAIUhJWzGvW6Gy5HTrpgDY7qFs=; b=w0i5Dd/QeMZm9yCMAj4ji+KQB4
+	hwaBPlNk992pRnUJXE8xcTRUBKlwpyVCXGGvQBjfsxUENoHMpscRc9L0Z4xYrhA29/BZCxR7u39yw
+	JONiv5w6hqmajGUsgftfEWBIxUNBjc9qrtij6s4ljff/rsbHC8W78GrpTtUbwB/RxSISLb9iDeXn9
+	GN/bMDaj/B3GX0S7OEds2zY2TdIPqLtdXVy2cFvSt4SXYnYYHmlPrAJ47TVFpDgFnVnQqts5LDTzi
+	4WJiaXKIeRdx59rrlKgpUUk797RMFE+lXFx1tKjj8e9f/JISGEFMjl1CO7ybKN3WiKAUOXRhFsFR6
+	6sD5MWBA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umGdl-0000000CPrt-1AOC;
+	Wed, 13 Aug 2025 18:56:01 +0000
+Date: Wed, 13 Aug 2025 19:56:01 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Andrei Vagin <avagin@google.com>
+Cc: Andrei Vagin <avagin@gmail.com>, Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, criu@lists.linux.dev,
+	Linux API <linux-api@vger.kernel.org>,
+	stable <stable@vger.kernel.org>
+Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
+Message-ID: <20250813185601.GJ222315@ZenIV>
+References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
+ <20250724230052.GW2580412@ZenIV>
+ <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
+ <20250726175310.GB222315@ZenIV>
+ <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Wed, Aug 13 2025, Pasha Tatashin wrote:
+On Sat, Jul 26, 2025 at 02:01:20PM -0700, Andrei Vagin wrote:
 
-> On Wed, Aug 13, 2025 at 12:29=E2=80=AFPM Pratyush Yadav <pratyush@kernel.=
-org> wrote:
->>
->> Hi Vipin,
->>
->> Thanks for the review.
->>
->> On Tue, Aug 12 2025, Vipin Sharma wrote:
->>
->> > On 2025-08-07 01:44:35, Pasha Tatashin wrote:
->> >> From: Pratyush Yadav <ptyadav@amazon.de>
->> >> +static void memfd_luo_unpreserve_folios(const struct memfd_luo_prese=
-rved_folio *pfolios,
->> >> +                                    unsigned int nr_folios)
->> >> +{
->> >> +    unsigned int i;
->> >> +
->> >> +    for (i =3D 0; i < nr_folios; i++) {
->> >> +            const struct memfd_luo_preserved_folio *pfolio =3D &pfol=
-ios[i];
->> >> +            struct folio *folio;
->> >> +
->> >> +            if (!pfolio->foliodesc)
->> >> +                    continue;
->> >> +
->> >> +            folio =3D pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodes=
-c));
->> >> +
->> >> +            kho_unpreserve_folio(folio);
->> >
->> > This one is missing WARN_ON_ONCE() similar to the one in
->> > memfd_luo_preserve_folios().
->>
->> Right, will add.
->>
->> >
->> >> +            unpin_folio(folio);
->>
->> Looking at this code caught my eye. This can also be called from LUO's
->> finish callback if no one claimed the memfd after live update. In that
->> case, unpin_folio() is going to underflow the pincount or refcount on
->> the folio since after the kexec, the folio is no longer pinned. We
->> should only be doing folio_put().
->>
->> I think this function should take a argument to specify which of these
->> cases it is dealing with.
->>
->> >> +    }
->> >> +}
->> >> +
->> >> +static void *memfd_luo_create_fdt(unsigned long size)
->> >> +{
->> >> +    unsigned int order =3D get_order(size);
->> >> +    struct folio *fdt_folio;
->> >> +    int err =3D 0;
->> >> +    void *fdt;
->> >> +
->> >> +    if (order > MAX_PAGE_ORDER)
->> >> +            return NULL;
->> >> +
->> >> +    fdt_folio =3D folio_alloc(GFP_KERNEL, order);
->> >
->> > __GFP_ZERO should also be used here. Otherwise this can lead to
->> > unintentional passing of old kernel memory.
->>
->> fdt_create() zeroes out the buffer so this should not be a problem.
->
-> You are right, fdt_create() zeroes the whole buffer, however, I wonder
-> if it could be `optimized` to only clear only the header part of FDT,
-> not the rest and this could potentially lead us to send an FDT buffer
-> that contains both a valid FDT and the trailing bits contain data from
-> old kernel.
+> > For a very mild example of fun to be had there:
+> >         mount("none", "/mnt", "tmpfs", 0, "");
+> >         chdir("/mnt");
+> >         umount2(".", MNT_DETACH);
+> >         mount(NULL, ".", NULL, MS_SHARED, NULL);
+> > Repeat in a loop, watch mount group id leak.  That's a trivial example
+> > of violating the assertion ("a mount that had been through umount_tree()
+> > is out of propagation graph and related data structures for good").
+> 
+> I wasn't referring to detached mounts. CRIU modifies mounts from
+> non-current namespaces.
+> 
+> >
+> > As for the "CAP_SYS_ADMIN within the mount user namespace" - which
+> > userns do you have in mind?
+> >
+> 
+> The user namespace of the target mount:
+> ns_capable(mnt->mnt_ns->user_ns, CAP_SYS_ADMIN)
 
-Fair enough. At least the API documentation does not say anything about
-the state of the buffer. My main concern was around performance since
-the FDT can be multiple megabytes long for big memfds. Anyway, this
-isn't in the blackout window so perhaps we can live with it. Will add
-the GFP_ZERO.
+To bring that thread back: how about the following?  If nobody objects,
+I'm going to throw it into viro/vfs.git #fixes...
 
---=20
-Regards,
-Pratyush Yadav
+[PATCH] use uniform permission checks for all mount propagation changes
+
+do_change_type() and do_set_group() are operating on different
+aspects of the same thing - propagation graph.  The latter
+asks for mounts involved to be mounted in namespace(s) the caller
+has CAP_SYS_ADMIN for.  The former is a mess - originally it
+didn't even check that mount *is* mounted.  That got fixed,
+but the resulting check turns out to be too strict for userland -
+in effect, we check that mount is in our namespace, having already
+checked that we have CAP_SYS_ADMIN there.
+
+What we really need (in both cases) is
+	* we only touch mounts that are mounted.  Hard requirement,
+data corruption if that's get violated.
+	* we don't allow to mess with a namespace unless you already
+have enough permissions to do so (i.e. CAP_SYS_ADMIN in its userns).
+
+That's an equivalent of what do_set_group() does; let's extract that
+into a helper (may_change_propagation()) and use it in both
+do_set_group() and do_change_type().
+
+Fixes: 12f147ddd6de "do_change_type(): refuse to operate on unmounted/not ours mounts"
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/fs/namespace.c b/fs/namespace.c
+index ddfd4457d338..e7d9b23f1e9e 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2862,6 +2862,19 @@ static int graft_tree(struct mount *mnt, struct mount *p, struct mountpoint *mp)
+ 	return attach_recursive_mnt(mnt, p, mp);
+ }
+ 
++static int may_change_propagation(const struct mount *m)
++{
++        struct mnt_namespace *ns = m->mnt_ns;
++
++	 // it must be mounted in some namespace
++	 if (IS_ERR_OR_NULL(ns))         // is_mounted()
++		 return -EINVAL;
++	 // and the caller must be admin in userns of that namespace
++	 if (!ns_capable(ns->user_ns, CAP_SYS_ADMIN))
++		 return -EPERM;
++	 return 0;
++}
++
+ /*
+  * Sanity check the flags to change_mnt_propagation.
+  */
+@@ -2898,10 +2911,10 @@ static int do_change_type(struct path *path, int ms_flags)
+ 		return -EINVAL;
+ 
+ 	namespace_lock();
+-	if (!check_mnt(mnt)) {
+-		err = -EINVAL;
++	err = may_change_propagation(mnt);
++	if (err)
+ 		goto out_unlock;
+-	}
++
+ 	if (type == MS_SHARED) {
+ 		err = invent_group_ids(mnt, recurse);
+ 		if (err)
+@@ -3347,18 +3360,11 @@ static int do_set_group(struct path *from_path, struct path *to_path)
+ 
+ 	namespace_lock();
+ 
+-	err = -EINVAL;
+-	/* To and From must be mounted */
+-	if (!is_mounted(&from->mnt))
+-		goto out;
+-	if (!is_mounted(&to->mnt))
+-		goto out;
+-
+-	err = -EPERM;
+-	/* We should be allowed to modify mount namespaces of both mounts */
+-	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
++	err = may_change_propagation(from);
++	if (err)
+ 		goto out;
+-	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
++	err = may_change_propagation(from);
++	if (err)
+ 		goto out;
+ 
+ 	err = -EINVAL;
 
