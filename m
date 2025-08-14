@@ -1,103 +1,179 @@
-Return-Path: <linux-api+bounces-4475-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4476-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36807B25CAF
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 09:09:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C92AB25E8A
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 10:16:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2385B583C6C
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 07:08:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AB5B1BC743A
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 08:15:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3A725A659;
-	Thu, 14 Aug 2025 07:08:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 808A22E7627;
+	Thu, 14 Aug 2025 08:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VlFZXSxZ"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="Xh8ZqHvH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3DD76026;
-	Thu, 14 Aug 2025 07:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755155291; cv=none; b=eNCXyq7Svk68mne9bzfwXh1nSImghN7p4FsSB2s0vG+2XTxAIlQdg12YjtE2e0SXm5+yrIV7QiPTsMPV4RrrmJ5zziuGS3Cs3WhtFoHpm4HkCTVyld7fuoBrUeozR2GdPBrnd9JZkK4JzA9BndOCpO+U71bSgkLIOY4cv/MfYl0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755155291; c=relaxed/simple;
-	bh=iS67YfDTC/Ncbq053qWWDMLTEvwGULYZ49mkMlG5gWI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PTQgXpolKpLgq4aQJrVXValmsTs2TIZ0L5xTY4iSHBfd6e5I78z+jT2OzNIEcTnM/vUiim5z2plButLmo5uz3+h2Gjr6jaQAhTNy9MxY7xwoCd92IVnAehfBO5htQcYngXNxo6WNcVFH62brmWEQpM/pdx1f7scCaY/LqAwG6vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VlFZXSxZ; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-323267b7dfcso643334a91.1;
-        Thu, 14 Aug 2025 00:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755155290; x=1755760090; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iS67YfDTC/Ncbq053qWWDMLTEvwGULYZ49mkMlG5gWI=;
-        b=VlFZXSxZBnaEGFsebI3F63rlKI/IfPYFIjp8nxXDxqmFqGAkR4WT/fxPlnO8nA7Uw+
-         Aw80Q3n4lD2Bvxda1p0a07PiCQ+fy+XVzvej142ZNKxSvdY/WAuuKUWx4aP0i2R3uWqh
-         mCF4kbdA9SFcL5EH34he9DAZfAbV/3PycCJpefonr/sFaGXTXT34kcZPnC/T6A9T3Ix+
-         7SaObS7DpjmRshxssytwI0nNWH4LbIetRegBWLCjRBQxgW1VvBIm0fQalWBVTgXsT/fj
-         VzUHEJdCgGssYw76Spwzd5RvmDEFMt4KyQ+/ORbTjPba83bGleTaYQbeWrS2Xsqgsl8q
-         I8hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755155290; x=1755760090;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iS67YfDTC/Ncbq053qWWDMLTEvwGULYZ49mkMlG5gWI=;
-        b=k1mjcREgB5Or6qGNVp4NNRi83rsg+FM6EMfLkNQuSJ7228K5T/uvHx2oETavUFuG22
-         m4su8aPqczjaKVuoqjO7NDHcOcJ7AoXGflhIc0bfGGwhjerxQwtPAkhNBRxIE/FPfX2V
-         OsZoVo93iIINo5TNQ2//PFLhkFGhmQFmBGXI92DL7iTCiqckQvGkq2VGK+wJ3LmhjMm1
-         NkhHBvLHMFhDwaOvVv4VodCnU1lD7CVNu2+5uFObxmUbuEVt+G1Vx16250flHFXPkQWY
-         FU46pY+tFJSIoDTwzWJAj8+zY5RCFZgDNNcX6Q/PLUKuOnQzn2egoVilkWP3U4yiHi3J
-         0Zyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp9xUB7noj7Vj28O4dzTxKNeRbnyHUVNLZOTfrHO5/+mezhRIV1+dW2MzxmwDq26ro5zZ2GACR/ik=@vger.kernel.org, AJvYcCW4z4mAYCw2VBC20is01caVIl34T0TFdphaxLLx77Dez4B1bQhbmARMJj7NfCru6A36/6SsRNK+YOYckROtXQ==@vger.kernel.org, AJvYcCWRzMUTBDAgVklXQYyCtZ7HHAXoAOB9I+h9kTmLmHFLdoVHrZzXhdVoS4rQUXbpifl/Tjj5ZEOv@vger.kernel.org, AJvYcCXUN/GuD4xxe47pmMM+vXbC0+ZXRh8saQ7lkymIhaNhxzbi7fDpCICb4eXNs34RimnqW8nRZT6mCugl2czx@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvD629w9zFe2WmLmvxmuMa1yzY7MeeOv8Q3J+fVeIfOR5QlrTV
-	AgJQpDtKXsjawEST3qkWVyWl434mQc5Efpo/n0oAMlD7HR/O2P7b91DKuSyn5HI2EmOz6Njl/eF
-	4DpuD9PortmEvLJIT7MlEaOzyGP+f2YCcfMqnUUA=
-X-Gm-Gg: ASbGncum382Lk2vEziUiY+3Kvv7MOBYljDXb9WU+dCpLfmo8u3r687qV8AetwmztlTB
-	SghueSD6jRggPkGL3L9Xc3cjwpTyJ03CkEzAY1JxtmYFQYIBt5XzOB/vrwB92HCyS89Dr/HhC9/
-	XZ+/ocVu6HBPnp5fL6mLGNmtf4UsqZtCYMdva+vnSruNG67DpX2X8BxqKVbBDe9XOpMvNtWUl4k
-	iGPYCEH8w==
-X-Google-Smtp-Source: AGHT+IH2Zff/q6dgsi4JeGM7S5teBCpWLxN+arzrDUV01xHua6GL8EAVnGgyxeVmkD484kw8TNaV5y7g54oRgT5cpDs=
-X-Received: by 2002:a17:90b:5303:b0:312:1c83:58e9 with SMTP id
- 98e67ed59e1d1-3232795877emr2969933a91.5.1755155289619; Thu, 14 Aug 2025
- 00:08:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDE028314E;
+	Thu, 14 Aug 2025 08:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755159283; cv=pass; b=r2sonxXhdh3rzyxTLpkeKvNCXhGQiScCmVmnVlIm4GTeQSX4eUTxHcF32Nxx1Ot8EWq+j1OEstOMfpXN6kpRxl/j3amsnbLN4jwyMU2YnKmnaKVr+za32tVYDtL3i7SWZla3h0Cc1Ycat1ST7ervgsw7nR2YFIqQtbgZkTeYvcY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755159283; c=relaxed/simple;
+	bh=X4h9HyUyKy86y38jJo2UkDVYgamELbS4oR4HdL7+74Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L+KrmasoX+5V+NAhkmHJ86YFu9bfA1AQtsWirS0MpJ/KjEmIlXroNU5V8GjtVVDVfs/7/kqx1sbtqXAXiFF7Zm/q6YuMNaG44mSqS02LfQcD9pcnDOBWNptCnR7w7tf4ZRCr7JlxutLDPi4KPPQ7H5gQAd0oXjxY5MW/RBEj980=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=Xh8ZqHvH; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1755159230; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZLaz5SkLRvtFj6a2vO7v+77uapfVinH4TduHlsApmc64c3cnLoeRkqU6k5ANojPIW7XdZ27KDzlUEOXHcFFnPG0gT3xQZkKSDePkuUWBxHvnq9fhP6+JR/jxwboplzLNynqWyh8DS/lYnAYQdSCd9KGFnDBSblGx+LcJLCUFrMw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1755159230; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NANxMn0kp0MpYVpQIXpGC768jBcE/p9R2w4NOLkSmsk=; 
+	b=igdmkHJq+pDuFCgZMGeIPaXlXj5SVOtIk4l9gLkiixHczm4O/AHpCgFOVSQDbVSZkd0Mpfz9c1ys5CnDYfXg5vrQR1W1DBQRJ7faAjAc4gTzeYM6QX8KN4G2hhJ+hsXXOcerroJNpxqXcyEwLTGu4TM4C918eYbMS2fS1RfQmfo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755159230;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=NANxMn0kp0MpYVpQIXpGC768jBcE/p9R2w4NOLkSmsk=;
+	b=Xh8ZqHvHW22+8ifwRvkVt0kVSN4F89ke7T9oRdiwIzd/biczcmm9cdx9kv4gNwlV
+	UUnvwupRR/A7IsPVh78tNBmksp12dylkfqn1X0wtRFsA4borXsLpfAlLXJEv/cq7Gc2
+	wWy5KXJiiCdwMXziQ1+/7+Bd60XP+rBwbveHOv14=
+Received: by mx.zohomail.com with SMTPS id 17551592278291021.230660374127;
+	Thu, 14 Aug 2025 01:13:47 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: lichliu@redhat.com
+Cc: brauner@kernel.org,
+	kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	rob@landley.net,
+	viro@zeniv.linux.org.uk,
+	weilongchen@huawei.com,
+	cyphar@cyphar.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH] fs: Add 'rootfsflags' to set rootfs mount options
+Date: Thu, 14 Aug 2025 11:13:32 +0300
+Message-ID: <20250814081339.3007358-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250808015134.2875430-2-lichliu@redhat.com>
+References: <20250808015134.2875430-2-lichliu@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
- <20250724230052.GW2580412@ZenIV> <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
- <20250726175310.GB222315@ZenIV> <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
- <20250813185601.GJ222315@ZenIV> <aJzi506tGJb8CzA3@tycho.pizza>
- <20250813194145.GK222315@ZenIV> <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
-In-Reply-To: <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
-From: Pavel Tikhomirov <snorcht@gmail.com>
-Date: Thu, 14 Aug 2025 15:07:58 +0800
-X-Gm-Features: Ac12FXytQI0TTWn7tXeEn4aByngRSULqN5Q7Bfx1aLHhqOiFKI365i_TkokN5Yw
-Message-ID: <CAE1zp77udiu5bB7+4G7ca=A+dsm_veZoPBM6ZceEnHAUBtgK3g@mail.gmail.com>
-Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Tycho Andersen <tycho@tycho.pizza>, Andrei Vagin <avagin@google.com>, 
-	Andrei Vagin <avagin@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	criu@lists.linux.dev, Linux API <linux-api@vger.kernel.org>, 
-	stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227466eb76ce3e4e437ad93f265000074d57b1229c1e9b231b9c15b94dc87ae5bcaaf1d296d821af2:zu08011227f9fa19961d9837b310fd6f8f000023202898679270735621609aaee0cf91119224c883476d316b:rf0801122cbba89950dff1d994ded06a600000e38d9a91600849de1c9931edb8ae6ed551c6e7af003eae833ab9b405a00a:ZohoMail
+X-ZohoMailClient: External
 
-> It should be enough to run a zdtm test-suit to check that change does
-> not break something for CRIU (will do).
+Lichen Liu <lichliu@redhat.com>:
+> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
+> By default, a tmpfs mount is limited to using 50% of the available RAM
+> for its content. This can be problematic in memory-constrained
+> environments, particularly during a kdump capture.
+> 
+> In a kdump scenario, the capture kernel boots with a limited amount of
+> memory specified by the 'crashkernel' parameter. If the initramfs is
+> large, it may fail to unpack into the tmpfs rootfs due to insufficient
+> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
+> memory must be available for the mount. This leads to an OOM failure
+> during the early boot process, preventing a successful crash dump.
+> 
+> This patch introduces a new kernel command-line parameter, rootfsflags,
+> which allows passing specific mount options directly to the rootfs when
+> it is first mounted. This gives users control over the rootfs behavior.
+> 
+> For example, a user can now specify rootfsflags=size=75% to allow the
+> tmpfs to use up to 75% of the available memory. This can significantly
+> reduce the memory pressure for kdump.
+> 
+> Consider a practical example:
+> 
+> To unpack a 48MB initramfs, the tmpfs needs 48MB of usable space. With
+> the default 50% limit, this requires a memory pool of 96MB to be
+> available for the tmpfs mount. The total memory requirement is therefore
+> approximately: 16MB (vmlinuz) + 48MB (loaded initramfs) + 48MB (unpacked
+> kernel) + 96MB (for tmpfs) + 12MB (runtime overhead) ≈ 220MB.
+> 
+> By using rootfsflags=size=75%, the memory pool required for the 48MB
+> tmpfs is reduced to 48MB / 0.75 = 64MB. This reduces the total memory
+> requirement by 32MB (96MB - 64MB), allowing the kdump to succeed with a
+> smaller crashkernel size, such as 192MB.
+> 
+> An alternative approach of reusing the existing rootflags parameter was
+> considered. However, a new, dedicated rootfsflags parameter was chosen
+> to avoid altering the current behavior of rootflags (which applies to
+> the final root filesystem) and to prevent any potential regressions.
+> 
+> This approach is inspired by prior discussions and patches on the topic.
+> Ref: https://www.lightofdawn.org/blog/?viewDetailed=00128
+> Ref: https://landley.net/notes-2015.html#01-01-2015
+> Ref: https://lkml.org/lkml/2021/6/29/783
+> Ref: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-initramfs.html#what-is-rootfs
+> 
+> Signed-off-by: Lichen Liu <lichliu@redhat.com>
+> ---
+>  fs/namespace.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index ddfd4457d338..a450db31613e 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -65,6 +65,15 @@ static int __init set_mphash_entries(char *str)
+>  }
+>  __setup("mphash_entries=", set_mphash_entries);
+>  
+> +static char * __initdata rootfs_flags;
+> +static int __init rootfs_flags_setup(char *str)
+> +{
+> +	rootfs_flags = str;
+> +	return 1;
+> +}
+> +
+> +__setup("rootfsflags=", rootfs_flags_setup);
+> +
+>  static u64 event;
+>  static DEFINE_XARRAY_FLAGS(mnt_id_xa, XA_FLAGS_ALLOC);
+>  static DEFINE_IDA(mnt_group_ida);
+> @@ -6086,7 +6095,7 @@ static void __init init_mount_tree(void)
+>  	struct mnt_namespace *ns;
+>  	struct path root;
+>  
+> -	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", NULL);
+> +	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", rootfs_flags);
+>  	if (IS_ERR(mnt))
+>  		panic("Can't create rootfs");
+>  
+> -- 
+> 2.50.1
 
-jfyi: checked 0cc53520e68 with patch "[PATCH] use uniform permission
-checks for all mount propagation changes" (+ s/from/to/), there is no
-problem on criu-zdtm mount related tests. I see some problems on
-socket related tests on it, but it looks unrelated.
+Thank you for this patch!
+
+I suggest periodically check linux-next to see whether the patch got there.
+
+If it was not applied in resonable time, then resend it.
+But this time, please, clearly specify tree, which should accept it.
+I think the most apropriate tree is VFS tree here.
+So, when resending please add linux-fsdevel@vger.kernel.org to CC and say in first paragraph
+in your mail that the patch is for VFS tree.
+
+--
+Askar Safin
 
