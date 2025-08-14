@@ -1,187 +1,249 @@
-Return-Path: <linux-api+bounces-4470-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4471-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A510EB25A4A
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 06:09:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F52B25A91
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 06:42:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52DD63A6E7A
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 04:09:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98E8B3B6214
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 04:42:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CC019B5A7;
-	Thu, 14 Aug 2025 04:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABAA321421D;
+	Thu, 14 Aug 2025 04:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpNPRiDV"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="u3MeubJW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06652114;
-	Thu, 14 Aug 2025 04:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD837494;
+	Thu, 14 Aug 2025 04:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755144543; cv=none; b=XSo3aEhpsQP5681cZsRRYL+2qBT2kOATTgdXiiGz7+ggqLlh6ylKAwnOvz2Nx/A+h8Vk8V+BP79gv+k6Jv9iMccmrQlREDXGPR8ZQNwNGaNsWGXkUHy6B0oovc461DH6+1sW+THUT7YtDK7USg8Q98gRNeYVz8olZeEsimkmZuU=
+	t=1755146565; cv=none; b=D+ZTaoI7G0etm2RvYzoC7XVM1qm/2TbSShEfFfuZI8nHhHTVe889CntttnyUdzCR23b+X0av0K59q6+RR2BrQ7g0oJbP6iYwFDPnTIPbYMLRGaoUz7hoFcwZQpciOhpuNjZsq2WlJCdyyrMkgsX8ZPD+11irWeGAUEqOzHdECHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755144543; c=relaxed/simple;
-	bh=KMepZn3j6P2ZdrPCrd3OUv6DxkECDXp1XE6iQNQmjwM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e1QAvQyRomK2++H4w0XtBlKxTzE7xXRssg/6GhUOH8LI/Cr2iQbMO5P5VnAo+ZnIDdx4dwfUI8ExG8iQZKdFdrFr76iWhOW61TLqE1nkLd0MCOA/pgrtVSErxpbX1o4tSUgJwk9B76IXgMI9oJIh1cvw8+T+qDJyR/FNKyOjqEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpNPRiDV; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-32326df0e75so441224a91.2;
-        Wed, 13 Aug 2025 21:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755144541; x=1755749341; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3PU+08Hj7IdON/EOEoKrMGF/qgHczkSyXAOKfclSXjI=;
-        b=lpNPRiDVFeGx58BM9EX5dZi+FWrSMEWU9EOTX77rTZeSpjna2R5jJNiMYAX8y9Ae6W
-         hSRAJ8s+6xmbQw1GR1O+5ZHru2cZkjTeZFXnwRxSgAejHWYvoZ7ikl8frzkIVW3D/0dU
-         NaewNEo6jD3w5AkCIY6cKPu89Id3KIQdV8EbnDKOVNyF4Uv9W7iwkBbiT9DiGO5pqCch
-         k55aSbNFvUxkDhP31GgadJt2z/UqzqTs6eJ8QY4PMpvSmS1yRb3FH3u/fCGZTHnoP4QF
-         ZgM0Q6X/zxMtC4i0mkS/fU3H6FS4YGF++IO8PiQDUHIZbW66ls+3iwYLXM3j0KdRWl6Q
-         5gyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755144541; x=1755749341;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3PU+08Hj7IdON/EOEoKrMGF/qgHczkSyXAOKfclSXjI=;
-        b=ETfTTeZ/Cv+ZmjP6YsTeE1EV7Rdkx71Jydt7oZDifLZiz9ghb6kAgBbrg89qTFFcIE
-         4ymGvirBpSJzSYkEGiPA3OJQHwv5Xg5Jshadv5liLTT9PSpFHX/zHlANyhTXBaHv6CCP
-         Ihp052W2waEYeV2iSqW6Ysl0eFpW37CKxYQD+vzaCgC6QsirJaXyinRQUmxYtGTE5KRg
-         FIWW22GR/s/UbX5U58u+tj394vXGNZf3kTK5VKox+45VGs32jgIpUDwU4aEqr/ZuvLMf
-         ++2y8YultDSpsemF8P0DmynCsqukSsMmxp+MpeOErv6rK4asXuEM1I3Kb5zrkDAVqTw+
-         1fLA==
-X-Forwarded-Encrypted: i=1; AJvYcCURHu+HVEvrcCCfqQ85h+qsmpH4Z6F/tLGXdr2xRPudfDnTioPKsf1T2SCjulFpn01ckpmKbEcjIdQHJLorGA==@vger.kernel.org, AJvYcCV/O654BgMVHeqYT1zrxVlOILIzrMbEeuaWHnIz67pscSD0/faK+5IpWkFiM5d5Llnb76iGA0H6VGE=@vger.kernel.org, AJvYcCVpxowCf0MW7uaJseRFH5QIvXeTvO1lMldfDbJCOpP2RhQ7gzPVoGySQeTjdnTDf6iR4v2f9qVadkG1VlI+@vger.kernel.org, AJvYcCVrqfHy/mGTj1WPXbdwaYBrwwcLZqw8/w+QkDjLp65nXH1u+bO9jow+VM3Hq3Ua2gpot8IPKEm8@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS9ZuWSO+KuXX6QWgSXQkrQxoqY91CKaUZaZHu56ECKX+a5dPM
-	ZZDAfJ1zhypNVTvTZFvMPHqaB9IOjF5IRsq2YWrvvKf7KdZPxVsyNQq78KczUyER5V6zJmq0kk7
-	/jd/qOK+Rr8x9P0xk0uAWusdbPZBavsw=
-X-Gm-Gg: ASbGncvs3kETBP0cKNwppLz2G9H9cTLOOWm4e0MXmn94e89znv7W7vT+WNGT4LfSn/c
-	zoKvIrVH8UnbhbHDHefI1qVP5Sbk4ANQXpcm+Q9hT7+pa7+NfKqWYNS5Q6bX6OnG3157lRiE7GP
-	mKr59ip1li10I214BeRuftBxi/PQaOj/VEu1TC564iCVxzxhXs+uEQ7NzFkosxHAIjoxVyANlqp
-	UKYVDC6LA==
-X-Google-Smtp-Source: AGHT+IFysmNLgAgYG7lYtdrse3SHf122YqK9Usgrv1wtEBz9XZQh06wjpzoMvbc7m9/dJU9UOsdStJIh39nzZi+htsI=
-X-Received: by 2002:a17:90b:2248:b0:31f:9114:ead8 with SMTP id
- 98e67ed59e1d1-32327a76babmr2707556a91.6.1755144540852; Wed, 13 Aug 2025
- 21:09:00 -0700 (PDT)
+	s=arc-20240116; t=1755146565; c=relaxed/simple;
+	bh=8bGvyJez29D5/+dl9A7lkVikC3UeTSga4AX5AJcUFtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K+TmxikuoDB1QcY1b1dC4fQQC7hoZYYkR/IpAOKvJlgsTPLGiX95KDtXKiI+S2d1QQOYEtA3c+Sv919VQ9xUUFfsTe4YbrhPcJ+QkMib4f6yew2nKpVWhWL51XzYY5eYGrIYXBBXB/dnI4kUFXa8l8aRTDxnOArckrxg1m82BZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=u3MeubJW; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=CVh0gNUtaEDykFgk/fGYdcYR50NdmbICisfayu+CMAI=; b=u3MeubJWKxiR3WInUk+ppBdHiI
+	vhJb9I4AwPyREAN6abS7HBO7s7ESRKkkK66upjj6v+GB+vSoPijhMSwAOAfo/uEP95iMFp3D6/i2A
+	CNowo1++qzZIwqOH/rs4acbm5GmuJ3XE143F7m9e90B0HZf3Lfe3z81jN6dC3xR8FQPjuvMySZepN
+	sA/jyQBFluVQOf1mQOzccLz8MfJyeV0dal/zA+wg15bPJsN5KkJgTSHqsof0pyryys6eOZKF+AGv0
+	So/A6PtPm7H6rYs9iHxO6zcs++0LSfVzujb24zTzsJh4psdurs2s0xBnSXd8ZQmw84j1l+FHNfKa7
+	N+0FhGDQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umPnT-0000000Goq7-1VdU;
+	Thu, 14 Aug 2025 04:42:39 +0000
+Date: Thu, 14 Aug 2025 05:42:39 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Pavel Tikhomirov <snorcht@gmail.com>
+Cc: Tycho Andersen <tycho@tycho.pizza>, Andrei Vagin <avagin@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, criu@lists.linux.dev,
+	Linux API <linux-api@vger.kernel.org>,
+	stable <stable@vger.kernel.org>
+Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
+Message-ID: <20250814044239.GM222315@ZenIV>
+References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
+ <20250724230052.GW2580412@ZenIV>
+ <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
+ <20250726175310.GB222315@ZenIV>
+ <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
+ <20250813185601.GJ222315@ZenIV>
+ <aJzi506tGJb8CzA3@tycho.pizza>
+ <20250813194145.GK222315@ZenIV>
+ <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
- <20250724230052.GW2580412@ZenIV> <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
- <20250726175310.GB222315@ZenIV> <CAEWA0a6jgj8vQhrijSJXUHBnCTtz0HEV66tmaVKPe83ng=3feQ@mail.gmail.com>
- <20250813185601.GJ222315@ZenIV> <aJzi506tGJb8CzA3@tycho.pizza> <20250813194145.GK222315@ZenIV>
-In-Reply-To: <20250813194145.GK222315@ZenIV>
-From: Pavel Tikhomirov <snorcht@gmail.com>
-Date: Thu, 14 Aug 2025 12:08:49 +0800
-X-Gm-Features: Ac12FXwDKf6o0FeR-M8ho-Ad58OjJloPtXu94TLN21ukCAu7DxWTnnpglJ78QYM
-Message-ID: <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
-Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Tycho Andersen <tycho@tycho.pizza>, Andrei Vagin <avagin@google.com>, 
-	Andrei Vagin <avagin@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	criu@lists.linux.dev, Linux API <linux-api@vger.kernel.org>, 
-	stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Thu, Aug 14, 2025 at 3:41=E2=80=AFAM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> On Wed, Aug 13, 2025 at 01:09:27PM -0600, Tycho Andersen wrote:
-> > On Wed, Aug 13, 2025 at 07:56:01PM +0100, Al Viro wrote:
-> > > @@ -3347,18 +3360,11 @@ static int do_set_group(struct path *from_pat=
-h, struct path *to_path)
-> > >
-> > >     namespace_lock();
-> > >
-> > > -   err =3D -EINVAL;
-> > > -   /* To and From must be mounted */
-> > > -   if (!is_mounted(&from->mnt))
-> > > -           goto out;
-> > > -   if (!is_mounted(&to->mnt))
-> > > -           goto out;
-> > > -
-> > > -   err =3D -EPERM;
-> > > -   /* We should be allowed to modify mount namespaces of both mounts=
- */
-> > > -   if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
-> > > +   err =3D may_change_propagation(from);
-> > > +   if (err)
-> > >             goto out;
-> > > -   if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
-> > > +   err =3D may_change_propagation(from);
-> >
-> > Just driving by, but I guess you mean "to" here.
->
-> D'oh...  Yes, of course.  Fun question: would our selftests have caught
-> that?
-> [checks]
-> move_mount_set_group_test.c doesn't have anything in that area, nothing i=
-n
-> LTP or xfstests either, AFAICS...
+On Thu, Aug 14, 2025 at 12:08:49PM +0800, Pavel Tikhomirov wrote:
 
-Yes, selftest is very simple and is not covering userns checks.
+> Yes, selftest is very simple and is not covering userns checks.
 
->  And I don't see anything in
-> https://github.com/checkpoint-restore/criu
-> either - there are uses of MOVE_MOUNT_SET_GROUP, but they are well-buried
-> and I don't see anything in their tests that would even try to poke into
-> that thing...
->
-> Before we go and try to cobble something up, does anybody know of a place
-> where regression tests for MOVE_MOUNT_SET_GROUP could be picked from?
->
+FWIW, see below for what I've got here at the moment for MOVE_MOUNT_SET_GROUP;
+no tests for cross-filesystem and not-a-subtree yet.  At least it does catch
+that braino when run on a kernel that doesn't have it fixed ;-)
+No do_change_type() tests either yet...
 
-Basically each CRIU test that is run by zdtm (if it is in ns/uns
-flavor (which are most of them)), tests mounts checkpoint/restore. And
-each test which has shared/slave moutns leads to MOVE_MOUNT_SET_GROUP
-being used and thus tested. We have a mountinfo comparison in zdtm
-which checks that propagation is topologically the same after c/r.
+// link with -lcap, assumes userns enabled
+// can run both as root and as regular user
+#define _GNU_SOURCE
+#include <sched.h>
+#include <sys/capability.h>
+#include <sys/mount.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdbool.h>
 
-But, yes, we do not cover userns checks, as in CRIU case, CRIU is
-expected to run in userns which has all capabilities over restored
-container, and should always pass those checks.
+_Bool drop_caps(void)
+{
+        cap_value_t cap_value[] = { CAP_SYS_ADMIN };
+        cap_t cap = cap_get_proc();
+        if (!cap) {
+		perror("cap_get_proc");
+		return false;
+	}
+	return true;
+}
 
-JFYI:
+void do_unshare(void)
+{
+	FILE *f;
+	uid_t uid = geteuid();
+	gid_t gid = getegid();
+	unshare(CLONE_NEWNS|CLONE_NEWUSER);
+	f = fopen("/proc/self/uid_map", "w");
+	fprintf(f, "0 %d 1", uid);
+	fclose(f);
+	f = fopen("/proc/self/setgroups", "w");
+	fprintf(f, "deny");
+	fclose(f);
+	f = fopen("/proc/self/gid_map", "w");
+	fprintf(f, "0 %d 1", gid);
+	fclose(f);
+	mount(NULL, "/", NULL, MS_REC|MS_PRIVATE, NULL);
+}
 
-The use of MOVE_MOUNT_SET_GROUP in CRIU is well-buried in:
+void bind(char *p)
+{
+	mount(p, p, NULL, MS_BIND, NULL);
+}
 
-https://github.com/checkpoint-restore/criu/blob/116e56ba46382c05066d33a8bba=
-dcc495dbdb644/criu/mount-v2.c#L896
+void test_it(int fd1, char *p1, int fd2, char *p2, int expected)
+{
+	int flags = MOVE_MOUNT_SET_GROUP;
+	int n;
 
-  +-< move_mount_set_group
-    +-< restore_one_sharing
-      +-< restore_one_sharing_group
-        +-< restore_mount_sharing_options
-          +-< prepare_mnt_ns_v2
+	if (!p1) {
+		p1 = "";
+		flags |= MOVE_MOUNT_F_EMPTY_PATH;
+	}
+	if (!p2) {
+		p2 = "";
+		flags |= MOVE_MOUNT_T_EMPTY_PATH;
+	}
+	n = move_mount(fd1, p1, fd2, p2, flags);
+	if (!n)
+		errno = 0;
+	if (expected != errno)
+		printf(" failed: %d != %d\n", expected, errno);
+	else
+		printf(" OK\n");
+}
 
-This stack already has a set of precreated mounts and walks over their
-sharing groups saved in CRIU image files and assigns them accordingly.
+int main()
+{
+	int pipe1[2], pipe2[2];
+	char path[40];
+	pid_t child;
+	int root_fd;
+	char c;
 
-And we have a bunch of tests with different sharing configurations to
-test propagation c/r specifically:
+	if (pipe(pipe1) < 0 || pipe(pipe2) < 0) {
+		perror("pipe");
+		return -1;
+	}
+	if (!drop_caps())
+		return -1;
+	do_unshare();
 
-git grep -l "SHARING\|SLAVE" test/zdtm/static
-test/zdtm/static/mnt_ext_auto.c
-test/zdtm/static/mnt_ext_master.c
-test/zdtm/static/mnt_ext_multiple.c
-test/zdtm/static/mnt_root_ext.c
-test/zdtm/static/mntns_overmount.c
-test/zdtm/static/mntns_shared_bind03.c
-test/zdtm/static/mount_complex_sharing.c
-test/zdtm/static/mountpoints.c
-test/zdtm/static/shared_slave_mount_children.c
+	root_fd = open("/", O_PATH);
 
-It should be enough to run a zdtm test-suit to check that change does
-not break something for CRIU (will do).
+	errno = 0;
+	mount("none", "/mnt", "tmpfs", 0, NULL);
+	mkdir("/mnt/a", 0777);
+	mkdir("/mnt/a/private", 0777);
+	mkdir("/mnt/a/private/b", 0777);
+	mkdir("/mnt/a/shared", 0777);
+	mkdir("/mnt/a/slave", 0777);
+	mkdir("/mnt/a/shared-slave", 0777);
+	mkdir("/mnt/locked", 0777);
+	mkdir("/mnt/no-locked", 0777);
+	bind("/mnt/locked");
+
+	child = fork();
+	if (child < 0) {
+		perror("fork");
+		return -1;
+	} else if (child == 0) {
+		do_unshare();
+		mount(NULL, "/mnt/", NULL, MS_SHARED, NULL);
+		bind("/mnt/a");
+		write(pipe1[1], &c, 1);
+		fchdir(root_fd);
+		read(pipe2[0], &c, 1);
+		printf("from should be someplace we have permissions for");
+		test_it(AT_FDCWD, "mnt/a", AT_FDCWD, "/mnt/a/private", EPERM);
+		printf("to should be someplace we have permissions for");
+		test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "mnt/a/private", EPERM);
+		write(pipe1[1], &c, 1);
+		return 0;
+	}
+	read(pipe1[0], &c, 1);
+	sprintf(path, "/proc/%d/root", child);
+	chdir(path);
+
+	mount(NULL, "/mnt", NULL, MS_SHARED, NULL);
+	bind("/mnt/a/private");
+	bind("/mnt/a/shared");
+	bind("/mnt/a/slave");
+	bind("/mnt/a/slave-shared");
+	bind("/mnt/no-locked");
+	mount(NULL, "/mnt/a/private", NULL, MS_PRIVATE, NULL);
+	mount(NULL, "/mnt/a/slave", NULL, MS_SLAVE, NULL);
+	mount(NULL, "/mnt/a/shared-slave", NULL, MS_SLAVE, NULL);
+	mount(NULL, "/mnt/a/shared-slave", NULL, MS_SHARED, NULL);
+	mount(NULL, "/mnt/no-locked", NULL, MS_PRIVATE, NULL);
+
+	printf("from should be mounted (pipes are not)");
+	test_it(pipe1[0], NULL, AT_FDCWD, "/mnt/a/private", EINVAL);
+
+	printf("to should be mounted (pipes are not)");
+	test_it(AT_FDCWD, "/mnt", pipe1[0], NULL, EINVAL);
+
+	printf("from should be someplace we have permissions for");
+	test_it(AT_FDCWD, "mnt/a", AT_FDCWD, "/mnt/a/private", 0);
+	mount(NULL, "/mnt/a/private", NULL, MS_PRIVATE, NULL);
+
+	printf("from should be mountpoint");
+	test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "/mnt/a/private", EINVAL);
+
+	printf("to should be mountpoint");
+	test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "/mnt/a/private/b", EINVAL);
+
+	printf("from should not have anything locked in counterpart of to");
+	test_it(AT_FDCWD, "mnt", AT_FDCWD, "/mnt/locked", EINVAL);
+
+	printf("from should not have anything locked in counterpart of to");
+	test_it(AT_FDCWD, "mnt", AT_FDCWD, "/mnt/no-locked", 0);
+	mount(NULL, "/mnt/no-locked", NULL, MS_PRIVATE, NULL);
+
+	fflush(stdout);
+	write(pipe2[1], &c, 1);
+	read(pipe1[0], &c, 1);
+	return 0;
+}
 
