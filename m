@@ -1,169 +1,168 @@
-Return-Path: <linux-api+bounces-4486-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4487-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21ACFB26A8A
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 17:12:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D146CB26C88
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 18:30:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 166D73AA0B3
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 15:05:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65288173C3E
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 16:24:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68536215766;
-	Thu, 14 Aug 2025 15:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0130524C07A;
+	Thu, 14 Aug 2025 16:23:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bZk5HtTP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SVDdbD4V"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05DE321444
-	for <linux-api@vger.kernel.org>; Thu, 14 Aug 2025 15:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6635322CBF1;
+	Thu, 14 Aug 2025 16:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755183946; cv=none; b=ul3IiCLHHFp84f2H4fEYDHqBrzovQ3a0ry3ifcmjGGwTgFp76hKvbicaS/o35kZ4sMMQZ1kFRY9EOF1m+dTHo/lGuivhJIXxOPz636nK+vNfJN3UhjAaQRXsSYIvg0by1NmBBLzZ+3nrEezXzxfGm4MWKKU1y7+tRdk+0J/GajM=
+	t=1755188636; cv=none; b=mpUzk5fm6i2fdYNDE9M3yDR/FruYDn+hfgWG4hobU3mTG01LEsmU88AstBG3mZ5X6M9iZGooIbcAA6qpyBsTJPU61LRnBc84UI34mH0I1xTUBe+X4bratt6mdwI7Ip33u90MnJdElzTVd9OwatLAaygYb70yfdGBryzYAVaxNr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755183946; c=relaxed/simple;
-	bh=MYtHCpNH7rm/Grf+WS5Mwx7BfujxUdXEAVIXm4oRgeM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FKy7we1/enGeWcJqucrvM22t67EfHFKMn6iTfTQCcWtAg6x6lBVk/GVRHZqWauHX33MZNiggOEWv4ximveg+nnDVgVX/IF59/EibmqhdsCc0bI4XR9lbv64ImH2dNezHr5kpAIPsaok9YLzQDSsjD7+g3bqdeiYPcHqoK17iEy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bZk5HtTP; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b0fa7ed37dso17240461cf.0
-        for <linux-api@vger.kernel.org>; Thu, 14 Aug 2025 08:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1755183943; x=1755788743; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4zaTlP5pzo/qg9qINxtiKx2DfK943m3JT2OR6iyYMuY=;
-        b=bZk5HtTP3xdifzseYfqy3JsWZKqx2xgMaoYvXb9szp4i5kpLke+Yt8ifotwtltcyd0
-         /PJzV27vjC6pOU/v5rHOF66UH8gE3fpwZSCUBkQFRQBKHfZMRlOvsGHFlOPd1TUYKovu
-         1bzkN8JisNI8cral03BJDzCDUP65OiViBh/1cWd6Yk3X2thq6v68kq1Zp7kwdBjV8tqq
-         QlhqqKTC0VAWAksy3QLMqid6llYtFGrnZVJbh7NXhb2Ra0BgBPehaDzOx3UcsBi5SaJk
-         KLBr6VIShk0tjB9KXAW8M+80j+n9AgzHchRfxxmxL93fG3CKYgwX6hErgyyQf2LBSXLw
-         QRcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755183943; x=1755788743;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4zaTlP5pzo/qg9qINxtiKx2DfK943m3JT2OR6iyYMuY=;
-        b=S2Mwx3pyamYssmFj89SmnPnFzk2+cEfDICYY1OZAk0ivbC/kZvkWUu+CCOM6YB8P1s
-         ts57nxWzUlUJZ7c/HqZZU+pSQH/PIuZGbA+Od7Zkp1gCnKpc8UJeLcfyfIaJ8de9zQwV
-         D0wxcZ1SZbs+fzTNQULiisCfRJG8/2iK7G1YHHx5fEtTH4RXdyF+eA6FjjNgb2Mvb0Yz
-         qZdyH01MBtJNSEeO463Y/IoRqnulmt3sxBOZjdZg3b0qcOYu2Ku8T1b8AsPxkt9YQIDq
-         7ailBG3TWhvs2C6q513izVDLgoz+TXVjqTQ30UL36QhhoCb2I4qOK5RLiL45rVeRqcmM
-         p9Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxv+IqbVg+d3UYYkOHvQCuzhEVeFgOzT4qnYPWfAliRMDzsrljduP91cZ17Z7ht7HZypVujGW8IG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXrn6/emJzee86lAjzIns5ZP4z4Uh1zYgPlnk4RjrxkLDnYtXv
-	7+YXU/4cIR6xodxhbRF+nLouss3UHaHkMGhmqZCIsxvW/1SERssUbBQ8GOVKmlJFzjeCbs3refB
-	G7IQ37KEuoXeO/BU6qHldp97EUZ2M58DxfxYGj7PcLw==
-X-Gm-Gg: ASbGnctw9PYBObQaAL6Hj6ydM8BQ5fkfYfrZjDyEa08byzirI9uhgNB+BGHOAd3HOZw
-	GtMKucTAbgweBq0iC3LPyKLs+hHok9dudBByL3UbUjY2TYWCUjPwpD+/wKMmycO3z7ES7+cHYb4
-	Dmo/YSjU8RkdaxRmg3OTyfLatniIyrqGLcBeFwA0zJZ4LXc32n4Baj48J2F9ubSqOh/fvPw0W7z
-	Qgz9HmY8m2/WUA=
-X-Google-Smtp-Source: AGHT+IGd/DJ84Imu5KYRHkgnpNm4NZ636lX1WUQFrgSI87aMZKq+0zSxGBg+110FdN/squBIYOywjRpAp8ettpbigko=
-X-Received: by 2002:a05:622a:5e09:b0:4b1:1109:6090 with SMTP id
- d75a77b69052e-4b1110964camr21827551cf.4.1755183943358; Thu, 14 Aug 2025
- 08:05:43 -0700 (PDT)
+	s=arc-20240116; t=1755188636; c=relaxed/simple;
+	bh=uXKbJbMicUinEbfeiG/H6iA3Pq1PMc4dgYjPt/YcZZI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BG8AiHwDDR//tbyR2Q5+MJgOsLIXR8d1Y0wiXZF0ATa5o568CiYZGrg6J93/vVq3G8fiE9AiAGieLENR6V/keT1PyZjDo+W0EhdjPQjTIQRKBSgc54cBVz1qVhR52shQehfUKtBFJh8g+T9usXAZzhgNfUipRQ/qdt8grnefTM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SVDdbD4V; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pOaspXYmR4qnAwmVi9UcnEM5QQJXPu+Og2WEpjR85DQ=; b=SVDdbD4VmD6C+cDGsO/r4I4uwX
+	U7ypcQALJ7kJ36ofFhshw9GG1oOL/RYwBeVtq+baxpeJg72tFytdpe/KwmHwxCC04/iGvMWgVz1fn
+	eeGY8DQuGhocKJumgPkljDNyxsxUu722la293e51rVJ2FQSSLPKrF3RqN8KjtVvZ+mPTyY2egc341
+	v2FMDhtoORoVedXXYPHLEdb45BAPCmRteHNgBbkterz3OkBC025NGAWiN22YHMSeGqR1fOeS/4EhN
+	5cPSiw4G/yjugV3MjqVxu96L1XIZHLX1//RI5vnNSB38SqxVWiBfK9rJCp3YpyIBQq0rTODVeiyxN
+	Gq1mZCjQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umak4-000000003k8-3S3q;
+	Thu, 14 Aug 2025 16:23:52 +0000
+Message-ID: <dd25041f-98e0-4bb5-bcd5-ba3507262c76@infradead.org>
+Date: Thu, 14 Aug 2025 09:23:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-8-pasha.tatashin@soleen.com> <20250814132233.GB802098@nvidia.com>
-In-Reply-To: <20250814132233.GB802098@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 14 Aug 2025 15:05:04 +0000
-X-Gm-Features: Ac12FXy7hDZjxYMY4c9rpouOJZeOk5g8OwQ5wREtab5YlBDjZqQf27ADm8vAB8Y
-Message-ID: <CA+CK2bCbjmRKtVVAok7GH8xvh8JWrga5Oj-iK-p=1M79AqvhRA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/30] kho: add interfaces to unpreserve folios and
- physical memory ranges
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] fs: Add 'rootfsflags' to set rootfs mount options
+To: Lichen Liu <lichliu@redhat.com>, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ safinaskar@zohomail.com, kexec@lists.infradead.org, rob@landley.net,
+ weilongchen@huawei.com, cyphar@cyphar.com, linux-api@vger.kernel.org,
+ zohar@linux.ibm.com, stefanb@linux.ibm.com, initramfs@vger.kernel.org
+References: <20250814103424.3287358-2-lichliu@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250814103424.3287358-2-lichliu@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 14, 2025 at 1:22=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Thu, Aug 07, 2025 at 01:44:13AM +0000, Pasha Tatashin wrote:
-> > +int kho_unpreserve_phys(phys_addr_t phys, size_t size)
-> > +{
->
-> Why are we adding phys apis? Didn't we talk about this before and
-> agree not to expose these?
+Hi,
 
-It is already there, this patch simply completes a lacking unpreserve part.
-
-We can talk about removing it in the future, but the phys interface
-provides a benefit of not having to preserve  power of two in length
-objects.
-
->
-> The places using it are goofy:
->
-> +static int luo_fdt_setup(void)
+On 8/14/25 3:34 AM, Lichen Liu wrote:
+> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
+> By default, a tmpfs mount is limited to using 50% of the available RAM
+> for its content. This can be problematic in memory-constrained
+> environments, particularly during a kdump capture.
+> 
+> In a kdump scenario, the capture kernel boots with a limited amount of
+> memory specified by the 'crashkernel' parameter. If the initramfs is
+> large, it may fail to unpack into the tmpfs rootfs due to insufficient
+> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
+> memory must be available for the mount. This leads to an OOM failure
+> during the early boot process, preventing a successful crash dump.
+> 
+> This patch introduces a new kernel command-line parameter, rootfsflags,
+> which allows passing specific mount options directly to the rootfs when
+> it is first mounted. This gives users control over the rootfs behavior.
+> 
+> For example, a user can now specify rootfsflags=size=75% to allow the
+> tmpfs to use up to 75% of the available memory. This can significantly
+> reduce the memory pressure for kdump.
+> 
+> Consider a practical example:
+> 
+> To unpack a 48MB initramfs, the tmpfs needs 48MB of usable space. With
+> the default 50% limit, this requires a memory pool of 96MB to be
+> available for the tmpfs mount. The total memory requirement is therefore
+> approximately: 16MB (vmlinuz) + 48MB (loaded initramfs) + 48MB (unpacked
+> kernel) + 96MB (for tmpfs) + 12MB (runtime overhead) ≈ 220MB.
+> 
+> By using rootfsflags=size=75%, the memory pool required for the 48MB
+> tmpfs is reduced to 48MB / 0.75 = 64MB. This reduces the total memory
+> requirement by 32MB (96MB - 64MB), allowing the kdump to succeed with a
+> smaller crashkernel size, such as 192MB.
+> 
+> An alternative approach of reusing the existing rootflags parameter was
+> considered. However, a new, dedicated rootfsflags parameter was chosen
+> to avoid altering the current behavior of rootflags (which applies to
+> the final root filesystem) and to prevent any potential regressions.
+> 
+> This approach is inspired by prior discussions and patches on the topic.
+> Ref: https://www.lightofdawn.org/blog/?viewDetailed=00128
+> Ref: https://landley.net/notes-2015.html#01-01-2015
+> Ref: https://lkml.org/lkml/2021/6/29/783
+> Ref: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-initramfs.html#what-is-rootfs
+> 
+> Signed-off-by: Lichen Liu <lichliu@redhat.com>
+> Tested-by: Rob Landley <rob@landley.net>
+> ---
+> Hi VFS maintainers,
+> 
+> Resending this patch as it did not get picked up.
+> This patch is intended for the VFS tree.
+> 
+>  fs/namespace.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 8f1000f9f3df..e484c26d5e3f 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -65,6 +65,15 @@ static int __init set_mphash_entries(char *str)
+>  }
+>  __setup("mphash_entries=", set_mphash_entries);
+>  
+> +static char * __initdata rootfs_flags;
+> +static int __init rootfs_flags_setup(char *str)
 > +{
-> +       fdt_out =3D (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
-> +                                          get_order(LUO_FDT_SIZE));
->
-> +       ret =3D kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
->
-> +       WARN_ON_ONCE(kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE));
->
-> It literally allocated a page and then for some reason switches to
-> phys with an open coded __pa??
->
-> This is ugly, if you want a helper to match __get_free_pages() then
-> make one that works on void * directly. You can get the order of the
-> void * directly from the struct page IIRC when using GFP_COMP.
+> +	rootfs_flags = str;
+> +	return 1;
+> +}
+> +
+> +__setup("rootfsflags=", rootfs_flags_setup);
 
-I will make this changes.
+Please document this option (alphabetically) in
+Documentation/admin-guide/kernel-parameters.txt.
 
->
-> Which is perhaps another comment, if this __get_free_pages() is going
-> to be a common pattern (and I guess it will be) then the API should be
-> streamlined alot more:
->
->  void *kho_alloc_preserved_memory(gfp, size);
->  void kho_free_preserved_memory(void *);
+Thanks.
 
-Hm, not all GFP flags are compatible with KHO preserve, but we could
-add this or similar API, but first let's make KHO completely
-stateless: remove, finalize and abort parts from it.
+> +
+>  static u64 event;
+>  static DEFINE_XARRAY_FLAGS(mnt_id_xa, XA_FLAGS_ALLOC);
+>  static DEFINE_IDA(mnt_group_ida);
+> @@ -5677,7 +5686,7 @@ static void __init init_mount_tree(void)
+>  	struct mnt_namespace *ns;
+>  	struct path root;
+>  
+> -	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", NULL);
+> +	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", rootfs_flags);
+>  	if (IS_ERR(mnt))
+>  		panic("Can't create rootfs");
+>  
 
->
-> Which can wrapper the get_free_pages and the preserve logic and gives
-> a nice path to possibly someday supporting non-PAGE_SIZE allocations.
->
-> Jason
+-- 
+~Randy
+
 
