@@ -1,61 +1,62 @@
-Return-Path: <linux-api+bounces-4471-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4472-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F52B25A91
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 06:42:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0962B25B52
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 07:53:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98E8B3B6214
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 04:42:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C96AD1883970
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 05:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABAA321421D;
-	Thu, 14 Aug 2025 04:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65D2921FF58;
+	Thu, 14 Aug 2025 05:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="u3MeubJW"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="YCdf99ku"
 X-Original-To: linux-api@vger.kernel.org
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD837494;
-	Thu, 14 Aug 2025 04:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944931DF27F;
+	Thu, 14 Aug 2025 05:51:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755146565; cv=none; b=D+ZTaoI7G0etm2RvYzoC7XVM1qm/2TbSShEfFfuZI8nHhHTVe889CntttnyUdzCR23b+X0av0K59q6+RR2BrQ7g0oJbP6iYwFDPnTIPbYMLRGaoUz7hoFcwZQpciOhpuNjZsq2WlJCdyyrMkgsX8ZPD+11irWeGAUEqOzHdECHM=
+	t=1755150708; cv=none; b=MWLel2KHHlH2vg18oxcFlt6IP2YzZcIQEhQOGolp5/wr8jpgr9lBEhJWpSPMca6tutHfFwEOAWpG/iZnwLsxzZfGmnqdCSR+MJcmeTFsfLKjZMgQ5lUTGA1fu6XRcHgwc/QPo6u5hylFVY/e3M8WmOTYM78LF2mY7F/aThtdbrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755146565; c=relaxed/simple;
-	bh=8bGvyJez29D5/+dl9A7lkVikC3UeTSga4AX5AJcUFtA=;
+	s=arc-20240116; t=1755150708; c=relaxed/simple;
+	bh=yIV6jsNsYQGse3vWK+MI39lw1C5htlVqCQ7nXY2Rf3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+TmxikuoDB1QcY1b1dC4fQQC7hoZYYkR/IpAOKvJlgsTPLGiX95KDtXKiI+S2d1QQOYEtA3c+Sv919VQ9xUUFfsTe4YbrhPcJ+QkMib4f6yew2nKpVWhWL51XzYY5eYGrIYXBBXB/dnI4kUFXa8l8aRTDxnOArckrxg1m82BZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=u3MeubJW; arc=none smtp.client-ip=62.89.141.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=eLBBzet48SWmuIR4HjrGx3z3ZaRtE9tGE3+UrHbjFlUbtLnyw96B68yW3tYGc22aq/NZwfCccDMOZULM/k1aZOnXtz3q3mYUratFhHRNqJLAaFEP2UZqIOmxHAQqMB5Jg47eyx+dDubAuiOwwG0dcSexI9J/kD/YcgwAQvAXkME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=YCdf99ku; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=CVh0gNUtaEDykFgk/fGYdcYR50NdmbICisfayu+CMAI=; b=u3MeubJWKxiR3WInUk+ppBdHiI
-	vhJb9I4AwPyREAN6abS7HBO7s7ESRKkkK66upjj6v+GB+vSoPijhMSwAOAfo/uEP95iMFp3D6/i2A
-	CNowo1++qzZIwqOH/rs4acbm5GmuJ3XE143F7m9e90B0HZf3Lfe3z81jN6dC3xR8FQPjuvMySZepN
-	sA/jyQBFluVQOf1mQOzccLz8MfJyeV0dal/zA+wg15bPJsN5KkJgTSHqsof0pyryys6eOZKF+AGv0
-	So/A6PtPm7H6rYs9iHxO6zcs++0LSfVzujb24zTzsJh4psdurs2s0xBnSXd8ZQmw84j1l+FHNfKa7
-	N+0FhGDQ==;
+	bh=9EgkRLTHf3vYcKV2S9JHcON4u9ACamEgHLf479pEIGM=; b=YCdf99kusOdEqS/HI26COGuyA6
+	8bwU5Yhj3S0eIFtCvEwx378OpuXKqfPOHA52d8uGlBehWmFQBYqY/RF7IZ/e+tJxBaJqtdEEYYE19
+	NfKKWUGd1DWrca7aikE8HFwM3G5uHNfv40bnYnq0hhh/U2Gw/N/vD8VYxBsDrLiCPPMUaoeYZwyGN
+	PoKiyEBpCVWztsca6wlRQ1oDG1okqFH9Fbx/PooLK/HZ/nr2H1HOH7mokzh8YyEzglACiOXjtl+tX
+	fs3CnSlBLwVcAXQW8L5F6OwzZavWgtJ0Pw6i5aZNLgfeDuVdhFE04Ntv+FNsfWL/nvFQJbwo0x0B/
+	QPKMoY+Q==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umPnT-0000000Goq7-1VdU;
-	Thu, 14 Aug 2025 04:42:39 +0000
-Date: Thu, 14 Aug 2025 05:42:39 +0100
+	id 1umQsI-0000000HNPw-3KTL;
+	Thu, 14 Aug 2025 05:51:42 +0000
+Date: Thu, 14 Aug 2025 06:51:42 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
-To: Pavel Tikhomirov <snorcht@gmail.com>
+To: linux-fsdevel@vger.kernel.org
 Cc: Tycho Andersen <tycho@tycho.pizza>, Andrei Vagin <avagin@google.com>,
 	Andrei Vagin <avagin@gmail.com>,
 	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Pavel Tikhomirov <snorcht@gmail.com>,
 	LKML <linux-kernel@vger.kernel.org>, criu@lists.linux.dev,
 	Linux API <linux-api@vger.kernel.org>,
 	stable <stable@vger.kernel.org>
-Subject: Re: do_change_type(): refuse to operate on unmounted/not ours mounts
-Message-ID: <20250814044239.GM222315@ZenIV>
+Subject: [PATCH][RFC][CFT] use uniform permission checks for all mount
+ propagation changes
+Message-ID: <20250814055142.GN222315@ZenIV>
 References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
  <20250724230052.GW2580412@ZenIV>
  <CANaxB-xbsOMkKqfaOJ0Za7-yP2N8axO=E1XS1KufnP78H1YzsA@mail.gmail.com>
@@ -65,6 +66,7 @@ References: <CANaxB-xXgW1FEj6ydBT2=cudTbP=fX6x8S53zNkWcw1poL=L2A@mail.gmail.com>
  <aJzi506tGJb8CzA3@tycho.pizza>
  <20250813194145.GK222315@ZenIV>
  <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
+ <20250814044239.GM222315@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -73,177 +75,95 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE1zp77jmFD=rySJVLf6yU+JKZnUpjkBagC3qQHrxPotrccEbQ@mail.gmail.com>
+In-Reply-To: <20250814044239.GM222315@ZenIV>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Thu, Aug 14, 2025 at 12:08:49PM +0800, Pavel Tikhomirov wrote:
+[this should fix userland regression from do_change_type() fix last cycle;
+we have too little self-test coverage in the area, unfortunately.  First
+approximation for selftest in the followup to this posting.  Review and
+testing of both the patch and test would be very welcome]
 
-> Yes, selftest is very simple and is not covering userns checks.
+do_change_type() and do_set_group() are operating on different
+aspects of the same thing - propagation graph.  The latter
+asks for mounts involved to be mounted in namespace(s) the caller
+has CAP_SYS_ADMIN for.  The former is a mess - originally it
+didn't even check that mount *is* mounted.  That got fixed,
+but the resulting check turns out to be too strict for userland -
+in effect, we check that mount is in our namespace, having already
+checked that we have CAP_SYS_ADMIN there.
 
-FWIW, see below for what I've got here at the moment for MOVE_MOUNT_SET_GROUP;
-no tests for cross-filesystem and not-a-subtree yet.  At least it does catch
-that braino when run on a kernel that doesn't have it fixed ;-)
-No do_change_type() tests either yet...
+What we really need (in both cases) is
+	* we only touch mounts that are mounted.  Hard requirement,
+data corruption if that's get violated.
+	* we don't allow to mess with a namespace unless you already
+have enough permissions to do so (i.e. CAP_SYS_ADMIN in its userns).
 
-// link with -lcap, assumes userns enabled
-// can run both as root and as regular user
-#define _GNU_SOURCE
-#include <sched.h>
-#include <sys/capability.h>
-#include <sys/mount.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <stdbool.h>
+That's an equivalent of what do_set_group() does; let's extract that
+into a helper (may_change_propagation()) and use it in both
+do_set_group() and do_change_type().
 
-_Bool drop_caps(void)
-{
-        cap_value_t cap_value[] = { CAP_SYS_ADMIN };
-        cap_t cap = cap_get_proc();
-        if (!cap) {
-		perror("cap_get_proc");
-		return false;
-	}
-	return true;
-}
-
-void do_unshare(void)
-{
-	FILE *f;
-	uid_t uid = geteuid();
-	gid_t gid = getegid();
-	unshare(CLONE_NEWNS|CLONE_NEWUSER);
-	f = fopen("/proc/self/uid_map", "w");
-	fprintf(f, "0 %d 1", uid);
-	fclose(f);
-	f = fopen("/proc/self/setgroups", "w");
-	fprintf(f, "deny");
-	fclose(f);
-	f = fopen("/proc/self/gid_map", "w");
-	fprintf(f, "0 %d 1", gid);
-	fclose(f);
-	mount(NULL, "/", NULL, MS_REC|MS_PRIVATE, NULL);
-}
-
-void bind(char *p)
-{
-	mount(p, p, NULL, MS_BIND, NULL);
-}
-
-void test_it(int fd1, char *p1, int fd2, char *p2, int expected)
-{
-	int flags = MOVE_MOUNT_SET_GROUP;
-	int n;
-
-	if (!p1) {
-		p1 = "";
-		flags |= MOVE_MOUNT_F_EMPTY_PATH;
-	}
-	if (!p2) {
-		p2 = "";
-		flags |= MOVE_MOUNT_T_EMPTY_PATH;
-	}
-	n = move_mount(fd1, p1, fd2, p2, flags);
-	if (!n)
-		errno = 0;
-	if (expected != errno)
-		printf(" failed: %d != %d\n", expected, errno);
-	else
-		printf(" OK\n");
-}
-
-int main()
-{
-	int pipe1[2], pipe2[2];
-	char path[40];
-	pid_t child;
-	int root_fd;
-	char c;
-
-	if (pipe(pipe1) < 0 || pipe(pipe2) < 0) {
-		perror("pipe");
-		return -1;
-	}
-	if (!drop_caps())
-		return -1;
-	do_unshare();
-
-	root_fd = open("/", O_PATH);
-
-	errno = 0;
-	mount("none", "/mnt", "tmpfs", 0, NULL);
-	mkdir("/mnt/a", 0777);
-	mkdir("/mnt/a/private", 0777);
-	mkdir("/mnt/a/private/b", 0777);
-	mkdir("/mnt/a/shared", 0777);
-	mkdir("/mnt/a/slave", 0777);
-	mkdir("/mnt/a/shared-slave", 0777);
-	mkdir("/mnt/locked", 0777);
-	mkdir("/mnt/no-locked", 0777);
-	bind("/mnt/locked");
-
-	child = fork();
-	if (child < 0) {
-		perror("fork");
-		return -1;
-	} else if (child == 0) {
-		do_unshare();
-		mount(NULL, "/mnt/", NULL, MS_SHARED, NULL);
-		bind("/mnt/a");
-		write(pipe1[1], &c, 1);
-		fchdir(root_fd);
-		read(pipe2[0], &c, 1);
-		printf("from should be someplace we have permissions for");
-		test_it(AT_FDCWD, "mnt/a", AT_FDCWD, "/mnt/a/private", EPERM);
-		printf("to should be someplace we have permissions for");
-		test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "mnt/a/private", EPERM);
-		write(pipe1[1], &c, 1);
-		return 0;
-	}
-	read(pipe1[0], &c, 1);
-	sprintf(path, "/proc/%d/root", child);
-	chdir(path);
-
-	mount(NULL, "/mnt", NULL, MS_SHARED, NULL);
-	bind("/mnt/a/private");
-	bind("/mnt/a/shared");
-	bind("/mnt/a/slave");
-	bind("/mnt/a/slave-shared");
-	bind("/mnt/no-locked");
-	mount(NULL, "/mnt/a/private", NULL, MS_PRIVATE, NULL);
-	mount(NULL, "/mnt/a/slave", NULL, MS_SLAVE, NULL);
-	mount(NULL, "/mnt/a/shared-slave", NULL, MS_SLAVE, NULL);
-	mount(NULL, "/mnt/a/shared-slave", NULL, MS_SHARED, NULL);
-	mount(NULL, "/mnt/no-locked", NULL, MS_PRIVATE, NULL);
-
-	printf("from should be mounted (pipes are not)");
-	test_it(pipe1[0], NULL, AT_FDCWD, "/mnt/a/private", EINVAL);
-
-	printf("to should be mounted (pipes are not)");
-	test_it(AT_FDCWD, "/mnt", pipe1[0], NULL, EINVAL);
-
-	printf("from should be someplace we have permissions for");
-	test_it(AT_FDCWD, "mnt/a", AT_FDCWD, "/mnt/a/private", 0);
-	mount(NULL, "/mnt/a/private", NULL, MS_PRIVATE, NULL);
-
-	printf("from should be mountpoint");
-	test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "/mnt/a/private", EINVAL);
-
-	printf("to should be mountpoint");
-	test_it(AT_FDCWD, "/mnt/a", AT_FDCWD, "/mnt/a/private/b", EINVAL);
-
-	printf("from should not have anything locked in counterpart of to");
-	test_it(AT_FDCWD, "mnt", AT_FDCWD, "/mnt/locked", EINVAL);
-
-	printf("from should not have anything locked in counterpart of to");
-	test_it(AT_FDCWD, "mnt", AT_FDCWD, "/mnt/no-locked", 0);
-	mount(NULL, "/mnt/no-locked", NULL, MS_PRIVATE, NULL);
-
-	fflush(stdout);
-	write(pipe2[1], &c, 1);
-	read(pipe1[0], &c, 1);
-	return 0;
-}
+Fixes: 12f147ddd6de "do_change_type(): refuse to operate on unmounted/not ours mounts"
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/fs/namespace.c b/fs/namespace.c
+index ddfd4457d338..a191c6519e36 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2862,6 +2862,19 @@ static int graft_tree(struct mount *mnt, struct mount *p, struct mountpoint *mp)
+ 	return attach_recursive_mnt(mnt, p, mp);
+ }
+ 
++static int may_change_propagation(const struct mount *m)
++{
++        struct mnt_namespace *ns = m->mnt_ns;
++
++	 // it must be mounted in some namespace
++	 if (IS_ERR_OR_NULL(ns))         // is_mounted()
++		 return -EINVAL;
++	 // and the caller must be admin in userns of that namespace
++	 if (!ns_capable(ns->user_ns, CAP_SYS_ADMIN))
++		 return -EPERM;
++	 return 0;
++}
++
+ /*
+  * Sanity check the flags to change_mnt_propagation.
+  */
+@@ -2898,10 +2911,10 @@ static int do_change_type(struct path *path, int ms_flags)
+ 		return -EINVAL;
+ 
+ 	namespace_lock();
+-	if (!check_mnt(mnt)) {
+-		err = -EINVAL;
++	err = may_change_propagation(mnt);
++	if (err)
+ 		goto out_unlock;
+-	}
++
+ 	if (type == MS_SHARED) {
+ 		err = invent_group_ids(mnt, recurse);
+ 		if (err)
+@@ -3347,18 +3360,11 @@ static int do_set_group(struct path *from_path, struct path *to_path)
+ 
+ 	namespace_lock();
+ 
+-	err = -EINVAL;
+-	/* To and From must be mounted */
+-	if (!is_mounted(&from->mnt))
+-		goto out;
+-	if (!is_mounted(&to->mnt))
+-		goto out;
+-
+-	err = -EPERM;
+-	/* We should be allowed to modify mount namespaces of both mounts */
+-	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
++	err = may_change_propagation(from);
++	if (err)
+ 		goto out;
+-	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
++	err = may_change_propagation(to);
++	if (err)
+ 		goto out;
+ 
+ 	err = -EINVAL;
 
