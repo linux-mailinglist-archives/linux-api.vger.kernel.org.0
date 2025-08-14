@@ -1,168 +1,216 @@
-Return-Path: <linux-api+bounces-4487-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4488-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D146CB26C88
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 18:30:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B2CB26D09
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 18:55:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65288173C3E
-	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 16:24:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E077BA05C0D
+	for <lists+linux-api@lfdr.de>; Thu, 14 Aug 2025 16:52:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0130524C07A;
-	Thu, 14 Aug 2025 16:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288E11FE444;
+	Thu, 14 Aug 2025 16:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SVDdbD4V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUS4ikf7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6635322CBF1;
-	Thu, 14 Aug 2025 16:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9D12EB11;
+	Thu, 14 Aug 2025 16:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755188636; cv=none; b=mpUzk5fm6i2fdYNDE9M3yDR/FruYDn+hfgWG4hobU3mTG01LEsmU88AstBG3mZ5X6M9iZGooIbcAA6qpyBsTJPU61LRnBc84UI34mH0I1xTUBe+X4bratt6mdwI7Ip33u90MnJdElzTVd9OwatLAaygYb70yfdGBryzYAVaxNr8=
+	t=1755190340; cv=none; b=f1dd+eF3JLMy4c24EDBSfcV+nVcKl1KXq8TXPXlgXzRVnwB6mbmaeoS3OFH+g4Sfe7yB7MLjt2I+JvS9UootXoprmg+fNTkQqnkdlJYPDA0HoHz7Gbnn85CnMeXZxtCIx6T4yFnGZKbdP4EA14y+TXT4CaUPZAWQT1o9Pz1JHNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755188636; c=relaxed/simple;
-	bh=uXKbJbMicUinEbfeiG/H6iA3Pq1PMc4dgYjPt/YcZZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BG8AiHwDDR//tbyR2Q5+MJgOsLIXR8d1Y0wiXZF0ATa5o568CiYZGrg6J93/vVq3G8fiE9AiAGieLENR6V/keT1PyZjDo+W0EhdjPQjTIQRKBSgc54cBVz1qVhR52shQehfUKtBFJh8g+T9usXAZzhgNfUipRQ/qdt8grnefTM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SVDdbD4V; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pOaspXYmR4qnAwmVi9UcnEM5QQJXPu+Og2WEpjR85DQ=; b=SVDdbD4VmD6C+cDGsO/r4I4uwX
-	U7ypcQALJ7kJ36ofFhshw9GG1oOL/RYwBeVtq+baxpeJg72tFytdpe/KwmHwxCC04/iGvMWgVz1fn
-	eeGY8DQuGhocKJumgPkljDNyxsxUu722la293e51rVJ2FQSSLPKrF3RqN8KjtVvZ+mPTyY2egc341
-	v2FMDhtoORoVedXXYPHLEdb45BAPCmRteHNgBbkterz3OkBC025NGAWiN22YHMSeGqR1fOeS/4EhN
-	5cPSiw4G/yjugV3MjqVxu96L1XIZHLX1//RI5vnNSB38SqxVWiBfK9rJCp3YpyIBQq0rTODVeiyxN
-	Gq1mZCjQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umak4-000000003k8-3S3q;
-	Thu, 14 Aug 2025 16:23:52 +0000
-Message-ID: <dd25041f-98e0-4bb5-bcd5-ba3507262c76@infradead.org>
-Date: Thu, 14 Aug 2025 09:23:52 -0700
+	s=arc-20240116; t=1755190340; c=relaxed/simple;
+	bh=xDCJGRAkBOyLHPMWTglfKooDZPEiLk+khkQLFD0KVoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmYVBai0wjtTkd7+V+krRHrMjhwer9C0pgg3YGM+L61sz6MMagpX44RSnZPIdEygMQgJNIrj6xG2kGAqHroHV+ukXbmGJzRLgoc6HLH4LWmgp1YgfHzJtrFzSX84PT6VdiithbHR+fAC2rmLPr99727g0noPZTEjgwtPQaXVTR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUS4ikf7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A1CC4CEED;
+	Thu, 14 Aug 2025 16:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755190339;
+	bh=xDCJGRAkBOyLHPMWTglfKooDZPEiLk+khkQLFD0KVoE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BUS4ikf7AX6C88z+F2/XSv+1M5hXVOMeC77XiWieyZa2GUP+2JJyYoUpfS/WdwAsu
+	 ODwd2O9RQzqvCWcRwAYScP7FOJ4OValdyb74tAUxKwmMZuHw3kAOuuK/32EFAlIB6W
+	 qNW9YJ/ibCooE9homzMY+TCAM+G0BVHnPrpXHw+jcSJ9xVgSohIjtZZ0quEJMUShat
+	 gX6/7xyHZgEggW9goPqtgemixofVOS7TxSvMic1AsL8yErqzhTzcIu5N5UqooXONtH
+	 roS/Aif++L6UcDVzhcuO7rzAZWCyapIDdUPBjaUBawYOz7SE45r5e0bZRAAMk1oF1l
+	 xHgOiDmsucQQg==
+Date: Thu, 14 Aug 2025 09:52:18 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, hch@lst.de, tytso@mit.edu,
+	bmarzins@redhat.com, chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+	martin.petersen@oracle.com, yi.zhang@huawei.com,
+	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
+Subject: Re: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES
+ support
+Message-ID: <20250814165218.GQ7942@frogsfrogsfrogs>
+References: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] fs: Add 'rootfsflags' to set rootfs mount options
-To: Lichen Liu <lichliu@redhat.com>, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- safinaskar@zohomail.com, kexec@lists.infradead.org, rob@landley.net,
- weilongchen@huawei.com, cyphar@cyphar.com, linux-api@vger.kernel.org,
- zohar@linux.ibm.com, stefanb@linux.ibm.com, initramfs@vger.kernel.org
-References: <20250814103424.3287358-2-lichliu@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250814103424.3287358-2-lichliu@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
 
-Hi,
-
-On 8/14/25 3:34 AM, Lichen Liu wrote:
-> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
-> By default, a tmpfs mount is limited to using 50% of the available RAM
-> for its content. This can be problematic in memory-constrained
-> environments, particularly during a kdump capture.
+On Wed, Aug 13, 2025 at 10:40:15AM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> In a kdump scenario, the capture kernel boots with a limited amount of
-> memory specified by the 'crashkernel' parameter. If the initramfs is
-> large, it may fail to unpack into the tmpfs rootfs due to insufficient
-> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
-> memory must be available for the mount. This leads to an OOM failure
-> during the early boot process, preventing a successful crash dump.
+> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+> utility by introducing a new option -w|--write-zeroes.
 > 
-> This patch introduces a new kernel command-line parameter, rootfsflags,
-> which allows passing specific mount options directly to the rootfs when
-> it is first mounted. This gives users control over the rootfs behavior.
-> 
-> For example, a user can now specify rootfsflags=size=75% to allow the
-> tmpfs to use up to 75% of the available memory. This can significantly
-> reduce the memory pressure for kdump.
-> 
-> Consider a practical example:
-> 
-> To unpack a 48MB initramfs, the tmpfs needs 48MB of usable space. With
-> the default 50% limit, this requires a memory pool of 96MB to be
-> available for the tmpfs mount. The total memory requirement is therefore
-> approximately: 16MB (vmlinuz) + 48MB (loaded initramfs) + 48MB (unpacked
-> kernel) + 96MB (for tmpfs) + 12MB (runtime overhead) ≈ 220MB.
-> 
-> By using rootfsflags=size=75%, the memory pool required for the 48MB
-> tmpfs is reduced to 48MB / 0.75 = 64MB. This reduces the total memory
-> requirement by 32MB (96MB - 64MB), allowing the kdump to succeed with a
-> smaller crashkernel size, such as 192MB.
-> 
-> An alternative approach of reusing the existing rootflags parameter was
-> considered. However, a new, dedicated rootfsflags parameter was chosen
-> to avoid altering the current behavior of rootflags (which applies to
-> the final root filesystem) and to prevent any potential regressions.
-> 
-> This approach is inspired by prior discussions and patches on the topic.
-> Ref: https://www.lightofdawn.org/blog/?viewDetailed=00128
-> Ref: https://landley.net/notes-2015.html#01-01-2015
-> Ref: https://lkml.org/lkml/2021/6/29/783
-> Ref: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-initramfs.html#what-is-rootfs
-> 
-> Signed-off-by: Lichen Liu <lichliu@redhat.com>
-> Tested-by: Rob Landley <rob@landley.net>
+> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > ---
-> Hi VFS maintainers,
+> v1->v2:
+>  - Minor description modification to align with the kernel.
 > 
-> Resending this patch as it did not get picked up.
-> This patch is intended for the VFS tree.
+>  sys-utils/fallocate.1.adoc | 11 +++++++++--
+>  sys-utils/fallocate.c      | 20 ++++++++++++++++----
+>  2 files changed, 25 insertions(+), 6 deletions(-)
 > 
->  fs/namespace.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 8f1000f9f3df..e484c26d5e3f 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -65,6 +65,15 @@ static int __init set_mphash_entries(char *str)
->  }
->  __setup("mphash_entries=", set_mphash_entries);
->  
-> +static char * __initdata rootfs_flags;
-> +static int __init rootfs_flags_setup(char *str)
-> +{
-> +	rootfs_flags = str;
-> +	return 1;
-> +}
+> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+> index 44ee0ef4c..0ec9ff9a9 100644
+> --- a/sys-utils/fallocate.1.adoc
+> +++ b/sys-utils/fallocate.1.adoc
+> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
+
+<snip all the long lines>
+
+> +*-w*, *--write-zeroes*::
+> +Zeroes space in the byte range starting at _offset_ and continuing
+> for _length_ bytes. Within the specified range, blocks are
+> preallocated for the regions that span the holes in the file. After a
+> successful call, subsequent reads from this range will return zeroes,
+> subsequent writes to that range do not require further changes to the
+> file mapping metadata.
+
+"...will return zeroes and subsequent writes to that range..." ?
+
+> ++
+> +Zeroing is done within the filesystem by preferably submitting write
+
+I think we should say less about what the filesystem actually does to
+preserve some flexibility:
+
+"Zeroing is done within the filesystem. The filesystem may use a
+hardware accelerated zeroing command, or it may submit regular writes.
+The behavior depends on the filesystem design and available hardware."
+
+> zeores commands, the alternative way is submitting actual zeroed data,
+> the specified range will be converted into written extents. The write
+> zeroes command is typically faster than write actual data if the
+> device supports unmap write zeroes, the specified range will not be
+> physically zeroed out on the device.
+> ++
+> +Options *--keep-size* can not be specified for the write-zeroes
+> operation.
 > +
-> +__setup("rootfsflags=", rootfs_flags_setup);
-
-Please document this option (alphabetically) in
-Documentation/admin-guide/kernel-parameters.txt.
-
-Thanks.
-
+>  include::man-common/help-version.adoc[]
+>  
+>  == AUTHORS
+> diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
+> index 13bf52915..8d37fdad7 100644
+> --- a/sys-utils/fallocate.c
+> +++ b/sys-utils/fallocate.c
+> @@ -40,7 +40,7 @@
+>  #if defined(HAVE_LINUX_FALLOC_H) && \
+>      (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
+>       !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
+> -     !defined(FALLOC_FL_INSERT_RANGE))
+> +     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
+>  # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
+>  #endif
+>  
+> @@ -65,6 +65,10 @@
+>  # define FALLOC_FL_INSERT_RANGE		0x20
+>  #endif
+>  
+> +#ifndef FALLOC_FL_WRITE_ZEROES
+> +# define FALLOC_FL_WRITE_ZEROES		0x80
+> +#endif
 > +
->  static u64 event;
->  static DEFINE_XARRAY_FLAGS(mnt_id_xa, XA_FLAGS_ALLOC);
->  static DEFINE_IDA(mnt_group_ida);
-> @@ -5677,7 +5686,7 @@ static void __init init_mount_tree(void)
->  	struct mnt_namespace *ns;
->  	struct path root;
+>  #include "nls.h"
+>  #include "strutils.h"
+>  #include "c.h"
+> @@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
+>  	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
+>  	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
+>  	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
+> +	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
+>  #ifdef HAVE_POSIX_FALLOCATE
+>  	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
+>  #endif
+> @@ -304,6 +309,7 @@ int main(int argc, char **argv)
+>  	    { "dig-holes",      no_argument,       NULL, 'd' },
+>  	    { "insert-range",   no_argument,       NULL, 'i' },
+>  	    { "zero-range",     no_argument,       NULL, 'z' },
+> +	    { "write-zeroes",   no_argument,       NULL, 'w' },
+>  	    { "offset",         required_argument, NULL, 'o' },
+>  	    { "length",         required_argument, NULL, 'l' },
+>  	    { "posix",          no_argument,       NULL, 'x' },
+> @@ -312,8 +318,8 @@ int main(int argc, char **argv)
+>  	};
 >  
-> -	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", NULL);
-> +	mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", rootfs_flags);
->  	if (IS_ERR(mnt))
->  		panic("Can't create rootfs");
+>  	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
+> -		{ 'c', 'd', 'i', 'p', 'x', 'z'},
+> -		{ 'c', 'i', 'n', 'x' },
+> +		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
+> +		{ 'c', 'i', 'n', 'w', 'x' },
+>  		{ 0 }
+>  	};
+>  	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
+> @@ -323,7 +329,7 @@ int main(int argc, char **argv)
+>  	textdomain(PACKAGE);
+>  	close_stdout_atexit();
 >  
+> -	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
+> +	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
+>  			!= -1) {
+>  
+>  		err_exclusive_options(c, longopts, excl, excl_st);
+> @@ -353,6 +359,9 @@ int main(int argc, char **argv)
+>  		case 'z':
+>  			mode |= FALLOC_FL_ZERO_RANGE;
+>  			break;
+> +		case 'w':
+> +			mode |= FALLOC_FL_WRITE_ZEROES;
+> +			break;
+>  		case 'x':
+>  #ifdef HAVE_POSIX_FALLOCATE
+>  			posix = 1;
+> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
+>  			else if (mode & FALLOC_FL_ZERO_RANGE)
+>  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+>  								filename, str, length);
+> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
+> +				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
 
--- 
-~Randy
+"write zeroed" is a little strange, but I don't have a better
+suggestion. :)
 
+--D
+
+> +								filename, str, length);
+>  			else
+>  				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
+>  								filename, str, length);
+> -- 
+> 2.39.2
+> 
+> 
 
