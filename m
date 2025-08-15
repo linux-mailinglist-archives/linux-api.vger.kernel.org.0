@@ -1,208 +1,164 @@
-Return-Path: <linux-api+bounces-4493-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4494-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C0AB27DC3
-	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 12:02:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C67B27DEE
+	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 12:09:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EE6EAE4A10
-	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 09:59:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70C781886525
+	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 10:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 548842FCC0A;
-	Fri, 15 Aug 2025 09:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711232FABE6;
+	Fri, 15 Aug 2025 10:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sy2rO7FD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777922FCBEC;
-	Fri, 15 Aug 2025 09:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA852E06D7;
+	Fri, 15 Aug 2025 10:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755251951; cv=none; b=ssJt6KgS570w+hF7B53+f5eY3uTvQXBoM4OWLfywehuk78wXzSb4RYfUX+6hhUtiw68h+Q1ZoSEPQCl0Yv6iqTk28eiIVEEn2DybLActnL7KPI6WGn0OPDUm7R5RbtxCMN0lfo5l8cRnv3nJoKmR01/MkELekgZfeWtfeWEYpL8=
+	t=1755252360; cv=none; b=S4sNR4h0NyrNioX06MYTgzgR3QUo/6q459aUd56Q7+mWF5S31tha7mjn65qTiGeqqaCSX4Yt9sB7riRiTH9kup5b+sYSopuZg2g/0lyX4OyAawjpUK9P5/Xfx319Z2/h1uZb9PEodNa6+fL34z/W/3WFxpIyxdntz5uJBkzMlz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755251951; c=relaxed/simple;
-	bh=BPj2WyclCZXem/yITttTFUz9oSCQhbl2IdcrQ+sLCf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sdd421YGTHLAH5SrvKhNNAVSB23Zs9hRuWm5z8UTY1fbeRQFB4gvIv3pUT1lZNQMYc5XBZYiVPv3NLFMHzWb0RLv7ShpnCd6MJ5c4mz9ZM+Q9Dbj7h6NVH44/0Zy7Ksnw+lXjvNKBZqWmUVprdunBUGZk791tv49FrYEZWeFhO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4c3Hd56804zKHMnb;
-	Fri, 15 Aug 2025 17:59:05 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 2707D1A0A8D;
-	Fri, 15 Aug 2025 17:59:05 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgDnrxDlBJ9or8EHDw--.35151S3;
-	Fri, 15 Aug 2025 17:59:03 +0800 (CST)
-Message-ID: <1428e3fe-ae7a-410d-97b5-7dd0249c41c0@huaweicloud.com>
-Date: Fri, 15 Aug 2025 17:59:01 +0800
+	s=arc-20240116; t=1755252360; c=relaxed/simple;
+	bh=4kAPBiqBZAxCxAWIqIT+vr/yijIk5oAl7mKqqrCIIPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZYDWyISbHu5E/ATNmXqjoCLRLQMwLgG3kSwpCQRDGSFRlav/UonthHNYuUD+uME0SLLBePDmpPrUeQ5gmDlWbxzEKI0mEiOQZWUac5lAf03y+BWAnhJSdP3f8ESAsD2LCw9q+kNHY85gPpKoLagGedBSY8keHwiwivgUdMsf/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sy2rO7FD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87455C4CEEB;
+	Fri, 15 Aug 2025 10:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755252359;
+	bh=4kAPBiqBZAxCxAWIqIT+vr/yijIk5oAl7mKqqrCIIPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sy2rO7FDDu4llpFz5072JU6C/cgszHciODCkbRki++0+gQXvb6MFUExZ/dQrs6ag6
+	 xS0K9396Iwmi7UJDbF0JBapKbPwhSlDQUapEhgjpef6asPhzyGrWw0USjgTARyRYON
+	 vnzB1oHb337Dakjv27VeTywsm25dbCNT2sRFR9jZaYCWc1bSTXz+lwMCxhc8RzQEmt
+	 jVcjMQL0BTwBbTR1AB9Ny/WC615OibK5ZGrPYvLs6sGjvLRIYova+z3PDX3EhStElz
+	 1r06W6OcXZPHBd7FtEwivxo4bqd0OKhRLvSI3JLsWqO50k6sKHunnbSQZhUlBDtHLg
+	 RnOu/SY4MRCCA==
+Date: Fri, 15 Aug 2025 12:05:54 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] man/man2/mremap.2: explicitly document the simple
+ move operation
+Message-ID: <hxbuhtkuorfe5d5lr7wi5cny7vx6bt3kc2xaoknfz4h6vk6djv@kpgaur7636rl>
+References: <cover.1754924278.git.lorenzo.stoakes@oracle.com>
+ <0a5d0d6e9f75e8e2de05506f73c41b069d77de36.1754924278.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH xfsprogs v2] xfs_io: add FALLOC_FL_WRITE_ZEROES support
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, hch@lst.de,
- tytso@mit.edu, bmarzins@redhat.com, chaitanyak@nvidia.com,
- shinichiro.kawasaki@wdc.com, brauner@kernel.org, martin.petersen@oracle.com,
- yi.zhang@huawei.com, chengzhihao1@huawei.com, yukuai3@huawei.com,
- yangerkun@huawei.com
-References: <20250813024250.2504126-1-yi.zhang@huaweicloud.com>
- <20250814165430.GR7942@frogsfrogsfrogs>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250814165430.GR7942@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgDnrxDlBJ9or8EHDw--.35151S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw4fKFyrGry8tFWkJF4UXFb_yoW5uF17pa
-	47XF1jkFW5Xry7uayfKw4kuF98Xws3tF43Gr4xWr10v3Z8ZF1fKF1DGwsY93s7ur1xCa10
-	qFn0gFy3C3WSy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="74b6lswjh7fvdbms"
+Content-Disposition: inline
+In-Reply-To: <0a5d0d6e9f75e8e2de05506f73c41b069d77de36.1754924278.git.lorenzo.stoakes@oracle.com>
 
-On 2025/8/15 0:54, Darrick J. Wong wrote:
-> On Wed, Aug 13, 2025 at 10:42:50AM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
->> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES support to the
->> fallocate utility by introducing a new 'fwzero' command in the xfs_io
->> tool.
->>
->> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->> v1->v2:
->>  - Minor description modification to align with the kernel.
->>
->>  io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
->>  man/man8/xfs_io.8 |  6 ++++++
->>  2 files changed, 42 insertions(+)
->>
->> diff --git a/io/prealloc.c b/io/prealloc.c
->> index 8e968c9f..9a64bf53 100644
->> --- a/io/prealloc.c
->> +++ b/io/prealloc.c
->> @@ -30,6 +30,10 @@
->>  #define FALLOC_FL_UNSHARE_RANGE 0x40
->>  #endif
->>  
->> +#ifndef FALLOC_FL_WRITE_ZEROES
->> +#define FALLOC_FL_WRITE_ZEROES 0x80
->> +#endif
->> +
->>  static cmdinfo_t allocsp_cmd;
->>  static cmdinfo_t freesp_cmd;
->>  static cmdinfo_t resvsp_cmd;
->> @@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
->>  static cmdinfo_t finsert_cmd;
->>  static cmdinfo_t fzero_cmd;
->>  static cmdinfo_t funshare_cmd;
->> +static cmdinfo_t fwzero_cmd;
->>  
->>  static int
->>  offset_length(
->> @@ -377,6 +382,27 @@ funshare_f(
->>  	return 0;
->>  }
->>  
->> +static int
->> +fwzero_f(
->> +	int		argc,
->> +	char		**argv)
->> +{
->> +	xfs_flock64_t	segment;
->> +	int		mode = FALLOC_FL_WRITE_ZEROES;
-> 
-> Shouldn't this take a -k to add FALLOC_FL_KEEP_SIZE like fzero?
-> 
 
-Since allocating blocks with written extents beyond the inode size
-is not permitted, the FALLOC_FL_WRITE_ZEROES flag cannot be used
-together with the FALLOC_FL_KEEP_SIZE.
+--74b6lswjh7fvdbms
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] man/man2/mremap.2: explicitly document the simple
+ move operation
+References: <cover.1754924278.git.lorenzo.stoakes@oracle.com>
+ <0a5d0d6e9f75e8e2de05506f73c41b069d77de36.1754924278.git.lorenzo.stoakes@oracle.com>
+MIME-Version: 1.0
+In-Reply-To: <0a5d0d6e9f75e8e2de05506f73c41b069d77de36.1754924278.git.lorenzo.stoakes@oracle.com>
 
-Thanks,
-Yi.
+Hi Lorenzo,
 
-> (The code otherwise looks fine to me)
-> 
-> --D
-> 
->> +
->> +	if (!offset_length(argv[1], argv[2], &segment)) {
->> +		exitcode = 1;
->> +		return 0;
->> +	}
->> +
->> +	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
->> +		perror("fallocate");
->> +		exitcode = 1;
->> +		return 0;
->> +	}
->> +	return 0;
->> +}
->> +
->>  void
->>  prealloc_init(void)
->>  {
->> @@ -489,4 +515,14 @@ prealloc_init(void)
->>  	funshare_cmd.oneline =
->>  	_("unshares shared blocks within the range");
->>  	add_command(&funshare_cmd);
->> +
->> +	fwzero_cmd.name = "fwzero";
->> +	fwzero_cmd.cfunc = fwzero_f;
->> +	fwzero_cmd.argmin = 2;
->> +	fwzero_cmd.argmax = 2;
->> +	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
->> +	fwzero_cmd.args = _("off len");
->> +	fwzero_cmd.oneline =
->> +	_("zeroes space and eliminates holes by allocating and submitting write zeroes");
->> +	add_command(&fwzero_cmd);
->>  }
->> diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
->> index b0dcfdb7..0a673322 100644
->> --- a/man/man8/xfs_io.8
->> +++ b/man/man8/xfs_io.8
->> @@ -550,6 +550,12 @@ With the
->>  .B -k
->>  option, use the FALLOC_FL_KEEP_SIZE flag as well.
->>  .TP
->> +.BI fwzero " offset length"
->> +Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
->> +.BR fallocate (2)
->> +manual page to allocate and zero blocks within the range by submitting write
->> +zeroes.
->> +.TP
->>  .BI zero " offset length"
->>  Call xfsctl with
->>  .B XFS_IOC_ZERO_RANGE
->> -- 
->> 2.39.2
->>
->>
+On Mon, Aug 11, 2025 at 03:59:37PM +0100, Lorenzo Stoakes wrote:
+> In preparation for discussing newly introduced mremap() behaviour to perm=
+it
+> the move of multiple mappings at once, add a section to the mremap.2 man
+> page to describe these operations in general.
+>=20
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
+Thanks!  I've applied this patch.
+<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
+mit/?h=3Dcontrib&id=3D6ba37b9e14f6565d0cccecb634100d7fe11d22fb>
+
+
+Have a lovely day!
+Alex
+
+> ---
+>  man/man2/mremap.2 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>=20
+> diff --git a/man/man2/mremap.2 b/man/man2/mremap.2
+> index 2168ca728..4e3c8e54e 100644
+> --- a/man/man2/mremap.2
+> +++ b/man/man2/mremap.2
+> @@ -25,6 +25,20 @@ moving it at the same time (controlled by the
+>  argument and
+>  the available virtual address space).
+>  .P
+> +Mappings can also simply be moved
+> +(without any resizing)
+> +by specifying equal
+> +.I old_size
+> +and
+> +.I new_size
+> +and using the
+> +.B MREMAP_FIXED
+> +flag
+> +(see below).
+> +The
+> +.B MREMAP_DONTUNMAP
+> +flag may also be specified.
+> +.P
+>  .I old_address
+>  is the old address of the virtual memory block that you
+>  want to expand (or shrink).
+> --=20
+> 2.50.1
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--74b6lswjh7fvdbms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmifBoEACgkQ64mZXMKQ
+wqk7Dw//WsFue4bgugB0w/7GXyXlaPczRfrhaf0n+tv2SeXMcBgc86x8YoLB4O5g
+6WGu+m2Eei9AjViA6W0UlnBIXGsWnUQHgv+8tqA1vfEcHDSfnh26kh0gMTlMPKuq
+wPC+o3X6F6srlbiY2/l6YbvpgNn/V1/23h6LaiA4jBcilL5nB5lcHOInkcc4y7W3
+BFnXclPsmRQGFnWrRqNJoE07RH1g0muQvpexqVi+rcaxwtW6nO7agU0BF6whMpzy
+wP2dVSETSUWMBBa1pKpcsnPdE+6R84TKNFFYj6xIICN/fTWwnuVst9SOdiqUKN6+
+NhPp7Vo47d73nH8levpw0VrkNY6+8kLq2Fm6bOnyqf5Xff0w7FoHJx0D3QlSqWPN
+efKViQY+D2uu8tvT2PF3/goFNUH/08EE/TUjxIUbqTFzi2H314yyEWX0YNIqpZJw
+/7EBDvp/yoH+GPbzol7Onz7Y/G537Z2RG+MEbazZsV7IUOVcXkrFvcVq7KR4/TlN
+NgipluT+5TEClK6gyp58v4RbJm4SFeSRl3tlx6vXfK4cS3WF8QpsT6K8arwTEFnF
+sLx3IpEP8cbUrxISi+hGt8VyxqkL6kFatKsWfF8pRsD2Njwe7yNBzYuG8+9SJ8dD
+PZtV69UE04m/D2yfesaNy+eYsIYEtV5mlNOHMMIUZy68hv68XTQ=
+=hIne
+-----END PGP SIGNATURE-----
+
+--74b6lswjh7fvdbms--
 
