@@ -1,147 +1,171 @@
-Return-Path: <linux-api+bounces-4491-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4492-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992EBB27CEC
-	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 11:23:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39555B27D2D
+	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 11:33:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D9FA1D211FB
-	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 09:16:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 938673BC32E
+	for <lists+linux-api@lfdr.de>; Fri, 15 Aug 2025 09:29:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF01025FA29;
-	Fri, 15 Aug 2025 09:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k64qKfJ6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15E882E7BD0;
+	Fri, 15 Aug 2025 09:29:28 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0834248891;
-	Fri, 15 Aug 2025 09:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76F2E7627;
+	Fri, 15 Aug 2025 09:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755249157; cv=none; b=JI+V65cY2eHHojZ/e8wuICqipEHoBbCAGh3TCstVa2569FJ5Cb/ivHAzoJVxjfBfASyYtMjrgTwIL9Vmh2afBxvU9U4YiQUMWXi27pWjrxzQMGJGyXdK3V64We+YJ+PPNdXmaYav1mOBgJtAEwRONw8MB0MpvZwntajCQrkj9+c=
+	t=1755250168; cv=none; b=pindTKzikUYFrX9AlXaROzKPUtJcA14ACHuuHW356d+8kwTnLSePO4+HBpSbwz+p7U0csJDX3OjC95+tsSAIpr+sO3cEYmVBbN0SfCGvO7qnf/BXhFUhdR+z+d/UwD/UJKQa4QJ586X7nqgUfjP5vCBe53pdJLEwiH7xTDkktOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755249157; c=relaxed/simple;
-	bh=NCVfEVQN6LHwkNoCyqO9selISDvFLOPAgNrIg0ejz0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JniuZN8wD8ZYubEAW3MoKWWtH4KH4YnhpEw7tpgG3rFPrs94cPAlUijpv+sAj8lpkoniQhk4qT3Z2iQY0Yp5B43M9WEiPcg25uu5MBL6CoYcIFGlj6UG9b1ne4+KxVqbUehk1sXgRcmjs5gJAMozrIvOmbHMl+lE0BiT41sCQRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k64qKfJ6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ED2C4CEEB;
-	Fri, 15 Aug 2025 09:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755249154;
-	bh=NCVfEVQN6LHwkNoCyqO9selISDvFLOPAgNrIg0ejz0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k64qKfJ6zNJDhsnuWxR0fgqX3BVaqQwvdZElR/klQAEoCxi1g56cxeHTAZN0/wswK
-	 Pq+3GThmFMau+x8U6BogKChu5yqp5BwT3RbxGdJVY+yxVsA/3n3361XvguUQYtAzo0
-	 CwsxkbStJHs9RAUy1BQLHDF5j08YA23EQWtialVtSTBmcZtV4ZgvbsnBJMyvgGhChp
-	 CJH00Qs5o00iwlgrtxYWMVa2jp4VjDFoGjgtjzcCsiVePDp+01FqKPujeYxhNnJ5cJ
-	 L4zaOZ7N9WkPfF3VfgjAaCkkSQpngOXjnWintiz60FKc8w0raVBwqKL8kvbukYzLFm
-	 Bt1jthD93yq4g==
-Date: Fri, 15 Aug 2025 12:12:10 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 07/30] kho: add interfaces to unpreserve folios and
- physical memory ranges
-Message-ID: <aJ756q-wWJV37fMm@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-8-pasha.tatashin@soleen.com>
- <20250814132233.GB802098@nvidia.com>
+	s=arc-20240116; t=1755250168; c=relaxed/simple;
+	bh=r4kBBAeTtHpjU3Hx+uyH4afcr1dE8EblvGZWI3m+Pgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p1HaOLGbEUBplmvVJYSYQ0nRicIKKNXdpuP1Q+mXvBGY0gPjo8i9nLj5EqZ7/mLumj2r7BnM+uDkXO8ZU0SzKDhqLlRI2VRwO5VMYyr4l6T+wRbT6ex/Y09f48C0Unoa0NTOdw2gN3KEi9ZJHu4X/a5t8O7QUSDcRlfC39wUEwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c3Gyr4xjdzYQvFZ;
+	Fri, 15 Aug 2025 17:29:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 482F01A0359;
+	Fri, 15 Aug 2025 17:29:23 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgBn4hLv_Z5o+WUFDw--.56836S3;
+	Fri, 15 Aug 2025 17:29:21 +0800 (CST)
+Message-ID: <a0eda581-ae6c-4b49-8b4f-7bb039b17487@huaweicloud.com>
+Date: Fri, 15 Aug 2025 17:29:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814132233.GB802098@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES
+ support
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, hch@lst.de, tytso@mit.edu, bmarzins@redhat.com,
+ chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+ martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com
+References: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
+ <20250814165218.GQ7942@frogsfrogsfrogs>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250814165218.GQ7942@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgBn4hLv_Z5o+WUFDw--.56836S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF1fZw1kZF45Xr18tFW8WFg_yoW5CFWUpa
+	y5AF18tr48KF17G3s7Za1ku3WFyws2yrWxWrW0qr1kZrnxWF1UKF4DWr1FgF97Xr1kCa1j
+	vr4SvFya9F1UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Thu, Aug 14, 2025 at 10:22:33AM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 07, 2025 at 01:44:13AM +0000, Pasha Tatashin wrote:
-> > +int kho_unpreserve_phys(phys_addr_t phys, size_t size)
-> > +{
-> 
-> Why are we adding phys apis? Didn't we talk about this before and
-> agree not to expose these?
-> 
-> The places using it are goofy:
-> 
-> +static int luo_fdt_setup(void)
-> +{
-> +       fdt_out = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
-> +                                          get_order(LUO_FDT_SIZE));
-> 
-> +       ret = kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
-> 
-> +       WARN_ON_ONCE(kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE));
-> 
-> It literally allocated a page and then for some reason switches to
-> phys with an open coded __pa??
-> 
-> This is ugly, if you want a helper to match __get_free_pages() then
-> make one that works on void * directly. You can get the order of the
-> void * directly from the struct page IIRC when using GFP_COMP.
-> 
-> Which is perhaps another comment, if this __get_free_pages() is going
-> to be a common pattern (and I guess it will be) then the API should be
-> streamlined alot more:
-> 
->  void *kho_alloc_preserved_memory(gfp, size);
->  void kho_free_preserved_memory(void *);
+Thank you for your review comments!
 
-This looks backwards to me. KHO should not deal with memory allocation,
-it's responsibility to preserve/restore memory objects it supports.
-
-For __get_free_pages() the natural KHO API is kho_(un)preserve_pages().
-With struct page/mesdesc we always have page_to_<specialized object> from
-one side and page_to_pfn from the other side.
-
-Then folio and phys/virt APIS just become a thin wrappers around the _page
-APIs. And down the road we can add slab and maybe vmalloc. 
-
-Once folio won't overlap struct page, we'll have a hard time with only
-kho_preserve_folio() for memory that's not actually folio (i.e. anon and
-page cache)
- 
-> Which can wrapper the get_free_pages and the preserve logic and gives
-> a nice path to possibly someday supporting non-PAGE_SIZE allocations.
+On 2025/8/15 0:52, Darrick J. Wong wrote:
+> On Wed, Aug 13, 2025 at 10:40:15AM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+>> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+>> utility by introducing a new option -w|--write-zeroes.
+>>
+>> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>> v1->v2:
+>>  - Minor description modification to align with the kernel.
+>>
+>>  sys-utils/fallocate.1.adoc | 11 +++++++++--
+>>  sys-utils/fallocate.c      | 20 ++++++++++++++++----
+>>  2 files changed, 25 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+>> index 44ee0ef4c..0ec9ff9a9 100644
+>> --- a/sys-utils/fallocate.1.adoc
+>> +++ b/sys-utils/fallocate.1.adoc
+>> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
 > 
-> Jason
+> <snip all the long lines>
+> 
+>> +*-w*, *--write-zeroes*::
+>> +Zeroes space in the byte range starting at _offset_ and continuing
+>> for _length_ bytes. Within the specified range, blocks are
+>> preallocated for the regions that span the holes in the file. After a
+>> successful call, subsequent reads from this range will return zeroes,
+>> subsequent writes to that range do not require further changes to the
+>> file mapping metadata.
+> 
+> "...will return zeroes and subsequent writes to that range..." ?
 > 
 
--- 
-Sincerely yours,
-Mike.
+Yeah.
+
+>> ++
+>> +Zeroing is done within the filesystem by preferably submitting write
+> 
+> I think we should say less about what the filesystem actually does to
+> preserve some flexibility:
+> 
+> "Zeroing is done within the filesystem. The filesystem may use a
+> hardware accelerated zeroing command, or it may submit regular writes.
+> The behavior depends on the filesystem design and available hardware."
+> 
+
+Sure.
+
+>> zeores commands, the alternative way is submitting actual zeroed data,
+>> the specified range will be converted into written extents. The write
+>> zeroes command is typically faster than write actual data if the
+>> device supports unmap write zeroes, the specified range will not be
+>> physically zeroed out on the device.
+>> ++
+>> +Options *--keep-size* can not be specified for the write-zeroes
+>> operation.
+>> +
+>>  include::man-common/help-version.adoc[]
+>>  
+>>  == AUTHORS
+[..]
+>> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
+>>  			else if (mode & FALLOC_FL_ZERO_RANGE)
+>>  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+>>  								filename, str, length);
+>> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
+>> +				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
+> 
+> "write zeroed" is a little strange, but I don't have a better
+> suggestion. :)
+> 
+
+Hmm... What about simply using "zeroed", the same to FALLOC_FL_ZERO_RANGE?
+Users should be aware of the parameters they have passed to fallocate(),
+so they should not use this print for further differentiation.
+
+Thanks,
+Yi.
+
 
