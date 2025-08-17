@@ -1,281 +1,167 @@
-Return-Path: <linux-api+bounces-4502-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4503-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B24FB29214
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 09:53:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 841AAB2921E
+	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 09:57:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5BA44823B1
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 07:53:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6809C7B0453
+	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 07:56:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A59C1E5718;
-	Sun, 17 Aug 2025 07:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E3C212B3D;
+	Sun, 17 Aug 2025 07:57:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="GloQMCCj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbnT+t1/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B7147F4A;
-	Sun, 17 Aug 2025 07:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755417221; cv=pass; b=YZCHfnaLAE/3/xWhi8NI+3Baq6b0nRvGqLBwu4kl1q+ImpjJHi3JJJDhFSO1LwnC/IbdmO+D8uoA1/DAXTaYfs/zKK9PBi/Yx2APqq5r30Oba6l4De/wHLX2v+hqCqcSFuSU4qb9vnah8gLW3/xDiXONI4Z5OLTrp8DVtegsqfo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755417221; c=relaxed/simple;
-	bh=+A/lL2Vivktg9Fcjb1RlmK8N9LuyWC8xYg1ZWXsLqfs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VXIByBQcIWAzUZRWDCwEtZx9eRaNlU7p28NT6ZKX3CW6n8YBvGqiebEsBF6vlq5xaCSgAFotJ61Yz9Mae78IFn/TZKIu8cYErCKjJnzSVcHPjfWW7sDxqNyqwJKU5txythi5rXlTjx0imflzQQP3KLYiUhHVjCcvm7AUCuCfWjA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=GloQMCCj; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1755417184; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XK9TUXUIImJ+S6YxKYji5AxuTW5lGuY8dd+ySQD4ic6g5ZDtTft9jYBjdCI+5FyosXuofqwB+nCkpkEFM7W0VGmSf64na/FokUFLwYLOw5pTk6sGkTREJJjB/90VsWUZY8fPbZpHUGm8gM9nJzXErl01GzxCs1romYVAWmn77p8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1755417184; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=FxEUlubSzS/ImSmy9LZfYIWs7jCDlWOHoKLlk40PBY4=; 
-	b=E3FC664HU6sv2FfICrC6I2ocZIAHg3Wu62IZIDTidy3mS2+MG1I3wEDbngmIia/DSK2HopvDaZ9jY3obHlBApOMooPia9WscG77uG5ocWMZA8nem5XD5Us05VqOe3NYJiDapox1BupcV2oO9IG3dVufo5gOJYs9VwxVdPpJSWiY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755417183;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=FxEUlubSzS/ImSmy9LZfYIWs7jCDlWOHoKLlk40PBY4=;
-	b=GloQMCCjcT4dXCZ2G2ZJdEWJgRqPoJbiEklJhtk+J8XF2yYPEtvD98cparmnXsgN
-	GmDKDhQAdViSTL2lCQvyUXpHTq5nS2FyQ0+J+mIVX6Ic8VAZDDHBjG3CHfUszRZ6nhv
-	WTsEmeuP54CPO+LOSkL33GMaBolI2yELwHnt6t0U=
-Received: by mx.zohomail.com with SMTPS id 1755417180137848.3990767083374;
-	Sun, 17 Aug 2025 00:53:00 -0700 (PDT)
-From: Askar Safin <safinaskar@zohomail.com>
-To: cyphar@cyphar.com
-Cc: alx@kernel.org,
-	brauner@kernel.org,
-	dhowells@redhat.com,
-	g.branden.robinson@gmail.com,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	mtk.manpages@gmail.com,
-	safinaskar@zohomail.com,
-	viro@zeniv.linux.org.uk,
-	Ian Kent <raven@themaw.net>,
-	autofs mailing list <autofs@vger.kernel.org>
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-Date: Sun, 17 Aug 2025 10:52:52 +0300
-Message-ID: <20250817075252.4137628-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C88B19E82A;
+	Sun, 17 Aug 2025 07:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755417467; cv=none; b=QngyFyn0fOU9cxGVlb7hnyLK/5IVkulWJ7OgXdRN9EC7J6w7aVMCJbDYdtATYagCCEknT/egvHeppFB9nwmBdeE6gaYd8MijfpJgDSoMnAutSZQbtIWHUgcsNq1LjUQavE51wvv0nN8V+M1AbKebuz3bOqhG8I+RQNSibAIIIHs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755417467; c=relaxed/simple;
+	bh=yQuiJ45Vh6J7gKXVGoZus8IP+oatDjgK0XKBk6cWb/4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=k+e4K6mJ4qGXICqsLN8xB9/oQarNUGCHRtTjQwBBJdYsDphHPwBt9cPKcGrv5KnflmvKAwis8dBX4YxP0mV7uYjwy6QI+0DtOu1whDRvvL9ENF5Ni5VrZZmEDJ20zCI0D3TPwKsyYBtIwWozkCTcnEyM/8OYFleFtfY+noZ9yms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbnT+t1/; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3bb81a0c36aso108675f8f.3;
+        Sun, 17 Aug 2025 00:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755417462; x=1756022262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q1jkR3N9Y1QTztsNiDkJcC+i9uf2sc9OYJvJHiG79qQ=;
+        b=HbnT+t1/XDEZLrU6hReGPicZAgIXdEkRfJ722FdE1yoOIrR6v5g08PBnWrAZUVoprf
+         dtccwKvHtmP0yEwJ0CuLsQp0j4M3fb834i50A2qGMOkD4HFe2N5IlroDG7vf9gV4mznT
+         XdrChAsy4IhzL3jScm6J8wXoWKaQPByb4xCIsi/JRBAbfVNW13SxCvCujZ/M9vGHN1Hw
+         aHjbjmaYTNzNlpLECWKwDRP9OySoE8J3FmWHC/zaZPu9Rv6941FMvKDkwzW+Xgpf6CHm
+         ka2Fkwy/gFNZQhexuFL70UYTUZqRHA9dhfIYzvmyZv06p71SRtWF1Dmd/9ZHfVqc/h9Q
+         QeJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755417462; x=1756022262;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=q1jkR3N9Y1QTztsNiDkJcC+i9uf2sc9OYJvJHiG79qQ=;
+        b=fgFoB/u7J3uXh37Mt1pVdDhr1T/Drx3K1zOy2xXwSmHUwurTSMTlSmX/wu+6vL78zB
+         OnNY9Q2konImUDkdmNLXGq54HYtNR0ONl4L1uuXLeLqLc4fXaF54W4sEOEO8sMkziXDg
+         TJ3ugBeVZkGixyR/E7MBnFYllmUgbXyrB54kyWIhG1tnQRekPiPEx82VMPx07U2yLOaB
+         9MB+sDundmlMsshi8paUTraxTNxizx8sPJ8IJFfGY0Oe1XDGuKaj1Vy0+WZcSJC9HFpl
+         4Ala8jRlkoohddvuSIVNLiX9sYCKjeo6aD0988rjbErlGpYgMk2V1faLGdwhiBR4ggSZ
+         jPxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdFdsT+SFg7kDFYgzMkAQmmQQPTBB/BLfmjK6++lfpqOFSct4OmE+skAl90PTWZ/UrCLQdqztZWuk=@vger.kernel.org, AJvYcCXvgsiL1kflx7xkctaCbdFFEnfSrqnTeATun1td03379WpO8AbBdPDf6MJk6mQVge2OWiXJrmcsMd4/KObR@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTg7SGwGmzzoHooYoKfYlQrFQUsC6JQFZHcBfvI3/a7dVluQ0j
+	jN00KBWEnuONeZ9fF1uLu208J30faJ9rbvpqARooXuNkMXsMjS18JDf4HFjrrLUNtWv3
+X-Gm-Gg: ASbGncvK4tOIJ3VCgzRF8hpV1bKUgmTjAj+nw33klv50a6h4zaN7wiilrq4sHZkLGxB
+	tarQc0kqAATcDnzEUABzaibTTAV8VmwSZ6Hkr/UtFDBwA1xoJtuBkMi2hJBBpwBqoBRbit8zsts
+	iNlhXVzAW+Ww8vkZsU+st21DQMoLzgBFGpvjfbV/2sqeDBQSItaMfx5nTGQX3qcu1oMsGgYTcKc
+	Ldb3IhbvsrpEdgk50CDXXhMtt5INAcopmPSlpWImH0pZKfPER2HNlfkIGJgwVeVoBQQyfH+SGAX
+	opnXQzDpwY3JwwaVRpoxP4IhjZBYolNkb6+wLaTusx/Y+A+SCZe+cFVD4Be1P+CH36QZ8D+EEaE
+	+5ixLwx2chvGYlNcUFZJdu4JLrfdhj3tkwvh35m8cDTxVqqF3L47gb2jhVqqA
+X-Google-Smtp-Source: AGHT+IG0TuVeq8GaU64aAuSrS/zwB4M2Cdr1TpOKqXkZ6Cyu7l4eMbbzZ6Z/mb/euW/bgJ7ibOyzdQ==
+X-Received: by 2002:a5d:584d:0:b0:3a4:f912:86af with SMTP id ffacd0b85a97d-3bb6816f428mr2502294f8f.2.1755417462245;
+        Sun, 17 Aug 2025 00:57:42 -0700 (PDT)
+Received: from localhost (67.red-80-39-24.staticip.rima-tde.net. [80.39.24.67])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb676c9b1csm8361011f8f.45.2025.08.17.00.57.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Aug 2025 00:57:41 -0700 (PDT)
+Message-ID: <4616546f-f10c-419b-a32f-ae1a059f15e4@gmail.com>
+Date: Sun, 17 Aug 2025 09:57:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr0801122748e966da49482809fcfa4ba9000041892980e08522db2c57f7da5fd32461398966667a65ec4920:zu0801122761e17a577db9357d25cc90f1000019da1d41d054edff11faa48fb5cc9ad3192d1c4f5edfc9c349:rf0801122b16bfbc0e5b8ba3441d3450190000fa2c120cde899195b935c940a75f78d1882c67a53c1470cea4170e57be:ZohoMail
-X-ZohoMailClient: External
+Content-Language: en-US, en-GB, es-ES
+From: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Subject: Re: [PATCH] LoongArch: Increase COMMAND_LINE_SIZE to 4096
+To: Ming Wang <wangming01@loongson.cn>
+Cc: LINUX_ARCH-ML <linux-arch@vger.kernel.org>,
+ API-ML <linux-api@vger.kernel.org>, KERNEL-ML
+ <linux-kernel@vger.kernel.org>, X86-ML <x86@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I noticed that you changed docs for automounts.
-So I dig into automounts implementation.
-And I found a bug in openat2.
-If RESOLVE_NO_XDEV is specified, then name resolution
-doesn't cross automount points (i. e. we get EXDEV),
-but automounts still happen!
-I think this is a bug.
-Bug is reproduced in 6.17-rc1.
-In the end of this mail you will find reproducer.
-And miniconfig.
+Ming Wang wrote:
 
-If you send patches for this bug, please, CC me.
+> The default COMMAND_LINE_SIZE of 512, inherited from asm-generic, is
+> too small for modern use cases. For example, kdump configurations or
+> extensive debugging parameters can easily exceed this limit.
+> 
+> Therefore, increase the command line size to 4096 bytes, aligning
+> LoongArch with the MIPS architecture. This change follows a broader
+> trend among architectures to raise this limit to support modern needs;
+> for instance, PowerPC increased its value for similar reasons in
+> commit a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE to 2048").
+> 
+> Similar to the change made for RISC-V in commit 61fc1ee8be26
+> ("riscv: Bump COMMAND_LINE_SIZE value to 1024"), this is considered
+> a safe change. The broader kernel community has reached a consensus
+> that modifying COMMAND_LINE_SIZE from UAPI headers does not
+> constitute a uABI breakage, as well-behaved userspace applications
+> should not rely on this macro.
+> 
+> Suggested-by: Huang Cun <cunhuang@tencent.com>
+> Signed-off-by: Ming Wang <wangming01@loongson.cn>
+> ---
+>  arch/loongarch/include/uapi/asm/setup.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>  create mode 100644 arch/loongarch/include/uapi/asm/setup.h
+> 
+> diff --git a/arch/loongarch/include/uapi/asm/setup.h b/arch/loongarch/include/uapi/asm/setup.h
+> new file mode 100644
+> index 000000000000..d46363ce3e02
+> --- /dev/null
+> +++ b/arch/loongarch/include/uapi/asm/setup.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +
+> +#ifndef _UAPI_ASM_LOONGARCH_SETUP_H
+> +#define _UAPI_ASM_LOONGARCH_SETUP_H
+> +
+> +#define COMMAND_LINE_SIZE	4096
+> +
+> +#endif /* _UAPI_ASM_LOONGARCH_SETUP_H */
+> -- 
+> 2.43.0
 
-Are automounts actually used? Is it possible to deprecate or
-remove them? It seems for me automounts are rarely tested obscure
-feature, which affects core namei code.
+A bit chaotic and arbitrary sizes:
 
-This reproducer is based on "tracing" automount, which
-actually *IS* already deprecated. But automount mechanism
-itself is not deprecated, as well as I know.
+$ git grep "define.*COMMAND_LINE_SIZE"
+arch/alpha/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	256
+arch/arc/include/asm/setup.h:#define COMMAND_LINE_SIZE 256
+arch/arm64/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	2048
+arch/arm/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE 1024
+arch/m68k/include/asm/setup.h:#define CL_SIZE COMMAND_LINE_SIZE
+arch/m68k/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE 256
+arch/microblaze/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	256
+arch/mips/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	4096
+arch/mips/loongson64/reset.c:#define KEXEC_ARGV_SIZE	COMMAND_LINE_SIZE
+arch/parisc/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	1024
+arch/powerpc/boot/ops.h:#define	BOOT_COMMAND_LINE_SIZE	2048
+arch/powerpc/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	2048
+arch/riscv/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	1024
+arch/s390/include/asm/setup.h:#define COMMAND_LINE_SIZE CONFIG_COMMAND_LINE_SIZE
+arch/s390/include/asm/setup.h:#define LEGACY_COMMAND_LINE_SIZE	896
+arch/sparc/include/uapi/asm/setup.h:# define COMMAND_LINE_SIZE 2048
+arch/sparc/include/uapi/asm/setup.h:# define COMMAND_LINE_SIZE 256
+arch/um/include/asm/setup.h:#define COMMAND_LINE_SIZE 4096
+arch/x86/include/asm/setup.h:#define COMMAND_LINE_SIZE 2048
+arch/xtensa/include/uapi/asm/setup.h:#define COMMAND_LINE_SIZE	256
+include/uapi/asm-generic/setup.h:#define COMMAND_LINE_SIZE	512
+kernel/trace/ftrace.c:#define FTRACE_FILTER_SIZE		COMMAND_LINE_SIZE
+tools/power/x86/turbostat/turbostat.c:#define COMMAND_LINE_SIZE 2048
+tools/testing/selftests/kho/init.c:#define COMMAND_LINE_SIZE	2048
 
-Also, I did read namei code, and I think that
-options AT_NO_AUTOMOUNT, FSPICK_NO_AUTOMOUNT, etc affect
-last component only, not all of them. I didn't test this yet.
-I plan to test this within next days.
+Maybe they should be standardized ???
 
-Also, I still didn't finish my experiments. Hopefully I will
-finish them in 7 days. :)
-
-Askar Safin
-
-====
-
-miniconfig:
-
-CONFIG_64BIT=y
-
-CONFIG_EXPERT=y
-
-CONFIG_PRINTK=y
-CONFIG_PRINTK_TIME=y
-
-CONFIG_TTY=y
-CONFIG_VT=y
-CONFIG_VT_CONSOLE=y
-CONFIG_FRAMEBUFFER_CONSOLE=y
-
-CONFIG_PROC_FS=y
-CONFIG_DEVTMPFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-CONFIG_DEBUG_FS=y
-CONFIG_USER_EVENTS=y
-CONFIG_FTRACE=y
-CONFIG_MULTIUSER=y
-CONFIG_NAMESPACES=y
-CONFIG_USER_NS=y
-CONFIG_PID_NS=y
-
-
-CONFIG_SERIAL_8250=y
-CONFIG_SERIAL_8250_CONSOLE=y
-
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_RD_GZIP=y
-
-CONFIG_BINFMT_ELF=y
-CONFIG_BINFMT_SCRIPT=y
-
-CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
-
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-
-====
-
-/*
-Author: Askar Safin
-Public domain
-
-Make sure your kernel is compiled with CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
-
-If that openat2 bug reproduces, then this program will
-print "BUG REPRODUCED". If openat2 is fixed, then
-the program will print "BUG NOT REPRODUCED".
-Any other output means that something gone wrong,
-i. e. results are indeterminate.
-
-This program requires root in initial user namespace
-*/
-
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sched.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/mount.h>
-#include <sys/syscall.h>
-#include <linux/openat2.h>
-
-int
-main (void)
-{
-    if (unshare (CLONE_NEWNS) != 0)
-        {
-            perror ("unshare");
-            return 1;
-        }
-    if (mount (NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) != 0)
-        {
-            perror ("mount(NULL, /, NULL, MS_REC | MS_PRIVATE, NULL)");
-            return 1;
-        }
-    if (mount (NULL, "/tmp", "tmpfs", 0, NULL) != 0)
-        {
-            perror ("mount tmpfs");
-            return 1;
-        }
-    if (mkdir ("/tmp/debugfs", 0777) != 0)
-        {
-            perror ("mkdir(/tmp/debugfs)");
-            return 1;
-        }
-    if (mount (NULL, "/tmp/debugfs", "debugfs", 0, NULL) != 0)
-        {
-            perror ("mount debugfs");
-            return 1;
-        }
-    {
-        struct statx tracing;
-        if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
-            {
-                perror ("statx tracing");
-                return 1;
-            }
-        if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
-            {
-                fprintf (stderr, "???\n");
-                return 1;
-            }
-        // Let's check that nothing is mounted at /tmp/debugfs/tracing yet
-        if (tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT)
-            {
-                fprintf (stderr, "Something already mounted at /tmp/debugfs/tracing\n");
-                return 1;
-            }
-    }
-    if (chdir ("/tmp/debugfs") != 0)
-        {
-            perror ("chdir");
-            return 1;
-        }
-    {
-        struct open_how how;
-        memset (&how, 0, sizeof how);
-        how.flags = O_DIRECTORY;
-        how.mode = 0;
-        how.resolve = RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS;
-        if (syscall (SYS_openat2, AT_FDCWD, "tracing", &how, sizeof how) != -1)
-            {
-                fprintf (stderr, "openat2 crossed automount point");
-                return 1;
-            }
-        if (errno != EXDEV)
-            {
-                fprintf (stderr, "wrong errno");
-                return 1;
-            }
-    }
-    {
-        struct statx tracing;
-        if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
-            {
-                perror ("statx tracing (2)");
-                return 1;
-            }
-        if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
-            {
-                fprintf (stderr, "???\n");
-                return 1;
-            }
-        if (tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT)
-            {
-                fprintf (stderr, "BUG REPRODUCED. Something mounted at /tmp/debugfs/tracing\n");
-                return 0;
-            }
-        else
-            {
-                fprintf (stderr, "BUG NOT REPRODUCED\n");
-                return 0;
-            }
-    }
-}
+And for s390 it is configurable, see 622021cd6c560
 
