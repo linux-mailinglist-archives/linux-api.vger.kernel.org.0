@@ -1,160 +1,360 @@
-Return-Path: <linux-api+bounces-4504-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4505-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86EFB2941D
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 18:22:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E706B294CE
+	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 20:51:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D8B619682DF
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 16:22:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFD875E05E6
+	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 18:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D27A295DBD;
-	Sun, 17 Aug 2025 16:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4B031770F;
+	Sun, 17 Aug 2025 18:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="O1MSsZkS"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="c+R/rb/N"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C25B29A33E;
-	Sun, 17 Aug 2025 16:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755447747; cv=none; b=kVIwfhA5/hS8tlzmD5Pfl4FAnWNVOYuV3pXPPf0uxPKzvL7FsK7lwYa6eSAdbQ2lGF0sUmhLXjsarrb2nno5JeFMY8CZnL7mEhXgoCqjBGpIBY3EkWrPZhMvP7iQiNCj/hMGks0WH9bTE4Lr5D6+298X32Ihi6rSh5uufecnByQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755447747; c=relaxed/simple;
-	bh=KIM5YXLmotqsp0FR3cUm3XbYsaPEk8+1QkaPNR5E0GA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEQmYXlAgXRrN7g2tB4zYOmKD9wDbngYpI1YsNe42VK8PySx2oigzH/vt2YSq/9xqDeaiMVYF67Pt/HDDFSrirV3gbumV6T0wVd/WGjBQZKjqgzljR6aeGaggHddQ5RDU86v6clNwcxFos2J4/bzkcf3s2J9ag2wTuY0P9iTakc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=O1MSsZkS; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c4gvS3406z9t3Y;
-	Sun, 17 Aug 2025 18:16:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755447380;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIM5YXLmotqsp0FR3cUm3XbYsaPEk8+1QkaPNR5E0GA=;
-	b=O1MSsZkSUZfACH72wpUGYxZutyQe9dz2sfXAI4BXZt9+AYKMGMydcHQEiUpe5iy5am055B
-	4zgZA+DqY1GctKXuUKZ4KBruHHPiDt6w5YNCNKE+9AiTtaC5kT4FDPQ2Q83PLtVokoP4eU
-	rZoN4fhipKKIi7KXtSjZmHD3xHc2RCwBGOtsJs1f8biXdydccijLV0s2kep1XLcgLaFZ2e
-	319KHV1wdEJSxj+WAJt2mb6qsPPTIQfP7jjdzoKAaXdrRaEfqTsThfvQsmAwbaiKNxLNPa
-	lXKeq/lKBFsRg8GzaYNVO2P2ozo2MDBW1z/5PZOn0SYVXVQD5arjGkzzMl8GPA==
-Date: Mon, 18 Aug 2025 02:16:04 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: alx@kernel.org, brauner@kernel.org, dhowells@redhat.com, 
-	g.branden.robinson@gmail.com, jack@suse.cz, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, 
-	mtk.manpages@gmail.com, viro@zeniv.linux.org.uk, Ian Kent <raven@themaw.net>, 
-	autofs mailing list <autofs@vger.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4D01A9F8D;
+	Sun, 17 Aug 2025 18:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755456690; cv=pass; b=LA2Mmqe34S6GDu4HTAH3gJ3ycJMPK7cnsNd3HW8QeGUvtYYqSrhIOKPchBufY5HSAMXu3zXXv31lRcyW2YgjSAwAg6eN86mCJZa15Ejb3SYZM70bABDlbMTCl5QwpnkUnE0a6Iw525hrrbzcDZt5M18uey2OFBVlC31uTFmkjM0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755456690; c=relaxed/simple;
+	bh=55Akj2HO/Pgq3zZBcgV85sKUOLoer07lrhfWdY0HOEM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qzuw/9KHlw7vzdkixGUK9KE+jtozC6SNhLDZ+Q96B7zdICb4qu43zAAfTCgNVJRLSrzqyyilWZCwbEQpz3qcGG87TS7S0CUluAvO7SFijz/XA8mQqFy4brIiGgOL7ML6n3wy/yGUAK4c9ETtujiBKWUh1M/T0MCEeYyxEZtRe7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=c+R/rb/N; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1755456657; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=EVMjnrj3bYHaCcFDXMoES9St7dsf0BI8co0WPIotZnf2vu6zRlVdiTTr5BVOBl/mNfZvUUTRf3q+iCFEdI1IEAOsfkD/ImpRYOBGF1vx0fvjvFbTkchbHfePh3e9QJRxWVCy7PyTmFINuHNkQt0ybXWVpQwMFltm27j4jDLD+XE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1755456657; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=2ei0vnbRoyr4z9B7uUCn2W87/nsXxYSWcAa07cJ+CHs=; 
+	b=mk82VX3KQin78ilZFfK3f60K3XLROoEUl/fSGnCCT924OK4GnpDf1pKfNWeCe53TOqCH3K4t9njYopVaN8C/N+Rhw6bmfBmWJbqrt7A2IH62FHPj0dlDk1PwHIJFo//hQdvxZY7Fz0X3nahls8t9wqsrRoAnj4bUiZ6OKFjvbeQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755456657;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=2ei0vnbRoyr4z9B7uUCn2W87/nsXxYSWcAa07cJ+CHs=;
+	b=c+R/rb/N9hjsLMYd0FEWMgDnuWWWGAO8SvSVLBKYUaYAfk9QbICijSpkc1Rcoli6
+	eo8TfzRTxY3AKE8uuTj4lyJM0agRs8iJXq+eh1ohFbev+hk5MnciE4p8zOIIH3nqm0y
+	Wke3Jv98RhVQaFufa06Al8ZgHg4Q/TEuRsxjnBCw=
+Received: by mx.zohomail.com with SMTPS id 1755456655864372.40472456009354;
+	Sun, 17 Aug 2025 11:50:55 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: cyphar@cyphar.com
+Cc: alx@kernel.org,
+	autofs@vger.kernel.org,
+	brauner@kernel.org,
+	dhowells@redhat.com,
+	g.branden.robinson@gmail.com,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-man@vger.kernel.org,
+	mtk.manpages@gmail.com,
+	raven@themaw.net,
+	safinaskar@zohomail.com,
+	viro@zeniv.linux.org.uk
 Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-Message-ID: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
- <20250817075252.4137628-1-safinaskar@zohomail.com>
+Date: Sun, 17 Aug 2025 21:50:48 +0300
+Message-ID: <20250817185048.302679-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
+References: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3ehbyzqii53i3kbg"
-Content-Disposition: inline
-In-Reply-To: <20250817075252.4137628-1-safinaskar@zohomail.com>
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr0801122756c3dccfe13bedd4275fb75600005bdb5dba817ad1ab1a0ef82912191a97f32a086171946f5bfc:zu0801122713868e6cc3835a012b80940e0000a90e456cd1a1c6cc0a59c1bbb0f7b0dd2f96e8f3d48bc969f2:rf0801122b2295acadff86e4dc5261c5ac0000fba55d523f3356505ee7f11a7a7b53f044683ee556e984b53cb10bb5e8:ZohoMail
+X-ZohoMailClient: External
+
+I just sent to fsdevel fix for that RESOLVE_NO_XDEV bug.
+
+Aleksa Sarai <cyphar@cyphar.com>:
+> No, LOOKUP_AUTOMOUNT affects all components. I double-checked this with
+> Christian.
+
+No. I just tested this. See tests (and miniconfig) in the end of this message.
+
+statx always follows automounts in non-final components no matter what.
+I tested this. And it follows automounts in final component depending on
+AT_NO_AUTOMOUNT. I tested this too. Also, absolutely all other syscalls always
+follow automounts in non-final components no matter what. With sole exception
+for openat2 with RESOLVE_NO_XDEV. I didn't test this, but I conclude this
+by reading code.
+
+First of all, LOOKUP_PARENT's doc in kernel currently is wrong:
+https://elixir.bootlin.com/linux/v6.17-rc1/source/include/linux/namei.h#L31
+
+We see there:
+#define LOOKUP_PARENT    BIT(10)    /* Looking up final parent in path */
+
+This is not true. LOOKUP_PARENT means that we are resolving any non-final
+component. LOOKUP_PARENT is set when we enter link_path_walk, which
+is used for resolving everything except for final component.
+And LOOKUP_PARENT is cleared when we leave link_path_walk.
+
+Now let's look here:
+https://elixir.bootlin.com/linux/v6.17-rc1/source/fs/namei.c#L1447
+
+	if (!(lookup_flags & (LOOKUP_PARENT | LOOKUP_DIRECTORY |
+			   LOOKUP_OPEN | LOOKUP_CREATE | LOOKUP_AUTOMOUNT)) &&
+
+We never return -EISDIR in this "if" if we are in non-final component
+thanks to LOOKUP_PARENT here. We fall to finish_automount instead.
+
+Again: if this is non-final component, then LOOKUP_PARENT is set, and thus
+LOOKUP_AUTOMOUNT is ignored. If this is final component, then LOOKUP_AUTOMOUNT
+may affect things.
+
+Code below tests that:
+- statx always follows non-final automounts
+- statx follow final automounts depending on options
+
+The code doesn't test other syscalls, they can be added if needed.
+
+The code was tested in Qemu on Linux 6.17-rc1.
+
+I'm not trying to insult you in any way.
+
+Again: thank you a lot for your work! For openat2 and for these mans.
+
+Askar Safin
+
+====
+
+miniconfig:
+
+CONFIG_64BIT=y
+
+CONFIG_EXPERT=y
+
+CONFIG_PRINTK=y
+CONFIG_PRINTK_TIME=y
+
+CONFIG_TTY=y
+CONFIG_VT=y
+CONFIG_VT_CONSOLE=y
+CONFIG_FRAMEBUFFER_CONSOLE=y
+
+CONFIG_PROC_FS=y
+CONFIG_DEVTMPFS=y
+CONFIG_SYSFS=y
+CONFIG_TMPFS=y
+CONFIG_DEBUG_FS=y
+CONFIG_USER_EVENTS=y
+CONFIG_FTRACE=y
+CONFIG_MULTIUSER=y
+CONFIG_NAMESPACES=y
+CONFIG_USER_NS=y
+CONFIG_PID_NS=y
 
 
---3ehbyzqii53i3kbg
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-MIME-Version: 1.0
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
 
-On 2025-08-17, Askar Safin <safinaskar@zohomail.com> wrote:
-> I noticed that you changed docs for automounts. So I dig into
-> automounts implementation. And I found a bug in openat2. If
-> RESOLVE_NO_XDEV is specified, then name resolution doesn't cross
-> automount points (i. e. we get EXDEV), but automounts still happen! I
-> think this is a bug. Bug is reproduced in 6.17-rc1. In the end of this
-> mail you will find reproducer. And miniconfig.
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_RD_GZIP=y
 
-Yes, this is a bug -- we check LOOKUP_NO_XDEV after traverse_mounts()
-because we want to error out if we actually jumped to a different mount.
-We should probably be erroring out in follow_automount() as well, and I
-missed this when I wrote openat2().
+CONFIG_BINFMT_ELF=y
+CONFIG_BINFMT_SCRIPT=y
 
-openat2() also really needs RESOLVE_NO_AUTOMOUNT (and probably
-RESOLVE_NO_DOTDOT as well as some other small features). I'll try to
-send something soon.
+CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
 
-> Are automounts actually used? Is it possible to deprecate or
-> remove them? It seems for me automounts are rarely tested obscure
-> feature, which affects core namei code.
+CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
 
-I use them for auto-mounting NFS shares on my laptop, and I'm sure there
-are plenty of other users. They are little bit funky but I highly doubt
-they are "unused". Howells probably disagrees in even stronger terms.
-Most distributions provide autofs as a supported package (I think it
-even comes pre-installed for some distros).
+====
 
-They are not tested by fstests AFAICS, but that's more of a flaw in
-fstests (automount requires you to have a running autofs daemon, which
-probably makes testing it in fstests or selftests impractical) not the
-feature itself.
+/*
+Author: Askar Safin
+Public domain
 
-> This reproducer is based on "tracing" automount, which
-> actually *IS* already deprecated. But automount mechanism
-> itself is not deprecated, as well as I know.
+Make sure your kernel is compiled with CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
 
-The automount behaviour of tracefs is different to the general automount
-mechanism which is managed by userspace with the autofs daemon. I don't
-know the history behind the deprecation, but I expect that it was
-deprecated in favour of configuring it with autofs (or just enabling it
-by default).
+If all tests pass, the program
+should print "All tests passed".
+Any other output means that something gone wrong.
 
-> Also, I did read namei code, and I think that
-> options AT_NO_AUTOMOUNT, FSPICK_NO_AUTOMOUNT, etc affect
-> last component only, not all of them. I didn't test this yet.
-> I plan to test this within next days.
+This program requires root in initial user namespace
+*/
 
-No, LOOKUP_AUTOMOUNT affects all components. I double-checked this with
-Christian.
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/syscall.h>
+#include <linux/openat2.h>
 
-You would think that it's only the last component (like O_DIRECTORY,
-O_NOFOLLOW, AT_SYMLINK_{,NO}FOLLOW) but follow_automount() is called for
-all components (i.e., as part of step_into()). It hooks into the regular
-lookup flow for mountpoints.
+#define MY_ASSERT(cond) do { \
+    if (!(cond)) { \
+        fprintf (stderr, "%s: assertion failed\n", #cond); \
+        exit (1); \
+    } \
+} while (0)
 
-Yes, it is quite funky that AT_NO_AUTOMOUNT is the only AT_* flag that
-works this way -- hence why I went with a different RESOLVE_* namespace
-for openat2() (which _always_ act on _all_ components).
+bool
+tracing_mounted (void)
+{
+    struct statx tracing;
+    if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
+        {
+            perror ("statx tracing");
+            exit (1);
+        }
+    if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
+        {
+            fprintf (stderr, "???\n");
+            exit (1);
+        }
+    return tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT;
+}
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+void
+mount_debugfs (void)
+{
+    if (mount (NULL, "/tmp/debugfs", "debugfs", 0, NULL) != 0)
+        {
+            perror ("mount debugfs");
+            exit (1);
+        }
+    MY_ASSERT (!tracing_mounted ());
+}
 
---3ehbyzqii53i3kbg
-Content-Type: application/pgp-signature; name="signature.asc"
+void
+umount_debugfs (void)
+{
+    umount ("/tmp/debugfs/tracing"); // Ignore errors
+    if (umount ("/tmp/debugfs") != 0)
+        {
+            perror ("umount debugfs");
+            exit (1);
+        }
+}
 
------BEGIN PGP SIGNATURE-----
+int
+main (void)
+{
+    // Init
+    {
+        if (chdir ("/") != 0)
+            {
+                perror ("chdir /");
+                exit (1);
+            }
+        if (unshare (CLONE_NEWNS) != 0)
+            {
+                perror ("unshare");
+                exit (1);
+            }
+        if (mount (NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) != 0)
+            {
+                perror ("mount(NULL, /, NULL, MS_REC | MS_PRIVATE, NULL)");
+                exit (1);
+            }
+        if (mount (NULL, "/tmp", "tmpfs", 0, NULL) != 0)
+            {
+                perror ("mount tmpfs");
+                exit (1);
+            }
+    }
+    if (mkdir ("/tmp/debugfs", 0777) != 0)
+        {
+            perror ("mkdir(/tmp/debugfs)");
+            exit (1);
+        }
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKIARBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+6jAD8D/4PVcL1t2EdmyrkWIjh
-tZdIr+KBTQShh2El79nxd/kBAI86sq1SaVvAQXne/CgcAKpQU02tGwiNbAgNEi3f
-hNMH
-=jA3t
------END PGP SIGNATURE-----
+    // statx always follows automounts in non-final components. With AT_NO_AUTOMOUNT and without AT_NO_AUTOMOUNT
+    {
+        mount_debugfs();
+        {
+            struct statx readme;
+            if (statx (AT_FDCWD, "/tmp/debugfs/tracing/README", 0, 0, &readme) != 0)
+                {
+                    perror ("statx");
+                    exit (1);
+                }
+        }
+        MY_ASSERT (tracing_mounted ());
+        umount_debugfs();
 
---3ehbyzqii53i3kbg--
+        mount_debugfs();
+        {
+            struct statx readme;
+            if (statx (AT_FDCWD, "/tmp/debugfs/tracing/README", AT_NO_AUTOMOUNT, 0, &readme) != 0)
+                {
+                    perror ("statx");
+                    exit (1);
+                }
+        }
+        MY_ASSERT (tracing_mounted ());
+        umount_debugfs();
+    }
+
+    // statx follows automounts in final components if AT_NO_AUTOMOUNT is not specified
+    {
+        mount_debugfs();
+        {
+            struct statx tracing;
+            if (statx (AT_FDCWD, "/tmp/debugfs/tracing", 0, 0, &tracing) != 0)
+                {
+                    perror ("statx");
+                    exit (1);
+                }
+            if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
+                {
+                    fprintf (stderr, "???\n");
+                    exit (1);
+                }
+
+            // Checking that this is new mount, not automount point itself
+            MY_ASSERT (tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT);
+        }
+        MY_ASSERT (tracing_mounted ());
+        umount_debugfs ();
+
+        mount_debugfs();
+        {
+            struct statx tracing;
+            if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
+                {
+                    perror ("statx");
+                    exit (1);
+                }
+            if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
+                {
+                    fprintf (stderr, "???\n");
+                    exit (1);
+                }
+
+            MY_ASSERT (!(tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT));
+        }
+        MY_ASSERT (!tracing_mounted ());
+        umount_debugfs ();
+    }
+
+    printf ("All tests passed\n");
+    exit (0);
+}
 
