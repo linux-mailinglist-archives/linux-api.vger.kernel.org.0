@@ -1,181 +1,115 @@
-Return-Path: <linux-api+bounces-4506-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4507-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8BB296DD
-	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 04:17:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D7EB29900
+	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 07:46:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C41F618905D0
-	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 02:17:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A4613B6321
+	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 05:46:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923692236E3;
-	Mon, 18 Aug 2025 02:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4327713B797;
+	Mon, 18 Aug 2025 05:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="ofu2p8IH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401762451F3;
-	Mon, 18 Aug 2025 02:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2616AF9D6;
+	Mon, 18 Aug 2025 05:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755483444; cv=none; b=Prsks4geCLjHTGPV0KFBxbTPN4tRy8Yl4+a7u1iQdUAZivEHTmx2vyXyJS0g+/ymC0oboI5SOzuKF5QLG1yPoFmZfg43xV+4Yf4tBfrtoSTTz+0FSvMnpZQ//a9b6/3W5gdiPJXs833LjMf/7ljWDQQdtnoqXM0b6DtEDPzOvRY=
+	t=1755495982; cv=none; b=WCRHipJnVL8lq0hkiGbcC4VpcGwR0qV/C29TxjuHqNHDS0XtiNdVLPeMNBmhgdda/RJYfdzyawCFVFFEcgDOWYkJB1xXdZ0c5Ky8ETQinDcMMy8UbxVN8snHSvYsPpx+3GjX+24Gy68ngI2rkUrFdchBj6RHHG24it40xC4+xl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755483444; c=relaxed/simple;
-	bh=COjrbNnCxCKV2KBfhnMvvRq/a1syyPCm/kWdX9F8Huk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L35DsqvjeC5MqOPZYyvmE0aiABL/C47Acuqczr1G97K4ZsBY2qAiWHQApZ6RKTV07VAsnDJv0RrHnj7ILxD8YhdwLgASVzGOlC93/BvU0G6zzY8SwgsHRho/Rz2HkJu7ojjamMqLR1eqN3EZZGw/4VTVLN2k/FrzhDG2hcpBlR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c4xDv2Lm8zYQtxK;
-	Mon, 18 Aug 2025 10:17:19 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id DE9E81A15CF;
-	Mon, 18 Aug 2025 10:17:17 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgBHERIqjaJoBpM4EA--.3972S3;
-	Mon, 18 Aug 2025 10:17:16 +0800 (CST)
-Message-ID: <4798d44a-4aa5-4b95-a3f4-25be3d8ee35a@huaweicloud.com>
-Date: Mon, 18 Aug 2025 10:17:14 +0800
+	s=arc-20240116; t=1755495982; c=relaxed/simple;
+	bh=Qh8AEOLAP5dE4ODWjLt+RQWSlSZSz8XYfojF836Obhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qweygqJCj2ONr3oKdtLhhLk6anJvEmB6RqpEda8+YzjTRC89uY1fcBCT/EKOQyThd1lZn/5ZKrF7rTECt39VERZ9BKp8/Iqa4yZ+H1dgg25i0dP+r9axchSngAwxcNI1UIX85RmhWMajfrB9l1aHqL99faT1WnSmYSGZO5ROrpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=ofu2p8IH; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c51sz6yYSz9sqf;
+	Mon, 18 Aug 2025 07:46:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1755495976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+HMM28RAcCoPopV+B/KmIH0dpYjZghZhDsRPoiJoe3U=;
+	b=ofu2p8IHiKS/srLSp4JuTAN3BgH+n993RaoKcO96DzdkOCmxRNGaQWl1uyj8kY9XD0sx3y
+	VaLQOtdXHxFq0hF30qLgO1cPGZ5Ri8Jwu5XzUAgGJZriF3PlHaUvJY2tO/mM3Tv8uMb76D
+	XYQxZDo0XYioh0gIqPpbRhEfwhWQLcVBpiXWlP9Mp83A1zZ9Au7GaS/6ubN8PXnQY83A9d
+	PguJocrzFrDI2ve2f+Hqsc2FXEzxqw8Q0CoBx6SmeKKSRUBPchMtxrk8UFRaoSD3IINgKo
+	LvKiBcbrKNFKBEWvnn2dWvtn7Wo7b63+N0z0WnI1vRSte8h83Wsie1A59RISNw==
+Date: Mon, 18 Aug 2025 15:46:05 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: alx@kernel.org, autofs@vger.kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, g.branden.robinson@gmail.com, jack@suse.cz, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-man@vger.kernel.org, mtk.manpages@gmail.com, raven@themaw.net, 
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
+Message-ID: <2025-08-18.1755493208-minty-roomy-vessel-moisture-2LjJfF@cyphar.com>
+References: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
+ <20250817185048.302679-1-safinaskar@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES
- support
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, hch@lst.de, tytso@mit.edu, bmarzins@redhat.com,
- chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
- martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
- yukuai3@huawei.com, yangerkun@huawei.com
-References: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
- <20250814165218.GQ7942@frogsfrogsfrogs>
- <a0eda581-ae6c-4b49-8b4f-7bb039b17487@huaweicloud.com>
- <20250815142908.GG7981@frogsfrogsfrogs>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250815142908.GG7981@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgBHERIqjaJoBpM4EA--.3972S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr4UXw4UCrWkXw13Jr4Utwb_yoW5Kr47pa
-	y3JF1Utr48KF17G3s2v3WkuF1Fyws7trWxWr4Igr1kZrnI9F1xKF4UWr1Y9F97Wr1kCa1j
-	vr4IvFy3uF1UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
-
-On 8/15/2025 10:29 PM, Darrick J. Wong wrote:
-> On Fri, Aug 15, 2025 at 05:29:19PM +0800, Zhang Yi wrote:
->> Thank you for your review comments!
->>
->> On 2025/8/15 0:52, Darrick J. Wong wrote:
->>> On Wed, Aug 13, 2025 at 10:40:15AM +0800, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
->>>> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
->>>> utility by introducing a new option -w|--write-zeroes.
->>>>
->>>> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>> ---
->>>> v1->v2:
->>>>  - Minor description modification to align with the kernel.
->>>>
->>>>  sys-utils/fallocate.1.adoc | 11 +++++++++--
->>>>  sys-utils/fallocate.c      | 20 ++++++++++++++++----
->>>>  2 files changed, 25 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
->>>> index 44ee0ef4c..0ec9ff9a9 100644
->>>> --- a/sys-utils/fallocate.1.adoc
->>>> +++ b/sys-utils/fallocate.1.adoc
->>>> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
->>>
->>> <snip all the long lines>
->>>
->>>> +*-w*, *--write-zeroes*::
->>>> +Zeroes space in the byte range starting at _offset_ and continuing
->>>> for _length_ bytes. Within the specified range, blocks are
->>>> preallocated for the regions that span the holes in the file. After a
->>>> successful call, subsequent reads from this range will return zeroes,
->>>> subsequent writes to that range do not require further changes to the
->>>> file mapping metadata.
->>>
->>> "...will return zeroes and subsequent writes to that range..." ?
->>>
->>
->> Yeah.
->>
->>>> ++
->>>> +Zeroing is done within the filesystem by preferably submitting write
->>>
->>> I think we should say less about what the filesystem actually does to
->>> preserve some flexibility:
->>>
->>> "Zeroing is done within the filesystem. The filesystem may use a
->>> hardware accelerated zeroing command, or it may submit regular writes.
->>> The behavior depends on the filesystem design and available hardware."
->>>
->>
->> Sure.
->>
->>>> zeores commands, the alternative way is submitting actual zeroed data,
->>>> the specified range will be converted into written extents. The write
->>>> zeroes command is typically faster than write actual data if the
->>>> device supports unmap write zeroes, the specified range will not be
->>>> physically zeroed out on the device.
->>>> ++
->>>> +Options *--keep-size* can not be specified for the write-zeroes
->>>> operation.
->>>> +
->>>>  include::man-common/help-version.adoc[]
->>>>  
->>>>  == AUTHORS
->> [..]
->>>> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
->>>>  			else if (mode & FALLOC_FL_ZERO_RANGE)
->>>>  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
->>>>  								filename, str, length);
->>>> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
->>>> +				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
->>>
->>> "write zeroed" is a little strange, but I don't have a better
->>> suggestion. :)
->>>
->>
->> Hmm... What about simply using "zeroed", the same to FALLOC_FL_ZERO_RANGE?
->> Users should be aware of the parameters they have passed to fallocate(),
->> so they should not use this print for further differentiation.
-> 
-> No thanks, different inputs should produce different outputs. :)
-> 
-
-OK. perhaps "written as zeros." ? Sounds OK?
-
-Thanks,
-Yi.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qrslywv37u3fshty"
+Content-Disposition: inline
+In-Reply-To: <20250817185048.302679-1-safinaskar@zohomail.com>
 
 
+--qrslywv37u3fshty
+Content-Type: text/plain; charset=us-ascii; protected-headers=v1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
+MIME-Version: 1.0
+
+On 2025-08-17, Askar Safin <safinaskar@zohomail.com> wrote:
+> I just sent to fsdevel fix for that RESOLVE_NO_XDEV bug.
+
+Thanks, I've sent some review comments.
+
+> 	if (!(lookup_flags & (LOOKUP_PARENT | LOOKUP_DIRECTORY |
+> 			   LOOKUP_OPEN | LOOKUP_CREATE | LOOKUP_AUTOMOUNT)) &&
+>=20
+> We never return -EISDIR in this "if" if we are in non-final component
+> thanks to LOOKUP_PARENT here. We fall to finish_automount instead.
+
+Grr, I re-read this conditional a few times and I still misunderstood
+what it was doing. My bad.
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
+
+--qrslywv37u3fshty
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKK+HRsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG/V6wD/YoQbj4tPRHlDjEHb/OQx
+ywcB7eDulYkzVyOOr83XOwgBAK2OMvD5MDyw+msA5wsI7g8wFAsL5ZDWA0Cn61OJ
+daYK
+=7p79
+-----END PGP SIGNATURE-----
+
+--qrslywv37u3fshty--
 
