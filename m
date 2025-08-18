@@ -1,360 +1,181 @@
-Return-Path: <linux-api+bounces-4505-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4506-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E706B294CE
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 20:51:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8BB296DD
+	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 04:17:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFD875E05E6
-	for <lists+linux-api@lfdr.de>; Sun, 17 Aug 2025 18:51:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C41F618905D0
+	for <lists+linux-api@lfdr.de>; Mon, 18 Aug 2025 02:17:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4B031770F;
-	Sun, 17 Aug 2025 18:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="c+R/rb/N"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923692236E3;
+	Mon, 18 Aug 2025 02:17:24 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4D01A9F8D;
-	Sun, 17 Aug 2025 18:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755456690; cv=pass; b=LA2Mmqe34S6GDu4HTAH3gJ3ycJMPK7cnsNd3HW8QeGUvtYYqSrhIOKPchBufY5HSAMXu3zXXv31lRcyW2YgjSAwAg6eN86mCJZa15Ejb3SYZM70bABDlbMTCl5QwpnkUnE0a6Iw525hrrbzcDZt5M18uey2OFBVlC31uTFmkjM0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755456690; c=relaxed/simple;
-	bh=55Akj2HO/Pgq3zZBcgV85sKUOLoer07lrhfWdY0HOEM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qzuw/9KHlw7vzdkixGUK9KE+jtozC6SNhLDZ+Q96B7zdICb4qu43zAAfTCgNVJRLSrzqyyilWZCwbEQpz3qcGG87TS7S0CUluAvO7SFijz/XA8mQqFy4brIiGgOL7ML6n3wy/yGUAK4c9ETtujiBKWUh1M/T0MCEeYyxEZtRe7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=c+R/rb/N; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1755456657; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EVMjnrj3bYHaCcFDXMoES9St7dsf0BI8co0WPIotZnf2vu6zRlVdiTTr5BVOBl/mNfZvUUTRf3q+iCFEdI1IEAOsfkD/ImpRYOBGF1vx0fvjvFbTkchbHfePh3e9QJRxWVCy7PyTmFINuHNkQt0ybXWVpQwMFltm27j4jDLD+XE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1755456657; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=2ei0vnbRoyr4z9B7uUCn2W87/nsXxYSWcAa07cJ+CHs=; 
-	b=mk82VX3KQin78ilZFfK3f60K3XLROoEUl/fSGnCCT924OK4GnpDf1pKfNWeCe53TOqCH3K4t9njYopVaN8C/N+Rhw6bmfBmWJbqrt7A2IH62FHPj0dlDk1PwHIJFo//hQdvxZY7Fz0X3nahls8t9wqsrRoAnj4bUiZ6OKFjvbeQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755456657;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=2ei0vnbRoyr4z9B7uUCn2W87/nsXxYSWcAa07cJ+CHs=;
-	b=c+R/rb/N9hjsLMYd0FEWMgDnuWWWGAO8SvSVLBKYUaYAfk9QbICijSpkc1Rcoli6
-	eo8TfzRTxY3AKE8uuTj4lyJM0agRs8iJXq+eh1ohFbev+hk5MnciE4p8zOIIH3nqm0y
-	Wke3Jv98RhVQaFufa06Al8ZgHg4Q/TEuRsxjnBCw=
-Received: by mx.zohomail.com with SMTPS id 1755456655864372.40472456009354;
-	Sun, 17 Aug 2025 11:50:55 -0700 (PDT)
-From: Askar Safin <safinaskar@zohomail.com>
-To: cyphar@cyphar.com
-Cc: alx@kernel.org,
-	autofs@vger.kernel.org,
-	brauner@kernel.org,
-	dhowells@redhat.com,
-	g.branden.robinson@gmail.com,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	mtk.manpages@gmail.com,
-	raven@themaw.net,
-	safinaskar@zohomail.com,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-Date: Sun, 17 Aug 2025 21:50:48 +0300
-Message-ID: <20250817185048.302679-1-safinaskar@zohomail.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
-References: <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401762451F3;
+	Mon, 18 Aug 2025 02:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755483444; cv=none; b=Prsks4geCLjHTGPV0KFBxbTPN4tRy8Yl4+a7u1iQdUAZivEHTmx2vyXyJS0g+/ymC0oboI5SOzuKF5QLG1yPoFmZfg43xV+4Yf4tBfrtoSTTz+0FSvMnpZQ//a9b6/3W5gdiPJXs833LjMf/7ljWDQQdtnoqXM0b6DtEDPzOvRY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755483444; c=relaxed/simple;
+	bh=COjrbNnCxCKV2KBfhnMvvRq/a1syyPCm/kWdX9F8Huk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L35DsqvjeC5MqOPZYyvmE0aiABL/C47Acuqczr1G97K4ZsBY2qAiWHQApZ6RKTV07VAsnDJv0RrHnj7ILxD8YhdwLgASVzGOlC93/BvU0G6zzY8SwgsHRho/Rz2HkJu7ojjamMqLR1eqN3EZZGw/4VTVLN2k/FrzhDG2hcpBlR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c4xDv2Lm8zYQtxK;
+	Mon, 18 Aug 2025 10:17:19 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id DE9E81A15CF;
+	Mon, 18 Aug 2025 10:17:17 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgBHERIqjaJoBpM4EA--.3972S3;
+	Mon, 18 Aug 2025 10:17:16 +0800 (CST)
+Message-ID: <4798d44a-4aa5-4b95-a3f4-25be3d8ee35a@huaweicloud.com>
+Date: Mon, 18 Aug 2025 10:17:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr0801122756c3dccfe13bedd4275fb75600005bdb5dba817ad1ab1a0ef82912191a97f32a086171946f5bfc:zu0801122713868e6cc3835a012b80940e0000a90e456cd1a1c6cc0a59c1bbb0f7b0dd2f96e8f3d48bc969f2:rf0801122b2295acadff86e4dc5261c5ac0000fba55d523f3356505ee7f11a7a7b53f044683ee556e984b53cb10bb5e8:ZohoMail
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES
+ support
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, hch@lst.de, tytso@mit.edu, bmarzins@redhat.com,
+ chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+ martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com
+References: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
+ <20250814165218.GQ7942@frogsfrogsfrogs>
+ <a0eda581-ae6c-4b49-8b4f-7bb039b17487@huaweicloud.com>
+ <20250815142908.GG7981@frogsfrogsfrogs>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250815142908.GG7981@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgBHERIqjaJoBpM4EA--.3972S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCr4UXw4UCrWkXw13Jr4Utwb_yoW5Kr47pa
+	y3JF1Utr48KF17G3s2v3WkuF1Fyws7trWxWr4Igr1kZrnI9F1xKF4UWr1Y9F97Wr1kCa1j
+	vr4IvFy3uF1UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-I just sent to fsdevel fix for that RESOLVE_NO_XDEV bug.
+On 8/15/2025 10:29 PM, Darrick J. Wong wrote:
+> On Fri, Aug 15, 2025 at 05:29:19PM +0800, Zhang Yi wrote:
+>> Thank you for your review comments!
+>>
+>> On 2025/8/15 0:52, Darrick J. Wong wrote:
+>>> On Wed, Aug 13, 2025 at 10:40:15AM +0800, Zhang Yi wrote:
+>>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>>
+>>>> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+>>>> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+>>>> utility by introducing a new option -w|--write-zeroes.
+>>>>
+>>>> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>>>> ---
+>>>> v1->v2:
+>>>>  - Minor description modification to align with the kernel.
+>>>>
+>>>>  sys-utils/fallocate.1.adoc | 11 +++++++++--
+>>>>  sys-utils/fallocate.c      | 20 ++++++++++++++++----
+>>>>  2 files changed, 25 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+>>>> index 44ee0ef4c..0ec9ff9a9 100644
+>>>> --- a/sys-utils/fallocate.1.adoc
+>>>> +++ b/sys-utils/fallocate.1.adoc
+>>>> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
+>>>
+>>> <snip all the long lines>
+>>>
+>>>> +*-w*, *--write-zeroes*::
+>>>> +Zeroes space in the byte range starting at _offset_ and continuing
+>>>> for _length_ bytes. Within the specified range, blocks are
+>>>> preallocated for the regions that span the holes in the file. After a
+>>>> successful call, subsequent reads from this range will return zeroes,
+>>>> subsequent writes to that range do not require further changes to the
+>>>> file mapping metadata.
+>>>
+>>> "...will return zeroes and subsequent writes to that range..." ?
+>>>
+>>
+>> Yeah.
+>>
+>>>> ++
+>>>> +Zeroing is done within the filesystem by preferably submitting write
+>>>
+>>> I think we should say less about what the filesystem actually does to
+>>> preserve some flexibility:
+>>>
+>>> "Zeroing is done within the filesystem. The filesystem may use a
+>>> hardware accelerated zeroing command, or it may submit regular writes.
+>>> The behavior depends on the filesystem design and available hardware."
+>>>
+>>
+>> Sure.
+>>
+>>>> zeores commands, the alternative way is submitting actual zeroed data,
+>>>> the specified range will be converted into written extents. The write
+>>>> zeroes command is typically faster than write actual data if the
+>>>> device supports unmap write zeroes, the specified range will not be
+>>>> physically zeroed out on the device.
+>>>> ++
+>>>> +Options *--keep-size* can not be specified for the write-zeroes
+>>>> operation.
+>>>> +
+>>>>  include::man-common/help-version.adoc[]
+>>>>  
+>>>>  == AUTHORS
+>> [..]
+>>>> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
+>>>>  			else if (mode & FALLOC_FL_ZERO_RANGE)
+>>>>  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+>>>>  								filename, str, length);
+>>>> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
+>>>> +				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
+>>>
+>>> "write zeroed" is a little strange, but I don't have a better
+>>> suggestion. :)
+>>>
+>>
+>> Hmm... What about simply using "zeroed", the same to FALLOC_FL_ZERO_RANGE?
+>> Users should be aware of the parameters they have passed to fallocate(),
+>> so they should not use this print for further differentiation.
+> 
+> No thanks, different inputs should produce different outputs. :)
+> 
 
-Aleksa Sarai <cyphar@cyphar.com>:
-> No, LOOKUP_AUTOMOUNT affects all components. I double-checked this with
-> Christian.
+OK. perhaps "written as zeros." ? Sounds OK?
 
-No. I just tested this. See tests (and miniconfig) in the end of this message.
-
-statx always follows automounts in non-final components no matter what.
-I tested this. And it follows automounts in final component depending on
-AT_NO_AUTOMOUNT. I tested this too. Also, absolutely all other syscalls always
-follow automounts in non-final components no matter what. With sole exception
-for openat2 with RESOLVE_NO_XDEV. I didn't test this, but I conclude this
-by reading code.
-
-First of all, LOOKUP_PARENT's doc in kernel currently is wrong:
-https://elixir.bootlin.com/linux/v6.17-rc1/source/include/linux/namei.h#L31
-
-We see there:
-#define LOOKUP_PARENT    BIT(10)    /* Looking up final parent in path */
-
-This is not true. LOOKUP_PARENT means that we are resolving any non-final
-component. LOOKUP_PARENT is set when we enter link_path_walk, which
-is used for resolving everything except for final component.
-And LOOKUP_PARENT is cleared when we leave link_path_walk.
-
-Now let's look here:
-https://elixir.bootlin.com/linux/v6.17-rc1/source/fs/namei.c#L1447
-
-	if (!(lookup_flags & (LOOKUP_PARENT | LOOKUP_DIRECTORY |
-			   LOOKUP_OPEN | LOOKUP_CREATE | LOOKUP_AUTOMOUNT)) &&
-
-We never return -EISDIR in this "if" if we are in non-final component
-thanks to LOOKUP_PARENT here. We fall to finish_automount instead.
-
-Again: if this is non-final component, then LOOKUP_PARENT is set, and thus
-LOOKUP_AUTOMOUNT is ignored. If this is final component, then LOOKUP_AUTOMOUNT
-may affect things.
-
-Code below tests that:
-- statx always follows non-final automounts
-- statx follow final automounts depending on options
-
-The code doesn't test other syscalls, they can be added if needed.
-
-The code was tested in Qemu on Linux 6.17-rc1.
-
-I'm not trying to insult you in any way.
-
-Again: thank you a lot for your work! For openat2 and for these mans.
-
-Askar Safin
-
-====
-
-miniconfig:
-
-CONFIG_64BIT=y
-
-CONFIG_EXPERT=y
-
-CONFIG_PRINTK=y
-CONFIG_PRINTK_TIME=y
-
-CONFIG_TTY=y
-CONFIG_VT=y
-CONFIG_VT_CONSOLE=y
-CONFIG_FRAMEBUFFER_CONSOLE=y
-
-CONFIG_PROC_FS=y
-CONFIG_DEVTMPFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-CONFIG_DEBUG_FS=y
-CONFIG_USER_EVENTS=y
-CONFIG_FTRACE=y
-CONFIG_MULTIUSER=y
-CONFIG_NAMESPACES=y
-CONFIG_USER_NS=y
-CONFIG_PID_NS=y
+Thanks,
+Yi.
 
 
-CONFIG_SERIAL_8250=y
-CONFIG_SERIAL_8250_CONSOLE=y
-
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_RD_GZIP=y
-
-CONFIG_BINFMT_ELF=y
-CONFIG_BINFMT_SCRIPT=y
-
-CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
-
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-
-====
-
-/*
-Author: Askar Safin
-Public domain
-
-Make sure your kernel is compiled with CONFIG_TRACEFS_AUTOMOUNT_DEPRECATED=y
-
-If all tests pass, the program
-should print "All tests passed".
-Any other output means that something gone wrong.
-
-This program requires root in initial user namespace
-*/
-
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sched.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/mount.h>
-#include <sys/syscall.h>
-#include <linux/openat2.h>
-
-#define MY_ASSERT(cond) do { \
-    if (!(cond)) { \
-        fprintf (stderr, "%s: assertion failed\n", #cond); \
-        exit (1); \
-    } \
-} while (0)
-
-bool
-tracing_mounted (void)
-{
-    struct statx tracing;
-    if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
-        {
-            perror ("statx tracing");
-            exit (1);
-        }
-    if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
-        {
-            fprintf (stderr, "???\n");
-            exit (1);
-        }
-    return tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT;
-}
-
-void
-mount_debugfs (void)
-{
-    if (mount (NULL, "/tmp/debugfs", "debugfs", 0, NULL) != 0)
-        {
-            perror ("mount debugfs");
-            exit (1);
-        }
-    MY_ASSERT (!tracing_mounted ());
-}
-
-void
-umount_debugfs (void)
-{
-    umount ("/tmp/debugfs/tracing"); // Ignore errors
-    if (umount ("/tmp/debugfs") != 0)
-        {
-            perror ("umount debugfs");
-            exit (1);
-        }
-}
-
-int
-main (void)
-{
-    // Init
-    {
-        if (chdir ("/") != 0)
-            {
-                perror ("chdir /");
-                exit (1);
-            }
-        if (unshare (CLONE_NEWNS) != 0)
-            {
-                perror ("unshare");
-                exit (1);
-            }
-        if (mount (NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) != 0)
-            {
-                perror ("mount(NULL, /, NULL, MS_REC | MS_PRIVATE, NULL)");
-                exit (1);
-            }
-        if (mount (NULL, "/tmp", "tmpfs", 0, NULL) != 0)
-            {
-                perror ("mount tmpfs");
-                exit (1);
-            }
-    }
-    if (mkdir ("/tmp/debugfs", 0777) != 0)
-        {
-            perror ("mkdir(/tmp/debugfs)");
-            exit (1);
-        }
-
-    // statx always follows automounts in non-final components. With AT_NO_AUTOMOUNT and without AT_NO_AUTOMOUNT
-    {
-        mount_debugfs();
-        {
-            struct statx readme;
-            if (statx (AT_FDCWD, "/tmp/debugfs/tracing/README", 0, 0, &readme) != 0)
-                {
-                    perror ("statx");
-                    exit (1);
-                }
-        }
-        MY_ASSERT (tracing_mounted ());
-        umount_debugfs();
-
-        mount_debugfs();
-        {
-            struct statx readme;
-            if (statx (AT_FDCWD, "/tmp/debugfs/tracing/README", AT_NO_AUTOMOUNT, 0, &readme) != 0)
-                {
-                    perror ("statx");
-                    exit (1);
-                }
-        }
-        MY_ASSERT (tracing_mounted ());
-        umount_debugfs();
-    }
-
-    // statx follows automounts in final components if AT_NO_AUTOMOUNT is not specified
-    {
-        mount_debugfs();
-        {
-            struct statx tracing;
-            if (statx (AT_FDCWD, "/tmp/debugfs/tracing", 0, 0, &tracing) != 0)
-                {
-                    perror ("statx");
-                    exit (1);
-                }
-            if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
-                {
-                    fprintf (stderr, "???\n");
-                    exit (1);
-                }
-
-            // Checking that this is new mount, not automount point itself
-            MY_ASSERT (tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT);
-        }
-        MY_ASSERT (tracing_mounted ());
-        umount_debugfs ();
-
-        mount_debugfs();
-        {
-            struct statx tracing;
-            if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
-                {
-                    perror ("statx");
-                    exit (1);
-                }
-            if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
-                {
-                    fprintf (stderr, "???\n");
-                    exit (1);
-                }
-
-            MY_ASSERT (!(tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT));
-        }
-        MY_ASSERT (!tracing_mounted ());
-        umount_debugfs ();
-    }
-
-    printf ("All tests passed\n");
-    exit (0);
-}
 
