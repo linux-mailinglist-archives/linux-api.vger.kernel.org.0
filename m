@@ -1,69 +1,62 @@
-Return-Path: <linux-api+bounces-4522-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4523-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C066DB2DA32
-	for <lists+linux-api@lfdr.de>; Wed, 20 Aug 2025 12:39:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9147FB2DA57
+	for <lists+linux-api@lfdr.de>; Wed, 20 Aug 2025 12:50:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 746BA1C466F1
-	for <lists+linux-api@lfdr.de>; Wed, 20 Aug 2025 10:39:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69F725C2B01
+	for <lists+linux-api@lfdr.de>; Wed, 20 Aug 2025 10:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E16A2E2DDD;
-	Wed, 20 Aug 2025 10:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF9102E1C61;
+	Wed, 20 Aug 2025 10:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Cf8r21yy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHAR25jQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACB71A08A3;
-	Wed, 20 Aug 2025 10:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927A51C3F0C;
+	Wed, 20 Aug 2025 10:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755686354; cv=none; b=pyIOKUQY1euLKSVC01+YzivfQcczNols0RLbZRv7XuIrpkfLDZHGlST5pZCbVU7+yCNoX7ke0cMpUDnL1zbl/ZECCP5dMqK/mbNHRkJMbXUlHD+Hq3RmDkhecJ5fnUs1AEUttlhK3VrCipWxn6B4px5hyupJBD+f7MbxMvLy1+4=
+	t=1755687034; cv=none; b=RgHCtk7lK9WQGNs8UpTxInp0alfpouaX09+wrwhiLmrD63BkXbjpr6IHMWUTcdeqcI553LRWVJ6YDU9taRVOAIDFRCzG++Opvjq7y0gQ6hvpkfoxfapEsM6EEPlK3ephk/8Ss09ATiScJI4Jrkpe9a21+kiV1Wc2wmxr8z3cVCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755686354; c=relaxed/simple;
-	bh=jilKxaZEwfaTEc+ZOXJWOakVu0+DB4g2LsvinFAQTys=;
+	s=arc-20240116; t=1755687034; c=relaxed/simple;
+	bh=gWY1s90mqkGWkH9wCn8pr68I+Bv91HSEex4Dh6PPwB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DF+LoQTwCpsoSIWNpgm26xBjesqmnKrYrfzXAaAM6v0wtUvywGkib/5T6AKtRgLxERXkczQrZsv+Gtr+9hri2FhgTnQoAIwiN1DRqvt4hxDHxuawrCv54cH9txeWn6YstTz+AKuP+D/rOwL7fxtsQQIDfXEVOjfDpidLUuNzaZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Cf8r21yy; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c6NGt4McKz9txB;
-	Wed, 20 Aug 2025 12:39:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755686342;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ewfe1p/aEyCzaiSaRpSyZ63tEEHUAO6lj3X+J01N0Lg=;
-	b=Cf8r21yygbkg+AOpmyYhrYuyf08/Gp0Bzu87zgSCrrEEXBolZS2vQ27oHsWcpM88gOCZ7R
-	0+CNnOKAPDG/PeTgnYycxJxgNDk5W4kXajRytN3YV8bfipmZRDNgvgGojjQShjTzAPEROt
-	ra+bbc+Ziv45eadwF3tLCWswlQCju8zeKwdVwBrOizQB+Gg13mR33Zyx+tc6tfoRhKITkE
-	8w4q2lN4MjKige93jizmm4CLAD4bomIEebv952cgSUon4O01UeouByEQca71gKEQ6QfuGs
-	yR91QVS/Akpz6Z0tJXgad5aSO6I9Prv3ZmHrWB0E1uwKz0WW5r0t5RPUJi5mrw==
-Date: Wed, 20 Aug 2025 20:38:48 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3 07/12] man/man2/fsmount.2: document "new" mount API
-Message-ID: <2025-08-20.1755686261-lurid-sleepy-lime-quarry-j42HLU@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
- <20250809-new-mount-api-v3-7-f61405c80f34@cyphar.com>
- <1989d90de76.d3b8b3cc73065.2447955224950374755@zohomail.com>
- <2025-08-12.1755007445-rural-feudal-spacebar-forehead-28QkCN@cyphar.com>
- <198c6e76d3e.113f774e874302.5490092759974557634@zohomail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mQgIXLuwlj1xHHsubGtqW36VJvBHfCVqIJY6+yu4dMW77xhxm754a3oeyir81NXKclvG/CYa433gU58Mylss1NGwqd5fAzfa6NQ4MgA1W+/WMbQZH1gR9xnEpZW+6hsmcdzAXs6D7wNHmV82dfTVzOQWHBxVu13iLudPWi8qgLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHAR25jQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AADC4CEEB;
+	Wed, 20 Aug 2025 10:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755687034;
+	bh=gWY1s90mqkGWkH9wCn8pr68I+Bv91HSEex4Dh6PPwB8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eHAR25jQJMzXI1NRMRA8WanTfcgs6tBSk10Oa4FMzTNqvad8AUQrmqVUtCgbjg88p
+	 z+au1YAXodfjmtOO2V98+YtgrcLCqvYEe6Z8eRmGFTQ6hlTX2bJOjhYdjaEupFfnl2
+	 J7Wm46UOW5imlOHmZJJOcyE0UVybthEsIXrNKm3DqTPTxfZM0w4XN3NY8USKXooZ41
+	 uI9QB+7SQcO9LSBuJInlHh74X5euEge3wzoz4iNsqijRZ5RLtjDXLNVAHBuqZ3mM52
+	 XhD8OW2+tpqzUbMqDlLc8EyKF7NH1xe/aNIxRl6Ovj4zC9okADcxzAfndaKzOAN1lX
+	 vvYUX+uim7X3A==
+Date: Wed, 20 Aug 2025 12:50:25 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] man/man2/mremap.2: describe previously
+ undocumented shrink behaviour
+Message-ID: <jmjlamoqau6rs32ldggra4ojiwim7b7h7xtgzh63m64xejsid4@cdnae7mjdeh3>
+References: <cover.1754924278.git.lorenzo.stoakes@oracle.com>
+ <ab2264d8c29d103d400c028f0417cada002ffc11.1754924278.git.lorenzo.stoakes@oracle.com>
+ <uvh2e2jjdk44tdwrhmnd46atwgdzwwmny4kczxqv2vm33gjqpp@63lsupn6y2u6>
+ <fb880acd-25df-4386-a13c-9b68640477ef@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -71,53 +64,125 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="usu7k5kxr5vzveta"
+	protocol="application/pgp-signature"; boundary="nokfytcmk76thnjv"
 Content-Disposition: inline
-In-Reply-To: <198c6e76d3e.113f774e874302.5490092759974557634@zohomail.com>
+In-Reply-To: <fb880acd-25df-4386-a13c-9b68640477ef@lucifer.local>
 
 
---usu7k5kxr5vzveta
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--nokfytcmk76thnjv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 07/12] man/man2/fsmount.2: document "new" mount API
+From: Alejandro Colomar <alx@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] man/man2/mremap.2: describe previously
+ undocumented shrink behaviour
+References: <cover.1754924278.git.lorenzo.stoakes@oracle.com>
+ <ab2264d8c29d103d400c028f0417cada002ffc11.1754924278.git.lorenzo.stoakes@oracle.com>
+ <uvh2e2jjdk44tdwrhmnd46atwgdzwwmny4kczxqv2vm33gjqpp@63lsupn6y2u6>
+ <fb880acd-25df-4386-a13c-9b68640477ef@lucifer.local>
 MIME-Version: 1.0
+In-Reply-To: <fb880acd-25df-4386-a13c-9b68640477ef@lucifer.local>
 
-On 2025-08-20, Askar Safin <safinaskar@zohomail.com> wrote:
->  ---- On Tue, 12 Aug 2025 18:33:04 +0400  Aleksa Sarai <cyphar@cyphar.com=
-> wrote ---=20
->  >   Unlike open_tree(2) with OPEN_TREE_CLONE, fsmount() can only be call=
-ed
->  >   once in the lifetime of a filesystem context.
->=20
-> Weird. open_tree doesn't get filesystem context as argument at all.
-> I suggest just this:
->=20
->   fsmount() can only be called
->   once in the lifetime of a filesystem context.
+Hi Lorenzo,
 
-The reason I wanted to include the comparison is that you can create
-multiple mount objects from the same underlying object using
-open_tree(2) but that's not possible with fsmount(2) (at least, not
-without creating a new filesystem context each time).
+On Tue, Aug 19, 2025 at 09:37:39PM +0100, Lorenzo Stoakes wrote:
+> > > diff --git a/man/man2/mremap.2 b/man/man2/mremap.2
+> > > index 6d14bf627..53d4eda29 100644
+> > > --- a/man/man2/mremap.2
+> > > +++ b/man/man2/mremap.2
+> > > @@ -47,8 +47,35 @@ The
+> > >  .B MREMAP_DONTUNMAP
+> > >  flag may also be specified.
+> > >  .P
+> > > -If the operation is not
+> > > -simply moving mappings,
+> > > +Equally, if the operation performs a shrink,
+
+I've changed s/Equally/Similarly/
+
+> > > +that is if
+> >
+> > Missing comma.
+>=20
+> Could you fix that up? Thnks!
+>=20
+> >
+> > > +.I old_size
+> > > +is greater than
+> > > +.IR new_size ,
+> > > +then
+> > > +.I old_size
+> > > +may also span multiple mappings
+> > > +which do not have to be
+> > > +adjacent to one another.
+> >
+> > I'm wondering if there's a missing comma or not before 'which'.
+> > The meaning of the sentence would be different.
+> >
+> > So, I should ask:
+> >
+> > Does old_size > new_size mean that old_size may span multiple mappings
+> > and you're commenting that multiple mappings need not be adjacent?
+>=20
+> Yes.
+>=20
+> >
+> > Or are multiple mappings always allowed and old_size > new_size allows
+> > non-adjacent ones?
+>=20
+> No.
+>=20
+> >
+> > I suspect it's the former, right?  Then, it's missing a comma, right?
+>=20
+> Yes could you fix that up?
+
+Yup.
+
+>=20
+> >
+> >
+> > Other than this, the patch looks good.
+>=20
+> Thanks!
+
+Thanks for the patch!  I've applied it with those amendments.
+<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
+mit/?h=3Dcontrib&id=3D21b1c7188ce1d66ef294eb1681361315a35e8070>
+
+
+Have a lovely day!
+Alex
 
 --=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+<https://www.alejandro-colomar.es/>
 
---usu7k5kxr5vzveta
+--nokfytcmk76thnjv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKWluBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8HqgEA5gdP363+e0Qvap7lKkmf
-7xVL4tnxaGyh9NHyapXTn5UA/1Ok9BIkD7qH82FZrHpbXznBtXN9ME/TbH5Saevg
-JKEG
-=3Kox
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmilqHAACgkQ64mZXMKQ
+wqkzYw/+NJLLAXvOxXNL5cW7CwdtKrzPktot1mon3rehA1zrsieDoTJNXTxcL8O5
+TbDMKNgfCW6FpCKHZBQOg/l+B4VjQfxBEYVxY7pDuIEqwyWHc98KdolFDkwCMfW5
+rRlCAF8jaYegdjGmkvGITH4HEaoC8YFgZ/4Nw6qDYO380PBDFwBq5xUSgT0Ztxpj
+XOHMgzKAyaQDuBdbT+rU+xGkxZr3zWJEUDq+bM7HcpN55xroaIwtgHTeecHameTG
+otOG6pGKSD3/0DrIUPWXZ19KJOzeh5QlPyYxqDAtLF1qUx3fpKdmjSFzmSc7eInd
+nTAYf3V0b/W3X/MV1ADJhiJnnDybznVvm0vGQ1SbAmEXgl0IAv/kruP3CDVEekLb
+sVbkiLnDtB3ub9AWS/n/vn4SQK9m59lVDpkJoMZh3flZtAnAUNQ8CudzWKZe0IZw
+lwKFVH3k+NQ9705FCbS0a7YXIcL6UcupADHVSlkZr8xMtTCbqzFxYzMBHXbF8+hS
+suEtrHZ0GN7TRGVVJvsJkdl3ebRsiKmg6UlMwg0Fcj/owx6Pdh/nwKn6qiQAAqsk
+DLuXkr4+Sl4np6v2ayEuI5Y10O9HakgkfMCDh8o58j+2siCnmCBwmhvKFjJYO/eN
+T4XARwzsGM48Lxxt1VTAW+F3jN+TKUCM6ZuT5d9Z3vhrhyL7SOU=
+=5B1m
 -----END PGP SIGNATURE-----
 
---usu7k5kxr5vzveta--
+--nokfytcmk76thnjv--
 
