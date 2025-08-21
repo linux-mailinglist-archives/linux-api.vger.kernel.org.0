@@ -1,76 +1,75 @@
-Return-Path: <linux-api+bounces-4542-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4543-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5C6B2F7A7
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 14:16:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC10B2F9A8
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 15:13:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFD0118942EA
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 12:15:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C189AC5939
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 13:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5103A3101B5;
-	Thu, 21 Aug 2025 12:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECC3C320CD7;
+	Thu, 21 Aug 2025 13:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="CF/ZhMEH"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="AXQ7SPKx"
 X-Original-To: linux-api@vger.kernel.org
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E249220D50B;
-	Thu, 21 Aug 2025 12:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A836CDE1;
+	Thu, 21 Aug 2025 13:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755778498; cv=pass; b=ERJ4YEQpjs9AlvRjDy7AfI4KeM4bf3F+yiAtSm2aRltlVYqhWrrkkTSqobKDEarVgpvUA7CVoSiwMeW3+Bh42mL6MFHj2IYBAVWWNINz/4TE7uYLMXLhPoilU/H+nPucTaFUtQ/eEmncLDH3U67Ow/97eL/NvMsvPAg4yNsUkQs=
+	t=1755781527; cv=pass; b=u6qHI0OGSQlo4vs7DTyaH0tko/H6GViMUn47N9NMipMAN06vJtjK0avJskb5KL5uOrxUVnvKl4XG8bc/gvUrI+3AuL3jYb2QfoQdjv39tuiQgWtEhvqocwvEqXCqBBKYH8QXSJ9cU6k2XmRdU35RjeLZXSx/eRmNHq5A3uzZ+cg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755778498; c=relaxed/simple;
-	bh=kHybyxNZkbiQTonEu/TLfGOSnHRZWrgvUByXudVbzNo=;
+	s=arc-20240116; t=1755781527; c=relaxed/simple;
+	bh=+8sGKMRZCJWLdmy/DkF91IGc5BVarEzYoIFTWH7RXXw=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DCe4s5gqSR4ePPmG/W8ewENn8G+Fc9pg/C1nKDqj0tYnlwOGtBdXPA6UJGqHYfTECPBDGSAmorV7Rc98wZ1WlA3CTleczSMch9nTsEUTDw21Owl1tqAXCDt2MPjIHshW/nCzWagtochKyoO+3H8kOa6eNdOOQi6G3tR62yoX9GE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=CF/ZhMEH; arc=pass smtp.client-ip=136.143.188.95
+	 MIME-Version:Content-Type; b=LOrFw20DKcbTFWWKGmQKyz14Erss5VwPZYYBW1HwQxAluTsEnlt/ttR6OsciFlEuw+mDJI6cYZpuor1Fyh/Oy3I/wtRcqnEOYeIoeNYCoe/cXqHSLE7DINvnb1nxB81PY8uaPuWZ89IEalWwheRqe/MRJbHu1FYoJ4O/QYKGfng=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=AXQ7SPKx; arc=pass smtp.client-ip=136.143.188.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1755778467; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1755781475; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=iFrss2Ohl51C5K0aSbCZoXzGPn/Pn75cjx99HrUPaFhEpKIMR2PXMq3zKzJZnygYcTwpr2sFAQpBNpRXCZmTWKUCi+smN3KMrSD1Yx2R2cmUOhH2brBiic7TwAlaJTHLnD7ZrMFOkvcS2p87qQidBM9kQQXNtbfVy5ld0lzlb/I=
+	b=i7Wggr5HBYWBGUd1xe6bh1Ol5XBy0xuiYXMGjM/ux/SsG7ULhZMJeq6sOPDK8+C3fImCCbM5Vv8f5XXDM8RcTe0KKF8ROT2alww190aXSohBq9IUNOKu22MshDdjGtaHfq1SpLT9MMeR/qDICFaA7pSaw396lyLv0bfGQVo/RhI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1755778467; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3NhJINe3GjDBVbK+ACQGsLyqt0EqmC30B2wu+Zak6nM=; 
-	b=lVpeLE0x/ZYCMJLDgQ4IF5IvYaLw6dxP/KdsN5nqyKpQhKHTDMlZAPFUbqa810j9LikhCXuCKhz0eZAzHChLUyKJBYVbF3U7GRBRd6CIlCkSYXLDFXOwlOQGkab27DDLCuZLTCKxxYALjl37FGeXR3uDfCrWSOSi9anNfAljSIg=
+	t=1755781475; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=SYHuj7Wjx5qXUTPgXJD1D8Eca4emv02OFlDqdIAxWXg=; 
+	b=La0rFyDmhqKUYNKXoHgy/2RIceLK9RCjNqIdMCFI7uRY8LX9RPJ2eGtKytCGNuhKlyQZ7iSvyO/eL/vE/GEvtKq61b1Nl/YZMP/0tiYalzN+cwnMJaJjCVc04Q831rwtyyKUVZmGH4ZSNtCxx2d4PVlLf7wodS7gumlZs07q+tk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=zohomail.com;
 	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
 	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755778467;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755781475;
 	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
 	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=3NhJINe3GjDBVbK+ACQGsLyqt0EqmC30B2wu+Zak6nM=;
-	b=CF/ZhMEHFpGSN7j2edx1K619OWkzpQOHtIlDM1Uf6RbaztlqqT0G4M2oju5Bo8Tg
-	yPB3zkC22ThyDAilxgKQR952237hvUObNFLGcr7uba7AH9vpGnHz9zwKCqnD5fZrGHw
-	UNxhEdef1DGnjt1CiSxkiua+M1cOTnUUJkirSRmg=
+	bh=SYHuj7Wjx5qXUTPgXJD1D8Eca4emv02OFlDqdIAxWXg=;
+	b=AXQ7SPKxUUopWeIvF7qQBZ7U4g0taKulTETxsoQoPfyom1vx/YMhl6nP5YCcK/zj
+	b74nczifLvROCOVksSFURwJTZ3ZGTInNUeJDjCipy7k9oHM2h3DDmi9gQ5QHA1GIQ/4
+	If6GaO7AjDGG5/1MAVWnSjteaxHi7J92Pi6jJ8vY=
 Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1755778465218187.95504831341532; Thu, 21 Aug 2025 05:14:25 -0700 (PDT)
+	with SMTP id 1755781473954167.9696619074616; Thu, 21 Aug 2025 06:04:33 -0700 (PDT)
 Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Thu, 21 Aug 2025 05:14:25 -0700 (PDT)
-Date: Thu, 21 Aug 2025 16:14:25 +0400
+	with HTTP;Thu, 21 Aug 2025 06:04:33 -0700 (PDT)
+Date: Thu, 21 Aug 2025 17:04:33 +0400
 From: Askar Safin <safinaskar@zohomail.com>
-To: "Aleksa Sarai" <cyphar@cyphar.com>
-Cc: "Alejandro Colomar" <alx@kernel.org>,
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>,
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
-	"linux-man" <linux-man@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Lichen Liu" <lichliu@redhat.com>,
 	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
 	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>
-Message-ID: <198cc8d3da6.124bd761f86893.6196757670555212232@zohomail.com>
-In-Reply-To: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
+	"kexec" <kexec@lists.infradead.org>, "rob" <rob@landley.net>,
+	"weilongchen" <weilongchen@huawei.com>, "cyphar" <cyphar@cyphar.com>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"zohar" <zohar@linux.ibm.com>, "stefanb" <stefanb@linux.ibm.com>,
+	"initramfs" <initramfs@vger.kernel.org>, "corbet" <corbet@lwn.net>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"viro" <viro@zeniv.linux.org.uk>, "jack" <jack@suse.cz>
+Message-ID: <198ccbb2694.d3fad31887413.1131652624698180933@zohomail.com>
+In-Reply-To: <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
+References: <20250815121459.3391223-1-lichliu@redhat.com> <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
+Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -82,19 +81,16 @@ Content-Transfer-Encoding: 7bit
 Importance: Medium
 User-Agent: Zoho Mail
 X-Mailer: Zoho Mail
-Feedback-ID: rr08011227d8a52e84b9d4f5d6457a47430000c55b1df7c9791dcd8fb1d961543b84f182020cb0311fac2667:zu0801122776295923f0e7e878d8c4726400005dad8a98a54d1aa1e89af53ccdf228c40e2eb9b9f0644b0ac5:rf0801122c8869734d8179b88d74b007220000786ec288664c1e54257598b81ecff4662a71918d7713431c81ba5e3ebf04:ZohoMail
+Feedback-ID: rr080112273e22f1786581338e49b7e07e000001104afa9c15ad2a122830cf688da2c59c8afe72e8c650ac99:zu080112272dfa6be1a67c778365ab64e5000011cfac17ec895c53b99647dbd1d7d4ef18c9ec956b108d8a70:rf0801122b9f962294dd4be519c8bf7647000010f904f79ddee4b424b1c5dbfae154f5453192b76d9278235c9b24def2:ZohoMail
 
-There is one particular case when open_tree is more powerful than openat with O_PATH. open_tree supports AT_EMPTY_PATH, and openat supports nothing similar.
-This means that we can convert normal O_RDONLY file descriptor to O_PATH descriptor using open_tree! I. e.:
-  rd = openat(AT_FDCWD, "/tmp/a", O_RDONLY, 0); // Regular file
-  open_tree(rd, "", AT_EMPTY_PATH);
-You can achieve same effect using /proc:
-  rd = openat(AT_FDCWD, "/tmp/a", O_RDONLY, 0); // Regular file
-  snprintf(buf, sizeof(buf), "/proc/self/fd/%d", rd);
-  openat(AT_FDCWD, buf, O_PATH, 0);
-But still I think this has security implications. This means that even if we deny access to /proc for container, it still is able to convert O_RDONLY
-descriptors to O_PATH descriptors using open_tree. I. e. this is yet another thing to think about when creating sandboxes.
-I know you delivered a talk about similar things a lot of time ago: https://lwn.net/Articles/934460/ . (I tested this.)
+ ---- On Thu, 21 Aug 2025 12:24:11 +0400  Christian Brauner <brauner@kernel.org> wrote --- 
+ > Applied to the vfs-6.18.misc branch of the vfs/vfs.git tree.
+ > Patches in the vfs-6.18.misc branch should appear in linux-next soon.
+
+Applied version contains this:
+> Specify mount options for for the initramfs mount
+
+I. e. "for" two times.
 
 --
 Askar Safin
