@@ -1,145 +1,181 @@
-Return-Path: <linux-api+bounces-4544-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4545-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E32B2FC8A
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 16:29:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 227A1B309D3
+	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 01:07:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E17A189F77D
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 14:22:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADB44622378
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 23:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC8022B8BE;
-	Thu, 21 Aug 2025 14:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 604F32765DF;
+	Thu, 21 Aug 2025 23:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Kr5/s2BQ"
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="r58bI+fx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from caracal.birch.relay.mailchannels.net (caracal.birch.relay.mailchannels.net [23.83.209.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01762EC551;
-	Thu, 21 Aug 2025 14:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786093; cv=none; b=mg6sGOJ3wSfz1FYZu7ve4mBwFpKiJABay7GsWTuLjczhLyEl+cYcrrOHeW6xY+zqVJXtiGHO2O30MwozpeVCrixCvmZM/P3uqWDCYu8vWuT6X/ljF4hsuE9dw8KmEUtt5GbVpDKGXdDK/7WBT2vG71HgZoQfWkHXfBdXe9cLE6M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786093; c=relaxed/simple;
-	bh=Vb2F+1YyfLyYDbBvxHKpFvzAWDyxW1OpfmWp6x/xB0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmM9WpbjSXaBIiLln+CxseXhn9to8SNeaeEutNGYM2N6EPxNEqeM3PauahvvnwOD0mbvCzu4zn4FjqQ/+DXvZFxRZoJO2pRIO0MiTmVbpwKki7FlgeTJL0aSBPwYAUa9q/KW2mk0U/8ftvLnDsE6Bt4iAxVLZL34ATBaW56j7ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Kr5/s2BQ; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4c758y38mCz9smF;
-	Thu, 21 Aug 2025 16:21:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755786082;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFE518C933;
+	Thu, 21 Aug 2025 23:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755817617; cv=pass; b=tgoM0JJC02vstOgwx+wWS40anLvuf6wd/QeMlWrALP6woJwce8oLszHhoJvG5SX/6fXomQzk4PDSlum8+0XlHOcUTxTkqC9kKawChTyLYARabsw2G5iFaj5jxddSCpIEUQ7eXBaF+oEJoldptt5R43t+W+/T+1IaRyAdq+abbro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755817617; c=relaxed/simple;
+	bh=nPJc2LGhp+f0EjpPrHKcIKNtL5HItlJoDYIu81j7Pm8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=el/ToJwsTDskBQbwkMzMAW5X/Wc+BFOgvNpBa2deCHSe2pniCeWrIdWnTlGO2nttV6HpnWZdf01JukQ2eHsyPr15f3swb2JoUo1VC4pjxEKulF7iqrmCiPAV9bFHtDpgR7JSXoSpG29op1VGcwxl2bagdB9SJ5WDcmdpwe2a8e0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=r58bI+fx; arc=pass smtp.client-ip=23.83.209.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 76A48164DBB;
+	Thu, 21 Aug 2025 19:02:06 +0000 (UTC)
+Received: from pdx1-sub0-mail-a203.dreamhost.com (trex-blue-8.trex.outbound.svc.cluster.local [100.96.56.164])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id A878A164DF0;
+	Thu, 21 Aug 2025 19:02:03 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1755802924; a=rsa-sha256;
+	cv=none;
+	b=UHJ9p/ve0mOlfSAVmbpIipZIOd5OfU9KF0jnoS0tKPAx89VDGY9eegjAdErUKlTpZjABt7
+	Wwxwnjs2KzYeQ6sBWeFUcyE1F0CX+pWlcILdS9n9GzEKcjOt5RPNha97AbZJ8T2b3QWxIy
+	MenxIdPWfscCL/Z+Uny2+ODVY1d0vFnKZUZSpjR/wVl6zbq2yYQUmzx2vHJG9gWMCM8uvR
+	lwdlfsy3JiI1F+gZUG8G7LoUQ77QwUx+s5otgg5cg82LAY+TTXc3opevcssGu6wNUIRc2J
+	65KBoYzqGsBpZo+h2ykCu4VRSrXgYdSWMuMn9WI7CnzyopiQypT+Gk0SliCF2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1755802924;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fW3Zzx4J8tGS72KjNJnVUhaHtHsXE0Z0H9CSM70UsDs=;
-	b=Kr5/s2BQubpmBB8hHQQAUB6etiNM4h6E6thzMmaQnKfCymVva8DBHBG54j6HuhDhkxWwrV
-	5/447MFJJp07PckYe5JoOrb6tPddsM7HT83PDLziKjKa05mbw9zoBA2Yx7u5FtJZlDd55T
-	251bJnqvZc/jFMQMz61+I+/zh9yN6agNsuIISsWqd3Kjv1tu1/917TPqqqorL5Rii7pP2z
-	pv1L6Uow8egV7ut9UB8zvAQu6CbqawXBxVMvkzOs6ne37GeHV2Lbyzl3RisrJwbiutAWXQ
-	BnXDxMojrt/hYumfmgxISnUJEwF+9TghaS4jDP3VyfYuoHAkcdrSBsbUyy21ew==
-Date: Fri, 22 Aug 2025 00:21:06 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-Message-ID: <2025-08-21.1755785636-rusted-ivory-corgi-salad-fYNRl1@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
- <198cc8d3da6.124bd761f86893.6196757670555212232@zohomail.com>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=DTum6aUzoTd06Yz6vcVkFrgl9Z1aazJsHYJ0yk4IY3s=;
+	b=BKyA+s/BXon0kemDwiuV8iP48IimaC9zbRUSiD6M6gUV/8hAdeyi4m3OEL1JOQKwZTBhoq
+	GBHwOXSPAICW4DXOona/MYpRCXAN1KHoS7hwEQ7iXRJx/8O/3eiObuGDgxaDcXDk1WfOz4
+	Cqzc0Zc4WvXs0oxYYujLJHsxG1b4ShLyWh7K9c+Wycb2h09DcBSkX2Efx1bb4jvx2molO2
+	8ezyKJI1KHXheXnwdE53BKJr1ed2JIKUJYNycXADpj1CibuOK+u9tBIcuZRZTlk/cZ+IGI
+	I5OkNPS8Jj3qmh5ZiVA4DkxA9tW3edY6Vyg2qomewSLIWY0kfYgIK0SWWSNEJg==
+ARC-Authentication-Results: i=1;
+	rspamd-75798d6c54-cc4rx;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Cooperative-Celery: 53726d696e0ad8ed_1755802926174_204621990
+X-MC-Loop-Signature: 1755802926174:3800453157
+X-MC-Ingress-Time: 1755802926174
+Received: from pdx1-sub0-mail-a203.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.56.164 (trex/7.1.3);
+	Thu, 21 Aug 2025 19:02:06 +0000
+Received: from [IPV6:2607:fb90:faae:51e1:d9d4:2e42:ae75:9827] (unknown [172.58.14.113])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a203.dreamhost.com (Postfix) with ESMTPSA id 4c7CNp0xkPz7J;
+	Thu, 21 Aug 2025 12:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1755802923;
+	bh=DTum6aUzoTd06Yz6vcVkFrgl9Z1aazJsHYJ0yk4IY3s=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=r58bI+fxGbZgg/ecLcgnOoYTOsYVltmH7NUpfsqm9MIMlhkgEJ/R/hjN9ruivne1/
+	 WctMiTgjRs0ar/91i1xNyh06ocfuIQPaX2H+e/2/4d3Y9+Mt86cVas8aVEaM8iyuro
+	 wO2cogZANhQLwsUy2j3bgPV2mKBtkBtYfmiG6p7KAhv99Skigd3uxBZsvs1ny+r4gs
+	 hKwPhioSR2YX0+4M5D1nhN9pLn/qdO7Xz75aAJAZna8evySkILVK+ec+W8fAcZQNjS
+	 HI5RZzRz/YW6mOdvtVbUEVpJTRRrxggklUipTF77RbatfMCyz2X2x1fO/INWF7NcXv
+	 QXTrn8A2N8O6Q==
+Message-ID: <da1b1926-ba18-4a81-93e0-56cb2f85e4dd@landley.net>
+Date: Thu, 21 Aug 2025 14:02:00 -0500
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jsdomwd2btigmqhb"
-Content-Disposition: inline
-In-Reply-To: <198cc8d3da6.124bd761f86893.6196757670555212232@zohomail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
+To: Christian Brauner <brauner@kernel.org>, Lichen Liu <lichliu@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ safinaskar@zohomail.com, kexec@lists.infradead.org, weilongchen@huawei.com,
+ cyphar@cyphar.com, linux-api@vger.kernel.org, zohar@linux.ibm.com,
+ stefanb@linux.ibm.com, initramfs@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz
+References: <20250815121459.3391223-1-lichliu@redhat.com>
+ <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 8/21/25 03:24, Christian Brauner wrote:
+> This seems rather useful but I've renamed "rootfsflags" to
 
---jsdomwd2btigmqhb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-MIME-Version: 1.0
+I remember when bikeshedding came in the form of a question.
 
-On 2025-08-21, Askar Safin <safinaskar@zohomail.com> wrote:
-> There is one particular case when open_tree is more powerful than openat =
-with O_PATH. open_tree supports AT_EMPTY_PATH, and openat supports nothing =
-similar.
-> This means that we can convert normal O_RDONLY file descriptor to O_PATH =
-descriptor using open_tree! I. e.:
->   rd =3D openat(AT_FDCWD, "/tmp/a", O_RDONLY, 0); // Regular file
->   open_tree(rd, "", AT_EMPTY_PATH);
-> You can achieve same effect using /proc:
->   rd =3D openat(AT_FDCWD, "/tmp/a", O_RDONLY, 0); // Regular file
->   snprintf(buf, sizeof(buf), "/proc/self/fd/%d", rd);
->   openat(AT_FDCWD, buf, O_PATH, 0);
-> But still I think this has security implications. This means that even if=
- we deny access to /proc for container, it still is able to convert O_RDONLY
-> descriptors to O_PATH descriptors using open_tree. I. e. this is yet anot=
-her thing to think about when creating sandboxes.
-> I know you delivered a talk about similar things a lot of time ago: https=
-://lwn.net/Articles/934460/ . (I tested this.)
+> "initramfs_options" because "rootfsflags" is ambiguous and it's not
+> really just about flags.
 
-O_RDONLY -> O_PATH is less of an issue than the other way around. There
-isn't much you can do with O_PATH that you can't do with a properly open
-file (by design you actually should have strictly less privileges but
-some operations are only really possible with O_PATH, but they're not
-security-critical in that way).
+The existing config option (applying to the fallback root=/dev/blah 
+filesystem overmounting rootfs) is called "rootflags", the new name 
+differs for the same reason init= and rdinit= differ.
 
-I was working on a new patchset for resolving this issue (and adding
-O_EMPTYPATH support) late last year but other things fell on my plate
-and the design was quite difficult to get to a place where everyone
-agreed to it.
+The name "rootfs" has been around for over 20 years, as evidenced in 
+https://kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt 
+and so on. Over the past decade least three independently authored 
+patches have come up with the same name for this option. Nobody ever 
+suggested a name where people have to remember whether it has _ or - in it.
 
-The core issue is that we would need to block not just re-opening but
-also any operation that is a write (or read) in disguise, which kind of
-implies you need to have capabilities attached to file descriptors. This
-is already slightly shaky ground if you look at the history of projects
-like capsicum -- but also my impression was that just adding it to
-"file_permission" was not sufficient, you need to put it in
-"path_permission" which means we have to either bloat "struct path" or
-come up with some extended structure that you need to plumb through
-everywhere.
+Technically initramfs is the name of the cpio extractor and related 
+plumbing, the filesystem instance identifies itself as "rootfs" in
+/proc/mounts:
 
-But yes, this is a thing that is still on my list of things to do, but
-not in the immediate future.
+$ head -n 1 /proc/mounts
+rootfs / rootfs rw,size=29444k,nr_inodes=7361 0 0
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+I.E. rootfs is an instance of ramfs (or tmpfs) populated by initramfs.
 
---jsdomwd2btigmqhb
-Content-Type: application/pgp-signature; name="signature.asc"
+Given that rdinit= is two letters added to init= it made sense for 
+rootfsflags= to be two letters added to rootflags= to distinguish them.
 
------BEGIN PGP SIGNATURE-----
+(The "rd" was because it's legacy shared infrastructure with the old 
+1990s initial ramdisk mechanism ala /dev/ram0. The same reason 
+bootloaders like grub have an "initrd" command to load the external 
+cpio.gz for initramfs when it's not statically linked into the kernel 
+image: the delivery mechanism is the same, the kernel inspects the file 
+type to determine how to handle it. This new option _isn't_ legacy, and 
+"rootfs" is already common parlance, so it seemed obvious to everyone 
+with even moderate domain familiarity what to call it.)
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKcrThsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG9TSwD9Ez8Vfzuiim607l6uNQY4
-4f9TZbwHuIVkqc4PsjYgz3UBANuelZQN20hYZ3EVADF7hQ6wiLdCEdTVMElYczRh
-XRIJ
-=fSGM
------END PGP SIGNATURE-----
+> Other than that I think it would make sense to just raise the limit to
+> 90% for the root_fs_type mount. I'm not sure why this super privileged
+> code would only be allowed 50% by default.
 
---jsdomwd2btigmqhb--
+Because when a ram based filesystem pins all available memory the kernel 
+deadlocks (ramfs always doing this was one of the motivations to use 
+tmpfs, but tmpfs doesn't mean you have swap), because the existing use 
+cases for this come from low memory systems that already micromanage 
+this sort of thing so a different default wouldn't help, because it 
+isn't a domain-specific decision but was inheriting the tmpfs default 
+value so you'd need extra code _to_ specify a different default, because 
+you didn't read the answer to the previous guy who asked this question 
+earlier in this patch's discussion...
+
+https://lkml.org/lkml/2025/8/8/1050
+
+Rob
+
+P.S. It's a pity lkml.iu.edu and spinics.net are both down right now, 
+but after vger.kernel.org deleted all reference to them I can't say I'm 
+surprised. Neither lkml.org nor lore.kernel.org have an obvious threaded 
+interface allowing you to find stuff without a keyword search, and 
+lore.kernel.org somehow manages not to list "linux-kernel" in its top 
+level list of "inboxes" at all. The wagons are circled pretty tightly...
 
