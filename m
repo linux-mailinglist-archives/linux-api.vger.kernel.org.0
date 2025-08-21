@@ -1,135 +1,104 @@
-Return-Path: <linux-api+bounces-4540-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4541-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80204B2F727
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 13:53:54 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA350B2F74D
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 13:58:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 199961886084
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 11:50:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 905D24E0675
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 11:58:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36E12BD01B;
-	Thu, 21 Aug 2025 11:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D7113B58B;
+	Thu, 21 Aug 2025 11:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="2AlFnXuu"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="dIJADVj0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55C020C47C;
-	Thu, 21 Aug 2025 11:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755776982; cv=none; b=foSGN8xwwZ+osrNIFQFoqR4nheNxoUbk+QsZ7X7srJ+V6W0ewgopKVa+gTtCgaVfGovqKxToZtnwf/3Cb5bi++vMjaSK/aJGr6JmAi7LlD7zaPQPQUXvzlY1xPuFb+2mQLFjiOkTWEF1gMmRhGsLsskChMk/EfEg3DNEhE6ljQU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755776982; c=relaxed/simple;
-	bh=tfZrXbfc4oq1S3cVt2v2d1owIpM4+3slLwHaRwR4LrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OgYVzNCn6zjaSvuTeZPo93tweaCjk9B2DmMzxnby/u4ojMX+m08/VSA7/fBa0kCQp4GU/bslDllN2mvcyG/8lNGetVUYEuIiQ0Ax3MZsWHJSFN/uL1t17o7jkItQlrscWsMgpEYuQQ15ixYpTmYs9ot3twf6fEFh0bw7JhZYuQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=2AlFnXuu; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c71nl1glTz9tKb;
-	Thu, 21 Aug 2025 13:49:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755776971;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EFlH+VJnfrLLvhDqPUsmhgOah2IOEJ+syE2BNTTu8Pc=;
-	b=2AlFnXuuuvTyN1LrBkJ82MvdtZ3oGos2Kjqc1UlNstcLZKzt+Zi4wd3BOm2flmbE6XeB/P
-	Z8r7oeKgN2rF+3QYrrjg3l7AuWwXYUUldsLlrV+OaqhpIIU1Enw9wgxb6axATEoxzAFLAm
-	dLTnebeROZI30n5dTBiBRYoGWQYvovijTT3+4QrI/K5Cz8Hg6UopN9HO1hiJbrGZTNa6Ye
-	A8JMJG2m2k47N2XjOb5RshVVsGIR9e3WtmTH1Hy72m5m1yGBNm4pyFrvRMAK8EhUJlDI8M
-	M7RdlZMdA3YeYjlws6X0JcAx24gN6E3TLf4tgas1qhDpxVtRn4yliL84yGYdKg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Thu, 21 Aug 2025 21:49:18 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: alx <alx@kernel.org>, brauner <brauner@kernel.org>, 
-	dhowells <dhowells@redhat.com>, "g.branden.robinson" <g.branden.robinson@gmail.com>, 
-	jack <jack@suse.cz>, linux-api <linux-api@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-man <linux-man@vger.kernel.org>, "mtk.manpages" <mtk.manpages@gmail.com>, 
-	viro <viro@zeniv.linux.org.uk>, Ian Kent <raven@themaw.net>, 
-	autofs mailing list <autofs@vger.kernel.org>
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-Message-ID: <2025-08-21.1755776865-swank-rusted-doorbell-brads-U3HJFf@cyphar.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1CF2E040A;
+	Thu, 21 Aug 2025 11:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755777486; cv=pass; b=FzS+RWydQ30RJUSl79FfqqQdZJtSo8zgqyZDusREp22zyupQE5BzK/mZpcg9JMGtbCo8qrT/hAb0kgF+Epnq0q/bNWgb1OfG/BMELR+GFLbxH4pLrXzYyquUzdmm4YCrV5s3dnZrT1BaNLUV4BuKogypxGh3xdP9brpo1ufNkiY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755777486; c=relaxed/simple;
+	bh=EBBedWvK1u+H3C95rP1DT0PFj20hcb9dPK9pik6fmpA=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=Hh8h4WIjmjJoXVVQUF4OeZuEV7+R7YRRynDNmSEi4DGcQMb0E8GnozvarYJ4Lwn62zFTinWohes/NGCKmPEB/2shTRdapLJesKpccTJL57nXl8ZmfDZxpzetx6fl4c5kWdTwQzGbv08gcyOqePWkk8/WH9Ed9Y6ODFJoiQ0U9O0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=dIJADVj0; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1755777460; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=kvm2H7hUW3/qWU37dwBIRAqRrMl7DRnognIk1HF5jZFYrY4CFmQLUbj7zHc9Slc6s9noQLNx4BpYccJKztJn1DMdMghR6kHyXuF8CUvt87WQ+ACFXAhrvKvBQ8CVyxRBxUW1Nk4jdSoKyGbHhyMK2GgNx7Vxu/HaaRt1UwBJvJ0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1755777460; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ld4HBgc72ZPV+idYQ8STWRZ6UTdUhQB7h0WsUoXkOEM=; 
+	b=KUoXIOyK58qNy72EKgqkqb0qC9ujeF9tsWDMp8pFCfMNPwH2R1ZGDULWUp0BdICJq/dYB0j5CUUOq6iX6AsEBgbYFie+hVqvnwtzzvCZdzCRZf9t5Wq/qPvIKseC9U3s8OLiM8LftRdvdyyfo2Nbq8Yok4e5om72TRCSHptPFvY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755777460;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=Ld4HBgc72ZPV+idYQ8STWRZ6UTdUhQB7h0WsUoXkOEM=;
+	b=dIJADVj01Vz6FuTnQRkWdPumeRjyLqSc62VvxYA/HHELEc7tUe5Si5x63OeWqjOL
+	O390Hn2IIsQ4/BE6tP43ZtSvXg2juecJvtnhsLJ9ZsEQvZhgG4CJz5eX3VXlntoRJrN
+	VLojLtnJyCZGVDIHMBxqvG8JMGS5Eo5X446RS0mo=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1755777459873751.6966116751717; Thu, 21 Aug 2025 04:57:39 -0700 (PDT)
+Received: from  [212.73.77.104] by mail.zoho.com
+	with HTTP;Thu, 21 Aug 2025 04:57:39 -0700 (PDT)
+Date: Thu, 21 Aug 2025 15:57:39 +0400
+From: Askar Safin <safinaskar@zohomail.com>
+To: "Aleksa Sarai" <cyphar@cyphar.com>
+Cc: "Alejandro Colomar" <alx@kernel.org>,
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"Jan Kara" <jack@suse.cz>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"linux-man" <linux-man@vger.kernel.org>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"David Howells" <dhowells@redhat.com>,
+	"Christian Brauner" <brauner@kernel.org>
+Message-ID: <198cc7de694.10b8d291e86721.7259290895236048760@zohomail.com>
+In-Reply-To: <2025-08-21.1755776485-stony-another-giggle-rodent-9HLjPO@cyphar.com>
 References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
- <20250817075252.4137628-1-safinaskar@zohomail.com>
- <2025-08-17.1755446479-rotten-curled-charms-robe-vWOBH5@cyphar.com>
- <198c74541c8.c835b65275081.1338200284666207736@zohomail.com>
+ <20250809-new-mount-api-v3-6-f61405c80f34@cyphar.com>
+ <2025-08-12.1755022847-yummy-native-bandage-dorm-8U46ME@cyphar.com>
+ <198cc025823.ea44e3f585444.6907980660506284461@zohomail.com> <2025-08-21.1755776485-stony-another-giggle-rodent-9HLjPO@cyphar.com>
+Subject: Re: [PATCH v3 06/12] man/man2/fsconfig.2: document "new" mount API
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ecr4qyhlla7cietw"
-Content-Disposition: inline
-In-Reply-To: <198c74541c8.c835b65275081.1338200284666207736@zohomail.com>
-X-Rspamd-Queue-Id: 4c71nl1glTz9tKb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr0801122736d346ab1c41d9037a2f10720000b1314a9feea7ec523d096449994f77260239577f733423657a:zu08011227929deb0a72252e3508dc6dd500002f0b71dee2e015adc648c259483e9ec020701ea2b76ad960d9:rf0801122cfcbc68b48c763bd8bff4d3c0000050eeed29cb8095bc43a3c5c7bb23f93e5c7db8d21663940272ec90d58a05:ZohoMail
 
+ ---- On Thu, 21 Aug 2025 15:44:42 +0400  Aleksa Sarai <cyphar@cyphar.com> wrote --- 
+ > I'm of two minds whether I should fix the behaviour and then re-send
+ > man-pages with updated text (delaying the next round of man-page reviews
+ > by a month) or just reduce the specificity of this text and then add
+ > more details after it has been fixed.
 
---ecr4qyhlla7cietw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/12] man2: document "new" mount API
-MIME-Version: 1.0
+Do what you want.
+I'm not in hurry.
 
-On 2025-08-20, Askar Safin <safinaskar@zohomail.com> wrote:
->  ---- On Sun, 17 Aug 2025 20:16:04 +0400  Aleksa Sarai <cyphar@cyphar.com=
-> wrote ---=20
->  > They are not tested by fstests AFAICS, but that's more of a flaw in
->  > fstests (automount requires you to have a running autofs daemon, which
->  > probably makes testing it in fstests or selftests impractical) not the
->  > feature itself.
->=20
-> I suggest testing automounts in fstests/selftests using "tracing" automou=
-nt.
-> This is what I do in my reproducers.
->=20
->  > The automount behaviour of tracefs is different to the general automou=
-nt
->  > mechanism which is managed by userspace with the autofs daemon.
->=20
-> Yes. But I still was able to write reproducers using "tracing", so this
-> automount point is totally okay for tests. (At least for some tests,
-> such as RESOLVE_NO_XDEV.)
+CC me if you write any patches, please.
+--
+Askar Safin
+https://types.pl/@safinaskar
 
-Sure, but I don't think people use allyesconfig when running selftests.
-I wonder if the automated test runners even enable deprecated features
-like that.
-
-In any case, you can definitely write some tests for it. :D
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
-
---ecr4qyhlla7cietw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKcHvRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+GeAEAwCxqWJ6XP3XwGopXed+M
-svbRnf0/cL/a4UUPHvcBzH0BAPDSaOqMP2tkb8R201zdSZfnOP0PAD9/nnceTG96
-QpgL
-=xu3t
------END PGP SIGNATURE-----
-
---ecr4qyhlla7cietw--
 
