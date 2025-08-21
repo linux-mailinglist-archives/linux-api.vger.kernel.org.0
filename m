@@ -1,172 +1,121 @@
-Return-Path: <linux-api+bounces-4532-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4533-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD26B2E882
-	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 01:15:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBC8B2F222
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 10:35:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70C995E1366
-	for <lists+linux-api@lfdr.de>; Wed, 20 Aug 2025 23:15:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DECF3A96D3
+	for <lists+linux-api@lfdr.de>; Thu, 21 Aug 2025 08:30:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC732DCBEC;
-	Wed, 20 Aug 2025 23:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF002EA73A;
+	Thu, 21 Aug 2025 08:26:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a5B901bq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KB/twgsA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E982DA76E;
-	Wed, 20 Aug 2025 23:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940BA2EA49E;
+	Thu, 21 Aug 2025 08:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755731722; cv=none; b=A7JTjJvAMaGGJU8u2aCzPfh2SijuEucQbuZAx983YvMc4+HzDCdOen+k5yi6iaf8T6xMn4xeGbNRfd9kd6KJ5NiXVlSUg5iB/WkCXST9OaWC0+t/7c4fal7TTOGBgMqGaQ2Zgf5p5c0TJpFyvQcu5kf+VX7Oxo+pBJ9j7rWgHlI=
+	t=1755764774; cv=none; b=BKSPd2hBuVjsXZMr4uddGSRrQ0Of3Ntzj8GMENmaHdfm01KrQA6AQRnTDBeSDByISR/MzpNeg4CgPjyOj64wYTzc5V7aYX5WdA+uQfrSKjg7gLsDP5z2ukC5Atg8ALnAE8VtCYwwA33P1kH6L+4t/IcdUYhZIZPPoxZMTQkP4UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755731722; c=relaxed/simple;
-	bh=OYOlcCTwmKGZgS5KOIn5H+vHPB4jOQ7YEfAFOO/ZXg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PIBeZQGrSyE7BTeRefrS6rnJYRySA2mAyc+q0d5hRFPbkbpdj4W+BH1elRyzvQ6BDH81KveY+EbklbFSOjTHSZ3ynmg8R3q0caislkA7/vpdzAFCKSKds6fWQuVpmQ/OTOCO7ZU3Ym24jWwmpMpka+S8C4C3k8eqNKU9f0pVt9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=a5B901bq; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FpjcGExinQ7DizvhjlC/0mgW8VkMGf3pFsHN0FXHDG8=; b=a5B901bqltmOZu1bQYhtL5O1nR
-	vDvhyfcxMODQFuDWGBHTqxuTKDsWZzjnmw0gvSA/CvIWJIp+P+adWpHBtVXmZHjwLFA82tLwZgiyh
-	a4VH+b6/lHLVQVQU+mUGE6hsXlTwyKJ4IOHUldsw8aM3iLf+2URhXpVCTe5eOi9pv8Nbsjd232WVj
-	rhV1zOdMMA/kGOGo2mplaPuohEvnVFsVJG5JzBVg5THmnRP23paSI3VzUzsrHop8k6aYTPGA1kkIH
-	MbtskjZbnX9GHMtPG5xlCbX8APXul1SFl2YS6q8+UlktOc7ewTdvP644WGVkJGoMwrbdSX0RLbELy
-	zV0hzS/Q==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uos1O-0000000FA4b-2rMG;
-	Wed, 20 Aug 2025 23:15:10 +0000
-Message-ID: <fb515d1f-beb2-4adb-933d-c9612949ae36@infradead.org>
-Date: Wed, 20 Aug 2025 16:15:08 -0700
+	s=arc-20240116; t=1755764774; c=relaxed/simple;
+	bh=cLUbOqUr6cTb/vKgSfC31FXfcobLn5rCi7Usx5zRpc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DJQ2g9VMLuSvJYwZILZ7Y/6/Hml00r+uii6JP38shCEttNUYpCMdJDCfHKNJxTUjArrTPel75lwHXUM05/Snhj2vIhNt9a6Iiw7kOygfbt4mDbclU9lg/Qf9Y9sl+qS0A6+Lax+dOjzG20Z+q7CUD1USilCI1NdXvoRTt39vYu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KB/twgsA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD01C4CEEB;
+	Thu, 21 Aug 2025 08:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755764774;
+	bh=cLUbOqUr6cTb/vKgSfC31FXfcobLn5rCi7Usx5zRpc0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KB/twgsA/CTVnp586RP3GyuIdvA0EyWAAu+91jwzNtpbYbFOXHSU+jhu4roGlyYaB
+	 BxV+AOwx9I0X+6uSH1kDHGrWRCz5VW4AjFllgPvHKsWA5GjEhBoTsBtmc2sQ09hzK5
+	 jQuxubCyXuxk/Fe2zDo0iQi/7yW6zxEmdnetP1tMY7f7jUGykW5edx68Zmf5wRLqM1
+	 AaGdKlxJfMGHLS7Dw6iFgcgxUCI0acFJ+cmRXj/ME/nXBKoswdmAChcBH49jSUT7AT
+	 nNClgUYNQbD/ibAssVpOs7cjGiJbe9NxlKJR5WwEypQ96O8gqU8pcz1UxbhkZGpIi3
+	 Vsg9b0HqcCtvA==
+From: Christian Brauner <brauner@kernel.org>
+To: Lichen Liu <lichliu@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	safinaskar@zohomail.com,
+	kexec@lists.infradead.org,
+	rob@landley.net,
+	weilongchen@huawei.com,
+	cyphar@cyphar.com,
+	linux-api@vger.kernel.org,
+	zohar@linux.ibm.com,
+	stefanb@linux.ibm.com,
+	initramfs@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz
+Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
+Date: Thu, 21 Aug 2025 10:24:11 +0200
+Message-ID: <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250815121459.3391223-1-lichliu@redhat.com>
+References: <20250815121459.3391223-1-lichliu@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 2/8] Documentation: userspace-api: Add shadow stack
- API documentation
-To: Mark Brown <broonie@kernel.org>,
- "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
- Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
- "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, jannh@google.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Yury Khrustalev <yury.khrustalev@arm.com>,
- Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org,
- linux-api@vger.kernel.org, Kees Cook <kees@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20250819-clone3-shadow-stack-v19-0-bc957075479b@kernel.org>
- <20250819-clone3-shadow-stack-v19-2-bc957075479b@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250819-clone3-shadow-stack-v19-2-bc957075479b@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=brauner@kernel.org; h=from:subject:message-id; bh=cLUbOqUr6cTb/vKgSfC31FXfcobLn5rCi7Usx5zRpc0=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQsuyF9J8I8+ZPI912RyxZ9nXK0nUlMZilruGDJHpOm7 9cirH4HdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzE5BbDX+kbB6buCWFhtarJ sWE8wewxpUXp9twbsTPVd/5ZsXix9k9GhvNr7pbsmytTaOiSs/k6/9MrFlk+jBf5/2xw5Z0eo9v QwAcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-
-
-On 8/19/25 9:21 AM, Mark Brown wrote:
-> There are a number of architectures with shadow stack features which we are
-> presenting to userspace with as consistent an API as we can (though there
-> are some architecture specifics). Especially given that there are some
-> important considerations for userspace code interacting directly with the
-> feature let's provide some documentation covering the common aspects.
+On Fri, 15 Aug 2025 20:14:59 +0800, Lichen Liu wrote:
+> When CONFIG_TMPFS is enabled, the initial root filesystem is a tmpfs.
+> By default, a tmpfs mount is limited to using 50% of the available RAM
+> for its content. This can be problematic in memory-constrained
+> environments, particularly during a kdump capture.
 > 
-
-> ---
->  Documentation/userspace-api/index.rst        |  1 +
->  Documentation/userspace-api/shadow_stack.rst | 44 ++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+)
+> In a kdump scenario, the capture kernel boots with a limited amount of
+> memory specified by the 'crashkernel' parameter. If the initramfs is
+> large, it may fail to unpack into the tmpfs rootfs due to insufficient
+> space. This is because to get X MB of usable space in tmpfs, 2*X MB of
+> memory must be available for the mount. This leads to an OOM failure
+> during the early boot process, preventing a successful crash dump.
 > 
+> [...]
 
-> diff --git a/Documentation/userspace-api/shadow_stack.rst b/Documentation/userspace-api/shadow_stack.rst
-> new file mode 100644
-> index 000000000000..65c665496624
-> --- /dev/null
-> +++ b/Documentation/userspace-api/shadow_stack.rst
-> @@ -0,0 +1,44 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +Shadow Stacks
-> +=============
-> +
-> +Introduction
-> +============
-> +
-> +Several architectures have features which provide backward edge
-> +control flow protection through a hardware maintained stack, only
-> +writeable by userspace through very limited operations.  This feature
+This seems rather useful but I've renamed "rootfsflags" to
+"initramfs_options" because "rootfsflags" is ambiguous and it's not
+really just about flags.
 
-$internet says "writable"
+Other than that I think it would make sense to just raise the limit to
+90% for the root_fs_type mount. I'm not sure why this super privileged
+code would only be allowed 50% by default.
 
-> +is referred to as shadow stacks on Linux, on x86 it is part of Intel
+---
 
-                                      Linux. On
+Applied to the vfs-6.18.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-6.18.misc branch should appear in linux-next soon.
 
-> +Control Enforcement Technology (CET), on arm64 it is Guarded Control
-> +Stacks feature (FEAT_GCS) and for RISC-V it is the Zicfiss extension.
-> +It is expected that this feature will normally be managed by the
-> +system dynamic linker and libc in ways broadly transparent to
-> +application code, this document covers interfaces and considerations.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-               code. This
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> +
-> +
-> +Enabling
-> +========
-> +
-> +Shadow stacks default to disabled when a userspace process is
-> +executed, they can be enabled for the current thread with a syscall:
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-   executed. They
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.18.misc
 
-> +
-> + - For x86 the ARCH_SHSTK_ENABLE arch_prctl()
-> + - For other architectures the PR_SET_SHADOW_STACK_ENABLE prctl()
-> +
-> +It is expected that this will normally be done by the dynamic linker.
-> +Any new threads created by a thread with shadow stacks enabled will
-> +themselves have shadow stacks enabled.
-> +
-> +
-> +Enablement considerations
-> +=========================
-> +
-> +- Returning from the function that enables shadow stacks without first
-> +  disabling them will cause a shadow stack exception.  This includes
-> +  any syscall wrapper or other library functions, the syscall will need
-
-                                          functions; the
-
-> +  to be inlined.
-> +- A lock feature allows userspace to prevent disabling of shadow stacks.
-> +- Those that change the stack context like longjmp() or use of ucontext
-> +  changes on signal return will need support from libc.
-> 
--- 
-~Randy
-
+[1/1] fs: Add 'rootfsflags' to set rootfs mount options
+      https://git.kernel.org/vfs/vfs/c/278033a225e1
 
