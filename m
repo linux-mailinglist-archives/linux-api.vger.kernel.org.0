@@ -1,128 +1,137 @@
-Return-Path: <linux-api+bounces-4554-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4555-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E060B31A22
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 15:48:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E18B32112
+	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 19:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8222317D050
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 13:42:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF58B1D616F7
+	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 17:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD975305E33;
-	Fri, 22 Aug 2025 13:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660B2313547;
+	Fri, 22 Aug 2025 17:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="h3UKFvvl"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="hG5HIpVS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [45.157.188.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00254305E09;
-	Fri, 22 Aug 2025 13:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06CF313536
+	for <linux-api@vger.kernel.org>; Fri, 22 Aug 2025 17:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870042; cv=none; b=lIWzU/pjq2e3iYuRUcTdQ/yIWGAHbCRpxq2kXWaIrXHaBHjOrTnMCC+9u7GMiZTGQ4saEB3z0/IqhbnPvl87mF1GRdORZ74Kj/A2firpCXFdx5johPvo0x/WPDHBuhe3Y0NXRkPFsfkc6qjJD1vhuNALqEcjrgHO+D2et4Ggd5M=
+	t=1755882501; cv=none; b=AR0iZp20gyo4YtesT8HDpZF6bcHGqho5sOJPUjAb9c4JhkVG9m0/eqaVkQY2F+tTk1SgkY0CLbsRirbH+q7Z4jilndaJSdCJQTldLTQK5bUjzhrE50ZxkwPIYQ04DVbWQKBwpu3D868vELRtmvocWtUsKAffU18z5X53t2/EGss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870042; c=relaxed/simple;
-	bh=IJWIGIWhtotLUWotdqd8nRsSvuMdXJn1nhcCa7NTXUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjbtyiwOibBWfEkPwMcgDCM5pL70qsve0q/UNut03jyZdI99Jgmv3Q//1/d435XzGG5e2/GRQUsd6UUUVPhNo8YcyrYfCCOzlfUgfpIkWOjc7uFG7bsk37fCIekh6TLJWR4PJmMqPnEbhBEraoKHCLkkl7DMGZx7+wlmPmYZjsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=h3UKFvvl; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c7hCL6gZ3z9sc0;
-	Fri, 22 Aug 2025 15:40:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755870031;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JEaDy/HwvudjoMZ9P0+cm9wmOJj1YOgE04BPCdqAPJc=;
-	b=h3UKFvvlRjQtaVH8f1xwN27+2d7BfgRwJDYTYhIH8brCj+oL38l+q93k1vIau7o9Y0EuAV
-	EJqcTs3QoKDqmbjgo8a1OFhhGFw5DjnYqK7Abic0Al98QlWxOXkMhFfDtg0bm3E0plXz7D
-	ReUstieiXJsi37Ksk4/Pc3FQ1IEBzfplCIULDJ3mVBelwTR1u61ZmG+lVbg3bg/0Letjhe
-	hvUN10U80iADFn7zihKNnKDNiPGSbQAxTs8QtcdnBGybsqQFv9wAtMhQWB6OvZOPaqgS8v
-	Y/A6AHjfRPUDaOFqUsbf3gUO2DCI8XlKC0CV1+vYO+BBUNGoQtJLe8JAXp/DGw==
-Date: Fri, 22 Aug 2025 23:40:18 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	"Michael T. Kerrisk" <mtk.manpages@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
-	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3 05/12] man/man2/fspick.2: document "new" mount API
-Message-ID: <2025-08-22.1755869779-quirky-demur-grunts-mace-Hoxz0h@cyphar.com>
-References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
- <20250809-new-mount-api-v3-5-f61405c80f34@cyphar.com>
- <198d1f2e189.11dbac16b2998.3847935512688537521@zohomail.com>
+	s=arc-20240116; t=1755882501; c=relaxed/simple;
+	bh=V2ZTsarFg/J8E5OaQui6bJ/rqih15nGa1jJfmYgVI1U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=drrguibY5Y57e3IaYdlFpooNJ8JqcD4DSatwGMBIfXk74H3zOTKgHBHwFTHHxTxxwk5cp9ohBnedIv58xRm2EWYo+9FqmMsEgw4ZGthuQ2wb4W9UDDL6Vx4p0Pd7yMkAJOR9a/p3n0u1+uJApStasu+b988/g1uNd+CeMYq0y60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=hG5HIpVS; arc=none smtp.client-ip=45.157.188.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7mpy134kzxXK;
+	Fri, 22 Aug 2025 19:08:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1755882489;
+	bh=NUlPE+heYCOxk91D6n6N1q+wkFLg9BAFfbEyk2M2p7s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hG5HIpVSutSZRtsFd06T355DYxH9qGfeUrqxCfDId/uv7nj6uXVjPRBf18tBMYdh4
+	 J6MiUTTm1h4vs8d4xuZbZYXJlYRjshhhkRv5DqPl8As0hFQMoU8Fji4LbbavOEzeD6
+	 pu8JGqfHl0XehVrNxAaaC0/jXXueFPe5Q8Oj6srA=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7mpw1MlWzprv;
+	Fri, 22 Aug 2025 19:08:08 +0200 (CEST)
+From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <serge@hallyn.com>
+Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Heimes <christian@python.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Elliott Hughes <enh@google.com>,
+	Fan Wu <wufan@linux.microsoft.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Jann Horn <jannh@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jordan R Abrahams <ajordanr@google.com>,
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+	Luca Boccassi <bluca@debian.org>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Robert Waite <rowait@microsoft.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Scott Shell <scottsh@microsoft.com>,
+	Steve Dower <steve.dower@python.org>,
+	Steve Grubb <sgrubb@redhat.com>,
+	kernel-hardening@lists.openwall.com,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [RFC PATCH v1 0/2] Add O_DENY_WRITE (complement AT_EXECVE_CHECK)
+Date: Fri, 22 Aug 2025 19:07:58 +0200
+Message-ID: <20250822170800.2116980-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d35aefnxaxx5k4cs"
-Content-Disposition: inline
-In-Reply-To: <198d1f2e189.11dbac16b2998.3847935512688537521@zohomail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+
+Hi,
+
+Script interpreters can check if a file would be allowed to be executed
+by the kernel using the new AT_EXECVE_CHECK flag. This approach works
+well on systems with write-xor-execute policies, where scripts cannot
+be modified by malicious processes. However, this protection may not be
+available on more generic distributions.
+
+The key difference between `./script.sh` and `sh script.sh` (when using
+AT_EXECVE_CHECK) is that execve(2) prevents the script from being opened
+for writing while it's being executed. To achieve parity, the kernel
+should provide a mechanism for script interpreters to deny write access
+during script interpretation. While interpreters can copy script content
+into a buffer, a race condition remains possible after AT_EXECVE_CHECK.
+
+This patch series introduces a new O_DENY_WRITE flag for use with
+open*(2) and fcntl(2). Both interfaces are necessary since script
+interpreters may receive either a file path or file descriptor. For
+backward compatibility, open(2) with O_DENY_WRITE will not fail on
+unsupported systems, while users requiring explicit support guarantees
+can use openat2(2).
+
+The check_exec.rst documentation and related examples do not mention this new
+feature yet.
+
+Regards,
+
+Mickaël Salaün (2):
+  fs: Add O_DENY_WRITE
+  selftests/exec: Add O_DENY_WRITE tests
+
+ fs/fcntl.c                                |  26 ++-
+ fs/file_table.c                           |   2 +
+ fs/namei.c                                |   6 +
+ include/linux/fcntl.h                     |   2 +-
+ include/uapi/asm-generic/fcntl.h          |   4 +
+ tools/testing/selftests/exec/check-exec.c | 219 ++++++++++++++++++++++
+ 6 files changed, 256 insertions(+), 3 deletions(-)
 
 
---d35aefnxaxx5k4cs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 05/12] man/man2/fspick.2: document "new" mount API
-MIME-Version: 1.0
+base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+-- 
+2.50.1
 
-On 2025-08-22, Askar Safin <safinaskar@zohomail.com> wrote:
->  ---- On Sat, 09 Aug 2025 00:39:49 +0400  Aleksa Sarai <cyphar@cyphar.com=
-> wrote ---=20
->  > +The above procedure is functionally equivalent to
->  > +the following mount operation using
->  > +.BR mount (2):
->=20
-> This is not true.
->=20
-> fspick adds options to superblock. It doesn't remove existing ones.
-
-fspick "copies the existing parameters" would be more accurate. I can
-reword this, but it's an example and I don't think it makes sense to add
-a large amount of clarifying text for each example.
-
-The comparisons to mount(2) are meant to be indicative, but if you I can
-also just remove them (David's versions didn't include them).
-
-> mount(MS_REMOUNT) replaces options. I. e. mount(2) call provided in
-> example will unset all other options.
->=20
-> In the end of this message you will find C code, which proves this.
-
-Yes, I am already keenly aware of this behaviour.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
-
---d35aefnxaxx5k4cs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKhzQhsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG9k4gD/e02Wlo7uivjAukBykCD/
-WpCTMqmDLJmVfEkBY3azb0oBAPH2UtoDmh7TGfW2YpYiOBfQE8sSfisu0M7CMwDo
-X8wJ
-=4dwy
------END PGP SIGNATURE-----
-
---d35aefnxaxx5k4cs--
 
