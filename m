@@ -1,56 +1,66 @@
-Return-Path: <linux-api+bounces-4550-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4551-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87632B31855
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 14:51:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92141B318D8
+	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 15:09:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7CAF625251
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 12:50:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FCAB1882DA4
+	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 13:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0B7E2FD7B7;
-	Fri, 22 Aug 2025 12:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E6528AB1E;
+	Fri, 22 Aug 2025 13:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GHBwW5pQ"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="SzZDmclj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8341E2FCBFE;
-	Fri, 22 Aug 2025 12:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD9A2D47FB;
+	Fri, 22 Aug 2025 13:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755866993; cv=none; b=sYpyU2fMVn/HHfHnGc8FNx1+NRwgACDar2kmxXRGiAiDjYwl84tHg2yfawQz1vLJ6E5j2OdJv0Odr1D5Yf+Jki3KzIRrwhPQ0CNouyYaZlcuMI22faXFMo3PwHC7bBtbzfuyNiqE0IRqyJp4/jH0j/s6xX9j8SHR/NdOGu4a1m0=
+	t=1755867989; cv=none; b=fswjMi2gOcNmM+p1vmPnUSlMJjTBaiGwmS04faOqULw4akevnosj81U+K2oEps7091ULf1c1gz5h/CYfILOodxPoYW8GDrUSsoNIO1aMWdFNX7yOXsS3RQgKQ+0xvHcDuHDpdwYyoIamWzGqFFsK6dpHSZUYll7TbnNTrsSUTBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755866993; c=relaxed/simple;
-	bh=GgoITKPkk885/G9vmfvVHPZiDboFUVRXgRiLfhRuKoM=;
+	s=arc-20240116; t=1755867989; c=relaxed/simple;
+	bh=PxuXModFgelu5g4X/oAIYz2X0ajz8Wr8hSiqp7ZFUsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUk4AZJsXqE+PqcvAFnOZzTOLSmnTrGasgCEVE6t+5//gOpN9+fC7xToAXBknRd1/NbkG0No/VqikdxmO5Lbldl6vmMEqZOkIqIbbTcqb9NZtJohE6cq9x/iT+5h7O7CAD87PfcwNNPD55vb7O0L5gXzIWH5GdbWBnE3tfUblL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GHBwW5pQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE4BC4CEED;
-	Fri, 22 Aug 2025 12:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755866993;
-	bh=GgoITKPkk885/G9vmfvVHPZiDboFUVRXgRiLfhRuKoM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GHBwW5pQBB924uS2EvEaTMVScgoVBGSPTv+vOQDPcBjSqDfUIEij5aS8BqxQbjMlY
-	 kjNUu/m5271lML9lw0oX5sfXNPqCTGNWVeBFNHFHEvfMzffdzRuM4Xg4NHYJdz8FDX
-	 lIm70hfEXyVOV1Dt5lbf+mEz34DfOyhaEHGY0SotkQ8ELJjFiYj7EJyXb13FPEEWwO
-	 U9g9H5iDiqXlmi/2xQ441LdSbrvQMyHtNyWWC4i1iSZGLMqtPIAp15y9ybzeRGssnm
-	 WwkqXsuqWvKLS4lPlLmzdV4VYcd2bmM3BelQXhdQb/l9ygWtNhgIISAr93M45ElwX7
-	 lVsyqvIWi97wA==
-Date: Fri, 22 Aug 2025 14:49:47 +0200
-From: Alejandro Colomar <alx@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=vA5ig0c1j3aiE3lNUknRWL8X5EmtcReypbEbNpz5s9jI1zpQ+WHjvCrsX0FiTAIL4fXpzuGPrZ4ldd0ACd09GUpByefIyD/M8dnKo6TQkz8gSZGGDxdqwOM3gbj13cVDeMjIE81ahoh1S0IXsmnZminqnxRcQa3sNaVHPjZabC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=SzZDmclj; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c7gRr3skJz9tS7;
+	Fri, 22 Aug 2025 15:06:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1755867976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fHmx0cJ6/Io1VNZMRU9XQfFPVcAOlWV0pZ8BMp/Jdos=;
+	b=SzZDmcljApRV3l6KKZnj+240vwsmhmZvh5fktFEDd/Cz7XwgkRzzncWAxJnSVtWjU5dgc7
+	BFkaJpRdG3t2ixcv4ES+JWUsHaB/nqybMngZU09KpKohPQ0e7PczLfTdqGzfdvBQMhjMsD
+	ZAgZ9mrNJu2mkFodwPUOTRmAm/5NhRmvDLtByoMv3YJ6TJigzKaFO8bieH9eRIOSDnhW/T
+	gTt80zOv0+Cr65TBJmNEDp1li3q8vLCvyZd7GJLwQP2EsdjdrmgUriuvHOywtnmQ5qznTG
+	xcfWjoe2koQnmkYYRvHtainug2zcFn5T9hJOvHzRujardAoOF4eNdMoNeiPr8g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Fri, 22 Aug 2025 23:06:00 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
 To: Askar Safin <safinaskar@zohomail.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, 
+Cc: Alejandro Colomar <alx@kernel.org>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
 	linux-man@vger.kernel.org
 Subject: Re: [PATCH 1/1] man2/mount.2: expand and clarify docs for MS_REMOUNT
  | MS_BIND
-Message-ID: <ir47jua4jwi2ram5jevqxog637nhzyr7vqmkzl22ttisubucmq@skjlfbhez45v>
+Message-ID: <2025-08-22.1755866245-crummy-slate-scale-borough-gEcqKg@cyphar.com>
 References: <20250822114315.1571537-1-safinaskar@zohomail.com>
  <20250822114315.1571537-2-safinaskar@zohomail.com>
 Precedence: bulk
@@ -60,45 +70,24 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gasaowf4ey5r47ax"
+	protocol="application/pgp-signature"; boundary="p3qrjcycv4xsxa5k"
 Content-Disposition: inline
 In-Reply-To: <20250822114315.1571537-2-safinaskar@zohomail.com>
+X-Rspamd-Queue-Id: 4c7gRr3skJz9tS7
 
 
---gasaowf4ey5r47ax
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--p3qrjcycv4xsxa5k
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-man@vger.kernel.org
 Subject: Re: [PATCH 1/1] man2/mount.2: expand and clarify docs for MS_REMOUNT
  | MS_BIND
-References: <20250822114315.1571537-1-safinaskar@zohomail.com>
- <20250822114315.1571537-2-safinaskar@zohomail.com>
 MIME-Version: 1.0
-In-Reply-To: <20250822114315.1571537-2-safinaskar@zohomail.com>
 
-Hi Askar,
-
-On Fri, Aug 22, 2025 at 11:43:15AM +0000, Askar Safin wrote:
+On 2025-08-22, Askar Safin <safinaskar@zohomail.com> wrote:
 > My edit is based on experiments and reading Linux code
 >=20
 > Signed-off-by: Askar Safin <safinaskar@zohomail.com>
-
-You could add Cc: tags there for people you CC'd in the patch.
-(For next time.)
-
-I'll wait before applying the patch, to allow anyone to review it, in
-case they want to comment.
-
-
-Have a lovely day!
-Alex
-
 > ---
 >  man/man2/mount.2 | 21 ++++++++++++++++++---
 >  1 file changed, 18 insertions(+), 3 deletions(-)
@@ -113,6 +102,10 @@ Alex
 >  This is particularly useful for setting or clearing the "read-only"
 > -flag on a mount without changing the underlying filesystem.
 > +flag on a mount without changing flags of the underlying filesystem.
+
+For obvious reasons, I would prefer the term "filesystem parameters"
+here but mount(2) is kind of loose with its terminology...
+
 > +The
 > +.I data
 > +argument is ignored if
@@ -125,6 +118,40 @@ Alex
 > +should specify existing per-mount-point flags,
 > +except for those parameters
 > +that are deliberately changed.
+
+I would phrase this more like a note to make the advice a bit clearer:
+
+  Note that the mountpoint will
+  have its existing per-mount-point flags
+  cleared and replaced with those in
+  .I mountflags
+  when
+  .B MS_REMOUNT
+  and
+  .B MS_BIND
+  are specified.
+  This means that if
+  you wish to preserve
+  any existing per-mount-point flags
+  (which can be retrieved using
+  .BR statfs (2)),
+  you need to include them in
+  .IR mountflags ,
+  along with the per-mount-point flags you wish to set
+  (or with the flags you wish to clear missing).
+
+(Still a bit too wordy, there's probably a nicer way of writing it...)
+
+It might also be a good idea to reference locked mount flags (which are
+explained in more detail in mount_namespaces(7)) since they are very
+relevant to the text you're adding about MS_REMOUNT|MS_BIND.
+
+The current docs only mention locked mounts once and the description is
+kind of insufficient (it implies that only MS_REMOUNT affects this, and
+that it's related to the mount being locked -- neither is really true).
+When dealing with a mount with locked flags, remembering to include
+existing mount attributes is very important.
+
 >  Specifying
 >  .I mountflags
 >  as:
@@ -136,38 +163,33 @@ Alex
 > -other mounts.
 > +will make access through this mountpoint read-only
 > +(and clear all other per-mount-point flags),
+
+   (clearing all other per-mount-point flags)
+
 > +without affecting
 > +other mounts
 > +of this filesystem.
 >  .\"
 >  .SS Creating a bind mount
 >  If
-> --=20
-> 2.47.2
->=20
 
 --=20
-<https://www.alejandro-colomar.es/>
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
 
---gasaowf4ey5r47ax
+--p3qrjcycv4xsxa5k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmioZ2oACgkQ64mZXMKQ
-wqnqvg//aN4s81y1rtPJJkKk72QTf7oVzKnY0ehD8XDJoxz0DX2vz6J/AEJt67UK
-iu5+bIrLKgt2kcFhNeTo87Rk+3/5WtyoA2J13jvK8XaGLnNwyCdbydkNLkotv/kt
-dIczU5tt8QmG3TAwIkDseGhYioL4REVwQTyDEXLPHEkqL8BY5IsXL+fY0uIkiDPA
-O7Kfemrpc1pnkAFdu/2FCoQLpGKmnZp9ly+lQ8pr7MI62n3L62PIaAskimZwGlZs
-bDBfd1TB26TYakpu+t27l29HGvomPj5Ihw2mmhjiPNS2cLT7DCMSkFoLieDXmusI
-HpU0Ubmr20yR6+hWIuSGwGkhKwKIWjHVwJvk0DnCMxgNro5A2EjIhRSNE4j206Rk
-TagmrTOF5Qwlxa3UP3v24ERYJ6uKaW2MU9u8qi0h5UVNsG6P5HGL7i7T5Gidodxa
-MF9BqH8+xec5e1GFcM6HOJKVZEy10DAnbdvVrgFzDzGg+y3501mBqB6uQlNbMqNM
-XRq8l0TawnioJLjThrwTTjb2oRR3X7OnDHlW/ClF0yILCQ/8VHv1Bgp4JcoJDA6o
-QpMkTZZvB1AA7x6X02W43mANn8tswECBVfXGZ+fOzjzD9hQbzACjXPSMV5ewK/o1
-RdKfIjccUIEapdTJlBvD3SwU6e8wJk/tSgCvAkvrP0jotrKfCPo=
-=hypr
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKhrOBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8sZwD+OgTGgm+DSDESZdbiNWUF
+YAcH5koLu7PYFanFLAwEyDUA/39xwzVSAoEVMnlj2BAAEtrItuQIdoYu3D4VFMq7
+iDgB
+=NKc6
 -----END PGP SIGNATURE-----
 
---gasaowf4ey5r47ax--
+--p3qrjcycv4xsxa5k--
 
