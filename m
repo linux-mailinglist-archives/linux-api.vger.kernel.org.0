@@ -1,142 +1,258 @@
-Return-Path: <linux-api+bounces-4558-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4559-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE1FB32325
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 21:46:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D35B32DD3
+	for <lists+linux-api@lfdr.de>; Sun, 24 Aug 2025 08:54:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E40DB1D27DF6
-	for <lists+linux-api@lfdr.de>; Fri, 22 Aug 2025 19:46:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BED5E24321C
+	for <lists+linux-api@lfdr.de>; Sun, 24 Aug 2025 06:54:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C93D2D542F;
-	Fri, 22 Aug 2025 19:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6865223D7D8;
+	Sun, 24 Aug 2025 06:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iUWpPkOs"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="eB85a7AW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DECC2D5436
-	for <linux-api@vger.kernel.org>; Fri, 22 Aug 2025 19:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755891972; cv=none; b=P64etWKmx1p6qvOOQkF2qmanPhU7GJAd9pS4ZCeHQP1IFQeAFEPQ90kXR17WrXktVnHcm+MPxLWA+OSfqRjQVwK163xNH0Y8VgoB60GGx+w0CHfIu4bRwH58Q6jJT19s759GuSrc6vZlU41LbHGiv89vu8Y3zVWxGx6TNgeP+Rk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755891972; c=relaxed/simple;
-	bh=XBIUH0wquQctWkgcUJPdSrr7nfWPNHBoFiNbn8Q/vok=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nUvEjEECgdov9BN1RV6zFYN60hNe2hD3+7fFmGr8kbyQ8/RpDpdsb4+s0AgyeADTq40hl/9EKn6WYbOlH+OZcWjJW+j2X7zK6AEUmCinq4ii1A/lKdSLdxROMefr9XuNAe+9rND6HlWEULl6gDrPWTm3WKX9GpLL0J8CjKZJkt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iUWpPkOs; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-618660b684fso2007a12.0
-        for <linux-api@vger.kernel.org>; Fri, 22 Aug 2025 12:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755891969; x=1756496769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eDGPq2QAoamqAsn96zDYfVwrsh9uyHlSfDp4Mt63PH0=;
-        b=iUWpPkOshd2mUXVt+rBH22eNjxhtSdMpQMdXL+Sg76oTxb0XrNSBPb+ygkQQox2iH8
-         RuZziDcm7Omrsv9tS3dEQrMSrhCnRnOWspTBcpkX3TzniYxwfYNUyfkh+H1dRymc0Uur
-         alpwRFGLngP6PYeq6DReukClGyT59aKk5pwR0FtwRahPUDwWliTXwROROw4+kuCMQ+8c
-         XFcjseldZGzUEFLij/x34u7USjHWBLzPN186BEmjtNEo2grwJXOAIvBwWBK8yMWYqnii
-         T+UTquaAiGBJwI4FnYWqHg7W5QemP3VZ9VSOIGJCBvn5UgO767o4GXvpDi1CP9sH6Lh3
-         eW5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755891969; x=1756496769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eDGPq2QAoamqAsn96zDYfVwrsh9uyHlSfDp4Mt63PH0=;
-        b=Dg/pmGkxaPyUrm6afvh9qVc4O4+ZJrVUjofgAHVKEmxAyz6yAl1Chym9z4QKCsui6B
-         g7fOb2vZZvIfJ+55mrBxA0KlnkZrmH/fBU0+AuzMSzB9N0J82045w7X3P5HuuZn0UYaP
-         BPc1Sjz2sO/hBV5xTtaCvP0sm4bc0rbzKkoKb4Eg2uAd9ix5d/cZNRHNqhC3pS7siIr9
-         ENeWb/xSw30J5nO+WSdqP8ENZC8TQUd0yQ3qBTVJmZmVRneTSRBsiT/2hOnR/5VoiUp9
-         A3Ckc74xf8AF6juNmkssH/EUECWvWD4zPr/WLieL4dju+Lotfu4CISBzvb2mSQMNL6xo
-         J3NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQ2uLt88/7nQr5g7mlw4+2BsiFdsB0zvcRMbQL/OnyB4w3p3fr0Amn4Ux3E3xB/4U3tY15HWW1hPo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvqrddnPTz1Z4KP3wvXk24Ghwy8Yedl2MAPpzpYKIXSuRUafnH
-	q7mnNbod91phqNhM8SD4d56of+dvzhg6Tsiv+ziuhIZd/2nmmxKY/omTYUp3E4weyVlsn16byY9
-	VCIQrWb9LdZsN2NT0gODdUKxgvlzEunkkkXgiF1ce
-X-Gm-Gg: ASbGncuaLMSEK6zCaYpvKBucTHfyfU9jIjh0BgzK7IgJ/B3pi7CZANEoB+FSpWvNXJj
-	G+Xo7cxMAX3VXw/h7FIlqji7YEP9xV/aMeVAEqK3HAI3WKDfMG4zBpjka+O/OOP4UNMiTkNTWYn
-	LCYLeuwThXzOQCs3AphbwR0lJW872E3xR5NOiKfsjI4d1Ki3KViwmw/7F2JCc7c3Z7niVmizLji
-	iWSSKzwbNJkMnYc4b0RFPpWmnzve0Q1ug+WJPg=
-X-Google-Smtp-Source: AGHT+IEp5JtOIpLeEMiI4+ZgwDstAGg61BU3UaS/vBzIt/3oQq6zs0o3AsSV2sCxqe1VwQ3ShoALvJizriSBAYLp6Cs=
-X-Received: by 2002:a05:6402:2393:b0:61a:590c:481c with SMTP id
- 4fb4d7f45d1cf-61c361f8759mr8808a12.6.1755891968513; Fri, 22 Aug 2025 12:46:08
- -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4D123CEF8;
+	Sun, 24 Aug 2025 06:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756018440; cv=pass; b=dpFks6tMPvK097GgY0NkgdG3GUW0wpD99IRj6nVzTVDdZQgkAD4HzNGCYpd1L9mJ3vdCZiS+Q+vi2UGN4MWp7f0rHKFAC1tpVv/KP+VWtXl/1x5LFCoRJ9S8M6uEJfzyKftrQABml5kk2WCwflMeF/NbgDpUljGgD6GhQHj9eOg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756018440; c=relaxed/simple;
+	bh=+4XoOBwthGbTDE9PU0DUIm1xaKeE3/th2pNghjeB5i0=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=u1ANQO3KswEnXr14HkCT12GhgyqT7fU/M+bpAj3CqajiyhVAuNO4WtMnBJQu+vZ8Uhyy3wUlu+4zSPSycv2H+15KhVdLma6KLLQxZxQnClw0jiExb0OUpkhdATwZ0kZaA9+0bHO4l3Wu5QMkorZLolw5QU2y6roylHiWB/k8LIE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=eB85a7AW; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1756018408; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=dzardkVqzZnifGLcaYi4bmitkepMEb8oakoncb+VQvmlgoJfO/2Z3CE0duAd9m/sD0KHP+UYktpk4Nx3l0teQFDTm9Lj6NoxjKmwa9l3ZUAVqrQI088EUxhymZHRGLb1FusbtO1nIdWkXCYkhXfqBzqSCcIygWJvA04ZCTLsrvo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756018408; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=LCIkqG/tRneiiilxl8xXwZbENVetREmCB1vmx+zhNnI=; 
+	b=VY/+AvvKTokwVXO/ZcpKuXiugtwCAHyMI1WVwtHHObNyN3SQnWlFVLHuhL7VDv/CD/xw5Gz+8BJq3jugRt28TMoMLbtu42a+uPbXF6jM4pdmcw9IjCxFzR3x8/6YvKc6ro+BZYIUGEUqiaPtOiOSjuftUrTV9W/XEwGtwyHexVg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756018408;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=LCIkqG/tRneiiilxl8xXwZbENVetREmCB1vmx+zhNnI=;
+	b=eB85a7AW85vifSc34CnyqoAz8kqea+9A+0jZXQAYSI1nN8aiENwle2CtHGAR17Cf
+	8IfokoV0wly+Q9YhikNVuWFyue2dr7reF85LsC2p3XG3RBiu0zJP0jNus/COAg5Mof6
+	I/uA75CAtE05fntirSmgypnsLB5zUGTws7gzSku0=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1756018407325384.3192467565557; Sat, 23 Aug 2025 23:53:27 -0700 (PDT)
+Received: from  [212.73.77.104] by mail.zoho.com
+	with HTTP;Sat, 23 Aug 2025 23:53:27 -0700 (PDT)
+Date: Sun, 24 Aug 2025 10:53:27 +0400
+From: Askar Safin <safinaskar@zohomail.com>
+To: "Aleksa Sarai" <cyphar@cyphar.com>
+Cc: "Alejandro Colomar" <alx@kernel.org>,
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"Jan Kara" <jack@suse.cz>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"linux-man" <linux-man@vger.kernel.org>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"David Howells" <dhowells@redhat.com>,
+	"Christian Brauner" <brauner@kernel.org>
+Message-ID: <198dada778e.ed8ccab115437.3102752488507757202@zohomail.com>
+In-Reply-To: <20250809-new-mount-api-v3-9-f61405c80f34@cyphar.com>
+References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com> <20250809-new-mount-api-v3-9-f61405c80f34@cyphar.com>
+Subject: Re: [PATCH v3 09/12] man/man2/open_tree.2: document "new" mount API
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250822170800.2116980-1-mic@digikod.net> <20250822170800.2116980-2-mic@digikod.net>
-In-Reply-To: <20250822170800.2116980-2-mic@digikod.net>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 22 Aug 2025 21:45:32 +0200
-X-Gm-Features: Ac12FXwjpgWQzX75-i1-fxwmf--db3NEnzMzNGlpF6QflXz8uRcHgI7dwyXvzpA
-Message-ID: <CAG48ez1XjUdcFztc_pF2qcoLi7xvfpJ224Ypc=FoGi-Px-qyZw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
-To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <keescook@chromium.org>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <serge@hallyn.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Robert Waite <rowait@microsoft.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Scott Shell <scottsh@microsoft.com>, 
-	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
-	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Andy Lutomirski <luto@amacapital.net>, Jeff Xu <jeffxu@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr080112273b3413fe257506eb17a55fda0000ca0e09a7f2e4ac1c359e0adddad2b9d03fa24eb0015b84ffd8:zu08011227d8ea003d4d0ccd2d2540c7290000c4b397b06582726fdb91176843d6ae36498ee0c66abb641979:rf0801122c9742ec2d7fd45827a620cf2e0000a813831b7b5a12ce00a6b3d543b3e024b67e1b21a185726a366956ede2c4:ZohoMail
 
-On Fri, Aug 22, 2025 at 7:08=E2=80=AFPM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
-> Add a new O_DENY_WRITE flag usable at open time and on opened file (e.g.
-> passed file descriptors).  This changes the state of the opened file by
-> making it read-only until it is closed.  The main use case is for script
-> interpreters to get the guarantee that script' content cannot be altered
-> while being read and interpreted.  This is useful for generic distros
-> that may not have a write-xor-execute policy.  See commit a5874fde3c08
-> ("exec: Add a new AT_EXECVE_CHECK flag to execveat(2)")
->
-> Both execve(2) and the IOCTL to enable fsverity can already set this
-> property on files with deny_write_access().  This new O_DENY_WRITE make
+ ---- On Sat, 09 Aug 2025 00:39:53 +0400  Aleksa Sarai <cyphar@cyphar.com> wrote --- 
+ > +If
+ > +.I flags
+ > +does not contain
+ > +.BR \%OPEN_TREE_CLONE ,
+ > +.BR open_tree ()
+ > +returns a file descriptor
+ > +that is exactly equivalent to
+ > +one produced by
+ > +.BR openat (2)
 
-The kernel actually tried to get rid of this behavior on execve() in
-commit 2a010c41285345da60cece35575b4e0af7e7bf44.; but sadly that had
-to be reverted in commit 3b832035387ff508fdcf0fba66701afc78f79e3d
-because it broke userspace assumptions.
+This is not true. They differ in handling of automounts.
+open_tree follows them in final component (by default),
+and openat - not.
 
-> it widely available.  This is similar to what other OSs may provide
-> e.g., opening a file with only FILE_SHARE_READ on Windows.
+See reproducer in the end of this letter.
 
-We used to have the analogous mmap() flag MAP_DENYWRITE, and that was
-removed for security reasons; as
-https://man7.org/linux/man-pages/man2/mmap.2.html says:
+I suggest merely adding this:
+> that is exactly equivalent to one produced by openat(2) (modulo automounts)
 
-|        MAP_DENYWRITE
-|               This flag is ignored.  (Long ago=E2=80=94Linux 2.0 and earl=
-ier=E2=80=94it
-|               signaled that attempts to write to the underlying file
-|               should fail with ETXTBSY.  But this was a source of denial-
-|               of-service attacks.)"
+--
+Askar Safin
+https://types.pl/@safinaskar
 
-It seems to me that the same issue applies to your patch - it would
-allow unprivileged processes to essentially lock files such that other
-processes can't write to them anymore. This might allow unprivileged
-users to prevent root from updating config files or stuff like that if
-they're updated in-place.
+
+// Root in initial user namespace
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/syscall.h>
+#include <linux/openat2.h>
+
+#define MY_ASSERT(cond) do { \
+    if (!(cond)) { \
+        fprintf (stderr, "%s: assertion failed\n", #cond); \
+        exit (1); \
+    } \
+} while (0)
+
+bool
+tracing_mounted (void)
+{
+    struct statx tracing;
+    if (statx (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT, 0, &tracing) != 0)
+        {
+            perror ("statx tracing");
+            exit (1);
+        }
+    if (!(tracing.stx_attributes_mask & STATX_ATTR_MOUNT_ROOT))
+        {
+            fprintf (stderr, "???\n");
+            exit (1);
+        }
+    return tracing.stx_attributes & STATX_ATTR_MOUNT_ROOT;
+}
+
+void
+mount_debugfs (void)
+{
+    if (mount (NULL, "/tmp/debugfs", "debugfs", 0, NULL) != 0)
+        {
+            perror ("mount debugfs");
+            exit (1);
+        }
+    MY_ASSERT (!tracing_mounted ());
+}
+
+void
+umount_debugfs (void)
+{
+    umount ("/tmp/debugfs/tracing"); // Ignore errors
+    if (umount ("/tmp/debugfs") != 0)
+        {
+            perror ("umount debugfs");
+            exit (1);
+        }
+}
+
+int
+main (void)
+{
+    // Init
+    {
+        if (chdir ("/") != 0)
+            {
+                perror ("chdir /");
+                exit (1);
+            }
+        if (unshare (CLONE_NEWNS) != 0)
+            {
+                perror ("unshare");
+                exit (1);
+            }
+        if (mount (NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) != 0)
+            {
+                perror ("mount(NULL, /, NULL, MS_REC | MS_PRIVATE, NULL)");
+                exit (1);
+            }
+        if (mount (NULL, "/tmp", "tmpfs", 0, NULL) != 0)
+            {
+                perror ("mount tmpfs");
+                exit (1);
+            }
+    }
+    if (mkdir ("/tmp/debugfs", 0777) != 0)
+        {
+            perror ("mkdir(/tmp/debugfs)");
+            exit (1);
+        }
+
+    // open(O_PATH) doesn't follow automounts
+    {
+        mount_debugfs ();
+        {
+            int fd = open ("/tmp/debugfs/tracing", O_PATH);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (!tracing_mounted ());
+        umount_debugfs ();
+    }
+
+    // open_tree does follow automounts (by default)
+    {
+        mount_debugfs ();
+        {
+            int fd = open_tree (AT_FDCWD, "/tmp/debugfs/tracing", 0);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (tracing_mounted ());
+        umount_debugfs ();
+    }
+
+    // open (O_PATH | O_DIRECTORY)
+    {
+        mount_debugfs ();
+        {
+            int fd = open ("/tmp/debugfs/tracing", O_PATH | O_DIRECTORY);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (tracing_mounted ());
+        umount_debugfs ();
+    }
+
+    // AT_NO_AUTOMOUNT
+    {
+        mount_debugfs ();
+        {
+            int fd = open_tree (AT_FDCWD, "/tmp/debugfs/tracing", AT_NO_AUTOMOUNT);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (!tracing_mounted ());
+        umount_debugfs ();
+    }
+
+    printf ("All tests passed\n");
+    exit (0);
+}
+
 
