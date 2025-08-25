@@ -1,180 +1,310 @@
-Return-Path: <linux-api+bounces-4567-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4568-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB61FB336B5
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 08:49:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B47E0B33B26
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 11:32:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A9381895302
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 06:50:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6409E3AA37C
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 09:32:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931F9286D50;
-	Mon, 25 Aug 2025 06:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4412BD5A8;
+	Mon, 25 Aug 2025 09:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iJVhe7Ek"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="lfz1vs26"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1557B285C9D;
-	Mon, 25 Aug 2025 06:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAED1393DC1;
+	Mon, 25 Aug 2025 09:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756104583; cv=none; b=Yvdfm/w8upzuJ9hQgs9VSDMXuPJbb0ABqFZjEBI5jyl1Ad5W83l2h6vZ0o4CIpKxgfx/RBgsoxENxSglMGe/mgscXvJzxvxuI+2G7kR+M2JAuPlHNBnVS9Hg0YdL1tQYje21kbT9rwayRYoh4Q5L6F2AfvoQujNykCmQ1OB16XU=
+	t=1756114317; cv=none; b=j5Tj7+YnrL61It42KmzkyscLPNr9aK35pgFa/A7h02ze2K2lx7yd/6mVeo7caLhYYOHOMJPGX5mVRynt90aXj1nJ3pw7KoB1XipPQ+R+wcUEKI5BzivPEjYd/Q999RQ6mbk7VbTM5RWtaWjVOU1soiWJllsGInQ4LOcf1Z4PPYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756104583; c=relaxed/simple;
-	bh=M86Jo2PYFFnxiVLjRD3/z4/leNvS3NHdWxrjhnhgyK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=REHtEqGeO61TGB7Jg3MmwSI3iWcyvFccMu1LAXbCG7yYQrwypNJliXlL9UcDI3DSZMnOx8mG384BLt9MvScWAUU2Q2l9AsGPwgIx8iX6Aabhnn0OJypsmrGjcaYVXUqTeaxvTK2OlFa9IPRq/hQZIHllVVdLU1Z2rNkv8TB8ZV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iJVhe7Ek; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7rgbHry8CsED6NN8pj2Gof0Dnk9pZPfECo312uCHp3Q=; b=iJVhe7Ek5d3k+k0koWDYcyBrFW
-	TZvY8ZwXtBVcw1+WMLxdN+IVqw3ksmHaRjbLdjjSxPn5Inlffq7dcLlG2i4nqPL+lhNynqTfqoq2u
-	hNAHEVk7TNxwPMhSPv5mje3+fZkJTUFxA2eE1oeY3I8S9ZvbBaYMkxfltzDaSQpO8I+cVEyH8mD32
-	WL8kPYF1egWzuQxuQuNVLOaOlOI/cwnywN8/92FJh+T74AUKphNUItgwOzo2Afj6FrOKOdWhfj6ou
-	YTBkjDWdwBvN/rAZwFJpat97zV4p1occr5xnoOznIPnJdCSJoksCEzF6UB4kwuk1m5cMVYPih19gR
-	dxn9St+g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqR1Q-000000074Hr-1fAe;
-	Mon, 25 Aug 2025 06:49:40 +0000
-Message-ID: <063b6127-57d9-4a5d-a1c9-971a0ae3f7c6@infradead.org>
-Date: Sun, 24 Aug 2025 23:49:39 -0700
+	s=arc-20240116; t=1756114317; c=relaxed/simple;
+	bh=uxUyieml/K+cEmLmB94nhLa9rZ+8OnJOzJpO5gZRxjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+REYZzixKdII8EVv0OYbHv/E9egB+KWuM/fmvdUvhbIlhu9n1b9Z3DwyuRS8s3geUnU+40KCEzWaRyXAMhgGZNB8awyypuqzGkmAhTmawmpAaF8Zt0B+tuopcnN4zX9Zs8lWBJAdzoRxHTNpMxEv6bXzAlWXFUp7r3d8NzPYAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=lfz1vs26; arc=none smtp.client-ip=185.125.25.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c9QXx4LsSz11Zf;
+	Mon, 25 Aug 2025 11:31:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1756114305;
+	bh=6c3YchL3/fNwRCulq0i15lYi7C15uJVbj/gOpRwjky8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lfz1vs26y2WCKJQVnGmddHJD7X7EX16GQk3wc72nxeHl34P299PKqPNvyK390Ip4i
+	 5a7VLdMRTJStXNDtE0ro/Z7M7gLcsu/311EA+rHLzJccd17tSxHO+o/Q3K3C8ZhiIy
+	 o8iDyrPylRY6iM03oLhJhVVIM4Ux+hgJ4WNFNu20=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c9QXv2dP9zRVl;
+	Mon, 25 Aug 2025 11:31:43 +0200 (CEST)
+Date: Mon, 25 Aug 2025 11:31:42 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Jann Horn <jannh@google.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Robert Waite <rowait@microsoft.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Scott Shell <scottsh@microsoft.com>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Jeff Xu <jeffxu@chromium.org>
+Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
+Message-ID: <20250825.mahNeel0dohz@digikod.net>
+References: <20250822170800.2116980-1-mic@digikod.net>
+ <20250822170800.2116980-2-mic@digikod.net>
+ <CAG48ez1XjUdcFztc_pF2qcoLi7xvfpJ224Ypc=FoGi-Px-qyZw@mail.gmail.com>
+ <20250824.Ujoh8unahy5a@digikod.net>
+ <CALCETrWwd90qQ3U2nZg9Fhye6CMQ6ZF20oQ4ME6BoyrFd0t88Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] uapi/fcntl: conditionally define AT_RENAME* macros
-To: Amir Goldstein <amir73il@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-References: <20250824221055.86110-1-rdunlap@infradead.org>
- <aKuedOXEIapocQ8l@casper.infradead.org>
- <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
- <CAOQ4uxiShq5gPCsRh5ZDNXbG4AGH5XpfHx0HXDWTS+5Y95hieQ@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAOQ4uxiShq5gPCsRh5ZDNXbG4AGH5XpfHx0HXDWTS+5Y95hieQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWwd90qQ3U2nZg9Fhye6CMQ6ZF20oQ4ME6BoyrFd0t88Q@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-Hi Amir,
-
-
-On 8/24/25 10:58 PM, Amir Goldstein wrote:
-> On Mon, Aug 25, 2025 at 1:54 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->>
->>
->> On 8/24/25 4:21 PM, Matthew Wilcox wrote:
->>> On Sun, Aug 24, 2025 at 03:10:55PM -0700, Randy Dunlap wrote:
->>>> Don't define the AT_RENAME_* macros when __USE_GNU is defined since
->>>> /usr/include/stdio.h defines them in that case (i.e. when _GNU_SOURCE
->>>> is defined, which causes __USE_GNU to be defined).
->>>>
->>>> Having them defined in 2 places causes build warnings (duplicate
->>>> definitions) in both samples/watch_queue/watch_test.c and
->>>> samples/vfs/test-statx.c.
->>>
->>> It does?  What flags?
->>>
->>
->> for samples/vfs/test-statx.c:
->>
->> In file included from ../samples/vfs/test-statx.c:23:
->> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
->>   159 | #define AT_RENAME_NOREPLACE     0x0001
->> In file included from ../samples/vfs/test-statx.c:13:
->> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
->>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
->> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
->>   160 | #define AT_RENAME_EXCHANGE      0x0002
->> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
->>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
->> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
->>   161 | #define AT_RENAME_WHITEOUT      0x0004
->> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
->>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
->>
->> for samples/watch_queue/watch_test.c:
->>
->> In file included from usr/include/linux/watch_queue.h:6,
->>                  from ../samples/watch_queue/watch_test.c:19:
->> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
->>   159 | #define AT_RENAME_NOREPLACE     0x0001
->> In file included from ../samples/watch_queue/watch_test.c:11:
->> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
->>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
->> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
->>   160 | #define AT_RENAME_EXCHANGE      0x0002
->> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
->>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
->> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
->>   161 | #define AT_RENAME_WHITEOUT      0x0004
->> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
->>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
->>
-
->>>
->>> I'm pretty sure C says that duplicate definitions are fine as long
->>> as they're identical.
->> The vales are identical but the strings are not identical.
->>
->> We can't fix stdio.h, but we could just change uapi/linux/fcntl.h
->> to match stdio.h. I suppose.
+On Sun, Aug 24, 2025 at 11:04:03AM -0700, Andy Lutomirski wrote:
+> On Sun, Aug 24, 2025 at 4:03 AM Mickaël Salaün <mic@digikod.net> wrote:
+> >
+> > On Fri, Aug 22, 2025 at 09:45:32PM +0200, Jann Horn wrote:
+> > > On Fri, Aug 22, 2025 at 7:08 PM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > Add a new O_DENY_WRITE flag usable at open time and on opened file (e.g.
+> > > > passed file descriptors).  This changes the state of the opened file by
+> > > > making it read-only until it is closed.  The main use case is for script
+> > > > interpreters to get the guarantee that script' content cannot be altered
+> > > > while being read and interpreted.  This is useful for generic distros
+> > > > that may not have a write-xor-execute policy.  See commit a5874fde3c08
+> > > > ("exec: Add a new AT_EXECVE_CHECK flag to execveat(2)")
+> > > >
+> > > > Both execve(2) and the IOCTL to enable fsverity can already set this
+> > > > property on files with deny_write_access().  This new O_DENY_WRITE make
+> > >
+> > > The kernel actually tried to get rid of this behavior on execve() in
+> > > commit 2a010c41285345da60cece35575b4e0af7e7bf44.; but sadly that had
+> > > to be reverted in commit 3b832035387ff508fdcf0fba66701afc78f79e3d
+> > > because it broke userspace assumptions.
+> >
+> > Oh, good to know.
+> >
+> > >
+> > > > it widely available.  This is similar to what other OSs may provide
+> > > > e.g., opening a file with only FILE_SHARE_READ on Windows.
+> > >
+> > > We used to have the analogous mmap() flag MAP_DENYWRITE, and that was
+> > > removed for security reasons; as
+> > > https://man7.org/linux/man-pages/man2/mmap.2.html says:
+> > >
+> > > |        MAP_DENYWRITE
+> > > |               This flag is ignored.  (Long ago—Linux 2.0 and earlier—it
+> > > |               signaled that attempts to write to the underlying file
+> > > |               should fail with ETXTBSY.  But this was a source of denial-
+> > > |               of-service attacks.)"
+> > >
+> > > It seems to me that the same issue applies to your patch - it would
+> > > allow unprivileged processes to essentially lock files such that other
+> > > processes can't write to them anymore. This might allow unprivileged
+> > > users to prevent root from updating config files or stuff like that if
+> > > they're updated in-place.
+> >
+> > Yes, I agree, but since it is the case for executed files I though it
+> > was worth starting a discussion on this topic.  This new flag could be
+> > restricted to executable files, but we should avoid system-wide locks
+> > like this.  I'm not sure how Windows handle these issues though.
+> >
+> > Anyway, we should rely on the access control policy to control write and
+> > execute access in a consistent way (e.g. write-xor-execute).  Thanks for
+> > the references and the background!
 > 
-> I do not specifically object to a patch like this (assuming that is works?):
+> I'm confused.  I understand that there are many contexts in which one
+> would want to prevent execution of unapproved content, which might
+> include preventing a given process from modifying some code and then
+> executing it.
 > 
-> --- a/include/uapi/linux/fcntl.h
-> +++ b/include/uapi/linux/fcntl.h
-> @@ -156,9 +156,9 @@
->   */
-> 
->  /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
-> -#define AT_RENAME_NOREPLACE    0x0001
-> -#define AT_RENAME_EXCHANGE     0x0002
-> -#define AT_RENAME_WHITEOUT     0x0004
-> +#define AT_RENAME_NOREPLACE    RENAME_NOREPLACE
-> +#define AT_RENAME_EXCHANGE     RENAME_EXCHANGE
-> +#define AT_RENAME_WHITEOUT     RENAME_WHITEOUT
-> 
+> I don't understand what these deny-write features have to do with it.
+> These features merely prevent someone from modifying code *that is
+> currently in use*, which is not at all the same thing as preventing
+> modifying code that might get executed -- one can often modify
+> contents *before* executing those contents.
 
-I'll test that.
+The order of checks would be:
+1. open script with O_DENY_WRITE
+2. check executability with AT_EXECVE_CHECK
+3. read the content and interpret it
+
+The deny-write feature was to guarantee that there is no race condition
+between step 2 and 3.  All these checks are supposed to be done by a
+trusted interpreter (which is allowed to be executed).  The
+AT_EXECVE_CHECK call enables the caller to know if the kernel (and
+associated security policies) allowed the *current* content of the file
+to be executed.  Whatever happen before or after that (wrt.
+O_DENY_WRITE) should be covered by the security policy.
 
 > 
-> But to be clear, this is a regression introduced by glibc that is likely
-> to break many other builds, not only the kernel samples
-> and even if we fix linux uapi to conform to its downstream
-> copy of definitions, it won't help those users whose programs
-> build was broken until they install kernel headers, so feels like you
-> should report this regression to glibc and they'd better not "fix" the
-> regression by copying the current definition string as that may change as per
-> the patch above.
+> In any case, IMO it's rather sad that the elimination of ETXTBSY had
+> to be reverted -- it's really quite a nasty feature.  But it occurs to
+> me that Linux can more or less do what is IMO the actually desired
+> thing: snapshot the contents of a file and execute the snapshot.  The
+> hack at the end of the email works!  (Well, it works if the chosen
+> filesystem supports it.)
 > 
+> $ ./silly_tmp /tmp/test /tmp vim /proc/self/fd/3
+> 
+> emacs is apparently far, far too clever and can't save if you do:
+> 
+> $ ./silly_tmp /tmp/test /tmp emacs /proc/self/fd/3
+> 
+> 
+> I'm not seriously suggesting that anyone should execute binaries or
+> scripts on Linux exactly like this, for a whole bunch of reasons:
+> 
+> - It needs filesystem support (but maybe this isn't so bad)
+> 
+> - It needs write access to a directory on the correct filesystem (a
+> showstopper for serious use)
+> 
+> - It is wildly incompatible with write-xor-execute, so this would be a
+> case of one step forward, ten steps back.
+> 
+> - It would defeat a lot of tools that inspect /proc, which would be
+> quite annoying to say the least.
+> 
+> 
+> But maybe a less kludgy version could be used for real.  What if there
+> was a syscall that would take an fd and make a snapshot of the file?
 
-I'll look into that also.
+Yes, that would be a clean solution.  I don't think this is achievable
+in an efficient way without involving filesystem implementations though.
 
-> Why would a library copy definitions from kernel uapi without
-> wrapping them with #ifndef or #undef?
+> It would, at least by default, produce a *read-only* snapshot (fully
+> sealed a la F_SEAL_*), inherit any integrity data that came with the
+> source (e.g. LSMs could understand it), would not require a writable
+> directory on the filesystem, and would maybe even come with an extra
+> seal-like thing that prevents it from being linkat-ed.  (I'm not sure
+> that linkat would actually be a problem, but I'm also not immediately
+> sure that LSMs would be as comfortable with it if linkat were
+> allowed.)  And there could probably be an extremely efficient
+> implementation that might even reuse the existing deny-write mechanism
+> to optimize the common case where the file is never written.
+> 
+> For that matter, the actual common case would be to execute stuff in
+> /usr or similar, and those files really ought never to be modified.
+> So there could be a file attribute or something that means "this file
+> CANNOT be modified, but it can still be unlinked or replaced as
+> usual", and snapshotting such a file would be a no-op.  Distributions
+> and container tools could set that attribute.  Overlayfs could also
+> provide an efficient implementation if the file currently comes from
+> an immutable source.
+> 
+> Hmm, maybe it's not strictly necessary that it be immutable -- maybe
+> it's sometimes okay if reads start to fail if the contents change.
+> Let's call this a "weak snapshot" -- reads of a weak snapshot either
+> return the original contents or fail.  fsverity would give weak
+> snapshots for at no additional cost.
+> 
+> 
+> It's worth noting that the common case doesn't actually need an fd.
+> We have mmap(..., MAP_PRIVATE, ...).  What we would actually want for
+> mmap use cases is mmap(..., MAP_SNAPSHOT, ...), with the semantics
+> that the kernel promises that future writes to the source would either
+> not be reflected in the mapping or would cause SIGBUS.  One might
+> reasonably debate what forced-writes would do (I think forced-writes
+> should be allowed just like they currently are, since anyone who can
+> force-write to process memory is already assumed to be permitted to
+> bypass write-xor-execute).
+> 
+> 
+> ---
+> 
+> /* Written by Claude Sonnet 4 with a surprisingly small amount of help
+> from Andy */
+> 
+> #define _GNU_SOURCE
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <fcntl.h>
+> #include <unistd.h>
+> #include <sys/ioctl.h>
+> #include <linux/fs.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <errno.h>
+> #include <string.h>
+> 
+> int main(int argc, char *argv[]) {
+>     if (argc < 4) {
+>         fprintf(stderr, "Usage: %s <source_file> <temp_dir>
+> [exec_args...]\n", argv[0]);
+>         exit(1);
+>     }
+> 
+>     const char *source_file = argv[1];
+>     const char *temp_dir = argv[2];
+> 
+>     // Open source file
+>     int source_fd = open(source_file, O_RDONLY);
+>     if (source_fd == -1) {
+>         perror("Failed to open source file");
+>         exit(1);
+>     }
+> 
+>     // Create temporary file
+>     int temp_fd = open(temp_dir, O_TMPFILE | O_RDWR, 0600);
+>     if (temp_fd == -1) {
+>         perror("Failed to create temporary file");
+>         close(source_fd);
+>         exit(1);
+>     }
+> 
+>     // Clone the file contents using FICLONE
+>     if (ioctl(temp_fd, FICLONE, source_fd) == -1) {
+>         perror("Failed to clone file");
+>         close(source_fd);
+>         close(temp_fd);
+>         exit(1);
+>     }
+> 
+>     // Close source file
+>     close(source_fd);
+> 
+>     // Make sure temp file is on fd 3
+>     if (temp_fd != 3) {
+>         if (dup2(temp_fd, 3) == -1) {
+>             perror("Failed to move temp file to fd 3");
+>             close(temp_fd);
+>             exit(1);
+>         }
+>         close(temp_fd);
+>     }
+> 
+>     // Execute the remaining arguments
+>     if (argc >= 3) {
+>         execvp(argv[3], &argv[3]);
+>         perror("Failed to execute command");
+>         exit(1);
+>     }
+> 
+>     return 0;
+> }
 
-To me it looks like they stuck them into the wrong file - stdio.h
-instead of fcntl.h.
-
-thanks.
--- 
-~Randy
-
+As you said, this doesn't work if temp_dir is not allowed for execution,
+and it doesn't allow the kernel to check/track the content of the
+script, which is the purpose of AT_EXECVE_CHECK.
 
