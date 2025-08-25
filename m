@@ -1,74 +1,78 @@
-Return-Path: <linux-api+bounces-4573-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4574-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B68B3471A
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:22:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 769D8B3472E
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:23:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D23DE2A554D
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 16:22:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7609F2A593B
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 16:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C50B53074AD;
-	Mon, 25 Aug 2025 16:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA443002A2;
+	Mon, 25 Aug 2025 16:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="KBQvFHtz"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="Z2mbH88b"
 X-Original-To: linux-api@vger.kernel.org
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111D13074A9;
-	Mon, 25 Aug 2025 16:12:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8D22FF643;
+	Mon, 25 Aug 2025 16:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756138355; cv=pass; b=gVI89Dq4VnI0ztbiYZVIHodL53C3IbG+ep+qnusGlvVdo3aGzvMkgxxNw8uewnp5arDc2gMdDIMb9hvEnwliqw9+j+HqkdH+PFnJ9u1MaU3K6Z8zRmIzj8b8tffU/J3GjaNxpFTgqSxlp0tEqS2qR7qC/0+f0hCB0jpFEM3KWwg=
+	t=1756139003; cv=pass; b=fg3FraZ3yd8utCAAbOysweTRAkFfQ0LDSAGwRwNW+mV3P6HS4Wlo5fKUn55R2vQTJd+O3W6RNYCwkYhEMs3NGRDFqre3rModsK2MdJ7DLXiHm/uncaxQvgmzJ6pE67ManPJnlWeWhkZxSRswn4CK4vQdxbBKMFmYBeZ+kmTsxW8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756138355; c=relaxed/simple;
-	bh=ahgWXOaXa4uVTCDQXgfnV/isDsLaeGqPhdySagHIqZ4=;
+	s=arc-20240116; t=1756139003; c=relaxed/simple;
+	bh=Ot3Cby7vnWjdS324TAkSDK/FRhMj+hur58Pfr1nvpBE=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=SBtVKeDYU3dtTInTdnV7VrYcJ/V7EuVfP6FKPYmNWVseYKxzsSDdTuhQ9KO/OQPkJp43n8KaHEFaemHRYzoce8DicbYE283ZUPhqBkm6DXL4jkHR1WpMlOrcGC7mGFV7G4JAXDYoTcifTTNHAdJGx+fco7jdjlfULAXh7VMwBn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=KBQvFHtz; arc=pass smtp.client-ip=136.143.188.95
+	 MIME-Version:Content-Type; b=lBuxErxIQhxPsGpy4NUphUxvV59CVbFLTHxhEHkuem09dR3bjfvLrDSnQoAhakGsEaLX1XS1e3fawWyyWZ9hckG5o/RBY4MNfR4R5l4Cvzc0JUbhSv3ItzCpiLpoHuqpWtwwQkJAVYX1seHbjs+VwL5GFGWXpeG2it5v3eSmeD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=Z2mbH88b; arc=pass smtp.client-ip=136.143.188.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1756138327; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1756138977; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=TS0/XUFQb4TCtdtN/gbPv6tqj1DXYJElZoY5wG/c4nht1/KidSVLSKgWpYECUiiBUfQo9vCU9ap3PMZachfrdSTJFaE93Af2TEBHS6/EfCZ+5BspGHTedOHJam0pvDxwd9z5cxFcrIYjUjWHc4AYcSlGYwBhLe3HBm/QaDZGBws=
+	b=SQtasbswibAJ4WMRqmVEvIJqktnSAoEOL3OpdtSqDA8RGWKfUTEv69NnZ9/WqdCXa9I309MbEdRHunNNvUbWJPLcpczE6g4gQ3k8Rx9MNgliDubxkPbv0e+LLPaYRNGx1Ts8L5ZKCCdA29l0KzHVvujMcdCOrS37Wxa0cj3zdio=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1756138327; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=D6Foai3zPrEF1H2TT+1yRCZUGwFLLOSEWSlqO7KlDpY=; 
-	b=eLfI/HyO5RQXHEu3NcplMO+w3WCP0dQg6VLbazShSJn6kQfpeI9L60a70Z0AEeEaNQcB0o3w+YFuGyAZNrOv4mQUr5LzYwnbbCVlq+MiYl7eWmWFMoU23onLZjPZBMfPVqmaTLV1FIbZB9dNegCvF3M9BBFm8ODLLKFemNKIeTQ=
+	t=1756138977; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=KM1jORzEtfwKNV4NwQFUqoNRg3Nu+/yOFx85Kkh0vk4=; 
+	b=XrH3esGSyj1Pxkh0V/mLHVfQAPQXJI3OytHNDYG2z1pFPKZ4MvZ1gzCwM9tu3g0qej1YU4LOhaDrjMexjAbT8Eq4wMWjc/l9epaHjwzK4uTtAL2H95CnuV56yuWKCWw2c9gF3QRzcuQUYgC98bmnnsbSQkdQgR1Pw1DfHukAYQk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=zohomail.com;
 	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
 	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756138327;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756138977;
 	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
 	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=D6Foai3zPrEF1H2TT+1yRCZUGwFLLOSEWSlqO7KlDpY=;
-	b=KBQvFHtzSb5RlCGgEOl27CGHhEf1+scm2wCTRTd1CC1YM5VErlsj2glgYecHFGqF
-	RUWc1gF3oDc/+/Pt+40STUs2T31mgBYodFP4ISpRGU6aPIjwVrDEIaWT92ivN+JzBja
-	kyUBWOlSZlfdBzrXIPoWIsq+ge8qWYMw0h1p81b8=
+	bh=KM1jORzEtfwKNV4NwQFUqoNRg3Nu+/yOFx85Kkh0vk4=;
+	b=Z2mbH88bKtxQtN5eXIOoUIoHDQURn9y+gPLlnDT1q9ojFTe5U2Rdp3tIfFHG8s9+
+	eE4YYve7JUxFcN7fS9OTS+ECy/RONyIdolp2dSVlnWGQqXrh8Ezab9JaBbD2KVhuap6
+	fNZ6BDa2KWdpPyEBnD6JUkaJQawOLP5zmN04KoVY=
 Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1756138326138990.1482256884956; Mon, 25 Aug 2025 09:12:06 -0700 (PDT)
+	with SMTP id 1756138975381478.39810192964376; Mon, 25 Aug 2025 09:22:55 -0700 (PDT)
 Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Mon, 25 Aug 2025 09:12:06 -0700 (PDT)
-Date: Mon, 25 Aug 2025 20:12:06 +0400
+	with HTTP;Mon, 25 Aug 2025 09:22:55 -0700 (PDT)
+Date: Mon, 25 Aug 2025 20:22:55 +0400
 From: Askar Safin <safinaskar@zohomail.com>
 To: "Aleksa Sarai" <cyphar@cyphar.com>
 Cc: "Alejandro Colomar" <alx@kernel.org>,
+	"Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"Jan Kara" <jack@suse.cz>,
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>,
+	"linux-man" <linux-man@vger.kernel.org>,
 	"linux-api" <linux-api@vger.kernel.org>,
 	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
 	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>,
-	"linux-man" <linux-man@vger.kernel.org>
-Message-ID: <198e2004845.dc2f83ee27312.7051781748806696781@zohomail.com>
-In-Reply-To: <2025-08-22.1755866245-crummy-slate-scale-borough-gEcqKg@cyphar.com>
-References: <20250822114315.1571537-1-safinaskar@zohomail.com>
- <20250822114315.1571537-2-safinaskar@zohomail.com> <2025-08-22.1755866245-crummy-slate-scale-borough-gEcqKg@cyphar.com>
-Subject: Re: [PATCH 1/1] man2/mount.2: expand and clarify docs for
- MS_REMOUNT | MS_BIND
+	"Christian Brauner" <brauner@kernel.org>
+Message-ID: <198e20a3088.ef79515d27409.5672203109742133398@zohomail.com>
+In-Reply-To: <2025-08-22.1755869779-quirky-demur-grunts-mace-Hoxz0h@cyphar.com>
+References: <20250809-new-mount-api-v3-0-f61405c80f34@cyphar.com>
+ <20250809-new-mount-api-v3-5-f61405c80f34@cyphar.com>
+ <198d1f2e189.11dbac16b2998.3847935512688537521@zohomail.com> <2025-08-22.1755869779-quirky-demur-grunts-mace-Hoxz0h@cyphar.com>
+Subject: Re: [PATCH v3 05/12] man/man2/fspick.2: document "new" mount API
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -80,39 +84,25 @@ Content-Transfer-Encoding: 7bit
 Importance: Medium
 User-Agent: Zoho Mail
 X-Mailer: Zoho Mail
-Feedback-ID: rr080112276fa0b58be1e7951bf09fde5a0000c36c1c621c2ab920435c309c01e36b6abed956ed6f03869c00:zu0801122792c31794c68d63307a2d737600003fd59226218ecae798aac2a082091f7c033a2ee534f1a3099a:rf0801122c02a31f71baa7856bd463c6300000d7b232bdb792778d88d652145707117b15a99b9067989c7791af9f95b29f:ZohoMail
+Feedback-ID: rr08011227d6e3807cdfc5cfa01b04b0b00000cc4a99c65cf763561414276e55d6c27b40f61f457bd2718012:zu08011227d5b102457715986c01d227670000a0501beb61a5fc231420d02b2f604cf344dc5aabca20522440:rf0801122ce5c664ea73491759ac9acb390000b7dc1f0dc6587399277118a6be2d8a2118936d7af68d3ae4aa4ddff9747e:ZohoMail
 
- ---- On Fri, 22 Aug 2025 17:06:00 +0400  Aleksa Sarai <cyphar@cyphar.com> wrote --- 
- > > +The
- > > +.I mountflags
- > > +should specify existing per-mount-point flags,
- > > +except for those parameters
- > > +that are deliberately changed.
+ ---- On Fri, 22 Aug 2025 17:40:18 +0400  Aleksa Sarai <cyphar@cyphar.com> wrote --- 
+ > On 2025-08-22, Askar Safin <safinaskar@zohomail.com> wrote:
+ > >  ---- On Sat, 09 Aug 2025 00:39:49 +0400  Aleksa Sarai <cyphar@cyphar.com> wrote --- 
+ > >  > +The above procedure is functionally equivalent to
+ > >  > +the following mount operation using
+ > >  > +.BR mount (2):
+ > > 
+ > > This is not true.
+ > > 
+ > > fspick adds options to superblock. It doesn't remove existing ones.
  > 
- > I would phrase this more like a note to make the advice a bit clearer:
+ > fspick "copies the existing parameters" would be more accurate. I can
+ > reword this, but it's an example and I don't think it makes sense to add
+ > a large amount of clarifying text for each example.
 
-I merely copied here text used for normal remounting (i. e. MS_REMOUNT without MS_BIND).
-But okay, I changed anyway.
+I suggest adding "but mount(2) clears existing parameters here, and fspick/fsconfig doesn't".
 
- >   (which can be retrieved using
- >   .BR statfs (2)),
-
-I don't like reference to statfs here.
-
-statfs returns both superblock and per-mount
-flags. And you cannot know which is which. See
-https://elixir.bootlin.com/linux/v6.17-rc2/source/fs/statfs.c#L51
-.
-
-So, I removed statfs reference and kept everything else.
-
- > The current docs only mention locked mounts once and the description is
- > kind of insufficient (it implies that only MS_REMOUNT affects this, and
-
-I don't know how locked mounts work. So, if you have something to
-add, then you can send separate patch.
-
-I addressed all your points except for mentioned above.
 --
 Askar Safin
 https://types.pl/@safinaskar
