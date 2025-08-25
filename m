@@ -1,88 +1,299 @@
-Return-Path: <linux-api+bounces-4570-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4571-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C0AB3404D
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 15:03:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0639DB34644
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 17:49:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C9674810F8
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 13:03:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B1F57B46E8
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 15:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 084501E260A;
-	Mon, 25 Aug 2025 13:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4386624677A;
+	Mon, 25 Aug 2025 15:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jWGM1Tzr"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="M5tZA1Nl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5254D2B9A7;
-	Mon, 25 Aug 2025 13:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756127008; cv=none; b=uCOtIk3i6ceURJAsxqWsjgo5ZGl7G+ZJ0IinfH/sw48gU9k/Eg+JdFfIV3JK0miM4B7Y3QDPszd2wm3pupL+aafQ8XSq2dbWzPOcchcTf/BpYAPXM0MGUGBBLyjdxKgBszNH8R47xbCfIai/WzzjLVP6mgrsyYO9+52o2FQW318=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756127008; c=relaxed/simple;
-	bh=h8vW146cQOAZMeAF8OQcaqbM9C49DYmOGJ545rMirD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTJx9B/5Ma3682zKPJI6Pa1CSHdt2BQS6omVEdFW/2cWr/+GNXCvh+T8M/QWcgtrVd3qIJMolZP4+g6UnizUH6H5+UnDCMtf7LKfPxnr6ooFo87jU5MsYVEQHMteiml2zRZ8CLsjYcTtxSrxZxObCWIh29uWqSso1F3wcypSm9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jWGM1Tzr; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=hsGYF0FaLs7v3MHjFI3tJ5DbO+nCiLN104h3lCxUDJs=; b=jWGM1TzrJfeUb+QUcZa6LoHkBz
-	2m1cvVi3H3l7ouqIkH8UodE29ymG8/+bI7/XOp3KkyCY1pvVhiIsk5sgPlVM86NBwzv6R1T3Ma6Uz
-	5NtOZ5QST5Gn/epzZPNSjPpyDTN51xklK1r3INXttahp6p3A8JkTbl4z9k1HQAJo3+LpS1fBx7gm9
-	/Zg2FzC/uYbldSop2u449Ox1RCdNgqSbZMY6YKrmjeBFRgFMkvHmUt4xl4/jpmku46/02dptGZ2Kj
-	d+sNCwsdlt95Vi4Xq/s3VqERK9YRzGo11AgHGKT96wkjHO8KP4gyC+grXHxfF3adHKRIgjGptboJ+
-	6mNxW8Rg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqWr5-0000000EGgg-0jha;
-	Mon, 25 Aug 2025 13:03:23 +0000
-Date: Mon, 25 Aug 2025 14:03:22 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569DC233D85;
+	Mon, 25 Aug 2025 15:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756136961; cv=pass; b=OP40zUJrfGDwzgR+/95296IkkPZHlzl/bnq2bPpP2Y8FQIGClQ3EkNXf0FhYe5R8tLheMsXAhw4COCsK99ejTmGeECfpSCfTZhmCOk5DV03LMrtqgvGCEubWcAPN0cXx1hJibAnBGgxNM1mlFpLUskRO4pjXLaJsIEhzG0KGTVg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756136961; c=relaxed/simple;
+	bh=NHhGyTC0CIDD3nexoTzGCRdJXob9bOWVrY7Sx72p54I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tJZjPwHeW9CqEFI48i9BMS5LlnmRHtur/xm9D/9BHdvpItG7+d4sucdYr1nQv6swPjtFYNiYM1+AhorIzAIXBIbCZzH7h+9GDtZKfPqbL21f9P/JmccZ3hSUTA431OAcdEQQh1rIEP+PKoN0VsO4JQeSChCUxSfNyjMMuyimxmo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=M5tZA1Nl; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1756136932; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MRjlxNmE4xUYTct0dQSRagWGTJtb+XNvwRIRmFTkwP17VqVKZLSxnQEYPJav5CxedmppGKWirOOlZCkGe/hDR+HP/t5ddQgsXWujP/xiD2drXcJCQiq5mlT3/HKYXkeoz/nHGHYELDWt1PoR6tCFqbMlKRyFVnNRqlj5KOEpBcw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756136932; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=V51R1iwyrmIj748S/Lu12/RnCnSxNIFUCGC/ghODhMQ=; 
+	b=KJWI3nC2yBHJkq0yt7t8CXq9bibORFTRw8HgyJ1FifBDcU84OmBFDUBSHYjzhfOoCh7kWOJIqshBF7ZD/3OeABYSbrlqJlRVY0s6YtsT0RnY4mGytJ71lXbyFxgdu7W+u+wE893fDAKg1CP1hhJ6+dzW/wdbKsv+Po4jhQhTj+U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756136932;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=V51R1iwyrmIj748S/Lu12/RnCnSxNIFUCGC/ghODhMQ=;
+	b=M5tZA1Nljahg+K6pBPF9afUX9L1kRaYWoCAKnooW0bMTZxK2cnA/spZN/e6bCshj
+	Ah4knSQ9rE80Ov7F0moDMJeJ2H8+d0oGEzSqrcbemeyNonUVbBcJip5dtZUxMx8trmz
+	d2hQdJ/JLCbosMYX4os56pZGaaFOegMS/TL1A27s=
+Received: by mx.zohomail.com with SMTPS id 1756136929960496.92655408087285;
+	Mon, 25 Aug 2025 08:48:49 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
 	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH] uapi/fcntl: conditionally define AT_RENAME* macros
-Message-ID: <aKxfGix_o4glz8-Z@casper.infradead.org>
-References: <20250824221055.86110-1-rdunlap@infradead.org>
- <aKuedOXEIapocQ8l@casper.infradead.org>
- <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
+	linux-man@vger.kernel.org
+Subject: [PATCH v2 0/1] man2/mount.2: expand and clarify docs for MS_REMOUNT | MS_BIND
+Date: Mon, 25 Aug 2025 15:48:38 +0000
+Message-ID: <20250825154839.2422856-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
+Feedback-ID: rr080112272d2c216ff3da290558e2750400003e42034302ec1870eeaf87d378ee03381bac80c72a0665d558:zu080112272e3f51a11e5ee7a518369a880000be5fd7925b765a9a46a9627d98f198b9f84a0c0ec753279acf:rf0801122c19da234dafb63a0c24bdd7b40000225c498ce742e8c51f947d53d0926b6cdb40513a5cd41e6779c2e6c9f811:ZohoMail
+X-ZohoMailClient: External
 
-On Sun, Aug 24, 2025 at 04:54:50PM -0700, Randy Dunlap wrote:
-> In file included from ../samples/vfs/test-statx.c:23:
-> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
->   159 | #define AT_RENAME_NOREPLACE     0x0001
-> In file included from ../samples/vfs/test-statx.c:13:
-> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
->   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+My edit is based on experiments and reading Linux code
 
-Oh dear.  This is going to be libc-version-dependent.
+You will find C code I used for experiments below
 
-$ grep -r AT_RENAME_NOREPLACE /usr/include
-/usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE	0x0001
+v1: https://lore.kernel.org/linux-man/20250822114315.1571537-1-safinaskar@zohomail.com/
 
-It's not in stdio.h at all.  This is with libc6 2.41-10
+Askar Safin (1):
+  man2/mount.2: expand and clarify docs for MS_REMOUNT | MS_BIND
+
+ man/man2/mount.2 | 32 +++++++++++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
+
+-- 
+2.47.2
+
+// You need to be root in initial user namespace
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/syscall.h>
+#include <sys/sysmacros.h>
+#include <linux/openat2.h>
+
+#define MY_ASSERT(cond) do { \
+    if (!(cond)) { \
+        fprintf (stderr, "%d: %s: assertion failed\n", __LINE__, #cond); \
+        exit (1); \
+    } \
+} while (0)
+
+int
+main (void)
+{
+    // Init
+    {
+        MY_ASSERT (chdir ("/") == 0);
+        MY_ASSERT (unshare (CLONE_NEWNS) == 0);
+        MY_ASSERT (mount (NULL, "/", NULL, MS_PRIVATE | MS_REC, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp", "tmpfs", 0, NULL) == 0);
+    }
+
+    MY_ASSERT (mkdir ("/tmp/a", 0777) == 0);
+    MY_ASSERT (mkdir ("/tmp/b", 0777) == 0);
+
+    // MS_REMOUNT sets options for superblock
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // MS_REMOUNT | MS_BIND sets options for vfsmount
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // fspick sets options for superblock
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        {
+            int fsfd = fspick (AT_FDCWD, "/tmp/a", 0);
+            MY_ASSERT (fsfd >= 0);
+            MY_ASSERT (fsconfig (fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0) == 0);
+            MY_ASSERT (fsconfig (fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0) == 0);
+            MY_ASSERT (close (fsfd) == 0);
+        }
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // mount_setattr sets options for vfsmount
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        {
+            struct mount_attr attr;
+            memset (&attr, 0, sizeof attr);
+            attr.attr_set = MOUNT_ATTR_RDONLY;
+            MY_ASSERT (mount_setattr (AT_FDCWD, "/tmp/a", 0, &attr, sizeof attr) == 0);
+        }
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // "ro" as a string works for MS_REMOUNT
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, "ro") == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // "ro" as a string doesn't work for MS_REMOUNT | MS_BIND
+    // Option string is ignored
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND, "ro") == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // Removing MS_RDONLY makes mount writable again (in case of MS_REMOUNT | MS_BIND)
+    // Same for other options (not tested, but I did read code)
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+
+    // Removing "ro" from option string makes mount writable again (in case of MS_REMOUNT)
+    // I. e. mount(2) works exactly as documented
+    // This works even if option string is NULL, i. e. NULL works as default option string
+    {
+        typedef const char *c_string;
+        c_string opts[3] = {NULL, "", "rw"};
+        for (int i = 0; i != 3; ++i)
+            {
+                for (int j = 0; j != 3; ++j)
+                    {
+                        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, opts[i]) == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+                        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+                        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, "ro") == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+                        MY_ASSERT (errno == EROFS);
+                        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, opts[j]) == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+                        MY_ASSERT (umount ("/tmp/a") == 0);
+                    }
+            }
+    }
+
+    // Removing MS_RDONLY makes mount writable again (in case of MS_REMOUNT)
+    // I. e. mount(2) works exactly as documented
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+
+    // Setting MS_RDONLY (without other flags) removes all other flags, such as MS_NODEV (in case of MS_REMOUNT | MS_BIND)
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mknod ("/tmp/a/mynull", S_IFCHR | 0666, makedev (1, 3)) == 0);
+
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        {
+            int fd = open ("/tmp/a/mynull", O_WRONLY);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (write (fd, "a", 1) == 1);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_NODEV, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (open ("/tmp/a/mynull", O_WRONLY) == -1);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        {
+            int fd = open ("/tmp/a/mynull", O_WRONLY);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (write (fd, "a", 1) == 1);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+    printf ("All tests passed\n");
+    exit (0);
+}
 
