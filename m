@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-4582-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4583-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA0DB349EA
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 20:15:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A66B349EB
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 20:15:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC1F97A7EEF
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:13:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 916C42A41F4
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6758D30F7FA;
-	Mon, 25 Aug 2025 18:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2436B3101DF;
+	Mon, 25 Aug 2025 18:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKEaXWZ4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvOCtSFD"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A35830F55B;
-	Mon, 25 Aug 2025 18:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC09F3101B9;
+	Mon, 25 Aug 2025 18:14:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756145680; cv=none; b=Gs/cJSYOrkctooeBSp3FelJ+z1nXHWr5PdvKSZXMnIl3VuooSRBKZQtER7vIdM0tjTRcU3/rJho+LbXSn+g074hJPSmUV6VN5wkE9sVtTQoTpudTUjCWGzkg9HxO8uGPU74irNAjBENFXiMeDcjopMSxL/XkvXdohLTU4WHhZAc=
+	t=1756145681; cv=none; b=tNXxhHj6rOylKpjUlR7WprNIiZs33nyzbrQwy4xJ1zWRy9LDBrNjSAE3nzuIUPI+TecXyO9Yg5o0CoVRuNEM5uZ257a5zV5DSVtCevPXmBrEf0XTsjFigySik6YvCBs4PV+rYwAT73cZbQvE6xJ0vt/StRzLwaGzhlY4yTWC+d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756145680; c=relaxed/simple;
-	bh=+ny74jPFqnIoKUqKZf8iiBti7UY7xk5Mmi/ERob8TW4=;
+	s=arc-20240116; t=1756145681; c=relaxed/simple;
+	bh=zpS3J9kawTcgszjNsvRuGRvLsrFI0Wmdk3/XvHx6XPQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q/tsbjIcTvKtH5Ucj359T8EwjaaCGT8ohHiTE8QDTOCm4i7SxxxmcUrNbnwFAiQf6SyB8AKNkCNM0bHF3nslGUEHlvJyUlYaB8EYowdL6lFDqpjZCFImIAo7HUWXnGZBvPFEZuD4fzATTK8dCWJrOTWTuVa+5a32NMlh6py0vLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKEaXWZ4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B2CC113D0;
-	Mon, 25 Aug 2025 18:14:39 +0000 (UTC)
+	 MIME-Version; b=MWj7VKQG2UASl8Vk1UN+ah07Enpyl1QwvWP/gCppEc6c3r9DQAfEnJMPp8yrqRrhJ11ujvtLS2puYFj8TVKlZIeFC4d5uBamAnMxLq/A+juaDTuTQuyrOf0uN8JX/EOnzcaCUf4EeAmPoeBs0nhIT6s5pGf9KQSZEwVqNvnWWkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvOCtSFD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 147D6C4CEF1;
+	Mon, 25 Aug 2025 18:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756145679;
-	bh=+ny74jPFqnIoKUqKZf8iiBti7UY7xk5Mmi/ERob8TW4=;
+	s=k20201202; t=1756145680;
+	bh=zpS3J9kawTcgszjNsvRuGRvLsrFI0Wmdk3/XvHx6XPQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sKEaXWZ4dLasc42U66jj9U6z7+sYNYvmQiv4qTmW7vHITidzKWpr7bx7dzpKVJ6hL
-	 dekyybTG+64Jk1gh+9a2oPh2Ha9SPYyjEZTLMUt4hLSGDWOHaS0l/5XcBqQrP0/f53
-	 0hJWu4313FIYxJ03Ntr8ae+yPDqzBVYCPLGw9oI8u6gC8yjWMG3KxRUhzTW4aWux8Y
-	 cRMSMjI3tkdbzIge/YHm33Sxqh3rsQv5ZWi/7nXed8juzpA9c1jmzXU92ICjZFCA0W
-	 cr1qI6hBHvBstKQbl2NWlyj4qFhoZH3CZp4i4tM9ErCIISpBTell4ybHOz8AlvVVQe
-	 haV/JWnh8Rk1g==
+	b=RvOCtSFDsqZp1xL+QH+K1kXTEa3FwQGXbtAAP6wyJSrpg+XodyPcHap81TVoZn372
+	 fSGxNIBNKZHSqGENAV0t86pRfZRQydfGswqJF4XaZvZR2c4XIUzJYv8R95qtBZE8vD
+	 wv0xlU43DfNZcPNwL3mju9mgwpgZsJtXqqKXv2XnD8lZHGaWxIDuC4O9snzNc9Mlgr
+	 u07Y8aHsm7/CVZsZNTQ1UJZvY7rz/6/PFEPQ7E5E4uJd58QdjFaIFEF62V9GmwaOjP
+	 ld/9y9B9qXT1XRCbQdarWoulqi9oXyJROpD47dU/pvf2IlHq2ZMgfRAoxE+fY8aft9
+	 gGR0+DqzKYFxQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	tools@kernel.org
 Cc: Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v4 3/7] kernel/api: add debugfs interface for kernel API specifications
-Date: Mon, 25 Aug 2025 14:14:30 -0400
-Message-ID: <20250825181434.3340805-4-sashal@kernel.org>
+Subject: [RFC PATCH v4 4/7] kernel/sched: add specs for sys_sched_setattr()
+Date: Mon, 25 Aug 2025 14:14:31 -0400
+Message-ID: <20250825181434.3340805-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250825181434.3340805-1-sashal@kernel.org>
 References: <20250825181434.3340805-1-sashal@kernel.org>
@@ -61,426 +61,340 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a debugfs interface to expose kernel API specifications at runtime.
-This allows tools and users to query the complete API specifications
-through the debugfs filesystem.
-
-The interface provides:
-- /sys/kernel/debug/kapi/list - lists all available API specifications
-- /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
-
-Each specification file includes:
-- Function name, version, and descriptions
-- Execution context requirements and flags
-- Parameter details with types, flags, and constraints
-- Return value specifications and success conditions
-- Error codes with descriptions and conditions
-- Locking requirements and constraints
-- Signal handling specifications
-- Examples, notes, and deprecation status
-
-This enables runtime introspection of kernel APIs for documentation
-tools, static analyzers, and debugging purposes.
-
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/api/Kconfig        |  20 +++
- kernel/api/Makefile       |   6 +-
- kernel/api/kapi_debugfs.c | 334 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 359 insertions(+), 1 deletion(-)
- create mode 100644 kernel/api/kapi_debugfs.c
+ kernel/sched/syscalls.c | 315 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 314 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
-index fde25ec70e13..d2754b21acc4 100644
---- a/kernel/api/Kconfig
-+++ b/kernel/api/Kconfig
-@@ -33,3 +33,23 @@ config KAPI_RUNTIME_CHECKS
- 	  development. The checks use WARN_ONCE to report violations.
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 77ae87f36e84..c5eb0facdc3a 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -969,10 +969,323 @@ SYSCALL_DEFINE2(sched_setparam, pid_t, pid, struct sched_param __user *, param)
+ }
  
- 	  If unsure, say N.
-+
-+config KAPI_SPEC_DEBUGFS
-+	bool "Export kernel API specifications via debugfs"
-+	depends on KAPI_SPEC
-+	depends on DEBUG_FS
-+	help
-+	  This option enables exporting kernel API specifications through
-+	  the debugfs filesystem. When enabled, specifications can be
-+	  accessed at /sys/kernel/debug/kapi/.
-+
-+	  The debugfs interface provides:
-+	  - A list of all available API specifications
-+	  - Detailed information for each API including parameters,
-+	    return values, errors, locking requirements, and constraints
-+	  - Complete machine-readable representation of the specs
-+
-+	  This is useful for documentation tools, static analyzers, and
-+	  runtime introspection of kernel APIs.
-+
-+	  If unsure, say N.
-diff --git a/kernel/api/Makefile b/kernel/api/Makefile
-index 312d35179c78..396b2da1a109 100644
---- a/kernel/api/Makefile
-+++ b/kernel/api/Makefile
-@@ -10,6 +10,9 @@ obj-$(CONFIG_KAPI_SPEC)		+= kernel_api_spec.o
- ifeq ($(CONFIG_KAPI_SPEC),y)
- obj-$(CONFIG_KAPI_SPEC)		+= generated_api_specs.o
- 
-+# Debugfs interface for kernel API specs
-+obj-$(CONFIG_KAPI_SPEC_DEBUGFS) += kapi_debugfs.o
-+
- # Find all potential apispec files (this is evaluated at make time)
- apispec-files := $(shell find $(objtree) -name "*.apispec.h" -type f 2>/dev/null)
- 
-@@ -23,4 +26,5 @@ clean-files += generated_api_specs.c
- 
- # Add explicit dependency on the generator script
- $(obj)/generated_api_specs.o: $(obj)/generated_api_specs.c
--endif
-\ No newline at end of file
-+endif
-+
-diff --git a/kernel/api/kapi_debugfs.c b/kernel/api/kapi_debugfs.c
-new file mode 100644
-index 000000000000..b75850b66ee3
---- /dev/null
-+++ b/kernel/api/kapi_debugfs.c
-@@ -0,0 +1,334 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Kernel API specification debugfs interface
+ /**
+- * sys_sched_setattr - same as above, but with extended sched_attr
++ * sys_sched_setattr - set/change scheduling policy and attributes
+  * @pid: the pid in question.
+  * @uattr: structure containing the extended parameters.
+  * @flags: for future extension.
 + *
-+ * This provides a debugfs interface to expose kernel API specifications
-+ * at runtime, allowing tools and users to query the complete API specs.
-+ */
-+
-+#include <linux/debugfs.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+#include <linux/seq_file.h>
-+#include <linux/kernel_api_spec.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+
-+/* External symbols for kernel API spec section */
-+extern struct kernel_api_spec __start_kapi_specs[];
-+extern struct kernel_api_spec __stop_kapi_specs[];
-+
-+static struct dentry *kapi_debugfs_root;
-+
-+/* Helper function to print parameter type as string */
-+static const char *param_type_str(enum kapi_param_type type)
-+{
-+	switch (type) {
-+	case KAPI_TYPE_INT: return "int";
-+	case KAPI_TYPE_UINT: return "uint";
-+	case KAPI_TYPE_PTR: return "ptr";
-+	case KAPI_TYPE_STRUCT: return "struct";
-+	case KAPI_TYPE_UNION: return "union";
-+	case KAPI_TYPE_ARRAY: return "array";
-+	case KAPI_TYPE_FD: return "fd";
-+	case KAPI_TYPE_ENUM: return "enum";
-+	case KAPI_TYPE_USER_PTR: return "user_ptr";
-+	case KAPI_TYPE_PATH: return "path";
-+	case KAPI_TYPE_FUNC_PTR: return "func_ptr";
-+	case KAPI_TYPE_CUSTOM: return "custom";
-+	default: return "unknown";
-+	}
-+}
-+
-+/* Helper to print parameter flags */
-+static void print_param_flags(struct seq_file *m, u32 flags)
-+{
-+	seq_printf(m, "    flags: ");
-+	if (flags & KAPI_PARAM_IN) seq_printf(m, "IN ");
-+	if (flags & KAPI_PARAM_OUT) seq_printf(m, "OUT ");
-+	if (flags & KAPI_PARAM_INOUT) seq_printf(m, "INOUT ");
-+	if (flags & KAPI_PARAM_OPTIONAL) seq_printf(m, "OPTIONAL ");
-+	if (flags & KAPI_PARAM_CONST) seq_printf(m, "CONST ");
-+	if (flags & KAPI_PARAM_USER) seq_printf(m, "USER ");
-+	if (flags & KAPI_PARAM_VOLATILE) seq_printf(m, "VOLATILE ");
-+	if (flags & KAPI_PARAM_DMA) seq_printf(m, "DMA ");
-+	if (flags & KAPI_PARAM_ALIGNED) seq_printf(m, "ALIGNED ");
-+	seq_printf(m, "\n");
-+}
-+
-+/* Helper to print context flags */
-+static void print_context_flags(struct seq_file *m, u32 flags)
-+{
-+	seq_printf(m, "Context flags: ");
-+	if (flags & KAPI_CTX_PROCESS) seq_printf(m, "PROCESS ");
-+	if (flags & KAPI_CTX_HARDIRQ) seq_printf(m, "HARDIRQ ");
-+	if (flags & KAPI_CTX_SOFTIRQ) seq_printf(m, "SOFTIRQ ");
-+	if (flags & KAPI_CTX_NMI) seq_printf(m, "NMI ");
-+	if (flags & KAPI_CTX_SLEEPABLE) seq_printf(m, "SLEEPABLE ");
-+	if (flags & KAPI_CTX_ATOMIC) seq_printf(m, "ATOMIC ");
-+	if (flags & KAPI_CTX_PREEMPT_DISABLED) seq_printf(m, "PREEMPT_DISABLED ");
-+	if (flags & KAPI_CTX_IRQ_DISABLED) seq_printf(m, "IRQ_DISABLED ");
-+	seq_printf(m, "\n");
-+}
-+
-+/* Show function for individual API spec */
-+static int kapi_spec_show(struct seq_file *m, void *v)
-+{
-+	struct kernel_api_spec *spec = m->private;
-+	int i;
-+
-+	seq_printf(m, "Kernel API Specification\n");
-+	seq_printf(m, "========================\n\n");
-+
-+	/* Basic info */
-+	seq_printf(m, "Name: %s\n", spec->name);
-+	seq_printf(m, "Version: %u\n", spec->version);
-+	seq_printf(m, "Description: %s\n", spec->description);
-+	if (strlen(spec->long_description) > 0)
-+		seq_printf(m, "Long description: %s\n", spec->long_description);
-+
-+	/* Context */
-+	print_context_flags(m, spec->context_flags);
-+	seq_printf(m, "\n");
-+
-+	/* Parameters */
-+	if (spec->param_count > 0) {
-+		seq_printf(m, "Parameters (%u):\n", spec->param_count);
-+		for (i = 0; i < spec->param_count; i++) {
-+			struct kapi_param_spec *param = &spec->params[i];
-+			seq_printf(m, "  [%d] %s:\n", i, param->name);
-+			seq_printf(m, "    type: %s (%s)\n",
-+				   param_type_str(param->type), param->type_name);
-+			print_param_flags(m, param->flags);
-+			if (strlen(param->description) > 0)
-+				seq_printf(m, "    description: %s\n", param->description);
-+			if (param->size > 0)
-+				seq_printf(m, "    size: %zu\n", param->size);
-+			if (param->alignment > 0)
-+				seq_printf(m, "    alignment: %zu\n", param->alignment);
-+
-+			/* Print constraints if any */
-+			if (param->constraint_type != KAPI_CONSTRAINT_NONE) {
-+				seq_printf(m, "    constraints:\n");
-+				switch (param->constraint_type) {
-+				case KAPI_CONSTRAINT_RANGE:
-+					seq_printf(m, "      type: range\n");
-+					seq_printf(m, "      min: %lld\n", param->min_value);
-+					seq_printf(m, "      max: %lld\n", param->max_value);
-+					break;
-+				case KAPI_CONSTRAINT_MASK:
-+					seq_printf(m, "      type: mask\n");
-+					seq_printf(m, "      valid_bits: 0x%llx\n", param->valid_mask);
-+					break;
-+				case KAPI_CONSTRAINT_ENUM:
-+					seq_printf(m, "      type: enum\n");
-+					seq_printf(m, "      count: %u\n", param->enum_count);
-+					break;
-+				case KAPI_CONSTRAINT_CUSTOM:
-+					seq_printf(m, "      type: custom\n");
-+					if (strlen(param->constraints) > 0)
-+						seq_printf(m, "      description: %s\n",
-+							   param->constraints);
-+					break;
-+				default:
-+					break;
-+				}
-+			}
-+			seq_printf(m, "\n");
-+		}
-+	}
-+
-+	/* Return value */
-+	seq_printf(m, "Return value:\n");
-+	seq_printf(m, "  type: %s\n", spec->return_spec.type_name);
-+	if (strlen(spec->return_spec.description) > 0)
-+		seq_printf(m, "  description: %s\n", spec->return_spec.description);
-+
-+	switch (spec->return_spec.check_type) {
-+	case KAPI_RETURN_EXACT:
-+		seq_printf(m, "  success: == %lld\n", spec->return_spec.success_value);
-+		break;
-+	case KAPI_RETURN_RANGE:
-+		seq_printf(m, "  success: [%lld, %lld]\n",
-+			   spec->return_spec.success_min,
-+			   spec->return_spec.success_max);
-+		break;
-+	case KAPI_RETURN_FD:
-+		seq_printf(m, "  success: valid file descriptor (>= 0)\n");
-+		break;
-+	case KAPI_RETURN_ERROR_CHECK:
-+		seq_printf(m, "  success: error check\n");
-+		break;
-+	case KAPI_RETURN_CUSTOM:
-+		seq_printf(m, "  success: custom check\n");
-+		break;
-+	default:
-+		break;
-+	}
-+	seq_printf(m, "\n");
-+
-+	/* Errors */
-+	if (spec->error_count > 0) {
-+		seq_printf(m, "Errors (%u):\n", spec->error_count);
-+		for (i = 0; i < spec->error_count; i++) {
-+			struct kapi_error_spec *err = &spec->errors[i];
-+			seq_printf(m, "  %s (%d): %s\n",
-+				   err->name, err->error_code, err->description);
-+			if (strlen(err->condition) > 0)
-+				seq_printf(m, "    condition: %s\n", err->condition);
-+		}
-+		seq_printf(m, "\n");
-+	}
-+
-+	/* Locks */
-+	if (spec->lock_count > 0) {
-+		seq_printf(m, "Locks (%u):\n", spec->lock_count);
-+		for (i = 0; i < spec->lock_count; i++) {
-+			struct kapi_lock_spec *lock = &spec->locks[i];
-+			const char *type_str;
-+			switch (lock->lock_type) {
-+			case KAPI_LOCK_MUTEX: type_str = "mutex"; break;
-+			case KAPI_LOCK_SPINLOCK: type_str = "spinlock"; break;
-+			case KAPI_LOCK_RWLOCK: type_str = "rwlock"; break;
-+			case KAPI_LOCK_SEMAPHORE: type_str = "semaphore"; break;
-+			case KAPI_LOCK_RCU: type_str = "rcu"; break;
-+			case KAPI_LOCK_SEQLOCK: type_str = "seqlock"; break;
-+			default: type_str = "unknown"; break;
-+			}
-+			seq_printf(m, "  %s (%s): %s\n",
-+				   lock->lock_name, type_str, lock->description);
-+			if (lock->acquired)
-+				seq_printf(m, "    acquired by function\n");
-+			if (lock->released)
-+				seq_printf(m, "    released by function\n");
-+		}
-+		seq_printf(m, "\n");
-+	}
-+
-+	/* Constraints */
-+	if (spec->constraint_count > 0) {
-+		seq_printf(m, "Additional constraints (%u):\n", spec->constraint_count);
-+		for (i = 0; i < spec->constraint_count; i++) {
-+			seq_printf(m, "  - %s\n", spec->constraints[i].description);
-+		}
-+		seq_printf(m, "\n");
-+	}
-+
-+	/* Signals */
-+	if (spec->signal_count > 0) {
-+		seq_printf(m, "Signal handling (%u):\n", spec->signal_count);
-+		for (i = 0; i < spec->signal_count; i++) {
-+			struct kapi_signal_spec *sig = &spec->signals[i];
-+			seq_printf(m, "  %s (%d):\n", sig->signal_name, sig->signal_num);
-+			seq_printf(m, "    direction: ");
-+			if (sig->direction & KAPI_SIGNAL_SEND) seq_printf(m, "send ");
-+			if (sig->direction & KAPI_SIGNAL_RECEIVE) seq_printf(m, "receive ");
-+			if (sig->direction & KAPI_SIGNAL_HANDLE) seq_printf(m, "handle ");
-+			if (sig->direction & KAPI_SIGNAL_BLOCK) seq_printf(m, "block ");
-+			if (sig->direction & KAPI_SIGNAL_IGNORE) seq_printf(m, "ignore ");
-+			seq_printf(m, "\n");
-+			seq_printf(m, "    action: ");
-+			switch (sig->action) {
-+			case KAPI_SIGNAL_ACTION_DEFAULT: seq_printf(m, "default"); break;
-+			case KAPI_SIGNAL_ACTION_TERMINATE: seq_printf(m, "terminate"); break;
-+			case KAPI_SIGNAL_ACTION_COREDUMP: seq_printf(m, "coredump"); break;
-+			case KAPI_SIGNAL_ACTION_STOP: seq_printf(m, "stop"); break;
-+			case KAPI_SIGNAL_ACTION_CONTINUE: seq_printf(m, "continue"); break;
-+			case KAPI_SIGNAL_ACTION_CUSTOM: seq_printf(m, "custom"); break;
-+			case KAPI_SIGNAL_ACTION_RETURN: seq_printf(m, "return"); break;
-+			case KAPI_SIGNAL_ACTION_RESTART: seq_printf(m, "restart"); break;
-+			default: seq_printf(m, "unknown"); break;
-+			}
-+			seq_printf(m, "\n");
-+			if (strlen(sig->description) > 0)
-+				seq_printf(m, "    description: %s\n", sig->description);
-+		}
-+		seq_printf(m, "\n");
-+	}
-+
-+	/* Additional info */
-+	if (strlen(spec->examples) > 0) {
-+		seq_printf(m, "Examples:\n%s\n\n", spec->examples);
-+	}
-+	if (strlen(spec->notes) > 0) {
-+		seq_printf(m, "Notes:\n%s\n\n", spec->notes);
-+	}
-+	if (strlen(spec->since_version) > 0) {
-+		seq_printf(m, "Since: %s\n", spec->since_version);
-+	}
-+
-+	return 0;
-+}
-+
-+static int kapi_spec_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, kapi_spec_show, inode->i_private);
-+}
-+
-+static const struct file_operations kapi_spec_fops = {
-+	.open = kapi_spec_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+/* Show all available API specs */
-+static int kapi_list_show(struct seq_file *m, void *v)
-+{
-+	struct kernel_api_spec *spec;
-+	int count = 0;
-+
-+	seq_printf(m, "Available Kernel API Specifications\n");
-+	seq_printf(m, "===================================\n\n");
-+
-+	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
-+		seq_printf(m, "%s - %s\n", spec->name, spec->description);
-+		count++;
-+	}
-+
-+	seq_printf(m, "\nTotal: %d specifications\n", count);
-+	return 0;
-+}
-+
-+static int kapi_list_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, kapi_list_show, NULL);
-+}
-+
-+static const struct file_operations kapi_list_fops = {
-+	.open = kapi_list_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static int __init kapi_debugfs_init(void)
-+{
-+	struct kernel_api_spec *spec;
-+	struct dentry *spec_dir;
-+
-+	/* Create main directory */
-+	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
-+
-+	/* Create list file */
-+	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
-+
-+	/* Create specs subdirectory */
-+	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
-+
-+	/* Create a file for each API spec */
-+	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
-+		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
-+	}
-+
-+	pr_info("Kernel API debugfs interface initialized\n");
-+	return 0;
-+}
-+
-+static void __exit kapi_debugfs_exit(void)
-+{
-+	debugfs_remove_recursive(kapi_debugfs_root);
-+}
-+
-+/* Initialize as part of kernel, not as a module */
-+fs_initcall(kapi_debugfs_init);
-\ No newline at end of file
++ * long-desc: Sets the scheduling policy and attributes for a process,
++ *   supporting multiple scheduling classes including real-time,
++ *   deadline, and normal policies. Performs capability checks,
++ *   validates parameters, enforces resource limits, and ensures
++ *   bandwidth constraints for deadline tasks.
++ * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
++ *
++ * param-count: 3
++ *
++ * param: pid
++ *   type: KAPI_TYPE_INT
++ *   flags: KAPI_PARAM_IN
++ *   constraint-type: KAPI_CONSTRAINT_RANGE
++ *   range: 0, INT_MAX
++ *   constraint: Must be >= 0, where 0 means current process
++ *
++ * param: uattr
++ *   type: KAPI_TYPE_USER_PTR
++ *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
++ *   constraint-type: KAPI_CONSTRAINT_CUSTOM
++ *   constraint: Valid user pointer to struct sched_attr
++ *
++ * struct: struct sched_attr
++ *   size: 120
++ *   alignment: 8
++ *   field: size
++ *     type: __u32
++ *     desc: Structure size for version compatibility
++ *     constraint-type: KAPI_CONSTRAINT_RANGE
++ *     range: 48, 512
++ *     constraint: Must be at least SCHED_ATTR_SIZE_VER0
++ *   field: sched_policy
++ *     type: __u32
++ *     desc: Scheduling policy selector
++ *     constraint-type: KAPI_CONSTRAINT_ENUM
++ *     enum: SCHED_NORMAL(0), SCHED_FIFO(1), SCHED_RR(2), SCHED_BATCH(3), SCHED_IDLE(5), SCHED_DEADLINE(6), SCHED_EXT(7)
++ *   field: sched_flags
++ *     type: __u64
++ *     desc: Policy modifier flags
++ *     constraint-type: KAPI_CONSTRAINT_MASK
++ *     mask: SCHED_FLAG_ALL
++ *   field: sched_nice
++ *     type: __s32
++ *     desc: Nice value for CFS policies
++ *     constraint-type: KAPI_CONSTRAINT_RANGE
++ *     range: -20, 19
++ *     constraint: Only used for SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
++ *   field: sched_priority
++ *     type: __u32
++ *     desc: Priority for RT policies
++ *     constraint-type: KAPI_CONSTRAINT_RANGE
++ *     range: 1, 99
++ *     constraint: Only used for SCHED_FIFO, SCHED_RR
++ *   field: sched_runtime
++ *     type: __u64
++ *     desc: Runtime budget in nanoseconds
++ *     constraint: Only used for SCHED_DEADLINE
++ *   field: sched_deadline
++ *     type: __u64
++ *     desc: Deadline in nanoseconds
++ *     constraint: Only used for SCHED_DEADLINE
++ *   field: sched_period
++ *     type: __u64
++ *     desc: Period in nanoseconds (0 = use deadline)
++ *     constraint: Only used for SCHED_DEADLINE
++ *   field: sched_util_min
++ *     type: __u32
++ *     desc: Minimum utilization hint (v1+)
++ *     constraint-type: KAPI_CONSTRAINT_RANGE
++ *     range: 0, 1024
++ *     constraint: Requires struct version >= 1 and SCHED_FLAG_UTIL_CLAMP_MIN
++ *   field: sched_util_max
++ *     type: __u32
++ *     desc: Maximum utilization hint (v1+)
++ *     constraint-type: KAPI_CONSTRAINT_RANGE
++ *     range: 0, 1024
++ *     constraint: Requires struct version >= 1 and SCHED_FLAG_UTIL_CLAMP_MAX
++ *
++ * param: flags
++ *   type: KAPI_TYPE_UINT
++ *   flags: KAPI_PARAM_IN
++ *   range: 0, 0
++ *   constraint: Must be 0 (reserved for future use)
++ *
++ * validation-group: RT Policies
++ *   policy: SCHED_FIFO, SCHED_RR
++ *   rule: sched_priority must be in [1,99]
++ *   rule: sched_nice must be 0
++ *   rule: No deadline parameters
++ *
++ * validation-group: CFS Policies
++ *   policy: SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
++ *   rule: sched_priority must be 0
++ *   rule: sched_nice must be in [-20,19]
++ *   rule: No deadline parameters
++ *
++ * validation-group: Deadline Policy
++ *   policy: SCHED_DEADLINE
++ *   rule: sched_runtime > 0
++ *   rule: sched_deadline >= sched_runtime
++ *   rule: sched_period == 0 || sched_period >= sched_deadline
++ *   rule: sched_priority must be 0
++ *   rule: sched_nice must be 0
++ *
++ * validation-group: Utilization Clamping
++ *   flag: SCHED_FLAG_UTIL_CLAMP_MIN, SCHED_FLAG_UTIL_CLAMP_MAX
++ *   rule: Requires struct version >= 1 (size >= 56)
++ *   rule: util values must be in [0,1024]
++ *   rule: util_min <= util_max
++ *
++ * return:
++ *   type: KAPI_TYPE_INT
++ *   check-type: KAPI_RETURN_ERROR_CHECK
++ *   success: 0
++ *
++ * error: EINVAL, Invalid parameters
++ *   desc: Returned when uattr is NULL, pid < 0, flags != 0,
++ *     attr.size < SCHED_ATTR_SIZE_VER0, invalid scheduling policy,
++ *     invalid priority for policy, invalid sched_flags, or malformed
++ *     sched_attr structure (e.g., DL runtime > deadline)
++ *
++ * error: ESRCH, Process not found
++ *   desc: Returned when the specified pid does not exist
++ *
++ * error: EPERM, Insufficient privileges
++ *   desc: Returned when lacking CAP_SYS_NICE for privileged operations,
++ *     trying to change another user's process without CAP_SYS_NICE,
++ *     or resetting SCHED_RESET_ON_FORK flag without privileges
++ *
++ * error: E2BIG, Structure size mismatch
++ *   desc: Returned when sched_attr size is larger than kernel expects
++ *
++ * error: EFAULT, Bad user pointer
++ *   desc: Returned when copying from user space fails or uattr is not
++ *     a valid readable user pointer
++ *
++ * error: EBUSY, Bandwidth exceeded
++ *   desc: Returned when SCHED_DEADLINE bandwidth would be exceeded or
++ *     deadline admission test fails
++ *
++ * error: EAGAIN, Transient failure
++ *   desc: Returned when unable to change cpus_allowed due to transient
++ *     cpuset or CPU hotplug conditions
++ *
++ * error: ENOMEM, Memory allocation failed
++ *   desc: Returned when unable to allocate memory for CPU masks
++ *
++ * error: EOPNOTSUPP, Feature not supported
++ *   desc: Returned when utilization clamping is requested but
++ *     CONFIG_UCLAMP_TASK is not enabled
++ *
++ * since-version: 3.14
++ *
++ * lock: rq->lock
++ *   type: KAPI_LOCK_SPINLOCK
++ *   acquired: true
++ *   released: true
++ *   desc: Process runqueue lock for scheduler state changes
++ *
++ * lock: p->pi_lock
++ *   type: KAPI_LOCK_SPINLOCK
++ *   acquired: true
++ *   released: true
++ *   desc: Priority inheritance lock for PI chain adjustments
++ *
++ * lock: cpuset_mutex
++ *   type: KAPI_LOCK_MUTEX
++ *   acquired: true
++ *   released: true
++ *   desc: Cpuset mutex for SCHED_DEADLINE bandwidth checks
++ *
++ *
++ * signal: SIGXCPU
++ *   direction: KAPI_SIGNAL_SEND
++ *   action: KAPI_SIGNAL_ACTION_DEFAULT
++ *   condition: SCHED_FLAG_DL_OVERRUN is set and deadline is missed
++ *   desc: Sent to task when it exceeds its SCHED_DEADLINE runtime.
++ *     The signal is sent asynchronously from the scheduler tick or
++ *     deadline timer. Unlike other scheduling policies, SCHED_DEADLINE
++ *     can generate SIGXCPU for runtime overruns rather than just
++ *     CPU time limit violations.
++ *   timing: KAPI_SIGNAL_TIME_DURING
++ *   priority: 0
++ *   interruptible: no
++ *   state-req: KAPI_SIGNAL_STATE_RUNNING
++ *
++ * examples: sched_setattr(0, &attr, 0);  // Set attributes for current task
++ *   sched_setattr(pid, &attr, 0);  // Set attributes for specific task
++ *
++ * notes: The sched_attr structure supports forward/backward compatibility
++ *   through its size field. Older kernels ignore newer fields. The syscall
++ *   validates all parameters based on the scheduling policy. For SCHED_DEADLINE,
++ *   it performs CBS (Constant Bandwidth Server) admission control. Priority
++ *   changes may trigger immediate reschedule. RT policies require sched_priority
++ *   in range [1,99]. Normal policies use nice values [-20,19] mapped to
++ *   static_prio. Changes are atomic - either all succeed or none are applied.
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_PROCESS_STATE
++ *   target: task scheduling attributes
++ *   desc: Updates policy/priority/deadline parameters atomically
++ *   reversible: yes
++ *
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE
++ *   target: runqueue
++ *   desc: May requeue task with new priority and trigger reschedule
++ *   condition: Task is runnable
++ *
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE
++ *   target: deadline bandwidth
++ *   desc: Allocates CBS bandwidth for SCHED_DEADLINE tasks
++ *   condition: Policy is SCHED_DEADLINE
++ *   reversible: yes
++ *
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE
++ *   target: timer slack
++ *   desc: Sets timer slack to 0 for RT/DL policies
++ *   condition: RT or DEADLINE policy
++ *
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE
++ *   target: PI chain
++ *   desc: Updates priority inheritance chain if task has PI waiters
++ *   condition: Task has PI waiters
++ *
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE
++ *   target: CPU
++ *   desc: May migrate task to different CPU based on affinity/bandwidth
++ *   condition: SCHED_DEADLINE or cpuset changes
++ *
++ *
++ * state-trans: task->policy
++ *   from: any policy
++ *   to: new policy
++ *   desc: Task scheduling policy changes per sched_attr
++ *
++ *
++ * state-trans: task->rt_priority
++ *   from: any
++ *   to: 0-99 or 0
++ *   desc: RT priority updated for RT policies, 0 for others
++ *
++ *
++ * state-trans: task->normal_prio
++ *   from: any
++ *   to: recalculated
++ *   desc: Normal priority recalculated based on policy/nice
++ *
++ *
++ * state-trans: task->sched_reset_on_fork
++ *   from: 0/1
++ *   to: 0/1
++ *   desc: Reset-on-fork flag updated per SCHED_FLAG_RESET_ON_FORK
++ *
++ *
++ * state-trans: task->dl
++ *   from: inactive/active
++ *   to: active/inactive
++ *   desc: Deadline entity activated for SCHED_DEADLINE
++ *
++ *
++ * capability: CAP_SYS_NICE
++ *   type: KAPI_CAP_BYPASS_CHECK
++ *   desc: CAP_SYS_NICE capability
++ *   allows: Set RT/DL policies, increase priority, nice < 0, change other users' tasks, remove SCHED_FLAG_RESET_ON_FORK
++ *   without: Can only set SCHED_NORMAL/BATCH/IDLE, decrease priority, nice >= 0, modify own tasks
++ *   condition: Checked when setting RT/DL policy, decreasing nice, or modifying other user's tasks
++ *   priority: 0
++ *
++ *
++ * constraint: Valid Scheduling Policy
++ *   desc: The sched_policy field must be one of: SCHED_NORMAL (0), SCHED_FIFO (1), SCHED_RR (2),
++ *     SCHED_BATCH (3), SCHED_IDLE (5), SCHED_DEADLINE (6), or SCHED_EXT (7) if configured.
++ *     Invalid policies result in -EINVAL.
++ *   expr: uattr->sched_policy >= 0 && (uattr->sched_policy <= SCHED_DEADLINE || (uattr->sched_policy == SCHED_EXT && IS_ENABLED(CONFIG_SCHED_CLASS_EXT)))
++ *
++ *
++ * constraint: RT Priority Range
++ *   desc: For SCHED_FIFO and SCHED_RR policies, sched_priority must be in range [1, 99]
++ *     where 1 is lowest and 99 is highest RT priority. For other policies, sched_priority must be 0.
++ *   expr: rt_policy(uattr->sched_policy) ? (uattr->sched_priority >= 1 && uattr->sched_priority <= 99) : (uattr->sched_priority == 0)
++ *
++ *
++ * constraint: Nice Value Range
++ *   desc: For SCHED_NORMAL, SCHED_BATCH, and SCHED_IDLE policies, the nice value must be in range [-20, 19]
++ *     where -20 is highest priority (least nice) and 19 is lowest priority (most nice).
++ *   expr: fair_policy(uattr->sched_policy) ? (uattr->sched_nice >= MIN_NICE && uattr->sched_nice <= MAX_NICE) : 1
++ *
++ *
++ * constraint: SCHED_DEADLINE CBS Rules
++ *   desc: For SCHED_DEADLINE, must satisfy: sched_runtime > 0, sched_deadline >= sched_runtime,
++ *     sched_period >= sched_deadline. If period is 0, it defaults to deadline.
++ *   expr: dl_policy(uattr->sched_policy) ? (uattr->sched_runtime > 0 && uattr->sched_runtime <= uattr->sched_deadline && (uattr->sched_period == 0 || uattr->sched_period >= uattr->sched_deadline)) : 1
++ *
++ *
++ * constraint: Utilization Clamping Range
++ *   desc: If sched_flags includes SCHED_FLAG_UTIL_CLAMP_MIN/MAX, the util_min and util_max values
++ *     must be in range [0, 1024] where 1024 represents 100% utilization.
++ *   expr: (uattr->sched_flags & SCHED_FLAG_UTIL_CLAMP) ? (uattr->sched_util_min >= 0 && uattr->sched_util_min <= SCHED_CAPACITY_SCALE && uattr->sched_util_max >= 0 && uattr->sched_util_max <= SCHED_CAPACITY_SCALE && uattr->sched_util_min <= uattr->sched_util_max) : 1
++ *
++ *
++ * constraint: SCHED_DEADLINE Bandwidth
++ *   desc: The sum of runtime/period ratios for all SCHED_DEADLINE tasks on the system
++ *     must not exceed the available CPU capacity. This global bandwidth check prevents system overload.
++ *
++ *
++ * constraint: Structure Size Compatibility
++ *   desc: The attr.size field must be at least SCHED_ATTR_SIZE_VER0 (48 bytes) and no larger than
++ *     the kernel's known structure size to ensure forward/backward compatibility.
+  */
+ SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 			       unsigned int, flags)
 -- 
 2.50.1
 
