@@ -1,55 +1,55 @@
-Return-Path: <linux-api+bounces-4583-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4584-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A66B349EB
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 20:15:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D2DB349F1
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 20:15:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 916C42A41F4
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:15:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 808867A7D8F
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 18:13:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2436B3101DF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC19A310782;
 	Mon, 25 Aug 2025 18:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvOCtSFD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfwOrZ3I"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC09F3101B9;
-	Mon, 25 Aug 2025 18:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7BD31065B;
+	Mon, 25 Aug 2025 18:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756145681; cv=none; b=tNXxhHj6rOylKpjUlR7WprNIiZs33nyzbrQwy4xJ1zWRy9LDBrNjSAE3nzuIUPI+TecXyO9Yg5o0CoVRuNEM5uZ257a5zV5DSVtCevPXmBrEf0XTsjFigySik6YvCBs4PV+rYwAT73cZbQvE6xJ0vt/StRzLwaGzhlY4yTWC+d4=
+	t=1756145681; cv=none; b=OdBGtESC+/zjk4uakXmowBKvvqCbGpcPSEf8xRveDt3lChzC+UYEAvJuZ8xzvpmH+eUEsyQc6QlL/k+4qByEW0tEtFRpAVopUCxK7ROk3e7iiBxCqRWF6BXwPqWTHuRBGTCeYe7IqT9cQoOwSbEvl3C2+IVSqK0WPrVGGA8TpFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756145681; c=relaxed/simple;
-	bh=zpS3J9kawTcgszjNsvRuGRvLsrFI0Wmdk3/XvHx6XPQ=;
+	bh=3IqAu0mswHEy7g0Wmqiy+rMEn3vYAFW5qqbnp2djWl0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MWj7VKQG2UASl8Vk1UN+ah07Enpyl1QwvWP/gCppEc6c3r9DQAfEnJMPp8yrqRrhJ11ujvtLS2puYFj8TVKlZIeFC4d5uBamAnMxLq/A+juaDTuTQuyrOf0uN8JX/EOnzcaCUf4EeAmPoeBs0nhIT6s5pGf9KQSZEwVqNvnWWkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvOCtSFD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 147D6C4CEF1;
+	 MIME-Version; b=WBIHDa9Fl1bTxeSAjQl3GSSyPGo3DhNeterkn3Xw3/PsI8smFkZvJrPIO4YGdTTG+ZYRpdkVI0y13vy9Cxzvb0tn617kUVkr37VO3j6aGMQXDHmhlkDp4QaoaekALes//K5HMavERqwjrkXNyyTY2Ebn3BfHg0G7vacSdRP3YqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfwOrZ3I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD91C19421;
 	Mon, 25 Aug 2025 18:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756145680;
-	bh=zpS3J9kawTcgszjNsvRuGRvLsrFI0Wmdk3/XvHx6XPQ=;
+	s=k20201202; t=1756145681;
+	bh=3IqAu0mswHEy7g0Wmqiy+rMEn3vYAFW5qqbnp2djWl0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RvOCtSFDsqZp1xL+QH+K1kXTEa3FwQGXbtAAP6wyJSrpg+XodyPcHap81TVoZn372
-	 fSGxNIBNKZHSqGENAV0t86pRfZRQydfGswqJF4XaZvZR2c4XIUzJYv8R95qtBZE8vD
-	 wv0xlU43DfNZcPNwL3mju9mgwpgZsJtXqqKXv2XnD8lZHGaWxIDuC4O9snzNc9Mlgr
-	 u07Y8aHsm7/CVZsZNTQ1UJZvY7rz/6/PFEPQ7E5E4uJd58QdjFaIFEF62V9GmwaOjP
-	 ld/9y9B9qXT1XRCbQdarWoulqi9oXyJROpD47dU/pvf2IlHq2ZMgfRAoxE+fY8aft9
-	 gGR0+DqzKYFxQ==
+	b=hfwOrZ3IBduNHmv0bdBkwVVPwi/CgD7N8WeMMVjXcR09MJ8Mni6IELk3dlU4CYYdz
+	 TQ738v7D8YBTA01ZmkMrwqfkES358va5DA4/wV/agFTIyDd2yNe7C7u49BBZIjUwIo
+	 AWFwtnm4ol9/zjP6uc9zPqovW+Mc/6KNENVVwgMi4YXO+OxXG7P+ARmI7nUhj/gEJh
+	 krbPqa5PnijhY4wHxvy+8eIprSCTt2a08dnaZ7qV/45E2R60l0z4yglJtXW45OWn5f
+	 hEjuiWX2vVGCI2KitOPi8j4+WHtTcVyF73/HujZYaqtNznd9kAQHDIwvJbC8gOYlWF
+	 HuMwDB6qkXqvg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	tools@kernel.org
 Cc: Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v4 4/7] kernel/sched: add specs for sys_sched_setattr()
-Date: Mon, 25 Aug 2025 14:14:31 -0400
-Message-ID: <20250825181434.3340805-5-sashal@kernel.org>
+Subject: [RFC PATCH v4 5/7] mm/mlock: add API specification for mlock
+Date: Mon, 25 Aug 2025 14:14:32 -0400
+Message-ID: <20250825181434.3340805-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250825181434.3340805-1-sashal@kernel.org>
 References: <20250825181434.3340805-1-sashal@kernel.org>
@@ -61,340 +61,158 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Add kernel API specification for the mlock() system call.
+
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/sched/syscalls.c | 315 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 314 insertions(+), 1 deletion(-)
+ mm/mlock.c | 134 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
 
-diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
-index 77ae87f36e84..c5eb0facdc3a 100644
---- a/kernel/sched/syscalls.c
-+++ b/kernel/sched/syscalls.c
-@@ -969,10 +969,323 @@ SYSCALL_DEFINE2(sched_setparam, pid_t, pid, struct sched_param __user *, param)
+diff --git a/mm/mlock.c b/mm/mlock.c
+index a1d93ad33c6d..36eac7fec17d 100644
+--- a/mm/mlock.c
++++ b/mm/mlock.c
+@@ -656,6 +656,140 @@ static __must_check int do_mlock(unsigned long start, size_t len, vm_flags_t fla
+ 	return 0;
  }
  
- /**
-- * sys_sched_setattr - same as above, but with extended sched_attr
-+ * sys_sched_setattr - set/change scheduling policy and attributes
-  * @pid: the pid in question.
-  * @uattr: structure containing the extended parameters.
-  * @flags: for future extension.
++/**
++ * sys_mlock - Lock pages in memory
++ * @start: Starting address of memory range to lock
++ * @len: Length of memory range to lock in bytes
 + *
-+ * long-desc: Sets the scheduling policy and attributes for a process,
-+ *   supporting multiple scheduling classes including real-time,
-+ *   deadline, and normal policies. Performs capability checks,
-+ *   validates parameters, enforces resource limits, and ensures
-+ *   bandwidth constraints for deadline tasks.
++ * long-desc: Locks pages in the specified address range into RAM, preventing
++ *   them from being paged to swap. Requires CAP_IPC_LOCK capability
++ *   or RLIMIT_MEMLOCK resource limit.
++ *
 + * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
 + *
-+ * param-count: 3
++ * param: start, KAPI_TYPE_UINT
++ *   flags: KAPI_PARAM_IN
++ *   constraint-type: KAPI_CONSTRAINT_NONE
++ *   constraint: Automatically page-aligned down by kernel (PAGE_ALIGN_DOWN)
 + *
-+ * param: pid
-+ *   type: KAPI_TYPE_INT
++ * param: len, KAPI_TYPE_UINT
 + *   flags: KAPI_PARAM_IN
 + *   constraint-type: KAPI_CONSTRAINT_RANGE
-+ *   range: 0, INT_MAX
-+ *   constraint: Must be >= 0, where 0 means current process
-+ *
-+ * param: uattr
-+ *   type: KAPI_TYPE_USER_PTR
-+ *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
-+ *   constraint-type: KAPI_CONSTRAINT_CUSTOM
-+ *   constraint: Valid user pointer to struct sched_attr
-+ *
-+ * struct: struct sched_attr
-+ *   size: 120
-+ *   alignment: 8
-+ *   field: size
-+ *     type: __u32
-+ *     desc: Structure size for version compatibility
-+ *     constraint-type: KAPI_CONSTRAINT_RANGE
-+ *     range: 48, 512
-+ *     constraint: Must be at least SCHED_ATTR_SIZE_VER0
-+ *   field: sched_policy
-+ *     type: __u32
-+ *     desc: Scheduling policy selector
-+ *     constraint-type: KAPI_CONSTRAINT_ENUM
-+ *     enum: SCHED_NORMAL(0), SCHED_FIFO(1), SCHED_RR(2), SCHED_BATCH(3), SCHED_IDLE(5), SCHED_DEADLINE(6), SCHED_EXT(7)
-+ *   field: sched_flags
-+ *     type: __u64
-+ *     desc: Policy modifier flags
-+ *     constraint-type: KAPI_CONSTRAINT_MASK
-+ *     mask: SCHED_FLAG_ALL
-+ *   field: sched_nice
-+ *     type: __s32
-+ *     desc: Nice value for CFS policies
-+ *     constraint-type: KAPI_CONSTRAINT_RANGE
-+ *     range: -20, 19
-+ *     constraint: Only used for SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
-+ *   field: sched_priority
-+ *     type: __u32
-+ *     desc: Priority for RT policies
-+ *     constraint-type: KAPI_CONSTRAINT_RANGE
-+ *     range: 1, 99
-+ *     constraint: Only used for SCHED_FIFO, SCHED_RR
-+ *   field: sched_runtime
-+ *     type: __u64
-+ *     desc: Runtime budget in nanoseconds
-+ *     constraint: Only used for SCHED_DEADLINE
-+ *   field: sched_deadline
-+ *     type: __u64
-+ *     desc: Deadline in nanoseconds
-+ *     constraint: Only used for SCHED_DEADLINE
-+ *   field: sched_period
-+ *     type: __u64
-+ *     desc: Period in nanoseconds (0 = use deadline)
-+ *     constraint: Only used for SCHED_DEADLINE
-+ *   field: sched_util_min
-+ *     type: __u32
-+ *     desc: Minimum utilization hint (v1+)
-+ *     constraint-type: KAPI_CONSTRAINT_RANGE
-+ *     range: 0, 1024
-+ *     constraint: Requires struct version >= 1 and SCHED_FLAG_UTIL_CLAMP_MIN
-+ *   field: sched_util_max
-+ *     type: __u32
-+ *     desc: Maximum utilization hint (v1+)
-+ *     constraint-type: KAPI_CONSTRAINT_RANGE
-+ *     range: 0, 1024
-+ *     constraint: Requires struct version >= 1 and SCHED_FLAG_UTIL_CLAMP_MAX
-+ *
-+ * param: flags
-+ *   type: KAPI_TYPE_UINT
-+ *   flags: KAPI_PARAM_IN
-+ *   range: 0, 0
-+ *   constraint: Must be 0 (reserved for future use)
-+ *
-+ * validation-group: RT Policies
-+ *   policy: SCHED_FIFO, SCHED_RR
-+ *   rule: sched_priority must be in [1,99]
-+ *   rule: sched_nice must be 0
-+ *   rule: No deadline parameters
-+ *
-+ * validation-group: CFS Policies
-+ *   policy: SCHED_NORMAL, SCHED_BATCH, SCHED_IDLE
-+ *   rule: sched_priority must be 0
-+ *   rule: sched_nice must be in [-20,19]
-+ *   rule: No deadline parameters
-+ *
-+ * validation-group: Deadline Policy
-+ *   policy: SCHED_DEADLINE
-+ *   rule: sched_runtime > 0
-+ *   rule: sched_deadline >= sched_runtime
-+ *   rule: sched_period == 0 || sched_period >= sched_deadline
-+ *   rule: sched_priority must be 0
-+ *   rule: sched_nice must be 0
-+ *
-+ * validation-group: Utilization Clamping
-+ *   flag: SCHED_FLAG_UTIL_CLAMP_MIN, SCHED_FLAG_UTIL_CLAMP_MAX
-+ *   rule: Requires struct version >= 1 (size >= 56)
-+ *   rule: util values must be in [0,1024]
-+ *   rule: util_min <= util_max
++ *   range: 0, LONG_MAX
++ *   constraint: Automatically page-aligned up by kernel (PAGE_ALIGN)
 + *
 + * return:
 + *   type: KAPI_TYPE_INT
 + *   check-type: KAPI_RETURN_ERROR_CHECK
 + *   success: 0
 + *
-+ * error: EINVAL, Invalid parameters
-+ *   desc: Returned when uattr is NULL, pid < 0, flags != 0,
-+ *     attr.size < SCHED_ATTR_SIZE_VER0, invalid scheduling policy,
-+ *     invalid priority for policy, invalid sched_flags, or malformed
-+ *     sched_attr structure (e.g., DL runtime > deadline)
-+ *
-+ * error: ESRCH, Process not found
-+ *   desc: Returned when the specified pid does not exist
++ * error: ENOMEM, Address range issue
++ *   desc: Some of the specified range is not mapped, has unmapped gaps,
++ *   or the lock would cause the number of mapped regions to exceed the limit.
 + *
 + * error: EPERM, Insufficient privileges
-+ *   desc: Returned when lacking CAP_SYS_NICE for privileged operations,
-+ *     trying to change another user's process without CAP_SYS_NICE,
-+ *     or resetting SCHED_RESET_ON_FORK flag without privileges
++ *   desc: The caller is not privileged (no CAP_IPC_LOCK) and RLIMIT_MEMLOCK is 0.
 + *
-+ * error: E2BIG, Structure size mismatch
-+ *   desc: Returned when sched_attr size is larger than kernel expects
++ * error: EINVAL, Address overflow
++ *   desc: The result of the addition start+len was less than start (arithmetic overflow).
 + *
-+ * error: EFAULT, Bad user pointer
-+ *   desc: Returned when copying from user space fails or uattr is not
-+ *     a valid readable user pointer
++ * error: EAGAIN, Some or all memory could not be locked
++ *   desc: Some or all of the specified address range could not be locked.
 + *
-+ * error: EBUSY, Bandwidth exceeded
-+ *   desc: Returned when SCHED_DEADLINE bandwidth would be exceeded or
-+ *     deadline admission test fails
++ * error: EINTR, Interrupted by signal
++ *   desc: The operation was interrupted by a fatal signal before completion.
 + *
-+ * error: EAGAIN, Transient failure
-+ *   desc: Returned when unable to change cpus_allowed due to transient
-+ *     cpuset or CPU hotplug conditions
++ * error: EFAULT, Bad address
++ *   desc: The specified address range contains invalid addresses that cannot be accessed.
 + *
-+ * error: ENOMEM, Memory allocation failed
-+ *   desc: Returned when unable to allocate memory for CPU masks
++ * since-version: 2.0
 + *
-+ * error: EOPNOTSUPP, Feature not supported
-+ *   desc: Returned when utilization clamping is requested but
-+ *     CONFIG_UCLAMP_TASK is not enabled
-+ *
-+ * since-version: 3.14
-+ *
-+ * lock: rq->lock
-+ *   type: KAPI_LOCK_SPINLOCK
++ * lock: mmap_lock, KAPI_LOCK_RWLOCK
 + *   acquired: true
 + *   released: true
-+ *   desc: Process runqueue lock for scheduler state changes
++ *   desc: Process memory map write lock
 + *
-+ * lock: p->pi_lock
-+ *   type: KAPI_LOCK_SPINLOCK
-+ *   acquired: true
-+ *   released: true
-+ *   desc: Priority inheritance lock for PI chain adjustments
-+ *
-+ * lock: cpuset_mutex
-+ *   type: KAPI_LOCK_MUTEX
-+ *   acquired: true
-+ *   released: true
-+ *   desc: Cpuset mutex for SCHED_DEADLINE bandwidth checks
-+ *
-+ *
-+ * signal: SIGXCPU
-+ *   direction: KAPI_SIGNAL_SEND
-+ *   action: KAPI_SIGNAL_ACTION_DEFAULT
-+ *   condition: SCHED_FLAG_DL_OVERRUN is set and deadline is missed
-+ *   desc: Sent to task when it exceeds its SCHED_DEADLINE runtime.
-+ *     The signal is sent asynchronously from the scheduler tick or
-+ *     deadline timer. Unlike other scheduling policies, SCHED_DEADLINE
-+ *     can generate SIGXCPU for runtime overruns rather than just
-+ *     CPU time limit violations.
++ * signal: FATAL
++ *   direction: KAPI_SIGNAL_RECEIVE
++ *   action: KAPI_SIGNAL_ACTION_RETURN
++ *   condition: Fatal signal pending
++ *   desc: Fatal signals (SIGKILL) can interrupt the operation at two points:
++ *   when acquiring mmap_write_lock_killable() and during page population
++ *   in __mm_populate(). Returns -EINTR. Non-fatal signals do NOT interrupt
++ *   mlock - the operation continues even if SIGINT/SIGTERM are received.
++ *   error: -EINTR
 + *   timing: KAPI_SIGNAL_TIME_DURING
 + *   priority: 0
-+ *   interruptible: no
++ *   interruptible: yes
 + *   state-req: KAPI_SIGNAL_STATE_RUNNING
 + *
-+ * examples: sched_setattr(0, &attr, 0);  // Set attributes for current task
-+ *   sched_setattr(pid, &attr, 0);  // Set attributes for specific task
++ * examples: mlock(addr, 4096);  // Lock one page
++ *   mlock(addr, len);   // Lock range of pages
 + *
-+ * notes: The sched_attr structure supports forward/backward compatibility
-+ *   through its size field. Older kernels ignore newer fields. The syscall
-+ *   validates all parameters based on the scheduling policy. For SCHED_DEADLINE,
-+ *   it performs CBS (Constant Bandwidth Server) admission control. Priority
-+ *   changes may trigger immediate reschedule. RT policies require sched_priority
-+ *   in range [1,99]. Normal policies use nice values [-20,19] mapped to
-+ *   static_prio. Changes are atomic - either all succeed or none are applied.
++ * notes: Memory locks do not stack - multiple calls on the same range can be
++ *   undone by a single munlock. Locks are not inherited by child processes.
++ *   Pages are locked on whole page boundaries. Commonly used by real-time
++ *   applications to prevent page faults during time-critical operations.
++ *   Also used for security to prevent sensitive data (e.g., cryptographic keys)
++ *   from being written to swap. Note: locked pages may still be saved to
++ *   swap during system suspend/hibernate.
 + *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_PROCESS_STATE
-+ *   target: task scheduling attributes
-+ *   desc: Updates policy/priority/deadline parameters atomically
++ *   Tagged addresses are automatically handled via untagged_addr(). The operation
++ *   occurs in two phases: first VMAs are marked with VM_LOCKED, then pages are
++ *   populated into memory. When checking RLIMIT_MEMLOCK, the kernel optimizes
++ *   by recounting locked memory to avoid double-counting overlapping regions.
++ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY
++ *   target: process memory
++ *   desc: Locks pages into physical memory, preventing swapping
 + *   reversible: yes
 + *
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE
-+ *   target: runqueue
-+ *   desc: May requeue task with new priority and trigger reschedule
-+ *   condition: Task is runnable
-+ *
-+ *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: deadline bandwidth
-+ *   desc: Allocates CBS bandwidth for SCHED_DEADLINE tasks
-+ *   condition: Policy is SCHED_DEADLINE
++ *   target: mm->locked_vm
++ *   desc: Increases process locked memory counter
 + *   reversible: yes
 + *
++ * side-effect: KAPI_EFFECT_ALLOC_MEMORY
++ *   target: physical pages
++ *   desc: May allocate and populate page table entries
++ *   condition: Pages not already present
++ *   reversible: yes
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY
++ *   target: page faults
++ *   desc: Triggers page faults to bring pages into memory
++ *   condition: Pages not already resident
 + *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: timer slack
-+ *   desc: Sets timer slack to 0 for RT/DL policies
-+ *   condition: RT or DEADLINE policy
++ *   target: VMA splitting
++ *   desc: May split existing VMAs at lock boundaries
++ *   condition: Lock range partially overlaps existing VMA
 + *
++ * state-trans: memory pages
++ *   from: swappable
++ *   to: locked in RAM
++ *   desc: Pages become non-swappable and pinned in physical memory
 + *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: PI chain
-+ *   desc: Updates priority inheritance chain if task has PI waiters
-+ *   condition: Task has PI waiters
++ * state-trans: VMA flags
++ *   from: unlocked
++ *   to: VM_LOCKED set
++ *   desc: Virtual memory area marked as locked
 + *
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_SCHEDULE
-+ *   target: CPU
-+ *   desc: May migrate task to different CPU based on affinity/bandwidth
-+ *   condition: SCHED_DEADLINE or cpuset changes
-+ *
-+ *
-+ * state-trans: task->policy
-+ *   from: any policy
-+ *   to: new policy
-+ *   desc: Task scheduling policy changes per sched_attr
-+ *
-+ *
-+ * state-trans: task->rt_priority
-+ *   from: any
-+ *   to: 0-99 or 0
-+ *   desc: RT priority updated for RT policies, 0 for others
-+ *
-+ *
-+ * state-trans: task->normal_prio
-+ *   from: any
-+ *   to: recalculated
-+ *   desc: Normal priority recalculated based on policy/nice
-+ *
-+ *
-+ * state-trans: task->sched_reset_on_fork
-+ *   from: 0/1
-+ *   to: 0/1
-+ *   desc: Reset-on-fork flag updated per SCHED_FLAG_RESET_ON_FORK
-+ *
-+ *
-+ * state-trans: task->dl
-+ *   from: inactive/active
-+ *   to: active/inactive
-+ *   desc: Deadline entity activated for SCHED_DEADLINE
-+ *
-+ *
-+ * capability: CAP_SYS_NICE
-+ *   type: KAPI_CAP_BYPASS_CHECK
-+ *   desc: CAP_SYS_NICE capability
-+ *   allows: Set RT/DL policies, increase priority, nice < 0, change other users' tasks, remove SCHED_FLAG_RESET_ON_FORK
-+ *   without: Can only set SCHED_NORMAL/BATCH/IDLE, decrease priority, nice >= 0, modify own tasks
-+ *   condition: Checked when setting RT/DL policy, decreasing nice, or modifying other user's tasks
++ * capability: CAP_IPC_LOCK, KAPI_CAP_BYPASS_CHECK, CAP_IPC_LOCK capability
++ *   allows: Lock unlimited amount of memory (no RLIMIT_MEMLOCK enforcement)
++ *   without: Must respect RLIMIT_MEMLOCK resource limit
++ *   condition: Checked when RLIMIT_MEMLOCK is 0 or locking would exceed limit
 + *   priority: 0
 + *
++ * constraint: RLIMIT_MEMLOCK Resource Limit
++ *   desc: The RLIMIT_MEMLOCK soft resource limit specifies the maximum bytes of memory that may be locked into RAM. Unprivileged processes are restricted to this limit. CAP_IPC_LOCK capability allows bypassing this limit entirely. The limit is enforced per-process, not per-user.
++ *   expr: locked_memory + request_size <= RLIMIT_MEMLOCK || CAP_IPC_LOCK
 + *
-+ * constraint: Valid Scheduling Policy
-+ *   desc: The sched_policy field must be one of: SCHED_NORMAL (0), SCHED_FIFO (1), SCHED_RR (2),
-+ *     SCHED_BATCH (3), SCHED_IDLE (5), SCHED_DEADLINE (6), or SCHED_EXT (7) if configured.
-+ *     Invalid policies result in -EINVAL.
-+ *   expr: uattr->sched_policy >= 0 && (uattr->sched_policy <= SCHED_DEADLINE || (uattr->sched_policy == SCHED_EXT && IS_ENABLED(CONFIG_SCHED_CLASS_EXT)))
++ * constraint: Memory Pressure and OOM
++ *   desc: Locking large amounts of memory can cause system-wide memory pressure and potentially trigger the OOM killer. The kernel does not prevent locking memory that would destabilize the system.
 + *
-+ *
-+ * constraint: RT Priority Range
-+ *   desc: For SCHED_FIFO and SCHED_RR policies, sched_priority must be in range [1, 99]
-+ *     where 1 is lowest and 99 is highest RT priority. For other policies, sched_priority must be 0.
-+ *   expr: rt_policy(uattr->sched_policy) ? (uattr->sched_priority >= 1 && uattr->sched_priority <= 99) : (uattr->sched_priority == 0)
-+ *
-+ *
-+ * constraint: Nice Value Range
-+ *   desc: For SCHED_NORMAL, SCHED_BATCH, and SCHED_IDLE policies, the nice value must be in range [-20, 19]
-+ *     where -20 is highest priority (least nice) and 19 is lowest priority (most nice).
-+ *   expr: fair_policy(uattr->sched_policy) ? (uattr->sched_nice >= MIN_NICE && uattr->sched_nice <= MAX_NICE) : 1
-+ *
-+ *
-+ * constraint: SCHED_DEADLINE CBS Rules
-+ *   desc: For SCHED_DEADLINE, must satisfy: sched_runtime > 0, sched_deadline >= sched_runtime,
-+ *     sched_period >= sched_deadline. If period is 0, it defaults to deadline.
-+ *   expr: dl_policy(uattr->sched_policy) ? (uattr->sched_runtime > 0 && uattr->sched_runtime <= uattr->sched_deadline && (uattr->sched_period == 0 || uattr->sched_period >= uattr->sched_deadline)) : 1
-+ *
-+ *
-+ * constraint: Utilization Clamping Range
-+ *   desc: If sched_flags includes SCHED_FLAG_UTIL_CLAMP_MIN/MAX, the util_min and util_max values
-+ *     must be in range [0, 1024] where 1024 represents 100% utilization.
-+ *   expr: (uattr->sched_flags & SCHED_FLAG_UTIL_CLAMP) ? (uattr->sched_util_min >= 0 && uattr->sched_util_min <= SCHED_CAPACITY_SCALE && uattr->sched_util_max >= 0 && uattr->sched_util_max <= SCHED_CAPACITY_SCALE && uattr->sched_util_min <= uattr->sched_util_max) : 1
-+ *
-+ *
-+ * constraint: SCHED_DEADLINE Bandwidth
-+ *   desc: The sum of runtime/period ratios for all SCHED_DEADLINE tasks on the system
-+ *     must not exceed the available CPU capacity. This global bandwidth check prevents system overload.
-+ *
-+ *
-+ * constraint: Structure Size Compatibility
-+ *   desc: The attr.size field must be at least SCHED_ATTR_SIZE_VER0 (48 bytes) and no larger than
-+ *     the kernel's known structure size to ensure forward/backward compatibility.
-  */
- SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
- 			       unsigned int, flags)
++ * constraint: Special Memory Areas
++ *   desc: Some memory types cannot be locked or are silently skipped: VM_IO/VM_PFNMAP areas (device mappings) are skipped; Hugetlb pages are inherently pinned and skipped; DAX mappings are always present in memory and skipped; Secret memory (memfd_secret) mappings are skipped; VM_DROPPABLE memory cannot be locked and is skipped; Gate VMA (kernel entry point) is skipped; VM_LOCKED areas are already locked. These special areas are silently excluded without error.
++ */
+ SYSCALL_DEFINE2(mlock, unsigned long, start, size_t, len)
+ {
+ 	return do_mlock(start, len, VM_LOCKED);
 -- 
 2.50.1
 
