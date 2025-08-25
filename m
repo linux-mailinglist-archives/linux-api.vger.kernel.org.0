@@ -1,221 +1,98 @@
-Return-Path: <linux-api+bounces-4588-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4589-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2B7B34ACA
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 21:13:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D29B34AE3
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 21:30:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B415207A49
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 19:13:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A55621A83ADD
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 19:30:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFD76280312;
-	Mon, 25 Aug 2025 19:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BF81283683;
+	Mon, 25 Aug 2025 19:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LtTXGeKo"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rf82zK0A"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8347E3209;
-	Mon, 25 Aug 2025 19:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6423422E004;
+	Mon, 25 Aug 2025 19:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756149192; cv=none; b=d30LMHOWZmp8reGE/QWzbxWlEv1rnZ0fXET7QYIb8LynCREVXFlBWea2s/Xa3gMhfdNaXmoisq+2AmjvoUeXnkPR03S5SoQzgIJSHZFh/BzPfsQfj+m90OUv0SAOjciPaY9nuKwbZ1Uqm/vjmTWLeuYX3cq2k/Y/nNK1VRGTxS8=
+	t=1756150198; cv=none; b=KnTy4Ok6rnrY7Pu6jbw+Pf/oOQ4auMO7B+DDm40UamOQl+F9aZxutJxE4gKRMaU1Nte2OpMnsYDfK4TprSD02vvVIk537fFa+s6v/SMf5PU9lzLscUgx9JJZwXO1k7q5ax258aB294g57RpiqdLrYQnAIt9tbZ3A4H2D+uPQCxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756149192; c=relaxed/simple;
-	bh=XuDh9ToJAetjDDhzGBO+rJdAmv8uxUf247J1DM4Uk8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E60LNfsyurhbGtvNAmxE5EU9T3gpp/unVdVIwgSPxIXAQzE+I0Q5wDxQqOMwSod6kS5W0YZjTOMllGqi+S5dhThP/I7TL6kL2w+Oucoay+Qc6XBZW/x9LZjLopcXDydEPgtsNR2tycPR8B/vlHaZ9F1/3Jogf82q5w/RHO8Yrws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LtTXGeKo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A9A5C4CEED;
-	Mon, 25 Aug 2025 19:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756149192;
-	bh=XuDh9ToJAetjDDhzGBO+rJdAmv8uxUf247J1DM4Uk8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LtTXGeKoPB5C1PTCI554fJrxkeoPex0235YdMB6cfR4v1DdJIMpaHFtrUstGXcE+i
-	 Zgo+RABFyFEewgdIxfzKpSwfgP3FOR7gIK/LX+d+uov5SOjT2tBXzWqHdW72bUb8+7
-	 od17cvYhjVaq+tEUQOec9X5oxMf7VDDcQXqbkj5v2lhmh7E9PslZCuIGzWCPiEATlV
-	 rne4aU+D3OZHytFxCSFOOYgf7BFblU2ziAc1R/6PIm3MiPRGsxRNGFM/vLmrEpsYzp
-	 lsUWyvWwqeAeKUqXx1dDq2SqgNdLQpeyeLVr6fde7/BPeOsuKht41pMNYWnjzyPAm+
-	 nmuHRnAWDOKRg==
-Date: Mon, 25 Aug 2025 21:13:05 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] man2/mount.2: expand and clarify docs for
- MS_REMOUNT | MS_BIND
-Message-ID: <rxl7zzllf374j6osujwvpvbvsnrjwikoo5tj2o3pqntfjdmwps@isiyqms4s776>
-References: <20250825154839.2422856-1-safinaskar@zohomail.com>
- <20250825154839.2422856-2-safinaskar@zohomail.com>
+	s=arc-20240116; t=1756150198; c=relaxed/simple;
+	bh=bK/dJGf1c/o2JKnJD0GabsxjilHzu//YKeLIDaxe6HQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jxojoRJj55hq3w1Kgc4ZyQfxSvNf8QlXZxEG7M0gf2+KjiLN+nC9nKkGKPY+F4SgMFB9mtlMVhIhNgposMunhT7bwZ5OMTEvbI1/M52r1uRqdsEeR85gO8/U/bskd85HmfzCHV3k5hBv407Ble8dMCb+m447OLx2gkY0bant+E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rf82zK0A; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=hA3lZJuNB2NIOaRUnLgWkKb+xbazF1yxLCJop6dJ7Ec=; b=rf82zK0AJeq1hvVddpzn605r9f
+	vWSZEbkA6p/yzAH/BOnrNb4kEIERMh5S+FEwhdVvGwqBqTzzRyiDagBrJ3UypWw0mjTp0HfzJkSIU
+	9j9pRRSiNJaD3SI0rf+Ugxg1rx80AQPlJfql6JG0yl6VyU0IL9GyBmesasmfgjEe3Rq7l3wr+9uIU
+	Ffnh7mO6IoAdK15bK0o6yaNn1g4PRsoey8SS45oBTo0znj2hFwvQClI95e7S7RbqbgPsfcECzrHla
+	M2B23aMKXz1DvZbPbpovWh7MZLfoQpyPEh729lbcdIdI4BSWEDf9KeBsZ67t1S7Efll2wRYQAZ+XJ
+	3NFyLSVA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uqct9-00000009JrZ-0obD;
+	Mon, 25 Aug 2025 19:29:55 +0000
+Message-ID: <fc0b3998-df4a-49d0-88a6-e2c1c5c6650c@infradead.org>
+Date: Mon, 25 Aug 2025 12:29:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="is57tcmd2h5nvm6o"
-Content-Disposition: inline
-In-Reply-To: <20250825154839.2422856-2-safinaskar@zohomail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] uapi/fcntl: conditionally define AT_RENAME* macros
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+ Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
+ Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org
+References: <20250824221055.86110-1-rdunlap@infradead.org>
+ <aKuedOXEIapocQ8l@casper.infradead.org>
+ <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
+ <aKxfGix_o4glz8-Z@casper.infradead.org>
+ <0c755ddc-9ed1-462e-a9f1-16762ebe0a19@infradead.org>
+ <aKyvO2bvPCZEzuBd@casper.infradead.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aKyvO2bvPCZEzuBd@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---is57tcmd2h5nvm6o
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Askar Safin <safinaskar@zohomail.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] man2/mount.2: expand and clarify docs for
- MS_REMOUNT | MS_BIND
-References: <20250825154839.2422856-1-safinaskar@zohomail.com>
- <20250825154839.2422856-2-safinaskar@zohomail.com>
-MIME-Version: 1.0
-In-Reply-To: <20250825154839.2422856-2-safinaskar@zohomail.com>
 
-Hi Askar,
+On 8/25/25 11:45 AM, Matthew Wilcox wrote:
+> On Mon, Aug 25, 2025 at 10:52:31AM -0700, Randy Dunlap wrote:
+>> $ grep -r AT_RENAME_NOREPLACE /usr/include
+>> /usr/include/stdio.h:# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>> /usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE	0x0001
+>>
+>> I have libc 2.42-1.1 (openSUSE).
+> 
+> I wonder if we can fix it by changing include/uapi/linux/fcntl.h
+> from being an explicit 0x0001 to RENAME_NOREPLACE?  There's probably
+> a horrendous include problem between linux/fcntl.h and linux/fs.h
+> though?
 
-On Mon, Aug 25, 2025 at 03:48:39PM +0000, Askar Safin wrote:
-> My edit is based on experiments and reading Linux code
->=20
-> Signed-off-by: Askar Safin <safinaskar@zohomail.com>
-> ---
->  man/man2/mount.2 | 32 +++++++++++++++++++++++++++++---
->  1 file changed, 29 insertions(+), 3 deletions(-)
->=20
-> diff --git a/man/man2/mount.2 b/man/man2/mount.2
-> index 5d83231f9..47fc2d21f 100644
-> --- a/man/man2/mount.2
-> +++ b/man/man2/mount.2
-> @@ -405,7 +405,30 @@ flag can be used with
->  to modify only the per-mount-point flags.
->  .\" See https://lwn.net/Articles/281157/
->  This is particularly useful for setting or clearing the "read-only"
-> -flag on a mount without changing the underlying filesystem.
-> +flag on a mount without changing the underlying filesystem parameters.
-> +The
-> +.I data
-> +argument is ignored if
-> +.B MS_REMOUNT
-> +and
-> +.B MS_BIND
-> +are specified.
-> +Note that the mountpoint will
+I'm working on something like that now (suggested by Amir),
+but it might depend on whether stdio.h has been #included first.
 
-I would remove "Note that".  Starting with "The" already is equally
-meaningful, and two less meaningless words for the reader.
+-- 
+~Randy
 
-Should we say "mount point" instead?  Otherwise, it's inconsistent with
-"mount-point flags" below.  Also, see:
-
-alx@debian:~/src/linux/man-pages/man-pages/master/man$ grep -rn 'mount poin=
-t' | wc -l
-98
-alx@debian:~/src/linux/man-pages/man-pages/master/man$ grep -rn 'mountpoint=
-' | wc -l
-3
-
-
-> +have its existing per-mount-point flags
-> +cleared and replaced with those in
-> +.I mountflags
-> +when
-> +.B MS_REMOUNT
-> +and
-> +.B MS_BIND
-> +are specified.
-
-Maybe reverse the sentence to start with this?
-
-	When
-	.B MS_REMOUNT
-	and
-	.B MS_BIND
-	are specified,
-	the ...
-	will have its existing ...
-	cleared and replaced with those in
-	.IR mountflags .
-
-Having conditionals at the end makes my brain have to reparse the
-previous text to understand it.  If I read the conditional early on,
-my branch predictor kind of knows what to expect.  :)
-
-> +This means that if
-
-I would move the 'if' to the next line.
-
-> +you wish to preserve
-> +any existing per-mount-point flags,
-> +you need to include them in
-> +.IR mountflags ,
-> +along with the per-mount-point flags you wish to set
-> +(or with the flags you wish to clear missing).
->  Specifying
->  .I mountflags
->  as:
-> @@ -416,8 +439,11 @@ MS_REMOUNT | MS_BIND | MS_RDONLY
->  .EE
->  .in
->  .P
-> -will make access through this mountpoint read-only, without affecting
-> -other mounts.
-
-Hmmm, I see this uses 'mountpoint' already.
-
-I guess we should have a clear direction of what term we want to use.
-Since the existing text already uses this, I think we should change it
-in a separate commit.  Do you want to send a second patch to use
-'mount point'?
-
-> +will make access through this mountpoint read-only
-> +(clearing all other per-mount-point flags),
-> +without affecting
-> +other mounts
-> +of this filesystem.
-
-
-Have a lovely night!
-Alex
-
->  .\"
->  .SS Creating a bind mount
->  If
-> --=20
-> 2.47.2
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---is57tcmd2h5nvm6o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmistcEACgkQ64mZXMKQ
-wqlUpg//VPTB1lJJ8kOm1ru8cOvoN2SsoTNM377y26r4IT1jE7YknYYnUYI0GsrT
-/JVqaELk/jCUjwo02P9pC7lRvgA2H4l+/rE6opE33PvcMWSYv9484BjuicSOtEfZ
-WMi++HFGiw4WwJMpecit1wFiWybes+dNizWowDGGbViee9kbpWPu6KVUxn4gPG9s
-MCJ+2Ed2K3QJT28DT6spEf7kpFxlKfMxXmB6zHOdwsNwKvxVb6gBtGho/2V0YxkU
-UBXCwu25hUFgtD4q+XcZhmJqOBjapDJXX5QDzr4A7RNSYz5PxKOe0xLkWVsRBGGq
-bt5ctgy6h5KBfEvTZEjgS+8assySKax8QNy10sITT9JokJgkX+oS3U4z+pcZwCpv
-eBZfbWf0gRcj0fCyqjPpDFn91TtCDDSeTtazH1f4Dmsk6YdWkitKOu4JpZea6JiF
-C4S6P5uCoE9BSYnUNqm5RHIu7ojz/hxeGXSGZKXp6mmPJ8O7gclp5JEnjp/nAM11
-Yhlu4H/WjUV82lMkmUnpi4EMJPxmOzmrRAAgyeoobjVLJlDUf2tNv9QaofHpUKN2
-rXzYtC6cKeVz7H/SL4/Nfv+oW5NQL0W0IBf46tZsthmiGLuOapywia8LrvRPkGx/
-jWBZ8dCAEV3KrF0IX7hyaePHzApqGIgS+WN3HIx9vldOJKtBgKw=
-=tUvE
------END PGP SIGNATURE-----
-
---is57tcmd2h5nvm6o--
 
