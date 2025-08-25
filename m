@@ -1,96 +1,65 @@
-Return-Path: <linux-api+bounces-4569-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4570-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A85FB33B48
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 11:39:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C0AB3404D
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 15:03:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 907087A6808
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 09:38:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C9674810F8
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 13:03:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F02B26C3BF;
-	Mon, 25 Aug 2025 09:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 084501E260A;
+	Mon, 25 Aug 2025 13:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SyHEvkqj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jWGM1Tzr"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886BF393DC5
-	for <linux-api@vger.kernel.org>; Mon, 25 Aug 2025 09:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5254D2B9A7;
+	Mon, 25 Aug 2025 13:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756114780; cv=none; b=En1I8OFBp4yVe/T/vvA6d9Sw6ZfrKIALvsnh0UAGI/cYEgvR6ag+8GXDthZ65ZULfEJOfg+6EX/cBzQmIa5gdoxWLIka1AGcvhoRY9/RCD4pRj05tQ29c69ccdvzdqg8juy2T43whND8JP+vrC0ZiQPIaAoUR7uMMZwHph4+2eo=
+	t=1756127008; cv=none; b=uCOtIk3i6ceURJAsxqWsjgo5ZGl7G+ZJ0IinfH/sw48gU9k/Eg+JdFfIV3JK0miM4B7Y3QDPszd2wm3pupL+aafQ8XSq2dbWzPOcchcTf/BpYAPXM0MGUGBBLyjdxKgBszNH8R47xbCfIai/WzzjLVP6mgrsyYO9+52o2FQW318=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756114780; c=relaxed/simple;
-	bh=YGZk/doqSOcdaAjiIfjwSjHMKZj2laCWPqcCdAbOjKw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hE32a38I7RmcizXSWA3R5/JzjQbqR6IGTuLmLoQh33Vk+coa33R+/vHCL3c6Mok7osnG3bjylGkj6DOWLpRcCPbmby/dqIWrtIj04fVeFTVDSStUewqbJU6bnqY7WxGXdTnRJpuDHw/krosNocBvHjhEyOk7GPG2d5fAbFtGwMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SyHEvkqj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756114777;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SEwlDpD+C/EtRZv27QcaLtBUwUyBdktuJKWqODYJttI=;
-	b=SyHEvkqjGLhMG40py8u7elNwao9AL+ngvqmEElUlAIWEyXE/RVLRpkvCY5U2z1Qp/goZZY
-	3fk+9sSbiBSDvHJ13LCVVxpNEVwVEZqZLI5WyM2jCNkLUirxWZrpG0+zP+bveYBI3VAe0A
-	F/qkcxPJlKBSrPjsu5O1qICNo8b4MzU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-33-mnd5_XyLMPSzPB5s5xNMDA-1; Mon,
- 25 Aug 2025 05:39:31 -0400
-X-MC-Unique: mnd5_XyLMPSzPB5s5xNMDA-1
-X-Mimecast-MFC-AGG-ID: mnd5_XyLMPSzPB5s5xNMDA_1756114767
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B2091800342;
-	Mon, 25 Aug 2025 09:39:26 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.136])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D31AF1955F24;
-	Mon, 25 Aug 2025 09:39:14 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Andy Lutomirski <luto@amacapital.net>,  Jann Horn <jannh@google.com>,
-  Al Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Kees Cook <keescook@chromium.org>,  Paul Moore
- <paul@paul-moore.com>,  Serge Hallyn <serge@hallyn.com>,  Andy Lutomirski
- <luto@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Christian Heimes
- <christian@python.org>,  Dmitry Vyukov <dvyukov@google.com>,  Elliott
- Hughes <enh@google.com>,  Fan Wu <wufan@linux.microsoft.com>,  Jeff Xu
- <jeffxu@google.com>,  Jonathan Corbet <corbet@lwn.net>,  Jordan R Abrahams
- <ajordanr@google.com>,  Lakshmi Ramasubramanian
- <nramas@linux.microsoft.com>,  Luca Boccassi <bluca@debian.org>,  Matt
- Bobrowski <mattbobrowski@google.com>,  Miklos Szeredi
- <mszeredi@redhat.com>,  Mimi Zohar <zohar@linux.ibm.com>,  Nicolas
- Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,  Robert Waite
- <rowait@microsoft.com>,  Roberto Sassu <roberto.sassu@huawei.com>,  Scott
- Shell <scottsh@microsoft.com>,  Steve Dower <steve.dower@python.org>,
-  Steve Grubb <sgrubb@redhat.com>,  kernel-hardening@lists.openwall.com,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-integrity@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-security-module@vger.kernel.org,  Jeff Xu <jeffxu@chromium.org>
-Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
-In-Reply-To: <20250825.mahNeel0dohz@digikod.net> (=?utf-8?Q?=22Micka=C3=AB?=
- =?utf-8?Q?l_Sala=C3=BCn=22's?= message
-	of "Mon, 25 Aug 2025 11:31:42 +0200")
-References: <20250822170800.2116980-1-mic@digikod.net>
-	<20250822170800.2116980-2-mic@digikod.net>
-	<CAG48ez1XjUdcFztc_pF2qcoLi7xvfpJ224Ypc=FoGi-Px-qyZw@mail.gmail.com>
-	<20250824.Ujoh8unahy5a@digikod.net>
-	<CALCETrWwd90qQ3U2nZg9Fhye6CMQ6ZF20oQ4ME6BoyrFd0t88Q@mail.gmail.com>
-	<20250825.mahNeel0dohz@digikod.net>
-Date: Mon, 25 Aug 2025 11:39:11 +0200
-Message-ID: <lhuikibbv0g.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1756127008; c=relaxed/simple;
+	bh=h8vW146cQOAZMeAF8OQcaqbM9C49DYmOGJ545rMirD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MTJx9B/5Ma3682zKPJI6Pa1CSHdt2BQS6omVEdFW/2cWr/+GNXCvh+T8M/QWcgtrVd3qIJMolZP4+g6UnizUH6H5+UnDCMtf7LKfPxnr6ooFo87jU5MsYVEQHMteiml2zRZ8CLsjYcTtxSrxZxObCWIh29uWqSso1F3wcypSm9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jWGM1Tzr; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=hsGYF0FaLs7v3MHjFI3tJ5DbO+nCiLN104h3lCxUDJs=; b=jWGM1TzrJfeUb+QUcZa6LoHkBz
+	2m1cvVi3H3l7ouqIkH8UodE29ymG8/+bI7/XOp3KkyCY1pvVhiIsk5sgPlVM86NBwzv6R1T3Ma6Uz
+	5NtOZ5QST5Gn/epzZPNSjPpyDTN51xklK1r3INXttahp6p3A8JkTbl4z9k1HQAJo3+LpS1fBx7gm9
+	/Zg2FzC/uYbldSop2u449Ox1RCdNgqSbZMY6YKrmjeBFRgFMkvHmUt4xl4/jpmku46/02dptGZ2Kj
+	d+sNCwsdlt95Vi4Xq/s3VqERK9YRzGo11AgHGKT96wkjHO8KP4gyC+grXHxfF3adHKRIgjGptboJ+
+	6mNxW8Rg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uqWr5-0000000EGgg-0jha;
+	Mon, 25 Aug 2025 13:03:23 +0000
+Date: Mon, 25 Aug 2025 14:03:22 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH] uapi/fcntl: conditionally define AT_RENAME* macros
+Message-ID: <aKxfGix_o4glz8-Z@casper.infradead.org>
+References: <20250824221055.86110-1-rdunlap@infradead.org>
+ <aKuedOXEIapocQ8l@casper.infradead.org>
+ <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -98,32 +67,22 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9b2c8fe2-cf17-445b-abd7-a1ed44812a73@infradead.org>
 
-* Micka=C3=ABl Sala=C3=BCn:
+On Sun, Aug 24, 2025 at 04:54:50PM -0700, Randy Dunlap wrote:
+> In file included from ../samples/vfs/test-statx.c:23:
+> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+>   159 | #define AT_RENAME_NOREPLACE     0x0001
+> In file included from ../samples/vfs/test-statx.c:13:
+> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
+>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
 
-> The order of checks would be:
-> 1. open script with O_DENY_WRITE
-> 2. check executability with AT_EXECVE_CHECK
-> 3. read the content and interpret it
->
-> The deny-write feature was to guarantee that there is no race condition
-> between step 2 and 3.  All these checks are supposed to be done by a
-> trusted interpreter (which is allowed to be executed).  The
-> AT_EXECVE_CHECK call enables the caller to know if the kernel (and
-> associated security policies) allowed the *current* content of the file
-> to be executed.  Whatever happen before or after that (wrt.
-> O_DENY_WRITE) should be covered by the security policy.
+Oh dear.  This is going to be libc-version-dependent.
 
-Why isn't it an improper system configuration if the script file is
-writable?
+$ grep -r AT_RENAME_NOREPLACE /usr/include
+/usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE	0x0001
 
-In the past, the argument was that making a file (writable and)
-executable was an auditable even, and that provided enough coverage for
-those people who are interested in this.
-
-Thanks,
-Florian
-
+It's not in stdio.h at all.  This is with libc6 2.41-10
 
