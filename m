@@ -1,233 +1,284 @@
-Return-Path: <linux-api+bounces-4591-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4592-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C8BB34EA0
-	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 00:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5E1B34F7F
+	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 01:07:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 061192A23D1
-	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 22:00:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 245FB2A65AF
+	for <lists+linux-api@lfdr.de>; Mon, 25 Aug 2025 23:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB062F83A5;
-	Mon, 25 Aug 2025 21:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C0A929D272;
+	Mon, 25 Aug 2025 23:07:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2+qNrEB"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XpPjAQHm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CA02EA17D;
-	Mon, 25 Aug 2025 21:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF4623D7C3
+	for <linux-api@vger.kernel.org>; Mon, 25 Aug 2025 23:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756159151; cv=none; b=UqQsen78pInCQWwu9i1I1vzhuLW/L9CHHayavkP/iHdXKfeaU1wlddSyWgM3BYWWq4q2iUS3qrg0hwehaI4MKW5EAQbkCqvl3m4Eit0VB/bQOwWevauqKo135Y6hdgzP4QbH63Ro0qNTjwlJP7WKfrj+o5CmxaWlEQzCjuCzPZs=
+	t=1756163237; cv=none; b=TPpca9FxG3Tz9V7a+6s+oucsnHDcj/7Knd5XUSbwwU9F2r/cFwyZc2Lnx76JXAici+8F7Zd7CQCuujQal+BGiLn1x3HNXy3aRFcNrEcyi2k/hSC9bKxrUJabrnC0D7LjTK8RqzHODyx2Sr2zBf+0JG+rhDUs4ZgbZcT2gjfXl8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756159151; c=relaxed/simple;
-	bh=fuWodoezyKYbYfnkUdVqccH9E/vnBfXHjLS7NnAZvqI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UJvHQ1IZsY12HbnL+b5QTmzFDlxuJn/5sX8sJFRaqiT6Pa+xw45v6NnOecVOKOX0RIkPPGaTtPDYQ3INJOBA7ZxT/9UmNJqXtbRqFjgKlsN3Zl69AOE4ocbElU/6boZeFFsS3WDTkh3ovuNoPuU1/aeNZJ1k9T3VbZE8xDZLAY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2+qNrEB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06F0C19424;
-	Mon, 25 Aug 2025 21:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756159151;
-	bh=fuWodoezyKYbYfnkUdVqccH9E/vnBfXHjLS7NnAZvqI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a2+qNrEBufRq1nhjs2Ht3LnH8jbC2q0f2dNRFWVuNjutvTttheS+xpLnrZxO32Iv5
-	 paMQAJdS7nmyWNsKiO1rH0jd7gdLxxm1vP+Nmbqbck0FQaoMSu83WIJrglSPI0idRL
-	 1XqyhxhexSGS1hQsKquyVKD2eEBw1Nu6MQio80m3ikLowpu1ytaZxCzS2dO41HAHVK
-	 Hoya3KSthExOTZgTY7rcN7Ht82oAJWRONoMokq5IANahzLN/FJaEicwc/yI479Zq4N
-	 +oWXBlop4jC40xqgaMJXVgN3oPRSfDdojkCayNSBT2C3sfm8rifGB5R1lOj0NPSNYX
-	 slYezDLv2Fejw==
-From: Namhyung Kim <namhyung@kernel.org>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Ian Rogers <irogers@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	linux-perf-users@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-api@vger.kernel.org
-Subject: [PATCH 07/11] tools headers: Sync syscall tables with the kernel source
-Date: Mon, 25 Aug 2025 14:58:59 -0700
-Message-ID: <20250825215904.2594216-8-namhyung@kernel.org>
-X-Mailer: git-send-email 2.51.0.261.g7ce5a0a67e-goog
-In-Reply-To: <20250825215904.2594216-1-namhyung@kernel.org>
-References: <20250825215904.2594216-1-namhyung@kernel.org>
+	s=arc-20240116; t=1756163237; c=relaxed/simple;
+	bh=r7HxHZFAB4nVSfSxKE+8VIcX37QZj7bnbJDOmxZXzgI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rqtFqhW2/cjTD7GZ9QFndcJM3o1ue8XPI8B8IftIg+ZL/9XUyrWleVdT6T18LMq5rzliNkh0nSbulHmg/d/nc1KKLZqAJh1pDmnnk2FGk9WypvykQLwWpYqU1qCngJTr1bFy2W1p/iNMKKw29jy73LVFtAurRDO//hLO6qqlr34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XpPjAQHm; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-459fbc92e69so27385e9.0
+        for <linux-api@vger.kernel.org>; Mon, 25 Aug 2025 16:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756163234; x=1756768034; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+L5AsGrJuImxDbD9S66ptTgGaLweygGmtz10pt7M4KI=;
+        b=XpPjAQHmjg+uz22+Vmi/PzT4V4XC6f84C9DDCIWL0ovyN5rmOphxsuhdsxRtBm/4fi
+         7Bcp/hTF4tB2tZvW4xDrLQUO6F/BeWXP01/f69zt9ovUbUjOHUL9KUaO2JFypuI6FgOi
+         AJXQLffesDhUwMhvcd7ustwtZQjp5T/Onhx26Z5M4Sm/dgR/zm0pKEoi/mb+IL3ECm0o
+         7LVdRsun1TUh1+CdsQQClKJ2Fe1vHJsHEUJmAA7dMuqIaT78ew+MmVsTSDyPHcPHZy5T
+         79FOEEFFhwPxQnMNpZ700f6QW2Z6hWpkQRkr5WHzH63daLsBwVr6UbTwSxbLSQhgk7m8
+         hj+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756163234; x=1756768034;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+L5AsGrJuImxDbD9S66ptTgGaLweygGmtz10pt7M4KI=;
+        b=FV5pGwpf+3d0/pRwVvtDOxWmBKoBEqdl4zg8Q+sM9wtkANOe9s+8GvEb6eMPQJ12YL
+         mVkB/dN8TzqvHhI/e4ra2LTxKBzFIVCbZLojuzA1YC374Oz9NDLdZRi5lpej1FTncHN+
+         5Z9oGo35hk07yp9GrergVtZBEjsU1rQnahG485NJIKNKv6AwhzcRpJ3G2WRdh6YPzAG+
+         QuvuNPVjyM4mFG7OWR+xyh2HKzxpBxoHX8C9nHbV806OlJ0LDhDOWQ76Lui5eTlmIF0Y
+         6xiq4NvSH8uw8WVCVO15zN85uF7b/C2GeJ7vilAEArPNMOMWiTl/yVuehtt9im3rb7oa
+         dvCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVszzMAyPzsAnB2OBZBX5FBmXclz9XHgKBnkS+ovI2wZ+MajfM58yBqYaUTqSYNtXssAHNjTgj3Hnw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwohLA4pY6SJ5kjGAqthvMrLuKH3EDqrGQXMgd0WuEPTVKWZopp
+	V3MM3BcXUyfOU5eUwQ+jl83NIRdk9xMvIEvUnL/GHq/Ir4Y9HeLc4Zqk5FwX5k7F5iOe6Dffr9U
+	V5bdUF8XXD3rGK8dCXsdYDlge4BSPO86YbmurkHHR
+X-Gm-Gg: ASbGncuU+7/1FHkdYmHcOotMjYiUMsfaeKnA77mJu4uM5eOQSmnDsiTxLtmPAeR+V4/
+	8qYz5Z3CED0NaUGsYYp5Uj6l0HiyKLV9VLCl32Qy1THvnlH4ntkBtwR8Cfe0itP+Mrv34Q9SpxB
+	z7EVFWIVRgsdyIBRZBFK9IV201zR70k4ZJILAddQ2zGL2ZqrRS3xCFaz9fki+9Bq7qMO0+8qVsD
+	pipeFwYWeMkw8m29c0eR890v9y/esjXj25h5L5VbODq
+X-Google-Smtp-Source: AGHT+IHIdI2gVCWLS0AakXMTgfvOfywSQxcckFQOuk+b+Ouf9TyXhvGefpAayJFTAxmqY/j4TP3DjIWphxCApJMvrZE=
+X-Received: by 2002:a05:600c:793:b0:442:feea:622d with SMTP id
+ 5b1f17b1804b1-45b669691bcmr131075e9.1.1756163233954; Mon, 25 Aug 2025
+ 16:07:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <F0E70FC7-8DCE-4057-8E91-9FA1AC5BC758@amacapital.net>
+In-Reply-To: <F0E70FC7-8DCE-4057-8E91-9FA1AC5BC758@amacapital.net>
+From: Jeff Xu <jeffxu@google.com>
+Date: Mon, 25 Aug 2025 16:06:34 -0700
+X-Gm-Features: Ac12FXyT_7DxME9htDUZJHRjmIirfag-BknO_I14rcxQwO3Vxf2xOZIPpcG4k04
+Message-ID: <CALmYWFuijKhKO+xOJfcLT2OQnJJTC1WrNG5yevLdRBNdVtWcUA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Jann Horn <jannh@google.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Robert Waite <rowait@microsoft.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Scott Shell <scottsh@microsoft.com>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	Jeff Xu <jeffxu@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To pick up the changes in this cset:
+On Mon, Aug 25, 2025 at 2:56=E2=80=AFPM Andy Lutomirski <luto@amacapital.ne=
+t> wrote:
+>
+>
+> > On Aug 25, 2025, at 11:10=E2=80=AFAM, Jeff Xu <jeffxu@google.com> wrote=
+:
+> >
+> > =EF=BB=BFOn Mon, Aug 25, 2025 at 9:43=E2=80=AFAM Andy Lutomirski <luto@=
+amacapital.net> wrote:
+> >>> On Mon, Aug 25, 2025 at 2:31=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic=
+@digikod.net> wrote:
+> >>> On Sun, Aug 24, 2025 at 11:04:03AM -0700, Andy Lutomirski wrote:
+> >>>> On Sun, Aug 24, 2025 at 4:03=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mi=
+c@digikod.net> wrote:
+> >>>>> On Fri, Aug 22, 2025 at 09:45:32PM +0200, Jann Horn wrote:
+> >>>>>> On Fri, Aug 22, 2025 at 7:08=E2=80=AFPM Micka=C3=ABl Sala=C3=BCn <=
+mic@digikod.net> wrote:
+> >>>>>>> Add a new O_DENY_WRITE flag usable at open time and on opened fil=
+e (e.g.
+> >>>>>>> passed file descriptors).  This changes the state of the opened f=
+ile by
+> >>>>>>> making it read-only until it is closed.  The main use case is for=
+ script
+> >>>>>>> interpreters to get the guarantee that script' content cannot be =
+altered
+> >>>>>>> while being read and interpreted.  This is useful for generic dis=
+tros
+> >>>>>>> that may not have a write-xor-execute policy.  See commit a5874fd=
+e3c08
+> >>>>>>> ("exec: Add a new AT_EXECVE_CHECK flag to execveat(2)")
+> >>>>>>> Both execve(2) and the IOCTL to enable fsverity can already set t=
+his
+> >>>>>>> property on files with deny_write_access().  This new O_DENY_WRIT=
+E make
+> >>>>>> The kernel actually tried to get rid of this behavior on execve() =
+in
+> >>>>>> commit 2a010c41285345da60cece35575b4e0af7e7bf44.; but sadly that h=
+ad
+> >>>>>> to be reverted in commit 3b832035387ff508fdcf0fba66701afc78f79e3d
+> >>>>>> because it broke userspace assumptions.
+> >>>>> Oh, good to know.
+> >>>>>>> it widely available.  This is similar to what other OSs may provi=
+de
+> >>>>>>> e.g., opening a file with only FILE_SHARE_READ on Windows.
+> >>>>>> We used to have the analogous mmap() flag MAP_DENYWRITE, and that =
+was
+> >>>>>> removed for security reasons; as
+> >>>>>> https://man7.org/linux/man-pages/man2/mmap.2.html says:
+> >>>>>> |        MAP_DENYWRITE
+> >>>>>> |               This flag is ignored.  (Long ago=E2=80=94Linux 2.0=
+ and earlier=E2=80=94it
+> >>>>>> |               signaled that attempts to write to the underlying =
+file
+> >>>>>> |               should fail with ETXTBSY.  But this was a source o=
+f denial-
+> >>>>>> |               of-service attacks.)"
+> >>>>>> It seems to me that the same issue applies to your patch - it woul=
+d
+> >>>>>> allow unprivileged processes to essentially lock files such that o=
+ther
+> >>>>>> processes can't write to them anymore. This might allow unprivileg=
+ed
+> >>>>>> users to prevent root from updating config files or stuff like tha=
+t if
+> >>>>>> they're updated in-place.
+> >>>>> Yes, I agree, but since it is the case for executed files I though =
+it
+> >>>>> was worth starting a discussion on this topic.  This new flag could=
+ be
+> >>>>> restricted to executable files, but we should avoid system-wide loc=
+ks
+> >>>>> like this.  I'm not sure how Windows handle these issues though.
+> >>>>> Anyway, we should rely on the access control policy to control writ=
+e and
+> >>>>> execute access in a consistent way (e.g. write-xor-execute).  Thank=
+s for
+> >>>>> the references and the background!
+> >>>> I'm confused.  I understand that there are many contexts in which on=
+e
+> >>>> would want to prevent execution of unapproved content, which might
+> >>>> include preventing a given process from modifying some code and then
+> >>>> executing it.
+> >>>> I don't understand what these deny-write features have to do with it=
+.
+> >>>> These features merely prevent someone from modifying code *that is
+> >>>> currently in use*, which is not at all the same thing as preventing
+> >>>> modifying code that might get executed -- one can often modify
+> >>>> contents *before* executing those contents.
+> >>> The order of checks would be:
+> >>> 1. open script with O_DENY_WRITE
+> >>> 2. check executability with AT_EXECVE_CHECK
+> >>> 3. read the content and interpret it
+> >> Hmm.  Common LSM configurations should be able to handle this without
+> >> deny write, I think.  If you don't want a program to be able to make
+> >> their own scripts, then don't allow AT_EXECVE_CHECK to succeed on a
+> >> script that the program can write.
+> > Yes, Common LSM could handle this, however, due to historic and app
+> > backward compability reason, sometimes it is impossible to enforce
+> > that kind of policy in practice, therefore as an alternative, a
+> > machinism such as AT_EXECVE_CHECK is really useful.
+>
+> Can you clarify?  I=E2=80=99m suspicious that we=E2=80=99re taking past e=
+ach other.
+>
+Apology, my response isn't clear.
 
-  be7efb2d20d67f33 fs: introduce file_getattr and file_setattr syscalls
+> AT_EXECVE_CHECK solves a problem that there are actions that effectively =
+=E2=80=9Cexecute=E2=80=9D a file that don=E2=80=99t execute literal CPU ins=
+tructions for it. Sometimes open+read has the effect of interpreting the co=
+ntents of the file as something code-like.
+>
+Yes. We have the same understanding of this.
+As an example, shell script or java byte code, their file permission
+can be rw, but no x bit set. The interpreter reads those and executes
+them.
 
-This addresses these perf build warnings:
+> But, as I see it, deny-write is almost entirely orthogonal. If you open a=
+ file with the intent of executing it (mmap-execute or interpret =E2=80=94 =
+makes little practical difference here), then the kernel can enforce some p=
+olicy. If the file is writable by a process that ought not have permission =
+to execute code in the context of the opening-for-execute process, then LSM=
+s need deny-write to be enforced so that they can verify the contents at th=
+e time of opening.
+>
+> But let=E2=80=99s step back a moment: is there any actual sensible securi=
+ty policy that does this?  If I want to *enforce* that a process only execu=
+te approved code, then wouldn=E2=80=99t I do it be only allowing executing =
+files that the process can=E2=80=99t write?
+>
+I imagine the following situation: an app has both "rw" access to the
+file that holds the script code, the "w" is needed because the app
+updates the script sometimes.
 
-  Warning: Kernel ABI header differences:
-    diff -u tools/include/uapi/asm-generic/unistd.h include/uapi/asm-generic/unistd.h
-    diff -u tools/scripts/syscall.tbl scripts/syscall.tbl
-    diff -u tools/perf/arch/x86/entry/syscalls/syscall_32.tbl arch/x86/entry/syscalls/syscall_32.tbl
-    diff -u tools/perf/arch/x86/entry/syscalls/syscall_64.tbl arch/x86/entry/syscalls/syscall_64.tbl
-    diff -u tools/perf/arch/powerpc/entry/syscalls/syscall.tbl arch/powerpc/kernel/syscalls/syscall.tbl
-    diff -u tools/perf/arch/s390/entry/syscalls/syscall.tbl arch/s390/kernel/syscalls/syscall.tbl
-    diff -u tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl arch/mips/kernel/syscalls/syscall_n64.tbl
-    diff -u tools/perf/arch/arm/entry/syscalls/syscall.tbl arch/arm/tools/syscall.tbl
-    diff -u tools/perf/arch/sh/entry/syscalls/syscall.tbl arch/sh/kernel/syscalls/syscall.tbl
-    diff -u tools/perf/arch/sparc/entry/syscalls/syscall.tbl arch/sparc/kernel/syscalls/syscall.tbl
-    diff -u tools/perf/arch/xtensa/entry/syscalls/syscall.tbl arch/xtensa/kernel/syscalls/syscall.tbl
+What is a reasonable sandbox solution for such an app? There are maybe
+two options:
 
-Please see tools/include/uapi/README for further details.
+1> split the app as two processes: processA has "w" access to the
+script for updating when needed. Process B has "r" access but no "w",
+for executing. ProcessA and ProcessB will coordinate to avoid racing
+on the script update.
 
-Cc: Arnd Bergmann <arnd@arndb.de>
-CC: linux-api@vger.kernel.org
-Signed-off-by: Namhyung Kim <namhyung@kernel.org>
----
- tools/include/uapi/asm-generic/unistd.h             | 8 +++++++-
- tools/perf/arch/arm/entry/syscalls/syscall.tbl      | 2 ++
- tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl | 2 ++
- tools/perf/arch/powerpc/entry/syscalls/syscall.tbl  | 2 ++
- tools/perf/arch/s390/entry/syscalls/syscall.tbl     | 2 ++
- tools/perf/arch/sh/entry/syscalls/syscall.tbl       | 2 ++
- tools/perf/arch/sparc/entry/syscalls/syscall.tbl    | 2 ++
- tools/perf/arch/x86/entry/syscalls/syscall_32.tbl   | 2 ++
- tools/perf/arch/x86/entry/syscalls/syscall_64.tbl   | 2 ++
- tools/perf/arch/xtensa/entry/syscalls/syscall.tbl   | 2 ++
- tools/scripts/syscall.tbl                           | 2 ++
- 11 files changed, 27 insertions(+), 1 deletion(-)
+2> The process will use AT_EXECVE_CHECK (added by interpreter) to
+validate the file before opening , and the file content held by the
+process should be immutable while being validated and executed later
+by interpreter.
 
-diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-index 2892a45023af6d3e..04e0077fb4c97a4d 100644
---- a/tools/include/uapi/asm-generic/unistd.h
-+++ b/tools/include/uapi/asm-generic/unistd.h
-@@ -852,8 +852,14 @@ __SYSCALL(__NR_removexattrat, sys_removexattrat)
- #define __NR_open_tree_attr 467
- __SYSCALL(__NR_open_tree_attr, sys_open_tree_attr)
- 
-+/* fs/inode.c */
-+#define __NR_file_getattr 468
-+__SYSCALL(__NR_file_getattr, sys_file_getattr)
-+#define __NR_file_setattr 469
-+__SYSCALL(__NR_file_setattr, sys_file_setattr)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 468
-+#define __NR_syscalls 470
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/tools/perf/arch/arm/entry/syscalls/syscall.tbl b/tools/perf/arch/arm/entry/syscalls/syscall.tbl
-index 27c1d5ebcd91c8c2..b07e699aaa3c2840 100644
---- a/tools/perf/arch/arm/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/arm/entry/syscalls/syscall.tbl
-@@ -482,3 +482,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
-diff --git a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
-index 1e8c44c7b61492ea..7a7049c2c307885f 100644
---- a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
-+++ b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
-@@ -382,3 +382,5 @@
- 465	n64	listxattrat			sys_listxattrat
- 466	n64	removexattrat			sys_removexattrat
- 467	n64	open_tree_attr			sys_open_tree_attr
-+468	n64	file_getattr			sys_file_getattr
-+469	n64	file_setattr			sys_file_setattr
-diff --git a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
-index 9a084bdb892694bc..b453e80dfc003796 100644
---- a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
-@@ -558,3 +558,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
-diff --git a/tools/perf/arch/s390/entry/syscalls/syscall.tbl b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
-index a4569b96ef06c54c..8a6744d658db3986 100644
---- a/tools/perf/arch/s390/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
-@@ -470,3 +470,5 @@
- 465  common	listxattrat		sys_listxattrat			sys_listxattrat
- 466  common	removexattrat		sys_removexattrat		sys_removexattrat
- 467  common	open_tree_attr		sys_open_tree_attr		sys_open_tree_attr
-+468  common	file_getattr		sys_file_getattr		sys_file_getattr
-+469  common	file_setattr		sys_file_setattr		sys_file_setattr
-diff --git a/tools/perf/arch/sh/entry/syscalls/syscall.tbl b/tools/perf/arch/sh/entry/syscalls/syscall.tbl
-index 52a7652fcff6394b..5e9c9eff5539e241 100644
---- a/tools/perf/arch/sh/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/sh/entry/syscalls/syscall.tbl
-@@ -471,3 +471,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
-diff --git a/tools/perf/arch/sparc/entry/syscalls/syscall.tbl b/tools/perf/arch/sparc/entry/syscalls/syscall.tbl
-index 83e45eb6c095a36b..ebb7d06d1044fa9b 100644
---- a/tools/perf/arch/sparc/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/sparc/entry/syscalls/syscall.tbl
-@@ -513,3 +513,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
-diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_32.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_32.tbl
-index ac007ea00979dc28..4877e16da69a50f2 100644
---- a/tools/perf/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/tools/perf/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -473,3 +473,5 @@
- 465	i386	listxattrat		sys_listxattrat
- 466	i386	removexattrat		sys_removexattrat
- 467	i386	open_tree_attr		sys_open_tree_attr
-+468	i386	file_getattr		sys_file_getattr
-+469	i386	file_setattr		sys_file_setattr
-diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-index cfb5ca41e30de1a4..92cf0fe2291eb99b 100644
---- a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -391,6 +391,8 @@
- 465	common	listxattrat		sys_listxattrat
- 466	common	removexattrat		sys_removexattrat
- 467	common	open_tree_attr		sys_open_tree_attr
-+468	common	file_getattr		sys_file_getattr
-+469	common	file_setattr		sys_file_setattr
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/tools/perf/arch/xtensa/entry/syscalls/syscall.tbl b/tools/perf/arch/xtensa/entry/syscalls/syscall.tbl
-index f657a77314f8667f..374e4cb788d8a6d4 100644
---- a/tools/perf/arch/xtensa/entry/syscalls/syscall.tbl
-+++ b/tools/perf/arch/xtensa/entry/syscalls/syscall.tbl
-@@ -438,3 +438,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
-diff --git a/tools/scripts/syscall.tbl b/tools/scripts/syscall.tbl
-index 580b4e246aecd5f0..d1ae5e92c615b58e 100644
---- a/tools/scripts/syscall.tbl
-+++ b/tools/scripts/syscall.tbl
-@@ -408,3 +408,5 @@
- 465	common	listxattrat			sys_listxattrat
- 466	common	removexattrat			sys_removexattrat
- 467	common	open_tree_attr			sys_open_tree_attr
-+468	common	file_getattr			sys_file_getattr
-+469	common	file_setattr			sys_file_setattr
--- 
-2.51.0.261.g7ce5a0a67e-goog
+option 1 is the ideal, and IIUC, you promote this too. However, that
+requires refactoring the app as two processes.
+option 2 is an alternative. Because it doesn't require the change from
+the apps, therefore a solution worth considering.
 
+> The reason that the removal of deny-write wasn=E2=80=99t security =E2=80=
+=94 it was a functionality issue: a linker accidentally modified an in-use =
+binary. If you have permission to use gcc or lld, etc to create binaries, a=
+nd you have permission to run them, then you pretty much have permission to=
+ run whatever code you like.
+>
+> So, if there=E2=80=99s a real security use case for deny-write, I=E2=80=
+=99m still not seeing it.
+>
+Although the current patch might not be ideal due to the potential DOS
+attack, it does offer a starting point to address the needs. Let's
+continue the discussion based on this patch and explore different
+ideas.
+
+Thanks and regards,
+-Jeff
+
+> >> Keep in mind that trying to lock this down too hard is pointless for
+> >> users who are allowed to to ptrace-write to their own processes.  Or
+> >> for users who can do JIT, or for users who can run a REPL, etc.
+> > The ptrace-write and /proc/pid/mem writing are on my radar, at least
+> > for ChomeOS and Android.
+> > AT_EXECVE_CHECK is orthogonal to those IMO, I hope eventually all
+> > those paths will be hardened.
+> >
+> > Thanks and regards,
+> > -Jeff
 
