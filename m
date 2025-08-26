@@ -1,338 +1,301 @@
-Return-Path: <linux-api+bounces-4593-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4594-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46061B3534E
-	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 07:29:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C35EB356F4
+	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 10:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31D4E1B282A5
-	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 05:29:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C20F2175554
+	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 08:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BB72ED17B;
-	Tue, 26 Aug 2025 05:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6792FC863;
+	Tue, 26 Aug 2025 08:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wq6Ux+WC";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sKuNjYhf"
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="XUq9tLH/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B2D2E88B0;
-	Tue, 26 Aug 2025 05:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756186164; cv=none; b=az6K58wE2ZuhLUUulPWzaP0uB4RmUpsPo6QLtt1F8/vck15xU+kDNanesjeHIlImSZSNAEE1No+djkDhk6G2nZ+QVfmw/k9Vzum82TFZ+OeuB0RFQXy5X2T+gSNdOJkcyy/mgMioP+b+NrZkKlzxG3tzA4AKOkF7dR2Dkv+8QvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756186164; c=relaxed/simple;
-	bh=zAA65t+biCTL2Eftd5Vt0eFjHTRHEoaWFGOLEH6aG4w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UYxPxwlZgGdIgruSQ7C1dSZ93g29QUCQmarcFeyug3QUHazF+IR63CYZ4BbXQckQ3J+USIm/B5Yle+0pnQ8rR916vQazG/cab/bR6/YP/P6BZqU5BsptsQ4btj1gRdQJKpiYPbBimMTHgFVWXPfysvzjGleSkQHHCjqYebkAlQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Wq6Ux+WC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sKuNjYhf; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756186159;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=65ayLE+QQynk9aQmcYEngRqdHtxeY4HUGz5dhtcY1F0=;
-	b=Wq6Ux+WC2gIff/jZ/isyQz+BbCWLrcjOr4FQaQf29+xxJllaVC2St0w7reMOMbwCf0ucpg
-	wMHNDP6oXt85ysteE3C15+xukHVemOZGaY/xYcgwf1ueeMfvan+cO7iHdI1hnvasFLMVKA
-	wIAtvnoJcQSfPrg80ljFFzoJ5dxD4sHJtTHMbgzvoK11ywq67dzS57viFFMo4nEgU8URaw
-	bO5LlyBGRQY5QRW0z/PfZzxaUodPaMCfOmz0JSuWlI04RKILD8IFxF+IlVeDTQ3ncL1LY5
-	sSe7w1h62t377FLJPMimvuWZtf6i7zY1EscHlJCgbxSJbBMJS+vE72xsTYZpGg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756186159;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=65ayLE+QQynk9aQmcYEngRqdHtxeY4HUGz5dhtcY1F0=;
-	b=sKuNjYhfjcMqtbi/xJ6keKKcRYn6EZO9jbKAcc5QJRj9FYL4OA5rbvIG5YsuMAshlGQr/W
-	An4saYE4LMRJs5Bw==
-Date: Tue, 26 Aug 2025 07:29:11 +0200
-Subject: [PATCH] vdso: Remove struct getcpu_cache
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA582FABE9;
+	Tue, 26 Aug 2025 08:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756197193; cv=pass; b=SptHhz/Ub2TXV2CiGMP4NYeXVNvQlkpe+MOFiysKcJ3RmyQLjoAD+D5e+5DAdGKzdYmkiNkE6bay/kVygP1txrboCCq4xqaj8y6enpVmjxr+Cihz/W89RhbJqWxEslmIUPwFBiSzL6zJaqsudwyBYPIplY8ozCnTwTQcBa1MEKQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756197193; c=relaxed/simple;
+	bh=xDqTWkD413bsRteH6S6sDnUAuRAiBlPVWoHebAitgDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EodqI8WCOm0GCYiJRs+SxmqELQkb50JOJCIvv6dafjowE044vDpdLH3ZzIPI0EVmQjb++KpWdy5Lum6alH2FWgAuPcHCX2jwve9Hasm2hkq/DxPsioZyWEakk+zlCKGgxx6sQsaz9IAByP5/x65M7TTNJJXoS1kFrqIj7GevRo8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=XUq9tLH/; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1756197160; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Dv1/dujZm9aXLZKXHTyF3A6i1zCSA4AGn3qPMr5XnmJgIuR7jjN3FQFbKSYUkh2I6oLMePwB+tlvyY3ULxAdtwzX0cH/446axTRT3NSfbs0Z17onyXY3uHlALfqyywfHFFvUKlLKFz4jRNrNjmuRZhlVcP82KYr0oZqv15HCs2g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756197160; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Cp2VyThOqzXrBZbk4XNMEHOH+F+J4N/dsv21eSWdPtY=; 
+	b=kgxPO6nSJJeweQnEd8VE3W4UnZBXp7aa3K2XCAkMtm74ea/NuKYAXYqqS1GVZSGAynpXu1rQL6aadqwWEOf6K4ORpzs4+LFrSZRNEihOQ/bixKCQIo3eTwuZdPDxx1rJJWyySoo7sjVbldpz8jQwciY9/tsc0M8SjlrDITxpTcw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756197160;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=Cp2VyThOqzXrBZbk4XNMEHOH+F+J4N/dsv21eSWdPtY=;
+	b=XUq9tLH/Gg3l4RbpSkBsuqp4j98bB5ndIG+fch8FEEQhxfWNu8QE93a+57f9oLER
+	JGza/VUQDlofbyzq5tgoYBl1swCDzk5toogP4tz1g0v/dq05JsQpy1xxrJP4cjavXMn
+	NoteOCaA/jiwOQ/7D22K6FlBDfBNoKquSnTtwxDQ=
+Received: by mx.zohomail.com with SMTPS id 1756197155875692.5001218667893;
+	Tue, 26 Aug 2025 01:32:35 -0700 (PDT)
+From: Askar Safin <safinaskar@zohomail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-man@vger.kernel.org
+Subject: [PATCH v3 0/2] man2/mount.2: expand and clarify docs for MS_REMOUNT | MS_BIND
+Date: Tue, 26 Aug 2025 08:32:25 +0000
+Message-ID: <20250826083227.2611457-1-safinaskar@zohomail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250826-getcpu_cache-v1-1-8748318f6141@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIACZGrWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyNT3fTUkuSC0vjkxOSMVF3jxKTkFKNUM1MTY3MloJaCotS0zAqwcdG
- xtbUAwJ29uV4AAAA=
-X-Change-ID: 20250825-getcpu_cache-3abcd2e65437
-To: Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Richard Weinberger <richard@nod.at>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: loongarch@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org, 
- linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756186155; l=9757;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=zAA65t+biCTL2Eftd5Vt0eFjHTRHEoaWFGOLEH6aG4w=;
- b=oCH06dxxdjmFh7WWuVm9nzzFq2kCgh1Ogw3db72JXYeGBbeG8IW+QjHv1UcScE5HMJWzhJ0V8
- RIFNkDMcDqBDhl6Nfn7WDqgAyYQep8GaP8LuLJF9TlYHxgP3yYaCx0i
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Feedback-ID: rr080112275c7d1f0b67a7d372d8806cca000069fde9dc0235f465eb92954be00398cf4d3a55a784b9e87ad3:zu08011227e44a2f998f1f21c3a23229680000dc9b5be7336c48d656ae2f3aa334d6d5316442fd5bbdf03711:rf0801122c616f448e6235b285e1f2548b00008e7fff8ba25234b7db81b7c9539d9c5ec682dcd78dbf264f29a8aea64106:ZohoMail
+X-ZohoMailClient: External
 
-The cache parameter of getcpu() is not used by the kernel and no user ever
-passes it in anyways.
+My edit is based on experiments and reading Linux code
 
-Remove the struct and its header.
+You will find C code I used for experiments below
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
-We could also completely remove the parameter, but I am not sure if
-that is a good idea for syscalls and vDSO entrypoints.
----
- arch/loongarch/vdso/vgetcpu.c                   |  5 ++---
- arch/s390/kernel/vdso64/getcpu.c                |  3 +--
- arch/s390/kernel/vdso64/vdso.h                  |  4 +---
- arch/x86/entry/vdso/vgetcpu.c                   |  5 ++---
- arch/x86/include/asm/vdso/processor.h           |  4 +---
- arch/x86/um/vdso/um_vdso.c                      |  7 +++----
- include/linux/getcpu.h                          | 19 -------------------
- include/linux/syscalls.h                        |  3 +--
- kernel/sys.c                                    |  4 +---
- tools/testing/selftests/vDSO/vdso_test_getcpu.c |  4 +---
- 10 files changed, 13 insertions(+), 45 deletions(-)
+v1: https://lore.kernel.org/linux-man/20250822114315.1571537-1-safinaskar@zohomail.com/
+v2: https://lore.kernel.org/linux-man/20250825154839.2422856-1-safinaskar@zohomail.com/
 
-diff --git a/arch/loongarch/vdso/vgetcpu.c b/arch/loongarch/vdso/vgetcpu.c
-index 5301cd9d0f839eb0fd7b73a1d36e80aaa75d5e76..aefba899873ed035d70766a95b0b6fea881e94df 100644
---- a/arch/loongarch/vdso/vgetcpu.c
-+++ b/arch/loongarch/vdso/vgetcpu.c
-@@ -4,7 +4,6 @@
-  */
- 
- #include <asm/vdso.h>
--#include <linux/getcpu.h>
- 
- static __always_inline int read_cpu_id(void)
- {
-@@ -20,8 +19,8 @@ static __always_inline int read_cpu_id(void)
- }
- 
- extern
--int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused);
--int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused)
-+int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused);
-+int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)
- {
- 	int cpu_id;
- 
-diff --git a/arch/s390/kernel/vdso64/getcpu.c b/arch/s390/kernel/vdso64/getcpu.c
-index 5c5d4a848b7669436e73df8e3b711e5b876eb3db..1e17665616c5fa766ca66c8de276b212528934bd 100644
---- a/arch/s390/kernel/vdso64/getcpu.c
-+++ b/arch/s390/kernel/vdso64/getcpu.c
-@@ -2,11 +2,10 @@
- /* Copyright IBM Corp. 2020 */
- 
- #include <linux/compiler.h>
--#include <linux/getcpu.h>
- #include <asm/timex.h>
- #include "vdso.h"
- 
--int __s390_vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-+int __s390_vdso_getcpu(unsigned *cpu, unsigned *node, void *unused)
- {
- 	union tod_clock clk;
- 
-diff --git a/arch/s390/kernel/vdso64/vdso.h b/arch/s390/kernel/vdso64/vdso.h
-index 9e5397e7b590a23c149ccc6043d0c0b0d5ea8457..cadd307d7a365cabf53f5c8d313be3718625533d 100644
---- a/arch/s390/kernel/vdso64/vdso.h
-+++ b/arch/s390/kernel/vdso64/vdso.h
-@@ -4,9 +4,7 @@
- 
- #include <vdso/datapage.h>
- 
--struct getcpu_cache;
--
--int __s390_vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused);
-+int __s390_vdso_getcpu(unsigned *cpu, unsigned *node, void *unused);
- int __s390_vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
- int __s390_vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
- int __s390_vdso_clock_getres(clockid_t clock, struct __kernel_timespec *ts);
-diff --git a/arch/x86/entry/vdso/vgetcpu.c b/arch/x86/entry/vdso/vgetcpu.c
-index e4640306b2e3c95d74d73037ab6b09294b8e1d6c..6381b472b7c52487bccf3cbf0664c3d7a0e59699 100644
---- a/arch/x86/entry/vdso/vgetcpu.c
-+++ b/arch/x86/entry/vdso/vgetcpu.c
-@@ -6,17 +6,16 @@
-  */
- 
- #include <linux/kernel.h>
--#include <linux/getcpu.h>
- #include <asm/segment.h>
- #include <vdso/processor.h>
- 
- notrace long
--__vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-+__vdso_getcpu(unsigned *cpu, unsigned *node, void *unused)
- {
- 	vdso_read_cpunode(cpu, node);
- 
- 	return 0;
- }
- 
--long getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *tcache)
-+long getcpu(unsigned *cpu, unsigned *node, void *tcache)
- 	__attribute__((weak, alias("__vdso_getcpu")));
-diff --git a/arch/x86/include/asm/vdso/processor.h b/arch/x86/include/asm/vdso/processor.h
-index 7000aeb59aa287e2119c3d43ab3eaf82befb59c4..93e0e24e5cb47f7b0056c13f2a7f2304ed4a0595 100644
---- a/arch/x86/include/asm/vdso/processor.h
-+++ b/arch/x86/include/asm/vdso/processor.h
-@@ -18,9 +18,7 @@ static __always_inline void cpu_relax(void)
- 	native_pause();
- }
- 
--struct getcpu_cache;
--
--notrace long __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused);
-+notrace long __vdso_getcpu(unsigned *cpu, unsigned *node, void *unused);
- 
- #endif /* __ASSEMBLER__ */
- 
-diff --git a/arch/x86/um/vdso/um_vdso.c b/arch/x86/um/vdso/um_vdso.c
-index cbae2584124fd0ff0f9d240c33fefb8d213c84cd..9aa2c62cce6b7a07bbaf8441014d347162d1950d 100644
---- a/arch/x86/um/vdso/um_vdso.c
-+++ b/arch/x86/um/vdso/um_vdso.c
-@@ -10,14 +10,13 @@
- #define DISABLE_BRANCH_PROFILING
- 
- #include <linux/time.h>
--#include <linux/getcpu.h>
- #include <asm/unistd.h>
- 
- /* workaround for -Wmissing-prototypes warnings */
- int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts);
- int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
- __kernel_old_time_t __vdso_time(__kernel_old_time_t *t);
--long __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused);
-+long __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused);
- 
- int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
- {
-@@ -60,7 +59,7 @@ __kernel_old_time_t __vdso_time(__kernel_old_time_t *t)
- __kernel_old_time_t time(__kernel_old_time_t *t) __attribute__((weak, alias("__vdso_time")));
- 
- long
--__vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused)
-+__vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)
- {
- 	/*
- 	 * UML does not support SMP, we can cheat here. :)
-@@ -74,5 +73,5 @@ __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused
- 	return 0;
- }
- 
--long getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *tcache)
-+long getcpu(unsigned int *cpu, unsigned int *node, void *tcache)
- 	__attribute__((weak, alias("__vdso_getcpu")));
-diff --git a/include/linux/getcpu.h b/include/linux/getcpu.h
-deleted file mode 100644
-index c304dcdb4eac2a9117080e6a14f4e3f28d07fd56..0000000000000000000000000000000000000000
---- a/include/linux/getcpu.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _LINUX_GETCPU_H
--#define _LINUX_GETCPU_H 1
--
--/* Cache for getcpu() to speed it up. Results might be a short time
--   out of date, but will be faster.
--
--   User programs should not refer to the contents of this structure.
--   I repeat they should not refer to it. If they do they will break
--   in future kernels.
--
--   It is only a private cache for vgetcpu(). It will change in future kernels.
--   The user program must store this information per thread (__thread)
--   If you want 100% accurate information pass NULL instead. */
--struct getcpu_cache {
--	unsigned long blob[128 / sizeof(long)];
--};
--
--#endif
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 77f45e5d44139da36a5dacbf9db7b65261d13398..81822d203eac5d8d91488a18ff7fcdc65670df54 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -59,7 +59,6 @@ struct compat_stat;
- struct old_timeval32;
- struct robust_list_head;
- struct futex_waitv;
--struct getcpu_cache;
- struct old_linux_dirent;
- struct perf_event_attr;
- struct file_handle;
-@@ -714,7 +713,7 @@ asmlinkage long sys_getrusage(int who, struct rusage __user *ru);
- asmlinkage long sys_umask(int mask);
- asmlinkage long sys_prctl(int option, unsigned long arg2, unsigned long arg3,
- 			unsigned long arg4, unsigned long arg5);
--asmlinkage long sys_getcpu(unsigned __user *cpu, unsigned __user *node, struct getcpu_cache __user *cache);
-+asmlinkage long sys_getcpu(unsigned __user *cpu, unsigned __user *node, void __user *cache);
- asmlinkage long sys_gettimeofday(struct __kernel_old_timeval __user *tv,
- 				struct timezone __user *tz);
- asmlinkage long sys_settimeofday(struct __kernel_old_timeval __user *tv,
-diff --git a/kernel/sys.c b/kernel/sys.c
-index 1e28b40053ce206d7d0ed27e8a4fce8b616c3565..a830d78c1e1eb1d6cef31294feeb6a88dc0f83f3 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -31,7 +31,6 @@
- #include <linux/tty.h>
- #include <linux/signal.h>
- #include <linux/cn_proc.h>
--#include <linux/getcpu.h>
- #include <linux/task_io_accounting_ops.h>
- #include <linux/seccomp.h>
- #include <linux/cpu.h>
-@@ -2813,8 +2812,7 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 	return error;
- }
- 
--SYSCALL_DEFINE3(getcpu, unsigned __user *, cpup, unsigned __user *, nodep,
--		struct getcpu_cache __user *, unused)
-+SYSCALL_DEFINE3(getcpu, unsigned __user *, cpup, unsigned __user *, nodep, void __user *, unused)
- {
- 	int err = 0;
- 	int cpu = raw_smp_processor_id();
-diff --git a/tools/testing/selftests/vDSO/vdso_test_getcpu.c b/tools/testing/selftests/vDSO/vdso_test_getcpu.c
-index cdeaed45fb26c61f6314c58fe1b71fa0be3c0108..994ce569dc37c6689b1a3c79156e3dfc8bf27f22 100644
---- a/tools/testing/selftests/vDSO/vdso_test_getcpu.c
-+++ b/tools/testing/selftests/vDSO/vdso_test_getcpu.c
-@@ -16,9 +16,7 @@
- #include "vdso_config.h"
- #include "vdso_call.h"
- 
--struct getcpu_cache;
--typedef long (*getcpu_t)(unsigned int *, unsigned int *,
--			 struct getcpu_cache *);
-+typedef long (*getcpu_t)(unsigned int *, unsigned int *, void *);
- 
- int main(int argc, char **argv)
- {
+Askar Safin (2):
+  man2/mount.2: expand and clarify docs for MS_REMOUNT | MS_BIND
+  man2/mount.2: tfix (mountpoint => mount point)
 
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250825-getcpu_cache-3abcd2e65437
+ man/man2/mount.2 | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-Best regards,
 -- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+2.47.2
 
+// You need to be root in initial user namespace
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/syscall.h>
+#include <sys/sysmacros.h>
+#include <linux/openat2.h>
+
+#define MY_ASSERT(cond) do { \
+    if (!(cond)) { \
+        fprintf (stderr, "%d: %s: assertion failed\n", __LINE__, #cond); \
+        exit (1); \
+    } \
+} while (0)
+
+int
+main (void)
+{
+    // Init
+    {
+        MY_ASSERT (chdir ("/") == 0);
+        MY_ASSERT (unshare (CLONE_NEWNS) == 0);
+        MY_ASSERT (mount (NULL, "/", NULL, MS_PRIVATE | MS_REC, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp", "tmpfs", 0, NULL) == 0);
+    }
+
+    MY_ASSERT (mkdir ("/tmp/a", 0777) == 0);
+    MY_ASSERT (mkdir ("/tmp/b", 0777) == 0);
+
+    // MS_REMOUNT sets options for superblock
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // MS_REMOUNT | MS_BIND sets options for vfsmount
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // fspick sets options for superblock
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        {
+            int fsfd = fspick (AT_FDCWD, "/tmp/a", 0);
+            MY_ASSERT (fsfd >= 0);
+            MY_ASSERT (fsconfig (fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0) == 0);
+            MY_ASSERT (fsconfig (fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0) == 0);
+            MY_ASSERT (close (fsfd) == 0);
+        }
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // mount_setattr sets options for vfsmount
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        {
+            struct mount_attr attr;
+            memset (&attr, 0, sizeof attr);
+            attr.attr_set = MOUNT_ATTR_RDONLY;
+            MY_ASSERT (mount_setattr (AT_FDCWD, "/tmp/a", 0, &attr, sizeof attr) == 0);
+        }
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // "ro" as a string works for MS_REMOUNT
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, "ro") == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // "ro" as a string doesn't work for MS_REMOUNT | MS_BIND
+    // Option string is ignored
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount ("/tmp/a", "/tmp/b", NULL, MS_BIND, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND, "ro") == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (mkdir ("/tmp/b/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/b/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+        MY_ASSERT (umount ("/tmp/b") == 0);
+    }
+
+    // Removing MS_RDONLY makes mount writable again (in case of MS_REMOUNT | MS_BIND)
+    // Same for other options (not tested, but I did read code)
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+
+    // Removing "ro" from option string makes mount writable again (in case of MS_REMOUNT)
+    // I. e. mount(2) works exactly as documented
+    // This works even if option string is NULL, i. e. NULL works as default option string
+    {
+        typedef const char *c_string;
+        c_string opts[3] = {NULL, "", "rw"};
+        for (int i = 0; i != 3; ++i)
+            {
+                for (int j = 0; j != 3; ++j)
+                    {
+                        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, opts[i]) == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+                        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+                        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, "ro") == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+                        MY_ASSERT (errno == EROFS);
+                        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, opts[j]) == 0);
+                        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+                        MY_ASSERT (umount ("/tmp/a") == 0);
+                    }
+            }
+    }
+
+    // Removing MS_RDONLY makes mount writable again (in case of MS_REMOUNT)
+    // I. e. mount(2) works exactly as documented
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        MY_ASSERT (errno == EROFS);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+
+    // Setting MS_RDONLY (without other flags) removes all other flags, such as MS_NODEV (in case of MS_REMOUNT | MS_BIND)
+    {
+        MY_ASSERT (mount (NULL, "/tmp/a", "tmpfs", 0, NULL) == 0);
+        MY_ASSERT (mknod ("/tmp/a/mynull", S_IFCHR | 0666, makedev (1, 3)) == 0);
+
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        {
+            int fd = open ("/tmp/a/mynull", O_WRONLY);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (write (fd, "a", 1) == 1);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_NODEV, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == 0);
+        MY_ASSERT (rmdir ("/tmp/a/c") == 0);
+        MY_ASSERT (open ("/tmp/a/mynull", O_WRONLY) == -1);
+        MY_ASSERT (mount (NULL, "/tmp/a", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY, NULL) == 0);
+        MY_ASSERT (mkdir ("/tmp/a/c", 0777) == -1);
+        {
+            int fd = open ("/tmp/a/mynull", O_WRONLY);
+            MY_ASSERT (fd >= 0);
+            MY_ASSERT (write (fd, "a", 1) == 1);
+            MY_ASSERT (close (fd) == 0);
+        }
+        MY_ASSERT (umount ("/tmp/a") == 0);
+    }
+    printf ("All tests passed\n");
+    exit (0);
+}
 
