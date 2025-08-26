@@ -1,128 +1,178 @@
-Return-Path: <linux-api+bounces-4597-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4598-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1254B35757
-	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 10:39:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8E1B3579F
+	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 10:51:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D0BE7C00C8
-	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 08:38:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75AAE3BD0EC
+	for <lists+linux-api@lfdr.de>; Tue, 26 Aug 2025 08:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B513C3002C0;
-	Tue, 26 Aug 2025 08:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741772F99A8;
+	Tue, 26 Aug 2025 08:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="KlkWp9qh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rfc/s6Vk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E312FDC5A;
-	Tue, 26 Aug 2025 08:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756197476; cv=pass; b=B9HAj2cb37Zec/wjUm23iaW38tmD+GlTbFGs5X0YyMdSesMwfUzff2wz9Pg1bChlTIVCHOVnxDQcivDMuxgzRbq2oSaTLQt4Ebjgv5eSii1tY7KhL10+d5D2DThC6XBGn9qp1Hcab46NMrrM467GzHk1qEvESNlJXUz1Z46ka7k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756197476; c=relaxed/simple;
-	bh=mZQ8sGkjXp4mYnrpUu44u381eroY+sRh5qCfYv9fwC0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=H3GpuJ0A2ALML904+Pt5VETohhyb5MGm8SHpx1kk6Payd89gYvXDrAwR780qEkOq+0zEuWz8sxGh4odUC0sUYuzGQU7jpXN1H/qxZooAqoliPv/6uqgvPdEZcsTTGx5QsqapcC2zUQxngsUNcXpxHy1+XlMfqSjGHegUoFfvZvc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=KlkWp9qh; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
-ARC-Seal: i=1; a=rsa-sha256; t=1756197439; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FEbVp9fmw/wycJULPWRyDi+bIuNEXVGRXOJJ15dJBniKMAMkesYjutSAD4RjJQeiEj4p0/pfJtCLrh/1TyDf4WOffumZnkDa1r90liop66DsJNi/CDljasstH6stFoiL8FUtMdrn0Bhy6td/lIL5O/+Zh+IY5J9eKQa4GtXDq74=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1756197439; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=iH/2h7/gVRrEaCAr2vPepO3IuIUAeo1n9ApLNQ92r0w=; 
-	b=dTeE+6ljL0QICfmNMIbMcLwAcMvMBUbKYyVaSxw7nkOzkEDKFwii5YszuBZXfgrgM2Rr26TKbeN8b934+tGlgNTEl3G7v9ZRB/auHalt6yR69jtEXQ/1E1g6EiFuH8mBjBh+/Zm6NJcjvdCe/t6CsiNW7lbMwxiwHA4Xo4qAmK4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756197439;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=iH/2h7/gVRrEaCAr2vPepO3IuIUAeo1n9ApLNQ92r0w=;
-	b=KlkWp9qhqKSvcii4dlk8JOybJvoH01AScuhxJiiEH60n6J6Yx+aYZmLndLUk4R59
-	2T/1QORNvAUFPkjWLXsBD+N1/gZq7JkBcNpdqm0FWE+zFDco71SdV05XwFARvGFxHHs
-	IE73Oz30LX7dMjnPj3PKPesO61ZJogrVoh+nchxQ=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 175619743776097.12088263774785; Tue, 26 Aug 2025 01:37:17 -0700 (PDT)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Tue, 26 Aug 2025 01:37:17 -0700 (PDT)
-Date: Tue, 26 Aug 2025 12:37:17 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "Alejandro Colomar" <alx@kernel.org>
-Cc: "Aleksa Sarai" <cyphar@cyphar.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"David Howells" <dhowells@redhat.com>,
-	"Christian Brauner" <brauner@kernel.org>,
-	"linux-man" <linux-man@vger.kernel.org>
-Message-ID: <198e5864132.1283ed42534579.7191562270325331624@zohomail.com>
-In-Reply-To: <rxl7zzllf374j6osujwvpvbvsnrjwikoo5tj2o3pqntfjdmwps@isiyqms4s776>
-References: <20250825154839.2422856-1-safinaskar@zohomail.com>
- <20250825154839.2422856-2-safinaskar@zohomail.com> <rxl7zzllf374j6osujwvpvbvsnrjwikoo5tj2o3pqntfjdmwps@isiyqms4s776>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465D11FDA89;
+	Tue, 26 Aug 2025 08:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756198281; cv=none; b=oVX3fRht+GTURYb5vFmVfE+rxBPBYxyt0MsmuAORMXauCbhjZPxnsTpCwJpwYcPdMYa/imPamZ+JzjgPSZsT99PR2LP/fsWK+iiILRF5EBcbWhiH7k0t47q9WcTp23aAAXPV51IVt2fQaD+2wig5/Kwv3k9Zk6XRap3jaK7G9no=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756198281; c=relaxed/simple;
+	bh=gerr9lf4/f5cmAS7cLedSZLzYtkGDyZYKSo7Nca+nTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T46azvKE46s7+3Cu9M/lSLglFrdaSnSOP3v1nB8BkEohcnhfdHgcGoGFHSov4P9+uEqZH/PYzYUf0GTqs1RuzMsuk3RBpDjZn8PJtw0HFl5O+/Kka/W72D+4hpUmTbvFMGm4vUVmbD70qipgdq1vt1tTTWpgsLFaaoxBnMeMgSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rfc/s6Vk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0A3C4CEF1;
+	Tue, 26 Aug 2025 08:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756198277;
+	bh=gerr9lf4/f5cmAS7cLedSZLzYtkGDyZYKSo7Nca+nTU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rfc/s6VkqdRwcIvAyqqUwt5+b29OSkjsenf+M+YO5Aw917S6U/JxRGQbNG+fzpWRK
+	 qltTjSV3fpzNj89lXSUl/3aMmhZ9d17eoOTY4ku1UMD4PPyf9l0wdwrcMfjo0sqHr0
+	 4/OVRIj3L8ivcgH0a5NE8prI3wilis02zaf82ctWAqJYLKS2dLreha1Iqt6mpSnUIF
+	 U4gccSwJN6CIDQ0tyANmpCctWig7F0JwMdsktH4eZmyms1lDricp/n1I1VoKIY4+pH
+	 knmpQTyt51bzMLBfTDD83hQimpGNSgSlydaIP+LNQhHE6zG4RQdi/dG5zreT517pLV
+	 m7tWLGeR2i2nA==
+Date: Tue, 26 Aug 2025 10:51:12 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, David Howells <dhowells@redhat.com>, 
+	Christian Brauner <brauner@kernel.org>, linux-man <linux-man@vger.kernel.org>
 Subject: Re: [PATCH v2 1/1] man2/mount.2: expand and clarify docs for
  MS_REMOUNT | MS_BIND
+Message-ID: <ok5dewkwerk46l375ho2b3w7ofedslzqj2jy5e3kllhle5tbd7@avil45wh5yby>
+References: <20250825154839.2422856-1-safinaskar@zohomail.com>
+ <20250825154839.2422856-2-safinaskar@zohomail.com>
+ <rxl7zzllf374j6osujwvpvbvsnrjwikoo5tj2o3pqntfjdmwps@isiyqms4s776>
+ <198e5864132.1283ed42534579.7191562270325331624@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr08011227c4a3178776148dd706e4aef700003b55986d7f03313633f8477e7c9bd0f59260cbafe4401d81c5:zu080112271c1d695e3c1ace35ad6fc9070000cce79072a7f3ae8edaf416d0d642432f4f406888972e25c1fb:rf0801122c63233b13838b3fd6ae20706600008e31637284141afb849e1e22d5fc63041d14fc538df8edae3ebedaff5370:ZohoMail
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sty5fdorgytvr577"
+Content-Disposition: inline
+In-Reply-To: <198e5864132.1283ed42534579.7191562270325331624@zohomail.com>
 
- ---- On Mon, 25 Aug 2025 23:13:05 +0400  Alejandro Colomar <alx@kernel.org> wrote --- 
- > Should we say "mount point" instead?  Otherwise, it's inconsistent with
 
-d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mount point' /rbt/man-pages/man | wc -l
-101
-d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mount-point' /rbt/man-pages/man | wc -l
-9
-d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mountpoint' /rbt/man-pages/man | wc -l
-4
+--sty5fdorgytvr577
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api <linux-api@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, David Howells <dhowells@redhat.com>, 
+	Christian Brauner <brauner@kernel.org>, linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v2 1/1] man2/mount.2: expand and clarify docs for
+ MS_REMOUNT | MS_BIND
+References: <20250825154839.2422856-1-safinaskar@zohomail.com>
+ <20250825154839.2422856-2-safinaskar@zohomail.com>
+ <rxl7zzllf374j6osujwvpvbvsnrjwikoo5tj2o3pqntfjdmwps@isiyqms4s776>
+ <198e5864132.1283ed42534579.7191562270325331624@zohomail.com>
+MIME-Version: 1.0
+In-Reply-To: <198e5864132.1283ed42534579.7191562270325331624@zohomail.com>
 
-My experiments show that "mount point" is indeed the most popular variant.
+Hi Askar,
 
-I changed all "mountpoint" to "mount point".
+On Tue, Aug 26, 2025 at 12:37:17PM +0400, Askar Safin wrote:
+>  ---- On Mon, 25 Aug 2025 23:13:05 +0400  Alejandro Colomar <alx@kernel.o=
+rg> wrote ---=20
+>  > Should we say "mount point" instead?  Otherwise, it's inconsistent with
+>=20
+> d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mount point' /rbt/man-pages=
+/man | wc -l
+> 101
+> d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mount-point' /rbt/man-pages=
+/man | wc -l
+> 9
+> d-user@comp:/rbt/man-pages$ grep -E -r -I -i 'mountpoint' /rbt/man-pages/=
+man | wc -l
+> 4
+>=20
+> My experiments show that "mount point" is indeed the most popular variant.
+>=20
+> I changed all "mountpoint" to "mount point".
+>=20
+> I decided to keep all "per-mount-point".
 
-I decided to keep all "per-mount-point".
+Thanks!
 
- > > +have its existing per-mount-point flags
- > > +cleared and replaced with those in
- > > +.I mountflags
- > > +when
- > > +.B MS_REMOUNT
- > > +and
- > > +.B MS_BIND
- > > +are specified.
- > 
- > Maybe reverse the sentence to start with this?
+>  > > +have its existing per-mount-point flags
+>  > > +cleared and replaced with those in
+>  > > +.I mountflags
+>  > > +when
+>  > > +.B MS_REMOUNT
+>  > > +and
+>  > > +.B MS_BIND
+>  > > +are specified.
+>  >=20
+>  > Maybe reverse the sentence to start with this?
+>=20
+> I decided simply to remove that "MS_REMOUNT and MS_BIND" part
+> (because it is already present in previous sentence).
 
-I decided simply to remove that "MS_REMOUNT and MS_BIND" part
-(because it is already present in previous sentence).
+Okay.
 
- > > +This means that if
- > 
- > I would move the 'if' to the next line.
+>  > > +This means that if
+>  >=20
+>  > I would move the 'if' to the next line.
+>=20
+> I moved it. But, please, next time do it youself.
+> I don't plan to become regular man-pages contributor.
 
-I moved it. But, please, next time do it youself.
-I don't plan to become regular man-pages contributor.
+I do these small things myself if they're the only issue.  If there are
+more important issues, I _also_ point these out, just because it's
+useful.
 
-I addressed all complains except for listed above and sent v3.
+In general, when writing documentation sentences, write them similarly
+to how you would write them if they were code.  You never put an if at
+the end of a line of code; never put it at the end of a line of
+documentation text.
 
-====
-Askar Safin
-https://types.pl/@safinaskar
+> I addressed all complains except for listed above and sent v3.
 
+I'll check.
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--sty5fdorgytvr577
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmitdXIACgkQ64mZXMKQ
+wqkVnA/9EiLz8VURlT0plLVhS6ibb8VLy0vgJLHhqmY/cyp8mP359+QQ5TYfbAyy
+IL6LNwJTjVlAa3BU2NRUvWoW+lze5yofvlOJZuYWtjz/LEA/KDMQWRtUCYEPYqWI
+EBpIKGdbKqi40ZHi7C28lUbLTPoAPCpCjcWlZDtOcXcfYnOk9x1WTOGnqSi2sEGw
+DY68FTVAQ0szsiR1BEIH/hHqm5pbVP6/sDtTWfDgSismp9/8XwMQfMBr4HbrphTe
+f7oldgwd7Icw6B7OpGGze+i3DC+Qn39KweK/EpXEXfb20Jlvv3urAXmlG2z75V9q
+RwdNtU5HqCm8wJPEDUjrvMV64wPVxk8VC6miDSX09xdMJYV0BhPcQn66xVql4ITD
+2+B09PaskfAE+1MrRlowziSa1yX847RIq3jCVD/8GyIRUkCl0tIp48w+88BV/Y/T
+QP56CG5qSKO3mhLqcirtKJFk41f2EkPpIU4b4vpKZit2hc3ckH+olK6z+ZGpXbqP
+wtawuoir/f2hjCUIU0e3hFnJYmaM0FtO07QH+Cst8XqCqK+Y1tTG7zXMat4cN6vh
+fDtgGL/jyrvJqixrO6WE7fZTWdxmWS/w1zK4RqycpPaWp4EAmueloGN27G3FQfUD
+hq4HwT4YJDU/wLRSHD2elXUkvPj4rSPVgHVZmYsts8v9hIW3ags=
+=aSuH
+-----END PGP SIGNATURE-----
+
+--sty5fdorgytvr577--
 
