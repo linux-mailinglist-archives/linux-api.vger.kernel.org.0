@@ -1,246 +1,179 @@
-Return-Path: <linux-api+bounces-4624-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4625-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B39B37D7C
-	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 10:19:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D024B37F09
+	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 11:42:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9160F7C7876
-	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 08:19:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1DCA1BA491C
+	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 09:43:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93CEE337683;
-	Wed, 27 Aug 2025 08:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7083E346A16;
+	Wed, 27 Aug 2025 09:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="jjdis1Qu"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="m3NaKM4A"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [84.16.66.172])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10AC335BDF;
-	Wed, 27 Aug 2025 08:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5E322538F;
+	Wed, 27 Aug 2025 09:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756282761; cv=none; b=kbYs2tdQxfBJdVAjTw2KaoXQfSF4knjCX8GFyhOa32Zk8B8GZKUJC5iE9m4q/bLJGed+TuylkW7PzPgBCwkMBZS+8MP/TOdPZJDj6VhTjrjyLNWJl+fmflMQRxWTTZhtAo4LLfUhN7urUJDV+cdaMqp/h0CgPOlHy0XVgolwusA=
+	t=1756287746; cv=none; b=GcDC93lCaAr/et1IWCCfX7T5aUpL0CXCSLN6QHohzS6iX61dBQX6Z9IrbdfeueZlfoWSpL0Wh7A1xJtzrZVDcfWvFj6gzvzj7JOJ683YrSlHX5YX9yOdTNBfwUBESLBv10xAsGDPdkYyejs/kPh/w+o53iPvSBVKaMaGTO5pCus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756282761; c=relaxed/simple;
-	bh=gI1X7KsZrPQIrHtJfD1zn3jIOolE5jpfPeyAUn6mEW4=;
+	s=arc-20240116; t=1756287746; c=relaxed/simple;
+	bh=3Sp14yEFgDVi6HC4y65uU9BINjMHODRul02xeNchmKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqEFBy9u/7WgDjocfWa8T4KjuLMyJ5kFGOEzYGrfv2HhCVUC0zibmEcLutXymWSxMzzdqbaaqoYXxydANxFkpPuQC0rT9b4jUHAM8CFZdwCJASCo8M4W/SWEkpPsGWSZUlhLM+MWsC5IFusLE+JK1IVcTsf3493x0KdUSjLY+QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=jjdis1Qu; arc=none smtp.client-ip=84.16.66.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cBcrM4z0lzCkJ;
-	Wed, 27 Aug 2025 10:19:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1756282755;
-	bh=toU/MfmFzXJ+2y3ESqzpN6MTCJZdk0nfw014Fyth6jQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jjdis1QuD6EGLVMqk5x5Eqi4WCbGWTKMe3u+WytjDqScf3h2jgDofnGhfxsglXYxh
-	 VZEpde/gvALXRCoqrCJB16KFZFOc0gXzmjSUr41kHsoFmfCIi8O/i7XVSfP+pn238p
-	 6YT95xfcmM7HycFucbmIXQ8Tf6I2FSRnkCzkMdnc=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4cBcrL4v85z7gf;
-	Wed, 27 Aug 2025 10:19:14 +0200 (CEST)
-Date: Wed, 27 Aug 2025 10:19:14 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Jeff Xu <jeffxu@chromium.org>
-Cc: Jeff Xu <jeffxu@google.com>, Andy Lutomirski <luto@amacapital.net>, 
-	Jann Horn <jannh@google.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Robert Waite <rowait@microsoft.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Scott Shell <scottsh@microsoft.com>, 
-	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
-	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
-Message-ID: <20250827.ieRaeNg4pah3@digikod.net>
-References: <20250822170800.2116980-1-mic@digikod.net>
- <20250822170800.2116980-2-mic@digikod.net>
- <CAG48ez1XjUdcFztc_pF2qcoLi7xvfpJ224Ypc=FoGi-Px-qyZw@mail.gmail.com>
- <20250824.Ujoh8unahy5a@digikod.net>
- <CALCETrWwd90qQ3U2nZg9Fhye6CMQ6ZF20oQ4ME6BoyrFd0t88Q@mail.gmail.com>
- <20250825.mahNeel0dohz@digikod.net>
- <CALmYWFv90uzq0J76+xtUFjZxDzR2rYvrFbrr5Jva5zdy_dvoHA@mail.gmail.com>
- <20250826.eWi6chuayae4@digikod.net>
- <CABi2SkUJ1PDm_uri=4o+C13o5wFQD=xA7zVKU-we+unsEDm3dw@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MEH0yawtNacJmDckrdFfOXoQnGGbbpoMcWg+UrdmMPKKC4WyKb3IRkZbdMf5JuuJjFbZiRY6lM/oEkL7vlJINRybH0cesEQJmxLLE2ZIdHwLRAM3YXRQvoQfCi9njgxKuK2ZQBsBDrbE9MzXzs+WYZPHwS1GL61S2ANfZZeER/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=m3NaKM4A; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cBfhD0y8Bz9tWp;
+	Wed, 27 Aug 2025 11:42:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1756287740;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qLSSrJfUM3D43TuPKQAvi2pHl0Zy6+EXtS3y/NARj3o=;
+	b=m3NaKM4AGfs6PR0pCut6gDGdd5SYGRctUC5wQqj+gXl41C778LNeyYpSjwpnqDFLyKMESz
+	VA0l15UaTr7FinyJmD6jNCr0kj9K3TcQ2ixsw/B28ts23vD2W5Hmrfn+PXz5ihN0bAPJ9B
+	9AUyKkXJphYlPuDx4Q0VquByDvu0MBLztm2/O8tL6jW2yJ8s0dHQhKQ7fRhXhOsP+UoiJ8
+	OrpYrWPTGk8SXKFezDAPQCrjYos7k6qN68LaZ9V168CjOPTWio1eupAZn8bkQKC0srFm6K
+	HTcxTfgP61FwcPbmLtpLb+99YoOOokqKcouw2d2KU4br11mfguWtyzSMn4qopw==
+Date: Wed, 27 Aug 2025 19:42:09 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: Alejandro Colomar <alx@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] man2/mount.2: expand and clarify docs for
+ MS_REMOUNT | MS_BIND
+Message-ID: <2025-08-27.1756287489-unsure-quiet-flakes-gymnast-P41YdV@cyphar.com>
+References: <20250826083227.2611457-1-safinaskar@zohomail.com>
+ <20250826083227.2611457-2-safinaskar@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c3alsljwz3axby77"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABi2SkUJ1PDm_uri=4o+C13o5wFQD=xA7zVKU-we+unsEDm3dw@mail.gmail.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <20250826083227.2611457-2-safinaskar@zohomail.com>
 
-On Tue, Aug 26, 2025 at 01:29:55PM -0700, Jeff Xu wrote:
-> Hi Mickaël
-> 
-> On Tue, Aug 26, 2025 at 5:39 AM Mickaël Salaün <mic@digikod.net> wrote:
-> >
-> > On Mon, Aug 25, 2025 at 10:57:57AM -0700, Jeff Xu wrote:
-> > > Hi Mickaël
-> > >
-> > > On Mon, Aug 25, 2025 at 2:31 AM Mickaël Salaün <mic@digikod.net> wrote:
-> > > >
-> > > > On Sun, Aug 24, 2025 at 11:04:03AM -0700, Andy Lutomirski wrote:
-> > > > > On Sun, Aug 24, 2025 at 4:03 AM Mickaël Salaün <mic@digikod.net> wrote:
-> > > > > >
-> > > > > > On Fri, Aug 22, 2025 at 09:45:32PM +0200, Jann Horn wrote:
-> > > > > > > On Fri, Aug 22, 2025 at 7:08 PM Mickaël Salaün <mic@digikod.net> wrote:
-> > > > > > > > Add a new O_DENY_WRITE flag usable at open time and on opened file (e.g.
-> > > > > > > > passed file descriptors).  This changes the state of the opened file by
-> > > > > > > > making it read-only until it is closed.  The main use case is for script
-> > > > > > > > interpreters to get the guarantee that script' content cannot be altered
-> > > > > > > > while being read and interpreted.  This is useful for generic distros
-> > > > > > > > that may not have a write-xor-execute policy.  See commit a5874fde3c08
-> > > > > > > > ("exec: Add a new AT_EXECVE_CHECK flag to execveat(2)")
-> > > > > > > >
-> > > > > > > > Both execve(2) and the IOCTL to enable fsverity can already set this
-> > > > > > > > property on files with deny_write_access().  This new O_DENY_WRITE make
-> > > > > > >
-> > > > > > > The kernel actually tried to get rid of this behavior on execve() in
-> > > > > > > commit 2a010c41285345da60cece35575b4e0af7e7bf44.; but sadly that had
-> > > > > > > to be reverted in commit 3b832035387ff508fdcf0fba66701afc78f79e3d
-> > > > > > > because it broke userspace assumptions.
-> > > > > >
-> > > > > > Oh, good to know.
-> > > > > >
-> > > > > > >
-> > > > > > > > it widely available.  This is similar to what other OSs may provide
-> > > > > > > > e.g., opening a file with only FILE_SHARE_READ on Windows.
-> > > > > > >
-> > > > > > > We used to have the analogous mmap() flag MAP_DENYWRITE, and that was
-> > > > > > > removed for security reasons; as
-> > > > > > > https://man7.org/linux/man-pages/man2/mmap.2.html says:
-> > > > > > >
-> > > > > > > |        MAP_DENYWRITE
-> > > > > > > |               This flag is ignored.  (Long ago—Linux 2.0 and earlier—it
-> > > > > > > |               signaled that attempts to write to the underlying file
-> > > > > > > |               should fail with ETXTBSY.  But this was a source of denial-
-> > > > > > > |               of-service attacks.)"
-> > > > > > >
-> > > > > > > It seems to me that the same issue applies to your patch - it would
-> > > > > > > allow unprivileged processes to essentially lock files such that other
-> > > > > > > processes can't write to them anymore. This might allow unprivileged
-> > > > > > > users to prevent root from updating config files or stuff like that if
-> > > > > > > they're updated in-place.
-> > > > > >
-> > > > > > Yes, I agree, but since it is the case for executed files I though it
-> > > > > > was worth starting a discussion on this topic.  This new flag could be
-> > > > > > restricted to executable files, but we should avoid system-wide locks
-> > > > > > like this.  I'm not sure how Windows handle these issues though.
-> > > > > >
-> > > > > > Anyway, we should rely on the access control policy to control write and
-> > > > > > execute access in a consistent way (e.g. write-xor-execute).  Thanks for
-> > > > > > the references and the background!
-> > > > >
-> > > > > I'm confused.  I understand that there are many contexts in which one
-> > > > > would want to prevent execution of unapproved content, which might
-> > > > > include preventing a given process from modifying some code and then
-> > > > > executing it.
-> > > > >
-> > > > > I don't understand what these deny-write features have to do with it.
-> > > > > These features merely prevent someone from modifying code *that is
-> > > > > currently in use*, which is not at all the same thing as preventing
-> > > > > modifying code that might get executed -- one can often modify
-> > > > > contents *before* executing those contents.
-> > > >
-> > > > The order of checks would be:
-> > > > 1. open script with O_DENY_WRITE
-> > > > 2. check executability with AT_EXECVE_CHECK
-> > > > 3. read the content and interpret it
-> > > >
-> > > I'm not sure about the O_DENY_WRITE approach, but the problem is worth solving.
-> > >
-> > > AT_EXECVE_CHECK is not just for scripting languages. It could also
-> > > work with bytecodes like Java, for example. If we let the Java runtime
-> > > call AT_EXECVE_CHECK before loading the bytecode, the LSM could
-> > > develop a policy based on that.
-> >
-> > Sure, I'm using "script" to make it simple, but this applies to other
-> > use cases.
-> >
-> That makes sense.
-> 
-> > >
-> > > > The deny-write feature was to guarantee that there is no race condition
-> > > > between step 2 and 3.  All these checks are supposed to be done by a
-> > > > trusted interpreter (which is allowed to be executed).  The
-> > > > AT_EXECVE_CHECK call enables the caller to know if the kernel (and
-> > > > associated security policies) allowed the *current* content of the file
-> > > > to be executed.  Whatever happen before or after that (wrt.
-> > > > O_DENY_WRITE) should be covered by the security policy.
-> > > >
-> > > Agree, the race problem needs to be solved in order for AT_EXECVE_CHECK.
-> > >
-> > > Enforcing non-write for the path that stores scripts or bytecodes can
-> > > be challenging due to historical or backward compatibility reasons.
-> > > Since AT_EXECVE_CHECK provides a mechanism to check the file right
-> > > before it is used, we can assume it will detect any "problem" that
-> > > happened before that, (e.g. the file was overwritten). However, that
-> > > also imposes two additional requirements:
-> > > 1> the file doesn't change while AT_EXECVE_CHECK does the check.
-> >
-> > This is already the case, so any kind of LSM checks are good.
-> >
-> May I ask how this is done? some code in do_open_execat() does this ?
-> Apologies if this is a basic question.
 
-do_open_execat() calls exe_file_deny_write_access()
+--c3alsljwz3axby77
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/2] man2/mount.2: expand and clarify docs for
+ MS_REMOUNT | MS_BIND
+MIME-Version: 1.0
 
-> 
-> > > 2>The file content kept by the process remains unchanged after passing
-> > > the AT_EXECVE_CHECK.
-> >
-> > The goal of this patch was to avoid such race condition in the case
-> > where executable files can be updated.  But in most cases it should not
-> > be a security issue (because processes allowed to write to executable
-> > files should be trusted), but this could still lead to bugs (because of
-> > inconsistent file content, half-updated).
-> >
-> There is also a time gap between:
-> a> the time of AT_EXECVE_CHECK
-> b> the time that the app opens the file for execution.
-> right ? another potential attack path (though this is not the case I
-> mentioned previously).
+On 2025-08-26, Askar Safin <safinaskar@zohomail.com> wrote:
+> My edit is based on experiments and reading Linux code
+>=20
+> Signed-off-by: Askar Safin <safinaskar@zohomail.com>
+> ---
+>  man/man2/mount.2 | 27 ++++++++++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/man/man2/mount.2 b/man/man2/mount.2
+> index 5d83231f9..599c2d6fa 100644
+> --- a/man/man2/mount.2
+> +++ b/man/man2/mount.2
+> @@ -405,7 +405,25 @@ flag can be used with
+>  to modify only the per-mount-point flags.
+>  .\" See https://lwn.net/Articles/281157/
+>  This is particularly useful for setting or clearing the "read-only"
+> -flag on a mount without changing the underlying filesystem.
+> +flag on a mount without changing the underlying filesystem parameters.
 
-As explained in the documentation, to avoid this specific race
-condition, interpreters should open the script once, check the FD with
-AT_EXECVE_CHECK, and then read the content with the same FD.
+When reading the whole sentence, this feels a bit incomplete
+("filesystem parameters ... of what?"). Maybe
 
-> 
-> For the case I mentioned previously, I have to think more if the race
-> condition is a bug or security issue.
-> IIUC, two solutions are discussed so far:
-> 1> the process could write to fs to update the script.  However, for
-> execution, the process still uses the copy that passed the
-> AT_EXECVE_CHECK. (snapshot solution by Andy Lutomirski)
+  This is particularly useful for setting or clearing the "read-only"
+  flag on a mount without changing the underlying filesystem's
+  filesystem parameters.
 
-Yes, the snapshot solution would be the best, but I guess it would rely
-on filesystems to support this feature.
+or
 
-> or 2> the process blocks the write while opening the file as read only
-> and executing the script. (this seems to be the approach of this
-> patch).
+  This is particularly useful for setting or clearing the "read-only"
+  flag on a mount without changing the filesystem parameters of the
+  underlying filesystem.
 
-Yes, and this is not something we want anymore.
+would be better?
 
-> 
-> I wonder if there are other ideas.
+That one nit aside, feel free to take my
 
-I don't see other efficient ways do give the same guarantees.
+Reviewed-by: Aleksa Sarai <cyphar@cyphar.com>
+
+> +The
+> +.I data
+> +argument is ignored if
+> +.B MS_REMOUNT
+> +and
+> +.B MS_BIND
+> +are specified.
+> +The mount point will
+> +have its existing per-mount-point flags
+> +cleared and replaced with those in
+> +.IR mountflags .
+> +This means that
+> +if you wish to preserve
+> +any existing per-mount-point flags,
+> +you need to include them in
+> +.IR mountflags ,
+> +along with the per-mount-point flags you wish to set
+> +(or with the flags you wish to clear missing).
+>  Specifying
+>  .I mountflags
+>  as:
+> @@ -416,8 +434,11 @@ MS_REMOUNT | MS_BIND | MS_RDONLY
+>  .EE
+>  .in
+>  .P
+> -will make access through this mountpoint read-only, without affecting
+> -other mounts.
+> +will make access through this mount point read-only
+> +(clearing all other per-mount-point flags),
+> +without affecting
+> +other mounts
+> +of this filesystem.
+>  .\"
+>  .SS Creating a bind mount
+>  If
+> --=20
+> 2.47.2
+>=20
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
+
+--c3alsljwz3axby77
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaK7S8RsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG9nYAEAopJc+scVnNxW+RnKdodF
+u4ILIeGLNCidv3zPdPn5YvgA/3VhEErR08i6dg18mcboAXWj6HoIIKdK9n602x+7
+G0ML
+=X0pv
+-----END PGP SIGNATURE-----
+
+--c3alsljwz3axby77--
 
