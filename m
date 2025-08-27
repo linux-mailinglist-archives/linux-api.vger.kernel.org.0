@@ -1,57 +1,57 @@
-Return-Path: <linux-api+bounces-4629-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4630-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E79FB385A9
-	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 17:04:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0E0B386BA
+	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 17:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEFEE17E041
-	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 15:04:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48BC81B65BF2
+	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 15:35:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F296F245020;
-	Wed, 27 Aug 2025 15:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C49127146D;
+	Wed, 27 Aug 2025 15:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GFB7Oh1e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6v+GpFx"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F1D30CD8A;
-	Wed, 27 Aug 2025 15:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C7C25392C;
+	Wed, 27 Aug 2025 15:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756307047; cv=none; b=WPnhZI4mzufOfzaFrdZrSLv6Bcb85//TJL3EMKgtLk6jNPx8Dngahy5em2CvzgmJwdobSjT06//VGQ6/qcyy0A93/KpfTldMJeTo8moGpWmPyMZHEOshT3Aajd+9GmHwuf+ls6a7Ph9QN7F9xvupnonlpqpA+CcPpZZIcMN8fbI=
+	t=1756308881; cv=none; b=LBMpPf9flt80NW8hVtOxSYFXOh7ysUeU/hYNU2oFRyt64rd42cIAsden5dMePzwDiiRolz9sZftshZdU+P6AP2ZaqO+IDeaubUZFVhUH+SHUioUFGaSvMuCfapVGB7aDMcnjLqp9Sav3TSbp92/Fc220ZlKx855tK+F/jQafeUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756307047; c=relaxed/simple;
-	bh=uo4Ob9kTPdoJmgAnEx6L4XzAms4E4Sy8+Nf0B+A98EM=;
+	s=arc-20240116; t=1756308881; c=relaxed/simple;
+	bh=/hHoYvlbaeWmt9yGXT8TP2XYUsiA//N6BuAAiOClRwY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Mg6vFhFo10IO/gB7J3DpGtimFfYnefUgTd5WO5dhsdsoCyQ5XqDECxEmCabRC+PneFWg00HqDJsSxzYor/olwVKCCe5vK50uqvyPwzdV7yeEsCRITy1XuD9ZRYhDIfhd9ZFQMUBdMxIHnNIH+4jYu6RM+qf4UUfEUw4YffGP+pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GFB7Oh1e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D109C4CEEB;
-	Wed, 27 Aug 2025 15:03:56 +0000 (UTC)
+	 MIME-Version:Content-Type; b=gmECQG7wVfooIqMrqVQ4ZbYSKvoD3QRdk8KhG9ausL6J6OqktzaAbV7jSfbkerNojzkT0lKb9Mv/2Dl7eHG4nhLHcB+wNc/92V1BIBS6aUJG+IWbaKKnmF+MErn3LLTkV9ublBBJcL28FvvbNWIf6tO33NiyuYXUX1wH1a+2Zck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6v+GpFx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC4AC4CEF0;
+	Wed, 27 Aug 2025 15:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756307047;
-	bh=uo4Ob9kTPdoJmgAnEx6L4XzAms4E4Sy8+Nf0B+A98EM=;
+	s=k20201202; t=1756308880;
+	bh=/hHoYvlbaeWmt9yGXT8TP2XYUsiA//N6BuAAiOClRwY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GFB7Oh1eo+TReZoN3bwTBKHsq/yKs0Ec6wezEhYD6I52VzGWuajG/VUdqJlHo9GBa
-	 sP5uM0oIsz73s+GR3PHPfQM4FtpF3efam0U/5zWK0ivK0fj6LbZC5fFyPNQgTeW63w
-	 E7NL4+4i6tYIG42apLWejr2ppn7Fn5cZUKPnTLphMA4LKIcV/vG6hX/sMNARHSiFsV
-	 jQkO6X8RnOY4b/EE++uh5xQ5m0rgUa3Pqfc7MVaJ/KmZBiq0S0kt05UaAncWvIBfdx
-	 M34cS7vYly+aHvBfVvWPLH1rZ41QgDItwMsH34hBP87mp3hJpu4GzWzammLxdZZMf/
-	 wwiiTIEjNHQnQ==
+	b=e6v+GpFxja9vW9YNrveOO418XZOPc4iSrQvWmcZAoH6Mc4PKvw7UBBQ60MGplx8OJ
+	 aoiC9hnqMNugU0Xj0H2VpaLaqrXLxVMtj8qdu7PogapUHHlTYMMod3aNgdyrNzrJN5
+	 jmtfsaPmnSptrjABNdhm5J1zvmRLRd8pCh/OOhD0fxETxQeHxFSOe/nlKZg2fj+ZoT
+	 KD7gSbtqY7kjdvRsSJUwACMaSJ2HmJZxOU9clnPNVBzB4RssvVAWJHfsVm2f/lcqsn
+	 wrDmCM6GjAFmlZobcWtXrgwFnEWMrVvQ5xDd1fvmkcjujpbQ9twhauEaGtD+wOX4CF
+	 q2OX9DZbgo5fQ==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
-  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
-  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
   dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
   rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
   zhangguopeng@kylinos.cn,  linux@weissschuh.net,
@@ -67,15 +67,15 @@ Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
   bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
   stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
   linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
-  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <20250826162019.GD2130239@nvidia.com>
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 17/30] liveupdate: luo_files: luo_ioctl: Unregister
+ all FDs on device close
+In-Reply-To: <20250807014442.3829950-18-pasha.tatashin@soleen.com>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com>
-Date: Wed, 27 Aug 2025 17:03:55 +0200
-Message-ID: <mafs0bjo0yffo.fsf@kernel.org>
+	<20250807014442.3829950-18-pasha.tatashin@soleen.com>
+Date: Wed, 27 Aug 2025 17:34:29 +0200
+Message-ID: <mafs07byoye0q.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -85,218 +85,103 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Hi Jason,
+Hi Pasha,
 
-Thanks for the review.
+On Thu, Aug 07 2025, Pasha Tatashin wrote:
 
-On Tue, Aug 26 2025, Jason Gunthorpe wrote:
-
-> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+> Currently, a file descriptor registered for preservation via the remains
+> globally registered with LUO until it is explicitly unregistered. This
+> creates a potential for resource leaks into the next kernel if the
+> userspace agent crashes or exits without proper cleanup before a live
+> update is fully initiated.
 >
->> +	/*
->> +	 * Most of the space should be taken by preserved folios. So take its
->> +	 * size, plus a page for other properties.
->> +	 */
->> +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
->> +	if (!fdt) {
->> +		err = -ENOMEM;
->> +		goto err_unpin;
->> +	}
+> This patch ties the lifetime of FD preservation requests to the lifetime
+> of the open file descriptor for /dev/liveupdate, creating an implicit
+> "session".
 >
-> This doesn't seem to have any versioning scheme, it really should..
+> When the /dev/liveupdate file descriptor is closed (either explicitly
+> via close() or implicitly on process exit/crash), the .release
+> handler, luo_release(), is now called. This handler invokes the new
+> function luo_unregister_all_files(), which iterates through all FDs
+> that were preserved through that session and unregisters them.
 
-It does. See the "compatible" property.
+Why special case files here? Shouldn't you undo all the serialization
+done for all the subsystems?
 
-    static const char memfd_luo_compatible[] = "memfd-v1";
+Anyway, this is buggy. I found this when testing the memfd patches. If
+you preserve a memfd and close the /dev/liveupdate FD before reboot,
+luo_unregister_all_files() calls the cancel callback, which calls
+kho_unpreserve_folio(). But kho_unpreserve_folio() fails because KHO is
+still in finalized state. This doesn't happen when cancelling explicitly
+because luo_cancel() calls kho_abort().
 
-static struct liveupdate_file_handler memfd_luo_handler = {
-	.ops = &memfd_luo_file_ops,
-	.compatible = memfd_luo_compatible,
-};
+I think you should just make the release go through the cancel flow,
+since the operation is essentially a cancel anyway. There are subtle
+differences here though, since the release might be called before
+prepare, so we need to be careful of that.
 
-This goes into the LUO FDT:
-
-	static int luo_files_to_fdt(struct xarray *files_xa_out)
-	[...]
-	xa_for_each(files_xa_out, token, h) {
-		[...]
-		ret = fdt_property_string(luo_file_fdt_out, "compatible",
-					  h->fh->compatible);
-
-So this function only gets called for the version 1.
 
 >
->> +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
->> +				       (void **)&preserved_folios);
->> +	if (err) {
->> +		pr_err("Failed to reserve folios property in FDT: %s\n",
->> +		       fdt_strerror(err));
->> +		err = -ENOMEM;
->> +		goto err_free_fdt;
->> +	}
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  kernel/liveupdate/luo_files.c    | 19 +++++++++++++++++++
+>  kernel/liveupdate/luo_internal.h |  1 +
+>  kernel/liveupdate/luo_ioctl.c    |  1 +
+>  3 files changed, 21 insertions(+)
 >
-> Yuk.
->
-> This really wants some luo helper
->
-> 'luo alloc array'
-> 'luo restore array'
-> 'luo free array'
->
-> Which would get a linearized list of pages in the vmap to hold the
-> array and then allocate some structure to record the page list and
-> return back the u64 of the phys_addr of the top of the structure to
-> store in whatever.
->
-> Getting fdt to allocate the array inside the fds is just not going to
-> work for anything of size.
-
-Yep, I agree. This version already runs into size limits of around 1 GiB
-due to the FDT being limited to MAX_PAGE_ORDER, since that is the
-largest contiguous piece of memory folio_alloc() can give us. On top,
-FDT is only limited to 32 bits. While very large, it isn't unreasonable
-to expect metadata exceeding that for some use cases (4 GiB is only 0.4%
-of 1 TiB and there are systems a lot larger than that around).
-
-I think we need something a luo_xarray data structure that users like
-memfd (and later hugetlb and guest_memfd and maybe others) can build to
-make serialization easier. It will cover both contiguous arrays and
-arrays with some holes in them.
-
-I did it this way mainly to keep things simple and get things out. But
-Pasha already mentioned he is running into this limit for some tests, so
-I think I will experiment around with a serialized xarray design.
-
->
->> +	for (; i < nr_pfolios; i++) {
->> +		const struct memfd_luo_preserved_folio *pfolio = &pfolios[i];
->> +		phys_addr_t phys;
->> +		u64 index;
->> +		int flags;
->> +
->> +		if (!pfolio->foliodesc)
->> +			continue;
->> +
->> +		phys = PFN_PHYS(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
->> +		folio = kho_restore_folio(phys);
->> +		if (!folio) {
->> +			pr_err("Unable to restore folio at physical address: %llx\n",
->> +			       phys);
->> +			goto put_file;
->> +		}
->> +		index = pfolio->index;
->> +		flags = PRESERVED_FOLIO_FLAGS(pfolio->foliodesc);
->> +
->> +		/* Set up the folio for insertion. */
->> +		/*
->> +		 * TODO: Should find a way to unify this and
->> +		 * shmem_alloc_and_add_folio().
->> +		 */
->> +		__folio_set_locked(folio);
->> +		__folio_set_swapbacked(folio);
->> 
->> +		ret = mem_cgroup_charge(folio, NULL, mapping_gfp_mask(mapping));
->> +		if (ret) {
->> +			pr_err("shmem: failed to charge folio index %d: %d\n",
->> +			       i, ret);
->> +			goto unlock_folio;
->> +		}
->
-> [..]
->
->> +		folio_add_lru(folio);
->> +		folio_unlock(folio);
->> +		folio_put(folio);
->> +	}
->
-> Probably some consolidation will be needed to make this less
-> duplicated..
-
-Maybe. I do have that as a TODO item, but I took a quick look today and
-I am not sure if it will make things simple enough. There are a few
-places that add a folio to the shmem page cache, and all of them have
-subtle differences and consolidating them all might be tricky. Let me
-give it a shot...
-
->
-> But overall I think just using the memfd_luo_preserved_folio as the
-> serialization is entirely file, I don't think this needs anything more
-> complicated.
->
-> What it does need is an alternative to the FDT with versioning.
-
-As I explained above, the versioning is already there. Beyond that, why
-do you think a raw C struct is better than FDT? It is just another way
-of expressing the same information. FDT is a bit more cumbersome to
-write and read, but comes at the benefit of more introspect-ability.
-
->
-> Which seems to me to be entirely fine as:
->
->  struct memfd_luo_v0 {
->     __aligned_u64 size;
->     __aligned_u64 pos;
->     __aligned_u64 folios;
->  };
->
->  struct memfd_luo_v0 memfd_luo_v0 = {.size = size, pos = file->f_pos, folios = folios};
->  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for this fd..>, /*version=*/0);
->
-> Which also shows the actual data needing to be serialized comes from
-> more than one struct and has to be marshaled in code, somehow, to a
-> single struct.
->
-> Then I imagine a fairly simple forwards/backwards story. If something
-> new is needed that is non-optional, lets say you compress the folios
-> list to optimize holes:
->
->  struct memfd_luo_v1 {
->     __aligned_u64 size;
->     __aligned_u64 pos;
->     __aligned_u64 folios_list_with_holes;
->  };
->
-> Obviously a v0 kernel cannot parse this, but in this case a v1 aware
-> kernel could optionally duplicate and write out the v0 format as well:
->
->  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for this fd..>, /*version=*/0);
->  luo_store_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifier for this fd..>, /*version=*/1);
-
-I think what you describe here is essentially how LUO works currently,
-just that the mechanisms are a bit different.
-
-For example, instead of the subsystem calling luo_store_object(), the
-LUO core calls back into the subsystem at the appropriate time to let it
-populate the object. See memfd_luo_prepare() and the data argument. The
-version is decided by the compatible string with which the handler was
-registered.
-
-Since LUO knows when to start serializing what, I think this flow of
-calling into the subsystem and letting it fill in an object that LUO
-tracks and hands over makes a lot of sense.
-
->
-> Then the rule is fairly simple, when the sucessor kernel goes to
-> deserialize it asks luo for the versions it supports:
->
->  if (luo_restore_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifier for this fd..>, /*version=*/1))
->     restore_v1(&memfd_luo_v1)
->  else if (luo_restore_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for this fd..>, /*version=*/0))
->     restore_v0(&memfd_luo_v0)
->  else
->     luo_failure("Do not understand this");
-
-Similarly, on restore side, the new kernel can register handlers of all
-the versions it can deal with, and LUO core takes care of calling into
-the right callback. See  memfd_luo_retrieve() for example. If we now have
-a v2, the new kernel can simply define a new handler for v2 and add a
-new memfd_luo_retrieve_v2().
-
->
-> luo core just manages this list of versioned data per serialized
-> object. There is only one version per object.
-
-This also holds true.
+> diff --git a/kernel/liveupdate/luo_files.c b/kernel/liveupdate/luo_files.c
+> index 33577c9e9a64..63f8b086b785 100644
+> --- a/kernel/liveupdate/luo_files.c
+> +++ b/kernel/liveupdate/luo_files.c
+> @@ -721,6 +721,25 @@ int luo_unregister_file(u64 token)
+>  	return ret;
+>  }
+>  
+> +/**
+> + * luo_unregister_all_files - Unpreserve all currently registered files.
+> + *
+> + * Iterates through all file descriptors currently registered for preservation
+> + * and unregisters them, freeing all associated resources. This is typically
+> + * called when LUO agent exits.
+> + */
+> +void luo_unregister_all_files(void)
+> +{
+> +	struct luo_file *luo_file;
+> +	unsigned long token;
+> +
+> +	luo_state_read_enter();
+> +	xa_for_each(&luo_files_xa_out, token, luo_file)
+> +		__luo_unregister_file(token);
+> +	luo_state_read_exit();
+> +	WARN_ON_ONCE(atomic64_read(&luo_files_count) != 0);
+> +}
+> +
+>  /**
+>   * luo_retrieve_file - Find a registered file instance by its token.
+>   * @token: The unique token of the file instance to retrieve.
+> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+> index 5692196fd425..189e032d7738 100644
+> --- a/kernel/liveupdate/luo_internal.h
+> +++ b/kernel/liveupdate/luo_internal.h
+> @@ -37,5 +37,6 @@ void luo_do_subsystems_cancel_calls(void);
+>  int luo_retrieve_file(u64 token, struct file **filep);
+>  int luo_register_file(u64 token, int fd);
+>  int luo_unregister_file(u64 token);
+> +void luo_unregister_all_files(void);
+>  
+>  #endif /* _LINUX_LUO_INTERNAL_H */
+> diff --git a/kernel/liveupdate/luo_ioctl.c b/kernel/liveupdate/luo_ioctl.c
+> index 6f61569c94e8..7ca33d1c868f 100644
+> --- a/kernel/liveupdate/luo_ioctl.c
+> +++ b/kernel/liveupdate/luo_ioctl.c
+> @@ -137,6 +137,7 @@ static int luo_open(struct inode *inodep, struct file *filep)
+>  
+>  static int luo_release(struct inode *inodep, struct file *filep)
+>  {
+> +	luo_unregister_all_files();
+>  	atomic_set(&luo_device_in_use, 0);
+>  
+>  	return 0;
 
 -- 
 Regards,
