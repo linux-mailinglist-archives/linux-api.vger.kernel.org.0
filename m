@@ -1,125 +1,168 @@
-Return-Path: <linux-api+bounces-4636-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4637-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8652B38F40
-	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 01:28:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B11B38FA1
+	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 02:14:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E908E1C235FA
-	for <lists+linux-api@lfdr.de>; Wed, 27 Aug 2025 23:28:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2FAA3B9EA1
+	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 00:14:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416CA310627;
-	Wed, 27 Aug 2025 23:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48ABA17996;
+	Thu, 28 Aug 2025 00:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="HLkdEoH3"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="ko6VF2kA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E21C30F94E
-	for <linux-api@vger.kernel.org>; Wed, 27 Aug 2025 23:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A218A23CB;
+	Thu, 28 Aug 2025 00:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756337297; cv=none; b=QNwatPsawlKi9Sn/Y9NIhgIM75DFZcaBqfZVh3zVWlhYI5EC2QcS5CwPBR3b+/IQxoPOBia7P8uKYPdCD4Y3o5twOzdV1VaWnM4WUubtMkOO8ObuWUm8YhG0FUepSYEYx+eZIqxq71hiIslmJ7OGkprAuaRN8tiqopMWJJ73XN8=
+	t=1756340074; cv=none; b=pMLh8QZeM04j6tK1apKoBvWquaUcLR/bvwR1XfCDhKU6vNz1sNbpSewrV6C5M/NbAETFJnDoQZWHgtxb6aLvWS8os15of97QmO4mQ/sQIKS+Hi147OTww2/yC69o+PezTMjhaKoJR5l+bcXC1gX+wKvP88bmClQj23kemtSQhZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756337297; c=relaxed/simple;
-	bh=1iMwE0fNK7flXnZ1rGV03oxu+UtYW7kR/Ox8zaEFrUU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=njmAXQaP79sLcm068BQRJ261afMrRaZcBsMaLGVdGyaImQUDFlqj7JQdxS3ig50Uv14S9oWUw0etECoXa3ggc+ftjjpSyibOjMTCMFSpXYg6cyEhKbh4c2mGIHXV2KL99eKhKVLhMRlj0WurYnMqPQcKiIStmbUSJarHoTdtwsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=HLkdEoH3; arc=none smtp.client-ip=131.179.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 7EE413C306706;
-	Wed, 27 Aug 2025 16:19:06 -0700 (PDT)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id D4lrCWtuCiyo; Wed, 27 Aug 2025 16:19:06 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 546453C30671E;
-	Wed, 27 Aug 2025 16:19:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 546453C30671E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1756336746;
-	bh=JWPtkcF50MDfHBcxlwuYB/yYrbEiAfUZ06MbRjnXBEs=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=HLkdEoH3NasYDJM/Emz3lP9saeZGrYw7t3OEHA749h2LuNhV+v70ztti68b3J2SJI
-	 jxvRTTuaXBcZBuZ7+QcvQbzyC8irHyUJlva3s51ojXKVkTHptboHzjlsZXSanFG3vj
-	 G70qJTNJpMhnjMmQU61FwX4YKdBQjg9Oc6NhZMdTqx6vUMEeht8uKCTg/KE6dFN+zI
-	 Ec8NHPi0WaCvrkcdRDqm/UJR3+Eb7D1NZ8TXzMSDqk9ctwrT2QRqW5Qdcgpm++8yqi
-	 ijw5eW2GdnJ50pZ9+nE4feCxQHRD2sdD+e9NaIIUyRmgiYkGNtdV08WQKO5FWVZtoq
-	 TBO8pM56bSIHg==
-X-Virus-Scanned: amavis at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id vfLZI1YJKyDe; Wed, 27 Aug 2025 16:19:06 -0700 (PDT)
-Received: from penguin.cs.ucla.edu (47-154-18-19.fdr01.snmn.ca.ip.frontiernet.net [47.154.18.19])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 2A7703C30671D;
-	Wed, 27 Aug 2025 16:19:06 -0700 (PDT)
-Message-ID: <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu>
-Date: Wed, 27 Aug 2025 16:19:04 -0700
+	s=arc-20240116; t=1756340074; c=relaxed/simple;
+	bh=vR+P7v6+Ct20eU7awFHLXQjrBuYS+LxOz2wJgbna1rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hy14mTVsFcg9fPAqD0Q4da7GP2ZCQMDLtiu0otgCLIUvUd95b/jRXvfqNaHF9wKi94rNDl4nDdDhkjtGLzX+BPB/we7UbL4x+cLs6HUnQCD5ooDeNmfgl1QTxYdRVVTn+te4ofnm6fDZ67+7VZVyJT7Bucof3JFapXXtQTmlwnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=ko6VF2kA; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cC22W3nCMz9tSp;
+	Thu, 28 Aug 2025 02:14:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1756340067;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7PK3Ez1Rfnej7jNOPYQs5y3Mm6w6Khoe08rct6ODjuA=;
+	b=ko6VF2kAjcFV7/loAFG3DijKDdEZnWAtqyqZx+AM6VAnZjb1ZghYykty/sdRM4Z84qHq7G
+	Vt+lgdCqKZkwdNjUQkGH5Tt3q5zsG5t9TFRidcCvLdRy93pl5L1y1mPIyvpYl7/XsyvEPb
+	4W1bn1ZNCnyPWikIrT9pwa/G8ySTKhRBr0b7NM90oYn2k3dqdpgtl03kgYZ4Gsl9Q5OjYE
+	RXyIhGD8eglc5O/AnEurlOOObC5p660YfCXGnUfjHpYiAhlJL+eqcidEw+p9UgJKIsiw5m
+	rCTYOh5LQf2S3+nhRH2KFDc577NbG8zpFjrFhqYk3dqXKSejYKBBmEYjhSaBFw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 28 Aug 2025 10:14:00 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <keescook@chromium.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <serge@hallyn.com>, 
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jordan R Abrahams <ajordanr@google.com>, 
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, Luca Boccassi <bluca@debian.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Miklos Szeredi <mszeredi@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Robert Waite <rowait@microsoft.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Scott Shell <scottsh@microsoft.com>, Steve Dower <steve.dower@python.org>, 
+	Steve Grubb <sgrubb@redhat.com>, kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 0/2] Add O_DENY_WRITE (complement AT_EXECVE_CHECK)
+Message-ID: <2025-08-27-obscene-great-toy-diary-X1gVRV@cyphar.com>
+References: <20250822170800.2116980-1-mic@digikod.net>
+ <20250826-skorpion-magma-141496988fdc@brauner>
+ <20250826.aig5aiShunga@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
- Arjun Shankar <arjun@redhat.com>, libc-alpha@sourceware.org,
- linux-api@vger.kernel.org
-References: <5d4eaca9-930c-4fca-bdbd-5174733642ee@cs.ucla.edu>
- <b34176ff-883b-4a3d-b48a-8c6421f53ec7@cs.ucla.edu>
- <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
- <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org>
- <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
- <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu>
- <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
- <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu>
- <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
- <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu>
- <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
-Content-Language: en-US
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 2025-08-27 15:48, Aleksa Sarai wrote:
-> On 2025-08-27, Paul Eggert <eggert@cs.ucla.edu> wrote:
->> What specific scenario would make the "give me supported flags" flag worth
->> the hassle of supporting and documenting and testing such a flag?
-> 
-> "Just try it" leads to programs that have to test dozens of flag
-> combinations for syscalls at startup,
-
-Although that sort of thing can indeed be a problem in general, I don't 
-see how it's a problem for openat2 in particular.
-
-The issue here is whether openat2's API should reflect current behavior 
-(where the HOW argument is pointer-to-const) or a potential future 
-behavior (where the kernel might modify the struct that HOW points to, 
-if some hypothetical future flag is set in that struct). I am skeptical 
-that this hypothetical situation is so plausible that it justifies the 
-maintenance hassle of a glibc API that doesn't correspond to how openat2 
-currently behaves.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4tazkxltbygkcgo4"
+Content-Disposition: inline
+In-Reply-To: <20250826.aig5aiShunga@digikod.net>
+X-Rspamd-Queue-Id: 4cC22W3nCMz9tSp
 
 
-> A simple example would be mounts -- if MOUNT_BENEATH is not supported
+--4tazkxltbygkcgo4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v1 0/2] Add O_DENY_WRITE (complement AT_EXECVE_CHECK)
+MIME-Version: 1.0
 
-I don't understand this example. Are you talking about <linux/mount.h>'s 
-MOVE_MOUNT_BENEATH? That's a move_mount flag, and I don't see what that 
-has to do with openat2. Or are you saying that openat2 might not support 
-<linux/openat2.h>'s RESOLVE_BENEATH flag? Under what conditions might 
-that be, exactly? Can you give some plausible user code to illustrate 
-the openat2 example you're thinking of?
+On 2025-08-26, Micka=EBl Sala=FCn <mic@digikod.net> wrote:
+> On Tue, Aug 26, 2025 at 11:07:03AM +0200, Christian Brauner wrote:
+> > Nothing has changed in that regard and I'm not interested in stuffing
+> > the VFS APIs full of special-purpose behavior to work around the fact
+> > that this is work that needs to be done in userspace. Change the apps,
+> > stop pushing more and more cruft into the VFS that has no business
+> > there.
+>=20
+> It would be interesting to know how to patch user space to get the same
+> guarantees...  Do you think I would propose a kernel patch otherwise?
 
-I still fail to understand how a hypothetical "give me the supported 
-flags" openat2 flag would be useful enough to justify complicating the 
-openat2 API today.
+You could mmap the script file with MAP_PRIVATE. This is the *actual*
+protection the kernel uses against overwriting binaries (yes, ETXTBSY is
+nice but IIRC there are ways to get around it anyway). Of course, most
+interpreters don't mmap their scripts, but this is a potential solution.
+If the security policy is based on validating the script text in some
+way, this avoids the TOCTOU.
+
+Now, in cases where you have IMA or something and you only permit signed
+binaries to execute, you could argue there is a different race here (an
+attacker creates a malicious script, runs it, and then replaces it with
+a valid script's contents and metadata after the fact to get
+AT_EXECVE_CHECK to permit the execution). However, I'm not sure that
+this is even possible with IMA (can an unprivileged user even set
+security.ima?). But even then, I would expect users that really need
+this would also probably use fs-verity or dm-verity that would block
+this kind of attack since it would render the files read-only anyway.
+
+This is why a more detailed threat model of what kinds of attacks are
+relevant is useful. I was there for the talk you gave and subsequent
+discussion at last year's LPC, but I felt that your threat model was
+not really fleshed out at all. I am still not sure what capabilities you
+expect the attacker to have nor what is being used to authenticate
+binaries (other than AT_EXECVE_CHECK). Maybe I'm wrong with my above
+assumptions, but I can't know without knowing what threat model you have
+in mind, *in detail*.
+
+For example, if you are dealing with an attacker that has CAP_SYS_ADMIN,
+there are plenty of ways for an attacker to execute their own code
+without using interpreters (create a new tmpfs with fsopen(2) for
+instance). Executable memfds are even easier and don't require
+privileges on most systems (yes, you can block them with vm.memfd_noexec
+but CAP_SYS_ADMIN can disable that -- and there's always fsopen(2) or
+mount(2)).
+
+(As an aside, it's a shame that AT_EXECVE_CHECK burned one of the
+top-level AT_* bits for a per-syscall flag -- the block comment I added
+in b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be
+allocated") was meant to avoid this happening but it seems you and the
+reviewers missed that...)
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
+
+--4tazkxltbygkcgo4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaK+fRBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+uowD/Sqmo+gatXLeikpI5XmZo
+OTzPamUQKF6Qc1cYyy2INK8BAPK2BcHkJfcGbfBSjW2CshX9cc5oZuhvWEtz4TDD
+XzYA
+=FdMM
+-----END PGP SIGNATURE-----
+
+--4tazkxltbygkcgo4--
 
