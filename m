@@ -1,140 +1,350 @@
-Return-Path: <linux-api+bounces-4645-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4646-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D86CB3A74E
-	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 19:06:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 038FEB3AB79
+	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 22:18:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86D51160AF6
-	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 17:06:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2834F7B948B
+	for <lists+linux-api@lfdr.de>; Thu, 28 Aug 2025 20:16:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7978822A7F9;
-	Thu, 28 Aug 2025 17:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AAA9284B25;
+	Thu, 28 Aug 2025 20:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wr3PV8mU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mIB1n8hL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D6E32C332
-	for <linux-api@vger.kernel.org>; Thu, 28 Aug 2025 17:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584B7283682
+	for <linux-api@vger.kernel.org>; Thu, 28 Aug 2025 20:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756400770; cv=none; b=jlnoqSMFx38gPSaM1c0StsM62pn4/1On5tkSeMq01qXYeJhok6UwNvC5KWtZgC2eIsZ/K9WETvrkZFYGZ/Xylpe9B8O2MgLsCPQkr6mt/Mk4Nc6lRnbrLOzf3nwk5pMtYLT/Yhk5hbw2TM5hxrr4ErwaxokQw6MxqLhICwjTH0k=
+	t=1756412280; cv=none; b=YFM6OLBfEeLXAI20l1PWSmFKbdA/UEePfc4U5orjXlnpnTWDqoY5Wtu4fT5SPeySi8OMwaJlX4WKPv0V8lCUaMCd6If/BQayc66jO8ZKE2zeR5gJTOgIo1RgtKYXBIWrcvEsg8ej8ltNxbUNFBinuTZ6pROMn0nWBVkTgWCxMwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756400770; c=relaxed/simple;
-	bh=WSbnWXW0HBDbb1NPrMmmiy6JZ7oeCU17lyhKwiUumMs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PVCQslf/Vgs8En0zpdzA4COcMCUIET9H/G7EprM23HRJtpq5mvOhnnViVSJ9nTSaLXIrfrtFvb92bPx/16vNEZxMZavo1zpKrsANsHWBUM7o7ke2fSmMCZ5SD7QrubWka1Pk+1kOtasmD8MM37XaMvo0+0noAqWilOsVrDVLxas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wr3PV8mU; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b49d6f8f347so1096897a12.0
-        for <linux-api@vger.kernel.org>; Thu, 28 Aug 2025 10:06:08 -0700 (PDT)
+	s=arc-20240116; t=1756412280; c=relaxed/simple;
+	bh=fwMu4V9Q3WqapDL7tIyizhCPh6GFdknTswMuvUppL4Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fp5x5ee3NgABa9DyccR9ftniXf1mWd/W418f3tLvbbas3xvlj1b/3RyPCZ5JwK9ZJlbRGCtAa3xFUo1meM79LJTRq1tsaziG4Vu9uQqc963TAVvHnOtzuZsU6zpk6sF6mQfMUGxcKegYEBnHlDWzSAhh5GKiPsYW+z7icoZy8vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mIB1n8hL; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6188b72d690so256793a12.2
+        for <linux-api@vger.kernel.org>; Thu, 28 Aug 2025 13:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756400768; x=1757005568; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=e84z4/Ij6jNaOkkwc2uumR+iYRASeG3uUzpNNYapRqo=;
-        b=wr3PV8mUU7FTv8v4WNwclCe13iyd8efWgq4b/dhy/bPIKb8GFuaaX1jkt7GFvVDP+D
-         +sD0B7IHgYXA+/qPiiSgHuUSZiTRR0biMVJjCuFuRvaxWXm9RcXoDeC/wnRf1T8BM0ap
-         i1xPL7kie8gCFmPbzrOdZtGlsi5EkKCXOmHhDHpV+06DoT9OP+Kb/1xKIpghREI8Umrv
-         zgZEPpbpf1Ha0QjesCKKU74hFkPbAboFfhfCNdwmG1OORc8Wx29LxQeUnrchmgJQ464R
-         4dBjxlu/zfE9O9jhBcy8oORL/tI0vihclu2JB/2mRl6riB+XzHgrShJv4XJToA8Tmc4H
-         moHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756400768; x=1757005568;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1756412277; x=1757017077; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e84z4/Ij6jNaOkkwc2uumR+iYRASeG3uUzpNNYapRqo=;
-        b=rUxN89e/1rJiqtk7WsSgHfhqY+gpBC+VmuWj8dTY39NadD8MTuGc4xB6B31pj9pFeD
-         rvvjZv0bWy8mpPFcGEDYqyXGg1E2JVCzEOfG8QifVgokIiZkxS2bLlhhSt9qZuGdjLKY
-         SI6cqInJwbhQHJeQULWAy1hjgf/pz6cY0TGZ/4NV2eiD/VsPOemaAP6HzhTBm+7PuBuv
-         Npo3wFmC/5+j5aKAWw7GC4VFFd9vwRYrkOxrycOmgv+OO0pZrUB0p62+nDbnaXK/duv3
-         lNBJXMv5rV5KjLm1F/YOllJijPSE4R+neY0qmlXrB6AquBR1KOV6jVbdz+e7PIp5j/l5
-         8R2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVhsmzv+/RizWn6YliwCOkBbHWR7THL0g/NdGs37JEv4bPHKuSBycBR1X5vwHikIF1b65t4yBa1uxg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh5GQViydaNigmU2E9qR99xyBNNfUD0OyDtBA0X6LDvfvhc/TX
-	UjQornWGO+MKYU12QpyYjShuynlV1bRC4ArC1ft+TiKswDJ+lWhWQZbJyHIZgYWX9kwS2MZWTn/
-	wdgws
-X-Gm-Gg: ASbGncvth79vK2cYAiyQAZhbGp9HJi5Yfh9PFNlOfHGILc/bKa676izijo7NkUQ3bSg
-	fU+O94KJiBzGEFPY9cpdiz4YMjo7P5O2xDAvBCMosUXE82/n/mYCBviEiuwwap4vdY17NIY7eyo
-	LFn5vJ8oZkuZSG0keLFZTP1NpLK03lnOTmolLRSsRDgB5DXhC96mSjTJyp0IjwZUHSTFvR0wm2d
-	VEYeDNEdplb8LmMctRlTxz+K3Z1OCQ5BPyKkxIJ1ynJPdRUWfExYXTyNCcKJ4V2CCotzDAkJxR1
-	Bl+5QtZN7aUaxkw/VL7EmodhTjYmbzrPbv44NtkiLSJ5hWS3G9C3Hdvc7X+30y07pLKvR9KkqyR
-	CmzMccAKDrD2tLFH64MgEhshevWkk8I9Y/gUiSsyBUGjkB9xb2yfOml0AudgtablEYx0TmVQPBL
-	5xWi1N7apzvNg5r2m03JIXpy7ntlAy5tot
-X-Google-Smtp-Source: AGHT+IHWHNcLF+YuQ2+NrMXxHcqfIAz3X42xFA9u33AjZJEEiwck6IAPuGezj3D37yLt3CxvWPThSw==
-X-Received: by 2002:a17:902:ce81:b0:246:de5e:cecd with SMTP id d9443c01a7336-246de5ed9a6mr200827655ad.54.1756400767713;
-        Thu, 28 Aug 2025 10:06:07 -0700 (PDT)
-Received: from ?IPV6:2804:1b3:a7c1:b25:ac59:50e1:2bd3:8e7c? ([2804:1b3:a7c1:b25:ac59:50e1:2bd3:8e7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249067db6basm452965ad.148.2025.08.28.10.06.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Aug 2025 10:06:07 -0700 (PDT)
-Message-ID: <09fe6b8b-7bfd-4dca-97d7-8bf438356f47@linaro.org>
-Date: Thu, 28 Aug 2025 14:06:04 -0300
+        bh=7ePZgtiHOPodLjgfM5UTPjnnd5iFKMsXyVJQSH87i1w=;
+        b=mIB1n8hLSqkxsv/TZqmDVZD/oTZrkL7iaorO+ld4jlaOyBaKGzFS4Np6esccK4zT2j
+         gjSZhd0FsPPZFEuFPc263txs541JiTCsny5xzR7wCuG+/qBmZ7uadukuEBrE3aPQcT7g
+         +707/Mn2697f1fvKYD/tgN8LaA77H3H89NAMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756412277; x=1757017077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7ePZgtiHOPodLjgfM5UTPjnnd5iFKMsXyVJQSH87i1w=;
+        b=pmr30QGzp84okvuvp7ZutGWajGUwP2VMmoWtMHrPXlPYRKIGANG2kPN/yjPAmtVmh4
+         Tt9+0PJeedYpybRX1/8K9fjzPG045WTk/yruoaMUcBBLP57BdhfQuCyw4WjScGHqFNN0
+         seyDBjk2t35P6ah4HCJ6hriKUysdu5rTyrbo8iLvr6z+67udRmEOLCvH1/xaMH9rlIEc
+         RFG8RUZ/bCSEjqPSbY8Z2L5JGczOmZgCLpIwtGiWRKVA6ky5vqpODDZxrznXgmBZYDAg
+         utMmhd/T3ssro6AwNM+k2AZGkE6UXQhXISYxT0moEKywe9Ry4TtSIQNmNPL+hB9Qa8GV
+         4MOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKbkhc0wjviloLF0sAWPxQM1fMDgRlHX2rB47ttEjBRg8jnUNxSAkektKL8Nld5RCoXiXvOx1hemc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9Pf718xuoLb18F0hPvrWXK/T7oF7Z0WZn41R097NKr+bFFa0x
+	XzadeXub7CB2rJwBHB88T7bBcmtozWqwKwaQPG2cZTQIDU0CaiYlVPEmRPea8Y84jY2Wv7HwtOm
+	ZtJaYC0dClGnIWFY6CaBYWHeyaIjvgmZI0tnhS6Jx
+X-Gm-Gg: ASbGncuSHDu+icjc5av5V3A5GAhHwT8EJVOtAM32+MNzFuuHq+NL2XOW7rriwBbdmPV
+	k3pSmtLewHK5S9pc5oOtjZQjsvn4UZS5YLmgKJJuKkf4t55BlpE0B9+ppJohR98/j+PYR6SX+xh
+	FoYR1vocbdTURB2RQwLs6+vxMqpjln7OI20LyyYNrDQx/HfhIfzJRJlSoidjmprrb0deJTU5tHn
+	tuvh7q1DJ4/HN5I9ntuLxGOoPRYXYqS7i2t7+jzmurJ9FA4/cQ=
+X-Google-Smtp-Source: AGHT+IE64d1WWE8kcq3TRbS70wrOGI1tKonG+bfd4KXXEWkgnBXYalFyybrk7xruzzNjFZLWMOhENjx6cCeacRzVtmk=
+X-Received: by 2002:a05:6402:440a:b0:61c:cfb2:b2ce with SMTP id
+ 4fb4d7f45d1cf-61ccfc1f690mr1973394a12.7.1756412276638; Thu, 28 Aug 2025
+ 13:17:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
-To: Paul Eggert <eggert@cs.ucla.edu>, Aleksa Sarai <cyphar@cyphar.com>
-Cc: Arjun Shankar <arjun@redhat.com>, libc-alpha@sourceware.org,
- linux-api@vger.kernel.org
-References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
- <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org>
- <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
- <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu>
- <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
- <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu>
- <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
- <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu>
- <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
- <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu>
- <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
- <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
-Content-Language: en-US
-From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Organization: Linaro
-In-Reply-To: <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250822170800.2116980-1-mic@digikod.net> <20250822170800.2116980-2-mic@digikod.net>
+ <CAG48ez1XjUdcFztc_pF2qcoLi7xvfpJ224Ypc=FoGi-Px-qyZw@mail.gmail.com>
+ <20250824.Ujoh8unahy5a@digikod.net> <CALCETrWwd90qQ3U2nZg9Fhye6CMQ6ZF20oQ4ME6BoyrFd0t88Q@mail.gmail.com>
+ <20250825.mahNeel0dohz@digikod.net> <CALmYWFv90uzq0J76+xtUFjZxDzR2rYvrFbrr5Jva5zdy_dvoHA@mail.gmail.com>
+ <20250826.eWi6chuayae4@digikod.net> <CABi2SkUJ1PDm_uri=4o+C13o5wFQD=xA7zVKU-we+unsEDm3dw@mail.gmail.com>
+ <20250827.ieRaeNg4pah3@digikod.net>
+In-Reply-To: <20250827.ieRaeNg4pah3@digikod.net>
+From: Jeff Xu <jeffxu@chromium.org>
+Date: Thu, 28 Aug 2025 13:17:42 -0700
+X-Gm-Features: Ac12FXz7g15EGZQbQ__Nog7bDAptHr9NyXQh1X7xQPtUT8FxbZ8Ao8bCFm7NIZ0
+Message-ID: <CABi2SkX6RFq349yn0to2FO0UJfpQxmvFsnQyL4mbg6NoJt2bUg@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Jeff Xu <jeffxu@google.com>, Andy Lutomirski <luto@amacapital.net>, Jann Horn <jannh@google.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Kees Cook <keescook@chromium.org>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <serge@hallyn.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Elliott Hughes <enh@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Robert Waite <rowait@microsoft.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Scott Shell <scottsh@microsoft.com>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Micka=C3=ABl
 
+On Wed, Aug 27, 2025 at 1:19=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
+>
+> On Tue, Aug 26, 2025 at 01:29:55PM -0700, Jeff Xu wrote:
+> > Hi Micka=C3=ABl
+> >
+> > On Tue, Aug 26, 2025 at 5:39=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@d=
+igikod.net> wrote:
+> > >
+> > > On Mon, Aug 25, 2025 at 10:57:57AM -0700, Jeff Xu wrote:
+> > > > Hi Micka=C3=ABl
+> > > >
+> > > > On Mon, Aug 25, 2025 at 2:31=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <m=
+ic@digikod.net> wrote:
+> > > > >
+> > > > > On Sun, Aug 24, 2025 at 11:04:03AM -0700, Andy Lutomirski wrote:
+> > > > > > On Sun, Aug 24, 2025 at 4:03=E2=80=AFAM Micka=C3=ABl Sala=C3=BC=
+n <mic@digikod.net> wrote:
+> > > > > > >
+> > > > > > > On Fri, Aug 22, 2025 at 09:45:32PM +0200, Jann Horn wrote:
+> > > > > > > > On Fri, Aug 22, 2025 at 7:08=E2=80=AFPM Micka=C3=ABl Sala=
+=C3=BCn <mic@digikod.net> wrote:
+> > > > > > > > > Add a new O_DENY_WRITE flag usable at open time and on op=
+ened file (e.g.
+> > > > > > > > > passed file descriptors).  This changes the state of the =
+opened file by
+> > > > > > > > > making it read-only until it is closed.  The main use cas=
+e is for script
+> > > > > > > > > interpreters to get the guarantee that script' content ca=
+nnot be altered
+> > > > > > > > > while being read and interpreted.  This is useful for gen=
+eric distros
+> > > > > > > > > that may not have a write-xor-execute policy.  See commit=
+ a5874fde3c08
+> > > > > > > > > ("exec: Add a new AT_EXECVE_CHECK flag to execveat(2)")
+> > > > > > > > >
+> > > > > > > > > Both execve(2) and the IOCTL to enable fsverity can alrea=
+dy set this
+> > > > > > > > > property on files with deny_write_access().  This new O_D=
+ENY_WRITE make
+> > > > > > > >
+> > > > > > > > The kernel actually tried to get rid of this behavior on ex=
+ecve() in
+> > > > > > > > commit 2a010c41285345da60cece35575b4e0af7e7bf44.; but sadly=
+ that had
+> > > > > > > > to be reverted in commit 3b832035387ff508fdcf0fba66701afc78=
+f79e3d
+> > > > > > > > because it broke userspace assumptions.
+> > > > > > >
+> > > > > > > Oh, good to know.
+> > > > > > >
+> > > > > > > >
+> > > > > > > > > it widely available.  This is similar to what other OSs m=
+ay provide
+> > > > > > > > > e.g., opening a file with only FILE_SHARE_READ on Windows=
+.
+> > > > > > > >
+> > > > > > > > We used to have the analogous mmap() flag MAP_DENYWRITE, an=
+d that was
+> > > > > > > > removed for security reasons; as
+> > > > > > > > https://man7.org/linux/man-pages/man2/mmap.2.html says:
+> > > > > > > >
+> > > > > > > > |        MAP_DENYWRITE
+> > > > > > > > |               This flag is ignored.  (Long ago=E2=80=94Li=
+nux 2.0 and earlier=E2=80=94it
+> > > > > > > > |               signaled that attempts to write to the unde=
+rlying file
+> > > > > > > > |               should fail with ETXTBSY.  But this was a s=
+ource of denial-
+> > > > > > > > |               of-service attacks.)"
+> > > > > > > >
+> > > > > > > > It seems to me that the same issue applies to your patch - =
+it would
+> > > > > > > > allow unprivileged processes to essentially lock files such=
+ that other
+> > > > > > > > processes can't write to them anymore. This might allow unp=
+rivileged
+> > > > > > > > users to prevent root from updating config files or stuff l=
+ike that if
+> > > > > > > > they're updated in-place.
+> > > > > > >
+> > > > > > > Yes, I agree, but since it is the case for executed files I t=
+hough it
+> > > > > > > was worth starting a discussion on this topic.  This new flag=
+ could be
+> > > > > > > restricted to executable files, but we should avoid system-wi=
+de locks
+> > > > > > > like this.  I'm not sure how Windows handle these issues thou=
+gh.
+> > > > > > >
+> > > > > > > Anyway, we should rely on the access control policy to contro=
+l write and
+> > > > > > > execute access in a consistent way (e.g. write-xor-execute). =
+ Thanks for
+> > > > > > > the references and the background!
+> > > > > >
+> > > > > > I'm confused.  I understand that there are many contexts in whi=
+ch one
+> > > > > > would want to prevent execution of unapproved content, which mi=
+ght
+> > > > > > include preventing a given process from modifying some code and=
+ then
+> > > > > > executing it.
+> > > > > >
+> > > > > > I don't understand what these deny-write features have to do wi=
+th it.
+> > > > > > These features merely prevent someone from modifying code *that=
+ is
+> > > > > > currently in use*, which is not at all the same thing as preven=
+ting
+> > > > > > modifying code that might get executed -- one can often modify
+> > > > > > contents *before* executing those contents.
+> > > > >
+> > > > > The order of checks would be:
+> > > > > 1. open script with O_DENY_WRITE
+> > > > > 2. check executability with AT_EXECVE_CHECK
+> > > > > 3. read the content and interpret it
+> > > > >
+> > > > I'm not sure about the O_DENY_WRITE approach, but the problem is wo=
+rth solving.
+> > > >
+> > > > AT_EXECVE_CHECK is not just for scripting languages. It could also
+> > > > work with bytecodes like Java, for example. If we let the Java runt=
+ime
+> > > > call AT_EXECVE_CHECK before loading the bytecode, the LSM could
+> > > > develop a policy based on that.
+> > >
+> > > Sure, I'm using "script" to make it simple, but this applies to other
+> > > use cases.
+> > >
+> > That makes sense.
+> >
+> > > >
+> > > > > The deny-write feature was to guarantee that there is no race con=
+dition
+> > > > > between step 2 and 3.  All these checks are supposed to be done b=
+y a
+> > > > > trusted interpreter (which is allowed to be executed).  The
+> > > > > AT_EXECVE_CHECK call enables the caller to know if the kernel (an=
+d
+> > > > > associated security policies) allowed the *current* content of th=
+e file
+> > > > > to be executed.  Whatever happen before or after that (wrt.
+> > > > > O_DENY_WRITE) should be covered by the security policy.
+> > > > >
+> > > > Agree, the race problem needs to be solved in order for AT_EXECVE_C=
+HECK.
+> > > >
+> > > > Enforcing non-write for the path that stores scripts or bytecodes c=
+an
+> > > > be challenging due to historical or backward compatibility reasons.
+> > > > Since AT_EXECVE_CHECK provides a mechanism to check the file right
+> > > > before it is used, we can assume it will detect any "problem" that
+> > > > happened before that, (e.g. the file was overwritten). However, tha=
+t
+> > > > also imposes two additional requirements:
+> > > > 1> the file doesn't change while AT_EXECVE_CHECK does the check.
+> > >
+> > > This is already the case, so any kind of LSM checks are good.
+> > >
+> > May I ask how this is done? some code in do_open_execat() does this ?
+> > Apologies if this is a basic question.
+>
+> do_open_execat() calls exe_file_deny_write_access()
+>
+Thanks for pointing.
+With that, now I read the full history of discussion regarding this :-)
 
-On 28/08/25 10:43, Paul Eggert wrote:
-> On 2025-08-28 01:42, Aleksa Sarai wrote:
->>> I still fail to understand how a hypothetical "give me the supported flags"
->>> openat2 flag would be useful enough to justify complicating the openat2 API
->>> today.
->> My only concern is that it would break recompiles if/when we change it
->> back.
-> 
-> OK, but from what I can see there's no identified possibility that openat2 will modify the objects its arguments point to, just as there's no identified possibility that plain openat will do so (in a hypothetical extension to remove unnecessary slashes from its filename argument, say).
-> 
-> In that case it's pretty clear that glibc should mark the open_how argument as pointer-to-const, just as glibc already marks the filename argument.
+> >
+> > > > 2>The file content kept by the process remains unchanged after pass=
+ing
+> > > > the AT_EXECVE_CHECK.
+> > >
+> > > The goal of this patch was to avoid such race condition in the case
+> > > where executable files can be updated.  But in most cases it should n=
+ot
+> > > be a security issue (because processes allowed to write to executable
+> > > files should be trusted), but this could still lead to bugs (because =
+of
+> > > inconsistent file content, half-updated).
+> > >
+> > There is also a time gap between:
+> > a> the time of AT_EXECVE_CHECK
+> > b> the time that the app opens the file for execution.
+> > right ? another potential attack path (though this is not the case I
+> > mentioned previously).
+>
+> As explained in the documentation, to avoid this specific race
+> condition, interpreters should open the script once, check the FD with
+> AT_EXECVE_CHECK, and then read the content with the same FD.
+>
+Ya, now I see that in the description of this patch, sorry that I
+missed that previously.
 
-I am still not sure how a potentially CHECK_FIELDS feature would play with 
-openat2 in the future, especially since glibc now prefers to first include 
-the kernel headers before redefining a minimal API to the syscall usage 
-(meaning that programs will have access to potentially new flags depending 
-on the installed kernel header).
+> >
+> > For the case I mentioned previously, I have to think more if the race
+> > condition is a bug or security issue.
+> > IIUC, two solutions are discussed so far:
+> > 1> the process could write to fs to update the script.  However, for
+> > execution, the process still uses the copy that passed the
+> > AT_EXECVE_CHECK. (snapshot solution by Andy Lutomirski)
+>
+> Yes, the snapshot solution would be the best, but I guess it would rely
+> on filesystems to support this feature.
+>
+snapshot seems to be the reasonable direction to go
 
-If the kernel intends to modify the open_how in the future, setting open_how 
-as const will only add extra confusion. Users might be exposed to this feature 
-without explicitly including the kernel headers.
+Is this something related to the VMA ? e.g. preserve the in-memory
+copy of the file when the file on fs was updated.
 
-Another option might to *not* include the kernel headers and keep syncing the 
-kernel definitions on kernel releases (and maybe excluding flags that might 
-modify the open_how). As Florian has said, this kind of mediation by glibc was 
-historically time-consuming, complex, and subject to subtle bugs (and that's 
-why we abandoned this over time).
+According to man mmap:
+       MAP_PRIVATE
+              Create a private copy-on-write mapping.  Updates to the
+              mapping are not visible to other processes mapping the same
+              file, and are not carried through to the underlying file.
+              It is unspecified whether changes made to the file after
+              the mmap() call are visible in the mapped region.
+
+so the direction here is
+the process -> update the vma -> doesn't carry to the file.
+
+What we want is the reverse direction: (the unspecified part in the man pag=
+e)
+file updated on fs -> doesn't carry to the vma of this process.
+
+> > or 2> the process blocks the write while opening the file as read only
+> > and executing the script. (this seems to be the approach of this
+> > patch).
+>
+> Yes, and this is not something we want anymore.
+>
+right. Thank you for clarifying this.
+
+> >
+> > I wonder if there are other ideas.
+>
+> I don't see other efficient ways to give the same guarantees.
+right, me neither.
+
+Thanks and regards,
+-Jeff
 
