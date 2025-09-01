@@ -1,58 +1,57 @@
-Return-Path: <linux-api+bounces-4662-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4664-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF499B3ED32
-	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 19:11:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F4AB3ED4D
+	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 19:21:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6C0F1A82A61
-	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 17:11:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F18E93A5C24
+	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 17:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF24320A03;
-	Mon,  1 Sep 2025 17:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACABD30F538;
+	Mon,  1 Sep 2025 17:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUUI4mWI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9dmzbN3"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C59A306492;
-	Mon,  1 Sep 2025 17:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D9A2E6CD1;
+	Mon,  1 Sep 2025 17:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756746666; cv=none; b=gES8A/shU2vYcdYfO/Rf9Pz9ZNnDkwLZ5ad1gqqQbxGy5MYts+QIxvONSv+8Jf9HvrigzMnq28p6Qx0LZCL5HcaNykhOPxxtZaBdZReKDVkYkV4uD7flDadUFc6Esitbu1udCH7SkP7z1Hg9GNjTEF/aqSUd4ZR1RhAuOhMnHOQ=
+	t=1756747303; cv=none; b=LY+gILH+444j/5FkwYZo1n67HOSinpA0NQl4l3WB1vKKI8+cv/s75f/fAYvjaTdDkcq4hAnNrDaAe8h4pP7bsSJPrsPglqO2/byfuv3igZpXyEClvRUvW4s/8Sj0liBUQf+BLwbpW4LTagnqIKtgnynpq3KnIqBoWZcGrGoO+so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756746666; c=relaxed/simple;
-	bh=4H0TvV5SATbPpUhZV/kpTrbxsbMRGPlfcGGMf566Pzg=;
+	s=arc-20240116; t=1756747303; c=relaxed/simple;
+	bh=3mhC2/T1c6Z+vgeTqGwgs2Xmkym2DVFtNGG4o+LNDHg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=P5rMcy/J9vUgWL5tMKlq0/cHEbOU+JzIz23JsnhjLkcBPIgTRsnIJuqPDSA2KKh5JSxof9N6zpaPlnCExVBWw8fZTGnW9naloHZpUaEzua650R+vaE5LcbGqRROnr9ZO3uQLd4zY7eAPypjPH9sNYd2yemVIi18TA6zfyjRKGiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUUI4mWI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20273C4CEF0;
-	Mon,  1 Sep 2025 17:10:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=CFTn+nf5k8ItswTJ2AnfouYhj+P8klXiCKkr3MNUjcTu37BKz4N2rqJjKDnrGRekbqEY+cW95AU6Ny/QxcmO1mFbpC/4Xkd+IdqAXjaJIpDDa6iQWj6e5nme+35hQM8gBMK4hTPeCwARXQapOW5qwyVc21RL4Kk8LZpwGlYSSXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9dmzbN3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6769C4CEF0;
+	Mon,  1 Sep 2025 17:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756746665;
-	bh=4H0TvV5SATbPpUhZV/kpTrbxsbMRGPlfcGGMf566Pzg=;
+	s=k20201202; t=1756747303;
+	bh=3mhC2/T1c6Z+vgeTqGwgs2Xmkym2DVFtNGG4o+LNDHg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TUUI4mWIbQYkLpKOkdoxxSUBAWTkDGIYzdhS0o8slwr8l2r1Piu0dUL/l4nBep+rG
-	 0yJmQw4jAg/OFnBDLBuTCbytHtcsfNnnUgNkZT3gLgEb3ShbgGVAKwQxkOyPSP18C8
-	 7llU/i7XIFhO9U0XbVOYJRMrxGrbX605fmK7MccA+FrMFzq540oBoLsId10kVkUbl0
-	 lAs6X6RqdrVdsl02+4MM4ddwO3muSKKRwdLGGmbbS8cho5TRe0jnQdsfS22uYIMObg
-	 eUQz4JMDeISgSUyU3IB3lnscaMdUMFfjTXMsM05sKQlT4UprJfC0pJ8VwXpakPhqL8
-	 FF3vY5xHeeBDA==
+	b=T9dmzbN3vJLJmQDq1Re5bzl8OxpzTbtxHyo9VrZ09/exjPs4/S/UQ/qjokktB5xH0
+	 SSAhxDYKrSqviNam9PJfJyWLgwI4zqdg3I1711MwPV/OjBcVgO1pnXEGeXz3WuK0Xv
+	 UVuAAVWCHK9DEEZHqKg20aHU8P+mQKhAhInpwws4Klng0iRivbKWCQXm3KK6C52Kus
+	 igQubipBz8w3WOXaDSc+DURspm2666u/anhAH4CayF+VNK79UQd6Dcbo23j5PKLmkc
+	 7e7Mzu21+so4+IDhVLL5kTXhZiCBHk37Mq4vGWxsegGW2R/VeQMTHWMDaNdZO+jGo4
+	 NR5zsktrqL/VA==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
- <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Mike Rapoport <rppt@kernel.org>,  Jason Gunthorpe <jgg@nvidia.com>,
+  pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
   dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
   rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
   zhangguopeng@kylinos.cn,  linux@weissschuh.net,
@@ -71,13 +70,13 @@ Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
   saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
   leonro@nvidia.com,  witu@nvidia.com
 Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <20250828124320.GB7333@nvidia.com>
+In-Reply-To: <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
 	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com> <mafs0bjo0yffo.fsf@kernel.org>
-	<20250828124320.GB7333@nvidia.com>
-Date: Mon, 01 Sep 2025 19:10:53 +0200
-Message-ID: <mafs0h5xmw12a.fsf@kernel.org>
+	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
+	<CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
+Date: Mon, 01 Sep 2025 19:21:31 +0200
+Message-ID: <mafs03496w0kk.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -85,84 +84,84 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jason,
+Hi Pasha,
 
-On Thu, Aug 28 2025, Jason Gunthorpe wrote:
+On Mon, Sep 01 2025, Pasha Tatashin wrote:
 
-> On Wed, Aug 27, 2025 at 05:03:55PM +0200, Pratyush Yadav wrote:
+> On Mon, Sep 1, 2025 at 4:23=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wr=
+ote:
+>>
+>> On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
+>> > On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+>> >
+>> > > +   /*
+>> > > +    * Most of the space should be taken by preserved folios. So tak=
+e its
+>> > > +    * size, plus a page for other properties.
+>> > > +    */
+>> > > +   fdt =3D memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_S=
+IZE);
+>> > > +   if (!fdt) {
+>> > > +           err =3D -ENOMEM;
+>> > > +           goto err_unpin;
+>> > > +   }
+>> >
+>> > This doesn't seem to have any versioning scheme, it really should..
+>> >
+>> > > +   err =3D fdt_property_placeholder(fdt, "folios", preserved_size,
+>> > > +                                  (void **)&preserved_folios);
+>> > > +   if (err) {
+>> > > +           pr_err("Failed to reserve folios property in FDT: %s\n",
+>> > > +                  fdt_strerror(err));
+>> > > +           err =3D -ENOMEM;
+>> > > +           goto err_free_fdt;
+>> > > +   }
+>> >
+>> > Yuk.
+>> >
+>> > This really wants some luo helper
+>> >
+>> > 'luo alloc array'
+>> > 'luo restore array'
+>> > 'luo free array'
+>>
+>> We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=3D=
+kho/vmalloc/v1
 >
->> I think we need something a luo_xarray data structure that users like
->> memfd (and later hugetlb and guest_memfd and maybe others) can build to
->> make serialization easier. It will cover both contiguous arrays and
->> arrays with some holes in them.
->
-> I'm not sure xarray is the right way to go, it is very complex data
-> structure and building a kho variation of it seems like it is a huge
-> amount of work.
->
-> I'd stick with simple kvalloc type approaches until we really run into
-> trouble.
->
-> You can always map a sparse xarray into a kvalloc linear list by
-> including the xarray index in each entry.
->
-> Especially for memfd where we don't actually expect any sparsity in
-> real uses cases there is no reason to invest a huge effort to optimize
-> for it..
+> The patch looks okay to me, but it doesn't support holes in vmap
+> areas. While that is likely acceptable for vmalloc, it could be a
+> problem if we want to preserve memfd with holes and using vmap
+> preservation as a method, which would require a different approach.
+> Still, this would help with preserving memfd.
 
-Full xarray is too complex, sure. But I think a simple sparse array with
-xarray-like properties (4-byte pointers, values using xa_mk_value()) is
-fairly simple to implement. More advanced features of xarray like
-multi-index entries can be added later if needed.
+I agree. I think we should do it the other way round. Build a sparse
+array first, and then use that to build vmap preservation. Our emails
+seem to have crossed, but see my reply to Mike [0] that describes my
+idea a bit more, along with WIP code.
 
-In fact, I have a WIP version of such an array and have used it for
-memfd preservation, and it looks quite alright to me. You can find the
-code at [0]. It is roughly 300 lines of code. I still need to clean it
-up to make it post-able, but it does work.
-
-Building kvalloc on top of this becomes trivial.
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
+[0] https://lore.kernel.org/lkml/mafs0ldmyw1hp.fsf@kernel.org/
 
 >
->> As I explained above, the versioning is already there. Beyond that, why
->> do you think a raw C struct is better than FDT? It is just another way
->> of expressing the same information. FDT is a bit more cumbersome to
->> write and read, but comes at the benefit of more introspect-ability.
->
-> Doesn't have the size limitations, is easier to work list, runs
-> faster.
->
->> >  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for this fd..>, /*version=*/0);
->> >  luo_store_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifier for this fd..>, /*version=*/1);
->> 
->> I think what you describe here is essentially how LUO works currently,
->> just that the mechanisms are a bit different.
->
-> The bit different is a very important bit though :)
->
-> The versioning should be first class, not hidden away as some emergent
-> property of registering multiple serializers or something like that.
+> However, I wonder if we should add a separate preservation library on
+> top of the kho and not as part of kho (or at least keep them in a
+> separate file from core logic). This would allow us to preserve more
+> advanced data structures such as this and define preservation version
+> control, similar to Jason's store_object/restore_object proposal.
 
-That makes sense. How about some simple changes to the LUO interfaces to
-make the version more prominent:
+This is how I have done it in my code: created a separate file called
+kho_array.c. If we have enough such data structures, we can probably
+move it under kernel/liveupdate/lib/.
 
-	int (*prepare)(struct liveupdate_file_handler *handler,
-		       struct file *file, u64 *data, char **compatible);
+As for the store_object/restore_object proposal: see an alternate idea
+at [1].
 
-This lets the subsystem fill in the compatible (AKA version) (string
-here, but you can make it an integer if you want) when it serialized its
-data.
+[1] https://lore.kernel.org/lkml/mafs0h5xmw12a.fsf@kernel.org/
 
-And on restore side, LUO can pass in the compatible:
-
-	int (*retrieve)(struct liveupdate_file_handler *handler,
-			u64 data, char *compatible, struct file **file);
-
-
--- 
+--=20
 Regards,
 Pratyush Yadav
 
