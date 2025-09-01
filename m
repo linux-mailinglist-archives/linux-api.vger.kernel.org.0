@@ -1,168 +1,159 @@
-Return-Path: <linux-api+bounces-4666-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4667-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605D5B3EE42
-	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 21:03:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A63CB3F14B
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 01:15:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 95E387A1CE8
-	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 19:01:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5888189FCED
+	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 23:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D8F2DF121;
-	Mon,  1 Sep 2025 19:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35320223316;
+	Mon,  1 Sep 2025 23:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dXEZCX+4"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0MtS/cRE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0FD23C4F9
-	for <linux-api@vger.kernel.org>; Mon,  1 Sep 2025 19:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FF615E8B;
+	Mon,  1 Sep 2025 23:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756753406; cv=none; b=b1HgT44H+KUy1pBzrooAxAskqEi8InisS1InCc/G8CwFx1Sw8IMoZz7FiB9mHk138drCfpc1r/YxWki1ROU8KYkMyfgKCpP0r+tYJENxhw0TB6ZjcSPTqOrjqlZGZTxyRU7RtkFUTnVzUkbV1NTeeV0X5Ipc+Dqce/i6y5Y4Md8=
+	t=1756768502; cv=none; b=WJb/jFcqCK2aIdBWcTFFaBembNy2oPX+4lKeXL1BRsYh4ZrIuZN1PUjnP/xffvhddTLINvJpWyXNddmRfB25KssWSNO40GzDd0HzO7qU2fSfrfkAsAvPpzrgPiHa5QPID523c3JRCe9tafwdmC+1++vcLhNxQe+f0DZ8jt7SNKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756753406; c=relaxed/simple;
-	bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YIyvFGmcBSXUkYj1k5a34ABTOsrRsJDR4mKvvabXLuuU+QHK0g2jIzbmGixsRi024g5FoEe7AFISHT1AKtoZVkjXMsSoR/VNZkQjq+Xul92laIQBg5LExk2LIIrZRqAQjzEVU+b1G5nLpfFzGxCJySoyzwjGLCMKVdi2lAUmWcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dXEZCX+4; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b109c4af9eso40063341cf.3
-        for <linux-api@vger.kernel.org>; Mon, 01 Sep 2025 12:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1756753403; x=1757358203; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
-        b=dXEZCX+4rQJGhIL63KLKRHxqwjXdP2O6g2tY4k3x5FDsPLedpIApTg2PFgMjSph2sb
-         W7+k6ybjgpB8T2XdOJZv3OdlsVYLiahsYawM8Q/8AwB05NAqBv9sxeToI8M2Rgph25dc
-         wdyEOL16F1ynXsEJfcW7o23ZmJ0uhXGiOzLzsMdk2sqK25PahNNtJphys4q/8Gb/VEPY
-         522sx3i2EhJeH97+0xb/adJ1cvG4HxYlAVzdBidmkMqWCLgZxDntJUw/NS4DKICJ+Jrm
-         pAj12VClPYdAOehZgVfoDxJYk/OuCxxSO2v12TUzjm3O8ADkwkleByFpStlo+5BoK3Dg
-         NDDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756753403; x=1757358203;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
-        b=o/7n/+PUtIqelAS1bFbpQmONDw6U0q0GFA2Wjz3u+A0b6g5fTMjh+jJVvt1lGxkIyz
-         GaE9PnDLB1BVpex0f6KgDHH6sv0++i22XfH5xqLTAvuVm233fpZCWT1iTN1TwsjLEv+Y
-         ye5pRSR7TygHULQaGZ7Vzw9797xnb9FnE/ae0qw5+I4GljsX4XCQbLm/lB0SGQ+AtdTD
-         +tfmq2ytmqlupqzNb4M4lpxRBz0gmM1nRoUZveQLrAd1bNNiyR0yd4mXblYkHD9enIpO
-         L4XeWbNxb77mrfi3KshTIUAl6TVsTWQRzxdcCw77eUZQ9CKxqw3zUfF8IsmmSCRGNYZD
-         X4qw==
-X-Forwarded-Encrypted: i=1; AJvYcCWtO9ZI7iFQPRO1i1LU8gjC6OK6cx5Rf3qRHnqO+JEPPT08mlmN1rvCfVTr1PvETfyXPv2jSuBHR1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrmrhhghIgQQ/mlZe3QxSlzqIeAledRJhg6yODD9SBrdfY+j1c
-	vjh0ifZRUGAVnRj+fY2xqpEtPWeP4JCWowhNjq9KoBub6H9+yT+HyCgRqgM/MV/LL3yfuD7IF9l
-	mAvsrIMWUdhXI0T+ZqNzjTxqXTGbwgM8YIt5XGNa9Hg==
-X-Gm-Gg: ASbGncsiK1hKLOClSFF/EiisCta78J6SjnCySCm9qffwYl4SVrA8hsCtjVVRhwbmghl
-	Gpm/Gw7vdROSUoImIgUEzHo4mV9MXLn6Yaqhk4A7YahpAUxsESABoc/85nNtCDxm4KMogmWcRc+
-	MNbDAm8VNiipjQiicKcZgPs/88mt2HZMfhu9t8sq4mvB0az3nRCuCThtj8X9r8BAfycQCd3Sd3i
-	WUxU62gjqJvjII=
-X-Google-Smtp-Source: AGHT+IGC4IxxW7gTteEuAiFDY4ARihDdjTh7r8Mht+Ln0Ng2xWrhyAI5gEJNZ2B2JAdSBb2GjROz0/at0WjW2Aw4LfQ=
-X-Received: by 2002:a05:622a:1a0a:b0:4ab:902c:5553 with SMTP id
- d75a77b69052e-4b31da17d84mr113554401cf.52.1756753403110; Mon, 01 Sep 2025
- 12:03:23 -0700 (PDT)
+	s=arc-20240116; t=1756768502; c=relaxed/simple;
+	bh=ygKnE+IltxOXIp5p79x9wfHQd5zLgcG1Wm046Dcjfqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dj//do4XsX/gq3rHj9GEtIHstpLkHJ0VJnW3Qgq2T5Ah6EIbUmN/2EI94E3fK0d1parQBl05lHYyg2Wqfst866RygRgBLXFEvLi/2Rgtms4zgVxe8rZMGF0gMt/zBO7SqNfaDulpNWgx0wXWb7AtHraOI9T0dm6ACmA4g966fY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0MtS/cRE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=R3Kh8a0W/CYcl61SRfKWoq4jyctXtMxOD0GfEp0yocA=; b=0MtS/cRE96LOUdZSLn/kUsCqvY
+	GttpkhXRe49qWV0+3n7YhDmOThAweZniCOkrxQhAPgLdYPniiRIIrVHBxgZkFKp5yUxFqMRL1NQ+d
+	NSJ+pijCTO8MdJyK7i8/ph9th/EnNqN0dKLpILrWx37CFa0Fq5AjhwI6H1FRFG3U18XAeDdJlvO+N
+	dsxolIlgmDk+o5SzvrKGqp9GkjLBhb75kKKutHCL58XqOAgC1wS5BO65JgCwTpwFTKrdsQbKMQPl8
+	4pDQwzHTiurKzPqCMRKjZT823DnSh8RR+JLtkQPu6Jobo0xwCd3M9el2ryl66Sk9vqtFGxNCTiNh0
+	SHpWtShA==;
+Received: from [50.53.25.54] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1utDjm-0000000EHK5-2ST3;
+	Mon, 01 Sep 2025 23:14:58 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: patches@lists.linux.dev,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	David Howells <dhowells@redhat.com>,
+	linux-api@vger.kernel.org
+Subject: [PATCH v2] uapi/fcntl: define RENAME_* and AT_RENAME_* macros
+Date: Mon,  1 Sep 2025 16:14:48 -0700
+Message-ID: <20250901231457.1179748-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
- <aLXIcUwt0HVzRpYW@kernel.org> <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
- <mafs03496w0kk.fsf@kernel.org>
-In-Reply-To: <mafs03496w0kk.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 1 Sep 2025 19:02:46 +0000
-X-Gm-Features: Ac12FXxIFoyzz5jiOJ4O5RxQRUabkrNBq-ldI0H08I8mR4jOJnwP6yzvNT_MXGI
-Message-ID: <CA+CK2bAb6s=gUTCNjMrOqptZ3a_nj3teuVSZs86AvVymvaURQA@mail.gmail.com>
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> >> > This really wants some luo helper
-> >> >
-> >> > 'luo alloc array'
-> >> > 'luo restore array'
-> >> > 'luo free array'
-> >>
-> >> We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
-> >
-> > The patch looks okay to me, but it doesn't support holes in vmap
-> > areas. While that is likely acceptable for vmalloc, it could be a
-> > problem if we want to preserve memfd with holes and using vmap
-> > preservation as a method, which would require a different approach.
-> > Still, this would help with preserving memfd.
->
-> I agree. I think we should do it the other way round. Build a sparse
-> array first, and then use that to build vmap preservation. Our emails
+Define the RENAME_* and AT_RENAME_* macros exactly the same as in
+recent glibc <stdio.h> so that duplicate definition build errors in
+both samples/watch_queue/watch_test.c and samples/vfs/test-statx.c
+no longer happen. When they defined in exactly the same way in
+multiple places, the build errors are prevented.
 
-Yes, sparse array support would help both: vmalloc and memfd preservation.
+Defining only the AT_RENAME_* macros is not sufficient since they
+depend on the RENAME_* macros, which may not be defined when the
+AT_RENAME_* macros are used.
 
-> seem to have crossed, but see my reply to Mike [0] that describes my
-> idea a bit more, along with WIP code.
->
-> [0] https://lore.kernel.org/lkml/mafs0ldmyw1hp.fsf@kernel.org/
->
-> >
-> > However, I wonder if we should add a separate preservation library on
-> > top of the kho and not as part of kho (or at least keep them in a
-> > separate file from core logic). This would allow us to preserve more
-> > advanced data structures such as this and define preservation version
-> > control, similar to Jason's store_object/restore_object proposal.
->
-> This is how I have done it in my code: created a separate file called
-> kho_array.c. If we have enough such data structures, we can probably
-> move it under kernel/liveupdate/lib/.
+Build errors being fixed:
 
-Yes, let's place it under kernel/liveupdate/lib/. We will add more
-preservation types over time.
+for samples/vfs/test-statx.c:
 
-> As for the store_object/restore_object proposal: see an alternate idea
-> at [1].
->
-> [1] https://lore.kernel.org/lkml/mafs0h5xmw12a.fsf@kernel.org/
+In file included from ../samples/vfs/test-statx.c:23:
+usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+  159 | #define AT_RENAME_NOREPLACE     0x0001
+In file included from ../samples/vfs/test-statx.c:13:
+/usr/include/stdio.h:171:10: note: this is the location of the previous definition
+  171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+  160 | #define AT_RENAME_EXCHANGE      0x0002
+/usr/include/stdio.h:173:10: note: this is the location of the previous definition
+  173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+  161 | #define AT_RENAME_WHITEOUT      0x0004
+/usr/include/stdio.h:175:10: note: this is the location of the previous definition
+  175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
 
-What you are proposing makes sense. We can update the LUO API to be
-responsible for passing the compatible string outside of the data
-payload. However, I think we first need to settle on the actual API
-for storing and restoring a versioned blob of data and place that code
-into kernel/liveupdate/lib/. Depending on which API we choose, we can
-then modify the LUO to work accordingly.
+for samples/watch_queue/watch_test.c:
 
->
-> --
-> Regards,
-> Pratyush Yadav
+In file included from usr/include/linux/watch_queue.h:6,
+                 from ../samples/watch_queue/watch_test.c:19:
+usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+  159 | #define AT_RENAME_NOREPLACE     0x0001
+In file included from ../samples/watch_queue/watch_test.c:11:
+/usr/include/stdio.h:171:10: note: this is the location of the previous definition
+  171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+  160 | #define AT_RENAME_EXCHANGE      0x0002
+/usr/include/stdio.h:173:10: note: this is the location of the previous definition
+  173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+  161 | #define AT_RENAME_WHITEOUT      0x0004
+/usr/include/stdio.h:175:10: note: this is the location of the previous definition
+  175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+
+Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be allocated")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Jeff Layton <jlayton@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>
+Cc: Alexander Aring <alex.aring@gmail.com>
+Cc: Josef Bacik <josef@toxicpanda.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: David Howells <dhowells@redhat.com>
+CC: linux-api@vger.kernel.org
+To: linux-fsdevel@vger.kernel.org
+
+ include/uapi/linux/fcntl.h |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+--- linux-next-20250819.orig/include/uapi/linux/fcntl.h
++++ linux-next-20250819/include/uapi/linux/fcntl.h
+@@ -156,9 +156,12 @@
+  */
+ 
+ /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+-#define AT_RENAME_NOREPLACE	0x0001
+-#define AT_RENAME_EXCHANGE	0x0002
+-#define AT_RENAME_WHITEOUT	0x0004
++# define RENAME_NOREPLACE (1 << 0)
++# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
++# define RENAME_EXCHANGE (1 << 1)
++# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
++# define RENAME_WHITEOUT (1 << 2)
++# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+ 
+ /* Flag for faccessat(2). */
+ #define AT_EACCESS		0x200	/* Test access permitted for
 
