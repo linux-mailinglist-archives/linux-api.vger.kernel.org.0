@@ -1,159 +1,158 @@
-Return-Path: <linux-api+bounces-4667-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4668-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A63CB3F14B
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 01:15:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1388B3F27D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 04:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5888189FCED
-	for <lists+linux-api@lfdr.de>; Mon,  1 Sep 2025 23:15:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 304EE189E5DF
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 02:42:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35320223316;
-	Mon,  1 Sep 2025 23:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D432DECB4;
+	Tue,  2 Sep 2025 02:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0MtS/cRE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cuZZbosD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FF615E8B;
-	Mon,  1 Sep 2025 23:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1B72DECA7
+	for <linux-api@vger.kernel.org>; Tue,  2 Sep 2025 02:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756768502; cv=none; b=WJb/jFcqCK2aIdBWcTFFaBembNy2oPX+4lKeXL1BRsYh4ZrIuZN1PUjnP/xffvhddTLINvJpWyXNddmRfB25KssWSNO40GzDd0HzO7qU2fSfrfkAsAvPpzrgPiHa5QPID523c3JRCe9tafwdmC+1++vcLhNxQe+f0DZ8jt7SNKQ=
+	t=1756780910; cv=none; b=Mk/igwNRBI9b21aVAToJN0efIDyFJ57uAhoWPuNsGFcmyN5V3Llmmswxn6lutmY0u/ed5jdflS/XftOv2c9RSe18bgtA8AEa9nhungt1cy0F8q9JRJTRd8YX69AmWFrcxvGrGaXd+WVKmO/crDM6Okbe6mLwW+0szNssx1ByuVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756768502; c=relaxed/simple;
-	bh=ygKnE+IltxOXIp5p79x9wfHQd5zLgcG1Wm046Dcjfqg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dj//do4XsX/gq3rHj9GEtIHstpLkHJ0VJnW3Qgq2T5Ah6EIbUmN/2EI94E3fK0d1parQBl05lHYyg2Wqfst866RygRgBLXFEvLi/2Rgtms4zgVxe8rZMGF0gMt/zBO7SqNfaDulpNWgx0wXWb7AtHraOI9T0dm6ACmA4g966fY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0MtS/cRE; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=R3Kh8a0W/CYcl61SRfKWoq4jyctXtMxOD0GfEp0yocA=; b=0MtS/cRE96LOUdZSLn/kUsCqvY
-	GttpkhXRe49qWV0+3n7YhDmOThAweZniCOkrxQhAPgLdYPniiRIIrVHBxgZkFKp5yUxFqMRL1NQ+d
-	NSJ+pijCTO8MdJyK7i8/ph9th/EnNqN0dKLpILrWx37CFa0Fq5AjhwI6H1FRFG3U18XAeDdJlvO+N
-	dsxolIlgmDk+o5SzvrKGqp9GkjLBhb75kKKutHCL58XqOAgC1wS5BO65JgCwTpwFTKrdsQbKMQPl8
-	4pDQwzHTiurKzPqCMRKjZT823DnSh8RR+JLtkQPu6Jobo0xwCd3M9el2ryl66Sk9vqtFGxNCTiNh0
-	SHpWtShA==;
-Received: from [50.53.25.54] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utDjm-0000000EHK5-2ST3;
-	Mon, 01 Sep 2025 23:14:58 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: patches@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	linux-api@vger.kernel.org
-Subject: [PATCH v2] uapi/fcntl: define RENAME_* and AT_RENAME_* macros
-Date: Mon,  1 Sep 2025 16:14:48 -0700
-Message-ID: <20250901231457.1179748-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1756780910; c=relaxed/simple;
+	bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=REAT0XD4/vU3IuHPHfMo5My+d6ZuHOFFSgWFPASXnreCIK+El7kSZQ88QU9IcYdcgRLvEaHr8kPtN8AwpYxdD5DwnA+ZuC4WpGwWFRPdFBt+r1V0gG4mCQRCS/RMJNNDcWgrOwxqMOP1vX1PF0Eauh/aSuSSG1ynnZdq6asfWzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cuZZbosD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756780907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
+	b=cuZZbosDxEzRpiFERmx41Zmg//Lg68E565K5l2f1g77kgi1I91rvA3KwY2EG7/fChip8ZJ
+	+EVZku1Oz/gtpQoZCOaiCp6L3wjNXYrxGwmq4q+O30HZnluqG0WZe6o+JO90CNEK8M0WB6
+	T4q7VBUVk6EKOeCw55f+loqpnYNJqjU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-351-9z5QBMtmOvm4PsXcESo-PA-1; Mon, 01 Sep 2025 22:41:45 -0400
+X-MC-Unique: 9z5QBMtmOvm4PsXcESo-PA-1
+X-Mimecast-MFC-AGG-ID: 9z5QBMtmOvm4PsXcESo-PA_1756780904
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3d17731acb6so2545398f8f.3
+        for <linux-api@vger.kernel.org>; Mon, 01 Sep 2025 19:41:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756780904; x=1757385704;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
+        b=TPEnWU7Imj2ENAh6d/hx0easazczHOiHF3rlu8u8suyTvbxX338v/RXjA0Pkes179J
+         +OBoV08IC9sadqr9SjMuxH/xU4JPiNENC5wOnHtBgaKn+US+k5zBGBatSm1QPQdJFkCC
+         mMwnXkFkSAIo60X/uDO633j56aBdGyvtH6WIZKf3xTBRGk6yiiRW+Dm/8KfhvqqhU+ob
+         ZfDlnxWI76BnREgYHIl/wfU3CI5PQW3Axix63VAhKltqrCF2faJ7k/u0WaXGahA4XWfJ
+         8MZM8d/eKmDuf/uuOOPiIlNw+bjmn7YjbS7g5NKQKA3ishpb5eSzSC2P9jzdcdX7bCut
+         hR2A==
+X-Forwarded-Encrypted: i=1; AJvYcCWg/Pn1O++MeFiBPhhePYX8wReY0sBIT4LJ49xF6xso8/A5BrEfliJsIJkVCcfRiQRhELI8fH1YKsE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPoTdN+lUZWCE2u9yOWee+c8z09crTd17+zpFvZy6FesPU0wcp
+	w4VB6ncivb2W4omNRwj5doHi0wO6Dg9uOUdTbdGEHQDeDnj6ztBS/jZ66iZvRGdgdSDlx4a27mm
+	XPXuf9qOGRHmgMmjj4+FTHJbgGDR1+O0iyuWG8npoxYHeyCt7tFrR+ajZsPb0AFvyr47Xhox6jr
+	W1u0D2SKeqMbGE1GE2JardXHjbKRWGYxPwuJ/C
+X-Gm-Gg: ASbGncv+A6krje/0Ld5zz9B7eLjwmef3whOXtDxAP6hVVmZfLf01ouzcI0ad0RIfMSr
+	0y7eFZuvduGPAG7vzWP1dGuRUW1BX16uX6/nEhrvsHWhuT8IGF8EsVeJqyzZLJ0Bbs7ZYx+goU/
+	NZ0bHgNm18CesrdHjyDNZ7zA==
+X-Received: by 2002:a05:6000:2908:b0:3ce:d43c:673c with SMTP id ffacd0b85a97d-3d1e03bffc3mr8091262f8f.46.1756780904132;
+        Mon, 01 Sep 2025 19:41:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENb1kY2XQ8mBQa0J7/ig1nVAt9yukczIBflFZuDPJFDw7c0uMbgFvrppwdCgeyTJdaek0AJ8R6vYgcDz4/HpU=
+X-Received: by 2002:a05:6000:2908:b0:3ce:d43c:673c with SMTP id
+ ffacd0b85a97d-3d1e03bffc3mr8091255f8f.46.1756780903778; Mon, 01 Sep 2025
+ 19:41:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
+ <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org> <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
+ <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu> <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
+ <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu> <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
+ <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu> <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
+ <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu> <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
+ <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
+In-Reply-To: <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
+From: Arjun Shankar <arjun@redhat.com>
+Date: Tue, 2 Sep 2025 04:41:32 +0200
+X-Gm-Features: Ac12FXzLaThOFh0KE6jFNHb2EeCxt5uCy8iEP5YlTDaLumDdcuqUnP4aPaTeQjI
+Message-ID: <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
+Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, 
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, libc-alpha@sourceware.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Define the RENAME_* and AT_RENAME_* macros exactly the same as in
-recent glibc <stdio.h> so that duplicate definition build errors in
-both samples/watch_queue/watch_test.c and samples/vfs/test-statx.c
-no longer happen. When they defined in exactly the same way in
-multiple places, the build errors are prevented.
+Hi Paul,
 
-Defining only the AT_RENAME_* macros is not sufficient since they
-depend on the RENAME_* macros, which may not be defined when the
-AT_RENAME_* macros are used.
+> On 2025-08-28 01:42, Aleksa Sarai wrote:
+> >> I still fail to understand how a hypothetical "give me the supported flags"
+> >> openat2 flag would be useful enough to justify complicating the openat2 API
+> >> today.
+> > My only concern is that it would break recompiles if/when we change it
+> > back.
+>
+> OK, but from what I can see there's no identified possibility that
+> openat2 will modify the objects its arguments point to, just as there's
+> no identified possibility that plain openat will do so (in a
+> hypothetical extension to remove unnecessary slashes from its filename
+> argument, say).
 
-Build errors being fixed:
+While it is true that openat cannot be extended in this way, for
+openat2 (whether or not it eventually materializes in Linux) there
+already is the RFC patch series proposing CHECK_FIELDS that Aleksa
+referred to earlier. And it's not just that: it has been mentioned as
+a potential future direction even when the openat2 syscall was
+implemented [1]. I think we should interpret this to mean that there
+is indeed a possibility for openat2.
 
-for samples/vfs/test-statx.c:
+> In that case it's pretty clear that glibc should mark the open_how
+> argument as pointer-to-const, just as glibc already marks the filename
+> argument.
 
-In file included from ../samples/vfs/test-statx.c:23:
-usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
-  159 | #define AT_RENAME_NOREPLACE     0x0001
-In file included from ../samples/vfs/test-statx.c:13:
-/usr/include/stdio.h:171:10: note: this is the location of the previous definition
-  171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
-usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
-  160 | #define AT_RENAME_EXCHANGE      0x0002
-/usr/include/stdio.h:173:10: note: this is the location of the previous definition
-  173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
-usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
-  161 | #define AT_RENAME_WHITEOUT      0x0004
-/usr/include/stdio.h:175:10: note: this is the location of the previous definition
-  175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+Unless the kernel marks open_how as const, glibc marking it as const
+can lead to additional maintenance complications down the line: in the
+future if the kernel starts modifying open_how, glibc's openat2
+wrapper will no longer align with the kernel's behavior. At that
+point, glibc will either need to discard the const (which will cause
+any existing users of the wrapper to fail to recompile), or glibc will
+need to handle the kernel's new behavior in the wrapper (which will
+lead to further divergence from the behavior of the syscall that we
+would claim to wrap). Neither of these seems problem-free. On the
+other hand, following the kernel's declaration will mean that should
+the kernel choose to mark it const, we can easily follow suit in glibc
+without breaking recompiles.
 
-for samples/watch_queue/watch_test.c:
+Earlier on in this thread, Aleksa mentioned sched_setattr as
+establishing precedent for the kernel modifying non-const objects. It
+looks like glibc actually does provide a sched_setattr wrapper since
+2.41. The relevant argument hasn't been marked as const and the kernel
+does modify the contents, and glibc's syscall wrapper simply passes it
+through. So we already do this.
 
-In file included from usr/include/linux/watch_queue.h:6,
-                 from ../samples/watch_queue/watch_test.c:19:
-usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
-  159 | #define AT_RENAME_NOREPLACE     0x0001
-In file included from ../samples/watch_queue/watch_test.c:11:
-/usr/include/stdio.h:171:10: note: this is the location of the previous definition
-  171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
-usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
-  160 | #define AT_RENAME_EXCHANGE      0x0002
-/usr/include/stdio.h:173:10: note: this is the location of the previous definition
-  173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
-usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
-  161 | #define AT_RENAME_WHITEOUT      0x0004
-/usr/include/stdio.h:175:10: note: this is the location of the previous definition
-  175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+Based on all this, I feel that leaving open_how as-is is the easier
+and more maintenance-friendly choice for the syscall wrapper.
 
-Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be allocated")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Amir Goldstein <amir73il@gmail.com>
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>
-Cc: Alexander Aring <alex.aring@gmail.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: David Howells <dhowells@redhat.com>
-CC: linux-api@vger.kernel.org
-To: linux-fsdevel@vger.kernel.org
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fddb5d430ad9fa91b49b1d34d0202ffe2fa0e179
 
- include/uapi/linux/fcntl.h |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+--
+Arjun Shankar
+he/him/his
 
---- linux-next-20250819.orig/include/uapi/linux/fcntl.h
-+++ linux-next-20250819/include/uapi/linux/fcntl.h
-@@ -156,9 +156,12 @@
-  */
- 
- /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
--#define AT_RENAME_NOREPLACE	0x0001
--#define AT_RENAME_EXCHANGE	0x0002
--#define AT_RENAME_WHITEOUT	0x0004
-+# define RENAME_NOREPLACE (1 << 0)
-+# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
-+# define RENAME_EXCHANGE (1 << 1)
-+# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
-+# define RENAME_WHITEOUT (1 << 2)
-+# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
- 
- /* Flag for faccessat(2). */
- #define AT_EACCESS		0x200	/* Test access permitted for
 
