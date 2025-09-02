@@ -1,103 +1,132 @@
-Return-Path: <linux-api+bounces-4690-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4691-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135FBB40CFB
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 20:18:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E99B40EF3
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 23:02:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97B205E0AC8
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 18:18:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1236F7B1899
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 21:00:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9D1934AB06;
-	Tue,  2 Sep 2025 18:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="YPnPjbf2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B08F2E6CC2;
+	Tue,  2 Sep 2025 21:02:18 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A5E33A03A
-	for <linux-api@vger.kernel.org>; Tue,  2 Sep 2025 18:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC5017993;
+	Tue,  2 Sep 2025 21:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756837076; cv=none; b=WIjcv+8vbvm82+uQmkOVg6HAV043glkSz04XeOIvsPJJKpBSFbPAAc2wtoxRhN9rqfEWBQhHm7XOJLRj4rK4qhLRWEfeZf7DPyY7B45XQ9/bBkYobvQ6MNqyHVsGPlY9Coql/RkeQF63zQy1BOvzuQULeJXtsmpYequf9+2PHC4=
+	t=1756846937; cv=none; b=C9E6ekomjSL/sYPZVJBUHWVY/RJ5GlD/LvYtNCAwcyeJreyXlPsgkfD2cBSifrUCqCguRlla8LilKSfQ7qXhkHe36rPKaVhjGqnOSDBnpX3RH17Z33BXX5P9bSLNu5OxbxEOxANtEYgiStD5PxVMe9dRngO1hWe6/sX6Bh6tBfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756837076; c=relaxed/simple;
-	bh=erFtCBWKSHmHO6sbz5M/ddIJlv7xCRivPg8/YmC+KCs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=anRWR0FchrrUhCXn00JkRjsyq8insrXw/ms28TzpB+CLGMEe7f1BF0niv1dhWmGiJUsBLLlx7YBOxJYVl/V2AYGFQpevTT/vmfRkAwwLrXwlJJ2mqVby2SqkuJGCWJGVIYfDVbdPDaHPRbdRVCH5P95yeudDkfhSdPqxhPkKdZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=YPnPjbf2; arc=none smtp.client-ip=131.179.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id C77ED3C3068E1;
-	Tue,  2 Sep 2025 11:17:54 -0700 (PDT)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id AwgMJhRvEs7y; Tue,  2 Sep 2025 11:17:54 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 9E23C3C32B0F0;
-	Tue,  2 Sep 2025 11:17:54 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 9E23C3C32B0F0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1756837074;
-	bh=eScfDWoG65r0IddXZ4PvgQFSYXDLIvRRE5qcVU7f32c=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=YPnPjbf2/e4F6dRkGCetwDUtPGGutr16pVtERnzbbgkoG0VeaCxeEJbV87k0r7HqS
-	 Zr/X03QpOi0zT3qEm3cOvOKdooW8u+ABAuOiPnHzoEDKlCWO/hAJ1vOMiMgPoK3pVj
-	 V2vsPdk3j27AYzRhTu6Wr+A/GZ34xgMplEO3u6Qd+60UjYBlpCZWBjU6NA8KuL+wWr
-	 ocYlaRRK5gAxz9+PRK6Izn5JuED2Xf17f4EsndALmH4/4U/SK5cShnLUaf5L46cd5U
-	 M7yZIs8LKLVX4VUkkbTtGI306Umt6/Z+hnHBUYgKae6NMB+ZHhj7SQEb2UfnzMjdGx
-	 SkzhBHRP5pQtw==
-X-Virus-Scanned: amavis at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id 33jf8rbRBAcc; Tue,  2 Sep 2025 11:17:54 -0700 (PDT)
-Received: from penguin.cs.ucla.edu (47-154-18-19.fdr01.snmn.ca.ip.frontiernet.net [47.154.18.19])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 7A1E23C3068E1;
-	Tue,  2 Sep 2025 11:17:54 -0700 (PDT)
-Message-ID: <bf6cecec-1694-46d2-93d4-0a25128088bf@cs.ucla.edu>
-Date: Tue, 2 Sep 2025 11:17:54 -0700
+	s=arc-20240116; t=1756846937; c=relaxed/simple;
+	bh=bTvqiSjrm36IbSFYAuBFQVu2vRcyjUYrcLKgnn8/J0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=raP8qISqJlrKq4MRTyoGqOCFPSftIaAO8hcbPD8Vz15RB4SpejR7L9acBPkXcvoMlMG2+x6AIZDsIXW46I7fFxf1peImo9zt53qmnrkOLkTeqDV1R6NqaOWOYDZd5w+E4dgyeGYAWutqKgzGR/gxrSXyPnHo8N85jMdgITUXOcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FEEFC4CEED;
+	Tue,  2 Sep 2025 21:02:10 +0000 (UTC)
+Date: Tue, 2 Sep 2025 22:02:07 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Will Deacon <will@kernel.org>, jannh@google.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v20 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <aLdbT67auUpaOj2T@arm.com>
+References: <20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org>
+ <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
-To: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
- Arjun Shankar <arjun@redhat.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, libc-alpha@sourceware.org,
- linux-api@vger.kernel.org
-References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
- <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org>
- <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
- <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu>
- <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
- <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu>
- <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
- <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu>
- <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
- <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu>
- <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
- <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
- <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
- <d88d7228-fabe-41d1-9a09-298fcb313647@cs.ucla.edu>
- <2a979a5e-a78d-4ee1-ac96-7176a8c45fb4@linaro.org>
-Content-Language: en-US
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <2a979a5e-a78d-4ee1-ac96-7176a8c45fb4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
 
-On 2025-09-02 10:11, Adhemerval Zanella Netto wrote:
-> if kernel developers are planing to make the argument in/out
+On Tue, Sep 02, 2025 at 11:21:48AM +0100, Mark Brown wrote:
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index af673856499d..d484ebeded33 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1907,6 +1907,51 @@ static bool need_futex_hash_allocate_default(u64 clone_flags)
+>  	return true;
+>  }
+>  
+> +static int shstk_validate_clone(struct task_struct *p,
+> +				struct kernel_clone_args *args)
+> +{
+> +	struct mm_struct *mm;
+> +	struct vm_area_struct *vma;
+> +	struct page *page;
+> +	unsigned long addr;
+> +	int ret;
+> +
+> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
+> +		return 0;
+> +
+> +	if (!args->shadow_stack_token)
+> +		return 0;
+> +
+> +	mm = get_task_mm(p);
+> +	if (!mm)
+> +		return -EFAULT;
 
-I'm not seeing much evidence for such a plan, and if I saw some I'd make 
-my feelings known in the appropriate forum. There's no real need there, 
-and the only stated proposal would not accomplish its goals.
+In theory, I don't think we need the get_task_mm() -> mmget() since
+copy_mm() early on already did this and the task can't disappear from
+underneath while we are creating it.
+
+> +
+> +	mmap_read_lock(mm);
+> +
+> +	addr = untagged_addr_remote(mm, args->shadow_stack_token);
+> +	page = get_user_page_vma_remote(mm, addr, FOLL_FORCE | FOLL_WRITE,
+> +					&vma);
+
+However, I wonder whether it makes sense to use the remote mm access
+here at all. Does this code ever run without CLONE_VM? If not, this is
+all done within the current mm context.
+
+I can see the x86 shstk_alloc_thread_stack() returns early if !CLONE_VM.
+Similarly on arm64. I think the behaviour is preserved with this series
+but I'm not entirely sure from the contextual diff (I need to apply the
+patches locally).
+
+Otherwise the patch looks fine (well, even the above wouldn't fail, I
+just find it strange that we pretend it's a remote mm but on the default
+allocation path like alloc_gcs() we go for current->mm).
+
+
+BTW, if you repost, it might be worth cross-posting to linux-arm-kernel
+for wider exposure as not everyone reads LKML (and you can drop
+Szabolcs, his arm address is no longer valid).
+
+-- 
+Catalin
 
