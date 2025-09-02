@@ -1,158 +1,238 @@
-Return-Path: <linux-api+bounces-4668-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4669-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1388B3F27D
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 04:41:56 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD10B3F60C
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 08:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 304EE189E5DF
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 02:42:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0071C4E159E
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 06:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D432DECB4;
-	Tue,  2 Sep 2025 02:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E552E54C8;
+	Tue,  2 Sep 2025 06:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cuZZbosD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4XOk3kM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1B72DECA7
-	for <linux-api@vger.kernel.org>; Tue,  2 Sep 2025 02:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19F279787;
+	Tue,  2 Sep 2025 06:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756780910; cv=none; b=Mk/igwNRBI9b21aVAToJN0efIDyFJ57uAhoWPuNsGFcmyN5V3Llmmswxn6lutmY0u/ed5jdflS/XftOv2c9RSe18bgtA8AEa9nhungt1cy0F8q9JRJTRd8YX69AmWFrcxvGrGaXd+WVKmO/crDM6Okbe6mLwW+0szNssx1ByuVo=
+	t=1756796335; cv=none; b=lAwhw9m8h8TVNDojWJOFpB6eDPT94KZkE/M3ZcTh86rTR8Q1pOy71zTl3aFPdCOo/AvPm9nnBGN4NZXg02/4C3z2RBZifGHT4Uz8KKRqFcbfprywEZXmzxLKc1PJ8PIiu8WXOpHBarLzaIRJMnDtRTxhWrzbcwgCkFkgEwjildg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756780910; c=relaxed/simple;
-	bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
+	s=arc-20240116; t=1756796335; c=relaxed/simple;
+	bh=FxyB8KmeO2NsdMIYJ6uPIuHJnw18rr2QCLh3a8/xg20=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=REAT0XD4/vU3IuHPHfMo5My+d6ZuHOFFSgWFPASXnreCIK+El7kSZQ88QU9IcYdcgRLvEaHr8kPtN8AwpYxdD5DwnA+ZuC4WpGwWFRPdFBt+r1V0gG4mCQRCS/RMJNNDcWgrOwxqMOP1vX1PF0Eauh/aSuSSG1ynnZdq6asfWzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cuZZbosD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756780907;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
-	b=cuZZbosDxEzRpiFERmx41Zmg//Lg68E565K5l2f1g77kgi1I91rvA3KwY2EG7/fChip8ZJ
-	+EVZku1Oz/gtpQoZCOaiCp6L3wjNXYrxGwmq4q+O30HZnluqG0WZe6o+JO90CNEK8M0WB6
-	T4q7VBUVk6EKOeCw55f+loqpnYNJqjU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-351-9z5QBMtmOvm4PsXcESo-PA-1; Mon, 01 Sep 2025 22:41:45 -0400
-X-MC-Unique: 9z5QBMtmOvm4PsXcESo-PA-1
-X-Mimecast-MFC-AGG-ID: 9z5QBMtmOvm4PsXcESo-PA_1756780904
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3d17731acb6so2545398f8f.3
-        for <linux-api@vger.kernel.org>; Mon, 01 Sep 2025 19:41:45 -0700 (PDT)
+	 To:Cc:Content-Type; b=TZuutEqrVZnpxbJSANtLJcKHVI+mUv0WJp3PBA0lhdr54Qp6vfV7n/JwO3FcJCCWFhVjU0bHd7KbJxS5DgeaEvevjLEuhTk+OXHwu1PKCFIUWgi6JfaQFsGYRMFx1A1JU8oCsMzjiN7t2EjamZoasL3bM6FqMk/T5SpGNrL5naM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4XOk3kM; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-61cd6089262so7990951a12.3;
+        Mon, 01 Sep 2025 23:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756796332; x=1757401132; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CcgGJ/OYvj+YieT2Mj26UykE9RBcjh8dHLuyKc8kxcQ=;
+        b=X4XOk3kMph49cTjv0poendEQjYx29mhhghAEn10XlPffOzVvYYdtyVmozUK/31QTdF
+         vyepB5zciznube3gXY9oUZNhH5TRt0hRDcfuuVIQj4W/SNGNRdHm6I/2szGUMV1teT+g
+         9P+wsfa8icC5Vn4DnjUXPEg7SfbCLRkZcl47+63n1UZ9YAr9uuTjI/w7+21d5gOtl9fp
+         pV66WvdY2B+x6/RLpbJ02U8IJVLVl5TNVOTlB3Yp11GwKj2IqYoMW7f0ImzCbux4iJYV
+         uMeQDMm2JUQlNs6k8qZu/131GE2EWWWjpVJrZvHgMh83LPAFufG3J+htwBOEQbYqjkDD
+         m9tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756780904; x=1757385704;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JaHhtfzc7rg7wnZRlgZklrE06wWmQLrXQh+byJOtdco=;
-        b=TPEnWU7Imj2ENAh6d/hx0easazczHOiHF3rlu8u8suyTvbxX338v/RXjA0Pkes179J
-         +OBoV08IC9sadqr9SjMuxH/xU4JPiNENC5wOnHtBgaKn+US+k5zBGBatSm1QPQdJFkCC
-         mMwnXkFkSAIo60X/uDO633j56aBdGyvtH6WIZKf3xTBRGk6yiiRW+Dm/8KfhvqqhU+ob
-         ZfDlnxWI76BnREgYHIl/wfU3CI5PQW3Axix63VAhKltqrCF2faJ7k/u0WaXGahA4XWfJ
-         8MZM8d/eKmDuf/uuOOPiIlNw+bjmn7YjbS7g5NKQKA3ishpb5eSzSC2P9jzdcdX7bCut
-         hR2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWg/Pn1O++MeFiBPhhePYX8wReY0sBIT4LJ49xF6xso8/A5BrEfliJsIJkVCcfRiQRhELI8fH1YKsE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPoTdN+lUZWCE2u9yOWee+c8z09crTd17+zpFvZy6FesPU0wcp
-	w4VB6ncivb2W4omNRwj5doHi0wO6Dg9uOUdTbdGEHQDeDnj6ztBS/jZ66iZvRGdgdSDlx4a27mm
-	XPXuf9qOGRHmgMmjj4+FTHJbgGDR1+O0iyuWG8npoxYHeyCt7tFrR+ajZsPb0AFvyr47Xhox6jr
-	W1u0D2SKeqMbGE1GE2JardXHjbKRWGYxPwuJ/C
-X-Gm-Gg: ASbGncv+A6krje/0Ld5zz9B7eLjwmef3whOXtDxAP6hVVmZfLf01ouzcI0ad0RIfMSr
-	0y7eFZuvduGPAG7vzWP1dGuRUW1BX16uX6/nEhrvsHWhuT8IGF8EsVeJqyzZLJ0Bbs7ZYx+goU/
-	NZ0bHgNm18CesrdHjyDNZ7zA==
-X-Received: by 2002:a05:6000:2908:b0:3ce:d43c:673c with SMTP id ffacd0b85a97d-3d1e03bffc3mr8091262f8f.46.1756780904132;
-        Mon, 01 Sep 2025 19:41:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENb1kY2XQ8mBQa0J7/ig1nVAt9yukczIBflFZuDPJFDw7c0uMbgFvrppwdCgeyTJdaek0AJ8R6vYgcDz4/HpU=
-X-Received: by 2002:a05:6000:2908:b0:3ce:d43c:673c with SMTP id
- ffacd0b85a97d-3d1e03bffc3mr8091255f8f.46.1756780903778; Mon, 01 Sep 2025
- 19:41:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756796332; x=1757401132;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CcgGJ/OYvj+YieT2Mj26UykE9RBcjh8dHLuyKc8kxcQ=;
+        b=PcfGasjhTpuk60wiT4iB0jhTFAUH/VLzaKxlzcHzSuIEhOcEpOpXu58tV4bohYuffl
+         WwoJn1gybAQejfYmIRxIZ06eUTUrB/PBqxYJyQG6JnadPKjoAhOxYOObPoG5Dejngg72
+         NC/YicmWSxuNBguB7IJZicRFdRgDizelvnsPQZubcBDcL2TZnGBw6yybBIMCcx4F33Y/
+         /X+exKc6gg73bcGE7HVTqHPNBWvLrUQpcQD6r1JPvOB4GYM0F0IsoAhf7WJUcCQ5w1LO
+         vEJs9QAd+6vhkQwFlwhKWQO4lkvcdnapaVGePOvQHZ6NMTydQmZ34Ds1F2OlgqGTe/8w
+         OgGg==
+X-Forwarded-Encrypted: i=1; AJvYcCX2zrj7UvEmB+sAy+O2XniPxrS30SF9ZTOn5FM/2SHQP6icECYs3SkVOVQHEDYmXHZxUnm8h2ZX3lQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkzZxDmwSQvY0qaeiLtWI6BKlWk4nRbvxSS+BQlvigbYhAXbTB
+	g15S86XX/3jUppt9u3ay/d1w6TXqak+cO4vld20CBpNhkmKEA2o90moTTIdhFjuuCcASYa+pswK
+	kYS2IUlzHrqZUaPoL7tGHrBgXpLwzK84=
+X-Gm-Gg: ASbGncvU6mLn4maSsCzc2FGD+lC7QNWXU82amkI0wPKPVclSvJ+VJFQ4gZ9kk3F5x0f
+	3I36G+Zb94sHlTNNGvYgE8nLwt3izeMpg8MAMK7ER6lHTDjLKaOAvqxiEB/xx/yEum4vvN9KLJn
+	TPhK1SNETT8/usadRuP1JCGi35Mom3ya+FqfAViSrQqCfd9wIo9Njx3JffUV8fwof3TQeWkfIEo
+	kDmDNk3hlfro3Drxg==
+X-Google-Smtp-Source: AGHT+IHtxRdy/cLBH9rL18FC84yByLcaoc43KzkNVlknKUEcHp6Ul3SE5+4+xVW28Ki8sLRZg6VPCoBHV2tJefNOaOg=
+X-Received: by 2002:a05:6402:274d:b0:61e:95b0:c95d with SMTP id
+ 4fb4d7f45d1cf-61e95b11582mr5639504a12.19.1756796331930; Mon, 01 Sep 2025
+ 23:58:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
- <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org> <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
- <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu> <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
- <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu> <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
- <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu> <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
- <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu> <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
- <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
-In-Reply-To: <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu>
-From: Arjun Shankar <arjun@redhat.com>
-Date: Tue, 2 Sep 2025 04:41:32 +0200
-X-Gm-Features: Ac12FXzLaThOFh0KE6jFNHb2EeCxt5uCy8iEP5YlTDaLumDdcuqUnP4aPaTeQjI
-Message-ID: <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
-Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
-To: Paul Eggert <eggert@cs.ucla.edu>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, libc-alpha@sourceware.org, 
-	linux-api@vger.kernel.org
+References: <20250901231457.1179748-1-rdunlap@infradead.org>
+In-Reply-To: <20250901231457.1179748-1-rdunlap@infradead.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 2 Sep 2025 08:58:40 +0200
+X-Gm-Features: Ac12FXz70y9An6zSkD9I5T6JyN4lQ-aLSWISxg8ShazAXP3F9zmY8IGf3i4xCAk
+Message-ID: <CAOQ4uxjXvYBsW1Nb2HKaoUg1qi8Pkq1XKtQEbnAvMUGcp7LrZA@mail.gmail.com>
+Subject: Re: [PATCH v2] uapi/fcntl: define RENAME_* and AT_RENAME_* macros
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, patches@lists.linux.dev, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
-
-> On 2025-08-28 01:42, Aleksa Sarai wrote:
-> >> I still fail to understand how a hypothetical "give me the supported flags"
-> >> openat2 flag would be useful enough to justify complicating the openat2 API
-> >> today.
-> > My only concern is that it would break recompiles if/when we change it
-> > back.
+On Tue, Sep 2, 2025 at 1:14=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
 >
-> OK, but from what I can see there's no identified possibility that
-> openat2 will modify the objects its arguments point to, just as there's
-> no identified possibility that plain openat will do so (in a
-> hypothetical extension to remove unnecessary slashes from its filename
-> argument, say).
+> Define the RENAME_* and AT_RENAME_* macros exactly the same as in
+> recent glibc <stdio.h> so that duplicate definition build errors in
+> both samples/watch_queue/watch_test.c and samples/vfs/test-statx.c
+> no longer happen. When they defined in exactly the same way in
+> multiple places, the build errors are prevented.
+>
+> Defining only the AT_RENAME_* macros is not sufficient since they
+> depend on the RENAME_* macros, which may not be defined when the
+> AT_RENAME_* macros are used.
+>
+> Build errors being fixed:
+>
+> for samples/vfs/test-statx.c:
+>
+> In file included from ../samples/vfs/test-statx.c:23:
+> usr/include/linux/fcntl.h:159:9: warning: =E2=80=98AT_RENAME_NOREPLACE=E2=
+=80=99 redefined
+>   159 | #define AT_RENAME_NOREPLACE     0x0001
+> In file included from ../samples/vfs/test-statx.c:13:
+> /usr/include/stdio.h:171:10: note: this is the location of the previous d=
+efinition
+>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+> usr/include/linux/fcntl.h:160:9: warning: =E2=80=98AT_RENAME_EXCHANGE=E2=
+=80=99 redefined
+>   160 | #define AT_RENAME_EXCHANGE      0x0002
+> /usr/include/stdio.h:173:10: note: this is the location of the previous d=
+efinition
+>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+> usr/include/linux/fcntl.h:161:9: warning: =E2=80=98AT_RENAME_WHITEOUT=E2=
+=80=99 redefined
+>   161 | #define AT_RENAME_WHITEOUT      0x0004
+> /usr/include/stdio.h:175:10: note: this is the location of the previous d=
+efinition
+>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>
+> for samples/watch_queue/watch_test.c:
+>
+> In file included from usr/include/linux/watch_queue.h:6,
+>                  from ../samples/watch_queue/watch_test.c:19:
+> usr/include/linux/fcntl.h:159:9: warning: =E2=80=98AT_RENAME_NOREPLACE=E2=
+=80=99 redefined
+>   159 | #define AT_RENAME_NOREPLACE     0x0001
+> In file included from ../samples/watch_queue/watch_test.c:11:
+> /usr/include/stdio.h:171:10: note: this is the location of the previous d=
+efinition
+>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+> usr/include/linux/fcntl.h:160:9: warning: =E2=80=98AT_RENAME_EXCHANGE=E2=
+=80=99 redefined
+>   160 | #define AT_RENAME_EXCHANGE      0x0002
+> /usr/include/stdio.h:173:10: note: this is the location of the previous d=
+efinition
+>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+> usr/include/linux/fcntl.h:161:9: warning: =E2=80=98AT_RENAME_WHITEOUT=E2=
+=80=99 redefined
+>   161 | #define AT_RENAME_WHITEOUT      0x0004
+> /usr/include/stdio.h:175:10: note: this is the location of the previous d=
+efinition
+>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>
+> Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be =
+allocated")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Jeff Layton <jlayton@kernel.org>
+> Cc: Chuck Lever <chuck.lever@oracle.com>
+> Cc: Alexander Aring <alex.aring@gmail.com>
+> Cc: Josef Bacik <josef@toxicpanda.com>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: David Howells <dhowells@redhat.com>
+> CC: linux-api@vger.kernel.org
+> To: linux-fsdevel@vger.kernel.org
+>
+>  include/uapi/linux/fcntl.h |    9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> --- linux-next-20250819.orig/include/uapi/linux/fcntl.h
+> +++ linux-next-20250819/include/uapi/linux/fcntl.h
+> @@ -156,9 +156,12 @@
+>   */
+>
+>  /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+> -#define AT_RENAME_NOREPLACE    0x0001
+> -#define AT_RENAME_EXCHANGE     0x0002
+> -#define AT_RENAME_WHITEOUT     0x0004
+> +# define RENAME_NOREPLACE (1 << 0)
+> +# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+> +# define RENAME_EXCHANGE (1 << 1)
+> +# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+> +# define RENAME_WHITEOUT (1 << 2)
+> +# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>
 
-While it is true that openat cannot be extended in this way, for
-openat2 (whether or not it eventually materializes in Linux) there
-already is the RFC patch series proposing CHECK_FIELDS that Aleksa
-referred to earlier. And it's not just that: it has been mentioned as
-a potential future direction even when the openat2 syscall was
-implemented [1]. I think we should interpret this to mean that there
-is indeed a possibility for openat2.
+This solution, apart from being terribly wrong (adjust the source to match
+to value of its downstream copy), does not address the issue that Mathew
+pointed out on v1 discussion [1]:
 
-> In that case it's pretty clear that glibc should mark the open_how
-> argument as pointer-to-const, just as glibc already marks the filename
-> argument.
+$ grep -r AT_RENAME_NOREPLACE /usr/include
+/usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE  0x0001
 
-Unless the kernel marks open_how as const, glibc marking it as const
-can lead to additional maintenance complications down the line: in the
-future if the kernel starts modifying open_how, glibc's openat2
-wrapper will no longer align with the kernel's behavior. At that
-point, glibc will either need to discard the const (which will cause
-any existing users of the wrapper to fail to recompile), or glibc will
-need to handle the kernel's new behavior in the wrapper (which will
-lead to further divergence from the behavior of the syscall that we
-would claim to wrap). Neither of these seems problem-free. On the
-other hand, following the kernel's declaration will mean that should
-the kernel choose to mark it const, we can easily follow suit in glibc
-without breaking recompiles.
+It's not in stdio.h at all.  This is with libc6 2.41-10
 
-Earlier on in this thread, Aleksa mentioned sched_setattr as
-establishing precedent for the kernel modifying non-const objects. It
-looks like glibc actually does provide a sched_setattr wrapper since
-2.41. The relevant argument hasn't been marked as const and the kernel
-does modify the contents, and glibc's syscall wrapper simply passes it
-through. So we already do this.
+[1] https://lore.kernel.org/linux-fsdevel/aKxfGix_o4glz8-Z@casper.infradead=
+.org/
 
-Based on all this, I feel that leaving open_how as-is is the easier
-and more maintenance-friendly choice for the syscall wrapper.
+I don't know how to resolve the mess that glibc has created.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fddb5d430ad9fa91b49b1d34d0202ffe2fa0e179
+Perhaps like this:
 
---
-Arjun Shankar
-he/him/his
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index f291ab4f94ebc..dde14fa3c2007 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -155,10 +155,16 @@
+  * as possible, so we can use them for generic bits in the future if neces=
+sary.
+  */
 
+-/* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+-#define AT_RENAME_NOREPLACE    0x0001
+-#define AT_RENAME_EXCHANGE     0x0002
+-#define AT_RENAME_WHITEOUT     0x0004
++/*
++ * The legacy renameat2(2) RENAME_* flags are conceptually also
+syscall-specific
++ * flags, so it could makes sense to create the AT_RENAME_* aliases
+for them and
++ * maybe later add support for generic AT_* flags to this syscall.
++ * However, following a mismatch of definitions in glibc and since no
+kernel code
++ * currently uses the AT_RENAME_* aliases, we leave them undefined here.
++#define AT_RENAME_NOREPLACE    RENAME_NOREPLACE
++#define AT_RENAME_EXCHANGE     RENAME_EXCHANGE
++#define AT_RENAME_WHITEOUT     RENAME_WHITEOUT
++*/
+
+ /* Flag for faccessat(2). */
+ #define AT_EACCESS             0x200   /* Test access permitted for
 
