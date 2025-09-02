@@ -1,132 +1,265 @@
-Return-Path: <linux-api+bounces-4691-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4692-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E99B40EF3
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 23:02:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F95CB40F70
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 23:32:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1236F7B1899
-	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 21:00:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F07805E5614
+	for <lists+linux-api@lfdr.de>; Tue,  2 Sep 2025 21:32:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B08F2E6CC2;
-	Tue,  2 Sep 2025 21:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96EC35A284;
+	Tue,  2 Sep 2025 21:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Z3ZIi4Dt"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC5017993;
-	Tue,  2 Sep 2025 21:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA71635CEC9;
+	Tue,  2 Sep 2025 21:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756846937; cv=none; b=C9E6ekomjSL/sYPZVJBUHWVY/RJ5GlD/LvYtNCAwcyeJreyXlPsgkfD2cBSifrUCqCguRlla8LilKSfQ7qXhkHe36rPKaVhjGqnOSDBnpX3RH17Z33BXX5P9bSLNu5OxbxEOxANtEYgiStD5PxVMe9dRngO1hWe6/sX6Bh6tBfU=
+	t=1756848711; cv=none; b=ZeY37mFWkhsYUboFFd3yQURiew7Rqc8XLbYTmI5i782687VRKp4OEiDuebgEkDZ0HwGVY3FtGC/gmMZ2v95tqeDwy9Q4TaMH6vC548Mb6Q+a/72CE5renn6L1foGbzLZy3MPuyfcgH6IEhzyJhzTsbop3zCkBQAizxjjaN3NhwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756846937; c=relaxed/simple;
-	bh=bTvqiSjrm36IbSFYAuBFQVu2vRcyjUYrcLKgnn8/J0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=raP8qISqJlrKq4MRTyoGqOCFPSftIaAO8hcbPD8Vz15RB4SpejR7L9acBPkXcvoMlMG2+x6AIZDsIXW46I7fFxf1peImo9zt53qmnrkOLkTeqDV1R6NqaOWOYDZd5w+E4dgyeGYAWutqKgzGR/gxrSXyPnHo8N85jMdgITUXOcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FEEFC4CEED;
-	Tue,  2 Sep 2025 21:02:10 +0000 (UTC)
-Date: Tue, 2 Sep 2025 22:02:07 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Will Deacon <will@kernel.org>, jannh@google.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH v20 4/8] fork: Add shadow stack support to clone3()
-Message-ID: <aLdbT67auUpaOj2T@arm.com>
-References: <20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org>
- <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
+	s=arc-20240116; t=1756848711; c=relaxed/simple;
+	bh=XvS2ykxSQ8D0kZJ28lamyIN3HLEbAkdHGFIfWkXEVVA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=aHXSKVh2Xj1CjUtSazYoB5GprN+VG8jaoSjSQhEUM7O41Bfz3+NFJAN5sWELk79Zz6zvkX8Oy0IJJ9Vl5QvWVFdxYgvS/HaheqPQSuXsYRI+OKCFqs7CRI8WnJ0NSLGbm9O1+0IvBbwVkXKyhuiD7YRp5hxmLkNnPfUGIfsnyQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Z3ZIi4Dt; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IwOCnvYF9S6W7nonbbt0m+MUo4fokGGgzRSWl9ZbWLY=; b=Z3ZIi4Dtxs7xAjizzQcxIyImR0
+	7GhvmrCRSqsCRMBMPwv9RuAl5TabaS3XnxBCBgvT7lfVJ2w8d0/MNksj54nXzKC2vlY86fpVoYGM3
+	FHiu3Mu0nAWY7DqCcwxl2PrpI9xjZd8o6uXta8bztFYhMgv7qFMu7trz1ALLZykH6JKB7P8TW30ve
+	zVe5KYly5eA5QIyvEIT1gfqn1qOR4n121JNAXRGxC6S6k8RVP7M4EbQHs6E+QgDe/vqA0Cz3mmtwU
+	oV79xzbtqigkpGsH9hFDTgyYpISwAHLsKPcdSU69RS/y3qwjLOxHUtJDCyqM4OD1shRtHjxyqfH8O
+	JqHpzbvw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1utYbT-000000027zF-2DGC;
+	Tue, 02 Sep 2025 21:31:47 +0000
+Message-ID: <5ff4dfe2-271f-4967-bb45-ad59614edc37@infradead.org>
+Date: Tue, 2 Sep 2025 14:31:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
+User-Agent: Mozilla Thunderbird
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] uapi/fcntl: define RENAME_* and AT_RENAME_* macros
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
+ Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
+ Christian Brauner <brauner@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, David Howells <dhowells@redhat.com>,
+ linux-api@vger.kernel.org
+References: <20250901231457.1179748-1-rdunlap@infradead.org>
+ <CAOQ4uxjXvYBsW1Nb2HKaoUg1qi8Pkq1XKtQEbnAvMUGcp7LrZA@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAOQ4uxjXvYBsW1Nb2HKaoUg1qi8Pkq1XKtQEbnAvMUGcp7LrZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 02, 2025 at 11:21:48AM +0100, Mark Brown wrote:
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index af673856499d..d484ebeded33 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -1907,6 +1907,51 @@ static bool need_futex_hash_allocate_default(u64 clone_flags)
->  	return true;
->  }
->  
-> +static int shstk_validate_clone(struct task_struct *p,
-> +				struct kernel_clone_args *args)
-> +{
-> +	struct mm_struct *mm;
-> +	struct vm_area_struct *vma;
-> +	struct page *page;
-> +	unsigned long addr;
-> +	int ret;
-> +
-> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
-> +		return 0;
-> +
-> +	if (!args->shadow_stack_token)
-> +		return 0;
-> +
-> +	mm = get_task_mm(p);
-> +	if (!mm)
-> +		return -EFAULT;
+Hi,
 
-In theory, I don't think we need the get_task_mm() -> mmget() since
-copy_mm() early on already did this and the task can't disappear from
-underneath while we are creating it.
+On 9/1/25 11:58 PM, Amir Goldstein wrote:
+> On Tue, Sep 2, 2025 at 1:14 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> Define the RENAME_* and AT_RENAME_* macros exactly the same as in
+>> recent glibc <stdio.h> so that duplicate definition build errors in
+>> both samples/watch_queue/watch_test.c and samples/vfs/test-statx.c
+>> no longer happen. When they defined in exactly the same way in
+>> multiple places, the build errors are prevented.
+>>
+>> Defining only the AT_RENAME_* macros is not sufficient since they
+>> depend on the RENAME_* macros, which may not be defined when the
+>> AT_RENAME_* macros are used.
+>>
+>> Build errors being fixed:
+>>
+>> for samples/vfs/test-statx.c:
+>>
+>> In file included from ../samples/vfs/test-statx.c:23:
+>> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+>>   159 | #define AT_RENAME_NOREPLACE     0x0001
+>> In file included from ../samples/vfs/test-statx.c:13:
+>> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
+>>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+>>   160 | #define AT_RENAME_EXCHANGE      0x0002
+>> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
+>>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+>>   161 | #define AT_RENAME_WHITEOUT      0x0004
+>> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
+>>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>
+>> for samples/watch_queue/watch_test.c:
+>>
+>> In file included from usr/include/linux/watch_queue.h:6,
+>>                  from ../samples/watch_queue/watch_test.c:19:
+>> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+>>   159 | #define AT_RENAME_NOREPLACE     0x0001
+>> In file included from ../samples/watch_queue/watch_test.c:11:
+>> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
+>>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+>>   160 | #define AT_RENAME_EXCHANGE      0x0002
+>> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
+>>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+>>   161 | #define AT_RENAME_WHITEOUT      0x0004
+>> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
+>>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>
+>> Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be allocated")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>> Cc: Amir Goldstein <amir73il@gmail.com>
+>> Cc: Jeff Layton <jlayton@kernel.org>
+>> Cc: Chuck Lever <chuck.lever@oracle.com>
+>> Cc: Alexander Aring <alex.aring@gmail.com>
+>> Cc: Josef Bacik <josef@toxicpanda.com>
+>> Cc: Aleksa Sarai <cyphar@cyphar.com>
+>> Cc: Jan Kara <jack@suse.cz>
+>> Cc: Christian Brauner <brauner@kernel.org>
+>> Cc: Matthew Wilcox <willy@infradead.org>
+>> Cc: David Howells <dhowells@redhat.com>
+>> CC: linux-api@vger.kernel.org
+>> To: linux-fsdevel@vger.kernel.org
+>>
+>>  include/uapi/linux/fcntl.h |    9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> --- linux-next-20250819.orig/include/uapi/linux/fcntl.h
+>> +++ linux-next-20250819/include/uapi/linux/fcntl.h
+>> @@ -156,9 +156,12 @@
+>>   */
+>>
+>>  /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+>> -#define AT_RENAME_NOREPLACE    0x0001
+>> -#define AT_RENAME_EXCHANGE     0x0002
+>> -#define AT_RENAME_WHITEOUT     0x0004
+>> +# define RENAME_NOREPLACE (1 << 0)
+>> +# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>> +# define RENAME_EXCHANGE (1 << 1)
+>> +# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>> +# define RENAME_WHITEOUT (1 << 2)
+>> +# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>
+> 
+> This solution, apart from being terribly wrong (adjust the source to match
+> to value of its downstream copy), does not address the issue that Mathew
+> pointed out on v1 discussion [1]:
 
-> +
-> +	mmap_read_lock(mm);
-> +
-> +	addr = untagged_addr_remote(mm, args->shadow_stack_token);
-> +	page = get_user_page_vma_remote(mm, addr, FOLL_FORCE | FOLL_WRITE,
-> +					&vma);
+I didn't forget or ignore this.
+If the macros have the same values (well, not just values but also the
+same text), then I don't see why it matters whether they are in some older
+version of glibc.
 
-However, I wonder whether it makes sense to use the remote mm access
-here at all. Does this code ever run without CLONE_VM? If not, this is
-all done within the current mm context.
+> $ grep -r AT_RENAME_NOREPLACE /usr/include
+> /usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE  0x0001
+> 
+> It's not in stdio.h at all.  This is with libc6 2.41-10
+> 
+> [1] https://lore.kernel.org/linux-fsdevel/aKxfGix_o4glz8-Z@casper.infradead.org/
+> 
+> I don't know how to resolve the mess that glibc has created.
 
-I can see the x86 shstk_alloc_thread_stack() returns early if !CLONE_VM.
-Similarly on arm64. I think the behaviour is preserved with this series
-but I'm not entirely sure from the contextual diff (I need to apply the
-patches locally).
+Yeah, I guess I don't either.
 
-Otherwise the patch looks fine (well, even the above wouldn't fail, I
-just find it strange that we pretend it's a remote mm but on the default
-allocation path like alloc_gcs() we go for current->mm).
+> Perhaps like this:
+> 
+> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> index f291ab4f94ebc..dde14fa3c2007 100644
+> --- a/include/uapi/linux/fcntl.h
+> +++ b/include/uapi/linux/fcntl.h
+> @@ -155,10 +155,16 @@
+>   * as possible, so we can use them for generic bits in the future if necessary.
+>   */
+> 
+> -/* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+> -#define AT_RENAME_NOREPLACE    0x0001
+> -#define AT_RENAME_EXCHANGE     0x0002
+> -#define AT_RENAME_WHITEOUT     0x0004
+> +/*
+> + * The legacy renameat2(2) RENAME_* flags are conceptually also
+> syscall-specific
+> + * flags, so it could makes sense to create the AT_RENAME_* aliases
+> for them and
+> + * maybe later add support for generic AT_* flags to this syscall.
+> + * However, following a mismatch of definitions in glibc and since no
+> kernel code
+> + * currently uses the AT_RENAME_* aliases, we leave them undefined here.
+> +#define AT_RENAME_NOREPLACE    RENAME_NOREPLACE
+> +#define AT_RENAME_EXCHANGE     RENAME_EXCHANGE
+> +#define AT_RENAME_WHITEOUT     RENAME_WHITEOUT
+> +*/
+
+Well, we do have samples/ code that uses fcntl.h (indirectly; maybe
+that can be fixed).
+See the build errors in the patch description.
 
 
-BTW, if you repost, it might be worth cross-posting to linux-arm-kernel
-for wider exposure as not everyone reads LKML (and you can drop
-Szabolcs, his arm address is no longer valid).
+>  /* Flag for faccessat(2). */
+>  #define AT_EACCESS             0x200   /* Test access permitted for
+
+With this patch (your suggestion above):
+
+IF a userspace program in samples/ uses <uapi/linux/fcntl.h> without
+using <stdio.h>, [yes, I created one to test this] and without using
+<uapi/linux/fs.h> then the build fails with similar build errors:
+
+../samples/watch_queue/watch_nostdio.c: In function ‘consumer’:
+../samples/watch_queue/watch_nostdio.c:33:32: error: ‘RENAME_NOREPLACE’ undeclared (first use in this function)
+   33 |                         return RENAME_NOREPLACE;
+../samples/watch_queue/watch_nostdio.c:33:32: note: each undeclared identifier is reported only once for each function it appears in
+../samples/watch_queue/watch_nostdio.c:37:32: error: ‘RENAME_EXCHANGE’ undeclared (first use in this function)
+   37 |                         return RENAME_EXCHANGE;
+../samples/watch_queue/watch_nostdio.c:41:32: error: ‘RENAME_WHITEOUT’ undeclared (first use in this function)
+   41 |                         return RENAME_WHITEOUT;
+
+This build succeeds with my version 1 patch (full defining of both
+RENAME_* and AT_RENAME_* macros). It fails with the patch that you suggested
+above.
+
+OK, here's what I propose.
+
+a. remove the unused and (sort of) recently added AT_RENAME_* macros
+in include/uapi/linux/fcntl.h. Nothing in the kernel tree uses them.
+This is:
+
+commit b4fef22c2fb9
+Author: Aleksa Sarai <cyphar@cyphar.com>
+Date:   Wed Aug 28 20:19:42 2024 +1000
+    uapi: explain how per-syscall AT_* flags should be allocated
+
+These macros should have never been added here IMO.
+Just putting them somewhere as examples (in comments) would be OK.
+
+This alone fixes all of the build errors in samples/ that I originally
+reported.
+
+b. if a userspace program wants to use the RENAME_* macros, it should
+#include <linux/fs.h> instead of <linux/fcntl.h>.
+
+This fixes the "contrived" build error that I manufactured.
+
+Note that some programs in tools/ do use AT_RENAME_* (all 3 macros)
+but they define those macros locally.
 
 -- 
-Catalin
+~Randy
+
 
