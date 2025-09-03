@@ -1,295 +1,158 @@
-Return-Path: <linux-api+bounces-4695-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4696-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBE9B41E2F
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:03:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DD3B41E7B
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:10:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E0793A5087
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 12:02:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6655E16AC56
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 12:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 621AA27814A;
-	Wed,  3 Sep 2025 12:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC88284896;
+	Wed,  3 Sep 2025 12:10:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="seFdAecn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eBJeWvHs"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A435271476
-	for <linux-api@vger.kernel.org>; Wed,  3 Sep 2025 12:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9181527FD49
+	for <linux-api@vger.kernel.org>; Wed,  3 Sep 2025 12:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756900889; cv=none; b=KibiDO7AjiNCAVjN3dSxXT23tRyZJavdggWCQQNz7uTFyzK93kMjddga4Kcbh5Fe06xQpzZ2k56mPhX9fRQYc3X4ZqoIDlvTeUBIDqzXMnPv/xyDiLF+XCWxJHy7oQKQMp73cs6R8Cii74qNYMTskM0I28sL7XzersNtNAkF3F8=
+	t=1756901402; cv=none; b=tx0Fl2HmVMgsuq10MeRhm8NKPhCkOMv0lOwXMHhf2qh0cUyl2e+0BAZxIt7ExygDQaU5dU7Tfh3th9I3Q+WzYMW3pq3FHK97bVk9Xr8/BOTr9paDu5gv8Cc5quXYgSJ4wbPtqqjYGkOd+LSps23ZzOQ6tuDqdBl1qvPQQX7wEQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756900889; c=relaxed/simple;
-	bh=SgEIiuwLcSrw6MD5nIirqY+K5Kdo4DYK6RCMVmv6iUU=;
+	s=arc-20240116; t=1756901402; c=relaxed/simple;
+	bh=iwrjIC284r+BvpqNgaW4aGVZ0TU6ehHshdglAmcMta4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KUjEn9MIMWSRwitOsolCm3HorMx5mEqenpl6+qQGWvJDcbvk7ngAN+lATKsx3IsCxPRDsAF0SPoDuxc0U7UDwrTjpIiL01XQ168FmWDFiTzMcb4a9Ur1vzPfje5ecFBaXAGsVqA73JFzcTvjsyl8FUJFfFbD8ADCnaoNi4LLOIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=seFdAecn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D75C19421
-	for <linux-api@vger.kernel.org>; Wed,  3 Sep 2025 12:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756900888;
-	bh=SgEIiuwLcSrw6MD5nIirqY+K5Kdo4DYK6RCMVmv6iUU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=seFdAecnG1qveg5c3JIG3C3AuSojUmp6mEnSxrnSyYrVvsRSQbSttjvUCAasW24c4
-	 LrXp9y2rg4GA1kENDdDLyBK2iA/7hlpzCZdu3kcf0ErsFNOIiUb4yN7F6D90ulRDIo
-	 aC+kdne7gt5y9rGUxOb/k4WLn18aqnIXJD3QvaO5yJI4C/XHc8yoBn5ah6g9qeXsYM
-	 B5Ls58ipa2CmBmFnGh+0gTo1qo0EVTrjGfKTMXMvRVi+dzTXCV1nyHVtT/Gi2yo10h
-	 k8bMB/NNtqjuuA4QAKXi7gQ0+FLnZ3m9z/cu8gOkw+S1gXExlTrmhJQ1eBHco3FpGN
-	 sXbY7z7N/oSIA==
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-71d60110772so54864827b3.0
-        for <linux-api@vger.kernel.org>; Wed, 03 Sep 2025 05:01:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWjuvnUdEXnPp2v3S9g0IKVefkfDTbvPHJCsmoa58YCfm07DEB0DFdjynhDB2qpraJ9OTHZ7dRQat4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxixqlCDHSypNd8yjbQBQXXlBmhVB4H+XLmvnYpPJYTS1AeE+nh
-	AemKSCwT68LLixN+QqWY6nNDnqxOki1JJyJxcR6QL5Vmyb0kXgWHOjz0m84gRGMKiXLP8f9YlAs
-	7Jrryg2xZU8I+J71v5PxBo00x2B27zzV5UzUnXUMUVw==
-X-Google-Smtp-Source: AGHT+IE4JH+G2zBjwcp5ZndEi3KH81dyDqIXqxzLOg6ubc41EehCrYJhcRJA7wdiZ97h/waR6UCU6+RrLKpBoRMuIMg=
-X-Received: by 2002:a05:690c:6c91:b0:720:58fd:6433 with SMTP id
- 00721157ae682-722764fde88mr185636597b3.35.1756900886929; Wed, 03 Sep 2025
- 05:01:26 -0700 (PDT)
+	 To:Cc:Content-Type; b=jIIaIcnjrc6nqBLCxb1wbd2N5BdLeoLGkiFneBIT2PENhV7oH4UCmngXrAmCFhRYgVbf/AiMYBSqk5uvgwnBBoeD1Df5IauGsTPH7tpJvgYgKDZaQWvqyWHiiALK3ulkhibWODX4uWnCz23K3D6AitKjus5+lBsxjssXqPV5q9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eBJeWvHs; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756901399;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DMEP0xOMWgNdu9dERfEeNH9Yxp8yE6lRyF3eTYROdsQ=;
+	b=eBJeWvHs08HHYmYCtFLnFXRGynYwtfXNQ7BoOpg07tU2BsL8Jf4VGNWCYhZOpVanSM8quj
+	2Bc1oxGJ80PaW3/OMXwyJ2R2yjnHakMpugeGcFQwtfF4xVjWLcctZ92geOPxxCfukosH5d
+	sojcDcfhNbAjjJjLVflgkNxBWYAnzV0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-660-eH2Obmb3Pm6Smyu7mx3FsQ-1; Wed, 03 Sep 2025 08:09:58 -0400
+X-MC-Unique: eH2Obmb3Pm6Smyu7mx3FsQ-1
+X-Mimecast-MFC-AGG-ID: eH2Obmb3Pm6Smyu7mx3FsQ_1756901397
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45b9c1b74e1so9232365e9.1
+        for <linux-api@vger.kernel.org>; Wed, 03 Sep 2025 05:09:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756901397; x=1757506197;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DMEP0xOMWgNdu9dERfEeNH9Yxp8yE6lRyF3eTYROdsQ=;
+        b=KA9W78tmWiUvTqi373QIoW8pmOj/TlFkDeIrGmsrVSLp1DtU2i7tqrgoS1mEpGqRwG
+         I61BEIhFl8GyFxS8LRRxBMpCmYftxQoBlPQ7ALExPXpxvnCUzkMcoxRK7mLJL8YKSFKi
+         2btfmUlowQnUQJOpqyxAMCp0DsWRy7oaB6UEIG1SaTeLz11+Q03ToNHh25MXsz+oslFH
+         F+l80xWvmAd0X19c+mXT+fqc5TimyY2hgcvPxAHhneCAA2QE3ZoyUMzALRxIDRHujiWd
+         5Z5n9w36iL9sSZ/jdJs1HoKcyX/0hEnbEb1iXYeQrwEhfoqLUxHsFj/CjgUmwXv18ool
+         iWlg==
+X-Forwarded-Encrypted: i=1; AJvYcCV598dpEDPHlK5YNCOKmiTS/VKxBaYx6g6X4KuVp6VxGW0ldf7XPQzfMDDiMglPX+qV51Pyoqo+ruQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvqPS1a5KOsyG2yyPUOH8Uya0+ILbjXlSDACEAqSt6bch9YDGi
+	qWy3cVCZvlDa5jbvJwfnQq6iz1B1a/2DY3AsEoYqZ9SurNJeHib0AAthjNG+MPG94Um+90m7DQ3
+	7XP2/WxX9rsMTN/5Rr2qqwPKORN+bW+xAavFuN0juHRdMU6I2KbYSHkwM9guajKLjzgiAj4K5d4
+	yza6Ri9osAmB0TNSSz4hNDoi3uN6lycrAgBxK2
+X-Gm-Gg: ASbGnct9DtbwOkvbz3ISz8nvDfAABT7vZPklxr7k/659RVWGMNd13CkbjBzsF4DPTgL
+	s5f/XYwjashVzSfMFSYZvauo7ClGlITvSfF//MxyYqQjiXWD7qvTr5C9iHqiCeESURynDzd/5TA
+	NN3U2gbj8KLpK8vaxm/j+2zA==
+X-Received: by 2002:a05:6000:1884:b0:3d8:7c6e:8ad4 with SMTP id ffacd0b85a97d-3d87c6e9003mr7827057f8f.10.1756901397267;
+        Wed, 03 Sep 2025 05:09:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7eol6V4DQSyhx5O1kwyFs5bBKV9xnd8AnWXLRZYC/lRdauVniCV+d4Ut9AnzQLHv7Q3b6Plpn3szdRzQ6GHg=
+X-Received: by 2002:a05:6000:1884:b0:3d8:7c6e:8ad4 with SMTP id
+ ffacd0b85a97d-3d87c6e9003mr7827039f8f.10.1756901396892; Wed, 03 Sep 2025
+ 05:09:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
- <CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com> <20250902134156.GM186519@nvidia.com>
-In-Reply-To: <20250902134156.GM186519@nvidia.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Wed, 3 Sep 2025 05:01:15 -0700
-X-Gmail-Original-Message-ID: <CACePvbWGR+XPfTub41=Ekj3aSMjzyO+FyJmzMy5HEQKq0-wqag@mail.gmail.com>
-X-Gm-Features: Ac12FXxFJL5c-w1tGynHxdN6KdFavaA7kvNM60j8pd-MmHVmJ4Um0SW70V3tLbU
-Message-ID: <CACePvbWGR+XPfTub41=Ekj3aSMjzyO+FyJmzMy5HEQKq0-wqag@mail.gmail.com>
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
+References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
+ <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org> <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
+ <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu> <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
+ <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu> <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
+ <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu> <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
+ <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu> <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
+ <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu> <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
+ <CAJgzZooK+w7NTjsFV_0c=SmPSnsSMiWXFgnvcw=w3msj7NBY9A@mail.gmail.com>
+In-Reply-To: <CAJgzZooK+w7NTjsFV_0c=SmPSnsSMiWXFgnvcw=w3msj7NBY9A@mail.gmail.com>
+From: Arjun Shankar <arjun@redhat.com>
+Date: Wed, 3 Sep 2025 14:09:45 +0200
+X-Gm-Features: Ac12FXy-BTAZHXYHAnfo48HkVW6NRx3Q2A9Aae38LsVDhTLR5jG7SobAROuAdhw
+Message-ID: <CAG_osabF4nynNNFc=CP_ZFqZ_iJr47VXTJpsN75CzX+Pi+CgEQ@mail.gmail.com>
+Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
+To: enh <enh@google.com>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, libc-alpha@sourceware.org, 
+	linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 2, 2025 at 6:42=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wro=
-te:
+Hello!
+
+> > Earlier on in this thread, Aleksa mentioned sched_setattr as
+> > establishing precedent for the kernel modifying non-const objects. It
+> > looks like glibc actually does provide a sched_setattr wrapper since
+> > 2.41. The relevant argument hasn't been marked as const and the kernel
+> > does modify the contents, and glibc's syscall wrapper simply passes it
+> > through. So we already do this.
 >
-> On Fri, Aug 29, 2025 at 12:18:43PM -0700, Chris Li wrote:
+> given that
 >
-> > Another idea is that having a middle layer manages the life cycle of
-> > the reserved memory for you. Kind of like a slab allocator for the
-> > preserved memory.
+> SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+>                                unsigned int, flags)
 >
-> If you want a slab allocator then I think you should make slab
-> preservable.. Don't need more allocators :\
-
-Sure, we can reuse the slab allocator to add the KHO function to it. I
-consider that as the implementation detail side, I haven't even
-started yet. I just want to point out that we might want to have a
-high level library to take care of the life cycle of the preserved
-memory. Less boilerplate code for the caller.
-
-> > Question: Do we have a matching FDT node to match the memfd C
-> > structure hierarchy? Otherwise all the C struct will lump into one FDT
-> > node. Maybe one FDT node for all C struct is fine. Then there is a
-> > risk of overflowing the 4K buffer limit on the FDT node.
+> calls sched_setattr(), which is defined thus:
 >
-> I thought you were getting rid of FDT? My suggestion was to be taken
-> as a FDT replacement..
-
-Thanks for the clarification. Yes, I do want to get rid of FDT, very much s=
-o.
-
-If we are not using FDT, adding an object might change the underlying
-C structure layout causing a chain reaction of C struct change back to
-the root. That is where I assume you might be still using FDT. I see
-your later comments address that with a list of objects. I will
-discuss it there.
-
-> You need some kind of hierarchy of identifiers, things like memfd
-> should chain off some higher level luo object for a file descriptor.
-
-Ack.
-
+> int sched_setattr(struct task_struct *p, const struct sched_attr *attr)
+> {
+>         return __sched_setscheduler(p, attr, true, true);
+> }
 >
-> PCI should be the same, but not fd based.
-
-Ack.
-
-> It may be that luo maintains some flat dictionary of
->   string -> [object type, version, u64 ptr]*
-
-I see, got it. That answers my question of how to add a new object
-without changing the C structure layout. You are using a list of the
-same C structure. When adding more objects to it, just add more items
-to the list. This part of the boiler plate detail is not mentioned in
-your original suggestion.  I understand your proposal better now.
-
-> And if you want to serialize that the optimal path would be to have a
-> vmalloc of all the strings and a vmalloc of the [] data, sort of like
-> the kho array idea.
-
-The KHO array idea is already implemented in the existing KHO code or
-that is something new you want to propose?
-
-Then we will have to know the combined size of the string up front,
-similar to the FDT story. Ideally the list can incrementally add items
-to it. May be stored as a list as raw pointer without vmalloc
-first,then have a final pass vmalloc and serialize the string and
-data.
-
-With the additional detail above, I would like to point out something
-I have observed earlier: even though the core idea of the native C
-struct is simple and intuitive, the end of end implementation is not.
-When we compare C struct implementation, we need to include all those
-additional boilerplate details as a whole, otherwise it is not a apple
-to apple comparison.
-
-> > At this stage, do you see that exploring such a machine idea can be
-> > beneficial or harmful to the project? If such an idea is considered
-> > harmful, we should stop discussing such an idea at all. Go back to
-> > building more batches of hand crafted screws, which are waiting by the
-> > next critical component.
+> i think that's just a copy & paste mistake in the kernel -- carefully
+> preserved in glibc and bionic -- no?
 >
-> I haven't heard a compelling idea that will obviously make things
-> better.. Adding more layers and complexity is not better.
+> (i only see the kernel updating its own _copy_ of the passed-in struct.)
 
-Yes, I completely understand how you reason it, and I agree with your
-assessment.
+Based on my understanding, it all happens before the call to the const
+marked sched_setattr. Starting from line 986 (as of today) on the same
+syscalls.c file [1]:
 
-I like to add to that you have been heavily discounting the
-boilerplate stuff in the C struct solution. Here is where our view
-point might different:
-If the "more layer" has its counterpart in the C struct solution as
-well, then it is not "more", it is the necessary evil. We need to
-compare apples to apples.
+        retval = sched_copy_attr(uattr, &attr);
+        if (retval)
+                return retval;
 
-> Your BTF proposal doesn't seem to benifit memfd at all, it was focused
-> on extracting data directly from an existing struct which I feel very
-> strongly we should never do.
+Which inside sched_copy_attr does:
 
-From data flow point of view, the data is get from a C struct and
-eventually store into a C struct. That is no way around that. That is
-the necessary evil if you automate this process. Hey, there is also no
-rule saying that you can't use a bounce buffer of some kind of manual
-control in between.
+        ret = copy_struct_from_user(attr, sizeof(*attr), uattr, size);
+        if (ret) {
+                if (ret == -E2BIG)
+                        goto err_size;
 
-It is just a way to automate stuff to reduce the boilerplate. We can
-put different label on that and escalate that label or concept is bad.
-Your C struct has the exact same thing pulling data from the C struct
-and storing into C struct. It is just the label we are arguing. This
-label is good and that label is bad. Underlying it has the similar
-common necessary evil.
+And that leads to:
 
-> The above dictionary, I also don't see how BTF helps. It is such a
-> special encoding. Yes you could make some elaborate serialization
-> infrastructure, like FDT, but we have all been saying FDT is too hard
-> to use and too much code. I'm not sure I'm convinced there is really a
+err_size:
+        put_user(sizeof(*attr), &uattr->size);
+        return -E2BIG;
 
-Are you ready to be connived? If you keep this as a religion you can
-never be convinced.
+Which writes to userspace.
 
-The reason FDT is too hard to use have other reason. FDT is design to
-be constructed by offline tools. In kernel mostly just read only. We
-are using FDT outside of its original design parameter. It does not
-mean that some thing (the machine) specially design for this purpose
-can't be build and easier to use.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/sched/syscalls.c?id=e6b9dce0aeeb91dfc0974ab87f02454e24566182#n986
 
-> better middle ground :\
+-- 
+Arjun Shankar
+he/him/his
 
-With due respect, it sounds like you have the risk of judging
-something you haven't fully understood. I feel that a baby, my baby,
-has been thrown out with the bathwater.
-
-As a test of water for the above statement, can you describe my idea
-equal or better than I do so it passes the test of I say: "yes, this
-is exactly what I am trying to build".
-
-That is the communication barrier I am talking about. I estimate at
-this rate it will take us about 15 email exchanges to get to the core
-stuff. It might be much quicker to lock you and me in a room, Only
-release us when you and I can describe each other's viewpoint at a
-mutual satisfactory level. I understand your time is precious, and I
-don't want to waste your time. I fully respect and comply with your
-decision. If you want me to stop now, I can stop. No question asked.
-
-That gets back to my original question, do we already have a ruling
-that even the discussion of "the machine" idea is forbidden.
-
-> IMHO if there is some way to improve this it still yet to be found,
-
-In my mind, I have found it. I have to get over the communication
-barrier to plead my case to you. You can issue a preliminary ruling to
-dismiss my case. I just wish you fully understood the case facts
-before you make such a ruling.
-
-> and I think we don't well understand what we need to serialize just
-> yet.
-
-That may be true, we don't have 100% understanding of what needs to be
-serialized.  On the other hand, it is not 0% either. Based on what we
-understand, we can already use "the machine" to help us do what we
-know much more effectively. Of course, there is a trade off for
-developing "the machine". It takes extra time and the complexity to
-maintain such a machine. I fully understand that.
-
-> Smaller ideas like preserve the vmalloc will make big improvement
-> already.
-
-Yes, I totally agree. It is a local optimization we can do, it might
-not be the global optimized though. "the machine" might not use
-vmalloc at all, all this small incremental change will be throw away
-once we have "the machine".
-
-I put this situation in the airplane story, yes, we build diamond
-plated filers to produce the hand craft screws faster. The missing
-opportunity is that, if we have "the machine" earlier, we can pump out
-machined screws much faster at scale, minus the time to build the
-machine, it might still be an overall win. We don't need to use
-diamond plated filter if we have the machine.
-
-> Lets not race ahead until we understand the actual problem properly.
-
-Is that the final ruling? It feels like so. Just clarifying what I am recei=
-ving.
-
-I feel a much stronger sense of urgency than you though.  The stakes
-are high, currently you already have four departments can use this
-common serialization library right now:
-1) PCI
-2) VFIO
-3) IOMMU
-4) Memfd.
-
-We are getting into the more complex data structures. If we merge this
-into the mainline, it is much harder to pull them out later.
-Basically, this is a done deal. That is why I am putting my reputation
-and my job on the line to pitch "the machine" idea. It is a very risky
-move, I fully understand that.
-
-Chris
 
