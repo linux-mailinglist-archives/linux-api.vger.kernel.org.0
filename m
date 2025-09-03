@@ -1,199 +1,167 @@
-Return-Path: <linux-api+bounces-4699-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4700-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3036B4235C
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 16:17:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E98B423CF
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 16:33:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76CBD163930
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:17:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 44A3817FFE0
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:33:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54BB306497;
-	Wed,  3 Sep 2025 14:17:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C495B1F2BAB;
+	Wed,  3 Sep 2025 14:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2qkEx0s"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hSi6pZm2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D22FCC0D;
-	Wed,  3 Sep 2025 14:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BD81DE885
+	for <linux-api@vger.kernel.org>; Wed,  3 Sep 2025 14:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756909046; cv=none; b=EyKGFxefhnXGMmha2K7m6HS/qNH0MWF0NdaO2/ZM3ciJXUZuH4fMvt83Wk19pkB8IP0zYMA4Ofe9nO1744UROrzIiQM3TVNYH9MRcTX4iWPp1oKwZO2fuYq60FaDS7b5EMpKtrrU2Oyv54flXH0nTIXtZ/YMayWGCQjcuNt0Ssc=
+	t=1756910011; cv=none; b=laPlX85r8gyLvcONMwOH1ZgOwB70jI/VkDiSybceSVzVzQl1QSu0JcoWsWvmxh3b442Q7kyPPIFgWZAofjgpBsABXzGPeoeI9wyo/6BjrOowrvorR719SyFkYPtcuNbh/WgbDXNd9drouIKSTVpoSm43mW/9gu4mAHTh5KeZLn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756909046; c=relaxed/simple;
-	bh=rkSg1vCoekuc9whKWjo4hgqm1Elyfx6nN2+yYBdxBhc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lFgo4809J7RzDkntROlbTQKFaIcsJ52FDWFV2fM0vlrB6QMPUrRBVn1ro3+DxUa3/q3AVmKMqnTGvoYxHWeVbO2VtFf1tLRcEpnugLofrspQzyWrHwxN8QlU1Pu9TZEKq6cZUYXABwc0GbzaMl/D42Sm/lcld95Frz/j1nGPa/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2qkEx0s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 075E6C4CEE7;
-	Wed,  3 Sep 2025 14:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756909046;
-	bh=rkSg1vCoekuc9whKWjo4hgqm1Elyfx6nN2+yYBdxBhc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=g2qkEx0srlnMZm9jvTuQkoAfUMqfZLmOGvMvWAXSFNRLeSDA5jxOcfWXXmUvxxNM8
-	 yvdadUNZgnBX3z/+e4yDpoxMbRzcPuAnr38KTH3Vu7n/1F7mqMnQLDtY97FOFmU2qb
-	 f3BqGPAIhHQlFrXQgm64XqEAf2KGNfJM92WGL8OAKBaRXkA/f3UgK0fIr7zt5swxiJ
-	 hgOUO2rzO4bNzczWxkpktx7lTBG9e6nmau7vZmkjiEckwkS4MGMoDE1PbRdr39Xoxn
-	 kj4QeQgwRxQT2rdLQor3kdwOYj76BPFKEkjV4l2X1fOg6RdjMK6qKg5Z6N5j4zrE8l
-	 ZL568mTWs7NNw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Jason Gunthorpe <jgg@nvidia.com>,
-  Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
-  graf@amazon.com,  changyuanl@google.com,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
-  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <aLbYk30V2EEJJtAf@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
-	<mafs0ldmyw1hp.fsf@kernel.org> <aLbYk30V2EEJJtAf@kernel.org>
-Date: Wed, 03 Sep 2025 16:17:15 +0200
-Message-ID: <mafs0qzwnvcwk.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1756910011; c=relaxed/simple;
+	bh=mN+DFqUSjq5f9r02NjoBUh5IAC76LU3cKV+wGR4z25A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RhOLan2Iv5PnOzY5KQWqP15TbHw39+iEpV42lw9fac4FsIUtiuODgsiE65Tq+R1tsPn1JGyLsWDUnw2DIAQM/CKyjhESKPHs3nIeS6VyC48y91q/x42hyPRqe488yYRodjT+Panaof60/GyveQLmC29zG/krpiEGgWaSPJ5gAHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hSi6pZm2; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-74526ca7a46so2306689a34.2
+        for <linux-api@vger.kernel.org>; Wed, 03 Sep 2025 07:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756910009; x=1757514809; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nLU//N//aBMAruTqJ7Q2JMfNgrJ8rE+drbjx9mqZ9YE=;
+        b=hSi6pZm2xmW3AsYBb5ch2mF8vWSVfeXxNpiFVAaut361IgxnZc1e58mBrnfYrZLPFt
+         u2fuYohRUS6sXdqGybcdIAdKFMfQeKZ3nEyuXYfM1tWmfyfW4FsJM7fEVXlRFjiGGrMH
+         WmRAEL9qWl7G/GS+CBcqT3tAuZZ+QimFBJuHlW+YyiEL8c/OFwSK3FnPqsEMbL5oIKw3
+         fY0zDk0No9zgjJ5NO++nlM/dZlYDteLpkIkBMDZ5mjaFy1b6cZQBo3F9g8RhBqfdyost
+         K8D0rvOvl9QVY+siVgsymQjSH5zUQwnwXDYl9bEd8HsvbuImE1E+dClJOpD+apZHHdKr
+         fsIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756910009; x=1757514809;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nLU//N//aBMAruTqJ7Q2JMfNgrJ8rE+drbjx9mqZ9YE=;
+        b=ISe+V3uhsKMtk4pDOPake4XSQNvBAURpLi4aILDFXNkNKNeXlHhYnk1K9qrqhaotbP
+         S8plF26nrTUd5TsxhjQPnYWUOraVqmKoFvDOppamHGXmccF9c+vnwWWbnA+UAMxaG2NP
+         iI/YNBpbU1v4mVe/tCWJL6DkfzX3Uvq+2lwXyetgB8tN07jXGfWttLMutDW19cQtVAkR
+         5XRlsaPyuS2gKTsCqaXTtb4vS+MpynuNuNQA4ow2UgeicHzlo98KB87iIJKUa465b0KK
+         dOUbi6aOjPMTrAgnIAP9S3MxFsQWV4lX7IWUsNoZ0R0Mtbp2OYAGczO9+Mxn/LxW4qlx
+         L0fg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+C7IoHkrySCW2mVrC1aXFRAjcmWrVa6bFktGoGwU9SsCZV6aQe6s3sS2Nk5Bm3sGRv0lZ6OwqGb4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznIpmBQSdVdVIKjW1HMUNkodG9tXpRCdneR2SSm8Pri+RLGrFp
+	eeE+i8kBnQnVZ7Nt1PQlbYP9Dxb6+6pXiiuYVp34evD5nhW2DMAcUL+kzhhdVVSRgGor/cGBs+D
+	O/csEPM0dYXTB9r/OGpsQkfpl71ApQyb+HdVvO544
+X-Gm-Gg: ASbGnctImc71p1rciwOJpwdm78QK6+SlEcgrIwamymCkugBRJXMPE/FlEgomJD1lKW7
+	hjdLWQl019Q+YO9sCaBTHq8UASv59HO8Jo8T9UmBCxcEFpCgk1yJTk+GQG+AqrpvN7AFVQGsDEY
+	k1FAjNVhLkYqqa6DPvmQ7RZTehbvfKSDPGa8Hz0rVZJY38GDc2co2Ov7trbAAU9Jhg1DMTIbH0i
+	peU7tC5xDQ=
+X-Google-Smtp-Source: AGHT+IHvSk//3LTeEfuGYCKWfnWv8g6wvm4GugPnCqvHD49sPPnunOhty8mIYAbVsVQGuhUphHu04cqzzgBv1CDroyM=
+X-Received: by 2002:a05:6808:222a:b0:434:689:6c10 with SMTP id
+ 5614622812f47-437f7d994cfmr8309357b6e.37.1756910008794; Wed, 03 Sep 2025
+ 07:33:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
+ <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org> <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
+ <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu> <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
+ <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu> <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
+ <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu> <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
+ <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu> <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
+ <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu> <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
+ <CAJgzZooK+w7NTjsFV_0c=SmPSnsSMiWXFgnvcw=w3msj7NBY9A@mail.gmail.com> <CAG_osabF4nynNNFc=CP_ZFqZ_iJr47VXTJpsN75CzX+Pi+CgEQ@mail.gmail.com>
+In-Reply-To: <CAG_osabF4nynNNFc=CP_ZFqZ_iJr47VXTJpsN75CzX+Pi+CgEQ@mail.gmail.com>
+From: enh <enh@google.com>
+Date: Wed, 3 Sep 2025 10:33:17 -0400
+X-Gm-Features: Ac12FXxbDm3wY24oq5q5UA3h8CGbY4HVmeYYeGCDBDki8uRgyyPhjVX-fk1wBRA
+Message-ID: <CAJgzZooC-CQ3DDtgzffKEuoLguXW-GUHgayc+N8vEsZS-XyCww@mail.gmail.com>
+Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
+To: Arjun Shankar <arjun@redhat.com>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, libc-alpha@sourceware.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mike,
-
-On Tue, Sep 02 2025, Mike Rapoport wrote:
-
-> Hi Pratyush,
+On Wed, Sep 3, 2025 at 8:10=E2=80=AFAM Arjun Shankar <arjun@redhat.com> wro=
+te:
 >
-> On Mon, Sep 01, 2025 at 07:01:38PM +0200, Pratyush Yadav wrote:
->> Hi Mike,
->> 
->> On Mon, Sep 01 2025, Mike Rapoport wrote:
->> 
->> > On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
->> >> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
->> >> 
->> >> > +	/*
->> >> > +	 * Most of the space should be taken by preserved folios. So take its
->> >> > +	 * size, plus a page for other properties.
->> >> > +	 */
->> >> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
->> >> > +	if (!fdt) {
->> >> > +		err = -ENOMEM;
->> >> > +		goto err_unpin;
->> >> > +	}
->> >> 
->> >> This doesn't seem to have any versioning scheme, it really should..
->> >> 
->> >> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
->> >> > +				       (void **)&preserved_folios);
->> >> > +	if (err) {
->> >> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
->> >> > +		       fdt_strerror(err));
->> >> > +		err = -ENOMEM;
->> >> > +		goto err_free_fdt;
->> >> > +	}
->> >> 
->> >> Yuk.
->> >> 
->> >> This really wants some luo helper
->> >> 
->> >> 'luo alloc array'
->> >> 'luo restore array'
->> >> 'luo free array'
->> >
->> > We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
->> > https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
->> >
->> > Will wait for kbuild and then send proper patches.
->> 
->> I have been working on something similar, but in a more generic way.
->> 
->> I have implemented a sparse KHO-preservable array (called kho_array)
->> with xarray like properties. It can take in 4-byte aligned pointers and
->> supports saving non-pointer values similar to xa_mk_value(). For now it
->> doesn't support multi-index entries, but if needed the data format can
->> be extended to support it as well.
->> 
->> The structure is very similar to what you have implemented. It uses a
->> linked list of pages with some metadata at the head of each page.
->> 
->> I have used it for memfd preservation, and I think it is quite
->> versatile. For example, your kho_preserve_vmalloc() can be very easily
->> built on top of this kho_array by simply saving each physical page
->> address at consecutive indices in the array.
+> Hello!
 >
-> I've started to work on something similar to your kho_array for memfd case
-> and then I thought that since we know the size of the array we can simply
-> vmalloc it and preserve vmalloc, and that lead me to implementing
-> preservation of vmalloc :)
+> > > Earlier on in this thread, Aleksa mentioned sched_setattr as
+> > > establishing precedent for the kernel modifying non-const objects. It
+> > > looks like glibc actually does provide a sched_setattr wrapper since
+> > > 2.41. The relevant argument hasn't been marked as const and the kerne=
+l
+> > > does modify the contents, and glibc's syscall wrapper simply passes i=
+t
+> > > through. So we already do this.
+> >
+> > given that
+> >
+> > SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, =
+uattr,
+> >                                unsigned int, flags)
+> >
+> > calls sched_setattr(), which is defined thus:
+> >
+> > int sched_setattr(struct task_struct *p, const struct sched_attr *attr)
+> > {
+> >         return __sched_setscheduler(p, attr, true, true);
+> > }
+> >
+> > i think that's just a copy & paste mistake in the kernel -- carefully
+> > preserved in glibc and bionic -- no?
+> >
+> > (i only see the kernel updating its own _copy_ of the passed-in struct.=
+)
 >
-> I like the idea to have kho_array for cases when we don't know the amount
-> of data to preserve in advance, but for memfd as it's currently
-> implemented I think that allocating and preserving vmalloc is simpler.
+> Based on my understanding, it all happens before the call to the const
+> marked sched_setattr. Starting from line 986 (as of today) on the same
+> syscalls.c file [1]:
 >
-> As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
-> would just make kho_preserve_vmalloc() more complex and I'd rather simplify
-> it even more, e.g. with preallocating all the pages that preserve indices
-> in advance.
+>         retval =3D sched_copy_attr(uattr, &attr);
+>         if (retval)
+>                 return retval;
+>
+> Which inside sched_copy_attr does:
+>
+>         ret =3D copy_struct_from_user(attr, sizeof(*attr), uattr, size);
+>         if (ret) {
+>                 if (ret =3D=3D -E2BIG)
+>                         goto err_size;
+>
+> And that leads to:
+>
+> err_size:
+>         put_user(sizeof(*attr), &uattr->size);
+>         return -E2BIG;
 
-I think there are two parts here. One is the data format of the KHO
-array and the other is the way to build it. I think the format is quite
-simple and versatile, and we can have many strategies of building it.
+oh, wow. it didn't even occur to me to look inside a function called
+sched_copy_attr(), though the fact that it wasn't a direct call to
+copy_struct_from_user() should perhaps have been a clue :-(
 
-For example, if you are only concerned with pre-allocating data, I can
-very well add a way to initialize the KHO array with with a fixed size
-up front.
-
-Beyond that, I think KHO array will actually make kho_preserve_vmalloc()
-simpler since it won't have to deal with the linked list traversal
-logic. It can just do ka_for_each() and just get all the pages. We can
-also convert the preservation bitmaps to use it so the linked list logic
-is in one place, and others just build on top of it.
-
->  
->> The code is still WIP and currently a bit hacky, but I will clean it up
->> in a couple days and I think it should be ready for posting. You can
->> find the current version at [0][1]. Would be good to hear your thoughts,
->> and if you agree with the approach, I can also port
->> kho_preserve_vmalloc() to work on top of kho_array as well.
->> 
->> [0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=5eb0d7316274a9c87acaeedd86941979fc4baf96
->> 
->> -- 
->> Regards,
->> Pratyush Yadav
-
--- 
-Regards,
-Pratyush Yadav
+> Which writes to userspace.
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/kernel/sched/syscalls.c?id=3De6b9dce0aeeb91dfc0974ab87f02454e24566182#n9=
+86
+>
+> --
+> Arjun Shankar
+> he/him/his
+>
 
