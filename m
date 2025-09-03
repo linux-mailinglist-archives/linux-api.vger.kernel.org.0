@@ -1,158 +1,199 @@
-Return-Path: <linux-api+bounces-4696-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4697-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DD3B41E7B
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412D7B42333
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 16:11:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6655E16AC56
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 12:10:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 975A05403F5
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 14:10:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC88284896;
-	Wed,  3 Sep 2025 12:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8997301035;
+	Wed,  3 Sep 2025 14:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eBJeWvHs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+S1d8QQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9181527FD49
-	for <linux-api@vger.kernel.org>; Wed,  3 Sep 2025 12:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D232F0C7A;
+	Wed,  3 Sep 2025 14:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756901402; cv=none; b=tx0Fl2HmVMgsuq10MeRhm8NKPhCkOMv0lOwXMHhf2qh0cUyl2e+0BAZxIt7ExygDQaU5dU7Tfh3th9I3Q+WzYMW3pq3FHK97bVk9Xr8/BOTr9paDu5gv8Cc5quXYgSJ4wbPtqqjYGkOd+LSps23ZzOQ6tuDqdBl1qvPQQX7wEQk=
+	t=1756908647; cv=none; b=s8LsmpXKZMrtqOTh35Q7D1Vp729xYLP7BWinLNTn8sc5B0BQ2I7LlMEdxTSU80KQYXk+kFgA0s79g8AxTL8JhO45S0t9ddf89a0UDUqJndnOTkABAMiihbF+ym0LKPZzZ5ykqUyjHFER9zqKGnUpmgRkoCvUYCYrO3SSYelhOes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756901402; c=relaxed/simple;
-	bh=iwrjIC284r+BvpqNgaW4aGVZ0TU6ehHshdglAmcMta4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jIIaIcnjrc6nqBLCxb1wbd2N5BdLeoLGkiFneBIT2PENhV7oH4UCmngXrAmCFhRYgVbf/AiMYBSqk5uvgwnBBoeD1Df5IauGsTPH7tpJvgYgKDZaQWvqyWHiiALK3ulkhibWODX4uWnCz23K3D6AitKjus5+lBsxjssXqPV5q9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eBJeWvHs; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756901399;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMEP0xOMWgNdu9dERfEeNH9Yxp8yE6lRyF3eTYROdsQ=;
-	b=eBJeWvHs08HHYmYCtFLnFXRGynYwtfXNQ7BoOpg07tU2BsL8Jf4VGNWCYhZOpVanSM8quj
-	2Bc1oxGJ80PaW3/OMXwyJ2R2yjnHakMpugeGcFQwtfF4xVjWLcctZ92geOPxxCfukosH5d
-	sojcDcfhNbAjjJjLVflgkNxBWYAnzV0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-660-eH2Obmb3Pm6Smyu7mx3FsQ-1; Wed, 03 Sep 2025 08:09:58 -0400
-X-MC-Unique: eH2Obmb3Pm6Smyu7mx3FsQ-1
-X-Mimecast-MFC-AGG-ID: eH2Obmb3Pm6Smyu7mx3FsQ_1756901397
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45b9c1b74e1so9232365e9.1
-        for <linux-api@vger.kernel.org>; Wed, 03 Sep 2025 05:09:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756901397; x=1757506197;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DMEP0xOMWgNdu9dERfEeNH9Yxp8yE6lRyF3eTYROdsQ=;
-        b=KA9W78tmWiUvTqi373QIoW8pmOj/TlFkDeIrGmsrVSLp1DtU2i7tqrgoS1mEpGqRwG
-         I61BEIhFl8GyFxS8LRRxBMpCmYftxQoBlPQ7ALExPXpxvnCUzkMcoxRK7mLJL8YKSFKi
-         2btfmUlowQnUQJOpqyxAMCp0DsWRy7oaB6UEIG1SaTeLz11+Q03ToNHh25MXsz+oslFH
-         F+l80xWvmAd0X19c+mXT+fqc5TimyY2hgcvPxAHhneCAA2QE3ZoyUMzALRxIDRHujiWd
-         5Z5n9w36iL9sSZ/jdJs1HoKcyX/0hEnbEb1iXYeQrwEhfoqLUxHsFj/CjgUmwXv18ool
-         iWlg==
-X-Forwarded-Encrypted: i=1; AJvYcCV598dpEDPHlK5YNCOKmiTS/VKxBaYx6g6X4KuVp6VxGW0ldf7XPQzfMDDiMglPX+qV51Pyoqo+ruQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvqPS1a5KOsyG2yyPUOH8Uya0+ILbjXlSDACEAqSt6bch9YDGi
-	qWy3cVCZvlDa5jbvJwfnQq6iz1B1a/2DY3AsEoYqZ9SurNJeHib0AAthjNG+MPG94Um+90m7DQ3
-	7XP2/WxX9rsMTN/5Rr2qqwPKORN+bW+xAavFuN0juHRdMU6I2KbYSHkwM9guajKLjzgiAj4K5d4
-	yza6Ri9osAmB0TNSSz4hNDoi3uN6lycrAgBxK2
-X-Gm-Gg: ASbGnct9DtbwOkvbz3ISz8nvDfAABT7vZPklxr7k/659RVWGMNd13CkbjBzsF4DPTgL
-	s5f/XYwjashVzSfMFSYZvauo7ClGlITvSfF//MxyYqQjiXWD7qvTr5C9iHqiCeESURynDzd/5TA
-	NN3U2gbj8KLpK8vaxm/j+2zA==
-X-Received: by 2002:a05:6000:1884:b0:3d8:7c6e:8ad4 with SMTP id ffacd0b85a97d-3d87c6e9003mr7827057f8f.10.1756901397267;
-        Wed, 03 Sep 2025 05:09:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7eol6V4DQSyhx5O1kwyFs5bBKV9xnd8AnWXLRZYC/lRdauVniCV+d4Ut9AnzQLHv7Q3b6Plpn3szdRzQ6GHg=
-X-Received: by 2002:a05:6000:1884:b0:3d8:7c6e:8ad4 with SMTP id
- ffacd0b85a97d-3d87c6e9003mr7827039f8f.10.1756901396892; Wed, 03 Sep 2025
- 05:09:56 -0700 (PDT)
+	s=arc-20240116; t=1756908647; c=relaxed/simple;
+	bh=IJP0VbHKnRlpLO/dj+/Ia2ILTC5O+iulYtBS4Wmtc7Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eff2LAuaroLEU7fUi2chULqXChKhHvhX2IU2oRihsfHCyc2qy+RBcAPLF5trfxxnAPAnWC/MNpu4SvRU8lGnoVwGyelkmqfnu4gjYx03AOah7/vmPcEIBuAWbqqkTv0XY/3c5J/h00sg4JTchEvEzhDS3Ly3LbdPI34eKr9ywbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+S1d8QQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4255EC4CEE7;
+	Wed,  3 Sep 2025 14:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756908647;
+	bh=IJP0VbHKnRlpLO/dj+/Ia2ILTC5O+iulYtBS4Wmtc7Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=R+S1d8QQ8JTOfieL00HXOZ34YoFUz7OL6PI6NmTox55mOQ5P2beuQkiHTw89xKvw3
+	 insOk7uKvWRNaeS2vTdE9Ht/CnQJzkKF7GSUV/9EH30J6MBbhwocfVgD71iA7LqCnt
+	 zqGDip6cF961mvzPUx6VluNXvCkxwekBrmumpiQS1Wblng3j0PvIFUjnebzWKb0g7R
+	 V4bkzKiUCPcrAIysTs2EMlCHah6rOsjnKvu10SpEX2QyWrKKe+3tUV7u4ej/phtqKG
+	 dYcayDouOvM9hUHm/g775ZgYpyBRWvfvMV7HVpKIckFauorE4h/2sjZVbRh4vbTHER
+	 6qYwmLFOmThTw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+In-Reply-To: <20250902134846.GN186519@nvidia.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
+	<20250826162019.GD2130239@nvidia.com> <mafs0bjo0yffo.fsf@kernel.org>
+	<20250828124320.GB7333@nvidia.com> <mafs0h5xmw12a.fsf@kernel.org>
+	<20250902134846.GN186519@nvidia.com>
+Date: Wed, 03 Sep 2025 16:10:37 +0200
+Message-ID: <mafs0v7lzvd7m.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2c5ae756-c624-4855-9afb-7b8e8ce91011@linaro.org>
- <828f6dfb-7402-45e1-a9ed-9e17b6356c5c@linaro.org> <2025-08-25.1756160579-pudgy-swank-chard-regalia-j3jdtD@cyphar.com>
- <5c3b9baf-76b4-40d7-87fb-9b8dd5afd1ee@cs.ucla.edu> <2025-08-26.1756212515-wealthy-molten-melody-nobody-a5HmWg@cyphar.com>
- <6432a34d-fba9-414e-ad38-d3354fa0d775@cs.ucla.edu> <2025-08-27.1756273344-decaf-ominous-thrift-twinge-h1gGBI@cyphar.com>
- <5c9fa556-da00-4b76-8a70-8e2d1dddd92d@cs.ucla.edu> <2025-08-27-perky-glossy-dam-spindle-kPpnnk@cyphar.com>
- <5cbd7011-9c2a-4a23-bbce-84c100877cdb@cs.ucla.edu> <2025-08-28-foreign-swampy-comments-arbor-nOkpXI@cyphar.com>
- <cbbc9639-0443-4bf8-bbd1-9d3fdcb2fd37@cs.ucla.edu> <CAG_osaYc21nR0M3O6UKs8zna6x_k9U4=Rt4B0mKHog=ZLSH1AQ@mail.gmail.com>
- <CAJgzZooK+w7NTjsFV_0c=SmPSnsSMiWXFgnvcw=w3msj7NBY9A@mail.gmail.com>
-In-Reply-To: <CAJgzZooK+w7NTjsFV_0c=SmPSnsSMiWXFgnvcw=w3msj7NBY9A@mail.gmail.com>
-From: Arjun Shankar <arjun@redhat.com>
-Date: Wed, 3 Sep 2025 14:09:45 +0200
-X-Gm-Features: Ac12FXy-BTAZHXYHAnfo48HkVW6NRx3Q2A9Aae38LsVDhTLR5jG7SobAROuAdhw
-Message-ID: <CAG_osabF4nynNNFc=CP_ZFqZ_iJr47VXTJpsN75CzX+Pi+CgEQ@mail.gmail.com>
-Subject: Re: [PATCH v4] linux: Add openat2 (BZ 31664)
-To: enh <enh@google.com>
-Cc: Paul Eggert <eggert@cs.ucla.edu>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, libc-alpha@sourceware.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hello!
+Hi Jason,
 
-> > Earlier on in this thread, Aleksa mentioned sched_setattr as
-> > establishing precedent for the kernel modifying non-const objects. It
-> > looks like glibc actually does provide a sched_setattr wrapper since
-> > 2.41. The relevant argument hasn't been marked as const and the kernel
-> > does modify the contents, and glibc's syscall wrapper simply passes it
-> > through. So we already do this.
+On Tue, Sep 02 2025, Jason Gunthorpe wrote:
+
+> On Mon, Sep 01, 2025 at 07:10:53PM +0200, Pratyush Yadav wrote:
+>> Building kvalloc on top of this becomes trivial.
+>> 
+>> [0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
 >
-> given that
+> This isn't really an array, it is a non-seekable serialization of
+> key/values with some optimization for consecutive keys. IMHO it is
+
+Sure, an array is not the best name for the thing. Call it whatever,
+maybe a "sparse collection of pointers". But I hope you get the idea.
+
+> most useful if you don't know the size of the thing you want to
+> serialize in advance since it has a nice dynamic append.
 >
-> SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
->                                unsigned int, flags)
+> But if you do know the size, I think it makes more sense just to do a
+> preserving vmalloc and write out a linear array..
+
+I think there are two separate parts here. One is the data format and
+the other is the data builder.
+
+The format itself is quite simple. It is a linked list of discontiguous
+pages that holds a set of pointers. We use that idea already for the
+preserved pages bitmap. Mike's vmalloc preservation patches also use the
+same idea, just with a small variation.
+
+The builder part (ka_iter in my patches) is an abstraction on top to
+build the data structure. I designed it with the nice dynamic append
+property since it seemed like a nice and convenient design, but we can
+have it define the size statically as well. The underlying data format
+won't change.
+
 >
-> calls sched_setattr(), which is defined thus:
+> So, it could be useful, but I wouldn't use it for memfd, the vmalloc
+> approach is better and we shouldn't optimize for sparsness which
+> should never happen.
+
+I disagree. I think we are re-inventing the same data format with minor
+variations. I think we should define extensible fundamental data formats
+first, and then use those as the building blocks for the rest of our
+serialization logic.
+
+I think KHO array does exactly that. It provides the fundamental
+serialization for a collection of pointers, and other serialization use
+cases can then build on top of it. For example, the preservation bitmaps
+can get rid of their linked list logic and just use KHO array to hold
+and retrieve its bitmaps. It will make the serialization simpler.
+Similar argument for vmalloc preservation.
+
+I also don't get why you think sparseness "should never happen". For
+memfd for example, you say in one of your other emails that "And again
+in real systems we expect memfd to be fully populated too." Which
+systems and use cases do you have in mind? Why do you think people won't
+want a sparse memfd?
+
+And finally, from a data format perspective, the sparseness only adds a
+small bit of complexity (the startpos for each kho_array_page).
+Everything else is practically the same as a continuous array.
+
+All in all, I think KHO array is going to prove useful and will make
+serialization for subsystems easier. I think sparseness will also prove
+useful but it is not a hill I want to die on. I am fine with starting
+with a non-sparse array if people really insist. But I do think we
+should go with KHO array as a base instead of re-inventing the linked
+list of pages again and again.
+
 >
-> int sched_setattr(struct task_struct *p, const struct sched_attr *attr)
-> {
->         return __sched_setscheduler(p, attr, true, true);
-> }
+>> > The versioning should be first class, not hidden away as some emergent
+>> > property of registering multiple serializers or something like that.
+>> 
+>> That makes sense. How about some simple changes to the LUO interfaces to
+>> make the version more prominent:
+>> 
+>> 	int (*prepare)(struct liveupdate_file_handler *handler,
+>> 		       struct file *file, u64 *data, char **compatible);
 >
-> i think that's just a copy & paste mistake in the kernel -- carefully
-> preserved in glibc and bionic -- no?
+> Yeah, something more integrated with the ops is better.
 >
-> (i only see the kernel updating its own _copy_ of the passed-in struct.)
+> You could list the supported versions in the ops itself
+>
+>   const char **supported_deserialize_versions;
+>
+> And let the luo framework find the right versions.
+>
+> But for prepare I would expect an inbetween object:
+>
+> 	int (*prepare)(struct liveupdate_file_handler *handler,
+> 	    	       struct luo_object *obj, struct file *file);
+>
+> And then you'd do function calls on 'obj' to store 'data' per version.
 
-Based on my understanding, it all happens before the call to the const
-marked sched_setattr. Starting from line 986 (as of today) on the same
-syscalls.c file [1]:
+What do you mean by "data per version"? I think there should be only one
+version of the serialized object. Multiple versions of the same thing
+will get ugly real quick.
 
-        retval = sched_copy_attr(uattr, &attr);
-        if (retval)
-                return retval;
-
-Which inside sched_copy_attr does:
-
-        ret = copy_struct_from_user(attr, sizeof(*attr), uattr, size);
-        if (ret) {
-                if (ret == -E2BIG)
-                        goto err_size;
-
-And that leads to:
-
-err_size:
-        put_user(sizeof(*attr), &uattr->size);
-        return -E2BIG;
-
-Which writes to userspace.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/sched/syscalls.c?id=e6b9dce0aeeb91dfc0974ab87f02454e24566182#n986
+Other than that, I think this could work well. I am guessing luo_object
+stores the version and gives us a way to query it on the other side. I
+think if we are letting LUO manage supported versions, it should be
+richer than just a list of strings. I think it should include a ops
+structure for deserializing each version. That would encapsulate the
+versioning more cleanly.
 
 -- 
-Arjun Shankar
-he/him/his
-
+Regards,
+Pratyush Yadav
 
