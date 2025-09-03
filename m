@@ -1,227 +1,311 @@
-Return-Path: <linux-api+bounces-4704-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4705-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F35B42714
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 18:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D816B42884
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 20:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17B6C7AC4CD
-	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 16:39:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 111737AF383
+	for <lists+linux-api@lfdr.de>; Wed,  3 Sep 2025 18:09:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB782FFDFF;
-	Wed,  3 Sep 2025 16:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1044535A296;
+	Wed,  3 Sep 2025 18:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="C/8N4OHP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hgMI1a+o"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC4A29B77C;
-	Wed,  3 Sep 2025 16:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756917649; cv=fail; b=PsZlkPZykAwpzN9uWTZ6Fe5RZNEPaxHqMCMoGmeTQpFHFfDldSrnBWpXOrmBd9A/U3irLi3MA1evSSwRtZsLzY/kZumRj527SY8aJDz5MdNiFrFhDPFbHY2Bhb6kCgwPs3/2V62JCrlDpq7RcaEzTVrssFNBcBuQ06rd8t2XnUs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756917649; c=relaxed/simple;
-	bh=avLePlBm5KxQSsuRfsl6G7H8sXx7VNF80jLTChR0HPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jdSD4ymky8w5KmrB8Njx/K/S3oGFDD8a5wz+gNK2Tw4MNUKfxCRaFGhcctD/+OtwPN2d8m0fg2SrTDpY20ZE/A3ZOwvB/KS2QMSQwQKg1P9i9+J0IBu3zOVPlU2/z8DA1yGT3vghSYN8lxwjPIdYVuknRyA4SfwtHb0qXt8Yi/A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=C/8N4OHP; arc=fail smtp.client-ip=40.107.100.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lf/HKKGZtGrQ6xmRd9Ghp4Zj2zFuX+aupAvrGFHRr/SvY/Zts/LvqzlMRM6yoxqZEkDgAWFD/Y7ZqgwetzpanJ1Y6T7zc5dNAbnpx8+5WGdaWmMn+ZKBM3Q/AbjFwlk90eo5awqGtu7T9pAdlWDBD+Xoa8R9Tzs101kisKMuJYuBBgPa10YBv97xTXSreHX50l2uK6tyaOjgjyX5oCGFbvFoP3mRMPs5KDQfP9frFRrJbXRQrUiI97d6hbny9Hz8dRN4tILz2ptjdJ8o5xJqvA0sSx4ZT3yUi6Y/DbH0Agww4NiNmTwo6CFprAGTi7UGpBTDh6gI89cxXfE6+HOy9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPFzQ9JdzDYqsk9c1ou9gST5eyP0KXfXNIp3tPEVDPE=;
- b=lBHhbzOm94HRD4+XFaaZkEEqhZD57TdjaMKx5ErxeKQhdOvMUYzEnVyk4dqP2MUR7Kaze7Zx4wDs0FYdN4Of04QljXVj5M0cn8dSu3DVDrjNoeyIJ9DXPLz10DNP+Eq9XnPgAPz5Lc4vt3m+KLianJttLgxOsJLYeDWZC7gKoiuOF3DzwJq4HIO8qbbX9cmEE0e5B4o9rkpUgrEw4J38Qu2mKz1ftotHruP5LzXvQlLn3xq8TUi65aPkWl0QVIACBDljbGL5PvedZ70D9xLtHgA9JpTA0PGrTo5TfYcflcKT1Kn9jDXPT8fu5PVKmRO+YEK8lqpH8Tsh8rPhHPfQFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPFzQ9JdzDYqsk9c1ou9gST5eyP0KXfXNIp3tPEVDPE=;
- b=C/8N4OHPR7E4dtrcaapFePc1QjSZtAKklnm0SOGo0qZIhYDq57d6C6XnXQJASj1oT2tnHHpgNgry12ohsv1/sRyq3+34UUfSG8+oS48yn2gQtvm69nllBJL4wP8xkaiqtXyTZfjql+ON8P+vvCxD5ODWof6gKFTlQqIeKTotz0wbVb1LbHFoeoetvu2VbkgNvaq7mucnjKYpxAv6QZJGkY6UrxGy0b6upYf8IJMpuzs3yXsrbdrtrk2g7lT4mSP3ewMRuq04+8yvXQKAWnvdv2podl1003ORx800SZiu8GQKpcqYuNOxVck+eHSbN0re6kinZZmWnGshknoQnpW2uQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
- by MW6PR12MB8915.namprd12.prod.outlook.com (2603:10b6:303:23e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 16:40:44 +0000
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9073.026; Wed, 3 Sep 2025
- 16:40:44 +0000
-Date: Wed, 3 Sep 2025 13:40:39 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-Message-ID: <20250903164039.GI470103@nvidia.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com>
- <20250826162019.GD2130239@nvidia.com>
- <aLXIcUwt0HVzRpYW@kernel.org>
- <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
- <mafs03496w0kk.fsf@kernel.org>
- <CA+CK2bAb6s=gUTCNjMrOqptZ3a_nj3teuVSZs86AvVymvaURQA@mail.gmail.com>
- <20250902113857.GB186519@nvidia.com>
- <CA+CK2bB-CaEdvzxt9=c1SZwXBfy-nE202Q2mfHL_2K7spjf8rw@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bB-CaEdvzxt9=c1SZwXBfy-nE202Q2mfHL_2K7spjf8rw@mail.gmail.com>
-X-ClientProxiedBy: YT1P288CA0006.CANP288.PROD.OUTLOOK.COM (2603:10b6:b01::19)
- To PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDBE286D72;
+	Wed,  3 Sep 2025 18:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756923048; cv=none; b=OBDjkaJaUeNsUSRPyHOgORdG8Rlk8+lWOlS6pMFW2D0uth3ki1+Vcai3XI5DxM0Uateq7LRPez9M0euKJESnn4bflNAdL4T+gC6lnSOLuyv8x/eWODxOWIiug15J+ZbY3Y+9dxhWo1AxdWHJ59ToB4pFmkbg+FVut3k/iPM47No=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756923048; c=relaxed/simple;
+	bh=/FJiIEoR9OLIjYuLxL2v8qL7Ha9OUKt6hcdLfqgaITQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DEECek1tPmXQD9HUG28QHVbViIJMA4ztlhvN07JUrK/6TH6tTAOUV7j0205wCUXX52utbq2o14i80yF6cuEOHXO6/vq91zvcwzmuAaRN2CyqLs/ZY4brP2vgHMCWXNfDmWFif4PPPjYkk04UTit+5njr2sX8xg0x0ATIqIt2THw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hgMI1a+o; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=QPHoL5heqNyoTPN26hlEzJF1gIurQM8Iamy6HgpNuPk=; b=hgMI1a+oGL3Nf/r+aSgGrKssmI
+	T1zttSpDhbkKQUdsolif/dGX4LaaWBfzbvDDeIq3QoGai0xX4kKH1foXV+z2+OzCSvE70jQfTJxHu
+	CsFmZT8XnidXiGS+YUGBuHuJks3igDfogh4l0kFrsE3OmyCXWS/S6BXE0jpWt6JttG4Rv36P1/My8
+	jXef8AnoT7itbxUETBTRsVEJ0MmOWDzFlKJOi9XLqt3/JyOY/jatJ4aBq1cPVAPYSphbd4/lNpabI
+	qniGhegluAILwDJTw7eG/rO/LGAuIrXktF7wKGwM/01tZjLTcz52nGfHvrNul3T2YiSU2QAXDZJvk
+	1keKhazQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1utrwS-00000007GXM-1J60;
+	Wed, 03 Sep 2025 18:10:44 +0000
+Message-ID: <24c671a0-9f4b-4b4d-a54e-6a67cc1d73c0@infradead.org>
+Date: Wed, 3 Sep 2025 11:10:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|MW6PR12MB8915:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba81d41b-bf1d-4aa8-16b9-08ddeb089eaa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+x2KECLvf0eyJpQ/H0a8sqmXfu6hXQdNEBl0fopVKvfeYSQBYh66Jx2NGyDE?=
- =?us-ascii?Q?ZV6mFdSS4ZXhz+DQhBZKJ/fFscIFzU50Kz1BQMdiuI/E5qygs0aUZ9duAQF1?=
- =?us-ascii?Q?myKouL851D90Y6mzgGar6/LssbI3nxK7qZxpEOd9RfqnQ/gOi3VyXy9h6UXc?=
- =?us-ascii?Q?hdeJGBEXYml2RHLdUzGlcbUyJsipJw0b8wdQH7fNj6anBIQTKObO7XfjwX64?=
- =?us-ascii?Q?eT7KCPHIwC7BpyjmzNBBsIJlNOp8z3cN4k09r9FoNPZ298wapeNvPGp298LC?=
- =?us-ascii?Q?la4WM2ao2QCiorrhkB0Jc0BR2toWfcX/llBrnKZaIgwfsDI3+LwCIqk7gfTC?=
- =?us-ascii?Q?VMcLJhkR5wl3S32Dqhiu13vOojrIx/edtKeDupVub2BfRowRy8ZXSPmWeI78?=
- =?us-ascii?Q?Fku3g6qgVL/WyAGYucv8PuBhaG20tkUTmDk86/2BLuV4MiBjSnpYmJ/Rgqh4?=
- =?us-ascii?Q?UKTIzhkb8bXrWw1bfs3IJVx+clZHtgullkT1CpfZWupfsmIpwnrfxXnsov+f?=
- =?us-ascii?Q?E/J5e3ODOE6qXN90UlJz/8buONY9za/WAOZxzG+4hwM55z9D4/y8i34rrhgu?=
- =?us-ascii?Q?kQEZVJBlNy9n8GhnnxX0VowbMK2nwtfc+WNnX47mJ753/AA1sFREDW/BW6A5?=
- =?us-ascii?Q?Rn7knTtidifXnpgYKP6rQKEEr2ejh0dM2anwVnTeCBWX1w6fadzHBHwDUtvv?=
- =?us-ascii?Q?KrwH/q5lWblhLLOglJpdoCIcr6FozEpqyQye8r+w9rqvF3pE09/sHtR64lRN?=
- =?us-ascii?Q?Xpg/akwNX91nAPUHwmLSgDvdWlhVxePlZkER9IOYIDvbDmSuWorflmxoso+Z?=
- =?us-ascii?Q?tudbA1dBnLYOaXGyWydt3eQ+weU6v4pJ/RP2+tqWCzC0wxYYd7TZf0WmGl4i?=
- =?us-ascii?Q?adbXHpejgkszqynlqaMEdOx5S1/5YX6p/Rc6mwWzzX+46L7WmdnrKg1HWQs3?=
- =?us-ascii?Q?IzjCgPb5Vltv9bpxlb2zThNvqGdwHNNF9j1To8bGjAp8IyFm9DP0fV2hv8W+?=
- =?us-ascii?Q?cJRn2VY616a1qf5k/oifUfzllL/494rCzvu4njSRdojPMPrgBbtC0te7h33E?=
- =?us-ascii?Q?8AKq9NkXM0zQgnUU6TR9KE39ORiyEWG6n4PEu4qAIV235C9T+QI3/h8k6edb?=
- =?us-ascii?Q?73Jiap3Y2htIBUlTD3tSMOdSpK7rLtWUUan/N0+UVG5vEkhKLRztWzd0nezY?=
- =?us-ascii?Q?fDa30T/VKroVQrPb6c3MkV2stae3gq6rYdiNf5vqjtDTytmBuoIaEwSsYhCO?=
- =?us-ascii?Q?5OnlNffvCYB94Abnt/bkr7LNCcvugyy8NK36OsXIlZD6kE1PNiAL1vT7utH0?=
- =?us-ascii?Q?kWPb5soYVZ27b2s3Pg1nbPK+arfa/Iwt0wbKhqSWxY5WtnrI3J7NfPz6IeGA?=
- =?us-ascii?Q?7ClLQMKVTnHwo7yFbLAyT22rs+E7fTK1ZDNO9EMm9rsQM4olvGMBGAZwN8jm?=
- =?us-ascii?Q?/e0+qFYOWj4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?plQH5D+D4x4yYi5E0DPKIsII530sl9oevaYi+x+MHUrqOXejw4HV7KChdzpa?=
- =?us-ascii?Q?Hb6K+jTfjxdvboIpzAX8Pv/ca/YRILXvASltk4wEXnCPMipM+YeY8OJTkuvw?=
- =?us-ascii?Q?Y3njtSsnSOODP2Q/FXiPHO06ELbLC6dsW4tehxwn+/xmqz3fFupE4T89DSio?=
- =?us-ascii?Q?p2jFTt9Ejrn9FynBU9CyGbOOXkfcVV61AICZNIl18sldQhYFfRZwbtbf9yyR?=
- =?us-ascii?Q?x7opvzunRZ77sOeUcLsLiZb1lbqCcYjUqapNWO4k22SG5HMRUey1efh923bJ?=
- =?us-ascii?Q?jrId8utA9dOSoSzohYFBqzt7eYv6t3ZPFtuyvVj83ER4+zi/2XSXyxgTO2zK?=
- =?us-ascii?Q?WTAI3b3n+p1I2ima7QiKBuJpPCjRJEjtCZkTqydFQV1P9f0a3SNkDEWqEe4c?=
- =?us-ascii?Q?YE4fX7rSBBKRyJAev7OlW6WS/IcRyZZeNMzfqO7ILcRu6oW40nBtoffJMCt7?=
- =?us-ascii?Q?efiNA+MiNazHw5P3MtI35uJBt2Zno8jqHW1pPgFUqJ8q6V5Y8jtk6yg2m4W/?=
- =?us-ascii?Q?WCRZ2fpa8ub7Kpdi6LQkJ31bjv92XTpPpFS0jo2U/Y3i1gddhabifANaLMbP?=
- =?us-ascii?Q?if1e1lfiLHUDF3wDNza/bK+fd+odZBZOn/k1PltbewBgs7cotuUI73quMYpC?=
- =?us-ascii?Q?RS6hYPzhN8mYjnaMJ/s7nli4RZ1k/hGVP9snR5k7kwNlFhZTLyWaHtDAKwuG?=
- =?us-ascii?Q?RWLAhXYSOerGFlwB0uTB4ziVeWLvo0R5ToQFnQT9Qec/78Rebs7LyKgsyTx6?=
- =?us-ascii?Q?uGGOmz4l7UiNgpyUrni1b8+fQ1AEBFhcWlMhOQQ5HNHbQrD+9FTLR3bMITfQ?=
- =?us-ascii?Q?CWzU/9rgTfTzeSuBr9q80WBBYQE5mZ0qooPDPF9jDAdJ3HyMYiMGqTlc/Ov/?=
- =?us-ascii?Q?yq1zRcGy4mAcDt4AWMcNOpXCvAwciv6hhN2pGgbUhjDFyx7NgYtO7s1FXogH?=
- =?us-ascii?Q?3FhVjYsSckDEVL1KsUCZ8LK5LDwMKtGShAQV8xFqsE0Xj1RosYnhqmyBZTDR?=
- =?us-ascii?Q?UsB7T+Ip2mkIWkJCUdsB6OK9hTzLqlk6GdQWxY/XkrQs/xc851uDo9mofR2p?=
- =?us-ascii?Q?HBUKAEMF3+utxMeNzid2+nzcwkDp3cLNPKpclEQwJYn56fD1pJyp7HkcF8FL?=
- =?us-ascii?Q?GlaJJiwUIJvFUqxfwPbc4wXrEshMl0rrlAfKz2NeduJspRDBImiMe7lN9ypv?=
- =?us-ascii?Q?QPBZ8KA/k7lIj3vAaNwHjhiHTYi0H0CI/nVnhYwqlsGEei0FPZEEcnevZA8o?=
- =?us-ascii?Q?Sh+/9Z3lRwfKSjZWYo11PQrIjI4nRIoNk2hiwzXzdnAJKf34wK04r86Cn5rd?=
- =?us-ascii?Q?FnTjY8hTi9JFlP1gJ0I9CXpz5onuC9SejNRU/9k+knur1ka8jQOQzztnvVAV?=
- =?us-ascii?Q?hdIwdMoz103me2aPzrdQWGCwSIR51nsb04oLw35l+aDIvVSf/0TXE94mNs/9?=
- =?us-ascii?Q?whWNvh5DWTfA9kS4DxCvoQuyHLJdyz8+tkiLq9wY833R0lgNsTw5pf7Kb7S1?=
- =?us-ascii?Q?b6lB6wZdsJhj5Z8t3ifHViAz4GXDjuHBoEXlNsAcPzPXDDdct/m6/iSnc8Sa?=
- =?us-ascii?Q?ENJABymj8QUO2ZfOuSw=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba81d41b-bf1d-4aa8-16b9-08ddeb089eaa
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 16:40:41.2272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 00cDOnzryGYO5/Zp7JTq1kq0G3CQ0iMSKqO1264C2PpyCTNDmx+p1C54914gKu4D
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8915
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] uapi/fcntl: define RENAME_* and AT_RENAME_* macros
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
+ Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
+ Christian Brauner <brauner@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, David Howells <dhowells@redhat.com>,
+ linux-api@vger.kernel.org
+References: <20250901231457.1179748-1-rdunlap@infradead.org>
+ <CAOQ4uxjXvYBsW1Nb2HKaoUg1qi8Pkq1XKtQEbnAvMUGcp7LrZA@mail.gmail.com>
+ <5ff4dfe2-271f-4967-bb45-ad59614edc37@infradead.org>
+ <a6246609-3ec0-4e38-8733-b2cf3b8fbd9a@infradead.org>
+ <CAOQ4uxhN2kPLguMN+VR8qu4AzBzLziFADqJg_dvOOO_gw=GpTw@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAOQ4uxhN2kPLguMN+VR8qu4AzBzLziFADqJg_dvOOO_gw=GpTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 03, 2025 at 03:59:40PM +0000, Pasha Tatashin wrote:
 
-> vmalloc is always fully populated, but if we add support for
-> preserving an area with holes, it can also be used for preserving
-> vmalloc. 
 
-Why? If you can't create it with vmap what is the point?
-
-> By the way, I don't like calling it *vmalloc* preservation
-> because we aren't preserving the original virtual addresses; we are
-> preserving a list of pages that are reassembled into a virtually
-> contiguous area. Maybe kho map, or kho page map, not sure, but vmalloc
-> does not sound right to me.
-
-No preservation retains the virtual address, that is pretty much
-universal.
-
-It is vmalloc preservation because the flow is
-
- x = vmalloc()
- kho_preserve_vmalloc(x, &preserved)
- [..]
- x = kho_restore_vmalloc(preserved)
- vfree(x)
-
-It is the same naming as folio preservation. Upon restore you get a
-vmalloc() back.
-
-> > And again in real systems we expect memfd to be fully populated too.
+On 9/3/25 7:14 AM, Amir Goldstein wrote:
+> On Wed, Sep 3, 2025 at 2:46 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>>
+>>
+>> On 9/2/25 2:31 PM, Randy Dunlap wrote:
+>>> Hi,
+>>>
+>>> On 9/1/25 11:58 PM, Amir Goldstein wrote:
+>>>> On Tue, Sep 2, 2025 at 1:14 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>>>>
+>>>>> Define the RENAME_* and AT_RENAME_* macros exactly the same as in
+>>>>> recent glibc <stdio.h> so that duplicate definition build errors in
+>>>>> both samples/watch_queue/watch_test.c and samples/vfs/test-statx.c
+>>>>> no longer happen. When they defined in exactly the same way in
+>>>>> multiple places, the build errors are prevented.
+>>>>>
+>>>>> Defining only the AT_RENAME_* macros is not sufficient since they
+>>>>> depend on the RENAME_* macros, which may not be defined when the
+>>>>> AT_RENAME_* macros are used.
+>>>>>
+>>>>> Build errors being fixed:
+>>>>>
+>>>>> for samples/vfs/test-statx.c:
+>>>>>
+>>>>> In file included from ../samples/vfs/test-statx.c:23:
+>>>>> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+>>>>>   159 | #define AT_RENAME_NOREPLACE     0x0001
+>>>>> In file included from ../samples/vfs/test-statx.c:13:
+>>>>> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
+>>>>>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>>>>> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+>>>>>   160 | #define AT_RENAME_EXCHANGE      0x0002
+>>>>> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
+>>>>>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>>>>> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+>>>>>   161 | #define AT_RENAME_WHITEOUT      0x0004
+>>>>> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
+>>>>>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>>>>
+>>>>> for samples/watch_queue/watch_test.c:
+>>>>>
+>>>>> In file included from usr/include/linux/watch_queue.h:6,
+>>>>>                  from ../samples/watch_queue/watch_test.c:19:
+>>>>> usr/include/linux/fcntl.h:159:9: warning: ‘AT_RENAME_NOREPLACE’ redefined
+>>>>>   159 | #define AT_RENAME_NOREPLACE     0x0001
+>>>>> In file included from ../samples/watch_queue/watch_test.c:11:
+>>>>> /usr/include/stdio.h:171:10: note: this is the location of the previous definition
+>>>>>   171 | # define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>>>>> usr/include/linux/fcntl.h:160:9: warning: ‘AT_RENAME_EXCHANGE’ redefined
+>>>>>   160 | #define AT_RENAME_EXCHANGE      0x0002
+>>>>> /usr/include/stdio.h:173:10: note: this is the location of the previous definition
+>>>>>   173 | # define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>>>>> usr/include/linux/fcntl.h:161:9: warning: ‘AT_RENAME_WHITEOUT’ redefined
+>>>>>   161 | #define AT_RENAME_WHITEOUT      0x0004
+>>>>> /usr/include/stdio.h:175:10: note: this is the location of the previous definition
+>>>>>   175 | # define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>>>>
+>>>>> Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be allocated")
+>>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>>>> ---
+>>>>> Cc: Amir Goldstein <amir73il@gmail.com>
+>>>>> Cc: Jeff Layton <jlayton@kernel.org>
+>>>>> Cc: Chuck Lever <chuck.lever@oracle.com>
+>>>>> Cc: Alexander Aring <alex.aring@gmail.com>
+>>>>> Cc: Josef Bacik <josef@toxicpanda.com>
+>>>>> Cc: Aleksa Sarai <cyphar@cyphar.com>
+>>>>> Cc: Jan Kara <jack@suse.cz>
+>>>>> Cc: Christian Brauner <brauner@kernel.org>
+>>>>> Cc: Matthew Wilcox <willy@infradead.org>
+>>>>> Cc: David Howells <dhowells@redhat.com>
+>>>>> CC: linux-api@vger.kernel.org
+>>>>> To: linux-fsdevel@vger.kernel.org
+>>>>>
+>>>>>  include/uapi/linux/fcntl.h |    9 ++++++---
+>>>>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> --- linux-next-20250819.orig/include/uapi/linux/fcntl.h
+>>>>> +++ linux-next-20250819/include/uapi/linux/fcntl.h
+>>>>> @@ -156,9 +156,12 @@
+>>>>>   */
+>>>>>
+>>>>>  /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+>>>>> -#define AT_RENAME_NOREPLACE    0x0001
+>>>>> -#define AT_RENAME_EXCHANGE     0x0002
+>>>>> -#define AT_RENAME_WHITEOUT     0x0004
+>>>>> +# define RENAME_NOREPLACE (1 << 0)
+>>>>> +# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>>>>> +# define RENAME_EXCHANGE (1 << 1)
+>>>>> +# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>>>>> +# define RENAME_WHITEOUT (1 << 2)
+>>>>> +# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>>>>
+>>>>
+>>>> This solution, apart from being terribly wrong (adjust the source to match
+>>>> to value of its downstream copy), does not address the issue that Mathew
+>>>> pointed out on v1 discussion [1]:
+>>>
+>>> I didn't forget or ignore this.
+>>> If the macros have the same values (well, not just values but also the
+>>> same text), then I don't see why it matters whether they are in some older
+>>> version of glibc.
+>>>
+>>>> $ grep -r AT_RENAME_NOREPLACE /usr/include
+>>>> /usr/include/linux/fcntl.h:#define AT_RENAME_NOREPLACE  0x0001
+>>>>
+>>>> It's not in stdio.h at all.  This is with libc6 2.41-10
+>>>>
+>>>> [1] https://lore.kernel.org/linux-fsdevel/aKxfGix_o4glz8-Z@casper.infradead.org/
+>>>>
+>>>> I don't know how to resolve the mess that glibc has created.
+>>>
+>>> Yeah, I guess I don't either.
+>>>
+>>>> Perhaps like this:
+>>>>
+>>>> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+>>>> index f291ab4f94ebc..dde14fa3c2007 100644
+>>>> --- a/include/uapi/linux/fcntl.h
+>>>> +++ b/include/uapi/linux/fcntl.h
+>>>> @@ -155,10 +155,16 @@
+>>>>   * as possible, so we can use them for generic bits in the future if necessary.
+>>>>   */
+>>>>
+>>>> -/* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+>>>> -#define AT_RENAME_NOREPLACE    0x0001
+>>>> -#define AT_RENAME_EXCHANGE     0x0002
+>>>> -#define AT_RENAME_WHITEOUT     0x0004
+>>>> +/*
+>>>> + * The legacy renameat2(2) RENAME_* flags are conceptually also
+>>>> syscall-specific
+>>>> + * flags, so it could makes sense to create the AT_RENAME_* aliases
+>>>> for them and
+>>>> + * maybe later add support for generic AT_* flags to this syscall.
+>>>> + * However, following a mismatch of definitions in glibc and since no
+>>>> kernel code
+>>>> + * currently uses the AT_RENAME_* aliases, we leave them undefined here.
+>>>> +#define AT_RENAME_NOREPLACE    RENAME_NOREPLACE
+>>>> +#define AT_RENAME_EXCHANGE     RENAME_EXCHANGE
+>>>> +#define AT_RENAME_WHITEOUT     RENAME_WHITEOUT
+>>>> +*/
+>>>
+>>> Well, we do have samples/ code that uses fcntl.h (indirectly; maybe
+>>> that can be fixed).
+>>> See the build errors in the patch description.
+>>>
+>>>
+>>>>  /* Flag for faccessat(2). */
+>>>>  #define AT_EACCESS             0x200   /* Test access permitted for
+>>>
+>>> With this patch (your suggestion above):
+>>>
+>>> IF a userspace program in samples/ uses <uapi/linux/fcntl.h> without
+>>> using <stdio.h>, [yes, I created one to test this] and without using
+>>> <uapi/linux/fs.h> then the build fails with similar build errors:
+>>>
+>>> ../samples/watch_queue/watch_nostdio.c: In function ‘consumer’:
+>>> ../samples/watch_queue/watch_nostdio.c:33:32: error: ‘RENAME_NOREPLACE’ undeclared (first use in this function)
+>>>    33 |                         return RENAME_NOREPLACE;
+>>> ../samples/watch_queue/watch_nostdio.c:33:32: note: each undeclared identifier is reported only once for each function it appears in
+>>> ../samples/watch_queue/watch_nostdio.c:37:32: error: ‘RENAME_EXCHANGE’ undeclared (first use in this function)
+>>>    37 |                         return RENAME_EXCHANGE;
+>>> ../samples/watch_queue/watch_nostdio.c:41:32: error: ‘RENAME_WHITEOUT’ undeclared (first use in this function)
+>>>    41 |                         return RENAME_WHITEOUT;
+>>>
+>>> This build succeeds with my version 1 patch (full defining of both
+>>> RENAME_* and AT_RENAME_* macros). It fails with the patch that you suggested
+>>> above.
+>>>
+>>> OK, here's what I propose.
+>>>
+>>> a. remove the unused and (sort of) recently added AT_RENAME_* macros
+>>> in include/uapi/linux/fcntl.h. Nothing in the kernel tree uses them.
+>>> This is:
+>>>
+>>> commit b4fef22c2fb9
+>>> Author: Aleksa Sarai <cyphar@cyphar.com>
+>>> Date:   Wed Aug 28 20:19:42 2024 +1000
+>>>     uapi: explain how per-syscall AT_* flags should be allocated
+>>>
+>>> These macros should have never been added here IMO.
+>>> Just putting them somewhere as examples (in comments) would be OK.
+>>>
 > 
-> I thought so too, but we already have a use case for slightly sparse
-> memfd, unfortunately, that becomes *very* inefficient when fully
-> populated.
+> I agree.
+> I did not get this patch from Aleksa,
+> but I proposed something similar above.
+> 
+>>> This alone fixes all of the build errors in samples/ that I originally
+>>> reported.
+>>>
+>>> b. if a userspace program wants to use the RENAME_* macros, it should
+>>> #include <linux/fs.h> instead of <linux/fcntl.h>.
+>>>
+>>> This fixes the "contrived" build error that I manufactured.
+>>>
+>>> Note that some programs in tools/ do use AT_RENAME_* (all 3 macros)
+>>> but they define those macros locally.
+>>>
+>>
+>> And after more testing, this is what I think works:
+>>
+>> a. remove all of the AT_RENAME-* macros from <uapi/linux/fcntl.h>
+>>    (as above)
+> 
+> ok.
+> 
+>>
+>> b. put the AT_RENAME_* macros into <uapi/linux/fs.h> like so:
+>>
+>> +/* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+>> +# define AT_RENAME_NOREPLACE RENAME_NOREPLACE
+>> +# define AT_RENAME_EXCHANGE RENAME_EXCHANGE
+>> +# define AT_RENAME_WHITEOUT RENAME_WHITEOUT
+>>
+>> so that they match what is in upstream glibc stdio.h, hence not
+>> causing duplicate definition errors.
+> 
+> Disagree.
+> We do not need to define them at all.
+> 
+> The *only* reason we defined them in fcntl.h is so the
+> definition will be together with the rest of the AT_ flags.
+> Now we change that to a comment, but there is no reason to
+> define them at fs.h. Why would we need to do that?
 
-Really? Why not use multiple memfds :(
+OK, that works. I'll make a v3 like that.
 
-So maybe you need to do optimized sparseness in memfd :(
+Thanks.
+-- 
+~Randy
 
-Jason
 
