@@ -1,224 +1,239 @@
-Return-Path: <linux-api+bounces-4710-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4711-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59841B43C31
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 14:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DCBB43F60
+	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 16:44:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CDDB16B084
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 12:57:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D25B564D1C
+	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 14:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332982FD7C3;
-	Thu,  4 Sep 2025 12:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBB03090DF;
+	Thu,  4 Sep 2025 14:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/ZCDfPq"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BrKUu5ph"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1C92629C;
-	Thu,  4 Sep 2025 12:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756990666; cv=none; b=s1dHtKfODMsSlfSJHdYjh2/iig4Bdtwxwtgj5B+u0UoupqSEudf5LjWxgPelilfbRn/mCXJuWSrpePiwzfmqH9QrnZo83jN5fVRxnvfRPsobBKNivkXM5nlxwgwKiA+sBKZG8bT8I3udDWrJ9wI7qjJD0okXo6Ha/rq82MndEJ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756990666; c=relaxed/simple;
-	bh=8/eVc7vWpyZYNyruSsCDjRKKy2KGqc1y07Wo5xHNUoc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EtYUhLR9ArtsWMeP6b2IpXIiOn9yVvL3QqMXo1apK2bWlzymgWaHMCnvcW42D6YhBYxKIKhn1TTxymL/+B2A3H3/5gPnIbHiyq3Dv/rCa2rhE6oYa5ThMYAD11D/my7MttZFZjgObRuPjGSSqCBxV85m1pto+Bt+zf73tXrJXhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/ZCDfPq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7899EC4CEF0;
-	Thu,  4 Sep 2025 12:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756990665;
-	bh=8/eVc7vWpyZYNyruSsCDjRKKy2KGqc1y07Wo5xHNUoc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=q/ZCDfPqOqseYnoW+PN2j4RogP9bF1M8oDdqg8PP0CGt03j4Lh+rzTi6HbJEgR/SJ
-	 qq+195iNezWVcaURhPRCSEaCMf2a+ALMFkXVC96ZUuB1ijXXH8ODxEiubGtrz7mm3k
-	 t6MWOz6/eUDrfHP9eAvw+JJNKnkfGUVXh/ja/3MiZvt0mQmzSjFPWjEIUmYOl+4BYA
-	 bFr4zNcjyt+tc5A13LqwsBaHU7gKI1yWNt3SF5QsxMHpfuwgr2faUnIpRxyJ6EIaBj
-	 kWSvOU//5+ETFo6VuyYvjCfx2UQOhyMBV28IsLrJmWmI9Yt5mBOQws0jA7pW/u3o6y
-	 pUcDm6M1eiVaA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
- <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
-  leonro@nvidia.com,  witu@nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B16301036;
+	Thu,  4 Sep 2025 14:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756996971; cv=fail; b=flhcDPPOPX8o9LaV7PyZMQMb6gZnQ26Ov0OmbT7gYQtqj5jG8OYpM4F+iCxWk/Ued10fsfu6NRNPyiz6vE+EbMV0ryB12vZP/sk+mrgV4sl41zDIEApONUTnL3ywl9sWv7vGBN80NFseqbexQlczGi4xizVyCIbacMa+CBGLXQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756996971; c=relaxed/simple;
+	bh=IoYGTUnEU/fRNb8fbXxpAXIUU+2Ao1kof2H2fKwxb3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nluDAE0reJJwp1X3ju68FK7nuo+lkNbIvHLjmlvSrrzAT8QDkUTAgSgXdwKcHkeXcehUy4ZAcMhDy8ZT+WBcEmYygTyKioaQgvq6UUhb1TlvuHdRC/F32QV2HjlgifgA4oY+mtbI0LpF2TgFV4qVbY8sX1RE9xiab0LGIcPYVRQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BrKUu5ph; arc=fail smtp.client-ip=40.107.94.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EfKVGWnpYXDqXM5ue93v/ZAm8S8ToopZIgCxTIfD9DbI2n1+gsvpc9TLstgZ/5hxAPKkAC9HBniCOwCZCBGZRDLhT4dGORnJV/EMqicO+vx5wXfKCCow+sIBixvzNyWD8HQKZMuGH1iWp9NsQjWtSFS8/GeFiEM5jYjZfPY+x5lGTs1sG8L035/32IQwsbtaBy45FkCJhkmz7WIisJx+MyXvWdzlqqRzyOD2bfV/LTDGN+QrU/JTaIcSkHMk0vSlblGTGjq8jjt/3CjqNDBFSKF5q62qs3Q6cyW/HcMFpaeYkYE5POHUkQYlVIl8pqLB7L1TfHWJZyLw0mT6j2omlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=95HIFVMZsxTtVfZ4wXiTxxP4q5rcR5Q7RuN+qfMc+ik=;
+ b=xoIwRMosn7gvldAYLbYe5CjgDGMbxxgyCSmFuoNvlXYidPAl6OUhYlV8rGWLuiOlYrM+X4E4euqfWjMu8/RQM6BMBn6vA3f4SW/kPKz8BxFaGE4dfxl7H9FKEvDBgblCsu1EzJm0CUTEEqaXLhSDk5wdbta3oSQQwYcOZdVLm+5qja9cfJsc2SMs2ko1X8JSYfXYgOQPKpIaWx17U0cMMtT35kZhpeYV3cXjPyeKBTU0Qvp8R9hPdmPP+6ZPxoNVFbbVTpi39zO9bRppaNfGti/cN0Jho35+14bC/I5laDASDtdUk0e7jh6tZs66srqU+tZVe+Q2bwRaC1sjH0KSXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=95HIFVMZsxTtVfZ4wXiTxxP4q5rcR5Q7RuN+qfMc+ik=;
+ b=BrKUu5ph9nPv952HRDLKlPZ5Du5vV+vbN1FFccNVWeKmul4Kfjgszszav5BVj4QAHutMfLDFabxy1J5uQ9JOcwpeqRTndW83IjWRQIYg65O0DOAmcPghRUhwoJCS3Jqmy+vCzh8AxvP2sEoe6qpOC4HjmjdIHqAYkzAMEao6IzOS/1RKu2EFRFEnmL/WNb9/QrbrKdDImVBZ2y615JsTw7dO42cSW7OgYyBuWo9CoYO98OyhkyL7eAGQLID0A+O3UCnO2On93JtY7ah/5zod/KjsJ8+/to4Pi5RCPsElpl4+AsPaihJTM+PeWqjqSas7zzxr05rCzONcsetDb4HL/w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by MN2PR12MB4423.namprd12.prod.outlook.com (2603:10b6:208:24f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.16; Thu, 4 Sep
+ 2025 14:42:42 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9094.017; Thu, 4 Sep 2025
+ 14:42:42 +0000
+Date: Thu, 4 Sep 2025 11:42:40 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com
 Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <20250903150157.GH470103@nvidia.com>
+Message-ID: <20250904144240.GO470103@nvidia.com>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com> <mafs0bjo0yffo.fsf@kernel.org>
-	<20250828124320.GB7333@nvidia.com> <mafs0h5xmw12a.fsf@kernel.org>
-	<20250902134846.GN186519@nvidia.com> <mafs0v7lzvd7m.fsf@kernel.org>
-	<20250903150157.GH470103@nvidia.com>
-Date: Thu, 04 Sep 2025 14:57:35 +0200
-Message-ID: <mafs0a53av0hs.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com>
+ <20250826162019.GD2130239@nvidia.com>
+ <mafs0bjo0yffo.fsf@kernel.org>
+ <20250828124320.GB7333@nvidia.com>
+ <mafs0h5xmw12a.fsf@kernel.org>
+ <20250902134846.GN186519@nvidia.com>
+ <mafs0v7lzvd7m.fsf@kernel.org>
+ <20250903150157.GH470103@nvidia.com>
+ <mafs0a53av0hs.fsf@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs0a53av0hs.fsf@kernel.org>
+X-ClientProxiedBy: YT3PR01CA0146.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:83::15) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|MN2PR12MB4423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 615af996-c534-42d4-c3d7-08ddebc14da3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?f/wOnHK7GzwGZVwtR2+VojuO2E0A0UVypW1NTs+IGPqLvQ/cuuPr0Q+Iuvbh?=
+ =?us-ascii?Q?XYCQJuN5tYoCySEryCm5TpRQsL2QPQV+kVm0+kbdIPPsY3T3BX+DOuW4bt0Q?=
+ =?us-ascii?Q?ZeS2s0DCTKoXEWSLH7WIWXdfWmS6uxeQMKQ9KQfy8jqTiW75gX0i2+hwONPW?=
+ =?us-ascii?Q?LyNAU26YxJqSNMj7gN1fhalnIQ0K/C1qy5g/4ZWLYudwmfMb9Qn5E8FyojpZ?=
+ =?us-ascii?Q?uESz0hikspGe0pYdzPZdvWDt/SX7RMs+ciOo7ywrRyOvBgBk4Fvez+Jh0uh8?=
+ =?us-ascii?Q?Yd5iIZ2IBRMmxmqvjLHtwP8N4zUh+RHLMAQmgps1kK0XEqZqW0xYyVzVrlvD?=
+ =?us-ascii?Q?gPiHLMmqlnXwKEGgE+qgkWV61oa0FLs01tQseTAnuxrRybzqaAzYu9ciYUsf?=
+ =?us-ascii?Q?mT9gdKuBn0yIzJfIPWuW+hCYo1nLlRP4m/FwncYAAoC/mV+DbMZUj+RXkDTu?=
+ =?us-ascii?Q?V+2fpooj3u+m6gsZGYpBqBu7upcaS6TrO2498iBExqsWooPWnFnnnHeWEfVI?=
+ =?us-ascii?Q?BBkjJfVK/POXkdcum6DFKzrrcu2eQKPyyzFl2GZIBBi1OCj2sjqaljZ2ORA9?=
+ =?us-ascii?Q?7WHjh8WrsPYJE/nm8C2YGpOXDN1cJhnZxAXweQq/850HysqO+9ZaGj+sQyGE?=
+ =?us-ascii?Q?krwbMABB4qSrvvO5aXC9qQaHg173wEZfjSXj6YRlBC/5WcOB95PjMkV/ROlI?=
+ =?us-ascii?Q?07jrrnHsHl6YHK8umCbHgjSXBdNFxMUuVu70OBS14iJClufAlMJJG07FUx/m?=
+ =?us-ascii?Q?KlD+3/Cxv8I2cIUeT0+BLZphKuchq1CyZ4Wg6OuUQCT2JIqUteJWDYmaTycN?=
+ =?us-ascii?Q?n4Q16Sb0kvdEM9RsG18+foSYHHXD8RHnF8rfIao3Xb2PccvtNK73y8ykgm9C?=
+ =?us-ascii?Q?4OMFlxXe5kyA6fVVgBnVjwrpeQllL10AP7A6481HzMzua3KF0lhMeIkiLiAJ?=
+ =?us-ascii?Q?wv7UfvgGlbO0QG+dLTKiE7c4ktKpJjGnUAkuExcziqLbpZsTlyeHTg0u4alF?=
+ =?us-ascii?Q?kFawc9NNpgOVU+1nE3O/1aPlhAL8IJRKuhqvJQ8jD61VnfkUk9k/eZN5Nc5H?=
+ =?us-ascii?Q?uyPEFO6IgtZiOQjJ2qdahvWitJ3WpZY9x1g7y3GiJ0ahSR9WWkdrkVRCQwc8?=
+ =?us-ascii?Q?ODgnj3EBVmyJ1MIxK+wz0nklALeG5yx0WwHb8uzsDLQ+RKU8mo83zlYc1OUU?=
+ =?us-ascii?Q?WJx4Kyuy9KR55DY+PIauixzZWgs2qibJ3dWiGtUVIXAt42xlL2BSTELUGXlD?=
+ =?us-ascii?Q?bYN1nZnf9U/HJbBc6rYdmhMsgONQAVMYl1mx2kJYFFA8zsKr76LYqz2H8i0g?=
+ =?us-ascii?Q?TT1KHFZ5TnmTu/QTFTEIrlqwu+J0wVoPjAwyBBXMPmx25WkY41VNEh332eXS?=
+ =?us-ascii?Q?Yb6roTSRNQqWnmtKfDyVtUV2gqm+h1a8s3qyrG5T4tKR6G3IhtReFLGLSSw1?=
+ =?us-ascii?Q?wWSnnHAqSxo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pJXBoys3F5nzVVg5W8qW+5N0UV4a4PGyQRpADQp+Q3uE4IY+EYfHp2KI0Aaa?=
+ =?us-ascii?Q?x0DQ3EbQE0R/Tmg51MJvQ3lJ4YFTLJxbpF6WRYmWJcOFM11Pd0X9nKKV/3SA?=
+ =?us-ascii?Q?GJYl4r6rOV+MwSsHk5J68TDjHfZuJ3/gPq4jX5/tlgvepG7sj5/B2UsrY6nI?=
+ =?us-ascii?Q?ucyb8ASIZtzX+Xu1MNv0U24u6VmheXMzdkyD73wfIZuBKwPzz2u6FAC23NoR?=
+ =?us-ascii?Q?449Whn1Vu1NslyI7tWDbdBFJTKTE3qA19U+FeFqhH/FSMo86b9gNSmp5YH/N?=
+ =?us-ascii?Q?RvrAiMinE6/WStfO5wFO93A5TwOllQb+IgUMce4zvy/zyppwSrQIn3xCkzlD?=
+ =?us-ascii?Q?OwWkBNFsNbSOoHRkOZZAfXIUoROmFs9Clze2PDIrxQ+UDWeppUQZ3RTfBjJW?=
+ =?us-ascii?Q?sOOo8XvtxgR5CdC1bu0S+PPyTovfWsqecxpAvKxz9aSu6Y5eC0szS8T5R3ax?=
+ =?us-ascii?Q?LVr1MQzU0pRxgKMnyrV62Xgtab5udUaOMCVZ7VCKnY/lYIgy31BwGlFz10zf?=
+ =?us-ascii?Q?e8FPR6zKFpaHkRKxCzUlXcdgvyO0WFpHboCruRsZX/A+qbk1RV2aWiiDyNBu?=
+ =?us-ascii?Q?82upo7m12amg2cUCg9YxkeTYwBcuL/KEruwOqp+mAaoUk3SWo1n8j+ZwCQhl?=
+ =?us-ascii?Q?zkuT4Qqr97O1SOUqWwzeihs1PmwMs+qmZnz9mLbB6IJ71Hq3UeB9CoatnCu0?=
+ =?us-ascii?Q?IUcmua8AwIuJtHajAX3HEX36xEmp8X99zezEsJ+KINcSCJPssrP3wqFbcnjp?=
+ =?us-ascii?Q?fGI+mu1I5OawICiu0SEuy64vrld/g2DotwvUgwn6gPxyqinbg4qLd2sR/60z?=
+ =?us-ascii?Q?G48Mma4a9utVNWjqHJN4oE5bf8s8HNaHXl9T9NthFSmdTHOtdSpiBL5j6505?=
+ =?us-ascii?Q?WRz7wRSxhqcJeYA1ZpE9gU7tcT6he1dZ6pgRD2y7jdJWaIa8/Czrlfplnr2x?=
+ =?us-ascii?Q?6HKXwO/KKWWUJxdiDPiEks4jQsvwVbU2fvG+Ynz0cWDIY6VLDtxwn06wbfXY?=
+ =?us-ascii?Q?BhI5KlenVs6GKZcEUjIZlZZrOkH7jdr55RJjmncHnAwKhmB3k+wSzWsJsBX0?=
+ =?us-ascii?Q?3QQPpXVzJDIb+miVXMuhKa9g+7sSOPhGRykJ0079fvnQVz58slfSeZDIbBOR?=
+ =?us-ascii?Q?38hdePaT3gy7SQy0OJOggnjzm5s4jymYM3g4yqKsu9swLbwsjIYqpowE1NE3?=
+ =?us-ascii?Q?2w7Vu0NbP0os2WWY58HUMdzbCo1TFR4VT7GJZXRyp9KeXZd9/NG3Kv1EM2iG?=
+ =?us-ascii?Q?tNNYi1CCZSQOb2+LMXDaXb5Wd5xUdppCoeBGWzHilUt5rI0cNcmkhBPMQa3I?=
+ =?us-ascii?Q?3ZOyONlE13MT4zCz1rtIKLMt00mwjCkyv9Uva+8IiE1CRArZnMI8y1taKreC?=
+ =?us-ascii?Q?iU9X4hmJD4wsqdJfa6CwFqdVH4GOKa5nO3uVaylXt7DquoV3BYyZEXh2LoYG?=
+ =?us-ascii?Q?+nXcdqEOAxGA6jQJjL9DStDCmi7Z4KNwV/tkHRQiY0+alYx9LtE3PGlHSfLa?=
+ =?us-ascii?Q?v4CrXw7ZJa5LlEVvGpHBUCgcytedDbIznOnqCtS4LlCejpX48fSWD3q0Qyah?=
+ =?us-ascii?Q?tfodw4PQYjO+OVDXWHM=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 615af996-c534-42d4-c3d7-08ddebc14da3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 14:42:42.4340
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dQiYqYUgAAA1O8JcakAAmRDfyBHecRXoHUNR3bXxeTtF09Bj7KBDq66OfmQLIkK4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4423
 
-Hi Jason,
+On Thu, Sep 04, 2025 at 02:57:35PM +0200, Pratyush Yadav wrote:
 
-On Wed, Sep 03 2025, Jason Gunthorpe wrote:
+> I don't think it matters if they are preserved or not. The serialization
+> and deserialization is independent of that. You can very well create a
+> KHO array that you don't KHO-preserve. On next boot, you can still use
+> it, you just have to be careful of doing it while scratch-only. Same as
+> we do now.
 
-> On Wed, Sep 03, 2025 at 04:10:37PM +0200, Pratyush Yadav wrote:
->
->> > So, it could be useful, but I wouldn't use it for memfd, the vmalloc
->> > approach is better and we shouldn't optimize for sparsness which
->> > should never happen.
->> 
->> I disagree. I think we are re-inventing the same data format with minor
->> variations. I think we should define extensible fundamental data formats
->> first, and then use those as the building blocks for the rest of our
->> serialization logic.
->
-> page, vmalloc, slab seem to me to be the fundamental units of memory
-> management in linux, so they should get KHO support.
->
-> If you want to preserve a known-sized array you use vmalloc and then
-> write out the per-list items. If it is a dictionary/sparse array then
-> you write an index with each item too. This is all trivial and doesn't
-> really need more abstraction in of itself, IMHO.
+The KHO array machinery itself can't preserve its own memory
+either.
 
-We will use up double the space for tracking metadata, but maybe that is
-fine until we start seeing bigger memfds in real workloads.
+> For the _hypervisor_ live update case, sure. Though even there, I have a
+> feeling we will start seeing userspace components on the hypervisor use
+> memfd for stashing some of their state. 
 
->
->> cases can then build on top of it. For example, the preservation bitmaps
->> can get rid of their linked list logic and just use KHO array to hold
->> and retrieve its bitmaps. It will make the serialization simpler.
->
-> I don't think the bitmaps should, the serialization here is very
-> special because it is not actually preserved, it just exists for the
-> time while the new kernel runs in scratch and is insta freed once the
-> allocators start up.
+Sure, but don't make excessively sparse memfds for kexec use, why
+should that be hard?
 
-I don't think it matters if they are preserved or not. The serialization
-and deserialization is independent of that. You can very well create a
-KHO array that you don't KHO-preserve. On next boot, you can still use
-it, you just have to be careful of doing it while scratch-only. Same as
-we do now.
+> applications. Think big storage nodes with memory in order of TiB. Those
+> can use a memfd to back their caches so on a kernel upgrade the caches
+> don't have to be re-fetched. Sparseness is to be expected for such use
+> cases.
 
->
->> I also don't get why you think sparseness "should never happen". For
->> memfd for example, you say in one of your other emails that "And again
->> in real systems we expect memfd to be fully populated too." Which
->> systems and use cases do you have in mind? Why do you think people won't
->> want a sparse memfd?
->
-> memfd should principally be used to back VM memory, and I expect VM
-> memory to be fully populated. Why would it be sparse?
+Oh? I'm surpised you'd have sparseness there. sparseness seems like
+such a weird feature to want to rely on :\
 
-For the _hypervisor_ live update case, sure. Though even there, I have a
-feeling we will start seeing userspace components on the hypervisor use
-memfd for stashing some of their state. Pasha has already mentioned they
-have a use case for a memfd that is not VM memory.
+> But perhaps it might be a better idea to come up with a mechanism for
+> the kernel to discover which formats the "next" kernel speaks so it can
+> for one decide whether it can do the live update at all, and for another
+> which formats it should use. Maybe we give a way for luod to choose
+> formats, and give it the responsibility for doing these checks?
 
-But hypervisor live upadte isn't the only use case for LUO. We are
-looking at enabling state preservation for "normal" userspace
-applications. Think big storage nodes with memory in order of TiB. Those
-can use a memfd to back their caches so on a kernel upgrade the caches
-don't have to be re-fetched. Sparseness is to be expected for such use
-cases.
+I have felt that we should catalog the formats&versions the kernel can
+read/write in some way during kbuild.
 
->
->> All in all, I think KHO array is going to prove useful and will make
->> serialization for subsystems easier. I think sparseness will also prove
->> useful but it is not a hill I want to die on. I am fine with starting
->> with a non-sparse array if people really insist. But I do think we
->> should go with KHO array as a base instead of re-inventing the linked
->> list of pages again and again.
->
-> The two main advantages I see to the kho array design vs vmalloc is
-> that it should be a bit faster as it doesn't establish a vmap, and it
-> handles unknown size lists much better.
->
-> Are these important considerations? IDK.
->
-> As I said to Chris, I think we should see more examples of what we
-> actually need before assuming any certain datastructure is the best
-> choice.
->
-> So I'd stick to simpler open coded things and go back and improve them
-> than start out building the wrong shared data structure.
->
-> How about have at least three luo clients that show meaningful benefit
-> before proposing something beyond the fundamental page, vmalloc, slab
-> things?
+Maybe this turns into a sysfs directory of all the data with an
+'enable_write' flag that luod could set to 0 to optimize.
 
-I think the fundamentals themselves get some benefit. But anyway, since
-I have done most of the work on this feature anyway, I will do the rest
-and send the patches out. Then you can have a look and if you're still
-not convinced, I am fine shelving it for now to revisit later when a
-stronger case can be made.
+And maybe this could be a kbuild report that luod could parse to do
+this optimization.
 
->
->> What do you mean by "data per version"? I think there should be only one
->> version of the serialized object. Multiple versions of the same thing
->> will get ugly real quick.
->
-> If you want to support backwards/forwards compatability then you
-> probably should support multiple versions as well. Otherwise it
-> could become quite hard to make downgrades..
+And maybe distro/csps use this information mechanically to check if
+version pairs are kexec compatible.
 
-Hmm, forward can work regardless since a newer kernel should speak older
-formats too, but for backwards it makes sense to have an older version.
+Which re-enforces my feeling that the formats/version should be first
+class concepts, every version should be registered and luo should
+sequence calling the code for the right version at the right time.
 
-But perhaps it might be a better idea to come up with a mechanism for
-the kernel to discover which formats the "next" kernel speaks so it can
-for one decide whether it can do the live update at all, and for another
-which formats it should use. Maybe we give a way for luod to choose
-formats, and give it the responsibility for doing these checks?
-
->
-> Ideally I'd want to remove the upstream code for obsolete versions
-> fairly quickly so I'd imagine kernels will want to generate both
-> versions during the transition period and then eventually newer
-> kernels will only accept the new version.
->
-> I've argued before that the extended matrix of any kernel version to
-> any other kernel version should lie with the distro/CSP making the
-> kernel fork. They know what their upgrade sequence will be so they can
-> manage any missing versions to make it work.
->
-> Upstream should do like v6.1 to v6.2 only or something similarly well
-> constrained. I think this is a reasonable trade off to get subsystem
-> maintainers to even accept this stuff at all.
-[...]
-
--- 
-Regards,
-Pratyush Yadav
+Jason
 
