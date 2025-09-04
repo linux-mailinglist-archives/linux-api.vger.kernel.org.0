@@ -1,123 +1,126 @@
-Return-Path: <linux-api+bounces-4708-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4709-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910B9B4323B
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 08:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A594B43BDC
+	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 14:39:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F1A3165818
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 06:22:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F293A5A2F7C
+	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 12:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9928B25DB0D;
-	Thu,  4 Sep 2025 06:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A0C2F90F0;
+	Thu,  4 Sep 2025 12:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XQ29M/xj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9MOrYmH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A19325A326;
-	Thu,  4 Sep 2025 06:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8382F8BD0;
+	Thu,  4 Sep 2025 12:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756966940; cv=none; b=OGv6gHra92uuyRvOtxZL1epJ6iUm939e/x9xaSeyFMhEMiCT3hGVJMeCXtVdhhO7gqVUIYHhr10fLqzpV5bUJn0lXDgR9ng3Lo6Ch5PUfZ9jp5p4TX1a17KL3aw/w95wWKyOv/xJ4z+WaPaDZE7XZlfV8l63jD5wS4VKX8PFO4o=
+	t=1756989564; cv=none; b=pAclulHhoY2qsPUWjxs6rhMF0YoxH/Dmczmd5iL1G3iFxZlEj5U+rfq1Djbl/d16ChzrKqBpeLFNNLi4kBcJ2DkODNPL2vi3Ki37mJsUPJHRyZq6URq0Vctf4ACNCUTXeq7VZvGTrNLPwDlr3ZCFp/FIrv5gzgZtPW32hK0WhrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756966940; c=relaxed/simple;
-	bh=4gkG1uQk8lWw9rbqJBG1qb0f1uOkOI0jK2sCgnyNfbY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NCWHVVOWc/IWNpnVfe1F3cMAWVLrTMlH7j1j+fP3ffTT4AYKrZKizcVWEWIYq7Y4mboW064dCohIUDOmNZKItlhX1EgM9fT5C+WUYHnGEw7m+/7oZal916xPM185FwcvUEX3CJ724g3qI8Wzw8ZldVfpNkAOC6Wg0xuVVqFy9pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XQ29M/xj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=lvF9s1nrRUArY5JJjxvX+LxPs3kFn+zwehWVSSbnB/0=; b=XQ29M/xjdUFRrP1V73XyhALtKC
-	CX+7fu+3C2OuT6HWbNZKBKI+bPJlf5IPTK4z9UUsKRoF4OIw5pvArpD0K8ungf1BDH95pLtb0Zs0A
-	SD+pd+t4OnBYprF6LGY4EyY9ZxrU2IBqP/s1CzEcaqpanlg4Ln8Q7y2i41fspIq4htFp35jn/FsjB
-	CL2TCDJ4GcY3WcetjN/Qt+DBho+9/M296UkXmvB5mgjZtOP/ZL4tVsNQRDxueMpBpRXvXQFaUsSce
-	E+ZKvRgWEV+2C25grTAgDfZv4pIJ/FIgWXEckbUkBfyMCq5UkdB40CKQGbUBiX0yUuu4zYHWCj4xZ
-	phsb0yaw==;
-Received: from [50.53.25.54] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uu3MO-00000009Ue5-1Loe;
-	Thu, 04 Sep 2025 06:22:16 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: patches@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	linux-api@vger.kernel.org
-Subject: [PATCH v3] uapi/linux/fcntl: remove AT_RENAME* macros
-Date: Wed,  3 Sep 2025 23:22:15 -0700
-Message-ID: <20250904062215.2362311-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1756989564; c=relaxed/simple;
+	bh=/dOXK4oy7iAhoUGr2MmfjWE8hXk9Y8tyleU9g8YasAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dlEvzWbD9LPCqClXvVdmyp7PLG2L+1ZOlJZoF0hoheVomli1glbe8dWWbtwpJrZ10wfR5gKld18RoGBp01zOSM1vFSYBmdJht1SAw7+Dh+XoNCDWj5O+MEiXCjU47/WmBRSyiP2edoK5ctPw3oYaXRyf9nzvpC0E2uZe5NOooqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9MOrYmH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E171AC4CEF1;
+	Thu,  4 Sep 2025 12:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756989563;
+	bh=/dOXK4oy7iAhoUGr2MmfjWE8hXk9Y8tyleU9g8YasAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=i9MOrYmHgSH7Y+7qHtX1Byvl1ufAKEXc1Ej/VzGCte2ENcbxl6Mjs/y7IuxfEcCQ3
+	 lkRNGXjyWdOWAjOORBHFnPRA/tQO7cxQGyxoKmvFfmz4u8IXtmkl7ciAUTWgFT+GAP
+	 myO6mgfBUImeuJUAz/Pp3nRZc3rbxvf5UZr3Y0Bck70j808roKhLMObuwp5KEXxApA
+	 xpPMEoC4Z5WrmciOCLArypa7JShIxMw4iOYxs4tM20apqeuHeoOTbvLYZ/wTsANFrj
+	 0RU+AInyj9lCuH+cdHwn1+LLbCI7dNSEn4Q4fm9jFierntGz1oHAM9EVt+WbDdjGQ+
+	 uvggoCCmg/h4g==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Jason Gunthorpe <jgg@nvidia.com>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+In-Reply-To: <aLiZbb_F5R2x9-y2@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
+	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
+	<mafs0ldmyw1hp.fsf@kernel.org> <aLbYk30V2EEJJtAf@kernel.org>
+	<mafs0qzwnvcwk.fsf@kernel.org> <aLiZbb_F5R2x9-y2@kernel.org>
+Date: Thu, 04 Sep 2025 14:39:13 +0200
+Message-ID: <mafs0ecsmv1ce.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Don't define the AT_RENAME_* macros at all since the kernel does not
-use them nor does the kernel need to provide them for userspace.
-Leave them as comments in <uapi/linux/fcntl.h> only as an example.
+Hi Mike,
 
-The AT_RENAME_* macros have recently been added to glibc's <stdio.h>.
-For a kernel allmodconfig build, this made the macros be defined
-differently in 2 places (same values but different macro text),
-causing build errors/warnings (duplicate definitions) in both
-samples/watch_queue/watch_test.c and samples/vfs/test-statx.c.
-(<linux/fcntl.h> is included indirecty in both programs above.)
+On Wed, Sep 03 2025, Mike Rapoport wrote:
+> On Wed, Sep 03, 2025 at 04:17:15PM +0200, Pratyush Yadav wrote:
+>> On Tue, Sep 02 2025, Mike Rapoport wrote:
+>> >
+>> > As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
+>> > would just make kho_preserve_vmalloc() more complex and I'd rather simplify
+>> > it even more, e.g. with preallocating all the pages that preserve indices
+>> > in advance.
+[...]
+>  
+>> Beyond that, I think KHO array will actually make kho_preserve_vmalloc()
+>> simpler since it won't have to deal with the linked list traversal
+>> logic. It can just do ka_for_each() and just get all the pages.
+>>
+>> We can also convert the preservation bitmaps to use it so the linked list
+>> logic is in one place, and others just build on top of it.
+>
+> I disagree. The boilerplate to initialize and iterate the kho_array will
+> not make neither vmalloc nor bitmaps preservation simpler IMO.
 
-Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should be allocated")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Amir Goldstein <amir73il@gmail.com>
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>
-Cc: Alexander Aring <alex.aring@gmail.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: David Howells <dhowells@redhat.com>
-CC: linux-api@vger.kernel.org
-To: linux-fsdevel@vger.kernel.org
----
- include/uapi/linux/fcntl.h |    6 ++++++
- 1 file changed, 6 insertions(+)
+I have done 80% of the work on this already, so let's do this: I will do
+the rest of the 20% and publish the patches. Then you and Jason can have
+a look and if you still think it's not worth it, I am fine shelving it
+for now and revisiting later when there might be a stronger case.
 
---- linux-next-20250819.orig/include/uapi/linux/fcntl.h
-+++ linux-next-20250819/include/uapi/linux/fcntl.h
-@@ -155,10 +155,16 @@
-  * as possible, so we can use them for generic bits in the future if necessary.
-  */
- 
-+/*
-+ * Note: This is an example of how the AT_RENAME_* flags could be defined,
-+ * but the kernel has no need to define them, so leave them as comments.
-+ */
- /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
-+/*
- #define AT_RENAME_NOREPLACE	0x0001
- #define AT_RENAME_EXCHANGE	0x0002
- #define AT_RENAME_WHITEOUT	0x0004
-+*/
- 
- /* Flag for faccessat(2). */
- #define AT_EACCESS		0x200	/* Test access permitted for
+>
+> And for bitmaps Pasha and Jason M. are anyway working on a different data
+> structure already, so if their proposal moves forward converting bitmap
+> preservation to anything would be a wasted effort.
+
+-- 
+Regards,
+Pratyush Yadav
 
