@@ -1,100 +1,189 @@
-Return-Path: <linux-api+bounces-4716-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4717-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C70B448D9
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 23:52:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DCFB44D0B
+	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 07:11:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EBA15A3E02
-	for <lists+linux-api@lfdr.de>; Thu,  4 Sep 2025 21:52:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 089401BC7CDF
+	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 05:12:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B90E2D0C64;
-	Thu,  4 Sep 2025 21:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F351624DCE5;
+	Fri,  5 Sep 2025 05:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q9/9jIab"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="wmtocSjH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104282C3245;
-	Thu,  4 Sep 2025 21:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B88229B02;
+	Fri,  5 Sep 2025 05:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757022757; cv=none; b=pYlvEvlMzwj36SGw5cDNkuiFSNzx+ZMewQAFaGPHQhSUfFftmSS+bBSZVnK7yOOK7eLOEajA8Ja7BvBFdm746uE0ayQ/1IUEB/eYl27Jf2xrYRmrPBlCYMsyRQBSyrvfQkUyj/Hk9ITclFV6CT44iGeCa+tMPcb34jT3+x4FC14=
+	t=1757049101; cv=none; b=QYm4uGI117YCuBI8buZp+WYitCaJ0ZSyQwWB6IbSG8TLEG2vcd+YkR8S8FTLA29mNv8lW4cuLDNOI2XpCy5gppZ8ROTQ2MD6vl0DDyJSYznXfxyM43tKC568qMmwvXbPkTvEVs2TWmV/GkmvDaRL8F85cVddcEgft8+uEcI6crc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757022757; c=relaxed/simple;
-	bh=j8Lvx4LYs6RWWcXUE3HffvZSjpL5xNSLk0qqXdERQZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HGQj9o3P/ovHR59TX9aJdSPDarVOlJIjJ2+aoVAlxf0HNK4aQ0aBRFuF94YHOU42E0BP/QSJaicg08HwXkWOx6c2fCbBf/u6BhN6s4S9l7Pbui+/I+aQkQnHmGECovaNyI7ox35e/PmjSHzxajjUxaoxOd/4hKLArEDeibbumHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q9/9jIab; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A2XDTefiEP4Ka+Xqy3ySndJof3Li4Xag15XUVtOWBJ4=; b=q9/9jIabKB2C6T44yfpy3iTaNQ
-	9jUT8ddamVcBmPYC3kMrxVKPQ4Db4hevnVkgfDG28tRvXnFvXW3g0I1i+TgHk6Zd67hj8ezYKqLJb
-	A7tE1r8rDGi+iwnJuxqkgLzSGAvmrQaUIJuyFzae4ALVuYZ0e4HpakYjok0v4gsMYAFCYPpeYYGRi
-	B9r6+JpyQhmwHazRCS3BVHG0tZva+ijgHsSbsZBMrSwsaxG/FvLyrxYVL2zlkLEOwaU4UlZGAppl+
-	SJW1Hk0n+maeCXaF9Mp73mkw6Sok0UA1IdFiQrkP2g++Y0eJmVI2QV2HaEULBhYZ8TMcg0rTpg0Iu
-	fP40fl/w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuHsh-0000000Eg05-2dil;
-	Thu, 04 Sep 2025 21:52:35 +0000
-Message-ID: <b35f0ff7-8ffb-400f-b537-d15e83319808@infradead.org>
-Date: Thu, 4 Sep 2025 14:52:34 -0700
+	s=arc-20240116; t=1757049101; c=relaxed/simple;
+	bh=MfMe3Ux66lPxL42rUu5NhgoeUgh/nZCEWUq9lD51RJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jHpIjPaPjm48RkxsrBys/GJ5C4XfM8sPUq6zQCcXxSoM+Lu/HpG5q8u9ITYX4Zfmv4eTl/KXWqW7rr1BMdBZ09o7F1mllbj0Zjd+jbMCQFJd7pzRnD1oddXpDvEg1LqfwSAhCc4MuwuWGSdu5FvLgJRMDl2vCKMPMT/dYV6WuM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=wmtocSjH; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cJ4FY4RHFz9sqq;
+	Fri,  5 Sep 2025 07:11:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1757049089;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XGAcrOOH0CnQ5I6y/BvJDOYZrnadTkoW7iPOFIVb7kA=;
+	b=wmtocSjHAx2Xl2pOupR3Agi5dW3D4kNySdIxzyGfCCsxzmKMlSVTLU8R6B4ALA9mvamsel
+	WGj0PB1COf7IyWz1DPcjas0crrrbmxqbhtqwbhxCkjFJLtuEU9p70wefU6ggeWMMLZzNbG
+	J8oHYwB0lpaplEQl5/FMBkjnq9HDGhSgc/7ZM/Yg5l6AQ/ycLkf0Ro1QSFQseLdXFwgaKB
+	obL4CRBE/8y9or76pzRQCswrdjW9ihymrT7SoxWlBaoYhgHqNCH6UIVxnHtzi5e8IlhuxJ
+	nCuAvwx/NBRRiW8F/0ZYDnnftaRHkAQsT3zAcETHDmnjmSqAtcg/j+G2GBLnfA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Fri, 5 Sep 2025 15:11:15 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	patches@lists.linux.dev, Jeff Layton <jlayton@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, David Howells <dhowells@redhat.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v3] uapi/linux/fcntl: remove AT_RENAME* macros
+Message-ID: <2025-09-05-armless-uneaten-venture-denizen-HnoIhR@cyphar.com>
+References: <20250904062215.2362311-1-rdunlap@infradead.org>
+ <CAOQ4uxiJibbq_MX3HkNaFb3GXGsZ0nNehk+MNODxXxy_khSwEQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yvusjolxsif6sgdv"
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxiJibbq_MX3HkNaFb3GXGsZ0nNehk+MNODxXxy_khSwEQ@mail.gmail.com>
+X-Rspamd-Queue-Id: 4cJ4FY4RHFz9sqq
+
+
+--yvusjolxsif6sgdv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 Subject: Re: [PATCH v3] uapi/linux/fcntl: remove AT_RENAME* macros
-To: Florian Weimer <fweimer@redhat.com>, Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>,
- Christian Brauner <brauner@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, David Howells <dhowells@redhat.com>,
- linux-api@vger.kernel.org
-References: <20250904062215.2362311-1-rdunlap@infradead.org>
- <CAOQ4uxiJibbq_MX3HkNaFb3GXGsZ0nNehk+MNODxXxy_khSwEQ@mail.gmail.com>
- <lhua53auk7q.fsf@oldenburg.str.redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <lhua53auk7q.fsf@oldenburg.str.redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
 
+On 2025-09-04, Amir Goldstein <amir73il@gmail.com> wrote:
+> On Thu, Sep 4, 2025 at 8:22=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
+> >
+> > Don't define the AT_RENAME_* macros at all since the kernel does not
+> > use them nor does the kernel need to provide them for userspace.
+> > Leave them as comments in <uapi/linux/fcntl.h> only as an example.
+> >
+> > The AT_RENAME_* macros have recently been added to glibc's <stdio.h>.
+> > For a kernel allmodconfig build, this made the macros be defined
+> > differently in 2 places (same values but different macro text),
+> > causing build errors/warnings (duplicate definitions) in both
+> > samples/watch_queue/watch_test.c and samples/vfs/test-statx.c.
+> > (<linux/fcntl.h> is included indirecty in both programs above.)
+> >
+> > Fixes: b4fef22c2fb9 ("uapi: explain how per-syscall AT_* flags should b=
+e allocated")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > ---
+> > Cc: Amir Goldstein <amir73il@gmail.com>
+> > Cc: Jeff Layton <jlayton@kernel.org>
+> > Cc: Chuck Lever <chuck.lever@oracle.com>
+> > Cc: Alexander Aring <alex.aring@gmail.com>
+> > Cc: Josef Bacik <josef@toxicpanda.com>
+> > Cc: Aleksa Sarai <cyphar@cyphar.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Christian Brauner <brauner@kernel.org>
+> > Cc: Matthew Wilcox <willy@infradead.org>
+> > Cc: David Howells <dhowells@redhat.com>
+> > CC: linux-api@vger.kernel.org
+> > To: linux-fsdevel@vger.kernel.org
+> > ---
+> >  include/uapi/linux/fcntl.h |    6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > --- linux-next-20250819.orig/include/uapi/linux/fcntl.h
+> > +++ linux-next-20250819/include/uapi/linux/fcntl.h
+> > @@ -155,10 +155,16 @@
+> >   * as possible, so we can use them for generic bits in the future if n=
+ecessary.
+> >   */
+> >
+> > +/*
+> > + * Note: This is an example of how the AT_RENAME_* flags could be defi=
+ned,
+> > + * but the kernel has no need to define them, so leave them as comment=
+s.
+> > + */
+> >  /* Flags for renameat2(2) (must match legacy RENAME_* flags). */
+> > +/*
+> >  #define AT_RENAME_NOREPLACE    0x0001
+> >  #define AT_RENAME_EXCHANGE     0x0002
+> >  #define AT_RENAME_WHITEOUT     0x0004
+> > +*/
+> >
+>=20
+> I find this end result a bit odd, but I don't want to suggest another var=
+iant
+> I already proposed one in v2 review [1] that maybe you did not like.
+> It's fine.
+> I'll let Aleksa and Christian chime in to decide on if and how they want =
+this
+> comment to look or if we should just delete these definitions and be done=
+ with
+> this episode.
 
+For my part, I'm fine with these becoming comments or even removing them
+outright. I think that defining them as AT_* flags would've been useful
+examples of how these flags should be used, but it is what it is.
 
-On 9/4/25 11:49 AM, Florian Weimer wrote:
-> * Amir Goldstein:
-> 
->> I find this end result a bit odd, but I don't want to suggest another variant
->> I already proposed one in v2 review [1] that maybe you did not like.
->> It's fine.
->> I'll let Aleksa and Christian chime in to decide on if and how they want this
->> comment to look or if we should just delete these definitions and be done with
->> this episode.
-> 
-> We should fix the definition in glibc to be identical token-wise to the
-> kernel's.
+Then again, AT_EXECVE_CHECK went in and used a higher-level bit despite
+the comments describing that this was unfavourable and what should be
+done instead, so maybe attempting to avoid conflicts is an exercise in
+futility...
 
-That's probably a good suggestion...
-while I tried the reverse of that and Amir opposed.
+If it's too much effort to synchronise them between glibc then it's
+better to just close the book on this whole chapter (even though my
+impression is that glibc made a mistake or two when adding the
+definitions).
 
-Now I find that I don't care enough to sustain this.
+In either case, feel free to take my
 
-Thanks.
+Acked-by: Aleksa Sarai <cyphar@cyphar.com>
 
--- 
-~Randy
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
 
+--yvusjolxsif6sgdv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaLpw8xsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG9NbwEA02CLCYrxglSSoPJK2a37
+x4+43VSdH39lraFtf9jLTHEBAOVpoiIDX/SFZMEO7PSYUHZKFl/IG/zm/xWeNSYo
+Zr4L
+=ht91
+-----END PGP SIGNATURE-----
+
+--yvusjolxsif6sgdv--
 
