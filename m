@@ -1,276 +1,569 @@
-Return-Path: <linux-api+bounces-4722-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4723-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A111B45AE6
-	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 16:48:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FD7B45C60
+	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 17:23:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DC111764B4
-	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 14:48:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 836FD1888249
+	for <lists+linux-api@lfdr.de>; Fri,  5 Sep 2025 15:22:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CD837289B;
-	Fri,  5 Sep 2025 14:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2418219CCEC;
+	Fri,  5 Sep 2025 15:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="0THawW7w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ucFN/EHx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E490536CDE5;
-	Fri,  5 Sep 2025 14:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD9031B81B;
+	Fri,  5 Sep 2025 15:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757083713; cv=none; b=mrQ5PWecnpLb03nyZS2gbFWz30vPWFHd8bfzFmmlJUdBjcMl3P1DM4dghI57QU7JLVsAD0yI7yp5ZqQ8YY0RSalK9zS84VXus3vKpRL6o/d2eYYYjX7LPN9HNwo6DIrRj3/TwDeZxZeNBQNgJgJn3jQAIkl0P36EumM8Z0BXvMQ=
+	t=1757085729; cv=none; b=YrfHnohHq3Wvq/22BRl6iYlmZSSz+yGXuyDI77f/QNATmlWTHqqIkmOJMQZYTkrRwGBr18dsFxglRZWtOJplgnEovY9+78vfPTl9QTbofIV10vQbvjjaIHSI1HoYsj3zi+Sqm7glxOSHsV+TYnRJ6YbpyXqcV3pnWjRB0o7ICfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757083713; c=relaxed/simple;
-	bh=IeuCwHP7fxBMyZnUg7lRAegA+KMiIxaSfVE4kK3bhJI=;
+	s=arc-20240116; t=1757085729; c=relaxed/simple;
+	bh=orDcQO2mDFt/Rptp+4dd8KE/+8XnTzh2xclKPDGcdAA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PkcykVlyiggWhuhXbWVIl8/2WJP/KESF70iDWybknVmL14MyHbi2jwRmOPD2r1JX7JCcVxqJIf2EfODfYxafOcLBevrS85CqzOIbroltFm2JWz8r1o2BiRJBNyLQ5qWwJYD74m5Dvl5qXkSJaPzKm+fVHM3b2UsbS3L8E8P8Kg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=0THawW7w; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cJK3G0wV2z9spq;
-	Fri,  5 Sep 2025 16:48:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1757083706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2yxz7OYC7knSMwqm1/ga1qwzQ1qS/2PhiFrxz5xbnhg=;
-	b=0THawW7wLt4yGtJVklnGykWYvtdY8tmFTAYk6XeFDA+dALD0RH0oFkl36NAnq5puArcylf
-	3jMlvKTeGHbF28yVP4qN7S4zrKl6yWo8wnAARcZPsylin9gDNCSnIdV0ykR+S4SPJoK8Fq
-	02Emfx/ZPuEQalW9jyhYm4OPs4Xrhk1wbjkdl5i8i3hPndBGVjw+0Gj94XJIRQb+yFU2e0
-	FQqf2K/6UeL5hdIw1cdYeLMsXupx9uNPzPYvd9EONNfjL+SpSS/03/nzkM1dMbPbXH3Is1
-	o7WCb/Bow5ALIIPYd+A9RZ2Laizw2G1waOO3dQG+qcdXoyRzwDRxihdk/9JY1w==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Sat, 6 Sep 2025 00:48:13 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Andy Lutomirski <luto@amacapital.net>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] procfs: make reference pidns more user-visible
-Message-ID: <2025-09-05-kinky-napping-auction-creeks-pbN1Vi@cyphar.com>
-References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
- <20250902-gehofft-ruheraum-3c286b25b6d3@brauner>
+	 Content-Type:Content-Disposition:In-Reply-To; b=o9B8e+qLwwa01F+l3/xHLHoELDsw9T/0l2WPlrevU1Pl1ZK3i+wA5kXVEV4xY4ah51lcoTEijIwQfqUyOYYjn4LzmQWu+6Q5l8wAI0oTbGywIjJnR1sx7r8tU9i8OFjmm4feQWKVWWnZkqGsjanMPpJ/X7JYmpvVricUyYy5xH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ucFN/EHx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E30C4CEF1;
+	Fri,  5 Sep 2025 15:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757085728;
+	bh=orDcQO2mDFt/Rptp+4dd8KE/+8XnTzh2xclKPDGcdAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ucFN/EHxwALbURefdw2BY5zRoU/XnFHpqTKAApN4gEryGH+SP+hQ+hq0IQGTBQ5a0
+	 MOgZTTDgXIIuk7GXs5Y93iRmazAz+URTCgTVA60pWfs9bZl1ZWUi/6UbxjHIWRAutw
+	 nIFM2azElvDbYRzJMGswrYcTuH3Fw/Ab1AvgpebOxN6QUkAPnXYUjjB3uSnrJ6ytlp
+	 PTRLXOvCkyNTL8khBjvDG/6Huniy46/AcSdGbF0FfVZYEPZcjfVox/sx5vULh4fgAu
+	 J0aL7ORQNfdDhfx9YCpJuL5//4klhHLc5ZBrRLJpNRUQBuy4stYb/GarKz+6/QN3qp
+	 EvyybGv77F2Sw==
+Date: Fri, 5 Sep 2025 17:21:59 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+	Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+	"H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, jannh@google.com, 
+	Andrew Morton <akpm@linux-foundation.org>, Yury Khrustalev <yury.khrustalev@arm.com>, 
+	Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v20 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <20250905-nutria-befund-2f3e92003734@brauner>
+References: <20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org>
+ <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s6blnnuwdbg65wg3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250902-gehofft-ruheraum-3c286b25b6d3@brauner>
-X-Rspamd-Queue-Id: 4cJK3G0wV2z9spq
+In-Reply-To: <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
 
+On Tue, Sep 02, 2025 at 11:21:48AM +0100, Mark Brown wrote:
+> Unlike with the normal stack there is no API for configuring the shadow
+> stack for a new thread, instead the kernel will dynamically allocate a
+> new shadow stack with the same size as the normal stack. This appears to
+> be due to the shadow stack series having been in development since
+> before the more extensible clone3() was added rather than anything more
+> deliberate.
+> 
+> Add a parameter to clone3() specifying a shadow stack pointer to use
+> for the new thread, this is inconsistent with the way we specify the
+> normal stack but during review concerns were expressed about having to
+> identify where the shadow stack pointer should be placed especially in
+> cases where the shadow stack has been previously active.  If no shadow
+> stack is specified then the existing implicit allocation behaviour is
+> maintained.
+> 
+> If a shadow stack pointer is specified then it is required to have an
+> architecture defined token placed on the stack, this will be consumed by
+> the new task, the shadow stack is specified by pointing to this token.  If
+> no valid token is present then this will be reported with -EINVAL.  This
+> token prevents new threads being created pointing at the shadow stack of
+> an existing running thread.  On architectures with support for userspace
+> pivoting of shadow stacks it is expected that the same format and placement
+> of tokens will be used, this is the case for arm64 and x86.
+> 
+> If the architecture does not support shadow stacks the shadow stack
+> pointer must be not be specified, architectures that do support the
+> feature are expected to enforce the same requirement on individual
+> systems that lack shadow stack support.
+> 
+> Update the existing arm64 and x86 implementations to pay attention to
+> the newly added arguments, in order to maintain compatibility we use the
+> existing behaviour if no shadow stack is specified. Since we are now
+> using more fields from the kernel_clone_args we pass that into the
+> shadow stack code rather than individual fields.
+> 
+> Portions of the x86 architecture code were written by Rick Edgecombe.
+> 
+> Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
+> Tested-by: Yury Khrustalev <yury.khrustalev@arm.com>
+> Tested-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/mm/gcs.c              | 47 +++++++++++++++++++-
+>  arch/x86/include/asm/shstk.h     | 11 +++--
+>  arch/x86/kernel/process.c        |  2 +-
+>  arch/x86/kernel/shstk.c          | 53 ++++++++++++++++++++---
+>  include/asm-generic/cacheflush.h | 11 +++++
+>  include/linux/sched/task.h       | 17 ++++++++
+>  include/uapi/linux/sched.h       |  9 ++--
+>  kernel/fork.c                    | 93 ++++++++++++++++++++++++++++++++++------
+>  8 files changed, 217 insertions(+), 26 deletions(-)
+> 
+> diff --git a/arch/arm64/mm/gcs.c b/arch/arm64/mm/gcs.c
+> index 3abcbf9adb5c..249ff05bca45 100644
+> --- a/arch/arm64/mm/gcs.c
+> +++ b/arch/arm64/mm/gcs.c
+> @@ -43,8 +43,23 @@ int gcs_alloc_thread_stack(struct task_struct *tsk,
+>  {
+>  	unsigned long addr, size;
+>  
+> -	if (!system_supports_gcs())
+> +	if (!system_supports_gcs()) {
+> +		if (args->shadow_stack_token)
+> +			return -EINVAL;
+> +
+>  		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If the user specified a GCS then use it, otherwise fall
+> +	 * back to a default allocation strategy. Validation is done
+> +	 * in arch_shstk_validate_clone().
+> +	 */
+> +	if (args->shadow_stack_token) {
+> +		tsk->thread.gcs_base = 0;
+> +		tsk->thread.gcs_size = 0;
+> +		return 0;
+> +	}
+>  
+>  	if (!task_gcs_el0_enabled(tsk))
+>  		return 0;
+> @@ -68,6 +83,36 @@ int gcs_alloc_thread_stack(struct task_struct *tsk,
+>  	return 0;
+>  }
+>  
+> +static bool gcs_consume_token(struct vm_area_struct *vma, struct page *page,
+> +			      unsigned long user_addr)
+> +{
+> +	u64 expected = GCS_CAP(user_addr);
+> +	u64 *token = page_address(page) + offset_in_page(user_addr);
+> +
+> +	if (!cmpxchg_to_user_page(vma, page, user_addr, token, expected, 0))
+> +		return false;
+> +	set_page_dirty_lock(page);
+> +
+> +	return true;
+> +}
+> +
+> +int arch_shstk_validate_clone(struct task_struct *tsk,
+> +			      struct vm_area_struct *vma,
+> +			      struct page *page,
+> +			      struct kernel_clone_args *args)
+> +{
+> +	unsigned long gcspr_el0;
+> +	int ret = 0;
+> +
+> +	gcspr_el0 = args->shadow_stack_token;
+> +	if (!gcs_consume_token(vma, page, gcspr_el0))
+> +		return -EINVAL;
+> +
+> +	tsk->thread.gcspr_el0 = gcspr_el0 + sizeof(u64);
+> +
+> +	return ret;
+> +}
+> +
+>  SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
+>  {
+>  	unsigned long alloc_size;
+> diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
+> index ba6f2fe43848..827e983430aa 100644
+> --- a/arch/x86/include/asm/shstk.h
+> +++ b/arch/x86/include/asm/shstk.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/types.h>
+>  
+>  struct task_struct;
+> +struct kernel_clone_args;
+>  struct ksignal;
+>  
+>  #ifdef CONFIG_X86_USER_SHADOW_STACK
+> @@ -16,8 +17,8 @@ struct thread_shstk {
+>  
+>  long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
+>  void reset_thread_features(void);
+> -unsigned long shstk_alloc_thread_stack(struct task_struct *p, unsigned long clone_flags,
+> -				       unsigned long stack_size);
+> +unsigned long shstk_alloc_thread_stack(struct task_struct *p,
+> +				       const struct kernel_clone_args *args);
+>  void shstk_free(struct task_struct *p);
+>  int setup_signal_shadow_stack(struct ksignal *ksig);
+>  int restore_signal_shadow_stack(void);
+> @@ -28,8 +29,10 @@ static inline long shstk_prctl(struct task_struct *task, int option,
+>  			       unsigned long arg2) { return -EINVAL; }
+>  static inline void reset_thread_features(void) {}
+>  static inline unsigned long shstk_alloc_thread_stack(struct task_struct *p,
+> -						     unsigned long clone_flags,
+> -						     unsigned long stack_size) { return 0; }
+> +						     const struct kernel_clone_args *args)
+> +{
+> +	return 0;
+> +}
+>  static inline void shstk_free(struct task_struct *p) {}
+>  static inline int setup_signal_shadow_stack(struct ksignal *ksig) { return 0; }
+>  static inline int restore_signal_shadow_stack(void) { return 0; }
+> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> index 1b7960cf6eb0..0a54af6c60df 100644
+> --- a/arch/x86/kernel/process.c
+> +++ b/arch/x86/kernel/process.c
+> @@ -209,7 +209,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+>  	 * is disabled, new_ssp will remain 0, and fpu_clone() will know not to
+>  	 * update it.
+>  	 */
+> -	new_ssp = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
+> +	new_ssp = shstk_alloc_thread_stack(p, args);
+>  	if (IS_ERR_VALUE(new_ssp))
+>  		return PTR_ERR((void *)new_ssp);
+>  
+> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> index 2ddf23387c7e..9926d58e5d41 100644
+> --- a/arch/x86/kernel/shstk.c
+> +++ b/arch/x86/kernel/shstk.c
+> @@ -191,18 +191,61 @@ void reset_thread_features(void)
+>  	current->thread.features_locked = 0;
+>  }
+>  
+> -unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+> -				       unsigned long stack_size)
+> +int arch_shstk_validate_clone(struct task_struct *t,
+> +			      struct vm_area_struct *vma,
+> +			      struct page *page,
+> +			      struct kernel_clone_args *args)
+> +{
+> +	void *maddr = page_address(page);
+> +	unsigned long token;
+> +	int offset;
+> +	u64 expected;
+> +
+> +	/*
+> +	 * kernel_clone_args() verification assures token address is 8
+> +	 * byte aligned.
+> +	 */
+> +	token = args->shadow_stack_token;
+> +	expected = (token + SS_FRAME_SIZE) | BIT(0);
+> +	offset = offset_in_page(token);
+> +
+> +	if (!cmpxchg_to_user_page(vma, page, token, (unsigned long *)(maddr + offset),
+> +				  expected, 0))
+> +		return -EINVAL;
+> +	set_page_dirty_lock(page);
+> +
+> +	return 0;
+> +}
+> +
+> +unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+> +				       const struct kernel_clone_args *args)
+>  {
+>  	struct thread_shstk *shstk = &tsk->thread.shstk;
+> +	unsigned long clone_flags = args->flags;
+>  	unsigned long addr, size;
+>  
+>  	/*
+>  	 * If shadow stack is not enabled on the new thread, skip any
+> -	 * switch to a new shadow stack.
+> +	 * implicit switch to a new shadow stack and reject attempts to
+> +	 * explicitly specify one.
+>  	 */
+> -	if (!features_enabled(ARCH_SHSTK_SHSTK))
+> +	if (!features_enabled(ARCH_SHSTK_SHSTK)) {
+> +		if (args->shadow_stack_token)
+> +			return (unsigned long)ERR_PTR(-EINVAL);
+> +
+>  		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If the user specified a shadow stack then use it, otherwise
+> +	 * fall back to a default allocation strategy. Validation is
+> +	 * done in arch_shstk_validate_clone().
+> +	 */
+> +	if (args->shadow_stack_token) {
+> +		shstk->base = 0;
+> +		shstk->size = 0;
+> +		return args->shadow_stack_token + 8;
+> +	}
+>  
+>  	/*
+>  	 * For CLONE_VFORK the child will share the parents shadow stack.
+> @@ -222,7 +265,7 @@ unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long cl
+>  	if (!(clone_flags & CLONE_VM))
+>  		return 0;
+>  
+> -	size = adjust_shstk_size(stack_size);
+> +	size = adjust_shstk_size(args->stack_size);
+>  	addr = alloc_shstk(0, size, 0, false);
+>  	if (IS_ERR_VALUE(addr))
+>  		return addr;
+> diff --git a/include/asm-generic/cacheflush.h b/include/asm-generic/cacheflush.h
+> index 7ee8a179d103..96cc0c7a5c90 100644
+> --- a/include/asm-generic/cacheflush.h
+> +++ b/include/asm-generic/cacheflush.h
+> @@ -124,4 +124,15 @@ static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
+>  	} while (0)
+>  #endif
+>  
+> +#ifndef cmpxchg_to_user_page
+> +#define cmpxchg_to_user_page(vma, page, vaddr, ptr, old, new)  \
+> +({							  \
+> +	bool ret;						  \
+> +								  \
+> +	ret = try_cmpxchg(ptr, &old, new);			  \
+> +	flush_icache_user_page(vma, page, vaddr, sizeof(*ptr));	  \
+> +	ret;							  \
+> +})
+> +#endif
+> +
+>  #endif /* _ASM_GENERIC_CACHEFLUSH_H */
+> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> index ea41795a352b..b501f752fc9a 100644
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -16,6 +16,7 @@ struct task_struct;
+>  struct rusage;
+>  union thread_union;
+>  struct css_set;
+> +struct vm_area_struct;
+>  
+>  /* All the bits taken by the old clone syscall. */
+>  #define CLONE_LEGACY_FLAGS 0xffffffffULL
+> @@ -44,6 +45,7 @@ struct kernel_clone_args {
+>  	struct cgroup *cgrp;
+>  	struct css_set *cset;
+>  	unsigned int kill_seq;
+> +	unsigned long shadow_stack_token;
+>  };
+>  
+>  /*
+> @@ -226,4 +228,19 @@ static inline void task_unlock(struct task_struct *p)
+>  
+>  DEFINE_GUARD(task_lock, struct task_struct *, task_lock(_T), task_unlock(_T))
+>  
+> +#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
+> +int arch_shstk_validate_clone(struct task_struct *p,
+> +			      struct vm_area_struct *vma,
+> +			      struct page *page,
+> +			      struct kernel_clone_args *args);
+> +#else
+> +static inline int arch_shstk_validate_clone(struct task_struct *p,
+> +					    struct vm_area_struct *vma,
+> +					    struct page *page,
+> +					    struct kernel_clone_args *args)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>  #endif /* _LINUX_SCHED_TASK_H */
+> diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+> index 359a14cc76a4..9cf5c419e109 100644
+> --- a/include/uapi/linux/sched.h
+> +++ b/include/uapi/linux/sched.h
+> @@ -84,6 +84,7 @@
+>   *                kernel's limit of nested PID namespaces.
+>   * @cgroup:       If CLONE_INTO_CGROUP is specified set this to
+>   *                a file descriptor for the cgroup.
+> + * @shadow_stack_token: Pointer to shadow stack token at top of stack.
+>   *
+>   * The structure is versioned by size and thus extensible.
+>   * New struct members must go at the end of the struct and
+> @@ -101,12 +102,14 @@ struct clone_args {
+>  	__aligned_u64 set_tid;
+>  	__aligned_u64 set_tid_size;
+>  	__aligned_u64 cgroup;
+> +	__aligned_u64 shadow_stack_token;
+>  };
+>  #endif
+>  
+> -#define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
+> -#define CLONE_ARGS_SIZE_VER1 80 /* sizeof second published struct */
+> -#define CLONE_ARGS_SIZE_VER2 88 /* sizeof third published struct */
+> +#define CLONE_ARGS_SIZE_VER0  64 /* sizeof first published struct */
+> +#define CLONE_ARGS_SIZE_VER1  80 /* sizeof second published struct */
+> +#define CLONE_ARGS_SIZE_VER2  88 /* sizeof third published struct */
+> +#define CLONE_ARGS_SIZE_VER3  96 /* sizeof fourth published struct */
+>  
+>  /*
+>   * Scheduling policies
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index af673856499d..d484ebeded33 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1907,6 +1907,51 @@ static bool need_futex_hash_allocate_default(u64 clone_flags)
+>  	return true;
+>  }
+>  
+> +static int shstk_validate_clone(struct task_struct *p,
+> +				struct kernel_clone_args *args)
+> +{
+> +	struct mm_struct *mm;
+> +	struct vm_area_struct *vma;
+> +	struct page *page;
+> +	unsigned long addr;
+> +	int ret;
+> +
+> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK))
+> +		return 0;
+> +
+> +	if (!args->shadow_stack_token)
+> +		return 0;
+> +
+> +	mm = get_task_mm(p);
+> +	if (!mm)
+> +		return -EFAULT;
+> +
+> +	mmap_read_lock(mm);
+> +
+> +	addr = untagged_addr_remote(mm, args->shadow_stack_token);
+> +	page = get_user_page_vma_remote(mm, addr, FOLL_FORCE | FOLL_WRITE,
+> +					&vma);
+> +	if (IS_ERR(page)) {
+> +		ret = -EFAULT;
+> +		goto out;
+> +	}
+> +
+> +	if (!(vma->vm_flags & VM_SHADOW_STACK) ||
+> +	    !(vma->vm_flags & VM_WRITE)) {
+> +		ret = -EFAULT;
+> +		goto out_page;
+> +	}
+> +
+> +	ret = arch_shstk_validate_clone(p, vma, page, args);
+> +
+> +out_page:
+> +	put_page(page);
+> +out:
+> +	mmap_read_unlock(mm);
+> +	mmput(mm);
+> +	return ret;
+> +}
+> +
+>  /*
+>   * This creates a new process as a copy of the old one,
+>   * but does not actually start it yet.
+> @@ -2182,6 +2227,9 @@ __latent_entropy struct task_struct *copy_process(
+>  	if (retval)
+>  		goto bad_fork_cleanup_namespaces;
+>  	retval = copy_thread(p, args);
+> +	if (retval)
+> +		goto bad_fork_cleanup_io;
+> +	retval = shstk_validate_clone(p, args);
+>  	if (retval)
+>  		goto bad_fork_cleanup_io;
+>  
+> @@ -2763,7 +2811,9 @@ static noinline int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+>  		     CLONE_ARGS_SIZE_VER1);
+>  	BUILD_BUG_ON(offsetofend(struct clone_args, cgroup) !=
+>  		     CLONE_ARGS_SIZE_VER2);
+> -	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER2);
+> +	BUILD_BUG_ON(offsetofend(struct clone_args, shadow_stack_token) !=
+> +		     CLONE_ARGS_SIZE_VER3);
+> +	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER3);
+>  
+>  	if (unlikely(usize > PAGE_SIZE))
+>  		return -E2BIG;
+> @@ -2796,16 +2846,17 @@ static noinline int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+>  		return -EINVAL;
+>  
+>  	*kargs = (struct kernel_clone_args){
+> -		.flags		= args.flags,
+> -		.pidfd		= u64_to_user_ptr(args.pidfd),
+> -		.child_tid	= u64_to_user_ptr(args.child_tid),
+> -		.parent_tid	= u64_to_user_ptr(args.parent_tid),
+> -		.exit_signal	= args.exit_signal,
+> -		.stack		= args.stack,
+> -		.stack_size	= args.stack_size,
+> -		.tls		= args.tls,
+> -		.set_tid_size	= args.set_tid_size,
+> -		.cgroup		= args.cgroup,
+> +		.flags			= args.flags,
+> +		.pidfd			= u64_to_user_ptr(args.pidfd),
+> +		.child_tid		= u64_to_user_ptr(args.child_tid),
+> +		.parent_tid		= u64_to_user_ptr(args.parent_tid),
+> +		.exit_signal		= args.exit_signal,
+> +		.stack			= args.stack,
+> +		.stack_size		= args.stack_size,
+> +		.tls			= args.tls,
+> +		.set_tid_size		= args.set_tid_size,
+> +		.cgroup			= args.cgroup,
+> +		.shadow_stack_token	= args.shadow_stack_token,
 
---s6blnnuwdbg65wg3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 0/4] procfs: make reference pidns more user-visible
-MIME-Version: 1.0
+I'm not sure why this has to be named "shadow_stack_token" I think
+that's just confusing and we should just call it "shadow_stack" and be
+done with it. It's also a bit long of a field name imho.
 
-On 2025-09-02, Christian Brauner <brauner@kernel.org> wrote:
-> On Tue, Aug 05, 2025 at 03:45:07PM +1000, Aleksa Sarai wrote:
-> > Ever since the introduction of pid namespaces, procfs has had very
-> > implicit behaviour surrounding them (the pidns used by a procfs mount is
-> > auto-selected based on the mounting process's active pidns, and the
-> > pidns itself is basically hidden once the mount has been constructed).
-> >=20
-> > /* pidns mount option for procfs */
-> >=20
-> > This implicit behaviour has historically meant that userspace was
-> > required to do some special dances in order to configure the pidns of a
-> > procfs mount as desired. Examples include:
-> >=20
-> >  * In order to bypass the mnt_too_revealing() check, Kubernetes creates
-> >    a procfs mount from an empty pidns so that user namespaced containers
-> >    can be nested (without this, the nested containers would fail to
-> >    mount procfs). But this requires forking off a helper process because
-> >    you cannot just one-shot this using mount(2).
-> >=20
-> >  * Container runtimes in general need to fork into a container before
-> >    configuring its mounts, which can lead to security issues in the case
-> >    of shared-pidns containers (a privileged process in the pidns can
-> >    interact with your container runtime process). While
-> >    SUID_DUMP_DISABLE and user namespaces make this less of an issue, the
-> >    strict need for this due to a minor uAPI wart is kind of unfortunate.
-> >=20
-> > Things would be much easier if there was a way for userspace to just
-> > specify the pidns they want. Patch 1 implements a new "pidns" argument
-> > which can be set using fsconfig(2):
-> >=20
-> >     fsconfig(procfd, FSCONFIG_SET_FD, "pidns", NULL, nsfd);
-> >     fsconfig(procfd, FSCONFIG_SET_STRING, "pidns", "/proc/self/ns/pid",=
- 0);
-> >=20
-> > or classic mount(2) / mount(8):
-> >=20
-> >     // mount -t proc -o pidns=3D/proc/self/ns/pid proc /tmp/proc
-> >     mount("proc", "/tmp/proc", "proc", MS_..., "pidns=3D/proc/self/ns/p=
-id");
-> >=20
-> > The initial security model I have in this RFC is to be as conservative
-> > as possible and just mirror the security model for setns(2) -- which
-> > means that you can only set pidns=3D... to pid namespaces that your
-> > current pid namespace is a direct ancestor of and you have CAP_SYS_ADMIN
-> > privileges over the pid namespace. This fulfils the requirements of
-> > container runtimes, but I suspect that this may be too strict for some
-> > usecases.
-> >=20
-> > The pidns argument is not displayed in mountinfo -- it's not clear to me
-> > what value it would make sense to show (maybe we could just use ns_dname
-> > to provide an identifier for the namespace, but this number would be
-> > fairly useless to userspace). I'm open to suggestions. Note that
-> > PROCFS_GET_PID_NAMESPACE (see below) does at least let userspace get
-> > information about this outside of mountinfo.
-> >=20
-> > Note that you cannot change the pidns of an already-created procfs
-> > instance. The primary reason is that allowing this to be changed would
-> > require RCU-protecting proc_pid_ns(sb) and thus auditing all of
-> > fs/proc/* and some of the users in fs/* to make sure they wouldn't UAF
-> > the pid namespace. Since creating procfs instances is very cheap, it
-> > seems unnecessary to overcomplicate this upfront. Trying to reconfigure
-> > procfs this way errors out with -EBUSY.
-> >=20
-> > /* ioctl(PROCFS_GET_PID_NAMESPACE) */
-> >=20
-> > In addition, being able to figure out what pid namespace is being used
-> > by a procfs mount is quite useful when you have an administrative
-> > process (such as a container runtime) which wants to figure out the
-> > correct way of mapping PIDs between its own namespace and the namespace
-> > for procfs (using NS_GET_{PID,TGID}_{IN,FROM}_PIDNS). There are
-> > alternative ways to do this, but they all rely on ancillary information
-> > that third-party libraries and tools do not necessarily have access to.
-> >=20
-> > To make this easier, add a new ioctl (PROCFS_GET_PID_NAMESPACE) which
-> > can be used to get a reference to the pidns that a procfs is using.
-> >=20
-> > Rather than copying the (fairly strict) security model for setns(2),
-> > apply a slightly looser model to better match what userspace can already
-> > do:
-> >=20
-> >  * Make the ioctl only valid on the root (meaning that a process without
-> >    access to the procfs root -- such as only having an fd to a procfs
-> >    file or some open_tree(2)-like subset -- cannot use this API). This
-> >    means that the process already has some level of access to the
-> >    /proc/$pid directories.
-> >=20
-> >  * If the calling process is in an ancestor pidns, then they can already
-> >    create pidfd for processes inside the pidns, which is morally
-> >    equivalent to a pidns file descriptor according to setns(2). So it
-> >    seems reasonable to just allow it in this case. (The justification
-> >    for this model was suggested by Christian.)
-> >=20
-> >  * If the process has access to /proc/1/ns/pid already (i.e. has
-> >    ptrace-read access to the pidns pid1), then this ioctl is equivalent
-> >    to just opening a handle to it that way.
-> >=20
-> >    Ideally we would check for ptrace-read access against all processes
-> >    in the pidns (which is very likely to be true for at least one
-> >    process, as SUID_DUMP_DISABLE is cleared on exec(2) and is rarely set
-> >    by most programs), but this would obviously not scale.
-> >=20
-> > I'm open to suggestions for whether we need to make this stricter (or
-> > possibly allow more cases).
-> >=20
-> > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
->=20
-> Thanks for the patchset. Being able to specify what pid namespace the
-> procfs instance is supposed to belong to is super useful and will make
-> things easier for userspace for sure.
+I have a kernel-6.18.clone3 branch
+https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=kernel-6.18.clone3
+because there's another cross-arch cleanup that cleans up copy_thread(),
+copy_sighand(), and copy_process() and - surprisingly - also adds
+clone3() support for nios2...
 
-I was going to send a new version changing the whole thing to be struct
-path based (and adding FSCONFIG_SET_PATH{,_EMPTY} support) so we don't
-need to allocate a file explicitly for the non-FSCONFIG_SET_FD case, but
-we can do that as a follow-up I guess.
+Anyway, if you just want me to slap it on top of that branch then I can
+simply rename while applying so no need to resend in that case.
 
-> The code you added contains a minor wrinkle that I disliked which I've
-> changed and you tell me if you can live with this restriction or not.
->=20
-> The way you've implemented it specifying a pid namespace that the caller
-> holds privilege over would silently also override the user namespace the
-> filesystem is supposed to belong to.
->=20
-> Specifically, you did something like:
->=20
->         put_pid_ns(ctx->pid_ns);
->         ctx->pid_ns =3D get_pid_ns(target);
->         put_user_ns(fc->user_ns);
->         fc->user_ns =3D get_user_ns(ctx->pid_ns->user_ns);
->=20
-> This silently overrides the user namespace recorded at fsopen() time. I
-> think that's too subtle and we should just not allow that at all for
-> now.
->=20
-> Instead I've changed this to:
->=20
->         if (fc->user_ns !=3D target->user_ns)
->                 return invalfc(fc, "owning user namespace of pid namespac=
-e doesn't match procfs user namespace");
->=20
->         put_pid_ns(ctx->pid_ns);
->         ctx->pid_ns =3D get_pid_ns(target);
->=20
-> so we just refuse different owernship.
-
-That sounds fine, I wasn't quite sure what to do with fc->user_ns to be
-honest. Being more conservative is probably the right call here.
-
-> I've also dropped the procfs ioctl because I'm not sure how much value
-> it will actually add given that you can do this via /proc/1/ns/pid.
->=20
-> If that is something that libpathrs despearately needs I would like to
-> do it as a separate patch anyways.
-
-The main issues are:
-
-1. pid1 can often be non-dumpable, which can block you from doing that.
-   In principle, because the dumpable flag is reset on execve, it is
-   theoretically possible to get access to /proc/$pid/ns/pid if you win
-   the race in a pid namespace with lots of process activity, but this
-   kind of sucks.
-
-2. This approach doesn't work for empty pid namesapces.
-   pidns_for_children doesn't let you get a handle to an empty pid
-   namespace either (I briefly looked at the history and it seems this
-   was silently changed in v2 of the patchset based on some feedback
-   that I'm not sure was entirely correct).
-
-3. Now that you can configure the procfs mount, it seems like a
-   half-baked interface to not provide diagnostic information about the
-   namespace. (I suspect the criu folks would be happy to have this too
-   ;).)
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
-
---s6blnnuwdbg65wg3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaLr4LRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+mLwD+OBLrKDjD/AagMCzfrvCF
-gB1Co3GReX99caLh6G7vUqMA/2ZGF2udlINLu5ajN5rT7zw4nvJfvN+ZrkwDzJ9A
-9YwG
-=VwoX
------END PGP SIGNATURE-----
-
---s6blnnuwdbg65wg3--
+>  	};
+>  
+>  	if (args.set_tid &&
+> @@ -2846,6 +2897,24 @@ static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
+>  	return true;
+>  }
+>  
+> +/**
+> + * clone3_shadow_stack_valid - check and prepare shadow stack
+> + * @kargs: kernel clone args
+> + *
+> + * Verify that shadow stacks are only enabled if supported.
+> + */
+> +static inline bool clone3_shadow_stack_valid(struct kernel_clone_args *kargs)
+> +{
+> +	if (!kargs->shadow_stack_token)
+> +		return true;
+> +
+> +	if (!IS_ALIGNED(kargs->shadow_stack_token, sizeof(void *)))
+> +		return false;
+> +
+> +	/* Fail if the kernel wasn't built with shadow stacks */
+> +	return IS_ENABLED(CONFIG_ARCH_HAS_USER_SHADOW_STACK);
+> +}
+> +
+>  static bool clone3_args_valid(struct kernel_clone_args *kargs)
+>  {
+>  	/* Verify that no unknown flags are passed along. */
+> @@ -2868,7 +2937,7 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
+>  	    kargs->exit_signal)
+>  		return false;
+>  
+> -	if (!clone3_stack_valid(kargs))
+> +	if (!clone3_stack_valid(kargs) || !clone3_shadow_stack_valid(kargs))
+>  		return false;
+>  
+>  	return true;
+> 
+> -- 
+> 2.39.5
+> 
 
