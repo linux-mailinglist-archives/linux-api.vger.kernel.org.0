@@ -1,205 +1,127 @@
-Return-Path: <linux-api+bounces-4736-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4737-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C599B501F6
-	for <lists+linux-api@lfdr.de>; Tue,  9 Sep 2025 17:57:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7931FB50289
+	for <lists+linux-api@lfdr.de>; Tue,  9 Sep 2025 18:26:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8C27170D11
-	for <lists+linux-api@lfdr.de>; Tue,  9 Sep 2025 15:57:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6AF6B7A4B57
+	for <lists+linux-api@lfdr.de>; Tue,  9 Sep 2025 16:24:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27D112D6621;
-	Tue,  9 Sep 2025 15:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65D20352FE1;
+	Tue,  9 Sep 2025 16:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yadavpratyush.com header.i=@yadavpratyush.com header.b="U1bZYID0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S4orRy0P"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="BdLdyYHA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A661E747F;
-	Tue,  9 Sep 2025 15:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D307D350D52
+	for <linux-api@vger.kernel.org>; Tue,  9 Sep 2025 16:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757433424; cv=none; b=Mj9pLuOy1HklUadngZSUe3r3XIoWq+C5SS6/OWNFav1g35U5cwXtyr192iMV2QPCAffQukbtCQdHmf/Mc9QK4AcpuRj8zJ4MoHz3dKkHzM9CC1is6AciOnpzKn3pza5pieaN/6qFKe/vv/c+pZLvE8lekdVcZeA5sDxqMlHTCL8=
+	t=1757435185; cv=none; b=Dl60HULT6OVn/7UzmEkCk4zKfJmhN1UspzJ+GG6NdHYZ+RFN8H98Fe4LSCZHuP8PY2QWzeISFzBjf8+2uesZIa0c5CgG5Y3jYkeGbTZKb1y6sLz9WvQki6+W431G++k1iRl3VcqDtEZKTNRcN6dq1XlJv0TwWHFlYpHsAJLS0Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757433424; c=relaxed/simple;
-	bh=Y6bB3spdv0Y4Iq27PYuVsaMwCq7a7eOlCj3k9gfZcIU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tNHmKNt1rz3VDfhl0AL3VSyjLDD8O48W2Iy+gr/e8NKgqWD/kQwgPFb0KxeIZ93ntMV83tpUNKelr4Hc1MhjKNpIY8kyGd7ICAZXEISY3kXWgB6Pb4oEzQcgt6L7AmHGpjFnRZ4kDES3tdfI3puQGjl/8NWwtzp4fjF/LK2ABnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yadavpratyush.com; spf=pass smtp.mailfrom=yadavpratyush.com; dkim=pass (2048-bit key) header.d=yadavpratyush.com header.i=@yadavpratyush.com header.b=U1bZYID0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S4orRy0P; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yadavpratyush.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yadavpratyush.com
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id 9BBD81300201;
-	Tue,  9 Sep 2025 11:56:58 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Tue, 09 Sep 2025 11:57:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	yadavpratyush.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1757433418; x=1757440618; bh=Y6bB3spdv0
-	Y4Iq27PYuVsaMwCq7a7eOlCj3k9gfZcIU=; b=U1bZYID0dy9gSV0UyWD12/SGew
-	bbD2cWhycbMq/6YXT30h6iSDIxj+ocmhBR6ENxPLtk9WcRUDkyXLoHS/N4G5kekV
-	0PSHqhZNQ+kpPX0CMeqj4BtaIE7dtT1rVDIR9Dq9GgvbH3K8ck1dQ1hZ7jFHt1Kl
-	WoPLU5JNFFZ2ZOnnV4t7kB0p1pbUSBhvgQi2vKv57F3QN0aYClfqxn7pzBAePvTY
-	qokDUIFBAQnkTlsgptWmlyNGL3sjml4N4yjvwMbiJEY6BFl+5DHlDX4TX3IptT1r
-	kbf/6vlvQDX5HsDN6QH5E8Rj1SXLsNYeH1LUVYBatwY3Qb/p19aoYU0fIGmA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757433418; x=
-	1757440618; bh=Y6bB3spdv0Y4Iq27PYuVsaMwCq7a7eOlCj3k9gfZcIU=; b=S
-	4orRy0PtAYfUg0t7JXdON+wH/z931lLwhRw0jzEw3RUuDOTQlfgWrSGnn+RbA3wU
-	byjzMqiGYqMXkOV7JWWkKbOg68Ycx+hfK8lPQObZFYLTzxk779LN7QH76/xhEf4k
-	svyfFBaXLtwMjCyO2iFfK2sNSg7h/RBaGeBpMlS7IVGLW9Uva8aQgGm78DsOr4y6
-	xJsaVglN0VTAJUCYSlxzIwNWxjywIUFJGHhoh0+s1vdMP4uDePM7xl8kEQvKTVTA
-	Thetj8fBU9/ka6q88UsS9D+V4t3C7gSNzKGUasaKm9PV901mTJYi65SdHtNp2UxL
-	RdzjM6EI7DfSSoweeEo1Q==
-X-ME-Sender: <xms:Rk7AaENFgDgG3Z0ewndwpcU0l4keNXhgvUjtzKy3PsxrId3a6-tfZA>
-    <xme:Rk7AaJechYAPKky5DUGmMlq8Ww5nZhbLKxzlOzpegDkPL7yQv1ZfykSBqAw1Bp3ou
-    D9M9j0yDuKLesBdxjE>
-X-ME-Received: <xmr:Rk7AaDpMvXl_L_dhU7PjygEH5En7BCIxrB_rfN_ap7rG5JI5KrVL6ccaY7hEtOeDE9xTFK_1RjqiqTewgZk73fOF87TiiqVXYdIVo4h-I2d9ZcIV84onyGnG0nji-BIFe37s8FWR>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdekfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufgjfhffkfgfgggtgfesthhqredttderjeenucfhrhhomheprfhrrghthihu
-    shhhucgjrggurghvuceomhgvseihrggurghvphhrrghthihushhhrdgtohhmqeenucggtf
-    frrghtthgvrhhnpedvhfdvhedtueethefhkeetgedttdeuhefgueehgeduhfejtdfhvdev
-    gedvjedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehmvgeshigruggrvhhprhgrthihuhhshhdrtghomhdpnhgspghrtghpthhtohepjedv
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeifihhtuhesnhhvihguihgrrdgtoh
-    hmpdhrtghpthhtoheplhgvohhnrhhosehnvhhiughirgdrtghomhdprhgtphhtthhopehp
-    rghrrghvsehnvhhiughirgdrtghomhdprhgtphhtthhopegrjhgrhigrtghhrghnughrrg
-    esnhhvihguihgrrdgtohhmpdhrtghpthhtohepshgrvggvughmsehnvhhiughirgdrtgho
-    mhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqrghpihesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlvghnnhgrrhhtsehpohgvthhtvghrihhnghdrnhgvth
-X-ME-Proxy: <xmx:Rk7AaOik0Nhivpz4N1I59xuLqAM9GAZwpQ2ESwBHdZQFSZk92N3TEA>
-    <xmx:Rk7AaEZSZ-16sSEApBkT5RUE-BBpobsQDg-uXUmqfXLQlUPRSz7E9w>
-    <xmx:Rk7AaJtmxu4H6qR5NIpgFu2D4ATeJCF0_IWw64bsgr7jK4wE_9nTuw>
-    <xmx:Rk7AaHJrbTSZ7kj3UB9FV9vpMu-OJj4TthDLmDwssmSHC9inZhbChw>
-    <xmx:Sk7AaIDsIumQfKmeMLRrTl3mf3szS47iGZnmx_wjwi5i_VkrMX-Yzc1a>
-Feedback-ID: i93f149c1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 9 Sep 2025 11:56:46 -0400 (EDT)
-From: Pratyush Yadav <me@yadavpratyush.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <me@yadavpratyush.com>,  Jason Gunthorpe <jgg@nvidia.com>,
-  Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
-  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
-  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
-  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
-  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <CA+CK2bAKL-gyER2abOV-f4M6HOx9=xDE+=jtcDL6YFbQf1-6og@mail.gmail.com>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com> <mafs0bjo0yffo.fsf@kernel.org>
-	<20250828124320.GB7333@nvidia.com> <mafs0h5xmw12a.fsf@kernel.org>
-	<20250902134846.GN186519@nvidia.com> <mafs0v7lzvd7m.fsf@kernel.org>
-	<20250903150157.GH470103@nvidia.com> <mafs0a53av0hs.fsf@kernel.org>
-	<20250904144240.GO470103@nvidia.com> <mafs0cy7zllsn.fsf@yadavpratyush.com>
-	<CA+CK2bAKL-gyER2abOV-f4M6HOx9=xDE+=jtcDL6YFbQf1-6og@mail.gmail.com>
-Date: Tue, 09 Sep 2025 17:56:46 +0200
-Message-ID: <mafs0h5xbk4ap.fsf@yadavpratyush.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1757435185; c=relaxed/simple;
+	bh=h2KtKkiK1ZCeC0eEimsTpCD94S5mFdW9SnYokRVzfec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=symeOgamNeowORFHM24Nbrlpx3OOkXTCNgz5DivQWSkrX0wfb1dbjklofDXf3uhdltNeMQ5S/Nf6YHaGkCPIWodf+/Am85hSZC/bR5hzSCE71U+NThOt+EyyZfH7vQa0KxDZvhLYRTfyQZUFCpN513PhLu69OLWjI6dsYuwE3jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=BdLdyYHA; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4b5f6ae99c3so33715431cf.1
+        for <linux-api@vger.kernel.org>; Tue, 09 Sep 2025 09:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1757435183; x=1758039983; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=h2KtKkiK1ZCeC0eEimsTpCD94S5mFdW9SnYokRVzfec=;
+        b=BdLdyYHADmRJ2+AK2JUSjb2Yncx+jUlUGLk/7BrWoD84OlSePTFdOprSrm7rFMPKs7
+         QiGbjoQYkmeFFKZwuSQLkh/QBUMLX6I8JHop51Ma/Ok+BuzEuNBymtniRbgpvzDnu7Zf
+         wPu308SN7o/UoQvs/5lMfjDjphAlQuLrlq7R4M+nC2Z/mGD1XUtuM+pSWQPOQZley0Cq
+         UJFf9Au4KQuzM/TX+4SQQ8UklnMsvXByMLq5W+LlKuA293rQwc5crJFFuwZoRt4c78Mi
+         4YcdCQWCEZhN3Ocu224USX1CzVyznNI/iBwq6u2sBGNhCf460ANfh8uFV1FfkTyCcUlF
+         tqVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757435183; x=1758039983;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h2KtKkiK1ZCeC0eEimsTpCD94S5mFdW9SnYokRVzfec=;
+        b=fh6KG1907DeDn3JgUwLvtPTH4j4JUpeCP6WDC8CWCdMrTtmrMHUZR6Us3L2iBrWcjJ
+         /Qu2AabdVug0FdEOCX3FE4JaC/DdgelQntJCzxalaVWa9vPC8G77Y461RVi2e+r9iOQg
+         SkjR5hCw9I9mCTH0ReYvC8VOzmLCjLYldPsa7OkmchjqoIuZMdYu/cWHqUGh4pmEKbQK
+         eUpl2LNT8oUXwIXoQvUZdQh3lKLj+DnVbSjLubA+ZAZ8DjD0qUwh2z8E4LISbLSmsQJg
+         XU1GLmsar5eYzG+TQXD19lXhjP4ZYvccjS/bwH6k3VI5dTqnc00xOujacBX/A0p1ZCuR
+         FZJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnDjaHxeh3dcNavnUndbS0b111QO0kWCXf75iQ2MNAuv5fO+QXTCplvlqFGDehLnv2EnDDQUlyjis=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yymj6ouSle1tBqIggWNXbkC0DzyeXvbl01h5Rp5Z2lxdxEX7dI7
+	MzJfFMiBi+gIr+h1oEHZ0xjP3QLXc6qOwoJ9/6M8wP3iJBin0sqQEUC/LQPv8j0mWluVgRWa9G3
+	rPyCEepcbbKnVU4z4Crfh3CAUukoxAy3AQwxsc5g8Ww==
+X-Gm-Gg: ASbGncsymGYfTOQqqVMkM4Ujh+8gKdlIwGkiNFNRajSmMBLt17i7maAViNFI4lfNkH5
+	opM7t9YyNJfgyZ1i2wcSoCQrisc6As+ZQJ2hqpDpZzk6eJdSJpGKHq6Q+jQQRZQlW7WE9goHSO9
+	UfIx21NBjXj7GIs2BbYeEDeOGiYC+Hki5KDqf8mwwBqdgZFAomssY1F0o73xAN9G2A1ZFARSwNZ
+	roBWsoD/NBR0p4=
+X-Google-Smtp-Source: AGHT+IFbO0LQXpb4o5AfjDjgaLCI09lbX8MmFHBChHx28mbb47+GctVRETBu/lxFgwTGAONEXXUbu26j2npwF4yJSjI=
+X-Received: by 2002:a05:622a:2d3:b0:4b4:8f9f:746c with SMTP id
+ d75a77b69052e-4b5f8398f6amr130559411cf.23.1757435182490; Tue, 09 Sep 2025
+ 09:26:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
+ <mafs0bjo0yffo.fsf@kernel.org> <20250828124320.GB7333@nvidia.com>
+ <mafs0h5xmw12a.fsf@kernel.org> <20250902134846.GN186519@nvidia.com>
+ <mafs0v7lzvd7m.fsf@kernel.org> <20250903150157.GH470103@nvidia.com>
+ <mafs0a53av0hs.fsf@kernel.org> <20250904144240.GO470103@nvidia.com>
+ <mafs0cy7zllsn.fsf@yadavpratyush.com> <CA+CK2bAKL-gyER2abOV-f4M6HOx9=xDE+=jtcDL6YFbQf1-6og@mail.gmail.com>
+ <mafs0h5xbk4ap.fsf@yadavpratyush.com>
+In-Reply-To: <mafs0h5xbk4ap.fsf@yadavpratyush.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 9 Sep 2025 12:25:44 -0400
+X-Gm-Features: Ac12FXx6epo0S67QSojcQ_-q7eHBI3YWc1_bazn-CLdcZQ8RS6cUC5rSpC48xWE
+Message-ID: <CA+CK2bD0FGsqKS70bCgiD_1T2S092-UDy3saW9p5KNZCzzYjPA@mail.gmail.com>
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+To: Pratyush Yadav <me@yadavpratyush.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 09 2025, Pasha Tatashin wrote:
+> I think it would help with making a wider range of roll back and forward
+> options available. For example, if your current kernel can speak version
+> A and B, and you are rolling back to a kernel that only speaks A, this
+> information can be used to choose the right serialization formats.
 
-> On Tue, Sep 9, 2025 at 10:53=E2=80=AFAM Pratyush Yadav <me@yadavpratyush.=
-com> wrote:
->>
->> On Thu, Sep 04 2025, Jason Gunthorpe wrote:
->>
->> > On Thu, Sep 04, 2025 at 02:57:35PM +0200, Pratyush Yadav wrote:
-[...]
->> >> But perhaps it might be a better idea to come up with a mechanism for
->> >> the kernel to discover which formats the "next" kernel speaks so it c=
-an
->> >> for one decide whether it can do the live update at all, and for anot=
-her
->> >> which formats it should use. Maybe we give a way for luod to choose
->> >> formats, and give it the responsibility for doing these checks?
->> >
->> > I have felt that we should catalog the formats&versions the kernel can
->> > read/write in some way during kbuild.
->> >
->> > Maybe this turns into a sysfs directory of all the data with an
->> > 'enable_write' flag that luod could set to 0 to optimize.
->> >
->> > And maybe this could be a kbuild report that luod could parse to do
->> > this optimization.
->>
->> Or maybe we put that information in a ELF section in the kernel image?
->> Not sure how feasible it would be for tooling to read but I think that
->> would very closely associate the versions info with the kernel. The
->> other option might be to put it somewhere with modules I guess.
->
-> To me, all this sounds like hardening, which, while important, can be
-> added later. The pre-kexec check for compatibility can be defined and
-> implemented once we have all live update components ready
-> (KHO/LUO/PCI/IOMMU/VFIO/MEMFD), once we stabilize the versioning
-> story, and once we start discussing update stability.
+At least for upstream, we discussed not to support rolling back (this
+can be revised in the future), but for now rollback is something that
+would need to be taken care of downstream.
 
-Right. I don't think this is something the current LUO patches have to
-solve. This is for later down the line.
-
->
-> Currently, we've agreed that there are no stability guarantees.
-> Sometime in the future, we may guarantee minor-to-minor stability, and
-> later, stable-to-stable. Once we start working on minor-to-minor
-> stability, it would be a good idea to also add hardening where a
-> pre-live update would check for compatibility.
->
-> In reality, this is not something that is high priority for cloud
-> providers, because these kinds of incompatibilities would be found
-> during qualification; the kernel will fail to update by detecting a
-> version mismatch during boot instead of during shutdown.
-
-I think it would help with making a wider range of roll back and forward
-options available. For example, if your current kernel can speak version
-A and B, and you are rolling back to a kernel that only speaks A, this
-information can be used to choose the right serialization formats.
-
-[...]
-
---=20
-Regards,
-Pratyush Yadav
+Pasha
 
