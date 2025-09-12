@@ -1,77 +1,79 @@
-Return-Path: <linux-api+bounces-4748-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4749-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CE4B5421F
-	for <lists+linux-api@lfdr.de>; Fri, 12 Sep 2025 07:39:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFAFB54222
+	for <lists+linux-api@lfdr.de>; Fri, 12 Sep 2025 07:40:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 358281BC3AE1
-	for <lists+linux-api@lfdr.de>; Fri, 12 Sep 2025 05:40:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6896B189CD0C
+	for <lists+linux-api@lfdr.de>; Fri, 12 Sep 2025 05:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B39226B942;
-	Fri, 12 Sep 2025 05:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33EBF278E63;
+	Fri, 12 Sep 2025 05:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OtBuGFQZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG6JH1dw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E43B2727FA
-	for <linux-api@vger.kernel.org>; Fri, 12 Sep 2025 05:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324EB274FDB
+	for <linux-api@vger.kernel.org>; Fri, 12 Sep 2025 05:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757655587; cv=none; b=J+RysV9dk7s1gE1GflccjrJwtrrd7TBTzBwx6e2tUZoKpBvd6gFImzauOkU519n/5BCLE1MyRcsaVNnjsABIZ8ME2FEVSzAi/Mo3SDPvo8rB5vQyxsDcPj6RkDQzfRUNieC48Vae93kPF9AwSUhM3L1wM3L602tsncf5H+q/y4Q=
+	t=1757655591; cv=none; b=JHGrcfupW9xY6zzuhpyVRvGGGwCpKVlpeHU5gB5tDgPLUpblc1R0zLPGDpWS51qs5ETBRFhN87ss/OXlCGVgepLmyNCSAYpkTmOeB9oaOVahZudX1IY7B3+5Q8PLvJ1Ea5nHC+4MVZs1iP/hVLyVwD8kC4Ae/QNIR45TTTDGZdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757655587; c=relaxed/simple;
-	bh=FE4LEfa0MFWh4XVO+HcjVeFJCgM/7FC5uvlRFWH9I8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hX4tFaPf99laCdce7N8+DhUOglYzgpioyD9tv18QDWefFvQ6RJCRz/KXbJS8qeKyN8edVFShJU08RwWlPtPgKl+8dkJt+7YjD0IR5RIK5dotJIahePOq2dzI8tEmOUCGY1vgzpefO+gLUET03SSIt7raDO/vJPCKDr2sd8g4TL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OtBuGFQZ; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1757655591; c=relaxed/simple;
+	bh=MX1w83UOZEf81BM03IWyiKl+JUlUbpTxoo7f/yqQn70=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TAxacpa2VtHvCUpZf+c20Rv/gv0kHzk7CN4YsZ8pKtBjQGsk/2E4RGC5nl+1vEsOq0dOPD3u4D1eilKoXwQII8V4sB7MvKc4ki8d1IX0dejtwdq0y9oQzBzbOMiIsCWsudbBR+EKPqs2fc1/MoTzKINA/M0tDWYWQQ1Y7bdvkwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG6JH1dw; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45df7ca2955so6899615e9.3
-        for <linux-api@vger.kernel.org>; Thu, 11 Sep 2025 22:39:45 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45decc9e83dso8449345e9.0
+        for <linux-api@vger.kernel.org>; Thu, 11 Sep 2025 22:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757655583; x=1758260383; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hM2DWLFWIwZvGeYjqfMb7Q47eznE2Jw4O6GSXIWsUA0=;
-        b=OtBuGFQZWfSakL0ZrkWP8l7Q97BBOLa5Y6HnC1IuCiH0Bi3T0J8LHyAI61zTLDNPOo
-         NCYAt9ac8yx9GIg6plUCvnsKdHVTeRUGRBFQtdIWOiR0FhrKgXV1t0X6d2AQxtEpV/Ua
-         5u8T/iEaU2H/5hg93oKf+KZCCGMw0UvYTYOk/pmZ+OhejNpOYQLNJbzT0o+mEEHgX68A
-         a1y4PLDJxyoInM9sFYcoeLYIDpjb5AtxbBZ8gQdqWf1BAMHV4L+L0U5FBThmHgpTzfH0
-         sikMBTnk+TVX3DR4ae141UWi9LMSLwhWVvfnI5soHBFMwBinx+IiXR41lkQnTHZMAq+8
-         37JA==
+        d=gmail.com; s=20230601; t=1757655586; x=1758260386; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zMrKC6ZHeMB/WtgXy9wnHklNs5TKpDEoxNzIFCdknAM=;
+        b=FG6JH1dwU0i2mIzIUXRsAYD1icyuO7HlZG76LWjvEUsbfO0CabL/crpaR/hrX0TXDL
+         SaXw1g4e6pNTwFJv1ICnJbF6DxR4dRr8cPgymqWVPrBZ0U/bo3CbIxBmAJMDcXGiM3+Z
+         2J4nU66T3JolotdEoJ4C3nsi9ONQZ7y4k8UQq7z7IQociY6xv6pU2u0L89PqQYee2aNz
+         1ZKK3Wod0CdBZl6TuY83XLmOZlC4zVQQceFj+6deJ09SSwGfVE7Fcy+pa0E8h7EuUVlB
+         5ELMIOVoVodEvCj/kuy35wMVQvCq3hK4PXZXiKpK329su1cSiqPwokkFp44VgEfDEy0j
+         MCKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757655584; x=1758260384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hM2DWLFWIwZvGeYjqfMb7Q47eznE2Jw4O6GSXIWsUA0=;
-        b=IbhOJ00oC8O3NANmSnQ7wSxbl/FAbK8A2vScvgsv+CcXYtJd9U1AnDVUciJv6cgBeM
-         3AnnXdPguINkbdWKJjJzhl9KqHaSkcPPS4A4TUssjNr95bTsUoeAmBCwFHAx0DJuE8Ln
-         KoS82MTzZ8ebYeRR8RbtVRewiR6ea0FHl6RmHEYBWFERwLHwCCtlpw1CnJO5e4+t18Hm
-         ZCKvI9MYcJCshBPLw1a6KduSX8MriofXCZFFOsGgJ5M7j6sFGZfgBXzaXjeXHE99Rmqm
-         rKI4o6mPcsIVG9nFrc0Vn9opnqortk4vfkFmJTFwZ1n+5LQ+Xnqfb5h4GAcnhNq/rXuL
-         gElw==
-X-Forwarded-Encrypted: i=1; AJvYcCU0oHBcPb81dSWeiXgf8XmGIZEXylNR5vT6IVZgFO2n93TZ6rluGbmCwv/vycfKDCpeDbpAvAxCR1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlha+ATw/2qn+v4JhTnQCoagr3nKK5FFpyFR3UEIfwWLVv2MeA
-	aC/7tFibdu/xaOZlZ+M6DfVvyy28vhlF0KBq6Md2z8dem7Prjlq99DCj
-X-Gm-Gg: ASbGncvzhzsSzNRr7KI1cqMEI1am0JJmC5ruULrd07WLRoUMizrK0vuXl2la/iomKWk
-	bekSvtH6hnJpeDNxvFZRf8rHPttmaovYfWfPsSDpTfbU03Mk/HCKyw7MQS7vSkzhMq+vs1RJtUx
-	RPKriAyCU9FlhqIpyl+aA8Vc6Y59LO1BsmGpv4QTQYIAwyK9haxNzQBmoKG4qAmZnFPy/P6vSfI
-	YJQA24c3NndRv/2KThtWEQpEPmQmwJKzFu1OMeVeFY5CG9IBHNZ70HjqXV7XrrrdsTzGHa4eV8u
-	C4BFjvYusqFY+WMSUK6AJZsU8UR3aMOkgyGyAmolTCM8UeX40CEcLCjeUGk6NWvU77HqEQBBoi0
-	qywxHYOModEQee5PicA3jmnXyYd4+H7ysJtkBA85ANAwsj7h1R2WP4BEbZHZ5f+N1pQNI9mDPjt
-	eQiA==
-X-Google-Smtp-Source: AGHT+IHRrddtK+Ata6mD2381zASluGACziWU1VzEvaAee09SitgxP/yhFsAZ6KBSeSxjyPaJqjpjiA==
-X-Received: by 2002:a7b:ca5a:0:b0:45d:e0cf:41c9 with SMTP id 5b1f17b1804b1-45f211f89d6mr11529475e9.22.1757655583416;
-        Thu, 11 Sep 2025 22:39:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757655586; x=1758260386;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zMrKC6ZHeMB/WtgXy9wnHklNs5TKpDEoxNzIFCdknAM=;
+        b=M34Df4qQNn67CIlkKDohSFUriwgHW0UzAlKMnY+VKstABFPx/OBWNOTvxqDyXFYqWA
+         5z8HlgcPWcTdNBXnOrOQb5s/Y85sFqbQ+wL7SNKbHt1FCKC4gYgQPbDvZerWY8wweeij
+         EswHenLG34SMTv6XdGe5PT6ivXAlnZ8MdA7NVlUfUjB+CFuTy7MBhqEkgk+QFs4PBobf
+         E5hWCpIFOfgNCrYo8GBca9PuANIhyh8z2cUQe10C6CEegEQ+ssBDEL+IjRTJC8Ya04lb
+         sVmsvdeOmxjTfYrHuoMwq7aZjTL1qlh9RLiAnZcthkRtIhsnz3riqaTdbCWOh+OATAOS
+         0GzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUs2CZO6bJyUuc5Nz4ExIiPSwnhA4lof4JcvMQre+lAmj5GC072rgfG/S0ZXwArFCcdNiaFpH1y2Ow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH64UeieYNHTVveiRwO9HHyh+p4xjZcN2eFYvcZ0kCzfL3V14U
+	5GXc9nqjTNnanUyDN+q8v+W0x1mhtS3N+H4QkT57NkLW21gY1dWuXf4H
+X-Gm-Gg: ASbGnctugvweR00piqfDHdc84h2YMHW1MV5tDsYXKdDzMSI8qZkcU9eM/VaYOe0Ch5D
+	gQju3BeAQ1dWPgqnIwdNVTNqV35hJq4/11pHkxOq9YcRE3pzB3vAJxdIfniVKkumJOCtC+h/cP/
+	Ku70k7zoPuJJUHTirl8R8t2pBpYloSuYH1HzRBD+AhKmalzKCxOcjy1KZ4kx3pc7mB5WJelBQPk
+	Yu8W7vfxPtISbTtpImoicTA+P+lqY8rFRaU0ffmdgbp7PDr0XQajmTn922Yjfo7+R/wBvr1ac8w
+	8x50zSL8jtEC/4wrH0cG/6X1YfhYp1t1PZi4/oDop3Tm2NmYijgCGEYuwkG7md32kkcrCVRk8AQ
+	jF795SjWguslZWn5+UEwY1cJeEdatWhx0KY1cFuODHzqHAcT60eHI6dDwZbwYsbl5eQzSbR289V
+	5l5xwhhUxfg9Tb
+X-Google-Smtp-Source: AGHT+IEtKRq9h5gg5SM1g7UnxI5hucMYOjAikspAs0SIjwI44zIFoqOb9u4cr5bvtZnfQlvAomUbdQ==
+X-Received: by 2002:a05:600c:5801:b0:456:1560:7c5f with SMTP id 5b1f17b1804b1-45f211d07bdmr10472575e9.14.1757655586340;
+        Thu, 11 Sep 2025 22:39:46 -0700 (PDT)
 Received: from laptom.homenet.telecomitalia.it ([185.92.96.122])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd27dsm5032925f8f.41.2025.09.11.22.39.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd27dsm5032925f8f.41.2025.09.11.22.39.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 22:39:42 -0700 (PDT)
+        Thu, 11 Sep 2025 22:39:45 -0700 (PDT)
 From: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>
 X-Google-Original-From: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
 To: Peter Zijlstra <peterz@infradead.org>
@@ -88,9 +90,11 @@ Cc: Ingo Molnar <mingo@redhat.com>,
 	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
 	Tommaso Cucinotta <tommaso.cucinotta@gmail.com>
 Subject: [PATCH] sched/deadline: Add reporting of runtime left & abs deadline to sched_getattr() for DEADLINE tasks
-Date: Fri, 12 Sep 2025 07:38:28 +0200
-Message-ID: <20250912053937.31636-1-tommaso.cucinotta@santannapisa.it>
+Date: Fri, 12 Sep 2025 07:38:29 +0200
+Message-ID: <20250912053937.31636-2-tommaso.cucinotta@santannapisa.it>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250912053937.31636-1-tommaso.cucinotta@santannapisa.it>
+References: <20250912053937.31636-1-tommaso.cucinotta@santannapisa.it>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -98,9 +102,6 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-
-I'm resending this patch proposal after having addressed a few Juri's
-comments, and a rebase on top of the post-august-break tip sched/core.
 
 The SCHED_DEADLINE scheduler allows reading the statically configured
 run-time, deadline, and period parameters through the sched_getattr()
@@ -131,4 +132,130 @@ See also the notes from discussion held at OSPM 2025 on the topic
 "Making user space aware of current deadline-scheduler parameters".
 
 Signed-off-by: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+---
+ include/uapi/linux/sched.h |  3 +++
+ kernel/sched/deadline.c    | 19 ++++++++++++++++---
+ kernel/sched/sched.h       |  2 +-
+ kernel/sched/syscalls.c    | 16 +++++++++++-----
+ 4 files changed, 31 insertions(+), 9 deletions(-)
+
+diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+index 359a14cc..52b69ce8 100644
+--- a/include/uapi/linux/sched.h
++++ b/include/uapi/linux/sched.h
+@@ -146,4 +146,7 @@ struct clone_args {
+ 			 SCHED_FLAG_KEEP_ALL		| \
+ 			 SCHED_FLAG_UTIL_CLAMP)
+ 
++/* Only for sched_getattr() own flag param, if task is SCHED_DEADLINE */
++#define SCHED_GETATTR_FLAG_DL_DYNAMIC	0x01
++
+ #endif /* _UAPI_LINUX_SCHED_H */
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 5b64bc62..b1c7c988 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -3328,13 +3328,26 @@ void __setparam_dl(struct task_struct *p, const struct sched_attr *attr)
+ 	dl_se->dl_density = to_ratio(dl_se->dl_deadline, dl_se->dl_runtime);
+ }
+ 
+-void __getparam_dl(struct task_struct *p, struct sched_attr *attr)
++void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+ {
+ 	struct sched_dl_entity *dl_se = &p->dl;
++	struct rq *rq = task_rq(p);
++	u64 adj_deadline;
+ 
+ 	attr->sched_priority = p->rt_priority;
+-	attr->sched_runtime = dl_se->dl_runtime;
+-	attr->sched_deadline = dl_se->dl_deadline;
++	if (flags & SCHED_GETATTR_FLAG_DL_DYNAMIC) {
++		guard(raw_spinlock_irq)(&rq->__lock);
++		update_rq_clock(rq);
++		if (task_current(rq, p))
++			update_curr_dl(rq);
++
++		attr->sched_runtime = dl_se->runtime;
++		adj_deadline = dl_se->deadline - rq_clock(rq) + ktime_get_ns();
++		attr->sched_deadline = adj_deadline;
++	} else {
++		attr->sched_runtime = dl_se->dl_runtime;
++		attr->sched_deadline = dl_se->dl_deadline;
++	}
+ 	attr->sched_period = dl_se->dl_period;
+ 	attr->sched_flags &= ~SCHED_DL_FLAGS;
+ 	attr->sched_flags |= dl_se->flags;
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index b5367c51..42ddfccb 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -353,7 +353,7 @@ extern int  sched_dl_global_validate(void);
+ extern void sched_dl_do_global(void);
+ extern int  sched_dl_overflow(struct task_struct *p, int policy, const struct sched_attr *attr);
+ extern void __setparam_dl(struct task_struct *p, const struct sched_attr *attr);
+-extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr);
++extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr, unsigned int flags);
+ extern bool __checkparam_dl(const struct sched_attr *attr);
+ extern bool dl_param_changed(struct task_struct *p, const struct sched_attr *attr);
+ extern int  dl_cpuset_cpumask_can_shrink(const struct cpumask *cur, const struct cpumask *trial);
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 77ae87f3..d7eac588 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -928,10 +928,10 @@ static int sched_copy_attr(struct sched_attr __user *uattr, struct sched_attr *a
+ 	return -E2BIG;
+ }
+ 
+-static void get_params(struct task_struct *p, struct sched_attr *attr)
++static void get_params(struct task_struct *p, struct sched_attr *attr, unsigned int flags)
+ {
+ 	if (task_has_dl_policy(p)) {
+-		__getparam_dl(p, attr);
++		__getparam_dl(p, attr, flags);
+ 	} else if (task_has_rt_policy(p)) {
+ 		attr->sched_priority = p->rt_priority;
+ 	} else {
+@@ -997,7 +997,7 @@ SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		return -ESRCH;
+ 
+ 	if (attr.sched_flags & SCHED_FLAG_KEEP_PARAMS)
+-		get_params(p, &attr);
++		get_params(p, &attr, 0);
+ 
+ 	return sched_setattr(p, &attr);
+ }
+@@ -1082,7 +1082,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 	int retval;
+ 
+ 	if (unlikely(!uattr || pid < 0 || usize > PAGE_SIZE ||
+-		      usize < SCHED_ATTR_SIZE_VER0 || flags))
++		     usize < SCHED_ATTR_SIZE_VER0))
+ 		return -EINVAL;
+ 
+ 	scoped_guard (rcu) {
+@@ -1090,6 +1090,12 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		if (!p)
+ 			return -ESRCH;
+ 
++		if (flags) {
++			if (!task_has_dl_policy(p) ||
++			    flags != SCHED_GETATTR_FLAG_DL_DYNAMIC)
++				return -EINVAL;
++		}
++
+ 		retval = security_task_getscheduler(p);
+ 		if (retval)
+ 			return retval;
+@@ -1097,7 +1103,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 		kattr.sched_policy = p->policy;
+ 		if (p->sched_reset_on_fork)
+ 			kattr.sched_flags |= SCHED_FLAG_RESET_ON_FORK;
+-		get_params(p, &kattr);
++		get_params(p, &kattr, flags);
+ 		kattr.sched_flags &= SCHED_FLAG_ALL;
+ 
+ #ifdef CONFIG_UCLAMP_TASK
+-- 
+2.45.2
+
 
