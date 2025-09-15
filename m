@@ -1,73 +1,70 @@
-Return-Path: <linux-api+bounces-4836-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4837-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4D9B57D6F
-	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 15:36:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36927B57EF4
+	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 16:29:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D473165187
-	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 13:34:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E10EF3A7BA2
+	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 14:29:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AAF5315D3E;
-	Mon, 15 Sep 2025 13:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2963324B19;
+	Mon, 15 Sep 2025 14:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJGZ1vBQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAK1rDeA"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4792313291;
-	Mon, 15 Sep 2025 13:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FB030C62F;
+	Mon, 15 Sep 2025 14:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757943281; cv=none; b=kCNzxLouwtx8lvaGWcXqci7Kn71XRx8w2dQ1fLwM/DXh9iDxqXvsXYeJzPj1jHfIAOL1phX7A68L3FGvGSWP/IUQitJJj9IHvy0j4zvMk3lcnQ7/HaWG6iSgFATOW47d7fA+U7rAqv4BkNgwQjonsa6i6PW1cD8xwOtR+R2krKk=
+	t=1757946590; cv=none; b=RrYbsyRnd3ZFfr5HEreqhHlIClLH2WB5FxmmcNtJghxPg2ZThKErryZeeFkERvdQMfhfXd4Ec1QpssIFKukSC211ZzcTAsVPaQE26USJcELn2K/ACqHtPL8wg25AikLkDbxJ1jb/uUA77MhFgwo2lKtT01EkSNRZLdd3Aeg6ZR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757943281; c=relaxed/simple;
-	bh=G1pxbFOuDJsJnBF0m+5CY6Xwwfubv5cFdvznrZJvWPg=;
+	s=arc-20240116; t=1757946590; c=relaxed/simple;
+	bh=7lI5MZHznx5ErIR/NXuFs+vw+Oq/SkPWnTHMUhPjQl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkfHiPj1UpfBq8XCfhhzzHPDGr9xBeZaX7wPEA1SOYykFR7UBSgp0wkVo2BBFYed+ECtfAmcx/kTpNpTTEqv2oNAs8tIPopgbduz/YzdO6pwjGTIbD7wplQT9aK9SN6DdzWj0CGvL9zj8ggJjuwp+n3TVsqYQZHImRxsTB3LVsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJGZ1vBQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06662C4CEF5;
-	Mon, 15 Sep 2025 13:34:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QzQLqJUYowmbsTfbV+Qo5UYxBb5RlGNUk9f1vpSsNxRUTSilrY7uKN4tAYBA+7q8ebkfphduyQN35izNqwCEqYay0E83Xs59SW1EGzoWln2Sx4e9DkNhxyfymXZVaexs0rzWb+5Xh9ZsmAvNeKsiPu3GPwfhEucVL5NS6wxcxQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAK1rDeA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFF0C4CEF1;
+	Mon, 15 Sep 2025 14:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757943280;
-	bh=G1pxbFOuDJsJnBF0m+5CY6Xwwfubv5cFdvznrZJvWPg=;
+	s=k20201202; t=1757946590;
+	bh=7lI5MZHznx5ErIR/NXuFs+vw+Oq/SkPWnTHMUhPjQl0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BJGZ1vBQTvO1OLFpsKgtQvIkjtAVvJey56ZqhZxYzVB3EDoeucwA9j3Ikra0r96a5
-	 jQw9/XHjAdC85R6jORBqXH6OkpLRRmI0UaRxSBMlJTyGu8sObrPf6EYsRHYnpzWABK
-	 4guOhpliPb5aYSSJ1cikDCiA9fl38O9CJLfhWdf/1FUDPbaUHhsgjd/BUigP/DwSAR
-	 ZgzXa5kZ1LN2Vwu2d8y8wxYWU6XMdt47ld5N4t1CFweo+0HtUX4GHSNgmsq7QjI/jF
-	 wghZzlNvaq7LpEjMzkOqler37Pf0I1gD2UiJKUJFEipxphTk6d9TTXloxjbYPhi7oP
-	 Dxi908vsrFrMg==
-Date: Mon, 15 Sep 2025 15:34:26 +0200
+	b=RAK1rDeAsbkVB1QN1pawukGo03AAEGBrU9s0pA9ityTV+p+baNry4RLRRrbOSVkNP
+	 teQ8GcIaWRWIfcyvrPvC/uH1j8tGZ9MbmtEKdQasecFybVogEfiYpKZnxPM1lvBHyA
+	 rMQqwWf9gnaThMz1rbkU37dCcxChkuJQ3bXTUx4gsImlfcpzIcc6iVMPyFwR28Lrr5
+	 2BMh+JaYnOx/6Gm4aNTdzk3wfDtlJddMsT6sstoxOPJzHGM3iwYk8QXhBveSDse1Eq
+	 j6C25OM55yTiDV9v/gCsb5sQxkbBvBxZPahokEDSIZAlQWvzACphHCNFEGY+aL2i3O
+	 pjZa2cqjefIow==
+Date: Mon, 15 Sep 2025 16:29:41 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
-	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>, 
-	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>, 
-	Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	x86@kernel.org, Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, 
-	initramfs@vger.kernel.org, linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, "Theodore Y . Ts'o" <tytso@mit.edu>, 
-	linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org, 
-	Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-Message-ID: <20250915-modebranche-marken-fc832a25e05d@brauner>
-References: <20250913003842.41944-1-safinaskar@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, 
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>, 
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, 
+	Florian Weimer <fweimer@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, jannh@google.com, 
+	Andrew Morton <akpm@linux-foundation.org>, Yury Khrustalev <yury.khrustalev@arm.com>, 
+	Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v20 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <20250915-aneignen-notdienst-c901d4b6df24@brauner>
+References: <20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org>
+ <20250902-clone3-shadow-stack-v20-4-4d9fff1c53e7@kernel.org>
+ <20250905-nutria-befund-2f3e92003734@brauner>
+ <0ff8b70e-283f-4d56-8bab-bcae11cd5bdb@sirena.org.uk>
+ <202509050900.8A01B1E6@keescook>
+ <8caf310a-7179-4d4f-be73-2e25496a915f@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,26 +73,22 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
+In-Reply-To: <8caf310a-7179-4d4f-be73-2e25496a915f@sirena.org.uk>
 
-On Sat, Sep 13, 2025 at 12:37:39AM +0000, Askar Safin wrote:
-> Intro
-> ====
-> This patchset removes classic initrd (initial RAM disk) support,
-> which was deprecated in 2020.
+On Fri, Sep 05, 2025 at 05:02:33PM +0100, Mark Brown wrote:
+> On Fri, Sep 05, 2025 at 09:00:51AM -0700, Kees Cook wrote:
+> > On Fri, Sep 05, 2025 at 04:43:22PM +0100, Mark Brown wrote:
+> 
+> > > discover the problem fairly rapidly in testing.  ss_token would shorter
+> > > but the abbreviation is less clear, whatever name you prefer is fine by
+> > > me.
+> 
+> > Bike shed: shstk_token?
+> 
+> That also works and is fine by me, probably better than my idea.
 
-This is a good idea but the patchset does a bit too much and it's pretty
-convoluted and mixes cleanups with the removal of initrd support and so
-it's not that great to review let alone merge especially considering
-that a revert might be needed.
+Can you do a quick resend based on kernel-6.18.clone3?
+https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=kernel-6.18.clone3
 
-Split it up into multiple patch series. Send a first series that
-focusses only on removing the generic infrastructure keeping it as
-contained as possible. Only do non-generic cleanups that are absolutely
-essential for the removal. Then the cleanups can go in separate series
-later.
 
-As usual I'm happy to try to shed old code but I wouldn't be too
-optimistic that we'll get away with this and if so it needs to be
-surgical.
 
