@@ -1,283 +1,316 @@
-Return-Path: <linux-api+bounces-4840-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4841-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2694B5867F
-	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 23:16:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818DAB58831
+	for <lists+linux-api@lfdr.de>; Tue, 16 Sep 2025 01:25:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DEF71AA5D32
-	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 21:17:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CB2616D23A
+	for <lists+linux-api@lfdr.de>; Mon, 15 Sep 2025 23:25:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B40E29C339;
-	Mon, 15 Sep 2025 21:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B12AC29BDA7;
+	Mon, 15 Sep 2025 23:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="hn99im0l"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVRaImiS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frog.ash.relay.mailchannels.net (frog.ash.relay.mailchannels.net [23.83.222.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559662D052;
-	Mon, 15 Sep 2025 21:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.222.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757971009; cv=pass; b=b/khlKAqJLhdlvZaKPcymaT45GVyAdNFYIxiFikF8y0CLsZlofDOuFi1u6Fi10JA6ROeFPjiXazQoIDcZ0QA+8LkOVAi7dNOsPyJqezk3gsqSWba5gL8RwA0bepLHwqDbGZkZCiP/V3Rn69J/Utya03BiWyz0eEYzF27smsQk+w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757971009; c=relaxed/simple;
-	bh=XM3XKQ5jJB/NRmfxGIRymJW83Dn38opP9h7KE9Mh1Fk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ETMs+Y2Y75aVyqsIFn8yoIGQD0xN1GAzyuVX+3HIXDjCO55/4UaaR8kcSJCj7Jt5y2iLDuSMccxSjgObl6QZgivn6gPtsWERLaemrHN7xX+L9/Mc3745lBjEnmon79FRj4agASAo7+7WxEDy/X3YUqgKcUXlTSvEJzTiWwHKU24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=hn99im0l; arc=pass smtp.client-ip=23.83.222.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 968258E2BE4;
-	Mon, 15 Sep 2025 21:05:20 +0000 (UTC)
-Received: from pdx1-sub0-mail-a312.dreamhost.com (trex-blue-3.trex.outbound.svc.cluster.local [100.106.207.148])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 7F7018E2C1F;
-	Mon, 15 Sep 2025 21:05:19 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757970320; a=rsa-sha256;
-	cv=none;
-	b=FvgXqYHopx4Eg97mRKI8YTgJvrM5uX3hCyA3PstNG3tElSt5C8Mkh16K26ulc4hSsVKTwm
-	jS2iRuOvoFtVg23iLmldnlytqHxYeolaJsyfj8H9DSakx31ClyoFyXVp7iwZ2teQvFuGpD
-	7saB7Wb4g9tAoqQmvsAu+UkcIlhVWTJzOhYRfUz/BaC08DNcuaaQQ9As8b8ykz1bHx7Qk4
-	TBDIHtaaxH15dWAfQpWNrqJJMfgLr/Vh4+3miXzPpdfAMtZz9JhTu8o8DhIj9xhKVHKRwa
-	bwWqLubQ4kcKxK/2hf/oaDh9DMbl/qSfr7Eus3yNXxVfu+spuLPfBiaIS0ertg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1757970320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	b=TrnkHhqm0Tp2Y/WSmzMAHR5Hhj24mtPtbQYmBJGsRakDWzg0mrJuBQoW9Qkjf7BGvzNNiH
-	2H1V/J8m98raC3dPissEKtvzgOQ/Hk71uVhQ6kj9WsCG0K4v6raNCVOsjB2cVm10SC7pnX
-	WxSZlPhsLyt7jNTRP69EAqO62VJJbdbVWYt/YK0l1PbM6GNyoiMvREWQ3rw4KysPytNuVO
-	2/ZnkG/pktV9GKqEbQ9+gUEw2tbIV0YT43iSdJj78GsI/5MaQ7x6n5ojdu79KkG9JBYmK8
-	GwXKzdwJN0Mu44sDWX8K+r6sdW0U/yb7L1RpJBIrkhHihenS55Fk4oEdNruPqA==
-ARC-Authentication-Results: i=1;
-	rspamd-76d5d85dd7-gchpr;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Shade-Trouble: 5607b4e4499028f3_1757970320441_1498479094
-X-MC-Loop-Signature: 1757970320441:4276322646
-X-MC-Ingress-Time: 1757970320441
-Received: from pdx1-sub0-mail-a312.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.106.207.148 (trex/7.1.3);
-	Mon, 15 Sep 2025 21:05:20 +0000
-Received: from [192.168.88.7] (unknown [209.81.127.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a312.dreamhost.com (Postfix) with ESMTPSA id 4cQcxR2ZPnzFr;
-	Mon, 15 Sep 2025 14:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1757970319;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=hn99im0llKSPW8E4jU23jnYGHjKkBB42PZKG9Y5nexC8X6GV18Ye+xjEO0dI68API
-	 P0iIc1uUspgFQAEvTZJLAiGacD/gPQaqYVm1QWE0N/6QokQnP06W1bW8XwSoYhszK+
-	 lhn3ZJav0Djh8uCO1T1JTFZ2nxRyoQNIwSBLc+tBT4L5AJvvFnEk/puQX4fjV81Sze
-	 CQbiCBjHhliP+rleng7xNOeK8VpGNGP6Px4E+lL1g37CD4cYE8Qe9KRdlQRN3asHoO
-	 TI/V5yxrsCSuRB+QTSU/G3DsOoX+FIakqvSZS3fVzb5U3KSBT5DjgaaVyyrqpLaA73
-	 VR4ur/x6Wjb7g==
-Message-ID: <8f595eec-e85e-4c1f-acb0-5069a01c1012@landley.net>
-Date: Mon, 15 Sep 2025 16:05:14 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CD62566;
+	Mon, 15 Sep 2025 23:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757978739; cv=none; b=Y8TDKn7AR6BIWcN0Wkh0s4vJWgoM1HO/bQGUYhOWYYpQpmN3MlkARnYUDOGBTWL/iE0vlZT2Utxh8e6f76mlvxX4f57j0uQgYKdPGHeYyhTtAiM/39TdAqeXlMVbmqdeHumDfvM4fkFF+h7BZDlG0VvHb2KhOWvbkdoysJHN/oA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757978739; c=relaxed/simple;
+	bh=cIRPvz9+wlUlBIEB78ibs0BQt1B7Db6ZpVJpNWV6Szo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=J/8uy9q2hy5+LhF5IhybovGi5hq7Rpepmv6VIMkNU8dvG6FeHZJWt6Mmy/kH39wxtpWiKnnSxqVWGVOUzBJdqCbkuHqz5rc33nFc86/xHRGP7/awivqhiIc3OIjdSjpN4Qh7YbGrpxJmDzLAzNNfmd86tfjoh04RY8gO4RW5VUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GVRaImiS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDF1C4CEF1;
+	Mon, 15 Sep 2025 23:25:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757978739;
+	bh=cIRPvz9+wlUlBIEB78ibs0BQt1B7Db6ZpVJpNWV6Szo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=GVRaImiSkPwaZk4B69sQwdAOpEtoOGNmECi1r2ZKKdRI5qEpSCj1u3npQt8UEQpF6
+	 RNiuazTiFQEzOJdgL+HHOpHS+/Dp6dS4daZ+uIwhF46xNBkPoUeNKFZCFrDDli+qmh
+	 ggJDXZz7hAjPjXBAiTEIl/FlIH/nmqRvEj7Vgnrx2ATAmKGJZU7zI3LGTH2vY/OCaP
+	 ZZt3VzfZv8V9YqKxX9mjFEzb6BbV0/D+jRno/Ls3Mw6Q/BVvO7wHHTJHl6ZxytUGc5
+	 82ShJMVvEy2rQ8ZxhlfJ8jQFumPPvW3V5hTUbuccGu2/5hleVMQQerH49Zo4ukXm+K
+	 WX2+o3yc7CdhQ==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v21 0/8] fork: Support shadow stacks in clone3()
+Date: Tue, 16 Sep 2025 00:12:05 +0100
+Message-Id: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 17/62] doc: modernize
- Documentation/filesystems/ramfs-rootfs-initramfs.rst
-To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Aleksa Sarai <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
- Alexander Graf <graf@amazon.com>, Lennart Poettering <mzxreary@0pointer.de>,
- linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
- <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
- "Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
- Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
- patches@lists.linux.dev
-References: <20250913003842.41944-1-safinaskar@gmail.com>
- <20250913003842.41944-18-safinaskar@gmail.com>
-Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20250913003842.41944-18-safinaskar@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEWdyGgC/3XUS27bMBCA4asEWlcFZ/gYTle9R9EFH8PYSGAXU
+ uC2CHz3kkYbqaC4pAB9Ike/9D6tspxlnb48vU+L3M7r+XqpC4RPT1M6hcuzzOdcL0yoUIMCntP
+ r9SJ6Xk8hX3/O61tILzPYbFTGWKx2U73zxyLl/OvBfvte16fz+nZdfj+ecoN29a+H+tC7wazm7
+ B1lFSud1dcXWS7y+vm6PE8NvOGGAJhjBCsSHejinQewtkP0DkF1jOiKBIpeshYMKXWI2SP+GDE
+ V8RF9KWKKI9ch9h9iFKrBTGxFNGJybNmLiR3iNsSNBusqwiJEXkcokTuENoQ0HCPUZsJWo0gsE
+ XKH+A3xajATXxEVUtGUQgHTD5Z3yKC7G7fjOMxkCrNxpkNA7RQcnAdU24sTT0yRjelLgY9oDSh
+ lB0yrFoMLGLPLzkLP4I4ZTRdatwReS/RRBKhn9MYMc4FWLuvoOXgIVvq3BB/p2lqdGzCPdpWNV
+ odC+qAYsBtjRm8bHvWWgMYmJzpKz7gdA6PdtH6xlMQpaAbqPwKgjXFqkA20gr03SjJTKa70jN8
+ YUjhgWsPEztZfn2OTD3bDGzOMGFrFMbElRdYQ9wyqjeHRbrBVbDKXUiBZLf93c7/f/wD6acqu7
+ QUAAA==
+X-Change-ID: 20231019-clone3-shadow-stack-15d40d2bf536
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Yury Khrustalev <yury.khrustalev@arm.com>, 
+ Wilco Dijkstra <wilco.dijkstra@arm.com>, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Kees Cook <kees@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+X-Mailer: b4 0.15-dev-56183
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10488; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cIRPvz9+wlUlBIEB78ibs0BQt1B7Db6ZpVJpNWV6Szo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBoyKBl5Ynjl1pmonSaRcF2P+DQL8n/RS+XR96Fl
+ YqAQ1p4xGmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaMigZQAKCRAk1otyXVSH
+ 0A0dCACAv2skKyAqi6FAzi611TAoQxWq+htfrhDSe6gzYbaHWTXdrkcTx/aq4AG1DHevfcxRqw8
+ GxAkhzdmpr5HrRKHPchsGSezQRuHkr3aHAwp9W3BmhT822jBrxfTFUgVt3+qlIdOAZAs2K3hrfG
+ 2MMLgtYv7O+i80VO77GUsjYyNVHbBaRdT4vM62PdgLeULJIeV9cIAy4HoohtNN6mgC+3QaonB10
+ VtN41D2QjbQXHATxEzvopqc4a98LjPKG36iOBUYIaQokBUW4tqvHvFssXut/XuQNwuyKaBBcPY6
+ 0kUYR4hHu6ZkozWs3w6vv+qm2yDbtwwJYmj9tveyDInYW2km
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 9/12/25 19:37, Askar Safin wrote:
-> Update it to reflect initrd removal.
-> 
-> Also I specified that error reports should
-> go to linux-doc@vger.kernel.org , because
-> Rob Landley said that he keeps getting
-> reports about this document and is unable
-> to fix them
+[ I think at this point everyone is OK with the ABI, and the x86
+  implementation has been tested so hopefully we are near to being
+  able to get this merged?  If there are any outstanding issues let
+  me know and I can look at addressing them.  The one possible issue
+  I am aware of is that the RISC-V shadow stack support was briefly
+  in -next but got dropped along with the general RISC-V issues during
+  the last merge window, rebasing for that is still in progress.  I
+  guess ideally this could be applied on a branch and then pulled into
+  the RISC-V tree? ]
 
-Do you think emailing a list I could forward stuff to will improve matters?
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-I find the community an elaborate bureaucracy unresponsive to hobbyists. 
-Documentation/process/submitting-patches.rst being a 934 line document 
-with a bibliography, plus a 24 step checklist not counting the a) b) c) 
-subsections are just symptoms. The real problem is following those is 
-not sufficient to navigate said bureaucracy.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
->   What is ramfs?
->   --------------
->   
-> @@ -101,9 +103,9 @@ archive is extracted into it, the kernel will fall through to the older code
->   to locate and mount a root partition, then exec some variant of /sbin/init
->   out of that.
->   
-> -All this differs from the old initrd in several ways:
-> +All this differs from the old initrd (removed in 2025) in several ways:
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process, keeping the current
+implicit allocation behaviour if one is not specified either with
+clone3() or through the use of clone().  The user must provide a shadow
+stack pointer, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with an architecture specified shadow stack
+token at the top of the stack.
 
-Why keep the section when you removed the old mechanism? You took away 
-their choices, you don't need to sell them on it.
+Yuri Khrustalev has raised questions from the libc side regarding
+discoverability of extended clone3() structure sizes[2], this seems like
+a general issue with clone3().  There was a suggestion to add a hwcap on
+arm64 which isn't ideal but is doable there, though architecture
+specific mechanisms would also be needed for x86 (and RISC-V if it's
+support gets merged before this does).  The idea has, however, had
+strong pushback from the architecture maintainers and it is possible to
+detect support for this in clone3() by attempting a call with a
+misaligned shadow stack pointer specified so no hwcap has been added.
 
-(Unless you're trying to sell them on using a current linux kernel 
-rather than 2.6 or bsd or qnx or something. But if they _do_ remove 32 
-bit support, or stick a rust dependency in the base build, I suspect 
-that ship has sailed...)
+[1] https://lore.kernel.org/linux-arm-kernel/20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org/T/#mc58f97f27461749ccf400ebabf6f9f937116a86b
+[2] https://lore.kernel.org/r/aCs65ccRQtJBnZ_5@arm.com
 
-> -  - The old initrd was always a separate file, while the initramfs archive is
-> +  - The old initrd was always a separate file, while the initramfs archive can be
->       linked into the linux kernel image.  (The directory ``linux-*/usr`` is
->       devoted to generating this archive during the build.)
->   
-> @@ -137,7 +139,7 @@ Populating initramfs:
->   
->   The 2.6 kernel build process always creates a gzipped cpio format initramfs
->   archive and links it into the resulting kernel binary.  By default, this
-> -archive is empty (consuming 134 bytes on x86).
-> +archive is nearly empty (consuming 134 bytes on x86).
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v21:
+- Rebase onto https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git kernel-6.18.clone3
+- Rename shadow_stack_token to shstk_token, since it's a simple rename I've
+  kept the acks and reviews but I dropped the tested-bys just to be safe.
+- Link to v20: https://lore.kernel.org/r/20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org
 
-Those two lines you just touched contradict each other.
+Changes in v20:
+- Comment fixes and clarifications in x86 arch_shstk_validate_clone()
+  from Rick Edgecombe.
+- Spelling fix in documentation.
+- Link to v19: https://lore.kernel.org/r/20250819-clone3-shadow-stack-v19-0-bc957075479b@kernel.org
 
-For historical reference, commit c33df4eaaf41 in 2007 added a second 
-codepath to special case NOT having an initramfs, for some reason. 
-That's how static linked cpio in the kernel image and external initrd= 
-loaded cpio from the bootloader wound up having different behavior.
+Changes in v19:
+- Rebase onto v6.17-rc1.
+- Link to v18: https://lore.kernel.org/r/20250702-clone3-shadow-stack-v18-0-7965d2b694db@kernel.org
 
-The init/noinitramfs.c file does init/mkdir("/dev") and 
-init_mknod("/dev/console") because calling the syscall_blah() functions 
-directly was considered icky so they created gratuitous wrappers to do 
-it for you instead, because that's cleaner somehow. (Presumably the same 
-logic as C++ having get and set methods that perform a simple assignment 
-and return a value. Because YOU can't be trusted to touch MY code.)
+Changes in v18:
+- Rebase onto v6.16-rc3.
+- Thanks to pointers from Yuri Khrustalev this version has been tested
+  on x86 so I have removed the RFT tag.
+- Clarify clone3_shadow_stack_valid() comment about the Kconfig check.
+- Remove redundant GCSB DSYNCs in arm64 code.
+- Fix token validation on x86.
+- Link to v17: https://lore.kernel.org/r/20250609-clone3-shadow-stack-v17-0-8840ed97ff6f@kernel.org
 
-Note that ONLY init/noinitramfs.c creates /dev/console. You'd THINK the 
-logical thing to do would be to detect failure of the filp_open() in 
-console_on_rootfs() and do the mkdir/mknod there and retry (since that's 
-__init code too), but no...
+Changes in v17:
+- Rebase onto v6.16-rc1.
+- Link to v16: https://lore.kernel.org/r/20250416-clone3-shadow-stack-v16-0-2ffc9ca3917b@kernel.org
 
-My VERY vague recollection from back in the dark ages is if you didn't 
-specify any INITRAMFS_SOURCE in kconfig then gen_init_cpio got called 
-with no arguments and spit out a "usage" section that got interpreted as 
-scripts/gen_initramfs_list.sh output, back when the plumbing ignored 
-lines it didn't understand but there was an "example: a simple 
-initramfs" section in the usage with "dir /dev" and "nod /dev/console" 
-lines that created a cpio archive with /dev/console in it which would 
-get statically linked in as a "default", and code reached out and used 
-this because it was there without understanding WHY it was there. So it 
-initially worked by coincidence, and rather than make it explicit they 
-went "two codepaths, half the testing!" and thus...
+Changes in v16:
+- Rebase onto v6.15-rc2.
+- Roll in fixes from x86 testing from Rick Edgecombe.
+- Rework so that the argument is shadow_stack_token.
+- Link to v15: https://lore.kernel.org/r/20250408-clone3-shadow-stack-v15-0-3fa245c6e3be@kernel.org
 
-Anyway, that's why the 130+ byte archive was there. It wasn't actually 
-empty, even when initramfs was disabled.
+Changes in v15:
+- Rebase onto v6.15-rc1.
+- Link to v14: https://lore.kernel.org/r/20250206-clone3-shadow-stack-v14-0-805b53af73b9@kernel.org
 
-One of the "cleanups that didn't actually fix it" was 
-https://github.com/mpe/linux-fullhistory/commit/2bd3a997befc if you want 
-to dig into the history yourself. I wrote my docs in 2005 and that was 
-2010 so "somewhere in there"...
+Changes in v14:
+- Rebase onto v6.14-rc1.
+- Link to v13: https://lore.kernel.org/r/20241203-clone3-shadow-stack-v13-0-93b89a81a5ed@kernel.org
 
-> -If the kernel has initrd support enabled, an external cpio.gz archive can also
-> -be passed into a 2.6 kernel in place of an initrd.  In this case, the kernel
-> -will autodetect the type (initramfs, not initrd) and extract the external cpio
-> +If the kernel has CONFIG_BLK_DEV_INITRD enabled, an external cpio.gz archive can also
+Changes in v13:
+- Rebase onto v6.13-rc1.
+- Link to v12: https://lore.kernel.org/r/20241031-clone3-shadow-stack-v12-0-7183eb8bee17@kernel.org
 
-You renamed that symbol, then even you use the old name here.
+Changes in v12:
+- Add the regular prctl() to the userspace API document since arm64
+  support is queued in -next.
+- Link to v11: https://lore.kernel.org/r/20241005-clone3-shadow-stack-v11-0-2a6a2bd6d651@kernel.org
 
-> +be passed into a 2.6 kernel.  In this case, the kernel will extract the external cpio
->   archive into rootfs before trying to run /init.
->   
-> -This has the memory efficiency advantages of initramfs (no ramdisk block
-> -device) but the separate packaging of initrd (which is nice if you have
-> +This is nice if you have
->   non-GPL code you'd like to run from initramfs, without conflating it with
-> -the GPL licensed Linux kernel binary).
-> +the GPL licensed Linux kernel binary.
+Changes in v11:
+- Rebase onto arm64 for-next/gcs, which is based on v6.12-rc1, and
+  integrate arm64 support.
+- Rework the interface to specify a shadow stack pointer rather than a
+  base and size like we do for the regular stack.
+- Link to v10: https://lore.kernel.org/r/20240821-clone3-shadow-stack-v10-0-06e8797b9445@kernel.org
 
-IANAL: Whether or not this qualifies as "mere aggregation" had yet to go 
-to court last I heard.
+Changes in v10:
+- Integrate fixes & improvements for the x86 implementation from Rick
+  Edgecombe.
+- Require that the shadow stack be VM_WRITE.
+- Require that the shadow stack base and size be sizeof(void *) aligned.
+- Clean up trailing newline.
+- Link to v9: https://lore.kernel.org/r/20240819-clone3-shadow-stack-v9-0-962d74f99464@kernel.org
 
-Which is basically why 
-https://hackmd.io/@starnight/Load_Firmware_Files_Later_in_Linux_Kernel 
-was so screwed up in the first place: the logical thing to do would be 
-put the firmware in a static initramfs and have the module 
-initialization happen after initramfs was populated... BUT LICENSING! We 
-must have a much more complicated implementation because license. I 
-believe I suggested passing said initramfs in via the initrd mechanism 
-so it remains a separate file until boot time, and was ignored. *shrug* 
-The usual...
+Changes in v9:
+- Pull token validation earlier and report problems with an error return
+  to parent rather than signal delivery to the child.
+- Verify that the top of the supplied shadow stack is VM_SHADOW_STACK.
+- Rework token validation to only do the page mapping once.
+- Drop no longer needed support for testing for signals in selftest.
+- Fix typo in comments.
+- Link to v8: https://lore.kernel.org/r/20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org
 
->   It can also be used to supplement the kernel's built-in initramfs image.  The
->   files in the external archive will overwrite any conflicting files in
-> @@ -278,7 +278,7 @@ User Mode Linux, like so::
->     EOF
->     gcc -static hello.c -o init
->     echo init | cpio -o -H newc | gzip > test.cpio.gz
-> -  # Testing external initramfs using the initrd loading mechanism.
-> +  # Testing external initramfs.
+Changes in v8:
+- Fix token verification with user specified shadow stack.
+- Don't track user managed shadow stacks for child processes.
+- Link to v7: https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
 
-Does grub not still call it "initrd"?
+Changes in v7:
+- Rebase onto v6.11-rc1.
+- Typo fixes.
+- Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
 
->     qemu -kernel /boot/vmlinuz -initrd test.cpio.gz /dev/zero
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
 
-A) they added -hda so you don't have to give it a dummy /dev/zero anymore.
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
 
-B) there's no longer a "qemu" defaulting to the current architecture, 
-you have to explicitly specify qemu-system-blah unless you create the 
-symlink yourself by hand. This was considered an "improvement" by IBM 
-bureaucrats. (Not a regression, a "feature". Oh well...)
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
 
-C) to be honest I'd just point people at mkroot for examples these days, 
-but I'm biased. (It smells like me.)
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
 
-Rob
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (8):
+      arm64/gcs: Return a success value from gcs_alloc_thread_stack()
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  44 +++++
+ arch/arm64/include/asm/gcs.h                      |   8 +-
+ arch/arm64/kernel/process.c                       |   8 +-
+ arch/arm64/mm/gcs.c                               |  55 +++++-
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           |  53 ++++-
+ include/asm-generic/cacheflush.h                  |  11 ++
+ include/linux/sched/task.h                        |  17 ++
+ include/uapi/linux/sched.h                        |   9 +-
+ kernel/fork.c                                     |  93 +++++++--
+ tools/testing/selftests/clone3/clone3.c           | 226 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  65 ++++++-
+ tools/testing/selftests/ksft_shstk.h              |  98 ++++++++++
+ 15 files changed, 620 insertions(+), 81 deletions(-)
+---
+base-commit: 76cea30ad520238160bf8f5e2f2803fcd7a08d22
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
 
