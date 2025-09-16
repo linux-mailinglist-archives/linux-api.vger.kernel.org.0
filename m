@@ -1,98 +1,104 @@
-Return-Path: <linux-api+bounces-4850-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4851-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F399B58AAA
-	for <lists+linux-api@lfdr.de>; Tue, 16 Sep 2025 03:05:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31304B58B74
+	for <lists+linux-api@lfdr.de>; Tue, 16 Sep 2025 03:49:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2902D4E27B5
-	for <lists+linux-api@lfdr.de>; Tue, 16 Sep 2025 01:05:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7FC01B27F93
+	for <lists+linux-api@lfdr.de>; Tue, 16 Sep 2025 01:49:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8012F202987;
-	Tue, 16 Sep 2025 01:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 006C61F5820;
+	Tue, 16 Sep 2025 01:48:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0I/Xm2a"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JGzWjT6J"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D006E1E1C02
-	for <linux-api@vger.kernel.org>; Tue, 16 Sep 2025 01:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CA721CC4F
+	for <linux-api@vger.kernel.org>; Tue, 16 Sep 2025 01:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757984728; cv=none; b=pp7iXO355VcUTZqimST6cUCXT1bLVBPeBkqzIwcTz4ITcVhpNOmVrAk62r960yP6ShtTHRJHNg2zmvuedz+F3i5Rb66q91jW0sbBAfQGh6j5pc2aBp+bbLOG8MdDjp8NohJQtG2yMJ2vW7y6v+1ypRc+Sb13T7lbRcHPVlqrhjk=
+	t=1757987336; cv=none; b=e8Eb6KDgvoLduRbwBDlflid1uT0OaqMB8EGxHfG9R8NPtYcHhzXzwwAK8VCYH2G/hXVns35HPXa0HQAbxM8JKjJ4V8Sjs/ENHJL4ooiQuAA+hMSLSUcLJERLht3uRkb72IExfz/Yrgch/9jH6ca6rkR8Q2adfbgXcWoVMl8G6M8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757984728; c=relaxed/simple;
-	bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
+	s=arc-20240116; t=1757987336; c=relaxed/simple;
+	bh=ixp1vRoqVO/aQuZyYy6zFP7jfZFHYTqyHd5Z6tSU/S0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SfitUdFPu+H2skQ7qybvigddpcJ+sJAQX/QpQMo0lSKn1NvczV33UspmFQafLwdpA65tU3UK05uwnfzx8PsTyZi3GuEo/sFviZZOmWPrgVcWe7/8iqvEHSyVzcUYOldd9ATfva4Rmq4+GWtSF6XC8eg0c1Tv0Wwh9QdUXB1x7ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0I/Xm2a; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e94d678e116so5035718276.2
-        for <linux-api@vger.kernel.org>; Mon, 15 Sep 2025 18:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757984724; x=1758589524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
-        b=T0I/Xm2a26Pz9ueMVGxxM+8PBoBl72rLmCzNxbz1k+Zf7VAgqOZWtMXsxpbWUBL8J8
-         jPG2qCslo6GuL8OE/CdATF314calnEw7vxx91ORh8INwPj72HtzWCItEMHgqlS1BGB4L
-         AnggdLmhtN6PrPfYWJw6oIkc2HOZ6SuTst0SQp47zn7zXDjLJdQBMyL/dFLz8br5otKI
-         8dlCMxoRBNvoekrOuCctZSU/9APTEadss2NF0KJzW0tKMoYDIAsZq+yHkaxGVYfE6o2t
-         SJT7LsbW215Aa9TuYPrX1VwOTxvlChId8n3HZzda/uwuRnZUTB37Ib6PO7vzKl/LFvlj
-         okaw==
+	 To:Cc:Content-Type; b=m14N49hdnnf9VeUiboth/+IPUEMoqTRxBTIEioSTaJ4oT29+bo0CvbsS7urUr2AekAjLmSUtKMXc6McPMiIstg/ASZ0o+dnlDy6trIGeZ9xuCTVW01Cbg6fShTnSbiuvHm5z/Jp6wga1XqDZLsp4AWtMYE839XtVJdCRjS2WonM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JGzWjT6J; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757987333;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UM/63QbNRNL2CWSzKhJPtVEvJogEqqs3VcsifJT7nZg=;
+	b=JGzWjT6JFY44F9HuG73zfC+XVXSpyEZnpQCAqiavnVJaex4OmR07wPNEUXLEBK3aPPNASb
+	DTaTB1gZFE+DJer/o51vsb0HNic3DYvivGyJhMpU+pMvEA5BzK1/RIXnL5VmsY2pUK7A4X
+	JJbm37DGkbr6iy5wEYEwqu+Km41BUrY=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-JMTyTch6O3-1wqbBj7qi9Q-1; Mon, 15 Sep 2025 21:48:51 -0400
+X-MC-Unique: JMTyTch6O3-1wqbBj7qi9Q-1
+X-Mimecast-MFC-AGG-ID: JMTyTch6O3-1wqbBj7qi9Q_1757987330
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-571c4a20e8aso1867399e87.3
+        for <linux-api@vger.kernel.org>; Mon, 15 Sep 2025 18:48:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757984724; x=1758589524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
-        b=lHNsrBorrDKbXmTjSg55nNK5u72Ta25iLEOpJN9ZC9/k0JoAtR7ncCeuUfzep1GP1S
-         25K0fXjVMv/mByO3Vqa6zoVXkyEwQAmYvUWiP+W2qUYj2SFz40EaH1D3QhyxX57pSe/U
-         zNtde04oPpaoUMh4pEUcVy29DmiXdNpgFSDcm7FPILx15exjEpX7YlFg5/e2D0egxkwF
-         a9VwvaaFFcMDGc4+E1mTzIXKHV4jY8ymyV1U6cnHxFZVHQxGKZWQKLRiicj9W27XgVwe
-         lC2r3Rrn7aq+9XsBNTgihYoXQwsAInDxRmLGnCjV4CLe6WImYUrLCObiTdJtxxDaKBGA
-         UFpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVoUzquI0afsHeb+N2CP753nLDiBD7NNvHU0tvUPWOuuQxVV+Qr6dJuZUtrDdXn5TjccOfVEMq3aVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4hRqfxBFNfiWpMe1V91q37DFCTrljpqJqymy/JdIHT8jYbqs8
-	qIGdQW8996Dm4BOBromHQAsBKMkAX27HCHpGSHU/k51Uj2QU1prOBKAiRrAIej/KUxbKhChQJXf
-	muwfQ7vSCQAcRGKaTdOKpxsP4rByZv3M=
-X-Gm-Gg: ASbGncv1/ux6uZbPErE+l9v75cjlcCVZU9ZZoHIn15Rf2t6Fk122drCOxkebQiLX7Fx
-	7nUlssN9xuDqIMlzU5mxKRp4Wd1cUk4/spEXQywjLCrqzw7bPjOMFcpYS7Evdn/0uXuzdkq7TXJ
-	M2gm1Hw+x44LIKR7Idu2CeOyxU3Rl+AdAp7PkAzmCpYMeGifSWQUb+f7/c5mQdPpHzDj7rEFsAh
-	5m2cYDvk6/Gea+C1g==
-X-Google-Smtp-Source: AGHT+IFaJEo1gVHkPCEaCD3vWYjtreYFiQ2WOrRU9CIpbMyg97OVJtr/v3uxdpG+fiXE68E0IfjXLuECnr1bsw09sPQ=
-X-Received: by 2002:a05:6902:2b02:b0:e98:9926:e5ca with SMTP id
- 3f1490d57ef6-ea3d9a6c911mr10729577276.36.1757984723469; Mon, 15 Sep 2025
- 18:05:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757987330; x=1758592130;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UM/63QbNRNL2CWSzKhJPtVEvJogEqqs3VcsifJT7nZg=;
+        b=O//h0EAvcRy3kXFmg43RVNyu87vmKzQY9X42GEjdLSbiawkNyaFZ/D61i+p3d1WaFb
+         UY/EFJKEB0XFzfxc85aQLf9OK9kj9IbWchdEnJXZwdz9Y0gjCZiT7pBszD4OBAQqjZin
+         2bydub2+zIBlK8KeTi94iO30ImOSxlCzjd1VfYWl9I6T2ptMRVkdiTzRZOVaYxSZaiZN
+         atmMscngpfv/L7oqyYvpbPty9taPsO+p8oHCf+ZQ0S6SVHMhDAQIHRS4VipJ9eebA78p
+         c1FkaxQZ/KkJUF+NNRtwUxlfScYGAYDO6fW8Kca3b4j6g2Fz5XBs+UinfCNEdaSPHugT
+         Kv9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUonPPiXokjl+TMccSvWCmY3xJtcTurm88ZMvgvKlzXEnRVX4qEokyfFRzTvR/xIc8A1MwLZI9F5JI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkXmkBasmrhmFxbeKwnkee1FrA94ptRdxtbJdveksC2AIuYk3O
+	4/LbctvQzHdpCvRo9lDYf79Th62K11tbpE3OgYQltOV+EcO1F0+6vC4IjU8Mz5Z2i0PnQ20+08M
+	d/mMOVW+koMi+CXmnp6e2uY0a9BunrU6UKuYjBN/OGMG4T5IS+vbwxk7hVK1HSHvo5xqwu6dUam
+	JZfCjHNRjoF8b7xIIcnqvb04/Re5XuVdXsQL4v
+X-Gm-Gg: ASbGnctsngqTqiGILiUUM49BWiZ7DTfehUgFc6tzxQjv4lsOLeT2jqXMG0X6FMr4UAS
+	4E7R5SJdF1nmqE7YSu291H+r4nsqIe1iaPTD3P52coOSmDU1VB8teBXrovQSALSx9/LKNrji90N
+	d+GHw1dyxOkn2pdaDbVJVZOw==
+X-Received: by 2002:a05:6512:3f21:b0:563:d896:2d14 with SMTP id 2adb3069b0e04-5704f7a3535mr4252957e87.36.1757987330051;
+        Mon, 15 Sep 2025 18:48:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGi0qyrJSXhatUAjAN5GaSbgChEfkulnz/zBRoEI09ayrVbCpTRhDlFRFU2ScIQdlOHU/dANXpgiKsiuT/Fm5k=
+X-Received: by 2002:a05:6512:3f21:b0:563:d896:2d14 with SMTP id
+ 2adb3069b0e04-5704f7a3535mr4252904e87.36.1757987329545; Mon, 15 Sep 2025
+ 18:48:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250913003842.41944-1-safinaskar@gmail.com> <20250915-modebranche-marken-fc832a25e05d@brauner>
-In-Reply-To: <20250915-modebranche-marken-fc832a25e05d@brauner>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Tue, 16 Sep 2025 04:04:47 +0300
-X-Gm-Features: Ac12FXwuxsP2xoupllcCoDiRw8q2uuerrvP566PgC2Qr6qfMP36Zqdrto9P8zEU
-Message-ID: <CAPnZJGAjfpHZn_VzU3ry9ZV6OUS0RN2iWos153_oM_PhVbMgVg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Christian Brauner <brauner@kernel.org>
+References: <20250912223937.3735076-1-safinaskar@zohomail.com>
+In-Reply-To: <20250912223937.3735076-1-safinaskar@zohomail.com>
+From: Dave Young <dyoung@redhat.com>
+Date: Tue, 16 Sep 2025 09:48:40 +0800
+X-Gm-Features: AS18NWBkCHbtMZDfiuZiXnfW8KzozFHrUJlGejiASEzNumvZVB8NmHoE7UrrQwg
+Message-ID: <CALu+AoRt5wEgx-=S263CReDf8FmLWwjs8dF9cX4_jFcMUkuujQ@mail.gmail.com>
+Subject: Re: [PATCH 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@zohomail.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
 	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
 	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
-	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>, 
+	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>, 
+	Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
 	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
 	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
 	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
@@ -108,24 +114,24 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
 	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 15, 2025 at 4:34=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> Split it up into multiple patch series. Send a first series that
-> focusses only on removing the generic infrastructure keeping it as
-> contained as possible. Only do non-generic cleanups that are absolutely
-> essential for the removal. Then the cleanups can go in separate series
-> later.
+Hi,
 
-Ok, I will do this.
-I will send a minimal patchset with arch/ changes kept to absolute minimum
-or even absent. Nearly all of the changes will be in init/ and docs.
-Hopefully it will pass via the VFS tree.
+On Sat, 13 Sept 2025 at 06:42, Askar Safin <safinaskar@zohomail.com> wrote:
+>
+> Intro
+> ====
+> This patchset removes classic initrd (initial RAM disk) support,
+> which was deprecated in 2020.
+> Initramfs still stays, and RAM disk itself (brd) still stays, too.
 
-If it gets to kernel release, I will consider sending more patchsets.
+There is one initrd use case in my mind, it can be extended to co-work
+with overlayfs as a kernel built-in solution for initrd(compressed fs
+image)+overlayfs.   Currently we can use compressed fs images
+(squashfs or erofs) within initramfs,  and kernel loop mount together
+with overlayfs, this works fine but extra pre-mount phase is needed.
 
+Thanks
+Dave
 
---=20
-Askar Safin
 
