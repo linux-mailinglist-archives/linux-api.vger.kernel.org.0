@@ -1,150 +1,152 @@
-Return-Path: <linux-api+bounces-4864-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4865-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15C8B85A1B
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 17:33:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168D7B85E7C
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 18:08:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E690188C436
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 15:30:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9088062334A
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 16:04:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6527030E843;
-	Thu, 18 Sep 2025 15:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8EA2315D55;
+	Thu, 18 Sep 2025 16:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dscna0nG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4017C30DECA;
-	Thu, 18 Sep 2025 15:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6E0314A62;
+	Thu, 18 Sep 2025 16:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758209388; cv=none; b=WYq6KGHeiw8+Fr6IUeDir0CP34mWhD+5qQVhSn06o8SHUGC5cG+xivNKwFjfhs6TJ+h3N0mVb8MeApCdITR+8AH3yUNZuIrLvWEQLyfCJhduGGXHg88ORagUopM8jN74TDYNkWqxFIn+JQ/u5LdVaF+UQbkKUh9wjxNOc4L/FJQ=
+	t=1758211455; cv=none; b=fiWGvBhHrjfxASKMnfA7xkL0pRurIOvi14/r1PoNgRZIZQqqX8CmLU93uCdF4sdkI0VefamvfhljZSrc10r2PPBNjek0gWTEBX/rOvgFw/Qgrs1CPqI6fL9JPVYufpdL5Sql9S3IA1Z2sOa4yTW1WnYTvSY+9scoRY2hm+vgRcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758209388; c=relaxed/simple;
-	bh=1E1TtPIzWv3UVjPPN5oafjjL60AY6+jP9kR4QCfSNnU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PvGhCB0dzmwbkI77atdqyqReCeWamBfqjA3tAz4g9JGvz47TSOUXF7kFb9qaxjyBgfsCtN0RT5EFFcvG0igUUb2IpMn1llfTor0uONxBC09z8nci0HSl6jMjCSKZXjRNF8gbpefQC6MHYMrcxRAy3RyqLHO75Z3hJqUOfuKP3OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=fail smtp.mailfrom=freebox.fr; arc=none smtp.client-ip=212.27.42.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=freebox.fr
-Received: from daria.iliad.local (unknown [213.36.7.13])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 179252003FC;
-	Thu, 18 Sep 2025 17:28:31 +0200 (CEST)
-From: Nicolas Schichan <nschichan@freebox.fr>
-To: safinaskar@gmail.com
-Cc: akpm@linux-foundation.org,
-	andy.shevchenko@gmail.com,
-	axboe@kernel.dk,
-	brauner@kernel.org,
-	cyphar@cyphar.com,
-	devicetree@vger.kernel.org,
-	ecurtin@redhat.com,
-	email2tema@gmail.com,
-	graf@amazon.com,
-	gregkh@linuxfoundation.org,
-	hca@linux.ibm.com,
-	hch@lst.de,
-	hsiangkao@linux.alibaba.com,
-	initramfs@vger.kernel.org,
-	jack@suse.cz,
-	julian.stecklina@cyberus-technology.de,
-	kees@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-csky@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	mcgrof@kernel.org,
-	mingo@redhat.com,
-	monstr@monstr.eu,
-	mzxreary@0pointer.de,
-	patches@lists.linux.dev,
-	rob@landley.net,
-	sparclinux@vger.kernel.org,
-	thomas.weissschuh@linutronix.de,
-	thorsten.blum@linux.dev,
-	torvalds@linux-foundation.org,
-	tytso@mit.edu,
-	viro@zeniv.linux.org.uk,
-	x86@kernel.org,
-	nschichan@freebox.fr
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-Date: Thu, 18 Sep 2025 17:28:30 +0200
-Message-Id: <20250918152830.438554-1-nschichan@freebox.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
-References: <20250913003842.41944-1-safinaskar@gmail.com>
+	s=arc-20240116; t=1758211455; c=relaxed/simple;
+	bh=KoVegkDPh0ZM36aRdHcQyVrYFVVEpjR6Sp+OFwQrv48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kQF1z2/SHg4b34vtntgFtRoh3pMwuVMB0YAdzzBY4IGbOf7h5di/inc8WhDh21MnCOMzvsmSWE35RgrczdW8VdKxKZg3LlhRS20+fZ+5WHFCme1k1bmXBBwxP4qWv1NH7+/v7iMJ4wgx/41ponO/YI6uv3MSzahsdIGZFq5Mrng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dscna0nG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145F1C4CEF7;
+	Thu, 18 Sep 2025 16:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758211455;
+	bh=KoVegkDPh0ZM36aRdHcQyVrYFVVEpjR6Sp+OFwQrv48=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dscna0nGYhWGehI2V//TDn/qvcHItUF/gbzWHKcwPKVxSUt2uVtcVXY6GmGg9I/Ek
+	 I/S3gCHbNFOHrRMa6c21b57WXDeLXSH1/ul7o3hjTUvnboJdIBqkq0vjskW3rjLBch
+	 EtiDlPeSJS+ioTfYmaeXOOPNvJNAfnpOmgvlWDOyFt2nG1fmVJy4MTMxuphCi+/ehm
+	 nh8u5Gt7vfbaprkebj1k5Zmpjy2v0W7N7fbxekGIac4ZXpWhz/hfCgaZio/aCTxGOY
+	 nfVhloTAhAvQDl2RUMsX+HB3v2nG2J4fm8z1GvnWpD9UiJmADjQLlP6GHupIQRDZEF
+	 LfRt9ejSMHiEA==
+Date: Thu, 18 Sep 2025 17:04:06 +0100
+From: Will Deacon <will@kernel.org>
+To: Mark Brown <broonie@kernel.org>, brauner@kernel.org
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>, jannh@google.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v21 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <aMwtdtRHT7oHhYLf@willie-the-truck>
+References: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
+ <20250916-clone3-shadow-stack-v21-4-910493527013@kernel.org>
+ <aMv9XRq_sAQbQwjI@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aMv9XRq_sAQbQwjI@willie-the-truck>
 
-Hello,
+On Thu, Sep 18, 2025 at 01:38:53PM +0100, Will Deacon wrote:
+> On Tue, Sep 16, 2025 at 12:12:09AM +0100, Mark Brown wrote:
+> > Unlike with the normal stack there is no API for configuring the shadow
+> > stack for a new thread, instead the kernel will dynamically allocate a
+> > new shadow stack with the same size as the normal stack. This appears to
+> > be due to the shadow stack series having been in development since
+> > before the more extensible clone3() was added rather than anything more
+> > deliberate.
+> > 
+> > Add a parameter to clone3() specifying a shadow stack pointer to use
+> > for the new thread, this is inconsistent with the way we specify the
+> > normal stack but during review concerns were expressed about having to
+> > identify where the shadow stack pointer should be placed especially in
+> > cases where the shadow stack has been previously active.  If no shadow
+> > stack is specified then the existing implicit allocation behaviour is
+> > maintained.
+> > 
+> > If a shadow stack pointer is specified then it is required to have an
+> > architecture defined token placed on the stack, this will be consumed by
+> > the new task, the shadow stack is specified by pointing to this token.  If
+> > no valid token is present then this will be reported with -EINVAL.  This
+> > token prevents new threads being created pointing at the shadow stack of
+> > an existing running thread.  On architectures with support for userspace
+> > pivoting of shadow stacks it is expected that the same format and placement
+> > of tokens will be used, this is the case for arm64 and x86.
+> > 
+> > If the architecture does not support shadow stacks the shadow stack
+> > pointer must be not be specified, architectures that do support the
+> > feature are expected to enforce the same requirement on individual
+> > systems that lack shadow stack support.
+> > 
+> > Update the existing arm64 and x86 implementations to pay attention to
+> > the newly added arguments, in order to maintain compatibility we use the
+> > existing behaviour if no shadow stack is specified. Since we are now
+> > using more fields from the kernel_clone_args we pass that into the
+> > shadow stack code rather than individual fields.
+> > 
+> > Portions of the x86 architecture code were written by Rick Edgecombe.
+> > 
+> > Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
+> > Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > Signed-off-by: Mark Brown <broonie@kernel.org>
+> > ---
+> >  arch/arm64/mm/gcs.c              | 47 +++++++++++++++++++-
+> >  arch/x86/include/asm/shstk.h     | 11 +++--
+> >  arch/x86/kernel/process.c        |  2 +-
+> >  arch/x86/kernel/shstk.c          | 53 ++++++++++++++++++++---
+> >  include/asm-generic/cacheflush.h | 11 +++++
+> >  include/linux/sched/task.h       | 17 ++++++++
+> >  include/uapi/linux/sched.h       |  9 ++--
+> >  kernel/fork.c                    | 93 ++++++++++++++++++++++++++++++++++------
+> >  8 files changed, 217 insertions(+), 26 deletions(-)
+> 
+> It would be great if Christian could give this the thumbs up, given that
+> it changes clone3(). I think the architecture parts are all ready at this
+> point.
 
-> Intro
-> ====
-> This patchset removes classic initrd (initial RAM disk) support,
-> which was deprecated in 2020.
+ah, I may have spoken too soon :/
 
-This serie came a bit as a surprise, because even though the message
-notifying of the initrd deprecation was added in July 2020, the message
-was never displayed on our kernels.
+Catalin pointed me at this glibc thread:
 
-When booting with root=/dev/ram0 in the kernel commandline,
-handle_initrd() where the deprecation message resides is never called,
-which is rather unfortunate (init/do_mounts_initrd.c):
+https://marc.info/?l=glibc-alpha&m=175811917427562
 
-	if (rd_load_image("/initrd.image") && ROOT_DEV != Root_RAM0) {
-		init_unlink("/initrd.image");
-		handle_initrd(root_device_name); // shows the deprecation msg
-		return true;
-	}
+which sounds like they're not entirely on board with the new ABI.
 
-It is likely we are not the alone booting with that particular
-configuration, so other people are probably going to be surprised when
-initrd support is removed, because they never saw the deprecation
-message.
-
-We do depend on initrd support a lot on our embedded platforms (more
-than a million devices with a yearlyish upgrade to the latest
-kernel). If it eventually becomes removed this is going to impact us.
-
-We use an initrd squashfs4 image, because coming from a time where
-embedded flash devices were fragile, we avoid having the root
-filesystem directly mounted (even when read only) on the flash
-block/mtd device, and have the bootloader load the root filesystem as
-an initrd.
-
-We use a squashfs4 because we can mount it and keep it compressed. The
-kernel would decompress data on demand in the page cache, and evict it
-as needed.
-
-Regards,
-
--- 
-Nicolas Schichan
+Will
 
