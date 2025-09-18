@@ -1,530 +1,140 @@
-Return-Path: <linux-api+bounces-4867-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4868-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC5EB8622E
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 18:58:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D1AB8654F
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 19:56:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAD437AEA00
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 16:56:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3970F1CC4550
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 17:56:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DC525484B;
-	Thu, 18 Sep 2025 16:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C56283FD6;
+	Thu, 18 Sep 2025 17:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJ2OGcNA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="soMw9Xnj"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C090E24DCEC;
-	Thu, 18 Sep 2025 16:57:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568B014B06C;
+	Thu, 18 Sep 2025 17:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758214677; cv=none; b=ufT/M5b4z7mFIBRM8FQMZFbpAvSFzVq81zcd6OPSDe7hYn7sNrfK7GrFHXAmtqceFCLyJNdrpHZrua43cTijxVzRZ8KTOIdthp1he+x+Qx5ZgmMlwne27NxHwFIy/iBKZziZY6jYi9baUfTHV00JJEDZFMGqoIhaNf4iyU6BVwI=
+	t=1758218171; cv=none; b=dA53Rrty9dNcgiKUeRAojChBdx34kAPsT3wz+HzggCc84wSBGn9CnG34ulrFVoJJKd7lDB5DtBDrYZU7qo8rdqYspIEoeHEAq171eAT2Al/HEGGQNrdov92w2LCPDdifPUUado/jg2FoLC6cA6eB70yZVPjU3svh/6TRnwkIkY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758214677; c=relaxed/simple;
-	bh=8jLhq3dR4CLoMdavLpVJ0BYpUeeXr7Vmjipb6PG9/A8=;
+	s=arc-20240116; t=1758218171; c=relaxed/simple;
+	bh=mEfVkBpEmX4LqDSdnh5MGlyopQoeHAPLnvqvAtXytRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxNy1gbQ0Xa96sy6lfvY+1op7hmAQOLlT60+8np9XocGnPTzyrQgkVN7OInhBfJiUiTB0mIEsa4Q7r8fZeGBS0MEqEhNGKXQVZa5nItPpFVttxfldrfqsyKZg+5LGzZRJkDBlTfgy4tE3CpnGaaOdJ8HYn1zZyNHaekLlVAWW+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJ2OGcNA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E76DC4CEE7;
-	Thu, 18 Sep 2025 16:57:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJb6cXPcpkaMuzjhp8dUbdWlGoyq2J9FcqOhGMFvyJyRDn/XmVpmieMEhvFi313SzpKGRF7z2JE4wr3IpTjnrGueFzV7iMmlZBIdU7lOOwzW5Wq1y6ldQorrH9Chxc6Z2jiTY1AT7kGNvcPnPqp2ujYqrn/UnXaJtAHSoWtTFkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=soMw9Xnj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD01C4CEE7;
+	Thu, 18 Sep 2025 17:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758214677;
-	bh=8jLhq3dR4CLoMdavLpVJ0BYpUeeXr7Vmjipb6PG9/A8=;
+	s=k20201202; t=1758218171;
+	bh=mEfVkBpEmX4LqDSdnh5MGlyopQoeHAPLnvqvAtXytRA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uJ2OGcNAoCndhlhF0kofWEeZPA1y0poc4qB9odPNiJbMTeSnoSUdZ78mbEVxn2H6w
-	 HMqQZ51TxihW99OoFjqfDzXNP7uaXa8e6DK8TqgKSx44FlNQE0FskLDxIbsduEB4il
-	 9cUQeTnCd+9AIcHpEyRY12+0WXI3Dt5FriYjZZmhEealkDqz0b4faBuH5uYL48hOWf
-	 owcLgVly/M/8Q0X3gtqYMxrRRHKgEehNyGowe62bULGzOezunUW1rHcXtjDuqnZxF3
-	 avzihPlQK7nJgV1Kj0rxUIas9by81ANlxH/DIEK/ZHF8u9VBk/anGnpSP0WBVjH5VH
-	 bBLAiGLjG+ucA==
-Date: Thu, 18 Sep 2025 09:57:56 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: tytso@mit.edu
-Cc: linux-ext4@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] ext4: implemet new ioctls to set and get
- superblock parameters
-Message-ID: <20250918165756.GG8084@frogsfrogsfrogs>
-References: <20250916-tune2fs-v2-0-d594dc7486f0@mit.edu>
- <20250916-tune2fs-v2-3-d594dc7486f0@mit.edu>
+	b=soMw9Xnj+exAZ2k8HgMA91ndd6uOHczKxaGV9dhZx9DL3fmpsG3RkkqOQKF8Dgo0m
+	 ou2AY8VcM8wE7AqAa5ioL45ieaVEOapn85yGQRf+EiIUv8hTFsXNgwcTCwu1y2O6Zp
+	 IeMOKHjRkHg0LNc6PhPP7lu+n2iiX3HCw4E/uvFrO74qag4qYtUb3G9ZdqmKsC9DX4
+	 3pxZ2+ipeB+WyBXaOvrqoMK92Cbn8IxcWyBBXesgf32AP9SuvuzKarbTlkp8EOGcTl
+	 UyDbvx6rrmuLhWCkAHvQeQXluiGnULUCyDrjnZzJ6+jwbD98sg2pstQGE4de9eOpqb
+	 9jHtxj2T2gtEw==
+Date: Thu, 18 Sep 2025 18:56:02 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Will Deacon <will@kernel.org>
+Cc: brauner@kernel.org, "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>, jannh@google.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Subject: Re: [PATCH v21 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <21954e72-94e9-433a-a155-222c9052d4c6@sirena.org.uk>
+References: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
+ <20250916-clone3-shadow-stack-v21-4-910493527013@kernel.org>
+ <aMv9XRq_sAQbQwjI@willie-the-truck>
+ <aMwtdtRHT7oHhYLf@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XiyciUMuZFVOfLZH"
+Content-Disposition: inline
+In-Reply-To: <aMwtdtRHT7oHhYLf@willie-the-truck>
+X-Cookie: Victory uber allies!
+
+
+--XiyciUMuZFVOfLZH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916-tune2fs-v2-3-d594dc7486f0@mit.edu>
 
-On Tue, Sep 16, 2025 at 11:22:49PM -0400, Theodore Ts'o via B4 Relay wrote:
-> From: Theodore Ts'o <tytso@mit.edu>
-> 
-> Implement the EXT4_IOC_GET_TUNE_SB_PARAM and
-> EXT4_IOC_SET_TUNE_SB_PARAM ioctls, which allow certains superblock
-> parameters to be set while the file system is mounted, without needing
-> write access to the block device.
-> 
-> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+On Thu, Sep 18, 2025 at 05:04:06PM +0100, Will Deacon wrote:
+> On Thu, Sep 18, 2025 at 01:38:53PM +0100, Will Deacon wrote:
 
-Looks good to me now,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> > It would be great if Christian could give this the thumbs up, given that
+> > it changes clone3(). I think the architecture parts are all ready at this
+> > point.
 
---D
+> ah, I may have spoken too soon :/
 
-> ---
->  fs/ext4/ioctl.c           | 312 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
->  include/uapi/linux/ext4.h |  53 +++++++++++++
->  2 files changed, 358 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
-> index 84e3c73952d72e436429489f5fc8b7ae1c01c7a1..a93a7baae990cc5580d2ddb3ffcc72fe15246978 100644
-> --- a/fs/ext4/ioctl.c
-> +++ b/fs/ext4/ioctl.c
-> @@ -27,14 +27,16 @@
->  #include "fsmap.h"
->  #include <trace/events/ext4.h>
->  
-> -typedef void ext4_update_sb_callback(struct ext4_super_block *es,
-> -				       const void *arg);
-> +typedef void ext4_update_sb_callback(struct ext4_sb_info *sbi,
-> +				     struct ext4_super_block *es,
-> +				     const void *arg);
->  
->  /*
->   * Superblock modification callback function for changing file system
->   * label
->   */
-> -static void ext4_sb_setlabel(struct ext4_super_block *es, const void *arg)
-> +static void ext4_sb_setlabel(struct ext4_sb_info *sbi,
-> +			     struct ext4_super_block *es, const void *arg)
->  {
->  	/* Sanity check, this should never happen */
->  	BUILD_BUG_ON(sizeof(es->s_volume_name) < EXT4_LABEL_MAX);
-> @@ -46,7 +48,8 @@ static void ext4_sb_setlabel(struct ext4_super_block *es, const void *arg)
->   * Superblock modification callback function for changing file system
->   * UUID.
->   */
-> -static void ext4_sb_setuuid(struct ext4_super_block *es, const void *arg)
-> +static void ext4_sb_setuuid(struct ext4_sb_info *sbi,
-> +			    struct ext4_super_block *es, const void *arg)
->  {
->  	memcpy(es->s_uuid, (__u8 *)arg, UUID_SIZE);
->  }
-> @@ -71,7 +74,7 @@ int ext4_update_primary_sb(struct super_block *sb, handle_t *handle,
->  		goto out_err;
->  
->  	lock_buffer(bh);
-> -	func(es, arg);
-> +	func(sbi, es, arg);
->  	ext4_superblock_csum_set(sb);
->  	unlock_buffer(bh);
->  
-> @@ -149,7 +152,7 @@ static int ext4_update_backup_sb(struct super_block *sb,
->  		unlock_buffer(bh);
->  		goto out_bh;
->  	}
-> -	func(es, arg);
-> +	func(EXT4_SB(sb), es, arg);
->  	if (ext4_has_feature_metadata_csum(sb))
->  		es->s_checksum = ext4_superblock_csum(es);
->  	set_buffer_uptodate(bh);
-> @@ -1230,6 +1233,295 @@ static int ext4_ioctl_setuuid(struct file *filp,
->  	return ret;
->  }
->  
-> +
-> +#define TUNE_OPS_SUPPORTED (EXT4_TUNE_FL_ERRORS_BEHAVIOR |    \
-> +	EXT4_TUNE_FL_MNT_COUNT | EXT4_TUNE_FL_MAX_MNT_COUNT | \
-> +	EXT4_TUNE_FL_CHECKINTRVAL | EXT4_TUNE_FL_LAST_CHECK_TIME | \
-> +	EXT4_TUNE_FL_RESERVED_BLOCKS | EXT4_TUNE_FL_RESERVED_UID | \
-> +	EXT4_TUNE_FL_RESERVED_GID | EXT4_TUNE_FL_DEFAULT_MNT_OPTS | \
-> +	EXT4_TUNE_FL_DEF_HASH_ALG | EXT4_TUNE_FL_RAID_STRIDE | \
-> +	EXT4_TUNE_FL_RAID_STRIPE_WIDTH | EXT4_TUNE_FL_MOUNT_OPTS | \
-> +	EXT4_TUNE_FL_FEATURES | EXT4_TUNE_FL_EDIT_FEATURES | \
-> +	EXT4_TUNE_FL_FORCE_FSCK | EXT4_TUNE_FL_ENCODING | \
-> +	EXT4_TUNE_FL_ENCODING_FLAGS)
-> +
-> +#define EXT4_TUNE_SET_COMPAT_SUPP \
-> +		(EXT4_FEATURE_COMPAT_DIR_INDEX |	\
-> +		 EXT4_FEATURE_COMPAT_STABLE_INODES)
-> +#define EXT4_TUNE_SET_INCOMPAT_SUPP \
-> +		(EXT4_FEATURE_INCOMPAT_EXTENTS |	\
-> +		 EXT4_FEATURE_INCOMPAT_EA_INODE |	\
-> +		 EXT4_FEATURE_INCOMPAT_ENCRYPT |	\
-> +		 EXT4_FEATURE_INCOMPAT_CSUM_SEED |	\
-> +		 EXT4_FEATURE_INCOMPAT_LARGEDIR |	\
-> +		 EXT4_FEATURE_INCOMPAT_CASEFOLD)
-> +#define EXT4_TUNE_SET_RO_COMPAT_SUPP \
-> +		(EXT4_FEATURE_RO_COMPAT_LARGE_FILE |	\
-> +		 EXT4_FEATURE_RO_COMPAT_DIR_NLINK |	\
-> +		 EXT4_FEATURE_RO_COMPAT_EXTRA_ISIZE |	\
-> +		 EXT4_FEATURE_RO_COMPAT_PROJECT |	\
-> +		 EXT4_FEATURE_RO_COMPAT_VERITY)
-> +
-> +#define EXT4_TUNE_CLEAR_COMPAT_SUPP (0)
-> +#define EXT4_TUNE_CLEAR_INCOMPAT_SUPP (0)
-> +#define EXT4_TUNE_CLEAR_RO_COMPAT_SUPP (0)
-> +
-> +#define SB_ENC_SUPP_MASK (SB_ENC_STRICT_MODE_FL |	\
-> +			  SB_ENC_NO_COMPAT_FALLBACK_FL)
-> +
-> +static int ext4_ioctl_get_tune_sb(struct ext4_sb_info *sbi,
-> +				  struct ext4_tune_sb_params __user *params)
-> +{
-> +	struct ext4_tune_sb_params ret;
-> +	struct ext4_super_block *es = sbi->s_es;
-> +
-> +	memset(&ret, 0, sizeof(ret));
-> +	ret.set_flags = TUNE_OPS_SUPPORTED;
-> +	ret.errors_behavior = le16_to_cpu(es->s_errors);
-> +	ret.mnt_count = le16_to_cpu(es->s_mnt_count);
-> +	ret.max_mnt_count = le16_to_cpu(es->s_max_mnt_count);
-> +	ret.checkinterval = le32_to_cpu(es->s_checkinterval);
-> +	ret.last_check_time = le32_to_cpu(es->s_lastcheck);
-> +	ret.reserved_blocks = ext4_r_blocks_count(es);
-> +	ret.blocks_count = ext4_blocks_count(es);
-> +	ret.reserved_uid = ext4_get_resuid(es);
-> +	ret.reserved_gid = ext4_get_resgid(es);
-> +	ret.default_mnt_opts = le32_to_cpu(es->s_default_mount_opts);
-> +	ret.def_hash_alg = es->s_def_hash_version;
-> +	ret.raid_stride = le16_to_cpu(es->s_raid_stride);
-> +	ret.raid_stripe_width = le32_to_cpu(es->s_raid_stripe_width);
-> +	ret.encoding = le16_to_cpu(es->s_encoding);
-> +	ret.encoding_flags = le16_to_cpu(es->s_encoding_flags);
-> +	strscpy_pad(ret.mount_opts, es->s_mount_opts);
-> +	ret.feature_compat = le32_to_cpu(es->s_feature_compat);
-> +	ret.feature_incompat = le32_to_cpu(es->s_feature_incompat);
-> +	ret.feature_ro_compat = le32_to_cpu(es->s_feature_ro_compat);
-> +	ret.set_feature_compat_mask = EXT4_TUNE_SET_COMPAT_SUPP;
-> +	ret.set_feature_incompat_mask = EXT4_TUNE_SET_INCOMPAT_SUPP;
-> +	ret.set_feature_ro_compat_mask = EXT4_TUNE_SET_RO_COMPAT_SUPP;
-> +	ret.clear_feature_compat_mask = EXT4_TUNE_CLEAR_COMPAT_SUPP;
-> +	ret.clear_feature_incompat_mask = EXT4_TUNE_CLEAR_INCOMPAT_SUPP;
-> +	ret.clear_feature_ro_compat_mask = EXT4_TUNE_CLEAR_RO_COMPAT_SUPP;
-> +	if (copy_to_user(params, &ret, sizeof(ret)))
-> +		return -EFAULT;
-> +	return 0;
-> +}
-> +
-> +static void ext4_sb_setparams(struct ext4_sb_info *sbi,
-> +			      struct ext4_super_block *es, const void *arg)
-> +{
-> +	const struct ext4_tune_sb_params *params = arg;
-> +
-> +	if (params->set_flags & EXT4_TUNE_FL_ERRORS_BEHAVIOR)
-> +		es->s_errors = cpu_to_le16(params->errors_behavior);
-> +	if (params->set_flags & EXT4_TUNE_FL_MNT_COUNT)
-> +		es->s_mnt_count = cpu_to_le16(params->mnt_count);
-> +	if (params->set_flags & EXT4_TUNE_FL_MAX_MNT_COUNT)
-> +		es->s_max_mnt_count = cpu_to_le16(params->max_mnt_count);
-> +	if (params->set_flags & EXT4_TUNE_FL_CHECKINTRVAL)
-> +		es->s_checkinterval = cpu_to_le32(params->checkinterval);
-> +	if (params->set_flags & EXT4_TUNE_FL_LAST_CHECK_TIME)
-> +		es->s_lastcheck = cpu_to_le32(params->last_check_time);
-> +	if (params->set_flags & EXT4_TUNE_FL_RESERVED_BLOCKS) {
-> +		ext4_fsblk_t blk = params->reserved_blocks;
-> +
-> +		es->s_r_blocks_count_lo = cpu_to_le32((u32)blk);
-> +		es->s_r_blocks_count_hi = cpu_to_le32(blk >> 32);
-> +	}
-> +	if (params->set_flags & EXT4_TUNE_FL_RESERVED_UID) {
-> +		int uid = params->reserved_uid;
-> +
-> +		es->s_def_resuid = cpu_to_le16(uid & 0xFFFF);
-> +		es->s_def_resuid_hi = cpu_to_le16(uid >> 16);
-> +	}
-> +	if (params->set_flags & EXT4_TUNE_FL_RESERVED_GID) {
-> +		int gid = params->reserved_gid;
-> +
-> +		es->s_def_resgid = cpu_to_le16(gid & 0xFFFF);
-> +		es->s_def_resgid_hi = cpu_to_le16(gid >> 16);
-> +	}
-> +	if (params->set_flags & EXT4_TUNE_FL_DEFAULT_MNT_OPTS)
-> +		es->s_default_mount_opts = cpu_to_le32(params->default_mnt_opts);
-> +	if (params->set_flags & EXT4_TUNE_FL_DEF_HASH_ALG)
-> +		es->s_def_hash_version = params->def_hash_alg;
-> +	if (params->set_flags & EXT4_TUNE_FL_RAID_STRIDE)
-> +		es->s_raid_stride = cpu_to_le16(params->raid_stride);
-> +	if (params->set_flags & EXT4_TUNE_FL_RAID_STRIPE_WIDTH)
-> +		es->s_raid_stripe_width =
-> +			cpu_to_le32(params->raid_stripe_width);
-> +	if (params->set_flags & EXT4_TUNE_FL_ENCODING)
-> +		es->s_encoding = cpu_to_le16(params->encoding);
-> +	if (params->set_flags & EXT4_TUNE_FL_ENCODING_FLAGS)
-> +		es->s_encoding_flags = cpu_to_le16(params->encoding_flags);
-> +	strscpy_pad(es->s_mount_opts, params->mount_opts);
-> +	if (params->set_flags & EXT4_TUNE_FL_EDIT_FEATURES) {
-> +		es->s_feature_compat |=
-> +			cpu_to_le32(params->set_feature_compat_mask);
-> +		es->s_feature_incompat |=
-> +			cpu_to_le32(params->set_feature_incompat_mask);
-> +		es->s_feature_ro_compat |=
-> +			cpu_to_le32(params->set_feature_ro_compat_mask);
-> +		es->s_feature_compat &=
-> +			~cpu_to_le32(params->clear_feature_compat_mask);
-> +		es->s_feature_incompat &=
-> +			~cpu_to_le32(params->clear_feature_incompat_mask);
-> +		es->s_feature_ro_compat &=
-> +			~cpu_to_le32(params->clear_feature_ro_compat_mask);
-> +		if (params->set_feature_compat_mask &
-> +		    EXT4_FEATURE_COMPAT_DIR_INDEX)
-> +			es->s_def_hash_version = sbi->s_def_hash_version;
-> +		if (params->set_feature_incompat_mask &
-> +		    EXT4_FEATURE_INCOMPAT_CSUM_SEED)
-> +			es->s_checksum_seed = cpu_to_le32(sbi->s_csum_seed);
-> +	}
-> +	if (params->set_flags & EXT4_TUNE_FL_FORCE_FSCK)
-> +		es->s_state |= cpu_to_le16(EXT4_ERROR_FS);
-> +}
-> +
-> +static int ext4_ioctl_set_tune_sb(struct file *filp,
-> +				  struct ext4_tune_sb_params __user *in)
-> +{
-> +	struct ext4_tune_sb_params params;
-> +	struct super_block *sb = file_inode(filp)->i_sb;
-> +	struct ext4_sb_info *sbi = EXT4_SB(sb);
-> +	struct ext4_super_block *es = sbi->s_es;
-> +	int enabling_casefold = 0;
-> +	int ret;
-> +
-> +	if (!capable(CAP_SYS_ADMIN))
-> +		return -EPERM;
-> +
-> +	if (copy_from_user(&params, in, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	if ((params.set_flags & ~TUNE_OPS_SUPPORTED) != 0)
-> +		return -EOPNOTSUPP;
-> +
-> +	if ((params.set_flags & EXT4_TUNE_FL_ERRORS_BEHAVIOR) &&
-> +	    (params.errors_behavior > EXT4_ERRORS_PANIC))
-> +		return -EINVAL;
-> +
-> +	if ((params.set_flags & EXT4_TUNE_FL_RESERVED_BLOCKS) &&
-> +	    (params.reserved_blocks > ext4_blocks_count(sbi->s_es) / 2))
-> +		return -EINVAL;
-> +	if ((params.set_flags & EXT4_TUNE_FL_DEF_HASH_ALG) &&
-> +	    ((params.def_hash_alg > DX_HASH_LAST) ||
-> +	     (params.def_hash_alg == DX_HASH_SIPHASH)))
-> +		return -EINVAL;
-> +	if ((params.set_flags & EXT4_TUNE_FL_FEATURES) &&
-> +	    (params.set_flags & EXT4_TUNE_FL_EDIT_FEATURES))
-> +		return -EINVAL;
-> +
-> +	if (params.set_flags & EXT4_TUNE_FL_FEATURES) {
-> +		params.set_feature_compat_mask =
-> +			params.feature_compat &
-> +			~le32_to_cpu(es->s_feature_compat);
-> +		params.set_feature_incompat_mask =
-> +			params.feature_incompat &
-> +			~le32_to_cpu(es->s_feature_incompat);
-> +		params.set_feature_ro_compat_mask =
-> +			params.feature_ro_compat &
-> +			~le32_to_cpu(es->s_feature_ro_compat);
-> +		params.clear_feature_compat_mask =
-> +			~params.feature_compat &
-> +			le32_to_cpu(es->s_feature_compat);
-> +		params.clear_feature_incompat_mask =
-> +			~params.feature_incompat &
-> +			le32_to_cpu(es->s_feature_incompat);
-> +		params.clear_feature_ro_compat_mask =
-> +			~params.feature_ro_compat &
-> +			le32_to_cpu(es->s_feature_ro_compat);
-> +		params.set_flags |= EXT4_TUNE_FL_EDIT_FEATURES;
-> +	}
-> +	if (params.set_flags & EXT4_TUNE_FL_EDIT_FEATURES) {
-> +		if ((params.set_feature_compat_mask &
-> +		     ~EXT4_TUNE_SET_COMPAT_SUPP) ||
-> +		    (params.set_feature_incompat_mask &
-> +		     ~EXT4_TUNE_SET_INCOMPAT_SUPP) ||
-> +		    (params.set_feature_ro_compat_mask &
-> +		     ~EXT4_TUNE_SET_RO_COMPAT_SUPP) ||
-> +		    (params.clear_feature_compat_mask &
-> +		     ~EXT4_TUNE_CLEAR_COMPAT_SUPP) ||
-> +		    (params.clear_feature_incompat_mask &
-> +		     ~EXT4_TUNE_CLEAR_INCOMPAT_SUPP) ||
-> +		    (params.clear_feature_ro_compat_mask &
-> +		     ~EXT4_TUNE_CLEAR_RO_COMPAT_SUPP))
-> +			return -EOPNOTSUPP;
-> +
-> +		/*
-> +		 * Filter out the features that are already set from
-> +		 * the set_mask.
-> +		 */
-> +		params.set_feature_compat_mask &=
-> +			~le32_to_cpu(es->s_feature_compat);
-> +		params.set_feature_incompat_mask &=
-> +			~le32_to_cpu(es->s_feature_incompat);
-> +		params.set_feature_ro_compat_mask &=
-> +			~le32_to_cpu(es->s_feature_ro_compat);
-> +		if ((params.set_feature_incompat_mask &
-> +		     EXT4_FEATURE_INCOMPAT_CASEFOLD)) {
-> +			enabling_casefold = 1;
-> +			if (!(params.set_flags & EXT4_TUNE_FL_ENCODING)) {
-> +				params.encoding = EXT4_ENC_UTF8_12_1;
-> +				params.set_flags |= EXT4_TUNE_FL_ENCODING;
-> +			}
-> +			if (!(params.set_flags & EXT4_TUNE_FL_ENCODING_FLAGS)) {
-> +				params.encoding_flags = 0;
-> +				params.set_flags |= EXT4_TUNE_FL_ENCODING_FLAGS;
-> +			}
-> +		}
-> +		if ((params.set_feature_compat_mask &
-> +		     EXT4_FEATURE_COMPAT_DIR_INDEX)) {
-> +			uuid_t	uu;
-> +
-> +			memcpy(&uu, sbi->s_hash_seed, UUID_SIZE);
-> +			if (uuid_is_null(&uu))
-> +				generate_random_uuid((char *)
-> +						     &sbi->s_hash_seed);
-> +			if (params.set_flags & EXT4_TUNE_FL_DEF_HASH_ALG)
-> +				sbi->s_def_hash_version = params.def_hash_alg;
-> +			else if (sbi->s_def_hash_version == 0)
-> +				sbi->s_def_hash_version = DX_HASH_HALF_MD4;
-> +			if (!(es->s_flags &
-> +			      cpu_to_le32(EXT2_FLAGS_UNSIGNED_HASH)) &&
-> +			    !(es->s_flags &
-> +			      cpu_to_le32(EXT2_FLAGS_SIGNED_HASH))) {
-> +#ifdef __CHAR_UNSIGNED__
-> +				sbi->s_hash_unsigned = 3;
-> +#else
-> +				sbi->s_hash_unsigned = 0;
-> +#endif
-> +			}
-> +		}
-> +	}
-> +	if (params.set_flags & EXT4_TUNE_FL_ENCODING) {
-> +		if (!enabling_casefold)
-> +			return -EINVAL;
-> +		if (params.encoding == 0)
-> +			params.encoding = EXT4_ENC_UTF8_12_1;
-> +		else if (params.encoding != EXT4_ENC_UTF8_12_1)
-> +			return -EINVAL;
-> +	}
-> +	if (params.set_flags & EXT4_TUNE_FL_ENCODING_FLAGS) {
-> +		if (!enabling_casefold)
-> +			return -EINVAL;
-> +		if (params.encoding_flags & ~SB_ENC_SUPP_MASK)
-> +			return -EINVAL;
-> +	}
-> +
-> +	ret = mnt_want_write_file(filp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ext4_update_superblocks_fn(sb, ext4_sb_setparams, &params);
-> +	mnt_drop_write_file(filp);
-> +
-> +	if (params.set_flags & EXT4_TUNE_FL_DEF_HASH_ALG)
-> +		sbi->s_def_hash_version = params.def_hash_alg;
-> +
-> +	return ret;
-> +}
-> +
->  static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  {
->  	struct inode *inode = file_inode(filp);
-> @@ -1616,6 +1908,11 @@ static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  		return ext4_ioctl_getuuid(EXT4_SB(sb), (void __user *)arg);
->  	case EXT4_IOC_SETFSUUID:
->  		return ext4_ioctl_setuuid(filp, (const void __user *)arg);
-> +	case EXT4_IOC_GET_TUNE_SB_PARAM:
-> +		return ext4_ioctl_get_tune_sb(EXT4_SB(sb),
-> +					      (void __user *)arg);
-> +	case EXT4_IOC_SET_TUNE_SB_PARAM:
-> +		return ext4_ioctl_set_tune_sb(filp, (void __user *)arg);
->  	default:
->  		return -ENOTTY;
->  	}
-> @@ -1703,7 +2000,8 @@ long ext4_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  }
->  #endif
->  
-> -static void set_overhead(struct ext4_super_block *es, const void *arg)
-> +static void set_overhead(struct ext4_sb_info *sbi,
-> +			 struct ext4_super_block *es, const void *arg)
->  {
->  	es->s_overhead_clusters = cpu_to_le32(*((unsigned long *) arg));
->  }
-> diff --git a/include/uapi/linux/ext4.h b/include/uapi/linux/ext4.h
-> index 1c4c2dd29112cda9f7dc91d917492cffc33ee524..411dcc1e4a35c8c6a10f3768d17b8cc50cff4c34 100644
-> --- a/include/uapi/linux/ext4.h
-> +++ b/include/uapi/linux/ext4.h
-> @@ -33,6 +33,8 @@
->  #define EXT4_IOC_CHECKPOINT		_IOW('f', 43, __u32)
->  #define EXT4_IOC_GETFSUUID		_IOR('f', 44, struct fsuuid)
->  #define EXT4_IOC_SETFSUUID		_IOW('f', 44, struct fsuuid)
-> +#define EXT4_IOC_GET_TUNE_SB_PARAM	_IOR('f', 45, struct ext4_tune_sb_params)
-> +#define EXT4_IOC_SET_TUNE_SB_PARAM	_IOW('f', 46, struct ext4_tune_sb_params)
->  
->  #define EXT4_IOC_SHUTDOWN _IOR('X', 125, __u32)
->  
-> @@ -108,6 +110,57 @@ struct ext4_new_group_input {
->  	__u16 unused;
->  };
->  
-> +struct ext4_tune_sb_params {
-> +	__u32 set_flags;
-> +	__u32 checkinterval;
-> +	__u16 errors_behavior;
-> +	__u16 mnt_count;
-> +	__u16 max_mnt_count;
-> +	__u16 raid_stride;
-> +	__u64 last_check_time;
-> +	__u64 reserved_blocks;
-> +	__u64 blocks_count;
-> +	__u32 default_mnt_opts;
-> +	__u32 reserved_uid;
-> +	__u32 reserved_gid;
-> +	__u32 raid_stripe_width;
-> +	__u16 encoding;
-> +	__u16 encoding_flags;
-> +	__u8  def_hash_alg;
-> +	__u8  pad_1;
-> +	__u16 pad_2;
-> +	__u32 feature_compat;
-> +	__u32 feature_incompat;
-> +	__u32 feature_ro_compat;
-> +	__u32 set_feature_compat_mask;
-> +	__u32 set_feature_incompat_mask;
-> +	__u32 set_feature_ro_compat_mask;
-> +	__u32 clear_feature_compat_mask;
-> +	__u32 clear_feature_incompat_mask;
-> +	__u32 clear_feature_ro_compat_mask;
-> +	__u8  mount_opts[64];
-> +	__u8  pad[64];
-> +};
-> +
-> +#define EXT4_TUNE_FL_ERRORS_BEHAVIOR	0x00000001
-> +#define EXT4_TUNE_FL_MNT_COUNT		0x00000002
-> +#define EXT4_TUNE_FL_MAX_MNT_COUNT	0x00000004
-> +#define EXT4_TUNE_FL_CHECKINTRVAL	0x00000008
-> +#define EXT4_TUNE_FL_LAST_CHECK_TIME	0x00000010
-> +#define EXT4_TUNE_FL_RESERVED_BLOCKS	0x00000020
-> +#define EXT4_TUNE_FL_RESERVED_UID	0x00000040
-> +#define EXT4_TUNE_FL_RESERVED_GID	0x00000080
-> +#define EXT4_TUNE_FL_DEFAULT_MNT_OPTS	0x00000100
-> +#define EXT4_TUNE_FL_DEF_HASH_ALG	0x00000200
-> +#define EXT4_TUNE_FL_RAID_STRIDE	0x00000400
-> +#define EXT4_TUNE_FL_RAID_STRIPE_WIDTH	0x00000800
-> +#define EXT4_TUNE_FL_MOUNT_OPTS		0x00001000
-> +#define EXT4_TUNE_FL_FEATURES		0x00002000
-> +#define EXT4_TUNE_FL_EDIT_FEATURES	0x00004000
-> +#define EXT4_TUNE_FL_FORCE_FSCK		0x00008000
-> +#define EXT4_TUNE_FL_ENCODING		0x00010000
-> +#define EXT4_TUNE_FL_ENCODING_FLAGS	0x00020000
-> +
->  /*
->   * Returned by EXT4_IOC_GET_ES_CACHE as an additional possible flag.
->   * It indicates that the entry in extent status cache is for a hole.
-> 
-> -- 
-> 2.51.0
-> 
-> 
-> 
+Well, there's also the fact that this is based on the vfs tree (or would
+have conflicts with it).
+
+> Catalin pointed me at this glibc thread:
+
+> https://marc.info/?l=glibc-alpha&m=175811917427562
+
+> which sounds like they're not entirely on board with the new ABI.
+
+I think we're getting there on that one, and the main thing they're
+asking for is the ability to reuse the GCS after the thread has exited
+which would be orthogonal to this stuff.  I see Catalin replied on the
+glibc side so I'll direct most of my reply there.
+
+It would be really helpful to get a clear idea of where we're going with
+this series, it's been almost landed for an incredibly long time and
+having it in that state is getting disruptive to doing cleanup to try to
+factor code out of the arches especially with the RISC-V stuff also up
+in the air.  I do think the issues glibc have with this are orthogonal
+to the changes here so hopefully this can go as is.
+
+--XiyciUMuZFVOfLZH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjMR7EACgkQJNaLcl1U
+h9D1nQf/S4za9m0EXxhhOOufFtQwWatoF5T4w9ZO30g2u5/wuQAFZeTtARtrFj4I
+Xm26dM7BBBElSdWXIWVxzROT10yXZTN0Hl50o6jhgohNXiV+Bf0dpAR+rGHp7sDh
+0/TpMZMKikrTMhN89mQoHzvIktHJW1v14t3eUTrE/GZaPMdoIg1hIGY00tEVSArg
+nraXjUQMb4uSswTMGJWAzMIiQWQfJ7A+7Yj7Zu14xD+cY55s+xVeAQ2HmRufGpkB
+k7LBGaC7bzkqn7QkqMbwF558gcSC3Nl0WEvzndmxg4i9aN+Xafl4+kQVogguI39S
+UfARm8uNUebl5zS2zY71r5esgHQCXA==
+=Qji3
+-----END PGP SIGNATURE-----
+
+--XiyciUMuZFVOfLZH--
 
