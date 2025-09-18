@@ -1,140 +1,162 @@
-Return-Path: <linux-api+bounces-4868-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4869-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D1AB8654F
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 19:56:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC99B86CE0
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 21:58:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3970F1CC4550
-	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 17:56:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D3C47A6673
+	for <lists+linux-api@lfdr.de>; Thu, 18 Sep 2025 19:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C56283FD6;
-	Thu, 18 Sep 2025 17:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BD9306D4D;
+	Thu, 18 Sep 2025 19:58:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="soMw9Xnj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hNlT1dRM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568B014B06C;
-	Thu, 18 Sep 2025 17:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11C53074BE
+	for <linux-api@vger.kernel.org>; Thu, 18 Sep 2025 19:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758218171; cv=none; b=dA53Rrty9dNcgiKUeRAojChBdx34kAPsT3wz+HzggCc84wSBGn9CnG34ulrFVoJJKd7lDB5DtBDrYZU7qo8rdqYspIEoeHEAq171eAT2Al/HEGGQNrdov92w2LCPDdifPUUado/jg2FoLC6cA6eB70yZVPjU3svh/6TRnwkIkY0=
+	t=1758225501; cv=none; b=T8IlYpwp1vB+YhLS+1RRSeS6aNspnLCuhKUNDp68l9HAOL/WGGafn0bDIKehKquMM4xW/h3GaN7cy5J3z+aF1QSpZM+4Rj/3vGB+peThH0UuvJ2zV72/3zSMw/ql7ccKXYqCKO2PGtGL5H2M7CrZwcJsVmMoQCrdDdYceDDfMco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758218171; c=relaxed/simple;
-	bh=mEfVkBpEmX4LqDSdnh5MGlyopQoeHAPLnvqvAtXytRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FJb6cXPcpkaMuzjhp8dUbdWlGoyq2J9FcqOhGMFvyJyRDn/XmVpmieMEhvFi313SzpKGRF7z2JE4wr3IpTjnrGueFzV7iMmlZBIdU7lOOwzW5Wq1y6ldQorrH9Chxc6Z2jiTY1AT7kGNvcPnPqp2ujYqrn/UnXaJtAHSoWtTFkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=soMw9Xnj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD01C4CEE7;
-	Thu, 18 Sep 2025 17:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758218171;
-	bh=mEfVkBpEmX4LqDSdnh5MGlyopQoeHAPLnvqvAtXytRA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=soMw9Xnj+exAZ2k8HgMA91ndd6uOHczKxaGV9dhZx9DL3fmpsG3RkkqOQKF8Dgo0m
-	 ou2AY8VcM8wE7AqAa5ioL45ieaVEOapn85yGQRf+EiIUv8hTFsXNgwcTCwu1y2O6Zp
-	 IeMOKHjRkHg0LNc6PhPP7lu+n2iiX3HCw4E/uvFrO74qag4qYtUb3G9ZdqmKsC9DX4
-	 3pxZ2+ipeB+WyBXaOvrqoMK92Cbn8IxcWyBBXesgf32AP9SuvuzKarbTlkp8EOGcTl
-	 UyDbvx6rrmuLhWCkAHvQeQXluiGnULUCyDrjnZzJ6+jwbD98sg2pstQGE4de9eOpqb
-	 9jHtxj2T2gtEw==
-Date: Thu, 18 Sep 2025 18:56:02 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Will Deacon <will@kernel.org>
-Cc: brauner@kernel.org, "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>, jannh@google.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	Kees Cook <kees@kernel.org>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Subject: Re: [PATCH v21 4/8] fork: Add shadow stack support to clone3()
-Message-ID: <21954e72-94e9-433a-a155-222c9052d4c6@sirena.org.uk>
-References: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
- <20250916-clone3-shadow-stack-v21-4-910493527013@kernel.org>
- <aMv9XRq_sAQbQwjI@willie-the-truck>
- <aMwtdtRHT7oHhYLf@willie-the-truck>
+	s=arc-20240116; t=1758225501; c=relaxed/simple;
+	bh=hrTKVKMuOKbLilzSA+VEl+XSSF0VIocT2KvCzkuRjcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iOuqnDzSzpuJaC2/tq+y/FVG5rKb8WjzIN7s8k88xlpScA+wM1je5TtdYOY4AuOLC3ckdBwc2YsTrIZzjCCzDtgBCrLnz9bA4sWYvwoCUfPxAVZx+VBynuY8+SXJO83FCAmd7tB8gxpxztlxZvROovMR53HusW/fkMh9wId1MPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hNlT1dRM; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b0e7bc49263so238069466b.1
+        for <linux-api@vger.kernel.org>; Thu, 18 Sep 2025 12:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758225496; x=1758830296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
+        b=hNlT1dRMFhV3nNEO8OCPXfEiZjy7HadMXu4vRgp3Ipj8QW/pTjkxFRxYZEa69pe80J
+         R5WZR6uBlmeIbF+VQhBUi3wnRJuDxh3ZSYPm2HtEzHdmYgYFzaLOTkBNZpxqwUsXFCi5
+         xh48TC/I8mOWxP2I4D6qthvi1wAkVJadHw9+Q6aETqCdcS+tzshGNcO1qODnTVXpUxR3
+         DzGuLf7FRf7YNLECrqzb9ayMBLdTqRvBk0ivmzKueGmRkmu1GRq1Uqn5Uc0kg8EqXgPJ
+         5wCj9Urjk2M3jfgX+oYXsBuDx3I+zNM2GW5fMn6rB/kk6qlx/ZV55XBxceRxo80pIEfP
+         n68Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758225496; x=1758830296;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
+        b=fNsSvXGw+BI/KvMy3r8flZVx6vaUEFJs9KA2B69iXLpd1+tIuHuJviIGJ2WHdOVyyC
+         TzoOX6c7eLAEF04EGfNYnAn9YrKeNr6GTRP131CB7TkJ5AfoZhrWhzkq1OdWzxaMUH3x
+         +fw6l0nORBN1bJnTJ9wRzurKsKNszibaf9YM84LYuMwcOBf+zLDxlsWPsOofciQWZpXW
+         JVQxrql+llQqcoyVjHvzzNUjmb/fvTUjR3X1RToFldedonPGqqFu94zvZoiu//QqDVvb
+         7rEmPLXzkfd9MtXogzUnoshKY3M1/AjPQD9FQMjR47bxFSkwHw8NLZYeUihENg6Mmn+F
+         Xi8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWyxSVFdPrxYpiARqvHdQtELdinKB9wHuwlj+//qJoccKHSkKqhBTbVN/EQx7QjeXPRWXL5+Fo6S+k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhX32TptyZwNRBMLPB6R/ZeIl7gKqBE7Xw/8WF+YitE1knrr+A
+	8E1CCVN6ZINcm3uJZEbcWBgagdEp6HK8vYwDY6SDoyDOsf7SiQLvS4tV
+X-Gm-Gg: ASbGnctVTn2hHOsNpP/hItGwXebZo4EJuIlKfqRTyct4cccP9/32Rtap3ydGYblh26x
+	52i/fOeAX3in1Frx6Pf0lwe0MnHtmuabgKKanqdn7d5nFPq3PH+gRnlzB49kLSOSGkTMyn5NukB
+	C/zQRZtQ3X7VnR+2epHz6/3FaUsuGzVetoGyK06cyYa5eDLrPK0RV6G/fqD4WB/6upjbsHhv871
+	8mh00641A0vXt6AkVLh5Yad5Zg9F6AxUfjyoTxc+YfZlDjKVDn9TgfFteXfSf930YzJAjRJHupV
+	Z09eBmuOytr6b2vubJ9elzzDauzIqOu4GXAhZkISl5f5r0aLCQiTJY0yhNYNt+SeHMemJYuLX8Y
+	iD4YQBRdp5dt807iX+PRXVL3ZA+Yxe8Kw7orh1Q==
+X-Google-Smtp-Source: AGHT+IH2NBu6L+bASXNqg9sJUcZ42MFCB2aqzEFiqoDEW6um54A4CtHcJnO37auTgFbi6nwycKDm8A==
+X-Received: by 2002:a17:907:a089:b0:b19:969a:86 with SMTP id a640c23a62f3a-b24f35aa177mr45885966b.37.1758225496090;
+        Thu, 18 Sep 2025 12:58:16 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b1fd1101c44sm264530466b.82.2025.09.18.12.58.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 12:58:15 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: nschichan@freebox.fr
+Cc: akpm@linux-foundation.org,
+	andy.shevchenko@gmail.com,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	cyphar@cyphar.com,
+	devicetree@vger.kernel.org,
+	ecurtin@redhat.com,
+	email2tema@gmail.com,
+	graf@amazon.com,
+	gregkh@linuxfoundation.org,
+	hca@linux.ibm.com,
+	hch@lst.de,
+	hsiangkao@linux.alibaba.com,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	julian.stecklina@cyberus-technology.de,
+	kees@kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev,
+	mcgrof@kernel.org,
+	mingo@redhat.com,
+	monstr@monstr.eu,
+	mzxreary@0pointer.de,
+	patches@lists.linux.dev,
+	rob@landley.net,
+	safinaskar@gmail.com,
+	sparclinux@vger.kernel.org,
+	thomas.weissschuh@linutronix.de,
+	thorsten.blum@linux.dev,
+	torvalds@linux-foundation.org,
+	tytso@mit.edu,
+	viro@zeniv.linux.org.uk,
+	x86@kernel.org
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+Date: Thu, 18 Sep 2025 22:58:06 +0300
+Message-ID: <20250918195806.6337-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250918152830.438554-1-nschichan@freebox.fr>
+References: <20250918152830.438554-1-nschichan@freebox.fr>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XiyciUMuZFVOfLZH"
-Content-Disposition: inline
-In-Reply-To: <aMwtdtRHT7oHhYLf@willie-the-truck>
-X-Cookie: Victory uber allies!
+Content-Transfer-Encoding: 8bit
 
+> When booting with root=/dev/ram0 in the kernel commandline,
+> handle_initrd() where the deprecation message resides is never called,
+> which is rather unfortunate (init/do_mounts_initrd.c):
 
---XiyciUMuZFVOfLZH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yes, this is unfortunate.
 
-On Thu, Sep 18, 2025 at 05:04:06PM +0100, Will Deacon wrote:
-> On Thu, Sep 18, 2025 at 01:38:53PM +0100, Will Deacon wrote:
+I personally still think that initrd should be removed.
 
-> > It would be great if Christian could give this the thumbs up, given that
-> > it changes clone3(). I think the architecture parts are all ready at this
-> > point.
+I suggest using workaround I described in cover letter.
 
-> ah, I may have spoken too soon :/
+Also, for unknown reasons I didn't get your letter in my inbox.
+(Not even in spam folder.) I ocasionally found it on lore.kernel.org .
 
-Well, there's also the fact that this is based on the vfs tree (or would
-have conflicts with it).
-
-> Catalin pointed me at this glibc thread:
-
-> https://marc.info/?l=glibc-alpha&m=175811917427562
-
-> which sounds like they're not entirely on board with the new ABI.
-
-I think we're getting there on that one, and the main thing they're
-asking for is the ability to reuse the GCS after the thread has exited
-which would be orthogonal to this stuff.  I see Catalin replied on the
-glibc side so I'll direct most of my reply there.
-
-It would be really helpful to get a clear idea of where we're going with
-this series, it's been almost landed for an incredibly long time and
-having it in that state is getting disruptive to doing cleanup to try to
-factor code out of the arches especially with the RISC-V stuff also up
-in the air.  I do think the issues glibc have with this are orthogonal
-to the changes here so hopefully this can go as is.
-
---XiyciUMuZFVOfLZH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjMR7EACgkQJNaLcl1U
-h9D1nQf/S4za9m0EXxhhOOufFtQwWatoF5T4w9ZO30g2u5/wuQAFZeTtARtrFj4I
-Xm26dM7BBBElSdWXIWVxzROT10yXZTN0Hl50o6jhgohNXiV+Bf0dpAR+rGHp7sDh
-0/TpMZMKikrTMhN89mQoHzvIktHJW1v14t3eUTrE/GZaPMdoIg1hIGY00tEVSArg
-nraXjUQMb4uSswTMGJWAzMIiQWQfJ7A+7Yj7Zu14xD+cY55s+xVeAQ2HmRufGpkB
-k7LBGaC7bzkqn7QkqMbwF558gcSC3Nl0WEvzndmxg4i9aN+Xafl4+kQVogguI39S
-UfARm8uNUebl5zS2zY71r5esgHQCXA==
-=Qji3
------END PGP SIGNATURE-----
-
---XiyciUMuZFVOfLZH--
+-- 
+Askar Safin
 
