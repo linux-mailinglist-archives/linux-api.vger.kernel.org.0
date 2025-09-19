@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-4885-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4886-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10481B8A7EA
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 18:05:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50269B8A8DE
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 18:24:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BD897BB1A6
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 16:03:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C1C05A753E
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 16:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1316C319859;
-	Fri, 19 Sep 2025 16:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E5431E884;
+	Fri, 19 Sep 2025 16:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPBv3DG/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WxRWiL3z"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DC623C4F3;
-	Fri, 19 Sep 2025 16:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DABB223DE7;
+	Fri, 19 Sep 2025 16:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758297906; cv=none; b=akWUe0npdfMec2LBnpr2V3xGJpPojR/CdKaFQ8XlT2xmOxFCDjt5v1rDyDZIkI/XDaKF/ZtO78gEGiMkLNguD+/IZ9352DGhxExcGzwGrxGRDJpVRGZKeVoEE/Q/g97TL38p/QJe8kTdNPijR+W1b01xKT+UzlmeuHauTp0b4Q4=
+	t=1758299062; cv=none; b=bBEWdWOfHFLNLSIE413xCpk/wsYWJKNx3hpE24xM0SYotq00EASsVeJPiK+yDhP5FfRIPBD835huMnxt35fue4h193GTzEtleMmDEmVQEx7MqXjf6HdowP3SUuoFEmL0ihTFWJb68F9q4F4jJMzHrYVD+0Q+JQrrj0V8aXmaI1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758297906; c=relaxed/simple;
-	bh=PMtrmBAyu9kJj4TQ0/QkV3dgRzc5oA5tHBt+BRc/7l0=;
+	s=arc-20240116; t=1758299062; c=relaxed/simple;
+	bh=SHEH22RcaVF0+MY0PIn5jpD+x87RtQxXb0LMN5IwLzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIgwKqRvLXKDOupIAZp0NgRtD3CF1etFLbM8NVn3pho3U2WG8/wNjwTBvDuveOJd8sY2Q3JhN3Fgi8j2lMnLbH9y0ZSixSFjioRZcRQ6OGKmvz/zq8geytKyomkRbsKexOOjLuVQyeOXZkxypp+6IbR8bC9tdAF7j9zvm68GkKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPBv3DG/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC783C4CEF0;
-	Fri, 19 Sep 2025 16:05:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4r25a7hocNURC+j/eUi41Bv8SNs1APYthpFbwY95CCxvSGoqbTh/ywWaD3qmDwbM72Fnfbe7FhlxD5+2o7tplbiwc0q6KA4UUsMd0y+Bn6GnJikxXm+5XiDn0Udcmeg3QGBxtBcpJ2y8nszljsMqbR6pDs+c/PmzO6rH4b7Sqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WxRWiL3z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1DCC4CEF0;
+	Fri, 19 Sep 2025 16:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758297905;
-	bh=PMtrmBAyu9kJj4TQ0/QkV3dgRzc5oA5tHBt+BRc/7l0=;
+	s=k20201202; t=1758299061;
+	bh=SHEH22RcaVF0+MY0PIn5jpD+x87RtQxXb0LMN5IwLzw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KPBv3DG/SEJExSAlUbMHF1lQpLovcWtBuMrKsfp7T7A0xn5bqwAPjBLgTowk32Mt5
-	 xZUSGMSXvWiL+MUvg6zW/679WPfzkbD3N5DYZk/tPg/woG6dTTtazjF6TSGijniD/G
-	 kPVAgvaoiCQZ1/4odPLFllRnB6jvHOP0De7C9+JgpYThKgXu18ef3sQihx9Ux8AmWa
-	 vt1mSv2jUG2QU7dTtg2yT0quogL2EDXNPuYgg2XceEpEacYzDEOtjNs8lgjIDBJLrO
-	 VXtaEWFMAovdRGVT7vPSEU6zPb2z4e0HA+DJ4+hLzBYBjsXKD2v2df3LryiVqlycHC
-	 IRUYBFZUjUUhg==
-Date: Fri, 19 Sep 2025 18:04:57 +0200
+	b=WxRWiL3z1Hm9V6sMZnSdhEJGiyDnw7VINWklZvidV6e4e7DYCMBXsX3Gxmq40V+kt
+	 5RuAXUEGnMCUvC8ThR1f61GYGQJ7cpHL9+UsbQvyrh5Go9MW3HJ6VI75HZdmAXkXB6
+	 H1m4z8p8ipSI97DYHTwX64JuI5W/UIA5BNq7xXIH7dBctl98ogC0bmKNl9+w+bM8pJ
+	 WII+pBa6mtxlNYDhPr2ueRtb73Dk1yHKuifj0nnzgt8c+ltjVnfaaUrR0jlMy90rkj
+	 5bvFLoOhy7wmfnF9bKtqSy+Ql7cEcwkJe8SyN2AKeYZlgTwHSRy0nYln7xpDE0pH/n
+	 g1RmztOiqeWQA==
+Date: Fri, 19 Sep 2025 18:24:09 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Aleksa Sarai <cyphar@cyphar.com>
 Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
@@ -49,11 +49,10 @@ Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 01/10] man/man2/mount_setattr.2: move mount_attr
- struct to mount_attr(2type)
-Message-ID: <r5fqew7m7vfg2mp5mgivxeghotymhzxpdnducp6jejxlbkaphw@7gi63phcgpfd>
+Subject: Re: [PATCH v4 02/10] man/man2/fsopen.2: document "new" mount API
+Message-ID: <zrifsd6vqj6ve25uipyeteuztncgwtzfmfnfsxhcjwcnxf2wen@xjx3y2g77uin>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-1-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-2-1261201ab562@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -61,12 +60,12 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gsbr7iv2jhmeqccn"
+	protocol="application/pgp-signature"; boundary="fk2sxccfotbwat6m"
 Content-Disposition: inline
-In-Reply-To: <20250919-new-mount-api-v4-1-1261201ab562@cyphar.com>
+In-Reply-To: <20250919-new-mount-api-v4-2-1261201ab562@cyphar.com>
 
 
---gsbr7iv2jhmeqccn
+--fk2sxccfotbwat6m
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -77,162 +76,510 @@ Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 01/10] man/man2/mount_setattr.2: move mount_attr
- struct to mount_attr(2type)
+Subject: Re: [PATCH v4 02/10] man/man2/fsopen.2: document "new" mount API
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-1-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-2-1261201ab562@cyphar.com>
 MIME-Version: 1.0
-In-Reply-To: <20250919-new-mount-api-v4-1-1261201ab562@cyphar.com>
-
-On Fri, Sep 19, 2025 at 11:59:42AM +1000, Aleksa Sarai wrote:
-> As with open_how(2type), it makes sense to move this to a separate man
-> page.  In addition, future man pages added in this patchset will want to
-> reference mount_attr(2type).
->=20
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+In-Reply-To: <20250919-new-mount-api-v4-2-1261201ab562@cyphar.com>
 
 Hi Aleksa,
 
-Thanks!  I've applied this patch.
+On Fri, Sep 19, 2025 at 11:59:43AM +1000, Aleksa Sarai wrote:
+> This is loosely based on the original documentation written by David
+> Howells and later maintained by Christian Brauner, but has been
+> rewritten to be more from a user perspective (as well as fixing a few
+> critical mistakes).
+>=20
+> Co-authored-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Co-authored-by: Christian Brauner <brauner@kernel.org>
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
+>  man/man2/fsopen.2 | 384 ++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 384 insertions(+)
+>=20
+> diff --git a/man/man2/fsopen.2 b/man/man2/fsopen.2
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7cdbeac7d64b7e5c969dee619=
+a039ec947d1e981
+> --- /dev/null
+> +++ b/man/man2/fsopen.2
+> @@ -0,0 +1,384 @@
+> +.\" Copyright, the authors of the Linux man-pages project
+> +.\"
+> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> +.\"
+> +.TH fsopen 2 (date) "Linux man-pages (unreleased)"
+> +.SH NAME
+> +fsopen \- create a new filesystem context
+> +.SH LIBRARY
+> +Standard C library
+> +.RI ( libc ,\~ \-lc )
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <sys/mount.h>
+> +.P
+> +.BI "int fsopen(const char *" fsname ", unsigned int " flags );
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR fsopen ()
+> +system call is part of
+> +the suite of file descriptor based mount facilities in Linux.
+
+Minor nitpick (I can amend that; no worries):
+
+Because 'file-descriptor-based' works as a single modifier of
+facilities, it goes with hyphens.
+
+> +.P
+> +.BR fsopen ()
+> +creates a blank filesystem configuration context within the kernel
+> +for the filesystem named by
+> +.I fsname
+> +and places it into creation mode.
+> +A new file descriptor
+> +associated with the filesystem configuration context
+> +is then returned.
+> +The calling process must have the
+> +.B \%CAP_SYS_ADMIN
+> +capability in order to create a new filesystem configuration context.
+> +.P
+> +A filesystem configuration context is
+> +an in-kernel representation of a pending transaction,
+> +containing a set of configuration parameters that are to be applied
+> +when creating a new instance of a filesystem
+> +(or modifying the configuration of an existing filesystem instance,
+> +such as when using
+> +.BR fspick (2)).
+> +.P
+> +After obtaining a filesystem configuration context with
+> +.BR fsopen (),
+> +the general workflow for operating on the context looks like the followi=
+ng:
+> +.IP (1) 5
+> +Pass the filesystem context file descriptor to
+> +.BR fsconfig (2)
+> +to specify any desired filesystem parameters.
+> +This may be done as many times as necessary.
+> +.IP (2)
+> +Pass the same filesystem context file descriptor to
+> +.BR fsconfig (2)
+> +with
+> +.B \%FSCONFIG_CMD_CREATE
+> +to create an instance of the configured filesystem.
+> +.IP (3)
+> +Pass the same filesystem context file descriptor to
+> +.BR fsmount (2)
+> +to create a new detached mount object for
+> +the root of the filesystem instance,
+> +which is then attached to a new file descriptor.
+> +(This also places the filesystem context file descriptor into
+> +reconfiguration mode,
+> +similar to the mode produced by
+> +.BR fspick (2).)
+> +Once a mount object has been created with
+> +.BR fsmount (2),
+> +the filesystem context file descriptor can be safely closed.
+> +.IP (4)
+> +Now that a mount object has been created,
+> +you may
+> +.RS
+> +.IP (4.1) 7
+> +use the detached mount object file descriptor as a
+> +.I dirfd
+> +argument to "*at()" system calls; and/or
+> +.IP (4.2) 7
+
+I'll paste here the formatted part of this page:
+
+        (4)  Now that a mount object has been created, you may
+=20
+             (4.1)  use the detached mount object file descrip=E2=80=90
+                    tor as a dirfd argument to "*at()" system
+                    calls; and/or
+=20
+             (4.2)  attach the mount object to a mount point by
+                    passing the mount object file descriptor to
+                    move_mount(2).  This will also prevent the
+                    mount object from being unmounted and de=E2=80=90
+                    stroyed when the mount object file descrip=E2=80=90
+                    tor is closed.
+
+             The mount object file descriptor will remain asso=E2=80=90
+             ciated with the mount object even after doing the
+             above operations, so you may repeatedly use the
+             mount object file descriptor with move_mount(2)
+             and/or "*at()" system calls as many times as neces=E2=80=90
+             sary.
+
+That sublist seems to be an unordered one.  I think we should use
+a bullet list for those items (the outer list 1,2,3,4 is okay as is).
+
+       Bullet lists
+              Elements are preceded by bullet symbols  (\[bu]).
+              Anything  that  doesn't  fit elsewhere is usually
+              covered by this type of list.
+
+> +attach the mount object to a mount point
+> +by passing the mount object file descriptor to
+> +.BR move_mount (2).
+> +This will also prevent the mount object from
+> +being unmounted and destroyed when
+> +the mount object file descriptor is closed.
+> +.RE
+> +.IP
+> +The mount object file descriptor will
+> +remain associated with the mount object
+> +even after doing the above operations,
+> +so you may repeatedly use the mount object file descriptor with
+> +.BR move_mount (2)
+> +and/or "*at()" system calls
+> +as many times as necessary.
+> +.P
+> +A filesystem context will move between different modes
+> +throughout its lifecycle
+> +(such as the creation phase
+> +when created with
+> +.BR fsopen (),
+> +the reconfiguration phase
+> +when an existing filesystem instance is selected with
+> +.BR fspick (2),
+> +and the intermediate "awaiting-mount" phase
+> +.\" FS_CONTEXT_AWAITING_MOUNT is the term the kernel uses for this.
+> +between
+> +.BR \%FSCONFIG_CMD_CREATE
+> +and
+> +.BR fsmount (2)),
+> +which has an impact on
+> +what operations are permitted on the filesystem context.
+> +.P
+> +The file descriptor returned by
+> +.BR fsopen ()
+> +also acts as a channel for filesystem drivers to
+> +provide more comprehensive diagnostic information
+> +than is normally provided through the standard
+> +.BR errno (3)
+> +interface for system calls.
+> +If an error occurs at any time during the workflow mentioned above,
+> +calling
+> +.BR read (2)
+> +on the filesystem context file descriptor
+> +will retrieve any ancillary information about the encountered errors.
+> +(See the "Message retrieval interface" section
+> +for more details on the message format.)
+> +.P
+> +.I flags
+> +can be used to control aspects of
+> +the creation of the filesystem configuration context file descriptor.
+> +A value for
+> +.I flags
+> +is constructed by bitwise ORing
+> +zero or more of the following constants:
+> +.RS
+> +.TP
+> +.B FSOPEN_CLOEXEC
+> +Set the close-on-exec
+> +.RB ( FD_CLOEXEC )
+> +flag on the new file descriptor.
+> +See the description of the
+> +.B O_CLOEXEC
+> +flag in
+> +.BR open (2)
+> +for reasons why this may be useful.
+> +.RE
+> +.P
+> +A list of filesystems supported by the running kernel
+> +(and thus a list of valid values for
+> +.IR fsname )
+> +can be obtained from
+> +.IR /proc/filesystems .
+> +(See also
+> +.BR proc_filesystems (5).)
+> +.SS Message retrieval interface
+> +When doing operations on a filesystem configuration context,
+> +the filesystem driver may choose to provide
+> +ancillary information to userspace
+> +in the form of message strings.
+> +.P
+> +The filesystem context file descriptors returned by
+> +.BR fsopen ()
+> +and
+> +.BR fspick (2)
+> +may be queried for message strings at any time by calling
+> +.BR read (2)
+> +on the file descriptor.
+> +Each call to
+> +.BR read (2)
+> +will return a single message,
+> +prefixed to indicate its class:
+> +.RS
+> +.TP
+> +\fBe\fP <\fImessage\fP>
+
+We don't use '<' and '>' for indicating variable parts.  We already use
+italics for that.  The reason to avoid the '<' and '>' is that it is
+confusing: it is often unclear if the '<' are literal or placeholders.
+
+We only use '<' when they're literal.
+
+I suspect your want
+
+	.BI e\~ message
+
+BTW, I'm assuming there's one space between the letter and the message,
+and there are no literal '<'/'>', right?
 
 
 Have a lovely day!
 Alex
 
-> ---
->  man/man2/mount_setattr.2      | 17 ++++--------
->  man/man2type/mount_attr.2type | 61 +++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 66 insertions(+), 12 deletions(-)
->=20
-> diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-> index 586633f48e894bf8f2823aa7755c96adcddea6a6..4b55f6d2e09d00d9bc4b3a085=
-f310b1b459f34e8 100644
-> --- a/man/man2/mount_setattr.2
-> +++ b/man/man2/mount_setattr.2
-> @@ -114,18 +114,11 @@ .SH DESCRIPTION
->  .I attr
->  argument of
->  .BR mount_setattr ()
-> -is a structure of the following form:
-> -.P
-> -.in +4n
-> -.EX
-> -struct mount_attr {
-> -    __u64 attr_set;     /* Mount properties to set */
-> -    __u64 attr_clr;     /* Mount properties to clear */
-> -    __u64 propagation;  /* Mount propagation type */
-> -    __u64 userns_fd;    /* User namespace file descriptor */
-> -};
-> -.EE
-> -.in
-> +is a pointer to a
-> +.I mount_attr
-> +structure,
-> +described in
-> +.BR mount_attr (2type).
->  .P
->  The
->  .I attr_set
-> diff --git a/man/man2type/mount_attr.2type b/man/man2type/mount_attr.2type
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f5c4f48be46ec1e6c0d3a211b=
-6724a1e95311a41
-> --- /dev/null
-> +++ b/man/man2type/mount_attr.2type
-> @@ -0,0 +1,61 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH mount_attr 2type (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +mount_attr \- what mount properties to set and clear
-> +.SH LIBRARY
-> +Linux kernel headers
-> +.SH SYNOPSIS
-> +.EX
-> +.B #include <sys/mount.h>
+> +An error message was logged.
+> +This is usually associated with an error being returned
+> +from the corresponding system call which triggered this message.
+> +.TP
+> +\fBw\fP <\fImessage\fP>
+> +A warning message was logged.
+> +.TP
+> +\fBi\fP <\fImessage\fP>
+> +An informational message was logged.
+> +.RE
 > +.P
-> +.B struct mount_attr {
-> +.BR "    u64 attr_set;" "     /* Mount properties to set */"
-> +.BR "    u64 attr_clr;" "     /* Mount properties to clear */"
-> +.BR "    u64 propagation;" "  /* Mount propagation type */"
-> +.BR "    u64 userns_fd;" "    /* User namespace file descriptor */"
-> +    /* ... */
-> +.B };
-> +.EE
-> +.SH DESCRIPTION
-> +Specifies which mount properties should be changed with
-> +.BR mount_setattr (2).
+> +Messages are removed from the queue as they are read.
+> +Note that the message queue has limited depth,
+> +so it is possible for messages to get lost.
+> +If there are no messages in the message queue,
+> +.B read(2)
+> +will return \-1 and
+> +.I errno
+> +will be set to
+> +.BR \%ENODATA .
+> +If the
+> +.I buf
+> +argument to
+> +.BR read (2)
+> +is not large enough to contain the entire message,
+> +.BR read (2)
+> +will return \-1 and
+> +.I errno
+> +will be set to
+> +.BR \%EMSGSIZE .
+> +(See BUGS.)
 > +.P
-> +The fields are as follows:
+> +If there are multiple filesystem contexts
+> +referencing the same filesystem instance
+> +(such as if you call
+> +.BR fspick (2)
+> +multiple times for the same mount),
+> +each one gets its own independent message queue.
+> +This does not apply to multiple file descriptors that are
+> +tied to the same underlying open file description
+> +(such as those created with
+> +.BR dup (2)).
+> +.P
+> +Message strings will usually be prefixed by
+> +the name of the filesystem or kernel subsystem
+> +that logged the message,
+> +though this may not always be the case.
+> +See the Linux kernel source code for details.
+> +.SH RETURN VALUE
+> +On success, a new file descriptor is returned.
+> +On error, \-1 is returned, and
+> +.I errno
+> +is set to indicate the error.
+> +.SH ERRORS
 > +.TP
-> +.I .attr_set
-> +This field specifies which
-> +.BI MOUNT_ATTR_ *
-> +attribute flags to set.
+> +.B EFAULT
+> +.I fsname
+> +is NULL
+> +or a pointer to a location
+> +outside the calling process's accessible address space.
 > +.TP
-> +.I .attr_clr
-> +This field specifies which
-> +.BI MOUNT_ATTR_ *
-> +attribute flags to clear.
+> +.B EINVAL
+> +.I flags
+> +had an invalid flag set.
 > +.TP
-> +.I .propagation
-> +This field specifies what mount propagation will be applied.
-> +The valid values of this field are the same propagation types described =
-in
-> +.BR mount_namespaces (7).
+> +.B EMFILE
+> +The calling process has too many open files to create more.
 > +.TP
-> +.I .userns_fd
-> +This field specifies a file descriptor that indicates which user namespa=
-ce to
-> +use as a reference for ID-mapped mounts with
-> +.BR MOUNT_ATTR_IDMAP .
+> +.B ENFILE
+> +The system has too many open files to create more.
+> +.TP
+> +.B ENODEV
+> +The filesystem named by
+> +.I fsname
+> +is not supported by the kernel.
+> +.TP
+> +.B ENOMEM
+> +The kernel could not allocate sufficient memory to complete the operatio=
+n.
+> +.TP
+> +.B EPERM
+> +The calling process does not have the required
+> +.B \%CAP_SYS_ADMIN
+> +capability.
 > +.SH STANDARDS
 > +Linux.
 > +.SH HISTORY
-> +Linux 5.12.
-> +.\" commit 2a1867219c7b27f928e2545782b86daaf9ad50bd
+> +Linux 5.2.
+> +.\" commit 24dcb3d90a1f67fe08c68a004af37df059d74005
+> +.\" commit 400913252d09f9cfb8cce33daee43167921fc343
 > +glibc 2.36.
+> +.SH BUGS
+> +.SS Message retrieval interface and \fB\%EMSGSIZE\fP
+> +As described in the "Message retrieval interface" subsection above,
+> +calling
+> +.BR read (2)
+> +with too small a buffer to contain
+> +the next pending message in the message queue
+> +for the filesystem configuration context
+> +will cause
+> +.BR read (2)
+> +to return \-1 and set
+> +.BR errno (3)
+> +to
+> +.BR \%EMSGSIZE .
 > +.P
-> +Extra fields may be appended to the structure,
-> +with a zero value in a new field resulting in
-> +the kernel behaving as though that extension field was not present.
-> +Therefore, a user
-> +.I must
-> +zero-fill this structure on initialization.
+> +However,
+> +this failed operation still
+> +consumes the message from the message queue.
+> +This effectively discards the message silently,
+> +as no data is copied into the
+> +.BR read (2)
+> +buffer.
+> +.P
+> +Programs should take care to ensure that
+> +their buffers are sufficiently large
+> +to contain any reasonable message string,
+> +in order to avoid silently losing valuable diagnostic information.
+> +.\" Aleksa Sarai
+> +.\"   This unfortunate behaviour has existed since this feature was merg=
+ed, but
+> +.\"   I have sent a patchset which will finally fix it.
+> +.\"   <https://lore.kernel.org/r/20250807-fscontext-log-cleanups-v3-1-8d=
+91d6242dc3@cyphar.com/>
+> +.SH EXAMPLES
+> +To illustrate the workflow for creating a new mount,
+> +the following is an example of how to mount an
+> +.BR ext4 (5)
+> +filesystem stored on
+> +.I /dev/sdb1
+> +onto
+> +.IR /mnt .
+> +.P
+> +.in +4n
+> +.EX
+> +int fsfd, mntfd;
+> +\&
+> +fsfd =3D fsopen("ext4", FSOPEN_CLOEXEC);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
+> +fsconfig(fsfd, FSCONFIG_SET_PATH, "source", "/dev/sdb1", AT_FDCWD);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "noatime", NULL, 0);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "acl", NULL, 0);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "user_xattr", NULL, 0);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "iversion", NULL, 0)
+> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_RELATIME);
+> +move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> +.EE
+> +.in
+> +.P
+> +First,
+> +an ext4 configuration context is created and attached to the file descri=
+ptor
+> +.IR fsfd .
+> +Then, a series of parameters
+> +(such as the source of the filesystem)
+> +are provided using
+> +.BR fsconfig (2),
+> +followed by the filesystem instance being created with
+> +.BR \%FSCONFIG_CMD_CREATE .
+> +.BR fsmount (2)
+> +is then used to create a new mount object attached to the file descriptor
+> +.IR mntfd ,
+> +which is then attached to the intended mount point using
+> +.BR move_mount (2).
+> +.P
+> +The above procedure is functionally equivalent to
+> +the following mount operation using
+> +.BR mount (2):
+> +.P
+> +.in +4n
+> +.EX
+> +mount("/dev/sdb1", "/mnt", "ext4", MS_RELATIME,
+> +      "ro,noatime,acl,user_xattr,iversion");
+> +.EE
+> +.in
+> +.P
+> +And here's an example of creating a mount object
+> +of an NFS server share
+> +and setting a Smack security module label.
+> +However, instead of attaching it to a mount point,
+> +the program uses the mount object directly
+> +to open a file from the NFS share.
+> +.P
+> +.in +4n
+> +.EX
+> +int fsfd, mntfd, fd;
+> +\&
+> +fsfd =3D fsopen("nfs", 0);
+> +fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "example.com/pub/linux", 0=
+);
+> +fsconfig(fsfd, FSCONFIG_SET_STRING, "nfsvers", "3", 0);
+> +fsconfig(fsfd, FSCONFIG_SET_STRING, "rsize", "65536", 0);
+> +fsconfig(fsfd, FSCONFIG_SET_STRING, "wsize", "65536", 0);
+> +fsconfig(fsfd, FSCONFIG_SET_STRING, "smackfsdef", "foolabel", 0);
+> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "rdma", NULL, 0);
+> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+> +mntfd =3D fsmount(fsfd, 0, MOUNT_ATTR_NODEV);
+> +fd =3D openat(mntfd, "src/linux-5.2.tar.xz", O_RDONLY);
+> +.EE
+> +.in
+> +.P
+> +Unlike the previous example,
+> +this operation has no trivial equivalent with
+> +.BR mount (2),
+> +as it was not previously possible to create a mount object
+> +that is not attached to any mount point.
 > +.SH SEE ALSO
-> +.BR mount_setattr (2)
+> +.BR fsconfig (2),
+> +.BR fsmount (2),
+> +.BR fspick (2),
+> +.BR mount (2),
+> +.BR mount_setattr (2),
+> +.BR move_mount (2),
+> +.BR open_tree (2),
+> +.BR mount_namespaces (7)
 >=20
 > --=20
 > 2.51.0
->=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 Use port 80 (that is, <...:80/>).
 
---gsbr7iv2jhmeqccn
+--fk2sxccfotbwat6m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjNfygACgkQ64mZXMKQ
-wqmTIQ/+NHy8YgPxvcmYQgOyqfDHhQiCy83I0LH5TUHrfK7J53AanIHUvdESOaMS
-sciSRRcfcxU9EOO/GNR2tAAyRxYTeYfYM2jXihF0Vvk57+dVHir9oEp7AnrS9pP7
-EA3V7xHskyvNJLfNWnQClSW5l6y6+QdzghOO5Vp3BGi/SjtSfpFcKNWFUUIFID6S
-pNRw9wjRcbQ/MC7AswhXFwbvCgNIEiNCAf6K9uCt8gcr9R1Pg06z31K92BrOQrSg
-dGax1hYFDymM1jRRr98dkF6GkQ/vtxepMlRFlu2F7URNIN+G5cT2yPiJiXCrY5Kx
-oLmM1PmFX02C6uTwTlXunRyI11p7dyy37OKn8fXipJNcIDwxGn/8lsa2beNyLMJu
-n5ZH4L33pZEw2gm1nGz/tfcrOzX9LSnz6RODGxOBYSil3AYT5QC1NeOreCLBH4eu
-kSdPSWyDhd2wSJvOmpcU7ILqgx5lyZnaWAJ1ZV0ECYYlc+f3A40KAqly/838+/8a
-yuyYbh7ZPSzOoh5EhV20O2cutiRYVO1QQOkxppvr1i3YLwYB514e+ojrQWiO5man
-xqlm3GfPBgbq41V2w7V5oxX5xzcQy3glKqEy3ct5/UThJe1+JwAQSAOS1NFqTElj
-RmqqSIB0pPBSYhQ01qYVM9/4rAr20zFbP+ezWaWBMbujmwNT/SI=
-=JcSz
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjNg6MACgkQ64mZXMKQ
+wqnJ2xAAo2WI6i6gCc/BKqjuo+J/UEDWIQch0hww8FwlY7VWE2aU+haQWaD9yGgU
+OUbx0uEcyV6ikYFTuMgXNSo15Kn3jycayDOBZZ8+Y9+f/DWghq5P4ZzhnThnqt7W
+8G9w3hUAEJtH4s7btKiUmgGlJXk5/DSaipMLyFc78OVvWTXaZDMUnlutSoOvwf51
+fkAxVbtTq2e7zKBlj54Gdh1OEGAz/a2JScvef310NQZKftoZnbaQQlQUr2MOQUGz
+IzEVbhh+4gSCbkGFO4rvlsEHxSDk+OLdNLdt0Kc+W9W90bufL4B/AtMdO15m2DQc
+BDbMrvIgt6rFQtw63iirhj/kQenbH2Bjy7piXSgyziv+qW+sZf3uEKAoN6NhDQCf
+2MuK9W6/oZbSJbhi852D8+9SbWLcg/K03x/vh5WUGaVdc0zre+apQbjSrtE3CS2Y
+JC7dx8cGxkWwlPovPOtryD8twOOyFOpgWiQjYcDxdNxhHvBqwTRQFFB5D2EOUEnJ
+CRqqitBC/SL4bjkXZJdp3VPdKaTmRUyn6lBZeJpaH2IDV3ZSk7By3WeQiNAYI/ix
+napBZpSZCHICQKTPFWThY+B4wl5iOdCF78nUT83EBNkbX0Yd6Ban2KYdPJv1Httn
+yGE9xSbfDKpySARskZpn0s+NbkGi86SyfgQkmsahgQ2lolU/dD0=
+=ceZc
 -----END PGP SIGNATURE-----
 
---gsbr7iv2jhmeqccn--
+--fk2sxccfotbwat6m--
 
