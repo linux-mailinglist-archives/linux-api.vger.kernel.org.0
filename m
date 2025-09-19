@@ -1,201 +1,147 @@
-Return-Path: <linux-api+bounces-4883-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4884-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D69DB896FD
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 14:24:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CBBB8A43D
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 17:25:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C9F5176FC7
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 12:24:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86DC617FA5C
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 15:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F361131197A;
-	Fri, 19 Sep 2025 12:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B90631960A;
+	Fri, 19 Sep 2025 15:25:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="KEG8D4RK"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="xbo3W1UF"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDA731079C;
-	Fri, 19 Sep 2025 12:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7BA3191A6
+	for <linux-api@vger.kernel.org>; Fri, 19 Sep 2025 15:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758284647; cv=none; b=M8exR3H1hCKCV9Lgv6JpMYpcD4/74jwTDUPr+rfwiKu/HJpComA6pV7ZBrAIa6CSSX/5QalQ3g9U8xddFNDgGZhcEz7UnbUtzGU5obhnaXRBDRRQ6n3jipJwTt9eQM57bNDgdQ7kg5WVZLaR5pB6+v/dXxammwQKDFWULzwjAHI=
+	t=1758295506; cv=none; b=TgUNmDTLJ67szeg9+fQfSaI878f3T6AKnmScWMsXR1hdxjfspFH9Qdn+4Ad1ffxla/EzOxQEz8Vky8zeLuTVC0EzufcsSA15g3AKN7qwKHDuR2pW807DYQ+gGShrXy68YgAEuxbIcFZ0dvg0ZTyCL39BhdoWvNw36zbOA7CXtIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758284647; c=relaxed/simple;
-	bh=48XYnCxrzuH16uBlEv1kRze0Jj/p7JOo3IlEZ/mmKos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2xH6VVSVlb94Q/2BMA2cSNFJPPHvHr4fP8GFti+fqjbgFNLuszvAJqq/6QVoGHdtKRgEATwCF96VWn+uYSTgblSyA/8wt+O0y2u2Y1ezjg222++LCQJMO7TNSLuxvaWiQD+LHAv0+Du8iA7GK6zTUyJcjdjpQ4usrDBN9t5IFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=KEG8D4RK; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cSsB95mHJz9tKf;
-	Fri, 19 Sep 2025 14:24:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1758284641;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rh6Z5Z0CEMmSPdcpAoas408EgFHWJGPGyj0yviBdFn8=;
-	b=KEG8D4RKebUI06Gm9mQZw9ngooUIOQAtlgV5Xkymn4K6M3Qho1aVrId6iVlFhAar/SaMGL
-	VX3VouqWmVxvMPTMX5p+YqdmvOnsRpzhvT5lWEislxA1c86w5XeVuGk0sJ7oIqRqHCtATc
-	fKDNyJjhNNBkEaAYYqwIJqBS0Umdg9fqc6/cL1A1WMV9LlFZyAcQbZhrn7CHxqmnR8GRtf
-	hS/Eg3ui1ZdYh8QEii5K2h7rbPmIY5zp5daGzXnnlsI2+zwJ/ILpfPHauz4nfVmWE8ZkDN
-	JnZZALSIBAqEGyAkUlH9N7qURGAVBoD18se7CX0VEnAZGcQjbSGb04Bsg1cbiQ==
-Date: Fri, 19 Sep 2025 22:23:47 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 10/10] man/man2/{fsconfig,mount_setattr}.2: add note
- about attribute-parameter distinction
-Message-ID: <2025-09-19-retro-married-traction-cinch-dgVzgj@cyphar.com>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-10-1261201ab562@cyphar.com>
+	s=arc-20240116; t=1758295506; c=relaxed/simple;
+	bh=tIBWHHOOKfm2qL1G0oNEg1lQ/EY8RTTkm2B9w+25Bvk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TLjiJLJuoHOndvuLIs2yo8Sea5MU5iKRPsLLNu5XcDFdhZMoZ4/iSx44O/s/F9JHssQDbme8GKWu+FK5CA4c/24jL4XL9bU3Eb/elCPwAH0jCbyv1/HYFZRhV19Lf6tck8feXqYdISgI6K+3Jpns0QnRF+A3XPb53N/UgI4QBkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=xbo3W1UF; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-57afc648b7dso342241e87.2
+        for <linux-api@vger.kernel.org>; Fri, 19 Sep 2025 08:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758295500; x=1758900300; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=xbo3W1UFpKFkZ1p3cmir9bHExoubmn+zN65uKZIOYM/VNr4k3So7pYfDI6mX/D9Xs7
+         tKrFxrKGsa1OUV4/BaJm81tBW61J4ZGYYxqxZFHL+2WJXFRTEp/mhXDIaLf+cQRcgUXe
+         AYqPNZvLbxLN1AyYo7ig5n8eVxO+iPi1huE+4hW6lV7MZkf7YHIdjHXfXdto2VLmATJZ
+         knqRg3MYiebrHRGL5TV4krfrv3EaVDwqo3YKPYYlEuRSeFOsywbR4G16hcwfzRVUvkmK
+         +8rrea1TuR59LvTS19HlGLqGt+kLHJ+F5+322OVOV6/84SIcgYqHnsi5cc3ulWFd4ja5
+         pnpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758295500; x=1758900300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=fsF1/tke9Z7RQ0lbDAzZ1Vu/lLP+wkAG3KsOOEjz8QV69aooNLhHDJ+q6S7TL7ovKP
+         nZ6NFI/ASCjXZGAWKJf7SsOuYMxYOkHl+gnPnLD06NdKbqJ2d37lkBD+hPk4CTenTIrT
+         Zre5kB0yQ0rNlVwSt0yNevpkGc+cUzmzJ+7tVe1S+/sGV2b8Bf2k8845LQwOYp/JDakM
+         BCO4xS5FWzLV/6Y7i99KSTlHrAeo6hzdTr271ai4+ZLcWsXRcPJOKHZFuwfTVp9xC/gy
+         dj9F9Dwk/j7AXDGgd74EAaR4kKIQrUYZz2qtvEY5MP/JmAUfDskOLdqJ6L3vORTZ/Q8e
+         dBYg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKMFv24ObVHx9zx7lo36DL3KEYkTb8DCRv9zCmIRbM5jz3fWYrK0cWRPotS+ntFn3haT6pWJveqOA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4cdJfyhADeSHLgcZygkG0puuNbLv5hLj6B1TIi00Xl0Ww/mvm
+	c4g9KWnTnF7aFwUqFm2r78awljs0XbvWfo6SxBXKSlHxznKhzMAOUK6TpAPsqlM+nOrwOA5CHTE
+	BLiv2GfUOurWUMMiahnrE3lwP2Mr65OioKnwGcXHFZg==
+X-Gm-Gg: ASbGncsZIXOoHiLqZfhNgJv2Vue8YsUSBC8xIHFqh16KUJBsWfI5NT5do5xfT3ORLFA
+	avxkrWCJvPCzBweAFt9/9FOU38JzpfK+Q3BsfBU7UFjusz8RXU6aXDo4McxcpmrcLRL4ExRuOz+
+	X5JR5Ct9Z4VlVOwiRuBEPIcsg0wtuKi3WWv5tfs7n4Ls6oOmHmTGqecxiK/bVWieXaLynMSzhP1
+	lUG0J7sRfa/w1Y=
+X-Google-Smtp-Source: AGHT+IHin4gQus9SrkFEog2pTedfunr2Ers950l0f82oxrEtfjemfexmsAorW/Dsqdjvay/GpFMt6pfW/hwC+qBHF14=
+X-Received: by 2002:a05:6512:2c0b:b0:571:b70b:7dbf with SMTP id
+ 2adb3069b0e04-579e2507c81mr1455897e87.17.1758295499599; Fri, 19 Sep 2025
+ 08:24:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="esn6txawyawfxu7d"
-Content-Disposition: inline
-In-Reply-To: <20250919-new-mount-api-v4-10-1261201ab562@cyphar.com>
+References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
+In-Reply-To: <20250918195806.6337-1-safinaskar@gmail.com>
+From: Nicolas Schichan <nschichan@freebox.fr>
+Date: Fri, 19 Sep 2025 17:24:48 +0200
+X-Gm-Features: AS18NWBwMqIXE_dMXDlT0ngUIReSbekPPTszWv5gIfg03bAEg3Id33JL3Yqjedw
+Message-ID: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
+	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
+	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
+	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
+	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
+	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
+	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
+	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
+	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
+	x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hello,
 
---esn6txawyawfxu7d
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 10/10] man/man2/{fsconfig,mount_setattr}.2: add note
- about attribute-parameter distinction
-MIME-Version: 1.0
+> > When booting with root=/dev/ram0 in the kernel commandline,
+> > handle_initrd() where the deprecation message resides is never called,
+> > which is rather unfortunate (init/do_mounts_initrd.c):
 
-On 2025-09-19, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> This was not particularly well documented in mount(8) nor mount(2), and
-> since this is a fairly notable aspect of the new mount API, we should
-> probably add some words about it.
->=20
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  man/man2/fsconfig.2      | 12 ++++++++++++
->  man/man2/mount_setattr.2 | 40 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 52 insertions(+)
->=20
-> diff --git a/man/man2/fsconfig.2 b/man/man2/fsconfig.2
-> index 5a18e08c700ac93aa22c341b4134944ee3c38d0b..d827a7b96e08284fb025f94c3=
-348a4acc4571b7d 100644
-> --- a/man/man2/fsconfig.2
-> +++ b/man/man2/fsconfig.2
-> @@ -579,6 +579,18 @@ .SS Generic filesystem parameters
->  Linux Security Modules (LSMs)
->  are also generic with respect to the underlying filesystem.
->  See the documentation for the LSM you wish to configure for more details.
-> +.SS Mount attributes and filesystem parameters
-> +Some filesystem parameters
-> +(traditionally associated with
-> +.BR mount (8)-style
-> +options)
-> +have a sibling mount attribute
-> +with superficially similar user-facing behaviour.
-> +.P
-> +For a description of the distinction between
-> +mount attributes and filesystem parameters,
-> +see the "Mount attributes and filesystem parameters" subsection of
-> +.BR mount_setattr (2).
->  .SH CAVEATS
->  .SS Filesystem parameter types
->  As a result of
-> diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-> index b27db5b96665cfb0c387bf5b60776d45e0139956..f7d0b96fddf97698e36cab020=
-f1d695783143025 100644
-> --- a/man/man2/mount_setattr.2
-> +++ b/man/man2/mount_setattr.2
-> @@ -790,6 +790,46 @@ .SS ID-mapped mounts
->  .BR chown (2)
->  system call changes the ownership globally and permanently.
->  .\"
-> +.SS Mount attributes and filesystem parameters
-> +Some mount attributes
-> +(traditionally associated with
-> +.BR mount (8)-style
-> +options)
-> +have a sibling mount attribute
-> +with superficially similar user-facing behaviour.
-> +For example, the
-> +.I -o ro
-> +option to
-> +.BR mount (8)
-> +can refer to the
-> +"read-only" filesystem parameter,
-> +or the "read-only" mount attribute.
-> +Both of these result in mount objects becoming read-only,
-> +but they do have different behaviour.
-> +.P
-> +The distinction between these two kinds of option is that
-> +mount object attributes are applied per-mount-object
-> +(allowing different mount objects
-> +derived from a given filesystem instance
-> +to have different attributes),
-> +while filesystem instance parameters
-> +("superblock flags" in kernel-developer parlance)
-> +apply to all mount objects
-> +derived from the same filesystem instance.
-> +.P
-> +When using
-> +.BR mount (2),
-> +the line between these two types of mount options was blurred.
-> +However, with
-> +.BR mount_setattr ()
-> +and
-> +.BR fsconfig (2),
-> +the distinction is made much clearer.
-> +Mount attributes are configured with
-> +.BR mount_setattr (),
-> +while filesystem parameters can be configured using
-                               are configured using
+> Yes, this is unfortunate.
+>
+> I personally still think that initrd should be removed.
 
-probably reads a bit better here. I'll include it in the next version if
-this isn't merged, but I won't resend the whole patchset for a one-word
-change.
+Considering that the deprecation message didn't get displayed in some
+configurations, maybe it's a bit early at the very least.
 
-> +.BR fsconfig (2).
-> +.\"
->  .SS Extensibility
->  In order to allow for future extensibility,
->  .BR mount_setattr ()
->=20
-> --=20
-> 2.51.0
->=20
+> I suggest using workaround I described in cover letter.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+I'm not too keen on having an initramfs just to loop-mount
+/sys/firmware/initrd, after all current kernels are able to handle the
+use case just fine.
 
---esn6txawyawfxu7d
-Content-Type: application/pgp-signature; name="signature.asc"
+It looks like there is a lot of code calling into specific filesystems
+so that the initrd code can guess the size of the file system before
+copying into /dev/ram0, and I believe this is what causes the main
+gripe against initrd today. What is wrong with just copying
+/initrd.image using its actual size into /dev/ram0 instead of guessing
+it with the help of filesystem specific code ?
 
------BEGIN PGP SIGNATURE-----
+> Also, for unknown reasons I didn't get your letter in my inbox.
+> (Not even in spam folder.) I ocasionally found it on lore.kernel.org .
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaM1LUxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+KdQEAmB6gnRX4SP/rkb3R9Oan
-CRdJBvXYZpUFgqVlaibiN+IA/jJ7rIeFWwI6HFxhFM0CYosCsidSJxb/tlHaE8Pb
-YRoO
-=Q2XP
------END PGP SIGNATURE-----
+Sorry about that, When I used git-send-email yesterday to reply, the
+SMTP server I used wasn't authenticated to google, so all gmail
+recipients were dropped. Hopefully this work better today.
 
---esn6txawyawfxu7d--
+Regards,
+
+-- 
+Nicolas Schichan
 
