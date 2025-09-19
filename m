@@ -1,139 +1,115 @@
-Return-Path: <linux-api+bounces-4881-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4882-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFC5B89363
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 13:13:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCDCB895F6
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 14:12:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5276F17420A
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 11:13:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24FEB7E2E2D
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 12:11:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844EE30C35F;
-	Fri, 19 Sep 2025 11:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCA1330DEA9;
+	Fri, 19 Sep 2025 12:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yk5LMGmc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZ5NvNhb"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5835C1B87C0;
-	Fri, 19 Sep 2025 11:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9007D307486;
+	Fri, 19 Sep 2025 12:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758280379; cv=none; b=rG+DFXGJpvcTzSLVUkiUUvrCVLsD4EK1C0VMxqTY2IaA4UBUpdjna1hbkeMgirM4YgN8VkTZbVYUR7BPnoiMqzHfs3BZCBf+JmagQ/sHfSIjhOq8VS2fI8lcOg7/LguuDeCm02QeF8Ho4/hA9zOqqTkNKlSc5our1OaveQGxA+0=
+	t=1758283827; cv=none; b=Mz1UJW1Xo/rQ78M/zGCVYaQWN6/Cqz975Tb2EFxfIpv9y0iedVaouL5O6rl8cI9RbLBhFtCUose/aktCpQe3XVFFEO6AVl/eaYQor3/5l0Q1rSex9RGFdcckLeLjbF3Thk0bQrsbGL0hv0/QbZMTQ2lRgu33Q5CbMi8l36cmB/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758280379; c=relaxed/simple;
-	bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kEUdNQYGmjrInsVjtZWL0/dwtE4blo5VNy7m7SQizag8WpPrzIYcVV1bsaNGOzy5jzvZqiZWhfNqYtCTyYzf18khoIz0/wa9sHH1AgmPA4or1psqY/WCEjXKw0seYOC5RZh+MEuSlwflGMsRfS8irOyiKliHBY65D0BYf3Kh28o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yk5LMGmc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C449C4CEF1;
-	Fri, 19 Sep 2025 11:12:52 +0000 (UTC)
+	s=arc-20240116; t=1758283827; c=relaxed/simple;
+	bh=7y5z6Pm9bVGvOL0l73IbXsYV7qMSg09CFWPE1ABf1e4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RVeUb20NkSrMZs21jMx/qm6FR+0curZbZcSeWz6WpOWKFT+gSU7bzxgi3lOcT6GePHPLtzX50eQ/I4Rz7ztsGigkyYiB58tcZeYLtyY6l0bCKKL7DQbVTVRqrtuk6pLkHtxhyx6K0Vky6ncN8V7LkMR6a/p9DS/XNYuqAxnGhmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AZ5NvNhb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F8C7C4CEF0;
+	Fri, 19 Sep 2025 12:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758280378;
-	bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Yk5LMGmcaQ68u3a/5seV1E/lDuF0QXENOW924lwYJOKp41QvCGuzHpUkAE5pjuJBR
-	 N4f8qi6b5OHlgZfuBvzR2EmZ2Zy59tySp4FdvXaMz0vNrAzD8l5rMvWWN05Q6dlN7j
-	 yAOmxtSqqLy6BMYNWD5xraYeEUo3+tLbsuFLZBIJTHvONC65frXsbJMauKIkN6ItAq
-	 SVZK95FAQ/hqmoMj7w2LQCHmhmCI2fDhk7rm2M421I4Z6yFKRfn1xUr4xFqlCrNgl+
-	 /U8fH1Y7hlGyemwngJWdvD2ZLTN8GjqJfvuoHPH4x+XMeNyjkLekdrYX3lYQjMdRiU
-	 0VxMGa3yQwQjw==
+	s=k20201202; t=1758283827;
+	bh=7y5z6Pm9bVGvOL0l73IbXsYV7qMSg09CFWPE1ABf1e4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AZ5NvNhb0Ine3bHnctf3ImXhWroL8J+izK9rZ990OtD2XKPvaL/hrBwf/yTgKNkG/
+	 o8p2jBwn+iSaUemFJu9K+JcpCviki26rj6Q1U+EYrSlK4mvMVAcV8429xOytMvA/jz
+	 jeJFiUNW1jdaAPxxuki3NDAdcmFL+Q8X/45YVRu/JvZNJgjM7LXHp5XFp6UnHTyvrG
+	 6VeOZ5y4wasoyZxF2WLGkrxOcgZbRszWlApi6C+CevZPvfK67nDIQzgNDJegGqmtZl
+	 p/8Q3AxjIZCdK4GjUPS+lq+KjAzcB9DpElVcBcQZF0P0Kk9Kol5JYWKV63Wc5MetDh
+	 9DPgzHMXcWjUw==
+Date: Fri, 19 Sep 2025 14:10:17 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	jannh@google.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yury Khrustalev <yury.khrustalev@arm.com>,
-	Wilco Dijkstra <wilco.dijkstra@arm.com>,
-	linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Kees Cook <kees@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v21 0/8] fork: Support shadow stacks in clone3()
-Date: Fri, 19 Sep 2025 13:12:46 +0200
-Message-ID: <20250919-eruption-apokalypse-75d57366bff4@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Will Deacon <will@kernel.org>, 
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>, 
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, 
+	Florian Weimer <fweimer@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, jannh@google.com, Andrew Morton <akpm@linux-foundation.org>, 
+	Yury Khrustalev <yury.khrustalev@arm.com>, Wilco Dijkstra <wilco.dijkstra@arm.com>, 
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Subject: Re: [PATCH v21 4/8] fork: Add shadow stack support to clone3()
+Message-ID: <20250919-unredlich-lohnkampf-d3d0836baeec@brauner>
 References: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
+ <20250916-clone3-shadow-stack-v21-4-910493527013@kernel.org>
+ <aMv9XRq_sAQbQwjI@willie-the-truck>
+ <aMwtdtRHT7oHhYLf@willie-the-truck>
+ <21954e72-94e9-433a-a155-222c9052d4c6@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2291; i=brauner@kernel.org; h=from:subject:message-id; bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSctdqYt9oywOm76JlGmfeZJin9Ws/P7nuQp6Sfr3vUO FDivoh+RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEROv2D4H/IiyeegzlRBSf+z ck9+Hn/v9sfwzx5xAaGXj5focH72+c/wP6dv7Sv/0203On4bp02I0VnceH+J66Tig1Lr2hWPVLL lsQIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <21954e72-94e9-433a-a155-222c9052d4c6@sirena.org.uk>
 
-On Tue, 16 Sep 2025 00:12:05 +0100, Mark Brown wrote:
-> [ I think at this point everyone is OK with the ABI, and the x86
->   implementation has been tested so hopefully we are near to being
->   able to get this merged?  If there are any outstanding issues let
->   me know and I can look at addressing them.  The one possible issue
->   I am aware of is that the RISC-V shadow stack support was briefly
->   in -next but got dropped along with the general RISC-V issues during
->   the last merge window, rebasing for that is still in progress.  I
->   guess ideally this could be applied on a branch and then pulled into
->   the RISC-V tree? ]
+On Thu, Sep 18, 2025 at 06:56:02PM +0100, Mark Brown wrote:
+> On Thu, Sep 18, 2025 at 05:04:06PM +0100, Will Deacon wrote:
+> > On Thu, Sep 18, 2025 at 01:38:53PM +0100, Will Deacon wrote:
 > 
-> [...]
+> > > It would be great if Christian could give this the thumbs up, given that
+> > > it changes clone3(). I think the architecture parts are all ready at this
+> > > point.
+> 
+> > ah, I may have spoken too soon :/
+> 
+> Well, there's also the fact that this is based on the vfs tree (or would
+> have conflicts with it).
+> 
+> > Catalin pointed me at this glibc thread:
+> 
+> > https://marc.info/?l=glibc-alpha&m=175811917427562
+> 
+> > which sounds like they're not entirely on board with the new ABI.
+> 
+> I think we're getting there on that one, and the main thing they're
+> asking for is the ability to reuse the GCS after the thread has exited
+> which would be orthogonal to this stuff.  I see Catalin replied on the
+> glibc side so I'll direct most of my reply there.
+> 
+> It would be really helpful to get a clear idea of where we're going with
+> this series, it's been almost landed for an incredibly long time and
+> having it in that state is getting disruptive to doing cleanup to try to
+> factor code out of the arches especially with the RISC-V stuff also up
+> in the air.  I do think the issues glibc have with this are orthogonal
+> to the changes here so hopefully this can go as is.
 
-Applied to the kernel-6.18.clone3 branch of the vfs/vfs.git tree.
-Patches in the kernel-6.18.clone3 branch should appear in linux-next soon.
+It's not great to get that API feedback is coming in just now... and
+that it's not reachable via lore. So I've picked this up to have it soak
+in -next.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: kernel-6.18.clone3
-
-[1/8] arm64/gcs: Return a success value from gcs_alloc_thread_stack()
-      https://git.kernel.org/vfs/vfs/c/053b5d3aac29
-[2/8] Documentation: userspace-api: Add shadow stack API documentation
-      https://git.kernel.org/vfs/vfs/c/b495e1f0502e
-[3/8] selftests: Provide helper header for shadow stack testing
-      https://git.kernel.org/vfs/vfs/c/0ba39d41c241
-[4/8] fork: Add shadow stack support to clone3()
-      https://git.kernel.org/vfs/vfs/c/871b4dc7c705
-[5/8] selftests/clone3: Remove redundant flushes of output streams
-      https://git.kernel.org/vfs/vfs/c/c4aef60520c3
-[6/8] selftests/clone3: Factor more of main loop into test_clone3()
-      https://git.kernel.org/vfs/vfs/c/b3925f5b857b
-[7/8] selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
-      https://git.kernel.org/vfs/vfs/c/9012e184d017
-[8/8] selftests/clone3: Test shadow stack support
-      https://git.kernel.org/vfs/vfs/c/c764fa47e7ec
+Please keep this thread informed whether you're reaching consensus on
+the glibc side...
 
