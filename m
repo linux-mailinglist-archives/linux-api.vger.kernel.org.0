@@ -1,61 +1,86 @@
-Return-Path: <linux-api+bounces-4880-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4881-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EBEB87AE0
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 04:03:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFC5B89363
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 13:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4610D3B4B09
-	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 02:02:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5276F17420A
+	for <lists+linux-api@lfdr.de>; Fri, 19 Sep 2025 11:13:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FBB32609FD;
-	Fri, 19 Sep 2025 02:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844EE30C35F;
+	Fri, 19 Sep 2025 11:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="gXi+2/Ap"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yk5LMGmc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCC025A2B5;
-	Fri, 19 Sep 2025 02:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5835C1B87C0;
+	Fri, 19 Sep 2025 11:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758247264; cv=none; b=KBr/yAeGCJu8YgozXr0yl+C0sgiQXQpjGUb9lIKxs1tg/JiEdJHSwNx2nYUxwgL+/8r8IZ/sAmwqK0kq97BgtEo1I/m6rjFS6Vdb5SpT3SpPPVGmThICKwv20pakkkD0l4yz4hdbD3Q5TUpVwFt8ZlkPvWw//jpnKi8MIOzafgY=
+	t=1758280379; cv=none; b=rG+DFXGJpvcTzSLVUkiUUvrCVLsD4EK1C0VMxqTY2IaA4UBUpdjna1hbkeMgirM4YgN8VkTZbVYUR7BPnoiMqzHfs3BZCBf+JmagQ/sHfSIjhOq8VS2fI8lcOg7/LguuDeCm02QeF8Ho4/hA9zOqqTkNKlSc5our1OaveQGxA+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758247264; c=relaxed/simple;
-	bh=k0P5TLKIQcNvPpE/yRue2NqzcDOYWE1LQ0jR8gyJSr0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nz8MCpvGJiKjB+iJJZ5SfSUcZ229gLu+9C5KJiSgT56TKnkBFrnWVw6S0TTyzLEeFLfx7Plv+j9TQYAFdlXRUDYcDwQwwxud5YcpJj+8BkcMTYhrOIV3squsSJXlWIGsFEGARiqmC0Ul88m+4zlaaRfXbCxreMg2SsvZ/Oe6HJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=gXi+2/Ap; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cSbMG4lQ2z9sy4;
-	Fri, 19 Sep 2025 04:00:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1758247258;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u+pMwDP1HnUqPZvsXpTH0VTEoRpEk896w42KFmX45ms=;
-	b=gXi+2/ApWAL6NrqyDSeQUG3uNM9IqM+0fJKERWEiseZ8fmSJcYfojWilXGv+0ZQ3ffWpnW
-	Mltr0xS2+4PNEFuyp/RShMB+37nvIhUJiQaR5Yea8DbBkupn5FZEzRJjBgrF1dSC2OH2wU
-	RClxRbnclRCl6KSpNADP5sQDXJ6cgwzetHh3XXCJapD3KK3XT9yZeHbZw/OGMSYQVgguzW
-	WEe6blS6wunR+04qT2fAbglbLfSIXY9uoA8OR0YkTi8fymBvAci2OTWhvRS6s327foHPEi
-	qRnOGqASClaJy6vtYI2UTtqMPBGKJWNcKAMx5e6Y092LabMLuHJpFYVDZ965OA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-From: Aleksa Sarai <cyphar@cyphar.com>
-Date: Fri, 19 Sep 2025 11:59:51 +1000
-Subject: [PATCH v4 10/10] man/man2/{fsconfig,mount_setattr}.2: add note
- about attribute-parameter distinction
+	s=arc-20240116; t=1758280379; c=relaxed/simple;
+	bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kEUdNQYGmjrInsVjtZWL0/dwtE4blo5VNy7m7SQizag8WpPrzIYcVV1bsaNGOzy5jzvZqiZWhfNqYtCTyYzf18khoIz0/wa9sHH1AgmPA4or1psqY/WCEjXKw0seYOC5RZh+MEuSlwflGMsRfS8irOyiKliHBY65D0BYf3Kh28o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yk5LMGmc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C449C4CEF1;
+	Fri, 19 Sep 2025 11:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758280378;
+	bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Yk5LMGmcaQ68u3a/5seV1E/lDuF0QXENOW924lwYJOKp41QvCGuzHpUkAE5pjuJBR
+	 N4f8qi6b5OHlgZfuBvzR2EmZ2Zy59tySp4FdvXaMz0vNrAzD8l5rMvWWN05Q6dlN7j
+	 yAOmxtSqqLy6BMYNWD5xraYeEUo3+tLbsuFLZBIJTHvONC65frXsbJMauKIkN6ItAq
+	 SVZK95FAQ/hqmoMj7w2LQCHmhmCI2fDhk7rm2M421I4Z6yFKRfn1xUr4xFqlCrNgl+
+	 /U8fH1Y7hlGyemwngJWdvD2ZLTN8GjqJfvuoHPH4x+XMeNyjkLekdrYX3lYQjMdRiU
+	 0VxMGa3yQwQjw==
+From: Christian Brauner <brauner@kernel.org>
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	jannh@google.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yury Khrustalev <yury.khrustalev@arm.com>,
+	Wilco Dijkstra <wilco.dijkstra@arm.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Kees Cook <kees@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v21 0/8] fork: Support shadow stacks in clone3()
+Date: Fri, 19 Sep 2025 13:12:46 +0200
+Message-ID: <20250919-eruption-apokalypse-75d57366bff4@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
+References: <20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -63,115 +88,52 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250919-new-mount-api-v4-10-1261201ab562@cyphar.com>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
-In-Reply-To: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Askar Safin <safinaskar@zohomail.com>, 
- "G. Branden Robinson" <g.branden.robinson@gmail.com>, 
- linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>, 
- Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2987; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=k0P5TLKIQcNvPpE/yRue2NqzcDOYWE1LQ0jR8gyJSr0=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMWSc2SluknfoWMLrf3KtF/cqrlZzjWS+cyZFieVu9Yzcd
- S4Lftoad0xkYRDjYrAUU2TZ5ucZumn+4ivJn1aywcxhZQIZIi3SwMDAwMDCwJebmFdqpGOkZ6pt
- qGdoqGOkY8TAxSkAU50kwMiwT/b7pUCRTyKLj/KvaeT9Yfj4156O5gex/7IOLj89pc7vMyPD1NR
- djlzbpH67bdq6xIDHoVn0xhaRnd/+xH75ef3jLH9FRgA=
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
-X-Rspamd-Queue-Id: 4cSbMG4lQ2z9sy4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2291; i=brauner@kernel.org; h=from:subject:message-id; bh=kOxTviwXNRHsQQgggVwmctRXiPP9/ssgo2oomiAxsFc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSctdqYt9oywOm76JlGmfeZJin9Ws/P7nuQp6Sfr3vUO FDivoh+RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEROv2D4H/IiyeegzlRBSf+z ck9+Hn/v9sfwzx5xAaGXj5focH72+c/wP6dv7Sv/0203On4bp02I0VnceH+J66Tig1Lr2hWPVLL lsQIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-This was not particularly well documented in mount(8) nor mount(2), and
-since this is a fairly notable aspect of the new mount API, we should
-probably add some words about it.
+On Tue, 16 Sep 2025 00:12:05 +0100, Mark Brown wrote:
+> [ I think at this point everyone is OK with the ABI, and the x86
+>   implementation has been tested so hopefully we are near to being
+>   able to get this merged?  If there are any outstanding issues let
+>   me know and I can look at addressing them.  The one possible issue
+>   I am aware of is that the RISC-V shadow stack support was briefly
+>   in -next but got dropped along with the general RISC-V issues during
+>   the last merge window, rebasing for that is still in progress.  I
+>   guess ideally this could be applied on a branch and then pulled into
+>   the RISC-V tree? ]
+> 
+> [...]
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- man/man2/fsconfig.2      | 12 ++++++++++++
- man/man2/mount_setattr.2 | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+Applied to the kernel-6.18.clone3 branch of the vfs/vfs.git tree.
+Patches in the kernel-6.18.clone3 branch should appear in linux-next soon.
 
-diff --git a/man/man2/fsconfig.2 b/man/man2/fsconfig.2
-index 5a18e08c700ac93aa22c341b4134944ee3c38d0b..d827a7b96e08284fb025f94c3348a4acc4571b7d 100644
---- a/man/man2/fsconfig.2
-+++ b/man/man2/fsconfig.2
-@@ -579,6 +579,18 @@ .SS Generic filesystem parameters
- Linux Security Modules (LSMs)
- are also generic with respect to the underlying filesystem.
- See the documentation for the LSM you wish to configure for more details.
-+.SS Mount attributes and filesystem parameters
-+Some filesystem parameters
-+(traditionally associated with
-+.BR mount (8)-style
-+options)
-+have a sibling mount attribute
-+with superficially similar user-facing behaviour.
-+.P
-+For a description of the distinction between
-+mount attributes and filesystem parameters,
-+see the "Mount attributes and filesystem parameters" subsection of
-+.BR mount_setattr (2).
- .SH CAVEATS
- .SS Filesystem parameter types
- As a result of
-diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-index b27db5b96665cfb0c387bf5b60776d45e0139956..f7d0b96fddf97698e36cab020f1d695783143025 100644
---- a/man/man2/mount_setattr.2
-+++ b/man/man2/mount_setattr.2
-@@ -790,6 +790,46 @@ .SS ID-mapped mounts
- .BR chown (2)
- system call changes the ownership globally and permanently.
- .\"
-+.SS Mount attributes and filesystem parameters
-+Some mount attributes
-+(traditionally associated with
-+.BR mount (8)-style
-+options)
-+have a sibling mount attribute
-+with superficially similar user-facing behaviour.
-+For example, the
-+.I -o ro
-+option to
-+.BR mount (8)
-+can refer to the
-+"read-only" filesystem parameter,
-+or the "read-only" mount attribute.
-+Both of these result in mount objects becoming read-only,
-+but they do have different behaviour.
-+.P
-+The distinction between these two kinds of option is that
-+mount object attributes are applied per-mount-object
-+(allowing different mount objects
-+derived from a given filesystem instance
-+to have different attributes),
-+while filesystem instance parameters
-+("superblock flags" in kernel-developer parlance)
-+apply to all mount objects
-+derived from the same filesystem instance.
-+.P
-+When using
-+.BR mount (2),
-+the line between these two types of mount options was blurred.
-+However, with
-+.BR mount_setattr ()
-+and
-+.BR fsconfig (2),
-+the distinction is made much clearer.
-+Mount attributes are configured with
-+.BR mount_setattr (),
-+while filesystem parameters can be configured using
-+.BR fsconfig (2).
-+.\"
- .SS Extensibility
- In order to allow for future extensibility,
- .BR mount_setattr ()
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
-2.51.0
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: kernel-6.18.clone3
+
+[1/8] arm64/gcs: Return a success value from gcs_alloc_thread_stack()
+      https://git.kernel.org/vfs/vfs/c/053b5d3aac29
+[2/8] Documentation: userspace-api: Add shadow stack API documentation
+      https://git.kernel.org/vfs/vfs/c/b495e1f0502e
+[3/8] selftests: Provide helper header for shadow stack testing
+      https://git.kernel.org/vfs/vfs/c/0ba39d41c241
+[4/8] fork: Add shadow stack support to clone3()
+      https://git.kernel.org/vfs/vfs/c/871b4dc7c705
+[5/8] selftests/clone3: Remove redundant flushes of output streams
+      https://git.kernel.org/vfs/vfs/c/c4aef60520c3
+[6/8] selftests/clone3: Factor more of main loop into test_clone3()
+      https://git.kernel.org/vfs/vfs/c/b3925f5b857b
+[7/8] selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      https://git.kernel.org/vfs/vfs/c/9012e184d017
+[8/8] selftests/clone3: Test shadow stack support
+      https://git.kernel.org/vfs/vfs/c/c764fa47e7ec
 
