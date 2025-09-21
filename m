@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-4893-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4894-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3181FB8D893
-	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 11:26:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBE8B8D8C6
+	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 11:47:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E81EF189DA24
-	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 09:27:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C54152A00D5
+	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 09:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC64245019;
-	Sun, 21 Sep 2025 09:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1E1A242917;
+	Sun, 21 Sep 2025 09:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="albyWG3d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lu2KfLFz"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2E61DED63;
-	Sun, 21 Sep 2025 09:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C16189;
+	Sun, 21 Sep 2025 09:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758446799; cv=none; b=bOR5M45ADpZsh7OQmrmj9IrbwPE9hbdVQpdL1ZQh7/qV6E19Rxk/cGS0iGa8lgejZIeRejZsYY+gI//wRRt0Xi/VqxblrMnqAuxf7MfgUZJjImIG1LU3KW1F4s9WusUmQ0PtySaKETBXCUL4ANDszSvnHfF5kfbFN6jIxObnKYM=
+	t=1758448049; cv=none; b=eJ1Dpn25OoAdT55Jxsr5T4tAW7VCTjRwCWSCQZuEnm91TyKHP0B1z4Ws0Cl/mDyNUcNfbb5qRO4CQE254kWrhw8QPpsNyW71A4a0xyMhvmop7GdykZt/tF4xhuDf7bKvSzs+86YHY/c5OxxDeuDduEaEne6fP+nE14Ylu15kwx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758446799; c=relaxed/simple;
-	bh=fCeZz8UQ+Q/xYJdKl83KladdpvpmUk4P4WcQb+PmfgE=;
+	s=arc-20240116; t=1758448049; c=relaxed/simple;
+	bh=N3l8vMvcndbQ0tLN1fFLCV3mWuZhkVisnI3Nb5jd/hs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8r4B0vMcjFgofqhIaD7yP1rIWE4rVOtzykuzmp6ibsSEcj+IXNz7J/mG4Pj2uqGJ/HGrqPBwE3NawpOaTkyPWLElv1zrqfT4edp3CfFGkBaTgQ5f7ZFt/8RcKH8+GgFg6rWylXqqTvj+7Ds5yK0tYkLDXiY0mtiMyBDkjdIY2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=albyWG3d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F19AFC4CEE7;
-	Sun, 21 Sep 2025 09:26:34 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=NRoQxB3gNWb5nIJYu21DURWIfSqo1laZwODSuSD6Z8IcOPfNY0fw6EjxH0rys0eeINH02y8kfeogmx7IZ3Kab7mm5Ti2a6jDa59wMZluaE0xm04yR6SLrLyxOYcI7FeefgNmageBKcs2/UnkWq8OfiHuu217/czbPWo1k/GAf7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lu2KfLFz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE206C4CEE7;
+	Sun, 21 Sep 2025 09:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758446799;
-	bh=fCeZz8UQ+Q/xYJdKl83KladdpvpmUk4P4WcQb+PmfgE=;
+	s=k20201202; t=1758448048;
+	bh=N3l8vMvcndbQ0tLN1fFLCV3mWuZhkVisnI3Nb5jd/hs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=albyWG3dk8rf0xwcwNIFfPp8ZEfzatOtDXT9LGjeBaGvumfFh04WlSVB80oZUMuzC
-	 +AV3KpzKyk+2sACqs3DvkK86rkSrMLnb7kLIKxxqEHB1eeYFTWfYLqx/c5E0BHCB2D
-	 ukRQTgH1HzUxFJiYn6RgeOgl3VEV7vts+1BCBiscRdkV3lVnOGwuN5eXmAqZi0azMz
-	 nDxfWSkxM7Bln4Dkqhss5/HTEC3OamsXXH7KSUo9BQqT07gztcnVK89ZcbRpyLpSLq
-	 8TN4P3j8d+Ohw1cTt8awPbB7dhySzqxHdqD2TdSX4ZwUJjB6pRRE1EMm3lV+Mt2UOd
-	 S77QQx8yLQbfg==
-Date: Sun, 21 Sep 2025 11:26:31 +0200
+	b=lu2KfLFzAaxSdFnm5u9ZRv04G+byu8QU/4NyIRCxv1cXUaECcfQQgSPjT7cfPQ5OP
+	 7iLhf0HC5M5vbEYKN6qE8f0kfSnLaUbUZjvFFSP/Ehsdd6qoiZp4NEuSJkl7orBAzX
+	 AnGbme3U04KqJX1xy4MhxqZaXyD2caLCR53H3ohALwxXghmG6zqyVUP+aLrea4cbQX
+	 WA9H4vz8bfGy2HEYWx8k6pJOJ/M3efQ9zHTe/XLYAcThFKUueOlSJ3Yvn2mwL2FeZY
+	 19Cb0w4QXw0YbWKIwuQXuL98qUE7BKp+nODCHr+TpmDSID+qjsvqRCxa53l4oV12/8
+	 lGIuJy2B71LTA==
+Date: Sun, 21 Sep 2025 11:47:21 +0200
 From: Alejandro Colomar <alx@kernel.org>
 To: Aleksa Sarai <cyphar@cyphar.com>
 Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
@@ -49,10 +49,10 @@ Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
+Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
+Message-ID: <gyhtwwu7kgkaz5l5h46ll3voypfk74cahpfpmagbngj3va3x7c@pm3pssyst2al>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -60,12 +60,12 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x3ex4dzzzd7usxys"
+	protocol="application/pgp-signature"; boundary="uehd373huvo3ruit"
 Content-Disposition: inline
-In-Reply-To: <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
+In-Reply-To: <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
 
 
---x3ex4dzzzd7usxys
+--uehd373huvo3ruit
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -76,16 +76,16 @@ Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
+Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
+Message-ID: <gyhtwwu7kgkaz5l5h46ll3voypfk74cahpfpmagbngj3va3x7c@pm3pssyst2al>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
 MIME-Version: 1.0
-In-Reply-To: <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
+In-Reply-To: <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
 
 Hi Aleksa,
 
-On Fri, Sep 19, 2025 at 11:59:45AM +1000, Aleksa Sarai wrote:
+On Fri, Sep 19, 2025 at 11:59:48AM +1000, Aleksa Sarai wrote:
 > This is loosely based on the original documentation written by David
 > Howells and later maintained by Christian Brauner, but has been
 > rewritten to be more from a user perspective (as well as fixing a few
@@ -97,794 +97,595 @@ On Fri, Sep 19, 2025 at 11:59:45AM +1000, Aleksa Sarai wrote:
 > Signed-off-by: Christian Brauner <brauner@kernel.org>
 > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
 > ---
->  man/man2/fsconfig.2 | 727 ++++++++++++++++++++++++++++++++++++++++++++++=
+>  man/man2/open_tree.2 | 498 +++++++++++++++++++++++++++++++++++++++++++++=
 ++++++
->  1 file changed, 727 insertions(+)
+>  1 file changed, 498 insertions(+)
 >=20
-> diff --git a/man/man2/fsconfig.2 b/man/man2/fsconfig.2
+> diff --git a/man/man2/open_tree.2 b/man/man2/open_tree.2
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..5a18e08c700ac93aa22c341b4=
-134944ee3c38d0b
+> index 0000000000000000000000000000000000000000..7f85df08b43c7b48a9d021dbb=
+eb2c60092a2b2d4
 > --- /dev/null
-> +++ b/man/man2/fsconfig.2
-> @@ -0,0 +1,727 @@
+> +++ b/man/man2/open_tree.2
+> @@ -0,0 +1,498 @@
 > +.\" Copyright, the authors of the Linux man-pages project
 > +.\"
 > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
 > +.\"
-> +.TH fsconfig 2 (date) "Linux man-pages (unreleased)"
+> +.TH open_tree 2 (date) "Linux man-pages (unreleased)"
 > +.SH NAME
-> +fsconfig \- configure new or existing filesystem context
+> +open_tree \- open path or create detached mount object and attach to fd
 > +.SH LIBRARY
 > +Standard C library
 > +.RI ( libc ,\~ \-lc )
 > +.SH SYNOPSIS
 > +.nf
+> +.BR "#define _GNU_SOURCE         " "/* See feature_test_macros(7) */"
+> +.BR "#include <fcntl.h>" "          /* Definition of " AT_* " constants =
+*/"
 > +.B #include <sys/mount.h>
 > +.P
-> +.BI "int fsconfig(int " fd ", unsigned int " cmd ,
-> +.BI "             const char *_Nullable " key ,
-> +.BI "             const void *_Nullable " value ", int " aux );
+> +.BI "int open_tree(int " dirfd ", const char *" path ", unsigned int " f=
+lags );
 > +.fi
 > +.SH DESCRIPTION
 > +The
-> +.BR fsconfig ()
+> +.BR open_tree ()
 > +system call is part of
 > +the suite of file descriptor based mount facilities in Linux.
-> +.P
-> +.BR fsconfig ()
-> +is used to supply parameters to
-> +and issue commands against
-> +the filesystem configuration context
-> +associated with the file descriptor
-> +.IR fd .
-> +Filesystem configuration contexts can be created with
-> +.BR fsopen (2)
-> +or be instantiated from an extant filesystem instance with
-> +.BR fspick (2).
-> +.P
-> +The
-> +.I cmd
-> +argument indicates the command to be issued.
-> +Some commands supply parameters to the context
-> +(equivalent to mount options specified with
-> +.BR mount (8)),
-> +while others are meta-operations on the filesystem context.
-> +The list of valid
-> +.I cmd
-> +values are:
-
-I think I would have this page split into one page per command.
-
-I would keep an overview in this page, of the main system call, and the
-descriptions of each subcommand would go into each separate page.
-
-You could have a look at fcntl(2), which has been the most recent page
-split, and let me know what you think.
-
-
-Have a lovely day!
-Alex
-
-> +.RS
-> +.TP
-> +.B FSCONFIG_SET_FLAG
-> +Set the flag parameter named by
-> +.IR key .
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.TP
-> +.B FSCONFIG_SET_STRING
-> +Set the string parameter named by
-> +.I key
-> +to the value specified by
-> +.IR value .
-> +.I value
-> +points to a null-terminated string,
-> +and
-> +.I aux
-> +must be 0.
-> +.TP
-> +.B FSCONFIG_SET_BINARY
-> +Set the blob parameter named by
-> +.I key
-> +to the contents of the binary blob
-> +specified by
-> +.IR value .
-> +.I value
-> +points to
-> +the start of a buffer
-> +that is
-> +.I aux
-> +bytes in length.
-> +.TP
-> +.B FSCONFIG_SET_FD
-> +Set the file parameter named by
-> +.I key
-> +to the open file description
-> +referenced by the file descriptor
-> +.IR aux .
-> +.I value
-> +must be NULL.
+> +.IP \[bu] 3
+> +If
+> +.I flags
+> +contains
+> +.BR \%OPEN_TREE_CLONE ,
+> +.BR open_tree ()
+> +creates a detached mount object
+> +which consists of a bind-mount of
+> +the path specified by the
+> +.IR path .
+> +A new file descriptor
+> +associated with the detached mount object
+> +is then returned.
+> +The mount object is equivalent to a bind-mount
+> +that would be created by
+> +.BR mount (2)
+> +called with
+> +.BR MS_BIND ,
+> +except that it is tied to a file descriptor
+> +and is not mounted onto the filesystem.
 > +.IP
-> +You may also use
-> +.B \%FSCONFIG_SET_STRING
-> +for file parameters,
+> +As with file descriptors returned from
+> +.BR fsmount (2),
+> +the resultant file descriptor can then be used with
+> +.BR move_mount (2),
+> +.BR mount_setattr (2),
+> +or other such system calls to do further mount operations.
+> +This mount object will be unmounted and destroyed
+> +when the file descriptor is closed
+> +if it was not otherwise attached to a mount point
+> +by calling
+> +.BR move_mount (2).
+> +(Note that the unmount operation on
+
+Maybe I would make this note a paragraph of its own; this would give it
+more visibility, I think.  And I'd remove 'Note that', and start
+directly with the noted contents (everything in a manual page must be
+noteworthy, in general).
+
+> +.BR close (2)
+
+I'm a bit confused by the reference to close(2).  The previous text
+mentions closing, but not close(2), so I'm not sure if this refers to
+that or if it is comparing it to close(2).  Would you mind having a look
+at the wording of this entire paragraph?
+
+> +is lazy\[em]akin to calling
+
+I prefer em dashes in both sides of the parenthetical; it more clearly
+denotes where it ends.
+
+	is lazy
+	\[em]akin to calling
+	.BR umount2 (2)
+	with
+	.BR MOUNT_DETACH \[em];
+
+(I assume that's where it ends.)
+
+> +.BR umount2 (2)
 > +with
-> +.I value
-> +set to a null-terminated string
-> +containing a base-10 representation
-> +of the file descriptor number.
-> +This mechanism is primarily intended for compatibility
-> +with older
-> +.BR mount (2)-based
-> +programs,
-> +and only works for parameters
-> +that
-> +.I only
-> +accept file descriptor arguments.
-> +.TP
-> +.B FSCONFIG_SET_PATH
-> +Set the path parameter named by
-> +.I key
-> +to the object at a provided path,
-> +resolved in a similar manner to
-> +.BR openat (2).
-> +.I value
-> +points to a null-terminated pathname string,
+> +.BR MOUNT_DETACH ;
+> +any existing open references to files
+> +from the mount object
+> +will continue to work,
+> +and the mount object will only be completely destroyed
+> +once it ceases to be busy.)
+> +.IP \[bu]
+> +If
+> +.I flags
+> +does not contain
+> +.BR \%OPEN_TREE_CLONE ,
+> +.BR open_tree ()
+> +returns a file descriptor
+> +that is exactly equivalent to
+> +one produced by
+> +.BR openat (2)
+> +when called with the same
+> +.I dirfd
 > +and
-> +.I aux
-> +is equivalent to the
+> +.IR path .
+> +.P
+> +In either case, the resultant file descriptor
+> +acts the same as one produced by
+> +.BR open (2)
+> +with
+> +.BR O_PATH ,
+> +meaning it can also be used as a
 > +.I dirfd
 > +argument to
-> +.BR openat (2).
+> +"*at()" system calls.
+> +.P
+> +As with "*at()" system calls,
+> +.BR open_tree ()
+> +uses the
+> +.I dirfd
+> +argument in conjunction with the
+> +.I path
+> +argument to determine the path to operate on, as follows:
+> +.IP \[bu] 3
+> +If the pathname given in
+> +.I path
+> +is absolute, then
+> +.I dirfd
+> +is ignored.
+> +.IP \[bu]
+> +If the pathname given in
+> +.I path
+> +is relative and
+> +.I dirfd
+> +is the special value
+> +.BR \%AT_FDCWD ,
+> +then
+> +.I path
+> +is interpreted relative to
+> +the current working directory
+> +of the calling process (like
+> +.BR open (2)).
+> +.IP \[bu]
+> +If the pathname given in
+> +.I path
+> +is relative,
+> +then it is interpreted relative to
+> +the directory referred to by the file descriptor
+> +.I dirfd
+> +(rather than relative to
+> +the current working directory
+> +of the calling process,
+> +as is done by
+> +.BR open (2)
+> +for a relative pathname).
+> +In this case,
+> +.I dirfd
+> +must be a directory
+> +that was opened for reading
+> +.RB ( O_RDONLY )
+> +or using the
+> +.B O_PATH
+> +flag.
+> +.IP \[bu]
+> +If
+> +.I path
+> +is an empty string,
+> +and
+> +.I flags
+> +contains
+> +.BR \%AT_EMPTY_PATH ,
+> +then the file descriptor
+> +.I dirfd
+> +is operated on directly.
+> +In this case,
+> +.I dirfd
+> +may refer to any type of file,
+> +not just a directory.
+> +.P
 > +See
 > +.BR openat (2)
-> +for an explanation of the need for
-> +.BR \%FSCONFIG_SET_PATH .
-> +.IP
-> +You may also use
-> +.B \%FSCONFIG_SET_STRING
-> +for path parameters,
-> +the behaviour of which is equivalent to
-> +.B \%FSCONFIG_SET_PATH
-> +with
-> +.I aux
-> +set to
-> +.BR \%AT_FDCWD .
+> +for an explanation of why the
+> +.I dirfd
+> +argument is useful.
+> +.P
+> +.I flags
+> +can be used to control aspects of the path lookup
+> +and properties of the returned file descriptor.
+> +A value for
+> +.I flags
+> +is constructed by bitwise ORing
+> +zero or more of the following constants:
+> +.RS
 > +.TP
-> +.B FSCONFIG_SET_PATH_EMPTY
-> +As with
-> +.BR \%FSCONFIG_SET_PATH ,
-> +except that if
-> +.I value
-> +is an empty string,
-> +the file descriptor specified by
-> +.I aux
-> +is operated on directly
-> +and may be any type of file
-> +(not just a directory).
-> +This is equivalent to the behaviour of
 > +.B \%AT_EMPTY_PATH
-> +with most "*at()" system calls.
 > +If
-> +.I aux
+> +.I path
+> +is an empty string, operate on the file referred to by
+> +.I dirfd
+> +(which may have been obtained from
+> +.BR open (2),
+> +.BR fsmount(2),
+> +or from another
+> +.BR open_tree ()
+> +call).
+> +In this case,
+> +.I dirfd
+> +may refer to any type of file, not just a directory.
+> +If
+> +.I dirfd
 > +is
 > +.BR \%AT_FDCWD ,
-> +the parameter will be set to
-> +the current working directory
+> +.BR open_tree ()
+> +will operate on the current working directory
 > +of the calling process.
+> +This flag is Linux-specific; define
+> +.B \%_GNU_SOURCE
+> +to obtain its definition.
 > +.TP
-> +.B FSCONFIG_CMD_CREATE
-> +This command instructs the filesystem driver
-> +to instantiate an instance of the filesystem in the kernel
-> +with the parameters specified in the filesystem configuration context.
-> +.I key
-> +and
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.IP
-> +This command can only be issued once
-> +in the lifetime of a filesystem context.
-> +If the operation succeeds,
-> +the filesystem context
-> +associated with file descriptor
-> +.I fd
-> +now references the created filesystem instance,
-> +and is placed into a special "awaiting-mount" mode
-> +that allows you to use
-> +.BR fsmount (2)
-> +to create a mount object from the filesystem instance.
-> +.\" FS_CONTEXT_AWAITING_MOUNT is the term the kernel uses for this.
-> +If the operation fails,
-> +in most cases
-> +the filesystem context is placed in a failed mode
-> +and cannot be used for any further
-> +.BR fsconfig ()
-> +operations
-> +(though you may still retrieve diagnostic messages
-> +through the message retrieval interface,
-> +as described in
-> +the corresponding subsection of
-> +.BR fsopen (2)).
-> +.IP
-> +This command can only be issued against
-> +filesystem configuration contexts
-> +that were created with
-> +.BR fsopen (2).
-> +In order to create a filesystem instance,
+> +.B \%AT_NO_AUTOMOUNT
+> +Do not automount the terminal ("basename") component of
+> +.I path
+> +if it is a directory that is an automount point.
+> +This allows you to create a handle to the automount point itself,
+> +rather than the location it would mount.
+> +This flag has no effect if the mount point has already been mounted over.
+> +This flag is Linux-specific; define
+> +.B \%_GNU_SOURCE
+> +to obtain its definition.
+> +.TP
+> +.B \%AT_SYMLINK_NOFOLLOW
+> +If
+> +.I path
+> +is a symbolic link, do not dereference it; instead,
+> +create either a handle to the link itself
+> +or a bind-mount of it.
+> +The resultant file descriptor is indistinguishable from one produced by
+> +.BR openat (2)
+> +with
+> +.BR \%O_PATH | O_NOFOLLLOW .
+> +.TP
+> +.B \%OPEN_TREE_CLOEXEC
+> +Set the close-on-exec
+> +.RB ( FD_CLOEXEC )
+> +flag on the new file descriptor.
+> +See the description of the
+> +.B O_CLOEXEC
+> +flag in
+> +.BR open (2)
+> +for reasons why this may be useful.
+> +.TP
+> +.B \%OPEN_TREE_CLONE
+> +Rather than creating an
+> +.BR openat (2)-style
+> +.B O_PATH
+> +file descriptor,
+> +create a bind-mount of
+> +.I path
+> +(akin to
+> +.IR "mount --bind" )
+
+You need to escape dashes in manual pages.  Otherwise, they're formatted
+as hyphens, which can't be pasted into the terminal (and another
+consequence is not being able to search for them in the man(1) reader
+with literal dashes).
+
+Depending on your system, you might be able to search for them or paste
+them to the terminal, because some distros patch this in
+/etc/local/an.tmac, at the expense of generating lower quality pages,
+but in general don't rely on that.
+
+I've noticed now, but this probably also happens in previous pages in
+this patch set.
+
+While at it, you should also use a non-breaking space, to keep the
+entire command in the same line.
+
+	.IR \%mount\~\-\-bind )
+
+
+Cheers,
+Alex
+
+> +as a detached mount object.
+> +In order to do this operation,
 > +the calling process must have the
-> +.B \%CAP_SYS_ADMIN
+> +.BR \%CAP_SYS_ADMIN
 > +capability.
-> +.IP
-> +An important thing to be aware of is that
-> +the Linux kernel will
-> +.I silently
-> +reuse extant filesystem instances
-> +depending on the filesystem type
-> +and the configured parameters
-> +(each filesystem driver has
-> +its own policy for
-> +how filesystem instances are reused).
-> +This means that
-> +the filesystem instance "created" by
-> +.B \%FSCONFIG_CMD_CREATE
-> +may, in fact, be a reference
-> +to an extant filesystem instance in the kernel.
-> +(For reference,
-> +this behaviour also applies to
-> +.BR mount (2).)
-> +.IP
-> +One side-effect of this behaviour is that
-> +if an extant filesystem instance is reused,
-> +.I all
-> +parameters configured
-> +for this filesystem configuration context
-> +are
-> +.I silently ignored
-> +(with the exception of the
-> +.I ro
-> +and
-> +.I rw
-> +flag parameters;
-> +if the state of the read-only flag in the
-> +extant filesystem instance and the filesystem configuration context
-> +do not match, this operation will return
-> +.BR EBUSY ).
-> +This also means that
-> +.BR \%FSCONFIG_CMD_RECONFIGURE
-> +commands issued against
-> +the "created" filesystem instance
-> +will also affect any mount objects associated with
-> +the extant filesystem instance.
-> +.IP
-> +Programs that need to ensure
-> +that they create a new filesystem instance
-> +with specific parameters
-> +(notably, security-related parameters
-> +such as
-> +.I acl
-> +to enable POSIX ACLs\[em]as described in
-> +.BR acl (5))
-> +should use
-> +.B \%FSCONFIG_CMD_CREATE_EXCL
-> +instead.
 > +.TP
-> +.BR FSCONFIG_CMD_CREATE_EXCL " (since Linux 6.6)"
-> +.\" commit 22ed7ecdaefe0cac0c6e6295e83048af60435b13
-> +.\" commit 84ab1277ce5a90a8d1f377707d662ac43cc0918a
-> +As with
-> +.BR \%FSCONFIG_CMD_CREATE ,
-> +except that the kernel is instructed
-> +to not reuse extant filesystem instances.
-> +If the operation
-> +would be forced to
-> +reuse an extant filesystem instance,
-> +this operation will return
-> +.B EBUSY
-> +instead.
-> +.IP
-> +As a result (unlike
-> +.BR \%FSCONFIG_CMD_CREATE ),
-> +if this operation succeeds
-> +then the calling process can be sure that
-> +all of the parameters successfully configured with
-> +.BR fsconfig ()
-> +will actually be applied
-> +to the created filesystem instance.
-> +.TP
-> +.B FSCONFIG_CMD_RECONFIGURE
-> +This command instructs the filesystem driver
-> +to apply the parameters specified in the filesystem configuration context
-> +to the extant filesystem instance
-> +referenced by the filesystem configuration context.
-> +.I key
-> +and
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.IP
-> +This is primarily intended for use with
-> +.BR fspick (2),
-> +but may also be used to modify
-> +the parameters of a filesystem instance
-> +after
-> +.BR \%FSCONFIG_CMD_CREATE
-> +was used to create it
-> +and a mount object was created using
-> +.BR fsmount (2).
-> +In order to reconfigure an extant filesystem instance,
-> +the calling process must have the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +.IP
-> +If the operation succeeds,
-> +the filesystem context is reset
-> +but remains in reconfiguration mode
-> +and thus can be reused for subsequent
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +commands.
-> +If the operation fails,
-> +in most cases
-> +the filesystem context is placed in a failed mode
-> +and cannot be used for any further
-> +.BR fsconfig ()
-> +operations
-> +(though you may still retrieve diagnostic messages
-> +through the message retrieval interface,
-> +as described in
-> +the corresponding subsection of
-> +.BR fsopen (2)).
-> +.RE
-> +.P
-> +Parameters specified with
-> +.BI FSCONFIG_SET_ *
-> +do not take effect
-> +until a corresponding
-> +.B \%FSCONFIG_CMD_CREATE
-> +or
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +command is issued.
+> +.B \%AT_RECURSIVE
+> +Create a recursive bind-mount of the path
+> +(akin to
+> +.IR "mount --rbind" )
+> +as a detached mount object.
+> +This flag is only permitted in conjunction with
+> +.BR \%OPEN_TREE_CLONE .
 > +.SH RETURN VALUE
-> +On success,
-> +.BR fsconfig ()
-> +returns 0.
+> +On success, a new file descriptor is returned.
 > +On error, \-1 is returned, and
 > +.I errno
 > +is set to indicate the error.
 > +.SH ERRORS
-> +If an error occurs, the filesystem driver may provide
-> +additional information about the error
-> +through the message retrieval interface for filesystem configuration con=
-texts.
-> +This additional information can be retrieved at any time by calling
-> +.BR read (2)
-> +on the filesystem instance or filesystem configuration context
-> +referenced by the file descriptor
-> +.IR fd .
-> +(See the "Message retrieval interface" subsection in
-> +.BR fsopen (2)
-> +for more details on the message format.)
-> +.P
-> +Even after an error occurs,
-> +the filesystem configuration context is
-> +.I not
-> +invalidated,
-> +and thus can still be used with other
-> +.BR fsconfig ()
-> +commands.
-> +This means that users can probe support for filesystem parameters
-> +on a per-parameter basis,
-> +and adjust which parameters they wish to set.
-> +.P
-> +The error values given below result from
-> +filesystem type independent errors.
-> +Each filesystem type may have its own special errors
-> +and its own special behavior.
-> +See the Linux kernel source code for details.
 > +.TP
 > +.B EACCES
-> +A component of a path
-> +provided as a path parameter
-> +was not searchable.
+> +Search permission is denied for one of the directories
+> +in the path prefix of
+> +.IR path .
 > +(See also
 > +.BR path_resolution (7).)
 > +.TP
-> +.B EACCES
-> +.B \%FSCONFIG_CMD_CREATE
-> +was attempted
-> +for a read-only filesystem
-> +without specifying the
-> +.RB ' ro '
-> +flag parameter.
-> +.TP
-> +.B EACCES
-> +A specified block device parameter
-> +is located on a filesystem
-> +mounted with the
-> +.B \%MS_NODEV
-> +option.
-> +.TP
 > +.B EBADF
-> +The file descriptor given by
-> +.I fd
-> +(or possibly by
-> +.IR aux ,
-> +depending on the command)
-> +is invalid.
-> +.TP
-> +.B EBUSY
-> +The filesystem context associated with
-> +.I fd
-> +is in the wrong state
-> +for the given command.
-> +.TP
-> +.B EBUSY
-> +The filesystem instance cannot be reconfigured as read-only
-> +with
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +because some programs
-> +still hold files open for writing.
-> +.TP
-> +.B EBUSY
-> +A new filesystem instance was requested with
-> +.B \%FSCONFIG_CMD_CREATE_EXCL
-> +but a matching superblock already existed.
+> +.I path
+> +is relative but
+> +.I dirfd
+> +is neither
+> +.B \%AT_FDCWD
+> +nor a valid file descriptor.
 > +.TP
 > +.B EFAULT
-> +One of the pointer arguments
-> +points to a location
+> +.I path
+> +is NULL
+> +or a pointer to a location
 > +outside the calling process's accessible address space.
 > +.TP
 > +.B EINVAL
-> +.I fd
-> +does not refer to
-> +a filesystem configuration context
-> +or filesystem instance.
-> +.TP
-> +.B EINVAL
-> +One of the values of
-> +.IR name ,
-> +.IR value ,
-> +and/or
-> +.I aux
-> +were set to a non-zero value when
-> +.I cmd
-> +required that they be zero
-> +(or NULL).
-> +.TP
-> +.B EINVAL
-> +The parameter named by
-> +.I name
-> +cannot be set
-> +using the type specified with
-> +.IR cmd .
-> +.TP
-> +.B EINVAL
-> +One of the source parameters
-> +referred to
-> +an invalid superblock.
+> +Invalid flag specified in
+> +.IR flags .
 > +.TP
 > +.B ELOOP
-> +Too many links encountered
-> +during pathname resolution
-> +of a path argument.
+> +Too many symbolic links encountered when resolving
+> +.IR path .
+> +.TP
+> +.B EMFILE
+> +The calling process has too many open files to create more.
 > +.TP
 > +.B ENAMETOOLONG
-> +A path argument was longer than
+> +.I path
+> +is longer than
 > +.BR PATH_MAX .
 > +.TP
-> +.B ENOENT
-> +A path argument had a non-existent component.
+> +.B ENFILE
+> +The system has too many open files to create more.
 > +.TP
 > +.B ENOENT
-> +A path argument is an empty string,
-> +but
-> +.I cmd
-> +is not
-> +.BR \%FSCONFIG_SET_PATH_EMPTY .
+> +A component of
+> +.I path
+> +does not exist, or is a dangling symbolic link.
+> +.TP
+> +.B ENOENT
+> +.I path
+> +is an empty string, but
+> +.B AT_EMPTY_PATH
+> +is not specified in
+> +.IR flags .
+> +.TP
+> +.B ENOTDIR
+> +A component of the path prefix of
+> +.I path
+> +is not a directory, or
+> +.I path
+> +is relative and
+> +.I dirfd
+> +is a file descriptor referring to a file other than a directory.
+> +.TP
+> +.B ENOSPC
+> +The "anonymous" mount namespace
+> +necessary to contain the
+> +.B \%OPEN_TREE_CLONE
+> +detached bind-mount mount object
+> +could not be allocated,
+> +as doing so would exceed
+> +the configured per-user limit on
+> +the number of mount namespaces in the current user namespace.
+> +(See also
+> +.BR namespaces (7).)
 > +.TP
 > +.B ENOMEM
 > +The kernel could not allocate sufficient memory to complete the operatio=
 n.
 > +.TP
-> +.B ENOTBLK
-> +The parameter named by
-> +.I name
-> +must be a block device,
-> +but the provided parameter value was not a block device.
-> +.TP
-> +.B ENOTDIR
-> +A component of the path prefix
-> +of a path argument
-> +was not a directory.
-> +.TP
-> +.B EOPNOTSUPP
-> +The command given by
-> +.I cmd
-> +is not valid.
-> +.TP
-> +.B ENXIO
-> +The major number
-> +of a block device parameter
-> +is out of range.
-> +.TP
 > +.B EPERM
-> +The command given by
-> +.I cmd
-> +was
-> +.BR \%FSCONFIG_CMD_CREATE ,
-> +.BR \%FSCONFIG_CMD_CREATE_EXCL ,
-> +or
-> +.BR \%FSCONFIG_CMD_RECONFIGURE ,
+> +.I flags
+> +contains
+> +.B \%OPEN_TREE_CLONE
 > +but the calling process does not have the required
-> +.B \%CAP_SYS_ADMIN
+> +.B CAP_SYS_ADMIN
 > +capability.
 > +.SH STANDARDS
 > +Linux.
 > +.SH HISTORY
 > +Linux 5.2.
-> +.\" commit ecdab150fddb42fe6a739335257949220033b782
+> +.\" commit a07b20004793d8926f78d63eb5980559f7813404
 > +.\" commit 400913252d09f9cfb8cce33daee43167921fc343
 > +glibc 2.36.
 > +.SH NOTES
-> +.SS Generic filesystem parameters
-> +Each filesystem driver is responsible for
-> +parsing most parameters specified with
-> +.BR fsconfig (),
-> +meaning that individual filesystems
-> +may have very different behaviour
-> +when encountering parameters with the same name.
-> +In general,
-> +you should not assume that the behaviour of
-> +.BR fsconfig ()
-> +when specifying a parameter to one filesystem type
-> +will match the behaviour of the same parameter
-> +with a different filesystem type.
-> +.P
-> +However,
-> +the following generic parameters
-> +apply to all filesystems and have unified behaviour.
-> +They are set using the listed
-> +.BI \%FSCONFIG_SET_ *
-> +command.
-> +.TP
-> +\fIro\fP and \fIrw\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether the filesystem instance is read-only.
-> +.TP
-> +\fIdirsync\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Make directory changes on this filesystem instance synchronous.
-> +.TP
-> +\fIsync\fP and \fIasync\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether writes on this filesystem instance
-> +will be made synchronous
-> +(as though the
-> +.B O_SYNC
-> +flag to
-> +.BR open (2)
-> +was specified for
-> +all file opens in this filesystem instance).
-> +.TP
-> +\fIlazytime\fP and \fInolazytime\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether to reduce on-disk updates
-> +of inode timestamps on this filesystem instance
-> +(as described in the
-> +.B \%MS_LAZYTIME
-> +section of
-> +.BR mount (2)).
-> +.TP
-> +\fImand\fP and \fInomand\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether the filesystem instance should permit mandatory lockin=
-g.
-> +Since Linux 5.15,
-> +.\" commit f7e33bdbd6d1bdf9c3df8bba5abcf3399f957ac3
-> +mandatory locking has been deprecated
-> +and setting this flag is a no-op.
-> +.TP
-> +\fIsource\fP (\fB\%FSCONFIG_SET_STRING\fP)
-> +This parameter is equivalent to the
-> +.I source
-> +parameter passed to
-> +.BR mount (2)
-> +for the same filesystem type,
-> +and is usually the pathname of a block device
-> +containing the filesystem.
-> +This parameter may only be set once
-> +per filesystem configuration context transaction.
-> +.P
-> +In addition,
-> +any filesystem parameters associated with
-> +Linux Security Modules (LSMs)
-> +are also generic with respect to the underlying filesystem.
-> +See the documentation for the LSM you wish to configure for more details.
-> +.SH CAVEATS
-> +.SS Filesystem parameter types
-> +As a result of
-> +each filesystem driver being responsible for
-> +parsing most parameters specified with
-> +.BR fsconfig (),
-> +some filesystem drivers
-> +may have unintuitive behaviour
-> +with regards to which
-> +.BI \%FSCONFIG_SET_ *
-> +commands are permitted
-> +to configure a given parameter.
-> +.P
-> +In order for
-> +filesystem parameters to be backwards compatible with
-> +.BR mount (2),
-> +they must be parseable as strings;
-> +this almost universally means that
-> +.B \%FSCONFIG_SET_STRING
-> +can also be used to configure them.
-> +.\" Aleksa Sarai
-> +.\"   Theoretically, a filesystem could check fc->oldapi and refuse
-> +.\"   FSCONFIG_SET_STRING if the operation is coming from the new API, b=
-ut no
-> +.\"   filesystems do this (and probably never will).
-> +However, other
-> +.BI \%FSCONFIG_SET_ *
-> +commands need to be opted into
-> +by each filesystem driver's parameter parser.
-> +.P
-> +One of the most user-visible instances of
-> +this inconsistency is that
-> +many filesystems do not support
-> +configuring path parameters with
-> +.B \%FSCONFIG_SET_PATH
-> +(despite the name),
-> +which can lead to somewhat confusing
-> +.B EINVAL
-> +errors.
-> +(For example, the generic
-> +.I source
-> +parameter\[em]which is usually a path\[em]can only be configured
+> +.SS Mount propagation
+> +The bind-mount mount objects created by
+> +.BR open_tree ()
 > +with
-> +.BR \%FSCONFIG_SET_STRING .)
+> +.B \%OPEN_TREE_CLONE
+> +are not associated with
+> +the mount namespace of the calling process.
+> +Instead, each mount object is placed
+> +in a newly allocated "anonymous" mount namespace
+> +associated with the calling process.
 > +.P
-> +When writing programs that use
-> +.BR fsconfig ()
-> +to configure parameters
-> +with commands other than
-> +.BR \%FSCONFIG_SET_STRING ,
-> +users should verify
-> +that the
-> +.BI \%FSCONFIG_SET_ *
-> +commands used to configure each parameter
-> +are supported by the corresponding filesystem driver.
-> +.\" Aleksa Sarai
-> +.\"   While this (quite confusing) inconsistency in behaviour is true to=
-day
-> +.\"   (and has been true since this was merged), this appears to mostly =
-be an
-> +.\"   unintended consequence of filesystem drivers hand-coding fsparam p=
-arsing.
-> +.\"   Path parameters are the most eggregious causes of confusion. Hopef=
-ully we
-> +.\"   can make this no longer the case in a future kernel.
+> +One of the side-effects of this is that
+> +(unlike bind-mounts created with
+> +.BR mount (2)),
+> +mount propagation
+> +(as described in
+> +.BR mount_namespaces (7))
+> +will not be applied to bind-mounts created by
+> +.BR open_tree ()
+> +until the bind-mount is attached with
+> +.BR move_mount (2),
+> +at which point the mount object
+> +will be associated with the mount namespace
+> +where it was attached
+> +and mount propagation will resume.
+> +Note that any mount propagation events that occurred
+> +before the mount object was attached
+> +will
+> +.I not
+> +be propagated to the mount object,
+> +even after it is attached.
 > +.SH EXAMPLES
-> +To illustrate the different kinds of flags that can be configured with
-> +.BR fsconfig (),
-> +here are a few examples of some different filesystems being created:
+> +The following examples show how
+> +.BR open_tree ()
+> +can be used in place of more traditional
+> +.BR mount (2)
+> +calls with
+> +.BR MS_BIND .
 > +.P
 > +.in +4n
 > +.EX
-> +int fsfd, mntfd;
-> +\&
-> +fsfd =3D fsopen("tmpfs", FSOPEN_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "inode64", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "uid", "1234", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "huge", "never", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "casefold", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_NOEXEC);
-> +move_mount(mntfd, "", AT_FDCWD, "/tmp", MOVE_MOUNT_F_EMPTY_PATH);
-> +\&
-> +fsfd =3D fsopen("erofs", FSOPEN_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/loop0", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "acl", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "user_xattr", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE_EXCL, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_NOSUID);
-> +move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> +int srcfd =3D open_tree(AT_FDCWD, "/var", OPEN_TREE_CLONE);
+> +move_mount(srcfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
 > +.EE
 > +.in
 > +.P
-> +Usually,
-> +specifying the same parameter named by
-> +.I key
-> +multiple times with
-> +.BR fsconfig ()
-> +causes the parameter value to be replaced.
-> +However, some filesystems may have unique behaviour:
+> +First,
+> +a detached bind-mount mount object of
+> +.I /var
+> +is created
+> +and associated with the file descriptor
+> +.IR srcfd .
+> +Then, the mount object is attached to
+> +.I /mnt
+> +using
+> +.BR move_mount (2)
+> +with
+> +.B \%MOVE_MOUNT_F_EMPTY_PATH
+> +to request that the detached mount object
+> +associated with the file descriptor
+> +.I srcfd
+> +be moved (and thus attached) to
+> +.IR /mnt .
+> +.P
+> +The above procedure is functionally equivalent to
+> +the following mount operation using
+> +.BR mount (2):
 > +.P
 > +.in +4n
 > +.EX
-> +\&
-> +int fsfd, mntfd;
-> +int lowerdirfd =3D open("/o/ctr/lower1", O_DIRECTORY | O_CLOEXEC);
-> +\&
-> +fsfd =3D fsopen("overlay", FSOPEN_CLOEXEC);
-> +/* "lowerdir+" appends to the lower dir stack each time. */
-> +fsconfig(fsfd, FSCONFIG_SET_FD, "lowerdir+", NULL, lowerdirfd);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower2", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower3", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower4", 0);
-> +.\" fsconfig(fsfd, FSCONFIG_SET_PATH, "lowerdir+", "/o/ctr/lower5", AT_F=
-DCWD);
-> +.\" fsconfig(fsfd, FSCONFIG_SET_PATH_EMPTY, "lowerdir+", "", lowerdirfd);
-> +.\" Aleksa Sarai: Hopefully these will also be supported in the future.
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "xino", "auto", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "nfs_export", "off", 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-> +move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> +mount("/var", "/mnt", NULL, MS_BIND, NULL);
 > +.EE
 > +.in
 > +.P
-> +And here is an example of how
-> +.BR fspick (2)
-> +can be used with
-> +.BR fsconfig ()
-> +to reconfigure the parameters
-> +of an extant filesystem instance
-> +attached to
-> +.IR /proc :
+> +.B \%OPEN_TREE_CLONE
+> +can be combined with
+> +.B \%AT_RECURSIVE
+> +to create recursive detached bind-mount mount objects,
+> +which in turn can be attached to mount points
+> +to create recursive bind-mounts.
 > +.P
 > +.in +4n
 > +.EX
-> +int fsfd =3D fspick(AT_FDCWD, "/proc", FSPICK_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "hidepid", "ptraceable", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "subset", "pid", 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
+> +int srcfd =3D open_tree(AT_FDCWD, "/var", OPEN_TREE_CLONE | AT_RECURSIVE=
+);
+> +move_mount(srcfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> +.EE
+> +.in
+> +.P
+> +The above procedure is functionally equivalent to
+> +the following mount operation using
+> +.BR mount (2):
+> +.P
+> +.in +4n
+> +.EX
+> +mount("/var", "/mnt", NULL, MS_BIND | MS_REC, NULL);
+> +.EE
+> +.in
+> +.P
+> +One of the primary benefits of using
+> +.BR open_tree ()
+> +and
+> +.BR move_mount (2)
+> +over the traditional
+> +.BR mount (2)
+> +is that operating with
+> +.IR dirfd -style
+> +file descriptors is far easier and more intuitive.
+> +.P
+> +.in +4n
+> +.EX
+> +int srcfd =3D open_tree(100, "", AT_EMPTY_PATH | OPEN_TREE_CLONE);
+> +move_mount(srcfd, "", 200, "foo", MOVE_MOUNT_F_EMPTY_PATH);
+> +.EE
+> +.in
+> +.P
+> +The above procedure is roughly equivalent to
+> +the following mount operation using
+> +.BR mount (2):
+> +.P
+> +.in +4n
+> +.EX
+> +mount("/proc/self/fd/100", "/proc/self/fd/200/foo", NULL, MS_BIND, NULL);
+> +.EE
+> +.in
+> +.P
+> +In addition, you can use the file descriptor returned by
+> +.BR open_tree ()
+> +as the
+> +.I dirfd
+> +argument to any "*at()" system calls:
+> +.P
+> +.in +4n
+> +.EX
+> +int dirfd, fd;
+> +\&
+> +dirfd =3D open_tree(AT_FDCWD, "/etc", OPEN_TREE_CLONE);
+> +fd =3D openat(dirfd, "passwd", O_RDONLY);
+> +fchmodat(dirfd, "shadow", 0000, 0);
+> +close(dirfd);
+> +close(fd);
+> +/* The bind-mount is now destroyed. */
 > +.EE
 > +.in
 > +.SH SEE ALSO
+> +.BR fsconfig (2),
 > +.BR fsmount (2),
 > +.BR fsopen (2),
 > +.BR fspick (2),
 > +.BR mount (2),
 > +.BR mount_setattr (2),
 > +.BR move_mount (2),
-> +.BR open_tree (2),
 > +.BR mount_namespaces (7)
-> +
 >=20
 > --=20
 > 2.51.0
+>=20
 >=20
 
 --=20
 <https://www.alejandro-colomar.es>
 Use port 80 (that is, <...:80/>).
 
---x3ex4dzzzd7usxys
+--uehd373huvo3ruit
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjPxMcACgkQ64mZXMKQ
-wqmW2Q//WHnlSQNQxN5MWOc5gMLQ1G9AOnt61xpc0/IBe0jQfOuCU2mJWZAeEEF5
-h592a2YEmNAbkL7WRFpxJwNlflHqpZKbCIbwKpVJmIWERSZyuJNYVCwHznP0fobU
-sCErrjA7ePtO2z3yWsckWynW+JlGTcXR045vXaLYt30z9KZfd5E32g23F/2EtJWF
-DlGbpYFT15zQiC/osliGd0VbwKCrZZ/MCvu3x14EVU8fZrQ8V4Z0MeJQ0T8kf/+d
-pgxx+AlJEwn/KypwUE7Na4OjZh+I2r8mDlW7RzuxNbmWw5roMuuC9Je2KPAPX0bI
-5VxNXH/lWddhN6blTkPq9JdRLSu71Hoc0YYjTapmpfRiiM8nRxycnTvpDIDLgIRy
-Sgji/FRUzbTbfc93yrmM68+sqSjzu2ZR1V6flnzGOxfZI1hIU5gNiHaORiccJYbD
-hTwy+mf1YKA8o487CS1ILyXf/6pfcOKTFkpgnbWGziIDzMKWXYoFNZPVyo9+V2+2
-hJ5E9OYFPqNKD2DXLebsbR5/K+jPm/SmyXsR2yxex3T9aRPDk28cm+JflSjSZN1t
-riKgpIOyuk0A17DlSXReO9BWpIciMu1B2aqpFgh5VoA5meBW9v9goPn3RWbz4fME
-ozZlMPSfEIT5ioyjmltAcHBNBlctgrhwM+6X4fkIRMaXXnvKvHs=
-=jp9t
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjPyaMACgkQ64mZXMKQ
+wqlUyQ//Xyii1xOztQ4IilMY5soVdsJ6qA2Ed8ZAenh2pn9c7AJKFS2H/kUuJ8U8
+LIXi2uA4P/yHwW0fEZyPAZM5ys+37yEK9y0Ik1WyY3JiWfy14yrSq/M54CdFRj6w
+rr1QgyB9IxixnbrbzHjJM+zSESpcJZ5IYuJMlFVB74BqAC+ObTbuiQhdhMyUh9sl
+ax3JFztTogoKcsYOjwIrBHmfhfB6OGaE/N9foNDDYTYYIqrnanPMO9RhTRPD/zCn
+PLoL1FKxOYpq2WJvBueXsKUgAakY1KEyfX1n8dBfd75p4C5iADqWBwwSL40rci+8
+vfx7Xiu+dqjOK887xywT6dzX2B6beu//l3axKpxJ8vHCNwa90VWzr/0eAYgi+sxP
+x1nlSBy0zDiHKXIJbVwPJg2T7nnzcGj29alvfokRs8799V9YJ6oGSMZQCLwrT03D
+Nte4USQztkDIUQzBdeoMe+ZwH4B29WSefPcHnGAVg2UUGavDSGLX/taI++BiCszm
+UFWj3QkUfd/4WjE8Q4yFpYjJXT+ehjNJNo91QWh5xQHXrmeeN9gMyxPIbdmKYfBW
+NOlWApYFgZBzdgC0smdHcCFjQ1V5Heayup+uosRFeLCR0hj/MVNWqfz+ZGzrxqlr
+ENBcQ3jdZSuf5eHo8BbX9XWuUKKXWrC2ygXT/MCBazRC3J6bPA8=
+=5GNW
 -----END PGP SIGNATURE-----
 
---x3ex4dzzzd7usxys--
+--uehd373huvo3ruit--
 
