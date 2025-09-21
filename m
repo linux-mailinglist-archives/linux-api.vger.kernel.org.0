@@ -1,179 +1,144 @@
-Return-Path: <linux-api+bounces-4902-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4903-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7918CB8DD47
-	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 17:17:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49E0B8E8A4
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 00:21:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 387E23AD032
-	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 15:17:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A4773A6862
+	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 22:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD441A0BE0;
-	Sun, 21 Sep 2025 15:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B3F274666;
+	Sun, 21 Sep 2025 22:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/qP71uH"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PYp+qLmQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AEF846F;
-	Sun, 21 Sep 2025 15:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D3C25A642
+	for <linux-api@vger.kernel.org>; Sun, 21 Sep 2025 22:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758467848; cv=none; b=PSIjQ+y+ZzGGtmTAMIGVaoCmKRBUsnhQ0e2dF2B9a+pa53mswBhlU9Jdz2oy92LiCs8TNNrbrYk2SyrmbeNXM1rBcAiZb0+2lmZkBAMn0KNOaC7+xY/7LBgqnfPwDWdOsvhfv+FrsdSd73NpUUL176OCPfDe80ajNzdldGo2KbE=
+	t=1758493289; cv=none; b=LLlIuBqNpLiBfQ9w8Y0tWkvnmUygoq8X8kOQmJ6erPAC9G4WowDp+VPDFqC7OSibCxFDXec9te9tLcuo24aIrKlwZlWLc4d/JduwMUmkSZy7LBDcM1XX3GwQWETULzFKXY9Rb8JbCTsb6tooEGV4+Jc+DA22QuTawieEWycNGi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758467848; c=relaxed/simple;
-	bh=wB6t+PXCW9xWp0M7SlgE39OvB5IKHEMkH6szH1iq7o8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OUNMZuo9Daw+iGncvqzwjWsGmYFc7UpafZl5lu54T5/WxUY5jWj+3ObhNnZx4/9ZljmlcDcoOzC+24Qlph+NnTcIgem3+TbCi11nCQ3EyyeAw4NrwDZ9tVYSr/CYPPdu6tX6uamUX6SSOX+URPpKU3yi4vP467f/KOlHNNO6IXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/qP71uH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BA3C4CEE7;
-	Sun, 21 Sep 2025 15:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758467848;
-	bh=wB6t+PXCW9xWp0M7SlgE39OvB5IKHEMkH6szH1iq7o8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i/qP71uH939/px8WS9ORSXfpsmn6bSVJSbLh8vMm3hYpGip1hxDmk14qjfpymPFeV
-	 gtXzDCZwDXo1kElLvYuU07on20lScurvRvB7bNq4k8RhMxmaxAVpiUWe1t9djd+bkG
-	 LqW9CcE3TSMQMjThx+OAwYMpMAhAA9Q4HjWhFDPqHc/GShQFerZ7lyszwao5d2VP01
-	 yw1/QKjTZ8V5vNUwUg8ezLxxZ+vcOGpi1lCL5F5Dh5LbQq7BVZMUhwF4ORkf73/LOB
-	 TPVNaCVDt3r275sm4Vl12OoM1rKEBh3SKiEWd2xeqZ9x1bdUadV5+5mWBWLpe3ms/x
-	 aajlUckXAyiCg==
-Date: Sun, 21 Sep 2025 17:17:20 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 03/10] man/man2/fspick.2: document "new" mount API
-Message-ID: <5mty7i4v7ygpbedhjevg2fvdlm26rmxeatar7a2u675ulacfyh@ljjjc4za4nl6>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-3-1261201ab562@cyphar.com>
- <y77zyujsduf5furdf2biphuszil63kftb44cs74ed2d2hf2gdr@hci7mzt6yh7b>
- <2025-09-21-petite-busy-mucus-rite-01PHer@cyphar.com>
+	s=arc-20240116; t=1758493289; c=relaxed/simple;
+	bh=6oei0aWXFhVRzFAC+ZsItJg6xnA+dZu9f+eLcagd27c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TxUsQ5ORQJ06rKJI79Xqx21dKfdRTR/LNbGnoyRLUY5/BAOncMunJ3zJqcQLCGR4CazinKSkU3mgR/zmMDszzeMVjYN9QwiLtdymsIxq/ykQLxRtlPaCQgTQK7KLKP+l6ky4SexRQMP/zDivgOIICx0Zeg7hwfdZULapwOAP8Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PYp+qLmQ; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b3d3f6360cso37567891cf.0
+        for <linux-api@vger.kernel.org>; Sun, 21 Sep 2025 15:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1758493287; x=1759098087; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PHLyAWNRRvZ698aiszn9fxUOIJUP3t6BL2WpPwYPRag=;
+        b=PYp+qLmQxDpcmaKJAmXMNT4GUpKlnhY6sJMKA98L5JO9raId4BOtZqe4WvAc8WA1zg
+         tPLT7hLlrHPZWi7qcn9VILdX7yuKmgioYSnnb6UVNzkerEruUta/TsokQD6GY3314ZLk
+         PpFK6/80wRa8dfWftRO3ku1Ayr/N3gSR1QeuLFUNLW0QEChYKfSRh4UDtSAy10HGjtFx
+         8U15lT76FdDnIJqfvDxXx+5aBa/a2jzoc8JBxh6ggMbtcG3XqkYEGyRbJPYeEXA9ae9d
+         mW9rrKbYxoZ2k9LtHic6v7oeBw3FTSwXE8PjL8G/hukziGsKDx+P5tU46dvcVEIuNl1J
+         bDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758493287; x=1759098087;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PHLyAWNRRvZ698aiszn9fxUOIJUP3t6BL2WpPwYPRag=;
+        b=ah3Ob+yIqd3CqbCdabR+gM+x53Cn0wTSVAqgVhN4BM2HNPajCH9qO9X+dEFPclEIXv
+         M2f6Xwgb+mWlaoc77F3YRIFpaBqYEM65zWKCCMeaKd71wXFMD9nVJzgmJLU0UyumoEDz
+         saLH4EyF9pnx66b7p/F2v7NB8tyekoAQe2QLzb58OfclyKv36iYgz+Ox24uSCMdrw+wO
+         4pVgFNhP2XkJ337dpHYZEQEPcpBFDqV3it4Uxc3xxupami78Guw9FT23XhHLFRF3Hyn4
+         3M3DhRUbRFuT6PvVpswJmDwjRhPIQxa9XChjR/esPqmkumRzuquO51ccVLgudwM2GeJE
+         ZH4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXg/b2bkLlAmGz7Ckbz1gmc/KcJUv3BA0LuWTSQR0lYcpiuoCpZJdzINHIafFTycaoW+ZsDyaFN8Nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDC4vlWOZ4GOZG53VOpJ+tOpyKoUlRTu1N8/OsSk66iFabq+za
+	nZBh6vs7HTMT9tcTikMf25Pot8a7yJDDI3KMwRwjSLdk/cQ+6HqrZDUEyJAgOpS+Xe6nlDSvWzT
+	IvY+B8XZWsm9NjvqTGEHvREMz3qyXNBDVReY02hoDvQ==
+X-Gm-Gg: ASbGncuEwbCt7t5lY8FySNkMI54IFC9k8KfwBnIOebk1dLuFPB+6LJXlT0ijzY4oU1E
+	GtxS5U6SWK0zV86e0KFcSrBU+oBjl/tB4JJ5SayBY8e4hWSu1XDJie1JpwcOgM8JTFjQkRKiRWn
+	LSBkqk9FPg/XWMqfvjjg6q9q4de2hava1Ky3s/4OPQWUoldUBk4Zlh81gf4TjKn3pmmBS3lLlGI
+	6rznoY=
+X-Google-Smtp-Source: AGHT+IF9Bd/LCK7h6/iC83qqAy9wLiFHaZDvz7ruwA4mtaZ7EwXHPx8srwbwmVkArl3yVoSLBLTkv5dGYhCDZ5ZrJps=
+X-Received: by 2002:a05:622a:4c06:b0:4ca:10bd:bae5 with SMTP id
+ d75a77b69052e-4ca10bdc5dfmr21648151cf.81.1758493287147; Sun, 21 Sep 2025
+ 15:21:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uoobs7joup3kfhd6"
-Content-Disposition: inline
-In-Reply-To: <2025-09-21-petite-busy-mucus-rite-01PHer@cyphar.com>
-
-
---uoobs7joup3kfhd6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-8-pasha.tatashin@soleen.com> <20250814132233.GB802098@nvidia.com>
+ <aJ756q-wWJV37fMm@kernel.org> <20250818135509.GK802098@nvidia.com>
+In-Reply-To: <20250818135509.GK802098@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sun, 21 Sep 2025 18:20:50 -0400
+X-Gm-Features: AS18NWCcd-5oq0uHFf03h4LWbprCKHRBHh45SwiCRQil-ZYQKwKcHW5Zv6e3HKA
+Message-ID: <CA+CK2bDc+-R=EuGM2pU=Phq8Ui-8xsDm0ppH6yjNR0U_o4TMHg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/30] kho: add interfaces to unpreserve folios and
+ physical memory ranges
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 03/10] man/man2/fspick.2: document "new" mount API
-Message-ID: <5mty7i4v7ygpbedhjevg2fvdlm26rmxeatar7a2u675ulacfyh@ljjjc4za4nl6>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-3-1261201ab562@cyphar.com>
- <y77zyujsduf5furdf2biphuszil63kftb44cs74ed2d2hf2gdr@hci7mzt6yh7b>
- <2025-09-21-petite-busy-mucus-rite-01PHer@cyphar.com>
-MIME-Version: 1.0
-In-Reply-To: <2025-09-21-petite-busy-mucus-rite-01PHer@cyphar.com>
 
-Hi Aleksa,
+On Mon, Aug 18, 2025 at 9:55=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
+>
+> On Fri, Aug 15, 2025 at 12:12:10PM +0300, Mike Rapoport wrote:
+> > > Which is perhaps another comment, if this __get_free_pages() is going
+> > > to be a common pattern (and I guess it will be) then the API should b=
+e
+> > > streamlined alot more:
+> > >
+> > >  void *kho_alloc_preserved_memory(gfp, size);
+> > >  void kho_free_preserved_memory(void *);
+> >
+> > This looks backwards to me. KHO should not deal with memory allocation,
+> > it's responsibility to preserve/restore memory objects it supports.
+>
+> Then maybe those are luo_ helpers
+>
+> But having users open code __get_free_pages() and convert to/from
+> struct page, phys, etc is not a great idea.
 
-On Mon, Sep 22, 2025 at 12:55:13AM +1000, Aleksa Sarai wrote:
-> > This should use '.B. (Bold).  BR means alternating Bold and Roman, but
-> > this only has one token, so it can't alternate.
-> >=20
-> > If you run `make -R build-catman-troff`, this will trigger a diagnostic:
-> >=20
-> > 	an.tmac: <page>:<line>: style: .BR expects at least 2 arguments, got 1
->=20
-> Grr, I thought I fixed all of these. I must've changed it in a rework
-> and forgot to fix it.
+I added:
 
-No problem; mistakes happen.  :)
+void *luo_contig_alloc_preserve(size_t size);
+void luo_contig_free_unpreserve(void *mem, size_t size);
 
-> > > +Please note that\[em]in contrast to
-> > > +the behaviour of
-> > > +.B MS_REMOUNT
-> > > +with
-> > > +.BR mount (2)\[em] fspick ()
-> >=20
-> > Only have one important keyword per macro call.  In this case, I prefer
-> > em dashes to only be attached to one side, as if they were parentheses,
-> > so we don't need any tricks:
-> >=20
-> > 	Please note that
-> > 	\[em]in contrast to
-> > 	...
-> > 	.BR mount (2)\[em]
-> > 	.BR fspick ()
->=20
-> Based on my testing, doing it that way adds whitespace to one side of
-> the em dash
+Allocate contiguous, zeroed, and preserved memory.
 
-You're correct; this adds whitespace on one side of the em dash.
-
-> and typographically em dashes should not have whitespace on
-> either side AFAIK.
-
-This rule differs for different style guides, and different languages.
-In Spanish, the most common style is having spaces as if the dashes
-were parentheses; very much in a logical style, like quotes not having
-extraneous punctuation inside them.
-
-I very much prefer the Spanish conventions, and dislike the more common
-used conventions for English.  I don't know if Branden can illustrate us
-with some history about em dashes.
-
-> If there is a way to get the layout right without
-> breaking the "one macro per line" rule, I'd love to know! :D
-
-There's a way.  I'll show it just for your curiosity.  :D
-
-
-	.BR mount (2)\[em]\c
-	.BR fspick ()
-
-(I hope it works, because I haven't tested it.  Accidental typos might
- break my untested examples.)  :)
-
-
-Cheers,
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
-
---uoobs7joup3kfhd6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjQFwAACgkQ64mZXMKQ
-wqkV5w/9GcRWolkmcFLp9q+F29lEA747+yi0l2yW0atOOQNVEFNbVX5o1+S7jZDH
-RS2pTsM9YAhA4i4RgxMBMYOtNcDB+mdqX2kjMNkORoMqxC1ePROibQz2MQCuJlJp
-Ok8OA3M/5NrctrshMfuMRf0weY+BJWIMfryhMz5zYByXQW6Gi6RMubBCs1Awc8It
-PYpueQJpIk18PZ1Jpxf4RR2FUidcNNJ/QR6ETW63COgBYoByZuAnm7guSHWdi1wQ
-r0f9rAXwO2ll3FcgRo0f3YJIARx/Xk4Kto03B8YZ903llyNlhsFcBqqQsKnIKmxl
-dDuj92J04t3dNhST4H5X4cuFwsHJjDND43OVfwAWi4lmE0p7uMXWVfxMhYFqFg8J
-4J/l0v7HcJ//aZ1qR1MCskp8++YUUE7RlGxsvwTlVKSxtSJ7NLS5X2fCUCCo92aJ
-6NfilDOr54bqz59ks06SX0sAoiXIuPZ5SN2Wpa7WYD1B4N4HWkEmQssiMCa0hJi9
-fYkCs613XPasoqJLYewClhekxmeTVk6/d1rWb5kNcoPUmw8SynE6Ui9qQaNyqCgX
-/kU6XyAtMqvILhHQ7Df9+KxILEHxOa6GLLG+Pyc+hDHbfIhM/JUTkOxPohNGw+ut
-AoRyXT70bkFOaa2T8dxOR+AEarlP6ec7Tla9kG9CSZSDPLyvMNk=
-=WeB5
------END PGP SIGNATURE-----
-
---uoobs7joup3kfhd6--
+Pasha
 
