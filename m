@@ -1,135 +1,162 @@
-Return-Path: <linux-api+bounces-4888-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4889-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9B2B8BEA2
-	for <lists+linux-api@lfdr.de>; Sat, 20 Sep 2025 05:55:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EED1B8D315
+	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 03:34:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EC335A067E
-	for <lists+linux-api@lfdr.de>; Sat, 20 Sep 2025 03:55:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 251B74405C2
+	for <lists+linux-api@lfdr.de>; Sun, 21 Sep 2025 01:34:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8A1218599;
-	Sat, 20 Sep 2025 03:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7F98528E;
+	Sun, 21 Sep 2025 01:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFPKZ+Oq"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="f8b1ZJl1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91592224220
-	for <linux-api@vger.kernel.org>; Sat, 20 Sep 2025 03:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960BD2F4A;
+	Sun, 21 Sep 2025 01:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758340539; cv=none; b=SPbAjZdrXbhS3iB7+mER6/ForM2apyht81a/+EfwjKQ/CY1ggEJsxrSffx1n2LHnDxpoWACWY7Iz/rjnwVmwFlgYv7ESgkmbaZtPQgj88pVpmHcKOkzYl2F3578gJLRQ8pKl1MYxadpqI8LsLDf/CW6RUuwzQ9dFvFgAzSOd0rY=
+	t=1758418439; cv=none; b=F/bZunO7pI2q2VChU0Rzzxl9RcukueToe5iF5yjUXxzdx3phlg79+lSgsRvwlcv9WZeF7yS4F+uZSHRH+N8Jru/NRbWH6ZJuo/xbw/qht09rLiC7htzsPRqiZBKIGUdt0bf5u2C5Xgl2rLrJdGnn3mxwJSbpgrtvW1aW51C381U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758340539; c=relaxed/simple;
-	bh=wLR5A4WVJygISPHG42IIvYb+LPD25B9I3WH7jC2e5xU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sps9oXZXlnblEITZmO5YKYd25Z4wGhRazs+J2a0MNg5PkhQ/+udVe82NELRGLlZ06Ni4OHR/oKzjfqEjx3PL/HqJNMT2vZqwmJsqdTvHzK8mA+jUpk7AOQe4hlHplI5QnRMT0DWMBQ+0E/D7/nQYdH3daT6QmeKsWP6g1zxdr8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZFPKZ+Oq; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-ea669836e8dso1444134276.3
-        for <linux-api@vger.kernel.org>; Fri, 19 Sep 2025 20:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758340534; x=1758945334; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLR5A4WVJygISPHG42IIvYb+LPD25B9I3WH7jC2e5xU=;
-        b=ZFPKZ+OqAAj1VhKugky3kjemp/VIqd75of38HGEmt1IOj91W4b7jLe+Myfu3ent1n8
-         I+OsNztO7baVS7SDNqQDhsKyRcudzp5fPl2dQ3EsKmIi5TGzzTSREF9BOYtdvwLtcCQ9
-         lX8BgfQDKyo0m2JfxIC+zD4CzDFgLzCucCTNnl0sqYXFOybMgodTGPU/RxeED3KpD6Ge
-         7yQG/mA18ZVwa9TAvZspdmtVMoFft3MmApalEp7/PJVnD7pAqdNfemDIdWOkktS1fK7N
-         5MIan1ZBYEJnEUm4lD9oNaRI/NjfTi3RIA4zVC5lAmPgo6eel/h/B86mXEMgdrCKJemE
-         DM2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758340534; x=1758945334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wLR5A4WVJygISPHG42IIvYb+LPD25B9I3WH7jC2e5xU=;
-        b=aYrCyToeRVvVTcjW0oGBGu7TIUV1MhYwq+loT+hHU3PLHo9qsAsiJVBMDpa87MGbDm
-         2vx8l7q4oAupQBDcaKmuMhaRQNlTEMRzltEK8tQabtdtxEXlQNEDU0hAgXtftqc5cGdH
-         kUQALWsAx7X6lY1wfFJE8IBnvghi5xs7569bOrUNcFji1Jn7bkB/Jmhb+xH8+bQ2BZJA
-         XrHfXHk8HT0zjZFxPPLQdz2VCqo0y8LLvw1WoHqvuZsljieU9ydMnuCoMnnzIG2PfAb6
-         9qfTdKCf2VdnUxOw21Ugf4WicWtyOdP2qgsY2D/epDvP5aGWZQNLuddVbEapHDnHoGIo
-         7/aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1wOu/FyHvh77/MJ2gs9f/lXECNl6oELaRoXYggZQxqW0UIt17jdM0wDwWI4Ev9S3ux9ASjAbT4cg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFvqnrey/zl3d6wiSkXeJimlFoFdufjrSDNPZVZet1KfJBh/cn
-	+nOpVWq8COLz/8Id5U4ReGUp+6cbj5fA9XW0x5jUzPviIT5IWeEOWixKev8heOIqitPUKDvuimo
-	RRB2sLff8LysMzt+zaL11PbmcHYK0QLs=
-X-Gm-Gg: ASbGncu32dNCwag0CDdFfcaqKuHZwg8as4LZgf+VE6hlHhhciUO1AGZ73uT/par5JvY
-	AkktMDwpCloN/k42394QOWjO1BVtfcMBkL2kJ6VUNaoezMjPYeQeQXMBuYZsPSjearSFA5PW7Ml
-	voDpdEOW2YzoBylflaqm2HpZzthZqzRkGAwA6QWyDOmT4GbxyGoZYr43eLJxDS37uwe9ziwWMjo
-	UPKBpY=
-X-Google-Smtp-Source: AGHT+IH7cxRQcDAWrx6iopGK0fgAvvotX/SwRt/T/KElvH4XQULrd96czgOrVv1CSvA0vDpbRNCMKcVlhfdowxEBryU=
-X-Received: by 2002:a53:b3c5:0:b0:622:4818:ce38 with SMTP id
- 956f58d0204a3-6347f610c7emr3546092d50.37.1758340534336; Fri, 19 Sep 2025
- 20:55:34 -0700 (PDT)
+	s=arc-20240116; t=1758418439; c=relaxed/simple;
+	bh=eum0Inf5j/D2wGDHed9Hse32BrSEDt04Tl9cEMDkgQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qp2lc+8wSSq+5X0vdnrWpDXR3FO+EOySJDjvq1Ya+AqHtATu03i2Q2CwQ4hcqBeOJwHBcQFVaJcP4bJI8IIP0J6A/a5WOT8OnRHPHsH32PgdjOecBuF3uvH7sqgOi5iI7qG+d7KPh33/YuGmBH7Mh+3TTIhKk4bUR06NSRFkp7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=f8b1ZJl1; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cTpfz4Klcz9tDm;
+	Sun, 21 Sep 2025 03:33:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1758418427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3f6t6vmBYye0E4WtFhp7B8gfy+AGUsrH5RjZcfPxWfE=;
+	b=f8b1ZJl1VflEK45c1k+XpXqo8jOv1O0XL2vgpmdxwO/Aue7t9Eju1URruWM5U+PqELbvB5
+	Cyv7oeJ6JcgpV6xLBbg4dphi8NNS0ibnUV8W+wZNgoim/HeaPGhLlGI+PpjMtWAUY/+Uxn
+	D326X+pWLLCWVI65Bi8ARRjMwLAzAihPFBemc0FGV8FZQ7OpjLHURpyxckPcl7KRZrWxTq
+	vLSqHIFq5/0xSKkApJw0GE5lAywZCLBTefql46t8cKTaOeF2AZ6g8QCECSl/B9zHAOkvMF
+	oRhfYoDpOK37ueq4DM13oe13Hn5JDyNj0CQbY9J6IxpA7ocpY2BI9zjkO4P7CQ==
+Date: Sun, 21 Sep 2025 11:33:34 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v4 02/10] man/man2/fsopen.2: document "new" mount API
+Message-ID: <2025-09-21-washed-creative-tenure-nibs-hssPyL@cyphar.com>
+References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-2-1261201ab562@cyphar.com>
+ <zrifsd6vqj6ve25uipyeteuztncgwtzfmfnfsxhcjwcnxf2wen@xjx3y2g77uin>
+ <2025-09-19-movable-minty-stopper-posse-7AufW3@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
- <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
-In-Reply-To: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Sat, 20 Sep 2025 06:54:58 +0300
-X-Gm-Features: AS18NWCqg0xtU5KiNe17DWjmiPCEbBI_FSj5NCOyDGZFj_7oFaRqSu7O_vUKCrA
-Message-ID: <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Nicolas Schichan <nschichan@freebox.fr>
-Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
-	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
-	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
-	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
-	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
-	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
-	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
-	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
-	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
-	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
-	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
-	x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mwjb6nrzo6dxs3w5"
+Content-Disposition: inline
+In-Reply-To: <2025-09-19-movable-minty-stopper-posse-7AufW3@cyphar.com>
+
+
+--mwjb6nrzo6dxs3w5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 02/10] man/man2/fsopen.2: document "new" mount API
+MIME-Version: 1.0
 
-On Fri, Sep 19, 2025 at 6:25=E2=80=AFPM Nicolas Schichan <nschichan@freebox=
-.fr> wrote:
-> Considering that the deprecation message didn't get displayed in some
-> configurations, maybe it's a bit early at the very least.
+On 2025-09-20, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2025-09-19, Alejandro Colomar <alx@kernel.org> wrote:
+> > Hi Aleksa,
+> >=20
+> > On Fri, Sep 19, 2025 at 11:59:43AM +1000, Aleksa Sarai wrote:
+> > > This is loosely based on the original documentation written by David
+> > > Howells and later maintained by Christian Brauner, but has been
+> > > rewritten to be more from a user perspective (as well as fixing a few
+> > > critical mistakes).
+> > >=20
+> > > Co-authored-by: David Howells <dhowells@redhat.com>
+> > > Signed-off-by: David Howells <dhowells@redhat.com>
+> > > Co-authored-by: Christian Brauner <brauner@kernel.org>
+> > > Signed-off-by: Christian Brauner <brauner@kernel.org>
+> > > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> > > ---
+> > >  man/man2/fsopen.2 | 384 ++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++
+> > >  1 file changed, 384 insertions(+)
+> > >=20
+> > > diff --git a/man/man2/fsopen.2 b/man/man2/fsopen.2
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..7cdbeac7d64b7e5c969de=
+e619a039ec947d1e981
+> > > --- /dev/null
+> > > +++ b/man/man2/fsopen.2
+> > > @@ -0,0 +1,384 @@
+> > > +.\" Copyright, the authors of the Linux man-pages project
+> > > +.\"
+> > > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> > > +.\"
+> > > +.TH fsopen 2 (date) "Linux man-pages (unreleased)"
+> > > +.SH NAME
+> > > +fsopen \- create a new filesystem context
+> > > +.SH LIBRARY
+> > > +Standard C library
+> > > +.RI ( libc ,\~ \-lc )
+> > > +.SH SYNOPSIS
+> > > +.nf
+> > > +.B #include <sys/mount.h>
+> > > +.P
+> > > +.BI "int fsopen(const char *" fsname ", unsigned int " flags );
+> > > +.fi
+> > > +.SH DESCRIPTION
+> > > +The
+> > > +.BR fsopen ()
+> > > +system call is part of
+> > > +the suite of file descriptor based mount facilities in Linux.
+> >=20
+> > Minor nitpick (I can amend that; no worries):
+> >=20
+> > Because 'file-descriptor-based' works as a single modifier of
+> > facilities, it goes with hyphens.
+>=20
+> Will do for all of the new pages.
 
-I changed my opinion.
-Breaking users, who did not see a deprecation message at all,
-is unfair.
-I will send a patchset soon, which will remove initrd codepath,
-which currently contains deprecation notice. And I will put
-deprecation notice to
-other codepath.
-
-Then in September 2026 I will fully remove initrd.
-
-> SMTP server I used wasn't authenticated to google, so all gmail
-> recipients were dropped. Hopefully this work better today.
-
-Yes, this time I got your email
+By the way, I'll wait for your review of all of the remaining man-pages
+before sending v5. Thanks!
 
 --=20
-Askar Safin
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
+
+--mwjb6nrzo6dxs3w5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaM9V7RsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8FaAEAgxt7i7KVC477icQ2nXee
++07Nb+PeRvd/n8f4bdYp2+kA/A9g0PdvLFdVscUKDlU4nGnZJRZsoP6OIyn3n79G
+TQ0L
+=Ebeq
+-----END PGP SIGNATURE-----
+
+--mwjb6nrzo6dxs3w5--
 
