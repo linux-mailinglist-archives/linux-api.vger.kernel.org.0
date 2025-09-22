@@ -1,165 +1,141 @@
-Return-Path: <linux-api+bounces-4910-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4911-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C10AB91B5A
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 16:29:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAF9B91D10
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 16:56:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3615424C7E
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 14:29:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B48763B1970
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 14:55:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9383C23E325;
-	Mon, 22 Sep 2025 14:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB922D77FA;
+	Mon, 22 Sep 2025 14:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="T5tm19TQ"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="D6phggC7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEA1231830
-	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560122D6E60
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758551351; cv=none; b=rs4kfm5at53vsZQ6c683tPOdir+QK+6I/NyJz2UtF1BOaB9IK7wdUFMPb3f9NAexpe5Sldo9wqYS+2NvNqGp7OoX/F3RoFLG5IfM8Hz7RFFwDJ6Ohb5fnS7G0LWpq4EWDxZQoXGr5swCufPu/Rw/EEl2tYNfoovKFOY/fO4ymPE=
+	t=1758552930; cv=none; b=bBu+4aQwYP5/m/AAnTkrUXSHHXD1DD/QrlzB5wOFilPdzfmM7mlKjppoZ8QJzxoCGlxeETZ+YNfyazYIbpDyv48Jt/VKcy52MJyn+Jniu9RqYDpo32QO3XLVih9LWVLJzj4PkVULNPXBUXQutvvOxYL8fFBIn8HLvGwgyIWNsBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758551351; c=relaxed/simple;
-	bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+	s=arc-20240116; t=1758552930; c=relaxed/simple;
+	bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdX7rbLzNZUYZVkNiKvbh7EIMQ2Ae1/+NqHc28lzmTEViFXEGrErJOHzyKMflki4kqkZ/2C/tIdqgUktsmMrSHDXmimI9wN3xFnMBa7zz+9EeSiqr/3HO0b5kReBUcIJM0nzGqI9YKHBTS2frk54CyR59znzGUuJgh+tH5V4eDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=T5tm19TQ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55ce508d4d6so3950516e87.0
-        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 07:29:06 -0700 (PDT)
+	 To:Cc:Content-Type; b=or87qZN/ejuzSgod5Nzm2+xOkyUZhOVO3aKx+Y0gfhu5RrGFRXoar7snZEUgq31SuEG3hEYxQ9zuNm2fV1LBosJ+GyhDiVUjaTRICYR4eodiIMQBT9LfF4KrgrUEtS9xrBfUPuawc7DUPkx5VSBJLDKaMAOWhDhBNxuAB1ek0M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=D6phggC7; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4cdf3772f1dso7224721cf.1
+        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 07:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758551345; x=1759156145; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1758552927; x=1759157727; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
-        b=T5tm19TQZikqjHqoMR54+Q7+U/JgAbrwxCDjAEr+j4BV3oKJ1vYACVblsq/0dgQB3O
-         xzcE44eyHkSt3+1/LwS8iG05NDQybwpGXmErJGsX7qf1JoHnxQE/QJKsAyQCq5BZ8yUL
-         fZfsv/oGGtZ7K0RaFe8fFXZtm3jS4C5jkLwGskUTTKy01oseY4elZgmJ1wcia/Nwx29N
-         /akdQTqyJ1yRSFcBAOKV1BSGnn1RLnJEPHIfsiagl3HTh7OEmakPzgo3DZkunVSmL2Xx
-         hH2z75SXfyBjFg0mXpIzvJjI6rXfLJCfOxCsk/r78caU8Q500JO1XsPO5Zy2dD22Jb+z
-         2rDw==
+        bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
+        b=D6phggC75WT2Fe3DKiGdsn21CO4wh6ZCJgmbJXXaXQzGSycVC3nWY/7BcPwC75GYJr
+         l7jcIhtFXYUfeyVpFRUYGt/Gq20k55t6C9kAmV/kHC3bFJOp6Hei2rXr9vGgECuCxfvC
+         zYcEGmixn8wp8Jj2SM5yPbc/x6GAOcwN0tgvzXXU1OvWHFqtanYssKdUHt9wGInm6JTu
+         88EURAfdEY7wvWm8TA7nksLsohle4MUeOqTfEbLuX0TA3wx8Olo3tHwVnbMne+6EQ9N4
+         hoQp6WvvLNq+Pit3VOK9GvSAfE25HSQSLO0XrDOSN9hd5RN9nw1Nvcnbs9cwPVzs31wl
+         v11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758551345; x=1759156145;
+        d=1e100.net; s=20230601; t=1758552927; x=1759157727;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
-        b=iKOPjfQiD9/bDPtY9IWKwyKYJGS1OECNHU4EnZHWFkNiSvOnbUiiLbguq3pI9bH+Vf
-         mm2b4PEZXi2MBWkF+quFfLnT2mPmiw4rPOhLAPm4m7+az2v1K8nIUaKS0U4kAD5QHbNJ
-         x/a1GJ41ZG3L0C8QJ29tOug7sO344wIqt1T1vOcZhg9PDmXZGZJtrJw/1VjifRE6km2F
-         r6u1/nbzjaKt3y+ui7lcRB1EABH2Kf1CkRy8Y4okJb7g+li7EZXVs2R86sTDBmGiygzk
-         463tzWom2Np0SDwa7rMM5Mv6vLON4Ivyiz/KXzsbUdShGWpUWVa78ms80kXTsYOwlMoC
-         eanA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwyu+rBXWN2x0UI2DIvr/6iUNdiGF9zwCG/wwpmWStLe2OpVmev05XdthXjzBGQJxBFAn8mXdqyIY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfBcjVPP8bzdDa4jeTnExgyVobhqckzmi9hmnGevz/FzmYcJ7i
-	5WJF/3LR73xQHt8ywEYFcLY9D1TQ6YCbEkkwf08+SR/bHO1o0AhSpEQuGNaFJBXldPiH7lA6HI4
-	wfyQ7nWb1vyE69EEl42uD6xu/jEuhqwUqhsJMbwCqRA==
-X-Gm-Gg: ASbGncuHt4V4pdsSN6H/w4C08EB6hTfA0cblBavrGLGd0NKAFpigcc0SsrvYOnRttma
-	sx/xCdrjMzbrEH0mILZDOEEVpa3NWZHb5UF1NCFlORuNjXSTVkRv6/3omEEXuVRQ/SP9l7rFKAH
-	dsYC+f2yt1ff7aDF17MQYJWVj1o2ubg7/AMF7MGjSMPj6JYVJayUoZh00MVCTJHyBVgTwP7DQp6
-	hxAV0zaI0/tJoc=
-X-Google-Smtp-Source: AGHT+IF9Kx0YHTgWZximr8IphichwJGTQ/wmiFKfxBKU7xEPIwY53K1eZ5EsUZqb+vcW1xAllqgOcQU2VEEacURTmEE=
-X-Received: by 2002:a05:6512:4389:b0:57b:478b:d8a6 with SMTP id
- 2adb3069b0e04-57b478be162mr3313173e87.35.1758551344116; Mon, 22 Sep 2025
- 07:29:04 -0700 (PDT)
+        bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
+        b=ZzUZGYqpS3uxdpjvp2U255p8X05QyaLEf0Y2bGGQj3joQNjQdwdYlTBfxiXdzsl7Rz
+         Wx1u/6QQNQwFFtvyKoTNZhui6zPKeBDrAVI+0umAw5b8ldr1KJ5TZp/qm9h9ERkALrBe
+         T6Mdg1iuggsJK9l3Uz4wcFuF5Uo/WJsjTQrn2y9dJQ4Rz9Ztuqq12dBBFX6DbMNyFG7M
+         0Q6X7zFfZPF2IdJaunLKZJDXu56kOfe3/BN9MHL9Qa/fwzDItuRUWO43EWw2mcr59ykF
+         sfg3u6mTU2ugI2Wwft+iZt8R7zwdwQexW/b3spioHWY67zTwUD1/Vgjs2S0z0BYisCMR
+         0toQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVg/C9rdnmO1Lx3Omr9bP2AaKhmY/Ga5ypGqGhONjaP//DsOYjPe//lkOXEVM4dxYlfBNtf3dpIDbs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWt97TUxKd9tlfND2EMuJRsgcRdrBedqEEGGsRCfZmbNKJrQKz
+	X2mgZzDXsJrVRtPELD2UAKUryxUg7KV9iseSpPeOYU1VJOIGbc/jivtRz9jxPjSQB193KeZCC2R
+	92g4sTDGQe3F245Zk3ym49zsvx5pnyf7tLfKACIHblg==
+X-Gm-Gg: ASbGncu3mCnDojxAYuFllPvooIBSLl1lHH8KlRbUQIdYhaCHFMvGqaVJ1uaKHLcBDgg
+	0xmqUy6qNaepFma9ZAg+NBssYTM8NQzUjOb1Me/yTPRa77i1ZCk5t9lx7l/mjVzRuzEYaBcxre/
+	+HaSSQHwmpovyo7RZmCFnF1jg4JAUAOM17peoHwhelAwlJ5TtyhedQtV8Ja+d7oYBUHE/diBBIW
+	cl7YYypoFA+w7E=
+X-Google-Smtp-Source: AGHT+IH/maFhVZagCabAuRpSyzOdLh5RhCtxYHTL9INMkCpwFUrFYMQXEcKIhCuCFYP9Ni4pPChjhYdVr/+VltB6kGE=
+X-Received: by 2002:ac8:5f0c:0:b0:4cb:713b:6f08 with SMTP id
+ d75a77b69052e-4cb713b74cbmr35760601cf.34.1758552927041; Mon, 22 Sep 2025
+ 07:55:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
- <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com> <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
-In-Reply-To: <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
-From: Nicolas Schichan <nschichan@freebox.fr>
-Date: Mon, 22 Sep 2025 16:28:52 +0200
-X-Gm-Features: AS18NWBjmNA3KBj8cPrgwDAVm5OX9a5odWP7LbRlHvhoE96nP3yo2_PGoZ1JbG8
-Message-ID: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Askar Safin <safinaskar@gmail.com>
-Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
-	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
-	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
-	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
-	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
-	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
-	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
-	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
-	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
-	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
-	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
-	x86@kernel.org
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-10-pasha.tatashin@soleen.com> <aLK3trXYYYIUaV4Q@kernel.org>
+In-Reply-To: <aLK3trXYYYIUaV4Q@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 22 Sep 2025 10:54:47 -0400
+X-Gm-Features: AS18NWDwJiLL1FUZIWpx1NLSWLJKu-G0z1HFpnmPi4SdOFce-N6qgysbpZBTW0s
+Message-ID: <CA+CK2bAC_X2ONEaT7XYVwjB=fdN897JnmVnt5f+UELbuKR+-0g@mail.gmail.com>
+Subject: Re: [PATCH v3 09/30] liveupdate: kho: move to kernel/liveupdate
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
+	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-[resending to the lists and Cc, sorry I initially replied only to Askar]
-
-On Sat, Sep 20, 2025 at 5:55=E2=80=AFAM Askar Safin <safinaskar@gmail.com> =
-wrote:
-> On Fri, Sep 19, 2025 at 6:25=E2=80=AFPM Nicolas Schichan <nschichan@freeb=
-ox.fr> wrote:
-> > Considering that the deprecation message didn't get displayed in some
-> > configurations, maybe it's a bit early at the very least.
+On Sat, Aug 30, 2025 at 4:35=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
-> I changed my opinion.
-> Breaking users, who did not see a deprecation message at all,
-> is unfair.
-> I will send a patchset soon, which will remove initrd codepath,
-> which currently contains deprecation notice. And I will put
-> deprecation notice to
-> other codepath.
+> On Thu, Aug 07, 2025 at 01:44:15AM +0000, Pasha Tatashin wrote:
+> > Move KHO to kernel/liveupdate/ in preparation of placing all Live Updat=
+e
+> > core kernel related files to the same place.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> >
+> > ---
+> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> > new file mode 100644
+> > index 000000000000..72cf7a8e6739
+> > --- /dev/null
+> > +++ b/kernel/liveupdate/Makefile
+> > @@ -0,0 +1,7 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +#
+> > +# Makefile for the linux kernel.
+>
+> Nit: this line does not provide much, let's drop it
 
-Thanks
+Done.
 
-> Then in September 2026 I will fully remove initrd.
-
-Is there a way to find some kind of middle ground here ?
-
-I'm lead to believe that the main issue with the current code is that
-it needs to parse the superblocks of the ramdisk image in order to get
-the amount to data to copy into /dev/ram0.
-
-It looks like it is partly because of the ramdisk_start=3D kernel
-command line parameter which looks to be a remnant of the time it was
-possible to boot on floppy disk on x86.
-
-This kernel command line allows to look for a rootfs image at an
-offset into the initrd data.
-
-If we assume now that the rootfs image data starts at the beginning of
-the initrd image and is the only part of the initrd image this would
-indeed remove a lot of complexity.
-
-Maybe it would be possible to remove the identify_ramdisk_image()
-function and just copy the actual size of /initrd.image into
-/dev/ram0. This would allow any file system to be used in an initrd
-image (no just romfs, cramfs, minixfs, ext2fs and squashfs), and this
-would simplify the code in init/do_mounts_rd.c greatly, with just the
-function rd_load_image() and nr_blocks() remaining in this file.
-
-I can send a patch for that but first I need to sort out my SMTP
-issues from the other day.
-
-Regards,
-
---=20
-Nicolas Schichan
+Thank you,
+Pasha
 
