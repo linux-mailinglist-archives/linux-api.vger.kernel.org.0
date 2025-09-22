@@ -1,78 +1,78 @@
-Return-Path: <linux-api+bounces-4905-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4906-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAABB8E9EE
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 02:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9013B8EA66
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 03:07:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78BCB189A625
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 00:26:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAE641899184
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 01:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF4373A1CD;
-	Mon, 22 Sep 2025 00:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45FD813774D;
+	Mon, 22 Sep 2025 01:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sex1tRY4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qu7tvw2M"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E822533997
-	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 00:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EDA12CD8B
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 01:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758500750; cv=none; b=Nnvewr3e5Xri2zJstHSdyrl+icVWYMEfHnUP0aqiJXBcI7Lprb6gEO5iwsU8dAffIao3YU/xuwyHzmZOU3haYE5lJVro2AOWqVvXYC8e5iBnGtF/apB0YkVFi0dN/euZyyOkdxemlG7xB28Wp4y0jyPbrEtjKssIjfWZ3cg3H3Y=
+	t=1758503218; cv=none; b=j9eU+84O3XbuaLCBc2iZm1MYNsLPBW+yjWXg3mtILa5P7VqIb0PnrViTwex1KZHWOtJcb/vrnGOTyHb1R2HH/P9hHhGW/XytUsoUPMdmNkeySRanWYTrM6JVkDWdxC6C1y63swyyGxCGWlEI13XT7Ry9/0PCA+TQPSWywM41/4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758500750; c=relaxed/simple;
-	bh=ZYxkvytXWzIneq3yvORv4oZVMuSuCQF+rZ03OyIv+xg=;
+	s=arc-20240116; t=1758503218; c=relaxed/simple;
+	bh=asv8V9+Gueu0sNN+f4Gl1Qt3MQgb39wz7+eIfVPVXtk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pnIX5LWwQX3yt5OjYkj7AEr0k8wOoE1717A6I+BKfrxaGF3PaEHgUX2y5r5gm9bfYQ2nSvDVdSqHx8q7pJcy7kSDRAVrpwKwnGlU18HE9IJqucV4DNYQs2WaeB2+lNOuEkwA76UQCVuHZnYji4UalZ0jKED8+Y4mYbxwe9jIoPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sex1tRY4; arc=none smtp.client-ip=209.85.208.41
+	 MIME-Version; b=JAHXk+xcET7wiNxBaX40UNZpeQHc1uTwWU5NwNcC/bOSDR0Jg7gBfXCmEgMpJMZgVWbWlvJnmBLQ9XRp60jSmBywGq3J0jrqw1Vx2FKjeYvpmhXvpsF8XiIqZXV52mRnhj3tPVPqMzUJQgaeIQHodXfmgOZhgDC+mkLCwib5vAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qu7tvw2M; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-62fc686dc41so2024312a12.1
-        for <linux-api@vger.kernel.org>; Sun, 21 Sep 2025 17:25:48 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-631787faf35so2349459a12.3
+        for <linux-api@vger.kernel.org>; Sun, 21 Sep 2025 18:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758500747; x=1759105547; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758503215; x=1759108015; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qqow7NfKYjPX1vfqX6Q3EwqJhfVfsFixre7RiEXeVic=;
-        b=Sex1tRY4smHZjwxR9y/gvzrQRCmWL2Wpx8XLjPy6G7vxxZVb9nJ2TJGuk94Rm0L5bX
-         XHSQnft4THbXJSqg7cLjzuv1zAKjKdhvT6dCdHQWm7kr00JjDmQ52RkXFMXmP5fXdgdg
-         f3/B7sdKpvJ09fR7gcfavrvsCyLyiTIl6jrgu5heWK1mwBjhJPOR8TuI9YiAEPQAIQJi
-         qG8UkZeVOvVZ3he9RK/KZhwWhxc7INCnIPiEoV7u/LcYTPNXF27XC6T9brP5HjchDQ+j
-         KpJ0neABxVhrhNQhq933ihNSBbxa6r82Rdt0zldOHKxlFswBQirmqmlzoJeocoXLt+no
-         kSLA==
+        bh=BRFzPXWkpeV/mjt0GnDfb09q9PXvnidCDKuEHBnZ7Yg=;
+        b=Qu7tvw2MYaQL0yImQzNFv+BBEyaSNuF2pxV9fNky6RwH2DzTPNV5KcHGZ16sLApyrn
+         agJukdp0o0We3p5OyBDueUIrnDoMk0w9qqC3CVi1wiVbgZ0jhDyYS1xasv6YyGV/X435
+         ampdDzP96gOwodws6vcJq5XbN20F4N8TFwIbMYAIoenv8egSyAdV9Z7XugJGoBVLPP6x
+         vX0sWgMA+v9lGWezkCzqO1MM2w27+1pNJKJF6WeQBmMBkC5pKrusxeEnHnYRXFkpvCG/
+         ARcMFtExxR27sDASnmWXmJ03zYnoUpk8rOmdSg03uEu37hXsbYXYau2mnBS2KgU8Mkt2
+         yyTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758500747; x=1759105547;
+        d=1e100.net; s=20230601; t=1758503215; x=1759108015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qqow7NfKYjPX1vfqX6Q3EwqJhfVfsFixre7RiEXeVic=;
-        b=cQE6DaunQbqQMfwIgy01K6qytkOh2bhm8ZItnio1o6zXK7pDZMAfGH+wAiTFwRki3A
-         gNEiHAZHqBIciX8EFdfARnbnckbQ5oCUS+V1H+8GrNJbOSnDWKWL6wtaoFEzIXToL8Zr
-         LKCBvry5sZfgly+Af+VRsdI32uHhrzcpQStaIZNvsWiSxf9F+7LCmyaxAKEv9DeNSv18
-         6yrHtJBAFpQp5CwiGv8H5yGDJ+HMqKZauT/Mcar+gsMYjFOG3CDgesXmqb4lqluGM1Mk
-         lN0PianOToub5nxheAbvQ2JbUmiimDhqAJagqowjf1GnT1UaCZSYDUxtwOPzdDYa9voC
-         58Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCVtuhJ9cnOzhrJwk/HUkmistceWlR/MdQWN4OAnmIn0UyMKSnBhoai/JQqTNz2idbr9qqs1NS2nlUI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA3P+V3ReICLuhWToKd7Lgq/d1OjgcJuSelnayWcAVZJpxFROA
-	K3Ei7Dv8OWyu0xfOCeQzkesnPH5SUqSflj0UEEF1NjHa5ychCRKjTER8
-X-Gm-Gg: ASbGncvSoIVMVHJip4JPam8Vk4SFjIEKcaYPu6obyPymFCZXXEQOowBs64mUapF2Ckw
-	RUaBH1fChDKrGThEAoUyPdCHYH78HBZkd+Vv27wyN3dyeuMTMAdT3qN+z6p2tKHfrD+D8ETZYAO
-	JhXtFn4DlgUeZr+RtKZCtPkJE99mMSCdlh1AFIyFb8DYF0vdOnVHdBRFJelHMynZ/leil0wJF9m
-	TFgwcvmGvB7gxAt7Lgs2k/ejApmSOwjQYo2xy90crR+c9iHz14ExdYFKK/zyjTipzfQdnDPX/Gz
-	L9Pj8nZSelRbRL3ZJXXO4+gAYb65t5JBqXqgagYn6wasDePXOkka3SDH1iIJEVfWh5x94AfeonO
-	pSvJ9ayVXlLaa9dCVJ+c=
-X-Google-Smtp-Source: AGHT+IHsbRcdXtV5go1CgGoP+4ok3H92iE4YLKzIeNlhHJMbPBRzYcrLPwri6hTQjbCbj0oX1PYScQ==
-X-Received: by 2002:a17:907:3fa0:b0:b0e:a66f:478e with SMTP id a640c23a62f3a-b24ed97c8fbmr1084255566b.14.1758500746934;
-        Sun, 21 Sep 2025 17:25:46 -0700 (PDT)
+        bh=BRFzPXWkpeV/mjt0GnDfb09q9PXvnidCDKuEHBnZ7Yg=;
+        b=LvFI0X3ZJzZ8Euo1OHlGOkTZZqDLoWUWeP57YioBVuP3wD5dCxehtoSQFCHx0bp28v
+         HzsNhFXgR99sXz578Iw4k2F+mPjE8OSiXpOau6cfKyqGGtdmP3auFveA/GkQlrcwbzEy
+         bLRnDwJWn7Qo//ul9bKB8s3lv4WWdsQ1IpNc45gOcqKN4dJGHEMBtbRiMEqXIN8Nsbla
+         zjTObP1d3OyOlCeACwTdyVS0f9kas2An3eXfOrvINO+adONxFU/igLZZg/f9fk6lLwt1
+         Ga2i4+rp2zBjf27aKBUaLWSLiS+MGdjqi2r/TgdYv/kxDxQOpb0MtOz+jIJAJibUDLjp
+         0EUA==
+X-Forwarded-Encrypted: i=1; AJvYcCV30CwinLcJh+hswLqWua/P2UxhAYaq9C5SJ7z5n+19ke7+yus7WoOlLDJOyT/uQedkVrWxfNeSXsk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw67h+wGodngEZ4SR47NbO/x5AWlRVcU/j/MVdnM+8wbbEWRBXx
+	2ti+Eqt3ErWcuFDigjoUpH2/N1lK1VDUtSg04j8kTUC6pHqyeEe5KNud
+X-Gm-Gg: ASbGnctjZS71GJYn++LP3mTUwYOK1teWIIcq6Pr27BTpSnMIKkIhhUTGYfRZLZDD0MP
+	kWYDmpt+teZH41Kym2nYKcCAswa2Nlov2w8Vg/j1FJLatrDb4MoKTJVDhSfCGFr5rzSAP+BDKxy
+	QXGne3JYsR8HWYfhLp9+3FaQvqAqwe0wxBV9xT9BzFKB2gGVsBS+LeHZS4YDil85vK6uq4CCZBJ
+	rPxnRbj2Cpkb+LEQcMFY8dk0ndqBk4pp5NjuPiMa1AD7tHJRcfhaRYcorjEOyAtNjX3X1MdekZB
+	cv0FWUW7yuzhJquU5sFQY6hTIlVdnGzhyLxKlJGNro4WQvCOKFN2cBfW2nmEPribZfo22LmncI4
+	e3nLEpTy/BN5F3eODJh0=
+X-Google-Smtp-Source: AGHT+IEE+dlkZ61hvZbcIoJcLnr6qbKVmAfG180HpIGplBEyYngiA6LG2BlkeTTj4jLmF3uK23VJkg==
+X-Received: by 2002:a17:907:3e17:b0:afe:74a3:f78b with SMTP id a640c23a62f3a-b24f6120e79mr1092368266b.59.1758503214799;
+        Sun, 21 Sep 2025 18:06:54 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b297f3f426csm374532266b.7.2025.09.21.17.25.44
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b264fc793f4sm640643066b.17.2025.09.21.18.06.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Sep 2025 17:25:46 -0700 (PDT)
+        Sun, 21 Sep 2025 18:06:54 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: cyphar@cyphar.com
 Cc: alx@kernel.org,
@@ -87,12 +87,12 @@ Cc: alx@kernel.org,
 	mtk.manpages@gmail.com,
 	safinaskar@zohomail.com,
 	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v4 03/10] man/man2/fspick.2: document "new" mount API
-Date: Mon, 22 Sep 2025 03:25:29 +0300
-Message-ID: <20250922002529.95574-1-safinaskar@gmail.com>
+Subject: Re: [PATCH v4 10/10] man/man2/{fsconfig,mount_setattr}.2: add note about attribute-parameter distinction
+Date: Mon, 22 Sep 2025 04:06:49 +0300
+Message-ID: <20250922010649.96399-1-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250919-new-mount-api-v4-3-1261201ab562@cyphar.com>
-References: <20250919-new-mount-api-v4-3-1261201ab562@cyphar.com>
+In-Reply-To: <20250919-new-mount-api-v4-10-1261201ab562@cyphar.com>
+References: <20250919-new-mount-api-v4-10-1261201ab562@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -101,30 +101,11 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> With the notable caveat that in this example, mount(2) will clear all other filesystem parameters (such as MS_NOSUID or MS_NOEXEC); fsconfig(2) will only modify the ro parameter.
+> Some mount attributes (traditionally associated with mount(8)-style options) have a sibling mount attribute with superficially similar user-facing behaviour
 
-MS_NOSUID and MS_NOEXEC are not filesystem parameters. They can be set per-mount, but not
-per-filesystem. Here is list of all filesystem-agnostic per-superblock parameters:
+"Some mount attributes... have a sibling mount attribute"
 
-https://elixir.bootlin.com/linux/v6.17-rc6/source/fs/namespace.c#L4103
-
-Note that these SB_* constants are equal to corresponding MS_* constants.
-
-As you can see, there is no NOSUID and NOEXEC in that list.
-
-Also, SB_NOSUID does exist:
-https://elixir.bootlin.com/linux/v6.17-rc6/source/include/linux/fs.h#L1240
-.
-
-So, it seems that "NOSUID superblock" does exist as a concept. But, thanks to
-code in path_mount (provided above) user cannot (in filesystem-agnostic way)
-make given superblock NOSUID.
-
-So, from user point of view, NOSUID and NOEXEC are not filesystem parameters.
-
-If you need some example of filesystem parameter, I suggest MS_SYNCHRONOUS,
-I used it here:
-https://lore.kernel.org/all/198d1f2e189.11dbac16b2998.3847935512688537521@zohomail.com/
+Something is wrong here.
 
 -- 
 Askar Safin
