@@ -1,166 +1,165 @@
-Return-Path: <linux-api+bounces-4909-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4910-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39997B91611
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 15:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C10AB91B5A
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 16:29:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE4883B23F8
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 13:22:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3615424C7E
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 14:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA39F3081BA;
-	Mon, 22 Sep 2025 13:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9383C23E325;
+	Mon, 22 Sep 2025 14:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxMQ+NBa"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="T5tm19TQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77169277CAE;
-	Mon, 22 Sep 2025 13:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEA1231830
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758547354; cv=none; b=edMSJoPXDK8KC+fCdVNRdIreB3niPyaIslWbqfsNoezfW22psEdHqkrbClTso78tWRgY4VITcna1Kih3flwTfM2bRnWPbNkBfkjcheRk/6cYxuUSwh3HIH6Hce34Ug3/7Q8QDEOmkCmpNd8zyXFFe0hE+1M0poicIMYYwOEgpQk=
+	t=1758551351; cv=none; b=rs4kfm5at53vsZQ6c683tPOdir+QK+6I/NyJz2UtF1BOaB9IK7wdUFMPb3f9NAexpe5Sldo9wqYS+2NvNqGp7OoX/F3RoFLG5IfM8Hz7RFFwDJ6Ohb5fnS7G0LWpq4EWDxZQoXGr5swCufPu/Rw/EEl2tYNfoovKFOY/fO4ymPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758547354; c=relaxed/simple;
-	bh=ZpKHIENUoUhwJkuDvGTZQgZeFO4daeKHvVKAGsIWa6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UWtViyf41VLzS8pzeqWASgM2qEAd3YFZXrZvucJY0FdwWkUmv6tCUbgXvdk+ngjJzQW0Ygz2L5bYrTfsYaMC+ZAlAQBgEyrpj0aoM1wb+KxnKPFsjcGRb2UNW9cHkcKmZTottwKBN79fXTvLRnNZGcWFcRZfgK4KDu41aVRpEpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxMQ+NBa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE6CC4CEF0;
-	Mon, 22 Sep 2025 13:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758547354;
-	bh=ZpKHIENUoUhwJkuDvGTZQgZeFO4daeKHvVKAGsIWa6o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YxMQ+NBaYfUgnSnuDkJYaXuxgtOBdZrWoJREzP8yz4GQab96ehxCmsrBMhRAexhbd
-	 AVY2Yu0ZfZcpCVvN/C4nr/4yhcYC+EjteZTvMibtAfkZEpIoTkWjm8xfyCp5DmUmLB
-	 qbZIGeBMteZsO/RMH7VTcMN4sRjNU6GBHDdgEtuS+4M0vcPODsApRuouimWs9xIl+I
-	 Qj1sntMi+lCClH8Q/tM89TjzY7Jq4MxM7iJw2HdQbQAj9K0r5kpT6Xn81kFPp7m3FC
-	 J9hjJ4wNlclaLmnRETExM1XMIkV30rlXMUS5wxlKMEHH3URNBR2DD5DlE2qSNB4pc2
-	 KqieoFBm+lNeQ==
-Date: Mon, 22 Sep 2025 15:22:27 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
-Message-ID: <aqhcwkln4fls44e2o6pwnepex6yec6lg2jnngrtck3g5pc6q5d@7zibx3l2vrjw>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
- <gyhtwwu7kgkaz5l5h46ll3voypfk74cahpfpmagbngj3va3x7c@pm3pssyst2al>
- <2025-09-22-sneaky-similar-mind-cilantro-u1EJJ2@cyphar.com>
+	s=arc-20240116; t=1758551351; c=relaxed/simple;
+	bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KdX7rbLzNZUYZVkNiKvbh7EIMQ2Ae1/+NqHc28lzmTEViFXEGrErJOHzyKMflki4kqkZ/2C/tIdqgUktsmMrSHDXmimI9wN3xFnMBa7zz+9EeSiqr/3HO0b5kReBUcIJM0nzGqI9YKHBTS2frk54CyR59znzGUuJgh+tH5V4eDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=T5tm19TQ; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55ce508d4d6so3950516e87.0
+        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 07:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758551345; x=1759156145; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+        b=T5tm19TQZikqjHqoMR54+Q7+U/JgAbrwxCDjAEr+j4BV3oKJ1vYACVblsq/0dgQB3O
+         xzcE44eyHkSt3+1/LwS8iG05NDQybwpGXmErJGsX7qf1JoHnxQE/QJKsAyQCq5BZ8yUL
+         fZfsv/oGGtZ7K0RaFe8fFXZtm3jS4C5jkLwGskUTTKy01oseY4elZgmJ1wcia/Nwx29N
+         /akdQTqyJ1yRSFcBAOKV1BSGnn1RLnJEPHIfsiagl3HTh7OEmakPzgo3DZkunVSmL2Xx
+         hH2z75SXfyBjFg0mXpIzvJjI6rXfLJCfOxCsk/r78caU8Q500JO1XsPO5Zy2dD22Jb+z
+         2rDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758551345; x=1759156145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+        b=iKOPjfQiD9/bDPtY9IWKwyKYJGS1OECNHU4EnZHWFkNiSvOnbUiiLbguq3pI9bH+Vf
+         mm2b4PEZXi2MBWkF+quFfLnT2mPmiw4rPOhLAPm4m7+az2v1K8nIUaKS0U4kAD5QHbNJ
+         x/a1GJ41ZG3L0C8QJ29tOug7sO344wIqt1T1vOcZhg9PDmXZGZJtrJw/1VjifRE6km2F
+         r6u1/nbzjaKt3y+ui7lcRB1EABH2Kf1CkRy8Y4okJb7g+li7EZXVs2R86sTDBmGiygzk
+         463tzWom2Np0SDwa7rMM5Mv6vLON4Ivyiz/KXzsbUdShGWpUWVa78ms80kXTsYOwlMoC
+         eanA==
+X-Forwarded-Encrypted: i=1; AJvYcCUwyu+rBXWN2x0UI2DIvr/6iUNdiGF9zwCG/wwpmWStLe2OpVmev05XdthXjzBGQJxBFAn8mXdqyIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfBcjVPP8bzdDa4jeTnExgyVobhqckzmi9hmnGevz/FzmYcJ7i
+	5WJF/3LR73xQHt8ywEYFcLY9D1TQ6YCbEkkwf08+SR/bHO1o0AhSpEQuGNaFJBXldPiH7lA6HI4
+	wfyQ7nWb1vyE69EEl42uD6xu/jEuhqwUqhsJMbwCqRA==
+X-Gm-Gg: ASbGncuHt4V4pdsSN6H/w4C08EB6hTfA0cblBavrGLGd0NKAFpigcc0SsrvYOnRttma
+	sx/xCdrjMzbrEH0mILZDOEEVpa3NWZHb5UF1NCFlORuNjXSTVkRv6/3omEEXuVRQ/SP9l7rFKAH
+	dsYC+f2yt1ff7aDF17MQYJWVj1o2ubg7/AMF7MGjSMPj6JYVJayUoZh00MVCTJHyBVgTwP7DQp6
+	hxAV0zaI0/tJoc=
+X-Google-Smtp-Source: AGHT+IF9Kx0YHTgWZximr8IphichwJGTQ/wmiFKfxBKU7xEPIwY53K1eZ5EsUZqb+vcW1xAllqgOcQU2VEEacURTmEE=
+X-Received: by 2002:a05:6512:4389:b0:57b:478b:d8a6 with SMTP id
+ 2adb3069b0e04-57b478be162mr3313173e87.35.1758551344116; Mon, 22 Sep 2025
+ 07:29:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7gv4y3hrk7klyb5b"
-Content-Disposition: inline
-In-Reply-To: <2025-09-22-sneaky-similar-mind-cilantro-u1EJJ2@cyphar.com>
-
-
---7gv4y3hrk7klyb5b
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
+ <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com> <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
+In-Reply-To: <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
+From: Nicolas Schichan <nschichan@freebox.fr>
+Date: Mon, 22 Sep 2025 16:28:52 +0200
+X-Gm-Features: AS18NWBjmNA3KBj8cPrgwDAVm5OX9a5odWP7LbRlHvhoE96nP3yo2_PGoZ1JbG8
+Message-ID: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
+	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
+	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
+	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
+	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
+	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
+	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
+	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
+	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
+	x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
-Message-ID: <aqhcwkln4fls44e2o6pwnepex6yec6lg2jnngrtck3g5pc6q5d@7zibx3l2vrjw>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
- <gyhtwwu7kgkaz5l5h46ll3voypfk74cahpfpmagbngj3va3x7c@pm3pssyst2al>
- <2025-09-22-sneaky-similar-mind-cilantro-u1EJJ2@cyphar.com>
-MIME-Version: 1.0
-In-Reply-To: <2025-09-22-sneaky-similar-mind-cilantro-u1EJJ2@cyphar.com>
 
-Hi Aleksa,
+[resending to the lists and Cc, sorry I initially replied only to Askar]
 
-On Mon, Sep 22, 2025 at 08:09:47PM +1000, Aleksa Sarai wrote:
-> > > +is lazy\[em]akin to calling
-> >=20
-> > I prefer em dashes in both sides of the parenthetical; it more clearly
-> > denotes where it ends.
-> >=20
-> > 	is lazy
-> > 	\[em]akin to calling
-> > 	.BR umount2 (2)
-> > 	with
-> > 	.BR MOUNT_DETACH \[em];
->=20
-> An \[em] next to a ";"? Let me see if I can rewrite it to avoid this...
+On Sat, Sep 20, 2025 at 5:55=E2=80=AFAM Askar Safin <safinaskar@gmail.com> =
+wrote:
+> On Fri, Sep 19, 2025 at 6:25=E2=80=AFPM Nicolas Schichan <nschichan@freeb=
+ox.fr> wrote:
+> > Considering that the deprecation message didn't get displayed in some
+> > configurations, maybe it's a bit early at the very least.
+>
+> I changed my opinion.
+> Breaking users, who did not see a deprecation message at all,
+> is unfair.
+> I will send a patchset soon, which will remove initrd codepath,
+> which currently contains deprecation notice. And I will put
+> deprecation notice to
+> other codepath.
 
-You could use parentheses, maybe.
+Thanks
 
-> > > +.IR "mount --bind" )
-> >=20
-> > You need to escape dashes in manual pages.  Otherwise, they're formatted
-> > as hyphens, which can't be pasted into the terminal (and another
-> > consequence is not being able to search for them in the man(1) reader
-> > with literal dashes).
-> >=20
-> > Depending on your system, you might be able to search for them or paste
-> > them to the terminal, because some distros patch this in
-> > /etc/local/an.tmac, at the expense of generating lower quality pages,
-> > but in general don't rely on that.
-> >=20
-> > I've noticed now, but this probably also happens in previous pages in
-> > this patch set.
-> >=20
-> > While at it, you should also use a non-breaking space, to keep the
-> > entire command in the same line.
-> >=20
-> > 	.IR \%mount\~\-\-bind )
->=20
-> My bad, I think my terminal font doesn't distinguish between them well
-> enough for it to be obvious. I'll go through and fix up all of these
-> cases.
+> Then in September 2026 I will fully remove initrd.
 
-I should probably add an automated diagnostic.  At least the case of two
-'--' together, which I've never seen useful unescaped, should be
-diagnosed.  I'll add a make(1) 'lint-man-dash' target that catches this
-with a regex.
+Is there a way to find some kind of middle ground here ?
 
+I'm lead to believe that the main issue with the current code is that
+it needs to parse the superblocks of the ramdisk image in order to get
+the amount to data to copy into /dev/ram0.
 
-Have a lovely day!
-Alex
+It looks like it is partly because of the ramdisk_start=3D kernel
+command line parameter which looks to be a remnant of the time it was
+possible to boot on floppy disk on x86.
+
+This kernel command line allows to look for a rootfs image at an
+offset into the initrd data.
+
+If we assume now that the rootfs image data starts at the beginning of
+the initrd image and is the only part of the initrd image this would
+indeed remove a lot of complexity.
+
+Maybe it would be possible to remove the identify_ramdisk_image()
+function and just copy the actual size of /initrd.image into
+/dev/ram0. This would allow any file system to be used in an initrd
+image (no just romfs, cramfs, minixfs, ext2fs and squashfs), and this
+would simplify the code in init/do_mounts_rd.c greatly, with just the
+function rd_load_image() and nr_blocks() remaining in this file.
+
+I can send a patch for that but first I need to sort out my SMTP
+issues from the other day.
+
+Regards,
 
 --=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
-
---7gv4y3hrk7klyb5b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjRTYwACgkQ64mZXMKQ
-wqmm2A//QAHUgf3mNDz7yAdWfueHzIl/M5wGQa4+TZCh+4v+dwqkN7OFGtbtD42p
-LO4vBmhKrX32iPDMaLrK5Luj7t5IgSSSHi9ZbkN1stgl8ku+XIdpq3ApYPuYKKyB
-JecginBsLE9Z+tqRN5uzsLx+lyDdcPrq1F/5KVNCN53Dn1C9oz0+/tiWxNIQYo4Z
-s6gvyGMTuPB31WzTXI0dzb2JxT/Dw+19lGWUJnpMl1HzCKMWLf+YFKXkydNH+6NZ
-CDmX9DFPQsL/VIa9igU5jIyudpJs5kkH5dXqQHO3xbMS73OLjNhlJLeFLPNaXQa7
-idx+L873f+7DQ4dD8UPmlKn3uVn99DkXPcYzmqFaLS1pCuBag5Q8YQkBASd9VJZn
-bG/EhmKT0XhKkCj7ake/NraSmIPn1XO7IdwTS0S3vuZUqaHc9BW1zxisM116Qfbi
-Ht7f4a+T4vOuesk6IBdpLgc0p5ZyRiQAx70dAOmOgzSvGsmQvKY9R8xpElbyKW2v
-AixCwUXNzpga2TVI/eJb2KxcffSJk5WV/FYMyV3GpT+VieUcEcDzl9E3EpAiQWpO
-6BVQFsXP9PwtsyuGLbtKtpAd1M+5xNkysuIymBvFKB1ysDc6IgTte/QrD8qAJPu4
-JJozjcn5qG2NjWl22s5zSrmM83p/np56cGpQ15G3qTv+Sg9IJkQ=
-=DYOq
------END PGP SIGNATURE-----
-
---7gv4y3hrk7klyb5b--
+Nicolas Schichan
 
