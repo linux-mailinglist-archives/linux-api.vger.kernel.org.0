@@ -1,73 +1,74 @@
-Return-Path: <linux-api+bounces-4914-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4915-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0327DB93579
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 23:10:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B590B935E6
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 23:23:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 365343BDB11
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 21:10:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C81F52A83C9
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 21:23:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC2A52BEC3F;
-	Mon, 22 Sep 2025 21:09:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2C32820BA;
+	Mon, 22 Sep 2025 21:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HzNYUF0C"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="T/Vtd92I"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B126627A10D
-	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 21:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E076258CF2
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 21:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758575392; cv=none; b=BwJ/7kaAoYCQlROaa1f9WP17GhatleK+C24vSq+kPkntFTWQ+znpEpHBTzu6A7MWFUiHYnCyLmMQLwdY9nm4zQiL4R8NlYJYybCrp75abBBo8/kSS1CtZe8XaPzoAU7bUvzfb4m1v3Zgf2Z7cIz4L5safwfziiLFRel2kClfDFo=
+	t=1758576232; cv=none; b=O/UuBUwZRDV0/V46K1/dDFhi4gd6d6VvFq3cypDL/xmRvRa6m4D/2RZYfIyru5ScLQ6Bg9iX7Ylkqu/dOL9TFIKopFh2dGYmoM2r84L6dYe3PNoxnNkzqvJQL/z5Fi9/VmzLdue4Av3TkHWDxTebeD9RY7uXBwd6vaHAJ50L004=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758575392; c=relaxed/simple;
-	bh=8FfsMBJXaP1G1sQ2HidWtn7ujJU+KhdHP65thFW6hrQ=;
+	s=arc-20240116; t=1758576232; c=relaxed/simple;
+	bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qqClNLFTI+8NtZFzDf/ofErRvjrfvsiGjsLfBFk8n6qXO0SvmVxCLGJ77/HC+0Lxdv+iZBl9pWUVXUN3rDPye3I4lCSBKD0ThMaqWaYJFncNNvAX+ed2rmQrrB4oX999+o6WuPe5gkPPbNPvcFSv/vb1Bu41cdg7uNCJS9AdMkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=HzNYUF0C; arc=none smtp.client-ip=209.85.160.170
+	 To:Cc:Content-Type; b=akkAfMWZdCBmcS11cOAdMmSCqgfEk0407jEfuYs0cKVP/NqLZvLBNUHOriYm4OrCik+SsIFIWo0AU4UFyYQrxFy35yh1Y8bAgV8k/xAZ80yxLE1c9dsmJXiDERORq/or72dEJbR3NvXDXlmMCuVWxQEHdHduNLJmqr4Sf4Co9ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=T/Vtd92I; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b38d4de6d9so30831401cf.1
-        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:09:50 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-84d0bdc64abso148016285a.3
+        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758575389; x=1759180189; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aIOP0jY/+X/9DN9f80nfhBWfHor4awN8nQUrjS4FFGg=;
-        b=HzNYUF0Cc0Y/ldmPM1nCVfeIGKSJbpBEoPy4KJYn1lvkuEwwKGmocW/2LnnUQE4dyI
-         1cYbW1w/ZqgoacYfd/Zxzp3jceABfxzGXDXcteL32yOpBV530YUFNi8CFDombdDwiCA/
-         n0xT2k7yhg+7Il71Sil4qMY5kBy/nG+W2dfLp97ptija3CelvCtIB25PCFc0V0XcX+M/
-         Nup7zwSwMziXSjI2vWQXFr9mwlZcc9iTaFZkkpQacyRL07rDaQn3CNAX3rpRkqOku2zw
-         gAc0hXHC787MniLYbYu5ycRGJjIUTrUFtMY5jEzO7yO/4+9HWPZ4aK/DmqrDInDU/4vM
-         Cdzg==
+        d=soleen.com; s=google; t=1758576230; x=1759181030; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
+        b=T/Vtd92ImvDYSXIrPnoZe4VK+x2sKXdithErwv6alIQc1stg4Z0VVyqc/BIUJX2yGE
+         GjOaD5A3kjQG3q8oEHw0DP1pI68TAyG86fHqQEaawC9zbcQwdua5GHzKwT0/GSUVXNyi
+         8ToWfVRd4vr51ZguvI/lYolG5gFKsY3heSiIwnozDgsvCg8SPaXTbG7lKaXV1h4FaSbP
+         1dmRZti4j6XKvF2RDhEX1iMvNsFYpYqBJkl0qG9qDzArl97maU1Awy6BSZiyF/dDO3zb
+         bOaB95Pb3nBZg5b81co5oANDcjHUfGYP0FojsQS2lLAAmFF9XnbRwaejWOeQsK1SBoAy
+         oC1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758575389; x=1759180189;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aIOP0jY/+X/9DN9f80nfhBWfHor4awN8nQUrjS4FFGg=;
-        b=uKXgIwTdET6rcTITngjyRsT8q3c4nHVePsASpJWbSZjlBWk4SyEK2RlvK3HxPwYCgo
-         t+FzV+IOwlw/NSo/hLFq11rttyKJDqrnX8eJ4NhALU665hBdqCoSoExPJ7oO66dQSEVE
-         +smAtzj879KSXmDizeoFHjT+jb6Ob28T10kBoyYxFu2Q7tfj+tplDVZfxCn50wTZbZeO
-         TlsFr3Nk03zeBDYgpBqBaMHbK7hifQTVQWYclWfJx9VAoX5M7xYgzumcwtE96caCZNDx
-         ZOFG3ReX1DlSV2zTN1WhEN+d6XkqmhOX7jAq0/5bcxiFDsajdc1jPiIHJKfom/s+xauV
-         dtEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLFG8ODv/OxzNK41rPQLUUaWaYSUyTVUBv/HIOy7DtfM2yDuUrN0W46gWn3Yusd93JE4il97FEwbU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5X6xHZY/LRfEE9Ik42L0T+L/hs4qWzBeGD1iqQB0cNgRbbLKa
-	Nd5M+6boCI/vDuxUS0CzAURyDHcoE0tAO9Qfo+rQ4iImuEqMUR+2mVRasNcb1Zo/UzcFb3niJkJ
-	j0LC70h1pg4NBBdDRP1ZV+NkpKCG21vebxI/4eN7OsQ==
-X-Gm-Gg: ASbGncu3fMRfc/Uh8aaXBEo6rzwVdU2W6V2ujJCldhqWdVig7BEB9kFLZyXvRUZCIay
-	I+O1oEkzCAc8UA1tdiZya8B8zGU+HmQq/j7dxgESSVigxsemSPw5/MHCz9o9ndFAgqoulXj64ah
-	qcqKCu/DpDCAp2/NvXiiq8X6ALYll9hfuUq3uQHcWRRymjKHQ/g24kqVUPPRtMEYhlViZzcyk+X
-	I+j
-X-Google-Smtp-Source: AGHT+IG/qgae5Me0ExwT19ZtCSc7WJPaTAk40SN+WOTTYohTOQCqtXZFZ8mCtUhw0BmokKMxl2aqS4C1ND0ndsRc4Xg=
-X-Received: by 2002:ac8:6f07:0:b0:4cc:48c0:adfe with SMTP id
- d75a77b69052e-4d368a800a4mr3604971cf.30.1758575389346; Mon, 22 Sep 2025
- 14:09:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758576230; x=1759181030;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
+        b=UhbpmkDFCidqQHsrMzaFmRD+m8Xj6Bb3LqVGyZFQnLDa7Wg2j41EQwyXnz1oJS3TZE
+         B20isUvpDEc+qzDe3J7FGD/C/FQxC7APNO6wPNGyCe8IqAcHfsAZPUKdyI771cF6kVNP
+         jvum/+pAhTHCTlQzu9LMAHz3VIxy6hDzKXPTyJaUG/tJecMUYPisaYOF8RO1Iv+FIzoM
+         c/vsAtC1Qtca8PEVeGv0Cgpe+YkyR4oc4OOKV+H/wWNlGUm9xE+mOteyLUrJjlBJUSk8
+         bKJ+thR1eXEoiTRw1tVV7ehuSu5DjRsZU2LmBMlPeAPLOraVWolRgrHjrgLMIMVZ6sVv
+         NCjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfMkFijdddg036icVbdyhRq8zJUqvGkAhKgCRN0F1sC94L5ayPnCyn0awGpbG/zkj5TM8EUSrNA3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJ1H4kMUM3q9rozwYN1xCkdPVFcAZWwlTClT7O/xdwuPASXu+Y
+	iidMuj92sW5jhD0BxAzc2mSBDVatH1ADnJALw/bDE3Zbyl5jkJV6gLF0HPNPE4dstlBDC/w6FCY
+	HFRSiSIhOfAdw/x83pyE6yV7oR1xi4qhpSjeF9zsmJw==
+X-Gm-Gg: ASbGncs8O3axwJy0IjmG7fswjV4as+fksj5Sa3uaPbEpsXnVah0SVy4z2dQJHt/jhu6
+	ONRi1jTW/ePrqaZzk/O+YrQDHWEahX1VKdWasayNNBUmnxQTI/ZI/ih1vZbqUYDJ53isxGgwKj5
+	B7TVSrSbt9lliOnLlqIdthktBtSmKh7yktHlllJJxl1DybX5uRVEGDtptqXDLRp94xJCY3iKCcO
+	EHJ
+X-Google-Smtp-Source: AGHT+IGQ9mQPiN/GEI3fU0tJWSP0koWA24hj8YVPEmzR9zP1Ams6poNzbT8y3Id+rBzzR1NASM7cdvLBk2yOzooAwSM=
+X-Received: by 2002:a05:620a:4724:b0:815:630d:2cbd with SMTP id
+ af79cd13be357-8516aedb8cfmr51934685a.34.1758576230071; Mon, 22 Sep 2025
+ 14:23:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -75,190 +76,92 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-17-pasha.tatashin@soleen.com> <20250814134917.GE802098@nvidia.com>
-In-Reply-To: <20250814134917.GE802098@nvidia.com>
+ <20250807014442.3829950-18-pasha.tatashin@soleen.com> <mafs07byoye0q.fsf@kernel.org>
+In-Reply-To: <mafs07byoye0q.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 17:09:11 -0400
-X-Gm-Features: AS18NWCsBRxoeYSv5S_-rUt98UUe9gxpk-iBTnQrKdXEdTrrgwXCgW39zL3zdf8
-Message-ID: <CA+CK2bD68E1-AWxz9p-Byyb=fDVQGu4Q+GpW2ogCNdjCxbAJqQ@mail.gmail.com>
-Subject: Re: [PATCH v3 16/30] liveupdate: luo_ioctl: add userpsace interface
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+Date: Mon, 22 Sep 2025 17:23:11 -0400
+X-Gm-Features: AS18NWDQlfdhKL59fadbKNdAGgk8Zbp4-SjH2QD1Po4tMMREBwUluD3-7f8OR8s
+Message-ID: <CA+CK2bD_-xwwUBnF4TBCBuX33uL6+V_1nN=0Q8_NXwhubTc8yA@mail.gmail.com>
+Subject: Re: [PATCH v3 17/30] liveupdate: luo_files: luo_ioctl: Unregister all
+ FDs on device close
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
-> > + *    correct.
-> > + *  - ENOENT: An ID or IOVA provided does not exist.
->                     ^^^^^^^^^
+On Wed, Aug 27, 2025 at 11:34=E2=80=AFAM Pratyush Yadav <pratyush@kernel.or=
+g> wrote:
 >
-> Maybe this should be 'token' ?
+> Hi Pasha,
+>
+> On Thu, Aug 07 2025, Pasha Tatashin wrote:
+>
+> > Currently, a file descriptor registered for preservation via the remain=
+s
+> > globally registered with LUO until it is explicitly unregistered. This
+> > creates a potential for resource leaks into the next kernel if the
+> > userspace agent crashes or exits without proper cleanup before a live
+> > update is fully initiated.
+> >
+> > This patch ties the lifetime of FD preservation requests to the lifetim=
+e
+> > of the open file descriptor for /dev/liveupdate, creating an implicit
+> > "session".
+> >
+> > When the /dev/liveupdate file descriptor is closed (either explicitly
+> > via close() or implicitly on process exit/crash), the .release
+> > handler, luo_release(), is now called. This handler invokes the new
+> > function luo_unregister_all_files(), which iterates through all FDs
+> > that were preserved through that session and unregisters them.
+>
+> Why special case files here? Shouldn't you undo all the serialization
+> done for all the subsystems?
 
-Yes, replaced with token. :-)
+Good point, subsystems should also be cancelled, and system should be
+brought back to normal state. However, with session support, we will
+be dropping only FDs that belong to a specific session when its FD is
+closed, or all FDs+subsystems when closing /dev/liveupdate.
 
-> > +struct liveupdate_ioctl_fd_unpreserve {
-> > +       __u32           size;
-> > +       __aligned_u64   token;
-> > +};
->
-> It is best to explicitly pad, so add a __u32 reserved between size and
-> token
->
-> Then you need to also check that the reserved is 0 when parsing it,
-> return -EOPNOTSUPP otherwise.
+> Anyway, this is buggy. I found this when testing the memfd patches. If
+> you preserve a memfd and close the /dev/liveupdate FD before reboot,
+> luo_unregister_all_files() calls the cancel callback, which calls
+> kho_unpreserve_folio(). But kho_unpreserve_folio() fails because KHO is
+> still in finalized state. This doesn't happen when cancelling explicitly
+> because luo_cancel() calls kho_abort().
 
-Done.
+Yes, KHO still has its states, that break the LUO logic. I think,
+there is going to be some limitations until "stateless" kho patches
+land.
 
->
-> > +static atomic_t luo_device_in_use = ATOMIC_INIT(0);
->
-> I suggest you bundle this together into one struct with the misc_dev
-> and the other globals and largely pretend it is not global, eg refer
-> to it through container_of, etc
->
-> Following practices like this make it harder to abuse the globals.
+> I think you should just make the release go through the cancel flow,
+> since the operation is essentially a cancel anyway. There are subtle
+> differences here though, since the release might be called before
+> prepare, so we need to be careful of that.
 
-Done, good suggestion.
+Makes sense.
 
-> > +struct luo_ucmd {
-> > +     void __user *ubuffer;
-> > +     u32 user_size;
-> > +     void *cmd;
-> > +};
-> > +
-> > +static int luo_ioctl_fd_preserve(struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_ioctl_fd_preserve *argp = ucmd->cmd;
-> > +     int ret;
-> > +
-> > +     ret = luo_register_file(argp->token, argp->fd);
-> > +     if (!ret)
-> > +             return ret;
-> > +
-> > +     if (copy_to_user(ucmd->ubuffer, argp, ucmd->user_size))
-> > +             return -EFAULT;
->
-> This will overflow memory, ucmd->user_size may be > sizeof(*argp)
->
-> The respond function is an important part of this scheme:
->
-> static inline int iommufd_ucmd_respond(struct iommufd_ucmd *ucmd,
->                                        size_t cmd_len)
-> {
->         if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
->                          min_t(size_t, ucmd->user_size, cmd_len)))
->                 return -EFAULT;
->
-> The min (sizeof(*argp) in this case) can't be skipped!
-
-Done, thank you for catching this.
-
-> > +static int luo_ioctl_fd_restore(struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_ioctl_fd_restore *argp = ucmd->cmd;
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     argp->fd = get_unused_fd_flags(O_CLOEXEC);
-> > +     if (argp->fd < 0) {
-> > +             pr_err("Failed to allocate new fd: %d\n", argp->fd);
->
-> No need
-
-Removed
-
-> > +             return argp->fd;
-> > +     }
-> > +
-> > +     ret = luo_retrieve_file(argp->token, &file);
-> > +     if (ret < 0) {
-> > +             put_unused_fd(argp->fd);
-> > +
-> > +             return ret;
-> > +     }
-> > +
-> > +     fd_install(argp->fd, file);
-> > +
-> > +     if (copy_to_user(ucmd->ubuffer, argp, ucmd->user_size))
-> > +             return -EFAULT;
->
-> Wrong order, fd_install must be last right before return 0. Failing
-> system calls should not leave behind installed FDs.
-
-Fixed.
-
->
-> > +static int luo_ioctl_set_event(struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_ioctl_set_event *argp = ucmd->cmd;
-> > +     int ret;
-> > +
-> > +     switch (argp->event) {
-> > +     case LIVEUPDATE_PREPARE:
-> > +             ret = luo_prepare();
-> > +             break;
-> > +     case LIVEUPDATE_FINISH:
-> > +             ret = luo_finish();
-> > +             break;
-> > +     case LIVEUPDATE_CANCEL:
-> > +             ret = luo_cancel();
-> > +             break;
-> > +     default:
-> > +             ret = -EINVAL;
->
-> EOPNOTSUPP
-
-Ack.
-
->
-> > +union ucmd_buffer {
-> > +     struct liveupdate_ioctl_fd_preserve     preserve;
-> > +     struct liveupdate_ioctl_fd_unpreserve   unpreserve;
-> > +     struct liveupdate_ioctl_fd_restore      restore;
-> > +     struct liveupdate_ioctl_get_state       state;
-> > +     struct liveupdate_ioctl_set_event       event;
-> > +};
->
-> I discourage the column alignment. Also sort by name.
-
-Done
-
->
-> > +static const struct luo_ioctl_op luo_ioctl_ops[] = {
-> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_PRESERVE, luo_ioctl_fd_preserve,
-> > +              struct liveupdate_ioctl_fd_preserve, token),
-> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_UNPRESERVE, luo_ioctl_fd_unpreserve,
-> > +              struct liveupdate_ioctl_fd_unpreserve, token),
-> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_RESTORE, luo_ioctl_fd_restore,
-> > +              struct liveupdate_ioctl_fd_restore, token),
-> > +     IOCTL_OP(LIVEUPDATE_IOCTL_GET_STATE, luo_ioctl_get_state,
-> > +              struct liveupdate_ioctl_get_state, state),
-> > +     IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
-> > +              struct liveupdate_ioctl_set_event, event),
->
-> Sort by name
-
-Done
+Thank you,
+Pasha
 
