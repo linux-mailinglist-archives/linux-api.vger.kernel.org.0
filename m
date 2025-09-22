@@ -1,74 +1,74 @@
-Return-Path: <linux-api+bounces-4915-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4916-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B590B935E6
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 23:23:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBB0B938DD
+	for <lists+linux-api@lfdr.de>; Tue, 23 Sep 2025 01:18:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C81F52A83C9
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 21:23:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3208190781B
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 23:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2C32820BA;
-	Mon, 22 Sep 2025 21:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1AF26E708;
+	Mon, 22 Sep 2025 23:18:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="T/Vtd92I"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="K8wuFhmK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E076258CF2
-	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 21:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD4E26C3A8
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 23:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758576232; cv=none; b=O/UuBUwZRDV0/V46K1/dDFhi4gd6d6VvFq3cypDL/xmRvRa6m4D/2RZYfIyru5ScLQ6Bg9iX7Ylkqu/dOL9TFIKopFh2dGYmoM2r84L6dYe3PNoxnNkzqvJQL/z5Fi9/VmzLdue4Av3TkHWDxTebeD9RY7uXBwd6vaHAJ50L004=
+	t=1758583092; cv=none; b=kCJVLvvgu2YerzZdZa5kLAEZJWZrrRBMjVKCUGbkkioFBGMCqNUSdesusALQpcn4/CmdrYqO9NY/0mGeLV6XXCwSNje3mA+rMQiWM2pqKNaLHqpnVEiyMo4u5ASNE7rJ5c63lYMJi7CHcZxE+O0wYpTZ5jLvcfMkM+g8V9iP9V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758576232; c=relaxed/simple;
-	bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
+	s=arc-20240116; t=1758583092; c=relaxed/simple;
+	bh=xCV6ojMbzc6eJsEK8QI8aRXOvwRakeEpGB5Uw4nXNXo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=akkAfMWZdCBmcS11cOAdMmSCqgfEk0407jEfuYs0cKVP/NqLZvLBNUHOriYm4OrCik+SsIFIWo0AU4UFyYQrxFy35yh1Y8bAgV8k/xAZ80yxLE1c9dsmJXiDERORq/or72dEJbR3NvXDXlmMCuVWxQEHdHduNLJmqr4Sf4Co9ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=T/Vtd92I; arc=none smtp.client-ip=209.85.222.170
+	 To:Cc:Content-Type; b=bLop88CdgeQ1j+ufs9x4xKROT6/ToevzvbzMgnFv+9jNvQKfAx6DWUyM5JK/58xhcuCVdh1AgCyGylzQ7/VQAmUKPzztyz/Dg9x2/gGmafrjhYKSw1sIRBXdJo5Rui7WO6/JKbuFmWPclVgjpZAIHpSjWB0oWwdL5xLdoFzrtuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=K8wuFhmK; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-84d0bdc64abso148016285a.3
-        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:23:51 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4c7de9cc647so21217221cf.2
+        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 16:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758576230; x=1759181030; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1758583088; x=1759187888; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
-        b=T/Vtd92ImvDYSXIrPnoZe4VK+x2sKXdithErwv6alIQc1stg4Z0VVyqc/BIUJX2yGE
-         GjOaD5A3kjQG3q8oEHw0DP1pI68TAyG86fHqQEaawC9zbcQwdua5GHzKwT0/GSUVXNyi
-         8ToWfVRd4vr51ZguvI/lYolG5gFKsY3heSiIwnozDgsvCg8SPaXTbG7lKaXV1h4FaSbP
-         1dmRZti4j6XKvF2RDhEX1iMvNsFYpYqBJkl0qG9qDzArl97maU1Awy6BSZiyF/dDO3zb
-         bOaB95Pb3nBZg5b81co5oANDcjHUfGYP0FojsQS2lLAAmFF9XnbRwaejWOeQsK1SBoAy
-         oC1A==
+        bh=FMhzCZwWvSzmvpHLTjoUKn9VxrN7Ynwi1w+l4sf5xFg=;
+        b=K8wuFhmK1Pm0t4+LoNc6LEVgF0GhPhqaWXNTpmVn4VMSM/Oq40GpqWenZKOi3pHO6z
+         Yhlk8y3diE0WpjFrmsmnfgrsPRUgxjP1I3t+3mZRxtFyN1FQXzQLTDA8ZiB3kiZp/NjU
+         ykTVDZ7wasx6veB3oN30mtOZTqXjSMEp5mipa88xkBYCt7y/NhmqnDSJkDMTGdGA8B/S
+         tIXofJSmY8zC3htL4XAgfhGjPe2Dqf2RBfDJZaXo0y5gmJiEXKOffZjig/OClPd86IiM
+         TQCFOd17GHWPdFHTH2kBQYtYLvT5RMFwNviZ99jRvUgucbImIzK4Ytbp1pFFynsZLlOl
+         7fRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758576230; x=1759181030;
+        d=1e100.net; s=20230601; t=1758583088; x=1759187888;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
-        b=UhbpmkDFCidqQHsrMzaFmRD+m8Xj6Bb3LqVGyZFQnLDa7Wg2j41EQwyXnz1oJS3TZE
-         B20isUvpDEc+qzDe3J7FGD/C/FQxC7APNO6wPNGyCe8IqAcHfsAZPUKdyI771cF6kVNP
-         jvum/+pAhTHCTlQzu9LMAHz3VIxy6hDzKXPTyJaUG/tJecMUYPisaYOF8RO1Iv+FIzoM
-         c/vsAtC1Qtca8PEVeGv0Cgpe+YkyR4oc4OOKV+H/wWNlGUm9xE+mOteyLUrJjlBJUSk8
-         bKJ+thR1eXEoiTRw1tVV7ehuSu5DjRsZU2LmBMlPeAPLOraVWolRgrHjrgLMIMVZ6sVv
-         NCjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfMkFijdddg036icVbdyhRq8zJUqvGkAhKgCRN0F1sC94L5ayPnCyn0awGpbG/zkj5TM8EUSrNA3k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ1H4kMUM3q9rozwYN1xCkdPVFcAZWwlTClT7O/xdwuPASXu+Y
-	iidMuj92sW5jhD0BxAzc2mSBDVatH1ADnJALw/bDE3Zbyl5jkJV6gLF0HPNPE4dstlBDC/w6FCY
-	HFRSiSIhOfAdw/x83pyE6yV7oR1xi4qhpSjeF9zsmJw==
-X-Gm-Gg: ASbGncs8O3axwJy0IjmG7fswjV4as+fksj5Sa3uaPbEpsXnVah0SVy4z2dQJHt/jhu6
-	ONRi1jTW/ePrqaZzk/O+YrQDHWEahX1VKdWasayNNBUmnxQTI/ZI/ih1vZbqUYDJ53isxGgwKj5
-	B7TVSrSbt9lliOnLlqIdthktBtSmKh7yktHlllJJxl1DybX5uRVEGDtptqXDLRp94xJCY3iKCcO
-	EHJ
-X-Google-Smtp-Source: AGHT+IGQ9mQPiN/GEI3fU0tJWSP0koWA24hj8YVPEmzR9zP1Ams6poNzbT8y3Id+rBzzR1NASM7cdvLBk2yOzooAwSM=
-X-Received: by 2002:a05:620a:4724:b0:815:630d:2cbd with SMTP id
- af79cd13be357-8516aedb8cfmr51934685a.34.1758576230071; Mon, 22 Sep 2025
- 14:23:50 -0700 (PDT)
+        bh=FMhzCZwWvSzmvpHLTjoUKn9VxrN7Ynwi1w+l4sf5xFg=;
+        b=IUKx5mmi4hQf0XgjV/6tWnwlJPYODvENQ9lKb+bsJr7kmZfpsRlGa0JJpvTeI79rpC
+         P1rVfw7Ga5jmBryr1rlKFeKMAM+iF0dwTlXL4nXSK9v5gFqXq3djtJ/vzclm6zwq0rTO
+         QJwecrgVHAIL6Vdx5fnJ90iFT+r28hBo/3b9KKA7dxtnvSnVjNtpFl0OgJh5HJc+lQtL
+         mXQngAqhZF+OFQoyW1voUApObfP6jJ/IRiK6E9G6ayEMlMrtcFNKzO01lRS0T045UrEs
+         7jIc3a9Ju/I/XuiZtS2syM+32Q364OTbd4egzowRIM7HV6Cf9yD/fg7W9tB8Cw4ZQl+C
+         /b4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVHTl1azZlaUwZmLFlLzhUTUTK96mMrmgkB+d+dqXLsSFFIJIbOlgj/gj/1kjlo+Hh4xJArhxOvYnw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1DHZWA5Kf2Um6K84VzMW8KUHwuj9l9eOkDhWxXc9rFVkBeiPe
+	NNl6OlTxjtIWfnM1ICyuKOtRn8aEXEjTgMLvcSinqcUClWVtkGxkrfZ5rlqLeg10o/qc6SHBWpf
+	DcK9UM3pmtGQnx9jGPdczdL0oNC8/IjKsNb+sPO1a/g==
+X-Gm-Gg: ASbGncsTbM+E3xIn8TKhBv2hurt2+zTiJpVoWY9olL5OmzbhISwF5R3S5LbykZbrFVG
+	w6soH9/wUg8Vc5gGpHLQu73Anc7DhKKwQTihoveG3Ex/ENe568u9VQ7ta9/GgK/J4Vci9lkTIMI
+	IGAkeSysw7hn9pJhXUHB1FfWGTerekg+A9A4ceGQnIQe61jvOkzeXeMVYeec8BZaxpOW7dV/8az
+	nCB
+X-Google-Smtp-Source: AGHT+IHI7fhTCub3gR6FvbuAadFoUObXh5vH4jQwaxG/DrUU33qN/BcWlCQrH5/hzcu886DWWuHj5rfrmRYYSjZ03hs=
+X-Received: by 2002:a05:622a:130b:b0:4b3:140c:ef9f with SMTP id
+ d75a77b69052e-4d369eae636mr9141131cf.23.1758583088357; Mon, 22 Sep 2025
+ 16:18:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,92 +76,171 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-18-pasha.tatashin@soleen.com> <mafs07byoye0q.fsf@kernel.org>
-In-Reply-To: <mafs07byoye0q.fsf@kernel.org>
+ <20250807014442.3829950-19-pasha.tatashin@soleen.com> <20250814140252.GF802098@nvidia.com>
+In-Reply-To: <20250814140252.GF802098@nvidia.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 17:23:11 -0400
-X-Gm-Features: AS18NWDQlfdhKL59fadbKNdAGgk8Zbp4-SjH2QD1Po4tMMREBwUluD3-7f8OR8s
-Message-ID: <CA+CK2bD_-xwwUBnF4TBCBuX33uL6+V_1nN=0Q8_NXwhubTc8yA@mail.gmail.com>
-Subject: Re: [PATCH v3 17/30] liveupdate: luo_files: luo_ioctl: Unregister all
- FDs on device close
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+Date: Mon, 22 Sep 2025 19:17:31 -0400
+X-Gm-Features: AS18NWAv4dGFYOhiSllCg2EpqurnWbzUBhfung7Dsp39jZsN7-oM6V2Ui5LlSZc
+Message-ID: <CA+CK2bB+NRneE=uFxvQ867zT3BHGvfBUz+6Ntqk9p2=wj4JYWQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/30] liveupdate: luo_files: luo_ioctl: Add ioctls for
+ per-file state management
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 27, 2025 at 11:34=E2=80=AFAM Pratyush Yadav <pratyush@kernel.or=
-g> wrote:
+On Thu, Aug 14, 2025 at 10:02=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
 >
-> Hi Pasha,
+> On Thu, Aug 07, 2025 at 01:44:24AM +0000, Pasha Tatashin wrote:
+> > +struct liveupdate_ioctl_get_fd_state {
+> > +     __u32           size;
+> > +     __u8            incoming;
+> > +     __aligned_u64   token;
+> > +     __u32           state;
+> > +};
 >
-> On Thu, Aug 07 2025, Pasha Tatashin wrote:
+> Same remark about explicit padding and checking padding for 0
+
+Done
+
+> > + * luo_file_get_state - Get the preservation state of a specific file.
+> > + * @token: The token of the file to query.
+> > + * @statep: Output pointer to store the file's current live update sta=
+te.
+> > + * @incoming: If true, query the state of a restored file from the inc=
+oming
+> > + *            (previous kernel's) set. If false, query a file being pr=
+epared
+> > + *            for preservation in the current set.
+> > + *
+> > + * Finds the file associated with the given @token in either the incom=
+ing
+> > + * or outgoing tracking arrays and returns its current LUO state
+> > + * (NORMAL, PREPARED, FROZEN, UPDATED).
+> > + *
+> > + * Return: 0 on success, -ENOENT if the token is not found.
+> > + */
+> > +int luo_file_get_state(u64 token, enum liveupdate_state *statep, bool =
+incoming)
+> > +{
+> > +     struct luo_file *luo_file;
+> > +     struct xarray *target_xa;
+> > +     int ret =3D 0;
+> > +
+> > +     luo_state_read_enter();
 >
-> > Currently, a file descriptor registered for preservation via the remain=
-s
-> > globally registered with LUO until it is explicitly unregistered. This
-> > creates a potential for resource leaks into the next kernel if the
-> > userspace agent crashes or exits without proper cleanup before a live
-> > update is fully initiated.
+> Less globals, at this point everything should be within memory
+> attached to the file descriptor and not in globals. Doing this will
+> promote good maintainable structure and not a spaghetti
+>
+> Also I think a BKL design is not a good idea for new code. We've had
+> so many bad experiences with this pattern promoting uncontrolled
+> incomprehensible locking.
+>
+> The xarray already has a lock, why not have reasonable locking inside
+> the luo_file? Probably just a refcount?
+>
+> > +     target_xa =3D incoming ? &luo_files_xa_in : &luo_files_xa_out;
+> > +     luo_file =3D xa_load(target_xa, token);
+> > +
+> > +     if (!luo_file) {
+> > +             ret =3D -ENOENT;
+> > +             goto out_unlock;
+> > +     }
+> > +
+> > +     scoped_guard(mutex, &luo_file->mutex)
+> > +             *statep =3D luo_file->state;
+> > +
+> > +out_unlock:
+> > +     luo_state_read_exit();
+>
+> If we are using cleanup.h then use it for this too..
+>
+> But it seems kind of weird, why not just
+>
+> xa_lock()
+> xa_load()
+> *statep =3D READ_ONCE(luo_file->state);
+> xa_unlock()
+>
+> ?
+
+Yes, we can simplify with xa_lock(), thank you for your suggestion.
+
+>
+> > +static int luo_ioctl_set_fd_event(struct luo_ucmd *ucmd)
+> > +{
+> > +     struct liveupdate_ioctl_set_fd_event *argp =3D ucmd->cmd;
+> > +     int ret;
+> > +
+> > +     switch (argp->event) {
+> > +     case LIVEUPDATE_PREPARE:
+> > +             ret =3D luo_file_prepare(argp->token);
+> > +             break;
+> > +     case LIVEUPDATE_FREEZE:
+> > +             ret =3D luo_file_freeze(argp->token);
+> > +             break;
+> > +     case LIVEUPDATE_FINISH:
+> > +             ret =3D luo_file_finish(argp->token);
+> > +             break;
+> > +     case LIVEUPDATE_CANCEL:
+> > +             ret =3D luo_file_cancel(argp->token);
+> > +             break;
+>
+> The token should be converted to a file here instead of duplicated in
+> each function
+
+struct luo_file is preivate to luo_file.c, and I think it makes sense
+to keep it that way, amount of duplicated code is trivial.00
+
+> >  static int luo_open(struct inode *inodep, struct file *filep)
+> >  {
+> >       if (atomic_cmpxchg(&luo_device_in_use, 0, 1))
+> > @@ -149,6 +191,8 @@ union ucmd_buffer {
+> >       struct liveupdate_ioctl_fd_restore      restore;
+> >       struct liveupdate_ioctl_get_state       state;
+> >       struct liveupdate_ioctl_set_event       event;
+> > +     struct liveupdate_ioctl_get_fd_state    fd_state;
+> > +     struct liveupdate_ioctl_set_fd_event    fd_event;
+> >  };
 > >
-> > This patch ties the lifetime of FD preservation requests to the lifetim=
-e
-> > of the open file descriptor for /dev/liveupdate, creating an implicit
-> > "session".
-> >
-> > When the /dev/liveupdate file descriptor is closed (either explicitly
-> > via close() or implicitly on process exit/crash), the .release
-> > handler, luo_release(), is now called. This handler invokes the new
-> > function luo_unregister_all_files(), which iterates through all FDs
-> > that were preserved through that session and unregisters them.
+> >  struct luo_ioctl_op {
+> > @@ -179,6 +223,10 @@ static const struct luo_ioctl_op luo_ioctl_ops[] =
+=3D {
+> >                struct liveupdate_ioctl_get_state, state),
+> >       IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
+> >                struct liveupdate_ioctl_set_event, event),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_GET_FD_STATE, luo_ioctl_get_fd_state,
+> > +              struct liveupdate_ioctl_get_fd_state, token),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_SET_FD_EVENT, luo_ioctl_set_fd_event,
+> > +              struct liveupdate_ioctl_set_fd_event, token),
+> >  };
 >
-> Why special case files here? Shouldn't you undo all the serialization
-> done for all the subsystems?
+> Keep sorted
 
-Good point, subsystems should also be cancelled, and system should be
-brought back to normal state. However, with session support, we will
-be dropping only FDs that belong to a specific session when its FD is
-closed, or all FDs+subsystems when closing /dev/liveupdate.
-
-> Anyway, this is buggy. I found this when testing the memfd patches. If
-> you preserve a memfd and close the /dev/liveupdate FD before reboot,
-> luo_unregister_all_files() calls the cancel callback, which calls
-> kho_unpreserve_folio(). But kho_unpreserve_folio() fails because KHO is
-> still in finalized state. This doesn't happen when cancelling explicitly
-> because luo_cancel() calls kho_abort().
-
-Yes, KHO still has its states, that break the LUO logic. I think,
-there is going to be some limitations until "stateless" kho patches
-land.
-
-> I think you should just make the release go through the cancel flow,
-> since the operation is essentially a cancel anyway. There are subtle
-> differences here though, since the release might be called before
-> prepare, so we need to be careful of that.
-
-Makes sense.
-
-Thank you,
-Pasha
+Done
 
