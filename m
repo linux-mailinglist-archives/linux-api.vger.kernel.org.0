@@ -1,74 +1,73 @@
-Return-Path: <linux-api+bounces-4913-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4914-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66379B91D53
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 17:01:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0327DB93579
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 23:10:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 138E42A5F3C
-	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 15:01:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 365343BDB11
+	for <lists+linux-api@lfdr.de>; Mon, 22 Sep 2025 21:10:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E0242DC782;
-	Mon, 22 Sep 2025 15:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC2A52BEC3F;
+	Mon, 22 Sep 2025 21:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="BN15DxHz"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HzNYUF0C"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EBA2DC76E
-	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 15:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B126627A10D
+	for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 21:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758553257; cv=none; b=hFyTZZUQNMXSM6btWaiZ26XVHcm77scBiH8CJCo8WlN3TfDMYQ/3yGNO916KAGF/KLzR7C6gdF2TZUE10GwMT8sq7tgQhYJLIlQBaFK+940AGGfPbKTXTzoiq+/6gCo0sK/7Y2bhZAewS2bjRceYnxax/MCsuUq9siEjW/Ex2pM=
+	t=1758575392; cv=none; b=BwJ/7kaAoYCQlROaa1f9WP17GhatleK+C24vSq+kPkntFTWQ+znpEpHBTzu6A7MWFUiHYnCyLmMQLwdY9nm4zQiL4R8NlYJYybCrp75abBBo8/kSS1CtZe8XaPzoAU7bUvzfb4m1v3Zgf2Z7cIz4L5safwfziiLFRel2kClfDFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758553257; c=relaxed/simple;
-	bh=kh9XvYd3EybefvfxgcE5HYVIHxtLjRtv+CBZJd9A8sI=;
+	s=arc-20240116; t=1758575392; c=relaxed/simple;
+	bh=8FfsMBJXaP1G1sQ2HidWtn7ujJU+KhdHP65thFW6hrQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iVM1Hmit82T/8hm15JkhM4GVe8HOKzIlwn8lYJIVB5g48lkpOxYgHQuFYbdYin7tKAdqYg9pdelaXqOkrsbE0CcDGyviDP7l42BgRiEfFoGDC7/7I2NONozcC02IR5AidQSUB6q7GEhp2gACP0EkbJVOuEnAIoKq2hdgzfHFKgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=BN15DxHz; arc=none smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=qqClNLFTI+8NtZFzDf/ofErRvjrfvsiGjsLfBFk8n6qXO0SvmVxCLGJ77/HC+0Lxdv+iZBl9pWUVXUN3rDPye3I4lCSBKD0ThMaqWaYJFncNNvAX+ed2rmQrrB4oX999+o6WuPe5gkPPbNPvcFSv/vb1Bu41cdg7uNCJS9AdMkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=HzNYUF0C; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4b5f7fe502dso24250721cf.0
-        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 08:00:55 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b38d4de6d9so30831401cf.1
+        for <linux-api@vger.kernel.org>; Mon, 22 Sep 2025 14:09:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758553255; x=1759158055; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
-        b=BN15DxHzbcgH3jO2lx3ZL1eCb8snynPgNtQx8dzHAO+PLekKUG+Q9KEOCCMnFiDQYh
-         N5mwqMCoE62l0XZqEqyjVLe3ngKNivgB84tVGyp4fxKVCEiTww47ujjzS2q6VxJWbVZJ
-         YrC0HYW87Gc+GIuUIh7xPkARpETh08/IWzeEse4gI+r+x4561Q8TcRsF4srRMnZz6F4F
-         PsBvAJCv1mhNof7LM0wRErHT10VivDHJRtkdioWQGQenI0/dZnuUqBU9G+6AQveQhhvN
-         7sM0g4g+36M2useltsF9iAE8CD5yA/1jojShv84pTeMnD6qW1cjt5pG1a2fzFUNnoePT
-         +b3w==
+        d=soleen.com; s=google; t=1758575389; x=1759180189; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aIOP0jY/+X/9DN9f80nfhBWfHor4awN8nQUrjS4FFGg=;
+        b=HzNYUF0Cc0Y/ldmPM1nCVfeIGKSJbpBEoPy4KJYn1lvkuEwwKGmocW/2LnnUQE4dyI
+         1cYbW1w/ZqgoacYfd/Zxzp3jceABfxzGXDXcteL32yOpBV530YUFNi8CFDombdDwiCA/
+         n0xT2k7yhg+7Il71Sil4qMY5kBy/nG+W2dfLp97ptija3CelvCtIB25PCFc0V0XcX+M/
+         Nup7zwSwMziXSjI2vWQXFr9mwlZcc9iTaFZkkpQacyRL07rDaQn3CNAX3rpRkqOku2zw
+         gAc0hXHC787MniLYbYu5ycRGJjIUTrUFtMY5jEzO7yO/4+9HWPZ4aK/DmqrDInDU/4vM
+         Cdzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758553255; x=1759158055;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
-        b=LQKMRGAv8GXr8HA6MGi49u+PUhTz+lb1uUxhZfhiwBKHss/PPKezCDCKdnZnuRQE9j
-         IiKhSlkvS00nXJHfBZqdnrkuDAvn/emuFfUk2pel5twBCEJRBMREhFSy/tzsFXW0YqDf
-         iNjnc+6gEPY8RF9MFHKvoxdoleELTlvEaZREzfGdqfk+678g/5QZhT/Mvn6VGa1amhVB
-         bKHQ+fXNIVhBIwIfXefeI3bUENLpMHKnNjbqCp8HcMr7g/YdpPdvfYyXGEfRXs+Usi5n
-         uvA1h2P9U19TMfUOfBPdWlFp/+bXMkNeLAj3+WuJObrNQ71HY/3rTgZlIDbVos+JBeBV
-         KkSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPaYSDAfl8BQNOHfNR+JRXmpDibwR0cdjOiQ3TqIegQpp3p5oKcjwTOS4xNcpkYZvBT1w3LJ9rvdU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0eCmwDzQvlHBqHkdFByj6LStkrZP5NYcpiTuICGIXe/9wo54G
-	CAHh5pzuPs1GXFUIm4GyxEKFcP8XEhNOts6TClQ4NubFOgyAKpmOj+MAVq3AqI5BRIhgdqTsq3/
-	d84Nwp1kjFs2f6A7qtEk6nPrr583Js4Hy7vespEaHPQ==
-X-Gm-Gg: ASbGncsm5qw40DhPuumx/yD5qThhPLqKGWjeuAuJqBK1ujJdytvMIX4o7Z1labSP7d1
-	yL5kXGOZkwq2L3SIJVawDiVrGZUjzLU4wASXqplO13z7MTBk8yjdBPi82/gBcsn+LgiXSuZawbJ
-	K1nX93vzfhxBEH3MwCiNTvD59SCs45uhRtktNTwVD3r2e/PZ5e8FKjJI0Mw+bnjAO+J1DZzaaFH
-	C8MBpDT/oOfedY=
-X-Google-Smtp-Source: AGHT+IFODvetLMEI4TglsorFs5/g17pXRnsZ1YySfP9UyB8TJrkLIBj/0y5AS2xiVpb0YAgRS6Chp+Ecl7/RH4sOKKQ=
-X-Received: by 2002:a05:622a:19a7:b0:4b5:781c:8831 with SMTP id
- d75a77b69052e-4c07482541fmr145941741cf.71.1758553254248; Mon, 22 Sep 2025
- 08:00:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758575389; x=1759180189;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aIOP0jY/+X/9DN9f80nfhBWfHor4awN8nQUrjS4FFGg=;
+        b=uKXgIwTdET6rcTITngjyRsT8q3c4nHVePsASpJWbSZjlBWk4SyEK2RlvK3HxPwYCgo
+         t+FzV+IOwlw/NSo/hLFq11rttyKJDqrnX8eJ4NhALU665hBdqCoSoExPJ7oO66dQSEVE
+         +smAtzj879KSXmDizeoFHjT+jb6Ob28T10kBoyYxFu2Q7tfj+tplDVZfxCn50wTZbZeO
+         TlsFr3Nk03zeBDYgpBqBaMHbK7hifQTVQWYclWfJx9VAoX5M7xYgzumcwtE96caCZNDx
+         ZOFG3ReX1DlSV2zTN1WhEN+d6XkqmhOX7jAq0/5bcxiFDsajdc1jPiIHJKfom/s+xauV
+         dtEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLFG8ODv/OxzNK41rPQLUUaWaYSUyTVUBv/HIOy7DtfM2yDuUrN0W46gWn3Yusd93JE4il97FEwbU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5X6xHZY/LRfEE9Ik42L0T+L/hs4qWzBeGD1iqQB0cNgRbbLKa
+	Nd5M+6boCI/vDuxUS0CzAURyDHcoE0tAO9Qfo+rQ4iImuEqMUR+2mVRasNcb1Zo/UzcFb3niJkJ
+	j0LC70h1pg4NBBdDRP1ZV+NkpKCG21vebxI/4eN7OsQ==
+X-Gm-Gg: ASbGncu3fMRfc/Uh8aaXBEo6rzwVdU2W6V2ujJCldhqWdVig7BEB9kFLZyXvRUZCIay
+	I+O1oEkzCAc8UA1tdiZya8B8zGU+HmQq/j7dxgESSVigxsemSPw5/MHCz9o9ndFAgqoulXj64ah
+	qcqKCu/DpDCAp2/NvXiiq8X6ALYll9hfuUq3uQHcWRRymjKHQ/g24kqVUPPRtMEYhlViZzcyk+X
+	I+j
+X-Google-Smtp-Source: AGHT+IG/qgae5Me0ExwT19ZtCSc7WJPaTAk40SN+WOTTYohTOQCqtXZFZ8mCtUhw0BmokKMxl2aqS4C1ND0ndsRc4Xg=
+X-Received: by 2002:ac8:6f07:0:b0:4cc:48c0:adfe with SMTP id
+ d75a77b69052e-4d368a800a4mr3604971cf.30.1758575389346; Mon, 22 Sep 2025
+ 14:09:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,13 +75,13 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-11-pasha.tatashin@soleen.com> <20250814133151.GD802098@nvidia.com>
-In-Reply-To: <20250814133151.GD802098@nvidia.com>
+ <20250807014442.3829950-17-pasha.tatashin@soleen.com> <20250814134917.GE802098@nvidia.com>
+In-Reply-To: <20250814134917.GE802098@nvidia.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 11:00:17 -0400
-X-Gm-Features: AS18NWDWvCmwoZ0UUnsayOxFgu1ddJVOr-n1U4qHAgmRCSllAUpUXvWhJbPgaAE
-Message-ID: <CA+CK2bALMGy8eYpYdsQSJXsCWrusKA0UJfBfv1fbfW-=tYds7g@mail.gmail.com>
-Subject: Re: [PATCH v3 10/30] liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
+Date: Mon, 22 Sep 2025 17:09:11 -0400
+X-Gm-Features: AS18NWCsBRxoeYSv5S_-rUt98UUe9gxpk-iBTnQrKdXEdTrrgwXCgW39zL3zdf8
+Message-ID: <CA+CK2bD68E1-AWxz9p-Byyb=fDVQGu4Q+GpW2ogCNdjCxbAJqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 16/30] liveupdate: luo_ioctl: add userpsace interface
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
@@ -109,33 +108,157 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
 	leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 14, 2025 at 9:32=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+> > + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
+> > + *    correct.
+> > + *  - ENOENT: An ID or IOVA provided does not exist.
+>                     ^^^^^^^^^
 >
-> On Thu, Aug 07, 2025 at 01:44:16AM +0000, Pasha Tatashin wrote:
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -383,6 +383,8 @@ Code  Seq#    Include File                         =
-                    Comments
-> >  0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                               =
- Marvell CN10K DPI driver
-> >  0xB8  all    uapi/linux/mshv.h                                        =
- Microsoft Hyper-V /dev/mshv driver
-> >                                                                        =
- <mailto:linux-hyperv@vger.kernel.org>
-> > +0xBA  all    uapi/linux/liveupdate.h                                  =
- Pasha Tatashin
-> > +                                                                      =
- <mailto:pasha.tatashin@soleen.com>
+> Maybe this should be 'token' ?
+
+Yes, replaced with token. :-)
+
+> > +struct liveupdate_ioctl_fd_unpreserve {
+> > +       __u32           size;
+> > +       __aligned_u64   token;
+> > +};
 >
-> Let's not be greedy ;) Just take 00-0F for the moment
+> It is best to explicitly pad, so add a __u32 reserved between size and
+> token
+>
+> Then you need to also check that the reserved is 0 when parsing it,
+> return -EOPNOTSUPP otherwise.
 
 Done.
 
-Pasha
+>
+> > +static atomic_t luo_device_in_use = ATOMIC_INIT(0);
+>
+> I suggest you bundle this together into one struct with the misc_dev
+> and the other globals and largely pretend it is not global, eg refer
+> to it through container_of, etc
+>
+> Following practices like this make it harder to abuse the globals.
+
+Done, good suggestion.
+
+> > +struct luo_ucmd {
+> > +     void __user *ubuffer;
+> > +     u32 user_size;
+> > +     void *cmd;
+> > +};
+> > +
+> > +static int luo_ioctl_fd_preserve(struct luo_ucmd *ucmd)
+> > +{
+> > +     struct liveupdate_ioctl_fd_preserve *argp = ucmd->cmd;
+> > +     int ret;
+> > +
+> > +     ret = luo_register_file(argp->token, argp->fd);
+> > +     if (!ret)
+> > +             return ret;
+> > +
+> > +     if (copy_to_user(ucmd->ubuffer, argp, ucmd->user_size))
+> > +             return -EFAULT;
+>
+> This will overflow memory, ucmd->user_size may be > sizeof(*argp)
+>
+> The respond function is an important part of this scheme:
+>
+> static inline int iommufd_ucmd_respond(struct iommufd_ucmd *ucmd,
+>                                        size_t cmd_len)
+> {
+>         if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
+>                          min_t(size_t, ucmd->user_size, cmd_len)))
+>                 return -EFAULT;
+>
+> The min (sizeof(*argp) in this case) can't be skipped!
+
+Done, thank you for catching this.
+
+> > +static int luo_ioctl_fd_restore(struct luo_ucmd *ucmd)
+> > +{
+> > +     struct liveupdate_ioctl_fd_restore *argp = ucmd->cmd;
+> > +     struct file *file;
+> > +     int ret;
+> > +
+> > +     argp->fd = get_unused_fd_flags(O_CLOEXEC);
+> > +     if (argp->fd < 0) {
+> > +             pr_err("Failed to allocate new fd: %d\n", argp->fd);
+>
+> No need
+
+Removed
+
+> > +             return argp->fd;
+> > +     }
+> > +
+> > +     ret = luo_retrieve_file(argp->token, &file);
+> > +     if (ret < 0) {
+> > +             put_unused_fd(argp->fd);
+> > +
+> > +             return ret;
+> > +     }
+> > +
+> > +     fd_install(argp->fd, file);
+> > +
+> > +     if (copy_to_user(ucmd->ubuffer, argp, ucmd->user_size))
+> > +             return -EFAULT;
+>
+> Wrong order, fd_install must be last right before return 0. Failing
+> system calls should not leave behind installed FDs.
+
+Fixed.
 
 >
-> Jason
+> > +static int luo_ioctl_set_event(struct luo_ucmd *ucmd)
+> > +{
+> > +     struct liveupdate_ioctl_set_event *argp = ucmd->cmd;
+> > +     int ret;
+> > +
+> > +     switch (argp->event) {
+> > +     case LIVEUPDATE_PREPARE:
+> > +             ret = luo_prepare();
+> > +             break;
+> > +     case LIVEUPDATE_FINISH:
+> > +             ret = luo_finish();
+> > +             break;
+> > +     case LIVEUPDATE_CANCEL:
+> > +             ret = luo_cancel();
+> > +             break;
+> > +     default:
+> > +             ret = -EINVAL;
+>
+> EOPNOTSUPP
+
+Ack.
+
+>
+> > +union ucmd_buffer {
+> > +     struct liveupdate_ioctl_fd_preserve     preserve;
+> > +     struct liveupdate_ioctl_fd_unpreserve   unpreserve;
+> > +     struct liveupdate_ioctl_fd_restore      restore;
+> > +     struct liveupdate_ioctl_get_state       state;
+> > +     struct liveupdate_ioctl_set_event       event;
+> > +};
+>
+> I discourage the column alignment. Also sort by name.
+
+Done
+
+>
+> > +static const struct luo_ioctl_op luo_ioctl_ops[] = {
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_PRESERVE, luo_ioctl_fd_preserve,
+> > +              struct liveupdate_ioctl_fd_preserve, token),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_UNPRESERVE, luo_ioctl_fd_unpreserve,
+> > +              struct liveupdate_ioctl_fd_unpreserve, token),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_FD_RESTORE, luo_ioctl_fd_restore,
+> > +              struct liveupdate_ioctl_fd_restore, token),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_GET_STATE, luo_ioctl_get_state,
+> > +              struct liveupdate_ioctl_get_state, state),
+> > +     IOCTL_OP(LIVEUPDATE_IOCTL_SET_EVENT, luo_ioctl_set_event,
+> > +              struct liveupdate_ioctl_set_event, event),
+>
+> Sort by name
+
+Done
 
