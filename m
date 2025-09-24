@@ -1,54 +1,57 @@
-Return-Path: <linux-api+bounces-4920-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4921-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D00B9802D
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 03:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62EDB98642
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 08:31:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EB7118913A3
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 01:35:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D91B319C49B7
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 06:32:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4101C1F7910;
-	Wed, 24 Sep 2025 01:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B5F210F59;
+	Wed, 24 Sep 2025 06:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="mqhLsynf"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="R2SbdLP4"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3127817BA6;
-	Wed, 24 Sep 2025 01:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A801E24A074;
+	Wed, 24 Sep 2025 06:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758677701; cv=none; b=kTtL2DaEhAj+jqt1ntMekA+XcUzhwqeetHPamdMJzFwSBCIWSmlK4TuMW5pVW3x84erpl71tY594aKFMzMZMyaJXJWcQgcuqKhEIRYgD8qvu0bzqABZ7TnlbkVHH9jh/SNvVKoyKI8e0WFrlMBhr5jNFokE8Ms9em5PqQjVKLPs=
+	t=1758695498; cv=none; b=U69tnPnoQTF5wxcqFUZXSF3qD3Nl0lSYNIGQLYMm0hyo2S6RPcb7YGprrKUXYo/WbVbHHxd/JbkL48flMTawJfN+t1iGpfrdF04w9ExivALLZadeaoUnDs2Z+g1TWGNrGXQybMz4pS1MitO2FIjLjh/FqdYQ7ikNmB0JxCyuGvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758677701; c=relaxed/simple;
-	bh=lO9+ovq91/TgtqhbH25S7snsi4CVfNQT+eMpCTJ3S7U=;
+	s=arc-20240116; t=1758695498; c=relaxed/simple;
+	bh=065T29l6sjd3b5Uv5coNCNiFSOMe4aVbBTlbV3uJd5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ca2fmbftKPMl68OFumoqFEjf1PA0OT7+XpU2izQvWP0WT5QFzISQJVoRvjBuGK19A7UtZF9LNQ+JhCKTKiJAnfxQ0Mr7mUix//XiSRNeVuq0+dt2wpkZHkktxKZcF2vtLPr8zLviB9GKpDS3h2pNKNgLgLw46llpssboiSzPzpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=mqhLsynf; arc=none smtp.client-ip=80.241.56.161
+	 Content-Type:Content-Disposition:In-Reply-To; b=gl/w5sJoFCtcgmja2bzypXuFYFJaqK7t/DUY8h9U1+aYQ6imEfLQeR5RdO1757CqIpRk8QVtUuqFFenWB1hUqrojyPD9SQeTgdnRQpDkphsJCfkRRSUn+cGDzC97iCLoGisVvxPd2nS7R8+7VrALZqP6CPmYHvnOJaXDL5A24Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=R2SbdLP4; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cWfXs0lRHz9tCC;
-	Wed, 24 Sep 2025 03:34:53 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cWn771Ms3z9sxW;
+	Wed, 24 Sep 2025 08:31:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1758677693;
+	t=1758695491;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FO/O1QYuK4rqB1hpgKUYhTN5JGnU9DG/xls0jzT16W8=;
-	b=mqhLsynfkRBszyHmspJqrLl0QQ6vTp+b+IijVtKNnaRvSqFBGXhhnQYhh2ITS6sEVrhN0e
-	9i+t6eScXLorl6CnVpdaXDAF7uavy0BwUlUp+a07TjDaFCtjJqQlhB1GR+ITvFuxBtf5HP
-	f651zc4bs8CjgVPiy+fynzKbbewZIa2LR4lhcY4qPY75n44Sx+GRgbbf5DKiF+ad1b+pOI
-	ObMfq8Pu1Iy7obuVEslD7jhSNVy7IUSS650wOcE8gHaRvGBDnC4cU0UMixJG1CS4620yIm
-	wls8pI1rwhcez34cewfgWhg85tev6esvAzquJnc0EaSYhjHAp1jgsnop/J+mWA==
-Date: Wed, 24 Sep 2025 11:34:40 +1000
+	bh=TElU+ZNhdFO4OM5I/I4tMdutu6h8Mmuod86kJlXVN94=;
+	b=R2SbdLP4oUuWvc05x/jHTrie05dNkqn1kQtWvOOLyxh09R04y5FgxL3EcE/LGwR3Ses2rJ
+	bGeJXMUr1hqhGClk8cXcLK8Hoi/7A8rdK15LC8f2db54bJT4xrCJ2rSmvJLrvMdmrp6/Q4
+	OPBP3DylrCsS9/yd4sn22LiiSsH4nq0iBAUeM9+2NOiD2bq2NB31fn8Bmgkb5SbBWJ1EoD
+	xGkO1VyFMe+zM0f9ZevoexoaYbrV7euyVGn1IJyvBj+bhADta/6sBswxlDwJLlku7D0+Bh
+	YW9N/HLr+DPhuM91AocMcd3CkHBsWIrbi78pbT95lx/PAFyvtXcf4OoE3ejc9Q==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Wed, 24 Sep 2025 16:31:15 +1000
 From: Aleksa Sarai <cyphar@cyphar.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
@@ -56,13 +59,12 @@ Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>,
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
-Message-ID: <2025-09-24-marbled-ominous-skate-riches-QJMLCR@cyphar.com>
+Subject: Re: [PATCH v4 09/10] man/man2/open_tree{,_attr}.2: document new
+ open_tree_attr() API
+Message-ID: <2025-09-24-unsafe-movable-perms-actress-zoAIgs@cyphar.com>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-7-1261201ab562@cyphar.com>
- <gyhtwwu7kgkaz5l5h46ll3voypfk74cahpfpmagbngj3va3x7c@pm3pssyst2al>
- <2025-09-22-sneaky-similar-mind-cilantro-u1EJJ2@cyphar.com>
- <aqhcwkln4fls44e2o6pwnepex6yec6lg2jnngrtck3g5pc6q5d@7zibx3l2vrjw>
+ <20250919-new-mount-api-v4-9-1261201ab562@cyphar.com>
+ <vc2xa2tuqqnkuoyg4hrgt6akt23ap6hxho5qs5hfcbc5nsaosv@idi6hwvyo7r5>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -70,57 +72,53 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vfo47q5e4mux6kdu"
+	protocol="application/pgp-signature"; boundary="odo7mxn4h7kg45xd"
 Content-Disposition: inline
-In-Reply-To: <aqhcwkln4fls44e2o6pwnepex6yec6lg2jnngrtck3g5pc6q5d@7zibx3l2vrjw>
+In-Reply-To: <vc2xa2tuqqnkuoyg4hrgt6akt23ap6hxho5qs5hfcbc5nsaosv@idi6hwvyo7r5>
+X-Rspamd-Queue-Id: 4cWn771Ms3z9sxW
 
 
---vfo47q5e4mux6kdu
+--odo7mxn4h7kg45xd
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 07/10] man/man2/open_tree.2: document "new" mount API
+Subject: Re: [PATCH v4 09/10] man/man2/open_tree{,_attr}.2: document new
+ open_tree_attr() API
 MIME-Version: 1.0
 
-On 2025-09-22, Alejandro Colomar <alx@kernel.org> wrote:
-> Hi Aleksa,
+On 2025-09-21, Alejandro Colomar <alx@kernel.org> wrote:
+> On Fri, Sep 19, 2025 at 11:59:50AM +1000, Aleksa Sarai wrote:
+> > diff --git a/man/man2/open_tree.2 b/man/man2/open_tree.2
+> > index 7f85df08b43c7b48a9d021dbbeb2c60092a2b2d4..60de4313a9d5be4ef3ff121=
+7051f252506a2ade9 100644
+> > --- a/man/man2/open_tree.2
+> > +++ b/man/man2/open_tree.2
+> > @@ -15,7 +15,19 @@ .SH SYNOPSIS
+> >  .B #include <sys/mount.h>
+> >  .P
+> >  .BI "int open_tree(int " dirfd ", const char *" path ", unsigned int "=
+ flags );
+> > +.P
+> > +.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " constan=
+ts */"
+> > +.P
+> > +.BI "int syscall(SYS_open_tree_attr, int " dirfd ", const char *" path=
+ ,
+> > +.BI "            unsigned int " flags ", struct mount_attr *_Nullable =
+" attr ", \
+> > +size_t " size );
 >=20
-> On Mon, Sep 22, 2025 at 08:09:47PM +1000, Aleksa Sarai wrote:
-> > > > +is lazy\[em]akin to calling
-> > >=20
-> > > I prefer em dashes in both sides of the parenthetical; it more clearly
-> > > denotes where it ends.
-> > >=20
-> > > 	is lazy
-> > > 	\[em]akin to calling
-> > > 	.BR umount2 (2)
-> > > 	with
-> > > 	.BR MOUNT_DETACH \[em];
-> >=20
-> > An \[em] next to a ";"? Let me see if I can rewrite it to avoid this...
+> Do we maybe want to move this to its own separate page?
 >=20
-> You could use parentheses, maybe.
+> The separate page could perfectly contain the same exact text you're
+> adding here; you don't need to repeat open_tree() descriptions.
+>=20
+> In general, I feel that while this improves discoverability of related
+> functions, it produces more complex pages.
 
-I tried it a few different ways and I think it reads best with a single
-em dash as a parenthetical -- since ";" indicates the end of a clause I
-don't think you need to "close" the parenthetical with a corresponding
-em dash.
-
-Here is the parentheses version, but I plan to just keep the em dash
-version in the patchset. If you really prefer the parenthesis version
-feel free to replace it.
-
-  This implicit unmount operation is lazy
-  (akin to calling
-  .BR umount2 (2)
-  with
-  .BR MNT_DETACH );
-  thus,
-  any existing open references to files
-  from the mount object
-  will continue to work,
-  and the mount object will only be completely destroyed
-  once it ceases to be busy.
+I tried it and I don't think it is a better experience as a reader when
+split into two pages because of the huge overlap between the two
+syscalls.
 
 --=20
 Aleksa Sarai
@@ -128,17 +126,17 @@ Senior Software Engineer (Containers)
 SUSE Linux GmbH
 https://www.cyphar.com/
 
---vfo47q5e4mux6kdu
+--odo7mxn4h7kg45xd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaNNKsBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8h4AD/Wcoe7m37jWc/BhSAMmy7
-5J7v6RtMEVM6694cfozacuMA+wemOQKXKtYSNII11gxZCywch8PPbKMq1K5ure5X
-xDAA
-=W8YQ
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaNOQMxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG/3XAD/fPRWeq5U+NvquaA3xaZ0
+NGVff7W89/OjhtJxCUUBD1sA/3N9ZORTu+A5NOOuW+fd2HL62ekuHN5aNDrUAi/6
+D9UN
+=lPKS
 -----END PGP SIGNATURE-----
 
---vfo47q5e4mux6kdu--
+--odo7mxn4h7kg45xd--
 
