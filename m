@@ -1,60 +1,68 @@
-Return-Path: <linux-api+bounces-4924-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4925-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E180B98FC1
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 10:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4A4B998C6
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 13:12:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDD1E3A3B0B
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 08:53:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A0B83B6717
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 11:12:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB752BF019;
-	Wed, 24 Sep 2025 08:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C0B32E7637;
+	Wed, 24 Sep 2025 11:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kq3EnQsE"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="NBc3OUtS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0E9DF49;
-	Wed, 24 Sep 2025 08:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A1D2E6CBF;
+	Wed, 24 Sep 2025 11:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758703985; cv=none; b=Uf4/bHe1J13aPDh1k/xFszU2Ug7oIVBc076Fib5iT2sCFWHkLup6rLvlVJJ8ETo5bUkmpPKpo/4rr/d88BeTUY4XP9x6ionA9dTohWvTm/VfjxKRNwfr8gsSJqrTpwqAktkE6euzOUwRlmJDLJF5jQZbG249J1n+cgX3zdKdOZs=
+	t=1758712294; cv=none; b=ki3GxWb5TePk0XCbW/Ip+zEoXKW1Od989W0I4lNvjSaYae6mDMPuFmb4OW4eV/KmWBuFAB+iQzMsUA96PDonwrbySox5xw4c+XEMtgiYUyj2v82jauji8jn/qQU3WyVo6jH3V/KaNJZgx0eCP9BQoQnQA7abrpmW7t/2ycLwFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758703985; c=relaxed/simple;
-	bh=E6zulzZVYmkbKjQcXuz2AElMWJpbS2jzN2vn6lDDjec=;
+	s=arc-20240116; t=1758712294; c=relaxed/simple;
+	bh=I8jx9+Z0HjYNcAxzspRrl8uDMBIJGiwKSq3Hc99rbtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VGziGoKisyPdVSVJZqbUfxUVEqXNFxd9i8jdH8CznmdLyx1c1Iuu/i0f1cv2ircckj6rBC5Ri35a8jXAFu+H/0FxU8X/Q2ZALVAtHxxlMcAM69jj/LEah2KbOdPeS3eO9aKZrM8jXS4pPRv789riJo6tw2Ff/HJCYVWW85R42Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kq3EnQsE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D35C113CF;
-	Wed, 24 Sep 2025 08:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758703984;
-	bh=E6zulzZVYmkbKjQcXuz2AElMWJpbS2jzN2vn6lDDjec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kq3EnQsERpwcKloItJUo75aeetvZ4zYU7Oh6StYoNsi8L3C5W4Koic3xqdgepj5/9
-	 PgF9uqcu6UkDN1GQ7x4CV3ec56DrjQjEtZo5hFqfFsBNHrCC2ch4YjqXGxZa7uYBWK
-	 PhPGm8LmsPvhbkkBh2+r6thexlDFOJ5D1Ll0SKM8s46psdtTn5Uir/kwrIarXymfgu
-	 lOxmZGgt0k+265h9gBCpTiA8+xLIcX6qG77YK3bYby436L2qd6gikBE9C627+m2wzC
-	 WW+7DIdJG+D0W6eeeSJqaBeMkPP0GrgZncjaJFBR86y1dzF+5Dr3AvWs0LhAJPWPXc
-	 KXEB7nc3B7N2w==
-Date: Wed, 24 Sep 2025 10:52:57 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <rvnb5wxpu2emzbs7iprqzxqom4yioguxsiyl4gfxcyr6hjfs3v@kqrfrrfsoa7s>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pTGvK1G4KBqG0tN9bLoOEPG7uojezulgeoCdOaRBdggW+rb16SupCd3ENwtz6JqSU6n0VytNcuH4VtJZAEMZz3DmeenlXHm8ceh9Ih2K6Zk/O2+TCClNKiJHKIbADSfOTnxhsIRH1p3vtES+JttTc34+l7iTiirkA+JGLQ8vOmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=NBc3OUtS; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cWvL40nMXz9sss;
+	Wed, 24 Sep 2025 13:11:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1758712284;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eaWyp7zLjG4L7gCVal+UDP6Kkng9cKICGymTr7A2Hw=;
+	b=NBc3OUtSn3cXLksE1cQM2evp/cln0cQAGhk7mwTMw7u0vPzpd6ltC5yfOgxwyE0V6PfFvN
+	0sQdEzdNIzo3aAo5L6e+e2mE0jD+9Ab0AYN5Ldnwb0DLINMl5x2UF9sgzzYxuVOUFh2rHl
+	VNNF4w7brru4B2knSIagdia6F1fp+f+REJbe2HPJONJl+/j2FYx7PLilKXICQ+u+aRA/+R
+	AxWXCeMV6MsqEu7bJdCvjdgu3HDr2jm7VBQPQlTYuYoYKwuzxk3lfmdVgf1LVWXnI0RvDH
+	21Qp3t3011ewu/MFVK3Eb4Idg7Z3ixvvqqRwbsUuCLNzeiyf58muENPseheO4g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Wed, 24 Sep 2025 21:11:13 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: alx@kernel.org, brauner@kernel.org, dhowells@redhat.com, 
+	g.branden.robinson@gmail.com, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, 
+	mtk.manpages@gmail.com, safinaskar@zohomail.com, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v4 00/10] man2: document "new" mount API
+Message-ID: <2025-09-24-grubby-secure-felon-sabotage-7t35lM@cyphar.com>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
- <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
- <2025-09-24-sterile-elderly-drone-sum-LHA7Fs@cyphar.com>
+ <20250921024310.80511-1-safinaskar@gmail.com>
+ <2025-09-21-eldest-expert-wrists-cuddle-CQWTLx@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -62,91 +70,91 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wuex7qtg3b57oloz"
+	protocol="application/pgp-signature"; boundary="2qa2nezhot5sjfdi"
 Content-Disposition: inline
-In-Reply-To: <2025-09-24-sterile-elderly-drone-sum-LHA7Fs@cyphar.com>
+In-Reply-To: <2025-09-21-eldest-expert-wrists-cuddle-CQWTLx@cyphar.com>
+X-Rspamd-Queue-Id: 4cWvL40nMXz9sss
 
 
---wuex7qtg3b57oloz
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--2qa2nezhot5sjfdi
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <rvnb5wxpu2emzbs7iprqzxqom4yioguxsiyl4gfxcyr6hjfs3v@kqrfrrfsoa7s>
-References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
- <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
- <2025-09-24-sterile-elderly-drone-sum-LHA7Fs@cyphar.com>
+Subject: Re: [PATCH v4 00/10] man2: document "new" mount API
 MIME-Version: 1.0
-In-Reply-To: <2025-09-24-sterile-elderly-drone-sum-LHA7Fs@cyphar.com>
 
-Hi Aleksa,
-
-On Wed, Sep 24, 2025 at 04:41:16PM +1000, Aleksa Sarai wrote:
-> On 2025-09-21, Alejandro Colomar <alx@kernel.org> wrote:
-> > On Fri, Sep 19, 2025 at 11:59:45AM +1000, Aleksa Sarai wrote:
-> > > +The list of valid
-> > > +.I cmd
-> > > +values are:
+On 2025-09-21, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> On 2025-09-21, Askar Safin <safinaskar@gmail.com> wrote:
+> > * open_tree(2) still says:
+> > > If flags does not contain OPEN_TREE_CLONE, open_tree() returns a file=
+ descriptor
+> > > that is exactly equivalent to one produced by openat(2) when called w=
+ith the same dirfd and path.
 > >=20
-> > I think I would have this page split into one page per command.
-> >=20
-> > I would keep an overview in this page, of the main system call, and the
-> > descriptions of each subcommand would go into each separate page.
-> >=20
-> > You could have a look at fcntl(2), which has been the most recent page
-> > split, and let me know what you think.
+> > This is not true if automounts are involved. I suggest adding "modulo a=
+utomounts". But you may
+> > keep everything, of course.
 >=20
-> To be honest, I think this makes the page less useful to most readers.
+> Hmmm. As we discussed last time, this sentence is more intended to
+> indicate that the file descriptor is just a regular open file (with no
+> dissolve_on_fput() + FMODE_NEED_UNMOUNT magic) rather than the exact
+> behaviour you get with regards to path lookup.
 >=20
-> I get that you want to try to improve the "wall of text" problem but as
-> a very regular reader of man-pages, I find indirections annoying every
-> time I have to do deal with them. Maybe there is an argument for
-> fcntl(2) to undergo this treatment (as it has a menagerie of disparate
-> commands) but this applies even less to fsconfig(2) in my view.
->=20
-> If you feel strongly that fsconfig(2) needs this treatment, it would
-> probably be better for you to do it instead. In particular, I would've
-> expected to only have two extra pages if we went that route (one for
-> FSCONFIG_SET_* commands and one for FSCONFIG_CMD_* commands) so I'm not
-> quite sure what you'd like the copy to look like for 10 man-pages...
+> I would honestly prefer to remove "when called with the same dirfd and
+> path" rather than add caveats, but I think it makes the sentence less
+> readable... I'll think about it and try to fix this wording up somehow
+> for v5.
 
-Okay, let's keep it as a single page for now.
+I've gone with the following:
 
+   In either case, the resultant file descriptor
+   acts the same as one produced by
+   .BR open (2)
+   with
+   .BR O_PATH ,
+   meaning it can also be used as a
+   .I dirfd
+   argument to
+   "*at()" system calls.
+  +However,
+  +unlike
+  +.BR open (2)
+  +called with
+  +.BR O_PATH ,
+  +automounts will
+  +by default
+  +be triggered by
+  +.BR open_tree ()
+  +unless
+  +.B \%AT_NO_AUTOMOUNT
+  +is included in
+  +.IR flags .
 
-Cheers,
-Alex
+After looking at it a few times, I decided adding it to the proceeding
+paragraph (as you suggested) didn't really make sense since the O_PATH
+equivalence is only mentioned in this following paragraph.
+
+Also, the automount behaviour also applies to OPEN_TREE_CLONE, so it's
+best to not mislead a reader into thinking it only applies to one of the
+cases.
 
 --=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+https://www.cyphar.com/
 
---wuex7qtg3b57oloz
+--2qa2nezhot5sjfdi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjTsWkACgkQ64mZXMKQ
-wqlFeQ//cy2MCwmXluXXdK1X4kpuKpgRfVUpH5H5qraqVKVY9UOELUGSAe5KMSU8
-cj8s5Pg7979lgXPcaAG1k5+cTIESWj4D78DIOQE1/f28Rp5tZa69YxqcNtvY9gAM
-UkNxghxzeu0iPMna3di90bfiepu9IBqrduHUDRcwOkQKPaYN1YngIBJXJivq2mLv
-q3JhPpmhx9LY4BtMs/wO4ycdy4umbeB6rZ2OriUlGZDh6jeYLfuJwxbjTFFIG1i+
-7eWcm/ZEeTZU2trzXV6hUkwuxGkW08EqvaWTOvY/QjcZDJtwQ+WwGGtDE2VApCcb
-tIEbywnJJLGkqMGu7ljSRZW9ns5qTRQPwYJyouoArIj6pHQ3nEOVe7+maB3ZpDPI
-v8N4lu6CHbWdpdxh+2WCFTLNUVdN13Ppo7KUmBYp8jiXD+Cph1MBWeBh51eE7jdc
-wDH5ceZ89PnIfI/Mi/vmwl51Z1AEsrvNuXAoMCjcP4+j3Mqi0ornnTbKg165l9T1
-72ndSideCquiuZdDKtOLau4CgmnlFYGxL1k40mPW3aKqn1b55hNWtwzAs9HcNpo3
-5CzFKeMjis1Olekcu4e3Er05wv64vpyjeDU0KJdta5qNiMtz9ktADPteTgjAEb2X
-1ZW28V8toGcdZqJy8Ylz3EIoi/Jl6fqk3yZrv4h7MrUuXXPHqEg=
-=tW1A
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaNPR0RsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8ncAEA/+ks+fyeLSrpiOijgl1r
+c8kiwHqZrEGphFbPVsqPMW8BAPaCYhMGgT7e/eyscqpAY0NoBUaH1xVw1U0nm9to
+LnQA
+=FVAb
 -----END PGP SIGNATURE-----
 
---wuex7qtg3b57oloz--
+--2qa2nezhot5sjfdi--
 
