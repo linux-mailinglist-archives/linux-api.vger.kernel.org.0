@@ -1,66 +1,61 @@
-Return-Path: <linux-api+bounces-4922-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4923-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BD2B986A9
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 08:41:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DA5B98FBB
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 10:51:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98DB23A77A7
-	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 06:41:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D8057AC157
+	for <lists+linux-api@lfdr.de>; Wed, 24 Sep 2025 08:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F255C246BB4;
-	Wed, 24 Sep 2025 06:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD4B2BEC31;
+	Wed, 24 Sep 2025 08:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="RVBAXic5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+nXYfeT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B31C22ACEB;
-	Wed, 24 Sep 2025 06:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5298B29E0E5;
+	Wed, 24 Sep 2025 08:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758696093; cv=none; b=dmeW2iRINxlX5c4AAHrPMpt5lP8JJQCXiXTjLHMbkTdrf/Zk8+bJUuEYd5+qqnaJha4arTM3qMAJF/DEhkKXynm15cJJbIPA2I6tUWNsfsXb48hdumnYMnCpgWLH8xYB3ZlOgIFbNuV5BrSoEOiJ1udUYU8paT0GnTuv5JF5cnU=
+	t=1758703883; cv=none; b=nPktfB0QQZP4TaJ9UPbReN4ccHTddHaeUgFslEfEAwSWg/eNJc2TObZqYyedaeiiJyOiL9dIYdXpZBudH6t03c36MI9FgcHZTnG2/W8A9otiMj/RgdRlTZd//4JFJitOalYSzyUr8ukCd8b50qfMnNjrzI/bYbffrUFm71EpqMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758696093; c=relaxed/simple;
-	bh=yGkTY8uoRqT7zpMJS5a7NKh20LU+wAcIr4LJghOIirE=;
+	s=arc-20240116; t=1758703883; c=relaxed/simple;
+	bh=swWhRzwxWwIDowEWS+M6n2E1h9sDSR3qkPXRp6QsC/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfndgwMYybDkPgpvrXRGnQ9ra2aJhT4OmDpvTbmeCXxEAvajYowsVcGVfa7eZkWCZeYH/Xv6SzxI8vk+bexP2rojhXs9/5MZKnj0wczihfE0uZoA0KDn9wIEceaDBb4QoX+V7QANUQ+E+M8E5oKpZMUwG5UeNCRvtPaOaJTfXZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=RVBAXic5; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cWnLb6pnDz9sjG;
-	Wed, 24 Sep 2025 08:41:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1758696088;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yGkTY8uoRqT7zpMJS5a7NKh20LU+wAcIr4LJghOIirE=;
-	b=RVBAXic52XARAhRefV+3Cml+wjPazu4ZWET1R5BVXmbNd0g031KQdZuntHS0j74EZQb73q
-	pPrTf1/YZ1D+U/7m2GvCRKZDmybgOjzHqwcBdStK1uznVZZKSMZLpnjLAt88BHLpM8tBGH
-	Oazb6BJbxPitOZlil7Jm9oXrm5TL/GgU3oJWcpZ81Hj8sUGsz/sUisSxSfx97+5WnfsvHG
-	qjc5fUrsb3Xad4EmghyJ0GcIOSr/vJOvX03cqPIi/YevVGMP/PO98qUNPp3zMJr4uGlXQ+
-	8dAon+0q9C9lCyp3planqwHArbL904bk7chQOTrgIHXK3XiX9FIWTXF7LLZcRA==
-Date: Wed, 24 Sep 2025 16:41:16 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Alejandro Colomar <alx@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YpyZbD5s+3Nsn1XItaqHGqfzD212uSGoIKNQmYegHXqGYmucLcjcUvqe0VIc7WBOmg34+kq28AuJbOJk/JaDpjqKWDrEqy8slgeY8q0K6fgneBHj5OoE23l0DgFvIInY8zGJlbQ7tVOX9bp0EzUXjJ3PSI9JeXyroZOGLeRzHhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+nXYfeT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E5EC4CEE7;
+	Wed, 24 Sep 2025 08:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758703882;
+	bh=swWhRzwxWwIDowEWS+M6n2E1h9sDSR3qkPXRp6QsC/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B+nXYfeTdWT1OUmmpPNrxHo3tHzi7HNgGr8P8o0SmS1GOcs1jcaP9AcLb/MNtTZlI
+	 41AQ1tMtBbR22AvX+Kj7BseByGQ53+Uxb7H5fXD9BDxmqYkKhGty5vWrI6K+LAPBoq
+	 u4BbJmYu5UFRlOR9j8NI8NiB3c5lcH6y7yBW8Md6N1gjVEHRuH2FPI2QuyrLefzUe3
+	 rZUu6Tp/64H0G3IIsF33q7JSse0gyjPkDlveUTkG1ZqaHGi0iB0evjAPdbMu3lJSrq
+	 7Ql5vAoS/tvR2t62IRZTSGSRZhmqv7LAhISJFc3HRlcEfGLmjCxOZPdDKGwBzXnWMe
+	 U+4PMhkskv1YA==
+Date: Wed, 24 Sep 2025 10:51:16 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
 Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
 	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <2025-09-24-sterile-elderly-drone-sum-LHA7Fs@cyphar.com>
+Subject: Re: [PATCH v4 09/10] man/man2/open_tree{,_attr}.2: document new
+ open_tree_attr() API
+Message-ID: <3c3pxgxomljpwouzrl2tnycal2soox2j6aypk4pb23c63kv366@z7bxgctoukg6>
 References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
- <20250919-new-mount-api-v4-4-1261201ab562@cyphar.com>
- <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
+ <20250919-new-mount-api-v4-9-1261201ab562@cyphar.com>
+ <vc2xa2tuqqnkuoyg4hrgt6akt23ap6hxho5qs5hfcbc5nsaosv@idi6hwvyo7r5>
+ <2025-09-24-unsafe-movable-perms-actress-zoAIgs@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -68,63 +63,98 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cvtemruvm5nlo26n"
+	protocol="application/pgp-signature"; boundary="jvig5ndc7pvxuonl"
 Content-Disposition: inline
-In-Reply-To: <e4jtqbymqguq64zup5qr6rnppwjyveqdzvqdbnz3c7v55zplbs@6bpdfbv6sh7d>
+In-Reply-To: <2025-09-24-unsafe-movable-perms-actress-zoAIgs@cyphar.com>
 
 
---cvtemruvm5nlo26n
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--jvig5ndc7pvxuonl
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 04/10] man/man2/fsconfig.2: document "new" mount API
+From: Alejandro Colomar <alx@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
+	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v4 09/10] man/man2/open_tree{,_attr}.2: document new
+ open_tree_attr() API
+Message-ID: <3c3pxgxomljpwouzrl2tnycal2soox2j6aypk4pb23c63kv366@z7bxgctoukg6>
+References: <20250919-new-mount-api-v4-0-1261201ab562@cyphar.com>
+ <20250919-new-mount-api-v4-9-1261201ab562@cyphar.com>
+ <vc2xa2tuqqnkuoyg4hrgt6akt23ap6hxho5qs5hfcbc5nsaosv@idi6hwvyo7r5>
+ <2025-09-24-unsafe-movable-perms-actress-zoAIgs@cyphar.com>
 MIME-Version: 1.0
+In-Reply-To: <2025-09-24-unsafe-movable-perms-actress-zoAIgs@cyphar.com>
 
-On 2025-09-21, Alejandro Colomar <alx@kernel.org> wrote:
-> On Fri, Sep 19, 2025 at 11:59:45AM +1000, Aleksa Sarai wrote:
-> > +The list of valid
-> > +.I cmd
-> > +values are:
+Hi Aleksa,
+
+On Wed, Sep 24, 2025 at 04:31:15PM +1000, Aleksa Sarai wrote:
+> On 2025-09-21, Alejandro Colomar <alx@kernel.org> wrote:
+> > On Fri, Sep 19, 2025 at 11:59:50AM +1000, Aleksa Sarai wrote:
+> > > diff --git a/man/man2/open_tree.2 b/man/man2/open_tree.2
+> > > index 7f85df08b43c7b48a9d021dbbeb2c60092a2b2d4..60de4313a9d5be4ef3ff1=
+217051f252506a2ade9 100644
+> > > --- a/man/man2/open_tree.2
+> > > +++ b/man/man2/open_tree.2
+> > > @@ -15,7 +15,19 @@ .SH SYNOPSIS
+> > >  .B #include <sys/mount.h>
+> > >  .P
+> > >  .BI "int open_tree(int " dirfd ", const char *" path ", unsigned int=
+ " flags );
+> > > +.P
+> > > +.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " const=
+ants */"
+> > > +.P
+> > > +.BI "int syscall(SYS_open_tree_attr, int " dirfd ", const char *" pa=
+th ,
+> > > +.BI "            unsigned int " flags ", struct mount_attr *_Nullabl=
+e " attr ", \
+> > > +size_t " size );
+> >=20
+> > Do we maybe want to move this to its own separate page?
+> >=20
+> > The separate page could perfectly contain the same exact text you're
+> > adding here; you don't need to repeat open_tree() descriptions.
+> >=20
+> > In general, I feel that while this improves discoverability of related
+> > functions, it produces more complex pages.
 >=20
-> I think I would have this page split into one page per command.
->=20
-> I would keep an overview in this page, of the main system call, and the
-> descriptions of each subcommand would go into each separate page.
->=20
-> You could have a look at fcntl(2), which has been the most recent page
-> split, and let me know what you think.
+> I tried it and I don't think it is a better experience as a reader when
+> split into two pages because of the huge overlap between the two
+> syscalls.
 
-To be honest, I think this makes the page less useful to most readers.
+Okay.  Thanks!
 
-I get that you want to try to improve the "wall of text" problem but as
-a very regular reader of man-pages, I find indirections annoying every
-time I have to do deal with them. Maybe there is an argument for
-fcntl(2) to undergo this treatment (as it has a menagerie of disparate
-commands) but this applies even less to fsconfig(2) in my view.
 
-If you feel strongly that fsconfig(2) needs this treatment, it would
-probably be better for you to do it instead. In particular, I would've
-expected to only have two extra pages if we went that route (one for
-FSCONFIG_SET_* commands and one for FSCONFIG_CMD_* commands) so I'm not
-quite sure what you'd like the copy to look like for 10 man-pages...
+Have a lovely day!
+Alex
 
 --=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
+<https://www.alejandro-colomar.es>
+Use port 80 (that is, <...:80/>).
 
---cvtemruvm5nlo26n
+--jvig5ndc7pvxuonl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaNOSjBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG/5TAEA/ubRFDGuG4Sm301RkUoS
-zSgu+sNStxtRmAOX/HWHYkQBAI035sIw3M4G/al0osOvw8NAGHjuJw64VEVmC5R7
-+IIM
-=p2GY
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjTsQMACgkQ64mZXMKQ
+wqkXxQ/+NaF79nh1DhLU3assTjDV4eziliCQAbS/fAF81drWeRcukrtPfI8johse
+NsJNtLA1lhpp8oNN55TF3tRtYLo37ygjSywl6lEdvBfOer6xzROKszd6HvlOlGkg
+H1i6mJe1aOd8AhCQYMrN8FtAaimdpPt1rbP3A0FC/XgoglJHCE+ibcpc1tqSu2rD
+pm/5biUo1Oa9y9cvcWLJHn9TfxICKe7xlyvS3n+VQypSGe9q+ZKPGuv5mRIgBNvv
+g28m107vqMVHwWSteLuqoGeXTFd41H5D5EoRh5PEXCDJ/4/Ur4AcP9Fbih5zL33q
+EZTnn+B6aevDk8YsDBUE1OyDddLZq2VvTLBK8+o2XESZtyaEkTzP93IoU7onDBS1
+L8/VhSs6vCxumJI70ZZoIM7ZaiE+f7zES0oSP+SzR4+Ul5Kl36YauU2p7gwQx/so
+UkzBta/7acjz93U/r8wlTZ/Pa9iXrYhl6VBQ3iEYlhJ/oiUKjL648HOGUjuirLob
+NdARVALPdK2dYGDVQyN6QoI4h/FiuHi3tquCqste2F33xnYeGiMPJQWWTAq5zt1U
+u1d0QYQ4Tf3OLeYqPIXv5Ba6KkyFxRl2xNrbgx1jS6bWyvDU1iVs76CB2ZjHNNSR
+oNP4TfrbbAmkBnocVrwErbbJoxf2K7lPqPAP4a1iO5hP65Ri8QI=
+=3R+H
 -----END PGP SIGNATURE-----
 
---cvtemruvm5nlo26n--
+--jvig5ndc7pvxuonl--
 
