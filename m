@@ -1,886 +1,497 @@
-Return-Path: <linux-api+bounces-4940-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4941-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2356B9EEA0
-	for <lists+linux-api@lfdr.de>; Thu, 25 Sep 2025 13:32:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B722B9F74A
+	for <lists+linux-api@lfdr.de>; Thu, 25 Sep 2025 15:12:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7E3904E1B63
-	for <lists+linux-api@lfdr.de>; Thu, 25 Sep 2025 11:32:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E06016EE4B
+	for <lists+linux-api@lfdr.de>; Thu, 25 Sep 2025 13:12:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F132F9DA6;
-	Thu, 25 Sep 2025 11:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35549221FCF;
+	Thu, 25 Sep 2025 13:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZSRDNib"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="CRz+5vlS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E837A2F9D95;
-	Thu, 25 Sep 2025 11:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F02223DF9
+	for <linux-api@vger.kernel.org>; Thu, 25 Sep 2025 13:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758799937; cv=none; b=Pw4VMc3rG9IHgVMe7XEHbX3JqCjX6qtd3RJvjpklPg6FRsD3qD3lTONGFrq/CsZWEApZey6hkIGfIVM10rotUib6JTt0AI9M57B3aNPzLNc/LpTPU6H398TKt+KdrYir0s3v3OK02sqcwsnEGJ1UhG5ytMj00q+J1ATcZfPs1j4=
+	t=1758805953; cv=none; b=QRdu7Sbr9h84YTx6dKT0jgJgsm3/m1dtUQeB4Y8w/PGKOqJaAshsuxmXWTJBOF3C+UAE9fN8cdwrub14INX/qB42v1otgyQwF5e+4WQLXDaSeDfwLxLMm9cFjak124BjMKDzZ9lmh9ECZn89hqJPrno+Iz67KGv0qBrt4mghDPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758799937; c=relaxed/simple;
-	bh=tXGQs4PCcoVS8d8vf3xLaYGItw8hP7gn7LZzDeZoGx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bHb4X0zEaKfilZGPPwkxVjwGouWVInd9VGkp520f1MFwGT2sZVhwdeToYINcN3X7JhlG2KnvsnMJRRjAHYK/UcSl1YhjLDHip9McjCx6N/mVsSt4Vg8lL4XABrPMwclsBANDnW0priScCLk7bIREmyGKM8DjrIJ/oIertf4i0Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZSRDNib; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC7ABC4CEF7;
-	Thu, 25 Sep 2025 11:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758799936;
-	bh=tXGQs4PCcoVS8d8vf3xLaYGItw8hP7gn7LZzDeZoGx4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZSRDNib2ggkJaGNbggL8B93RKxD6KNmgBnoR5i/EnenqSFUBtxai/jxg7DJvM45T
-	 rFzAy4Hc0yN1Ptk4r1Ghd4qTfs2plSzHW9kapSNJhQCDXpile+SXKhaXoMd5J1NOTC
-	 79R+tlND6Mv4amQoPnY55BAdq/5HCkXGIOHFDYZe6jNa5GJjFAwvKCl2EwHzDH3Z6p
-	 d2dc1ihXopGO/Y0tsW6/unzaibhNI79uNcpCWan8fQKOnTxcqKQHFJ/2rSRThbgMzL
-	 zTmiI5DCl6QIi5fylwOQ1P508rRIIANY/OvDd15jo+d0RCXj0l4y957HNDvG33oMNc
-	 rdju5vSqwKNqw==
-Date: Thu, 25 Sep 2025 13:32:09 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v5 3/8] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <brqynohvpwo4hqdepvqks3hluq3jng6bnd7xtensee5adgtxem@3ughtcvv57si>
-References: <20250925-new-mount-api-v5-0-028fb88023f2@cyphar.com>
- <20250925-new-mount-api-v5-3-028fb88023f2@cyphar.com>
+	s=arc-20240116; t=1758805953; c=relaxed/simple;
+	bh=9AXpZB1bwcU/tOfhENucqnGAndFUojEuOkjiz/Zv4RQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ogYry3VhC1DjqjEvUoX2hHhSL3OeG9XWf/S3RgcIXvbNU7Te0FATpQ5rbdWsW6PhLMFA/RDnTnittWfNKcCTjNsih1Sm7HiOM8SqUYu7DheSlWacd4NKSr92taM88PGNzAmaHSN5FxEqBkhxkkA/HoC9TF+YAXZd1eEdRaLPBJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=CRz+5vlS; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3fc36b99e92so1277627f8f.0
+        for <linux-api@vger.kernel.org>; Thu, 25 Sep 2025 06:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758805948; x=1759410748; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NfJVwYFcsQ06QJkEnurciWiF3KgCM9rgqn4VVbABEtQ=;
+        b=CRz+5vlS551m+/ibrrRNCR05aMB/XHm006u7vorJTWL8KnZICEOAUANVKfnYA17O6n
+         CNSPshs989BTySJxhVJjDQVgMGaKDdMiH3CECJdyi/M1fe2VRT3raSjIKb/Hlvwh7G6v
+         JeK6qKCSPjuD07vK1RwG2F5a4t5BpVDGoO8/gxEqKiTZfKvqJWXcWT9pTCarqVnQsLHE
+         5ucPrcXT5w4T3QmqA0pfGPahpuB/tMMPUBNHICg7bBcyx9MvrPir/Z3ASpVDEUZRuat+
+         Emr0AO0ruL/nGstrHje868zLQxrrGECkqEwR4Q0rk20LDfrLBaIEK7TCh5xcMBb3bFRm
+         o72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758805948; x=1759410748;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NfJVwYFcsQ06QJkEnurciWiF3KgCM9rgqn4VVbABEtQ=;
+        b=rnueW367/yhawH3s0Ejb87VHjp2FhqYQMZcOC+o/ddwvndJwJvz+NJqZnhAODLiBMq
+         eEemzYE02elz+iRbTc2iyJPEI6FCKEwmTv0RkYWd9/qX4sBnZaQq1mlq0Uj5+SLC2YjA
+         M80d9CyO1ITL8Wi3vBSyIecXy5epWM+6KyTC9dPeDvzdl8Gf0KcDyK0N0GD3/SE3lXpG
+         7uq8PlgfRkfPohOaKYpYYrkMibriq1C7C5HJQwahPufkJVnpjVeTXU1e2Aei+ICx2bGn
+         qwbBmeWrIpzfEf2a+mvjWp7wo5oGAjKFQuXSDVbMLvp8DnzNvy1SewZw2L0TtVzfpkiP
+         tK3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXyrelpxQ0ig+XsBmbXdZZTtk1+GFsJddKbYeZxTHV2XcbOTbHsUJYXi0y1Hfj0eY4KGu9i9Q4iSxc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwqUY924PzmEkqmSkRRrDjAj1Y7FRNl9WYVKNNYrfQZKTGV1Xh
+	ejOKF8QhoQ0KP6xi1J7T93pbohIZ1mSBiQpdfGsb+TJLLrqmqJ8JYPNsF7CrPlOxOmc=
+X-Gm-Gg: ASbGncuQ67hFZICrvY5/AAVYFE3GDTIP/fl9qVmltAA5iKPe6G25PJscKDxcgcMs57J
+	ERXTStGt9gqwDMQGFRpwI9oRwlij03spVyXuoEqfJ6WGhITtRzkcP5/3mAxUTXZJeyPk6G3jB8P
+	WyVDk4RSJiQKQUSeRHChDMC2BHTz7qOp0LF8ANvw/V1BR7yv1W3DVpp74zaOWlEiJgQkdIvP7Ha
+	vHms0w56c+5h23qPdTKlQZotYlF0jloR84Ss4te9lQo9zWR2jyvBVIkaC+RTDY8HLyxzCZC01kK
+	AgAgLqwfVL2NIaY/CIpQQ77uNTQGVFCAtz7j38UmR14VUY1lwIrO7N6o72YFQNk8OHbG1+S1q5b
+	2MBjxtrBAwkhXTS6HA9q4xrekuWnoFBAfx8owrAfGoz4FMpIsaw==
+X-Google-Smtp-Source: AGHT+IGfEDsgYy1Y3V7mn/9vw12xwbotyOf9S0qvgxiLF/dTs1GE6jSNXI03j1w/2hgZi5tVGzAx+Q==
+X-Received: by 2002:a05:6000:290e:b0:3fc:cbfc:fbee with SMTP id ffacd0b85a97d-40f65bbb807mr2115268f8f.19.1758805948078;
+        Thu, 25 Sep 2025 06:12:28 -0700 (PDT)
+Received: from daria.iliad.local (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33bef4b4sm32929635e9.20.2025.09.25.06.12.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 06:12:27 -0700 (PDT)
+From: nschichan@freebox.fr
+To: nschichan@freebox.fr
+Cc: akpm@linux-foundation.org,
+	andy.shevchenko@gmail.com,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	cyphar@cyphar.com,
+	devicetree@vger.kernel.org,
+	ecurtin@redhat.com,
+	email2tema@gmail.com,
+	graf@amazon.com,
+	gregkh@linuxfoundation.org,
+	hca@linux.ibm.com,
+	hch@lst.de,
+	hsiangkao@linux.alibaba.com,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	julian.stecklina@cyberus-technology.de,
+	kees@kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev,
+	mcgrof@kernel.org,
+	mingo@redhat.com,
+	monstr@monstr.eu,
+	mzxreary@0pointer.de,
+	patches@lists.linux.dev,
+	rob@landley.net,
+	safinaskar@gmail.com,
+	sparclinux@vger.kernel.org,
+	thomas.weissschuh@linutronix.de,
+	thorsten.blum@linux.dev,
+	torvalds@linux-foundation.org,
+	tytso@mit.edu,
+	viro@zeniv.linux.org.uk,
+	x86@kernel.org
+Subject: [PATCH-RFC] init: simplify initrd code (was Re: [PATCH RESEND 00/62] initrd: remove classic initrd support).
+Date: Thu, 25 Sep 2025 15:10:56 +0200
+Message-Id: <20250925131055.3933381-1-nschichan@freebox.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
+References: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="22f5tmtkurpbpcq3"
-Content-Disposition: inline
-In-Reply-To: <20250925-new-mount-api-v5-3-028fb88023f2@cyphar.com>
+Content-Transfer-Encoding: 8bit
 
+From: Nicolas Schichan <nschichan@freebox.fr>
 
---22f5tmtkurpbpcq3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: "Michael T. Kerrisk" <mtk.manpages@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Askar Safin <safinaskar@zohomail.com>, 
-	"G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v5 3/8] man/man2/fsconfig.2: document "new" mount API
-Message-ID: <brqynohvpwo4hqdepvqks3hluq3jng6bnd7xtensee5adgtxem@3ughtcvv57si>
-References: <20250925-new-mount-api-v5-0-028fb88023f2@cyphar.com>
- <20250925-new-mount-api-v5-3-028fb88023f2@cyphar.com>
-MIME-Version: 1.0
-In-Reply-To: <20250925-new-mount-api-v5-3-028fb88023f2@cyphar.com>
+- drop prompt_ramdisk and ramdisk_start kernel parameters
+- drop compression support
+- drop image autodetection, the whole /initrd.image content is now
+  copied into /dev/ram0
+- remove rd_load_disk() which doesn't seem to be used anywhere.
 
-Hi Aleksa,
+There is now no more limitation on the type of initrd filesystem that
+can be loaded since the code trying to guess the initrd filesystem
+size is gone (the whole /initrd.image file is used).
 
-On Thu, Sep 25, 2025 at 01:31:25AM +1000, Aleksa Sarai wrote:
-> This is loosely based on the original documentation written by David
-> Howells and later maintained by Christian Brauner, but has been
-> rewritten to be more from a user perspective (as well as fixing a few
-> critical mistakes).
->=20
-> Co-authored-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Co-authored-by: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
->  man/man2/fsconfig.2 | 729 ++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 729 insertions(+)
->=20
-> diff --git a/man/man2/fsconfig.2 b/man/man2/fsconfig.2
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a2d844a105c74f17af640d699=
-1046dbd5fa69cf0
-> --- /dev/null
-> +++ b/man/man2/fsconfig.2
-> @@ -0,0 +1,729 @@
-> +.\" Copyright, the authors of the Linux man-pages project
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH fsconfig 2 (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +fsconfig \- configure new or existing filesystem context
-> +.SH LIBRARY
-> +Standard C library
-> +.RI ( libc ,\~ \-lc )
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <sys/mount.h>
-> +.P
-> +.BI "int fsconfig(int " fd ", unsigned int " cmd ,
-> +.BI "             const char *_Nullable " key ,
-> +.BI "             const void *_Nullable " value ", int " aux );
-> +.fi
-> +.SH DESCRIPTION
-> +The
-> +.BR fsconfig ()
-> +system call is part of
-> +the suite of file-descriptor-based mount facilities in Linux.
-> +.P
-> +.BR fsconfig ()
-> +is used to supply parameters to
-> +and issue commands against
-> +the filesystem configuration context
-> +associated with the file descriptor
-> +.IR fd .
-> +Filesystem configuration contexts can be created with
-> +.BR fsopen (2)
-> +or be instantiated from an extant filesystem instance with
-> +.BR fspick (2).
-> +.P
-> +The
-> +.I cmd
-> +argument indicates the command to be issued.
-> +Some commands supply parameters to the context
-> +(equivalent to mount options specified with
-> +.BR mount (8)),
-> +while others are meta-operations on the filesystem context.
-> +The list of valid
-> +.I cmd
-> +values are:
-> +.RS
-> +.TP
-> +.B FSCONFIG_SET_FLAG
-> +Set the flag parameter named by
-> +.IR key .
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.TP
-> +.B FSCONFIG_SET_STRING
-> +Set the string parameter named by
-> +.I key
-> +to the value specified by
-> +.IR value .
-> +.I value
-> +points to a null-terminated string,
-> +and
-> +.I aux
-> +must be 0.
-> +.TP
-> +.B FSCONFIG_SET_BINARY
-> +Set the blob parameter named by
-> +.I key
-> +to the contents of the binary blob
-> +specified by
-> +.IR value .
-> +.I value
-> +points to
-> +the start of a buffer
-> +that is
-> +.I aux
-> +bytes in length.
-> +.TP
-> +.B FSCONFIG_SET_FD
-> +Set the file parameter named by
-> +.I key
-> +to the open file description
-> +referenced by the file descriptor
-> +.IR aux .
-> +.I value
-> +must be NULL.
-> +.IP
-> +You may also use
-> +.B \%FSCONFIG_SET_STRING
-> +for file parameters,
-> +with
-> +.I value
-> +set to a null-terminated string
-> +containing a base-10 representation
-> +of the file descriptor number.
-> +This mechanism is primarily intended for compatibility
-> +with older
-> +.BR mount (2)-based
-> +programs,
-> +and only works for parameters
-> +that
-> +.I only
-> +accept file descriptor arguments.
-> +.TP
-> +.B FSCONFIG_SET_PATH
-> +Set the path parameter named by
-> +.I key
-> +to the object at a provided path,
-> +resolved in a similar manner to
-> +.BR openat (2).
-> +.I value
-> +points to a null-terminated pathname string,
-> +and
-> +.I aux
-> +is equivalent to the
-> +.I dirfd
-> +argument to
-> +.BR openat (2).
-> +See
-> +.BR openat (2)
-> +for an explanation of the need for
-> +.BR \%FSCONFIG_SET_PATH .
-> +.IP
-> +You may also use
-> +.B \%FSCONFIG_SET_STRING
-> +for path parameters,
-> +the behaviour of which is equivalent to
-> +.B \%FSCONFIG_SET_PATH
-> +with
-> +.I aux
-> +set to
-> +.BR \%AT_FDCWD .
-> +.TP
-> +.B FSCONFIG_SET_PATH_EMPTY
-> +As with
-> +.BR \%FSCONFIG_SET_PATH ,
-> +except that if
-> +.I value
-> +is an empty string,
-> +the file descriptor specified by
-> +.I aux
-> +is operated on directly
-> +and may be any type of file
-> +(not just a directory).
-> +This is equivalent to the behaviour of
-> +.B \%AT_EMPTY_PATH
-> +with most "*at()" system calls.
-> +If
-> +.I aux
-> +is
-> +.BR \%AT_FDCWD ,
-> +the parameter will be set to
-> +the current working directory
-> +of the calling process.
-> +.TP
-> +.B FSCONFIG_CMD_CREATE
-> +This command instructs the filesystem driver
-> +to instantiate an instance of the filesystem in the kernel
-> +with the parameters specified in the filesystem configuration context.
-> +.I key
-> +and
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.IP
-> +This command can only be issued once
-> +in the lifetime of a filesystem context.
-> +If the operation succeeds,
-> +the filesystem context
-> +associated with file descriptor
-> +.I fd
-> +now references the created filesystem instance,
-> +and is placed into a special "awaiting-mount" mode
-> +that allows you to use
-> +.BR fsmount (2)
-> +to create a mount object from the filesystem instance.
-> +.\" FS_CONTEXT_AWAITING_MOUNT is the term the kernel uses for this.
-> +If the operation fails,
-> +in most cases
-> +the filesystem context is placed in a failed mode
-> +and cannot be used for any further
-> +.BR fsconfig ()
-> +operations
-> +(though you may still retrieve diagnostic messages
-> +through the message retrieval interface,
-> +as described in
-> +the corresponding subsection of
-> +.BR fsopen (2)).
-> +.IP
-> +This command can only be issued against
-> +filesystem configuration contexts
-> +that were created with
-> +.BR fsopen (2).
-> +In order to create a filesystem instance,
-> +the calling process must have the
-> +.B \%CAP_SYS_ADMIN
-> +capability.
-> +.IP
-> +An important thing to be aware of is that
-> +the Linux kernel will
-> +.I silently
-> +reuse extant filesystem instances
-> +depending on the filesystem type
-> +and the configured parameters
-> +(each filesystem driver has
-> +its own policy for
-> +how filesystem instances are reused).
-> +This means that
-> +the filesystem instance "created" by
-> +.B \%FSCONFIG_CMD_CREATE
-> +may, in fact, be a reference
-> +to an extant filesystem instance in the kernel.
-> +(For reference,
-> +this behaviour also applies to
-> +.BR mount (2).)
-> +.IP
-> +One side-effect of this behaviour is that
-> +if an extant filesystem instance is reused,
-> +.I all
-> +parameters configured
-> +for this filesystem configuration context
-> +are
-> +.I silently ignored
-> +(with the exception of the
-> +.I ro
-> +and
-> +.I rw
-> +flag parameters;
-> +if the state of the read-only flag in the
-> +extant filesystem instance and the filesystem configuration context
-> +do not match, this operation will return
-> +.BR EBUSY ).
-> +This also means that
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +commands issued against
-> +the "created" filesystem instance
-> +will also affect any mount objects associated with
-> +the extant filesystem instance.
-> +.IP
-> +Programs that need to ensure
-> +that they create a new filesystem instance
-> +with specific parameters
-> +(notably, security-related parameters
-> +such as
-> +.I acl
-> +to enable POSIX ACLs\[em]\c
-> +as described in
-> +.BR acl (5))
-> +should use
-> +.B \%FSCONFIG_CMD_CREATE_EXCL
-> +instead.
-> +.TP
-> +.BR FSCONFIG_CMD_CREATE_EXCL " (since Linux 6.6)"
-> +.\" commit 22ed7ecdaefe0cac0c6e6295e83048af60435b13
-> +.\" commit 84ab1277ce5a90a8d1f377707d662ac43cc0918a
-> +As with
-> +.BR \%FSCONFIG_CMD_CREATE ,
-> +except that the kernel is instructed
-> +to not reuse extant filesystem instances.
-> +If the operation
-> +would be forced to
-> +reuse an extant filesystem instance,
-> +this operation will return
-> +.B EBUSY
-> +instead.
-> +.IP
-> +As a result (unlike
-> +.BR \%FSCONFIG_CMD_CREATE ),
-> +if this operation succeeds
-> +then the calling process can be sure that
-> +all of the parameters successfully configured with
-> +.BR fsconfig ()
-> +will actually be applied
-> +to the created filesystem instance.
-> +.TP
-> +.B FSCONFIG_CMD_RECONFIGURE
-> +This command instructs the filesystem driver
-> +to apply the parameters specified in the filesystem configuration context
-> +to the extant filesystem instance
-> +referenced by the filesystem configuration context.
-> +.I key
-> +and
-> +.I value
-> +must be NULL,
-> +and
-> +.I aux
-> +must be 0.
-> +.IP
-> +This is primarily intended for use with
-> +.BR fspick (2),
-> +but may also be used to modify
-> +the parameters of a filesystem instance
-> +after
-> +.B \%FSCONFIG_CMD_CREATE
-> +was used to create it
-> +and a mount object was created using
-> +.BR fsmount (2).
-> +In order to reconfigure an extant filesystem instance,
-> +the calling process must have the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +.IP
-> +If the operation succeeds,
-> +the filesystem context is reset
-> +but remains in reconfiguration mode
-> +and thus can be reused for subsequent
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +commands.
-> +If the operation fails,
-> +in most cases
-> +the filesystem context is placed in a failed mode
-> +and cannot be used for any further
-> +.BR fsconfig ()
-> +operations
-> +(though you may still retrieve diagnostic messages
-> +through the message retrieval interface,
-> +as described in
-> +the corresponding subsection of
-> +.BR fsopen (2)).
-> +.RE
-> +.P
-> +Parameters specified with
-> +.BI FSCONFIG_SET_ *
-> +do not take effect
-> +until a corresponding
-> +.B \%FSCONFIG_CMD_CREATE
-> +or
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +command is issued.
-> +.SH RETURN VALUE
-> +On success,
-> +.BR fsconfig ()
-> +returns 0.
-> +On error, \-1 is returned, and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +If an error occurs, the filesystem driver may provide
-> +additional information about the error
-> +through the message retrieval interface for filesystem configuration con=
-texts.
-> +This additional information can be retrieved at any time by calling
-> +.BR read (2)
-> +on the filesystem instance or filesystem configuration context
-> +referenced by the file descriptor
-> +.IR fd .
-> +(See the "Message retrieval interface" subsection in
-> +.BR fsopen (2)
-> +for more details on the message format.)
-> +.P
-> +Even after an error occurs,
-> +the filesystem configuration context is
-> +.I not
-> +invalidated,
-> +and thus can still be used with other
-> +.BR fsconfig ()
-> +commands.
-> +This means that users can probe support for filesystem parameters
-> +on a per-parameter basis,
-> +and adjust which parameters they wish to set.
-> +.P
-> +The error values given below result from
-> +filesystem type independent errors.
-> +Each filesystem type may have its own special errors
-> +and its own special behavior.
-> +See the Linux kernel source code for details.
-> +.TP
-> +.B EACCES
-> +A component of a path
-> +provided as a path parameter
-> +was not searchable.
-> +(See also
-> +.BR path_resolution (7).)
-> +.TP
-> +.B EACCES
-> +.B \%FSCONFIG_CMD_CREATE
-> +was attempted
-> +for a read-only filesystem
-> +without specifying the
-> +.RB ' ro '
-> +flag parameter.
-> +.TP
-> +.B EACCES
-> +A specified block device parameter
-> +is located on a filesystem
-> +mounted with the
-> +.B \%MS_NODEV
-> +option.
-> +.TP
-> +.B EBADF
-> +The file descriptor given by
-> +.I fd
-> +(or possibly by
-> +.IR aux ,
-> +depending on the command)
-> +is invalid.
-> +.TP
-> +.B EBUSY
-> +The filesystem context associated with
-> +.I fd
-> +is in the wrong state
-> +for the given command.
-> +.TP
-> +.B EBUSY
-> +The filesystem instance cannot be reconfigured as read-only
-> +with
-> +.B \%FSCONFIG_CMD_RECONFIGURE
-> +because some programs
-> +still hold files open for writing.
-> +.TP
-> +.B EBUSY
-> +A new filesystem instance was requested with
-> +.B \%FSCONFIG_CMD_CREATE_EXCL
-> +but a matching superblock already existed.
-> +.TP
-> +.B EFAULT
-> +One of the pointer arguments
-> +points to a location
-> +outside the calling process's accessible address space.
-> +.TP
-> +.B EINVAL
-> +.I fd
-> +does not refer to
-> +a filesystem configuration context
-> +or filesystem instance.
-> +.TP
-> +.B EINVAL
-> +One of the values of
-> +.IR name ,
-> +.IR value ,
-> +and/or
-> +.I aux
-> +were set to a non-zero value when
-> +.I cmd
-> +required that they be zero
-> +(or NULL).
-> +.TP
-> +.B EINVAL
-> +The parameter named by
-> +.I name
-> +cannot be set
-> +using the type specified with
-> +.IR cmd .
-> +.TP
-> +.B EINVAL
-> +One of the source parameters
-> +referred to
-> +an invalid superblock.
-> +.TP
-> +.B ELOOP
-> +Too many links encountered
-> +during pathname resolution
-> +of a path argument.
-> +.TP
-> +.B ENAMETOOLONG
-> +A path argument was longer than
-> +.BR PATH_MAX .
-> +.TP
-> +.B ENOENT
-> +A path argument had a non-existent component.
-> +.TP
-> +.B ENOENT
-> +A path argument is an empty string,
-> +but
-> +.I cmd
-> +is not
-> +.BR \%FSCONFIG_SET_PATH_EMPTY .
-> +.TP
-> +.B ENOMEM
-> +The kernel could not allocate sufficient memory to complete the operatio=
-n.
-> +.TP
-> +.B ENOTBLK
-> +The parameter named by
-> +.I name
+A few global variables in do_mounts_rd.c are now put as local
+variables in rd_load_image() since they do not need to be visible
+outside this function.
+---
 
-There's no such parameter.  (I guess you meant 'key'?)
+Hello,
 
+Hopefully my email config is now better and reaches gmail users
+correctly.
 
-Cheers,
-Alex
+The patch below could probably split in a few patches, but I think
+this simplify the code greatly without removing the functionality we
+depend on (and this allows now to use EROFS initrd images).
 
-> +must be a block device,
-> +but the provided parameter value was not a block device.
-> +.TP
-> +.B ENOTDIR
-> +A component of the path prefix
-> +of a path argument
-> +was not a directory.
-> +.TP
-> +.B EOPNOTSUPP
-> +The command given by
-> +.I cmd
-> +is not valid.
-> +.TP
-> +.B ENXIO
-> +The major number
-> +of a block device parameter
-> +is out of range.
-> +.TP
-> +.B EPERM
-> +The command given by
-> +.I cmd
-> +was
-> +.BR \%FSCONFIG_CMD_CREATE ,
-> +.BR \%FSCONFIG_CMD_CREATE_EXCL ,
-> +or
-> +.BR \%FSCONFIG_CMD_RECONFIGURE ,
-> +but the calling process does not have the required
-> +.B \%CAP_SYS_ADMIN
-> +capability.
-> +.SH STANDARDS
-> +Linux.
-> +.SH HISTORY
-> +Linux 5.2.
-> +.\" commit ecdab150fddb42fe6a739335257949220033b782
-> +.\" commit 400913252d09f9cfb8cce33daee43167921fc343
-> +glibc 2.36.
-> +.SH NOTES
-> +.SS Generic filesystem parameters
-> +Each filesystem driver is responsible for
-> +parsing most parameters specified with
-> +.BR fsconfig (),
-> +meaning that individual filesystems
-> +may have very different behaviour
-> +when encountering parameters with the same name.
-> +In general,
-> +you should not assume that the behaviour of
-> +.BR fsconfig ()
-> +when specifying a parameter to one filesystem type
-> +will match the behaviour of the same parameter
-> +with a different filesystem type.
-> +.P
-> +However,
-> +the following generic parameters
-> +apply to all filesystems and have unified behaviour.
-> +They are set using the listed
-> +.BI \%FSCONFIG_SET_ *
-> +command.
-> +.TP
-> +\fIro\fP and \fIrw\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether the filesystem instance is read-only.
-> +.TP
-> +\fIdirsync\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Make directory changes on this filesystem instance synchronous.
-> +.TP
-> +\fIsync\fP and \fIasync\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether writes on this filesystem instance
-> +will be made synchronous
-> +(as though the
-> +.B O_SYNC
-> +flag to
-> +.BR open (2)
-> +was specified for
-> +all file opens in this filesystem instance).
-> +.TP
-> +\fIlazytime\fP and \fInolazytime\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether to reduce on-disk updates
-> +of inode timestamps on this filesystem instance
-> +(as described in the
-> +.B \%MS_LAZYTIME
-> +section of
-> +.BR mount (2)).
-> +.TP
-> +\fImand\fP and \fInomand\fP (\fB\%FSCONFIG_SET_FLAG\fP)
-> +Configure whether the filesystem instance should permit mandatory lockin=
-g.
-> +Since Linux 5.15,
-> +.\" commit f7e33bdbd6d1bdf9c3df8bba5abcf3399f957ac3
-> +mandatory locking has been deprecated
-> +and setting this flag is a no-op.
-> +.TP
-> +\fIsource\fP (\fB\%FSCONFIG_SET_STRING\fP)
-> +This parameter is equivalent to the
-> +.I source
-> +parameter passed to
-> +.BR mount (2)
-> +for the same filesystem type,
-> +and is usually the pathname of a block device
-> +containing the filesystem.
-> +This parameter may only be set once
-> +per filesystem configuration context transaction.
-> +.P
-> +In addition,
-> +any filesystem parameters associated with
-> +Linux Security Modules (LSMs)
-> +are also generic with respect to the underlying filesystem.
-> +See the documentation for the LSM you wish to configure for more details.
-> +.SH CAVEATS
-> +.SS Filesystem parameter types
-> +As a result of
-> +each filesystem driver being responsible for
-> +parsing most parameters specified with
-> +.BR fsconfig (),
-> +some filesystem drivers
-> +may have unintuitive behaviour
-> +with regards to which
-> +.BI \%FSCONFIG_SET_ *
-> +commands are permitted
-> +to configure a given parameter.
-> +.P
-> +In order for
-> +filesystem parameters to be backwards compatible with
-> +.BR mount (2),
-> +they must be parseable as strings;
-> +this almost universally means that
-> +.B \%FSCONFIG_SET_STRING
-> +can also be used to configure them.
-> +.\" Aleksa Sarai
-> +.\"   Theoretically, a filesystem could check fc->oldapi and refuse
-> +.\"   FSCONFIG_SET_STRING if the operation is coming from the new API, b=
-ut no
-> +.\"   filesystems do this (and probably never will).
-> +However, other
-> +.BI \%FSCONFIG_SET_ *
-> +commands need to be opted into
-> +by each filesystem driver's parameter parser.
-> +.P
-> +One of the most user-visible instances of
-> +this inconsistency is that
-> +many filesystems do not support
-> +configuring path parameters with
-> +.B \%FSCONFIG_SET_PATH
-> +(despite the name),
-> +which can lead to somewhat confusing
-> +.B EINVAL
-> +errors.
-> +(For example, the generic
-> +.I source
-> +parameter\[em]\c
-> +which is usually a path\[em]\c
-> +can only be configured
-> +with
-> +.BR \%FSCONFIG_SET_STRING .)
-> +.P
-> +When writing programs that use
-> +.BR fsconfig ()
-> +to configure parameters
-> +with commands other than
-> +.BR \%FSCONFIG_SET_STRING ,
-> +users should verify
-> +that the
-> +.BI \%FSCONFIG_SET_ *
-> +commands used to configure each parameter
-> +are supported by the corresponding filesystem driver.
-> +.\" Aleksa Sarai
-> +.\"   While this (quite confusing) inconsistency in behaviour is true to=
-day
-> +.\"   (and has been true since this was merged), this appears to mostly =
-be an
-> +.\"   unintended consequence of filesystem drivers hand-coding fsparam p=
-arsing.
-> +.\"   Path parameters are the most eggregious causes of confusion.
-> +.\"   Hopefully we can make this no longer the case in a future kernel.
-> +.SH EXAMPLES
-> +To illustrate the different kinds of flags that can be configured with
-> +.BR fsconfig (),
-> +here are a few examples of some different filesystems being created:
-> +.P
-> +.in +4n
-> +.EX
-> +int fsfd, mntfd;
-> +\&
-> +fsfd =3D fsopen("tmpfs", FSOPEN_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "inode64", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "uid", "1234", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "huge", "never", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "casefold", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_NOEXEC);
-> +move_mount(mntfd, "", AT_FDCWD, "/tmp", MOVE_MOUNT_F_EMPTY_PATH);
-> +\&
-> +fsfd =3D fsopen("erofs", FSOPEN_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "/dev/loop0", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "acl", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_SET_FLAG, "user_xattr", NULL, 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE_EXCL, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_NOSUID);
-> +move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
-> +.EE
-> +.in
-> +.P
-> +Usually,
-> +specifying the same parameter named by
-> +.I key
-> +multiple times with
-> +.BR fsconfig ()
-> +causes the parameter value to be replaced.
-> +However, some filesystems may have unique behaviour:
-> +.P
-> +.in +4n
-> +.EX
-> +\&
-> +int fsfd, mntfd;
-> +int lowerdirfd =3D open("/o/ctr/lower1", O_DIRECTORY | O_CLOEXEC);
-> +\&
-> +fsfd =3D fsopen("overlay", FSOPEN_CLOEXEC);
-> +/* "lowerdir+" appends to the lower dir stack each time */
-> +fsconfig(fsfd, FSCONFIG_SET_FD, "lowerdir+", NULL, lowerdirfd);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower2", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower3", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "lowerdir+", "/o/ctr/lower4", 0);
-> +.\" fsconfig(fsfd, FSCONFIG_SET_PATH, "lowerdir+", "/o/ctr/lower5", AT_F=
-DCWD);
-> +.\" fsconfig(fsfd, FSCONFIG_SET_PATH_EMPTY, "lowerdir+", "", lowerdirfd);
-> +.\" Aleksa Sarai: Hopefully these will also be supported in the future.
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "xino", "auto", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "nfs_export", "off", 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> +mntfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
-> +move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
-> +.EE
-> +.in
-> +.P
-> +And here is an example of how
-> +.BR fspick (2)
-> +can be used with
-> +.BR fsconfig ()
-> +to reconfigure the parameters
-> +of an extant filesystem instance
-> +attached to
-> +.IR /proc :
-> +.P
-> +.in +4n
-> +.EX
-> +int fsfd =3D fspick(AT_FDCWD, "/proc", FSPICK_CLOEXEC);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "hidepid", "ptraceable", 0);
-> +fsconfig(fsfd, FSCONFIG_SET_STRING, "subset", "pid", 0);
-> +fsconfig(fsfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
-> +.EE
-> +.in
-> +.SH SEE ALSO
-> +.BR fsmount (2),
-> +.BR fsopen (2),
-> +.BR fspick (2),
-> +.BR mount (2),
-> +.BR mount_setattr (2),
-> +.BR move_mount (2),
-> +.BR open_tree (2),
-> +.BR mount_namespaces (7)
->=20
-> --=20
-> 2.51.0
->=20
->=20
+Coupled with keeping the function populate_initrd_image() in
+init/initramfs.c, this will keep what we need from the initrd code.
 
---=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
+This removes support of loading bzip/gz/xz/... compressed images as
+well, not sure if many user depend on this feature anymore.
 
---22f5tmtkurpbpcq3
-Content-Type: application/pgp-signature; name="signature.asc"
+No signoff because I'm only seeking comments about those changes right
+now.
 
------BEGIN PGP SIGNATURE-----
+ init/do_mounts.h    |   2 -
+ init/do_mounts_rd.c | 243 +-------------------------------------------
+ 2 files changed, 4 insertions(+), 241 deletions(-)
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmjVKDIACgkQ64mZXMKQ
-wqntERAAiDY2vjaGN0Ex0POakH9zwsWJsbo2XzdBCQJ+A5AY8MN4qDdkVO0w7mBN
-ZSuJa3M1QwMO3eocjW4qYErR4Jt+GYrXyRvcA7s3NpQ0KthkGfw8rt1qrxPLuJQH
-saR6KdigCOYDnTl9N5kz1iV5Gjc3D/V6LjONcbZVVbqP5VK8prugosbCU6tz1a4g
-f6JKOE+BWKni8rIXpGcwdWfnqoPxyxOyOjTnxKnSOQQDnia2qOCnwM6/4m+DoWEj
-DXIo+FCHdfIhqhIy3IBqWXdHRIXWSQA0imdrRUG/kl03sI7FBT66lzwMXQZ7HiQV
-7nD1aSckXP6pf2wot4g/hvItrLvO/ZrAJntjH1ugaov+NIRD+H7VlLZCB6is8EEX
-BexVFxtNz/bnxKhFWUIe7zheauWJWA/IrjvDlnFtCwOG2AV46BHP0M5zVfsRQsoS
-n7h8fnXDJucNsQV0bVTQPFoEhvHuGSG4lXeMTt4IH8nCWlF1OloBcItrTYw4Ybmn
-boKwyF/brbGbO7BlDh4Ddx+ciwdIdVuM3GcsG+Vf4+PMcDxaRvZOiB7Zn7u/amva
-F80JP9NYjqvWkunQqdnjscpXtBwvf9IwmdajHD5HT/QHE6OrAwVpvK4H8mqDn0wN
-FPl/JN7dUR4s2qWqjT8qE+Jss7v/Ckm0cYaia1Hzv2tfiXjer3E=
-=JXIc
------END PGP SIGNATURE-----
+diff --git a/init/do_mounts.h b/init/do_mounts.h
+index 6069ea3eb80d..c0028ee3cff6 100644
+--- a/init/do_mounts.h
++++ b/init/do_mounts.h
+@@ -24,12 +24,10 @@ static inline __init int create_dev(char *name, dev_t dev)
+ 
+ #ifdef CONFIG_BLK_DEV_RAM
+ 
+-int __init rd_load_disk(int n);
+ int __init rd_load_image(char *from);
+ 
+ #else
+ 
+-static inline int rd_load_disk(int n) { return 0; }
+ static inline int rd_load_image(char *from) { return 0; }
+ 
+ #endif
+diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+index ac021ae6e6fa..5a69ff43f5ee 100644
+--- a/init/do_mounts_rd.c
++++ b/init/do_mounts_rd.c
+@@ -14,173 +14,9 @@
+ 
+ #include <linux/decompress/generic.h>
+ 
+-static struct file *in_file, *out_file;
+-static loff_t in_pos, out_pos;
+-
+-static int __init prompt_ramdisk(char *str)
+-{
+-	pr_warn("ignoring the deprecated prompt_ramdisk= option\n");
+-	return 1;
+-}
+-__setup("prompt_ramdisk=", prompt_ramdisk);
+-
+-int __initdata rd_image_start;		/* starting block # of image */
+-
+-static int __init ramdisk_start_setup(char *str)
+-{
+-	rd_image_start = simple_strtol(str,NULL,0);
+-	return 1;
+-}
+-__setup("ramdisk_start=", ramdisk_start_setup);
+-
+-static int __init crd_load(decompress_fn deco);
+-
+-/*
+- * This routine tries to find a RAM disk image to load, and returns the
+- * number of blocks to read for a non-compressed image, 0 if the image
+- * is a compressed image, and -1 if an image with the right magic
+- * numbers could not be found.
+- *
+- * We currently check for the following magic numbers:
+- *	minix
+- *	ext2
+- *	romfs
+- *	cramfs
+- *	squashfs
+- *	gzip
+- *	bzip2
+- *	lzma
+- *	xz
+- *	lzo
+- *	lz4
+- */
+-static int __init
+-identify_ramdisk_image(struct file *file, loff_t pos,
+-		decompress_fn *decompressor)
+-{
+-	const int size = 512;
+-	struct minix_super_block *minixsb;
+-	struct romfs_super_block *romfsb;
+-	struct cramfs_super *cramfsb;
+-	struct squashfs_super_block *squashfsb;
+-	int nblocks = -1;
+-	unsigned char *buf;
+-	const char *compress_name;
+-	unsigned long n;
+-	int start_block = rd_image_start;
+-
+-	buf = kmalloc(size, GFP_KERNEL);
+-	if (!buf)
+-		return -ENOMEM;
+-
+-	minixsb = (struct minix_super_block *) buf;
+-	romfsb = (struct romfs_super_block *) buf;
+-	cramfsb = (struct cramfs_super *) buf;
+-	squashfsb = (struct squashfs_super_block *) buf;
+-	memset(buf, 0xe5, size);
+-
+-	/*
+-	 * Read block 0 to test for compressed kernel
+-	 */
+-	pos = start_block * BLOCK_SIZE;
+-	kernel_read(file, buf, size, &pos);
+-
+-	*decompressor = decompress_method(buf, size, &compress_name);
+-	if (compress_name) {
+-		printk(KERN_NOTICE "RAMDISK: %s image found at block %d\n",
+-		       compress_name, start_block);
+-		if (!*decompressor)
+-			printk(KERN_EMERG
+-			       "RAMDISK: %s decompressor not configured!\n",
+-			       compress_name);
+-		nblocks = 0;
+-		goto done;
+-	}
+-
+-	/* romfs is at block zero too */
+-	if (romfsb->word0 == ROMSB_WORD0 &&
+-	    romfsb->word1 == ROMSB_WORD1) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: romfs filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = (ntohl(romfsb->size)+BLOCK_SIZE-1)>>BLOCK_SIZE_BITS;
+-		goto done;
+-	}
+-
+-	if (cramfsb->magic == CRAMFS_MAGIC) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: cramfs filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = (cramfsb->size + BLOCK_SIZE - 1) >> BLOCK_SIZE_BITS;
+-		goto done;
+-	}
+-
+-	/* squashfs is at block zero too */
+-	if (le32_to_cpu(squashfsb->s_magic) == SQUASHFS_MAGIC) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: squashfs filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = (le64_to_cpu(squashfsb->bytes_used) + BLOCK_SIZE - 1)
+-			 >> BLOCK_SIZE_BITS;
+-		goto done;
+-	}
+-
+-	/*
+-	 * Read 512 bytes further to check if cramfs is padded
+-	 */
+-	pos = start_block * BLOCK_SIZE + 0x200;
+-	kernel_read(file, buf, size, &pos);
+-
+-	if (cramfsb->magic == CRAMFS_MAGIC) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: cramfs filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = (cramfsb->size + BLOCK_SIZE - 1) >> BLOCK_SIZE_BITS;
+-		goto done;
+-	}
+-
+-	/*
+-	 * Read block 1 to test for minix and ext2 superblock
+-	 */
+-	pos = (start_block + 1) * BLOCK_SIZE;
+-	kernel_read(file, buf, size, &pos);
+-
+-	/* Try minix */
+-	if (minixsb->s_magic == MINIX_SUPER_MAGIC ||
+-	    minixsb->s_magic == MINIX_SUPER_MAGIC2) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: Minix filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = minixsb->s_nzones << minixsb->s_log_zone_size;
+-		goto done;
+-	}
+-
+-	/* Try ext2 */
+-	n = ext2_image_size(buf);
+-	if (n) {
+-		printk(KERN_NOTICE
+-		       "RAMDISK: ext2 filesystem found at block %d\n",
+-		       start_block);
+-		nblocks = n;
+-		goto done;
+-	}
+-
+-	printk(KERN_NOTICE
+-	       "RAMDISK: Couldn't find valid RAM disk image starting at %d.\n",
+-	       start_block);
+-
+-done:
+-	kfree(buf);
+-	return nblocks;
+-}
+-
+ static unsigned long nr_blocks(struct file *file)
+ {
+-	struct inode *inode = file->f_mapping->host;
+-
+-	if (!S_ISBLK(inode->i_mode))
+-		return 0;
+-	return i_size_read(inode) >> 10;
++	return i_size_read(file->f_mapping->host) >> 10;
+ }
+ 
+ int __init rd_load_image(char *from)
+@@ -190,10 +26,11 @@ int __init rd_load_image(char *from)
+ 	int nblocks, i;
+ 	char *buf = NULL;
+ 	unsigned short rotate = 0;
+-	decompress_fn decompressor = NULL;
+ #if !defined(CONFIG_S390)
+ 	char rotator[4] = { '|' , '/' , '-' , '\\' };
+ #endif
++	struct file *in_file, *out_file;
++	loff_t in_pos = 0, out_pos = 0;
+ 
+ 	out_file = filp_open("/dev/ram", O_RDWR, 0);
+ 	if (IS_ERR(out_file))
+@@ -203,17 +40,6 @@ int __init rd_load_image(char *from)
+ 	if (IS_ERR(in_file))
+ 		goto noclose_input;
+ 
+-	in_pos = rd_image_start * BLOCK_SIZE;
+-	nblocks = identify_ramdisk_image(in_file, in_pos, &decompressor);
+-	if (nblocks < 0)
+-		goto done;
+-
+-	if (nblocks == 0) {
+-		if (crd_load(decompressor) == 0)
+-			goto successful_load;
+-		goto done;
+-	}
+-
+ 	/*
+ 	 * NOTE NOTE: nblocks is not actually blocks but
+ 	 * the number of kibibytes of data to load into a ramdisk.
+@@ -228,10 +54,7 @@ int __init rd_load_image(char *from)
+ 	/*
+ 	 * OK, time to copy in the data
+ 	 */
+-	if (strcmp(from, "/initrd.image") == 0)
+-		devblocks = nblocks;
+-	else
+-		devblocks = nr_blocks(in_file);
++	nblocks = devblocks = nr_blocks(in_file);
+ 
+ 	if (devblocks == 0) {
+ 		printk(KERN_ERR "RAMDISK: could not determine device size\n");
+@@ -264,7 +87,6 @@ int __init rd_load_image(char *from)
+ 	}
+ 	pr_cont("done.\n");
+ 
+-successful_load:
+ 	res = 1;
+ done:
+ 	fput(in_file);
+@@ -275,60 +97,3 @@ int __init rd_load_image(char *from)
+ 	init_unlink("/dev/ram");
+ 	return res;
+ }
+-
+-int __init rd_load_disk(int n)
+-{
+-	create_dev("/dev/root", ROOT_DEV);
+-	create_dev("/dev/ram", MKDEV(RAMDISK_MAJOR, n));
+-	return rd_load_image("/dev/root");
+-}
+-
+-static int exit_code;
+-static int decompress_error;
+-
+-static long __init compr_fill(void *buf, unsigned long len)
+-{
+-	long r = kernel_read(in_file, buf, len, &in_pos);
+-	if (r < 0)
+-		printk(KERN_ERR "RAMDISK: error while reading compressed data");
+-	else if (r == 0)
+-		printk(KERN_ERR "RAMDISK: EOF while reading compressed data");
+-	return r;
+-}
+-
+-static long __init compr_flush(void *window, unsigned long outcnt)
+-{
+-	long written = kernel_write(out_file, window, outcnt, &out_pos);
+-	if (written != outcnt) {
+-		if (decompress_error == 0)
+-			printk(KERN_ERR
+-			       "RAMDISK: incomplete write (%ld != %ld)\n",
+-			       written, outcnt);
+-		decompress_error = 1;
+-		return -1;
+-	}
+-	return outcnt;
+-}
+-
+-static void __init error(char *x)
+-{
+-	printk(KERN_ERR "%s\n", x);
+-	exit_code = 1;
+-	decompress_error = 1;
+-}
+-
+-static int __init crd_load(decompress_fn deco)
+-{
+-	int result;
+-
+-	if (!deco) {
+-		pr_emerg("Invalid ramdisk decompression routine.  "
+-			 "Select appropriate config option.\n");
+-		panic("Could not decompress initial ramdisk image.");
+-	}
+-
+-	result = deco(NULL, 0, compr_fill, compr_flush, NULL, NULL, error);
+-	if (decompress_error)
+-		result = 1;
+-	return result;
+-}
+-- 
+2.34.1
 
---22f5tmtkurpbpcq3--
 
