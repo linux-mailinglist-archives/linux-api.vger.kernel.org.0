@@ -1,260 +1,126 @@
-Return-Path: <linux-api+bounces-4979-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4980-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5238BA88DC
-	for <lists+linux-api@lfdr.de>; Mon, 29 Sep 2025 11:14:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B6ABAEE61
+	for <lists+linux-api@lfdr.de>; Wed, 01 Oct 2025 02:39:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 227117A12BA
-	for <lists+linux-api@lfdr.de>; Mon, 29 Sep 2025 09:12:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5C4416B237
+	for <lists+linux-api@lfdr.de>; Wed,  1 Oct 2025 00:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B303285CB3;
-	Mon, 29 Sep 2025 09:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21EB21E1DE9;
+	Wed,  1 Oct 2025 00:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hq4pd3FL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b25DWtEA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hMG0X5o7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZWV8cEdM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VTT9/K0O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15512283FF0
-	for <linux-api@vger.kernel.org>; Mon, 29 Sep 2025 09:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADD81DD9AC
+	for <linux-api@vger.kernel.org>; Wed,  1 Oct 2025 00:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759137226; cv=none; b=IkIvqkNAQvrdvS2KqYQnMYfkmK7Y2IQErnBy0bZgPgp6Q9192ctfyjKtUeKczHcKx9zburUaGix2RLFnsitWwfVafh6hk2tfshe/Vznq+OkRq8wPes1QTzQOUw1Gdbvv0BWQpT4vFjHYouj9l6KeVk76j+bJkykXtoy/vOU6yAc=
+	t=1759279134; cv=none; b=p+ykHR0PfGuG7x7E0y9rtJ+QvMgrLfA8/E99uYaKeaeh0Jk2KZFGmQKqGVmVdUXC43Bl0+g4LrcDwysCyO9Cq4naaaM3IY5pW9XvcyMkgzXXTw26S81NY7/qlQsWseQuytp2bqgaof3V0xNviDY5eCH8givBEWKFc6P1Rkm9u0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759137226; c=relaxed/simple;
-	bh=jtJHKeg4V3hrJtslZs+qvCCY9ECaZmET93hB+vqILeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=guWj08s9oDxaai9BQpI4QQWkrVI8FaIb0IbWYzbHmBlqv+XcEyMaRSiz/BC9ejkf71OdlC07tfvttdzR/n/Y1rLkDmkyGeAphSc4pqalDTfHWznWbC1tKzzXMkW9hh8uTstxta0Lk8vJke/+kDCbo6Np16ZHIHz9snt0ush+6Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hq4pd3FL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=b25DWtEA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hMG0X5o7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZWV8cEdM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A184628A42;
-	Mon, 29 Sep 2025 09:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759137220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=krawKFrMK6CfXJGZRbum6m0whh/VNnnKuCLw/mlg22U=;
-	b=Hq4pd3FLlIHlpsq/WIWIpKTQIK1u5uVC206WcP0fQUSFrI19DANzMPCVUP75KY+hBZcL0Q
-	dtdVgf8LzRHS+mLGqBHxvAYy4l40BsAWLIlpobyu01j8D02b0I98f1+p5dw6q44ptuX62H
-	m9Zo3mhg2ZXRKipx4DYunUuhbPd04E4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759137220;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=krawKFrMK6CfXJGZRbum6m0whh/VNnnKuCLw/mlg22U=;
-	b=b25DWtEAGkPFc4sT9issDmqy/BMl9Qbnlh5ruisp0J1gFMCT/qNvoATff8AwO5EUhSceEL
-	kSBiQsu7tqSUuVAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hMG0X5o7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZWV8cEdM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759137219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=krawKFrMK6CfXJGZRbum6m0whh/VNnnKuCLw/mlg22U=;
-	b=hMG0X5o7qx5uLzOvtPU6oAOR/sM1jQy2B6QsQik0JJGzKLSrpedSDbKzqP6/qSgL4E6z5c
-	PYEIwt7LMqEi6gairxqjXKFRdyD4dFJYTy2ovOneowKDznaaZr9VZ4B/+OwUlRFxMrvTSI
-	pzIsg61tXM/wB+hrp8gOffgcwit1QxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759137219;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=krawKFrMK6CfXJGZRbum6m0whh/VNnnKuCLw/mlg22U=;
-	b=ZWV8cEdMR8rl5mD9g70Zqdfp6Osb2Z+ASfy/UIiBlSB9+DmXXVL0n2mnz3VGfUEWe6Zu2m
-	Fw46i1nCG69w1gBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB9D413782;
-	Mon, 29 Sep 2025 09:13:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q2iJILJN2mgkQwAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 29 Sep 2025 09:13:22 +0000
-Date: Mon, 29 Sep 2025 19:13:16 +1000
-From: David Disseldorp <ddiss@suse.de>
-To: nschichan@freebox.fr
-Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk,
- brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org,
- ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com,
- gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de,
- hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz,
- julian.stecklina@cyberus-technology.de, kees@kernel.org,
- linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- mcgrof@kernel.org, mingo@redhat.com, monstr@monstr.eu,
- mzxreary@0pointer.de, patches@lists.linux.dev, rob@landley.net,
- safinaskar@gmail.com, sparclinux@vger.kernel.org,
- thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev,
- torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk,
- x86@kernel.org
-Subject: Re: [PATCH-RFC] init: simplify initrd code (was Re: [PATCH RESEND
- 00/62] initrd: remove classic initrd support).
-Message-ID: <20250929171652.50b7a959.ddiss@suse.de>
-In-Reply-To: <20250925131055.3933381-1-nschichan@freebox.fr>
-References: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
-	<20250925131055.3933381-1-nschichan@freebox.fr>
+	s=arc-20240116; t=1759279134; c=relaxed/simple;
+	bh=pTt+ujkaZVjzP+3E74ZC6wkNRrnymwupPOqQi4vVrqY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q0Jf6FlkRJThu3Z8HB2Jj3wD9x+tp6Po4Yk/c1LRBqUCHkshu8gaPN8tg5Acwfljlq5I//dpKyJCpOs66NqFPJT0VTkME4xt1wv0AXAH1yn7sALfRHypHpv1eJOl0CH645GhjRteI/GcBShsMWz7D51u4bFCViLljkOQ1+WU3N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VTT9/K0O; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b457d93c155so232265566b.1
+        for <linux-api@vger.kernel.org>; Tue, 30 Sep 2025 17:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759279130; x=1759883930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=80RkSLcN1Mqe0fHp8+5X2rCf+ePo64S5nx0U5sFjDh4=;
+        b=VTT9/K0O0oDwmgwwY5vi6S7WOAik3VQgHyiT/6SxbK9ZUHaQ5GSAQI1JI/zqRxoJvk
+         Kpyry0MQK1AOkFagG9dCMZLm5/jCxooEDL98twvPRdWhfuU/aXm2Dj5YTX13PN+Z2K7R
+         aMEaLi83fby6RYzPt6HA05Qd+CVGNAXXrj8OB1VvkUd4JfcbQRPyeycTWQgHJYt2AX9g
+         1hedhTKYBu/9+doVgrWQbvqIgaBTGRyq7ZU6gc2/Wd+6XoaTvp2WOVs6uG+vGNewgpuf
+         HDNYBAkj4AJIOLVZax9WwsowRmQn4BcoADFixmMr327lncWOMgkKMxI/yJgbqz3pIWMI
+         MC6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759279130; x=1759883930;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=80RkSLcN1Mqe0fHp8+5X2rCf+ePo64S5nx0U5sFjDh4=;
+        b=NrqaGvuuMnIU9ge6rdkH4oOcDsL21ttQZIrUyxdTJDQtYnARDk/v3KIXYX45K1F8GR
+         J+FT4bHTX2mGf/OS46aFQPLxAffVTJNal2GJuAHsk/bLy3iCcFDJ7aCk7Tj9Fg5etGo1
+         krV4TZumXE4VWEZMTTR0pOAlj9sJeqiNkxCP1oeQtduxtaHN4qDcLhK7e+pj3pmP4C+z
+         BpXwkaZRoij3jszoNFwfHIcFE4wPnZAbY90i1A9DNO7UFaw2xLsKe/WNJK1Y7Z3/DevG
+         Vbo2S7jk3ZfFIyg5dHX/YKSeQeTnDnyFrssE/gASHfHqlz2iyU7uSe9pZfA9hB8amKOG
+         rg7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUS8lP222QzEVOzpUn2rSih7vCwJEdpEACsQoQRFbjYvZtg761IcfIQm4mAdW3A2gXeUQrW38UuR+4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw9fx1NTl4rBMGA6hI4k4Leybn6S+PKU5wW9VapNm37+OZxs7g
+	EXzf3b+Ewehktd8x6ljEKS8lr9h3On7nJd7qZiivVDsrgR5b0gmza106
+X-Gm-Gg: ASbGnctWwc8eCWriwB2Idu6NzZ6ws0rYlshBGaFMJhjPBetzv9cGt22ahnxi/YG+YIg
+	Pnudh6+ZZe9l5I5uNoc+hJZMWVzJkQDzoK/tYrtJx3GpbcrQrO/yy7MQMXgx7JfJ7QORt+m+Tv5
+	0rVe7541bXMCufDsHilxWCrR46iIm4Fow/Kac2qJ8wsX5sPbe6eKUNb1z454Ovgo39wswFBC6Rx
+	SkriEXIVadBW5YHj4bVKFQ40H5MTsZkjObGBIVKxIwNefm45rX2Uv1mn40VhyAbhdrce4GwSamh
+	syoB6+NZDoqIdc6sNQ4Iz1prlBqF2un5HHGMPkWMDJbj9mWKshnQetcDJhfLgP1ThI7K6eQddvm
+	Mdr5MfRdV2iUhBYlj+8CNonVZBuLSZGHd3+vFykVULjM=
+X-Google-Smtp-Source: AGHT+IHK0/LlHSuoPWFmCm2v5eRSFa2VBRwHPtGKfZiRLiGohR1gYvmPq6f/J2GBYW0sSTfFl1HKAw==
+X-Received: by 2002:a17:906:c156:b0:b28:f64f:2fdb with SMTP id a640c23a62f3a-b46e2626cccmr167161366b.4.1759279129687;
+        Tue, 30 Sep 2025 17:38:49 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b35446f79besm1255821866b.69.2025.09.30.17.38.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Sep 2025 17:38:49 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: cyphar@cyphar.com
+Cc: alx@kernel.org,
+	brauner@kernel.org,
+	dhowells@redhat.com,
+	g.branden.robinson@gmail.com,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-man@vger.kernel.org,
+	mtk.manpages@gmail.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v5 7/8] man/man2/open_tree{,_attr}.2: document new open_tree_attr() API
+Date: Wed,  1 Oct 2025 03:38:41 +0300
+Message-ID: <20251001003841.510494-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250925-new-mount-api-v5-7-028fb88023f2@cyphar.com>
+References: <20250925-new-mount-api-v5-7-028fb88023f2@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A184628A42
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kernel.dk,kernel.org,cyphar.com,vger.kernel.org,redhat.com,amazon.com,linuxfoundation.org,linux.ibm.com,lst.de,linux.alibaba.com,suse.cz,cyberus-technology.de,lists.infradead.org,lists.linux-m68k.org,lists.ozlabs.org,lists.linux.dev,monstr.eu,0pointer.de,landley.net,linutronix.de,linux.dev,mit.edu,zeniv.linux.org.uk];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RL4bphh9snz1w7feaus4qmzef6)];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_NONE(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[56];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Spam-Score: -2.01
+Content-Transfer-Encoding: 8bit
 
-Hi Nicolas,
+Aleksa Sarai <cyphar@cyphar.com>:
+> +mntfd2 = open_tree(mntfd1, "", OPEN_TREE_CLONE,
+> +                   &attr, sizeof(attr));
 
-On Thu, 25 Sep 2025 15:10:56 +0200, nschichan@freebox.fr wrote:
+Your whole so-called "open_tree_attr example" doesn't contain any open_tree_attr
+calls. :)
 
-> From: Nicolas Schichan <nschichan@freebox.fr>
-> 
-> - drop prompt_ramdisk and ramdisk_start kernel parameters
-> - drop compression support
-> - drop image autodetection, the whole /initrd.image content is now
->   copied into /dev/ram0
-> - remove rd_load_disk() which doesn't seem to be used anywhere.
-> 
-> There is now no more limitation on the type of initrd filesystem that
-> can be loaded since the code trying to guess the initrd filesystem
-> size is gone (the whole /initrd.image file is used).
-> 
-> A few global variables in do_mounts_rd.c are now put as local
-> variables in rd_load_image() since they do not need to be visible
-> outside this function.
-> ---
-> 
-> Hello,
-> 
-> Hopefully my email config is now better and reaches gmail users
-> correctly.
-> 
-> The patch below could probably split in a few patches, but I think
-> this simplify the code greatly without removing the functionality we
-> depend on (and this allows now to use EROFS initrd images).
-> 
-> Coupled with keeping the function populate_initrd_image() in
-> init/initramfs.c, this will keep what we need from the initrd code.
-> 
-> This removes support of loading bzip/gz/xz/... compressed images as
-> well, not sure if many user depend on this feature anymore.
-> 
-> No signoff because I'm only seeking comments about those changes right
-> now.
-> 
->  init/do_mounts.h    |   2 -
->  init/do_mounts_rd.c | 243 +-------------------------------------------
->  2 files changed, 4 insertions(+), 241 deletions(-)
+I think you meant open_tree_attr here.
 
-This seems like a reasonable improvement to me. FWIW, one alternative
-approach to clean up the FS specific code here was proposed by Al:
-https://lore.kernel.org/all/20250321020826.GB2023217@ZenIV/
+> +\&
+> +/* Create a new copy with the id-mapping cleared */
+> +memset(&attr, 0, sizeof(attr));
+> +attr.attr_clr = MOUNT_ATTR_IDMAP;
+> +mntfd3 = open_tree(mntfd1, "", OPEN_TREE_CLONE,
+> +                   &attr, sizeof(attr));
 
-...
-> diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
-> index ac021ae6e6fa..5a69ff43f5ee 100644
-> --- a/init/do_mounts_rd.c
-> +++ b/init/do_mounts_rd.c
-> @@ -14,173 +14,9 @@
->  
->  #include <linux/decompress/generic.h>
->  
-> -static struct file *in_file, *out_file;
-> -static loff_t in_pos, out_pos;
-> -
-> -static int __init prompt_ramdisk(char *str)
-> -{
-> -	pr_warn("ignoring the deprecated prompt_ramdisk= option\n");
-> -	return 1;
-> -}
-> -__setup("prompt_ramdisk=", prompt_ramdisk);
-> -
-> -int __initdata rd_image_start;		/* starting block # of image */
-> -
-> -static int __init ramdisk_start_setup(char *str)
-> -{
-> -	rd_image_start = simple_strtol(str,NULL,0);
-> -	return 1;
-> -}
-> -__setup("ramdisk_start=", ramdisk_start_setup);
+And here.
 
-There are a couple of other places that mention these parameters, which
-should also be cleaned up.
+Otherwise your whole patchset looks good. Add to whole patchset:
+Reviewed-by: Askar Safin <safinaskar@gmail.com>
 
-...
->  static unsigned long nr_blocks(struct file *file)
->  {
-> -	struct inode *inode = file->f_mapping->host;
-> -
-> -	if (!S_ISBLK(inode->i_mode))
-> -		return 0;
-> -	return i_size_read(inode) >> 10;
-> +	return i_size_read(file->f_mapping->host) >> 10;
-
-This should be >> BLOCK_SIZE_BITS, and dropped as a wrapper function
-IMO.
+-- 
+Askar Safin
 
