@@ -1,236 +1,97 @@
-Return-Path: <linux-api+bounces-4992-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-4993-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90F5BB8867
-	for <lists+linux-api@lfdr.de>; Sat, 04 Oct 2025 04:37:58 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4732BB8968
+	for <lists+linux-api@lfdr.de>; Sat, 04 Oct 2025 06:26:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 411EF19E0962
-	for <lists+linux-api@lfdr.de>; Sat,  4 Oct 2025 02:38:21 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 901DC4E1BFC
+	for <lists+linux-api@lfdr.de>; Sat,  4 Oct 2025 04:26:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B86B820B7EE;
-	Sat,  4 Oct 2025 02:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1AA64D8CE;
+	Sat,  4 Oct 2025 04:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="GyM7ZH9q"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V6Fhv3/P"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D26137930
-	for <linux-api@vger.kernel.org>; Sat,  4 Oct 2025 02:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BF1C2E0;
+	Sat,  4 Oct 2025 04:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759545470; cv=none; b=hyG41ZLTPt2/1R+Zsy+rlv9wZii+PcVwRPpAoRsdbfHe5S3FrBYkdY0KjDzrPS+MughRu2pwTrBbfTLa+V7UshaiHC3DGnfQg2XSVaNT1SfWT6FkvPdBGp0e7B5VFRzZqwciJnSP4nFsNraYNGtq14GqOAmOK1/SK5x9krHK/7A=
+	t=1759552013; cv=none; b=EvPfTuUv2iZ24SpK7Pc9nuTj7Gce2nF0qzBrHPjzcYcw/kXebSsO1z4382iY13A4RL877ySX/IEY0Ri+1H7UjyU/lMZ7ibtKAH3nanax8SUroKAXioCABuzHRh8pDJDo3dAN6erKXCSv5bouHaQ+GDZ+vGzNQCXDPxGeZ2RF+qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759545470; c=relaxed/simple;
-	bh=z8FEWYioRZsia1D0UVZElrLnWOE6tccgR6dAs9tkFMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AH3SI2pC0+0Nuqbz/FH9VS3MSFioB0t3raY3pwy++bvLVljtoakDi1oh9Hc6tT9PCYl2+eRo/EFpFNju+RUGH007OZ2vF6husePfI0iPtaGh7YviQEc7eo6uiyrGsgFA/Ogrt2GRds53ODNHyw7nAnwGqsrfCv+PiyoWiX1ZKhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=GyM7ZH9q; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-85d02580a07so337816785a.0
-        for <linux-api@vger.kernel.org>; Fri, 03 Oct 2025 19:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759545467; x=1760150267; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WX2AvTRjoMsNn7rSSXm6NpMJfKCTCSB0TADy4mhOSmg=;
-        b=GyM7ZH9qwtF2cHGRWxs17OA2fPZjLHFBhSh3a6J52ZHrLJYQncuHmqlhKTWNAUe3YN
-         DQNFHE4zxiiL7GXAu0utoiuL7orUv2aAYNCcQoF2k8sTlIXU2kwGSpW2R/y+/gu3TaAj
-         Kk2Kuj0IWw9Waz6GfsBxk5Dtl5JTYcmvdcqDrLAq8p/jaF+bLVxvoBtO9gB2kOWoIm2v
-         gI3Evie6M5MRI/mBzItMGa2/5srVpYDyDAYeU4k3/Ng8gEHKV/63WlBtRa4qXNJqL4dk
-         cVRn4dmTwTKgtPk6W7Rl9eQHIazyLY8qdwx1Bim0x+dqcl896qSZP5K7qL7k5h3RSvUF
-         OrJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759545467; x=1760150267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WX2AvTRjoMsNn7rSSXm6NpMJfKCTCSB0TADy4mhOSmg=;
-        b=EHz8awqp231UGejfbPEmon/D4w0r0nm1mFOdjgV2TiFPXFvfhHPhTdwxUaDLdHXNJK
-         l7uMpZ8O7Yu3XbHLvO2XYLFMKPn01NXDnWXQEsGOd3jtCvV0+tdKMWV7QUvl41Xtt0AS
-         z9+WhT15gp4o+0oyRQDJmf/8U2/LDHo7DGCCxzz83e6beTkc/1T4XQPPriPa/XlDdZYu
-         CNzewyaa+lM+/hLSmpYMWs0q+zl21qwODTc5jdhQ/2IjEHHT9snyTfNAeuD0t50U/XJy
-         9xoN/7ATJOWHx0Rj586vIFsAAv718MwQZH1rKr+t/IYoVNQfYhJJaKM+NKnclYmNTSoE
-         SAaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMc3bzfDqWNjCAf7vFXZBN6VvJBZWKCyD5/T0synl49tro25D/fD+y8Ey7EQswy+Xy9JxqfjBYYfU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+grX5GUVqAEQmwyCk9VaVarmNRF0uQwOHzFwcosN4eoEZsXrZ
-	uGjD7xM1HIhIKFFiviPer9V+MD8OdXockqHTBwlrgYqWbsy1iHGpF1mds1dDJp9yub41pIolbmm
-	NKPMDS+8fVYTvYQW8q+zdiCsNb8wt/6D3GvctOqS7Ow==
-X-Gm-Gg: ASbGncsac+UANK4oRSI2wjJtVBleUnomrLtWxd6289X6f8GuhYxkP0SVX7KGogf1xma
-	+bFjhVSZn7Mcwqq0yjxHatkDuKbr+2MOOzBCtRKTUpSqHMjt0fdnOBmqQbdxompPxMba46mfGDe
-	Ri2AVXrcMKVaX+1V87tBbBKWTVjOwOn93S+CF6/1xIzVUZVJkWMN4C0AQK2nR91t84arYpOLBog
-	IvAV0AYEJwlWF8cR7XaaH2kQXLW
-X-Google-Smtp-Source: AGHT+IHpXmfwm/zD9D+zvb53ixNC14PQWRGIATDbgGewBobYXO/nEIYfu9ZMcBO3awLQMttSyQvIKLOwmKCMpwF49ms=
-X-Received: by 2002:a05:620a:1a0e:b0:828:804a:47f2 with SMTP id
- af79cd13be357-87a32af5f30mr715143885a.9.1759545467113; Fri, 03 Oct 2025
- 19:37:47 -0700 (PDT)
+	s=arc-20240116; t=1759552013; c=relaxed/simple;
+	bh=uILPRqJhMy7fWt3OsCdb6ZPe6JPwhZZa5v2gQXhmWiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hamC/ayb5X99MChVJmzGOt+5fXwaLX74IJLhNoNyfffp71YXL/TdjyHxHvrL05xNogODViRsBM2WPPfQFVtf2StLJls0lP0u9T77hYgHA+vLHlIkgY4W1Attt93xr9dHR/VaDK+Wkr2uaSY9f3DC5HOX0EnrPE/0DxHFxFAM0ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V6Fhv3/P; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=h5jDZRPaN/sMtBt59YwcIKCH/2rUKbVLwKIWK3iryyw=; b=V6Fhv3/P8wMUzY3hBwpGNRmtw4
+	SZuF3Dw6a6l2mBnGXKOqVoviIyYeCMuhMpbmbDrbVEly6K9LJK880SQjE7iZhrMD1pjfF4zh9tNSx
+	APx41E+Joei4c7WFyeMB/RClpx7CW8fchT/rS55JwVGej0FQMmU33z0vcLGfohg3alnC337wF7Y8l
+	XzxiBYg4sae3VAC8L9CD3gA9oMz2/4Jx/I7Ed0NYYNF9NiHPRE8YW9rY5X84nWstmle+vMBZLaC44
+	CNeh2BVV9xctbuKHTzqIHHOLIDc6rHukiULDvjGtcjSZ3I9Fzi59SX+097lYlgo3WOPzI8Kj+iI0A
+	kbw9McNg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v4tr8-0000000DRu3-3PVu;
+	Sat, 04 Oct 2025 04:26:50 +0000
+Date: Fri, 3 Oct 2025 21:26:50 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Pavel Emelyanov <xemul@scylladb.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	"Raphael S . Carvalho" <raphaelsc@scylladb.com>,
+	linux-api@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH] fs: Propagate FMODE_NOCMTIME flag to user-facing
+ O_NOCMTIME
+Message-ID: <aOCiCkFUOBWV_1yY@infradead.org>
+References: <20251003093213.52624-1-xemul@scylladb.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-27-pasha.tatashin@soleen.com> <20251003225120.GA2035091.vipinsh@google.com>
- <CA+CK2bBuO5YaL8MNqb5Xo_us600vTe2SF_yMNU-O9D2_RBoMag@mail.gmail.com>
-In-Reply-To: <CA+CK2bBuO5YaL8MNqb5Xo_us600vTe2SF_yMNU-O9D2_RBoMag@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 3 Oct 2025 22:37:10 -0400
-X-Gm-Features: AS18NWAFqUB-LYy2SykxO160YAKxge0tVD8HRG9MgImFDuYaat9DVXaJFYTvN7M
-Message-ID: <CA+CK2bBSObHG=9Rj623mahyhE81DhhKbN09aHS96p==8y_mCGw@mail.gmail.com>
-Subject: Re: [PATCH v4 26/30] selftests/liveupdate: Add multi-kexec session
- lifecycle test
-To: Vipin Sharma <vipinsh@google.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org, steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251003093213.52624-1-xemul@scylladb.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, Oct 3, 2025 at 10:07=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> On Fri, Oct 3, 2025 at 6:51=E2=80=AFPM Vipin Sharma <vipinsh@google.com> =
-wrote:
-> >
-> > On 2025-09-29 01:03:17, Pasha Tatashin wrote:
-> > > diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/te=
-sting/selftests/liveupdate/.gitignore
-> > > index af6e773cf98f..de7ca45d3892 100644
-> > > --- a/tools/testing/selftests/liveupdate/.gitignore
-> > > +++ b/tools/testing/selftests/liveupdate/.gitignore
-> > > @@ -1 +1,2 @@
-> > >  /liveupdate
-> > > +/luo_multi_kexec
-> >
-> > In next patches new tests are not added to gitignore.
->
-> Will fix it, thanks.
->
-> >
-> > > diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/test=
-ing/selftests/liveupdate/Makefile
-> > > index 2a573c36016e..1cbc816ed5c5 100644
-> > > --- a/tools/testing/selftests/liveupdate/Makefile
-> > > +++ b/tools/testing/selftests/liveupdate/Makefile
-> > > @@ -1,7 +1,38 @@
-> > >  # SPDX-License-Identifier: GPL-2.0-only
-> > > +
-> > > +KHDR_INCLUDES ?=3D -I../../../usr/include
-> >
-> > If make is run from the tools/testing/selftests/liveupdate directory, t=
-his
-> > will not work because it needs one more "..".
-> >
-> > If this is built using selftest Makefile from root directory
-> >
-> >   make -C tools/testing/selftests TARGETS=3Dliveupdate
-> >
-> > there will not be build errors because tools/testing/selftests/Makefile
-> > defines KHDR_INCLUDES, so above definition will never happen.
-> >
-> > >  CFLAGS +=3D -Wall -O2 -Wno-unused-function
-> > >  CFLAGS +=3D $(KHDR_INCLUDES)
-> > > +LDFLAGS +=3D -static
-> >
-> > Why static? Can't we let user pass extra flags if they prefer static
->
-> Because these tests are executed in a VM and not on the host, static
-> makes sense to be able to run in a different environment.
->
-> > > +
-> > > +# --- Test Configuration (Edit this section when adding new tests) -=
---
-> > > +LUO_SHARED_SRCS :=3D luo_test_utils.c
-> > > +LUO_SHARED_HDRS +=3D luo_test_utils.h
-> > > +
-> > > +LUO_MANUAL_TESTS +=3D luo_multi_kexec
-> > > +
-> > > +TEST_FILES +=3D do_kexec.sh
-> > >
-> > >  TEST_GEN_PROGS +=3D liveupdate
-> > >
-> > > +# --- Automatic Rule Generation (Do not edit below) ---
-> > > +
-> > > +TEST_GEN_PROGS_EXTENDED +=3D $(LUO_MANUAL_TESTS)
-> > > +
-> > > +# Define the full list of sources for each manual test.
-> > > +$(foreach test,$(LUO_MANUAL_TESTS), \
-> > > +     $(eval $(test)_SOURCES :=3D $(test).c $(LUO_SHARED_SRCS)))
-> > > +
-> > > +# This loop automatically generates an explicit build rule for each =
-manual test.
-> > > +# It includes dependencies on the shared headers and makes the outpu=
-t
-> > > +# executable.
-> > > +# Note the use of '$$' to escape automatic variables for the 'eval' =
-command.
-> > > +$(foreach test,$(LUO_MANUAL_TESTS), \
-> > > +     $(eval $(OUTPUT)/$(test): $($(test)_SOURCES) $(LUO_SHARED_HDRS)=
- \
-> > > +             $(call msg,LINK,,$$@) ; \
-> > > +             $(Q)$(LINK.c) $$^ $(LDLIBS) -o $$@ ; \
-> > > +             $(Q)chmod +x $$@ \
-> > > +     ) \
-> > > +)
-> > > +
-> > >  include ../lib.mk
-> >
-> > make is not building LUO_MANUAL_TESTS, it is only building liveupdate.
-> > How to build them?
->
-> I am building them out of tree:
-> make O=3Dx86_64 -s -C tools/testing/selftests TARGETS=3Dliveupdate instal=
-l
-> make O=3Dx86_64 -s -C tools/testing/selftests TARGETS=3Dkho install
+On Fri, Oct 03, 2025 at 12:32:13PM +0300, Pavel Emelyanov wrote:
+> The FMODE_NOCMTIME flag tells that ctime and mtime stamps are not
+> updated on IO. The flag was introduced long ago by 4d4be482a4 ([XFS]
+> add a FMODE flag to make XFS invisible I/O less hacky. Back then it
+> was suggested that this flag is propagated to a O_NOCMTIME one.
 
-Actually, I just tested in-tree and everything works for me, could you
-please verify:
+skipping c/mtime is dangerous.  The XFS handle code allows it to
+support HSM where data is migrated out to tape, and requires
+CAP_SYS_ADMIN.  Allowing it for any file owner would expand the scope
+for too much as now everyone could skip timestamp updates.
 
-make mrproper  # Clean the tree
-cat tools/testing/selftests/liveupdate/config > .config # Copy LUO depends.
-make olddefconfig  # make a def config with LUO
-make kvm_guest.config # Build minimal KVM guest with LUO
-make headers # Make uAPI headers
-make -C tools/testing/selftests TARGETS=3Dliveupdate install # make and
-install liveupdate selftests
+> It can be used by workloads that want to write a file but don't care
+> much about the preciese timestamp on it and can update it later with
+> utimens() call.
 
-# Show that self tests are properly installed:
-ls -1 tools/testing/selftests/kselftest_install/liveupdate/
-config
-do_kexec.sh
-liveupdate
-luo_multi_file
-luo_multi_kexec
-luo_multi_session
-luo_unreclaimed
+The workload might not care, the rest of the system does.  ctime can't
+bet set to arbitrary values, so it is important for backups and as
+an audit trail.
 
-Pasha
+> There's another reason for having this patch. When performing AIO write,
+> the file_modified_flags() function checks whether or not to update inode
+> times. In case update is needed and iocb carries the RWF_NOWAIT flag,
+> the check return EINTR error that quickly propagates into cb completion
+> without doing any IO. This restriction effectively prevents doing AIO
+> writes with nowait flag, as file modifications really imply time update.
+
+Well, we'll need to look into that, including maybe non-blockin
+timestamp updates.
+
 
