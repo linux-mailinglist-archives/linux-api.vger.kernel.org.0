@@ -1,177 +1,161 @@
-Return-Path: <linux-api+bounces-5010-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5011-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7839BBBEE13
-	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 20:03:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800B0BBF063
+	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 20:53:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 221FD3ABE0B
-	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 18:03:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406733A5243
+	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 18:53:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51644244692;
-	Mon,  6 Oct 2025 18:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63742DCC01;
+	Mon,  6 Oct 2025 18:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="W7a5VY6q"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cZc/yqqJ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5C32367BA
-	for <linux-api@vger.kernel.org>; Mon,  6 Oct 2025 18:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6462D7DF1
+	for <linux-api@vger.kernel.org>; Mon,  6 Oct 2025 18:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759773813; cv=none; b=vBhQeobYffE7EmnDBtGoCP/OJ1HhkzxxQrrUHVxN5qCHuLRIt/vzghkcmhK9ilv5fd5PamNdB6AMWYY9ephIlyhDqCGG3TXKjQhkbPchd7PWkYMTf+hq65IQt5uGagElIwIuQauQibOXXTBddhX+8h67dSQU9y/8hZPprsRZlQU=
+	t=1759776789; cv=none; b=tJw4FmePx9lAcljJZzho2BSjRhSHcqnLVBAtkdo52DtBhmNmpYPQ/lJQCNBGWfL1PSpxjllToBVJyOR/z1N4K8aU4w7kPMjjIEHSByge+OnWfXdZpqvMx4qMQgYTVKDbZf+tquA1/2P9S9DXFU+r9jYig65ztpESWcGYyVXc9Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759773813; c=relaxed/simple;
-	bh=nnhISHTj1ZDAWXUArq33P4LkzFAO/KPeWhlsHhQTxlU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MkKVjCgeAb7C/2nnY5BJc55rqJohCs3Fzr81XTtmi8hDsuRl/DrZj6NqHDAw/kM76bhS0Ja40Fn0SwVbUTjgOOCuk71MVL+b9j8KBBZVd5uJAn20/3lahsyUYjNxtgSsNK9HQKvqYyO5qjKIPPWJjgm5zLEHcmLp7xl+Tv5yB+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=W7a5VY6q; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4e3117ea7a2so67640281cf.2
-        for <linux-api@vger.kernel.org>; Mon, 06 Oct 2025 11:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759773810; x=1760378610; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LvwmvZY5I363zl2hxXSo3p16V2l855H51CmL0I5zxCc=;
-        b=W7a5VY6qoAqljL4CU8l1hlSOlRK9RJJjYHlJjVmnrYHkvvtuswCCrv3bCnqOFGSnb1
-         Q53ie3k4VeSmeefGBFmkgcX58NJTJkyTLDHyFlYV5mFWM3fsLZzN3arHU8f0wNAhjvf4
-         Io22Ukx7zEotqYP73n2Qdj/u4FPQgE+Co8OKdNzlZSNE87eAYS3QN5t4YPonfENfLFpP
-         QD3BcvR8zbWllOAtPjjzuFrPGtaG1sOA2hfIC6aFqnjmzs4fxtcjK6j5SuObhtyYd36b
-         idhr9wnUvlsRGJV2CDlOw29CfwcgaWxOG8pEheKX/KjZ3Pgts/H7zyjeeGf2sSaAHhYU
-         Hv/g==
+	s=arc-20240116; t=1759776789; c=relaxed/simple;
+	bh=eWI9PmOJt9WIaRlYjU78S12UG6uSHamRZWNSsCfgWvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QUpgF6/K0azngmbd9z7XTt2ieEgB4+nLfLTOHHUktyCU6u7HzgG/9ZZlXa8+8EK8Mm1Uj/0uH4yBmDqqZu8BQrv0lgxffe8clEl5rAlehckLbLXL/DmkBEDFKSGiPrNXQqR4JY7TUU0NRGDpI87zkXq9Ep+kIhrh45i7IzQwCxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cZc/yqqJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759776787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3AELUvjO0N+ODGhRgLstmsznCqJ4q95SzfBUYFo2Qts=;
+	b=cZc/yqqJJlIIHPvNRrGGmAXMLPQwyPGyz9dgu3x+zm4Ea2kU3jYMdgh87eqsC7rAzyD4Ek
+	jMzl9/uCDYuDaze+LRHfxLZufcieVFrfUvJV2DSs7QGiStH9Y3bwvxtEdyYX1uQIT8/WXY
+	zBwQuCe4ZjILxjlM0lWgy0nPGgXgb4c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-461-NLg48KEwMG6qwFhbUeKp0Q-1; Mon, 06 Oct 2025 14:53:05 -0400
+X-MC-Unique: NLg48KEwMG6qwFhbUeKp0Q-1
+X-Mimecast-MFC-AGG-ID: NLg48KEwMG6qwFhbUeKp0Q_1759776785
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-46e36686ca1so54362465e9.2
+        for <linux-api@vger.kernel.org>; Mon, 06 Oct 2025 11:53:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759773810; x=1760378610;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LvwmvZY5I363zl2hxXSo3p16V2l855H51CmL0I5zxCc=;
-        b=c7sp4WeTRHubUUbN7UZMO0zIlbq7MNMyjkxE/W9fyD+kID58ok2YOGddVs4OHwxoHF
-         tcPSIwHudZC6x759z7d0fPtYh2Z+oK+rbmX+7/xePoFc57LEKGB0ikraSmjKXI+3blAz
-         SP2wLDPwVsMNUeoXJO+B6aaUYZMmTbMVdwBBRiYSAXrlfCgyUu1deRFxtU+tnlLSpb8E
-         xwy+2WEndMryZ6amJAhEY20Pre5Dm2KymaXST7LpdwvCjM1m1wN9ihYhy9V3TAobPbW+
-         IfNnSnAqFWCsKcvxKdu+P4vJDByd0I6e+UVB+IpVui2Jkfzyo8ylyWLpMWTOOXLdkURo
-         WOpg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7duqIbVeIGVk3AkQplkCLx6GUbDIknZNjkl2VkolZ6pjsJjFzqnW3n4R3ME4NokpDDP+y3OqGVq4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq6oU5WDlO6y+szuMZFzfgiOlLNV5YxZG2gPX2BxCSTMd66B2Z
-	T2SEhaBhrIg/F+d2RqeVocPdhGc5k7AOBiGGvubXSqNV3mXvPSAGsyo7Vi5IQMkzBXWv9Uq4WuT
-	0E5ou/JDRezHWnXkMx1PNZn+eIXpcmEQbVYYdRHkqgw==
-X-Gm-Gg: ASbGncvh9AKMX5Uti4HsIPZEY/No8RuzcEPPCHwj3ZWhAya3GhvyBigeKJASufvqFOT
-	F3wsMNEv2X938dZ0fJrkqBo4fy5roPRpewlMThI308F9ll/VB1zyb1X4Xq3YbulPOzkGe35/90s
-	siqrk+X/C/SskZPbQ/Pjyen02sVAm8jLMBo7L9GXSBkQoqhimCg4F76+E5vZcRU9rbYluAUo+qe
-	s2H0mALwO+gIEw545GLK0vmDG0JoxRytbjUGU0=
-X-Google-Smtp-Source: AGHT+IEVZfCkL4v+Tnkl5nUWA3GDanDfXIyCKp31DpQy1v3t8oAJmzi9nP3PButZfFc5VJpBDaeo1ldCgKUCHIfwIPE=
-X-Received: by 2002:a05:622a:1a87:b0:4df:1196:f570 with SMTP id
- d75a77b69052e-4e576b09389mr190614081cf.53.1759773810132; Mon, 06 Oct 2025
- 11:03:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759776785; x=1760381585;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3AELUvjO0N+ODGhRgLstmsznCqJ4q95SzfBUYFo2Qts=;
+        b=dbGyP6CpEMCx1gv0S3vP3futTd3cmrni9gGV9pIcEO8ZhuYC3rFVFpCKv6oMYZMOs8
+         gPKfuYNKsJTPyV75EOzIf8tMyrUDDEY08duT4IRua1p4cwuD3nKd4IHyVducqltmLgiH
+         DoNgi0YZKS3A3Lj0ZHKPRw5NSFe+r+O0K8CYHFzv2t4PIwt3TOkjnpYNx0NCV7JG4Ocq
+         v/BO4l0XRoLG+bPqJegK+J1C8g5C/ELrhs4byAggjaro+JOkYhyejWDIjKbqmpvcptga
+         w1L+i3FQz8klItQCaDsGhSpOkA5srVGI6fWPUJklAKK69f4LuUVqsBAEFlKXY60TB5rT
+         Eikw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvwDrxrtV+bsWjOJXaDK0DaqHjO5g84zAvGDxTKs1yd/7e+7czohHjuJHn4UuhadOnhVT1VmX2+Mg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJ/Kn+eKomMCD/M4M/qQ7GUc882eOeusdHBynTsBzUPN+33ZZr
+	0rkU4txRCa7TR+kZbORAcQbwrhYL/VyMwJJsviRi4RoPGPGsJH8vV95FWZethYQJHGl1bLhWSa0
+	zfQU8JV1cf4E1wi25YcPQa172qS8tp2X4qsBQMJyw19LvBtlcE82Lw73dQ3eN
+X-Gm-Gg: ASbGncunJeh0a2rKBZoczeGu0ffzOgElQcMXie2+in7fjkNr+vHXP0lzinrhKMzGWMp
+	50wNlmcIXPRHV/9oOLyzgmOo6StIh9Oe3Vb4UwMyijJ8KLa0BlOQ2L4gVy/okzQpRFPe9GT8kEH
+	Zhy0z73kfVOuIsRMJMIvaBU70liV76FxIUJ7+TdgpybICACr+11cvnmv/XJbGKl4cM5qEGFJGx4
+	+PUstb4yS5xqKg0HWFW681VT6OQ9s1uQ3qvy1rwYsEvwxklVqviBczgiPbsW+bvQtW3Eb48Fi5+
+	rG9sgP8rP8uRh8r1w6BphAtYsg5f/f85NHZnqfCN0lEy2IqeplOOtJ6zQZclcQFvvQ==
+X-Received: by 2002:a05:6000:2303:b0:3ec:1154:7dec with SMTP id ffacd0b85a97d-42567164b20mr8887688f8f.25.1759776784561;
+        Mon, 06 Oct 2025 11:53:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEcKlhLopprqD0ctLDeK3ZiOapzKNjpNRXsOsRWDtqgxDtwJuOl9eDtA1aAuyt6f3P21Qd/GA==
+X-Received: by 2002:a05:6000:2303:b0:3ec:1154:7dec with SMTP id ffacd0b85a97d-42567164b20mr8887653f8f.25.1759776783878;
+        Mon, 06 Oct 2025 11:53:03 -0700 (PDT)
+Received: from thinky (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f0170sm22533134f8f.49.2025.10.06.11.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 11:53:03 -0700 (PDT)
+Date: Mon, 6 Oct 2025 20:52:32 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Christian Brauner <brauner@kernel.org>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, selinux@vger.kernel.org, 
+	Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH v6 4/6] fs: make vfs_fileattr_[get|set] return -EOPNOSUPP
+Message-ID: <eyl6bzyi33tn6uys2ba5xjluvw7yjempqnla3jaih76mtgxgxq@i6xe2nquwqaf>
+References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
+ <20250630-xattrat-syscall-v6-4-c4e3bc35227b@kernel.org>
+ <a622643f-1585-40b0-9441-cf7ece176e83@kernel.org>
+ <jp3vopwtpik7bj77aejuknaziecuml6x2l2dr3oe2xoats6tls@yskzvehakmkv>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-3-pasha.tatashin@soleen.com> <mafs07bx8ouva.fsf@kernel.org>
-In-Reply-To: <mafs07bx8ouva.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 6 Oct 2025 14:02:53 -0400
-X-Gm-Features: AS18NWCL5ohjgHwfiII61tAev4bzSNa8Vs80Sb--F-ZT325ugyMZfqAlQjXZbCY
-Message-ID: <CA+CK2bCN-__524n+2wti+m8K6JntCudsR1--cFH6cW9CTXnmiA@mail.gmail.com>
-Subject: Re: [PATCH v4 02/30] kho: make debugfs interface optional
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <jp3vopwtpik7bj77aejuknaziecuml6x2l2dr3oe2xoats6tls@yskzvehakmkv>
 
-On Mon, Oct 6, 2025 at 12:31=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> On Mon, Sep 29 2025, Pasha Tatashin wrote:
->
-> > Currently, KHO is controlled via debugfs interface, but once LUO is
-> > introduced, it can control KHO, and the debug interface becomes
-> > optional.
-> >
-> > Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
-> > the debugfs interface, and allows to inspect the tree.
-> >
-> > Move all debugfs related code to a new file to keep the .c files
-> > clear of ifdefs.
-> >
-> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  MAINTAINERS                      |   3 +-
-> >  kernel/Kconfig.kexec             |  10 ++
-> >  kernel/Makefile                  |   1 +
-> >  kernel/kexec_handover.c          | 255 +++++--------------------------
-> >  kernel/kexec_handover_debug.c    | 218 ++++++++++++++++++++++++++
-> >  kernel/kexec_handover_internal.h |  44 ++++++
-> >  6 files changed, 311 insertions(+), 220 deletions(-)
-> >  create mode 100644 kernel/kexec_handover_debug.c
-> >  create mode 100644 kernel/kexec_handover_internal.h
-> >
-> [...]
-> > --- a/kernel/Kconfig.kexec
-> > +++ b/kernel/Kconfig.kexec
-> > @@ -109,6 +109,16 @@ config KEXEC_HANDOVER
-> >         to keep data or state alive across the kexec. For this to work,
-> >         both source and target kernels need to have this option enabled=
-.
-> >
-> > +config KEXEC_HANDOVER_DEBUG
->
-> Nit: can we call it KEXEC_HANDOVER_DEBUGFS instead? I think we would
-> like to add a KEXEC_HANDOVER_DEBUG at some point to control debug
-> asserts for KHO, and the naming would get confusing. And renaming config
-> symbols is kind of a pain.
+On 2025-10-06 17:39:46, Jan Kara wrote:
+> On Mon 06-10-25 13:09:05, Jiri Slaby wrote:
+> > On 30. 06. 25, 18:20, Andrey Albershteyn wrote:
+> > > Future patches will add new syscalls which use these functions. As
+> > > this interface won't be used for ioctls only, the EOPNOSUPP is more
+> > > appropriate return code.
+> > > 
+> > > This patch converts return code from ENOIOCTLCMD to EOPNOSUPP for
+> > > vfs_fileattr_get and vfs_fileattr_set. To save old behavior translate
+> > > EOPNOSUPP back for current users - overlayfs, encryptfs and fs/ioctl.c.
+> > > 
+> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > ...
+> > > @@ -292,6 +294,8 @@ int ioctl_setflags(struct file *file, unsigned int __user *argp)
+> > >   			fileattr_fill_flags(&fa, flags);
+> > >   			err = vfs_fileattr_set(idmap, dentry, &fa);
+> > >   			mnt_drop_write_file(file);
+> > > +			if (err == -EOPNOTSUPP)
+> > > +				err = -ENOIOCTLCMD;
+> > 
+> > This breaks borg code (unit tests already) as it expects EOPNOTSUPP, not
+> > ENOIOCTLCMD/ENOTTY:
+> > https://github.com/borgbackup/borg/blob/1c6ef7a200c7f72f8d1204d727fea32168616ceb/src/borg/platform/linux.pyx#L147
+> > 
+> > I.e. setflags now returns ENOIOCTLCMD/ENOTTY for cases where 6.16 used to
+> > return EOPNOTSUPP.
+> > 
+> > This minimal testcase program doing ioctl(fd2, FS_IOC_SETFLAGS,
+> > &FS_NODUMP_FL):
+> > https://github.com/jirislaby/collected_sources/tree/master/ioctl_setflags
+> > 
+> > dumps in 6.16:
+> > sf: ioctl: Operation not supported
+> > 
+> > with the above patch:
+> > sf: ioctl: Inappropriate ioctl for device
+> > 
+> > Is this expected?
+> 
+> No, that's a bug and a clear userspace regression so we need to fix it. I
+> think we need to revert this commit and instead convert ENOIOCTLCMD from
+> vfs_fileattr_get/set() to EOPNOTSUPP in appropriate places. Andrey?
 
-Done.
+I will prepare a patch soon
 
->
-> > +     bool "kexec handover debug interface"
-> > +     depends on KEXEC_HANDOVER
-> > +     depends on DEBUG_FS
-> > +     help
-> > +       Allow to control kexec handover device tree via debugfs
-> > +       interface, i.e. finalize the state or aborting the finalization=
-.
-> > +       Also, enables inspecting the KHO fdt trees with the debugfs bin=
-ary
-> > +       blobs.
-> > +
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
+> 
+
+-- 
+- Andrey
+
 
