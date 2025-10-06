@@ -1,74 +1,74 @@
-Return-Path: <linux-api+bounces-5008-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5009-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFA9BBECBD
-	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 19:22:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D04BBECDD
+	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 19:24:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 98F514EC550
-	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 17:22:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31D213BF0B0
+	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 17:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5794F241690;
-	Mon,  6 Oct 2025 17:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9148242D78;
+	Mon,  6 Oct 2025 17:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Xt9CEQCE"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="OJrCUT8j"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E73A23FC49
-	for <linux-api@vger.kernel.org>; Mon,  6 Oct 2025 17:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A95B241690
+	for <linux-api@vger.kernel.org>; Mon,  6 Oct 2025 17:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759771322; cv=none; b=kGFkDRXYFjRjC2f17Kqctx2Vq48m0jPRn4R7UQo0PMZI2/1NQaUNb4DKFkVVzN7PG0ORkhnV5bueAgffEQfgjER5oHsmdHIFbeSJEMKUaCXrTNud8Wmdyvzmt0ArMW1zTIX21ejRku429dg4/+qomAEvyfXI6cQ6NaCcpeiMt48=
+	t=1759771433; cv=none; b=u1I0NwmHMs/BxQ7cZCB/GsjMzHtby/r9P6XY5mQrtWcdlqa2kJRKKFoTRB18ilkgKMsyFTt32zNnCNWFapp5GQL+0lg4LN4kkhHPQsDjuTtTYShbksWnet/eiZDtAElhUR3VlFdhyOCNVMjvfE1cMHH33I1kfh/vzQcrPM+L/Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759771322; c=relaxed/simple;
-	bh=74DlWy/wZvAW0vbF4XE00zl9RPY5mmo68zzZTKTBqRg=;
+	s=arc-20240116; t=1759771433; c=relaxed/simple;
+	bh=VCA8jFwiTolL3cm7GWMVLR0c56Cedh5z95+OPkLnavM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=csaghEEPwNDrxGBmYIVRZFOf/fQ1A/uiZvXYcrHLe5mm3Y4UMFGY5UT6IdwMke3Vwmz0wdeA3ANCe/0iGstUH5+SVlMVwk78hK1D2GiinKdGmNrQuuP6qlzu5zAsHZAGYgoA8lhTQB9td4AjRzHTLu1pPdTZpTaQVhfAGD9T+6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Xt9CEQCE; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=q5aYqSbrUyKTvKO6HqYB0/hOtZq1VibTBkQK3XAp3x2t+WAleXb4rSdLGzuU22MTxs5sBYekNpZcz0ezjTJHG1dmyh/tCLD+BQTEelMuQF8ednQz3wIbt4jyc/0YqwntwbloInCnhpCy6s3+EacVvORdnW2yj39L2DN0zPCPD4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=OJrCUT8j; arc=none smtp.client-ip=209.85.222.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4db0b56f6e7so56250361cf.1
-        for <linux-api@vger.kernel.org>; Mon, 06 Oct 2025 10:22:00 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-87808473c3bso683964485a.1
+        for <linux-api@vger.kernel.org>; Mon, 06 Oct 2025 10:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1759771319; x=1760376119; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1759771430; x=1760376230; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u3CFdIAZSOG3RFljBavldVx+w/X0FNVvOnGYJcNKBpQ=;
-        b=Xt9CEQCE3irO+7S8grd2U3oZ3qtW5ufHe3gACzEf2+rosm2fy+Qw9vftIU+I1xDJib
-         nwKnv+Z6DP60c/jvkkXpyv5OG+yj2RjzMUHSjVly34SMl8fJaopGrySxoBZ+gCJN4hL0
-         3ZRu47tgoqHzLvYVaA8sYr3/Oz/1xtEkRhVqvdC53iOMtpxPIOfVsZcK7iKs65Jn+7BT
-         bZi6hmsoZ0f/hWkeno9PVJsN6uhN2f4kQc6XkhJfUgnhSaGltKjiwtcua7wT0ZiGYo5u
-         DeLpst1wAvRuMi58k2BcLuKSLgrN9Mm5GVlWvGV0tcIMZnQmAKuxFIL/QGmQV9Yfz8NA
-         TK2Q==
+        bh=eiMWaxwcwGco8r+FHYAdZ8/rgwTBKI1DQmsAsIjVEPg=;
+        b=OJrCUT8jQ1mNcnSR1NLmBIfqGdxpgHINYtabLRdjkMxkXPT6sGB7gIwQr1H9xNEona
+         DiC5wbz9mf1rauL19afcY+exwSjOTA36/uAwUq7iW7rNU1KqrG4P86xc/I59vVvmrTkZ
+         d14QO1XAbxvrlU2XyT2aPqmir6tqASQEM563cJAjxlwJifzUgk4dDxzXQmxd5N7AR+YR
+         Ml0FipJxTKlKwnCRMppOupicEfx6Hr5Z8I9lNpxrRfz8bw1r3HC/vaXnR+1QW0k3Na1V
+         MTeQkG7PrCLcQoD8JEPM9bkOWnkMoYom/DpuH+/VH8mYfgUxfx/CMPecfex4Tzcl9kRA
+         8V3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759771319; x=1760376119;
+        d=1e100.net; s=20230601; t=1759771430; x=1760376230;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u3CFdIAZSOG3RFljBavldVx+w/X0FNVvOnGYJcNKBpQ=;
-        b=OQx0C6QJlaa9eV8V6Wki6hB+FQsDflDp5DP8HSfBklDIl/vEd1iaJU2HfXw36SiiLE
-         GWiBkaDDxR2H9LFTxUKMFvEoQFnJ90ifX6fxrmdefwkX2mrh0KSGgxrpOPnf0AhKAvhH
-         1xShJt+v9BJVwqU95phqYdfelMiZgJHYCxVMZfp8iGKx/GxnNxzLVWnGltDUuebD3IBB
-         LqRXOgji3opYyYrabby30LwUO/VOCmxlebjgGNwewjDxra8VxCAdA1Thht6l5bZY2Jed
-         Kn0Yb82+kjRFxT/VZ2esESESPeWiTU9llSvzXkcMte/u3vfICvWfIzAgegCL8597YPBI
-         vuKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPJXdYD4Ai4Y+3dPDBislFwvRE+/hJlY60xwlP5mdNMRvFMkOZQVFnBsRbgQTdDm2DLIsPWZDxAJI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS+FhVcvOlrMP32wkgAbennI/x/Htk8tMqY1cIegoIRSUbeut5
-	g/2eIPxKFtuFPgpM8qyP1d/Aztmh/ciMdiSwXMdkG7qpmRILthGxJNCsD4K7OCRVGwlJgAWE2sm
-	1jQl6ScAy0/Guz15LQjfYyhXpE2fXKLnhdz3GbAC81w==
-X-Gm-Gg: ASbGncv5ETdUnFxIIl2BC1JvnC1e0VlL4nat60FNoyaZjAzYVeCVzFxAT2RbNwSdoEH
-	twUsgduAOvzRiFO4rDWsZiIj+zKL6w1ikO3VmIJKNH6m8xQIpBkRkop+1kaJO3HNrBhW1xj270r
-	rFZ1f/2ghD8iF0zTm5UliFa7imYmVfIrDkMoAepgI3FOO0K3AE5EaxQiX5QE8vMI7SgFnJy1mWu
-	85QOjwpSSfAjzVvwc68foHllrfWRWuf/8fLbMo=
-X-Google-Smtp-Source: AGHT+IFM2iasjSwevS/Ww6pNuFkpEMTxLK7Q2uZtw02+A+PsxcuVSjzuu+26bSPV3eDsAJn6N8sfkeveM0JOQLoCA2k=
-X-Received: by 2002:a05:622a:5815:b0:4df:3139:d204 with SMTP id
- d75a77b69052e-4e6de8027ebmr6622011cf.10.1759771319077; Mon, 06 Oct 2025
- 10:21:59 -0700 (PDT)
+        bh=eiMWaxwcwGco8r+FHYAdZ8/rgwTBKI1DQmsAsIjVEPg=;
+        b=ff5XmHrOPrlthV5giSjEPf3MXHgpeDbPn4VQ39uDQRsejJrBdpN0CecJOGlfRwgZIK
+         3p4EQeQRRWNpxgep8JJaNwu5cbb8STwYu29dv3lIgEZnk5wsfRgFiX6d0dubDgGATYBH
+         o1WPYyU1GnSnMQOF8XWrRgq9VxJAuckqR9ut6W2Bh8W5/z2GNPrzbQ2yo1dS57+iGiEB
+         GiEy/BtthQOOIByhmgDyC9EvTHqa7goVRN3HCiRtK1CLumJgnWUxtegaJmpI47mbVpd6
+         NC3i4QJ/FhG06ZKBM8DHAKL0xgCUqyYnIncbUzZw3Z3A8qedJ1EGRBpQQZW70Mf5TaPJ
+         fijQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqeHSiMnPBjKcNi3cpkCx484VmrtnO0Is6gaU46+6HAPOrbSRmMZD6s8FnN8400ae6h3Sa8UTREU8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkBkuWbGDMme+OBi+icmXSbpDFYoMrNn1Fxra4e5UQJT92+TPV
+	2PBQTQ4GyrNMU/w2QegZGD2j5A2U/RmA1neayzMXyeKCRYT8T0w31l4DWP/1meGjJrvwkE1WhMZ
+	gnE2HWwnSFu2z01TDDZIe71uzDGekVUAYjT1hekBCWg==
+X-Gm-Gg: ASbGncs0UGj0UBIsnnItqFZDDwwS3D4ejlqJPOOZ5DHbfoyzGcuTXkVXJTBY14W8qF/
+	vS45+kTEr9Gtv1Hn4x+H+e0+NsELx+clTlQkLOT68LN3FHTOIetssR8STrPd8j+7GnmTrMNVRwu
+	vN0S+A3U7KL/59+cWV6+N/LbIWNlewIKvLEUlt/STlAi52KMJPNNXfA0ZtyNOKfOj8DH/AcWIHz
+	Gfhl9P08VFCVAH2xfA/v8PFqbKy8Ki3Qdjj9yk=
+X-Google-Smtp-Source: AGHT+IFv/eQIGSPIMF5AtEJ9/NjM4NT3tDLx/ni0W3avlG1qBmkP6qV6SoLJbkqgHaLD5t7vOoviSBII4unw5QD/72E=
+X-Received: by 2002:a05:620a:469e:b0:85e:5022:33a2 with SMTP id
+ af79cd13be357-87a3a34d387mr1695495985a.39.1759771429425; Mon, 06 Oct 2025
+ 10:23:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,13 +76,13 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <20250929010321.3462457-4-pasha.tatashin@soleen.com> <mafs0tt0cnevi.fsf@kernel.org>
-In-Reply-To: <mafs0tt0cnevi.fsf@kernel.org>
+ <20250929010321.3462457-3-pasha.tatashin@soleen.com> <mafs0y0ponf6b.fsf@kernel.org>
+In-Reply-To: <mafs0y0ponf6b.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 6 Oct 2025 13:21:20 -0400
-X-Gm-Features: AS18NWCA17JFqGpyH74v5IB7rQGOnAZUihEDBZQPUG896U4mqGpoALvEdvNdCBg
-Message-ID: <CA+CK2bA2qfLF1Mbyvnat+L9+5KAw6LnhYETXVoYcMGJxwTGahg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/30] kho: drop notifiers
+Date: Mon, 6 Oct 2025 13:23:11 -0400
+X-Gm-Features: AS18NWCYmyLqK5As63FctOGJiEPF3B80wEZqrPZ_K5x_kzJeySLPd8Ta4rPXhIg
+Message-ID: <CA+CK2bC0j=CbTNo=V-dceZEz9mji0yTWkE7QyUzvR1SRCiAJ=A@mail.gmail.com>
+Subject: Re: [PATCH v4 02/30] kho: make debugfs interface optional
 To: Pratyush Yadav <pratyush@kernel.org>
 Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
 	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -111,156 +111,99 @@ Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 6, 2025 at 1:01=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org>=
- wrote:
+On Mon, Oct 6, 2025 at 12:55=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+>
+> Hi Pasha,
 >
 > On Mon, Sep 29 2025, Pasha Tatashin wrote:
 >
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> > Currently, KHO is controlled via debugfs interface, but once LUO is
+> > introduced, it can control KHO, and the debug interface becomes
+> > optional.
 > >
-> > The KHO framework uses a notifier chain as the mechanism for clients to
-> > participate in the finalization process. While this works for a single,
-> > central state machine, it is too restrictive for kernel-internal
-> > components like pstore/reserve_mem or IMA. These components need a
-> > simpler, direct way to register their state for preservation (e.g.,
-> > during their initcall) without being part of a complex,
-> > shutdown-time notifier sequence. The notifier model forces all
-> > participants into a single finalization flow and makes direct
-> > preservation from an arbitrary context difficult.
-> > This patch refactors the client participation model by removing the
-> > notifier chain and introducing a direct API for managing FDT subtrees.
+> > Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
+> > the debugfs interface, and allows to inspect the tree.
 > >
-> > The core kho_finalize() and kho_abort() state machine remains, but
-> > clients now register their data with KHO beforehand.
+> > Move all debugfs related code to a new file to keep the .c files
+> > clear of ifdefs.
 > >
+> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > [...]
-> > diff --git a/mm/memblock.c b/mm/memblock.c
-> > index e23e16618e9b..c4b2d4e4c715 100644
-> > --- a/mm/memblock.c
-> > +++ b/mm/memblock.c
-> > @@ -2444,53 +2444,18 @@ int reserve_mem_release_by_name(const char *nam=
-e)
-> >  #define MEMBLOCK_KHO_FDT "memblock"
-> >  #define MEMBLOCK_KHO_NODE_COMPATIBLE "memblock-v1"
-> >  #define RESERVE_MEM_KHO_NODE_COMPATIBLE "reserve-mem-v1"
-> > -static struct page *kho_fdt;
-> > -
-> > -static int reserve_mem_kho_finalize(struct kho_serialization *ser)
-> > -{
-> > -     int err =3D 0, i;
-> > -
-> > -     for (i =3D 0; i < reserved_mem_count; i++) {
-> > -             struct reserve_mem_table *map =3D &reserved_mem_table[i];
-> > -             struct page *page =3D phys_to_page(map->start);
-> > -             unsigned int nr_pages =3D map->size >> PAGE_SHIFT;
-> > -
-> > -             err |=3D kho_preserve_pages(page, nr_pages);
-> > -     }
-> > -
-> > -     err |=3D kho_preserve_folio(page_folio(kho_fdt));
-> > -     err |=3D kho_add_subtree(ser, MEMBLOCK_KHO_FDT, page_to_virt(kho_=
-fdt));
-> > -
-> > -     return notifier_from_errno(err);
-> > -}
-> > -
-> > -static int reserve_mem_kho_notifier(struct notifier_block *self,
-> > -                                 unsigned long cmd, void *v)
-> > -{
-> > -     switch (cmd) {
-> > -     case KEXEC_KHO_FINALIZE:
-> > -             return reserve_mem_kho_finalize((struct kho_serialization=
- *)v);
-> > -     case KEXEC_KHO_ABORT:
-> > -             return NOTIFY_DONE;
-> > -     default:
-> > -             return NOTIFY_BAD;
-> > -     }
-> > -}
-> > -
-> > -static struct notifier_block reserve_mem_kho_nb =3D {
-> > -     .notifier_call =3D reserve_mem_kho_notifier,
-> > -};
-> >
-> >  static int __init prepare_kho_fdt(void)
-> >  {
-> >       int err =3D 0, i;
-> > +     struct page *fdt_page;
-> >       void *fdt;
-> >
-> > -     kho_fdt =3D alloc_page(GFP_KERNEL);
-> > -     if (!kho_fdt)
-> > +     fdt_page =3D alloc_page(GFP_KERNEL);
-> > +     if (!fdt_page)
-> >               return -ENOMEM;
-> >
-> > -     fdt =3D page_to_virt(kho_fdt);
-> > +     fdt =3D page_to_virt(fdt_page);
-> >
-> >       err |=3D fdt_create(fdt, PAGE_SIZE);
-> >       err |=3D fdt_finish_reservemap(fdt);
-> > @@ -2499,7 +2464,10 @@ static int __init prepare_kho_fdt(void)
-> >       err |=3D fdt_property_string(fdt, "compatible", MEMBLOCK_KHO_NODE=
-_COMPATIBLE);
-> >       for (i =3D 0; i < reserved_mem_count; i++) {
-> >               struct reserve_mem_table *map =3D &reserved_mem_table[i];
-> > +             struct page *page =3D phys_to_page(map->start);
-> > +             unsigned int nr_pages =3D map->size >> PAGE_SHIFT;
-> >
-> > +             err |=3D kho_preserve_pages(page, nr_pages);
-> >               err |=3D fdt_begin_node(fdt, map->name);
-> >               err |=3D fdt_property_string(fdt, "compatible", RESERVE_M=
-EM_KHO_NODE_COMPATIBLE);
-> >               err |=3D fdt_property(fdt, "start", &map->start, sizeof(m=
-ap->start));
-> > @@ -2507,13 +2475,14 @@ static int __init prepare_kho_fdt(void)
-> >               err |=3D fdt_end_node(fdt);
-> >       }
-> >       err |=3D fdt_end_node(fdt);
-> > -
-> >       err |=3D fdt_finish(fdt);
-> >
-> > +     err |=3D kho_preserve_folio(page_folio(fdt_page));
-> > +     err |=3D kho_add_subtree(MEMBLOCK_KHO_FDT, fdt);
-> > +
-> >       if (err) {
-> >               pr_err("failed to prepare memblock FDT for KHO: %d\n", er=
-r);
-> > -             put_page(kho_fdt);
-> > -             kho_fdt =3D NULL;
-> > +             put_page(fdt_page);
->
-> This adds subtree to KHO even if the FDT might be invalid. And then
-> leaves a dangling reference in KHO to the FDT in case of an error. I
-> think you should either do this check after
-> kho_preserve_folio(page_folio(fdt_page)) and do a clean error check for
-> kho_add_subtree(), or call kho_remove_subtree() in the error block.
-
-I agree, I do not like these err |=3D stuff, we should be checking
-errors cleanly, and do proper clean-ups.
-
-> I prefer the former since if kho_add_subtree() is the one that fails,
-> there is little sense in removing a subtree that was never added.
->
-> >       }
-> >
-> >       return err;
-> > @@ -2529,13 +2498,6 @@ static int __init reserve_mem_init(void)
-> >       err =3D prepare_kho_fdt();
-> >       if (err)
-> >               return err;
-> > -
-> > -     err =3D register_kho_notifier(&reserve_mem_kho_nb);
-> > -     if (err) {
-> > -             put_page(kho_fdt);
-> > -             kho_fdt =3D NULL;
-> > -     }
-> > -
-> >       return err;
+> > @@ -662,36 +660,24 @@ static void __init kho_reserve_scratch(void)
+> >       kho_enable =3D false;
 > >  }
-> >  late_initcall(reserve_mem_init);
+> >
+> > -struct fdt_debugfs {
+> > -     struct list_head list;
+> > -     struct debugfs_blob_wrapper wrapper;
+> > -     struct dentry *file;
+> > +struct kho_out {
+> > +     struct blocking_notifier_head chain_head;
+> > +     struct mutex lock; /* protects KHO FDT finalization */
+> > +     struct kho_serialization ser;
+> > +     bool finalized;
+> > +     struct kho_debugfs dbg;
+> >  };
+> >
+> > -static int kho_debugfs_fdt_add(struct list_head *list, struct dentry *=
+dir,
+> > -                            const char *name, const void *fdt)
+> > -{
+> > -     struct fdt_debugfs *f;
+> > -     struct dentry *file;
+> > -
+> > -     f =3D kmalloc(sizeof(*f), GFP_KERNEL);
+> > -     if (!f)
+> > -             return -ENOMEM;
+> > -
+> > -     f->wrapper.data =3D (void *)fdt;
+> > -     f->wrapper.size =3D fdt_totalsize(fdt);
+> > -
+> > -     file =3D debugfs_create_blob(name, 0400, dir, &f->wrapper);
+> > -     if (IS_ERR(file)) {
+> > -             kfree(f);
+> > -             return PTR_ERR(file);
+> > -     }
+> > -
+> > -     f->file =3D file;
+> > -     list_add(&f->list, list);
+> > -
+> > -     return 0;
+> > -}
+> > +static struct kho_out kho_out =3D {
+> > +     .chain_head =3D BLOCKING_NOTIFIER_INIT(kho_out.chain_head),
+> > +     .lock =3D __MUTEX_INITIALIZER(kho_out.lock),
+> > +     .ser =3D {
+> > +             .track =3D {
+> > +                     .orders =3D XARRAY_INIT(kho_out.ser.track.orders,=
+ 0),
+> > +             },
+> > +     },
+> > +     .finalized =3D false,
+> > +};
+>
+> There is already one definition for struct kho_out and a static struct
+> kho_out early in the file. This is a second declaration and definition.
+> And I was super confused when I saw patch 3 since it seemed to be making
+> unrelated changes to this struct (and removing an instance of this,
+> which should be done in this patch instead). In fact, this patch doesn't
+> even build due to this problem. I think some patch massaging is needed
+> to fix this all up.
+
+Let me fix it. I Plan to send a separate series only with KHO changes
+from LUO, so we can expedite its landing.
+
+Pasha
+
+>
+> >
+> >  /**
+> >   * kho_add_subtree - record the physical address of a sub FDT in KHO r=
+oot tree.
+> [...]
 >
 > --
 > Regards,
