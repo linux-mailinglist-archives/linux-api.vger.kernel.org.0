@@ -1,147 +1,135 @@
-Return-Path: <linux-api+bounces-5000-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5001-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B318BBDE73
-	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 13:44:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8E0BBE59B
+	for <lists+linux-api@lfdr.de>; Mon, 06 Oct 2025 16:30:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6BBC634AC1A
-	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 11:44:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93DF23AC611
+	for <lists+linux-api@lfdr.de>; Mon,  6 Oct 2025 14:30:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE49626FA67;
-	Mon,  6 Oct 2025 11:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1D42D063B;
+	Mon,  6 Oct 2025 14:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="BCFXrJgc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qk/OTV/q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CyayRvWM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B5720FA9C;
-	Mon,  6 Oct 2025 11:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383FB137923;
+	Mon,  6 Oct 2025 14:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759751050; cv=none; b=CtMrQ4lCGHdHnsYDaXvRa3c5dreu5pGsgcKrg4uHmr9WdaStVMlva3JK8qFGfVEtlKp2/V8G03bkpwfJhSilt6wEp/o+4W+87GIluyxUUpfpfEkGMTOd7jHoCPLspWN/MtS8u9RWuX5CD2+Fw3LM9Tya88Y7bZ/nEe6CYB/YCdo=
+	t=1759761023; cv=none; b=fUUEoDFWjMph29akdWy3MDQulSxRraPXcvHWwSdRt7nHj1QgygO+fgrTvfSEmGMyJlYjWUw5NSOLtxBhk+M9xkoylJv+mrjQmVIudcLMtcTw+XBNzPAVnMmXx01xkgRGse1U3aOfpYbVxpTD0J8CSwJhmPijkaDFdG498YS2t/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759751050; c=relaxed/simple;
-	bh=otQKP70KlnBh0oPv+s/IaXMAdniFxCVmv+JtCuWTse4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=cAmtih9bvICUSGTUuEV8dPudR34caBeJmSWpdr+y4/aO1drKUj2blAhWdhq5eEZZBGTl989LWasvc8Q8zDmDh45IKJM4ma5+m4i5FPAUVa58Z4XlrIcfU4oSRvLbInOsvx5GSuu/tx8a9KZialomXjTELR5z85DwQPV2k7CLTHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=BCFXrJgc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qk/OTV/q; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id DEA0BEC0184;
-	Mon,  6 Oct 2025 07:44:07 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Mon, 06 Oct 2025 07:44:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1759751047;
-	 x=1759837447; bh=flakQEfUiEUN5ds2CAe6wrYLb2nSlfUGGYC1oqEWYz0=; b=
-	BCFXrJgcRNqvMK+YqeQRQeLlZq2VMZpYw0B64tyZHwPg2K0E6s+VFCPGj2ICwKeS
-	cO2u5XgjmazVKL7+x7swKiuwMzKm9Qw5/6kaEAT5Ky5LqvhIa6FHQRxqfsZtm0Ii
-	M20eUvoi9/qJCdXNb81nAbDUtRMh61EF2cg7XsUjb0DL67Otcb3Kdggrj8Hr3DiG
-	5NCA93VE5cyEpc+WnXwFDjnwIg+1tJKlNnZ8aTbBX6rthOg5WI/uJ8a4i8thi+p7
-	L/7+MfV2qojACgZhIu6B+nQIdAQ/izio8RHP9PuA7tmeA6HvABdb8Kxh7Q0JiY7+
-	1PSdohK3oNaeA5D1gX8MNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759751047; x=
-	1759837447; bh=flakQEfUiEUN5ds2CAe6wrYLb2nSlfUGGYC1oqEWYz0=; b=q
-	k/OTV/qgAbdd9TiA95ChHcR7hJYYZ3AhmWGzoTig/deJG1voH4prGlX1W/vgFeNh
-	gwc+w9VTUVxnwFW47+Xn4J7TN9T9HDpMAggAUhnS3XXtp6zLJzUyRpKFz3YeOYsh
-	UMlqAcHZxJlsrcZJN+3qaKNpAzU4f0dZ2wY5M3ACuzE5ke/CnVm+NE2c4fED/Itm
-	7sFNVHm2w/fe+3QP1aJ4s+u2LFsOuLBJdBkV0C74+6wYX1LrsSlgC6wFTqI3ieLW
-	sf7NEHOufaFYrewoxososI58Ayo9VjsJWJaL+dchxj5bsNFBf+kIZ8xsqOFCa1sA
-	tH2HPmYY9pWk6ylnRRgJA==
-X-ME-Sender: <xms:h6vjaDMz44akIQONm5DUFv1-EmNoXytZAeIcBdu5MiS6len9TCRl2w>
-    <xme:h6vjaIxyT9dTGAysG2gWho5D0qi26B0Khg7tQewyDVGI-BvgcVoTfT2BqlVEu1csQ
-    4Tb54XhtrsvWZw0MTfMa1PvsJ56rLT0Dn_uUTuGOzv7898a-yUex8lS>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeljeeghecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprg
-    grlhgsvghrshhhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehjihhrihhslhgrsgihsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehprghliheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgr
-    uhhlsehprghulhdqmhhoohhrvgdrtghomhdprhgtphhtthhopegrrghlsggvrhhshhesrh
-    gvughhrghtrdgtohhmpdhrtghpthhtoheptggrshgvhiesshgthhgruhhflhgvrhdqtggr
-    rdgtohhmpdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgii
-X-ME-Proxy: <xmx:h6vjaHLO1tsojGdjr7zu-jniF9JQhLh1pBhoBfEtnU6BFjG-5S4DMw>
-    <xmx:h6vjaKl2b-ChJrLqdv-_qKFHeckcSTPFxTZ1mhAz0kOVpjsNgMRmfQ>
-    <xmx:h6vjaAxhCDrsamzFWG_-Dsto0iIomoYE47pyf0yoNuRxw1fXFgQoZQ>
-    <xmx:h6vjaEuNfE8XssWgoUqjMQph1AOC566aA1Xn2I7qUNn36uFPCKC7oA>
-    <xmx:h6vjaCC-e3Z7EAY-jaOC4w5KZbx5u1dXWrDp3PBbcMVHcZgiVGM5CLgj>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id EFE27700065; Mon,  6 Oct 2025 07:44:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1759761023; c=relaxed/simple;
+	bh=Z0Xk1zutYNK5fdV7Q90ItmYTFXFrXh0MnKPjPEQpcec=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=g3OKUAqKLoJGjxlTIe4Zykw2vf9sIGyqTigTcXzQS6gxsdBif2WKIafm/sWL/GXZo/mbUzwAMM7Jxksxn+fNTpWbj/SCyr8Fi7G6wKEIlXePsoi0yuYCCZgkX0gXzRu3IY22ayf/pqq3fOTcVdOtu+KKMs07cwbBGW+WkzE3UMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CyayRvWM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62E25C4CEF5;
+	Mon,  6 Oct 2025 14:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759761022;
+	bh=Z0Xk1zutYNK5fdV7Q90ItmYTFXFrXh0MnKPjPEQpcec=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CyayRvWM7fCrhPL8SVjOSeWTov06Ps1dORhh0sl9klxAwOkyK7ONJ6lZE2eVvrvFl
+	 mgInnab3z3wKW99UU9pD8ZuQf2Bw0/9ib8mfYNQzjTW3DmCxEx1RFB6nGo4lOu7CzF
+	 hMtJn3RZ+OrtUP8mFaUi86/tZi35QjBlQuR8RYrgWneX3WVmBbg7jndHayNovJMUuC
+	 uWpOU/jICq82izj2NxgEyPAjvZkgJ46SG/GvvA3u4cxkkQStzdUHi0wkPwMa6lcX/i
+	 BRde4WsDzdeDSTTrafTTHcRA7U22BRlDcJusZ5J9SnjMbh+SfAH3bGkkt4WKFEKf5i
+	 HSZ5diknL9v6g==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
+  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 03/30] kho: drop notifiers
+In-Reply-To: <20250929010321.3462457-4-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Mon, 29 Sep 2025 01:02:54 +0000")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<20250929010321.3462457-4-pasha.tatashin@soleen.com>
+Date: Mon, 06 Oct 2025 16:30:12 +0200
+Message-ID: <mafs0bjmkp0gb.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A1b8DCvSJbEV
-Date: Mon, 06 Oct 2025 13:43:46 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jiri Slaby" <jirislaby@kernel.org>,
- "Andrey Albershteyn" <aalbersh@redhat.com>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Casey Schaufler" <casey@schaufler-ca.com>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- "Paul Moore" <paul@paul-moore.com>
-Cc: linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- selinux@vger.kernel.org, "Andrey Albershteyn" <aalbersh@kernel.org>
-Message-Id: <69094222-d918-4108-877c-51a666b53707@app.fastmail.com>
-In-Reply-To: <a622643f-1585-40b0-9441-cf7ece176e83@kernel.org>
-References: <20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org>
- <20250630-xattrat-syscall-v6-4-c4e3bc35227b@kernel.org>
- <a622643f-1585-40b0-9441-cf7ece176e83@kernel.org>
-Subject: Re: [PATCH v6 4/6] fs: make vfs_fileattr_[get|set] return -EOPNOSUPP
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 6, 2025, at 13:09, Jiri Slaby wrote:
-> On 30. 06. 25, 18:20, Andrey Albershteyn wrote:
->> Future patches will add new syscalls which use these functions. As
->> this interface won't be used for ioctls only, the EOPNOSUPP is more
->> appropriate return code.
->> 
->> This patch converts return code from ENOIOCTLCMD to EOPNOSUPP for
->> vfs_fileattr_get and vfs_fileattr_set. To save old behavior translate
->> EOPNOSUPP back for current users - overlayfs, encryptfs and fs/ioctl.c.
->> 
-...
-> dumps in 6.16:
-> sf: ioctl: Operation not supported
->
-> with the above patch:
-> sf: ioctl: Inappropriate ioctl for device
->
->
-> Is this expected?
+Hi Pasha,
 
-This does look like an unintentional bug: As far as I can see, the
--ENOIOCTLCMD was previously used to indicate that a particular filesystem
-does not have a fileattr_{get,set} callback at all, while individual
-filesystems used EOPNOSUPP to indicate that a particular attribute
-flag is unsupported. With the double conversion, both error codes
-get turned into a single one.
+On Mon, Sep 29 2025, Pasha Tatashin wrote:
 
-     Arnd
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>
+> The KHO framework uses a notifier chain as the mechanism for clients to
+> participate in the finalization process. While this works for a single,
+> central state machine, it is too restrictive for kernel-internal
+> components like pstore/reserve_mem or IMA. These components need a
+> simpler, direct way to register their state for preservation (e.g.,
+> during their initcall) without being part of a complex,
+> shutdown-time notifier sequence. The notifier model forces all
+> participants into a single finalization flow and makes direct
+> preservation from an arbitrary context difficult.
+> This patch refactors the client participation model by removing the
+> notifier chain and introducing a direct API for managing FDT subtrees.
+>
+> The core kho_finalize() and kho_abort() state machine remains, but
+> clients now register their data with KHO beforehand.
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+
+This patch breaks build of test_kho.c (under CONFIG_TEST_KEXEC_HANDOVER):
+
+	lib/test_kho.c:49:14: error: =E2=80=98KEXEC_KHO_ABORT=E2=80=99 undeclared =
+(first use in this function)
+	   49 |         case KEXEC_KHO_ABORT:
+	      |              ^~~~~~~~~~~~~~~
+	[...]
+	lib/test_kho.c:51:14: error: =E2=80=98KEXEC_KHO_FINALIZE=E2=80=99 undeclar=
+ed (first use in this function)
+	   51 |         case KEXEC_KHO_FINALIZE:
+	      |              ^~~~~~~~~~~~~~~~~~
+	[...]
+
+I think you need to update it as well to drop notifier usage.
+
+[...]
+
+--=20
+Regards,
+Pratyush Yadav
 
