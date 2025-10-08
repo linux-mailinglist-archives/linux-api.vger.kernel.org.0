@@ -1,238 +1,191 @@
-Return-Path: <linux-api+bounces-5020-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5021-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5728BC24C6
-	for <lists+linux-api@lfdr.de>; Tue, 07 Oct 2025 19:50:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E269BC3343
+	for <lists+linux-api@lfdr.de>; Wed, 08 Oct 2025 05:18:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8C2819A2D88
-	for <lists+linux-api@lfdr.de>; Tue,  7 Oct 2025 17:51:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00CB7189D18C
+	for <lists+linux-api@lfdr.de>; Wed,  8 Oct 2025 03:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805502E7BBC;
-	Tue,  7 Oct 2025 17:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF44A29DB9A;
+	Wed,  8 Oct 2025 03:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UCHfvNLL"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Kjk2kRln"
 X-Original-To: linux-api@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013051.outbound.protection.outlook.com [40.93.196.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D128C1BD9F0;
-	Tue,  7 Oct 2025 17:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759859451; cv=fail; b=oqVMnV81T3Suh5fC6j7pRWDxvhUTcRu5iJ/pU3umSOy2ihxodg1OWFJB0z1R0mzoBKhTyilf0b0ysbEWAxxOFjaJ7NIopCrCRywmb5KbE79D4FX43iFOMnoLdoMXtpHCPj1HdIOEolrGwCp+iuA7YxTCN5bgVb4fgNkSuqBeTC4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759859451; c=relaxed/simple;
-	bh=Y2h+pVLNAmgtc8ICZm6yAKox8ZbCKJkMe5XrYzrBwsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jknduRLYeDv/in666//TRfimZANPsTbBRq/bJuDejegAw0ENTOwFY8nHIXaU0ewZM4BpxRuFxBewPzzGP44EB1WNqLA9+9YxUT64qctDZPfktLX+cJEq4BcBoW2mKW9wwVEJJYTrZnnN0VReL904DAmcORRE4log7a1ut9uLPR4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UCHfvNLL; arc=fail smtp.client-ip=40.93.196.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BGPaMZHDWn4AhylH8nvyPS8WIsgXetvWptxqSDqFMRtX/NbqaI/OOlE05Wt9KaATsuhWLp9qOcOWAOTaVqaEC5an8MVXH99CuFDaFVjqGPl0TTcSLH30/waFXZg+/EXvZoT/zLhqXB+7eYZr/R2knXMOej7D4jiAWbmr4lbnhYVU3trqKe+w2ZEwL9na+XYf370l1g4RsFoGGfD9QnLdTFMCET3BMegrXy5Yx+O7eB0VacHQ3VB0rS/qBsClegruNvQ6kPTI6jvgLfyw4UBHrwSFIvgTSWA2Is9HEUqOM4NCXsGcZ+yKWgdVWHCU0QVllydsLvz3OJDZFdmlt71Kag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xA5qxHVl7roq/nsAFtS9I+tsBRwoXQdPMH+1A6Xk6Xc=;
- b=YZUbok7O61hfk7gXnfOlP5KGyLuVPd6x1wLWcYWcpfGZMtJK0O+ZYvueIVuVjeSBgipofGcz+9KlU5nssMKXuR6XbGF1n5gajlxojyqpnfrvCzYQ/HeM6glsAE+BaYU91fnobifTGLOC/Ph2nqj5hnLOf+r6glhblzJqXFW3103pj7BP9/oBBq3QcKIevm26XG/rUPHjtcZqfbaqImmzxaCFNhXyfW1w/SpGT52Ee0/yk4vRWeHXz58EWZySDB1tS8frJHNiZ2K/LYmoTc6itV7CIcQ/04XljG91EEGktocnRkTZy5BC15rW/OLpJDglr9zhZKYosNaqS+L8YWu9Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xA5qxHVl7roq/nsAFtS9I+tsBRwoXQdPMH+1A6Xk6Xc=;
- b=UCHfvNLLhJvP984O1iN5AVkXFvMxb4ySToB4EnwTK7BSTOy6eO2+lOOerVLkbuedx3IHbU93EaIdMvXO1TTkgpKqTv32UsN4B4D5FmtDN/B57SRMcaSIQhwqdn6/U0GxyDkjHNofSZKTLZoHyX2xVdLRVJaMzypWYjc8dydjFpvnRUBEYrUIOitKaAobceZMvQDaw+AKCDTs+wxIcl1MO1NbO7DMccPVXRj9YDH11srwYvftUjB36wnflwAj3y++QUyWV/EGS9O15x2dCz9goM9P46EuSlPG2bM+Uzq/rjsCZe1tUG9ohYGst6gcBsvFCU2tc4mIa/PQBylKNHDAuQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by DS7PR12MB6190.namprd12.prod.outlook.com (2603:10b6:8:99::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Tue, 7 Oct
- 2025 17:50:40 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9182.017; Tue, 7 Oct 2025
- 17:50:39 +0000
-Date: Tue, 7 Oct 2025 14:50:38 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com,
-	chrisl@kernel.org, steven.sistare@oracle.com
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-Message-ID: <20251007175038.GB3474167@nvidia.com>
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
-X-ClientProxiedBy: BL1PR13CA0444.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::29) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF3129D294
+	for <linux-api@vger.kernel.org>; Wed,  8 Oct 2025 03:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759893519; cv=none; b=R+x3/3KZwfj1rW3Gl2rHDPgTnTxQK518DmUOje1irpqckMsOuE1zR75BFxHY1I/4WVf+eT4MkSTObRdvmuEf5LeADRPMOc5RFzdUibj+/QU1uOpbY+UNO7AJM5d8nBfQ8oEfaPVpHprl8ImfFZ9+MnpBdNAQNxbdE9n2JiVzK9s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759893519; c=relaxed/simple;
+	bh=+hXmjhJrc1AsQDJZpmLt5t2ooX8ihStyJCzyeD0j9RM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=njog5uDOvKib7JN3l0uBwOWq1dfkNPAOc+mcWBWvK+dAx7rr88bYEe8g/cPuKCREHRaIUi8gyGZI4mUvdy+AVDguuAsHe+IEBGQ/3CjUQuha2RjQRb+cPQqMAIugTY2rcZixo5bz1DwrSrFuqMKnmaZnl4s/SRowY+r5X3w+KSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Kjk2kRln; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4dfd1f48d4cso49137381cf.0
+        for <linux-api@vger.kernel.org>; Tue, 07 Oct 2025 20:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1759893517; x=1760498317; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lY0lHDo+ZMYjiI3WrpH7eJfFGmGqKDcMD4+kuNAqXa4=;
+        b=Kjk2kRlnqv+0OnTCFTrOLGULG4/A4UN/ORNPVqnbLKMBR+iTAg4mCoW3XBItBLXs2o
+         wQBpn+3lcMIv8E5PB4oIzvoHjVIyNre5yv5BbQuf4GN6jhL9VE+PcJNoBANAJdMbbgRb
+         ZVpdYZZRJBCov2o5Aw/iYGfHSyHd2EIOT6RtKvwkY0OeDHYkVxFrPkJ/s4WVZoyMY4Ir
+         aRzQPAxOip/x465PUt3MopBPhKHk162XTovvIrEdoBYpxWBh/q4KzoS8dCtfStlcFAk3
+         NiIsyl2zd4u8VMB1y+XfT9bHCIHURuduX+VRX/ij0t5HvP0g7J7N1AePHnZgWFB9cQsw
+         G2MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759893517; x=1760498317;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lY0lHDo+ZMYjiI3WrpH7eJfFGmGqKDcMD4+kuNAqXa4=;
+        b=KbsfOtzXSKzHn3XLCFsS/Dds5X49vrDaqpTHA6u13UgGcrhB3/3XAfBQ1inwcloug3
+         BydB0ejc32j6Iq1fh+g1T1GtmGgBQHz/OR48rHAsCirg4vYf/mi3kIyiLMRcyI7JysE1
+         pjkT2+s3iEpDRfntp5hmDaTMfHC1BEw/qyFJPZsOJsZFaGK/AFdfaZURB7MghTuiIi2t
+         nMEnE03tVbiyA24ZXw/ftpPO87xxjA/sxXyB+UHkWYXPpnIpX0uwUI3dy/n10pe1adzD
+         bYY31Xqq+LgcVF2HuyR1jGVIaZkcmAmmEgrw3Q6s3p6fnWPFUpirwFtZPIuItxq/irKM
+         U3PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVgtL8MbMVp1IsK6EiggavG554UdtmF2ad9PxqGHiDSKE77AmgHVSyHXakvJHzQ2wlGIEjX7/yQQYQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJEb6AUxToaPkpVrKG+/Pb9CIT5jAqQPa7H9jMu/9nuiKs4jwN
+	lSTBAyEQFqx+tYG7ZBgGG/LD/D47Dpo7z45Z5O9RZrrrQ0bP0Kfmlga2HRiixJKX0AE5zAhsEEM
+	lVqYXsbpY1BbJKZBVnigZNs/pce2tlYVf4x5vwQg3Iw==
+X-Gm-Gg: ASbGncuGAFGlXK2b+BrPwXpk1EUtJ3OnZVTOCeTgrikJxO09YCy+53LAm87/b1P9p3f
+	ouIiWk/CLD8oqXq9UCLY/oD2PG3M1UcMqJoQWgpmfZ1xmYo8m2/ARm+d+pH6j9SKR3Df2KZRGsN
+	OpUJXOLhC8q4t6QJ3NzhzgJa2z8WV5520MJM5OBTzledL7XYbl+P+7TSpb7med0WAToqjD5ChjO
+	EWRewghe2QHoxxvYTdKI66HcgzV
+X-Google-Smtp-Source: AGHT+IHi4LrH7xm0oX6hym8jBnuijo8ZiVZrjt2jN+GojnDTB9cmqow/7uayxXgJT25O+sPIp9pbSmcuL9HcK/iT90o=
+X-Received: by 2002:ac8:5885:0:b0:4b7:9581:a211 with SMTP id
+ d75a77b69052e-4e6eace7e6cmr26859261cf.24.1759893516637; Tue, 07 Oct 2025
+ 20:18:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|DS7PR12MB6190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 491d8759-74ff-4093-848c-08de05ca0737
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?26Y0iQXTYKCm91ui7VsawlPXFY/zPbApLH+S8fHH1+bQp5j/mKKP0qWSKsl/?=
- =?us-ascii?Q?Yr/Dmmk1F/+i9UbwZy/mhs2HJJp0I6j8qwhNdg+UCsn0vNo/EFcuU/aSu86m?=
- =?us-ascii?Q?fcCzyJLDVI5m1AmZN3ZG5pFSzQ8S5gs6ev1WSeHKmDfgavv75YYkhRP62Vjf?=
- =?us-ascii?Q?EDrDCeybadsTukX/nUGyWu7GSGUuhXNTCCjK5VtGP7UJ1ja1+ExdZbtJ2H3g?=
- =?us-ascii?Q?4mI5mlL6MbtA2dPbbP0Q2vTGuLyahU/NCZi6RMsnCIoSo19wyWLV2o3YgShX?=
- =?us-ascii?Q?DWVCKvNgwgNkEOTxLWLIVr5kEx7Q+FdPlGZc6IZooyetO5XL0D6lPGJUjp0p?=
- =?us-ascii?Q?EPSP9ba5UaHsrJilJ1hXM+ekAhvRIUbkxMl8Thbq/tktWcfUOc3ngQW5kzg+?=
- =?us-ascii?Q?AVqBAu4pBmaWgv5WdPenSZYAQ77fWL1b6UePU3NowFeE+WUJei7STb5sK0rX?=
- =?us-ascii?Q?67fzzlGAYhx49KwhjuZcxbwhwRGl1WzUEsOUrR5FBc6U1nQEEimCURyAj27M?=
- =?us-ascii?Q?2j1nAi2cAMi45LqwWwaa3GElSAsdqFfZxSFMgBnieeHjkujPK+hfVQuCVdIm?=
- =?us-ascii?Q?UJDLXpwRgB1dSLfdVqrZcu8fEBLYJcUceHEyRlnkofLIvAzd/lcrbK2q6Nmu?=
- =?us-ascii?Q?te6AojZF9JnOZ2S6ywt0d7t/jyUL9ichjYz/1ktKmYbIQtJr44+ZanU72U/+?=
- =?us-ascii?Q?iWAfhW610hzl7TmVXw3IKDjIMvSCHjYdnsWO5KkcJjTQyvyWDgZQ3Edkhhlw?=
- =?us-ascii?Q?gbKFXLfQxR0QB4rzhiBwObtZATl9ZN0TJxQk46pgcSnoWSr5mSR1yhhEDQ6z?=
- =?us-ascii?Q?kohSSxEA5LnEh7Ub4jJIxY5K0JXQucJ2DYSZW3JLcuTNew2jkpwbcl+5Z4Ny?=
- =?us-ascii?Q?NKWG7bP/FkodxS6M2qX2W59RssR5cajVLuKjM3dPaVkD5C6GByIfqYaPLSIg?=
- =?us-ascii?Q?8cLIKEZZh0IAl9377jg/IlO/XvE7A2rD3xKGUAlHoRm3Gw4F7EfC4+bvvVSo?=
- =?us-ascii?Q?wfcY387icmh0EBmTr78zqevCI4ZcPXuax45jFfba2B69VgbSQbcOnq9Mg9TF?=
- =?us-ascii?Q?I1klUC93VPQl/NMYnnIHaR74s/GXnhZWO7RuGxgkhCAXmi52f6tstvJll+m1?=
- =?us-ascii?Q?b/raG5aNkWv4JEl3q5a+7OGumqdSJeCwfxzVJ02mL4uxDKPEM4L5SFVvV/ZE?=
- =?us-ascii?Q?wwUL+1CfUyLagPE1YoHAsfS0q4hwnstEz3kONW7q6vq/psT5aBptXxmw15qb?=
- =?us-ascii?Q?IlkQdq3x6ybzHjeH+VmSb1kMHUgNJ8k/1tOngcrpU/DWQtghQLqiOjUWKNZi?=
- =?us-ascii?Q?94JrZJsrqBp1QTdeICCoLKoqG41y+dYFkpI5tJGRCVW4m0OcQdqp/lwEehgx?=
- =?us-ascii?Q?/cWZkyTYyt/AelMrA5WoIuvBWSRN0PjAMkJ/z0zb092Wi+XOTn3ysJCYbCv0?=
- =?us-ascii?Q?8lVH4E1JqzmysKwB6xiauCEt2/Jn01Nn?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?194rzCorbHCnJW/tsKiKqLhvWuAR9OBX+JTMDVsWL/NIAxmQaJp+R6TqehDF?=
- =?us-ascii?Q?FBglgf+FdihXKM1I1VDiyxDTqC907jAZ1cJQMV330s4kbAXldr3RojWwnMsk?=
- =?us-ascii?Q?HimWmxsEPcoXtLWdeJKOXsMx8B68t3+M2IT/SXcBtRFjv8MJj0LL+T06QzpF?=
- =?us-ascii?Q?QZ22o4TdR8TxI28qI99Nx2HmB7GwgBZ/Z6TVoy9hDS1yRTFiFWYt5LvbB79+?=
- =?us-ascii?Q?wSthBlFlaxFYTveQICnELKlIcNXJVjHiIuxXDCElsoUv0K0k5VYU7/qpLjuR?=
- =?us-ascii?Q?OkX7IrPmxm1QeXRKAOYJfzemOPYjIeUVy0+psBtsqGD+utbY9TyRDjA6f0nw?=
- =?us-ascii?Q?IczzYRntuOvDbyUpenRsFNpISZrRKS0TwgbdQAdnn6Od2HSrOkgJNnqq5qSH?=
- =?us-ascii?Q?JKe4mjR8JmcTH+1kTRwb14oCbJp8sRDhJYoCoIQALd2Lx6wQ2lNsbmNEeYMP?=
- =?us-ascii?Q?xqCnFAhs8EtlxXJUJAh8deqtuGDpJ3TJVwWzS8GjWAk/zIz9u8q/+M3zWhc6?=
- =?us-ascii?Q?lMi/s/SwY8tlHh9x6iyzXBKk/++xKvRjGTb4Qe0qImaToCKCUEj6mx7Q6Pko?=
- =?us-ascii?Q?b1+w8V/5VVyzcWI6fe1w2wBzqkXTirMxCA7wj76ncwPBpGVHr2Uig/tGr26S?=
- =?us-ascii?Q?69OwG77TRUVCfXsVp7TxatL7lNZ6NffNU6Ab93LHNm5GghwZuoUdpKboRHcI?=
- =?us-ascii?Q?zskW96wyZB6r0kYmhbzhsO6Ws2NyMle+trUNhRlWf6Nwe3V+5mZTpagWiUBO?=
- =?us-ascii?Q?Q9AoWti70XlhZHf3Q7CD6PGJult3Ii/XdkTafBrCxKNxoUiEmfJw+eEUfGYB?=
- =?us-ascii?Q?g84t5TwB9k6/4Mxh1rA/w8ecq50HO70gxaEZWhUtH7JXTGbJVB1rxd2iBkh9?=
- =?us-ascii?Q?3jMB3JS2kHzWHwy0ma10ADIYfuWjvCBD6Kk0s1+gM/I5D3eFajUIuzyNS2OZ?=
- =?us-ascii?Q?C4JHItv7osNfLrO3aYYbPNd2i0uzn4tV5HN8jD0sgUZ8BLj5PyDeiAQ34qxa?=
- =?us-ascii?Q?yEGQvsQIhMHpfRMsIr7xSmKLtxDBuqokoKwZ+pqGkzdiAW/u1gpSUaVJFp53?=
- =?us-ascii?Q?im74OWc4Hx8tfUGThBhpRYNi2af+fjJ8Km1y0B0UT94fXSryDHMheBciGFes?=
- =?us-ascii?Q?UKEcHY0/bgGuJpnYW/bGySfNxjOxX1K8BMCu8oKugc3r1k22NIo6rdJAECDl?=
- =?us-ascii?Q?ooYyJStH/ZizkEjgU/EgOL5BZORPx1T1KXxhpeL2eb0FAR5EMjMrKAzHRMC/?=
- =?us-ascii?Q?S1+XKutymoT+d/MuBpU/wEkw76IScLlSGPVgjBqPqAdpy36/SbgviJ4V4San?=
- =?us-ascii?Q?J4dMrY47bS7KAJqx7dNXdahLyime6/LRZZY1NiK+kMwjfUFHz3ZxgSj8dpX3?=
- =?us-ascii?Q?a4aFb90YJecNpRGyFXK5JIPP7b5o3b/vat96dk1fd0XBmPRm41baC0lX1/8g?=
- =?us-ascii?Q?b/dxvoOuTKtJWxcKAhDhM69IPV1X73a2+a0nK7DtFATfwCs91dUttoLwJwqu?=
- =?us-ascii?Q?lQ3ap4GIrC2knU6AFwq4N7S2IeGg24fqpDtr3c9FGAvJhIbePZrBi8rHuXMQ?=
- =?us-ascii?Q?bCoUFVSQED71vHI89co=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 491d8759-74ff-4093-848c-08de05ca0737
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2025 17:50:39.7585
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TT/Hn3tb0Jss0oKGEYUlQOXl+5foHgI0I9QqJrGAjclvf73FXWNveKG0x+ZyB47C
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6190
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com> <20251007175038.GB3474167@nvidia.com>
+In-Reply-To: <20251007175038.GB3474167@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 7 Oct 2025 23:18:00 -0400
+X-Gm-Features: AS18NWDS3Ynl4RAV12cPYQQtkZzPk1WVwFfWilu_AD9DNETBUGP8gManlWckAdM
+Message-ID: <CA+CK2bAS5ZSV8xE4OpP+fWUvmmv1TcW57YB5Stk1dDZ28DiuNA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org, steven.sistare@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 07, 2025 at 01:10:30PM -0400, Pasha Tatashin wrote:
-> 
-> 1. Add three more callbacks to liveupdate_file_ops:
-> /*
->  * Optional. Called by LUO during first get global state call.
->  * The handler should allocate/KHO preserve its global state object and return a
->  * pointer to it via 'obj'. It must also provide a u64 handle (e.g., a physical
->  * address of preserved memory) via 'data_handle' that LUO will save.
->  * Return: 0 on success.
->  */
-> int (*global_state_create)(struct liveupdate_file_handler *h,
->                            void **obj, u64 *data_handle);
-> 
-> /*
->  * Optional. Called by LUO in the new kernel
->  * before the first access to the global state. The handler receives
->  * the preserved u64 data_handle and should use it to reconstruct its
->  * global state object, returning a pointer to it via 'obj'.
->  * Return: 0 on success.
->  */
-> int (*global_state_restore)(struct liveupdate_file_handler *h,
->                             u64 data_handle, void **obj);
+On Tue, Oct 7, 2025 at 1:50=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wro=
+te:
+>
+> On Tue, Oct 07, 2025 at 01:10:30PM -0400, Pasha Tatashin wrote:
+> >
+> > 1. Add three more callbacks to liveupdate_file_ops:
+> > /*
+> >  * Optional. Called by LUO during first get global state call.
+> >  * The handler should allocate/KHO preserve its global state object and=
+ return a
+> >  * pointer to it via 'obj'. It must also provide a u64 handle (e.g., a =
+physical
+> >  * address of preserved memory) via 'data_handle' that LUO will save.
+> >  * Return: 0 on success.
+> >  */
+> > int (*global_state_create)(struct liveupdate_file_handler *h,
+> >                            void **obj, u64 *data_handle);
+> >
+> > /*
+> >  * Optional. Called by LUO in the new kernel
+> >  * before the first access to the global state. The handler receives
+> >  * the preserved u64 data_handle and should use it to reconstruct its
+> >  * global state object, returning a pointer to it via 'obj'.
+> >  * Return: 0 on success.
+> >  */
+> > int (*global_state_restore)(struct liveupdate_file_handler *h,
+> >                             u64 data_handle, void **obj);
+>
+> It shouldn't be a "push" like this. Everything has a certain logical poin=
+t
+> when it will need the luo data, it should be coded to 'pull' the data
+> right at that point.
 
-It shouldn't be a "push" like this. Everything has a certain logical point
-when it will need the luo data, it should be coded to 'pull' the data
-right at that point.
+It is not pushed, this callback is done automatically on the first
+call liveupdate_fh_global_state_lock() in the new kernel, so exactly,
+when a user tries to access the global data, it is restored from KHO
+for the user to be able to access it via a normal pointer.
 
+> > /*
+> >  * Optional. Called by LUO after the last
+> >  * file for this handler is unpreserved or finished. The handler
+> >  * must free its global state object and any associated resources.
+> >  */
+> > void (*global_state_destroy)(struct liveupdate_file_handler *h, void *o=
+bj);
+>
+> I'm not sure a callback here is a good idea, the users are synchronous
+> at early boot, they should get their data and immediately process it
+> within the context of the caller. A 'unpack' callback does not seem so
+> useful to me.
 
-> /*
->  * Optional. Called by LUO after the last
->  * file for this handler is unpreserved or finished. The handler
->  * must free its global state object and any associated resources.
->  */
-> void (*global_state_destroy)(struct liveupdate_file_handler *h, void *obj);
+This callback is also automatic, it is called only once the last FD is
+finished, and LUO has no FDs for this file handler, so the global
+state can be properly freed. There is no unpack here.
 
-I'm not sure a callback here is a good idea, the users are synchronous
-at early boot, they should get their data and immediately process it
-within the context of the caller. A 'unpack' callback does not seem so
-useful to me.
+>
+> > The get/put global state data:
+> >
+> > /* Get and lock the data with file_handler scoped lock */
+> > int liveupdate_fh_global_state_get(struct liveupdate_file_handler *h,
+> >                                    void **obj);
+> >
+> > /* Unlock the data */
+> > void liveupdate_fh_global_state_put(struct liveupdate_file_handler *h);
+>
+> Maybe lock/unlock if it is locking.
 
-> The get/put global state data:
-> 
-> /* Get and lock the data with file_handler scoped lock */
-> int liveupdate_fh_global_state_get(struct liveupdate_file_handler *h,
->                                    void **obj);
-> 
-> /* Unlock the data */
-> void liveupdate_fh_global_state_put(struct liveupdate_file_handler *h);
+Sure, will name them:
+liveupdate_fh_global_state_lock()
+liveupdate_fh_global_state_unlock()
 
-Maybe lock/unlock if it is locking.
-
-It seems like a good direction overall. Really need to see how it
-works with some examples
-
-Jason
+>
+> It seems like a good direction overall. Really need to see how it
+> works with some examples
+>
+> Jason
 
