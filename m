@@ -1,95 +1,93 @@
-Return-Path: <linux-api+bounces-5045-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5046-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDA3BCA3B1
-	for <lists+linux-api@lfdr.de>; Thu, 09 Oct 2025 18:47:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B159BCA53D
+	for <lists+linux-api@lfdr.de>; Thu, 09 Oct 2025 19:06:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 268C5422283
-	for <lists+linux-api@lfdr.de>; Thu,  9 Oct 2025 16:46:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDD823B2234
+	for <lists+linux-api@lfdr.de>; Thu,  9 Oct 2025 17:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47800235044;
-	Thu,  9 Oct 2025 16:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D487A238C36;
+	Thu,  9 Oct 2025 17:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FGb46r6h"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bNg0lRi+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3907A225A29
-	for <linux-api@vger.kernel.org>; Thu,  9 Oct 2025 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE3F23817D
+	for <linux-api@vger.kernel.org>; Thu,  9 Oct 2025 17:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028392; cv=none; b=oYPP+fW32b1cLbYwPY4h6yVtJboOUz5AcOEBR7kcSpoMgV80GSOhu5cbrE3GhgObZeSBdUM+VmTSTIvh52LReKiowwMQpIAM50p1r94GHfJsQagolk9emromHOKkUBnFPEtLaYl2a6GUvpUGCb01S8rPjByeAAi9kwowWwJC4WI=
+	t=1760029542; cv=none; b=SilgfeKAv6l3qCuEBpsAgIV9e9IbbP2xKUquLiL67ATcDMAbmqoUMp3PO4Dwy8DyP9OX6a0mTQ+w5u0TdEgZeK1ujYASs7Xr0CszfTwaE/A5NYY5mAZBrpI8FqrGncIX1hhSkYsOI3o9/8U/0Yn70MZm1xF0AJCWqJQCiOmddms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028392; c=relaxed/simple;
-	bh=0YzEi/FKr4gAZLlOWGsCp0p08GtODGPitU0V9xWloho=;
+	s=arc-20240116; t=1760029542; c=relaxed/simple;
+	bh=ZEwvryL4F3rbj5qgEHR3Bc73043Xk7gnhFlf4AiO1uc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t7xgP8yaGFozLRrN1nuL1X0ljlw8lNPrFqhzXOzW8gvBU1uGeNO/jElws8F4OQ4kN6YsvdlnGLiZ4c9iPuNxl0qXpirLgyYWQ7pYcLRwVMHUPp94eQ0tK+QniNLgRiHDKMVjN04eDzqBpM9Rnkgjg2HxIxwcqqt16qYKztOLS6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FGb46r6h; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4df3fabe9c2so2811cf.1
-        for <linux-api@vger.kernel.org>; Thu, 09 Oct 2025 09:46:29 -0700 (PDT)
+	 To:Cc:Content-Type; b=B7OcHCyHiBOHnknZR/qGZMgC9Q+iNwLNOb0BVVXxwvON+TCtqJNxfVXOKHQAdZ6RFtzTEDul4aUedskMx0K3Ofob3rJoXrR038tchuC/p28uCdXsukIXooaiOdM4Z2Ad8jyCMiBPrsi6AmwWfi8OYKpZGftdpmxT6NKxsSuk5LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bNg0lRi+; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-875d55217a5so127696085a.2
+        for <linux-api@vger.kernel.org>; Thu, 09 Oct 2025 10:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760028389; x=1760633189; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1760029536; x=1760634336; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
-        b=FGb46r6hSI4mLnolXEJ/yTaoR+b6l70oW2PLOJIjoLyS7rAQl7r7B7Se4F9saXsMFQ
-         Lqn/2eMDtw6Fpt13lXNjiuM7qPDcZ1DWmV3tFWHaZWmWxiQGucflA2Yczq5vPZJIJHPF
-         4GcBbbghvT56IRB0R6qn9ckTHcjJ7EDaqtl2LDonMZGVvoNdAI6+TuSsAApkEuEvyQfH
-         aBRIOEnwVAa6i4YUTEcUoM25KUNTe9pvZmvbck/f3mkSfschYpwvb3LI41+7oOEuJ2ww
-         VboX6unb3BkpfbTrpBT/LKQ2w2QSidadL869KKVyEDr3ic8ng7r6iQvx+VfDKSU2mjpB
-         YgjA==
+        bh=ZEwvryL4F3rbj5qgEHR3Bc73043Xk7gnhFlf4AiO1uc=;
+        b=bNg0lRi++rFK10ae92hN4Q+tD9JKalVMgtXOuv5DxPVssEQDJepsowAy+hBIDI1Q3b
+         d24YXKnoa9bgNi6emnzdPBZBOj1vfailzHg6agjIpzM3JJyndgZxPINWrJhnqbZ1vHoo
+         gxyUdudesuVLETrCGKh8N7SQZnEDE9Fjqoqf5TwzYSV+jg5HRAv5OgbF1Vmfl2urNTiZ
+         NAFBJeR7fREu/yildLKrb73j2o2cZA6vZamNc1MA1MdAC5A62yW3Ysh9wW1T9NzoUlK7
+         S70a5Kwd5gImEZJvKQVKJgayqIJUTneVBJ9icQs2ulU1PZuMPH/eyMjPDjILTyKSI3TH
+         spVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760028389; x=1760633189;
+        d=1e100.net; s=20230601; t=1760029536; x=1760634336;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZzlluHwkUBhNfLLuHc1HKW2H+S+ipbeYuCHoUWYJ/AU=;
-        b=EWXCZSoGHH+VXxUF14NEiFCPYdlkEnQ1884s0Tbzdi8E8On+CuAmEzrBQFhFAZ1E1t
-         5g+AMZCRak/00hJ6dFaR7CiAbESnZLJlDp4AmzGtkfyQg1gsF7A4ZCSDbdRztF3Gb7Q5
-         L/6o5dvyD2uXRU0bjt5CTzRRrx8EbupTbHlmRiD146h8XckM7on2NHEdhF6545a9eb+A
-         yUgIOp8FiW7dCzTNFIoPXA9VzXv5+1TaMMVGgXRR92xB34GXSMn/HXKpEIhUqR7dS+Na
-         7oS/66ES9OxP5Cg0D2mxfTMlzXo8sBQT9fLUQqk+o9Xkc1CgO/iMDQEL3a3Li++iWo8l
-         vfsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmesXXwNHTE4doTnNBLAGuvi0kOm7M2Y7LLiAgpa1CRFJDPUQc2jOnkp79Byb/Us4/t3lYg/PJAt8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDsLMzHz0SZeeezEkWzcJZ2wImrP+gTMksb3rUHwuqoKs8eebR
-	jOQj4D2YRmMslj+2gidBB+8maNH/ROVurAeVIR5sqcWE2c6ZfvCZI+cuvCylKK1etSHcK7XsoF8
-	nrsF5FvtfwyXCtPDyoajtD0wxQyQYk/R5r1YB2ucp
-X-Gm-Gg: ASbGnctzxQPVN/ucfDqXFxIDgW9o/I11ZfTH7k4u2Ooz1b5CJbS5fHaH4lE1wN7VfMr
-	Ov7FLWZdHMPCNo2icTtpbFcnDvdLi5GhFvkcnaA9jiVBQ0A5bLL6MX8k8qg6wgVo009D0xlYw+J
-	EsMe7NAX6DnL83xCKAPtPeFpNQ5vXw700xXHUuCNKIdgH49l7Fn2LLOuGvM7wlW41GH4aaG7+HB
-	daqRhVyKCkiYVuhLEDVSrcnadEn9qCfkRGfoetSfsb6pGIxH8PSl/O+OnwQrMVxU5g4ZME=
-X-Google-Smtp-Source: AGHT+IF70ucIJMpJA0vPDQgicdHZr5JjOzPiEUk9y5SQTUUUNRoZE52nw8qSw3T5aRdmC55lZrWVgbTQ4VOEIK5o6D4=
-X-Received: by 2002:a05:622a:344:b0:4b7:9b7a:1cfc with SMTP id
- d75a77b69052e-4e6eabce6d2mr16470351cf.10.1760028388319; Thu, 09 Oct 2025
- 09:46:28 -0700 (PDT)
+        bh=ZEwvryL4F3rbj5qgEHR3Bc73043Xk7gnhFlf4AiO1uc=;
+        b=t/PxHaBApZQ7T/G6vEnmRnuyuZ2IJ9ehildVhU4zyA4lIUuVcZpb6uA+2FfzrCI4kT
+         z1P5oDhnvg+Qx3Na0fujbBpeW+j15PUn1YtAdTTLg8xp5usVdV0paNWDXcfJG0yXQoXJ
+         l/qRHp7I+wmbbTbSiXFkwVuPm0avtqGotFIWYWNSGFEv9Qe+jM/E9p1faH/gtpKCxJXJ
+         TEiLX25Jneadw5NVuNmWzhzrEVutcvvS60WBAagsAFuvTK287U0jl2aLqA3m+NVW37UI
+         Z3CFRhCjHTzM1IHx082vZ4yQeEA3Vcv7z/fjKL6uIyoBBDNqW6nIhCHLLgRM8OFxxztM
+         L7CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7Tm/WT2d42yc/xK3hF7tBK+ijAtmeHZ64AQZqJBMjp0fSfGKx0F8rTXB0+MvdYBmTX7Laodf5hqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ7KAjh/GG8wzsJ+X1TZaHQXRbUwrq4nmvWvDlhNPSIXMyv2Ol
+	gZ0/AJeZ3lDh3FtoFPUlxwifIej5vcopBA4gpHuE5zLUJcEmmdICgCInchXHOf7fXG9yw6IjVZj
+	04jlQ0zDHUo4w3V8bHhaJfoxWYJlafB+3sQcdyUYsVQ==
+X-Gm-Gg: ASbGncszsUhCAQNEfTVm14YYueFZt4Diom1ZdccAKuUpMvdK/uclQ5HNDPhRmtU0P0R
+	b0gDEmnJHg/QjIAnO03Axkq1TLu6xVfZf4BZZAAfVr6XVJaaPolg0syFy7KiDg5mKzhrluc9MEz
+	pnMYsez37+64segBRSCrl9GEz/VnkSaXpWZh7nhqJbYxUKlTMPCbE48fPzQAqROUws4iYp6pW38
+	vVfenx+xAnjxlmM4Rk+x8iPd9sVQSDE8PItI6I=
+X-Google-Smtp-Source: AGHT+IFE2sAReF4JI9gkbOEBI0GExAG6O+9H49nxZIOW3wiMfCJHnma5AW+apR4GDzx7KvuzWvZY/WusdxfEgE8+CuY=
+X-Received: by 2002:a05:620a:2952:b0:870:ab:42f2 with SMTP id
+ af79cd13be357-8835384546cmr1185682885a.24.1760029535702; Thu, 09 Oct 2025
+ 10:05:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
- <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
- <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
- <20251008193551.GA3839422@nvidia.com> <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
- <20251009144822.GD3839422@nvidia.com> <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
-In-Reply-To: <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Thu, 9 Oct 2025 09:46:16 -0700
-X-Gm-Features: AS18NWBgKgmWhR1-EKut7z0eede2LXIJaTXH-__gJayThOTTr-r8gXegH0ezPFY
-Message-ID: <CAAywjhSU7ibji=Z50U+OcX7eemhid2sB7OK_fsgzds3vGTZOjw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-20-pasha.tatashin@soleen.com> <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
+ <mafs0qzvcmje2.fsf@kernel.org> <CA+CK2bCx=kTVORq9dRE2h3Z4QQ-ggxanY2tDPRy13_ARhc+TqA@mail.gmail.com>
+ <dc71808c-c6a4-434a-aee9-b97601814c92@linux.dev>
+In-Reply-To: <dc71808c-c6a4-434a-aee9-b97601814c92@linux.dev>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 9 Oct 2025 13:04:57 -0400
+X-Gm-Features: AS18NWB7Cr_VpUIKYZatXQYpiNUtQ7J6s9XvqZtMcyHaQrrY3c7p0E8zT1F9p7k
+Message-ID: <CA+CK2bBz3NvDmwUjCPiyTPH9yL6YpZ+vX=o2TkC2C7aViXO-pQ@mail.gmail.com>
+Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state monitoring
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
 	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
 	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
 	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
@@ -108,114 +106,66 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org, jasonmiu@google.com,
 	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
+	witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 9, 2025 at 8:02=E2=80=AFAM Pasha Tatashin <pasha.tatashin@solee=
-n.com> wrote:
+On Thu, Oct 9, 2025 at 11:35=E2=80=AFAM Zhu Yanjun <yanjun.zhu@linux.dev> w=
+rote:
 >
-> On Thu, Oct 9, 2025 at 10:48=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> =
-wrote:
-> >
-> > On Wed, Oct 08, 2025 at 04:26:39PM -0400, Pasha Tatashin wrote:
-> > > On Wed, Oct 8, 2025 at 3:36=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.co=
-m> wrote:
-> > > >
-> > > > On Wed, Oct 08, 2025 at 12:40:34PM -0400, Pasha Tatashin wrote:
-> > > > > 1. Ordered Un-preservation
-> > > > > The un-preservation of file descriptors must also be ordered and =
-must
-> > > > > occur in the reverse order of preservation. For example, if a use=
-r
-> > > > > preserves a memfd first and then an iommufd that depends on it, t=
-he
-> > > > > iommufd must be un-preserved before the memfd when the session is
-> > > > > closed or the FDs are explicitly un-preserved.
-> > > >
-> > > > Why?
-> > > >
-> > > > I imagined the first to unpreserve would restore the struct file * =
--
-> > > > that would satisfy the order.
-> > >
-> > > In my description, "un-preserve" refers to the action of canceling a
-> > > preservation request in the outgoing kernel, before kexec ever
-> > > happens. It's the pre-reboot counterpart to the PRESERVE_FD ioctl,
-> > > used when a user decides not to go through with the live update for a
-> > > specific FD.
-> > >
-> > > The terminology I am using:
-> > > preserve: Put FD into LUO in the outgoing kernel
-> > > unpreserve: Remove FD from LUO from the outgoing kernel
-> > > retrieve: Restore FD and return it to user in the next kernel
-> >
-> > Ok
-> >
-> > > For the retrieval part, we are going to be using FIFO order, the same
-> > > as preserve.
-> >
-> > This won't work. retrieval is driven by early boot discovery ordering
-> > and then by userspace. It will be in whatever order it wants. We need
-> > to be able to do things like make the struct file * at the moment
-> > something requests it..
 >
-> I thought we wanted only the user to do "struct file" creation when
-> the user retrieves FD back. In this case we can enforce strict
-> ordering during retrieval. If "struct file" can be retrieved by
-> anything within the kernel, then that could be any kernel process
-> during boot, meaning that charging is not going to be properly applied
-> when kernel allocations are performed.
+> =E5=9C=A8 2025/10/9 5:01, Pasha Tatashin =E5=86=99=E9=81=93:
+> >>> Because the window of kernel live update is short, it is difficult to=
+ statistics
+> >>> how many times the kernel is live updated.
+> >>>
+> >>> Is it possible to add a variable to statistics the times that the ker=
+nel is live
+> >>> updated?
+> >> The kernel doesn't do the live update on its own. The process is drive=
+n
+> >> and sequenced by userspace. So if you want to keep statistics, you
+> >> should do it from your userspace (luod maybe?). I don't see any need f=
+or
+> >> this in the kernel.
+> >>
+> > One use case I can think of is including information in kdump or the
+> > backtrace warning/panic messages about how many times this machine has
+> > been live-updated. In the past, I've seen bugs (related to memory
+> > corruption) that occurred only after several kexecs, not on the first
+> > one. With live updates, especially while the code is being stabilized,
+> > I imagine we might have a similar situation. For that reason, it could
+> > be useful to have a count in the dmesg logs showing how many times
+> > this machine has been live-updated. While this information is also
+> > available in userspace, it would be simpler for kernel developers
+> > triaging these issues if everything were in one place.
+> I=E2=80=99m considering this issue from a system security perspective. Af=
+ter the
+> kernel is automatically updated, user-space applications are usually
+> unaware of the change. In one possible scenario, an attacker could
+> replace the kernel with a compromised version, while user-space
+> applications remain unaware of it =E2=80=94 which poses a potential secur=
+ity risk.
 >
-> We specifically decided that while "struct file"s are going to be
-> created only by the user, the other subsystems can have early access
-> to the preserved file data, if they know how to parse it.
+> To mitigate this, it would be useful to expose the number of kernel
+> updates through a sysfs interface, so that we can detect whether the
+> kernel has been updated and then collect information about the new
+> kernel to check for possible security issues.
 >
-> > > > This doesn't seem right, the API should be more like 'luo get
-> > > > serialization handle for this file *'
-> > >
-> > > How about:
-> > >
-> > > int liveupdate_find_token(struct liveupdate_session *session,
-> > >                           struct file *file, u64 *token);
-> >
-> > This sort of thing should not be used on the preserve side..
-> >
-> > > And if needed:
-> > > int liveupdate_find_file(struct liveupdate_session *session,
-> > >                          u64 token, struct file **file);
-> > >
-> > > Return: 0 on success, or -ENOENT if the file is not preserved.
-> >
-> > I would argue it should always cause a preservation...
-> >
-> > But this is still backwards, what we need is something like
-> >
-> > liveupdate_preserve_file(session, file, &token);
-> > my_preserve_blob.file_token =3D token
+> Of course, there are other ways to detect kernel updates =E2=80=94 for ex=
+ample,
+> by using ftrace to monitor functions involved in live kernel updates =E2=
+=80=94
+> but such approaches tend to have a higher performance overhead. In
+> contrast, adding a simple update counter to track live kernel updates
+> would provide similar monitoring capability with minimal overhead.
 
-Please clarify if you still consider that the user does register the
-dependencies FDs explicitly, but this API just triggers the
-"prepare()" or "preserve()" callback so the preservation order is
-enforced/synchronized?
->
-> We cannot do that, the user should have already preserved that file
-> and provided us with a token to use, if that file was not preserved by
-> the user it is a bug. With this proposal, we would have to generate a
-> token, and it was argued that the kernel should not do that.
+Would a print during boot, i.e. when we print that this kernel is live
+updating, we could include the number, work for you? Otherwise, we
+could export this number in a debugfs.
 
-Agreed. Another thing that I was wondering about is how does the user
-space know that its FD was preserved as dependency?
-
->
-> > file =3D liveupdate_retrieve_file(session, my_preserve_blob.file_token)=
-;
-> >
-> > And these can run in any order, and be called multiple times.
-> >
-> > Jason
+Pasha
 
