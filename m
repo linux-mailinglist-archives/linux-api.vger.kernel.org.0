@@ -1,166 +1,131 @@
-Return-Path: <linux-api+bounces-5037-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5038-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB255BC8ABC
-	for <lists+linux-api@lfdr.de>; Thu, 09 Oct 2025 13:02:12 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E40BBC8C02
+	for <lists+linux-api@lfdr.de>; Thu, 09 Oct 2025 13:20:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C89DD189CA3A
-	for <lists+linux-api@lfdr.de>; Thu,  9 Oct 2025 11:02:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D4F974F9F9D
+	for <lists+linux-api@lfdr.de>; Thu,  9 Oct 2025 11:19:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C915E2EC08F;
-	Thu,  9 Oct 2025 10:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8C872DF6FA;
+	Thu,  9 Oct 2025 11:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+CqYBXr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNoiJ37l"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A212EBDFB;
-	Thu,  9 Oct 2025 10:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3532DF153
+	for <linux-api@vger.kernel.org>; Thu,  9 Oct 2025 11:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760007520; cv=none; b=X95hR4nxqFCBhnG9gPjOxAmBWB5UPNbCSdeIHKqS0JcGcTpMLGKwKRSLvEphNv7r6qV4VbhUxacdn8Ey0ujO7SSBnAN+zd+lZW1KKfuHB/HJ9rfwYLivx2u9TsgXGcAm6FfV+/Ujofzcm76gqaquDzVZ2COGGpiNvjpy1kfedYw=
+	t=1760008783; cv=none; b=n3fv/vQZvHQ8JynMvTGiydrZDHEEFBQCJvPNDJicDVNdL+0Z4cHiOu0HGgvgIMd0UEBkXJR5iJsvTeYZ2DcH3JE311ZpiVp0H/wUebOt3w9PGA4B865VTWLPaZ3CfQo6h+Qtclbx4eTJJbN90Cacvd15WJJhTuazEkMDW1GCDcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760007520; c=relaxed/simple;
-	bh=7Nur+XSIKNjaZ4TARG/0OtkaTqABK5qON+LE3aEY7Aw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VEqsc0BPEb46kiUqkeB5UPb0jy8kL//FNLgYPcymNTCW9PSYBKQEFjJ0PL0E2J6S/qhXTwmkGeQEGBuMMTBVqVRr9jx2DE9sBsEeDaXFhOtQO5nObqrqw49aIk8RIJjoE3S9xVF9i+4+tFNVxXSJqgtUjL5jWOKu/+R32RmF2hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+CqYBXr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 566A8C4CEE7;
-	Thu,  9 Oct 2025 10:58:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760007519;
-	bh=7Nur+XSIKNjaZ4TARG/0OtkaTqABK5qON+LE3aEY7Aw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=C+CqYBXrsPK4Hf77dWS8x2tr3n47VJ1gWIZgOIq2eKyhyo1+cmTV2J60K5aYhgHDw
-	 3CEeKuIGW8qjA4K3QhBrWjuQoCMP5w8o3T0QjK+eWq+UGDWtZHgRCIHoxuEGrNX+Bj
-	 pIlpM8NA+mb7eJTo8mf/Bdjf0HLnSrm9//Wt0xWRbT6Le7m6gzZdQW3NX53MK/u9sv
-	 S10U8ahIcGBuVvRGwnutN4BYzYg3r7AgVyWHlcPpwLme5rmkzmzbHl5bzEpdZQvZ2N
-	 XQNhDqGAJ3Mjyg0LPTV3FINr6FIiDNji1zltNhGX/uBPh8CxPtU2d4qxRFTeaHmIkF
-	 cN5qN9D2zj3Gw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: "yanjun.zhu" <yanjun.zhu@linux.dev>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
-  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
-  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state monitoring
-In-Reply-To: <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev> (yanjun zhu's
-	message of "Wed, 8 Oct 2025 18:07:00 -0700")
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
-	<20250807014442.3829950-20-pasha.tatashin@soleen.com>
-	<a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
-Date: Thu, 09 Oct 2025 12:58:29 +0200
-Message-ID: <mafs0qzvcmje2.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1760008783; c=relaxed/simple;
+	bh=mzeWOdj3lBj+Ke0QviDFWI2aF1kcLsskxWN0A79AnHU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tKlocSxO9O6ESL9ru4p2EL2BsQLu2IgRhCW6g4xKZAlnKCVpJr1S/NzcmbijVR+Y1ENBqi6nLOjwAVBTAYN+m93NG6Q12Etm2R1rycwihGJcz/dAw08esuVcaweCM+gIEtm6Fic71Djk4FmYUBQRhMxCIkFgUK4uupHzuw88QI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNoiJ37l; arc=none smtp.client-ip=74.125.224.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-633bca5451cso865038d50.1
+        for <linux-api@vger.kernel.org>; Thu, 09 Oct 2025 04:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760008779; x=1760613579; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mzeWOdj3lBj+Ke0QviDFWI2aF1kcLsskxWN0A79AnHU=;
+        b=jNoiJ37lCUQ9Hrm2hMpur0n3OpmXylsTAvQFzFo0gEHLdPW1H7xLOEfZx9IMP3xJGG
+         VvaFojxgSsr0dFIBvT0p9gx6C2qVKiKNUQeCfRio9yhV6GZjq9rpyyrteqxqW9Ew3dBm
+         wtvaqMjirKwpcBo4MgJpiCLn7sWEkQpEyqFiwGTjc5zHrlT4QCRizWiXWVk6zMf3FYYn
+         bzUTIQSKLADIffCIHWelPhf43EqQYtzVSfMGzuGbrzIwj9QJsP6FN+oluyC+bzTKhDgF
+         5nZ3Uo6yeEy5h0e9DLaazODqWGp9Q080LEkzOtn2P2FcQKQiw+6Kon0LQ4PFBZDDcg2+
+         Grtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760008779; x=1760613579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mzeWOdj3lBj+Ke0QviDFWI2aF1kcLsskxWN0A79AnHU=;
+        b=u138YsXx6iOSDLB6XhNaM4VsLnlkN7dKMQOmickdCtNN++RE4nAiemcCR+2wnxnzx7
+         UaMaPqeOrwq/pCL6nzDPgjKOZGJYCt0zoAcseW+WRWKliRrw97rRJACksp4h0Y3Nhca7
+         MT2ub6nxTW3X6NNiDFqXSZOl/0pH1Z2uRUqTqzdeNt9FkDOHBRR35hjzlcP1ljrRbVNm
+         2i7MIMEfP0JpONq0WGzKGbFaceBuGv3+qW36eDEAGEVVmZQHvjtl0PSTXdDMRr0rDFwd
+         0ikIQ4HtLvNNFAMFYy+I/LIuHXYQ0unZ+qCCgfIfbaY9DQHJhVxkxOZB5K6wQhMu9kJk
+         Bp8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXqu8POINb4tHrSrbUvSWdlpltO5lKxg4omThrCgO/JxWc+GHY9AHqEklwKe00sfto5xbmF+DqmROk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpRGyPo0Vkwr5I4lpEOyYSLa1x7QMul+V/orGsDlIwU9lPIEHq
+	mtwHRi8GwuW+c+MgDPpLcy3lr5YXeh5PSfpbDMlbsidNl7qQqaphxvhGKDLPctXAg9K4L+Udchh
+	91GXqbbz9ick1FLQjY/JzFQTXKZSkRw8=
+X-Gm-Gg: ASbGncsdS8C6vEemGCrNNWtI+z3o40OMvD2yXM5HYjoRRKiAGskGrPLL4nGnhDXDyVP
+	HvncNbB7/IshrqLvKeSIPOpvlMG5aA0ZTkRUJCszt3MUFQb0RcqEjkAwHqJTAS9pBoZ84VAErNN
+	xl6Bq0k2pPDrq4goRrDyw82yBx5WXK+hgRjiY3o521bJf87ui0qE0Y4xdmbJCbPfaIiRaGfMRwk
+	oTWcuXQ9a5RLuMZ78n6JqyvshNVMZg=
+X-Google-Smtp-Source: AGHT+IE5U7JyGi1AmeLjDi25hUOta+sU2hpJbVTN9Ai63ARDyOdLqRjdCN3h5Wr4u+tqZlHZJ+/pg/7Xr5jCWFq4BIc=
+X-Received: by 2002:a53:d048:0:10b0:63b:8e80:c017 with SMTP id
+ 956f58d0204a3-63ccb672a0emr6807745d50.0.1760008779377; Thu, 09 Oct 2025
+ 04:19:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250913003842.41944-1-safinaskar@gmail.com> <20250913003842.41944-29-safinaskar@gmail.com>
+ <20250913054837.GAaMUFtd4YlaPqL2Ov@fat_crate.local> <20250913055851.GBaMUIGyF8VhpUsOZg@fat_crate.local>
+In-Reply-To: <20250913055851.GBaMUIGyF8VhpUsOZg@fat_crate.local>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Thu, 9 Oct 2025 14:19:03 +0300
+X-Gm-Features: AS18NWAGN6ExXhEWeXK-ERFvGpf6JdjWShiWpIPYOnPjMCR9bXVHwIY8E_1WxIc
+Message-ID: <CAPnZJGBwFqNAybORpTtRfjtGwMQiBtd+rATD=mh8ZgE3owT_ow@mail.gmail.com>
+Subject: Re: [PATCH RESEND 28/62] init: alpha, arc, arm, arm64, csky, m68k,
+ microblaze, mips, nios2, openrisc, parisc, powerpc, s390, sh, sparc, um, x86,
+ xtensa: rename initrd_{start,end} to virt_external_initramfs_{start,end}
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
+	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org, 
+	Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	"Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, 
+	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 08 2025, yanjun.zhu wrote:
+On Sat, Sep 13, 2025 at 9:00=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+> Ooh, now I see it - you have virtual and physical initramfs address thing=
+s. We
+> usually call those "va" and "pa". So
+>
+> initramfs_{va,pa}_{start,end}
 
-> On 8/6/25 6:44 PM, Pasha Tatashin wrote:
->> Introduce a sysfs interface for the Live Update Orchestrator
->> under /sys/kernel/liveupdate/. This interface provides a way for
->> userspace tools and scripts to monitor the current state of the LUO
->> state machine.
->> The main feature is a read-only file, state, which displays the
->> current LUO state as a string ("normal", "prepared", "frozen",
->> "updated"). The interface uses sysfs_notify to allow userspace
->> listeners (e.g., via poll) to be efficiently notified of state changes.
->> ABI documentation for this new sysfs interface is added in
->> Documentation/ABI/testing/sysfs-kernel-liveupdate.
->> This read-only sysfs interface complements the main ioctl interface
->> provided by /dev/liveupdate, which handles LUO control operations and
->> resource management.
->> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-[...]
->> +#include <linux/kobject.h>
->> +#include <linux/liveupdate.h>
->> +#include <linux/sysfs.h>
->> +#include "luo_internal.h"
->> +
->> +static bool luo_sysfs_initialized;
->> +
->> +#define LUO_DIR_NAME	"liveupdate"
->> +
->> +void luo_sysfs_notify(void)
->> +{
->> +	if (luo_sysfs_initialized)
->> +		sysfs_notify(kernel_kobj, LUO_DIR_NAME, "state");
->> +}
->> +
->> +/* Show the current live update state */
->> +static ssize_t state_show(struct kobject *kobj, struct kobj_attribute *attr,
->> +			  char *buf)
->> +{
->> +	return sysfs_emit(buf, "%s\n", luo_current_state_str());
->
-> Because the window of kernel live update is short, it is difficult to statistics
-> how many times the kernel is live updated.
->
-> Is it possible to add a variable to statistics the times that the kernel is live
-> updated?
+Okay, I will call external_initramfs_{va,pa}_{start,end}
+(after I will remove initrd, which will happen after a year)
 
-The kernel doesn't do the live update on its own. The process is driven
-and sequenced by userspace. So if you want to keep statistics, you
-should do it from your userspace (luod maybe?). I don't see any need for
-this in the kernel.
+"external" means "bootloader-supplied" as opposed to builtin initramfs.
 
->
-> For example, define a global variable of type atomic_t or u64 in the core
-> module:
->
-> #include <linux/atomic.h>
->
-> static atomic_t klu_counter = ATOMIC_INIT(0);
->
->
-> Every time a live update completes successfully, increment the counter:
->
-> atomic_inc(&klu_counter);
->
-> Then exporting this value through /proc or /sys so that user space can check it:
->
-> static ssize_t klu_counter_show(struct kobject *kobj, struct kobj_attribute
-> *attr, char *buf)
-> {
->     return sprintf(buf, "%d\n", atomic_read(&klu_counter));
-> }
->
-> Yanjun.Zhu
-[...]
-
--- 
-Regards,
-Pratyush Yadav
+--=20
+Askar Safin
 
