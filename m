@@ -1,256 +1,257 @@
-Return-Path: <linux-api+bounces-5080-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5081-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D561BCD5F5
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 15:59:17 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 218C3BCD8C5
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 16:35:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 03673353AC4
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 13:59:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9C87C355CF6
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 14:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7B32F3C13;
-	Fri, 10 Oct 2025 13:59:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADA962F3601;
+	Fri, 10 Oct 2025 14:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+ZtXQyF"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h6t+ksiH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011034.outbound.protection.outlook.com [40.107.208.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D028C2EDD6F
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 13:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760104750; cv=none; b=c49mKLxVStpmFQuDLXOXFrq3QPhMeOxef6cP4l5laaynPjM9smRiTvsVOetuhBkenUDbv03s/D1iJWLsQIKnYdLQN7zXiRyHKY5ekhrew4jZ268NTVLzPxkfg93qLgJdXf9Tq4g7q29Shl5CoB+yj37Q360hYsna+opP3nSB6Io=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760104750; c=relaxed/simple;
-	bh=J17aeTHbROwRfiZR6L7QFwJMsI37eDUzmAXy+ubVcOQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rQmHqq0KnA3bFVx5IzcDI0MylUr0AjdKcc5kr+p5ewPd7B2H6JNw2uRofq6QKhj2JfInwi8ai+9eeH3CN74fBmruw7Ffp+GSFy0gy1B96V0ujjrjc0sEJLzN6oFvS8QLktCGM+yJWg790hZKK4XmHd07BhHnSnAMxtlhEbdvuO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+ZtXQyF; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3369dcfef12so2549740a91.2
-        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 06:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760104748; x=1760709548; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YqDMxseq0YeepIl3kfgQklE6zaT80p7XvhxaOx8CEjY=;
-        b=B+ZtXQyFRpooBhX4zmaBbmwCx6OukZHRAD9OsjXnsO2VeMg5btYqEFb53vtaHuqrHo
-         PjBJykRYsSzjZ10U5F/KnzOllgQMf7ZqtD7AoYouCGZt4FGZ07grMqccxis/NP/vXloy
-         5huatbiKTeYs8EUcVA3ROAGA/FM+erxId2GLxwSf2TAPexq+MRURF2nXYvOTnzZH5DJm
-         wKmJb83URX/LT9wfI6ptQCl1kS/D3tVFeqrJpfmS+c6z0i2jLT+u8iA7cgUScLIGgl/z
-         Ms4BJ+hXJvXZgpgO2fhWPa+W9WnwFszF1WIXTkb88g6GnPtAhIW/oipbCBbKp0S2mnez
-         y6PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760104748; x=1760709548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YqDMxseq0YeepIl3kfgQklE6zaT80p7XvhxaOx8CEjY=;
-        b=Gn0Wg8jgoANoQZz7YcccBbFDWdKSyisfZE6P5+5I9dvnS6PB4aNushoCgx6iXtxKJ7
-         Xr5LLppki0yXsC/oAGkVDfqI0pZXzmoApq/WHU6MWPBlbVRW7o10WehdvUAEuh82hEl8
-         B2S24OBejpjpV4+ZVgrnljRbsT3cr4C3hzE+PoiE6OfbKf0WeY1lxuuuKOW9iO4ihjjN
-         7o41jPrjHrf8khylKHFSs/Pc35I/ljz78dQvBiOKrl6ghTH+sbHEZA0GP/7vDnzu41Vi
-         tLJFv/FoLITQFhyKhzVp1yrrIsVc2i1rvh3XGB0BIBCKUFKiRWvlP3JOBpZlqEbmVR52
-         XY4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWO900dkQ7OqTfLBYovw6QsZp3uxU6nv0+htr/zcdtAFI5U5EgR77o97FGl54heytjys2NCeX2+uqI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQcfieEZ9s0CLzawr5PWD61Hb93oSuMHs1kmNy+V8tAB30QjvD
-	XDT3S8s+gUY+yhvqI3SCZ3kzeXGzYrGkiSgqZThh3xQl9dv5PdKW0CFWiCgFKTj2ByJvlbtyUEx
-	0SpW//ZAZCgDEsYSyCUUjGcuZ+IwANb4=
-X-Gm-Gg: ASbGncsR4r83SSaAJLPycjEtosqSx3YYpmB6v3s73ralpPoC3W1uUrLyOM+3pj2mcHK
-	0MOF/lymyiuGCNmOD0nwwV1Xl+Ose/ODcz+Lhaat4Y1BtqvGeNxamt/Kqqs6jsEru1HHBdPs7o6
-	tfannTZSb5gOy7hElnUn7Svz0BcMsDWuelFHK0DWF+v8kfnguqi42p1/4VmlkuNc1TjwQ4hjScO
-	DgBirL2MziuljfY7UB+Gnjs2A==
-X-Google-Smtp-Source: AGHT+IEEO7CawPriEW0/0WOW4dpjQYsEyKshJGHn1pdmy3tv9STs6VYtKvGdq7Z2wdqMp1dddByK47girDVwZrKFyAQ=
-X-Received: by 2002:a17:90b:1651:b0:339:dcc3:82ca with SMTP id
- 98e67ed59e1d1-33b51148aabmr17168825a91.6.1760104747815; Fri, 10 Oct 2025
- 06:59:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA9E257AC2;
+	Fri, 10 Oct 2025 14:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760106932; cv=fail; b=o9Jq8bu1UCzdOQowlUWeNOVv7OK/S1+rA5KEU18MSRAZIQVRfV4DvzRnNbhepLT05/DKpJUXvkMaz+xti+FK0pd/JEv+jzFPNPfCoMWk/iCeSdTyDdmW1mUqtnqrnFoboONZiKFdRFeT9HV/J7l+zxZUYYtxe1FftRZryUvZnnI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760106932; c=relaxed/simple;
+	bh=O+NpbrmRo05FvCpblPTn8ZM6gh3+CriLJKjhAyDr8yE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ILTag6bI4yTnYiKI7ofKukVU9JbIlLGetOEzAqE70EkYLRshdlCGE3nB73i5DAQUaFud22Gbj8A8TWCqrioxb9eWjyklM+mpChCm1zjvqVsS75rw2IM7iIPaWsJXm6BhfAGjlFEZBhVOmskURH3aHx12sJlzuwd2YreV5+lvIUw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h6t+ksiH; arc=fail smtp.client-ip=40.107.208.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MgNVsM5gbcPjyfzTbVGtT9qjo869kl9NcgScyg2GGdAKHUy5DPe955glQnBr72NkiWsQVweCYWS9YyTOVo4N8LI7GSprZyDifADwnFNvhQD2mGeXKVViFZAzoT6oZ9XOPAojZszPowy7WaL3X5VZrKCGEL3+1YqUYYBOHdEFLa2zD/oUxR77dK9hCl8PpdbqB8T7saD6O2jscS/+xwnKEZazRh4JerXLqeKPXFzIk8Wr1WwJ4hC/t9zQAIUUSYtJp3Ii7LK7bBFOwt2jtCxuDIw/5Jrg1lChFra6i4apMieDpZXmOEQKJyEV1V1y54ZIA6jPCHXSIX5w8YxIyd803A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YTTtJU7fMX1RWQZnoC6TF86y6LHz5IBAxiBTOsRIV/0=;
+ b=RvSfyyHRQB2+5RMNn5ERDgPmJg0PCzJNWvK7EjcnycpVtrZJVwjoPdOp/DC16NCvb00yHs7rsc5ASBpcA6k51otRGQgGvcfC2dLoXdM88nQgRJBnddXRbbLl1/y527Xi9V7Y2ZxHSuUvzZ8iyyGsYmGlRHKo6w5C44c7ExNT2m0g+0REWvI/M5k2btU7WG0A1YFf/PRCvi2v3/SBeLYF75EIcGWVfpwbHVVUr9+OwkuodHPm0mAlPEymF0y4ZqtsUDS/QMChQ4wGlf05mhKwn3+xv2yqsq4Oyor1osZ+egkIN6xdxtuwkH6/5wR0v5UbuiLo6SnZRyIYaKVbHHSMgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YTTtJU7fMX1RWQZnoC6TF86y6LHz5IBAxiBTOsRIV/0=;
+ b=h6t+ksiHAdKqR1Ddz+f2TZHe9QdnGpFKPzll/xgUgyxT4F0wAWqSD5K2s0ZZRZaVSf4/iS62E9IfESYmfo/pMlbswG3Ny0vxDvSjdtLxgorJ9DspA6sTI6e+hjWDT7BoZpW+ZJ918PiT3hNM0eD5TVt41tWYXxTLu5hORIruKl4bN5IUOkbdy5JHKFVWTVjc75zmhH9aqDIjRKiHK84oVxNV6HrtkDJbhmtBIjm+Xk+yJQVyfbQEhvX6tNd9txNvZwVSVLaubmCrr/5hp+1UR7LU95dV7g/9URzktqxeLT56j5k65H09iG2nARfJkOCIJPM+bDMoh5CM0GQC5tiCGQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by DS0PR12MB7704.namprd12.prod.outlook.com (2603:10b6:8:138::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Fri, 10 Oct
+ 2025 14:35:27 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
+ 14:35:27 +0000
+Date: Fri, 10 Oct 2025 11:35:26 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com, hughd@google.com, chrisl@kernel.org,
+	steven.sistare@oracle.com
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+Message-ID: <20251010143526.GA3901471@nvidia.com>
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+ <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+ <CAAywjhSP=ugnSJOHPGmTUPGh82wt+qnaqZAqo99EfhF-XHD5Sg@mail.gmail.com>
+ <CA+CK2bAG+YAS7oSpdrZYDK0LU2mhfRuj2qTJtT-Hn8FLUbt=Dw@mail.gmail.com>
+ <20251008193551.GA3839422@nvidia.com>
+ <CA+CK2bDs1JsRCNFXkdUhdu5V-KMJXVTgETSHPvCtXKjkpD79Sw@mail.gmail.com>
+ <20251009144822.GD3839422@nvidia.com>
+ <CA+CK2bC_m5GRxCa1szw1v24Ssq8EnCWp4e985RJ5RRCdhztQWg@mail.gmail.com>
+ <20251009173914.GA3899236@nvidia.com>
+ <CA+CK2bBtrkdos6YmCatggS19rwWYBXXDLwiUWmUrs2+ye23cXA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bBtrkdos6YmCatggS19rwWYBXXDLwiUWmUrs2+ye23cXA@mail.gmail.com>
+X-ClientProxiedBy: BN0PR03CA0053.namprd03.prod.outlook.com
+ (2603:10b6:408:e7::28) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010132610.12001-1-maxime.belair@canonical.com> <20251010132610.12001-5-maxime.belair@canonical.com>
-In-Reply-To: <20251010132610.12001-5-maxime.belair@canonical.com>
-From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Fri, 10 Oct 2025 09:58:56 -0400
-X-Gm-Features: AS18NWACUq7J7s5W9SgZze2UmbQ2ViWNBvTFHTIJBUHBTUfzcbIhMnsX-w7kg_0
-Message-ID: <CAEjxPJ6Xcwsic_zyLTPdHHaY9r7-ZTySzyELQ76aVZCFbh8FMQ@mail.gmail.com>
-Subject: Re: [PATCH v6 4/5] SELinux: add support for lsm_config_system_policy
-To: =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>
-Cc: linux-security-module@vger.kernel.org, john.johansen@canonical.com, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net, 
-	kees@kernel.org, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org, rdunlap@infradead.org, 
-	linux-api@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-kernel@vger.kernel.org, SElinux list <selinux@vger.kernel.org>, 
-	Ondrej Mosnacek <omosnace@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|DS0PR12MB7704:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ed0f520-fb4a-4f85-fd15-08de080a416d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?LzBLcXBzYWVoUWowN01lNVVORGFIdlNxOEZVSmgyUVpnMlEzR2c4TUd0VE9L?=
+ =?utf-8?B?NitBUDI2MGFtREVWNndGZzZ1WTloVkVKSDZZWEVOcXdMd0JTNUgvL2dBNnFl?=
+ =?utf-8?B?cGJzMnI3Y2RURlJMbFA0SHhuQ25qVUZHV09aekpQQ2lMcmF2VjhZWXdaY3Rq?=
+ =?utf-8?B?OWlRV1lQeENlZFd5b1FsSUNyL09lTVZ2em9IZVllOWwzWU5VYkpkSEVPRkRh?=
+ =?utf-8?B?akE0ZmxqSXdXQVlZTytCbU00SitxZ1EwNm4yYXpBeWVnc2NmTkVsa1hoc1B0?=
+ =?utf-8?B?L1ljVDVBVmZLU0szaWY4cWltdmZTZTdmaGkzSURabm1Uci9OVVRUbUk3d2lt?=
+ =?utf-8?B?anVsWm12ZGVHVjFhRk9NNU5URE96V3Jmc3k3RWs3TUQrejlrWGhadW8vS01s?=
+ =?utf-8?B?bnpCNHFVbCswb05vWStjS1ZRTlkxdGRPd0JJT3cyclhzTzB1RHZMc0w4ZWla?=
+ =?utf-8?B?YldaYmZ4T1JTaGxDRThFKzFuWHlFOVI2bUgyTEpLY2lrUlVQTHFFZTJhSDIz?=
+ =?utf-8?B?dmNsWkFwMWphNHZzV2F5K3lsdDZQMnRGOUt1cGl2QmszUi9zUjg0Z0IzeW1q?=
+ =?utf-8?B?QS9ROW5WaFZHZStvdWc1QklYS3Y1bzNkdWZUcUkrMWo3QkVwaDllVUhxeFVm?=
+ =?utf-8?B?WGJ4V21MYWxrSTY1K2hYK24xWjlmTWRvYzA2Mm9nYlJiT0dBYVY3dXl3MVBF?=
+ =?utf-8?B?ajNvbFJZb3ZURG52UzkrNUV5TDlCRmltczRWMFRyaXowWjNpeWRWSDhPc0ZW?=
+ =?utf-8?B?dTlOTVl5K091UnJaYlQwYStYUVNIRmhGdUZVaVFjcDJUcXhGY1BvcDkxdWhK?=
+ =?utf-8?B?TFBNL3krUmdrL1FpSW8vWnVNNEZXSnVrZktma1VYdmZwMFFGTXVhb2Z5dE4y?=
+ =?utf-8?B?VVZOZFpGUGR5NGhtemRYQ1hNUW5ITkQ0N2YxL0IzV2JYYUJaVyszTFpSSTFl?=
+ =?utf-8?B?NUd1NVAwa2ZzTVd6L29oM3hzK29uVVJPT251czVpTmNQajM1WmdkYVZqaHdz?=
+ =?utf-8?B?UGtjMTA5cmZYOFYySHNVVHVVbms3ejZwUDR6SEhlM2src001TTRCZnhiYnZU?=
+ =?utf-8?B?RlhhTFZjVW5UMWE0RFZOSkNOSW94K05RcHlZSDNOdnU2dG9XSEhOUmlxcTNB?=
+ =?utf-8?B?TFhnR2VNM3ArT0pBdXhLS2lsY01OUGJHeHFpeFpnRTJBQ3d4RkE4M1JvTzJQ?=
+ =?utf-8?B?eHBadnFjUzlxUitKdGJLZ3g4czFQOHM1djBjckUyVDVCazF5bXRENzlJTnNr?=
+ =?utf-8?B?ejhiNVR6QnBrUlBscGo5OFZDTXp1cThCdGx2cHl2aXRMaFRnR0RobXZuckJI?=
+ =?utf-8?B?MkEwYm9OdmFzNTRvREE1TWhpOEk3eHZHN3dKOTg5TzI4SkZEckt4Z3BGcEpn?=
+ =?utf-8?B?MC9xbmk0Mll6M0liNTh1U1JXeE90N2lYRnFxZmxvM1JIRERxQlVpWWpZT0Vp?=
+ =?utf-8?B?bHJLY0ZjRmVZNWFadzNUcGVic3FSZzdETFB0a05aazZ3aDh1aE9YKzZzUG1V?=
+ =?utf-8?B?ZU9keTczdkhNK3NzVGdlazFrUGZ5MDA3dEU2c2cxK1NJVkNGMGlNeHduM0xN?=
+ =?utf-8?B?Mk93OGNzV25uS3VXRm0xV1F0MUpOejV3ZUd2WlVleHhrOXoyaDVFQmVvZ3lz?=
+ =?utf-8?B?VkQ3SStGelphVW0yOXd6RGMwZERhQk9vTWJ0VXZKZnliYmN2VUNxWXR5ZTFH?=
+ =?utf-8?B?cmZ6LzVvUURrM3hkMkNpZEVLclNnVmlIcHhBeTlCZFJBWG9mQnhjYmJtQU9L?=
+ =?utf-8?B?SUZQMVdjRSsrME5wdG5QeWlGQzg1MXd4RHJId0wyK3pyejViRENsSGg3WFJj?=
+ =?utf-8?B?Z0xrTmNLc1M1UDMydDFXdi9WbG1DU3h6M0RVNWdETEp1dWl5QkFpc2QrNnJG?=
+ =?utf-8?B?K2ZicG1tNk9obXVnN2U3WUtiSkNNei9HY3RZK29xTEdyYVhMM0ZCS1hvdlBS?=
+ =?utf-8?Q?LZw6NPdOHO7LKpTvVYjnZsRtJ0IHNgKJ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UkdEeWhIMEgyMHlxbVYzUFRub2tTSzNqWVZMNytvaTdqVXMzNnQ3eWVaWURq?=
+ =?utf-8?B?Z1BxRTBIMUlYaW5YeWpIdHhKb0hPL3lEZXhCZFNoZmVLVThGUkFzY3pWMnc4?=
+ =?utf-8?B?ZHNiZ0h5R1lkNHRPZkVhZDZLOGFlU0dBaU9JQ1ZVQ29YUXk5MzF5RWZZZmRO?=
+ =?utf-8?B?TVpJaTZHOWdLOXdkRS9XZHg5SkZPd2tWR2liVnhkajFXN3VraDFPakdEc1V5?=
+ =?utf-8?B?Zy9jTTErYm1yRmN5ZjM4Z0d0V2tJckZRcm9GVVJJLzNzR2h4TWh0dnQ2MjJD?=
+ =?utf-8?B?dzdJTGU1UnZidlBaeUtId25tWWdhL2NDWi9hS2o1azJvc2FQekVDNEZ2L2Nk?=
+ =?utf-8?B?MG8ra1RaTVA0TmY1My9TRWg3RmFHUFNDUHRKSlhveUdmTG9MSW9zNmI0VlF0?=
+ =?utf-8?B?bFR1RG1WYXdaRCs2Tlh6VG1NS1NzRWY2ajB4ZjdvaWxHdVZRM0Q2YldBM2hB?=
+ =?utf-8?B?dFVrNE1zQ21DV21PODZBRG0za283NGx0QXU5R0xxZTFwcVZNN2VUZzhKK0dh?=
+ =?utf-8?B?NE1UcStzL1dsT2w0aTdPdUdrNUZKUWoxQW4vV1FtR1RZbDdKU3RDbFloQnJK?=
+ =?utf-8?B?ZEpiYzZtUzdlVlNmZVArdkJkeGJCSHVjdG1oR2RoTitjbHBLNEV6SzBoQlhK?=
+ =?utf-8?B?dzZqUGZOeVg5R1hmdXpKVy9sTUtjUmp0aWNCR2xvK2NmbklUNXFMSHg2QW9q?=
+ =?utf-8?B?TThsVHFPZ1ZtTC9rNWN2UWJzS0N6Y0R5RHQ1YVg3UnJGMTlQSm1leE9zdm5u?=
+ =?utf-8?B?cU9VUC9BQnAyNXNrWER0YVVQYXhsYVRSNWx0V0ZUd21WbDRHSDV6cm9CL2lH?=
+ =?utf-8?B?ay8wZVpPVXc5dFI5NzE5b0RxaXhMSlZPeVdWT1RodmNtL0ZsR04zdVRHRXpl?=
+ =?utf-8?B?UmNyYTBCbnlGMS82VGxTbmZrZWhrT0R4WkowOVhlaDBtOXNkSlVrTmVVSUpO?=
+ =?utf-8?B?UmVHZ0hpRDN1b1pqOWtZczJ1V3YxcWdkU1Q5Ynhqc0lRdHNkdGlnVzdIZU9L?=
+ =?utf-8?B?ZVlkQ2VXeDFEellCMnBORFo3K3FYbDRqTkRPUXFkZUR6M0JjdElBb3g5YWVq?=
+ =?utf-8?B?RXFvYzNrbHJBMEk3S0Z6TCszTjIwWk1FbVp2SEN3QVZmcm1NZk9Tc3JnYlRS?=
+ =?utf-8?B?U1Z6VlR6Z0NsdUF3c2FzR0JZU1hsUnhBQ2lZTEw0M2trTk15YnlvS0t2Ny9Z?=
+ =?utf-8?B?V1BQSEptYkt5b0dYSS9PSkxIR2p4VkFYRURudWpYamhQRkt1UVhSODMzTlk2?=
+ =?utf-8?B?a2x1MVdLU1R3R3pnU01xTVFMMlVucE5VRVJoRUlTWEN1N1I2ZTQzWlQwYXQ1?=
+ =?utf-8?B?OGxUOHBoeFYvcmsyQlMxUkNyQWdZeGtESmRTa0xicEx5UXc1aHhqRU03UmtX?=
+ =?utf-8?B?elZRT2orUTFsL2VwTFJDaEZHcXFIUEMvWmN4QlZlTGxOY2k2KzQ1S3pHYzFl?=
+ =?utf-8?B?QVNkOVVCQXcvcVJSblBBelhYOEhxU24zVktCclk1eVkvbzFyWElicVVaNXJQ?=
+ =?utf-8?B?RTVtZ25JS0I5dU5uYUovaUo3alJlZ0FRUXphbTBaT1AzdkxMRUZjSGpib1F1?=
+ =?utf-8?B?cnVMNWltK09ZZmxhamt0TlgzTTQyektPSlpNcHZEdVZGVDEraFhJYjcxTERz?=
+ =?utf-8?B?dzJ5b3ZrcXA4RGQ2ZUhWMnQ2dDVnejZOcnV0bnFITFNiV3h6VGY2Q3lqYnEz?=
+ =?utf-8?B?c01XcHRyQVRyK2h4dmpwcFRHT0szc09SdS9YcHBkYkZEMm1wR3FHZXBZdUpw?=
+ =?utf-8?B?ZU1pQ0s2V2QrRVZhTXVrNzhvYkc4cWFzVUhoM2lJWVpMdkpRUjZrVFplNlhZ?=
+ =?utf-8?B?NUU1cEJQTk1IbHNBZjE0NndWcFpaL3ZXZ2JBWEJ1bmU5TG5JYjVXVWgwT3Zx?=
+ =?utf-8?B?bU5ReUs3VFJBUWRNb2hLSnNiK0lrS1BWdWxCUXpkemY0ZXFaOUtEdEtTNnJa?=
+ =?utf-8?B?MXpjYXdMZTM4dFhySzFIMWNCVkRkeWJ4MzAvM2dvc3k2am1NL01HdWcydUp4?=
+ =?utf-8?B?clN6ZHpFbnUvdnJXNldhT2Q4dm92OGNiNUFLalowUENvYjVYa0MzY1lQYito?=
+ =?utf-8?B?T1MwTVM4eGxHdXo5TmYxVU9vY01zL2FCclhld1BlYmkwUGJEUkJVeWJLQlpm?=
+ =?utf-8?Q?ugxw=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ed0f520-fb4a-4f85-fd15-08de080a416d
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 14:35:27.5756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AHyjW/cVAhm2akO2wC7v6yLPNmJMcp45oj7b9nZQyDk8KfZB0oVOrRvUivPBgDEC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7704
 
-On Fri, Oct 10, 2025 at 9:27=E2=80=AFAM Maxime B=C3=A9lair
-<maxime.belair@canonical.com> wrote:
->
-> Enable users to manage SELinux policies through the new hook
-> lsm_config_system_policy. This feature is restricted to CAP_MAC_ADMIN.
+On Thu, Oct 09, 2025 at 02:37:44PM -0400, Pasha Tatashin wrote:
+> On Thu, Oct 9, 2025 at 1:39 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >
+> > On Thu, Oct 09, 2025 at 11:01:25AM -0400, Pasha Tatashin wrote:
+> > > In this case we can enforce strict
+> > > ordering during retrieval. If "struct file" can be retrieved by
+> > > anything within the kernel, then that could be any kernel process
+> > > during boot, meaning that charging is not going to be properly applied
+> > > when kernel allocations are performed.
+> >
+> > Ugh, yeah, OK that's irritating and might burn us, but we did decide
+> > on that strategy.
+> >
+> > > > I would argue it should always cause a preservation...
+> > > >
+> > > > But this is still backwards, what we need is something like
+> > > >
+> > > > liveupdate_preserve_file(session, file, &token);
+> > > > my_preserve_blob.file_token = token
+> > >
+> > > We cannot do that, the user should have already preserved that file
+> > > and provided us with a token to use, if that file was not preserved by
+> > > the user it is a bug. With this proposal, we would have to generate a
+> > > token, and it was argued that the kernel should not do that.
+> >
+> > The token is the label used as ABI across the kexec. Each entity doing
+> > a serialization can operate it's labels however it needs.
+> >
+> > Here I am suggeting that when a kernel entity goes to record a struct
+> > file in a kernel ABI structure it can get a kernel generated token for
+> > it.
+> 
+> Sure, we can consider allowing the kernel to preserve dependent FDs
+> automatically in the future, but is there a compelling use case that
+> requires it right now?
 
-(added selinux mailing list and Fedora/Red Hat SELinux kernel maintainer to=
- cc)
+Right now for the three prototype series.. Hmm, yes, I think we can
+avoid implementing this.
 
-A couple of observations:
-1. We do not currently require CAP_MAC_ADMIN for loading SELinux
-policy, since it was only added later for Smack and SELinux implements
-its own permission checks. When loading policy via selinuxfs, one
-requires uid-0 or CAP_DAC_OVERRIDE to write to /sys/fs/selinux/load
-plus the corresponding SELinux permissions, but this is just an
-artifact of the filesystem-based interface. I'm not opposed to using
-CAP_MAC_ADMIN for loading policy via the new system call but wanted to
-note it as a difference.
+In the future I suspect iommufd will need to restore the KVM fd since
+stuff in the KVM sometimes becomes entangled with the iommu in some
+cases on some arches.
 
-2. The SELinux namespaces support [1], [2] is based on instantiating a
-separate selinuxfs instance for each namespace; you load a policy for
-a namespace by mounting a new selinuxfs instance after unsharing your
-SELinux namespace and then write to its /sys/fs/selinux/load
-interface, only affecting policy for the new namespace. Your interface
-doesn't appear to support such an approach and IIUC will currently
-always load the init SELinux namespace's policy rather than the
-current process' SELinux namespace.
+The issue here is not order, it is straight up 'what value does
+iommufd write to it's kexec ABI struct to refer to the KVM fd'.
 
-[1] https://github.com/stephensmalley/selinuxns
-[2] https://lore.kernel.org/selinux/20250814132637.1659-1-stephen.smalley.w=
-ork@gmail.com/
-
->
-> Signed-off-by: Maxime B=C3=A9lair <maxime.belair@canonical.com>
-> ---
->  security/selinux/hooks.c            | 27 +++++++++++++++++++++++++++
->  security/selinux/include/security.h |  7 +++++++
->  security/selinux/selinuxfs.c        | 16 ++++++++++++----
->  3 files changed, 46 insertions(+), 4 deletions(-)
->
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index e7a7dcab81db..3d14d4e47937 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -7196,6 +7196,31 @@ static int selinux_uring_allowed(void)
->  }
->  #endif /* CONFIG_IO_URING */
->
-> +/**
-> + * selinux_lsm_config_system_policy - Manage a LSM policy
-> + * @op: operation to perform. Currently, only LSM_POLICY_LOAD is support=
-ed
-> + * @buf: User-supplied buffer
-> + * @size: size of @buf
-> + * @flags: reserved for future use; must be zero
-> + *
-> + * Returns: number of written rules on success, negative value on error
-> + */
-> +static int selinux_lsm_config_system_policy(u32 op, void __user *buf,
-> +                                           size_t size, u32 flags)
-> +{
-> +       loff_t pos =3D 0;
-> +
-> +       if (op !=3D LSM_POLICY_LOAD || flags)
-> +               return -EOPNOTSUPP;
-> +
-> +       if (!selinux_null.dentry || !selinux_null.dentry->d_sb ||
-> +           !selinux_null.dentry->d_sb->s_fs_info)
-> +               return -ENODEV;
-> +
-> +       return __sel_write_load(selinux_null.dentry->d_sb->s_fs_info, buf=
-, size,
-> +                               &pos);
-> +}
-> +
->  static const struct lsm_id selinux_lsmid =3D {
->         .name =3D "selinux",
->         .id =3D LSM_ID_SELINUX,
-> @@ -7499,6 +7524,8 @@ static struct security_hook_list selinux_hooks[] __=
-ro_after_init =3D {
->  #ifdef CONFIG_PERF_EVENTS
->         LSM_HOOK_INIT(perf_event_alloc, selinux_perf_event_alloc),
->  #endif
-> +       LSM_HOOK_INIT(lsm_config_system_policy, selinux_lsm_config_system=
-_policy),
-> +
->  };
->
->  static __init int selinux_init(void)
-> diff --git a/security/selinux/include/security.h b/security/selinux/inclu=
-de/security.h
-> index e7827ed7be5f..7b779ea43cc3 100644
-> --- a/security/selinux/include/security.h
-> +++ b/security/selinux/include/security.h
-> @@ -389,7 +389,14 @@ struct selinux_kernel_status {
->  extern void selinux_status_update_setenforce(bool enforcing);
->  extern void selinux_status_update_policyload(u32 seqno);
->  extern void selinux_complete_init(void);
-> +
-> +struct selinux_fs_info;
-> +
->  extern struct path selinux_null;
-> +extern ssize_t __sel_write_load(struct selinux_fs_info *fsi,
-> +                               const char __user *buf, size_t count,
-> +                               loff_t *ppos);
-> +
->  extern void selnl_notify_setenforce(int val);
->  extern void selnl_notify_policyload(u32 seqno);
->  extern int selinux_nlmsg_lookup(u16 sclass, u16 nlmsg_type, u32 *perm);
-> diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-> index 47480eb2189b..1f7e611d8300 100644
-> --- a/security/selinux/selinuxfs.c
-> +++ b/security/selinux/selinuxfs.c
-> @@ -567,11 +567,11 @@ static int sel_make_policy_nodes(struct selinux_fs_=
-info *fsi,
->         return ret;
->  }
->
-> -static ssize_t sel_write_load(struct file *file, const char __user *buf,
-> -                             size_t count, loff_t *ppos)
-> +ssize_t __sel_write_load(struct selinux_fs_info *fsi,
-> +                        const char __user *buf, size_t count,
-> +                        loff_t *ppos)
->
->  {
-> -       struct selinux_fs_info *fsi;
->         struct selinux_load_state load_state;
->         ssize_t length;
->         void *data =3D NULL;
-> @@ -605,7 +605,6 @@ static ssize_t sel_write_load(struct file *file, cons=
-t char __user *buf,
->                 pr_warn_ratelimited("SELinux: failed to load policy\n");
->                 goto out;
->         }
-> -       fsi =3D file_inode(file)->i_sb->s_fs_info;
->         length =3D sel_make_policy_nodes(fsi, load_state.policy);
->         if (length) {
->                 pr_warn_ratelimited("SELinux: failed to initialize selinu=
-xfs\n");
-> @@ -626,6 +625,15 @@ static ssize_t sel_write_load(struct file *file, con=
-st char __user *buf,
->         return length;
->  }
->
-> +static ssize_t sel_write_load(struct file *file, const char __user *buf,
-> +                             size_t count, loff_t *ppos)
-> +{
-> +       struct selinux_fs_info *fsi =3D file_inode(file)->i_sb->s_fs_info=
-;
-> +
-> +       return __sel_write_load(fsi, buf, count, ppos);
-> +}
-> +
-> +
->  static const struct file_operations sel_load_ops =3D {
->         .write          =3D sel_write_load,
->         .llseek         =3D generic_file_llseek,
-> --
-> 2.48.1
->
+Jason
 
