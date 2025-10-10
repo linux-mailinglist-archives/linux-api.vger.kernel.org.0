@@ -1,109 +1,149 @@
-Return-Path: <linux-api+bounces-5093-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5094-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94999BCE2FB
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 20:06:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 988EFBCE64D
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 21:31:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D6A719A6E64
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 18:07:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C010427A72
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 19:31:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654F72F532C;
-	Fri, 10 Oct 2025 18:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83D9212B3D;
+	Fri, 10 Oct 2025 19:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f4oMEfve"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4DtP1zW4"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F5F2F1FC4
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 18:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD531D6193;
+	Fri, 10 Oct 2025 19:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760119610; cv=none; b=Or4YhqCIUndncl+iPjoP2YKxF2C8Q45zQBZcnQV9YlTh1wngreov1+T/E22QV2KGh/EqH3pM5vq5TnE3OAfXcSvJo+82pkTR2kejwHEsiqeM7ONOn6Amq4KGUajMSpcG3lQQtD3KC6sfj8bFoudm61x3FqPmNCqmKernwBvdgdU=
+	t=1760124691; cv=none; b=aTihdudJj5RkQ/gqgcsYHVtjYRy46OpxX4AqrvCaknqL4ofOphpuhuZOMMbXxu5izlWGMMU7Cl3EBAPshxJht+yXurkWJq9IqFFRk3IF9MA5Zoig1/+hoc+hEKma6Oz3QWFfACI+231uCoY8BoFeYw9yrEh6lCQAMUTpFh1mcrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760119610; c=relaxed/simple;
-	bh=g6rAGjV2Nc5xVFKhlt4vH4nfZspBAllGy6FhsdVHNPw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G268uy2KlVa6v6gHf9jjQK1euBGmJIGoeQFH7rhusWL9w4lOW1g03+HNmZi2eqIl/t+8QHmVvxPEC0bd0a5mjRIrhPNG7Rr1LVUBFVxitxWBFzntGuqnv3b68TlsWg0sWohL7ODBdmDJUY7neZUDVYtaPOkqLbNuNdC4Zdcd+eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f4oMEfve; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4C36C116C6
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 18:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760119609;
-	bh=g6rAGjV2Nc5xVFKhlt4vH4nfZspBAllGy6FhsdVHNPw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=f4oMEfve8o3X+V0a7MLiNB2N3+PG5WSRWXMVtUelwyksQh6FJUGzdC5V6lMU3xcrx
-	 Q2xh7YoOBEiR9XIEPeU6tUv385RYABTKVzZNYeXPSUjdJjOZsphsu563OaFfXRuwVi
-	 QP3Ci/I+++HevavFJIBUQgBlXpU+4LzItwl7Pd3TzIkf4lQzmWC8lVTT/01m5avjzv
-	 0WNZrJkeMMbyGPDSouqjaxqoa46gfJmOD9LpsROlZbnxWamu7z+iItYXLdC3SmrJfc
-	 1fpw5nlllO6QrPuNoeDUk6ko3Dkxcs7kqWd+isj2jHCSBrMHyZI6dvey2VXWQXhaka
-	 4wDIVXZeGfSmQ==
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-87bb66dd224so23719636d6.3
-        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 11:06:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUR+S1ORRXE69nFnsuLBvsylvkFHJ7/cyiz7Fe9mmAzWgsxLVS72UFBXHek3bYN8iYPLtKAjuvjpDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysLODzmc5K107rIifTAEwHHCZ7G3isl5jtPaYt5GWi1eHpRxLz
-	5nMhbA4380u1/cMKLcmt6lO5ynHr9PbU0mMf908ZSwl3B/vgmyNv00vUiAZd4SR6L71NDGvYASb
-	XdXYvTOMas8cYd1wZRKBkERbobhnZkkI=
-X-Google-Smtp-Source: AGHT+IHRUJUAeJ5Je+YkDxQC/r6OXXbCSgJvVm1kGkEkaJIEhWHQvapqgQY+O5ZOx/oTWMHOfXFhHohJ7guwKL4YvOI=
-X-Received: by 2002:a05:6214:19cc:b0:795:67ac:ca5d with SMTP id
- 6a1803df08f44-87b2109283cmr190852096d6.30.1760119607787; Fri, 10 Oct 2025
- 11:06:47 -0700 (PDT)
+	s=arc-20240116; t=1760124691; c=relaxed/simple;
+	bh=AiHgADCO575LW3Jd7nNp0VaAAqwI7NoyKpnJZKEjRNM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O1nlNCr8ge9BgMV1re6mdCNuEKmFczV6jlELXEbEzksmrFykCR/+KQWcWxH1FEofGG9rfdzyM4nvg4nYVP0am7wSsS7Ko8ZlwUVnUpyPqnBc8XGVLYu6txNNwlgjYo2AaEcvVpGCR0IIxDQf2gBagtxZrJMIYTdyoTTHya0WxRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4DtP1zW4; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=PCNi5/OuVnRwhbzGyuTsh6ukiwTm+O6EJKLlJ1B2gEw=; b=4DtP1zW44Vb6QBKbJyt2gzFny1
+	yvoH5OtVcCy5Ms02majpKQ1uofu1fe3sIP/2IwWe1pCnQE1bX/8S8BSzkwIvvlSHeCqkZdgpfQzr9
+	l1DJFzOWWnoL1D328ZjMcbAmNQAJvPWCjCuiLz0JQmgF36GPQmgapZSILT2ZZnvEKTjGFe4YT7Bnw
+	ooE7Hco/w4VVet2bxVfVNpG2TcG1kU6a8lC9wtEY55wtgG6NGbFAcZ99cGEbz9k7PPnniY3FpdeAu
+	ZxsMIKZ7IfV2CP/X40W2eXqppC5Ws+ANhxeYX9gxltQ7OeitlW10UYQMb6/T8ERzySBkf2wXv9sGm
+	b7s1whdw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v7Ipn-00000009FkH-15gP;
+	Fri, 10 Oct 2025 19:31:23 +0000
+Message-ID: <07ae142e-4266-44a3-9aa1-4b2acbd72c1b@infradead.org>
+Date: Fri, 10 Oct 2025 12:31:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010132610.12001-1-maxime.belair@canonical.com> <20251010132610.12001-2-maxime.belair@canonical.com>
-In-Reply-To: <20251010132610.12001-2-maxime.belair@canonical.com>
-From: Song Liu <song@kernel.org>
-Date: Fri, 10 Oct 2025 11:06:36 -0700
-X-Gmail-Original-Message-ID: <CAHzjS_uBq8xGCSmHC_kBWi0j8DCdwsy4XtfkH2iH6NygCcChNw@mail.gmail.com>
-X-Gm-Features: AS18NWD0sroF_9UF1VNMCiu_x8h4vyhFWvp2MLYPnP6wYTvtieiio2L0R61pPKg
-Message-ID: <CAHzjS_uBq8xGCSmHC_kBWi0j8DCdwsy4XtfkH2iH6NygCcChNw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] Wire up lsm_config_self_policy and
- lsm_config_system_policy syscalls
-To: =?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>
-Cc: linux-security-module@vger.kernel.org, john.johansen@canonical.com, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net, 
-	kees@kernel.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
-	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, song@kernel.org, 
-	rdunlap@infradead.org, linux-api@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] initrd: remove deprecated code path (linuxrc)
+To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Aleksa Sarai <cyphar@cyphar.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>,
+ Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>,
+ linux-arch@vger.kernel.org, linux-block@vger.kernel.org,
+ initramfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
+ Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
+ Arnd Bergmann <arnd@arndb.de>, Dave Young <dyoung@redhat.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Jessica Clarke <jrtc27@jrtc27.com>, Nicolas Schichan <nschichan@freebox.fr>,
+ David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
+References: <20251010094047.3111495-1-safinaskar@gmail.com>
+ <20251010094047.3111495-3-safinaskar@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251010094047.3111495-3-safinaskar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 10, 2025 at 6:27=E2=80=AFAM Maxime B=C3=A9lair
-<maxime.belair@canonical.com> wrote:
-[...]
-> --- a/security/lsm_syscalls.c
-> +++ b/security/lsm_syscalls.c
-> @@ -118,3 +118,15 @@ SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids,=
- u32 __user *, size,
->
->         return lsm_active_cnt;
->  }
-> +
-> +SYSCALL_DEFINE6(lsm_config_self_policy, u32, lsm_id, u32, op, void __use=
-r *,
-> +               buf, u32 __user, size, u32, common_flags, u32, flags)
-> +{
-> +       return 0;
-> +}
-> +
-> +SYSCALL_DEFINE6(lsm_config_system_policy, u32, lsm_id, u32, op, void __u=
-ser *,
-> +               buf, u32 __user, size, u32, common_flags, u32, flags)
-> +{
-> +       return 0;
-> +}
+Hi,
 
-These two APIs look the same. Why not just keep one API and use
-one bit in the flag to differentiate "self" vs. "system"?
+On 10/10/25 2:40 AM, Askar Safin wrote:
+> Remove linuxrc initrd code path, which was deprecated in 2020.
+> 
+> Initramfs and (non-initial) RAM disks (i. e. brd) still work.
+> 
+> Both built-in and bootloader-supplied initramfs still work.
+> 
+> Non-linuxrc initrd code path (i. e. using /dev/ram as final root
+> filesystem) still works, but I put deprecation message into it
+> 
+> Signed-off-by: Askar Safin <safinaskar@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  4 +-
+>  fs/init.c                                     | 14 ---
+>  include/linux/init_syscalls.h                 |  1 -
+>  include/linux/initrd.h                        |  2 -
+>  init/do_mounts.c                              |  4 +-
+>  init/do_mounts.h                              | 18 +---
+>  init/do_mounts_initrd.c                       | 85 ++-----------------
+>  init/do_mounts_rd.c                           | 17 +---
+>  8 files changed, 17 insertions(+), 128 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 521ab3425504..24d8899d8a39 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4285,7 +4285,7 @@
+>  			Note that this argument takes precedence over
+>  			the CONFIG_RCU_NOCB_CPU_DEFAULT_ALL option.
+>  
+> -	noinitrd	[RAM] Tells the kernel not to load any configured
+> +	noinitrd	[Deprecated,RAM] Tells the kernel not to load any configured
+>  			initial RAM disk.
+>  
+>  	nointremap	[X86-64,Intel-IOMMU,EARLY] Do not enable interrupt
+> @@ -5299,7 +5299,7 @@
+>  	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
+>  			See Documentation/admin-guide/blockdev/ramdisk.rst.
+>  
+> -	ramdisk_start=	[RAM] RAM disk image start address
+> +	ramdisk_start=	[Deprecated,RAM] RAM disk image start address
+>  
+>  	random.trust_cpu=off
+>  			[KNL,EARLY] Disable trusting the use of the CPU's
 
-Thanks,
-Song
+There are more places in Documentation/ that refer to "linuxrc".
+Should those also be removed or fixed?
+
+accounting/delay-accounting.rst
+admin-guide/initrd.rst
+driver-api/early-userspace/early_userspace_support.rst
+power/swsusp-dmcrypt.rst
+translations/zh_CN/accounting/delay-accounting.rst
+
+
+Thanks.
+
+
 
