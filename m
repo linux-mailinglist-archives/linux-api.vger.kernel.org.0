@@ -1,165 +1,281 @@
-Return-Path: <linux-api+bounces-5063-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5064-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90BDBCBCB8
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 08:39:48 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B553BBCC641
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 11:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44EC23A4950
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 06:39:47 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 39CE135509F
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 09:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0A022DF9E;
-	Fri, 10 Oct 2025 06:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BE82C21FA;
+	Fri, 10 Oct 2025 09:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E/E4XC0O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bc/QyZ0r"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DE53F9D2;
-	Fri, 10 Oct 2025 06:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CAC2C2356
+	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 09:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760078384; cv=none; b=fv6Jnl+0kaWscsArrCKGVbAWCLUo4WpjQpvS42/tsj4iKjQ5Jeqv6bCbG0fjGhfv5FKQxKaF2RB9AsVRAW5lncbiy60wGRUQTmecNuDVweQRkch3HVUruj/z0HPtASeausbybMRmXAk2p7CToUPxbro/uyERZdbMo5rasNgE538=
+	t=1760089289; cv=none; b=pbVeWBSlHYlLG6j2NJw0SJE8lhTSO/GTDVVlyLC2zrMvbqdulk3q5QAVyTU5pDLMgNfRyR5GSeiZED53daYPNZdZZPTI9XOLA+ryLrG+HMNNd7Hi6IQSs11MKK3faGS6y4FPVqjyK+eVoU1wULf1uebup8+FoDYmzWugIe5KfsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760078384; c=relaxed/simple;
-	bh=f275Z6QBP1oJ7FjNXnqjQQ3arZ+vlTTlgIAxDsW1u1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GaWM611kfuOMYM1UfwSj4gHXqRD50WAioEOnItgWpqqfX8MAXIIrazsJomMqGhzTjq64iT1rI4Qv9Qj7LzaeOZ2XDXrUCW84pbRaV+z4DDpXftO3E2UyleIK6Gl+2h/TxfRKcnrVSmyseqpKINfy8BaQa1c+HXA/rf4fvu5KAqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E/E4XC0O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC42C4CEF1;
-	Fri, 10 Oct 2025 06:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760078383;
-	bh=f275Z6QBP1oJ7FjNXnqjQQ3arZ+vlTTlgIAxDsW1u1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E/E4XC0OPvNpqewhJaQ4nGbxL62esjMmVSltK67IIVcxdGmwf16INSfid2uo26dGR
-	 963ucB1qo46+2lEPEd8aGn9IMZVMQdo+3Nh0mpr8weqS34CQPv1YYWugKh2Yv1Gp4g
-	 sL2c6uu2EtJaHZ8tcsdSndMcHFBEBMyTE7XCuZh8=
-Date: Fri, 10 Oct 2025 08:39:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: "Yanjun.Zhu" <yanjun.zhu@linux.dev>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
- monitoring
-Message-ID: <2025101001-sandpit-setup-7424@gregkh>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-20-pasha.tatashin@soleen.com>
- <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
- <mafs0qzvcmje2.fsf@kernel.org>
- <CA+CK2bCx=kTVORq9dRE2h3Z4QQ-ggxanY2tDPRy13_ARhc+TqA@mail.gmail.com>
- <dc71808c-c6a4-434a-aee9-b97601814c92@linux.dev>
- <CA+CK2bBz3NvDmwUjCPiyTPH9yL6YpZ+vX=o2TkC2C7aViXO-pQ@mail.gmail.com>
- <d09881f5-0e0b-4795-99bf-cd3711ee48ab@linux.dev>
- <mafs0ecrbmzzh.fsf@kernel.org>
+	s=arc-20240116; t=1760089289; c=relaxed/simple;
+	bh=MuTIfJDXeKuuHRy0YR/4p4wSgA5RdL8NKtUcZ5ZUNMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XYVLS+zJ3OD0VX1OzWd9vXqAEF3Smch8GMJONg3gMfFY94M45jNiL5yJ0bbM5JCng3wmCBKe98dx1ScCA72Buxfi0Nx5GhwTQ1D9Z1n/e7dwzhFKNKXNQ+iziOtHf0Sg/mq+a8/siWn6HZobYgVsjVV4qzpRO9/9V7MX7BFoFQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bc/QyZ0r; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3f0ae439bc3so926150f8f.1
+        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 02:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760089279; x=1760694079; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wq9sBzt27xhVE00MKRZHgRlmEb4HHQG1wzN2xa1Axvc=;
+        b=bc/QyZ0rRHG7Q1K/vSrqIr/YpYXynHJ/dwTYESMEMqgNGtN3lObS7c/K2Bx/WiE3LH
+         KYaIf6Zy8LCjvEmabKooSgLqRpGBLzEkTalJ2DiNdbLYNLoYj63Xc9eX3Xzxw2G59vns
+         HynK9okqQ9jqMS0e84RxzpBb6WHXCCZjEUXVVodrqFqiMm6krfZ42/Xo3K1i5hQxU9/u
+         tJ2h94r5/yYjD5IytOC+NGoXDOFbUVPOOpwqpaSZadqdkuZnV3/c9z4YSrdyqOSEPkBA
+         psvrXgefmXTgmWA9fQAL2946jSt6A+jDZ/Y4C0HbiWz/7+TZG5yfZtDZNzCdNCaJM/Fz
+         38nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760089279; x=1760694079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wq9sBzt27xhVE00MKRZHgRlmEb4HHQG1wzN2xa1Axvc=;
+        b=JbKh5v2lrj1kPsIWfu8ExyhskaMHMKAr8+4T+aclebSCLM50Ccs+1jZHpuvotb9Idf
+         kfUnGq3NEdYXppl5tGlw43S5izsESFzAGWjT1+u/a8ogTgYKKcB2FGk5+xJIs6/qV7XU
+         oB/PDfP1hMlzpho6LeleyOiMv2WzkZQVgP40yId/pT3fQTqmIT1MDXFMpWLB1BfBIXnV
+         1U+FzGyKNExU/V19lqQ5KwYYH8JUC14JIfjywJDjexCozpSYC3OieXbRaqZKkrWMbpMl
+         tFk8YYS/kSj5fr+RX5CZEYsGoC628AnfvWjgDxGnORaAOvWwqvi1OkBmVHfz8enlsZIx
+         KvfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7aNiE2zVevclF2qkm3Qe21+qEVVmMiRKGb/+xqlsmjUMxxXH1QD2v2+No6RonFVAxt5BnnHirbPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw77SQR+/ySSKV1zwpiFUuLJjdj2GkpB+ybh97p7gu/dI/MQ/1g
+	jhG4pDb5iDL0Nycz8TyptpJkI7NLgqLKuncmMeeuVHggEnp+7UYcUVKG
+X-Gm-Gg: ASbGncuhfsztZy2JeECALo+dj9VPbeJXue5SrEg8EpoD75q9cLJpCT/CRHiP+st/WAC
+	t1iMHhE6pRE6wuGtcwxXH+IG66PsYpEiCcqJZVi1BR6zTlOGO9nUPvNbMkxzFFu4He6oFbccubx
+	nurwyuczOTIWyu5lEEHa2hQMaGN8MnY94bv1sDPmCIg8bG9uLR9OqjhAQ1XBoHhArROL3ERHoz7
+	HzBYEdkcp+lH30nvaC2OIveZwGjtPee5zRzac/p/pkZ0jeTswiRz/kgMCT7NRHY7RPYmBsNo8m9
+	MnDJuhQJIth9TldZIC7S66Fw9Eok33WyYGdOdQJRu/p5+P8EjoOmZ69z96uXUUdyyUl0SKzcNqd
+	mBe5lvLl5I4Lya7aukIv8fa4CqVGMpWQqx9nm6Q==
+X-Google-Smtp-Source: AGHT+IF3lD9WVSidKuzagqFJR/FrlQ6zmxKPnguDbIw0mAThtrjLUEb36T/KN6an53yanBEG5SPxvw==
+X-Received: by 2002:a05:6000:186f:b0:425:75b7:4b67 with SMTP id ffacd0b85a97d-4266e8da717mr6986662f8f.58.1760089278315;
+        Fri, 10 Oct 2025 02:41:18 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce582b44sm3304938f8f.16.2025.10.10.02.41.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 02:41:17 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev
+Subject: [PATCH v2 0/3] initrd: remove half of classic initrd support
+Date: Fri, 10 Oct 2025 09:40:44 +0000
+Message-ID: <20251010094047.3111495-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <mafs0ecrbmzzh.fsf@kernel.org>
 
-On Fri, Oct 10, 2025 at 01:12:18AM +0200, Pratyush Yadav wrote:
-> On Thu, Oct 09 2025, Yanjun.Zhu wrote:
-> 
-> > On 10/9/25 10:04 AM, Pasha Tatashin wrote:
-> >> On Thu, Oct 9, 2025 at 11:35 AM Zhu Yanjun <yanjun.zhu@linux.dev> wrote:
-> >>>
-> >>> 在 2025/10/9 5:01, Pasha Tatashin 写道:
-> >>>>>> Because the window of kernel live update is short, it is difficult to statistics
-> >>>>>> how many times the kernel is live updated.
-> >>>>>>
-> >>>>>> Is it possible to add a variable to statistics the times that the kernel is live
-> >>>>>> updated?
-> >>>>> The kernel doesn't do the live update on its own. The process is driven
-> >>>>> and sequenced by userspace. So if you want to keep statistics, you
-> >>>>> should do it from your userspace (luod maybe?). I don't see any need for
-> >>>>> this in the kernel.
-> >>>>>
-> >>>> One use case I can think of is including information in kdump or the
-> >>>> backtrace warning/panic messages about how many times this machine has
-> >>>> been live-updated. In the past, I've seen bugs (related to memory
-> >>>> corruption) that occurred only after several kexecs, not on the first
-> >>>> one. With live updates, especially while the code is being stabilized,
-> >>>> I imagine we might have a similar situation. For that reason, it could
-> >>>> be useful to have a count in the dmesg logs showing how many times
-> >>>> this machine has been live-updated. While this information is also
-> >>>> available in userspace, it would be simpler for kernel developers
-> >>>> triaging these issues if everything were in one place.
-> 
-> Hmm, good point.
-> 
-> >>> I’m considering this issue from a system security perspective. After the
-> >>> kernel is automatically updated, user-space applications are usually
-> >>> unaware of the change. In one possible scenario, an attacker could
-> >>> replace the kernel with a compromised version, while user-space
-> >>> applications remain unaware of it — which poses a potential security risk.
-> 
-> Wouldn't signing be the way to avoid that? Because if the kernel is
-> compromised then it can very well fake the reboot count as well.
-> 
-> >>>
-> >>> To mitigate this, it would be useful to expose the number of kernel
-> >>> updates through a sysfs interface, so that we can detect whether the
-> >>> kernel has been updated and then collect information about the new
-> >>> kernel to check for possible security issues.
-> >>>
-> >>> Of course, there are other ways to detect kernel updates — for example,
-> >>> by using ftrace to monitor functions involved in live kernel updates —
-> >>> but such approaches tend to have a higher performance overhead. In
-> >>> contrast, adding a simple update counter to track live kernel updates
-> >>> would provide similar monitoring capability with minimal overhead.
-> >> Would a print during boot, i.e. when we print that this kernel is live
-> >> updating, we could include the number, work for you? Otherwise, we
-> >> could export this number in a debugfs.
-> > Since I received a notification that my previous message was not sent
-> > successfully, I am resending it.
-> >
-> > IMO, it would be better to export this number via debugfs. This approach reduces
-> > the overhead involved in detecting a kernel live update.
-> > If the number is printed in logs instead, the overhead would be higher compared
-> > to using debugfs.
-> 
-> Yeah, debugfs sounds fine. No ABI at least.
+Intro
+====
+This patchset removes half of classic initrd (initial RAM disk) support,
+i. e. linuxrc code path, which was deprecated in 2020.
+Initramfs still stays, RAM disk itself (brd) still stays.
+And other half of initrd stays, too.
+init/do_mounts* are listed in VFS entry in
+MAINTAINERS, so I think this patchset should go through VFS tree.
+I tested the patchset on 8 (!!!) archs in Qemu (see details below).
+If you still use initrd, see below for workaround.
 
-Do not provide any functionality in debugfs that userspace relies on at
-all, as odds are, it will not be able to be accessed by most/all of
-userspace on many systems.  It is for debugging only.
+In 2020 deprecation notice was put to linuxrc initrd code path.
+In previous version of this patchset I tried to remove initrd
+fully, but Nicolas Schichan reported that he still uses
+other code path (root=/dev/ram0 one) on million devices [4].
+root=/dev/ram0 code path did not contain deprecation notice.
 
-thanks,
+So, in this version of patchset I remove deprecated code path,
+i. e. linuxrc one, while keeping other, i. e. root=/dev/ram0 one.
 
-greg k-h
+Also I put deprecation notice to remaining code path, i. e. to
+root=/dev/ram0 one. I plan to send patches for full removal
+of initrd after one year, i. e. in September 2026 (of course,
+initramfs will still work).
+
+Also, I tried to make this patchset small to make sure it
+can be reverted easily. I plan to send cleanups later.
+
+Details
+====
+Other user-visible changes:
+
+- Removed kernel command line parameters "load_ramdisk" and
+"prompt_ramdisk", which did nothing and were deprecated
+- Removed /proc/sys/kernel/real-root-dev . It was used
+for initrd only
+- Command line parameters "noinitrd" and "ramdisk_start=" are deprecated
+
+This patchset is based on current mainline (7f7072574127).
+
+Testing
+====
+I tested my patchset on many architectures in Qemu using my Rust
+program, heavily based on mkroot [1].
+
+I used the following cross-compilers:
+
+aarch64-linux-musleabi
+armv4l-linux-musleabihf
+armv5l-linux-musleabihf
+armv7l-linux-musleabihf
+i486-linux-musl
+i686-linux-musl
+mips-linux-musl
+mips64-linux-musl
+mipsel-linux-musl
+powerpc-linux-musl
+powerpc64-linux-musl
+powerpc64le-linux-musl
+riscv32-linux-musl
+riscv64-linux-musl
+s390x-linux-musl
+sh4-linux-musl
+sh4eb-linux-musl
+x86_64-linux-musl
+
+taken from this directory [2].
+
+So, as you can see, there are 18 triplets, which correspond to 8 subdirs in arch/.
+
+For every triplet I tested that:
+- Initramfs still works (both builtin and external)
+- Direct boot from disk still works
+- Remaining initrd code path (root=/dev/ram0) still works
+
+Workaround
+====
+If "retain_initrd" is passed to kernel, then initramfs/initrd,
+passed by bootloader, is retained and becomes available after boot
+as read-only magic file /sys/firmware/initrd [3].
+
+No copies are involved. I. e. /sys/firmware/initrd is simply
+a reference to original blob passed by bootloader.
+
+This works even if initrd/initramfs is not recognized by kernel
+in any way, i. e. even if it is not valid cpio archive, nor
+a fs image supported by classic initrd.
+
+This works both with my patchset and without it.
+
+This means that you can emulate classic initrd so:
+link builtin initramfs to kernel; in /init in this initramfs
+copy /sys/firmware/initrd to some file in / and loop-mount it.
+
+This is even better than classic initrd, because:
+- You can use fs not supported by classic initrd, for example erofs
+- One copy is involved (from /sys/firmware/initrd to some file in /)
+as opposed to two when using classic initrd
+
+Still, I don't recommend using this workaround, because
+I want everyone to migrate to proper modern initramfs.
+But still you can use this workaround if you want.
+
+Also: it is not possible to directly loop-mount
+/sys/firmware/initrd . Theoretically kernel can be changed
+to allow this (and/or to make it writable), but I think nobody needs this.
+And I don't want to implement this.
+
+On Qemu's -initrd and GRUB's initrd
+====
+Don't panic, this patchset doesn't remove initramfs
+(which is used by nearly all Linux distros). And I don't
+have plans to remove it.
+
+Qemu's -initrd option and GRUB's initrd command refer
+to initrd bootloader mechanism, which is used to
+load both initrd and (external) initramfs.
+
+So, if you use Qemu's -initrd or GRUB's initrd,
+then you likely use them to pass initramfs, and thus
+you are safe.
+
+v1: https://lore.kernel.org/lkml/20250913003842.41944-1-safinaskar@gmail.com/
+
+v1 -> v2 changes:
+- A lot. I removed most patches, see cover letter for details
+
+[1] https://github.com/landley/toybox/tree/master/mkroot
+[2] https://landley.net/toybox/downloads/binaries/toolchains/latest
+[3] https://lore.kernel.org/all/20231207235654.16622-1-graf@amazon.com/
+[4] https://lore.kernel.org/lkml/20250918152830.438554-1-nschichan@freebox.fr/
+
+Askar Safin (3):
+  init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command
+    line parameters
+  initrd: remove deprecated code path (linuxrc)
+  init: remove /proc/sys/kernel/real-root-dev
+
+ .../admin-guide/kernel-parameters.txt         |   8 +-
+ Documentation/admin-guide/sysctl/kernel.rst   |   6 -
+ arch/arm/configs/neponset_defconfig           |   2 +-
+ fs/init.c                                     |  14 ---
+ include/linux/init_syscalls.h                 |   1 -
+ include/linux/initrd.h                        |   2 -
+ include/uapi/linux/sysctl.h                   |   1 -
+ init/do_mounts.c                              |  11 +-
+ init/do_mounts.h                              |  18 +--
+ init/do_mounts_initrd.c                       | 105 +-----------------
+ init/do_mounts_rd.c                           |  24 +---
+ 11 files changed, 18 insertions(+), 174 deletions(-)
+
+
+base-commit: 7f7072574127c9e971cad83a0274e86f6275c0d5
+-- 
+2.47.3
+
 
