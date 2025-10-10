@@ -1,76 +1,78 @@
-Return-Path: <linux-api+bounces-5064-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5065-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B553BBCC641
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 11:41:35 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 919A1BCC662
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 11:42:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 39CE135509F
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 09:41:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C6F584FB1E6
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 09:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BE82C21FA;
-	Fri, 10 Oct 2025 09:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF5529CB4C;
+	Fri, 10 Oct 2025 09:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bc/QyZ0r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnAOXH22"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CAC2C2356
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 09:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06B22C21F7
+	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 09:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760089289; cv=none; b=pbVeWBSlHYlLG6j2NJw0SJE8lhTSO/GTDVVlyLC2zrMvbqdulk3q5QAVyTU5pDLMgNfRyR5GSeiZED53daYPNZdZZPTI9XOLA+ryLrG+HMNNd7Hi6IQSs11MKK3faGS6y4FPVqjyK+eVoU1wULf1uebup8+FoDYmzWugIe5KfsU=
+	t=1760089342; cv=none; b=WnjoSdY+lwn16RSlYWHCpCM2YhryOleLbJaBVXMd/ZlIj6tKYg56ezp/gxaYlsQGUDYPHUl1n11WqJFm0XY+OXuNmFb08MhFeBDKm2fcmGXnSCqAYC4nmLvy5QTsTqQSXFwtoTSK78uGzK3Hiw9iUttaH/AafL1G47kzJPTmNcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760089289; c=relaxed/simple;
-	bh=MuTIfJDXeKuuHRy0YR/4p4wSgA5RdL8NKtUcZ5ZUNMM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XYVLS+zJ3OD0VX1OzWd9vXqAEF3Smch8GMJONg3gMfFY94M45jNiL5yJ0bbM5JCng3wmCBKe98dx1ScCA72Buxfi0Nx5GhwTQ1D9Z1n/e7dwzhFKNKXNQ+iziOtHf0Sg/mq+a8/siWn6HZobYgVsjVV4qzpRO9/9V7MX7BFoFQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bc/QyZ0r; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1760089342; c=relaxed/simple;
+	bh=vpQ+LSLHouZBwGQBSVAWIUVgEf6yUW/Fn0AY8RH0AoY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XezJDeqGh4tLqqc0gnyk5fwBbNx7k7PFoVDVtcJ+iZOqJjpWbFoIVNQnWZfGkmBZAnmfswXhei6ymZeFIL8FIJ9BWDIqdvvH4gdZjpG3aNjWMIRaxyt7KLSKW4vq2eN8V3/iL44aPhnkOD39sh4gTVL17xEGRfl37PUB+bFExUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnAOXH22; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3f0ae439bc3so926150f8f.1
-        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 02:41:21 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e52279279so12851565e9.3
+        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 02:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760089279; x=1760694079; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wq9sBzt27xhVE00MKRZHgRlmEb4HHQG1wzN2xa1Axvc=;
-        b=bc/QyZ0rRHG7Q1K/vSrqIr/YpYXynHJ/dwTYESMEMqgNGtN3lObS7c/K2Bx/WiE3LH
-         KYaIf6Zy8LCjvEmabKooSgLqRpGBLzEkTalJ2DiNdbLYNLoYj63Xc9eX3Xzxw2G59vns
-         HynK9okqQ9jqMS0e84RxzpBb6WHXCCZjEUXVVodrqFqiMm6krfZ42/Xo3K1i5hQxU9/u
-         tJ2h94r5/yYjD5IytOC+NGoXDOFbUVPOOpwqpaSZadqdkuZnV3/c9z4YSrdyqOSEPkBA
-         psvrXgefmXTgmWA9fQAL2946jSt6A+jDZ/Y4C0HbiWz/7+TZG5yfZtDZNzCdNCaJM/Fz
-         38nQ==
+        d=gmail.com; s=20230601; t=1760089336; x=1760694136; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yB+XQb9dVBYMVnL4S8fyMdF/923o0cYSVo05HxH73v4=;
+        b=TnAOXH22joUBWeDFi3SJV91CLC4+/N0+FB/jANT4nnEvRw297wobaPMZhQcosUqoVn
+         MfeMc68XOFLZ5wTi1GSj/sXxDUtSyRG8/1wEK/iqjAnPOeC35dmCFdhWA+zZjQ4kCmUK
+         85plJ6WJV/Rd5RPq9L4Pi/eyWc43r9imFtFeObShrzKVKMEoQV3cERBfIwP10xUb0Ol9
+         pBwf71B24jw7pRoP39HFculG6cDtNGvJzwuy5n8zZ5B1GXs7JrbQbLifqjPo6wKHBhpx
+         XoHm1TISiXBZMj949r7qFjJzG7uPyPo+xQM4Mw/amx+r2cN1M5PfkaokgmGX4ykmGOmW
+         Jcnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760089279; x=1760694079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Wq9sBzt27xhVE00MKRZHgRlmEb4HHQG1wzN2xa1Axvc=;
-        b=JbKh5v2lrj1kPsIWfu8ExyhskaMHMKAr8+4T+aclebSCLM50Ccs+1jZHpuvotb9Idf
-         kfUnGq3NEdYXppl5tGlw43S5izsESFzAGWjT1+u/a8ogTgYKKcB2FGk5+xJIs6/qV7XU
-         oB/PDfP1hMlzpho6LeleyOiMv2WzkZQVgP40yId/pT3fQTqmIT1MDXFMpWLB1BfBIXnV
-         1U+FzGyKNExU/V19lqQ5KwYYH8JUC14JIfjywJDjexCozpSYC3OieXbRaqZKkrWMbpMl
-         tFk8YYS/kSj5fr+RX5CZEYsGoC628AnfvWjgDxGnORaAOvWwqvi1OkBmVHfz8enlsZIx
-         KvfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7aNiE2zVevclF2qkm3Qe21+qEVVmMiRKGb/+xqlsmjUMxxXH1QD2v2+No6RonFVAxt5BnnHirbPA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw77SQR+/ySSKV1zwpiFUuLJjdj2GkpB+ybh97p7gu/dI/MQ/1g
-	jhG4pDb5iDL0Nycz8TyptpJkI7NLgqLKuncmMeeuVHggEnp+7UYcUVKG
-X-Gm-Gg: ASbGncuhfsztZy2JeECALo+dj9VPbeJXue5SrEg8EpoD75q9cLJpCT/CRHiP+st/WAC
-	t1iMHhE6pRE6wuGtcwxXH+IG66PsYpEiCcqJZVi1BR6zTlOGO9nUPvNbMkxzFFu4He6oFbccubx
-	nurwyuczOTIWyu5lEEHa2hQMaGN8MnY94bv1sDPmCIg8bG9uLR9OqjhAQ1XBoHhArROL3ERHoz7
-	HzBYEdkcp+lH30nvaC2OIveZwGjtPee5zRzac/p/pkZ0jeTswiRz/kgMCT7NRHY7RPYmBsNo8m9
-	MnDJuhQJIth9TldZIC7S66Fw9Eok33WyYGdOdQJRu/p5+P8EjoOmZ69z96uXUUdyyUl0SKzcNqd
-	mBe5lvLl5I4Lya7aukIv8fa4CqVGMpWQqx9nm6Q==
-X-Google-Smtp-Source: AGHT+IF3lD9WVSidKuzagqFJR/FrlQ6zmxKPnguDbIw0mAThtrjLUEb36T/KN6an53yanBEG5SPxvw==
-X-Received: by 2002:a05:6000:186f:b0:425:75b7:4b67 with SMTP id ffacd0b85a97d-4266e8da717mr6986662f8f.58.1760089278315;
-        Fri, 10 Oct 2025 02:41:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760089336; x=1760694136;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yB+XQb9dVBYMVnL4S8fyMdF/923o0cYSVo05HxH73v4=;
+        b=Y/1JCsMwPFMCTVj7gDWl4ZGXjYE6WiN7u8HJ8IdSFnrWua/jeFFX+z/J8Yv5O3tAqD
+         DYNVbpj0tvxDmEwZYvbE2rKk5NKj6a8eS6Ci7x3DrZW2op/YeMKk/38+rPaZLTVGGNRZ
+         XxB1PmnTefZ7TlWKQkqvZzvIXX8yJ/oQsXfYVG06RUsbPkojnR35kLRAUlBFv6tPm6L4
+         WQ/9tCg6hLXTOHMKl3MfY7zvnukFhYC31qGwmm3/zSj2pDk3UGY+NvyexXjKbQi+nXZm
+         FAEP68l4sD2qdB4WcCkFwtcsFAW2dNf/1RPhioR29QdFOKmhzsqrYQnqp2eTvbqS/kWJ
+         Rvig==
+X-Forwarded-Encrypted: i=1; AJvYcCU5fMyNDuBz9fa+oRaeWaS1XaZo5EQ+0FD779Mgf4UC4DkeRqq/yjYlryMEHAhqIDfGYYdfWs/YA/o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkwLmR5D9Ds3vOyqWZOJC9/yakuAaRZGGoeQgBpt26xcpVngrT
+	oEEv5/IKkqmQyuNLpwmi138q13hHYH4uirm1eCxQRYKgQsPIsDfByATm
+X-Gm-Gg: ASbGncvl9ZUtnXBqVd/GlRvz8+b+UK5VmaO2K/OYgeirLJlKsH2eFQfeiwOnQbkEl2S
+	JAatLmAgZKXeM4mbUv0QrtGaCPjcV5rIamK/HggJTs9gMIwURl6RPbQjeMkgOwF74eG2+ggY6IC
+	kWA2F0POdHp2sC6DbbR5NueuL2zIK1jtWzxa7ynRcQ+TB5QTqe+sGnCdAI9k01ZXYg/TmkYwECu
+	9ACYoE4H41h5RAZnbkhCBUHLU3Sy3OGObkaOIwWiTv1+Aqs+/Tg2t+yjxaU1cxsMCiUuqMiSHfW
+	Boloyr9nm4yzyzgocgN6KSvgj3nVBF5J0F4rAlE6dsAsYDsyxvARp6sJ4RCBI5GyHCG9rBDApy1
+	IYC2U66ylQaNTgPjBG8srCt61AxXOh3XYwJA6mA==
+X-Google-Smtp-Source: AGHT+IGhj1/Xta/HDezSCHmYKGPM6KRR6NesF+F9b2XmUayFL7V4iH3QP/fT9tINiA4R8cJX5aHPpA==
+X-Received: by 2002:a05:600c:6383:b0:45d:d353:a491 with SMTP id 5b1f17b1804b1-46fa9a8c425mr74390025e9.1.1760089336065;
+        Fri, 10 Oct 2025 02:42:16 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce582b44sm3304938f8f.16.2025.10.10.02.41.14
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fab3d7df4sm59813525e9.1.2025.10.10.02.42.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 02:41:17 -0700 (PDT)
+        Fri, 10 Oct 2025 02:42:15 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -110,10 +112,12 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Nicolas Schichan <nschichan@freebox.fr>,
 	David Disseldorp <ddiss@suse.de>,
 	patches@lists.linux.dev
-Subject: [PATCH v2 0/3] initrd: remove half of classic initrd support
-Date: Fri, 10 Oct 2025 09:40:44 +0000
-Message-ID: <20251010094047.3111495-1-safinaskar@gmail.com>
+Subject: [PATCH v2 1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command line parameters
+Date: Fri, 10 Oct 2025 09:40:45 +0000
+Message-ID: <20251010094047.3111495-2-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251010094047.3111495-1-safinaskar@gmail.com>
+References: <20251010094047.3111495-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -122,159 +126,90 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Intro
-====
-This patchset removes half of classic initrd (initial RAM disk) support,
-i. e. linuxrc code path, which was deprecated in 2020.
-Initramfs still stays, RAM disk itself (brd) still stays.
-And other half of initrd stays, too.
-init/do_mounts* are listed in VFS entry in
-MAINTAINERS, so I think this patchset should go through VFS tree.
-I tested the patchset on 8 (!!!) archs in Qemu (see details below).
-If you still use initrd, see below for workaround.
+...which do nothing. They were deprecated (in documentation) in
+6b99e6e6aa62 ("Documentation/admin-guide: blockdev/ramdisk: remove use of
+"rdev"") and in kernel messages in c8376994c86c ("initrd: remove support
+for multiple floppies")
 
-In 2020 deprecation notice was put to linuxrc initrd code path.
-In previous version of this patchset I tried to remove initrd
-fully, but Nicolas Schichan reported that he still uses
-other code path (root=/dev/ram0 one) on million devices [4].
-root=/dev/ram0 code path did not contain deprecation notice.
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 4 ----
+ arch/arm/configs/neponset_defconfig             | 2 +-
+ init/do_mounts.c                                | 7 -------
+ init/do_mounts_rd.c                             | 7 -------
+ 4 files changed, 1 insertion(+), 19 deletions(-)
 
-So, in this version of patchset I remove deprecated code path,
-i. e. linuxrc one, while keeping other, i. e. root=/dev/ram0 one.
-
-Also I put deprecation notice to remaining code path, i. e. to
-root=/dev/ram0 one. I plan to send patches for full removal
-of initrd after one year, i. e. in September 2026 (of course,
-initramfs will still work).
-
-Also, I tried to make this patchset small to make sure it
-can be reverted easily. I plan to send cleanups later.
-
-Details
-====
-Other user-visible changes:
-
-- Removed kernel command line parameters "load_ramdisk" and
-"prompt_ramdisk", which did nothing and were deprecated
-- Removed /proc/sys/kernel/real-root-dev . It was used
-for initrd only
-- Command line parameters "noinitrd" and "ramdisk_start=" are deprecated
-
-This patchset is based on current mainline (7f7072574127).
-
-Testing
-====
-I tested my patchset on many architectures in Qemu using my Rust
-program, heavily based on mkroot [1].
-
-I used the following cross-compilers:
-
-aarch64-linux-musleabi
-armv4l-linux-musleabihf
-armv5l-linux-musleabihf
-armv7l-linux-musleabihf
-i486-linux-musl
-i686-linux-musl
-mips-linux-musl
-mips64-linux-musl
-mipsel-linux-musl
-powerpc-linux-musl
-powerpc64-linux-musl
-powerpc64le-linux-musl
-riscv32-linux-musl
-riscv64-linux-musl
-s390x-linux-musl
-sh4-linux-musl
-sh4eb-linux-musl
-x86_64-linux-musl
-
-taken from this directory [2].
-
-So, as you can see, there are 18 triplets, which correspond to 8 subdirs in arch/.
-
-For every triplet I tested that:
-- Initramfs still works (both builtin and external)
-- Direct boot from disk still works
-- Remaining initrd code path (root=/dev/ram0) still works
-
-Workaround
-====
-If "retain_initrd" is passed to kernel, then initramfs/initrd,
-passed by bootloader, is retained and becomes available after boot
-as read-only magic file /sys/firmware/initrd [3].
-
-No copies are involved. I. e. /sys/firmware/initrd is simply
-a reference to original blob passed by bootloader.
-
-This works even if initrd/initramfs is not recognized by kernel
-in any way, i. e. even if it is not valid cpio archive, nor
-a fs image supported by classic initrd.
-
-This works both with my patchset and without it.
-
-This means that you can emulate classic initrd so:
-link builtin initramfs to kernel; in /init in this initramfs
-copy /sys/firmware/initrd to some file in / and loop-mount it.
-
-This is even better than classic initrd, because:
-- You can use fs not supported by classic initrd, for example erofs
-- One copy is involved (from /sys/firmware/initrd to some file in /)
-as opposed to two when using classic initrd
-
-Still, I don't recommend using this workaround, because
-I want everyone to migrate to proper modern initramfs.
-But still you can use this workaround if you want.
-
-Also: it is not possible to directly loop-mount
-/sys/firmware/initrd . Theoretically kernel can be changed
-to allow this (and/or to make it writable), but I think nobody needs this.
-And I don't want to implement this.
-
-On Qemu's -initrd and GRUB's initrd
-====
-Don't panic, this patchset doesn't remove initramfs
-(which is used by nearly all Linux distros). And I don't
-have plans to remove it.
-
-Qemu's -initrd option and GRUB's initrd command refer
-to initrd bootloader mechanism, which is used to
-load both initrd and (external) initramfs.
-
-So, if you use Qemu's -initrd or GRUB's initrd,
-then you likely use them to pass initramfs, and thus
-you are safe.
-
-v1: https://lore.kernel.org/lkml/20250913003842.41944-1-safinaskar@gmail.com/
-
-v1 -> v2 changes:
-- A lot. I removed most patches, see cover letter for details
-
-[1] https://github.com/landley/toybox/tree/master/mkroot
-[2] https://landley.net/toybox/downloads/binaries/toolchains/latest
-[3] https://lore.kernel.org/all/20231207235654.16622-1-graf@amazon.com/
-[4] https://lore.kernel.org/lkml/20250918152830.438554-1-nschichan@freebox.fr/
-
-Askar Safin (3):
-  init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command
-    line parameters
-  initrd: remove deprecated code path (linuxrc)
-  init: remove /proc/sys/kernel/real-root-dev
-
- .../admin-guide/kernel-parameters.txt         |   8 +-
- Documentation/admin-guide/sysctl/kernel.rst   |   6 -
- arch/arm/configs/neponset_defconfig           |   2 +-
- fs/init.c                                     |  14 ---
- include/linux/init_syscalls.h                 |   1 -
- include/linux/initrd.h                        |   2 -
- include/uapi/linux/sysctl.h                   |   1 -
- init/do_mounts.c                              |  11 +-
- init/do_mounts.h                              |  18 +--
- init/do_mounts_initrd.c                       | 105 +-----------------
- init/do_mounts_rd.c                           |  24 +---
- 11 files changed, 18 insertions(+), 174 deletions(-)
-
-
-base-commit: 7f7072574127c9e971cad83a0274e86f6275c0d5
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e019db1633fd..521ab3425504 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3280,8 +3280,6 @@
+ 			If there are multiple matching configurations changing
+ 			the same attribute, the last one is used.
+ 
+-	load_ramdisk=	[RAM] [Deprecated]
+-
+ 	lockd.nlm_grace_period=P  [NFS] Assign grace period.
+ 			Format: <integer>
+ 
+@@ -5245,8 +5243,6 @@
+ 			Param: <number> - step/bucket size as a power of 2 for
+ 				statistical time based profiling.
+ 
+-	prompt_ramdisk=	[RAM] [Deprecated]
+-
+ 	prot_virt=	[S390] enable hosting protected virtual machines
+ 			isolated from the hypervisor (if hardware supports
+ 			that). If enabled, the default kernel base address
+diff --git a/arch/arm/configs/neponset_defconfig b/arch/arm/configs/neponset_defconfig
+index 2227f86100ad..4d720001c12e 100644
+--- a/arch/arm/configs/neponset_defconfig
++++ b/arch/arm/configs/neponset_defconfig
+@@ -9,7 +9,7 @@ CONFIG_ASSABET_NEPONSET=y
+ CONFIG_ZBOOT_ROM_TEXT=0x80000
+ CONFIG_ZBOOT_ROM_BSS=0xc1000000
+ CONFIG_ZBOOT_ROM=y
+-CONFIG_CMDLINE="console=ttySA0,38400n8 cpufreq=221200 rw root=/dev/mtdblock2 mtdparts=sa1100:512K(boot),1M(kernel),2560K(initrd),4M(root) load_ramdisk=1 prompt_ramdisk=0 mem=32M noinitrd initrd=0xc0800000,3M"
++CONFIG_CMDLINE="console=ttySA0,38400n8 cpufreq=221200 rw root=/dev/mtdblock2 mtdparts=sa1100:512K(boot),1M(kernel),2560K(initrd),4M(root) mem=32M noinitrd initrd=0xc0800000,3M"
+ CONFIG_FPE_NWFPE=y
+ CONFIG_PM=y
+ CONFIG_MODULES=y
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 6af29da8889e..0f2f44e6250c 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -34,13 +34,6 @@ static int root_wait;
+ 
+ dev_t ROOT_DEV;
+ 
+-static int __init load_ramdisk(char *str)
+-{
+-	pr_warn("ignoring the deprecated load_ramdisk= option\n");
+-	return 1;
+-}
+-__setup("load_ramdisk=", load_ramdisk);
+-
+ static int __init readonly(char *str)
+ {
+ 	if (*str)
+diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+index 19d9f33dcacf..5311f2d7edc8 100644
+--- a/init/do_mounts_rd.c
++++ b/init/do_mounts_rd.c
+@@ -18,13 +18,6 @@
+ static struct file *in_file, *out_file;
+ static loff_t in_pos, out_pos;
+ 
+-static int __init prompt_ramdisk(char *str)
+-{
+-	pr_warn("ignoring the deprecated prompt_ramdisk= option\n");
+-	return 1;
+-}
+-__setup("prompt_ramdisk=", prompt_ramdisk);
+-
+ int __initdata rd_image_start;		/* starting block # of image */
+ 
+ static int __init ramdisk_start_setup(char *str)
 -- 
 2.47.3
 
