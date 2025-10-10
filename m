@@ -1,211 +1,206 @@
-Return-Path: <linux-api+bounces-5071-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5079-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B56FBCCF60
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 14:46:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97258BCD4AE
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 15:35:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8640F4E7C70
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 12:46:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 319623A3F81
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 13:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4514D2EDD40;
-	Fri, 10 Oct 2025 12:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B44D2F49F1;
+	Fri, 10 Oct 2025 13:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jTH7dhnN"
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="kcCDw7R/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6985E2877FC
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 12:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECCB2F0C63;
+	Fri, 10 Oct 2025 13:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760100394; cv=none; b=NwSWG9tB/9Oih+TcPt+zL2KHKp4xIv8zapJJal1znAlbYd7fbhQhlhzjzss1YF+ztyOQWqmfE7zuHIWfqnICSw3vgSWMNhgIod0Vckmd4AGy/391HPoTbjumXSni5JrLUv3fB48n1PKQuVZIrZ+DeNCauz8fH3uVFqoXFppKKys=
+	t=1760103307; cv=none; b=niTCyVT74xdOTSi4pVOKQ5upFQD2/+wBOw6CRAeo/k2s/pUPRhgUDxtepfTjV5/ZLLkkBmCnkDH40/H5kxIuS5eVT2vfK74AosYRwzTa4FibvjFwgq2m+n71yPa9bSF6barS/c6nrScd3uzbxvWncpn20h8yKtUZhcjZG3NbY5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760100394; c=relaxed/simple;
-	bh=cYonixcZbuyHF6K3JhPk4silzO2xyU5l/z1VPiL1Kzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ozE6Tp6FLt7VQD6UbaFwvFF6G+k206s2Vh1BTa//7RLQmDr6pYSFQZAPo5IvZC6TtaMnASgwVT9RlKHPVyc4/ijyd9prMA4xXahvc1tjgrRsSOQTMDguMg8w3ePtcU6faNgsYhdnrJt5SAvc1z8aoUYJZ892YNctFNN0n7mZYFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jTH7dhnN; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4ddabf2ada5so31992681cf.1
-        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 05:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1760100391; x=1760705191; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kSdoiDX5nR8jqPMFduOgTUs/SIBXnAYTIt/wPSACCBU=;
-        b=jTH7dhnNtPW/Dz0k7tMfL16rG8lybdtk62ELH4BBaXh9m5eE/ERIfPM7/p+IugdCWY
-         rA0MtwUPMV48cVy0gDL4KN2pG2sQj6w8FZzRh/vV7NkZ512u4gFFtIokgSxLyuTov7zI
-         wQD9ogDOWugnEvKIt446I8UTl0kqTfPNRB5PsGcDVlS+Huwapns5zNoJrR2YovzvekF7
-         J+TAwkfuHUq/MzTefzfCe1QC5pCxSA9lMKd9eEBSu1jrs/cdCWohdf986VX/glDgdbx6
-         msfGlp0roNHt1ys117bS1eyR8VI1apFnyddTwtIV7q2yfSFzG7J/MBRfZM5nWUsBb43e
-         eu7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760100391; x=1760705191;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kSdoiDX5nR8jqPMFduOgTUs/SIBXnAYTIt/wPSACCBU=;
-        b=blXklmww0NywQ3GQZAdSqm72FJtilpbNlGYs+MyEEbdOPqBcKSySRlT6h0tOei3MfD
-         D/cF7+vZtfxo4WXLtlMhWhJLnqfDm+Zs7nMqaX5QnjLGYqOffiWJDSfK0FQPiTvEBszO
-         LIrJ/Yd9I15j8wF2IGHZ619F0vQmHWVzoLExzGpjgiUth6ICwK7Rv+lXA3FYgUFFp4HT
-         RzIFS6C+4VV/VReZJK2e09qiPR3hDID6p4hv0MiOU6GT3H2v0gDXn64YgmAQORJKXyuK
-         qe1wvHM9DL5ccML/FsLCXo+xVb+F2u6Vdwj7/eWl4f+clX0kU6/wzHIWdCrfICOGCcbn
-         mTDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbe5d9tjoSS+Je+BzhwlL1wQQZEwxQeSAnCN4R4FbP4CnRpM/zsmOnYDquK+KVh4YaK+V3WqAVlfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvL11w1jMY2wJUmsf8/eto1Aey06edokSbDY59XdNcIClhvyBB
-	qAf/cvW9VpVsAchZYS0jxWM33R9J73MRMXA6kFzrwBYc8HNIl4/f/10w0hq8/+D0CWKCUGtx6X3
-	Lcv6qxMtkV2y5Wi2g65Ql6JmP2Y3JBHLs5VDZYyNAlQ==
-X-Gm-Gg: ASbGncvb6GHojeBmS7nzBilHhVyWfRH7cCSMA+2y4QNzqw64rQwsJ0hsE0zf4th3ry5
-	CfBVKqLfoENyGOFg1mrdEufzcJT9Wiekm8ct/zgkchbry5Hg+I8ukNkMQNS4V7GLC8aG+MqVRvy
-	m4cf9IxShOpC5P5XllALFmAq1xem21Ru2ryux8rNRSPPyXX3LJ0KCsJBH8bYPTddnUWqjBCJPPf
-	NtEIUpqXw8UGBClpGa12CjoPtbPr4xvYA==
-X-Google-Smtp-Source: AGHT+IF3WkXquYSs0aZNr+CjES7Xeg58N6tZ4SYA03I6oeZM5oBf1kS+Z/F3o89F5+eVQe4l/6epRXKKJ0esSY22H0k=
-X-Received: by 2002:ac8:444a:0:b0:4e6:eb6c:fdd4 with SMTP id
- d75a77b69052e-4e6eb6d00c8mr119176221cf.52.1760100390967; Fri, 10 Oct 2025
- 05:46:30 -0700 (PDT)
+	s=arc-20240116; t=1760103307; c=relaxed/simple;
+	bh=WpdwCHnR6YvPBMECAdpI2N8LvqL2Le3s5O9bkHz4KTM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=reLUL4RO0Fd6QIcYyEgICiXBysKq8kPM5CK4k9jgIv51NARiBtExFP/oDhyJEXTRD75aFNu7Q6CITZ2VZgJOc6F99HvABA06sBFwDn/KIYS53/0xdYQ4w2WbxGGVta3Z9eaNXcA4WolOeNi41R3aKDHcjdggVwpWp99t0K9II/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=kcCDw7R/; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from sec2-plucky-amd64.. (176-136-128-80.abo.bbox.fr [176.136.128.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id A6C2742AC3;
+	Fri, 10 Oct 2025 13:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1760102817;
+	bh=1+R4NDJt4y0CKtRPec2MymO8YNfHu67NK0H5d5mZvbc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=kcCDw7R/YD40px2rhTI7H5tdkB7mxvPPtoQsxmC9Wm3N0EDjCf/TApsgOxS6ncNez
+	 rjR5LhHkTTuTz618y+bWNF0EgLo04GCdFI7DmBcHQ0o4MFEGoYB9oA7RdR6l+jfCA/
+	 jCmMkukk9ZRKtOkkT9Kki0AA+/Tgl5sieOt6FyCMdZGw0LRQf+8Mb+tsvb2wtpuZGS
+	 +tHzpuUmZVmY6Ip30fQpMb2SAjNzPyOU3GByjr58c0oJOMfWEx3H5flUOp0Lw48ij3
+	 lV58FslnwUHsODMcHn1oI6YkuLm80btd4Wtsx5afyZU3UqBxnMlc/CWgo4wM58rX83
+	 Cn8KGW59oEU6KqhXqAhF0oYpL7pKJm3BdkBTwaWlBGHf6lYdr5Rw4qK51XY0tWQDNM
+	 XDVjdRqrRudBIJGIjVKtiq9wVlEJRUK227pegYDMGiRE29cbESDsrjb3bISmCKZnlb
+	 YpWuOPtw+XvaleuM1Hw70nhy0YQGmZ6bWs/6aUFKorU0grlBczSH2gdq6Ak+IRSWRz
+	 5VsVA9yPYxAADLt8527rJC10YxmKd16gg1IUaAzf91Tk5sRiBANksyJq10P5mBEFE5
+	 ZJGKeerxqfVXhG74hLaquoZ+NYXt2OWBu7H2BmdxQSCGHY7BW5vAA32dJNo03VYBNI
+	 EE9iBPQCmKh6N252QVNR1xVk=
+From: =?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
+To: linux-security-module@vger.kernel.org
+Cc: john.johansen@canonical.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	mic@digikod.net,
+	kees@kernel.org,
+	stephen.smalley.work@gmail.com,
+	casey@schaufler-ca.com,
+	takedakn@nttdata.co.jp,
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	song@kernel.org,
+	rdunlap@infradead.org,
+	linux-api@vger.kernel.org,
+	apparmor@lists.ubuntu.com,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Maxime=20B=C3=A9lair?= <maxime.belair@canonical.com>
+Subject: [PATCH v6 0/5] lsm: introduce lsm_config_self_policy() and lsm_config_system_policy() syscalls
+Date: Fri, 10 Oct 2025 15:25:27 +0200
+Message-ID: <20251010132610.12001-1-maxime.belair@canonical.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com> <mafs0ms5zn0nm.fsf@kernel.org>
-In-Reply-To: <mafs0ms5zn0nm.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 10 Oct 2025 08:45:52 -0400
-X-Gm-Features: AS18NWD1lDKPEljKLMW4w1nOwJRnWgZiJv6poOU8kRsyRJy9732wSgdXfAOypQY
-Message-ID: <CA+CK2bAKdu4-bZQgopNguE_gVtfZ-mpCo+0zOk-9wu8LW8QQwg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 9, 2025 at 6:58=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org>=
- wrote:
->
-> On Tue, Oct 07 2025, Pasha Tatashin wrote:
->
-> > On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
-> > <pasha.tatashin@soleen.com> wrote:
-> >>
-> [...]
-> > 4. New File-Lifecycle-Bound Global State
-> > ----------------------------------------
-> > A new mechanism for managing global state was proposed, designed to be
-> > tied to the lifecycle of the preserved files themselves. This would
-> > allow a file owner (e.g., the IOMMU subsystem) to save and retrieve
-> > global state that is only relevant when one or more of its FDs are
-> > being managed by LUO.
->
-> Is this going to replace LUO subsystems? If yes, then why? The global
-> state will likely need to have its own lifecycle just like the FDs, and
-> subsystems are a simple and clean abstraction to control that. I get the
-> idea of only "activating" a subsystem when one or more of its FDs are
-> participating in LUO, but we can do that while keeping subsystems
-> around.
->
-> >
-> > The key characteristics of this new mechanism are:
-> > The global state is optionally created on the first preserve() call
-> > for a given file handler.
-> > The state can be updated on subsequent preserve() calls.
-> > The state is destroyed when the last corresponding file is unpreserved
-> > or finished.
-> > The data can be accessed during boot.
-> >
-> > I am thinking of an API like this.
-> >
-> > 1. Add three more callbacks to liveupdate_file_ops:
-> > /*
-> >  * Optional. Called by LUO during first get global state call.
-> >  * The handler should allocate/KHO preserve its global state object and=
- return a
-> >  * pointer to it via 'obj'. It must also provide a u64 handle (e.g., a =
-physical
-> >  * address of preserved memory) via 'data_handle' that LUO will save.
-> >  * Return: 0 on success.
-> >  */
-> > int (*global_state_create)(struct liveupdate_file_handler *h,
-> >                            void **obj, u64 *data_handle);
-> >
-> > /*
-> >  * Optional. Called by LUO in the new kernel
-> >  * before the first access to the global state. The handler receives
-> >  * the preserved u64 data_handle and should use it to reconstruct its
-> >  * global state object, returning a pointer to it via 'obj'.
-> >  * Return: 0 on success.
-> >  */
-> > int (*global_state_restore)(struct liveupdate_file_handler *h,
-> >                             u64 data_handle, void **obj);
-> >
-> > /*
-> >  * Optional. Called by LUO after the last
-> >  * file for this handler is unpreserved or finished. The handler
-> >  * must free its global state object and any associated resources.
-> >  */
-> > void (*global_state_destroy)(struct liveupdate_file_handler *h, void *o=
-bj);
-> >
-> > The get/put global state data:
-> >
-> > /* Get and lock the data with file_handler scoped lock */
-> > int liveupdate_fh_global_state_get(struct liveupdate_file_handler *h,
-> >                                    void **obj);
-> >
-> > /* Unlock the data */
-> > void liveupdate_fh_global_state_put(struct liveupdate_file_handler *h);
->
-> IMHO this looks clunky and overcomplicated. Each LUO FD type knows what
-> its subsystem is. It should talk to it directly. I don't get why we are
-> adding this intermediate step.
->
-> Here is how I imagine the proposed API would compare against subsystems
-> with hugetlb as an example (hugetlb support is still WIP, so I'm still
-> not clear on specifics, but this is how I imagine it will work):
->
-> - Hugetlb subsystem needs to track its huge page pools and which pages
->   are allocated and free. This is its global state. The pools get
->   reconstructed after kexec. Post-kexec, the free pages are ready for
->   allocation from other "regular" files and the pages used in LUO files
->   are reserved.
+This patchset introduces two new syscalls: lsm_config_self_policy(),
+lsm_config_system_policy() and the associated Linux Security Module hooks
+security_lsm_config_*_policy(), providing a unified interface for loading
+and managing LSM policies. These syscalls complement the existing per‑LSM
+pseudo‑filesystem mechanism and work even when those filesystems are not
+mounted or available.
 
-Thinking more about this, HugeTLB is different from iommufd/iommu-core
-vfiofd/pci because it supports many types of FDs, such as memfd and
-guest_memfd (1G support is coming soon!). Also, since not all memfds
-or guest_memfd instances require HugeTLB, binding their lifecycles to
-HugeTLB doesn't make sense here. I agree that a subsystem is more
-appropriate for this use case.
+With these new syscalls, users and administrators may lock down access to
+the pseudo‑filesystem yet still manage LSM policies. Two tightly-scoped
+entry points then replace the many file operations exposed by those
+filesystems, significantly reducing the attack surface. This is
+particularly useful in containers or processes already confined by
+Landlock, where these pseudo‑filesystems are typically unavailable.
 
-Pasha
+Because they provide a logical and unified interface, these syscalls are
+simpler to use than several heterogeneous pseudo‑filesystems and avoid
+edge cases such as partially loaded policies. They also eliminates VFS
+overhead, yielding performance gains notably when many policies are
+loaded, for instance at boot time.
+
+This initial implementation is intentionally minimal to limit the scope
+of changes. Currently, only policy loading is supported. This new LSM
+hook is currently registered by AppArmor, SELinux and Smack. However, any
+LSM can adopt this interface, and future patches could extend this
+syscall to support more operations, such as replacing, removing, or
+querying loaded policies.
+
+Landlock already provides three Landlock‑specific syscalls (e.g.
+landlock_add_rule()) to restrict ambient rights for sets of processes
+without touching any pseudo-filesystem. lsm_config_*_policy() generalizes
+that approach to the entire LSM layer, so any module can choose to
+support either or both of these syscalls, and expose its policy
+operations through a uniform interface and reap the advantages outlined
+above.
+
+This patchset is available at [1], a minimal user space example
+showing how to use lsm_config_system_policy with AppArmor is at [2] and a
+performance benchmark of both syscalls is available at [3].
+
+[1] https://github.com/emixam16/linux/tree/lsm_syscall_v6
+[2] https://gitlab.com/emixam16/apparmor/tree/lsm_syscall_v6
+[3] https://gitlab.com/-/snippets/4864908
+
+---
+Changes in v6
+ - Add support for SELinux and Smack
+
+Changes in v5
+ - Improve syscall input verification
+ - Do not export security_lsm_config_*_policy symbols
+
+Changes in v4
+ - Make the syscall's maximum buffer size defined per module
+ - Fix a memory leak
+
+Changes in v3
+ - Fix typos
+
+Changes in v2
+ - Split lsm_manage_policy() into two distinct syscalls:
+   lsm_config_self_policy() and lsm_config_system_policy()
+ - The LSM hook now calls only the appropriate LSM (and not all LSMs)
+ - Add a configuration variable to limit the buffer size of these
+   syscalls
+ - AppArmor now allows stacking policies through lsm_config_self_policy()
+   and loading policies in any namespace through
+   lsm_config_system_policy()
+---
+
+
+Maxime Bélair (5):
+  Wire up lsm_config_self_policy and lsm_config_system_policy syscalls
+  lsm: introduce security_lsm_config_*_policy hooks
+  AppArmor: add support for lsm_config_self_policy and
+    lsm_config_system_policy
+  SELinux: add support for lsm_config_system_policy
+  Smack: add support for lsm_config_self_policy and
+    lsm_config_system_policy
+
+ arch/alpha/kernel/syscalls/syscall.tbl        |  2 +
+ arch/arm/tools/syscall.tbl                    |  2 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |  2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |  2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |  2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |  2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |  2 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |  2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |  2 +
+ arch/s390/kernel/syscalls/syscall.tbl         |  2 +
+ arch/sh/kernel/syscalls/syscall.tbl           |  2 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |  2 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |  2 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |  2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |  2 +
+ include/linux/lsm_hook_defs.h                 |  4 +
+ include/linux/security.h                      | 20 +++++
+ include/linux/syscalls.h                      |  5 ++
+ include/uapi/asm-generic/unistd.h             |  6 +-
+ include/uapi/linux/lsm.h                      |  8 ++
+ kernel/sys_ni.c                               |  2 +
+ security/apparmor/apparmorfs.c                | 31 +++++++
+ security/apparmor/include/apparmor.h          |  4 +
+ security/apparmor/include/apparmorfs.h        |  3 +
+ security/apparmor/lsm.c                       | 84 +++++++++++++++++++
+ security/lsm_syscalls.c                       | 21 +++++
+ security/security.c                           | 60 +++++++++++++
+ security/selinux/hooks.c                      | 27 ++++++
+ security/selinux/include/security.h           |  7 ++
+ security/selinux/selinuxfs.c                  | 16 +++-
+ security/smack/smack.h                        |  8 ++
+ security/smack/smack_lsm.c                    | 73 ++++++++++++++++
+ security/smack/smackfs.c                      |  2 +-
+ tools/include/uapi/asm-generic/unistd.h       |  6 +-
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |  2 +
+ 35 files changed, 412 insertions(+), 7 deletions(-)
+
+
+base-commit: 9c32cda43eb78f78c73aee4aa344b777714e259b
+-- 
+2.48.1
+
 
