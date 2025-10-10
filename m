@@ -1,64 +1,86 @@
-Return-Path: <linux-api+bounces-5062-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5063-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83D8BCBB7B
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 07:28:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90BDBCBCB8
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 08:39:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 875823B532B
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 05:28:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44EC23A4950
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 06:39:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657831F4C8E;
-	Fri, 10 Oct 2025 05:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0A022DF9E;
+	Fri, 10 Oct 2025 06:39:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OpiCnd/J"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E/E4XC0O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7F61494CC;
-	Fri, 10 Oct 2025 05:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DE53F9D2;
+	Fri, 10 Oct 2025 06:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760074081; cv=none; b=nUq47Nth6bYpGOIXO5ddPz5p5Ergj0k1YSybo9jbbXKudOyxN4oNWDq++e0taGrCJ5jF8eRpnFmhNO8H4APbZVuFGPCncameTgcgfKNj6G+v1p3MdFw9WOKEDMP6fCq3anV9BIY7/xOIUlXJSa9Y7+GTjQz0JZDa596g937T/GU=
+	t=1760078384; cv=none; b=fv6Jnl+0kaWscsArrCKGVbAWCLUo4WpjQpvS42/tsj4iKjQ5Jeqv6bCbG0fjGhfv5FKQxKaF2RB9AsVRAW5lncbiy60wGRUQTmecNuDVweQRkch3HVUruj/z0HPtASeausbybMRmXAk2p7CToUPxbro/uyERZdbMo5rasNgE538=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760074081; c=relaxed/simple;
-	bh=mDGmi3+Wa36bqb6hX02bN3onFxey1pLGTUWruEAOyX8=;
+	s=arc-20240116; t=1760078384; c=relaxed/simple;
+	bh=f275Z6QBP1oJ7FjNXnqjQQ3arZ+vlTTlgIAxDsW1u1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qQgFS2Y8BLj7tI6j95IIWXkLYEMH5CEcNgQFZT8TPajokH1P+pKJ5h1IVu5ZGAI72HlKJSrEHN3xx5ugurQuPGm2hbdFFK6FtGvvu+u7pM/tV4Bv+F3d5L+ThWrluWKQK/a0M0XOh3JrQOvM4UGZ7rkjKyHOv+n/CKJav+A+btU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OpiCnd/J; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=yWCrP/oYlMAZ7QVzoZ7F/7mx1aOjPJpsMFlqIpG86h8=; b=OpiCnd/Jqy1af1tAwRQ4Qpyh+8
-	F++KMdLENM6ks6AvSoUSYtgsC8KojVVV49pzb4vkeqlPa6b149RQHZic1gRVMj9hCeo6lb60MxN3T
-	hFl14gI6LGbmagzn1SYlBgZJe+vpAS8C7G+HMNnRLYgIHGkRcX+wlLrQW5nGIh7MieTX2Jh9nRvaZ
-	Nvhu7UAck0WWV8nSBM/8Ku2ZZ/DreBNJVp65+Vx4d9+Bk1DacjZBahGuiEGr/KikKG2IgzCRczl0c
-	rLOIxSHyAvePYkgeC6XFzYT2fHGivhAsAlQTxSsA3LseEpOZH3cNM8KgfDxtGVjXHhEnxbtbl+MJx
-	vLBpOmKg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v75fb-00000007iAF-17zR;
-	Fri, 10 Oct 2025 05:27:59 +0000
-Date: Thu, 9 Oct 2025 22:27:59 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Pavel Emelyanov <xemul@scylladb.com>, linux-fsdevel@vger.kernel.org,
-	"Raphael S . Carvalho" <raphaelsc@scylladb.com>,
-	linux-api@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH] fs: Propagate FMODE_NOCMTIME flag to user-facing
- O_NOCMTIME
-Message-ID: <aOiZX9iqZnf9jUdQ@infradead.org>
-References: <20251003093213.52624-1-xemul@scylladb.com>
- <aOCiCkFUOBWV_1yY@infradead.org>
- <CALCETrVsD6Z42gO7S-oAbweN5OwV1OLqxztBkB58goSzccSZKw@mail.gmail.com>
- <aOSgXXzvuq5YDj7q@infradead.org>
- <CALCETrW3iQWQTdMbB52R4=GztfuFYvN_8p52H1fopdS8uExQWg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GaWM611kfuOMYM1UfwSj4gHXqRD50WAioEOnItgWpqqfX8MAXIIrazsJomMqGhzTjq64iT1rI4Qv9Qj7LzaeOZ2XDXrUCW84pbRaV+z4DDpXftO3E2UyleIK6Gl+2h/TxfRKcnrVSmyseqpKINfy8BaQa1c+HXA/rf4fvu5KAqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E/E4XC0O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC42C4CEF1;
+	Fri, 10 Oct 2025 06:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1760078383;
+	bh=f275Z6QBP1oJ7FjNXnqjQQ3arZ+vlTTlgIAxDsW1u1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E/E4XC0OPvNpqewhJaQ4nGbxL62esjMmVSltK67IIVcxdGmwf16INSfid2uo26dGR
+	 963ucB1qo46+2lEPEd8aGn9IMZVMQdo+3Nh0mpr8weqS34CQPv1YYWugKh2Yv1Gp4g
+	 sL2c6uu2EtJaHZ8tcsdSndMcHFBEBMyTE7XCuZh8=
+Date: Fri, 10 Oct 2025 08:39:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: "Yanjun.Zhu" <yanjun.zhu@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state
+ monitoring
+Message-ID: <2025101001-sandpit-setup-7424@gregkh>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-20-pasha.tatashin@soleen.com>
+ <a27f9f8f-dc03-441b-8aa7-7daeff6c82ae@linux.dev>
+ <mafs0qzvcmje2.fsf@kernel.org>
+ <CA+CK2bCx=kTVORq9dRE2h3Z4QQ-ggxanY2tDPRy13_ARhc+TqA@mail.gmail.com>
+ <dc71808c-c6a4-434a-aee9-b97601814c92@linux.dev>
+ <CA+CK2bBz3NvDmwUjCPiyTPH9yL6YpZ+vX=o2TkC2C7aViXO-pQ@mail.gmail.com>
+ <d09881f5-0e0b-4795-99bf-cd3711ee48ab@linux.dev>
+ <mafs0ecrbmzzh.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -68,29 +90,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrW3iQWQTdMbB52R4=GztfuFYvN_8p52H1fopdS8uExQWg@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <mafs0ecrbmzzh.fsf@kernel.org>
 
-On Wed, Oct 08, 2025 at 08:22:35AM -0700, Andy Lutomirski wrote:
-> On Mon, Oct 6, 2025 at 10:08 PM Christoph Hellwig <hch@infradead.org> wrote:
-> >
-> > On Sat, Oct 04, 2025 at 09:08:05AM -0700, Andy Lutomirski wrote:
-> > > > Well, we'll need to look into that, including maybe non-blockin
-> > > > timestamp updates.
-> > > >
-> > >
-> > > It's been 12 years (!), but maybe it's time to reconsider this:
-> > >
-> > > https://lore.kernel.org/all/cover.1377193658.git.luto@amacapital.net/
-> >
-> > I don't see how that is relevant here.  Also writes through shared
-> > mmaps are problematic for so many reasons that I'm not sure we want
-> > to encourage people to use that more.
-> >
+On Fri, Oct 10, 2025 at 01:12:18AM +0200, Pratyush Yadav wrote:
+> On Thu, Oct 09 2025, Yanjun.Zhu wrote:
 > 
-> Because the same exact issue exists in the normal non-mmap write path,
-> and I can even quote you upthread :)
+> > On 10/9/25 10:04 AM, Pasha Tatashin wrote:
+> >> On Thu, Oct 9, 2025 at 11:35 AM Zhu Yanjun <yanjun.zhu@linux.dev> wrote:
+> >>>
+> >>> 在 2025/10/9 5:01, Pasha Tatashin 写道:
+> >>>>>> Because the window of kernel live update is short, it is difficult to statistics
+> >>>>>> how many times the kernel is live updated.
+> >>>>>>
+> >>>>>> Is it possible to add a variable to statistics the times that the kernel is live
+> >>>>>> updated?
+> >>>>> The kernel doesn't do the live update on its own. The process is driven
+> >>>>> and sequenced by userspace. So if you want to keep statistics, you
+> >>>>> should do it from your userspace (luod maybe?). I don't see any need for
+> >>>>> this in the kernel.
+> >>>>>
+> >>>> One use case I can think of is including information in kdump or the
+> >>>> backtrace warning/panic messages about how many times this machine has
+> >>>> been live-updated. In the past, I've seen bugs (related to memory
+> >>>> corruption) that occurred only after several kexecs, not on the first
+> >>>> one. With live updates, especially while the code is being stabilized,
+> >>>> I imagine we might have a similar situation. For that reason, it could
+> >>>> be useful to have a count in the dmesg logs showing how many times
+> >>>> this machine has been live-updated. While this information is also
+> >>>> available in userspace, it would be simpler for kernel developers
+> >>>> triaging these issues if everything were in one place.
+> 
+> Hmm, good point.
+> 
+> >>> I’m considering this issue from a system security perspective. After the
+> >>> kernel is automatically updated, user-space applications are usually
+> >>> unaware of the change. In one possible scenario, an attacker could
+> >>> replace the kernel with a compromised version, while user-space
+> >>> applications remain unaware of it — which poses a potential security risk.
+> 
+> Wouldn't signing be the way to avoid that? Because if the kernel is
+> compromised then it can very well fake the reboot count as well.
+> 
+> >>>
+> >>> To mitigate this, it would be useful to expose the number of kernel
+> >>> updates through a sysfs interface, so that we can detect whether the
+> >>> kernel has been updated and then collect information about the new
+> >>> kernel to check for possible security issues.
+> >>>
+> >>> Of course, there are other ways to detect kernel updates — for example,
+> >>> by using ftrace to monitor functions involved in live kernel updates —
+> >>> but such approaches tend to have a higher performance overhead. In
+> >>> contrast, adding a simple update counter to track live kernel updates
+> >>> would provide similar monitoring capability with minimal overhead.
+> >> Would a print during boot, i.e. when we print that this kernel is live
+> >> updating, we could include the number, work for you? Otherwise, we
+> >> could export this number in a debugfs.
+> > Since I received a notification that my previous message was not sent
+> > successfully, I am resending it.
+> >
+> > IMO, it would be better to export this number via debugfs. This approach reduces
+> > the overhead involved in detecting a kernel live update.
+> > If the number is printed in logs instead, the overhead would be higher compared
+> > to using debugfs.
+> 
+> Yeah, debugfs sounds fine. No ABI at least.
 
-The thread that started this is about io_uring nonblock writes, aka
-O_DIRECT.  So there isn't any writeback to defer to. 
+Do not provide any functionality in debugfs that userspace relies on at
+all, as odds are, it will not be able to be accessed by most/all of
+userspace on many systems.  It is for debugging only.
+
+thanks,
+
+greg k-h
 
