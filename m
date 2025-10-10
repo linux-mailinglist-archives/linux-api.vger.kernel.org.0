@@ -1,156 +1,146 @@
-Return-Path: <linux-api+bounces-5085-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5086-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8940EBCDA57
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 16:58:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D28DBCDA75
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 16:59:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 00D5C34AF8C
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 14:58:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 805C119E1711
+	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 15:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3BF12F745E;
-	Fri, 10 Oct 2025 14:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE092F746E;
+	Fri, 10 Oct 2025 14:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bFoqyy02"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="JCcPlXSW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32D82F3C08
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 14:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E552F7471
+	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 14:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760108320; cv=none; b=H0ZbG32XqPh2Kxl7yCPZAeeAuBgBNhyf0erSIKXhzPO8AaLlE0DfZu25WRLdBCPs9bADyMP7m0F3AH1gog8BIiGZNgsXwqhezt6BkcJXDcQ0uI5tAljL80SM0BElCPmV/gOQXEBPiVlxWq0E/tmTAfrC7Fz0fyCA48mvn1MiX9w=
+	t=1760108390; cv=none; b=gc9oE2V0HZxCg8zJ8kjm4Xw5lpmHdqocRGB86qrAQu9GN3t4VenZVfzeFYJlXn8aIVsUP4vLlpHwm+h8qEO8j+GKEPQP61pO5xAD43qDxas5+yunzZEpNgUvmyPWmGChwEqi0GiainZ5mwuTP0cB75YZVdZtInVMwETMKac02Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760108320; c=relaxed/simple;
-	bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
+	s=arc-20240116; t=1760108390; c=relaxed/simple;
+	bh=KD4eixvngpxKs37ysDRhAqXKK6Z9EeYjwRzv8uXJu2U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BElVDR8dtjr09qulPrkfPm8ZymlGDZhEZIVdG/3qoE8eawh79b9NlBREUEx0q43T4440DD6AeEZLLf4I8VqlIKsa2KRxRdVndEsueCLsUsltMVLS2l504kroqo79shnHtFybLFXeupi41NCpbhWO+CR4PAGbkdnLufDpBRozMo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bFoqyy02; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4e4d9fc4316so27134001cf.2
-        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 07:58:38 -0700 (PDT)
+	 To:Cc:Content-Type; b=M+CLrFighz/4WiDs/aCaOV54vc/MIkcjE9hEV0Lvack8VRRCyKLTv4pZUgzJX/J7pEM48sT39VKhtlDTHakRZ9Vd4bREfSgdhk3GkLvt8e3owBeTp+z77FTb+i3a2yTI10+mqoyoap63/9BPk1bfTrq3jK8RAobwkl7TimuxkHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=JCcPlXSW; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27edcbbe7bfso27885205ad.0
+        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 07:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1760108318; x=1760713118; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1760108388; x=1760713188; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
-        b=bFoqyy02oYGr/LuWsFyi0W5Ej8pKXhjqyohD00Z5dbmSNvYpgSVewN3J+q15yRc6ii
-         69LaSyM2tnR+luiCcl5eZPTkuEaxMlBkiqscmQBocaCErkJ/8uoJ8JQzcs/JRWsBs492
-         ZgPrk5u9q1Nk7hg3EotW9qKnKWO2J2gL22sOWZM97MJcIR6WyTyUXzhBNsJN5wICsyuR
-         jr0+y7OHElysr7a1Coplm6vDUbPt5vsBjlh30Ozonuo3yKa9UDglFAxvSAn3SFNb9k0+
-         iE+F9gR9VJLEooADnWPNwfzCIFrP6cM7wD85seJ/G3+4aKMou9VK6t3t4TxBQuuxR0l7
-         xq6A==
+        bh=B+0sjW+oV0t2BMqgCvuWpzJUVVCqY3LbFgfCiYx9Oq0=;
+        b=JCcPlXSWDH9a5m06VnHvoYfhVaiu5z+2LPT6lCbPZF4vfCfVuKfk7HuWMbOTAaheQQ
+         RWevaP0t/FLJ03okG+qa6I2B6yE6h37NUbSgcr9ZZw6ahBfDsJqfufX1M2qu9hTkvVFk
+         Lo/Yy1OM69mD1rxzcjVoS+iEcEGd/KfysTeD+Rd3/uQICKf1tjI1xO6TtHXJbuicQO+N
+         IImmDDweBiUcpXOoGLT5HR+1iqz+9lmJJayKKqYm34p9tYzcJm5RDh9sHr9EfFkSKckz
+         tvF1NYUxD3t8FFuFqGL5qR/8lGPNB+e5rgVQT4OBTIEfU96Yfp/Y0s4zDPIXaTaBA6gj
+         8jZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760108318; x=1760713118;
+        d=1e100.net; s=20230601; t=1760108388; x=1760713188;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O/f5MiBij3IECEF2d6NbqhVZBoXbyknaX3YNy+v2jBg=;
-        b=P9fV3fv+nSl0cypltGBBgykgwON+CahUxGq6QRX7umqNEPrHwrrlvpMKyI+0qm8ONf
-         aOuU70L849hTR9DxGS9gtUzgF9DYkKzEZcEzOpcBZr0NFOzgPIfamJj/9+j0eavFHnJD
-         KioCxDXXrrDQ2uFMbkt0XjKy5sQBUkGY9e128FPoBH7fcOr/NrQPMIjDEbi0Hkm7SjgY
-         l+1VJC9hGL4EMgDt4WcJPDo3kDjsEkrdgK74sVY2F38uDCaU23GCwwBSxJgDMs79x9zs
-         iBMrYi1hP1onrTlTRKd0y5OQUvSKJLvUPdGckbIRPVgsPjrPwZABMOXK58MhT6OrJml+
-         Xfrg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3r47xe5QbvoXB/NxZBeqzmcytHavNSrEptDO/DvZxqMyr8GQ4+mECB/5VffN73zQS7U6gJp0eFfI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKq4+ZrmMWHv9rf69u2zkm6nB02MgJN09E5mSBCfYsNfr4ZWTd
-	9KcSRS5m5S8B8rX5UEtpun+GC7qqAXM29WTPp2u+ngbnF3YvvEbws/k1o/NIEb1upYZFoVuIlyP
-	5XvvDjjJefQFEJO0c9u1wKVfWvAgo74ddoq8cHQ3QQA==
-X-Gm-Gg: ASbGncsPS+z9fViMS5k6XlG7Bf071UBOcyEdPEiMnnvgeIFs2vudC+ehqWZw3cRNply
-	YHJXaFC2kRL9ZKjHPaJyc+6JQo1DHchznV3tM2Ebzh9rb4rya3B9cGZQNyrMPOtZhJIlFt06sLU
-	R/4S/utlSk1Ps8qR2MnpOkmsp9cQ1cAJCpB5JE6YGOR7qLLafKXsq0m1eTMm6/wb9lbQkGylEVE
-	SrjCF71O/oFkxi18a7hqr8=
-X-Google-Smtp-Source: AGHT+IE0WXDhjauHLcC2POBv0t7LgQCplfzbTEHy7h2aL8mobxzYVpt1EHLlI6ZDdZuKo41ZojriIaW0+E5fBHESUrw=
-X-Received: by 2002:a05:622a:90f:b0:4b9:b915:a26f with SMTP id
- d75a77b69052e-4e6ead514a2mr181154551cf.52.1760108317513; Fri, 10 Oct 2025
- 07:58:37 -0700 (PDT)
+        bh=B+0sjW+oV0t2BMqgCvuWpzJUVVCqY3LbFgfCiYx9Oq0=;
+        b=k1g8VezpH/iodZQ+Eefl1q0gFk41RJDv5GQ+uMlmv2ByKdK8cCEY+kjic4orNKdtGD
+         8Bo7GC5fzxBfksnHBMLvQvfNeeB9KHIBmHYyIXvuKITDl06bhqCjeLyD8vXd0L+vd0cI
+         CdITNDLXDXcQhcjxoqO94JSfDNk7Fcia0PcEij4Jowh62D38YWbI+8t9UpJuFkWUnk90
+         avZbDNikb+Z86POdKyrbPdTTd/CgEzFk2RDS+b+We43KrTeIiyBc1bzXU8XIk8qqLjaS
+         J0PJ63gteAiIE3I3UbSsncLpowT13Lbm4/Rp1NLuJMMNSJ2r1Fsn75dnhMhNbNBsDiGF
+         e+Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyP/w39I0Y2anucGFSz/NdYPzYdL2k5NN/sa6PjacKmBnU75T/4CyVkDOiuWQjFUwjaYsBXR+aIEU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUstEaNWNEYRDGWOXHxOfx/Qx1ZEGBQYaYq3gpGFyViSl9vLWQ
+	vnpqwTJLjogpz9eo3nXGlJTimhEiunXXCAukkzsjVMVFE2X4lfnGUBJkYvggWe5yeicZ3xZEaq2
+	rXiGdi+x1ukz61SNnU9sbi/jUO9NC/75Z97FAHtef
+X-Gm-Gg: ASbGncvqDmWKb86SDtX+UL6NRTrRZY3O96TKGU8/rqlk6gzI249ZRYXnts6LKV9bVaB
+	nuFTOiSNXRh6ih5c5N7GhAC9db37dkXC77mEwmqishqHYWuzoDSSeMB1tLgUtf0NdhgrM4oYmh9
+	NoNWLlvrd/YtI+JTPFhI3//3QpyLVF/LJXS2sbFgCjEhNUtXVLgRsz5znmr7VhfyH3h8V7ClTy8
+	q8lH8ux9a2qmJrs1f7IFRfGbw==
+X-Google-Smtp-Source: AGHT+IG9hy80Ik6+ARbIl3oz3A3KG5+fo5fGn6VPEI+bWA/pwCD/ahXTgPJG7kBipRJaOCzTwImphgjwuOgiPM9OpYY=
+X-Received: by 2002:a17:902:f602:b0:274:9dae:6a6d with SMTP id
+ d9443c01a7336-290272c1a67mr159749285ad.34.1760108388086; Fri, 10 Oct 2025
+ 07:59:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
- <CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
- <CAAywjhT_9vV-V+BBs1_=QqhCGQqHo89qWy7r5zW1ej51yHPGJA@mail.gmail.com>
- <CA+CK2bAe3yk4NocURmihcuTNPUcb2-K0JCaQQ5GJ4B58YLEwEw@mail.gmail.com> <20251010144248.GB3901471@nvidia.com>
-In-Reply-To: <20251010144248.GB3901471@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 10 Oct 2025 10:58:00 -0400
-X-Gm-Features: AS18NWBORXQFPGvPP__b4olxbKs0hTzftz4XLJRMqdjSudzyOrwIdA4I2ICtXVo
-Message-ID: <CA+CK2bBxMpb=jXy3-i19PdBHqxLoLrMMg1sOnditOYwNe1Fr+w@mail.gmail.com>
-Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Samiullah Khawaja <skhawaja@google.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, chrisl@kernel.org, 
-	steven.sistare@oracle.com
+References: <20250709080220.110947-1-maxime.belair@canonical.com>
+ <20250709080220.110947-3-maxime.belair@canonical.com> <20250820.Ao3iquoshaiB@digikod.net>
+ <0c7a19cb-d270-403f-9f97-354405aba746@schaufler-ca.com>
+In-Reply-To: <0c7a19cb-d270-403f-9f97-354405aba746@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 10 Oct 2025 10:59:36 -0400
+X-Gm-Features: AS18NWAVS7migS1jhRtb-IPHhnKptQlfKCCpqw55Hl-FAqPL4NSJFJGx8uS1S6s
+Message-ID: <CAHC9VhSXcqKF9KQ1+KanPqoTk=GRsOXs5dGNNnmTiK_BcMUV5A@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] lsm: introduce security_lsm_config_*_policy hooks
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?Maxime_B=C3=A9lair?= <maxime.belair@canonical.com>, 
+	linux-security-module@vger.kernel.org, john.johansen@canonical.com, 
+	jmorris@namei.org, serge@hallyn.com, kees@kernel.org, 
+	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org, rdunlap@infradead.org, 
+	linux-api@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 10, 2025 at 10:42=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
-rote:
+On Wed, Aug 20, 2025 at 11:30=E2=80=AFAM Casey Schaufler <casey@schaufler-c=
+a.com> wrote:
+> On 8/20/2025 7:21 AM, Micka=C3=ABl Sala=C3=BCn wrote:
+> > On Wed, Jul 09, 2025 at 10:00:55AM +0200, Maxime B=C3=A9lair wrote:
+> >> Define two new LSM hooks: security_lsm_config_self_policy and
+> >> security_lsm_config_system_policy and wire them into the corresponding
+> >> lsm_config_*_policy() syscalls so that LSMs can register a unified
+> >> interface for policy management. This initial, minimal implementation
+> >> only supports the LSM_POLICY_LOAD operation to limit changes.
+> >>
+> >> Signed-off-by: Maxime B=C3=A9lair <maxime.belair@canonical.com>
+> >> ---
+> >>  include/linux/lsm_hook_defs.h |  4 +++
+> >>  include/linux/security.h      | 20 ++++++++++++
+> >>  include/uapi/linux/lsm.h      |  8 +++++
+> >>  security/lsm_syscalls.c       | 17 ++++++++--
+> >>  security/security.c           | 60 ++++++++++++++++++++++++++++++++++=
++
+> >>  5 files changed, 107 insertions(+), 2 deletions(-)
+
+...
+
+> >> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
+> >> index 938593dfd5da..2b9432a30cdc 100644
+> >> --- a/include/uapi/linux/lsm.h
+> >> +++ b/include/uapi/linux/lsm.h
+> >> @@ -90,4 +90,12 @@ struct lsm_ctx {
+> >>   */
+> >>  #define LSM_FLAG_SINGLE     0x0001
+> >>
+> >> +/*
+> >> + * LSM_POLICY_XXX definitions identify the different operations
+> >> + * to configure LSM policies
+> >> + */
+> >> +
+> >> +#define LSM_POLICY_UNDEF    0
+> >> +#define LSM_POLICY_LOAD             100
+> > Why the gap between 0 and 100?
 >
-> On Thu, Oct 09, 2025 at 06:42:09PM -0400, Pasha Tatashin wrote:
-> >
-> > It looks like the combination of an enforced ordering:
-> > Preservation: A->B->C->D
-> > Un-preservation: D->C->B->A
-> > Retrieval: A->B->C->D
-> >
-> > and the FLB Global State (where data is automatically created and
-> > destroyed when a particular file type participates in a live update)
-> > solves the need for this query mechanism. For example, the IOMMU
-> > driver/core can add its data only when an iommufd is preserved and add
-> > more data as more iommufds are added. The preserved data is also
-> > automatically removed once the live update is finished or canceled.
->
-> IDK I think we should try to be flexible on the restoration order.
+> It's conventional in LSM syscalls to start identifiers at 100.
+> No compelling reason other than to appease the LSM maintainer.
 
-It is easier to be inflexible at first and then relax the requirement
-than the other way around. I think it is alright to enforce the order
-for now, as it is driven only by userspace.
+If you guys make me repeat all the reasons why, I'm going to get even
+crankier than usual :-P
 
-> Eg, if we project ahead to when we might need to preserve kvm and
-> iommufd FDs as well, the order would likely be:
->
-> Preservation: memfd -> kvm -> iommufd -> vfio
-> Retrieval: iommud_domain (early boot) kvm -> iommufd -> vfio -> memfd
-
-At some point, we will implement orphaned VMs, where a VM can run
-without a VMM during the live-update period. This would allow us to
-reduce the blackout time and later enable vCPUs to keep running even
-during kexec.
-
-With that, I would assume KVM itself would drive the live update and
-would make LUO calls to preserve the resources in an orderly fashion
-and then restore them in the same order during boot.
-
-Pasha
+--=20
+paul-moore.com
 
