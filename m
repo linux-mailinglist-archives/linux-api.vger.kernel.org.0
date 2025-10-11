@@ -1,133 +1,220 @@
-Return-Path: <linux-api+bounces-5095-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5096-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4756BCE9F6
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 23:34:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E7EBCEDF8
+	for <lists+linux-api@lfdr.de>; Sat, 11 Oct 2025 03:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C8293B7F47
-	for <lists+linux-api@lfdr.de>; Fri, 10 Oct 2025 21:34:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BBA51A6698B
+	for <lists+linux-api@lfdr.de>; Sat, 11 Oct 2025 01:35:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFD5F302761;
-	Fri, 10 Oct 2025 21:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A48C641A8F;
+	Sat, 11 Oct 2025 01:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="AUrXwiFX"
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="NuwnfwSi"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sonic317-39.consmr.mail.ne1.yahoo.com (sonic317-39.consmr.mail.ne1.yahoo.com [66.163.184.50])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F710944F
-	for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 21:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.184.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46542B9A8
+	for <linux-api@vger.kernel.org>; Sat, 11 Oct 2025 01:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760132050; cv=none; b=OVBuqcdncZR94b/1pkMUGjFPTIG0/nDBgGUUbqrS9Q1tFldXk6A+T6B6rlItRm2Omx1SimvhkBOOyubjpaqN+VG6luZSy7c6FgzRcFGt7WBhIAWyhyKv6jdQOBkPXYw2gCKWOA//EJ7F1rQWeXdooUWmIgkh3EZ+HOpbA4rgYPo=
+	t=1760146526; cv=none; b=hWbyei/4SwrVV6/2WCmkBQn6fvG1mHG+Ok/Qhavu2FDtHPidW4bHVtSCGNqt8P6MXtd4FK6unELAI8wANqEfM5IbDIJtoNvUuvgOoHlwYggkUdKTWqI//p7Oas/ddky37xkQr8uWMGqaeWeh1fOAB0sNhYv/dXk2I/U21UmNhjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760132050; c=relaxed/simple;
-	bh=S72PbBKn/SIu/CGwvRLzgDVXz41qrj17EeC/J84/BlM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e/3WBSF0BIBMQ8+5JUoO/NTv+aDesqE/Z0GQjBphO8zjylDWPGJf4gFY++s3h/1rotAsJM98MmGYApn19oKp2B2gYjySdhyRy+zdmaUSK6oI0sugtM6xMJyo8LXWTdH0hXssO4b0co+P2dSR3X/1N1roXpH0ArDF8TN6fdD5XhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=AUrXwiFX; arc=none smtp.client-ip=66.163.184.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1760132048; bh=JLliN1JG2MaC2THuh8kGrZkzyJ+IEx3Txs3LnmW6tKQ=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=AUrXwiFXSidIh41iG38vgyYu6GceEGTGSbcntJmLvPDsOhIDl+78R8XiZGXhOqnHSNCSzlDDjk9bLljz///OydQPTf7ZgCm2zvWi5l9RskEYdPZItpFxa6/mxIjB/vy231GLNEz5SiQjsbFFuuHXIYZNp8WJe33Rj9scxP7uidmmRiPorYrTHQxUYC7RadR2W2kdjvCEiwV10Ciem0ed9yXiSyKPgdgk9yREAy+VcSXliGo9/EmxLxxS8CqcDYC12J2bpWjyd2Yj7I8+scYkOuLnlxBnxj2yoH1JzpH/R3y5BA9W4rxPh5Man+6Ti8ESiJHXfQ/g9Z/CO3hn36ohrg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1760132048; bh=kzSVojgXACpA6oNhbXn2wGUnDRWiVrz/oqfx0juOLuR=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=fCAfFpGc4r0eLc22P76BWjYc1+xmKr6GqF0IBSwW9zW3g0YtKp9cUfrgnxnYKp4J99cz7T/4VCMWtOywIIadWTMGNWZ7RA/J2NtrSWsaLFgOC+jdrNWyqovi/HNOgfLLP/MSUKeZqe5Rpu7BdwaCPouhj+w/VmFER8G3kFji1JvLugup90ZesrZFlNAOBeK1S29UhAMWtLOawdlE9VqzwRLTCXmifFTYFICNb5ziYO0NWVpa+FXAI8YRZZOzgcgvhVR2OAQFbp2oYuGKuvN3PtkPDETu/9AMuoVHTrZldJVmImtmXmVa/hPxUX3+F9YuhERFd6yahGk+MZ+xOj4LAA==
-X-YMail-OSG: hj_K0qsVM1l92HVyJBxvE.yOYHHP8HsCY5icmN3yiVGbE01Wrt_SWYs17rA.P4q
- UgWYe2nMn_ENZ.4zeSchJVCw1BK6JfupH2g5qHa2CGLKfwOSYtyt5a3iAY8J.dLW6jjMw7mKWcId
- HLNoJvkBcleet8dYBsAvP1Zq2AvdNTuqmBhFeE2Z.fm5740wKcyq8x1RUTAurdJBZwW7dCY2aMLc
- mL_5_NTgf5i0qjieiEV91kOYM19zVRQCPGH7kMhVS7lsrhQtU_a3cg.mrkAvFtyNyMV10khHxphj
- F0mKITRqSg4DF168D_jZ6VXi5nAvJOinbWa4ZGjLxh49DPBtmwFZHtLJWA57q8EVRNWA9KqljyHt
- uELu3PzG1Y_p5FdRpq7P_hjKAfweTGTYuLtnq2If.2qQNY7gnmFL6I01kT0rkj5cLCCqhVkSuAVD
- hM6249wYb6.Q.j471twZ1.vfCzLTb.G0r1EJXH6fgekbHyYyN0b5ybILAuGvvQYRWsoaqdMYQSL1
- 6Yzd7cdk0oGc4OveyFRGX6lh1OuvcB7fYbIKh8CZNGRYtaEhyvrE1eK5NJGF8BxyTgezz1Pij4rE
- P75X6XFtU1KyQsuJgad74aX5b5CjgHmJ2Z06APr2Y6x83HxZilERseulj8ALvnPs1HxEkq6a0L5O
- HapQUB.IAtiMhUWJbPzhjWLelaoGfrExF0BsbA3Z8WjD24ePLO_hdx6MmF7PoWd655u.V2RPzpOE
- 2bkwAkYiJNFS4BF9rERzXU.sa0W7d1ThhJjl2eQSOYArMGNmmw3ThOrQ3aeCIOSQVhY1lcazTB2K
- cDQOqH0jJzaF4WMr8eOWby8ZFH.tZZGrINZsR7AYQBNGgUSxO4XH2cvJfuK0y21rbut4FNxTWM5v
- Qh3ozC7zwwrlj3SJlz24WNFCyF0gG0MLo.jxj8ecl8aDfe0cEWog8RZuSboLiEd7Y4Zx_CIaVCma
- hVao5wLtCrObvajoUNWQSFQVFBLg74I5adQvo53aJkBWbtqo1CaJQy4yhhzBZwaK5B32LNzeL3QX
- UVfoVCECcasaKE64iHuQaiJqUo2n3mJz3FTeYv7CggS0b1nbgGfRVzUIFN9St98_WxUMFBk_J5Q3
- pBTFGp05JD8K_x1qSdoO_cgIEttjgVo1ipB7GIB3lU2qgbNFOY43RmI99urHY2s.UhACjHWoWMZW
- F9Xsfyh3DFcSs6qmqLVHH1p.kqn44_E0mXVvPGhmERLwuh2mPl3q.NhgqhNAa8qqgQmW7WXhjxkk
- C7vL8Z3GIiun69185akGsa6uH7UpWqvvTUfa8ekQKtP4KxuqrXtC7pGJHS1bnyMfwofgevlZuOS.
- 6JNpLDqK_1u0ZVkWfYy4t03fQ6nFQiIf_bnjgcv51lZe6aXCU1gp5oaT86_AZLf.itv4JDPUUOtd
- AiDScIC.thYeAVVle1sc9gJclQUhy.I9nGiA_9kieHPo6yW0V0lWrekSRzo35QC1iPJ0Cr3625np
- 5B8HOXWEUp1Cl18EWmM2txQ8iK3h7IEOJrvL6mNvtB4qjHshNnW3PvqorCCjxrbMG7HVztBkax1i
- TzBoBertrMliR8ti_eGrE5ALcWFjgNmoaZh3T6ie5O73ldmlTv41IhlNJVY2oMxTH0lPdLt0rGjH
- hnure8H8tb..33FUrB1pKK3XOuBYtp4hBPjZcFuyRNuCbK9LCPG0LjhF_AJKiFAb0wxxHYF6OIXb
- C2i3iDTGOQNwljpoDII3T45TRZMUIqnA8DLZbLJ39dleONdSQoHpo8DQy7JVfzyn_0Do0GLrZNGC
- pJS352W.OBUFqJAsAQznyGUTH43miTUMAw81sEFjvITQmqWEPj5SAHkFp_wdNBas0oBQTSFszIFN
- YAY8kSSNQbiScafdRPnDk6FKaFzytLegpFvxfaO22gYg_aeypUWhZqdIzuq9_6h9U9fLLQEH2JUu
- wkTRkmdVLWm_FPdxUYfX85yxJGpJ8gNdgAamR.roTgso3k2DQPUF7i7W9kjZZg5p8PCvdwVIRRfE
- i1a7vFHtmH6jndvt199NFU6X01WpUwbYxm6XfsvyeLDWhJvSlMQeTvNSE5lcCVDFFCjtuMmiQm8z
- _P6952lyxHJWZsLjLxaO4zpNhBqLXQGHmKO2j2wGH9ABpUY7FXih6vFZ87TWF.kLViiOpfXJDpE_
- udg1SkJ1lPmTBMx4ZDiAC7BK0cevHLKHJFt6R2FgV_B1FjOzcD.w0bI1SImML8SLS9_5zF55Wc7U
- cV7AmPOYTJcsp5dLQzsoLF7uhtPLZ05ag7x_JEIZ.r5Tg3DZi0WfQrHGkiokOJS1oegdfKrFHPsH
- cRoweaY7N3S8WY1uzOHlwPa0d93U-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: edcc4e0f-3264-44a5-b08e-f1aa002d6f1b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Fri, 10 Oct 2025 21:34:08 +0000
-Received: by hermes--production-gq1-66b66ffd5-xph5s (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 698bef460da1b112e1d4caa5f84dfae0;
-          Fri, 10 Oct 2025 21:13:52 +0000 (UTC)
-Message-ID: <950745ad-b818-475e-a8c9-fe0a9e82c609@schaufler-ca.com>
-Date: Fri, 10 Oct 2025 14:13:49 -0700
+	s=arc-20240116; t=1760146526; c=relaxed/simple;
+	bh=xR0IE0cavrFuHS+sWvEAb/mnV0iT2JipQXIDw9PxCmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=beLJLiGSafp4Q/2p7ZlpTcPoTbEAiSCievcPJ9ta3r3m/8s+c5NmzqQ22/TzzLx1kIttGk6IkaOyPW1kGnLDVYR3H6KxE4VANeEGuvTjHRQnZG7OLJUGmkQwCYMEn69zAeHnSTGUrNZXPuZFNzbdnl/OFs5Uwi+V+esd0oOnQr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=NuwnfwSi; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7811fa91774so2327988b3a.0
+        for <linux-api@vger.kernel.org>; Fri, 10 Oct 2025 18:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1760146524; x=1760751324; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XvBfLEx++WE1Un1u5T1nsAJnVIwWMs7QzpD2aMmgPU8=;
+        b=NuwnfwSior1Z8jfrkAegV7FJKah7cY6lTZlyqFY057aw/K3HK+X+TK4NPPNYQAdGbS
+         xQBM+Sq+LK4hMS2GKxmKc4X07PPlRprITGaThcvUhsmiou7eqL52ip9ciBx3W2h3GHy5
+         5VC1Ug284Y3yHE7ehfHS+UfODeXb4wPjl4MjD+M6iEU8rlpYjJtm3dYmAGKEFtp+f+mP
+         +HJ6qS1rRaDSRArxm6Vo3Cog7DrWm+dUpPefXsYBuEskw+KKAw7esFh6DOHAdDbIeCcn
+         ebx8P9VwLU/SU1Qik5ZRjl7p3HYcSwYMpw82tFitsKjHgYG7PNYyy0OPKOh+zjxEoho0
+         GSoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760146524; x=1760751324;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XvBfLEx++WE1Un1u5T1nsAJnVIwWMs7QzpD2aMmgPU8=;
+        b=iydfXa2rAZNwvXcYPWzNJe8iwvurvMtS7xxFVnlBplnstBwzs0dJ3irHIPF7e7JCly
+         MiwaZ9Cn8qJfQhB2Zanvd2KieOP9pzJneePVRH4T+6SmvWP5KPtfxAFgeAsiLo6jFELh
+         f2c/p3uR1WYhVhRFmn9qIbVsaM3A4WPIWfAFPzmS/CwlKmGlpTJ4GsHxxyGbp9e0fHsj
+         mzIBuA0RoLy3u6/x6n3VWsODXd8mpiBX+nK6bLPjHTsNJLiPzPw5S9447Bc9rmgkk9jJ
+         6V0rIncwJ+QZFj62dzVah5YNvJckktRnw1hPS/jShtW4q/pVWXtgd6jMAdKmSfIwqv2R
+         5/lg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNPMjx277KXDAHVHzQoIiA7lVMSh54Uhfn9FweoFIqFiCXgNb4ofO3vG6I+Qi9sVfJ7n/1wq0VrkE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX7iZXoFhMnxgmuk6P9rgE1N30PIohUXp54oIy5Emx/BC9xmxm
+	h+1hx4PoeM4TAD6UtPeS7lPQ/NDpnoJiSnu+6EIre+yezOpnhoBOGa/QPtVplatErRU=
+X-Gm-Gg: ASbGncvLGhqX9xW0yw5AWuvCDPusciTu9bqkqBMg27A/2/TNIQ3F78vJ6enYrQ7RjNg
+	2vqeLbesQbqaRd1FKg6AWJSn3QM4W4cMGLHIZMr6d7BGfty7k+Q1wfI+uainXOx+5vlsh6T+kyM
+	wFDH4xyeYkarQe2yZoWQZPN9EUAWye0DLOOGI8auvmpJ7Mms+mQp8335MEHop2Jxv5lGb9zRgyJ
+	CT+ChRoHpxbdEK91RI2fuOJvfNeRo9lYfZ2yHj4qM5gijIQW2/AJORrKydm9S9rBMecPVWuRset
+	DpnthDFH5U8+Z1NYIKRpCX5rXw68tiWcoVCFZXbXi3mwZxry+Wt9JarU8e/pAsRaA5x9nh7nbIk
+	4ijAo5oR1+1W/d3lQlzqUq0HK79YfiPUDoabnVgG0CQl6vrxWj+f4S9dmJDLlyDU2VoxYg+qBxz
+	DHWrxUel5O05rCZLXN
+X-Google-Smtp-Source: AGHT+IEniEi9MIGgRunuUrN+JFg+dx6vAM1Vi/J7MDf0PCiszN+aXqLXt9e6v1B48WCt7nSz67SjpA==
+X-Received: by 2002:a05:6a00:3c8e:b0:781:17fb:d3d0 with SMTP id d2e1a72fcca58-79385ce7d83mr17895097b3a.8.1760146523720;
+        Fri, 10 Oct 2025 18:35:23 -0700 (PDT)
+Received: from dread.disaster.area (pa49-180-91-142.pa.nsw.optusnet.com.au. [49.180.91.142])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b733abdsm4353443b3a.25.2025.10.10.18.35.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 18:35:23 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1v7OW0-0000000DEDr-1EsT;
+	Sat, 11 Oct 2025 12:35:20 +1100
+Date: Sat, 11 Oct 2025 12:35:20 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Pavel Emelyanov <xemul@scylladb.com>, linux-fsdevel@vger.kernel.org,
+	"Raphael S . Carvalho" <raphaelsc@scylladb.com>,
+	linux-api@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH] fs: Propagate FMODE_NOCMTIME flag to user-facing
+ O_NOCMTIME
+Message-ID: <aOm0WCB_woFgnv0v@dread.disaster.area>
+References: <20251003093213.52624-1-xemul@scylladb.com>
+ <aOCiCkFUOBWV_1yY@infradead.org>
+ <CALCETrVsD6Z42gO7S-oAbweN5OwV1OLqxztBkB58goSzccSZKw@mail.gmail.com>
+ <aOSgXXzvuq5YDj7q@infradead.org>
+ <CALCETrW3iQWQTdMbB52R4=GztfuFYvN_8p52H1fopdS8uExQWg@mail.gmail.com>
+ <aObXUBCtp4p83QzS@dread.disaster.area>
+ <CALCETrX-cs5MH3k369q2Fk5Q-pYQfEV6CW3va-4E9vD1CoCaGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] Wire up lsm_config_self_policy and
- lsm_config_system_policy syscalls
-To: Song Liu <song@kernel.org>, =?UTF-8?Q?Maxime_B=C3=A9lair?=
- <maxime.belair@canonical.com>
-Cc: linux-security-module@vger.kernel.org, john.johansen@canonical.com,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mic@digikod.net,
- kees@kernel.org, stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
- penguin-kernel@i-love.sakura.ne.jp, rdunlap@infradead.org,
- linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-kernel@vger.kernel.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20251010132610.12001-1-maxime.belair@canonical.com>
- <20251010132610.12001-2-maxime.belair@canonical.com>
- <CAHzjS_uBq8xGCSmHC_kBWi0j8DCdwsy4XtfkH2iH6NygCcChNw@mail.gmail.com>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHzjS_uBq8xGCSmHC_kBWi0j8DCdwsy4XtfkH2iH6NygCcChNw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.24562 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+In-Reply-To: <CALCETrX-cs5MH3k369q2Fk5Q-pYQfEV6CW3va-4E9vD1CoCaGA@mail.gmail.com>
 
-On 10/10/2025 11:06 AM, Song Liu wrote:
-> On Fri, Oct 10, 2025 at 6:27 AM Maxime Bélair
-> <maxime.belair@canonical.com> wrote:
-> [...]
->> --- a/security/lsm_syscalls.c
->> +++ b/security/lsm_syscalls.c
->> @@ -118,3 +118,15 @@ SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, u32 __user *, size,
->>
->>         return lsm_active_cnt;
->>  }
->> +
->> +SYSCALL_DEFINE6(lsm_config_self_policy, u32, lsm_id, u32, op, void __user *,
->> +               buf, u32 __user, size, u32, common_flags, u32, flags)
->> +{
->> +       return 0;
->> +}
->> +
->> +SYSCALL_DEFINE6(lsm_config_system_policy, u32, lsm_id, u32, op, void __user *,
->> +               buf, u32 __user, size, u32, common_flags, u32, flags)
->> +{
->> +       return 0;
->> +}
-> These two APIs look the same. Why not just keep one API and use
-> one bit in the flag to differentiate "self" vs. "system"?
+On Wed, Oct 08, 2025 at 02:51:14PM -0700, Andy Lutomirski wrote:
+> On Wed, Oct 8, 2025 at 2:27 PM Dave Chinner <david@fromorbit.com> wrote:
+> >
+> > On Wed, Oct 08, 2025 at 08:22:35AM -0700, Andy Lutomirski wrote:
+> > > On Mon, Oct 6, 2025 at 10:08 PM Christoph Hellwig <hch@infradead.org> wrote:
+> > > >
+> > > > On Sat, Oct 04, 2025 at 09:08:05AM -0700, Andy Lutomirski wrote:
+> 
+> >
+> > You are conflating "synchronous update" with "blocking".
+> >
+> > Avoiding the need for synchronous timestamp updates is exactly what
+> > the lazytime mount option provides. i.e. lazytime degrades immediate
+> > consistency requirements to eventual consistency similar to how the
+> > default relatime behaviour defers atime updates for eventual
+> > writeback.
+> >
+> > IOWs, we've already largely addressed the synchronous c/mtime update
+> > problem but what we haven't done is made timestamp updates
+> > fully support non-blocking caller semantics. That's a separate
+> > problem...
+> 
+> I'm probably missing something, but is this really different?
 
-I think that's a valid point.
+Yes, and yes.
 
->
-> Thanks,
-> Song
->
+> Either the mtime update can block or it can't block.
+
+Sure, but that's not the issue we have to deal with.
+
+In many filesystems and fs operations, we have to know if an
+operation is going to block -before- we start the operation. e.g.
+transactional changes cannot be rolled back once we've started the
+modification if they need to block to make progress (e.g. read in
+on-disk metadata).
+
+This foresight, in many cases, is -unknowable-. Even though the
+operation /likely/ won't block, we cannot *guarantee* ahead of time
+that any given instance of the operation will /not/ block.  Hence
+the reliable non-blocking operation that users are asking for is not
+possible with unknowable implementation characteristics like this.
+
+IOWs, a timestamp update implementation can be synchronous and
+reliably non-blocking if it always knows when blocking will occur
+and can return -EAGAIN instead of blocking to complete the
+operation.
+
+If it can't know when/if blocking will occur, then lazytime allows
+us to defer the (potentially) blocking update operation to another
+context that can block. Queuing for async processing can easily be
+made non-blocking, and __mark_inode_dirty(I_DIRTY_TIME) does this
+for us.
+
+So, yeah, it should be pretty obvious at this point that non-blocking
+implementation is completely independent of whether the operation is
+performed synchronously or asynchronously. It's easier to make async
+operations non-blocking, but that doesn't mean "non_blocking" and
+"asynchronous execution" are interchangable terms or behaviours.
+
+> I haven't dug all the
+> way into exactly what happens in __mark_inode_dirty(), but there is a
+> lot going on in there even in the I_DIRTY_TIME path.
+
+It's pretty simple, really.  __mark_inode_dirty(I_DIRTY_TIME) is
+non-blocking and queues the inode on the wb->i_dirty_time queue
+for later processing.
+
+> And Pavel is
+> saying that AIO and mtime updates don't play along well.
+
+Again: this is exactly why lazytime was added to XFS *ten years
+ago*. From 2015 (issue #3):
+
+https://lore.kernel.org/linux-xfs/CAD-J=zZh1dtJsfrW_Gwxjg+qvkZMu7ED-QOXrMMO6B-G0HY2-A@mail.gmail.com/
+
+(Oh, look, a discussion that starts from a user suggestion of
+exposing FMODE_NOCMTIME to userspace apps! Sound familiar?)
+
+> > IOWs, with lazytime, writeback already persists timestamp updates
+> > when appropriate for best performance.
+> 
+> I'm probably doing a bad job explaining myself.
+
+No, I think both Christoph and I both understand exactly what you
+are trying to describe.
+
+It seems to me that haven't yet understood that lazytime already
+does exactly what you are asking for. Hence you think we don't
+understand the "lazytime" concept you are proposing and keep trying
+to reinvent lazytime to convince us that we need "lazytime"
+functionalitying in the kernel...
+
+> > > Thinking out loud, to handle both write_iter and mmap, there might
+> > > need to be two bits: one saying "the timestamp needs to be updated"
+> > > and another saying "the timestamp has been updated in the in-memory
+> > > inode, but the inode hasn't been dirtied yet".
+> >
+> > The flag that implements the latter is called I_DIRTY_TIME. We have
+> > not implemented the former as that's a userspace visible change of
+> > behaviour.
+> 
+> Maybe that change should be done?  Or not -- it wouldn't be terribly
+> hard to have a pair of atomic timestamps in struct inode indicating
+> what timestamps we want to write the next time we get around to it.
+
+See, you just reinvented the lazytime mechanism. Again. :/
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
