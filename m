@@ -1,125 +1,151 @@
-Return-Path: <linux-api+bounces-5102-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5103-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510D1BD293C
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 12:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E44BD35AE
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 16:09:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 993DC4F03F9
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 10:29:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ED1384F4B92
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 14:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA842FF17D;
-	Mon, 13 Oct 2025 10:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D34E2475C2;
+	Mon, 13 Oct 2025 14:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZIQhb/oU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaL1Lc2O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32112FF170
-	for <linux-api@vger.kernel.org>; Mon, 13 Oct 2025 10:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E671C84A6;
+	Mon, 13 Oct 2025 14:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760351386; cv=none; b=onsmvLJO1FhDcBuJQ6KREuGgQA5Kv3x5w9WzhKzLgm5YanxJLEN6rOxFDj1lEtYsddS1qJnqFj2X2dzBVUIPKLa4sWefZ807sFGoaNfJtjUMN5I3ix79EtcrI+TIGkt/tGscYOi2lxHGynbyMvHWyzbxZTgCJ2yEk9CA7WtzPdU=
+	t=1760364418; cv=none; b=SfjuymocayDfogZX0lcDM+sLKTNwA8pE1H8/BVrhDAQCG/F1z5F8HbytU9ULvoQjBaij9/5ClEWOK4RUgDkElxAFIj7m90bj9hNCu4ztOwj2uBKh+cidfzuNs/H7oLioVP+okwkFCp+D0HfNEHsYcSNMC4LdTPHEk+IbI0UmAn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760351386; c=relaxed/simple;
-	bh=SVPUlK6sYHZahK5O3+GOTdw6Bx0G0qiDlm5PKLNZXQA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oMPEr+Ybd5Sb6a3aZjQyD04bXhejibpwnY1WtChMDasoNtKaLJUSvo255r0ehdACMz16x5r04hoZYnYwLH5nh0IEbv/7/T2y8M5IME1FPxrrSOLpen0a2GRa7YGv7SHB/ySKympkBz6zcrN1rnYguF/+A/KraN+ArHn0zHBUNKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZIQhb/oU; arc=none smtp.client-ip=74.125.224.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-6353ff1a78dso3712811d50.0
-        for <linux-api@vger.kernel.org>; Mon, 13 Oct 2025 03:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760351384; x=1760956184; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SVPUlK6sYHZahK5O3+GOTdw6Bx0G0qiDlm5PKLNZXQA=;
-        b=ZIQhb/oUlO3F9MEPUxurf/mgWI7Y1g8uHfT6SNbxuv/4xY5+m/YraZW/5KqmjRIwzX
-         rdTRUXUR5ZYcRqHAcjEXbyqp9QPzrQjcU/+tE2lLY7zsYf9eKvPgMh7Yb+eG+DeMYl1A
-         NNkv7u+ELQLfd91UVqU5n/EDVbx6VQywzqTdWGNVo8cwyfdUj0VZFPUXp9En5uePFJsJ
-         B8tJ7rKH5YlpW+Pq8nGhj+PB2fjPaXocpEbEosY0ETAXl+QzWKYisCRZclqHs3mpy0wb
-         S17h9fT1i/DEuznIcB2PXT67kVi/TGa5zjTd/jM4v9YckG+ajQAB0eFRwEULsu95liHd
-         eM0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760351384; x=1760956184;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SVPUlK6sYHZahK5O3+GOTdw6Bx0G0qiDlm5PKLNZXQA=;
-        b=qqi/IFAqqJHQZbEhd1JF+hj4dLI9g/AZUq99M7BdQKwPe9QUNP7EOg9ac/PSzyD/Nv
-         SVAG6ey5AY10TGW9Fffid3/yqbYKh4RE8TjwdPl7etagzXOyKUFXUT/31C8Q84XheclV
-         a071j7I/A0aVbHrx+wC8b3W+XNe6GuFVtCtGkUSpvgl+iNTZfzB6FKBBSRdH3hseA+qc
-         oFXkrWeTpu2u5JhCUA0b55EuU1oFJbqxCyJEb1cXkSx8jBaApYI/LKSB6HcwCg0YjfD3
-         s33X/BZOLDLSYPCXyvnU4zr7ARoZE6YbcvTMEcgrgskdqasir96ebqgouaJD9HEmXaYP
-         JMng==
-X-Forwarded-Encrypted: i=1; AJvYcCUhP4G51Q8tq9sDxJPFAnPEGSxK+EO5+tDphDEHyIxIyyw3N/OYo5cwVgY6UK3YT5x9pOaz4QUZMpk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkvJjnfaLWKOI9jGTMgF5DdtufaZkAzHsycvZQgKHXKrv5tCUB
-	YPMtnAfl6/wvVdXDlm2sb9oPb7a4yk8p2UIMHeNIvyWinBR/+CIHWnIGj/a3yxgU6nIpnLJyBvx
-	+ba1W1PCrUWIu7T+i54XR7vvf1iNMoe8=
-X-Gm-Gg: ASbGncsgGAwKimgYfo23G1dBouCmdEpVr/2dGhO4xGn46wEqW8ADdG12Li+bXz9XR3N
-	GYgqMpweyBV5bsQrfN5+b5/+BzVMzyEyoMt0P6Nr4eaf0VjeGFjUgfxHRcVoXw//NJpOS9FkAQw
-	Zuors3CdmR0+0MU9hiECLkTT3ySWPWrIoBroS1oWgialNEXDCKBJic6tpNigZhOXodyd4dnmNrG
-	l9UvkA0JYWd/7QYt/z+hS7qxiJRwA/fYgSi
-X-Google-Smtp-Source: AGHT+IF7gB/uIYJ4y7t+OLiZ00mCO9lllMt+QoIyqpZ385m2NgZqSy+lqlMIQpqL29tGtjodZ9h+RUr8WRjGSui6l/0=
-X-Received: by 2002:a05:690e:4186:b0:63c:f5a6:f2f0 with SMTP id
- 956f58d0204a3-63cf5a7080fmr6997775d50.66.1760351383745; Mon, 13 Oct 2025
- 03:29:43 -0700 (PDT)
+	s=arc-20240116; t=1760364418; c=relaxed/simple;
+	bh=L5mJoBb6ix5GBpByToQiDe5tqBFj7Zbr19ly3L1L3KI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cMIwTdumXXebpCUDzIXCtMYnRKEzuvCH1qZwcdKWxwkBC5rWuzqDbz17uCOnNR2puuWQvfFnUkNXkUiiXaooP4HXkKWAp5vWQvylhHP0n/A+/Hq4xffL2+S04uFIYrpwv2RtKezaGm1X9i8MG+46GEbSbyEPxSVz1/Gul6aY5TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaL1Lc2O; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760364418; x=1791900418;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=L5mJoBb6ix5GBpByToQiDe5tqBFj7Zbr19ly3L1L3KI=;
+  b=YaL1Lc2Omy7qI9scQjYqvVrPDt3IBuYgas97ODu3NZgxuPXDbBA/vBHI
+   yjtewhM4xrSAaTlTwetf6Kg5VjKyxdtIGyIxfqG4TSREnr2umxtr5WwD0
+   4gERmaDzqqtue/XyWPCdEWcx1Nzp6qCCciFH/NqzRBNVs4Eb+vDBrRatr
+   mvz/gq70YCjuyfbgTKiBVp2XqxqO90W0dw5WvGE+Fo054fdtFNBXRtj7Z
+   dmTw4dzxCxDS7nBd2TYj9bJ8SNpZXwJF6dd6FsQ8aaDyLjWaAaT6T/NVL
+   /cj1UbVeEHHA4UBZ4uX6JQTwBTUGwAo0CK6hRD5YQcLaNbJkmCbUBoVeH
+   g==;
+X-CSE-ConnectionGUID: 4dC+1mT+RsyRHFucUrQ2vg==
+X-CSE-MsgGUID: wcOO+dXLQluY58daM+MB+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73946677"
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
+   d="scan'208";a="73946677"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 07:06:57 -0700
+X-CSE-ConnectionGUID: uNRTtnxdRKStoMWW6widHg==
+X-CSE-MsgGUID: WCIV4fbYShWKbukyiTN2yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
+   d="scan'208";a="186691282"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.111.123]) ([10.125.111.123])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 07:06:57 -0700
+Message-ID: <e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
+Date: Mon, 13 Oct 2025 07:06:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010094047.3111495-1-safinaskar@gmail.com>
- <20251010094047.3111495-3-safinaskar@gmail.com> <07ae142e-4266-44a3-9aa1-4b2acbd72c1b@infradead.org>
-In-Reply-To: <07ae142e-4266-44a3-9aa1-4b2acbd72c1b@infradead.org>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Mon, 13 Oct 2025 13:29:07 +0300
-X-Gm-Features: AS18NWAYGkNu7BjeCT0jHGno_eA5ARoSWF2j7yYdLIuVOnrJP74yF3CsWnjM_B4
-Message-ID: <CAPnZJGDe+sDCsCngHyF6+=3=A9pYwQ1+N87jpq-ZdsSvVbQuNw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] initrd: remove deprecated code path (linuxrc)
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
-	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
-	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
-	linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Michal Simek <monstr@monstr.eu>, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Dave Young <dyoung@redhat.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	Nicolas Schichan <nschichan@freebox.fr>, David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] vdso: Remove struct getcpu_cache
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Shuah Khan <shuah@kernel.org>
+Cc: loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 10, 2025 at 10:31=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
-> There are more places in Documentation/ that refer to "linuxrc".
-> Should those also be removed or fixed?
->
-> accounting/delay-accounting.rst
-> admin-guide/initrd.rst
-> driver-api/early-userspace/early_userspace_support.rst
-> power/swsusp-dmcrypt.rst
-> translations/zh_CN/accounting/delay-accounting.rst
+On 10/13/25 02:20, Thomas Weißschuh wrote:
+> -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused);
+> -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused)
+> +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused);
+> +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)
+>  {
+>  	int cpu_id;
 
-Yes, they should be removed.
-I made this patchset minimal to be sure it is easy to revert.
-I will remove these linuxrc mentions in cleanup patchset.
+It would ideally be nice to have a _bit_ more history on this about
+how it became unused any why there is such high confidence that
+userspace never tries to use it.
 
---=20
-Askar Safin
+Let's say someone comes along in a few years and wants to use this
+'unused' parameter. Could they?
 
