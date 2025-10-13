@@ -1,151 +1,235 @@
-Return-Path: <linux-api+bounces-5103-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5104-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E44BD35AE
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 16:09:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD277BD4582
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 17:37:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ED1384F4B92
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 14:07:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED9491885A25
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 15:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D34E2475C2;
-	Mon, 13 Oct 2025 14:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AE43101DC;
+	Mon, 13 Oct 2025 15:23:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaL1Lc2O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1mwuIjG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E671C84A6;
-	Mon, 13 Oct 2025 14:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B6A30FF30;
+	Mon, 13 Oct 2025 15:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364418; cv=none; b=SfjuymocayDfogZX0lcDM+sLKTNwA8pE1H8/BVrhDAQCG/F1z5F8HbytU9ULvoQjBaij9/5ClEWOK4RUgDkElxAFIj7m90bj9hNCu4ztOwj2uBKh+cidfzuNs/H7oLioVP+okwkFCp+D0HfNEHsYcSNMC4LdTPHEk+IbI0UmAn4=
+	t=1760369004; cv=none; b=GeuTT5lChQxV+HzcTX333tw70rJhrDHNoRtu3L5Rg0nfiGgsa5wQhN3kv+92L4AqyQYXsNc3VT1y4iGxLCmd0oRV4HXdxiy3Zf3IktVUKyD20wFiRG+XP5rWtxFVfUaf8DGyaBlrJIn5gXm3EJcZf8L0GIbb43k9BcutTGCe+mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364418; c=relaxed/simple;
-	bh=L5mJoBb6ix5GBpByToQiDe5tqBFj7Zbr19ly3L1L3KI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cMIwTdumXXebpCUDzIXCtMYnRKEzuvCH1qZwcdKWxwkBC5rWuzqDbz17uCOnNR2puuWQvfFnUkNXkUiiXaooP4HXkKWAp5vWQvylhHP0n/A+/Hq4xffL2+S04uFIYrpwv2RtKezaGm1X9i8MG+46GEbSbyEPxSVz1/Gul6aY5TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaL1Lc2O; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760364418; x=1791900418;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=L5mJoBb6ix5GBpByToQiDe5tqBFj7Zbr19ly3L1L3KI=;
-  b=YaL1Lc2Omy7qI9scQjYqvVrPDt3IBuYgas97ODu3NZgxuPXDbBA/vBHI
-   yjtewhM4xrSAaTlTwetf6Kg5VjKyxdtIGyIxfqG4TSREnr2umxtr5WwD0
-   4gERmaDzqqtue/XyWPCdEWcx1Nzp6qCCciFH/NqzRBNVs4Eb+vDBrRatr
-   mvz/gq70YCjuyfbgTKiBVp2XqxqO90W0dw5WvGE+Fo054fdtFNBXRtj7Z
-   dmTw4dzxCxDS7nBd2TYj9bJ8SNpZXwJF6dd6FsQ8aaDyLjWaAaT6T/NVL
-   /cj1UbVeEHHA4UBZ4uX6JQTwBTUGwAo0CK6hRD5YQcLaNbJkmCbUBoVeH
-   g==;
-X-CSE-ConnectionGUID: 4dC+1mT+RsyRHFucUrQ2vg==
-X-CSE-MsgGUID: wcOO+dXLQluY58daM+MB+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73946677"
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="73946677"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 07:06:57 -0700
-X-CSE-ConnectionGUID: uNRTtnxdRKStoMWW6widHg==
-X-CSE-MsgGUID: WCIV4fbYShWKbukyiTN2yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="186691282"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.111.123]) ([10.125.111.123])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 07:06:57 -0700
-Message-ID: <e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
-Date: Mon, 13 Oct 2025 07:06:55 -0700
+	s=arc-20240116; t=1760369004; c=relaxed/simple;
+	bh=HrpU56u8pxLbc0g2WXKv8ddcf/Eh7MXMNWvvG37jNK4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sWakCjOnIO41j3GFUY3VG2lcNpWe6DZFZSHZReWuoYOn5UbrSnxc1XJmf46pZnmlGWrV+NzxZJH1o5V794OodDgTlI4sr5xPhYirtTLrCtQ76UlK6VB6psCmgV2c59pan04Wu0JNQgcAqg2/AjfZJmduWVg1GxruvJ9MglsZi4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1mwuIjG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467E2C4CEE7;
+	Mon, 13 Oct 2025 15:23:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760369003;
+	bh=HrpU56u8pxLbc0g2WXKv8ddcf/Eh7MXMNWvvG37jNK4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=p1mwuIjGDqqsckgAZg28V4Tdmyj4Dd97sGqbbsa9lgNdyX/sRs42EfYMS3jIPWYV+
+	 nr7vxK2+169v0M8HySQ0uqBzWr5hAOg9GhkSMNabre2gX2OpTEehC8GXK0Effdu/Fa
+	 3qlF51k21MY8e6I51tFIoKonWMKzGJJTeSnhlkhcx9OTkxrj5xVP10uY7uempIhuyC
+	 whGSrPHmNuYmQhrwOqoM1Mm7g38uBzRluMba02MY4iX0Nqu/FbMRr67HApS8b0rMcl
+	 UOdvgHtogP3LzHWRJLxerRuaI1Yn22cFa8aVYGPDj1UhayuNHwJMC1NTcqr0MjEaca
+	 vUKwnxoP+7xhw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
+  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+In-Reply-To: <CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
+	(Pasha Tatashin's message of "Thu, 9 Oct 2025 19:50:12 -0400")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+	<mafs0ms5zn0nm.fsf@kernel.org>
+	<CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
+Date: Mon, 13 Oct 2025 17:23:13 +0200
+Message-ID: <mafs0o6qaltb2.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] vdso: Remove struct getcpu_cache
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Shuah Khan <shuah@kernel.org>
-Cc: loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 10/13/25 02:20, Thomas Weißschuh wrote:
-> -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused);
-> -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu_cache *unused)
-> +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused);
-> +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)
->  {
->  	int cpu_id;
+On Thu, Oct 09 2025, Pasha Tatashin wrote:
 
-It would ideally be nice to have a _bit_ more history on this about
-how it became unused any why there is such high confidence that
-userspace never tries to use it.
+> On Thu, Oct 9, 2025 at 6:58=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
+g> wrote:
+>>
+>> On Tue, Oct 07 2025, Pasha Tatashin wrote:
+>>
+>> > On Sun, Sep 28, 2025 at 9:03=E2=80=AFPM Pasha Tatashin
+>> > <pasha.tatashin@soleen.com> wrote:
+>> >>
+>> [...]
+>> > 4. New File-Lifecycle-Bound Global State
+>> > ----------------------------------------
+>> > A new mechanism for managing global state was proposed, designed to be
+>> > tied to the lifecycle of the preserved files themselves. This would
+>> > allow a file owner (e.g., the IOMMU subsystem) to save and retrieve
+>> > global state that is only relevant when one or more of its FDs are
+>> > being managed by LUO.
+>>
+>> Is this going to replace LUO subsystems? If yes, then why? The global
+>> state will likely need to have its own lifecycle just like the FDs, and
+>> subsystems are a simple and clean abstraction to control that. I get the
+>> idea of only "activating" a subsystem when one or more of its FDs are
+>> participating in LUO, but we can do that while keeping subsystems
+>> around.
+>
+> Thanks for the feedback. The FLB Global State is not replacing the LUO
+> subsystems. On the contrary, it's a higher-level abstraction that is
+> itself implemented as a LUO subsystem. The goal is to provide a
+> solution for a pattern that emerged during the PCI and IOMMU
+> discussions.
 
-Let's say someone comes along in a few years and wants to use this
-'unused' parameter. Could they?
+Okay, makes sense then. I thought we were removing the subsystems idea.
+I didn't follow the PCI and IOMMU discussions that closely.
+
+Side note: I see a dependency between subsystems forming. For example,
+the FLB subsystem probably wants to make sure all its dependent
+subsystems (like LUO files) go through their callbacks before getting
+its callback. Maybe in the current implementation doing it in any order
+works, but in general, if it manages data of other subsystems, it should
+be serialized after them.
+
+Same with the hugetlb subsystem for example. On prepare or freeze time,
+it would probably be a good idea if the files callbacks finish first. I
+would imagine most subsystems would want to go after files.
+
+With the current registration mechanism, the order depends on when the
+subsystem is registered, which is hard to control. Maybe we should have
+a global list of subsystems and can manually specify the order? Not sure
+if that is a good idea, just throwing it out there off the top of my
+head.
+
+>
+> You can see the WIP implementation here, which shows it registering as
+> a subsystem named "luo-fh-states-v1-struct":
+> https://github.com/soleen/linux/commit/94e191aab6b355d83633718bc4a1d27dda=
+390001
+>
+> The existing subsystem API is a low-level tool that provides for the
+> preservation of a raw 8-byte handle. It doesn't provide locking, nor
+> is it explicitly tied to the lifecycle of any higher-level object like
+> a file handler. The new API is designed to solve a more specific
+> problem: allowing global components (like IOMMU or PCI) to
+> automatically track when resources relevant to them are added to or
+> removed from preservation. If HugeTLB requires a subsystem, it can
+> still use it, but I suspect it might benefit from FLB Global State as
+> well.
+
+Hmm, right. Let me see how I can make use of it.
+
+>
+>> Here is how I imagine the proposed API would compare against subsystems
+>> with hugetlb as an example (hugetlb support is still WIP, so I'm still
+>> not clear on specifics, but this is how I imagine it will work):
+>>
+>> - Hugetlb subsystem needs to track its huge page pools and which pages
+>>   are allocated and free. This is its global state. The pools get
+>>   reconstructed after kexec. Post-kexec, the free pages are ready for
+>>   allocation from other "regular" files and the pages used in LUO files
+>>   are reserved.
+>>
+>> - Pre-kexec, when a hugetlb FD is preserved, it marks that as preserved
+>>   in hugetlb's global data structure tracking this. This is runtime data
+>>   (say xarray), and _not_ serialized data. Reason being, there are
+>>   likely more FDs to come so no point in wasting time serializing just
+>>   yet.
+>>
+>>   This can look something like:
+>>
+>>   hugetlb_luo_preserve_folio(folio, ...);
+>>
+>>   Nice and simple.
+>>
+>>   Compare this with the new proposed API:
+>>
+>>   liveupdate_fh_global_state_get(h, &hugetlb_data);
+>>   // This will have update serialized state now.
+>>   hugetlb_luo_preserve_folio(hugetlb_data, folio, ...);
+>>   liveupdate_fh_global_state_put(h);
+>>
+>>   We do the same thing but in a very complicated way.
+>>
+>> - When the system-wide preserve happens, the hugetlb subsystem gets a
+>>   callback to serialize. It converts its runtime global state to
+>>   serialized state since now it knows no more FDs will be added.
+>>
+>>   With the new API, this doesn't need to be done since each FD prepare
+>>   already updates serialized state.
+>>
+>> - If there are no hugetlb FDs, then the hugetlb subsystem doesn't put
+>>   anything in LUO. This is same as new API.
+>>
+>> - If some hugetlb FDs are not restored after liveupdate and the finish
+>>   event is triggered, the subsystem gets its finish() handler called and
+>>   it can free things up.
+>>
+>>   I don't get how that would work with the new API.
+>
+> The new API isn't more complicated; It codifies the common pattern of
+> "create on first use, destroy on last use" into a reusable helper,
+> saving each file handler from having to reinvent the same reference
+> counting and locking scheme. But, as you point out, subsystems provide
+> more control, specifically they handle full creation/free instead of
+> relying on file-handlers for that.
+>
+>> My point is, I see subsystems working perfectly fine here and I don't
+>> get how the proposed API is any better.
+>>
+>> Am I missing something?
+>
+> No, I don't think you are. Your analysis is correct that this is
+> achievable with subsystems. The goal of the new API is to make that
+> specific, common use case simpler.
+
+Right. Thanks for clarifying.
+
+>
+> Pasha
+
+--=20
+Regards,
+Pratyush Yadav
 
