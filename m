@@ -1,123 +1,105 @@
-Return-Path: <linux-api+bounces-5106-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5107-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B0BBD5750
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 19:21:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC62BD5FE7
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 21:45:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D32194EA806
-	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 17:15:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1245407157
+	for <lists+linux-api@lfdr.de>; Mon, 13 Oct 2025 19:45:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4F42C11D6;
-	Mon, 13 Oct 2025 17:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1342B1D5CC6;
+	Mon, 13 Oct 2025 19:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nInNi8ld"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="OIcplRen"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4513B273D77
-	for <linux-api@vger.kernel.org>; Mon, 13 Oct 2025 17:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B057155322;
+	Mon, 13 Oct 2025 19:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760375712; cv=none; b=e0yAV3v4TLwlFEJVvzymDAbWtVUuMEgg9n+SbQy7J+F+GyWADtghO2k4dk/iTqZ65EwkFuifl2G11wgjcCJQ6yxW4lY8ZP6GsF0mfpesnDMkbW1HEURqPCc45Z1TnwL4WKTUb9YXcNJQaO11c3Tfn5pB48+nNOfJrmXCYrLR1No=
+	t=1760384732; cv=none; b=Jq906uWRlV1kYCTZMLp9whEtTSPKSRV5RAWzvvy7Y91piPv9gugTXYIVUHq2m6825QoklcbCTk+IujbcCC7mwnGcwoaQ4gZfKoRd6jQ6RqU0ViJufb/NwKTCNwuPFnEqk5GPDIfooRIEYVZ0eZEy6hZwoGbx8M6Dg8UsRLwaUOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760375712; c=relaxed/simple;
-	bh=qg3NRHdeNA4Fg5h3g9E13z1ZmJaUuUt4rsIs+bfAZf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gg7AwL5XV1CTlvy1t5ucoBiDG/3zpw/NxGRewtKu3yP7tnH3VUks5roV5H6qLILpF3dFKqOL7uDp8805AtVJMHpH4hVoJ9Y30syA884QHAHoAgZwz1Kq0Nz9vdmPq7O6PoiNc+NXEOA8d7OBLDW06F9/D6OXU76MACOqZHg3HBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nInNi8ld; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F7EC2BC86
-	for <linux-api@vger.kernel.org>; Mon, 13 Oct 2025 17:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760375712;
-	bh=qg3NRHdeNA4Fg5h3g9E13z1ZmJaUuUt4rsIs+bfAZf0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nInNi8ldgd1mbqOSNYEn0pvWDU/WshfNHypWq71z7uedvu9QnRfeqGNexbgxkQWls
-	 f2uSbfqG61R0A7mseEzZHj5XzQdF4CKWpU8WYjlz7LGv0ZD7jEV1HjvOJDz4QmW1nv
-	 7xejInsLO+AwE5lGA5DuIDUXa905yRbcZf8QTe1rCeC1iR7E3MOR2rj1iOyyl3h8E6
-	 q56Yj6mpnz4vm1ikUfWkH3B45H06p59zFUjdS/IoBGKAA45YFyC3iXzYEXNxkboYJQ
-	 /XsOeh2UIs5o+N21V8eMOivhe2kaee1fG903o6NTrx/vhqLEntGtDyLt+O6Iy1bxTH
-	 r5nBrhzJ5zA4w==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-57b8fc6097fso1391373e87.1
-        for <linux-api@vger.kernel.org>; Mon, 13 Oct 2025 10:15:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWBeOx2wIk6ne6DIXdZkCLq7uEWSfv4j7JpsWzIDLNahnQntXWL81GtpWR/ogu8uzeZMbsXOnTpqB8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy49isvymohBYkr3DfDYSHkGlTn5naoVIsNM3343oXGEV6f3aKu
-	xzB3IamY2GccyIuijR2/G4IwBYYsIaj2kWJoYCbLrx8NyGnqGTXFg9XGU7r8Ijx0k6Tliw1mcT9
-	KL1kSj7eI/GJAVyb8M2/B3/gSTqAFxF6qsF5sBiTX
-X-Google-Smtp-Source: AGHT+IFe+SzxnNHmLcFlvnfkJvIZjwnZkm1Ok6JvoMYuj8nhVWXCmwvh0KaZdzeEUyoNuxcssWgKIbqhAnjyljsSJMw=
-X-Received: by 2002:a05:6512:230c:b0:573:68fd:7ad2 with SMTP id
- 2adb3069b0e04-5906dd53da9mr5881107e87.35.1760375710222; Mon, 13 Oct 2025
- 10:15:10 -0700 (PDT)
+	s=arc-20240116; t=1760384732; c=relaxed/simple;
+	bh=MY+YRUQKLtJYZJyEq96fgMk0w7vwxMzr5S0vyCUFB6Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j0OcLAPG7lrlnfw6TFJWqNv4JE0CMFCH1dXwmiVzNmvRFQKpCycCYJNxneeEJRU37itw6Elz/DRirdbmc1i2Qunwv9ViP6b3XaEw4/V+fS3N+O+641T1cxJw1eWqD6GCwFYLeUG9Bz+8u4EaNm79nG1i504TmujJ1G9BNuLzbIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=OIcplRen; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [IPV6:2601:646:8081:9484:201e:bc0f:a7c6:ca8d] ([IPv6:2601:646:8081:9484:201e:bc0f:a7c6:ca8d])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 59DJiSUF1442566
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 13 Oct 2025 12:44:32 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 59DJiSUF1442566
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025092201; t=1760384682;
+	bh=1aJOeaPPB1LUMhLyvXF0SOu3n0ovMqgDmMOTUIZYXXs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OIcplRenwsuEFxrQG/i7vbTNL5ee01maFltEu/9+zMjTrqySBAieZqr/Jnicpqoey
+	 b2HHI6yIRprdPUAGYIWjF/kEanvHHWXiC6nPSVA5IqK35TSVZ+7IrLFGmq98r1j8DZ
+	 V5aeeP4aUdWPcHl9xR2EvzbOu0Jiq4U5iHSVyec1uPZV1rwgNuPSY0NPtjes+43aIl
+	 K+H3VHnCes599MCCY8JoDUtC3q84PpJfE6CcvcH+f08aBA9dJ3t2a/zXK+rcx8az32
+	 UvQcHsa4qPbKZ9DC6gaWyDpFxKVkpNfFVN7H2GKOXZ8fif9gO0qQ83SQs1WuiyNyu6
+	 EQ1aEfan++sog==
+Message-ID: <494caf29-8755-4bc6-a2c3-b9d0b3e9b78d@zytor.com>
+Date: Mon, 13 Oct 2025 12:44:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de> <e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
-In-Reply-To: <e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Mon, 13 Oct 2025 10:14:58 -0700
-X-Gmail-Original-Message-ID: <CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
-X-Gm-Features: AS18NWDGlHiZ6TxV2AYIYIygvwnW3vlieR2fC4dbq7adbnnZ1RUCMMYySi05JAY
-Message-ID: <CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] vdso: Remove struct getcpu_cache
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Shuah Khan <shuah@kernel.org>, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Andy Lutomirski <luto@kernel.org>, Dave Hansen <dave.hansen@intel.com>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+        Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan
+ <shuah@kernel.org>, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-api@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
+ <e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
+ <CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 13, 2025 at 7:07=E2=80=AFAM Dave Hansen <dave.hansen@intel.com>=
- wrote:
->
-> On 10/13/25 02:20, Thomas Wei=C3=9Fschuh wrote:
-> > -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu=
-_cache *unused);
-> > -int __vdso_getcpu(unsigned int *cpu, unsigned int *node, struct getcpu=
-_cache *unused)
-> > +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)=
-;
-> > +int __vdso_getcpu(unsigned int *cpu, unsigned int *node, void *unused)
-> >  {
-> >       int cpu_id;
->
-> It would ideally be nice to have a _bit_ more history on this about
-> how it became unused any why there is such high confidence that
-> userspace never tries to use it.
+On 2025-10-13 10:14, Andy Lutomirski wrote:
+> 
+> I don't actually remember whether the kernel ever used this.  It's
+> possible that there are ancient kernels where passing a wild, non-null
+> pointer would blow up.  But it's certainly safe to pass null, and it's
+> certainly safe for the kernel to ignore the parameter.
+> 
 
-The theory is that people thought that getcpu was going to be kind of
-slow, so userspace would allocate a little cache (IIRC per-thread) and
-pass it in, and the vDSO would do, well, something clever to return
-the right value.  The something clever was probably based on the idea
-that you can't actually tell (in general) if the return value from
-getcpu is stale, since you might well get migrated right as the
-function returns anyway, so the cache could be something silly like
-(jiffies, cpu).
+One could imagine an architecture which would have to execute an actual system
+call wanting to use this, but on x86 it is pointless -- even the LSL trick is
+much faster than a system call, and once you account for whatever hassle you
+would have to deal with do make the cache make sense (probably having a global
+generation number and/or a timestamp to expire it) it well and truly makes no
+sense.
 
-I don't actually remember whether the kernel ever used this.  It's
-possible that there are ancient kernels where passing a wild, non-null
-pointer would blow up.  But it's certainly safe to pass null, and it's
-certainly safe for the kernel to ignore the parameter.
+	-hpa
 
---Andy
-
->
-> Let's say someone comes along in a few years and wants to use this
-> 'unused' parameter. Could they?
->
 
