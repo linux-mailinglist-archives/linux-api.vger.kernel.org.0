@@ -1,117 +1,156 @@
-Return-Path: <linux-api+bounces-5110-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5111-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D132BD84F8
-	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 10:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A6FBD9512
+	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 14:23:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 80E934E7911
-	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 08:56:33 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EA2624E3E2F
+	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 12:23:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F41482DE6E1;
-	Tue, 14 Oct 2025 08:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C59C20296C;
+	Tue, 14 Oct 2025 12:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X55Luj6j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jc8MMyJ/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DA62877CB
-	for <linux-api@vger.kernel.org>; Tue, 14 Oct 2025 08:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9307F211491
+	for <linux-api@vger.kernel.org>; Tue, 14 Oct 2025 12:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760432189; cv=none; b=QrkUIlPz3ApS2K6dsWh5fzpohPYkp0qyxbrr3NGqgPkHac7K60w/vsJZoMDlj1DwOoxrJKLIZVFdDTiN9HjvDm/1G+QY6FsNSY87VI8nYryxrzo2yoiQCInGJxagB22GxksaxsAhsiaQNUKYkh0zL1q/6bEw93VYVfka94XYcy4=
+	t=1760444620; cv=none; b=C/BnUrhNEgXdYJcfk7AGCJMoQXdRwinM+eNl1Eomls54QKIF0MpyAtbEUjGtegI4ullbm5tyObzv5XSD964c7Z8YQfTzXtApoOJwRM3g0z/3GCpmbvSmYPMLlsQHct8TJrns57onMF0oGtFoZrtNigTBb4K9Td5CeUfzpS0CTVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760432189; c=relaxed/simple;
-	bh=Gx9Z6mn6RyElOVVuTuwoqX8a6quS8JbkEQ2dofakRLs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gThDegmMmZw/yITT+jEd7IDucflVQOcF/Io7NSPtPTLlAycv/RW1JcM1Og0mY21I//F4VCUk53jQNHc/nZjfntUsTu9XQ2qkFbFUiIgq5PZFm4WvQFvTPdF0A9QL6NJIpwZCARq9K+6WhXPy9XCN8fFMg8yTrs06msgt5jKbGBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X55Luj6j; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760432187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SzW2cWfpQXuLGQqbaNqxu1i17z4sh2RC+KzHuoIl4BY=;
-	b=X55Luj6jCw/64HPkjvs++7Yb6ir0mlGrrK8czElPWTRJp3BYfLKk/iQ1dugN+V5eQaDnDH
-	bPdH+nJtJuzap+1Y+Delbmk5Ari7NzB7Zsd8+hCwqZs17L2Ivu4z4K2D+TSItKc2sxnZqq
-	EggxPyeqDUJAlQILBU9hC3oKhgXRBPo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-301-88ZyZhZiPSKzb3dgMZdLLQ-1; Tue,
- 14 Oct 2025 04:56:22 -0400
-X-MC-Unique: 88ZyZhZiPSKzb3dgMZdLLQ-1
-X-Mimecast-MFC-AGG-ID: 88ZyZhZiPSKzb3dgMZdLLQ_1760432179
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8A5F2180045C;
-	Tue, 14 Oct 2025 08:56:17 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.33.199])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4B5F19560A2;
-	Tue, 14 Oct 2025 08:56:08 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Dave Hansen <dave.hansen@intel.com>,  Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
- <thomas.weissschuh@linutronix.de>,  Huacai Chen <chenhuacai@kernel.org>,
-  WANG Xuerui <kernel@xen0n.name>,  Heiko Carstens <hca@linux.ibm.com>,
-  Vasily Gorbik <gor@linux.ibm.com>,  Alexander Gordeev
- <agordeev@linux.ibm.com>,  Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>,  Thomas
- Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,  Borislav
- Petkov <bp@alien8.de>,  Dave Hansen <dave.hansen@linux.intel.com>,
-  x86@kernel.org,  "H. Peter Anvin" <hpa@zytor.com>,  Richard Weinberger
- <richard@nod.at>,  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-  Johannes Berg <johannes@sipsolutions.net>,  Vincenzo Frascino
- <vincenzo.frascino@arm.com>,  Shuah Khan <shuah@kernel.org>,
-  loongarch@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  linux-s390@vger.kernel.org,  linux-um@lists.infradead.org,
-  linux-api@vger.kernel.org,  linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2] vdso: Remove struct getcpu_cache
-In-Reply-To: <CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
-	(Andy Lutomirski's message of "Mon, 13 Oct 2025 10:14:58 -0700")
-References: <20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de>
-	<e95dc212-6fd3-43e3-aeb7-bf55917e0cd4@intel.com>
-	<CALCETrV2W3cZEJ2yy7F-F9=e_8HLP84ZWrOJCzUYn_ASb0+M6A@mail.gmail.com>
-Date: Tue, 14 Oct 2025 10:56:06 +0200
-Message-ID: <lhu5xchq2u1.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1760444620; c=relaxed/simple;
+	bh=trw3erKcBrmCOtT2DE5wAFGrqWHQObe9Vw1+YmbQxYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8kHkIFwABlj02vUiVPaCpkarbXUzOj9x8uxdzQ513+Wx5XdARbhNpLPM8dDzOm/KAnyVViz1uz6Rq/T6PV4vbG43vSdJI5buPZ6aBjFWZfUf2rkU1SCotlVoFzcG6ixgcmzsCp3t31HdnX7fJmTO04RgVqXr7n0BgibQbLwX9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jc8MMyJ/; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b4f323cf89bso934743366b.2
+        for <linux-api@vger.kernel.org>; Tue, 14 Oct 2025 05:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760444617; x=1761049417; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G4zpYT42/pWjG2wOiPoPN8UFfIlZHUseBg40P2GM6ks=;
+        b=Jc8MMyJ/UeRfPsHTc2O/vVOKfChumvUkphUUc0Yt29Oc4uNhLrkKroREHOW007AgsF
+         LQs8rB55fCRWUTPBk8goujK5NS4RW+tmYd8M9TjHH6J3iSPfVW3WFQuXGjSBfnYdxB97
+         SrivieCmlJgJ9YPSDxhUxGqZn+YFRE809SXXk4Azw2i7L9FDnCnFtdOuMLnLMCX9uqV4
+         oH/byr3DHo4EAjrCdVmzWFTvART0VChXazqVj3bjWtQzRb3V19NPhY42NcAmOU5MhtTb
+         s/Ko0LDMTkhQWPW6lke8YNwYIRCHou14iZ7uq9BPw8OQ+Fc9eriOLY6D4gGnfDRePPSp
+         HhrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760444617; x=1761049417;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=G4zpYT42/pWjG2wOiPoPN8UFfIlZHUseBg40P2GM6ks=;
+        b=PwRV4k2Ok/32l7+UpJ3NjNLlTs6Lt1araeDKiATakTB3fz2xPNS8X9fp0m9qa1gqS6
+         rmPWE04Lhu8dZvtKwXNq9NENzFsNLTxHtJwVlZ/Izv3ymshPPoqTdPyZ4+1ck1os2te/
+         pNJ+QZnamj6zE/pejzkUwEgxxAegGnWFNeMG03F7psMaeLkY7DGvr/bmGwzBHx81TSg3
+         FXhtYvl2xEW0oXnOqMfri4DA0hvegTw16u5gXQntPprd8zV1egaTx4FTRwQZ871/RcnO
+         NHruHy8AThN/i/l7Uoc5hOG1y8mhC2HkAQKt2YL13hlPRsq3BcgcbX/hCEqv6ZpOLEsP
+         vEXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKNFLMiuxh11nGF1k6N+L8SFb6mnqoNu243+TBBIWXocTAnME2EVmgUrqo/+NRmJr2GBLFgeEac8c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxgu+LJnXXDr/zZKZaXABvUXngnUXpktBDpbfMLM8LgsBeYDd7S
+	d29VgE/Ts41mzUkwH+P91Lo1puDPB56Q8ZQwpHBMgAHmVUHGjcuH4zj3
+X-Gm-Gg: ASbGncv/aV6DMqNWIkD0M7mAuFDBZs7Ml2zX+1Xd8kPDM3iVV9bHamGYlpeCqB8uMb+
+	5+BmQi8r5ogHwQuOZBUYpmOO5V6afCsxgnkWCAoLNyPI5Sd3x7u34h0cZYkqnrasLJ3QDUYQT01
+	q4nrrenfBqCMDj41hj0jRuSQ2mhI8aSll3Dqktjp+O109mSjWt9vjI9X8+Oz9HeKaA3YKaAkp4t
+	W8SfeZR8+N3HAKms4PJh9JpL00Dge5mvH7dFcpaalZc7gK7VR/dzBa16LoHBDsRjUv8oZ8ySFnZ
+	iZnEACt0GVMt3ZsKtca56BWwvR0S5ZRJC33hDmvnylYaQa8lEPMHAEYnPhZpY+jRve9QtIiNoJo
+	yLkXDxDZ29J+P/C2Pf9uIB8r38kAq6zkA+5uMSWvtv0yeVXXOT0M=
+X-Google-Smtp-Source: AGHT+IHDOAfe4JNqhFSA9gUX7LcGwhfmUpTtqm0hZRNoZ9LOkkInOSpqZhVqzK5eUfW8u4Wf52cxuA==
+X-Received: by 2002:a17:906:730a:b0:b0b:20e5:89f6 with SMTP id a640c23a62f3a-b50ac5d07b5mr2495753366b.60.1760444616765;
+        Tue, 14 Oct 2025 05:23:36 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63a52b715ffsm11262090a12.22.2025.10.14.05.23.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 14 Oct 2025 05:23:36 -0700 (PDT)
+Date: Tue, 14 Oct 2025 12:23:35 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
+Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
+ large folios (CONFIG_NO_PAGE_MAPCOUNT)
+Message-ID: <20251014122335.dpyk5advbkioojnm@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250303163014.1128035-1-david@redhat.com>
+ <20250303163014.1128035-21-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250303163014.1128035-21-david@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-* Andy Lutomirski:
+On Mon, Mar 03, 2025 at 05:30:13PM +0100, David Hildenbrand wrote:
+[...]
+>@@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+> 		break;
+> 	case RMAP_LEVEL_PMD:
+> 	case RMAP_LEVEL_PUD:
+>+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
+>+			last = atomic_add_negative(-1, &folio->_entire_mapcount);
+>+			if (level == RMAP_LEVEL_PMD && last)
+>+				nr_pmdmapped = folio_large_nr_pages(folio);
+>+			nr = folio_dec_return_large_mapcount(folio, vma);
+>+			if (!nr) {
+>+				/* Now completely unmapped. */
+>+				nr = folio_large_nr_pages(folio);
+>+			} else {
+>+				partially_mapped = last &&
+>+						   nr < folio_large_nr_pages(folio);
 
-> The theory is that people thought that getcpu was going to be kind of
-> slow, so userspace would allocate a little cache (IIRC per-thread) and
-> pass it in, and the vDSO would do, well, something clever to return
-> the right value.  The something clever was probably based on the idea
-> that you can't actually tell (in general) if the return value from
-> getcpu is stale, since you might well get migrated right as the
-> function returns anyway, so the cache could be something silly like
-> (jiffies, cpu).
+Hi, David
 
-It probably had to do something with per-CPU or per-node mappings of the
-vDSO.  Or may some non-coherent cache line in the vDSO.  As far as I
-understand it, the cache has zero chance of working with the way vDSO
-data is currently implemented.
+Do you think this is better to be?
 
-We have the CPU ID and node ID in the restartable sequences area now
-(although glibc does not use the node ID yet).  It's not a cache.  So
-this clearly supersedes whatever struct getcpu_cache tried to achieve.
+	partially_mapped = last && nr < nr_pmdmapped;
 
-Thanks,
-Florian
+As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
+folio yet.
 
+Not sure what I missed here.
+
+>+				nr = 0;
+>+			}
+>+			break;
+>+		}
+>+
+> 		folio_dec_large_mapcount(folio, vma);
+> 		last = atomic_add_negative(-1, &folio->_entire_mapcount);
+> 		if (last) {
+>-- 
+>2.48.1
+>
+
+-- 
+Wei Yang
+Help you, Help me
 
