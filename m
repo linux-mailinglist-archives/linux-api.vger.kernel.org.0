@@ -1,87 +1,57 @@
-Return-Path: <linux-api+bounces-5114-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5115-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E60BD9BAB
-	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 15:31:57 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC272BDA048
+	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 16:33:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1627A355779
-	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 13:31:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2F96C4EC56B
+	for <lists+linux-api@lfdr.de>; Tue, 14 Oct 2025 14:32:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B429B314A6B;
-	Tue, 14 Oct 2025 13:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E2726FA53;
+	Tue, 14 Oct 2025 14:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQLkKiQf"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gANwOdXe"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E834B1D7E4A
-	for <linux-api@vger.kernel.org>; Tue, 14 Oct 2025 13:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8552D248C;
+	Tue, 14 Oct 2025 14:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760448697; cv=none; b=HwWIFpw2GZkgGyZbBUs/7FougvzeTwnwjDcFMCDzgK2XcYnB/AD6GGgLlsctyVC7FxT63QSsuf97MEu2Eu/y2PFR9G0+Z2DX9gO0TDZXk4W2u7cZpk+Encdz0kRFYD9guAiaYmEaUtWg6KvCuvvu7TDUpoUSjCrf8VxC7WRk4Io=
+	t=1760452369; cv=none; b=L5LoAnaWrshWKkD4lNQa3Mv4zHzLmJh3Zaihmyzg51bxiqhIFRt2pNvcTyJhH1KQlC0Dk0X2JzvEmabP9U2duY0kkxWltZzhJTzn5a2z2nkKIBJ6Hf4AJ8UkCiKtl9xrFrJwy1Vo/iHLWjK9qQE0Eo2uSqkl6V/fBttQjlSxTxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760448697; c=relaxed/simple;
-	bh=iIjZWpm1TiQUVzmyWQwDNnrEF5an80tu+OC+tdhyZC8=;
+	s=arc-20240116; t=1760452369; c=relaxed/simple;
+	bh=oHAN/0DxWPNDDT78S8xHGvdeMdd39Ebo18SZ31HvRdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdmjbT6Br89cGUwjQyLppKJkJ1WIGuaEzeGGe2WgGgmAyOrYw/HaXE2fXhO9itDTTtQqYeTZfYi/ryaBtwqXgIE1sw5SkXxlfWKdwMEgK1clAYW+EEBi9gb/yZpUqZ7p81Z7rtE3RyXIaBruu9lPFC5m+nDQM1/8BOP8NXQFxhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQLkKiQf; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b5c18993b73so75027366b.0
-        for <linux-api@vger.kernel.org>; Tue, 14 Oct 2025 06:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760448694; x=1761053494; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JRUz1hWdNpegFSxtg102ODjrrEjXcJrCzI5fyTVJ/6Q=;
-        b=DQLkKiQfZND2IFf/h5wDCcU7nsL9b0MO2/wBM6KPAhNCZWhVN94HQy5fsrTU25tbgB
-         2Gq2QvLkWPnA0xkfn7ycw1MgwA2qLz0g6AbmWxcd6bS2Qhofps5FAzMPAi7eFfr7nrj3
-         9J10C2KCHIbn2+sRa1U7qZRnp1tmnEvHAE9WILBT/9Nb9MvbcypJtByoH3PDylNSnu6z
-         Ql/nNsHVyp7t4cPhcemA2LhGv6CkCqMoygInePHf8U8QXwjfwbEAM4W8B9Bdcu/4Y4re
-         drd4lrgRyWoBlvc2EOxKN69l9MeFWyOnJfPQUx/e+/qOIX/3Rdm/jJCyYkveMuFV8AjL
-         NL1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760448694; x=1761053494;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JRUz1hWdNpegFSxtg102ODjrrEjXcJrCzI5fyTVJ/6Q=;
-        b=bNuYBDUaR6yAxsWhR/bbLu8iNay+qKJeJ2ZftpzKFuFfz516zMjJlQS95p4K3ud8ep
-         Cg3gQ9lBdOK7etlBr+4UpBnKo6GqHilc9sK0A/1H3cBldRR5Q9ynsH0yje6lemxOp0bK
-         R/BMKZyA0nB0khzDo1zuZANJRRKFzZNyjIv9uOwy0zK54AUcFzCscUBBAe416zBBSxXO
-         ET11E1SygmVgCbX/gaKcw+0M8gQ0vf0GQiINxmeU5UmutdRjFE5fD/gJmOk4J+Db4euc
-         //nCw89c9+u7qumkk2I+FVaRtUeSTkzCVLtxpcTcZlQaRikXnW3uvxHvSNqjrEoUlhLF
-         XlZw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCPXvIPpz1AUWirTIdSvQmB2rKZu0FKXIp5krs9nTMu78Ir7vclcNNG1l2Ql57S7lHmGfUyFjUeps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNqOMpLIQyRsk0JErMWkCsjimD6p6tLE1ylWDHvo6stz0QV4+H
-	mzvpsv5YPTj8rGuIGlzEK82MnpXQ0wDUawHDqwRNBCsir3oxyQb8wm9U
-X-Gm-Gg: ASbGncuUw/M8qGishSF3+bxkkWA7MVORuYN3TrQ5jwt+6DRo1VvqOkTCrTvIAwdhxyb
-	o4ujYP0NfHWKpVp6WyfQqkN4xWQGVbnJgJ4hyxuJAAqEXrfjL88u6QFnyI/eS8dMeN3iED1u0he
-	hp8RaJZ3vmlu8sALmLPguOUui/EcXbPk1milSzkPYbihW7fzaCr1zrqLWeeZ3gx7/yVKScpmYxe
-	lczbCC+7zSZyDDy703XqInjtjT9X0AN/vPDT0PxxfYYsiNXUECybs/8/cvR9WGo4AwNkkm87VrG
-	DmwI6hmM+RmmXOpeBJdYmc9M2mkQtU5MObrRSgUvcjTiOt++vOtUwXAVERmHcr4oZ3yvGLmuvwr
-	qzjDvRJX2FbsCpbriHMzfJXwqfKiJB01FONB5bhIbuWXstuPA71U=
-X-Google-Smtp-Source: AGHT+IEgU+DdjYJjvofvtunCeX3nSH0eRUv1dqIRtOgeOUMEIzSuMU2hUdZtSc3ZGyXswVn9RHzZCQ==
-X-Received: by 2002:a17:907:7f0b:b0:b46:31be:e8fe with SMTP id a640c23a62f3a-b50aa48c4f0mr2728492866b.11.1760448693406;
-        Tue, 14 Oct 2025 06:31:33 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d971ec69sm1123110766b.85.2025.10.14.06.31.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Oct 2025 06:31:32 -0700 (PDT)
-Date: Tue, 14 Oct 2025 13:31:32 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyW+wJs0nNLYXTAQfjd/CtFUVVDlXzkf0J/M4/aQsJLI8XYhWtwDqR2+kCNOxDL2tS+eo2ui6oerJhrHT3kmsaTxV24NF2Op/d9u3wdHZ02zNJff7KeFwIIzBNkAi7gU/+DG1KWGxgwpfkXUEMSt5C4B+9tWwwNpJXMlxFXpy9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gANwOdXe; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0GqYhA2elC/r2rvCKhRwX+jvXdEIHrho/9mEfMhvs2g=; b=gANwOdXeFS4A8Uk10aaWilWR7d
+	ySohtwrkya4BSFA9MNyJwI2SZVkT1JJHEAJ1YXe7UWprbY1XwtET/2V4R4oRn4GF67uKnvqNrQQpm
+	yhej7D3Ampn9gV2sdpBOC//k6+7VCRkiUzXc9CAocGziSDmflGDKxlzctCPJMtuj1ame1R/WX62J3
+	/q00WWJeO563d2TrDkgqDV3wLGgpDguZTVQJuU95qNOMg6pvwsczOA0E/TTHHdN4VGFQz3RMBH5p7
+	s4BBoP6jBFf72/l5Iy/B7dE73hYHCsC/5tBuD4pR9oLkR5r5JzFIJiPt40JHliYisLm0SxqKtLxy/
+	LUkZzWEA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8g4v-0000000CSAd-1Vaf;
+	Tue, 14 Oct 2025 14:32:41 +0000
+Date: Tue, 14 Oct 2025 15:32:41 +0100
+From: Matthew Wilcox <willy@infradead.org>
 To: David Hildenbrand <david@redhat.com>
 Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
 	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
 	linux-api@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
@@ -95,8 +65,7 @@ Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
 	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
 Subject: Re: [PATCH v3 20/20] mm: stop maintaining the per-page mapcount of
  large folios (CONFIG_NO_PAGE_MAPCOUNT)
-Message-ID: <20251014133132.6garfzi24xlh3jr5@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
+Message-ID: <aO5fCT62gZZw9-wQ@casper.infradead.org>
 References: <20250303163014.1128035-1-david@redhat.com>
  <20250303163014.1128035-21-david@redhat.com>
  <20251014122335.dpyk5advbkioojnm@master>
@@ -110,70 +79,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <71380b43-c23c-42b5-8aab-f158bb37bc75@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 
 On Tue, Oct 14, 2025 at 02:59:30PM +0200, David Hildenbrand wrote:
->On 14.10.25 14:23, Wei Yang wrote:
->> On Mon, Mar 03, 2025 at 05:30:13PM +0100, David Hildenbrand wrote:
->> [...]
->> > @@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
->> > 		break;
->> > 	case RMAP_LEVEL_PMD:
->> > 	case RMAP_LEVEL_PUD:
->> > +		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
->> > +			last = atomic_add_negative(-1, &folio->_entire_mapcount);
->> > +			if (level == RMAP_LEVEL_PMD && last)
->> > +				nr_pmdmapped = folio_large_nr_pages(folio);
->> > +			nr = folio_dec_return_large_mapcount(folio, vma);
->> > +			if (!nr) {
->> > +				/* Now completely unmapped. */
->> > +				nr = folio_large_nr_pages(folio);
->> > +			} else {
->> > +				partially_mapped = last &&
->> > +						   nr < folio_large_nr_pages(folio);
->> 
->> Hi, David
->
->Hi!
->
->> 
->> Do you think this is better to be?
->> 
->> 	partially_mapped = last && nr < nr_pmdmapped;
->
->I see what you mean, it would be similar to the CONFIG_PAGE_MAPCOUNT case
->below.
->
->But probably it could then be
->
->	partially_mapped = nr < nr_pmdmapped;
->
->because nr_pmdmapped is only set when "last = true".
->
->I'm not sure if there is a good reason to change it at this point though.
->Smells like a micro-optimization for PUD, which we probably shouldn't worry
->about.
->
->> 
->> As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
->> folio yet.
->
->We do support partially mapped PUD-sized folios I think, but not anonymous
->PUD-sized folios.
->
->So consequently the partially_mapped variable will never really be used later
->on, because the folio_test_anon() will never hit in the PUD case.
->
+> > As commit 349994cf61e6 mentioned, we don't support partially mapped PUD-sized
+> > folio yet.
+> 
+> We do support partially mapped PUD-sized folios I think, but not anonymous
+> PUD-sized folios.
 
-Ok, folio_test_anon() takes care of it. We won't add it to defer list by
-accident.
-
->-- 
->Cheers
->
->David / dhildenb
-
--- 
-Wei Yang
-Help you, Help me
+I don't think so?  The only mechanism I know of to allocate PUD-sized
+chunks of memory is hugetlb, and that doesn't permit partial mappings.
 
