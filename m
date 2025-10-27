@@ -1,137 +1,181 @@
-Return-Path: <linux-api+bounces-5140-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5141-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018CCC0AEAC
-	for <lists+linux-api@lfdr.de>; Sun, 26 Oct 2025 18:27:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CEBC0D2FF
+	for <lists+linux-api@lfdr.de>; Mon, 27 Oct 2025 12:39:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10EB63B14E2
-	for <lists+linux-api@lfdr.de>; Sun, 26 Oct 2025 17:27:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 623094F5CE6
+	for <lists+linux-api@lfdr.de>; Mon, 27 Oct 2025 11:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C7D9261B65;
-	Sun, 26 Oct 2025 17:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8362FB98A;
+	Mon, 27 Oct 2025 11:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7dR/cFS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPZB8lkX"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1F8205E26;
-	Sun, 26 Oct 2025 17:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9B51FF1AD;
+	Mon, 27 Oct 2025 11:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761499661; cv=none; b=X4NYPc1dBGk0e4o13C/SIl5qsMLkYyf7Fi17nLbLuHaaciy0zC/BVC0FVuCxaMkdw81CmU2NGv82vNMtc9jfzlVdCUbfu4Loj9SQoG/I9Cy0RhvQcuuYhvlMB0v35R95Er6MfGqzPvxmYNyBhF3tIUz+c+SVIdpMsREwADtr8Wk=
+	t=1761565075; cv=none; b=QO/UveNKh+uqvIwM6Cei6WUb0ovz7ik5hRt1B5csMXFMUTSx+9YED5r0MyMpfkiTK+Pe2RaTPoCVC/sW4rMuezS8Zcov8veCWoDc4AbeuzCq1RihLZa+44PkpEiHBfMRr7MPuK1vAReOJEJxiedc6+LwAoL+oVqsZ9N9ZnUWlgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761499661; c=relaxed/simple;
-	bh=ojMKD630vCvaxyVc4ANcWJgQ82Xcn/ry9tixOPvqfaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDwBHHKXNEf1sNm/K5CyN9XVEoSFf7zMLXUJY1jQjqaMNiBr+5wdqdPbge1nAFVbrLOGLMDsuIu3RF7+kAvo+M+dLE+aE/s7RCySa4NBMDmqa0ruBvKC8HvO8UccQSguxps1NvTtFaYoGBO+e48cxZW93rBezZXwpvlNUcDfppg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7dR/cFS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB12DC4CEE7;
-	Sun, 26 Oct 2025 17:27:35 +0000 (UTC)
+	s=arc-20240116; t=1761565075; c=relaxed/simple;
+	bh=qEFSBVn7tvYChgqBuSbB762Baav+81SepQq/Uf98LX4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Tg/cX1djWyLahStzNaYVJ0hNofPoy/hpu0t8UgseM07PQNK/LfdQctRVXji7SSJksS/uVgTxiN4vfXotMOk47Z31+aRcvE8OS00WwTfV2rVz2F/5bF4/rKrs2eZy/RnRW4MyGT30gRAvrDNial8T7Oa1Mt9+jymb7zh+WzjP3Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPZB8lkX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC65DC4CEFF;
+	Mon, 27 Oct 2025 11:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761499660;
-	bh=ojMKD630vCvaxyVc4ANcWJgQ82Xcn/ry9tixOPvqfaM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D7dR/cFSC4iWlihjR6+jdiVgcLq9yPP0qHXB3fogNjF5KJEIjLjeGUuHIFVvdHqeZ
-	 hq6yb7g9VDWed7505L3Hzgb9/JtA074FSBkexLXLYQu4aD/ntNAAatt6uiJUyWyS1w
-	 QQCx8gYod0ga67iXjRse8C4yQDL4E0xTaRW2CHNj+8UJ/yPG3dkSoLcmUMGdZwit+U
-	 6DfeUXf5YrmJ04JKBiwRB4JlqCVRdnni9hxDQap+wyLEiKSKAxqTQHNZO8PYRjtA4O
-	 MXS7zh9NWqkK3n7ZLYWW+pvba4ua5eEnYNzenS8dXrFavp54mXFXhkR5fQ/soZ1a/d
-	 9T5RNNAmB95Zg==
-Date: Sun, 26 Oct 2025 18:27:32 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: brauner@kernel.org, cyphar@cyphar.com, dhowells@redhat.com, 
-	g.branden.robinson@gmail.com, jack@suse.cz, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, 
-	mtk.manpages@gmail.com, safinaskar@zohomail.com, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v5 0/8] man2: document "new" mount API
-Message-ID: <tfy2f45ah23b65gdlitiaffwy6nltevmo3z2akwnc3nbpkfh6w@ihzheoumkysn>
-References: <hk5kr2fbrpalyggobuz3zpqeekzqv7qlhfh6sjfifb6p5n5bjs@gjowkgi776ey>
- <20251026122742.960661-1-safinaskar@gmail.com>
+	s=k20201202; t=1761565075;
+	bh=qEFSBVn7tvYChgqBuSbB762Baav+81SepQq/Uf98LX4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=QPZB8lkXka1OfqOTgreoj/P2Lg1hhWZXmp0ATPFjOUcqNjUMSysHbPqTyyVoyY21G
+	 pIPzTIEX+qR7+KzqRNGZ6cuJXse0MlchxX/qiRN2MqZYCiQY5t5V0OXONi9DqK3SSz
+	 K3AyPumi09jDGxYjIm9az3m97OE5uWSLyHisKPIPa2hli7eY0f5ffKsNYg1fH9rG2p
+	 Mc/tUYgYA3hAo/ShlSZseCveHX6OpCES8EJxQWqW8eVPC+0G+rGD1UU4DqFc705ygd
+	 p9jQBRWFkJa9wCUdyjyZpLmnuP/QTLnJSuAhyKVtHkBPYhC5plFZDMfv/br3uPs/P3
+	 MSRt9bNkz34ig==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com,  hughd@google.com,
+  skhawaja@google.com,  chrisl@kernel.org,  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 00/30] Live Update Orchestrator
+In-Reply-To: <20251020142924.GS316284@nvidia.com> (Jason Gunthorpe's message
+	of "Mon, 20 Oct 2025 11:29:24 -0300")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<CA+CK2bB+RdapsozPHe84MP4NVSPLo6vje5hji5MKSg8L6ViAbw@mail.gmail.com>
+	<mafs0ms5zn0nm.fsf@kernel.org>
+	<CA+CK2bB6F634HCw_N5z9E5r_LpbGJrucuFb_5fL4da5_W99e4Q@mail.gmail.com>
+	<20251010150116.GC3901471@nvidia.com> <mafs0bjm9lig8.fsf@kernel.org>
+	<20251020142924.GS316284@nvidia.com>
+Date: Mon, 27 Oct 2025 12:37:44 +0100
+Message-ID: <mafs0y0owd187.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u7izvt4jolxhgk5l"
-Content-Disposition: inline
-In-Reply-To: <20251026122742.960661-1-safinaskar@gmail.com>
+Content-Type: text/plain
 
+On Mon, Oct 20 2025, Jason Gunthorpe wrote:
 
---u7izvt4jolxhgk5l
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: brauner@kernel.org, cyphar@cyphar.com, dhowells@redhat.com, 
-	g.branden.robinson@gmail.com, jack@suse.cz, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, 
-	mtk.manpages@gmail.com, safinaskar@zohomail.com, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v5 0/8] man2: document "new" mount API
-Message-ID: <tfy2f45ah23b65gdlitiaffwy6nltevmo3z2akwnc3nbpkfh6w@ihzheoumkysn>
-References: <hk5kr2fbrpalyggobuz3zpqeekzqv7qlhfh6sjfifb6p5n5bjs@gjowkgi776ey>
- <20251026122742.960661-1-safinaskar@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20251026122742.960661-1-safinaskar@gmail.com>
+> On Tue, Oct 14, 2025 at 03:29:59PM +0200, Pratyush Yadav wrote:
+>> > 1) Use a vmalloc and store a list of the PFNs in the pool. Pool becomes
+>> >    frozen, can't add/remove PFNs.
+>> 
+>> Doesn't that circumvent LUO's state machine? The idea with the state
+>> machine was to have clear points in time when the system goes into the
+>> "limited capacity"/"frozen" state, which is the LIVEUPDATE_PREPARE
+>> event. 
+>
+> I wouldn't get too invested in the FSM, it is there but it doesn't
+> mean every luo client has to be focused on it.
 
-Hi Askar,
+Having each subsystem have its own state machine sounds like a bad idea
+to me. It can get tricky to manage both for us and our users.
 
-On Sun, Oct 26, 2025 at 03:27:42PM +0300, Askar Safin wrote:
-> Alejandro Colomar <alx@kernel.org>:
-> > The full patch set has been merged now.  I've done a merge commit where
->=20
-> Alejandro, I still don't see manpages for "new" mount API here:
-> https://man7.org/linux/man-pages/dir_section_2.html
+>
+>> With what you propose, the first FD being preserved implicitly
+>> triggers the prepare event. Same thing for unprepare/cancel operations.
+>
+> Yes, this is easy to write and simple to manage.
+>
+>> I am wondering if it is better to do it the other way round: prepare all
+>> files first, and then prepare the hugetlb subsystem at
+>> LIVEUPDATE_PREPARE event. At that point it already knows which pages to
+>> mark preserved so the serialization can be done in one go.
+>
+> I think this would be slower and more complex?
+>
+>> > 2) Require the users of hugetlb memory, like memfd, to
+>> >    preserve/restore the folios they are using (using their hugetlb order)
+>> > 3) Just before kexec run over the PFN list and mark a bit if the folio
+>> >    was preserved by KHO or not. Make sure everything gets KHO
+>> >    preserved.
+>> 
+>> "just before kexec" would need a callback from LUO. I suppose a
+>> subsystem is the place for that callback. I wrote my email under the
+>> (wrong) impression that we were replacing subsystems.
+>
+> The file descriptors path should have luo client ops that have all
+> the required callbacks. This is probably an existing op.
+>
+>> That makes me wonder: how is the subsystem-level callback supposed to
+>> access the global data? I suppose it can use the liveupdate_file_handler
+>> directly, but it is kind of strange since technically the subsystem and
+>> file handler are two different entities.
+>
+> If we need such things we would need a way to link these together, but
+> I'm wonder if we really don't..
+>
+>> Also as Pasha mentioned, 1G pages for guest_memfd will use hugetlb, and
+>> I'm not sure how that would map with this shared global data. memfd and
+>> guest_memfd will likely have different liveupdate_file_handler but would
+>> share data from the same subsystem. Maybe that's a problem to solve for
+>> later...
+>
+> On preserve memfd should call into hugetlb to activate it as a hugetlb
+> page provider and preserve it too.
 
-<man7.org> is not official.  It's Michael Kerrisk's (previous
-maintainer) website.  He usually publishes new pages shortly-ish after
-each new release, and I haven't issued a new release yet.
+From what I understand, the main problem you want to solve is that the
+life cycle of the global data should be tied to the file descriptors.
+And since everything should have a FD anyway, can't we directly tie the
+subsystems to file handlers? The subsystem gets a "preserve" callback
+when the first FD that uses it gets preserved. It gets a "unpreserve"
+callback when the last FD goes away. And the rest of the state machine
+like prepare, cancel, etc. stay the same.
 
-I have plans to release soon-ish, but have internet issues at home (the
-cable in the street is broken, so I'm connecting on cell internet from
-the laptop).  Hopefully, I'll be able to release this month.
+I think this gives us a clean abstraction that has LUO-managed lifetime.
 
+It also works with the guest_memfd and memfd case since both can have
+hugetlb as their underlying subsystem. For example,
 
-Have a lovely day!
-Alex
+static const struct liveupdate_file_ops memfd_luo_file_ops = {
+	.preserve = memfd_luo_preserve,
+	.unpreserve = memfd_luo_unpreserve,
+	[...]
+	.subsystem = &luo_hugetlb_subsys,
+};
 
->=20
-> Please, publish.
->=20
-> --=20
-> Askar Safin
->=20
+And then luo_{un,}preserve_file() can keep a refcount for the subsystem
+and preserve or unpreserve the subsystem as needed. LUO can manage the
+locking for these callbacks too.
 
---=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
-
---u7izvt4jolxhgk5l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmj+WgQACgkQ64mZXMKQ
-wqkeVxAAhVvnync+BnWREmvpRHx2InmUvxBQFNSS8P4y7gFTW6KFP25hSxhNrg40
-i4GhHEBpu9Ub0NCdNlgW83bKhy6U11w/eCgfxx3rSmbucn6e+aC8smgiv5tpI3CV
-sD7/0GNsTIgwQyDC1OSewjah49Dx9jCBdR0ncOWrS10Ya2WieXJ+1teyfLpw5a7l
-PfRTiREwMsIWGuPvVXbpnzSUWGXvi9Mq5NQ1u1XVcxbAlCQ74Tra4ZpBUpjZ0Gn9
-pxgAnJ/PWIYq18Atem/7zT8i52dOHO8TYL/d1b5i7xXQn5GlcqgceESkpet8Zxv0
-+Y9jPDRTJxXbYfVEd1593KZ1gy+ucQBU2KCmPw2ql4++4ETKnl3mlOHosydfVrTV
-hakjNGhQSU0lW8oKNeTa/13dNiDpe+NbGlDFTiFEdlvPQWX/17OLLiJ7MDYTzvgb
-R5x6fHjesq2dbMD2XRSZ+dMj6yAndnl+kXEsQgneSPvrcrxje+6Mc0Wt9uDnvKPG
-Yr/+IDSWQZh0QpNwXC+8h/PRrGPl/T3NWwPHeyHPVKNZIBRGQU3As6hpOhxF3MLH
-XomgOw5wwg+G5NjTmYWobxX4NtxpBosyITGeeYTz0Er+1GXowRjpya9xin9Ba9AL
-fH9lTpYFHsnHGrocVyMaJVzYPaokjnI0jm7IKiHDl+vh945nHWo=
-=Dmul
------END PGP SIGNATURE-----
-
---u7izvt4jolxhgk5l--
+-- 
+Regards,
+Pratyush Yadav
 
