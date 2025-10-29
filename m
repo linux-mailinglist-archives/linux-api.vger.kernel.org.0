@@ -1,161 +1,178 @@
-Return-Path: <linux-api+bounces-5142-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5143-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DA5C19555
-	for <lists+linux-api@lfdr.de>; Wed, 29 Oct 2025 10:16:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB9FC1CE9D
+	for <lists+linux-api@lfdr.de>; Wed, 29 Oct 2025 20:09:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2B28E568F11
-	for <lists+linux-api@lfdr.de>; Wed, 29 Oct 2025 09:01:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1094456683B
+	for <lists+linux-api@lfdr.de>; Wed, 29 Oct 2025 19:08:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9E92DC355;
-	Wed, 29 Oct 2025 09:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F86F3590C8;
+	Wed, 29 Oct 2025 19:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1RUxSyM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hx/9GIUz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DE621765B
-	for <linux-api@vger.kernel.org>; Wed, 29 Oct 2025 09:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B453590B5;
+	Wed, 29 Oct 2025 19:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761728467; cv=none; b=AMqu0w7Drwu8T+t39xZzM//+rZ/R8KMBTmuzQhjf6XpvUnVYHya5d6XVEaqyrqV1w2JI1LU1xyBrkmhV0qQqve2r785Va/+Of+N84wUo2Y/sS4gGECJChx119F+c/TmX4YQkrjpYMNt3hiIY4p7raHT6QdKVVXQnZRPItU2AkJ4=
+	t=1761764863; cv=none; b=L5X424Mzeb4x5Nb8AJYwWutCOH+qKv/ZvQHIqqh0T6r/wnz7VL4HOd3EaEaTZ6AC8z3ld4f61dwURySSPWs9TqkO0StyxrQD7xz9qrSMYAt/FR2CHbFLQfQFNZJbSGpsveOIzlFr+CZ1rT3rM4RFOpuZZ9kg5Sk3pI+3T55lJ6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761728467; c=relaxed/simple;
-	bh=jQhuuAvoKgkk6vfmb3VFERiNTx6StUXHjNHCAWBJip4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k+2/1LANLTsjNaUVmhWlfy0V+YK5g8yC7gWkgXCBqTeIPu6eXQzvc5QG5C5VUrvbZUKr0S77hZl9AuihM1EPfkDTCOe4DQzNZFsKQJonzUZLI8h/QGTZNrcm4VemUZ0BpPkhydP2C6xYOzJGa6CrHtEoUk7ejFILCd9XuI00nXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1RUxSyM; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-294df925292so5156605ad.1
-        for <linux-api@vger.kernel.org>; Wed, 29 Oct 2025 02:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761728461; x=1762333261; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IUwDe+S5e4Vj4jBiFCqPV2Mo5aWLB9NDL+lhcB1gW2E=;
-        b=h1RUxSyMayik310C3Re+CfagmQKHbNR3CDnvrulhZ2c29pGx/v1riybjNKuUaUXYxk
-         GpGRDgwyFyDWNUXXzfJk+hNsOQ0vARQ7Bdi5Sujig2rpWMzAatwVzjg8K97ce7r3+Rof
-         W4o9r1Vx1Ldbt02bELgxQ5mL4fvHo941lfsGID9Y/dmuulr0WLavqRjHz4oM+e0YVtQE
-         C16x6Niny18jpTVy4U2soffozT+YJcVJ5eOlfDmSmv8JV9KxbsF3UicUQLzR+xfo9L0d
-         TiWGqRION/7Zi4WCLq8zC0K2D5bsKj4jnzsBpJi4+rKxx97VbZPDgk7dpVT8Ku5Vnb1c
-         1XJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761728461; x=1762333261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IUwDe+S5e4Vj4jBiFCqPV2Mo5aWLB9NDL+lhcB1gW2E=;
-        b=Tmn9ysPuvb8Ip/P4Lz0YEWOOb3eXFQRrQnlk92MVk6W7uHtC3Trzj7p3E/PjVYP9QL
-         oHZ+r/oBWNSeX2E+G/zbVKJx0aYLwPP+8Hs7weh9eGkUvYMlVxbWLYtBvC2p4s60xkIw
-         2VlF1B6xOJh9NnMpKUhIVwyVf6DhisXK0kwYJcxzXVlzG9FzxSNKXZXQR4CfZCrA7jcp
-         stJrL+pKOTf4A06rr19axmNzJ+NvBo8t4qBoIZ/56K5MS4AqogWTFVrBwapSf+O7y/e6
-         E3bKWpk6NUQ7m8X3Yh2uUjcFE+stN40c9En7C58O3Ot8rP30GsGYhLQXjgnCA1V4Dtps
-         Hcow==
-X-Forwarded-Encrypted: i=1; AJvYcCUCz0fdoZ7L08ABqlMA6XgrT/NRy0y7zx+9j0a1etYt9WuP4+McblQXbcOzOGEkWE6aFazT3NVm8no=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrcoRrDYVfzdF7sZvqnb4LJ2UdOFAKRFkEw3JUrZ4Gk3T/XImE
-	0PTYhrIyTdOaKQ/w36Fz99UNcev0Gw2aExoLohIlwqErUVeKEwbEEg5uiHGmWro8wii+I5QnhpS
-	H/9p5qhTqPVnD4tlmuuBpYjZlp0yV+cU=
-X-Gm-Gg: ASbGncuA4VFpvd+OnNmlbsU3USV8GUER+9SVPNVLoKDNBTnJR0yA7pm/rMImz+/nfw1
-	AT4H/iZD3ksii461+cCkz0K5vMTM9hhwijTEjTewpOAJMadGpVNf+NjkLFgKK9qOncKbPadI54U
-	HjcirPuauH5ybeXJI0XJ7TLWqQ6mlN8Qlz5b6ymKjs3uQkJKcStBy6HGgXxXUYLLII2q9zV6vXi
-	QE37ZL1RK/6Wly0bgvi1vO3DUQtbXQbQw8v4Hqb/bC+/h8wUbr3djqbOA7Fo8A=
-X-Google-Smtp-Source: AGHT+IEyxx6Sq0hZGAlRLWTS97VWoSc6zGwQOtw6uII/95srKVXzkTRekQWkkYiSNvyQhYLdOZ2fy+pcsXJIBO+Xl8I=
-X-Received: by 2002:a17:903:2f85:b0:264:ee2:c3f5 with SMTP id
- d9443c01a7336-294dee29c4cmr23574625ad.19.1761728460916; Wed, 29 Oct 2025
- 02:01:00 -0700 (PDT)
+	s=arc-20240116; t=1761764863; c=relaxed/simple;
+	bh=SmwYGicsn9m0OHUOOJiH9i7ncGvQG3j1PcmMujf4lNg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Og233UKZgtJFacMYJIj7kyXGs3O4HvuSorFZqydoh6ZFnR3d6LTSgDeiW8YFDxwA3MuzMhtyuSNpL/0ASYDM/i1KpnBCFg/WRmC6AVU99aRPz5u2Jua1iz5NDQB0hBotSQ5sdpC0amLNe4EKEvKSFKBohvrIneU5nPbU4x9lzS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hx/9GIUz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDB8C4CEF7;
+	Wed, 29 Oct 2025 19:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761764862;
+	bh=SmwYGicsn9m0OHUOOJiH9i7ncGvQG3j1PcmMujf4lNg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=hx/9GIUzC6weS+i2CiFEMICfL1ntPu0oH8I8jR1NeERYr75bTL7qChXEoigeKp2ne
+	 zAR8l+J28+CW4+GVIzeTUElK8+2VgmjRs/u08bp3F/Drot6nkkJwQE95a7mfgaZxLS
+	 VIgdlVv7CV4hi54AFgLtqmqtAORnkqY81MKvtfcq6h2dFuPptpoS59mSb+/1KKlo1F
+	 W9Vsk9I9ocLvLgZ7gebPPPJ+0TWQXvM0sTSgyKIjwV5IpvouInDzKdiLqHsG+al2Ix
+	 JTOXX21aTqWZphIWkWiHU8bb4XueaelN8t6ALrnVwZoxRI7lms/cd4RuxtZmHcI9gm
+	 lKuDVuBEmxGZw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org,
+  steven.sistare@oracle.com
+Subject: Re: [PATCH v4 14/30] liveupdate: luo_session: Add ioctls for file
+ preservation and state management
+In-Reply-To: <20250929010321.3462457-15-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Mon, 29 Sep 2025 01:03:05 +0000")
+References: <20250929010321.3462457-1-pasha.tatashin@soleen.com>
+	<20250929010321.3462457-15-pasha.tatashin@soleen.com>
+Date: Wed, 29 Oct 2025 20:07:31 +0100
+Message-ID: <mafs0tszhcyrw.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
- <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
-In-Reply-To: <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
-From: hoodit dev <devhoodit@gmail.com>
-Date: Wed, 29 Oct 2025 18:00:50 +0900
-X-Gm-Features: AWmQ_bl9f3gHaYptHoYabHsvKO58o6lKLlx8-0mWznmYNGurQ_CmfsV001sLwHc
-Message-ID: <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
-Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and CLONE_NEWUSER flag
-To: Alejandro Colomar <alx@kernel.org>, "Carlos O'Donell" <carlos@redhat.com>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi, Alejandro Colomar and Carlos
+Hi Pasha,
 
-Just a friendly ping to check if you had a chance to review this patch.
+On Mon, Sep 29 2025, Pasha Tatashin wrote:
 
-Thanks
+> Introducing the userspace interface and internal logic required to
+> manage the lifecycle of file descriptors within a session. Previously, a
+> session was merely a container; this change makes it a functional
+> management unit.
+>
+> The following capabilities are added:
+>
+> A new set of ioctl commands are added, which operate on the file
+> descriptor returned by CREATE_SESSION. This allows userspace to:
+> - LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
+>   to be preserved across the live update.
+> - LIVEUPDATE_SESSION_UNPRESERVE_FD: Remove a previously added file
+>   descriptor from the session.
+> - LIVEUPDATE_SESSION_RESTORE_FD: Retrieve a preserved file in the
+>   new kernel using its unique token.
+>
+> A state machine for each individual session, distinct from the global
+> LUO state. This enables more granular control, allowing userspace to
+> prepare or freeze specific sessions independently. This is managed via:
+> - LIVEUPDATE_SESSION_SET_EVENT: An ioctl to send PREPARE, FREEZE,
+>   CANCEL, or FINISH events to a single session.
+> - LIVEUPDATE_SESSION_GET_STATE: An ioctl to query the current state
+>   of a single session.
+>
+> The global subsystem callbacks (luo_session_prepare, luo_session_freeze)
+> are updated to iterate through all existing sessions. They now trigger
+> the appropriate per-session state transitions for any sessions that
+> haven't already been transitioned individually by userspace.
+>
+> The session's .release handler is enhanced to be state-aware. When a
+> session's file descriptor is closed, it now correctly cancels or
+> finishes the session based on its current state before freeing all
+> associated file resources, preventing resource leaks.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[...]
+> +/**
+> + * struct liveupdate_session_get_state - ioctl(LIVEUPDATE_SESSION_GET_STATE)
+> + * @size:     Input; sizeof(struct liveupdate_session_get_state)
+> + * @incoming: Input; If 1, query the state of a restored file from the incoming
+> + *            (previous kernel's) set. If 0, query a file being prepared for
+> + *            preservation in the current set.
 
-2025=EB=85=84 5=EC=9B=94 2=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 6:30, Al=
-ejandro Colomar <alx@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hi Carlos,
->
-> On Mon, Apr 21, 2025 at 04:16:03AM +0900, devhoodit wrote:
-> > CLONE_NEWPID and CLONE_PARENT can be used together, but not CLONE_THREA=
-D.  Similarly, CLONE_NEWUSER and CLONE_PARENT can be used together, but not=
- CLONE_THREAD.
-> > This was discussed here: <https://lore.kernel.org/linux-man/06febfb3-e2=
-e2-4363-bc34-83a07692144f@redhat.com/T/>
-> > Relevant code: <https://github.com/torvalds/linux/blob/219d54332a09e8d8=
-741c1e1982f5eae56099de85/kernel/fork.c#L1815>
-> >
-> > Cc: Carlos O'Donell <carlos@redhat.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: devhoodit <devhoodit@gmail.com>
->
-> Could you please review this patch?
->
->
-> Have a lovely night!
-> Alex
->
-> > ---
-> >  man/man2/clone.2 | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/man/man2/clone.2 b/man/man2/clone.2
-> > index 1b74e4c92..b9561125a 100644
-> > --- a/man/man2/clone.2
-> > +++ b/man/man2/clone.2
-> > @@ -776,9 +776,7 @@ .SS The flags mask
-> >  no privileges are needed to create a user namespace.
-> >  .IP
-> >  This flag can't be specified in conjunction with
-> > -.B CLONE_THREAD
-> > -or
-> > -.BR CLONE_PARENT .
-> > +.BR CLONE_THREAD .
-> >  For security reasons,
-> >  .\" commit e66eded8309ebf679d3d3c1f5820d1f2ca332c71
-> >  .\" https://lwn.net/Articles/543273/
-> > @@ -1319,11 +1317,10 @@ .SH ERRORS
-> >  mask.
-> >  .TP
-> >  .B EINVAL
-> > +Both
-> >  .B CLONE_NEWPID
-> > -and one (or both) of
-> > +and
-> >  .B CLONE_THREAD
-> > -or
-> > -.B CLONE_PARENT
-> >  were specified in the
-> >  .I flags
-> >  mask.
-> > --
-> > 2.49.0
-> >
->
-> --
-> <https://www.alejandro-colomar.es/>
+Spotted this when working on updating my test suite for LUO. This seems
+to be a leftover from a previous version. I don't see it being used
+anywhere in the code.
+
+Also, I think the model we should have is to only allow new sessions in
+normal state. Currently luo_session_create() allows creating a new
+session in updated state. This would end up mixing sessions from a
+previous boot and sessions from current boot. I don't really see a
+reason for that and I think the userspace should first call finish
+before starting new serialization. Keeps things simpler.
+
+> + * @reserved: Must be zero.
+> + * @state:    Output; The live update state of this FD.
+> + *
+> + * Query the current live update state of a specific preserved file descriptor.
+> + *
+> + * - %LIVEUPDATE_STATE_NORMAL:   Default state
+> + * - %LIVEUPDATE_STATE_PREPARED: Prepare callback has been performed on this FD.
+> + * - %LIVEUPDATE_STATE_FROZEN:   Freeze callback ahs been performed on this FD.
+> + * - %LIVEUPDATE_STATE_UPDATED:  The system has successfully rebooted into the
+> + *                               new kernel.
+> + *
+> + * See the definition of &enum liveupdate_state for more details on each state.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +struct liveupdate_session_get_state {
+> +	__u32		size;
+> +	__u8		incoming;
+> +	__u8		reserved[3];
+> +	__u32		state;
+> +};
+> +
+> +#define LIVEUPDATE_SESSION_GET_STATE					\
+> +	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_GET_STATE)
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
 
