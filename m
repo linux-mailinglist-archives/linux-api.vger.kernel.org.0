@@ -1,400 +1,91 @@
-Return-Path: <linux-api+bounces-5178-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5179-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C81C41BFA
-	for <lists+linux-api@lfdr.de>; Fri, 07 Nov 2025 22:13:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BE4C41D52
+	for <lists+linux-api@lfdr.de>; Fri, 07 Nov 2025 23:33:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2A89E4FE617
-	for <lists+linux-api@lfdr.de>; Fri,  7 Nov 2025 21:09:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EA28188728A
+	for <lists+linux-api@lfdr.de>; Fri,  7 Nov 2025 22:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9392834A767;
-	Fri,  7 Nov 2025 21:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C479284686;
+	Fri,  7 Nov 2025 22:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dGTKGzaP"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YX2Wftip"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC73348468
-	for <linux-api@vger.kernel.org>; Fri,  7 Nov 2025 21:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294E238DF9;
+	Fri,  7 Nov 2025 22:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762549579; cv=none; b=VZv13U4y30SH/IjerNHA9PrbagOj8+x4sDI7lXxSTIr2lAyiH7utpAGx5ZGa7bOTBJF0wxZC1XCPZJgkaNxeFyYqpLdh16gf+UEaDYkR9iIzeMPowDKUQpLSRmIUdJdyT9jEwslbJI2SJ5grGu8jygNn43TkIs3YgAUJ48vggXk=
+	t=1762554794; cv=none; b=qpcgt9L8+qakvsWkE6tJt/AU2946rfU8UGMV/TSj9I5kiqyFflme/6wUDXvsU9Y1zAWelj8ClDojRUIlsG5nwR9wbBhh2EHas+B1sCvD/upaKe14dA/2u2MYoLhaMOEELzXsVZMVDuvbiuEIBDtUmuKVAXzFLD1NtSxay9M26gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762549579; c=relaxed/simple;
-	bh=Kl9YsS1PIGvtggF1uJm277eJ2mqf4fTidxqHPnljr/8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BzobUYG2im/3ToQfXdqedyiZUO7ZhS+XYmjLcV0d2ZtN4vcGBTyaHJN/u+V92s3XNoOHNSWTg/2QvqJKi8Q7nnLsgl9qbxkxDwswzO8um/S3bdPpRdxvwjHNJ2ECul2yNfJC3AXe3uKgR4Xjw2HMlfcMgGgzjj04/kr9eb+pnWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dGTKGzaP; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7869819394aso11261907b3.3
-        for <linux-api@vger.kernel.org>; Fri, 07 Nov 2025 13:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762549575; x=1763154375; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zzZNGPgWx94ISN9X3lQ14PyLWRhGYF2GiiJN7CqbrDw=;
-        b=dGTKGzaPbq2rhZiIVJlx9wsOVAvU3zIy/GGqJAm+YflUZKGmGJSsOABdRm2E//1vjU
-         rRZhmIhqK/+7avXKXIVl95eiDOqOWbKHPzR9TAFutXZtRqE+Tg9XTWlSbq2QSQnm0UKl
-         kU1L6BTDqIBBq9q0ZU2U0asik3f7PjaD7AuJk5j/+GLNLfD0ndJPm/UJPV1DxMVOWjpA
-         8HcGgklHfuhxYXyAB5IphIp0nFPL71SJwKF9mXMvuhU7k6h08I6OkCQeq6JMIF9QSdkm
-         cSTepREt1VUqWsAp/TKfGVx6uqYPJRd76LKx3lKu8bHhMnJ5gJ5SXR+muQMWJcEjEc5Q
-         1Dlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762549575; x=1763154375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zzZNGPgWx94ISN9X3lQ14PyLWRhGYF2GiiJN7CqbrDw=;
-        b=ruaEQbz3NZ/On3LoDbBBCsrf7P3diGq4S1fuE2pkuB9495zeHU5qvL7N7taKum3wTb
-         vHhaIf8eLfWYGsmFSrv150XMTqwIpfXMFhrfDwUoLlYGO0S4IPIGyQyrEaZBkBAXgmgw
-         pDuesEncwd3kJoQMWs7brCcF8PiJlhhZbmUFtlQ2r0T5utN9K7eN741zNbuOWacgLLVL
-         eU2I8Z/QlrD0+n0j1x0xg0q2emW9J+HrcuWMzqB2iSrazQGta1mscB5Uhf6+tomnsPct
-         +xsYh1AmXfztAtEAVws9RhRYQEBw/IuDYUw7vFUg4jgEpKhQsjYi8kiPrQu52QK2wazz
-         oM4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXn6daXQUpBeDHWQtLPjPExUr/hfM2etBWUjDsjA/rzNOlI8SJBcpLs2ashugAq/sPSenLcTd/CjDI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD/U9rpmgLOD8mUdMT5oqHz8/zKmW9nCS4qqvzZx9igJbV+wpt
-	sf1UZyCu3aCw4NPHVuuwBbnhMSSt8fXMG36pZRlcqV4I80gORzYM1zuxKqEbyKzx9P0=
-X-Gm-Gg: ASbGncvVD2pgcQJj5qdNIJCODxve7KtJ/KCcQ9myyB/ZBlfXUc4E66BDQ3WvrbQeKGc
-	zK0390WihchMn5PcrT0g+rs2VaWTHxxaozIDpiDCsG6CKc6m+8YlzVV8rudE/acffI8p7cTjceu
-	jTYpe/YNAvIa6v4/x+eM5QZt7jDaVo2rvJ6hfX7l982ByvkF19GFj4PW7GUJxWoEXa6LCRVQACF
-	2V/5vVrqTWANs2/ThQJYmJEZovPvahie2RTqWZ0VQTgQEWPZ/ZxlEXYnoi7ouFXhXniVgxx1pWC
-	chjol2MdoD9+YCjZ+wxShfcSA3zNuBkDDFAM/UcwT/JcWrfNICXt0r7iKtDnptPUMN2I5rZ4fgM
-	7052+/5g6htuCu+1r7ngtXMKc9TyNoUfo24/jmrf+PDlXbqphpslp7gv6m7fTeLOSi8Dc4zowRg
-	PlgpJTmz36xH0g+c+sleE/FRh+Cn380fMTXBHG56YPpzsQ+IfTcsG2jhFLiS0A46iqAIBBNLLOK
-	Q==
-X-Google-Smtp-Source: AGHT+IHOz7qc/OdNH+hwEFR2mgMLzMFENl/tjweqpUXWP41GYcTPchZvuPAXTMaj9WvfxwDjBEwMvw==
-X-Received: by 2002:a05:690c:690b:b0:786:6df0:8a36 with SMTP id 00721157ae682-787d53afd94mr7203087b3.29.1762549575032;
-        Fri, 07 Nov 2025 13:06:15 -0800 (PST)
-Received: from soleen.c.googlers.com.com (53.47.86.34.bc.googleusercontent.com. [34.86.47.53])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-787d68754d3sm990817b3.26.2025.11.07.13.06.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 13:06:14 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	jasonmiu@google.com,
-	graf@amazon.com,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	tj@kernel.org,
-	yoann.congal@smile.fr,
-	mmaurer@google.com,
-	roman.gushchin@linux.dev,
-	chenridong@huawei.com,
-	axboe@kernel.dk,
-	mark.rutland@arm.com,
-	jannh@google.com,
-	vincent.guittot@linaro.org,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com,
-	david@redhat.com,
-	joel.granados@kernel.org,
-	rostedt@goodmis.org,
-	anna.schumaker@oracle.com,
-	song@kernel.org,
-	zhangguopeng@kylinos.cn,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	gregkh@linuxfoundation.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	bartosz.golaszewski@linaro.org,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com,
-	quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com,
-	ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	leon@kernel.org,
-	lukas@wunner.de,
-	bhelgaas@google.com,
-	wagi@kernel.org,
-	djeffery@redhat.com,
-	stuart.w.hayes@gmail.com,
-	ptyadav@amazon.de,
-	lennart@poettering.net,
-	brauner@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	saeedm@nvidia.com,
-	ajayachandra@nvidia.com,
-	jgg@nvidia.com,
-	parav@nvidia.com,
-	leonro@nvidia.com,
-	witu@nvidia.com,
-	hughd@google.com,
-	skhawaja@google.com,
-	chrisl@kernel.org
-Subject: [PATCH v5 22/22] tests/liveupdate: Add in-kernel liveupdate test
-Date: Fri,  7 Nov 2025 16:03:20 -0500
-Message-ID: <20251107210526.257742-23-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.51.2.1041.gc1ab5b90ca-goog
+	s=arc-20240116; t=1762554794; c=relaxed/simple;
+	bh=SlUrA7PHAByXuiTRoXiw9pd9DfkErd4nWd0LXTq5RY8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=kp7j0omqCkwcdv/L1f5byr5FF6NDScob2v0MiR7rab6aCmDEO2N9dwOgZjIuAQLbcF+wQz5QqI0CCRh63lEG2u5pl2riMy53gJp/1XqkTZqjhK/aj8f1Z7TpU6rA9gUd7btyQrl/om8QE1oOmRBbnnp9pxJUQzpAoH7Normx4Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YX2Wftip; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC1AC4CEF5;
+	Fri,  7 Nov 2025 22:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1762554793;
+	bh=SlUrA7PHAByXuiTRoXiw9pd9DfkErd4nWd0LXTq5RY8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YX2WftipaPbxqcpTquNs45NU5AN1BWNQl9yUg/cF4YK9K3ROdJnvC/0MQyOO6g7/0
+	 3Y1CpERaFP/A7LCKnMyDJNsXV2m/f3z9lz5emsapoZUDF63qv5irOs+sj4/qtv9GjQ
+	 fRgHfAFTqDjTYq3YqmqDEID5JHJgx2b+Tx5S4yzg=
+Date: Fri, 7 Nov 2025 14:33:10 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+ rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+ rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+ kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+ masahiroy@kernel.org, tj@kernel.org, yoann.congal@smile.fr,
+ mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+ axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+ vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com,
+ david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org,
+ anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+ linux@weissschuh.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+ Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+ aleksander.lobakin@intel.com, ira.weiny@intel.com,
+ andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+ bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+ stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+ brauner@kernel.org, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
+ jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com,
+ hughd@google.com, skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 00/22] Live Update Orchestrator
+Message-Id: <20251107143310.8b03e72c8f9998ff4c02a0d0@linux-foundation.org>
 In-Reply-To: <20251107210526.257742-1-pasha.tatashin@soleen.com>
 References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Introduce an in-kernel test module to validate the core logic of the
-Live Update Orchestrator's File-Lifecycle-Bound feature. This
-provides a low-level, controlled environment to test FLB registration
-and callback invocation without requiring userspace interaction or
-actual kexec reboots.
+On Fri,  7 Nov 2025 16:02:58 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
 
-The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
+> This series introduces the Live Update Orchestrator, a kernel subsystem
+> designed to facilitate live kernel updates using a kexec-based reboot.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- kernel/liveupdate/luo_file.c     |   2 +
- kernel/liveupdate/luo_internal.h |   8 ++
- lib/Kconfig.debug                |  23 ++++++
- lib/tests/Makefile               |   1 +
- lib/tests/liveupdate.c           | 130 +++++++++++++++++++++++++++++++
- 5 files changed, 164 insertions(+)
- create mode 100644 lib/tests/liveupdate.c
-
-diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-index 713069b96278..4c0a75918f3d 100644
---- a/kernel/liveupdate/luo_file.c
-+++ b/kernel/liveupdate/luo_file.c
-@@ -829,6 +829,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
- 	INIT_LIST_HEAD(&fh->flb_list);
- 	list_add_tail(&fh->list, &luo_file_handler_list);
- 
-+	liveupdate_test_register(fh);
-+
- 	return 0;
- }
- 
-diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index 89c2fd97e5a7..be8986f7ac9b 100644
---- a/kernel/liveupdate/luo_internal.h
-+++ b/kernel/liveupdate/luo_internal.h
-@@ -90,4 +90,12 @@ int __init luo_flb_setup_outgoing(void *fdt);
- int __init luo_flb_setup_incoming(void *fdt);
- void luo_flb_serialize(void);
- 
-+#ifdef CONFIG_LIVEUPDATE_TEST
-+void liveupdate_test_register(struct liveupdate_file_handler *h);
-+#else
-+static inline void liveupdate_test_register(struct liveupdate_file_handler *h)
-+{
-+}
-+#endif
-+
- #endif /* _LINUX_LUO_INTERNAL_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ddacf9e665a2..2cbfa3dead0b 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2813,6 +2813,29 @@ config LINEAR_RANGES_TEST
- 
- 	  If unsure, say N.
- 
-+config LIVEUPDATE_TEST
-+	bool "Live Update Kernel Test"
-+	default n
-+	depends on LIVEUPDATE
-+	help
-+	  Enable a built-in kernel test module for the Live Update
-+	  Orchestrator.
-+
-+	  This module validates the File-Lifecycle-Bound subsystem by
-+	  registering a set of mock FLB objects with any real file handlers
-+	  that support live update (such as the memfd handler).
-+
-+	  When live update operations are performed, this test module will
-+	  output messages to the kernel log (dmesg), confirming that its
-+	  registration and various callback functions (preserve, retrieve,
-+	  finish, etc.) are being invoked correctly.
-+
-+	  This is a debugging and regression testing tool for developers
-+	  working on the Live Update subsystem. It should not be enabled in
-+	  production kernels.
-+
-+	  If unsure, say N
-+
- config CMDLINE_KUNIT_TEST
- 	tristate "KUnit test for cmdline API" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index f7460831cfdd..8e5c527a94ac 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -27,6 +27,7 @@ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
- obj-$(CONFIG_KFIFO_KUNIT_TEST) += kfifo_kunit.o
- obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_LIVEUPDATE_TEST) += liveupdate.o
- 
- CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
- obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
-diff --git a/lib/tests/liveupdate.c b/lib/tests/liveupdate.c
-new file mode 100644
-index 000000000000..62c592aa859f
---- /dev/null
-+++ b/lib/tests/liveupdate.c
-@@ -0,0 +1,130 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME " test: " fmt
-+
-+#include <linux/init.h>
-+#include <linux/liveupdate.h>
-+#include <linux/module.h>
-+#include "../../kernel/liveupdate/luo_internal.h"
-+
-+#define TEST_NFLBS 3
-+#define TEST_FLB_MAGIC_BASE 0xFEEDF00DCAFEBEE0ULL
-+
-+static struct liveupdate_flb test_flbs[TEST_NFLBS];
-+
-+static int test_flb_preserve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+
-+	pr_info("%s: preserve was triggered\n", argp->flb->compatible);
-+	argp->data = TEST_FLB_MAGIC_BASE + index;
-+
-+	return 0;
-+}
-+
-+static void test_flb_unpreserve(struct liveupdate_flb_op_args *argp)
-+{
-+	pr_info("%s: unpreserve was triggered\n", argp->flb->compatible);
-+}
-+
-+static void test_flb_retrieve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	u64 expected_data = TEST_FLB_MAGIC_BASE + index;
-+
-+	if (argp->data == expected_data) {
-+		pr_info("%s: found flb data from the previous boot\n",
-+			argp->flb->compatible);
-+		argp->obj = (void *)argp->data;
-+	} else {
-+		pr_err("%s: ERROR - incorrect data handle: %llx, expected %llx\n",
-+		       argp->flb->compatible, argp->data, expected_data);
-+	}
-+}
-+
-+static void test_flb_finish(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	void *expected_obj = (void *)(TEST_FLB_MAGIC_BASE + index);
-+
-+	if (argp->obj == expected_obj)
-+		pr_info("%s: finish was triggered\n", argp->flb->compatible);
-+	else
-+		pr_err("%s: ERROR - finish called with invalid object\n",
-+		       argp->flb->compatible);
-+}
-+
-+static const struct liveupdate_flb_ops test_flb_ops = {
-+	.preserve	= test_flb_preserve,
-+	.unpreserve	= test_flb_unpreserve,
-+	.retrieve	= test_flb_retrieve,
-+	.finish		= test_flb_finish,
-+};
-+
-+#define DEFINE_TEST_FLB(i) \
-+	{ .ops = &test_flb_ops, .compatible = "test-flb-v" #i }
-+
-+static struct liveupdate_flb test_flbs[TEST_NFLBS] = {
-+	DEFINE_TEST_FLB(0),
-+	DEFINE_TEST_FLB(1),
-+	DEFINE_TEST_FLB(2),
-+};
-+
-+static int __init liveupdate_test_early_init(void)
-+{
-+	int i;
-+
-+	if (!liveupdate_enabled())
-+		return 0;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+		void *obj;
-+		int err;
-+
-+		liveupdate_init_flb(flb);
-+
-+		err = liveupdate_flb_incoming_locked(flb, &obj);
-+		if (!err) {
-+			liveupdate_flb_incoming_unlock(flb, obj);
-+		} else if (err != -ENODATA && err != -ENOENT) {
-+			pr_err("liveupdate_flb_incoming_locked for %s failed: %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+		}
-+	}
-+
-+	return 0;
-+}
-+early_initcall(liveupdate_test_early_init);
-+
-+void liveupdate_test_register(struct liveupdate_file_handler *h)
-+{
-+	int err, i;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+
-+		err = liveupdate_register_flb(h, flb);
-+		if (err)
-+			pr_err("Failed to register %s %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+	}
-+
-+	err = liveupdate_register_flb(h, &test_flbs[0]);
-+	if (!err || err != -EEXIST) {
-+		pr_err("Failed: %s should be already registered, but got err: %pe\n",
-+		       test_flbs[0].compatible, ERR_PTR(err));
-+	}
-+
-+	pr_info("Registered %d FLBs with file handler: [%s]\n",
-+		TEST_NFLBS, h->compatible);
-+}
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Pasha Tatashin <pasha.tatashin@soleen.com>");
-+MODULE_DESCRIPTION("In-kernel test for LUO mechanism");
--- 
-2.51.2.1041.gc1ab5b90ca-goog
-
+I added this to mm.git's mm-nonmm-stable branch for some linux-next
+exposure.  The usual Cc's were suppressed because there would have been
+so many of them.
 
