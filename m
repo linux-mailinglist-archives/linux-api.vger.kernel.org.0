@@ -1,90 +1,103 @@
-Return-Path: <linux-api+bounces-5184-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5185-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAF6C446F5
-	for <lists+linux-api@lfdr.de>; Sun, 09 Nov 2025 21:44:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AF1C44D8C
+	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 04:36:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 430D6188B7B5
-	for <lists+linux-api@lfdr.de>; Sun,  9 Nov 2025 20:44:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90192188C8A3
+	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 03:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7CBD266584;
-	Sun,  9 Nov 2025 20:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0DA828469E;
+	Mon, 10 Nov 2025 03:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="bWrjA4Tp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FCF1FDA;
-	Sun,  9 Nov 2025 20:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF9520C023
+	for <linux-api@vger.kernel.org>; Mon, 10 Nov 2025 03:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762721036; cv=none; b=fJcgIcrKWtTF2nHnbMr+Y+jTQEJF7eqGLqQ0om+U5yqe5f1+V3QXTTCvcYLhKdwXN3cbHzNw+ZS/p/iftzQnYw7BgeefeRKWSW1wuuEXnuWDDZeNUPzJ7mKh7PSt1ZSk3vRH86gGRxa4NM6lX1OrZKLYcvVF61zTv/IAPHo1dzc=
+	t=1762745772; cv=none; b=JXmoaAY/5h2AmVCOWmiDatfdXUzWGlCmTp4ukbotJOTEENmdlBCOhCjDmjkqHu9PScImjBo5gKCqN648fHct0h+oraWsjdAQvdBZyjWnvEE//kg60WKQ/LpH6hauAMgYbvOOL+JEKcTlh2gJG9OCcPrYhslNBtOcqWmI+hxrc0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762721036; c=relaxed/simple;
-	bh=rKwOVfN6qIycYLMqowDkjIl0qamT7Mcp5kLtx86YsP8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=nl1fQ/nws0w2k5pefwcm7ZVlA9ia89fSeAzXAz3tDVQ0xDjn6QWJ6Xy2QAS3KJEDnAY5FITGXsVZ4y95J+PtDPf8MWtUR2ZH2KoUWiugnEsasyDmqXtvz7MfExihRpJekxMOiDuSVKJhRKDZ8zYHqj9OYo9AFWxe2GcQmIxgNHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 8FA8192009C; Sun,  9 Nov 2025 21:43:52 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 82C5892009B;
-	Sun,  9 Nov 2025 20:43:52 +0000 (GMT)
-Date: Sun, 9 Nov 2025 20:43:52 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+	s=arc-20240116; t=1762745772; c=relaxed/simple;
+	bh=w5hxsI6oanhxO0+XMiIZkdXYx7KzwE7njW4MO7wJ+38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LTOwNgkMh7b5ob2pUYMCdrDt1QxxPrIwXY13gkszDXMtwKD2BpPsC7h9+HOLJXMnUZWHCb9Dh4v/JnaieHc8FRgYk7AcwpX21dhW9aP+yBVR/rxeHrIR9vlGxaOewPCb9DSSJD2FwPhxyAKRLUhQawvXkSe1Zxq2xBf+Cwgg8aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=bWrjA4Tp; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from trampoline.thunk.org (pool-173-48-122-154.bstnma.fios.verizon.net [173.48.122.154])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5AA3ZuAJ010971
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 9 Nov 2025 22:35:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1762745758; bh=eFGyXJBSDrcCbUcWJuMkH/5zBN7fzQB6YRYE8ZTXe28=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=bWrjA4TpRkSi7/ll5gKvgEqd2IcLy7rTAWR14hDRFviXy9XIg0YvD/l/kiUUvFXOb
+	 ECDD/euRtQrPo+j+0ecfGfH3lhn9/Hk3Lv+b4KBghap+DlMOkyQ8zR1JV3bKLeSHy8
+	 oQ2lumsVVvzXOdLte7/2WCRreNVPW+3Mgt5ztqOP75llDHzkBVTBP8z/HdK4xkyXak
+	 2oIha7QtByy47LA8/GocwNFTxqmI0qbXKYtH2ThXTicH4ZsWINvmC5YpnmD2blJ9ii
+	 uyeWLOMvKHJZjYU8ijezC67xlVaoiFzCS2mcpKZ8HJ9bT6ANv22V2LxHeo9yMsDpJt
+	 XcZHjw8FmtUHw==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 461672E00D9; Sun, 09 Nov 2025 22:35:56 -0500 (EST)
+Date: Sun, 9 Nov 2025 22:35:56 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
 To: "H. Peter Anvin" <hpa@zytor.com>
-cc: linux-serial@vger.kernel.org, linux-api@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
 Subject: Re: RFC: Serial port DTR/RTS - O_NRESETDEV
-In-Reply-To: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com>
-Message-ID: <alpine.DEB.2.21.2511090454370.25436@angie.orcam.me.uk>
+Message-ID: <20251110033556.GC2988753@mit.edu>
 References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ <20251107173743.GA3131573@mit.edu>
+ <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com>
 
-On Thu, 6 Nov 2025, H. Peter Anvin wrote:
+On Sat, Nov 08, 2025 at 06:25:20PM -0800, H. Peter Anvin wrote:
+> 
+> The standard ESP32 configuration for its serial port is that asserting RTS#
+> even for a moment will cause a device reset, and asserting DTR# during reset
+> forces the device into boot mode. So even if you execute TIOCMSET immediately
+> after opening the device, you will have glitched the output, and only the
+> capacitance of the output will save you, in the best case.
 
-> It seems to me that this may very well be a problem beyond ttys, in which case
-> a new open flag to request to a driver that the configuration and (observable)
-> state of the underlying hardware device -- whatever it may be -- should not be
-> disturbed by calling open(). This is of course already the case for many
-> devices, not to mention block and non-devices, in which case this flag is a
-> don't care.
+IMHO, these more esoteric use cases should involve a custom kernel
+driver which replaces the generic serial driver.  In practice, these
+things aren't really a tty, but somethiung else weird, and trying to
+do this in userspace seems really awkward.
 
- FWIW I find using an open flag the most natural way to solve this problem 
-and I disagree with a view that a 50+ year old standard has to prevent us 
-from handling new use cases found as the world has changed.  We do need to 
-comply with the standard for the devices that use it, but I think a flag 
-to opt out is a perfectly sane approach.
+> setserial (TIOCSSERIAL) and termios (TCSETS*) both require file descriptors,
+> so that is not suitable. The 8250 driver, but *not* other serial drivers,
+> allows the setserial information to be accessed via sysfs; however, this
+> functionality is local to the 8250 driver.
 
- Yes, some hardware has limitations and may have to conclude we can't do 
-anything about it.  Just as, say, we can't choose an arbitrary baud rate 
-with the dz.c driver, because the hardware handled has a 4-bit selector 
-for a set of predefined rates (to stay remotely on topic).  That does not 
-prevent us from handling more flexible hardware in a way that makes full 
-use of its features.
+My suggestion of using setserial to turn on some "not really a tty;
+but some weird networking / cheap debugging hack" flag should work,
+because you would do this at boot up.  Note that the 8250
+autoconfiguration code (see drivers/tty/serial/8250/8250_port.c) is
+going to mess with DTR / RTS.  This is why I asserted that trying to
+claim that you can preserve "state" across reboots is Just Not
+Possible.
 
-> The best name I came up with was O_NRESETDEV, but it's not something I'm
-> particularly attached to.
+If you have some weird setup where DTR or RTS is wierd to the
+"detonate the TNT" line, might I suggest that maybe we shouldn't be
+using the tty / 8250 serial driver, but it should ***really*** be a
+dedicated kernel driver?
 
- I'd suggest a generic name such as O_RAW for an agnostic way to express a 
-request not to fiddle with the device in any way regardless of its kind, 
-i.e. for possible reuse with anything.
-
-> If the opinion is that this *doesn't* have a scope beyond ttys, then perhaps
-> abusing the O_DIRECT flag for this purpose would be an alternative.
-
- It seems like a hack to me, but if carefully evaluated we could reuse the 
-bit encoding.  Either way I'd encourage defining a new meaningful name for 
-the new application of the flag, such as one proposed above.
-
-  Maciej
+					- Ted
 
