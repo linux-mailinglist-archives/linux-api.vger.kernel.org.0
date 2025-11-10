@@ -1,62 +1,62 @@
-Return-Path: <linux-api+bounces-5186-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5187-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB7FC44F08
-	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 06:00:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5437C44FB3
+	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 06:20:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28DFC3B09A6
-	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 05:00:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8BAFA4E4F5A
+	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 05:20:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 298EC2DCF58;
-	Mon, 10 Nov 2025 05:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A33B2E8B64;
+	Mon, 10 Nov 2025 05:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="uEl/PbS0"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Hmr3x5Vn"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5792DAFB9;
-	Mon, 10 Nov 2025 05:00:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894501A2C25;
+	Mon, 10 Nov 2025 05:20:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762750832; cv=none; b=CMiNb995P1rI/O/xaKC9eyB7HHzt5r/cnYyDZtnXNe+H++sy5McQRNa227WxIDui6LrvxBelt8b62eRyPxKZe0ZhqYOLwPa1TgUfIa36YPngHE/BAj4xq2SrYrdNJa/xRNtr4G7ivK1JBuwyQ/STC1/wSAr9joGqcPuA6EUDyEQ=
+	t=1762752016; cv=none; b=eT7wT8Mh9eNTZQaOpoCcExpOchYM8Q1KBogYIWntRJbHOxm0haaYow0jCeqkRZDfkqPp8UOeAxCOhLvXkxXVgrZGLrvZDgIVzzeGKTb5Mi+uD8ZX8RiVNb7FPUXXGvVJbzt/Kdv791+3lKsb1U8EjpuM0sZK53DoRc8KN6OfiXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762750832; c=relaxed/simple;
-	bh=3WGfTCS9HxV5AsmfaNFxXV7MG/s7A4+FAIrFYvcWux0=;
+	s=arc-20240116; t=1762752016; c=relaxed/simple;
+	bh=WICAjAkBcOzYNQw2QatcrHUjeNQPqwknDKC2jJuGTWY=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Vgws4UBIBAERqrVbfY3STNsLRxMWYov2E4Y4o6avQcUFFV+bzInukgFgotWhqvjHVhzratDSt6Faa3t5eHRgPsjk7VgA5Qra0udPvKiipXD9RNlNHb6iDDfqxBBGj3jJvkbTGmM1daSZUIQ2vW1MtIL92cfXMNEqcRktG9y7o0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=fail (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=uEl/PbS0 reason="signature verification failed"; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version:Content-Type; b=cGc48tZQyNeYzeBIy83efBCKdnv9LuIaI07GIajDOnsjMVTg9bbOSGvYuFJJRRtjtyh0zGP7ITLYhgcwvA3btd1P5U4gh2pwXQldponoAwfL84719/dUZGd9mI7HKNMDitsLexdW6TEi0JgZM4D/yjSmJ0Et4RymoTGgVQrz4Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=fail (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Hmr3x5Vn reason="signature verification failed"; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5AA50Jku3337053
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5AA5KAkq3346810
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 9 Nov 2025 21:00:20 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5AA50Jku3337053
+	Sun, 9 Nov 2025 21:20:10 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5AA5KAkq3346810
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1762750820;
-	bh=lNNqKYw6kdGWpkMXG8MHJl3KOvc86BBf+kihsnGzXkI=;
+	s=2025102301; t=1762752011;
+	bh=ByLx4ga8mLNebyKIOpvPJefCgzhRahPFj+lLZbpqSnk=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=uEl/PbS0VWLvG94RHvgZJMy/NQ/QGbaxL4ssT+bv79p3jd4TJxIt/FCpu7l7ERQjG
-	 3DTSJ2FUpcALRrTeSIRoGVltw9mh7pnj4g3ipw2UhLxBVTyJoJ96UCMpDktoDjxIzU
-	 tvfwqRycbKAmymUA03B5FHsLL1HQF48ReX7fNB/l34jMAk4ccuTtk2SiM4x9cVIEVy
-	 wGSAS3J/OZWIgPilFgn1d5WGIJYbRFWaoWRnNZBtU2wRT4EL6A2SGAsI7eiv392lZc
-	 BpfW9befC2EReGJoSq4g1u3MCXtRGmjbqUmYpUO7abr0YdgJJ+hhwUE9ovZR0HIeI4
-	 k4cXstZNLsfPw==
-Date: Sun, 09 Nov 2025 21:00:18 -0800
+	b=Hmr3x5VnB25CC5UOUzv+z4S+ujjkXbglZg8UkHG+meqM4WrueRcjiaLIA5TUshnPJ
+	 IvJ6vlC1XFbcc/qy4Jo/1l4DbTwv7tDP/jTAx4ce01xpXAoZFgm7PUppVa7WzH7MWh
+	 rdu/sfqZfEeY8ootCdBtAQeDru5aGioX3LRP3CVL+0u8VvHx5ToI07XcQKZ/nRrOdZ
+	 UjPlmXesbHXnXx/NbhyuBpMb60NrUfwKT9oueNisLKqqjGuwQFwFlARm3QYen6NU+e
+	 74jh+p+WynNdPqeRMGYE7/0FI6gbDvjn3MBwkpRnEqZQwbFexVMRMOqkYn0/Jva1Yo
+	 ufSWGkRcLuPbw==
+Date: Sun, 09 Nov 2025 21:20:09 -0800
 From: "H. Peter Anvin" <hpa@zytor.com>
 To: "Theodore Ts'o" <tytso@mit.edu>
 CC: linux-serial@vger.kernel.org, linux-api@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>
 Subject: Re: RFC: Serial port DTR/RTS - O_NRESETDEV
 User-Agent: K-9 Mail for Android
-In-Reply-To: <20251110033556.GC2988753@mit.edu>
-References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com> <20251107173743.GA3131573@mit.edu> <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com> <20251110033556.GC2988753@mit.edu>
-Message-ID: <ADB50E23-DC8B-43D0-A345-E10396A3DFD4@zytor.com>
+In-Reply-To: <20251107173743.GA3131573@mit.edu>
+References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com> <20251107173743.GA3131573@mit.edu>
+Message-ID: <17FF5500-54B4-4456-A870-E43E004589F1@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -67,59 +67,78 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On November 9, 2025 7:35:56 PM PST, Theodore Ts'o <tytso@mit=2Eedu> wrote:
->On Sat, Nov 08, 2025 at 06:25:20PM -0800, H=2E Peter Anvin wrote:
+On November 7, 2025 9:37:43 AM PST, Theodore Ts'o <tytso@mit=2Eedu> wrote:
+>On Thu, Nov 06, 2025 at 11:53:23PM -0800, H=2E Peter Anvin wrote:
 >>=20
->> The standard ESP32 configuration for its serial port is that asserting =
-RTS#
->> even for a moment will cause a device reset, and asserting DTR# during =
-reset
->> forces the device into boot mode=2E So even if you execute TIOCMSET imm=
-ediately
->> after opening the device, you will have glitched the output, and only t=
-he
->> capacitance of the output will save you, in the best case=2E
+>> I recently ran into a pretty serious issue due to the Unix/Linux
+>> (mis)behavior of forcing DTR and RTS asserted when a serial port is
+>> set, losing the pre-existing status in the process=2E
 >
->IMHO, these more esoteric use cases should involve a custom kernel
->driver which replaces the generic serial driver=2E  In practice, these
->things aren't really a tty, but somethiung else weird, and trying to
->do this in userspace seems really awkward=2E
+>There's a hidden assumption in your problem statement which is that
+>DTR / RTS has a "state" which can be saved when the serial port is not
+>active, where active is one or more file descriptors holding the
+>serial port open=2E  There may be certain hardware or drivers where this
+>is just not possible, because nothing is defined if the serial port is
+>not active=2E  It might make sense if you are using a 8250 UART, but not
+>all the world is the National Semiconductor (or clones) UART=2E
 >
->> setserial (TIOCSSERIAL) and termios (TCSETS*) both require file descrip=
-tors,
->> so that is not suitable=2E The 8250 driver, but *not* other serial driv=
-ers,
->> allows the setserial information to be accessed via sysfs; however, thi=
-s
->> functionality is local to the 8250 driver=2E
+>Certainly the "state" will not be preserved across boots, since how we
+>autodetect the UART is going to mess with UART settings=2E  So
+>*presumably* what you are talking about is you want to be able to open
+>the serial port, mess with DTR / RTS, and then be able to close the
+>serial port, and then later on, re-open the serial port, have the DTR
+>/ RTS remain the same=2E  And it's Too Hard(tm) to have userspace
+>keeping a file descriptor open during the whole time?  (Which is
+>traditionally how Unix/Linux has required that applications do
+>things=2E)
 >
->My suggestion of using setserial to turn on some "not really a tty;
->but some weird networking / cheap debugging hack" flag should work,
->because you would do this at boot up=2E  Note that the 8250
->autoconfiguration code (see drivers/tty/serial/8250/8250_port=2Ec) is
->going to mess with DTR / RTS=2E  This is why I asserted that trying to
->claim that you can preserve "state" across reboots is Just Not
->Possible=2E
+>Is that a fair summary of the requirements?
 >
->If you have some weird setup where DTR or RTS is wierd to the
->"detonate the TNT" line, might I suggest that maybe we shouldn't be
->using the tty / 8250 serial driver, but it should ***really*** be a
->dedicated kernel driver?
+>> It seems to me that this may very well be a problem beyond ttys, in
+>> which case a new open flag to request to a driver that the
+>> configuration and (observable) state of the underlying hardware
+>> device -- whatever it may be -- should not be disturbed by calling
+>> open()=2E This is of course already the case for many devices, not to
+>> mention block and non-devices, in which case this flag is a don't
+>> care=2E
 >
->					- Ted
+>I think it's going to be a lot simpler to keep this specific to serial
+>ports and DTR / RTS, because the concept that the hardware should not
+>be changed when the file descriptor is opened may simply not be
+>possible=2E  For example, it might be that until you open it, the there
+>might not even be power applied to the device=2E  The concept that all
+>hardware should burn battery power once the machine is booted may not
+>make sense, and the assumption that hardware has the extra
+>millicent(s) worth of silicon to maintain state when power is dropped
+>may again, not be something that we can assume as being possible for
+>all devices=2E
+>
+>If that's the case, if you want to have something where DTR and RTS
+>stay the same, and for some reason we can't assume that userspace
+>can't just keep a process holding the tty device open, my suggestion is t=
+o use=20
+>
+>Given that DTR and RTS are secial port concepts, my suggesiton is to
+>set a serial port flag, using setserial(8)=2E  It may be the case that
+>for certain types of serial device, the attempt to set the flag may be
+>rejected, but that's something which the ioctl used by setserial
+>already can do and which userspace applications such as setserial
+>understand may be the case=2E
+>
+>Cheers,
+>
+>						- Ted
 
-That is a completely unrealistic idea=2E And you are hardly the first one =
-to have it=2E Microsoft has been trying to get rid of serial and parallel p=
-orts since the 1990s for reasons like this=2E=20
+So let's separate out a few things here:
 
-Microsoft even have had to back off the requirement of having =2Eini text =
-file "drivers" for ACM serial ports=20
+1=2E You are taking about using setserial(8), which is really ioctl(TIOCSS=
+ERIAL), which requires a file descriptor=2E This is exactly why I believe t=
+here should be a mechanism for acquiring a file descriptor which *by that a=
+ction itself* should not change whatever state is already available to the =
+kernel=2E
 
-Yet they probably will still be with us when the 22nd century dawns, exact=
-ly *because* they are ubiquitous, supported by everything, and require no s=
-eparate kernel drivers=2E
+2=2E What, if anything, can be done on a device by device basis to improve=
+ the situation beyond what currently exists=2E=20
 
-And these days these aren't the "esoteric" use cases at all=2E They are th=
-e norm=2E
 
 
