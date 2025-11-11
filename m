@@ -1,155 +1,153 @@
-Return-Path: <linux-api+bounces-5198-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5199-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED2BC495B1
-	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 22:06:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82450C4B5CD
+	for <lists+linux-api@lfdr.de>; Tue, 11 Nov 2025 04:52:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E645B4E16E1
-	for <lists+linux-api@lfdr.de>; Mon, 10 Nov 2025 21:06:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 45F7C4E1F6B
+	for <lists+linux-api@lfdr.de>; Tue, 11 Nov 2025 03:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8EC2F8BD9;
-	Mon, 10 Nov 2025 21:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3DE9271A94;
+	Tue, 11 Nov 2025 03:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="WY5x0sTK"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="iKTx0+W8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D058E2F261F;
-	Mon, 10 Nov 2025 21:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBFA266B6F
+	for <linux-api@vger.kernel.org>; Tue, 11 Nov 2025 03:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762808766; cv=none; b=dVzcFB0A4mB8dvcskinwLG3UgTHqaXmww3FguYBRXhYmJZWqRXxxFxeJUFALzN5eNSurBQmmkNFNqyoeykgf7/PFOZAYNzbbQfl9FQhMDStaNUyaWdlHAVYyjUawFI57/k3Ui+sQZKhTRrpxCVkyoZ9mVQKOaF8urupDFeL9N4o=
+	t=1762833119; cv=none; b=ffBlMUhjh4s5mBpUoIzGFn0JVD+8+JyXP7siRLhh58CsS+EFj834rOgea+dKbi4VeZtKWLkiq5b+n/xkHI6tkpubj9dov34/Idxa9oPr84fTDleiHaVZgoahvc9/zoAWXO9wvGrjg8ZGSnZLyYXr0HgPjZM7iON1/HHgC5L3G5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762808766; c=relaxed/simple;
-	bh=9cfxn/oUsGlRr4HORwfIBaS2O2MvzZRemJYtt1/icec=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=hI2z+0Ir30L/PfFhRK9rkSeDH53NoXMN+w0LenTs70rOl1iSBo+Dt6yyeKM6xr0t5fXUfURT627Z/U5TAOWaCAN1sMLW2AisB47tMPVwu+PQizWmmKWr3HHiklVQltwADyMRm1I6MQLNEp1uBxI0cbq+aKhDv6tgcVOg35edDxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=fail (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=WY5x0sTK reason="signature verification failed"; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	s=arc-20240116; t=1762833119; c=relaxed/simple;
+	bh=EWnsbrhjx9CE8E9O3tAfZpamK18dXAIf00y7wu53fA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eg6F6/W6dAng8a5i/b4dLJNx4yMnktnZ/itr87BuEIuKpflQPxCFm3yMJ89fOpqTVJv67Yf88Ytt4xMJeMFlXh1I2rvAyHLl41V3wB0InIZHdnNMU1yl+o4jJPZpwBocmgOs15BmEEekz2U23GIiXFgNLNNXOBJtI3y2oUYyFlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=iKTx0+W8; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from trampoline.thunk.org (pool-173-48-122-154.bstnma.fios.verizon.net [173.48.122.154])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5AAL5tBY3818165
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 10 Nov 2025 13:05:56 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5AAL5tBY3818165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1762808756;
-	bh=9T8fcuIV2S3fsjbzreBB9AjatC5kysDZWffRB4veUGk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=WY5x0sTKR6Vy5BGK6oSm5iUWbpO6dXlVg8+0v9rKk1wc+Uh/b8Js48FYKxngpaqaC
-	 Rrc2+NkMBMniG2FFFcUnWy1VxnP0D9x8szFXk8HiFdlPAy4tKAWm+9u6MVBCxsxjQP
-	 wtN4PKbX88cC6/CRQj73ayvrhiavbBA2eoLAf2vz3p7DFeXVWBh2V+NpCTgvKwDpdb
-	 +dyu4EF6jjToRLxcMjpxVB3NxCcDyT5f6QlF145fl22LwQYNDD5qsW8yuNsrdD0LvV
-	 bP5VCTz/OekOmCBBDQriIkLbbgtEdEx767zOUD7PD5FFjI78jmlTGiuDUaMAnEX8m7
-	 wCY1xUvqkB/mg==
-Date: Mon, 10 Nov 2025 13:05:55 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: "Theodore Ts'o" <tytso@mit.edu>, Maarten Brock <Maarten.Brock@sttls.nl>
-CC: "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5AB3phHq007802
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Nov 2025 22:51:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1762833105; bh=T3uUoS64/1g+j1dW9ReEGjN0D7EazGB2spXReUkJcGQ=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=iKTx0+W8/1TW6Eyvn10+EpRvSGS4jHuwbPmWFfa9DAX6U5luS1kY8kh/2pvzYdHu5
+	 O3W7Y0BJVAqTJnii8uWUYDLsPdkCpVa9tGbNsWTJeu4G+bM2u8eL8dr8njtL0DHIE3
+	 G4kgfxe86v2dfJvRukAJVTdJZGjA71LLNfmFusDBv/sIqDHRv20xXNYI1V7ojJrQ7Z
+	 d7/63gToS3WjZC7psKI4K06Bwb/zvtdBkJ9qAv3YsEpdGBPDn1dYUdcGfIgW/3EXZ6
+	 Z3qvjT9Wf6+/+0Skw9fWFBBk1iFkGcQW2mBHGYOgpRgk26ZLPROU0QAQEOAOuiQic8
+	 h33FTlHSJVQGg==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 941902E00D9; Mon, 10 Nov 2025 22:51:43 -0500 (EST)
+Date: Mon, 10 Nov 2025 22:51:43 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Maarten Brock <Maarten.Brock@sttls.nl>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Subject: Re: RFC: Serial port DTR/RTS - O_NRESETDEV
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20251110201933.GH2988753@mit.edu>
-References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com> <20251107173743.GA3131573@mit.edu> <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com> <20251110033556.GC2988753@mit.edu> <ADB50E23-DC8B-43D0-A345-E10396A3DFD4@zytor.com> <AMBPR05MB11925DA076098B05E418BF64283CEA@AMBPR05MB11925.eurprd05.prod.outlook.com> <20251110201933.GH2988753@mit.edu>
-Message-ID: <0F8021E8-F288-4669-8195-9948844E36FD@zytor.com>
+Message-ID: <20251111035143.GJ2988753@mit.edu>
+References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com>
+ <20251107173743.GA3131573@mit.edu>
+ <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com>
+ <20251110033556.GC2988753@mit.edu>
+ <ADB50E23-DC8B-43D0-A345-E10396A3DFD4@zytor.com>
+ <AMBPR05MB11925DA076098B05E418BF64283CEA@AMBPR05MB11925.eurprd05.prod.outlook.com>
+ <20251110201933.GH2988753@mit.edu>
+ <0F8021E8-F288-4669-8195-9948844E36FD@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0F8021E8-F288-4669-8195-9948844E36FD@zytor.com>
 
-On November 10, 2025 12:19:33 PM PST, Theodore Ts'o <tytso@mit=2Eedu> wrote=
-:
->On Mon, Nov 10, 2025 at 10:06:02AM +0000, Maarten Brock wrote:
->> I fully agree that you cannot expect users that wired something like RS=
-485 Driver
->> Enable or a microcontroller reset to RTS or DTR to write their own kern=
-el driver=2E
->> And you need to open the port to make the appropriate settings=2E But o=
-pening a
->> port should not e=2Eg=2E claim the RS485 bus and mess up whatever commu=
-nication
->> was going on there=2E
->
->Again, the existing seral driver code *will* mess with RTS and DTR at
->boot up because that's part of the autoconfiuration code, and that was
->added because it was needed for some number of serial ports=2E
->
->If that's going to "mess up" the RS485 bus, maybe we need accept that
->RS-232 !=3D RS-485 and have a different driver for the two=2E  That's
->going to be a lot simpler than trying to make the same code work for
->both RS-232 and RS-485, and claiming that the existing RS-232 code is
->"fundamentally buggy" when it interacts poorly with something that has
->very different requirements than the historical RS-232 use cases=2E
->
->              	  	     	    - Ted
+On Mon, Nov 10, 2025 at 01:05:55PM -0800, H. Peter Anvin wrote:
+> 
+> The parport driver layer is kind of similar to this, in some ways,
+> but in the tty layer that is mostly handled by line disciplines
+> instead. (The parport hardware was generally abused on a much lower
+> level, as a substitute for GPIOs, so even the notion of a byte
+> stream wasn't there.)
 
-I didn't say it was fundamentally buggy; if I did or implied it I apologiz=
-e=2E It is most definitely not; however, in some cases it is undesired or u=
-ndesirable *due to shifts in usage patterns=2E*
+I'm not an RS-485 expert, but over the years, I've heard all sorts of
+"interesting" timing requirements.  For example RTS can only be
+dropped when the UART's shift register has completely drained.  That's
+not when the OS has sent the characters to the FIFO (which is why
+tcdrain isn't quite what you want); it's not when the UART has sent
+the transmit interrupt, but when the UART's shift register is *empty*.
+Doing this via the termios interface is decidedly non-optimal[1].
 
-This isn't a bug at all but an enormous strength=2E That a 65-year-old sta=
-ndard =E2=80=94 both hardware and software =E2=80=94 designed for teletypes=
- and dumb terminals can still be useful today is almost the definition of s=
-uccess=2E And, yes, some glitches in that process are going to be inevitabl=
-e =E2=80=94 like the mistake of retaining the termio Bxxx emumeration const=
-ants in the termios interface=2E But we deal with it by gradual evolution o=
-f interfaces=2E=20
+[1] https://www.moxa.com.cn/getmedia/a07808dd-f3d7-473b-9a2f-93b5ce673bb1/moxa-the-secrets-of-rs-485-half-duplex-communication-tech-note-v1.0.pdf
 
-One such example is RTS itself: the RS485 definition is, in fact, the orig=
-inally intended meaning of RTS: it is a request to the DCE to negotiate tra=
-nsmission privilege and activate transmission mode over a half duplex chann=
-el, after which it asserts CTS=2E RTS/CTS flow control was a nonstandard ad=
-aption to allow for binary transparent flow control over full duplex links =
-=E2=80=94 it wasn't formally standardized until 1991, and the signal is for=
-mally named RTR when used that way=2E However, RTR and RTS share hardware i=
-n nearly all existing implementations, and share pins in the standard =E2=
-=80=94 so whether or not you are using RTR or RTS is a property of the DCE,=
- not DTE, and needs to be configured into the DTE=2E
+It *can* be done, sure, with some strategic usleep()'s, but not
+necessarily optimally, and it is decidedly hacky.  From what I can
+tell, it's actually not *that* different from treating RTS as a GPIO
+pin, and really, this ought to be done in the kernel if you want
+optimal control oer the timing of when RTS gets toggeled.
 
-Requiring new drivers for the gajillion different hardware devices already=
- supported and then having the problem of which drivers claim it isn't real=
-ly any better of a solution; one could in fact argue it is *exactly* equiva=
-lent to being able to indicate to the driver what mode one wants it to oper=
-ate in before it does its configuration=2E
+> *If* I'm reading the code correctly – which is a little complicated due to the sheer number of abstraction layers – hardware initialization is already deferred until first open, which would mean that disabling autoconfiguration (one of the features in TIOCSSERIAL) would again be a valid reason for wanting to be able to communicate with a device driver before requiring that it puts the underlying hardware in the state expected for operation *in the mode configured* (catch-22).
 
-The parport driver layer is kind of similar to this, in some ways, but in =
-the tty layer that is mostly handled by line disciplines instead=2E (The pa=
-rport hardware was generally abused on a much lower level, as a substitute =
-for GPIOs, so even the notion of a byte stream wasn't there=2E)
+Well, part of the problem is that the PC's serial port predates PCI,
+so there's no way we can tell whether or not there is a serial port at
+a particular I/O port except by poking certain I/O ports, and seeing
+if there is something that looks like a UART which responds.
+Hopefully this won't accidentaly cause the NSA's thermite-charge
+self-destruct charge from getting set off, and in practice, mainboard
+designers who try to put things at the COM1/2/3/4 generally get weeded
+out thanks to natural selection, hopefully without harming users along
+the way.  :-)
 
-*If* I'm reading the code correctly =E2=80=93 which is a little complicate=
-d due to the sheer number of abstraction layers =E2=80=93 hardware initiali=
-zation is already deferred until first open, which would mean that disablin=
-g autoconfiguration (one of the features in TIOCSSERIAL) would again be a v=
-alid reason for wanting to be able to communicate with a device driver befo=
-re requiring that it puts the underlying hardware in the state expected for=
- operation *in the mode configured* (catch-22)=2E
+Worse, we also wanted to support serial cards that were at
+non-standard ports, or using non-standard interrupts, and so that's
+one of the reason hardware initialization is deferred until after we
+have a chance to configure the serial device's I/O port and interrupt.
 
-As I stated, this is inherently going to be a best effort=2E For some devi=
-ces that may mean simply leaving the power on default in place (in this spe=
-cific case, presumably, DTR# and RTS# deasserted=2E) However, once the stat=
-e is already known to the kernel then there is no such issue for any hardwa=
-re=2E=20
-
-As far as naming is concerned: O_RAW is really suboptimal, as it has exact=
-ly the same implications as O_DIRECT (I/O goes straight to the device with =
-no buffering=2E) I don't like the idea of abusing O_DIRECT at all; I only b=
-rought it up as a fallback alternative=2E I genuinely do believe that if we=
- assign a new open flag it will find use cases outside the tty/serial port =
-subsystems, and if there is anything Unix has done right it is to generaliz=
-e interfaces as much as possible, case in point descriptors=2E=20
+Now, we are in the 21st century, and just as we are trying to declare
+32-bit i386 dead (to the disappointment of legacy hardware owners
+everywhere who are whining about Debian dropping installer support for
+i386), we could try to declare the ISA bus as dead, and no longer
+being supported, and we could probably drop a bunch of this
+complexity.  We probably would need to support COM 1/2/3/4 ports since
+these still tend to be hardwared without a way of detecting it their
+existing via USB or PCI bus discovery mechanisms.  And for those, we
+would still need to do UART autoconfiguration.  I suppose we could
+just assume that all UART's are 16550A's, and that noone would
+actually use older UART's type --- except (a) I bet there are some
+cheap-skate embedded computer designers who decided to use a 8250
+instead of 16550A for $REASONS$, and because of the extreme timing
+requirements of some RS-485 use cases, I believe I have seen
+recommendations to use setserial to actually force the UART into 8250
+mode, to disable the TX FIFO --- all to satisfying the weird-shit RTS
+timing requirements.  (This is where I get my beief that RS-485 !=
+RS-232, and if you want to do all of this weird-shit timing
+requirements because you are trying to implemet a multi-node bus which
+is half-duplex, maybe this should be done in the kernel, damn it!)
 
 
+How about this?  If you really don't want to open the device to
+configure it not to assert DTR/RTS, perhaps we could specify on the
+boot command line that one of TTYS[0123] has a different default line
+discipline, and when tty's are opened when the RS-485 line displine,
+the RS-485 rules apply, which would include not messing with DTR/RTS,
+and if you want to play games with RTS getting dropped as soon as the
+last bit has let the transmit shift register, we can get the kernel do
+this in the line discpline, which arguably would be *way* more
+reliable than playing GPIO-style timing games in userspace.
 
+	      	      		 	      - Ted
 
