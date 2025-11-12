@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-5255-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5256-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF8EC54745
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 21:31:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC0CC547BE
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 21:39:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 41D6C4E398C
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 20:25:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 647EE3B32DA
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 20:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88E022C11CA;
-	Wed, 12 Nov 2025 20:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18EB2D321A;
+	Wed, 12 Nov 2025 20:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQbgQLw9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kW9YbLhr"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C72266568;
-	Wed, 12 Nov 2025 20:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B2D2D193F;
+	Wed, 12 Nov 2025 20:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762979063; cv=none; b=FOO+fuiOme8NrdUYwnLz6SQJe17YCiKpB013d34j7Jf7IGwJ8mFHYXuRbxvJM/eepf+CPWkNu4Uwvu7I725R+plkERxdorxixJpV/4awmoXbS6T+kjmhsjAa2PpyRxONpvASv1IPjP/REo77pxvIMLuypq9FlbYIFNxW1O8RE7I=
+	t=1762979965; cv=none; b=J1dcFmfK+CSkgz9p6LnJXUcosZ5IQg32Il9j/fbuGT4i49DC/ZiYxAWQ6n31X5Z4Kw03PNjcrVUdZH/88KYp4LCerLRdBFxBNmnIgPLpRLoy9y88g0gLaWxOtwuNivsxEN+CBZFcw9sqr5wRXtf8Phn3RKQwwdwdt1B70H7jXFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762979063; c=relaxed/simple;
-	bh=mwcUjonCzzMfZYdyYUdmDpwyU/fnuOYn/CICWev1Wls=;
+	s=arc-20240116; t=1762979965; c=relaxed/simple;
+	bh=OxUaOMJTFxWjdG6kL/CBz/1/5fyiG64oUzuOScdyhFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nq4gWjVU1CiP/6+6Chta92qmLhqUE7utDac0falTSQPUR0TzKs7c+j35w5Rvl+G/mnyAaBo1eqQKAJCRNa+oKltnimm9uEWm2/1JnUL0fSUgggRPQMSAXBDwpj2v9MLY4cMNTKiTjUDtsBbyNF6nR0lSGEspOaGFsOHPOiFjj08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQbgQLw9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09228C4CEF1;
-	Wed, 12 Nov 2025 20:24:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=GA/O9TW4w44iu67WOyJVvgJ9wdJGyz0F0TiTWJ6ceCkUw9D76L5QViNwCWJUZSkVx6OfI1/2+oMoJLJCx6oq5ahR+My8b64jHsh2y7VYJnlXNv3rZX+YfQARUwGptQGgfHUqRYn7XtnI2Ai6BtwpQ6CMyHrlNH+nBqYisF45yLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kW9YbLhr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BFBC4CEF1;
+	Wed, 12 Nov 2025 20:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762979062;
-	bh=mwcUjonCzzMfZYdyYUdmDpwyU/fnuOYn/CICWev1Wls=;
+	s=k20201202; t=1762979965;
+	bh=OxUaOMJTFxWjdG6kL/CBz/1/5fyiG64oUzuOScdyhFU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQbgQLw9P6lFKBibAUmbYpSG8Kc0wXxdq6DEPV4fot9A8Q1oC6lf/tQLmW3FpXmzf
-	 qPCka0jwkKlO0iXyomcWRkBkvtD8Vbh6IeUouYmzxc4zjLlXFrIDKw+zN9TcibDmA3
-	 kKrDOOClHAVnPGzZD8sm2BtDGLYh6R8Ah/qLCCyr4KqWYmJNVn+BTx7p58HNu7zK+u
-	 osS1a4WSO0TQ/dDij7iWmGThiI+x15CS5wutDKmEuCHdJVOaHz0R9BWvwqk/W/34C2
-	 YF+3vFzxZBtnxFH1djMCfeY6S+cWfnL61EpWx0F2ygcbKJEmGW2ZqapHGLcxWwkLsa
-	 yrAZl3wZLOt7w==
-Date: Wed, 12 Nov 2025 22:23:57 +0200
+	b=kW9YbLhrr+3qw/niJQupZPlXdIbDjOQ+zg42uQ/qSVCuE5BBw8o68+t4AYVjo0MMU
+	 4HdNLuNuHPxg98rjv5h+Rkzelkj7XGGas5FtTYS4Mf75HIboXJOoOs/7JgFRj0O/CL
+	 QCBsyuYoNRyAGNSsj/6W1a2Fy8YEdCa1T23w73DVN2IBUSMSVb2lVLr72QdkT06DX5
+	 osBB13IJSUKI/kecG4aMG0gNW8fb55KQJ3kpXNLDUHZ68q6junN1CDcxZg4f8LtYVf
+	 +oYz4K/X8Gtn3oTOmRzdU4qbjKswNSsMNnJzK84ynxT42vrU5YjQxvS/8iR/zg5Lb8
+	 cUkwPcqYI/WNQ==
+Date: Wed, 12 Nov 2025 22:39:00 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
@@ -72,10 +72,10 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
 	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v5 22/22] tests/liveupdate: Add in-kernel liveupdate test
-Message-ID: <aRTs3ZouoL1CGHst@kernel.org>
+Subject: Re: [PATCH v5 06/22] liveupdate: luo_session: add sessions support
+Message-ID: <aRTwZNKFvDqb1NG5@kernel.org>
 References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-23-pasha.tatashin@soleen.com>
+ <20251107210526.257742-7-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -84,43 +84,49 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107210526.257742-23-pasha.tatashin@soleen.com>
+In-Reply-To: <20251107210526.257742-7-pasha.tatashin@soleen.com>
 
-On Fri, Nov 07, 2025 at 04:03:20PM -0500, Pasha Tatashin wrote:
-> Introduce an in-kernel test module to validate the core logic of the
-> Live Update Orchestrator's File-Lifecycle-Bound feature. This
-> provides a low-level, controlled environment to test FLB registration
-> and callback invocation without requiring userspace interaction or
-> actual kexec reboots.
+On Fri, Nov 07, 2025 at 04:03:04PM -0500, Pasha Tatashin wrote:
+> Introduce concept of "Live Update Sessions" within the LUO framework.
+> LUO sessions provide a mechanism to group and manage `struct file *`
+> instances (representing file descriptors) that need to be preserved
+> across a kexec-based live update.
 > 
-> The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
+> Each session is identified by a unique name and acts as a container
+> for file objects whose state is critical to a userspace workload, such
+> as a virtual machine or a high-performance database, aiming to maintain
+> their functionality across a kernel transition.
+> 
+> This groundwork establishes the framework for preserving file-backed
+> state across kernel updates, with the actual file data preservation
+> mechanisms to be implemented in subsequent patches.
 > 
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  kernel/liveupdate/luo_file.c     |   2 +
->  kernel/liveupdate/luo_internal.h |   8 ++
->  lib/Kconfig.debug                |  23 ++++++
->  lib/tests/Makefile               |   1 +
->  lib/tests/liveupdate.c           | 130 +++++++++++++++++++++++++++++++
->  5 files changed, 164 insertions(+)
->  create mode 100644 lib/tests/liveupdate.c
+>  include/linux/liveupdate/abi/luo.h |  81 ++++++
+>  include/uapi/linux/liveupdate.h    |   3 +
+>  kernel/liveupdate/Makefile         |   3 +-
+>  kernel/liveupdate/luo_core.c       |   9 +
+>  kernel/liveupdate/luo_internal.h   |  39 +++
+>  kernel/liveupdate/luo_session.c    | 405 +++++++++++++++++++++++++++++
+>  6 files changed, 539 insertions(+), 1 deletion(-)
+>  create mode 100644 kernel/liveupdate/luo_session.c
 > 
-> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> index 713069b96278..4c0a75918f3d 100644
-> --- a/kernel/liveupdate/luo_file.c
-> +++ b/kernel/liveupdate/luo_file.c
-> @@ -829,6 +829,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
->  	INIT_LIST_HEAD(&fh->flb_list);
->  	list_add_tail(&fh->list, &luo_file_handler_list);
->  
-> +	liveupdate_test_register(fh);
-> +
+> diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupdate/abi/luo.h
+> index 9483a294287f..37b9fecef3f7 100644
+> --- a/include/linux/liveupdate/abi/luo.h
+> +++ b/include/linux/liveupdate/abi/luo.h
+> @@ -28,6 +28,11 @@
+>   *     / {
+>   *         compatible = "luo-v1";
+>   *         liveupdate-number = <...>;
+> + *
+> + *         luo-session {
+> + *             compatible = "luo-session-v1";
+> + *             luo-session-head = <phys_addr_of_session_head_ser>;
 
-Do it mean that every flb user will be added here?
-
->  	return 0;
->  }
->  
+'head' reads to me as list head rather than a header. I'd use 'hdr' for the
+latter.
 
 -- 
 Sincerely yours,
