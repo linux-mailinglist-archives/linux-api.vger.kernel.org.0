@@ -1,103 +1,191 @@
-Return-Path: <linux-api+bounces-5237-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5238-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820C7C51FD6
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 12:32:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED65C51F4F
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 12:27:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5804E501F25
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 11:23:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 900651886F20
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 11:24:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDF32F361C;
-	Wed, 12 Nov 2025 11:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40E62EFD9E;
+	Wed, 12 Nov 2025 11:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MIhBGJIM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caa79Mnz"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0780E2C15BE;
-	Wed, 12 Nov 2025 11:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0462F2914;
+	Wed, 12 Nov 2025 11:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946578; cv=none; b=adoxFo5GloITWfVTQ4Jd+Te0IPCr3yS0RpSRHkS5p5504cERscBdNAltLuD6e7cbjcffhLv+TQD3nRJVq6+d9dHDPIPjmyEEcvYmFA7ncN6Li/RwA1JpHMFI8CGoeLoPg8YSMh9aeufES9LAPprXT4ZzwZgXHVp5lBgUPsbt650=
+	t=1762946596; cv=none; b=oiJaNR7RegK2xnOqtDKBFtR8F+3CzLtt7B85UrXX6YJxNP/ddjZCub1fCFJwKg8x3yCPtlCVc7HxZuYWVFfNBvwf8gO3Zkm2qM7tnwGaDbgOTFod5idkQ+p/cRkpg4FoCFPC7r83AnWYE+oYrHB+PWjt0o9I1+AH86HLcw0MI0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946578; c=relaxed/simple;
-	bh=hjXB8IW77oxvUB9X1HvFeAFgisSOfgJqp9S36dCalM8=;
+	s=arc-20240116; t=1762946596; c=relaxed/simple;
+	bh=bSNcyT/ZtZVDvtc9REjktWiRGmnKOUu4x5Vw7X2+x3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZhZaWUJBO9eMVmG4eC98DchtFt1zdRZfVWwL4UCmVgK/HR/57v3yDE1JnmPWvL9nekmzzlpxN7E0ags48GEKHIe+WLecvf2zsHPXIaec3FYSjyEMtMAVWtdogWWkJ2nJ0q7MADX2trSBKGTsH6QyX/GXNf9KvduKpX6IrRuFwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MIhBGJIM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF2FC4CEF5;
-	Wed, 12 Nov 2025 11:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1762946577;
-	bh=hjXB8IW77oxvUB9X1HvFeAFgisSOfgJqp9S36dCalM8=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=coHrKH/NZugzLA/NvhSfET7illMv+g9gNd4XWbgMKblZV1ij21KuCqr4EzxcBy2ct98HeegXDrjhmvEF75wd8Xf4+UZLNeXAjYxirI29f17Gl+JJ5taE0/SxJtuT8jZvFcFdhoMSGWVmUeuSAjlFdsc8qhGeDudQ/kriiNaDIKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caa79Mnz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C795C4CEF7;
+	Wed, 12 Nov 2025 11:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762946595;
+	bh=bSNcyT/ZtZVDvtc9REjktWiRGmnKOUu4x5Vw7X2+x3A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MIhBGJIM2U45fn4oiaiLg6XOt+xA9as4EGD3E4pm2UXNIw/neuqegu9zwE7KGDtg3
-	 d/DOg4MDqHIJuerXZnzxxUVFZh6E3FgwAKRFHnS3rCdq9fGKWlXHe+ygUWAGJsehlR
-	 DHc3EgzAtD2+FW6tEdtJDzqrq6bdhp6p6LVAlYyw=
-Date: Wed, 12 Nov 2025 06:22:56 -0500
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Theodore Ts'o <tytso@mit.edu>, Maarten Brock <Maarten.Brock@sttls.nl>,
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: RFC: Serial port DTR/RTS - O_NRESETDEV
-Message-ID: <2025111214-doily-anyway-b24b@gregkh>
-References: <bb44f856-10a2-40c7-a3f7-be50c8e4b0a9@zytor.com>
- <20251107173743.GA3131573@mit.edu>
- <dc42f5d4-a707-4442-bda6-1c1990666f54@zytor.com>
- <20251110033556.GC2988753@mit.edu>
- <ADB50E23-DC8B-43D0-A345-E10396A3DFD4@zytor.com>
- <AMBPR05MB11925DA076098B05E418BF64283CEA@AMBPR05MB11925.eurprd05.prod.outlook.com>
- <20251110201933.GH2988753@mit.edu>
- <0F8021E8-F288-4669-8195-9948844E36FD@zytor.com>
- <20251111035143.GJ2988753@mit.edu>
- <D4AF3E24-8698-4EEC-9D52-655D69897111@zytor.com>
+	b=caa79MnzuRCB47I8wqlrl03jC+Hbhy8QHYueZXVJl0bTyq64v8ZKdtX9+6ccoT/IM
+	 U2Myw/tqVsnhGNj8Kxg7tkQqEEyV1Y1lQ6O5OqV0LpdYAwMuQVQp3JWsxqeflYRxYQ
+	 aThy3Qix973opKDLCqInCLbixE/SJImorED2TqxLbKKcDmi8FyqvIHKNIQWU+p8lBl
+	 G/e6RuLDug/40CEBdEBGM7v5t7Kd16k1M2XFRrCpXMajgWFGOwlFM5lvxtclzLVyiS
+	 KkvdFqwwu6Mj9g5UhNBE20X3zpmq2iVKVgrmUV25inERSCcIWU//5ym/9OF9cagzT1
+	 339GznedmOOMg==
+Date: Wed, 12 Nov 2025 12:23:11 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: hoodit dev <devhoodit@gmail.com>
+Cc: Carlos O'Donell <carlos@redhat.com>, linux-man@vger.kernel.org, 
+	linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
+ CLONE_NEWUSER flag
+Message-ID: <frpbzpltwr34qs3v4mluajb2czznm3ebog34uhuj4a4qi7yft3@h6rj3y7c32qu>
+References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
+ <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
+ <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tejtrw63odgt3jwm"
 Content-Disposition: inline
-In-Reply-To: <D4AF3E24-8698-4EEC-9D52-655D69897111@zytor.com>
+In-Reply-To: <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
 
-On Mon, Nov 10, 2025 at 07:57:22PM -0800, H. Peter Anvin wrote:
-> Honestly, though, I'm far less interested in what 8250-based hardware does than e.g. USB.
 
-hahahahahahaha {snort}
+--tejtrw63odgt3jwm
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: hoodit dev <devhoodit@gmail.com>
+Cc: Carlos O'Donell <carlos@redhat.com>, linux-man@vger.kernel.org, 
+	linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
+ CLONE_NEWUSER flag
+Message-ID: <frpbzpltwr34qs3v4mluajb2czznm3ebog34uhuj4a4qi7yft3@h6rj3y7c32qu>
+References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
+ <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
+ <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
 
-Hah.  that's a good one.
+Hi,
 
-Oh, you aren't kidding.
+On Wed, Oct 29, 2025 at 06:00:50PM +0900, hoodit dev wrote:
+> Hi, Alejandro Colomar and Carlos
+>=20
+> Just a friendly ping to check if you had a chance to review this patch.
 
-Wow, good luck with this.  USB-serial adaptors are all over the place,
-some have real uarts in them (and so do buffering in the device, and
-line handling in odd ways when powered up), and some are almost just a
-straight pipe through to the USB host with control line handling ideas
-tacked on to the side as an afterthought, if at all.
+I don't know enough of clone(2) to review this.  I'll wait for Carlos's
+review.
 
-There is no standard here, they all work differently, and even work
-differently across the same device type with just barely enough hints
-for us to determine what is going on.
 
-So don't worry about USB, if you throw that into the mix, all bets are
-off and you should NEVER rely on that.
+Have a lovely day!
+Alex
 
-Remeber USB->serial was explicitly rejected by the USB standard group,
-only to have it come back in the "side door" through the spec process
-when it turned out that Microsoft hated having to write a zillion
-different vendor-specific drivers because the vendor provided ones kept
-crashing user's machines.  So what we ended up with was "just enough" to
-make it through the spec process, and even then line signals are
-probably never tested so you can't rely on them.
+>=20
+> Thanks
+>=20
+> 2025=EB=85=84 5=EC=9B=94 2=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 6:30, =
+Alejandro Colomar <alx@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+> >
+> > Hi Carlos,
+> >
+> > On Mon, Apr 21, 2025 at 04:16:03AM +0900, devhoodit wrote:
+> > > CLONE_NEWPID and CLONE_PARENT can be used together, but not CLONE_THR=
+EAD.  Similarly, CLONE_NEWUSER and CLONE_PARENT can be used together, but n=
+ot CLONE_THREAD.
+> > > This was discussed here: <https://lore.kernel.org/linux-man/06febfb3-=
+e2e2-4363-bc34-83a07692144f@redhat.com/T/>
+> > > Relevant code: <https://github.com/torvalds/linux/blob/219d54332a09e8=
+d8741c1e1982f5eae56099de85/kernel/fork.c#L1815>
+> > >
+> > > Cc: Carlos O'Donell <carlos@redhat.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Signed-off-by: devhoodit <devhoodit@gmail.com>
+> >
+> > Could you please review this patch?
+> >
+> >
+> > Have a lovely night!
+> > Alex
+> >
+> > > ---
+> > >  man/man2/clone.2 | 9 +++------
+> > >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/man/man2/clone.2 b/man/man2/clone.2
+> > > index 1b74e4c92..b9561125a 100644
+> > > --- a/man/man2/clone.2
+> > > +++ b/man/man2/clone.2
+> > > @@ -776,9 +776,7 @@ .SS The flags mask
+> > >  no privileges are needed to create a user namespace.
+> > >  .IP
+> > >  This flag can't be specified in conjunction with
+> > > -.B CLONE_THREAD
+> > > -or
+> > > -.BR CLONE_PARENT .
+> > > +.BR CLONE_THREAD .
+> > >  For security reasons,
+> > >  .\" commit e66eded8309ebf679d3d3c1f5820d1f2ca332c71
+> > >  .\" https://lwn.net/Articles/543273/
+> > > @@ -1319,11 +1317,10 @@ .SH ERRORS
+> > >  mask.
+> > >  .TP
+> > >  .B EINVAL
+> > > +Both
+> > >  .B CLONE_NEWPID
+> > > -and one (or both) of
+> > > +and
+> > >  .B CLONE_THREAD
+> > > -or
+> > > -.B CLONE_PARENT
+> > >  were specified in the
+> > >  .I flags
+> > >  mask.
+> > > --
+> > > 2.49.0
+> > >
+> >
+> > --
+> > <https://www.alejandro-colomar.es/>
+>=20
 
-good luck!
+--=20
+<https://www.alejandro-colomar.es>
+Use port 80 (that is, <...:80/>).
 
-greg "this brought up too many bad memories" k-h
+--tejtrw63odgt3jwm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmkUbh8ACgkQ64mZXMKQ
+wqlTCg/+JmoIKjs77NkyQp7jilf4VOeJBblO7jx8yjgz9nHCUQQO/X3T8jkEbyx/
+FxuVUDX5TmoWkez/3LXyKHoqHEYtxmca9ZlMgHkhMPYrwbQAkGTw43Q2OTUxDqcM
+I4bVAZfkxCWZKoti+RcquAdwVNtBuC9aIvmXQxtqh6h9F6gpMlv3kIiseG9fYzIr
+p/JmwBzyzylpwnFVvpt5kMb9pCUpx2jd2hRAjtmJWOSL17VmMEJH1aU0o/3s4Ldi
+YMEErB7MF42Q3llCLfstFpCVWRwGs5PirxpGYb3MqLxckTvXEFpOoVP6ryenkZOV
+xhlW3Tcd3NoSZI0PWK7F2q0XhxId0ik0MYvOW0kWQI9xM46li1YmM9GnQzkELjpc
+kdSCecuw0NFfinJzmlLkpzjEaMtAWrizBEXB5xWHTjUcZ9swZbsqGZNAfwoDyS2w
+A+fAF7pgu9LrspoxaEYaZshCklL9Q6/E89YTZcHgwlBIr/L6C8+iGGHth1NBeuEK
+x65TLlSObO2B6I4iDksA8zOdkw8mmOwP5gPgaSu+HQhbMFwjoEycJJadzofwRI0c
+QW3fVNm/J2N8gCJoZEAeXPouBMdiu7FQhoe7Wdvbhh2Lz8xEFCX00lJJcwb0Kgrd
+ne0U8hwdwZA0nuKVbqUIqGR2HBRbdeOxdcLWV1U3d2jSibfO2gE=
+=2lMw
+-----END PGP SIGNATURE-----
+
+--tejtrw63odgt3jwm--
 
