@@ -1,191 +1,140 @@
-Return-Path: <linux-api+bounces-5238-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5239-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED65C51F4F
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 12:27:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1780C5240D
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 13:29:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 900651886F20
-	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 11:24:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F3AD188F7C6
+	for <lists+linux-api@lfdr.de>; Wed, 12 Nov 2025 12:28:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40E62EFD9E;
-	Wed, 12 Nov 2025 11:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caa79Mnz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E229D30F95D;
+	Wed, 12 Nov 2025 12:28:08 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0462F2914;
-	Wed, 12 Nov 2025 11:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E24BCE56A;
+	Wed, 12 Nov 2025 12:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946596; cv=none; b=oiJaNR7RegK2xnOqtDKBFtR8F+3CzLtt7B85UrXX6YJxNP/ddjZCub1fCFJwKg8x3yCPtlCVc7HxZuYWVFfNBvwf8gO3Zkm2qM7tnwGaDbgOTFod5idkQ+p/cRkpg4FoCFPC7r83AnWYE+oYrHB+PWjt0o9I1+AH86HLcw0MI0k=
+	t=1762950488; cv=none; b=nptcYIAeZlKfIo2ARzziS2+n+kLJvuPmKbytHkQVFRJmn8TJfyVSLqbcHQ6ME7CLBWdG8eWhzqiPrDcSRSxKD83GWvZPFgDKaO4N0NO4noXqhMrRYX+rrKxXbkzeDcr5853eNaXsPQE5AlTNJyqdfCE9mmah9RD2Mqs+ejH2MQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946596; c=relaxed/simple;
-	bh=bSNcyT/ZtZVDvtc9REjktWiRGmnKOUu4x5Vw7X2+x3A=;
+	s=arc-20240116; t=1762950488; c=relaxed/simple;
+	bh=wtzMEfXCodIG5gxOfIQOctDhukEtgbIWw6S53RhWJ8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=coHrKH/NZugzLA/NvhSfET7illMv+g9gNd4XWbgMKblZV1ij21KuCqr4EzxcBy2ct98HeegXDrjhmvEF75wd8Xf4+UZLNeXAjYxirI29f17Gl+JJ5taE0/SxJtuT8jZvFcFdhoMSGWVmUeuSAjlFdsc8qhGeDudQ/kriiNaDIKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caa79Mnz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C795C4CEF7;
-	Wed, 12 Nov 2025 11:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762946595;
-	bh=bSNcyT/ZtZVDvtc9REjktWiRGmnKOUu4x5Vw7X2+x3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=caa79MnzuRCB47I8wqlrl03jC+Hbhy8QHYueZXVJl0bTyq64v8ZKdtX9+6ccoT/IM
-	 U2Myw/tqVsnhGNj8Kxg7tkQqEEyV1Y1lQ6O5OqV0LpdYAwMuQVQp3JWsxqeflYRxYQ
-	 aThy3Qix973opKDLCqInCLbixE/SJImorED2TqxLbKKcDmi8FyqvIHKNIQWU+p8lBl
-	 G/e6RuLDug/40CEBdEBGM7v5t7Kd16k1M2XFRrCpXMajgWFGOwlFM5lvxtclzLVyiS
-	 KkvdFqwwu6Mj9g5UhNBE20X3zpmq2iVKVgrmUV25inERSCcIWU//5ym/9OF9cagzT1
-	 339GznedmOOMg==
-Date: Wed, 12 Nov 2025 12:23:11 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: hoodit dev <devhoodit@gmail.com>
-Cc: Carlos O'Donell <carlos@redhat.com>, linux-man@vger.kernel.org, 
-	linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
- CLONE_NEWUSER flag
-Message-ID: <frpbzpltwr34qs3v4mluajb2czznm3ebog34uhuj4a4qi7yft3@h6rj3y7c32qu>
-References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
- <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
- <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBnroPDyUM3vQh64fkGkrCOYzMjgP+1HGYPDvpy9seYohdTqBHJJ0WGf6E2c8R6x552EA4+KA2DD+y4VkwWiJ2sR2UTYMH9AK/lR5iq4E/dUmNzQ/MlZVPoIkCxVUj5rsrR13DbLI/5IWbYoGuqcrNyDX9FkMwU+sZQKb2dfyq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7391D1515;
+	Wed, 12 Nov 2025 04:27:58 -0800 (PST)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F9FE3F5A1;
+	Wed, 12 Nov 2025 04:28:03 -0800 (PST)
+Date: Wed, 12 Nov 2025 12:28:01 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Chenghai Huang <huangchenghai2@huawei.com>
+Cc: arnd@arndb.de, catalin.marinas@arm.com, will@kernel.org,
+	akpm@linux-foundation.org, anshuman.khandual@arm.com,
+	ryan.roberts@arm.com, andriy.shevchenko@linux.intel.com,
+	herbert@gondor.apana.org.au, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+	fanghao11@huawei.com, shenyang39@huawei.com, liulongfang@huawei.com,
+	qianweili@huawei.com
+Subject: Re: [PATCH RFC 4/4] arm64/io: Add {__raw_read|__raw_write}128 support
+Message-ID: <aRR9UesvUCFLdVoW@J2N7QTR9R3>
+References: <20251112015846.1842207-1-huangchenghai2@huawei.com>
+ <20251112015846.1842207-5-huangchenghai2@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tejtrw63odgt3jwm"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251112015846.1842207-5-huangchenghai2@huawei.com>
 
+On Wed, Nov 12, 2025 at 09:58:46AM +0800, Chenghai Huang wrote:
+> From: Weili Qian <qianweili@huawei.com>
+> 
+> Starting from ARMv8.4, stp and ldp instructions become atomic.
 
---tejtrw63odgt3jwm
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: hoodit dev <devhoodit@gmail.com>
-Cc: Carlos O'Donell <carlos@redhat.com>, linux-man@vger.kernel.org, 
-	linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] man/man2/clone.2: Document CLONE_NEWPID and
- CLONE_NEWUSER flag
-Message-ID: <frpbzpltwr34qs3v4mluajb2czznm3ebog34uhuj4a4qi7yft3@h6rj3y7c32qu>
-References: <b959eedd02cbc0066e4375c9e1ca2855b6daeeca.1745176438.git.devhoodit@gmail.com>
- <e2wxznnsnew5vrlhbvvpc5gbjlfd5nimnlwhsgnh6qanyjhpjo@2hxdsmag3rsk>
- <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFvyz33t9gYOi2HtNFNC_YAPS-_0QHiqJQwatc7YsGppstiZ7A@mail.gmail.com>
+That's not true for accesses to Device memory types.
 
-Hi,
+Per ARM DDI 0487, L.b, section B2.2.1.1 ("Changes to single-copy atomicity in
+Armv8.4"):
 
-On Wed, Oct 29, 2025 at 06:00:50PM +0900, hoodit dev wrote:
-> Hi, Alejandro Colomar and Carlos
->=20
-> Just a friendly ping to check if you had a chance to review this patch.
+  If FEAT_LSE2 is implemented, LDP, LDNP, and STP instructions that load
+  or store two 64-bit registers are single-copy atomic when all of the
+  following conditions are true:
+  • The overall memory access is aligned to 16 bytes.
+  • Accesses are to Inner Write-Back, Outer Write-Back Normal cacheable memory.
 
-I don't know enough of clone(2) to review this.  I'll wait for Carlos's
-review.
+IIUC when used for Device memory types, those can be split, and a part
+of the access could be replayed multiple times (e.g. due to an
+intetrupt).
 
+I don't think we can add this generally. It is not atomic, and not
+generally safe.
 
-Have a lovely day!
-Alex
+Mark.
 
->=20
-> Thanks
->=20
-> 2025=EB=85=84 5=EC=9B=94 2=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 6:30, =
-Alejandro Colomar <alx@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >
-> > Hi Carlos,
-> >
-> > On Mon, Apr 21, 2025 at 04:16:03AM +0900, devhoodit wrote:
-> > > CLONE_NEWPID and CLONE_PARENT can be used together, but not CLONE_THR=
-EAD.  Similarly, CLONE_NEWUSER and CLONE_PARENT can be used together, but n=
-ot CLONE_THREAD.
-> > > This was discussed here: <https://lore.kernel.org/linux-man/06febfb3-=
-e2e2-4363-bc34-83a07692144f@redhat.com/T/>
-> > > Relevant code: <https://github.com/torvalds/linux/blob/219d54332a09e8=
-d8741c1e1982f5eae56099de85/kernel/fork.c#L1815>
-> > >
-> > > Cc: Carlos O'Donell <carlos@redhat.com>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Signed-off-by: devhoodit <devhoodit@gmail.com>
-> >
-> > Could you please review this patch?
-> >
-> >
-> > Have a lovely night!
-> > Alex
-> >
-> > > ---
-> > >  man/man2/clone.2 | 9 +++------
-> > >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/man/man2/clone.2 b/man/man2/clone.2
-> > > index 1b74e4c92..b9561125a 100644
-> > > --- a/man/man2/clone.2
-> > > +++ b/man/man2/clone.2
-> > > @@ -776,9 +776,7 @@ .SS The flags mask
-> > >  no privileges are needed to create a user namespace.
-> > >  .IP
-> > >  This flag can't be specified in conjunction with
-> > > -.B CLONE_THREAD
-> > > -or
-> > > -.BR CLONE_PARENT .
-> > > +.BR CLONE_THREAD .
-> > >  For security reasons,
-> > >  .\" commit e66eded8309ebf679d3d3c1f5820d1f2ca332c71
-> > >  .\" https://lwn.net/Articles/543273/
-> > > @@ -1319,11 +1317,10 @@ .SH ERRORS
-> > >  mask.
-> > >  .TP
-> > >  .B EINVAL
-> > > +Both
-> > >  .B CLONE_NEWPID
-> > > -and one (or both) of
-> > > +and
-> > >  .B CLONE_THREAD
-> > > -or
-> > > -.B CLONE_PARENT
-> > >  were specified in the
-> > >  .I flags
-> > >  mask.
-> > > --
-> > > 2.49.0
-> > >
-> >
-> > --
-> > <https://www.alejandro-colomar.es/>
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-Use port 80 (that is, <...:80/>).
-
---tejtrw63odgt3jwm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmkUbh8ACgkQ64mZXMKQ
-wqlTCg/+JmoIKjs77NkyQp7jilf4VOeJBblO7jx8yjgz9nHCUQQO/X3T8jkEbyx/
-FxuVUDX5TmoWkez/3LXyKHoqHEYtxmca9ZlMgHkhMPYrwbQAkGTw43Q2OTUxDqcM
-I4bVAZfkxCWZKoti+RcquAdwVNtBuC9aIvmXQxtqh6h9F6gpMlv3kIiseG9fYzIr
-p/JmwBzyzylpwnFVvpt5kMb9pCUpx2jd2hRAjtmJWOSL17VmMEJH1aU0o/3s4Ldi
-YMEErB7MF42Q3llCLfstFpCVWRwGs5PirxpGYb3MqLxckTvXEFpOoVP6ryenkZOV
-xhlW3Tcd3NoSZI0PWK7F2q0XhxId0ik0MYvOW0kWQI9xM46li1YmM9GnQzkELjpc
-kdSCecuw0NFfinJzmlLkpzjEaMtAWrizBEXB5xWHTjUcZ9swZbsqGZNAfwoDyS2w
-A+fAF7pgu9LrspoxaEYaZshCklL9Q6/E89YTZcHgwlBIr/L6C8+iGGHth1NBeuEK
-x65TLlSObO2B6I4iDksA8zOdkw8mmOwP5gPgaSu+HQhbMFwjoEycJJadzofwRI0c
-QW3fVNm/J2N8gCJoZEAeXPouBMdiu7FQhoe7Wdvbhh2Lz8xEFCX00lJJcwb0Kgrd
-ne0U8hwdwZA0nuKVbqUIqGR2HBRbdeOxdcLWV1U3d2jSibfO2gE=
-=2lMw
------END PGP SIGNATURE-----
-
---tejtrw63odgt3jwm--
+> Currently, device drivers depend on 128-bit atomic memory IO access,
+> but these are implemented within the drivers. Therefore, this introduces
+> generic {__raw_read|__raw_write}128 function for 128-bit memory access.
+> 
+> Signed-off-by: Weili Qian <qianweili@huawei.com>
+> Signed-off-by: Chenghai Huang <huangchenghai2@huawei.com>
+> ---
+>  arch/arm64/include/asm/io.h | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+> index 83e03abbb2ca..80430750a28c 100644
+> --- a/arch/arm64/include/asm/io.h
+> +++ b/arch/arm64/include/asm/io.h
+> @@ -50,6 +50,17 @@ static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
+>  	asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
+>  }
+>  
+> +#define __raw_write128 __raw_write128
+> +static __always_inline void __raw_write128(u128 val, volatile void __iomem *addr)
+> +{
+> +	u64 low, high;
+> +
+> +	low = val;
+> +	high = (u64)(val >> 64);
+> +
+> +	asm volatile ("stp %x0, %x1, [%2]\n" :: "rZ"(low), "rZ"(high), "r"(addr));
+> +}
+> +
+>  #define __raw_readb __raw_readb
+>  static __always_inline u8 __raw_readb(const volatile void __iomem *addr)
+>  {
+> @@ -95,6 +106,16 @@ static __always_inline u64 __raw_readq(const volatile void __iomem *addr)
+>  	return val;
+>  }
+>  
+> +#define __raw_read128 __raw_read128
+> +static __always_inline u128 __raw_read128(const volatile void __iomem *addr)
+> +{
+> +	u64 high, low;
+> +
+> +	asm volatile("ldp %0, %1, [%2]" : "=r" (low), "=r" (high) : "r" (addr));
+> +
+> +	return (((u128)high << 64) | (u128)low);
+> +}
+> +
+>  /* IO barriers */
+>  #define __io_ar(v)							\
+>  ({									\
+> -- 
+> 2.33.0
+> 
+> 
 
