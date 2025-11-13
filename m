@@ -1,172 +1,173 @@
-Return-Path: <linux-api+bounces-5262-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5263-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA21C57EC7
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 15:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D72C59194
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 18:23:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 120194EBC0B
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 14:19:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 36AF75047AA
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 16:41:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC491283140;
-	Thu, 13 Nov 2025 14:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B5E3570BE;
+	Thu, 13 Nov 2025 16:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="IephhnrP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrGC9Z1H"
 X-Original-To: linux-api@vger.kernel.org
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063B923184F;
-	Thu, 13 Nov 2025 14:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EB1340A79;
+	Thu, 13 Nov 2025 16:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763043583; cv=none; b=GjYRhqcKEYfP8mRHhznZenlGY98N2+k88xdzlvHj+AiC3+M+wdm8Dd4qODmtPnA+NmzW6jUpYpQF++J+XVWrlo22PAlpvR/jXjXDB/8YfngV9sLBKH1FWyPRFOltt44FDaccwJX/lW364Cet7hki2VdkQA+WU6kAMNb+VwYzZWU=
+	t=1763051543; cv=none; b=VAaNYfwilOneNi4K9QS/BoP8kZPZKNtpoxIPEsX5KYUqheS/gnCI9T6bWJXqHlf8CMMsDbs9/XhfBS1TRHAKC1s2rMRvqdbtvjrm18oDQL0mIa70UfC24Y64/oAz2va3QVXlkZO9vqVP00bKiT+tW3CS/NZvpTHHImCvMPwfXf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763043583; c=relaxed/simple;
-	bh=bs2hLzYFkAifyPHun/4f2kG/5n36uHbTEXjb3QbpsOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kb94KdEwAJmOlfzmYhSSeVSurk5U2OJKZjfMSzi5RIL0ar5Hk2P/Gdm32sSddrZwr/I2ER7EevDvcom7O4bu6kLzmjoZrKOwDhNMlrsEy9v+jOd/3c0KGd3/X5txznr0mNP73MMI3aLzbN4+ru9T5CmQapIGzhK9fN0kPitudnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=IephhnrP; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=lbaeXo4KE9yMfmuYX6R1L5QpV2vTC1shul/jR3qCbUY=;
-	b=IephhnrPjI3WgO4hXW6woAtfholMSI/VQ4vQlLE/hp99p/ay01ajxwAx1BuC2ukiL3J+T+L05
-	s73Ob+3z5xfYsdxmiCtyqlKZEUO6+GfkoSL2WopLoIRsjxEzeNkv2X0+meo3uF7TUEY1a+oiEQv
-	wdRXrTozJdaCb7nNal9dcVQ=
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4d6j6C3sltz1prLD;
-	Thu, 13 Nov 2025 22:17:55 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 618A0180B65;
-	Thu, 13 Nov 2025 22:19:36 +0800 (CST)
-Received: from kwepemq200001.china.huawei.com (7.202.195.16) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 13 Nov 2025 22:19:36 +0800
-Received: from [10.67.120.171] (10.67.120.171) by
- kwepemq200001.china.huawei.com (7.202.195.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 13 Nov 2025 22:19:35 +0800
-Message-ID: <017956b9-cb91-4068-b9d0-b54f93d83eeb@huawei.com>
-Date: Thu, 13 Nov 2025 22:19:34 +0800
+	s=arc-20240116; t=1763051543; c=relaxed/simple;
+	bh=48cU/r2mCuhBi2o3QbLq7X+wCorzdfK7kjE/pbyUoys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NzwWJ5DEPbUs1jnz9I6UJ0rb8FSffGq+po83UanJndQ+ZIZZZapR/y5c5lrIYRJKfxELfkvy9TbKPiHcjg0QvSjsjvq8+AARU4CP6l6HPpsou1lgNjJ0dBPl3jP8bXJqmIsUTekyAbQ6fAGtozAY0LMfIHEnamQaMew8+iT6bq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NrGC9Z1H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B42EC4CEF1;
+	Thu, 13 Nov 2025 16:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763051542;
+	bh=48cU/r2mCuhBi2o3QbLq7X+wCorzdfK7kjE/pbyUoys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NrGC9Z1HvTGjTjRL3xw+mZ4VRxFvPWujkCi0vHliqnjQPxgDj5Iq1rshZmt6ySeMc
+	 HGMSMKVh9VgMIzXnB8CNP7DemQTXKeUC8H36kD7XXCJ8kj8oUOWtKFtV5JfCVlNMUH
+	 vV2Wz9lpEeXMW2vqdMbjTqxar0BcgazuH6zXzm6BsqIwtOVpVA7LeQFXB8qnOtRmO6
+	 ydVLEDH5JNfCnMadYTtk2Srvhd9ymPG9C691mZ4GV2PRr0Iwvc9aecAiVDEwcWPZYX
+	 IzqR46Q59HdXyVhnv/UTfIsTjQPSNCKfiaL+IDedKXACddxrDzR6Q4dn3sl1d1gn/I
+	 R2sYn55yOR5pQ==
+Date: Thu, 13 Nov 2025 18:31:57 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRYH_Ugp1IiUQdlM@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
+ <aRHiCxoJnEGmj17q@kernel.org>
+ <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
+ <aROZi043lxtegqWE@kernel.org>
+ <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
+ <aRSKrxfAb_GG_2Mw@kernel.org>
+ <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 4/4] arm64/io: Add {__raw_read|__raw_write}128 support
-To: Mark Rutland <mark.rutland@arm.com>
-CC: <arnd@arndb.de>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<akpm@linux-foundation.org>, <anshuman.khandual@arm.com>,
-	<ryan.roberts@arm.com>, <andriy.shevchenko@linux.intel.com>,
-	<herbert@gondor.apana.org.au>, <linux-kernel@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-crypto@vger.kernel.org>, <linux-api@vger.kernel.org>,
-	<fanghao11@huawei.com>, <shenyang39@huawei.com>, <liulongfang@huawei.com>,
-	<qianweili@huawei.com>
-References: <20251112015846.1842207-1-huangchenghai2@huawei.com>
- <20251112015846.1842207-5-huangchenghai2@huawei.com>
- <aRR9UesvUCFLdVoW@J2N7QTR9R3>
-From: huangchenghai <huangchenghai2@huawei.com>
-Content-Language: en-US
-In-Reply-To: <aRR9UesvUCFLdVoW@J2N7QTR9R3>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemq200001.china.huawei.com (7.202.195.16)
+In-Reply-To: <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
 
+On Wed, Nov 12, 2025 at 09:58:27AM -0500, Pasha Tatashin wrote:
+> On Wed, Nov 12, 2025 at 8:25 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > Hi Pasha,
+> >
+> > On Tue, Nov 11, 2025 at 03:57:39PM -0500, Pasha Tatashin wrote:
+> > > Hi Mike,
+> > >
+> > > Thank you for review, my comments below:
+> > >
+> > > > > This is why this call is placed first in reboot(), before any
+> > > > > irreversible reboot notifiers or shutdown callbacks are performed. If
+> > > > > an allocation problem occurs in KHO, the error is simply reported back
+> > > > > to userspace, and the live update update is safely aborted.
+> >
+> > The call to liveupdate_reboot() is just before kernel_kexec(). Why we don't
+> > move it there?
+> 
+> Yes, I can move that call into kernel_kexec().
+> 
+> > And all the liveupdate_reboot() does if kho_finalize() fails it's massaging
+> > the error value before returning it to userspace. Why kernel_kexec() can't
+> > do the same?
+> 
+> We could do that. It would look something like this:
+> 
+> if (liveupdate_enabled())
+>    kho_finalize();
+> 
+> Because we want to do kho_finalize() from kernel_kexec only when we do
+> live update.
+> 
+> > > > This is fine. But what I don't like is that we can't use kho without
+> > > > liveupdate. We are making debugfs optional, we have a way to call
+> 
+> This is exactly the fix I proposed:
+> 
+> 1. When live-update is enabled, always disable "finalize" debugfs API.
+> 2. When live-update is disabled, always enable "finalize" debugfs API.
 
-在 2025/11/12 20:28, Mark Rutland 写道:
-> On Wed, Nov 12, 2025 at 09:58:46AM +0800, Chenghai Huang wrote:
->> From: Weili Qian <qianweili@huawei.com>
->>
->> Starting from ARMv8.4, stp and ldp instructions become atomic.
-> That's not true for accesses to Device memory types.
->
-> Per ARM DDI 0487, L.b, section B2.2.1.1 ("Changes to single-copy atomicity in
-> Armv8.4"):
->
->    If FEAT_LSE2 is implemented, LDP, LDNP, and STP instructions that load
->    or store two 64-bit registers are single-copy atomic when all of the
->    following conditions are true:
->    • The overall memory access is aligned to 16 bytes.
->    • Accesses are to Inner Write-Back, Outer Write-Back Normal cacheable memory.
->
-> IIUC when used for Device memory types, those can be split, and a part
-> of the access could be replayed multiple times (e.g. due to an
-> intetrupt).
->
-> I don't think we can add this generally. It is not atomic, and not
-> generally safe.
->
-> Mark.
-Thanks for your correction. I misunderstood the behavior of LDP and
-STP instructions. So, regarding device memory types, LDP and STP
-instructions do not guarantee single-copy atomicity.
+I don't mind the concept, what I do mind is sprinkling liveupdate_enabled()
+in KHO.
 
-For devices that require 128-bit atomic access, is it only possible
-to implement this functionality in the driver?
+How about we kill debugfs/kho/out/abort and make kho_finalize() overwrite
+an existing FDT if there was any? 
 
-Chenghai
->
->> Currently, device drivers depend on 128-bit atomic memory IO access,
->> but these are implemented within the drivers. Therefore, this introduces
->> generic {__raw_read|__raw_write}128 function for 128-bit memory access.
->>
->> Signed-off-by: Weili Qian <qianweili@huawei.com>
->> Signed-off-by: Chenghai Huang <huangchenghai2@huawei.com>
->> ---
->>   arch/arm64/include/asm/io.h | 21 +++++++++++++++++++++
->>   1 file changed, 21 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
->> index 83e03abbb2ca..80430750a28c 100644
->> --- a/arch/arm64/include/asm/io.h
->> +++ b/arch/arm64/include/asm/io.h
->> @@ -50,6 +50,17 @@ static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
->>   	asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
->>   }
->>   
->> +#define __raw_write128 __raw_write128
->> +static __always_inline void __raw_write128(u128 val, volatile void __iomem *addr)
->> +{
->> +	u64 low, high;
->> +
->> +	low = val;
->> +	high = (u64)(val >> 64);
->> +
->> +	asm volatile ("stp %x0, %x1, [%2]\n" :: "rZ"(low), "rZ"(high), "r"(addr));
->> +}
->> +
->>   #define __raw_readb __raw_readb
->>   static __always_inline u8 __raw_readb(const volatile void __iomem *addr)
->>   {
->> @@ -95,6 +106,16 @@ static __always_inline u64 __raw_readq(const volatile void __iomem *addr)
->>   	return val;
->>   }
->>   
->> +#define __raw_read128 __raw_read128
->> +static __always_inline u128 __raw_read128(const volatile void __iomem *addr)
->> +{
->> +	u64 high, low;
->> +
->> +	asm volatile("ldp %0, %1, [%2]" : "=r" (low), "=r" (high) : "r" (addr));
->> +
->> +	return (((u128)high << 64) | (u128)low);
->> +}
->> +
->>   /* IO barriers */
->>   #define __io_ar(v)							\
->>   ({									\
->> -- 
->> 2.33.0
->>
->>
+Abort was required to allow rollback for subsystems that had kho notifiers,
+but now notifiers are gone and kho_abort() only frees the memory
+serialization data. I don't see an issue with kho_finalize() from debugfs
+being a tad slower because of a call to kho_abort() and the liveupdate path
+anyway won't incur that penalty.
+
+> > KHO should not call into liveupdate. That's layering violation.
+> > And "stateless KHO" does not really make it stateless, it only removes the
+> > memory serialization from kho_finalize(), but it's still required to pack
+> > the FDT.
+> 
+> This touches on a point I've raised in the KHO sync meetings: to be
+> effective, the "stateless KHO" work must also make subtree add/remove
+> stateless. There should not be a separate "finalize" state just to
+> finish the FDT. The KHO FDT is tiny (only one page), and there are
+> only a handful of subtrees. Adding and removing subtrees is cheap; we
+> should be able to open FDT, modify it, and finish FDT on every
+> operation. There's no need for a special finalization state at kexec
+> time. KHO should be totally stateless.
+
+And as the first step we can drop 'if (!kho_out.finalized)' from
+kho_fill_kimage(). We might need to massage the check for valid FDT in
+kho_populate() to avoid unnecessary noise, but largely there's no issue
+with always passing KHO data in kimage.
+ 
+> Thanks,
+> Pasha
+
+-- 
+Sincerely yours,
+Mike.
 
