@@ -1,131 +1,124 @@
-Return-Path: <linux-api+bounces-5264-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5265-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430AEC5915E
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 18:20:35 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC908C5912E
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 18:18:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AE650564663
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 17:09:42 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DCE7B350E52
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 17:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F58335A94F;
-	Thu, 13 Nov 2025 16:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4336341AC6;
+	Thu, 13 Nov 2025 17:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="X/PfIDSm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKpbgHVA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0DF359F87
-	for <linux-api@vger.kernel.org>; Thu, 13 Nov 2025 16:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725542BEC43;
+	Thu, 13 Nov 2025 17:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763052966; cv=none; b=ta+PbwkuX0YdgVY4Gj7TlG9Q915SbnqOHwSx0sSVZwSMlGV+Y+NOfge0/k7Ku3TN88mTxdBm6+fVhLzFxuNppRbRs+hBrWHt/pV3JE4dKgKqPV+MjAbVxSaL6lAVf5SE94LNJCcpKyMzhh1YoT/uOiiJJvaTcw/Jubck1KZ3ssk=
+	t=1763053202; cv=none; b=MOLfMiT2caJbS9f7jZpngBFbl7g94Ru5WvKRLwOql8J6CodN5fJurXJeuBxezSJ3H8t6RGp6gFzY0BFvnVpdFC5pm9oDtmzifvHkOGDn0K42P8TGGtONxP2P4+uThmuFCvwDZvCrzW0UrNkF08WNzPuhgyPp9zCVRL9BdQGcubU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763052966; c=relaxed/simple;
-	bh=uGvdD/ipW2kG9og5miefSvlr2P5i5Da/ls3E4y5uIkg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ZbnNMkKudAULSNspUjmUit9MvfxoknpGRcCDdEjDCvPUKK4w7WisKZob95PTB4f5ObCFni+shZxcW+eyPdmWNMWWhOwKlmQfty+SpIHASGURQ8BKBc4ZqYOh9M7NBpohae7yzZkCrxHJtlHz5GFTqHIWRpsxiqiPlWO/W9bWmDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=X/PfIDSm; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64088c6b309so1819401a12.0
-        for <linux-api@vger.kernel.org>; Thu, 13 Nov 2025 08:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763052963; x=1763657763; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vMCY5fmkZI76R3Lm7+dKka7numEpthvdX92HaVpx2Bo=;
-        b=X/PfIDSmlOuIwMaKIQHVjSQJmPr5vBQyMIQCtP61fnu5WYT7WNBO+FJPzn6TNkn6uq
-         Q9yuT/+NHua0KBDuwK1NBnMY00fqlSqm1thohn3JCm75hBpwylQrnO99vvH2i25W+hMS
-         DuVxU37YhvLqGNsdbFQEwom8kkQnjZr0TecqNrdo28yMiPzX92JCMpXUG2hCzGpi4jBI
-         V3WtpnmqYezqPxfDzSuLJMngcN55M1VT1Bq/qDqm4W3utBHY82/6CIPE+ASD/tEg6Ngu
-         m/xeiJyw1kmhdnPP5KUALuPex+RTsLmYuJAmt1Fl6ZWh34yuoeryUvu54kGkTSQw1Sry
-         GJYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763052963; x=1763657763;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vMCY5fmkZI76R3Lm7+dKka7numEpthvdX92HaVpx2Bo=;
-        b=bvh+opQ+37Kh3ukGoyXar5ws7Zi2DrkXdGdl/jaZndo38VRnXWoEm/saw1FSw+ptEI
-         V7eUIsIZgfJj2FK4eLHhhGTM7bhUNfg2LcFMo6jxwVBqb9aWj/dqlqymkG5HHJErPftJ
-         n3L96W0eYLXG5xVhUWYcNVwRszeyJiXnWTzN8tc8S8dbbLn79eXMyOoUF8Z2IRpa2E6p
-         /N+g4+E33pLiaJskqRDvZ4ZpSSjGmZxpN+JlV43dHOtMWhyIh7kJ5e7DpjM9kp1Qr/Kc
-         UetxUFuDiJc8WNVkl+K4A+7fIeoMv05Gmu64UGao6o43tnzCSKGVnBMiZNvq7/Yi1Jj8
-         fqVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUeHK+5S5pm572lWkrI26o3qtfA2tzERXdGyLTElMkQqQ7AmzVGiMqsjQZCVTuD4bKWyrhsFziYoHM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJv7wh4bF8PGfm9Z+SaHY4XeRHGFnhzkPeozNOHZ69uA6EXDKR
-	PQzUZ5ZUZfLMvHTnpMZs8T1bezcf29C76bwXF8fJVxx187/SN6ZehHeegZZg8zRAXVzlJ4gJRGr
-	QvDq2S7UPufereE02CI4oALaOKKKMUlnK1UXvQnJlBg==
-X-Gm-Gg: ASbGncvQrYTe8oXUisF14WCrs3AjgVOo43OMSPeLNjyCssqH265grZKhSlU2kwS71vw
-	UbbA0rtLdOs3NTKrFq2q0PJdoYkzh13pET8DtdD5a2Rc7AmYwrGtkW40ys4jcv6R9/JuqglUJdC
-	hykIm4AsGKSozHL3Lqeyg0Dd+54uo9C0Dk5JRbA/dfd9GYp4BF+XxZ+Djx+j/ySNjB+h4YtXy22
-	KacdvaMwJT0actSOMOkoDAzTzB9XUu/hHKA5X2W6rTOjzRTWtogFZyfUXkKG9Lvldk6
-X-Google-Smtp-Source: AGHT+IF7MT7H/N1FGVv2fGcWDDSq4G0lsAr/9izNZqOxycuQNiS8y26Pa9vU+efWnOrN6wB/Co4CNJQLTQPPNB+6gYM=
-X-Received: by 2002:a05:6402:20d5:20b0:640:6650:9173 with SMTP id
- 4fb4d7f45d1cf-6431a5906c4mr5014541a12.33.1763052961708; Thu, 13 Nov 2025
- 08:56:01 -0800 (PST)
+	s=arc-20240116; t=1763053202; c=relaxed/simple;
+	bh=OBpr4OfEynmd3QPtz7HpqQa1JuoHzfmsOcTyDkjnDvg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=l9Ov5qE+FPKQaax6Jx7AhaAuMcfk/2+2wr2criXPHMccPQQCkfimg+aIPN9+TjbWWL1ZVKK5uH77X3c+Q0d4QYx3lgOrOdI0XTWHe4NC9Jm5j4TeF/CXb/BPYgHKslciWyu0m1H9hlY/Vv2GQ3F6j22gL62pNLYMkvTUSDSeJnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKpbgHVA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7DAC4CEF5;
+	Thu, 13 Nov 2025 16:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763053202;
+	bh=OBpr4OfEynmd3QPtz7HpqQa1JuoHzfmsOcTyDkjnDvg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=GKpbgHVAB96CTF2QAU6gGXB9xyAtOYn7EP9js0Mycon0OeXhF2jqHHtX89c5XmG3n
+	 aI+GsuLi5aWWIqQuOeufUD4aA/2oqU4CL3hOKgWLJISLTlCDKD2fvEzTYvo+4axv1Y
+	 RMC80Z36Upuv7S76Aj7akkAJYpehDBHHl02KtLD9+owbFDV5HjZtX2uU4oNhmImcTZ
+	 TB6NozxahkQlkcbHdVJIiuprn3ewx0G92tYj/3ivDFDMjJkdV5nEmpt/dhUVJduyaG
+	 M6PpSxx1REjCjMlgwB+uTMHEl+k2ror8Zzap/3OLPhR5zcZpm4wrMVCWSYXfzyE61t
+	 +lyMXl3tACR7w==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v5 18/22] docs: add documentation for memfd preservation
+ via LUO
+In-Reply-To: <CA+CK2bBmSD_YftJ-9w1zidLz2=a4NynnLz_gLPsScF145bu5dQ@mail.gmail.com>
+	(Pasha Tatashin's message of "Thu, 13 Nov 2025 11:55:25 -0500")
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+	<20251107210526.257742-19-pasha.tatashin@soleen.com>
+	<CA+CK2bBmSD_YftJ-9w1zidLz2=a4NynnLz_gLPsScF145bu5dQ@mail.gmail.com>
+Date: Thu, 13 Nov 2025 17:59:51 +0100
+Message-ID: <mafs01pm1amwo.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com> <20251107210526.257742-19-pasha.tatashin@soleen.com>
-In-Reply-To: <20251107210526.257742-19-pasha.tatashin@soleen.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 13 Nov 2025 11:55:25 -0500
-X-Gm-Features: AWmQ_bncXGN-eqIRVfciSwqz1sfkpOsYp0SxgOx72ZS1NRyOW1CKwiM1xe3CWB4
-Message-ID: <CA+CK2bBmSD_YftJ-9w1zidLz2=a4NynnLz_gLPsScF145bu5dQ@mail.gmail.com>
-Subject: Re: [PATCH v5 18/22] docs: add documentation for memfd preservation
- via LUO
-To: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	pasha.tatashin@soleen.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-> +Limitations
-> +===========
-> +
-> +The current implementation has the following limitations:
-> +
-> +Size
-> +  Currently the size of the file is limited by the size of the FDT. The FDT can
-> +  be at of most ``MAX_PAGE_ORDER`` order. By default this is 4 MiB with 4K
-> +  pages. Each page in the file is tracked using 16 bytes. This limits the
-> +  maximum size of the file to 1 GiB.
+On Thu, Nov 13 2025, Pasha Tatashin wrote:
 
-The above should be removed, as we are using KHO vmalloc that resolves
-this limitation. Pratyush, I suggest for v6 let's move memfd
-documnetation right into the code: memfd_luo.c and
-liveupdate/abi/memfd.h, and source it from there.
+>> +Limitations
+>> +===========
+>> +
+>> +The current implementation has the following limitations:
+>> +
+>> +Size
+>> +  Currently the size of the file is limited by the size of the FDT. The FDT can
+>> +  be at of most ``MAX_PAGE_ORDER`` order. By default this is 4 MiB with 4K
+>> +  pages. Each page in the file is tracked using 16 bytes. This limits the
+>> +  maximum size of the file to 1 GiB.
+>
+> The above should be removed, as we are using KHO vmalloc that resolves
+> this limitation. Pratyush, I suggest for v6 let's move memfd
+> documnetation right into the code: memfd_luo.c and
+> liveupdate/abi/memfd.h, and source it from there.
 
-Keeping documentation with the code helps reduce code/doc divergence.
+ACK. I think the section on behavior in different phases is also out of
+date now, and the serialization format too. The format is more
+accurately defined in include/linux/liveupdate/abi/memfd.h. So this
+documentation needs an overhaul.
 
-Pasha
+I don't mind moving it to the code and including it in the HTML docs via
+kernel-doc. Will do that for the next revision.
+
+>
+> Keeping documentation with the code helps reduce code/doc divergence.
+>
+> Pasha
+
+-- 
+Regards,
+Pratyush Yadav
 
