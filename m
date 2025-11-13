@@ -1,146 +1,206 @@
-Return-Path: <linux-api+bounces-5259-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5260-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BEBC571EA
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 12:14:28 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CD5C57BF3
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 14:43:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C044B34EA48
-	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 11:11:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 855BD4E976A
+	for <lists+linux-api@lfdr.de>; Thu, 13 Nov 2025 13:39:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9C2D33A014;
-	Thu, 13 Nov 2025 11:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82621F461D;
+	Thu, 13 Nov 2025 13:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wkgAbgOj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2SPT7ui"
 X-Original-To: linux-api@vger.kernel.org
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC4338F26;
-	Thu, 13 Nov 2025 11:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F661DDC0B;
+	Thu, 13 Nov 2025 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763032264; cv=none; b=loKkzvoJ9R+ez66wetbdDbW5ZPAQZwtfgY3yD9VvKJviT+zMluvR0DdDeNHPfyq/7DFjk5cw80O6b3duYgTXJdouF4vGhhrH6J93MElkQCNAvLVkNxK3tkaWRegoVHSdDCcuE7jN1Ory5jnCeJh6l3VIqjNyWniLtR/ZnrktgIo=
+	t=1763041090; cv=none; b=h353iJQPWs9ZvdKOAY+jCEF8qv9lAy+rqV8jtsW+VvyBPH9cNtUYU9EfrdFnFqQ0Q08nQc9swWfEPxqKoTOgJ9YR5Xpsll6hwtmNHcNyF+pJidqYtXga+zv9mZxRy3oz1ODolUHX0kXmwhJuI9ggK+/DGwcBgJew+8kvkG2M30c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763032264; c=relaxed/simple;
-	bh=urH1pHnaK/uaQl/yo8yiCGx+iorwpacltUVK/RqwjKM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=SDr1b4hf2WNimT2xugrtodl9pxtoJSkTyECgpR1QWh2+TQMqSPXQSV34Nw12h1T7MeAsvnJ9E3tKOY9PiR05rWwgsf6/sNTpqa5Y3gewDxz2hnqy10D8TAKxbzKcpaxqFg+TCRzpT5X6osnfRVUgMZCdM4mXIUUbywcVbKfXXUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wkgAbgOj; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=sYdX7jPld9MHxC/2N/BdveINDqwOk1bdDkzTmhtgkOU=;
-	b=wkgAbgOj/Uyjk7TB32BI8+jld98422LU2nbkIaBXSanzYHVi6qJph7P+LYaPeIHyxTIgLssdk
-	NQu5KsJuHwWmg2eHARW+n+NAqI8UehAXAc67lMDLPw4XFhrBllr1+6vcAwL6U9EC1JXIXpDVMd7
-	26SAoBvKW98bxHl/K+3zxXw=
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4d6cwR1YknzKm5S;
-	Thu, 13 Nov 2025 19:09:11 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id F095D180044;
-	Thu, 13 Nov 2025 19:10:51 +0800 (CST)
-Received: from kwepemq200001.china.huawei.com (7.202.195.16) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 13 Nov 2025 19:10:51 +0800
-Received: from [10.67.120.171] (10.67.120.171) by
- kwepemq200001.china.huawei.com (7.202.195.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 13 Nov 2025 19:10:51 +0800
-Message-ID: <fb2412cd-7417-4d65-9dea-d166a3bd146f@huawei.com>
-Date: Thu, 13 Nov 2025 19:10:50 +0800
+	s=arc-20240116; t=1763041090; c=relaxed/simple;
+	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=omCKQHeYkFK7xPEaoxHGj9Vug4JLwub6xp9fcjrY5SslP+emC+c1JsJPZydAoQrLehj44U46VTNwqPBZv6HbCyoL7Q7PW5MsY5QLGfboMqOQ/MtLIgYXm0nap0OdQpmFl+xpajBRwi46Uhfg2QhW25jqyb4/v/Q5ViLaEa49tF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2SPT7ui; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363CCC16AAE;
+	Thu, 13 Nov 2025 13:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763041090;
+	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U2SPT7uiGDnCCG6zb5qV815Sdj+r/uoSMOEc9j/lDhdWJRl6ShlV3SlTJuqDT9Tgk
+	 RFqKZr6iJlXWjCYWomACcsJ9ChroZfCyo9zV3HtJ+rhsSZp8cOA5ZLSvx9UykS0IlE
+	 sObeATI2JOfkex303JF7L8VsylgtKzcJMtxpc5OB2cLwBE0nBgoPsmDmbuFkOY/lYw
+	 IHqX06nHuXISwbnGRAH11InGI6hhbI8mTYsSN1dTFb5KoYyEe9EtrJBRCEg2qK0fhB
+	 H1BCrwQp8B38S+H3T7Xw/MFbxm0/tJwuhV0uHb4Iaum1bU+pryW8wlml6fPOM/Fadb
+	 TVU+5ngjiikxw==
+Date: Thu, 13 Nov 2025 15:37:44 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 01/22] liveupdate: luo_core: luo_ioctl: Live Update
+ Orchestrator
+Message-ID: <aRXfKPfoi96B68Ef@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-2-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/4] io-128-nonatomic: introduce
- io{read|write}128_{lo_hi|hi_lo}
-To: Ben Dooks <ben.dooks@codethink.co.uk>, <arnd@arndb.de>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <akpm@linux-foundation.org>,
-	<anshuman.khandual@arm.com>, <ryan.roberts@arm.com>,
-	<andriy.shevchenko@linux.intel.com>, <herbert@gondor.apana.org.au>,
-	<linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-crypto@vger.kernel.org>,
-	<linux-api@vger.kernel.org>
-CC: <fanghao11@huawei.com>, <shenyang39@huawei.com>, <liulongfang@huawei.com>,
-	<qianweili@huawei.com>
-References: <20251112015846.1842207-1-huangchenghai2@huawei.com>
- <20251112015846.1842207-4-huangchenghai2@huawei.com>
- <59f8bc30-c1c6-4f07-87dd-cd2893ae87f7@codethink.co.uk>
-From: huangchenghai <huangchenghai2@huawei.com>
-Content-Language: en-US
-In-Reply-To: <59f8bc30-c1c6-4f07-87dd-cd2893ae87f7@codethink.co.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq200001.china.huawei.com (7.202.195.16)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107210526.257742-2-pasha.tatashin@soleen.com>
 
+On Fri, Nov 07, 2025 at 04:02:59PM -0500, Pasha Tatashin wrote:
+> Introduce LUO, a mechanism intended to facilitate kernel updates while
+> keeping designated devices operational across the transition (e.g., via
+> kexec). The primary use case is updating hypervisors with minimal
+> disruption to running virtual machines. For userspace side of hypervisor
+> update we have copyless migration. LUO is for updating the kernel.
+> 
+> This initial patch lays the groundwork for the LUO subsystem.
+> 
+> Further functionality, including the implementation of state transition
+> logic, integration with KHO, and hooks for subsystems and file
+> descriptors, will be added in subsequent patches.
+> 
+> Create a character device at /dev/liveupdate.
+> 
+> A new uAPI header, <uapi/linux/liveupdate.h>, will define the necessary
+> structures. The magic number for IOCTL is registered in
+> Documentation/userspace-api/ioctl/ioctl-number.rst.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
 
-在 2025/11/12 22:48, Ben Dooks 写道:
-> On 12/11/2025 01:58, Chenghai Huang wrote:
->> From: Weili Qian <qianweili@huawei.com>
->>
->> In order to provide non-atomic functions for io{read|write}128.
->> We define a number of variants of these functions in the generic
->> iomap that will do non-atomic operations.
->>
->> These functions are only defined if io{read|write}128 are defined.
->> If they are not, then the wrappers that always use non-atomic operations
->> from include/linux/io-128-nonatomic*.h will be used.
->>
->> Signed-off-by: Weili Qian <qianweili@huawei.com>
->> Signed-off-by: Chenghai Huang <huangchenghai2@huawei.com>
->> ---
->>   include/linux/io-128-nonatomic-hi-lo.h | 35 ++++++++++++++++++++++++++
->>   include/linux/io-128-nonatomic-lo-hi.h | 34 +++++++++++++++++++++++++
->>   2 files changed, 69 insertions(+)
->>   create mode 100644 include/linux/io-128-nonatomic-hi-lo.h
->>   create mode 100644 include/linux/io-128-nonatomic-lo-hi.h
->>
->> diff --git a/include/linux/io-128-nonatomic-hi-lo.h 
->> b/include/linux/io-128-nonatomic-hi-lo.h
->> new file mode 100644
->> index 000000000000..b5b083a9e81b
->> --- /dev/null
->> +++ b/include/linux/io-128-nonatomic-hi-lo.h
->> @@ -0,0 +1,35 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +#ifndef _LINUX_IO_128_NONATOMIC_HI_LO_H_
->> +#define _LINUX_IO_128_NONATOMIC_HI_LO_H_
->> +
->> +#include <linux/io.h>
->> +#include <asm-generic/int-ll64.h>
->> +
->> +static inline u128 ioread128_hi_lo(const void __iomem *addr)
->> +{
->> +    u32 low, high;
->
-> did you mean u64 here?
->
-Thank you for your reminder, I made a rookie mistake.
+...
 
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +
+> +/*
+> + * Userspace interface for /dev/liveupdate
+> + * Live Update Orchestrator
+> + *
+> + * Copyright (c) 2025, Google LLC.
+> + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> + */
+> +
+> +#ifndef _UAPI_LIVEUPDATE_H
+> +#define _UAPI_LIVEUPDATE_H
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * DOC: General ioctl format
+> + *
 
-Chenghai
+It seems it's not linked from Documentation/.../liveupdate.rst
 
->> +    high = ioread64(addr + sizeof(u64));
->> +    low = ioread64(addr);
->> +
->> +    return low + ((u128)high << 64);
->> +}
->> +
->> +static inline void iowrite128_hi_lo(u128 val, void __iomem *addr)
->> +{
->> +    iowrite64(val >> 64, addr + sizeof(u64));
->> +    iowrite64(val, addr);
->> +}
->> +
->
+> + * The ioctl interface follows a general format to allow for extensibility. Each
+> + * ioctl is passed in a structure pointer as the argument providing the size of
+> + * the structure in the first u32. The kernel checks that any structure space
+> + * beyond what it understands is 0. This allows userspace to use the backward
+> + * compatible portion while consistently using the newer, larger, structures.
+> + *
+> + * ioctls use a standard meaning for common errnos:
+> + *
+> + *  - ENOTTY: The IOCTL number itself is not supported at all
+> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
+> + *    non-zero in a part the kernel does not understand.
+> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
+> + *    understood, however a known field has a value the kernel does not
+> + *    understand or support.
+> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
+> + *    correct.
+> + *  - ENOENT: A provided token does not exist.
+> + *  - ENOMEM: Out of memory.
+> + *  - EOVERFLOW: Mathematics overflowed.
+> + *
+> + * As well as additional errnos, within specific ioctls.
+
+...
+
+> --- a/kernel/liveupdate/Kconfig
+> +++ b/kernel/liveupdate/Kconfig
+> @@ -1,7 +1,34 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Copyright (c) 2025, Google LLC.
+> +# Pasha Tatashin <pasha.tatashin@soleen.com>
+> +#
+> +# Live Update Orchestrator
+> +#
+>  
+>  menu "Live Update and Kexec HandOver"
+>  
+> +config LIVEUPDATE
+> +	bool "Live Update Orchestrator"
+> +	depends on KEXEC_HANDOVER
+> +	help
+> +	  Enable the Live Update Orchestrator. Live Update is a mechanism,
+> +	  typically based on kexec, that allows the kernel to be updated
+> +	  while keeping selected devices operational across the transition.
+> +	  These devices are intended to be reclaimed by the new kernel and
+> +	  re-attached to their original workload without requiring a device
+> +	  reset.
+> +
+> +	  Ability to handover a device from current to the next kernel depends
+> +	  on specific support within device drivers and related kernel
+> +	  subsystems.
+> +
+> +	  This feature primarily targets virtual machine hosts to quickly update
+> +	  the kernel hypervisor with minimal disruption to the running virtual
+> +	  machines.
+> +
+> +	  If unsure, say N.
+> +
+
+Not a big deal, but since LIVEUPDATE depends on KEXEC_HANDOVER, shouldn't
+it go after KEXEC_HANDOVER?
+
+>  config KEXEC_HANDOVER
+>  	bool "kexec handover"
+>  	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
+
+-- 
+Sincerely yours,
+Mike.
 
