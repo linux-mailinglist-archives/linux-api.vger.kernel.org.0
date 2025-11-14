@@ -1,225 +1,99 @@
-Return-Path: <linux-api+bounces-5274-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5278-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1A6C5D7DB
-	for <lists+linux-api@lfdr.de>; Fri, 14 Nov 2025 15:10:52 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E07BC5E021
+	for <lists+linux-api@lfdr.de>; Fri, 14 Nov 2025 16:54:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 721B13BA562
-	for <lists+linux-api@lfdr.de>; Fri, 14 Nov 2025 14:10:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 269EC385695
+	for <lists+linux-api@lfdr.de>; Fri, 14 Nov 2025 15:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22C5832145A;
-	Fri, 14 Nov 2025 14:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB70B32ED5D;
+	Fri, 14 Nov 2025 14:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Lesn+N1+"
+	dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b="r9JGI4AW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D34F2FB08F
-	for <linux-api@vger.kernel.org>; Fri, 14 Nov 2025 14:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD9932ED20
+	for <linux-api@vger.kernel.org>; Fri, 14 Nov 2025 14:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763129429; cv=none; b=QlucPGOvMXLk4BI9MYwh75aaBAj78gZUttww+ER+zanqCh6iDwMx/gN+W3wwe2SS71ZBf3eIA58fiYBH2yZva4YRONCIdhPMVph5zDhMddf8vUrd736cDz19tllM/4u3J0MwN5XfnKK3nK+B5/HO3CaS694YJACnMfKgvwHV+k0=
+	t=1763132233; cv=none; b=SdAV8RVrxa8Iu7D6bpDVjhkZppfvHhxys0RNqoUiFRWWnLxYOIZ022MC6UJlnh+fjRppMxZ/Wfa0gBLBohuUd7eoqrseUGPzeUgrs9tYE2EHChBowAaLZptZaSYdhrat9H2Bv5RNGhBvvuV7s1b2tKuiVQi5VhOeLccEyNvcM9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763129429; c=relaxed/simple;
-	bh=KE+QPebTvEqbnMKEXMooGer5jwtRyU8fzyKcLQ4mw/g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f9BkXM1pz3m+fPvkTR8I68ESHN210wXkjYFSLMmx4+ju6meusJiKzlTTxqn3rMJazMIs+vQtAKx2W1vlw54g6pmQcAfZekeufHiuBjWE7f7nGn42j6w7h3By5Dm9MchkpxNa8ZkCQI3Ilo8+pkNMWwqi9Yzz66832MIi65Axrb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Lesn+N1+; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b736d883ac4so115403966b.2
-        for <linux-api@vger.kernel.org>; Fri, 14 Nov 2025 06:10:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763129424; x=1763734224; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wUyLyvVVKlFsH483G8ekZl8QKBp07gDZblbUWMC1jGk=;
-        b=Lesn+N1+up0vOeI4VPrJ65CHM+HZS4l9BYFpy+ZAGPoMWIoEfa6AplEKNUMCfh3Y37
-         WmFW/0RoPrO3YvGhKscMCFM2KozG+YG7ahcyjRq6gmfBazKAab0s1k+UwTubXS0Qqszm
-         j42DCKbj75VSzhxFQGSY7KgO6sbnhjggb2eHqbgQ4oMQu4SrtK+qMRgqSWroQVYN6ulQ
-         Vk2CqF6Z30kY9x+9KFwmhCo2yyDlV1+p/SmFy8PeQ7Je6AqaF2B/cJvPBsDK+46u25W4
-         BpgwKUeZoUNilxvaR+miAbWjM4PVemAFtVhk31u1W4/aI6gw1890X4xbh9vyCYA6J+9V
-         SEfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763129424; x=1763734224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wUyLyvVVKlFsH483G8ekZl8QKBp07gDZblbUWMC1jGk=;
-        b=NeWj+twhgVdlXOpwx/RpYJwRUMKXoCuVnLjbmRDtyRTawxK+6VZJd5U+OEgo+oXpZb
-         R23ROPzQDALo/51nDKnAaPfXlrbsDemUq4sc4m6rw4yIpxazpaWNJ87oRPdcYSW6vyv3
-         s/GDIJerTYjkl3M2vgjKnBh3HFu962+z7fuwpw6babSet4AmxHnshwbrAp8EJr3gyFdG
-         8YbK4g2pEqejA7Kkcp6OSHBl81DYCdMoH4H9om2Mh9BkuQOJ5DwyNTB9IAv1dZ028xJ9
-         X7kA6/CYym4Jm8iIDujTrkTAJKlTYHkD0vSgYU7bHNNQUE73Mnj2kQk6wDNy61eRMdxP
-         qWmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfxHswR8bPbyOeDkz/afOrEkI/Fe2TyFSBk8wpCauVqNIKprHti5O1PRThhRL0BBTUtn5cxtblVYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrXNQPmoJmX2PD+RB3cBxNYCLZyqQS4qr1WcuqGvWnNc/ZZgto
-	66Sh8yN1ehvcQfTj/TslAX6yLcc8VfGN2y9yE4gEHKhqpZdbA3qH6BUfNu8uTM4DTtug8mV7r/O
-	XiId2uRgdhg1HrJILcPSCfQP0U/9q1OlRzYE5spzu9A==
-X-Gm-Gg: ASbGncs9+HlLLNTqsfsIUwpPEO8bnB3l+DFIFaVhAZ85MDl0+blXKYVS5BECoVWCgci
-	LEIv/kFKTONot6C/9+MxJLMT/ab7UIBDVLAkxDByR3/ZpnfUC3lMKJJzUg0xAjLaBo32cWhvwOU
-	cap3tRby2dU4rxshbXr7BM+PrybGlQKjTsuAfkhEDDPr9B0Dmm0NmSJ9cRATay8l/B85nVmHAus
-	hfTRPRCK/FHOkMwX3pLMboCecqb4E/gVAm01uP05pd4F2fjSnCsD1spJiRxFNGg0oME
-X-Google-Smtp-Source: AGHT+IHfDqjVq2HQlgOvTYSXDolFUyeHkC2njHwkXXlWNiYY2vI3dgM9DBu5caW7N/gKzWP7vOw7EXXGJJQDhW4sn3w=
-X-Received: by 2002:a17:906:6601:b0:b73:6998:7bcd with SMTP id
- a640c23a62f3a-b7369987d82mr195682366b.23.1763129424454; Fri, 14 Nov 2025
- 06:10:24 -0800 (PST)
+	s=arc-20240116; t=1763132233; c=relaxed/simple;
+	bh=ZK84TVSnbT29DVQ4u3IpgrAT3JvZwfEosJ04ZuCpYRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RAg7tbzPitwgScOAaWII27Ns5+8B57p8gt8bj13WG25AklPAIONPpSSxikC7DxTcHBZbmR4zWm3oElb2b5qRCQ3L5ctEEtyvKPbtKzYODc+8P5WlQ2ip+NkgYp1LQFhXcZ+l5RHJ11dA1reVqm8Mj5IRy75cIl+ppjpweFy9lxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net; spf=pass smtp.mailfrom=dzwdz.net; dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b=r9JGI4AW; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dzwdz.net
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dzwdz.net; s=key1;
+	t=1763132215;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XxQDvenYwOfi1z40Msuf0GFhxvO0FGPXYzpJJN/4oG0=;
+	b=r9JGI4AW+9uRn6/4s67t/RcrYpRUXYiUo2q3E7DL3OwdnJ11WOVifzLTMJyAlyzKKxa7/l
+	hoGntP0O1mPhQi4zklfR9XZ9UPN0Zf2th+kI4AshslOxyQXgLqXGmOihrHZZORtxmAJndU
+	JLbUFWizSismSEogeZvl5jiU/+tKZJ5hXMnRzsX5NDo42F9DOVdUPFCWAo+lkytyr9Kvmo
+	bqct+m8kriYydDHe/iBQKPytMaGQPJxZiasDYz3mOQPScIVaXVAGsoMuOp+Lp6GiFz5M9r
+	rRTxQl0Iyjn1gUW8Gq3fhhWYX989soRrehwC19T3BfE5jYdBEHkxQT1pZlcMzA==
+From: =?UTF-8?q?Jakub=20G=C5=82ogowski?= <not@dzwdz.net>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: =?UTF-8?q?Jakub=20G=C5=82ogowski?= <not@dzwdz.net>,
+	linux-man@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux API <linux-api@vger.kernel.org>,
+	ej@inai.de
+Subject: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+Date: Fri, 14 Nov 2025 15:29:29 +0100
+Message-ID: <cover.1763130571.git.not@dzwdz.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-8-pasha.tatashin@soleen.com> <aRcnRFnqhm3jkqd3@kernel.org>
-In-Reply-To: <aRcnRFnqhm3jkqd3@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 14 Nov 2025 09:09:48 -0500
-X-Gm-Features: AWmQ_bkHcsPKYBwcaJBkDElGfbsE2VmqDOwwNe9Hzx_22lS14GpcHvhkYld0Zm8
-Message-ID: <CA+CK2bCO=Hu0a4P5-_a4QrOSdKLR7OXEk=Nsz-p6TvjEHV9rwQ@mail.gmail.com>
-Subject: Re: [PATCH v5 07/22] liveupdate: luo_ioctl: add user interface
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Nov 14, 2025 at 7:58=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Fri, Nov 07, 2025 at 04:03:05PM -0500, Pasha Tatashin wrote:
-> > Introduce the user-space interface for the Live Update Orchestrator
-> > via ioctl commands, enabling external control over the live update
-> > process and management of preserved resources.
-> >
-> > The idea is that there is going to be a single userspace agent driving
-> > the live update, therefore, only a single process can ever hold this
-> > device opened at a time.
-> >
-> > The following ioctl commands are introduced:
-> >
-> > LIVEUPDATE_IOCTL_CREATE_SESSION
-> > Provides a way for userspace to create a named session for grouping fil=
-e
-> > descriptors that need to be preserved. It returns a new file descriptor
-> > representing the session.
-> >
-> > LIVEUPDATE_IOCTL_RETRIEVE_SESSION
-> > Allows the userspace agent in the new kernel to reclaim a preserved
-> > session by its name, receiving a new file descriptor to manage the
-> > restored resources.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/uapi/linux/liveupdate.h  |  64 ++++++++++++
-> >  kernel/liveupdate/luo_internal.h |  21 ++++
-> >  kernel/liveupdate/luo_ioctl.c    | 173 +++++++++++++++++++++++++++++++
-> >  3 files changed, 258 insertions(+)
->
-> ...
->
-> > +static int luo_ioctl_create_session(struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_ioctl_create_session *argp =3D ucmd->cmd;
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     argp->fd =3D get_unused_fd_flags(O_CLOEXEC);
-> > +     if (argp->fd < 0)
-> > +             return argp->fd;
-> > +
-> > +     ret =3D luo_session_create(argp->name, &file);
-> > +     if (ret)
->
->                 put_unused_fd(fd) ?
+I found the PKTINFO docs pretty confusing, so I tried clarifying them:
+- being more specific about each field in the struct
+  (e.g. "local address of the packet" for a received packet could've
+  been interpreted in myriad ways),
+- making the differences between sendmsg(2)'s and recvmsg(2)'s handling
+  of that struct more explicit,
+- and some other slight rewording to make it (IMO) more readable - I cut
+  out most of a paragraph that wasn't really saying anything, etc.
 
-Yes, thank you.
+I'm not sure if this should even be documented in ip(7) together with
+the other sockopts, though?  sendmsg(2)'s handling of in_pktinfo is
+completely unrelated to the IP_PKTINFO sockopt.  Documenting it in its
+own manual page would also give us more room for subsection headings and
+other formatting, examples, etc - instead of trying to cram it into
+what's already an enormous manpage.
 
->
-> > +             return ret;
-> > +
-> > +     ret =3D luo_ucmd_respond(ucmd, sizeof(*argp));
-> > +     if (ret) {
-> > +             fput(file);
-> > +             put_unused_fd(argp->fd);
-> > +             return ret;
-> > +     }
->
-> I think that using gotos for error handling is more appropriate here.
+Same goes for some of the other more complex sockopts, I guess.
 
-Sure, I will do that
 
->
-> > +
-> > +     fd_install(argp->fd, file);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int luo_ioctl_retrieve_session(struct luo_ucmd *ucmd)
-> > +{
-> > +     struct liveupdate_ioctl_retrieve_session *argp =3D ucmd->cmd;
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     argp->fd =3D get_unused_fd_flags(O_CLOEXEC);
-> > +     if (argp->fd < 0)
-> > +             return argp->fd;
-> > +
-> > +     ret =3D luo_session_retrieve(argp->name, &file);
-> > +     if (ret < 0) {
-> > +             put_unused_fd(argp->fd);
-> > +
-> > +             return ret;
-> > +     }
-> > +
-> > +     ret =3D luo_ucmd_respond(ucmd, sizeof(*argp));
-> > +     if (ret) {
-> > +             fput(file);
-> > +             put_unused_fd(argp->fd);
-> > +             return ret;
-> > +     }
->
-> and here.
+PS. sorry for not signing this email, but neomutt didn't want to
+cooperate :/  I'll try to figure it out for any followup patches.
 
-Sure
 
->
-> > +
-> > +     fd_install(argp->fd, file);
-> > +
-> > +     return 0;
-> > +}
-> > +
->
-> --
-> Sincerely yours,
-> Mike.
+Jakub Głogowski (2):
+  man/man7/ip.7: Clarify PKTINFO's semantics depending on packet
+    direction
+  man/man7/ip.7: Reword IP_PKTINFO's description
+
+ man/man7/ip.7 | 57 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 30 insertions(+), 27 deletions(-)
+
+-- 
+2.47.3
+
 
