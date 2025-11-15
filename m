@@ -1,80 +1,80 @@
-Return-Path: <linux-api+bounces-5285-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5286-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F96C60CF6
-	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 00:35:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC6AC60CDE
+	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 00:35:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 43A6935ADA9
-	for <lists+linux-api@lfdr.de>; Sat, 15 Nov 2025 23:34:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 175E83B9672
+	for <lists+linux-api@lfdr.de>; Sat, 15 Nov 2025 23:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B043C27281D;
-	Sat, 15 Nov 2025 23:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D63A92737FC;
+	Sat, 15 Nov 2025 23:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bzJrhVwh"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Vv5M4s4M"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D24E2701B1
-	for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 23:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5F9271468
+	for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 23:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763249664; cv=none; b=lBJSx3VdmUPA4OdeEWIzdstmPdnfvyMNzb1aK3toefT9Rc6kVU3BRkSeOIUzt2v9Nrk0WSRHBs+X/wG4bdBHw2FOHgKD6F2EyMGRQbBVt6RK4epr3dhkEbxewp2P4KgA/Yy1DejZTIY5CoHPwIcf1EVXtbtEbaSKKg9yEpk/CDA=
+	t=1763249665; cv=none; b=qHNsTQUZSVwRDROUTqADXnj4k3Xb9daLgoMTI39aqwXbx8iFmtADC/rZB4tiNKqyxXR8KlPCUzo9yg4DFaT/A6PNZLgcmCa8YKib/Pc58k9UFvUBmjkqEaKIuilZPMRhNi+3UfKIO7sKo4RAq+VNT6E8zeTY1AKzIk9TvpWh5FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763249664; c=relaxed/simple;
-	bh=85s8aRdE8kPGJFRP7ZNIAfLg9kvRem2DBsVDlxsaNoE=;
+	s=arc-20240116; t=1763249665; c=relaxed/simple;
+	bh=E5mYrrro8NuMkC7HPDRevyvgCJvESo2IchKI5QmQD24=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ADhY3n2bFelK3NEA19hG8iVM5auuncoZfqPT/vZUMfdL/YY9bImEvOY8EW2CExZyWb7kjKqI+WH2Gn9LVUY3P2A3O1k2/49RFjdOa1xVSg+LX3dsY/tgNRPfXbdiw5aNxUi0FItx1e6NI4IbNPA/uLn93VsflP+lMmcxo0eHlm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bzJrhVwh; arc=none smtp.client-ip=209.85.128.170
+	 MIME-Version; b=TbMDZx5hNMDIqESWvbpyXCqRJK1covmnH/0+JtOAk+vLo57ngSfVfIMR2PaEYhSqGutFMyEP/iIBkgt7aY81ZGAORpxyEr0KI+W6lX6sDBzSiOSfgcTmxuNqPDjF8ZbLA7G4LsPfP3IH3GEiMIh2aMnqYsyrYhJi3AE17YJrrc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Vv5M4s4M; arc=none smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-71d71bcab6fso28792637b3.0
-        for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 15:34:21 -0800 (PST)
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-63f96d5038dso2589016d50.1
+        for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 15:34:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763249660; x=1763854460; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763249663; x=1763854463; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=23di5vng5g7PzO6qdci6haN5BnqYj05Ou9mnU5YCuOY=;
-        b=bzJrhVwhAcx8OIRFIJ+fOV8hsLG+wd4n7QfCmy07OxEKuCHKZgl5N1TMZxCK9UMh5t
-         wRZ4mwFgHPimECtGC0FVImHX//qPN2R5DqqX6bUOssaahmcOaqh+gf2QQgdZOiIGNfr/
-         Tb+Q0C/iC1YCU0sD8ZBKJDZxkOW36QgplIsWjGJ0qZ/n86IrrwBGAy/f1C65HB+56XX0
-         NVDrQ1c+wYgRgIr1QsBT6DIbavnlGpV8R8BBYRoWB1ILKfgvTb8zGZ1eLPjxe3/99zk3
-         5/Azs31Jld9EKK9J0TT6WnksKcf7KvvlGLz9UggNKrrJPqJ0jxh7ZI4dR4k+AeNVOKm3
-         E29Q==
+        bh=ffF6ShDH072kEeRsAneEmG7BXpD8z3YnDwKiTvXVzXs=;
+        b=Vv5M4s4MbrZaPZzUnOkFJ76hhvkmuERgaGRqL1tIN8y5KepaYZOw/Tu+Xu3Edtl9t3
+         25ZzhmpORqXbdS5edKlWEm8miyI4KHd7WrhVY/GlR5x9/Tfxa7Ehko7PnW0rhCYHMN9W
+         2EByd+g5tDX+koAZ2B1VF+N7NYy39cMtfh0fgPezQ9fyndvKYl6ZhEVVAyTzRiT4yEoE
+         m+4ZOebyBqp07E0dzUi/V23AdQIkp9wNWMusu9Jn+hD6trtyRonySzmz3T2beA5STHE1
+         dnoMYv0YvAD3k9es+LFyckE4vVWCpJ8aJAPBjIbDNxvhtWIMmoIpAJbRL2RXb+kE6ELY
+         Avrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763249660; x=1763854460;
+        d=1e100.net; s=20230601; t=1763249663; x=1763854463;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=23di5vng5g7PzO6qdci6haN5BnqYj05Ou9mnU5YCuOY=;
-        b=md1snVLGTkizH7t8DiJjJXIPEchAvfbqNuTS6CnZJMMq8tyqYh3zsupBhFs8REUsb3
-         +/ZUS53Rvi2SlZXxP3ALDTjtSySApj4rabr/1o+KeiIQjK0Ht/IGEb3mLpcGWBrxDyos
-         lOoMG+XZ4nxU6pncW3YPUtbOcD9pnddhHTvri4vo6o1RkFmcWyVVWfIVCmF1tkMiSVSV
-         IYj/wSQMZHIbPnpgZiUPACnDW3SEHTmQqlreKKv4pISidbFJeKXRCJNZjulhiQ0s1mzS
-         y3uv+Xpokkob/x2jX9jIJGiRiNQ6+RNLKlbrfjDZLlQBAeZtGIAszXt8kkxW7cLSH12W
-         Vm+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUhR3UeJww84u6bxSiKa7svssW+0y4v7LVVWG5KSAcK4iaF+MWzWLl6qb724z7JNsrRQjs5TYhsHtM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUTmN6IkSHalPiapGnUWhC8hoZsyuSpIg0Etc6PFo8zDfb1ebM
-	TBM0a67zNlPgYnG0Tsd+c+51K/8RfxLxgHak/X3o9g0tlCu9artaicTkfODBK+SjEeA=
-X-Gm-Gg: ASbGnctK1SV7BmuQCl62UlpVNJiNxpZvp8rzhVQKJgE7k98eWwbXfeB2/5ZM2t6/fVQ
-	NydzHEDdP2Fdp437bT4p5bMw+0UA69sWOZQlk+Gi8HGfFXqBKKpCghYa3c56/eckYg63SSQ1AMo
-	CNj3V95/PqelC3oDhjvo6KWA9+3d5/T5zT5EHEg8TpPB7SzuflPT3iwjNJb5jtWEtOZEr0Ph/CU
-	EbC9QfaJJzO3iELFCAlzdPfFmwQvhCYaIJuf9eW1jpGEh4P6sYJqLwWjDz3wT48K0yywTU2NQ7B
-	jl2/q175xntJCeJg4zMduEghDC3/yHkDVNeSJJpGGUIgzqxoCmDOYDk6ysIH/BGqK9Rlht7HKwJ
-	GvL3KcPKHglXGlNGYdcKIXIFeQs30BiDu/qWyyxCvic3Z2iRZV2PcefSCWgiPevIrjvKNF72WX8
-	CYedoC8WhmPZy2pPRgyybGfFqCI1ptuToekK8TJV7PE4oDD7m0YSpk+u7189huH+a0ZpcT9vG6n
-	f6LE/0=
-X-Google-Smtp-Source: AGHT+IEUj2RUJjPsfBfXOnD3CReia59JiFjPNPh1BEz+Ns8My+i3Um+tr89GzjAojwVUDuStxu7XSg==
-X-Received: by 2002:a05:690c:a1cd:b0:784:883c:a88d with SMTP id 00721157ae682-78929f3d937mr47983967b3.52.1763249660013;
-        Sat, 15 Nov 2025 15:34:20 -0800 (PST)
+        bh=ffF6ShDH072kEeRsAneEmG7BXpD8z3YnDwKiTvXVzXs=;
+        b=bhMFPaCuPDXRkSFbbp5XLnhghYhFUvta7fSPXefs4z8oFIvw/Oqry2bGpDEq410H9z
+         4Eqx2bxBr+0sOp18s6k6mJ59ZK9v4kkn5Jm9LRqI8NdpnLe5XFauD4XF2yzQqAcU/F2R
+         PAf/vLfwgaPzqHysdCAzsGx9fLWfHAYqMV5YcAPM6SNqzD0gMQaOSNRdstaq9gZNGnyw
+         dNu7NsDa4NCWcjPUT2t2E5gYbx+vwKt8ngliwHJ4Eb7vzvbG4FyHQLxJ4405Wq/xV0ld
+         qtSHQ3h3ZA5d7FMkhSPlp2gf3xPYqbWVHMNVk/8gs9oO1pE88fSw52tlZja4r6aZdziU
+         oKaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXIgOdCQDl2ePea/JnU13vVhxD+r8XfEvDvb7fp38P6MWYONpWOeXGWQPxmKnvG7Yet/i+wgAhTFig=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+6ATa9OOUJN4iNyLb8iTIxaTHGnf/Hhk5IF0hb9AQFflHRS4M
+	2GkCaKu92JINE7/RE1oQGYTL0E267abSWPAHNat0MXTHZg4isxr2TheodAg4d4Ef6X0=
+X-Gm-Gg: ASbGncsZdDjUY+mrhUWbAetGz10YRB+kFllCni17fUl8pgPpoXEb7gFbEMSftTWbuHv
+	O69ynp8FtoZen7hZXmvL1qar4U7yedK5qDqyf84tSvmQ3BCOTHq9v0rcbSuIY+5JEqxLYQGhAm8
+	SQGWnZ2JkM3awYHuO/yfKe/IRQuImfjSmZcf6AKhFxNZAt7+4HY/z1sZR4zg/nZE0WKJM9vVZ29
+	kQhZwSupfhfsRbg8NdX6zrg6WCNCj8y/DVQ6+IqkdCOfcMGVww0KUJ5v5C/Ry/L3VL87Yg2bulD
+	afN7p34IrKzfsSGegc+/kgeB+6hv6uTSZYwW5KMUpJBeg2pbEa98hjV7/0LsSO1PP4Iu89hYB3l
+	6jjCrPGa+noJLj6pti2pXhGcs4Nhkco9nRnKJjwnQtrVWlmNvUOM/FGbu/6gCnmbxmRe4XO3tjK
+	6cv3LpIBcxwxCeFhxOpeYKfypAOCiHPk3s97G9rmi5UIlI/qWLUOdkEsrNDESisgPqZLL8y1XN+
+	bHgNbw=
+X-Google-Smtp-Source: AGHT+IGaaou1T8IlNwnvhEGAvgtl5hmvWdjNxQr9knw88/sarPOBHEpKzr0vdGK9CACIRmLZkXd5Qw==
+X-Received: by 2002:a05:690e:4366:b0:63f:b6a4:dcbb with SMTP id 956f58d0204a3-641e76b2c36mr5840850d50.69.1763249662685;
+        Sat, 15 Nov 2025 15:34:22 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.17
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 15:34:19 -0800 (PST)
+        Sat, 15 Nov 2025 15:34:21 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -149,9 +149,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
-Date: Sat, 15 Nov 2025 18:33:48 -0500
-Message-ID: <20251115233409.768044-3-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 03/20] kexec: call liveupdate_reboot() before kexec
+Date: Sat, 15 Nov 2025 18:33:49 -0500
+Message-ID: <20251115233409.768044-4-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 In-Reply-To: <20251115233409.768044-1-pasha.tatashin@soleen.com>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
@@ -163,273 +163,46 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Integrate the LUO with the KHO framework to enable passing LUO state
-across a kexec reboot.
+Modify the kernel_kexec() to call liveupdate_reboot().
 
-When LUO is transitioned to a "prepared" state, it tells KHO to
-finalize, so all memory segments that were added to KHO preservation
-list are getting preserved. After "Prepared" state no new segments
-can be preserved. If LUO is canceled, it also tells KHO to cancel the
-serialization, and therefore, later LUO can go back into the prepared
-state.
+This ensures that the Live Update Orchestrator is notified just
+before the kernel executes the kexec jump. The liveupdate_reboot()
+function triggers the final freeze event, allowing participating
+FDs perform last-minute check or state saving within the blackout
+window.
 
-This patch introduces the following changes:
-- During the KHO finalization phase allocate FDT blob.
-- Populate this FDT with a LUO compatibility string ("luo-v1").
-
-LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
-logic (`luo_do_*_calls`) remains unimplemented in this patch.
+If liveupdate_reboot() returns an error (indicating a failure during
+LUO finalization), the kexec operation is aborted to prevent proceeding
+with an inconsistent state. An error is returned to user.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/liveupdate/abi/luo.h |  54 ++++++++++
- kernel/liveupdate/luo_core.c       | 153 ++++++++++++++++++++++++++++-
- 2 files changed, 206 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/liveupdate/abi/luo.h
+ kernel/kexec_core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupdate/abi/luo.h
-new file mode 100644
-index 000000000000..9483a294287f
---- /dev/null
-+++ b/include/linux/liveupdate/abi/luo.h
-@@ -0,0 +1,54 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+
-+/**
-+ * DOC: Live Update Orchestrator ABI
-+ *
-+ * This header defines the stable Application Binary Interface used by the
-+ * Live Update Orchestrator to pass state from a pre-update kernel to a
-+ * post-update kernel. The ABI is built upon the Kexec HandOver framework
-+ * and uses a Flattened Device Tree to describe the preserved data.
-+ *
-+ * This interface is a contract. Any modification to the FDT structure, node
-+ * properties, compatible strings, or the layout of the `__packed` serialization
-+ * structures defined here constitutes a breaking change. Such changes require
-+ * incrementing the version number in the relevant `_COMPATIBLE` string to
-+ * prevent a new kernel from misinterpreting data from an old kernel.
-+ *
-+ * FDT Structure Overview:
-+ *   The entire LUO state is encapsulated within a single KHO entry named "LUO".
-+ *   This entry contains an FDT with the following layout:
-+ *
-+ *   .. code-block:: none
-+ *
-+ *     / {
-+ *         compatible = "luo-v1";
-+ *         liveupdate-number = <...>;
-+ *     };
-+ *
-+ * Main LUO Node (/):
-+ *
-+ *   - compatible: "luo-v1"
-+ *     Identifies the overall LUO ABI version.
-+ *   - liveupdate-number: u64
-+ *     A counter tracking the number of successful live updates performed.
-+ */
-+
-+#ifndef _LINUX_LIVEUPDATE_ABI_LUO_H
-+#define _LINUX_LIVEUPDATE_ABI_LUO_H
-+
-+/*
-+ * The LUO FDT hooks all LUO state for sessions, fds, etc.
-+ * In the root it allso carries "liveupdate-number" 64-bit property that
-+ * corresponds to the number of live-updates performed on this machine.
-+ */
-+#define LUO_FDT_SIZE		PAGE_SIZE
-+#define LUO_FDT_KHO_ENTRY_NAME	"LUO"
-+#define LUO_FDT_COMPATIBLE	"luo-v1"
-+#define LUO_FDT_LIVEUPDATE_NUM	"liveupdate-number"
-+
-+#endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
-index 0e1ab19fa1cd..4a213b262b9f 100644
---- a/kernel/liveupdate/luo_core.c
-+++ b/kernel/liveupdate/luo_core.c
-@@ -42,11 +42,24 @@
+diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+index a8890dd03a1d..3122235c225b 100644
+--- a/kernel/kexec_core.c
++++ b/kernel/kexec_core.c
+@@ -15,6 +15,7 @@
+ #include <linux/kexec.h>
+ #include <linux/mutex.h>
+ #include <linux/list.h>
++#include <linux/liveupdate.h>
+ #include <linux/highmem.h>
+ #include <linux/syscalls.h>
+ #include <linux/reboot.h>
+@@ -1145,6 +1146,10 @@ int kernel_kexec(void)
+ 		goto Unlock;
+ 	}
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/io.h>
-+#include <linux/kexec_handover.h>
- #include <linux/kobject.h>
-+#include <linux/libfdt.h>
- #include <linux/liveupdate.h>
-+#include <linux/liveupdate/abi/luo.h>
-+#include <linux/mm.h>
-+#include <linux/sizes.h>
-+#include <linux/string.h>
-+#include <linux/unaligned.h>
++	error = liveupdate_reboot();
++	if (error)
++		goto Unlock;
 +
-+#include "kexec_handover_internal.h"
- 
- static struct {
- 	bool enabled;
-+	void *fdt_out;
-+	void *fdt_in;
-+	u64 liveupdate_num;
- } luo_global;
- 
- static int __init early_liveupdate_param(char *buf)
-@@ -55,6 +68,129 @@ static int __init early_liveupdate_param(char *buf)
- }
- early_param("liveupdate", early_liveupdate_param);
- 
-+static int __init luo_early_startup(void)
-+{
-+	phys_addr_t fdt_phys;
-+	int err, ln_size;
-+	const void *ptr;
-+
-+	if (!kho_is_enabled()) {
-+		if (liveupdate_enabled())
-+			pr_warn("Disabling liveupdate because KHO is disabled\n");
-+		luo_global.enabled = false;
-+		return 0;
-+	}
-+
-+	/* Retrieve LUO subtree, and verify its format. */
-+	err = kho_retrieve_subtree(LUO_FDT_KHO_ENTRY_NAME, &fdt_phys);
-+	if (err) {
-+		if (err != -ENOENT) {
-+			pr_err("failed to retrieve FDT '%s' from KHO: %pe\n",
-+			       LUO_FDT_KHO_ENTRY_NAME, ERR_PTR(err));
-+			return err;
-+		}
-+
-+		return 0;
-+	}
-+
-+	luo_global.fdt_in = phys_to_virt(fdt_phys);
-+	err = fdt_node_check_compatible(luo_global.fdt_in, 0,
-+					LUO_FDT_COMPATIBLE);
-+	if (err) {
-+		pr_err("FDT '%s' is incompatible with '%s' [%d]\n",
-+		       LUO_FDT_KHO_ENTRY_NAME, LUO_FDT_COMPATIBLE, err);
-+
-+		return -EINVAL;
-+	}
-+
-+	ln_size = 0;
-+	ptr = fdt_getprop(luo_global.fdt_in, 0, LUO_FDT_LIVEUPDATE_NUM,
-+			  &ln_size);
-+	if (!ptr || ln_size != sizeof(luo_global.liveupdate_num)) {
-+		pr_err("Unable to get live update number '%s' [%d]\n",
-+		       LUO_FDT_LIVEUPDATE_NUM, ln_size);
-+
-+		return -EINVAL;
-+	}
-+
-+	luo_global.liveupdate_num = get_unaligned((u64 *)ptr);
-+	pr_info("Retrieved live update data, liveupdate number: %lld\n",
-+		luo_global.liveupdate_num);
-+
-+	return 0;
-+}
-+
-+static int __init liveupdate_early_init(void)
-+{
-+	int err;
-+
-+	err = luo_early_startup();
-+	if (err) {
-+		pr_err("The incoming tree failed to initialize properly [%pe], disabling live update\n",
-+		       ERR_PTR(err));
-+		luo_global.enabled = false;
-+	}
-+
-+	return err;
-+}
-+early_initcall(liveupdate_early_init);
-+
-+/* Called during boot to create outgoing LUO fdt tree */
-+static int __init luo_fdt_setup(void)
-+{
-+	const u64 ln = luo_global.liveupdate_num + 1;
-+	void *fdt_out;
-+	int err;
-+
-+	fdt_out = kho_alloc_preserve(LUO_FDT_SIZE);
-+	if (IS_ERR(fdt_out)) {
-+		pr_err("failed to allocate/preserve FDT memory\n");
-+		return PTR_ERR(fdt_out);
-+	}
-+
-+	err = fdt_create(fdt_out, LUO_FDT_SIZE);
-+	err |= fdt_finish_reservemap(fdt_out);
-+	err |= fdt_begin_node(fdt_out, "");
-+	err |= fdt_property_string(fdt_out, "compatible", LUO_FDT_COMPATIBLE);
-+	err |= fdt_property(fdt_out, LUO_FDT_LIVEUPDATE_NUM, &ln, sizeof(ln));
-+	err |= fdt_end_node(fdt_out);
-+	err |= fdt_finish(fdt_out);
-+	if (err)
-+		goto exit_free;
-+
-+	err = kho_add_subtree(LUO_FDT_KHO_ENTRY_NAME, fdt_out);
-+	if (err)
-+		goto exit_free;
-+	luo_global.fdt_out = fdt_out;
-+
-+	return 0;
-+
-+exit_free:
-+	kho_unpreserve_free(fdt_out);
-+	pr_err("failed to prepare LUO FDT: %d\n", err);
-+
-+	return err;
-+}
-+
-+/*
-+ * late initcall because it initializes the outgoing tree that is needed only
-+ * once userspace starts using /dev/liveupdate.
-+ */
-+static int __init luo_late_startup(void)
-+{
-+	int err;
-+
-+	if (!liveupdate_enabled())
-+		return 0;
-+
-+	err = luo_fdt_setup();
-+	if (err)
-+		luo_global.enabled = false;
-+
-+	return err;
-+}
-+late_initcall(luo_late_startup);
-+
- /* Public Functions */
- 
- /**
-@@ -69,7 +205,22 @@ early_param("liveupdate", early_liveupdate_param);
-  */
- int liveupdate_reboot(void)
- {
--	return 0;
-+	int err;
-+
-+	if (!liveupdate_enabled())
-+		return 0;
-+
-+	err = kho_finalize();
-+	if (err) {
-+		pr_err("kho_finalize failed %d\n", err);
-+		/*
-+		 * kho_finalize() may return libfdt errors, to aboid passing to
-+		 * userspace unknown errors, change this to EAGAIN.
-+		 */
-+		err = -EAGAIN;
-+	}
-+
-+	return err;
- }
- 
- /**
+ #ifdef CONFIG_KEXEC_JUMP
+ 	if (kexec_image->preserve_context) {
+ 		/*
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
