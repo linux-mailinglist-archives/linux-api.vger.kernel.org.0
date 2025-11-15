@@ -1,79 +1,80 @@
-Return-Path: <linux-api+bounces-5293-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5294-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AEDC60D45
-	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 00:38:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62194C60D56
+	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 00:38:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F1CF34E21FF
-	for <lists+linux-api@lfdr.de>; Sat, 15 Nov 2025 23:36:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 612AE347796
+	for <lists+linux-api@lfdr.de>; Sat, 15 Nov 2025 23:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE3328C854;
-	Sat, 15 Nov 2025 23:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9FD42F530A;
+	Sat, 15 Nov 2025 23:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DJ/Bocdf"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PfSkJJyC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9607C273D9A
-	for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 23:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194262874E1
+	for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 23:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763249683; cv=none; b=uGadZegLY9LMUqKVSFarTP6aVQezocA9gzQfe+FGzOY0one3ezZVhcJKFUyEfIUr0qyZ8s3ONyqJsI+Yd3I1LFa55Edphs9CKdJDHMzyUq01G1lhuBEuvOCS7y4eAlty493rSRbb94t1iyi6jnaI7ghrDb4c7yzpYokLopmfcjs=
+	t=1763249685; cv=none; b=fHouRSmNIz+HqRG6Q34YZ4/+Ar751OGTAECAdXHwhBgfDbQGH8YyF2N90hYASwRRiUpVwaoOmhATxzOaU74xmaiXr794qYQJOYeb/rqvP/8jwSjRrdOIQTJLq+P9YK8zy0lI64x18ebLSNSoTL5LD3/LdhV4UEdomaHwSPuw/o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763249683; c=relaxed/simple;
-	bh=BcQ/q/HLfjUC/A/ryQjCYpP7otXrO8RSxRHDXnqgx54=;
+	s=arc-20240116; t=1763249685; c=relaxed/simple;
+	bh=j8iAbugWey2UNmiVotvEh8rhktrFPtv6x1dIdrnGvQI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mjrh9PJMiXjQ7+4BE/3NU/VhaOId+GH9q6ibmGbW6vsZc+ud7Ccz5CioUtauzM9BtqeQ04nFHLy4mv+7KptpB85mUXbeyfOmd4uEuaH3U2vaAnhHNzzsv2Hm6GfpFq7mOJUYI/8Y/tDbQ0Ze+rx4yFb4eAgjgtfgQBfYArd/faE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DJ/Bocdf; arc=none smtp.client-ip=209.85.128.181
+	 MIME-Version; b=Z2mTAglxXNWMkaDuO+znw0Eh9kkh923GprlLmrcffpJZSB8R0ancHhC6JQffan9cmQhY6mPzXQioShkPiHI9JvqGO07qNRNfMu//XxjVhO2HIHRsZSq98eJIOQ8nBHN/qzBB79vmClJX4PQKMZO6KWvZO1xp+7yEy2HPrdUxw2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PfSkJJyC; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7866aca9ff4so31462537b3.3
-        for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 15:34:40 -0800 (PST)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-63e19642764so2604809d50.1
+        for <linux-api@vger.kernel.org>; Sat, 15 Nov 2025 15:34:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763249679; x=1763854479; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763249681; x=1763854481; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eMpZqjn+eetCXAXNQY+bjgKy9hWait8fsWMBfgLawx8=;
-        b=DJ/BocdfPWOR4Bxk7q936aHJKqMhTobW1Pm8UA46plJ0JXAJyLM1vn+tri2NewiTgN
-         FEsiCkJNq5hB+1e1+ARINqp6E5rNq2nNGb2OlWWEUJc7c6TtLz63MEw5kV0bTrsK7akj
-         RskPchmn5z/wk9O8o7LdX62v+GA5DF3aNGsmeuKxCUgYUNXeA6a5sO4s+qjb9nPs6PLE
-         dpt7yllYlT4mMYFRco89JhXp2Raz+CyWEoeASCdxuXIZzguneWTiFKl82du9uvjOLauL
-         Wa27hHoPt5X7yXg6GA9ix/zVcaDDEfyiNKVdOdnAlA6g5vYrm3+ej609WTgQkQO/RDJh
-         kZzg==
+        bh=jQfGBV3CSsV2YD3qXZ/zQArJZQqVNJTRetihMrpqxA8=;
+        b=PfSkJJyCMpgnIl90+mD4E1X4mCWDkDBNEgaPeGDFX+288sJ8iPnOw9uOv82vCc1apf
+         IwDcI0bGopOdDzgWiKsSwdRK579BVKlVAw/v26FWDqYJDIaBuXKJPYF5zNF7WmL7Nejh
+         eEQvZRqQp3Gw6uC7UAnZSoLRPI48XPu0loKxw6HF1/fTRE0Nk2olp/hQsmak0k5+tA8k
+         XJK+AzJM1r3Oxse3Sr4VREOZrHQSlLidtDm7t9kHsIAhMUWwSYjzRIOowQ8mKRxLMi7r
+         rayT9nLWUueGdP5JAs4XLB9QyH47VjMUTm+SsOJEf3KE0OdK1e3LbIInKFlTxzvXhLGo
+         6sIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763249679; x=1763854479;
+        d=1e100.net; s=20230601; t=1763249681; x=1763854481;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=eMpZqjn+eetCXAXNQY+bjgKy9hWait8fsWMBfgLawx8=;
-        b=LQINXrNwx9oKhY6z8ts40bepJqcNSkpT4CGRm4L6/ro+LfW7xPrqRSEyYCawveWU8g
-         SyW+f+TQEr1+yMnNtDppUe3AR4QUslG0KXDuY+W8S/hz+QCth2mUFkgTEidigbwG3Pcw
-         Z35K9cDd2sF1aFFZW8PqKg8y3wEHe5j3wvhrHGPQiodwiaHLKupTKEMh4kIm/ivYxPqC
-         szdsQvGxmNYlJ361Q+4BXA27NVbea/0jMoD13H/YL36MRs8XBhAxhLqnDzfmuNQ6bxdl
-         7y8w9ktnquqQmhoY3DkBRmmj62VzzFieApLx/09zAnnhijiRvEozdSKH8f0zfPu2PDsa
-         vDYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8wvpHI94NLtIDuQqvk+tBq1PisXVwMwyUHM3rwCRvy9QZXMd25UNEzeY5Xw7x2Tw+PnojtCq0vDo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM+zCvONiUwY1qw9CSepxSvkqYNJBG3wy3V6A77s6ZXKFzMbLi
-	2qJlz8R5Yt2g74dCZLWwdTRY7lWeQCtTNJK9QVy/v4oH8eongUFQ7vjuL2W+5lAgr+Q=
-X-Gm-Gg: ASbGncuKUupG7qJ3fpxAo3siZQOC5GBwdwjuJE4tX/56GzjjKYBt4poAAJOVhawn7VS
-	d2/QukVafABicetRrB1JFhlWV0XOsnxYlkmhfAq17HNoVSrQEhQgGFtpK/PESc7tzPwdUSBkPW1
-	rmbez71dS7qDBm8W76RZeoSqWyLODrFy4zJ0QcM5/1R3zdnwZ7rpwvkwl5NsAQdPkG9Py1GK7pZ
-	mIvvC7ZhPOQ+jgrNCjXjHf3D8Vl/m1aoItkfUMhN/0bkk+mR4v1ZLnKRasTmBOAM675zkzrSUbk
-	46aTEntdu9O7u58Cw26DFSnDtWcfnudK1tpZT4SoqlEIV4913an3uhJxTo3mJALyGe3e19XeuzV
-	A8IvspiAhdZluZJ820Yx/JFJlGb1xqTbU0I7O+gl570uUxwCnMVdYxiJzTph88UzfSODDpdaRy+
-	QAYuCOE+326MqILffI5/AXyloehicEfVPPifAKPZvgT+YGydEsmxxkcWdMljo0+1yywzcY
-X-Google-Smtp-Source: AGHT+IFpvmU4rwVaUle/Xd4qMbKiIN+TYBpeyYU/cujp1isseucHsBaZ4L2SnGIl5nDP3gsBZTrPxA==
-X-Received: by 2002:a05:690c:64c4:b0:788:1cde:cabb with SMTP id 00721157ae682-78929e2fd13mr69921557b3.20.1763249679369;
-        Sat, 15 Nov 2025 15:34:39 -0800 (PST)
+        bh=jQfGBV3CSsV2YD3qXZ/zQArJZQqVNJTRetihMrpqxA8=;
+        b=uB4KTtNZ/lQj6xijm+pUX0AUgoCaTkY/E5cR540Gd13ZN5UL2o0jECY4FjCKkBktmb
+         XE8e/9+U/O5pr4lywyJnTlOJvJg3BWCcgYLDYBMgPTXaTgbthRhdS22UixJGatXxnCv0
+         K/0q4TyvsW7giypTU1Pv+e9s/D5gBMYpzA2F4wc9B6bkU9LcoR9vlmjnkTA95TK22BVq
+         HVlXwLwzQbFQSvqJXhKqSCK6oDUUizqR78f4Jm1cfqr9nj1hrPFvBM3JzN+eG2dQXA1S
+         yFncU03rkDO6caaq9bTFglZGdfEvp67EUqSUDmxVFQrwMXXrm6iz/2I5pw0dU9ZGEzZo
+         nr5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVlBP2rxny5zIWoOoJ+dSwGuMTqUP6VmqrLlAeAS+F8DlDIweFZ92UK0Ls+8vexc9+JsZyweAl14Tc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDpElpDJ2VhvI3tn5aLuZmIiXHxoNM6mubhWhb+U3hk9Gb+LY0
+	4SdcvfwYsv6iqQR6+BNTZJigZfG5osrHfVdgB2GFubdqXEfN57/elQ2j5oXAbaePQDI=
+X-Gm-Gg: ASbGncsLhtV2T9NsbEsnr9Q1yUlqwSsGIdJlD63sx15aH6Cd6P56MeYG/toonJoprvF
+	MgHzSj4VBbpPITERdYDfjjYkLdmekpqCnSZA8h6aPHWm15JOo/W6JwF5rsILl7Bbg2CppQKY1C2
+	vOc1D9mA3gIi8pjdcA1/3pEvc6gt9hs3loW1GWbCkdusfqhem5EGZ2saEMzDgtPB0+CuZftfyGQ
+	VW17ATSrcYVW8n40A6Y07MpgcWSnlo/6iAWTuMSjIJ9JUiPJdGJtNqqCvytriYxaQyWDLS6d6ZH
+	OgZpZQPioBmGDQx8z+vUmlw4QOaB2MIt7JDYnBPVF0bGOIFuAYWSfA1Byl6MDwtaKTjT7FavisI
+	DxPeVNNpU4un5YO3xyEr1jEJuJy5eLgj5ejjZ8LSLUTWjbtvnXsKfqKqAZW/GCUiJb4ZEG9CyEW
+	JwKLyxK0obv5sTBWTZmWRi+bjMFI3Nx0x7R+epaP9MfQGT3hKeyo8hv6Q2MAO5K7ZCfvFrcA40x
+	9GJ1Es=
+X-Google-Smtp-Source: AGHT+IHeAL+DcR07qAd9Iq2m/6xSEhl2MNEGDRSNqvjmNRLE9j5J2Un3wjkpsAn+QXmHZ/aaiqTk0Q==
+X-Received: by 2002:a05:690e:148b:b0:63f:9f5c:d96a with SMTP id 956f58d0204a3-641e75ba074mr6023031d50.27.1763249681206;
+        Sat, 15 Nov 2025 15:34:41 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.37
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 15:34:39 -0800 (PST)
+        Sat, 15 Nov 2025 15:34:40 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -148,9 +149,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v6 10/20] MAINTAINERS: add liveupdate entry
-Date: Sat, 15 Nov 2025 18:33:56 -0500
-Message-ID: <20251115233409.768044-11-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 11/20] mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+Date: Sat, 15 Nov 2025 18:33:57 -0500
+Message-ID: <20251115233409.768044-12-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 In-Reply-To: <20251115233409.768044-1-pasha.tatashin@soleen.com>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
@@ -162,36 +163,158 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a MAINTAINERS file entry for the new Live Update Orchestrator
-introduced in previous patches.
+From: Pratyush Yadav <ptyadav@amazon.de>
 
+shmem_inode_info::flags can have the VM flags VM_NORESERVE and
+VM_LOCKED. These are used to suppress pre-accounting or to lock the
+pages in the inode respectively. Using the VM flags directly makes it
+difficult to add shmem-specific flags that are unrelated to VM behavior
+since one would need to find a VM flag not used by shmem and re-purpose
+it.
+
+Introduce SHMEM_F_NORESERVE and SHMEM_F_LOCKED which represent the same
+information, but their bits are independent of the VM flags. Callers can
+still pass VM_NORESERVE to shmem_get_inode(), but it gets transformed to
+the shmem-specific flag internally.
+
+No functional changes intended.
+
+Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/linux/shmem_fs.h |  6 ++++++
+ mm/shmem.c               | 28 +++++++++++++++-------------
+ 2 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 500789529359..bc9f5c6f0e80 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14464,6 +14464,17 @@ F:	kernel/module/livepatch.c
- F:	samples/livepatch/
- F:	tools/testing/selftests/livepatch/
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index 0e47465ef0fd..650874b400b5 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -10,6 +10,7 @@
+ #include <linux/xattr.h>
+ #include <linux/fs_parser.h>
+ #include <linux/userfaultfd_k.h>
++#include <linux/bits.h>
  
-+LIVE UPDATE
-+M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/core-api/liveupdate.rst
-+F:	Documentation/userspace-api/liveupdate.rst
-+F:	include/linux/liveupdate.h
-+F:	include/linux/liveupdate/
-+F:	include/uapi/linux/liveupdate.h
-+F:	kernel/liveupdate/
+ struct swap_iocb;
+ 
+@@ -19,6 +20,11 @@ struct swap_iocb;
+ #define SHMEM_MAXQUOTAS 2
+ #endif
+ 
++/* Suppress pre-accounting of the entire object size. */
++#define SHMEM_F_NORESERVE	BIT(0)
++/* Disallow swapping. */
++#define SHMEM_F_LOCKED		BIT(1)
 +
- LLC (802.2)
- L:	netdev@vger.kernel.org
- S:	Odd fixes
+ struct shmem_inode_info {
+ 	spinlock_t		lock;
+ 	unsigned int		seals;		/* shmem seals */
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 58701d14dd96..1d5036dec08a 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -175,20 +175,20 @@ static inline struct shmem_sb_info *SHMEM_SB(struct super_block *sb)
+  */
+ static inline int shmem_acct_size(unsigned long flags, loff_t size)
+ {
+-	return (flags & VM_NORESERVE) ?
++	return (flags & SHMEM_F_NORESERVE) ?
+ 		0 : security_vm_enough_memory_mm(current->mm, VM_ACCT(size));
+ }
+ 
+ static inline void shmem_unacct_size(unsigned long flags, loff_t size)
+ {
+-	if (!(flags & VM_NORESERVE))
++	if (!(flags & SHMEM_F_NORESERVE))
+ 		vm_unacct_memory(VM_ACCT(size));
+ }
+ 
+ static inline int shmem_reacct_size(unsigned long flags,
+ 		loff_t oldsize, loff_t newsize)
+ {
+-	if (!(flags & VM_NORESERVE)) {
++	if (!(flags & SHMEM_F_NORESERVE)) {
+ 		if (VM_ACCT(newsize) > VM_ACCT(oldsize))
+ 			return security_vm_enough_memory_mm(current->mm,
+ 					VM_ACCT(newsize) - VM_ACCT(oldsize));
+@@ -206,7 +206,7 @@ static inline int shmem_reacct_size(unsigned long flags,
+  */
+ static inline int shmem_acct_blocks(unsigned long flags, long pages)
+ {
+-	if (!(flags & VM_NORESERVE))
++	if (!(flags & SHMEM_F_NORESERVE))
+ 		return 0;
+ 
+ 	return security_vm_enough_memory_mm(current->mm,
+@@ -215,7 +215,7 @@ static inline int shmem_acct_blocks(unsigned long flags, long pages)
+ 
+ static inline void shmem_unacct_blocks(unsigned long flags, long pages)
+ {
+-	if (flags & VM_NORESERVE)
++	if (flags & SHMEM_F_NORESERVE)
+ 		vm_unacct_memory(pages * VM_ACCT(PAGE_SIZE));
+ }
+ 
+@@ -1551,7 +1551,7 @@ int shmem_writeout(struct folio *folio, struct swap_iocb **plug,
+ 	int nr_pages;
+ 	bool split = false;
+ 
+-	if ((info->flags & VM_LOCKED) || sbinfo->noswap)
++	if ((info->flags & SHMEM_F_LOCKED) || sbinfo->noswap)
+ 		goto redirty;
+ 
+ 	if (!total_swap_pages)
+@@ -2910,15 +2910,15 @@ int shmem_lock(struct file *file, int lock, struct ucounts *ucounts)
+ 	 * ipc_lock_object() when called from shmctl_do_lock(),
+ 	 * no serialization needed when called from shm_destroy().
+ 	 */
+-	if (lock && !(info->flags & VM_LOCKED)) {
++	if (lock && !(info->flags & SHMEM_F_LOCKED)) {
+ 		if (!user_shm_lock(inode->i_size, ucounts))
+ 			goto out_nomem;
+-		info->flags |= VM_LOCKED;
++		info->flags |= SHMEM_F_LOCKED;
+ 		mapping_set_unevictable(file->f_mapping);
+ 	}
+-	if (!lock && (info->flags & VM_LOCKED) && ucounts) {
++	if (!lock && (info->flags & SHMEM_F_LOCKED) && ucounts) {
+ 		user_shm_unlock(inode->i_size, ucounts);
+-		info->flags &= ~VM_LOCKED;
++		info->flags &= ~SHMEM_F_LOCKED;
+ 		mapping_clear_unevictable(file->f_mapping);
+ 	}
+ 	retval = 0;
+@@ -3062,7 +3062,7 @@ static struct inode *__shmem_get_inode(struct mnt_idmap *idmap,
+ 	spin_lock_init(&info->lock);
+ 	atomic_set(&info->stop_eviction, 0);
+ 	info->seals = F_SEAL_SEAL;
+-	info->flags = flags & VM_NORESERVE;
++	info->flags = (flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
+ 	info->i_crtime = inode_get_mtime(inode);
+ 	info->fsflags = (dir == NULL) ? 0 :
+ 		SHMEM_I(dir)->fsflags & SHMEM_FL_INHERITED;
+@@ -5804,8 +5804,10 @@ static inline struct inode *shmem_get_inode(struct mnt_idmap *idmap,
+ /* common code */
+ 
+ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
+-			loff_t size, unsigned long flags, unsigned int i_flags)
++				       loff_t size, unsigned long vm_flags,
++				       unsigned int i_flags)
+ {
++	unsigned long flags = (vm_flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
+ 	struct inode *inode;
+ 	struct file *res;
+ 
+@@ -5822,7 +5824,7 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
+-				S_IFREG | S_IRWXUGO, 0, flags);
++				S_IFREG | S_IRWXUGO, 0, vm_flags);
+ 	if (IS_ERR(inode)) {
+ 		shmem_unacct_size(flags, size);
+ 		return ERR_CAST(inode);
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
