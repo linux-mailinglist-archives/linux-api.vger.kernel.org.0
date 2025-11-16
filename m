@@ -1,119 +1,196 @@
-Return-Path: <linux-api+bounces-5304-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5305-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC177C60E20
-	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 01:48:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4D5C614DC
+	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 13:43:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 514C2361877
-	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 00:48:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 34EE53B75E1
+	for <lists+linux-api@lfdr.de>; Sun, 16 Nov 2025 12:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 497F91E5B88;
-	Sun, 16 Nov 2025 00:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 568652D7DD9;
+	Sun, 16 Nov 2025 12:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="frRTY50N"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieh1SlTX"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AF2183CC3;
-	Sun, 16 Nov 2025 00:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A9F2236EE;
+	Sun, 16 Nov 2025 12:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763254080; cv=none; b=atsV9s6WBsM9OPaZUzXgAF+lmYptzdnQtPBFpGBJ0LJDVMZA87gC5i1/0/AnM9ZSlZ3v7Rz4xPCGG5YKhcs945E1qj9stXGsU4xtgtUDye9qsZ00ikwO3n5oqmlNMT7siX9BQlJjIqJeFzeri/G+TXqJ9dQo4JDG6tzLUzYLL4c=
+	t=1763297036; cv=none; b=hDDCHWr+ehMLMRfm4qb1ytiIvYSO3fxYTQ7rm8Eh1C+R63Qk/vGj1vNkyxCX2LCWr0YPHHPECa8pKNa986LzkeRA+MZIAVyvgMr39dxEchlVfEaaPLGfRyVM6fj8ZnqCS56RSfRKH4oOTKQKzwqpVHy/dkXqoOv9q0X3192m9/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763254080; c=relaxed/simple;
-	bh=4Fm2KFD6qpiUF1onn2drzUH/6heEStbzNEpoDDp5l7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TCabIe33ZOLvPkAQCmlKfb15UiCWjRyugqtGNmkqnB2WJalNzhoH2hKz/Ue3QOUG3ltt7xc6I1IT3K71c9Z8PYiLSabfFr3XRPjC9Mz4Xjk13Sa1NnEem8+rjupoml90xSDI35asyaJ/tRpdV2QVzZBdNds9DuR0Cv8cvA1BzIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=fail (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=frRTY50N reason="signature verification failed"; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5AG0lbca3277012
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sat, 15 Nov 2025 16:47:40 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5AG0lbca3277012
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1763254066;
-	bh=OTohMxDctL+N1RZVFe4ejI/vvpQQqRI7JMQ/mGjWJBU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=frRTY50Nf8atDwpW3mateVklpYa0EM01BoooCdH+BxibGWhecyintnjXfjBYid6Cw
-	 P7vsQtTBxsLMhe58/a3kVQpnCQLxfMkgfaCcLcpl68BjAovNEIxvyuudxxYjoTwGLO
-	 AqxAS+ym/YH0QSEUOw3/Ri2iI6ckiy2UCCNigKsfrcYk2BbQIrqGFIyC/OF7+GZAeB
-	 j2kUIw5IQ2GpvxHCjPNOewZYHT9grIv9y8NCd0TbstJUYflVlB9VY2OrS+d1U00MNt
-	 SB8DjMXdfjZKn3RNWtATYV0cDSEaARfYKrCubKSFda6oHpskZj0XfPaoGeD5g1SM3w
-	 rA7u4cgEfCXtQ==
-Message-ID: <2846db90-fb05-41d2-b8de-c678af75a04b@zytor.com>
-Date: Sat, 15 Nov 2025 16:47:37 -0800
+	s=arc-20240116; t=1763297036; c=relaxed/simple;
+	bh=wWgCpDj9fkSDw4SXrRucTxci3O9QnA85j+Vg+gKkTZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fubKzZduHP9pHTiP/IRYn9jp14wy0Zn+U4c9e3U5g3GkLNlP3vPFbJJX1cki6Luma9XH9y17zJmzR4vU5ypoDrGwmUSRv1ZaoKlrpskUtp+s4cJT2CZWXwOh+tz9TVmcN0LjP4ARDYjG1T6OVNfGNf0zS0UIuUZdio/Eb/6dQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieh1SlTX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C659C4CEF1;
+	Sun, 16 Nov 2025 12:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763297035;
+	bh=wWgCpDj9fkSDw4SXrRucTxci3O9QnA85j+Vg+gKkTZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ieh1SlTXRyDrT+ZZELMQ4or1AmZFhWxyj0uZvf0u87CtZbeGdiEpozUfnNNr1l+mb
+	 sMrREnOzqiH3M4E0YXtb4+WG+/Tn8ZbGqeMJxNZK2uu4C0EPHlmGSBtACovs10gEaR
+	 dbIJvUIgAOALfJHE7yK/czgKIPoIma6GCIhWXV74j+3uM3Z8UY8R/EqXgcGrEQl/GG
+	 dl9EUPpRD6FQMFDPDUEhCxjwC4KPkRq+y98WArsZWKSjf7/AuHH9IF4TVYL3qbB+5C
+	 Pf262w+HheFYjusQSjF7Z5PIClenH85cNiEddYc2DBJxABYjoDYbtHZbpgH7fvHatP
+	 vzplMQ3ly0JNw==
+Date: Sun, 16 Nov 2025 14:43:31 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRnG8wDSSAtkEI_z@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-3-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RFC: Serial port DTR/RTS - O_<something>
-To: Ned Ulbricht <nedu@netscape.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Maarten Brock <Maarten.Brock@sttls.nl>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <ADB50E23-DC8B-43D0-A345-E10396A3DFD4@zytor.com>
- <AMBPR05MB11925DA076098B05E418BF64283CEA@AMBPR05MB11925.eurprd05.prod.outlook.com>
- <20251110201933.GH2988753@mit.edu>
- <0F8021E8-F288-4669-8195-9948844E36FD@zytor.com>
- <20251111035143.GJ2988753@mit.edu>
- <D4AF3E24-8698-4EEC-9D52-655D69897111@zytor.com>
- <2025111214-doily-anyway-b24b@gregkh>
- <6DBB5931-ACD4-4174-9FCE-96C45FFC4603@zytor.com>
- <2025111241-domestic-moonstone-f75f@gregkh>
- <DD67C0CF-D330-4D40-B610-FD3EB7AA0218@zytor.com>
- <2025111227-equipment-magnetism-1443@gregkh>
- <14b1bc5c-83ac-431f-a53b-14872024b969@zytor.com>
- <alpine.DEB.2.21.2511141836130.47194@angie.orcam.me.uk>
- <B72D6F71-7C0B-4C5A-8866-25D7946E0932@zytor.com>
- <6c26eea2-6f90-f48a-9488-e7480f086c70@netscape.net>
-Content-Language: en-US, sv-SE
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <6c26eea2-6f90-f48a-9488-e7480f086c70@netscape.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251115233409.768044-3-pasha.tatashin@soleen.com>
 
-On 2025-11-15 13:29, Ned Ulbricht wrote:
-> |
-> | O_TTY_INIT
+On Sat, Nov 15, 2025 at 06:33:48PM -0500, Pasha Tatashin wrote:
+> Integrate the LUO with the KHO framework to enable passing LUO state
+> across a kexec reboot.
 > 
-> https://pubs.opengroup.org/onlinepubs/9799919799/
+> When LUO is transitioned to a "prepared" state, it tells KHO to
+> finalize, so all memory segments that were added to KHO preservation
+> list are getting preserved. After "Prepared" state no new segments
+> can be preserved. If LUO is canceled, it also tells KHO to cancel the
+> serialization, and therefore, later LUO can go back into the prepared
+> state.
 > 
-> That's what motivates my first-glance preference to name this new flag,
-> which will have approximately opposite behavior, as O_TTY_NOINIT.
+> This patch introduces the following changes:
+> - During the KHO finalization phase allocate FDT blob.
+
+This happens much earlier, isn't it?
+
+> - Populate this FDT with a LUO compatibility string ("luo-v1").
 > 
-> But as a generic abstraction, I more prefer O_KEEP.
+> LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+> logic (`luo_do_*_calls`) remains unimplemented in this patch.
 > 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  include/linux/liveupdate/abi/luo.h |  54 ++++++++++
+>  kernel/liveupdate/luo_core.c       | 153 ++++++++++++++++++++++++++++-
+>  2 files changed, 206 insertions(+), 1 deletion(-)
+>  create mode 100644 include/linux/liveupdate/abi/luo.h
+> 
+> diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupdate/abi/luo.h
+> new file mode 100644
+> index 000000000000..9483a294287f
+> --- /dev/null
+> +++ b/include/linux/liveupdate/abi/luo.h
+> @@ -0,0 +1,54 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> + */
+> +
+> +/**
+> + * DOC: Live Update Orchestrator ABI
+> + *
+> + * This header defines the stable Application Binary Interface used by the
+> + * Live Update Orchestrator to pass state from a pre-update kernel to a
+> + * post-update kernel. The ABI is built upon the Kexec HandOver framework
+> + * and uses a Flattened Device Tree to describe the preserved data.
+> + *
+> + * This interface is a contract. Any modification to the FDT structure, node
+> + * properties, compatible strings, or the layout of the `__packed` serialization
+> + * structures defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the relevant `_COMPATIBLE` string to
+> + * prevent a new kernel from misinterpreting data from an old kernel.
 
-O_KEEP seems a little vague, but O_KEEPCONFIG seems like a decent name.
+I'd add a sentence that stresses that ABI changes are possible as long they
+include changes to the FDT version.
+This is indeed implied by the last paragraph, but I think it's worth
+spelling it explicitly.
 
-It seems like we don't have several new flags:
+Another thing that I think this should mention is that compatibility is
+only guaranteed for the kernels that use the same ABI version.
 
-	O_EXEC
-	O_SEARCH
-	O_CLOFORK
-	O_TTY_INIT
-	O_RSYNC
-	O_NOCLOBBER
+> + *
+> + * FDT Structure Overview:
+> + *   The entire LUO state is encapsulated within a single KHO entry named "LUO".
+> + *   This entry contains an FDT with the following layout:
+> + *
+> + *   .. code-block:: none
+> + *
+> + *     / {
+> + *         compatible = "luo-v1";
+> + *         liveupdate-number = <...>;
+> + *     };
+> + *
+> + * Main LUO Node (/):
+> + *
+> + *   - compatible: "luo-v1"
+> + *     Identifies the overall LUO ABI version.
+> + *   - liveupdate-number: u64
+> + *     A counter tracking the number of successful live updates performed.
+> + */
+...
 
-Some of them *may* be possible to construct with existing Linux options, I'm
-not 100% sure; in particular O_SEARCH might be the same as (O_DIRECTORY|O_PATH).
+> +static int __init liveupdate_early_init(void)
+> +{
+> +	int err;
+> +
+> +	err = luo_early_startup();
+> +	if (err) {
+> +		pr_err("The incoming tree failed to initialize properly [%pe], disabling live update\n",
+> +		       ERR_PTR(err));
 
-O_NOCLOBBER looks like an odd in-between between O_EXCL and
-(O_EXCL|O_NOFOLLOW); stated to be specifically to implement the shell
-"noclobber" semantic.
+How do we report this to the userspace?
+I think the decision what to do in this case belongs there. Even if it's
+down to choosing between plain kexec and full reboot, it's still a policy
+that should be implemented in userspace.
 
-	-hpa
+> +		luo_global.enabled = false;
+> +	}
+> +
+> +	return err;
+> +}
+> +early_initcall(liveupdate_early_init);
 
+-- 
+Sincerely yours,
+Mike.
 
