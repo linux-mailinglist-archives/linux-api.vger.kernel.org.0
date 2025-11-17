@@ -1,74 +1,74 @@
-Return-Path: <linux-api+bounces-5329-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5330-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CE9C65B1B
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:22:49 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 606B0C65B2C
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:24:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2B116352750
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 18:20:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 19C2E4E25EC
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 18:24:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6132B30DD25;
-	Mon, 17 Nov 2025 18:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9A9630AD00;
+	Mon, 17 Nov 2025 18:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IpzOdkO/"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S5uKRssT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D83302756
-	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 18:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174B22D876F
+	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 18:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403648; cv=none; b=sdrIUpWkGWcG+1cL4TeZzdIJm1RugABipBP1vJ6qqzXVuAaPlDzPliN3EWShYnJL4h7aLCHA/jJ93IudTGEiP0Ek4YUqp8pnxSm9v4ZSF0NBbWK6W96bi4Zgjl51gNFCUwRqzVG8bIrrNV+Ahqp4BfFQq5gCPE7qccZvCL6r3Rs=
+	t=1763403869; cv=none; b=D9jZ8rLScqpVWnRplBPcakTwr8cYfK+4lFc4EeRm1zayKWVXplwP9IzCiYcm+/+iWfXitim95F5DpLqazk01jydBAroAfVheJazf+slIse/IqAI+8R4PrhQC/4G4kxKfUUs8FOnNdqnUABnIRN9OX2xEMU1Cyb6nRqFOWcnvUY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403648; c=relaxed/simple;
-	bh=CZtsj+hifIsZJbKTfeb8TuUonR9rJOLyCJoinWAfVZM=;
+	s=arc-20240116; t=1763403869; c=relaxed/simple;
+	bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H91UGlq+Op+2sOsrYBNF3D+AHnETJicl2r3jbrkdPmcX2k6h0nYfJkWp2O1jbOTa3JIRvAGBmPWzHL2pVDwaX5rFk0QT62LN/RLS7n6GwCoIB5yB5jdQXaScDcWzFD0SeoDkk5SZAxM6L21vVtvGgz/zR9eMJ8CQvTRgxwcAVY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IpzOdkO/; arc=none smtp.client-ip=209.85.208.48
+	 To:Cc:Content-Type; b=LiBkcZ3cB0df+vfaU19MvclCo5IeLYePcX7Nnn9m6huD7k+N6yH/gQBJ2OOFwp8cOGrhjuNXWIgZlNk2YL6BvOlVAccRaEs2iL8JqVzZ+9JR4zKsNE0xN0cxHzt7LF/O4ja6hnU8cmHgJKJnohGRoo/FMQ+SaO7CxtlNdFtpyXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S5uKRssT; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-640b06fa959so8214951a12.3
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 10:20:46 -0800 (PST)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640d0ec9651so7722531a12.3
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 10:24:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763403645; x=1764008445; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j8uyJ9UgvBm8P+z5AaxjU/5GgC74k2Y8kBRaWb+wv/8=;
-        b=IpzOdkO/TAphkuNLFQKOlMCFibMB7FXtwyELkClcZK/UQMitx5pYr6aLyTVD7HivrA
-         yZ9TyaHfpn1tXwTDvcz9UE1jK6kILYxxIprO1UczbPyJAhZQF/Zw5wKmGg5uBjvB/0Ed
-         wu9eUfc8dA9n4Sw2YarHZh4P0Mb7oNH+ULUozCRT/M4kNFBJulpSFaeq19eUR24SWdNA
-         tU62ePkikquYMiUW0xcCZfA0igD2z5u5cAGVoxi5edaVuxaUPurQM1FlznHFZ98QCjaD
-         olouksHmBWu3Fqn30s2sg1M/TWI9mLVwCrvGVuSL9o1TBhIuPeUTXIt8lrSAsnsOMwEv
-         35KA==
+        d=soleen.com; s=google; t=1763403866; x=1764008666; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
+        b=S5uKRssTjIvfjfTMkVJXvTmWkmBSbpslh9JXGqpBo16LqUCrWfQi2LrOCaDmpZt+F3
+         xiFyMPECkusxkEfJWMDqwwcy2gq7Z/UpbMbJIT1nCESE8RV2Mpy9DFugrSmxi36GetDE
+         9KxFbApN5ER1PvMLaCxKEeLoOL+sER9gW99arb/ujgI/bPL1xcDMuEikfssfim6MIGS7
+         o9VkifnnMbeFiwkVPMa+YjQ6LParO/uVXgGmxTtSQC9sbhhjCfhboPuZ/p3ZafvcXdNn
+         My4ZY6zl8rvcq//PL0JLyB3T/pcsCNFcL9+hWlibU8Eiwb8sp4vVNj9NouR0ujak2guu
+         lNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403645; x=1764008445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=j8uyJ9UgvBm8P+z5AaxjU/5GgC74k2Y8kBRaWb+wv/8=;
-        b=kecp5NdeFWlCTivFfDvAJ+g2rej/SMwwEYgqbY1J8tVo9pD1G6pKlq3jJVaVknYSf5
-         osg36lOjfbM/jMoH5aRIvOUrpIarL+OIanPO1CxXogu4KI970UeyBN8rOW+kohZeN3xC
-         lBBUqC9l6zRUQlHP+84qxtCVe98wswHL0h/Vlh0bObCspfmoV4AUHIsbi5sKRZVg/qYs
-         NhEQVgT/iGJ7vAt379B6VfLZswXcMV66bnEGQNY6pYHyn5dCzE9lSAeVZqwlBq0vOimT
-         gvFpUfpxG9AQdCuVCwz6tRJUMtVLok5s/Nk6a4AqYQ+J+aMLi0kWMybp41JS2XNYcMAC
-         AC9g==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ZwJRTGGREokIluw/C0eq+xrj3/OhXrC0SkVdwDW2b91zPgC7r20f1zaktXACPjtoBbTRKoostuI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAYZL6T3MgKm0plDBAlVAThx3QpKDNoEdeW8qZ7moXBZKxlyHS
-	jgW09C/jyIEb6dnm59i1BOp6ZyZB8NXHk2L+JnnOL7Qi5M3Z/nUCVy96uFaqKx6aEeB3uQvOQU3
-	an1jDvKAswIMFzSsfezWAFoXH0QI2ugnV3cEsOrTEhQ==
-X-Gm-Gg: ASbGncsGfleQpIAzBCEoPryb7XJhw+YCzHbad/01VDjd5AU7n3m43tZfd+Po11Ag8b6
-	wZL97f8QCyGWhOmvzZcYhrTh3tC/MKK0g0cJPeEpXbPq3ibfAGwXUYHDNL5R+HIybaueE9ZLQTa
-	nPFXIzhmVOy9At7W91W5ll2zINxMoHQ9yJDEMs98o4GWkI3QC/zCTt6fLlhb7Grz1uKemrWf/Yc
-	cWkLCC8l+LfhX4OjwcU7zKsLFu/IlyK2w9BiMVT3y7X+NXdz/2b9JtEZgpeOMXTA8go
-X-Google-Smtp-Source: AGHT+IGM1Tr15Cbgk4QQHnvYqnvMCGG164LW1Q1ssAN2iVzR9VtHS4h71YwFJlzXxkn+A9bvWz6u1Z5jGfTyNzSIJ9I=
-X-Received: by 2002:a05:6402:50d1:b0:640:c807:6af8 with SMTP id
- 4fb4d7f45d1cf-64350e9c5c3mr10832591a12.30.1763403644857; Mon, 17 Nov 2025
- 10:20:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763403866; x=1764008666;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
+        b=cV5jQ7feSuGcGEijGkm2gNzwWSawpB10P/QSB8wwkDjoIe9MtFnB1URdsNbPqL23CI
+         AcB79ieODO19Uf9HfpYjBtJv1AK89WZ/8C3GE34PAVBQ2+V5UbNjFZJfa2Lnr7BvtnMH
+         oDNXu7NR/pxBzyjthzk45vab7ltq8SNNLKxtNqOTGgDcIUtrjlcX2Yh+ViKzJTWqG0dy
+         pm0E6PmDOm9CAAX6aq8SWb7HQ2XRJbFqjb8GTlGaA4NtuPXquhw03U0BgBoNskSyRsCk
+         rhe9p/T3H/kpVPAok8vLvLNgSgXI+mBcCgODIbHY3ikLIBPtdQywdtP2Cmmoklp53UET
+         s/rA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXAhEDI47WZL62QhIHhq/MPITr+Mr9y5VDl1w8O0cefO7HJU/szGOhx+43l4wlnm9DSZ/ieMamoCU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzncWxm55gALbIGG2FpOiocFeKDoSjLh4Uwhkb4HsgpD/TycRH6
+	eMCztYmroELjhlh/e7euFAaBnb2Xf7sTq74/QyfFABaWCfzek9foBnAKcB0YYJHb0UNSIIWr13U
+	b7WAe+MgU4koYYGfkuZgY+FxVrTY3iD19daoON6/PwQ==
+X-Gm-Gg: ASbGnctE1eVfwoyHULSfHQec1D0B5myZc30SoDCn/jXKUzFXliQKTeJFHKOiGnYKzg6
+	5ALLztG7LELTNu2TR6xpThbko0cybGtRDT2CPe+zEWzJdjQ5EaJC/exCL5qcEbeQBZ9vOugmG78
+	J2l/9bHeuiPyY2EI+ajWsaGxWXdkbkBbsKfWMQylLySfKCXmcKvEzYdmlHzvhI1nT11fzbynxmO
+	S96busft/39LIbLKh0ztoD3KmHqJiQ7Bv2mqYubUqrQC6xXD5BNYBsGgP4g49ceDU0ZURnXf3YW
+	Utg=
+X-Google-Smtp-Source: AGHT+IEEWqHLyN23GdmGqxp16gOz0H99ycEtpAQL2MFddiKttxJOs0DiTjbKI+yQFgL9TB9EokEIYjSn2RJfB01X0+U=
+X-Received: by 2002:a05:6402:2806:b0:643:60b6:3eed with SMTP id
+ 4fb4d7f45d1cf-64360b63f56mr10022358a12.31.1763403866324; Mon, 17 Nov 2025
+ 10:24:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,15 +76,16 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-11-pasha.tatashin@soleen.com> <aRrtmy--AWCEEbtg@kernel.org>
-In-Reply-To: <aRrtmy--AWCEEbtg@kernel.org>
+ <20251115233409.768044-19-pasha.tatashin@soleen.com> <c8b46600-d40f-41b4-a5a3-99300ef1a2eb@linux.dev>
+In-Reply-To: <c8b46600-d40f-41b4-a5a3-99300ef1a2eb@linux.dev>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 13:20:07 -0500
-X-Gm-Features: AWmQ_bngMkZtOLXtzvbIhDYg36rxAp3uf7c25ogdWq8dWGd7IJgw-yYh-gP9XSc
-Message-ID: <CA+CK2bCVf2RppZbALAuFZyZarWukzhwkmOgtG2PcKqUQuao6uw@mail.gmail.com>
-Subject: Re: [PATCH v6 10/20] MAINTAINERS: add liveupdate entry
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+Date: Mon, 17 Nov 2025 13:23:49 -0500
+X-Gm-Features: AWmQ_bmhggvke7xISGqUn7uC4niyXxh61OdHqC9kU_cJS8AOY1qqJ3NjJ9HlQrw
+Message-ID: <CA+CK2bCUG4BVqPJYL5nxC-Uvomx2JT=sE4DrhqFjrBf+zN_m3A@mail.gmail.com>
+Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
+ for session lifecycle
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
 	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
 	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
@@ -109,53 +110,12 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 4:41=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
+> Thanks a lot. Just with kernel image, it is not enough to boot the host.
+> Adding initramfs will avoid the crash when the host boots.
+> I have made tests to verify this.
 >
-> On Sat, Nov 15, 2025 at 06:33:56PM -0500, Pasha Tatashin wrote:
-> > Add a MAINTAINERS file entry for the new Live Update Orchestrator
-> > introduced in previous patches.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  MAINTAINERS | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 500789529359..bc9f5c6f0e80 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -14464,6 +14464,17 @@ F:   kernel/module/livepatch.c
-> >  F:   samples/livepatch/
-> >  F:   tools/testing/selftests/livepatch/
-> >
-> > +LIVE UPDATE
-> > +M:   Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Please count me in :)
->
+> Reviewed-by: Zhu Yanjun <yanjun.zhu@linux.dev>
 
-Sure, added.
-
-> > +L:   linux-kernel@vger.kernel.org
-> > +S:   Maintained
-> > +F:   Documentation/core-api/liveupdate.rst
-> > +F:   Documentation/userspace-api/liveupdate.rst
-> > +F:   include/linux/liveupdate.h
-> > +F:   include/linux/liveupdate/
-> > +F:   include/uapi/linux/liveupdate.h
-> > +F:   kernel/liveupdate/
-> > +
-> >  LLC (802.2)
-> >  L:   netdev@vger.kernel.org
-> >  S:   Odd fixes
-> > --
-> > 2.52.0.rc1.455.g30608eb744-goog
-> >
->
-> --
-> Sincerely yours,
-> Mike.
+Thank you!
 
