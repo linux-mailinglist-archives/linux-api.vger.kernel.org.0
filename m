@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-5319-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5320-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD29AC6374B
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 11:14:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6FCC63772
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 11:15:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A4D5D4EF7FC
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 10:10:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 319D83AB400
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 10:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3648329E4D;
-	Mon, 17 Nov 2025 10:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04B2931A571;
+	Mon, 17 Nov 2025 10:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pyjp8I30"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xj45fOEU"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A5C30C344;
-	Mon, 17 Nov 2025 10:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38D32882BB;
+	Mon, 17 Nov 2025 10:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763374114; cv=none; b=BVYaSGb0cLpEgYTaZuHzgm2+goKVx67LGuKYhpkP6ekIyWwxRcFXeGCdjaL0/uQK8IZi7aUODlrpbfjc6gryYF6O1Bll+9Nhp71b6ostmHriyOndIl/kKvywb62VdiGYJUYaHLlcYI7pGY08uxVvTpqh0/nkExAhTWzm5s5jiK4=
+	t=1763374465; cv=none; b=BVSd69+wXpq7DHTDiCdzrsUG+3GiL/XcPsOan2Yxajg2fkjQzUtCeprB45XPkf63FgSZH1r4dtbxqKAM9pat9gIJiX/ONoeEgk89zZ24L0lJS+jVly2ZpZxb9CEWgizAQTxzuGLLK9RYA1nsn8/36/vY70JGnbhttPabpg7CVTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763374114; c=relaxed/simple;
-	bh=NfEctPhiqLwKM7Al5ilCJVKY/ooOPtorS0nazjY5qF8=;
+	s=arc-20240116; t=1763374465; c=relaxed/simple;
+	bh=EBfzAfm80HruebuGq2p7cOO/sNrPnXAIz69VkAF8qRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLL9jyUDDu/jLGhcKyuhud2CEgBeDQ2Wbt2dTUp8yEErDy0m9AQvSMxSTplQnFa7eV3rQgoubtwE/pq7e8oxc0hFA216blRVsfdofoO0mF258vSVr/5xh2gRiv02egbhV/UlTFfoe1upGBnp/nyhFA0V2Lv5p3x41uHkqkxnFFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pyjp8I30; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7080FC4CEF1;
-	Mon, 17 Nov 2025 10:08:13 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FrpuhCXPL9Q8OPLtkbry7iCe5TqAzbGaJX0Lu/QoyPe83Hcs4Eoozk3nFsQ7zGKjg6FF4AitXBBRDQc3q5sRnzKPQmNSePEMGarz30ssD/vxHrniIj5Ztv0WuAB9Cn0Izth5tWeYt0BVeVOEqKzJMFChJjNO8dkNrKJsneMXMeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xj45fOEU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE50FC19425;
+	Mon, 17 Nov 2025 10:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763374114;
-	bh=NfEctPhiqLwKM7Al5ilCJVKY/ooOPtorS0nazjY5qF8=;
+	s=k20201202; t=1763374465;
+	bh=EBfzAfm80HruebuGq2p7cOO/sNrPnXAIz69VkAF8qRU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pyjp8I30CMsVwAFn9pOiUTamRKt1uRSpOdE7O2jvI4OTBEvKMg4uqklLdOpQB0cTB
-	 7hHYlDan0L0oNCir7r5ZwY4Ze1MUR+Tc6/AcZxyTGFksM/YJQ2xzH4ukZrQxGbhIce
-	 YTJJly5hrZOjWrGCfHCEpIzoGzNCIx8ezeXHddI6w0fZSg1Y/j/jY3eHHyIEI/6J4q
-	 Jxtx9gkWqj7xCl8h+ggjG83fdiZ34qLZTR2P9DcFpD1W5m5qelmcIP6t9o6dcb8Prv
-	 kmHR3mG7h1z19hn9UOwxRdhQdpnkKDudEOZxRksOyz+oRXe8F0db8Dio3oOjHY3CML
-	 zQVyCqEEoWARg==
-Date: Mon, 17 Nov 2025 12:08:09 +0200
+	b=Xj45fOEUh1b4zxSnuffzv/I652kMh8I1mGK/g9DiGY1P+OpG5UGAfjIYotdBU9Syd
+	 kjeGSbhNhewRynba4fT0Dnb4Z90P2Z5QgKN9pANo3fVipvwzL3dVbAV+VHF+Nx+M4H
+	 LCqSUvA33EbgaNqvcTdRaDQfY9aFmbarjcKuW58f2UkZVzWH38FdApKDB6GOkKKHPc
+	 GI32lOu2/CcojdQx7HGuVbVTKzKVsykpEbo6fOCEF0TrQN66OVP2Kt555LAvcM+dJt
+	 gF+RvTLz3jF8uFpYRGcwF7cufr2udpC7X/OslgFQKRSjh1cvwwcj2B53ESd2bkFSNp
+	 eC4X1HNOyFmow==
+Date: Mon, 17 Nov 2025 12:14:03 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
@@ -71,10 +71,10 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
 	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 12/20] mm: shmem: allow freezing inode mapping
-Message-ID: <aRr0CQsV16usRW1J@kernel.org>
+Subject: Re: [PATCH v6 13/20] mm: shmem: export some functions to internal.h
+Message-ID: <aRr1aw45EYSFTCw9@kernel.org>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-13-pasha.tatashin@soleen.com>
+ <20251115233409.768044-14-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -83,117 +83,83 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251115233409.768044-13-pasha.tatashin@soleen.com>
+In-Reply-To: <20251115233409.768044-14-pasha.tatashin@soleen.com>
 
-On Sat, Nov 15, 2025 at 06:33:58PM -0500, Pasha Tatashin wrote:
+On Sat, Nov 15, 2025 at 06:33:59PM -0500, Pasha Tatashin wrote:
 > From: Pratyush Yadav <ptyadav@amazon.de>
 > 
-> To prepare a shmem inode for live update via the Live Update
-> Orchestrator (LUO), its index -> folio mappings must be serialized. Once
-> the mappings are serialized, they cannot change since it would cause the
-> serialized data to become inconsistent. This can be done by pinning the
-> folios to avoid migration, and by making sure no folios can be added to
-> or removed from the inode.
-> 
-> While mechanisms to pin folios already exist, the only way to stop
-> folios being added or removed are the grow and shrink file seals. But
-> file seals come with their own semantics, one of which is that they
-> can't be removed. This doesn't work with liveupdate since it can be
-> cancelled or error out, which would need the seals to be removed and the
-> file's normal functionality to be restored.
-> 
-> Introduce SHMEM_F_MAPPING_FROZEN to indicate this instead. It is
-> internal to shmem and is not directly exposed to userspace. It functions
-> similar to F_SEAL_GROW | F_SEAL_SHRINK, but additionally disallows hole
-> punching, and can be removed.
+> shmem_inode_acct_blocks(), shmem_recalc_inode(), and
+> shmem_add_to_page_cache() are used by shmem_alloc_and_add_folio(). This
+> functionality will also be used in the future by Live Update
+> Orchestrator (LUO) to recreate memfd files after a live update.
+
+I'd rephrase this a bit to say that it will be used by memfd integration
+into LUO to emphasize this stays inside mm.
+
+Other than that
+
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
 > 
 > Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  include/linux/shmem_fs.h | 17 +++++++++++++++++
->  mm/shmem.c               | 12 +++++++++++-
->  2 files changed, 28 insertions(+), 1 deletion(-)
+>  mm/internal.h |  6 ++++++
+>  mm/shmem.c    | 10 +++++-----
+>  2 files changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index 650874b400b5..a9f5db472a39 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -24,6 +24,14 @@ struct swap_iocb;
->  #define SHMEM_F_NORESERVE	BIT(0)
->  /* Disallow swapping. */
->  #define SHMEM_F_LOCKED		BIT(1)
-> +/*
-> + * Disallow growing, shrinking, or hole punching in the inode. Combined with
-> + * folio pinning, makes sure the inode's mapping stays fixed.
-> + *
-> + * In some ways similar to F_SEAL_GROW | F_SEAL_SHRINK, but can be removed and
-> + * isn't directly visible to userspace.
-> + */
-> +#define SHMEM_F_MAPPING_FROZEN	BIT(2)
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 1561fc2ff5b8..4ba155524f80 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1562,6 +1562,12 @@ void __meminit __init_page_from_nid(unsigned long pfn, int nid);
+>  unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
+>  			  int priority);
 >  
->  struct shmem_inode_info {
->  	spinlock_t		lock;
-> @@ -186,6 +194,15 @@ static inline bool shmem_file(struct file *file)
->  	return shmem_mapping(file->f_mapping);
->  }
->  
-> +/* Must be called with inode lock taken exclusive. */
-> +static inline void shmem_i_mapping_freeze(struct inode *inode, bool freeze)
-
-_mapping usually refers to operations on struct address_space.
-It seems that all shmem methods that take inode are just shmem_<operation>,
-so shmem_freeze() looks more appropriate.
-
-> +{
-> +	if (freeze)
-> +		SHMEM_I(inode)->flags |= SHMEM_F_MAPPING_FROZEN;
-> +	else
-> +		SHMEM_I(inode)->flags &= ~SHMEM_F_MAPPING_FROZEN;
-> +}
+> +int shmem_add_to_page_cache(struct folio *folio,
+> +			    struct address_space *mapping,
+> +			    pgoff_t index, void *expected, gfp_t gfp);
+> +int shmem_inode_acct_blocks(struct inode *inode, long pages);
+> +bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped);
 > +
->  /*
->   * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
->   * beyond i_size's notion of EOF, which fallocate has committed to reserving:
+>  #ifdef CONFIG_SHRINKER_DEBUG
+>  static inline __printf(2, 0) int shrinker_debugfs_name_alloc(
+>  			struct shrinker *shrinker, const char *fmt, va_list ap)
 > diff --git a/mm/shmem.c b/mm/shmem.c
-> index 1d5036dec08a..05c3db840257 100644
+> index 05c3db840257..c3dc4af59c14 100644
 > --- a/mm/shmem.c
 > +++ b/mm/shmem.c
-> @@ -1292,7 +1292,8 @@ static int shmem_setattr(struct mnt_idmap *idmap,
->  		loff_t newsize = attr->ia_size;
+> @@ -219,7 +219,7 @@ static inline void shmem_unacct_blocks(unsigned long flags, long pages)
+>  		vm_unacct_memory(pages * VM_ACCT(PAGE_SIZE));
+>  }
 >  
->  		/* protected by i_rwsem */
-> -		if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
-> +		if ((info->flags & SHMEM_F_MAPPING_FROZEN) ||
-
-A corner case: if newsize == oldsize this will be a false positive
-
-> +		    (newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
->  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
->  			return -EPERM;
->  
-> @@ -3289,6 +3290,10 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
->  			return -EPERM;
->  	}
->  
-> +	if (unlikely((info->flags & SHMEM_F_MAPPING_FROZEN) &&
-> +		     pos + len > inode->i_size))
-> +		return -EPERM;
-> +
->  	ret = shmem_get_folio(inode, index, pos + len, &folio, SGP_WRITE);
->  	if (ret)
->  		return ret;
-> @@ -3662,6 +3667,11 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
->  
->  	inode_lock(inode);
->  
-> +	if (info->flags & SHMEM_F_MAPPING_FROZEN) {
-> +		error = -EPERM;
-> +		goto out;
-> +	}
-> +
->  	if (mode & FALLOC_FL_PUNCH_HOLE) {
->  		struct address_space *mapping = file->f_mapping;
->  		loff_t unmap_start = round_up(offset, PAGE_SIZE);
+> -static int shmem_inode_acct_blocks(struct inode *inode, long pages)
+> +int shmem_inode_acct_blocks(struct inode *inode, long pages)
+>  {
+>  	struct shmem_inode_info *info = SHMEM_I(inode);
+>  	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+> @@ -435,7 +435,7 @@ static void shmem_free_inode(struct super_block *sb, size_t freed_ispace)
+>   *
+>   * Return: true if swapped was incremented from 0, for shmem_writeout().
+>   */
+> -static bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped)
+> +bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped)
+>  {
+>  	struct shmem_inode_info *info = SHMEM_I(inode);
+>  	bool first_swapped = false;
+> @@ -861,9 +861,9 @@ static void shmem_update_stats(struct folio *folio, int nr_pages)
+>  /*
+>   * Somewhat like filemap_add_folio, but error if expected item has gone.
+>   */
+> -static int shmem_add_to_page_cache(struct folio *folio,
+> -				   struct address_space *mapping,
+> -				   pgoff_t index, void *expected, gfp_t gfp)
+> +int shmem_add_to_page_cache(struct folio *folio,
+> +			    struct address_space *mapping,
+> +			    pgoff_t index, void *expected, gfp_t gfp)
+>  {
+>  	XA_STATE_ORDER(xas, &mapping->i_pages, index, folio_order(folio));
+>  	unsigned long nr = folio_nr_pages(folio);
 > -- 
 > 2.52.0.rc1.455.g30608eb744-goog
 > 
