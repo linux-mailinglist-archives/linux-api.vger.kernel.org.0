@@ -1,73 +1,74 @@
-Return-Path: <linux-api+bounces-5327-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5328-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17B5C64CF5
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 16:10:21 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0533C65A16
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 18:58:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id 6517F28D0B
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 15:10:20 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A216A34C61F
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 17:51:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B759335075;
-	Mon, 17 Nov 2025 15:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D186730EF76;
+	Mon, 17 Nov 2025 17:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="G+FZEsMp"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Niy0HV4Y"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559FE30ACEB
-	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 15:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C1530AD19
+	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 17:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763392210; cv=none; b=Gc7sdUZxmb6X2oCZa+Z48fr17aDrh5kQxMbCpkShr+Nq2OV4F+mMmy8MYTYz0KHKzl8/1mag7K/y6jmObec1evfWwD/+rWI7v0E6rEqerF2FGygVZ0lPq4lXD+UXiE+h0qyLzwgxRon9XmCedU/5hSsqW6vklAL+J1hNtaV0hSM=
+	t=1763401899; cv=none; b=Et3RrxEBQTtwP0eRSk3TCABA0L1s4tc7Ya3XoKX3BUxt3MoBv1SQ6h5g6m1RBz2zN99YKY2cwlFFhzehvFNrwk/dDdFm3En7uD6VZEIOFFvWMAwW+8oyAL/igjjUxS04EKIOi7sD0fXByemwzBh+JE7FS38mjW/Qw2+rbeBn7/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763392210; c=relaxed/simple;
-	bh=O+V4AMyNh4uVjqUHrTpj49PuAqNdgV98a59O8ozBiT8=;
+	s=arc-20240116; t=1763401899; c=relaxed/simple;
+	bh=8DF+4C/KHKIZb8YvQ+azF37Prrek2thf+7UUIFGkAe8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iLTaJK+A+2HHHdjpnaLMNAzXbOUrPSsASDRec3ggWIbWDBuf1yANNB0sDeZYbDrmyjhA3fc3GoXIMMdl2Cl7kn5hEh+3uxS95Jk0XSIhTW7xJJ/o3QJuiUjt8Y/7cjVyUw8Nt3rarsQpDHjeGCCC8qUGYa8qL/XBx3IjIAdk7nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=G+FZEsMp; arc=none smtp.client-ip=209.85.208.52
+	 To:Cc:Content-Type; b=gODIxll1YTVenGEkXfZCfn5fq8hyeyTo2zPrRsd6sBREL1sGosZNVIOEPUww/djdh7y0Gi2oaunEI0KjE/4RxNNgsL6t7w/PVz29/yHekDDVhqmYT2Gt7YU+oefceNew8ML1hIU3eHegoAUE+nJifi3pjbGg6dnWhDynrEX5mLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Niy0HV4Y; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64080ccf749so5962388a12.2
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 07:10:06 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so7945177a12.1
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 09:51:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763392205; x=1763997005; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763401895; x=1764006695; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
-        b=G+FZEsMpJEGAD+DukLY1nz+kdQnSzXrErP3HUeZj4TW8BqWd3f6CP4ciZz1EHCd4+U
-         6xjAyi6tp0comxeeuwGGMEhvbwvFz5ro79Ig9Ic8X0+HOOYmYyKAJsM2dGpiWZEwXwd5
-         jNScAl3/eXcXas7M3g8oqVKg+RCbcFQaBxxYhfJvVg7k02gn8kfdciKTvCjbyzdz/Ai/
-         1yk38Z295oa4+NnMaJU80CKatwlIm1Jfva/g5Fg/9hmC2W0GHRujs1Z6xW63IOevbfkt
-         ZiCneHoL02eUJVXQeCUsitRWt9I+OkoS8TEN4riQebQeOIhiQzqFEj7dbdPoemL9sO6C
-         wVVw==
+        bh=mJ5u5zAQrZvxKOnHLYhQ+3zTTB6OZn55imjBt83jNzg=;
+        b=Niy0HV4YPvGgDsvrhM9ZVDwam6LpooWRWF5dNjTvrzVoYn6mVfOPwoBFoKyNzeQsam
+         CU9VnPqFH/w5Ztmx7yEa7CtPDrWEBHPmLiNHAcKihS9h69RzrdJgGH5Y15nzAyh0PEMi
+         ryLLZqon+7Ez/bmnxrEV2KsNtdW52iK5AAcQ+hek7r2Gi5tFuBTgEpaRM2+GwkkKJInT
+         YgAqJcGcXIRaPJ00hL/48RxQV24ZlFppXqc1ZOFmbTkApCjsEvOw3JJCPBT0QJP5ho8x
+         /dBwiJ5XErfSyYn+LJsWCWl28BFENizanjmspKPDBsJrXfQX7zhaz347q6wH64B4nrLa
+         zV5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763392205; x=1763997005;
+        d=1e100.net; s=20230601; t=1763401895; x=1764006695;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
-        b=fW63JRA36iC3v2O316SOSCO50KSY3kYopzubc8y54OLZ29jhD47rW/kXqgoW3zlCAH
-         LYaugI3QTwbEnD9ie2exO0tVfDMTLD7vBmYMDrgkggeYFDwaPWqgAWKsky6MDNJmrx43
-         hRPjpv4qz7Xm2zhi5VA1sdrCtU12CjF3/yMo51T9LaZ4A6x84Vc2hPfNrvVqcM2FHBRZ
-         ug+5s3yHgLVwu0cpnpIGzAhlkIoypaoH/QWE6J4SLKsU3W07pkKDuBXSYAISTcAJjlE4
-         De7BzLZj3RBbkvydY+9zmOjBUBl5NtJoAaVnwUuTEmMV384fSlhOgaNuJlE99/foMkfN
-         8dMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNipv3IlP0DOQwIR+uTu3l4L344M30aPx3i0Z3jkWDLDo3VDcwUFHmF445k5XOe12x5fRfmFVtkhc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP8mvPewjUnAqQp+mGA53x51cSbTQR+z4UgmXibkTS6Yh4gzV7
-	8VcdSOiNn0cq1x3Cx8PxOdc0pmcnOxK3EHHAF8bzjOk04QKhyI1OIy4DShxVxGFRSfTx8qu2Sm2
-	JMEoUcHkubslS2FS+e6Sd288HcaUuJxY3h+fnMo0iDw==
-X-Gm-Gg: ASbGncuO1pKb9FF7yXVVlJJOYc3Auv2dOeNVxmqnteM2qxOQ74EwVlKKgvelYrN2yyj
-	WnqWmMLv18WTaf1mEWPyIxbg89qqe4kIeX3u1Ke6hdorkoM5Kinfse0LfMMja/MtvuMPuSKtftd
-	0wpi4CwGbCu9fHUAU8CfQ1Z9SFyBYsnuwrOgUFiBwpxTExHbXuxpY6kwJcVC/vghQPZP+PPz4DB
-	WA9TRWUNtJNpHTjpeD4IDVm0EgqdTilirAV2+VBBrlxqI+8GG0v3Qm9AV/qfUQLTyn6
-X-Google-Smtp-Source: AGHT+IE14EI84+1nV9PNUG6pyDkb7Qkp/5p7KJ3U1mYqA34EgSz0oKhHHX1OOhrjgCkHr3Z59mY5mFsJkBFb4s2zZDw=
-X-Received: by 2002:a05:6402:2809:b0:640:fb1f:e95c with SMTP id
- 4fb4d7f45d1cf-64350e8ecefmr12877833a12.20.1763392205305; Mon, 17 Nov 2025
- 07:10:05 -0800 (PST)
+        bh=mJ5u5zAQrZvxKOnHLYhQ+3zTTB6OZn55imjBt83jNzg=;
+        b=l58QFtU20Jh1KqIhPIr1V8J1pPL9Ngcpm6OYiCd/JDJrPLIsOg7HBRM8KwWCTN1c1D
+         u+NizUgmFjUdU+P++UljwWa5QdWXtpHYTzU5aLKhCldDcs/6WW4kAEMJdcB6I34nPtVN
+         FLa40QBmrUfF4KYHGDJwSsO0h6uPSjyZObaUw0LygoWF7TgkPPdnqIfoAvpfza3to94W
+         pSibZMCARO9+MSC8a1m+YIM8kf/97EBdx9yG6p2wpBVcNmg0IpGM+9OLEo9Vjf/kWHl0
+         Ql3gvz3lR/yeX2JtdJukmRBrwLBkej3GGHQz3AOJXPj3rBIzdFzCy4au4ikmCBteuygd
+         XfZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWz5UyL4gjkVWUKz9hpSNZJiIbao7aJz31l+7EF2HSEwaoiK4mgySrPk2AElmJexqRQiVzbDI7O/6w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxfy/ezLTZFRQFo8LQTw/Q3I/9ckBlb/agjJWibPEt2m790aAkG
+	KRKyeb3Xil0vnNGYogFSF8RjwnO3H9y9yapzZgkIp8JOp8J4EMRJ4i+tGYK+YC1K8z44PFtYs4b
+	uHMi+U20POTEJyecXNxzG+5C6TxmXB1qRuc0zUhvTzg==
+X-Gm-Gg: ASbGnctxI9FWBKZ/Qywf7r0mj1h0uedXnOaNRReWej4sbLzGPQM3mBKlp802YzrZ7S+
+	uU5a2XJfqW6t5PowIPNvCNZqeQAild52bgxcYlfUlWRdmgUMkgWy+PtiMoPWfNUzPD44gWII9zK
+	fOZRFDEtyoZZUZ4NIreS4KU6SPuy4cW2RsnzlPXScr30e3sxQ5SJAEqs7LromgIUrZZACNQgOB4
+	spunDf6RqukR1KPWzjpbi+WDZQAi+IrXrLwVswMba0K4xgsn3Eq5wMhDkpnUb/ABKlMSb0cxxMV
+	nIo=
+X-Google-Smtp-Source: AGHT+IHWKPa8RlLwj37PNA19J6e01ZNweNYiCZnTEjR6fxpGB2x0/5L6XwywYOkv+w/5tLrlphKOMI4YXyOK0pqPXE4=
+X-Received: by 2002:a05:6402:2711:b0:63b:f0b3:76cf with SMTP id
+ 4fb4d7f45d1cf-64350deef9cmr12478640a12.2.1763401894290; Mon, 17 Nov 2025
+ 09:51:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -75,13 +76,13 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-5-pasha.tatashin@soleen.com> <aRoEduya5EO8Xc1b@kernel.org>
-In-Reply-To: <aRoEduya5EO8Xc1b@kernel.org>
+ <20251115233409.768044-7-pasha.tatashin@soleen.com> <aRoU1DSgVmplHr3E@kernel.org>
+In-Reply-To: <aRoU1DSgVmplHr3E@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 10:09:28 -0500
-X-Gm-Features: AWmQ_bmj83X6sEGtJOzbfwBfqdKgU7Rrd4Q7eSBnGujAPm0UgvTXUn65F7Vknl4
-Message-ID: <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com>
-Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
+Date: Mon, 17 Nov 2025 12:50:56 -0500
+X-Gm-Features: AWmQ_bnrA20HpXkHheTuEF5iGf_SPSz31rhUNAkUQn-Pm49ZR_gpF80LLM_gB3g
+Message-ID: <CA+CK2bBFS754hdPfNAkMp_PqNpOB2nY02OkWbhRdoUiZ+ah=jw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/20] liveupdate: luo_file: implement file systems callbacks
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -109,180 +110,763 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
+> > +struct liveupdate_file_handler;
+> > +struct liveupdate_session;
+>
+> Why struct liveupdate_session is a part of public LUO API?
+
+It is an obscure version of private "struct luo_session", in order to
+give subsystem access to:
+liveupdate_get_file_incoming(s, token, filep)
+liveupdate_get_token_outgoing(s, file, tokenp)
+
+For example, if your FD depends on another FD within a session, you
+can check if another FD is already preserved via
+liveupdate_get_token_outgoing(), and during retrieval time you can
+retrieve the "struct file" for your dependency.
+
+> > +struct file;
+> > +
 > > +/**
-> > + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
-> > + * @name:    The unique name of the session, copied from the `luo_session`
-> > + *           structure.
->
-> I'd phase it as
->
->                 The unique name of the session provided by the userspace at
->                 the time of session creation.
-
-Done
-
->
-> > + * @files:   The physical address of a contiguous memory block that holds
-> > + *           the serialized state of files.
->
-> Maybe add                                    ^ in this session?
-
-Done
-
->
-> > + * @pgcnt:   The number of pages occupied by the `files` memory block.
-> > + * @count:   The total number of files that were part of this session during
-> > + *           serialization. Used for iteration and validation during
-> > + *           restoration.
+> > + * struct liveupdate_file_op_args - Arguments for file operation callbacks.
+> > + * @handler:          The file handler being called.
+> > + * @session:          The session this file belongs to.
+> > + * @retrieved:        The retrieve status for the 'can_finish / finish'
+> > + *                    operation.
+> > + * @file:             The file object. For retrieve: [OUT] The callback sets
+> > + *                    this to the new file. For other ops: [IN] The caller sets
+> > + *                    this to the file being operated on.
+> > + * @serialized_data:  The opaque u64 handle, preserve/prepare/freeze may update
+> > + *                    this field.
 > > + *
-> > + * This structure is used to package session-specific metadata for transfer
-> > + * between kernels via Kexec Handover. An array of these structures (one per
-> > + * session) is created and passed to the new kernel, allowing it to reconstruct
-> > + * the session context.
-> > + *
-> > + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
->
-> This comment applies to the luo_session_header_ser description as well.
-
-Done
-
->
+> > + * This structure bundles all parameters for the file operation callbacks.
+> > + * The 'data' and 'file' fields are used for both input and output.
 > > + */
-> > +struct luo_session_ser {
-> > +     char name[LIVEUPDATE_SESSION_NAME_LENGTH];
-> > +     u64 files;
-> > +     u64 pgcnt;
-> > +     u64 count;
-> > +} __packed;
+> > +struct liveupdate_file_op_args {
+> > +     struct liveupdate_file_handler *handler;
+> > +     struct liveupdate_session *session;
+> > +     bool retrieved;
+> > +     struct file *file;
+> > +     u64 serialized_data;
+> > +};
 > > +
-> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> > diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
-> > index df34c1642c4d..d2ef2f7e0dbd 100644
-> > --- a/include/uapi/linux/liveupdate.h
-> > +++ b/include/uapi/linux/liveupdate.h
-> > @@ -43,4 +43,7 @@
-> >  /* The ioctl type, documented in ioctl-number.rst */
-> >  #define LIVEUPDATE_IOCTL_TYPE                0xBA
-> >
-> > +/* The maximum length of session name including null termination */
-> > +#define LIVEUPDATE_SESSION_NAME_LENGTH 56
->
-> You decided not to bump it to 64 in the end? ;-)
-
-I bumped it to 64, but in the next patch, I will fix it in the next version.
-
->
+> > +/**
+> > + * struct liveupdate_file_ops - Callbacks for live-updatable files.
+> > + * @can_preserve: Required. Lightweight check to see if this handler is
+> > + *                compatible with the given file.
+> > + * @preserve:     Required. Performs state-saving for the file.
+> > + * @unpreserve:   Required. Cleans up any resources allocated by @preserve.
+> > + * @freeze:       Optional. Final actions just before kernel transition.
+> > + * @unfreeze:     Optional. Undo freeze operations.
+> > + * @retrieve:     Required. Restores the file in the new kernel.
+> > + * @can_finish:   Optional. Check if this FD can finish, i.e. all restoration
+> > + *                pre-requirements for this FD are satisfied. Called prior to
+> > + *                finish, in order to do successful finish calls for all
+> > + *                resources in the session.
+> > + * @finish:       Required. Final cleanup in the new kernel.
+> > + * @owner:        Module reference
+> > + *
+> > + * All operations (except can_preserve) receive a pointer to a
+> > + * 'struct liveupdate_file_op_args' containing the necessary context.
+> > + */
+> > +struct liveupdate_file_ops {
+> > +     bool (*can_preserve)(struct liveupdate_file_handler *handler,
+> > +                          struct file *file);
+> > +     int (*preserve)(struct liveupdate_file_op_args *args);
+> > +     void (*unpreserve)(struct liveupdate_file_op_args *args);
+> > +     int (*freeze)(struct liveupdate_file_op_args *args);
+> > +     void (*unfreeze)(struct liveupdate_file_op_args *args);
+> > +     int (*retrieve)(struct liveupdate_file_op_args *args);
+> > +     bool (*can_finish)(struct liveupdate_file_op_args *args);
+> > +     void (*finish)(struct liveupdate_file_op_args *args);
+> > +     struct module *owner;
+> > +};
 > > +
-> >  #endif /* _UAPI_LIVEUPDATE_H */
-> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-> > index 413722002b7a..83285e7ad726 100644
-> > --- a/kernel/liveupdate/Makefile
-> > +++ b/kernel/liveupdate/Makefile
-> > @@ -2,7 +2,8 @@
-> >
-> >  luo-y :=                                                             \
-> >               luo_core.o                                              \
-> > -             luo_ioctl.o
-> > +             luo_ioctl.o                                             \
-> > +             luo_session.o
-> >
-> >  obj-$(CONFIG_KEXEC_HANDOVER)         += kexec_handover.o
-> >  obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)   += kexec_handover_debug.o
+> > +/**
+> > + * struct liveupdate_file_handler - Represents a handler for a live-updatable file type.
+> > + * @ops:                Callback functions
+> > + * @compatible:         The compatibility string (e.g., "memfd-v1", "vfiofd-v1")
+> > + *                      that uniquely identifies the file type this handler
+> > + *                      supports. This is matched against the compatible string
+> > + *                      associated with individual &struct file instances.
+> > + * @list:               Used for linking this handler instance into a global
+> > + *                      list of registered file handlers.
+> > + *
+> > + * Modules that want to support live update for specific file types should
+> > + * register an instance of this structure. LUO uses this registration to
+> > + * determine if a given file can be preserved and to find the appropriate
+> > + * operations to manage its state across the update.
+> > + */
+> > +struct liveupdate_file_handler {
+> > +     const struct liveupdate_file_ops *ops;
+> > +     const char compatible[LIVEUPDATE_HNDL_COMPAT_LENGTH];
+> > +     struct list_head list;
 >
-> ...
+> Did you consider using __private and ACCESS_PRIVATE() for the ->list
+> member here and in other structures visible outside kernel/liveupdate?
+
+I hadn't considered it, but that is a great suggestion. I will update
+the headers to use __private/ACCESS_PRIVATE().
+
+
+> >
+> > +/* The max size is set so it can be reliably used during in serialization */
 >
-> > +int luo_session_retrieve(const char *name, struct file **filep)
+> I failed to parse this comment.
+
+Me too, I removed it. :-)
+
+> > + *   - can_preserve(): A lightweight check to determine if the handler is
+> > + *     compatible with a given 'struct file'.
+> > + *   - preserve(): The heavyweight operation that saves the file's state and
+> > + *     returns an opaque u64 handle, happens while vcpus are still running.
+>
+>                                                      ^ VCPUs
+
+Done
+
+>
+> This narrows the description to VM-only usecase and in general ->preserve()
+> may happen after VCPUs are suspended, although it's neither intended nor
+> desirable. LUO does not control the sequencing so we can't claim here
+> anything about VCPUs.
+
+Agreed. While keeping VCPUs running is the target behavior for the
+hypervisor use case to minimize downtime, the framework itself is
+agnostic to the workload type and sequencing. Re-wrote:
+
+ *   - preserve(): The heavyweight operation that saves the file's state and
+ *     returns an opaque u64 handle. This is typically performed while the
+ *     workload is still active to minimize the downtime during the
+ *     actual reboot transition.
+
+> > + *   - unpreserve(): Cleans up any resources allocated by .preserve(), called
+> > + *     if the preservation process is aborted before the reboot (i.e. session is
+> > + *     closed).
+> > + *   - freeze(): A final pre-reboot opportunity to prepare the state for kexec.
+> > + *     We are already in reboot syscall, and therefore userspace cannot mutate
+> > + *     the file anymore.
+> > + *   - unfreeze(): Undoes the actions of .freeze(), called if the live update
+> > + *     is aborted after the freeze phase.
+> > + *   - retrieve(): Reconstructs the file in the new kernel from the preserved
+> > + *     handle.
+> > + *   - finish(): Performs final check and cleanup in the new kernel. After
+> > + *     succesul finish call, LUO gives up ownership to this file.
+> > + *
+> > + * File Preservation Lifecycle happy path:
+> > + *
+> > + * 1. Preserve (Normal Operation): A userspace agent preserves files one by one
+> > + *    via an ioctl. For each file, luo_preserve_file() finds a compatible
+> > + *    handler, calls its .preserve() op, and creates an internal &struct
+>
+>                                       ^ method or operation
+
+Done
+
+>
+> > + *    luo_file to track the live state.
+> > + *
+> > + * 2. Freeze (Pre-Reboot): Just before the kexec, luo_file_freeze() is called.
+> > + *    It iterates through all preserved files, calls their respective .freeze()
+> > + *    ops, and serializes their final metadata (compatible string, token, and
+>
+>         ^ method or operation
+>
+> > + *    data handle) into a contiguous memory block for KHO.
+> > + *
+> > + * 3. Deserialize (New Kernel - Early Boot): After kexec, luo_file_deserialize()
+>
+> From the code it seems that description runs on the fist open of
+> /dev/liveupdated, what do I miss?
+
+Updated:
+ * 3. Deserialize: After kexec, luo_file_deserialize() runs when session gets
+ *    deserialized (which is when /dev/liveupdate is first opened). It reads the
+ *    serialized data from the KHO memory region and reconstructs the in-memory
+ *    list of &struct luo_file instances for the new kernel, linking them to
+ *    their corresponding handlers.
+
+>
+> > + *    runs. It reads the serialized data from the KHO memory region and
+> > + *    reconstructs the in-memory list of &struct luo_file instances for the new
+> > + *    kernel, linking them to their corresponding handlers.
+> > + *
+> > + * 4. Retrieve (New Kernel - Userspace Ready): The userspace agent can now
+> > + *    restore file descriptors by providing a token. luo_retrieve_file()
+> > + *    searches for the matching token, calls the handler's .retrieve() op to
+> > + *    re-create the 'struct file', and returns a new FD. Files can be
+> > + *    retrieved in ANY order.
+> > + *
+> > + * 5. Finish (New Kernel - Cleanup): Once a session retrival is complete,
+> > + *    luo_file_finish() is called. It iterates through all files,
+> > + *    invokes their .finish() ops for final cleanup, and releases all
+>
+>                                 ^ method
+
+Done
+
+>
+> > + *    associated kernel resources.
+> > + *
+> > + * File Preservation Lifecycle unhappy paths:
+> > + *
+> > + * 1. Abort Before Reboot: If the userspace agent aborts the live update
+> > + *    process before calling reboot (e.g., by closing the session file
+> > + *    descriptor), the session's release handler calls
+> > + *    luo_file_unpreserve_files(). This invokes the .unpreserve() callback on
+> > + *    all preserved files, ensuring all allocated resources are cleaned up and
+> > + *    returning the system to a clean state.
+> > + *
+> > + * 2. Freeze Failure: During the reboot() syscall, if any handler's .freeze()
+> > + *    op fails, the .unfreeze() op is invoked on all previously *successful*
+> > + *    freezes to roll back their state. The reboot() syscall then returns an
+> > + *    error to userspace, canceling the live update.
+> > + *
+> > + * 3. Finish Failure: In the new kernel, if a handler's .finish() op fails,
+> > + *    the luo_file_finish() operation is aborted. LUO retains ownership of
+> > + *    all files within that session, including those that were not yet
+> > + *    processed. The userspace agent can attempt to call the finish operation
+> > + *    again later. If the issue cannot be resolved, these resources will be held
+> > + *    by LUO until the next live update cycle, at which point they will be
+> > + *    discarded.
+> > + */
+> > +
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> > +#include <linux/cleanup.h>
+> > +#include <linux/err.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/file.h>
+> > +#include <linux/fs.h>
+> > +#include <linux/kexec_handover.h>
+> > +#include <linux/liveupdate.h>
+> > +#include <linux/liveupdate/abi/luo.h>
+> > +#include <linux/module.h>
+> > +#include <linux/sizes.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/string.h>
+> > +#include "luo_internal.h"
+> > +
+> > +static LIST_HEAD(luo_file_handler_list);
+> > +
+> > +/* 2 4K pages, give space for 128 files per session */
+> > +#define LUO_FILE_PGCNT               2ul
+> > +#define LUO_FILE_MAX                                                 \
+> > +     ((LUO_FILE_PGCNT << PAGE_SHIFT) / sizeof(struct luo_file_ser))
+> > +
+> > +/**
+> > + * struct luo_file - Represents a single preserved file instance.
+> > + * @fh:            Pointer to the &struct liveupdate_file_handler that manages
+> > + *                 this type of file.
+> > + * @file:          Pointer to the kernel's &struct file that is being preserved.
+> > + *                 This is NULL in the new kernel until the file is successfully
+> > + *                 retrieved.
+> > + * @serialized_data: The opaque u64 handle to the serialized state of the file.
+> > + *                 This handle is passed back to the handler's .freeze(),
+> > + *                 .retrieve(), and .finish() callbacks, allowing it to track
+> > + *                 and update its serialized state across phases.
+> > + * @retrieved:     A flag indicating whether a user/kernel in the new kernel has
+> > + *                 successfully called retrieve() on this file. This prevents
+> > + *                 multiple retrieval attempts.
+> > + * @mutex:         A mutex that protects the fields of this specific instance
+> > + *                 (e.g., @retrieved, @file), ensuring that operations like
+> > + *                 retrieving or finishing a file are atomic.
+> > + * @list:          The list_head linking this instance into its parent
+> > + *                 session's list of preserved files.
+> > + * @token:         The user-provided unique token used to identify this file.
+> > + *
+> > + * This structure is the core in-kernel representation of a single file being
+> > + * managed through a live update. An instance is created by luo_preserve_file()
+> > + * to link a 'struct file' to its corresponding handler, a user-provided token,
+> > + * and the serialized state handle returned by the handler's .preserve()
+> > + * operation.
+> > + *
+> > + * These instances are tracked in a per-session list. The @serialized_data
+> > + * field, which holds a handle to the file's serialized state, may be updated
+> > + * during the .freeze() callback before being serialized for the next kernel.
+> > + * After reboot, these structures are recreated by luo_file_deserialize() and
+> > + * are finally cleaned up by luo_file_finish().
+> > + */
+> > +struct luo_file {
+> > +     struct liveupdate_file_handler *fh;
+> > +     struct file *file;
+> > +     u64 serialized_data;
+> > +     bool retrieved;
+> > +     struct mutex mutex;
+> > +     struct list_head list;
+> > +     u64 token;
+> > +};
+> > +
+> > +static int luo_session_alloc_files_mem(struct luo_session *session)
+>
+> It seems like this belongs to luo_session.c
+
+It belongs here, but the name is wrong, so I renamed the alloc/free functions.
+
 > > +{
-> > +     struct luo_session_header *sh = &luo_session_global.incoming;
-> > +     struct luo_session *session = NULL;
-> > +     struct luo_session *it;
+> > +     size_t size;
+> > +     void *mem;
+> > +
+> > +     if (session->files)
+> > +             return 0;
+> > +
+> > +     WARN_ON_ONCE(session->count);
+> > +
+> > +     size = LUO_FILE_PGCNT << PAGE_SHIFT;
+> > +     mem = kho_alloc_preserve(size);
+> > +     if (IS_ERR(mem))
+> > +             return PTR_ERR(mem);
+> > +
+> > +     session->files = mem;
+> > +     session->pgcnt = LUO_FILE_PGCNT;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void luo_session_free_files_mem(struct luo_session *session)
+> > +{
+>
+> Ditto
+
+done.
+
+
+>
+> > +     /* If session has files, no need to free preservation memory */
+> > +     if (session->count)
+> > +             return;
+> > +
+> > +     if (!session->files)
+> > +             return;
+> > +
+> > +     kho_unpreserve_free(session->files);
+> > +     session->files = NULL;
+> > +     session->pgcnt = 0;
+> > +}
+> > +
+> > +static bool luo_token_is_used(struct luo_session *session, u64 token)
+> > +{
+> > +     struct luo_file *iter;
+> > +
+> > +     list_for_each_entry(iter, &session->files_list, list) {
+>
+> And here again I'm not very fond of dereferencing session objects in
+> luo_file.
+
+luo_file only access session->files_* fields, that are both allocated
+and freed in luo_files, and iterated inside luo_file.
+
+>
+> > +             if (iter->token == token)
+> > +                     return true;
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +
+> > +/**
+> > + * luo_preserve_file - Initiate the preservation of a file descriptor.
+> > + * @session: The session to which the preserved file will be added.
+> > + * @token:   A unique, user-provided identifier for the file.
+> > + * @fd:      The file descriptor to be preserved.
+> > + *
+> > + * This function orchestrates the first phase of preserving a file. Upon entry,
+> > + * it takes a reference to the 'struct file' via fget(), effectively making LUO
+> > + * a co-owner of the file. This reference is held until the file is either
+> > + * unpreserved or successfully finished in the next kernel, preventing the file
+> > + * from being prematurely destroyed.
+> > + *
+> > + * This function orchestrates the first phase of preserving a file. It performs
+> > + * the following steps:
+> > + *
+> > + * 1. Validates that the @token is not already in use within the session.
+> > + * 2. Ensures the session's memory for files serialization is allocated
+> > + *    (allocates if needed).
+> > + * 3. Iterates through registered handlers, calling can_preserve() to find one
+> > + *    compatible with the given @fd.
+> > + * 4. Calls the handler's .preserve() operation, which saves the file's state
+> > + *    and returns an opaque private data handle.
+> > + * 5. Adds the new instance to the session's internal list.
+> > + *
+> > + * On success, LUO takes a reference to the 'struct file' and considers it
+> > + * under its management until it is unpreserved or finished.
+> > + *
+> > + * In case of any failure, all intermediate allocations (file reference, memory
+> > + * for the 'luo_file' struct, etc.) are cleaned up before returning an error.
+> > + *
+> > + * Context: Can be called from an ioctl handler during normal system operation.
+> > + * Return: 0 on success. Returns a negative errno on failure:
+> > + *         -EEXIST if the token is already used.
+> > + *         -EBADF if the file descriptor is invalid.
+> > + *         -ENOSPC if the session is full.
+> > + *         -ENOENT if no compatible handler is found.
+> > + *         -ENOMEM on memory allocation failure.
+> > + *         Other erros might be returned by .preserve().
+> > + */
+> > +int luo_preserve_file(struct luo_session *session, u64 token, int fd)
+> > +{
+> > +     struct liveupdate_file_op_args args = {0};
+> > +     struct liveupdate_file_handler *fh;
+> > +     struct luo_file *luo_file;
+> > +     struct file *file;
 > > +     int err;
 > > +
-> > +     scoped_guard(rwsem_read, &sh->rwsem) {
-> > +             list_for_each_entry(it, &sh->list, list) {
-> > +                     if (!strncmp(it->name, name, sizeof(it->name))) {
-> > +                             session = it;
-> > +                             break;
-> > +                     }
+> > +     lockdep_assert_held(&session->mutex);
+> > +
+> > +     if (luo_token_is_used(session, token))
+> > +             return -EEXIST;
+> > +
+> > +     file = fget(fd);
+> > +     if (!file)
+> > +             return -EBADF;
+> > +
+> > +     err = luo_session_alloc_files_mem(session);
+> > +     if (err)
+> > +             goto  exit_err;
+> > +
+> > +     if (session->count == LUO_FILE_MAX) {
+> > +             err = -ENOSPC;
+> > +             goto exit_err;
+> > +     }
+>
+> I believe session can be prepared and vailidated by the caller.
+
+Size of luo_files, and other file count related limitations all belong
+luo_file.c
+
+>
+> > +
+> > +     err = -ENOENT;
+> > +     list_for_each_entry(fh, &luo_file_handler_list, list) {
+> > +             if (fh->ops->can_preserve(fh, file)) {
+> > +                     err = 0;
+> > +                     break;
 > > +             }
 > > +     }
 > > +
-> > +     if (!session)
-> > +             return -ENOENT;
+> > +     /* err is still -ENOENT if no handler was found */
+> > +     if (err)
+> > +             goto exit_err;
 > > +
-> > +     scoped_guard(mutex, &session->mutex) {
-> > +             if (session->retrieved)
-> > +                     return -EINVAL;
+> > +     luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> > +     if (!luo_file) {
+> > +             err = -ENOMEM;
+> > +             goto exit_err;
 > > +     }
 > > +
-> > +     err = luo_session_getfile(session, filep);
-> > +     if (!err) {
-> > +             scoped_guard(mutex, &session->mutex)
-> > +                     session->retrieved = true;
+> > +     luo_file->file = file;
+> > +     luo_file->fh = fh;
+> > +     luo_file->token = token;
+> > +     luo_file->retrieved = false;
+> > +     mutex_init(&luo_file->mutex);
+> > +
+> > +     args.handler = fh;
+> > +     args.session = (struct liveupdate_session *)session;
 >
-> Retaking the mutex here seems a bit odd.
-> Do we really have to lock session->mutex in luo_session_getfile()?
+> Isn't args.session already struct liveupdate_session *?
 
-Moved it out of luo_session_getfile(), and added
-lockdep_assert_held(&session->mutex); to luo_session_getfile
+This casts (struct luo_session *) to obscure public (struct
+liveupdate_session *).
 
+>
+> > +     args.file = file;
+> > +     err = fh->ops->preserve(&args);
+> > +     if (err) {
+> > +             mutex_destroy(&luo_file->mutex);
+> > +             kfree(luo_file);
+> > +             goto exit_err;
+> > +     } else {
+> > +             luo_file->serialized_data = args.serialized_data;
+> > +             list_add_tail(&luo_file->list, &session->files_list);
+> > +             session->count++;
+>
+> I'd use luo_session_add_file(struct luo_file *luo_file) or return luo_file
+> by reference to the caller.
+> Than the lockdep_assert_held() can go away as well.
 
-> > +int luo_session_deserialize(void)
+Let's keep this, I do not think, there is any architectural win from
+disallowing luo_file from insert itself directly into a session, both
+a part of luo_*
+luo_session does not manage anything files related: no
+serialization/deserialization, no allocations/free, no
+insertion/removal.
+
+>
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +exit_err:
+> > +     fput(file);
+> > +     luo_session_free_files_mem(session);
+>
+> The error handling in this function is a mess. Pasha, please, please, use
+> goto consistently.
+
+How is this a mess? There is a single exit_err destination, no
+exception, no early returns except at the very top of the function
+where we do early returns before fget() which makes total sense.
+
+Do you want to add a separate destination for
+luo_session_free_files_mem() ? But that is not necessary, in many
+places it is considered totally reasonable for free(NULL) to work
+correctly...
+
+> > +
+> > +     return err;
+> > +}
+> > +
+> > +/**
+> > + * luo_file_unpreserve_files - Unpreserves all files from a session.
+> > + * @session: The session to be cleaned up.
+> > + *
+> > + * This function serves as the primary cleanup path for a session. It is
+> > + * invoked when the userspace agent closes the session's file descriptor.
+> > + *
+> > + * For each file, it performs the following cleanup actions:
+> > + *   1. Calls the handler's .unpreserve() callback to allow the handler to
+> > + *      release any resources it allocated.
+> > + *   2. Removes the file from the session's internal tracking list.
+> > + *   3. Releases the reference to the 'struct file' that was taken by
+> > + *      luo_preserve_file() via fput(), returning ownership.
+> > + *   4. Frees the memory associated with the internal 'struct luo_file'.
+> > + *
+> > + * After all individual files are unpreserved, it frees the contiguous memory
+> > + * block that was allocated to hold their serialization data.
+> > + */
+> > +void luo_file_unpreserve_files(struct luo_session *session)
 > > +{
-> > +     struct luo_session_header *sh = &luo_session_global.incoming;
-> > +     int err;
+> > +     struct luo_file *luo_file;
 > > +
-> > +     if (luo_session_is_deserialized())
-> > +             return 0;
+> > +     lockdep_assert_held(&session->mutex);
 > > +
-> > +     luo_session_global.deserialized = true;
-> > +     if (!sh->active) {
-> > +             INIT_LIST_HEAD(&sh->list);
-> > +             init_rwsem(&sh->rwsem);
-> > +             return 0;
+> > +     while (!list_empty(&session->files_list)) {
 >
-> How this can happen? luo_session_deserialize() is supposed to be called
-> from ioctl and luo_session_global.incoming should be set up way earlier.
+> I think the loop should be in luo_session.c and luo_files.c should
+> implement luo_file_unpreserve(struct luo_file *luo_file)
+>
+> The same applies to other functions below that do something with all files
+> in the session. In my view luo_session should iterate through
+> luo_session.files_list and call luo_file methods for each luo_file object.
 
-No LUO was passed from the previous kernel, so
-luo_session_global.incoming.active stays false, as it is not
-participating.
+Let's not do that, files within a session related operations belong to
+file, sessions within LUO related operations belong to luo_session
 
-> And, why don't we initialize ->list and ->rwsem statically?
-
-Good idea, done.
-
+> > +int luo_file_freeze(struct luo_session *session)
+> > +{
+> > +     struct luo_file_ser *file_ser = session->files;
+> > +     struct luo_file *luo_file;
+> > +     int err;
+> > +     int i;
+> > +
+> > +     lockdep_assert_held(&session->mutex);
+> > +
+> > +     if (!session->count)
+> > +             return 0;
+> > +
+> > +     if (WARN_ON(!file_ser))
+> > +             return -EINVAL;
+> > +
+> > +     i = 0;
+> > +     list_for_each_entry(luo_file, &session->files_list, list) {
+> > +             err = luo_file_freeze_one(session, luo_file);
+> > +             if (err < 0) {
+> > +                     pr_warn("Freeze failed for session[%s] token[%#0llx] handler[%s] err[%pe]\n",
+> > +                             session->name, luo_file->token,
+> > +                             luo_file->fh->compatible, ERR_PTR(err));
+> > +                     goto exit_err;
+> > +             }
+> > +
+> > +             strscpy(file_ser[i].compatible, luo_file->fh->compatible,
+> > +                     sizeof(file_ser[i].compatible));
+> > +             file_ser[i].data = luo_file->serialized_data;
+> > +             file_ser[i].token = luo_file->token;
+> > +             i++;
 > > +     }
 > > +
-> > +     for (int i = 0; i < sh->header_ser->count; i++) {
-> > +             struct luo_session *session;
+> > +     return 0;
 > > +
-> > +             session = luo_session_alloc(sh->ser[i].name);
-> > +             if (IS_ERR(session)) {
-> > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
-> > +                             sh->ser[i].name, session);
-> > +                     return PTR_ERR(session);
-> > +             }
+> > +exit_err:
+> > +     __luo_file_unfreeze(session, luo_file);
 >
-> The allocated sessions still need to be freed if an insert fails ;-)
+> Maybe move frozen files to a local list, call __luo_file_unfreeze() with
+> that list and than splice it back to session.files_list?
 
-No. We have failed to deserialize, so anyways the machine will need to
-be rebooted by the user in order to release the preserved resources.
+IMO, it would add unnecessary complications. session is locked,
+session->files_list is all under our control, no need to add
+complications with private list.
 
-This is something that Jason Gunthrope also mentioned regarding IOMMU:
-if something is not correct (i.e., if a session cannot finish for some
-reason), don't add complicated "undo" code that cleans up all
-resources. Instead, treat them as a memory leak and allow a reboot to
-perform the cleanup.
+> > +             luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> > +             if (!luo_file)
+> > +                     return -ENOMEM;
+>
+> Shouldn't we free files allocated on the previous iterations?
 
-While in this particular patch the clean-up looks simple, later in the
-series we are adding file deserialization to each session to this
-function. So, the clean-up will look like this: we would have to free
-the resources for each session we deserialized, and also free the
-resources for files that were deserialized for those sessions, only to
-still boot into a "maintenance" mode where bunch of resources are not
-accessible from which the machine would have to be rebooted to get
-back to a normal state. This code will never be tested, and never be
-used, so let's use reboot to solve this problem, where devices are
-going to be properly reset, and memory is going to be properly freed.
+No, for the same reason explained in luo_session.c :-)
+
+>
+> > +
+> > +             luo_file->fh = fh;
+> > +             luo_file->file = NULL;
+> > +             luo_file->serialized_data = file_ser[i].data;
+> > +             luo_file->token = file_ser[i].token;
+> > +             luo_file->retrieved = false;
+> > +             mutex_init(&luo_file->mutex);
+> > +             list_add_tail(&luo_file->list, &session->files_list);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/**
+> > + * liveupdate_register_file_handler - Register a file handler with LUO.
+> > + * @fh: Pointer to a caller-allocated &struct liveupdate_file_handler.
+> > + * The caller must initialize this structure, including a unique
+> > + * 'compatible' string and a valid 'fh' callbacks. This function adds the
+> > + * handler to the global list of supported file handlers.
+> > + *
+> > + * Context: Typically called during module initialization for file types that
+> > + * support live update preservation.
+> > + *
+> > + * Return: 0 on success. Negative errno on failure.
+> > + */
+> > +int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+> > +{
+> > +     static DEFINE_MUTEX(register_file_handler_lock);
+> > +     struct liveupdate_file_handler *fh_iter;
+> > +
+> > +     if (!liveupdate_enabled())
+> > +             return -EOPNOTSUPP;
+> > +
+> > +     /*
+> > +      * Once sessions have been deserialized, file handlers cannot be
+> > +      * registered, it is too late.
+> > +      */
+> > +     if (WARN_ON(luo_session_is_deserialized()))
+> > +             return -EBUSY;
+> > +
+> > +     /* Sanity check that all required callbacks are set */
+> > +     if (!fh->ops->preserve || !fh->ops->unpreserve ||
+> > +         !fh->ops->retrieve || !fh->ops->finish) {
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     guard(mutex)(&register_file_handler_lock);
+> > +     list_for_each_entry(fh_iter, &luo_file_handler_list, list) {
+> > +             if (!strcmp(fh_iter->compatible, fh->compatible)) {
+> > +                     pr_err("File handler registration failed: Compatible string '%s' already registered.\n",
+> > +                            fh->compatible);
+> > +                     return -EEXIST;
+> > +             }
+> > +     }
+> > +
+> > +     if (!try_module_get(fh->ops->owner))
+> > +             return -EAGAIN;
+> > +
+> > +     INIT_LIST_HEAD(&fh->list);
+> > +     list_add_tail(&fh->list, &luo_file_handler_list);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/**
+> > + * liveupdate_get_token_outgoing - Get the token for a preserved file.
+> > + * @s:      The outgoing liveupdate session.
+> > + * @file:   The file object to search for.
+> > + * @tokenp: Output parameter for the found token.
+> > + *
+> > + * Searches the list of preserved files in an outgoing session for a matching
+> > + * file object. If found, the corresponding user-provided token is returned.
+> > + *
+> > + * This function is intended for in-kernel callers that need to correlate a
+> > + * file with its liveupdate token.
+> > + *
+> > + * Context: Can be called from any context that can acquire the session mutex.
+> > + * Return: 0 on success, -ENOENT if the file is not preserved in this session.
+> > + */
+> > +int liveupdate_get_token_outgoing(struct liveupdate_session *s,
+> > +                               struct file *file, u64 *tokenp)
+> > +{
+>
+> This function is apparently unused.
+>
+> > +     struct luo_session *session = (struct luo_session *)s;
+> > +     struct luo_file *luo_file;
+> > +     int err = -ENOENT;
+> > +
+> > +     list_for_each_entry(luo_file, &session->files_list, list) {
+> > +             if (luo_file->file == file) {
+> > +                     if (tokenp)
+> > +                             *tokenp = luo_file->token;
+> > +                     err = 0;
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     return err;
+> > +}
+> > +
+> > +/**
+> > + * liveupdate_get_file_incoming - Retrieves a preserved file for in-kernel use.
+> > + * @s:      The incoming liveupdate session (restored from the previous kernel).
+> > + * @token:  The unique token identifying the file to retrieve.
+> > + * @filep:  On success, this will be populated with a pointer to the retrieved
+> > + *          'struct file'.
+> > + *
+> > + * Provides a kernel-internal API for other subsystems to retrieve their
+> > + * preserved files after a live update. This function is a simple wrapper
+> > + * around luo_retrieve_file(), allowing callers to find a file by its token.
+> > + *
+> > + * The operation is idempotent; subsequent calls for the same token will return
+> > + * a pointer to the same 'struct file' object.
+> > + *
+> > + * The caller receives a pointer to the file with a reference incremented. The
+> > + * file's lifetime is managed by LUO and any userspace file
+> > + * descriptors. If the caller needs to hold a reference to the file beyond the
+> > + * immediate scope, it must call get_file() itself.
+> > + *
+> > + * Context: Can be called from any context in the new kernel that has a handle
+> > + *          to a restored session.
+> > + * Return: 0 on success. Returns -ENOENT if no file with the matching token is
+> > + *         found, or any other negative errno on failure.
+> > + */
+> > +int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
+> > +                              struct file **filep)
+> > +{
+>
+> Ditto.
+
+These two functions are part of the public API allowing dependency
+tracking for vfio->iommu->memfd during preservation.
+
+>
+> > +     struct luo_session *session = (struct luo_session *)s;
+> > +
+> > +     return luo_retrieve_file(session, token, filep);
+> > +}
+> > diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+> > index 5185ad37a8c1..1a36f2383123 100644
+> > --- a/kernel/liveupdate/luo_internal.h
+> > +++ b/kernel/liveupdate/luo_internal.h
+> > @@ -70,4 +70,13 @@ int luo_session_serialize(void);
+> >  int luo_session_deserialize(void);
+> >  bool luo_session_is_deserialized(void);
+> >
+> > +int luo_preserve_file(struct luo_session *session, u64 token, int fd);
+> > +void luo_file_unpreserve_files(struct luo_session *session);
+> > +int luo_file_freeze(struct luo_session *session);
+> > +void luo_file_unfreeze(struct luo_session *session);
+> > +int luo_retrieve_file(struct luo_session *session, u64 token,
+> > +                   struct file **filep);
+> > +int luo_file_finish(struct luo_session *session);
+> > +int luo_file_deserialize(struct luo_session *session);
+> > +
+> >  #endif /* _LINUX_LUO_INTERNAL_H */
+> > --
+> > 2.52.0.rc1.455.g30608eb744-goog
+> >
+>
+> --
+> Sincerely yours,
+> Mike.
 
