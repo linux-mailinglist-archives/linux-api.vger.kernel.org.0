@@ -1,74 +1,73 @@
-Return-Path: <linux-api+bounces-5326-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5327-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF6BC64A4F
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 15:29:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B17B5C64CF5
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 16:10:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 70F874E4952
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 14:28:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 6517F28D0B
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 15:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14954334698;
-	Mon, 17 Nov 2025 14:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B759335075;
+	Mon, 17 Nov 2025 15:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="gH3qohYX"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="G+FZEsMp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D1334363
-	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 14:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559FE30ACEB
+	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 15:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763389719; cv=none; b=byToH+5DQfsOPeResGjn4jITOL4ZtcEoxlofxzrkvdtyoPO2TMkfGx4SBnlBSJUYPB9panMzHuHnlJ8ax8XBqbaLc3GEhotfKNzVCRDHyjcwCz3A80pdalkXA0XnanCP/2Q72YNTSgzqmF8t62be5Tr5BYPM1YHTZ+Uq6+hMAl8=
+	t=1763392210; cv=none; b=Gc7sdUZxmb6X2oCZa+Z48fr17aDrh5kQxMbCpkShr+Nq2OV4F+mMmy8MYTYz0KHKzl8/1mag7K/y6jmObec1evfWwD/+rWI7v0E6rEqerF2FGygVZ0lPq4lXD+UXiE+h0qyLzwgxRon9XmCedU/5hSsqW6vklAL+J1hNtaV0hSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763389719; c=relaxed/simple;
-	bh=AMc2ILHILGpbxf7Iwmbtxzu0IeHwgu3vwmxmrbvehR8=;
+	s=arc-20240116; t=1763392210; c=relaxed/simple;
+	bh=O+V4AMyNh4uVjqUHrTpj49PuAqNdgV98a59O8ozBiT8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S+5U/D2i70/UTISiRt44k2596KfsFkiJ9uQ0pEc/EhZgxqtF5TLABWsN7fx+xuZYnDGHPV9iv9hKJpBCAUgZVgjpDmrSrz4ZllcGcAuWdPlCikts3gAn0xK82kJFtQB+dAhTWjZP6I0zPTXeYBbcmsJVuwekdulMANzcFkk7lIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=gH3qohYX; arc=none smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=iLTaJK+A+2HHHdjpnaLMNAzXbOUrPSsASDRec3ggWIbWDBuf1yANNB0sDeZYbDrmyjhA3fc3GoXIMMdl2Cl7kn5hEh+3uxS95Jk0XSIhTW7xJJ/o3QJuiUjt8Y/7cjVyUw8Nt3rarsQpDHjeGCCC8qUGYa8qL/XBx3IjIAdk7nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=G+FZEsMp; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b735b7326e5so607671466b.0
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 06:28:37 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64080ccf749so5962388a12.2
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 07:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763389715; x=1763994515; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WQVCE/CnnGowlKqCGL6JwWMjWGkEt4E9DF7myhq90M4=;
-        b=gH3qohYXE4nIIduaKocyNkDSMBKDGdCkktTQvcw+xHdSUGksf9O7S6XGkyMEf//xAB
-         LkPUhK/ky2QYWCafHzVuZLZYaon1B8+4IU1W9seqiT7X7R464Zi4DvgOPG3ecY32FOsi
-         w3gRvFA/PckwXM9JpIcfbqczID4xkFKuqcof3B+AhvL+C26n3/7QoyAGES38XpC7v7Kv
-         gbGll5xibpqLtE2Zl+AesQ5CvBkeV0O4QYLuopFE5ubp1eB4K4e4Lh6xs1b1v7w52nms
-         4PJKoa64UiLvDSBLCYwqLMG6Z0uje3G/3gGLfJv7V4PaexZcTo5WxKmgVreCecrFc1EK
-         /Z3A==
+        d=soleen.com; s=google; t=1763392205; x=1763997005; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
+        b=G+FZEsMpJEGAD+DukLY1nz+kdQnSzXrErP3HUeZj4TW8BqWd3f6CP4ciZz1EHCd4+U
+         6xjAyi6tp0comxeeuwGGMEhvbwvFz5ro79Ig9Ic8X0+HOOYmYyKAJsM2dGpiWZEwXwd5
+         jNScAl3/eXcXas7M3g8oqVKg+RCbcFQaBxxYhfJvVg7k02gn8kfdciKTvCjbyzdz/Ai/
+         1yk38Z295oa4+NnMaJU80CKatwlIm1Jfva/g5Fg/9hmC2W0GHRujs1Z6xW63IOevbfkt
+         ZiCneHoL02eUJVXQeCUsitRWt9I+OkoS8TEN4riQebQeOIhiQzqFEj7dbdPoemL9sO6C
+         wVVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763389715; x=1763994515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WQVCE/CnnGowlKqCGL6JwWMjWGkEt4E9DF7myhq90M4=;
-        b=rrEpRQFRctTdQ31LY3HdhoPvr4G41Co2Sxnw6bF/8hj+wTrP16zobmS1t43Rg+19sS
-         52FC5v/c+k4wgOwkW+LswWOUIc8vyWL0I1GcH5PwVLzriOoaW1RjjVR30VhJdSCDQ3PF
-         GwFe3O7vahdFLmU4UB0cITORGULmznZ/HOTna5C2rhgiPMZLcowyQ9juSnAfDh0zOmD4
-         sFqnn13eTiTvgLz6pFhUvYZpGwm+7Vfwxdig6CRNh9yVdlD/34J1CmFB5VNODT3oJ9Sd
-         G1BxTeK2nGHjnucgUlZWtWyGhRZN+B8o0lOLGJLR9iiESRfWXa3wYSbgkv1LQU/N9DBj
-         TSMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWgEIMjAZxifPx/9wIukmgdunobiCKgL+khQfo4RJGQ6fo9f9rumZfrPEXyO91awdbNp4s30XXhW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6eGq21GcjjcxmFgnPxPkIv2pEO9VWoqYZxGH9ZMDCzRPtUxMR
-	yjVnWKm4W2omF+HWhHSfI5gtd8aA2p3zFm1d9MEx2bo0l5ylL3Ft+n89amxbypxmXBRduBxtoR7
-	G9FgPz4UE4sNZ1EptP+nw97TU7b24lxJ3CXDlnRm7pA==
-X-Gm-Gg: ASbGnctgOVh+FCIbDLKb3QgXe2nzB/092wGr7BaNUV1jo/Uma/SDIrRvv+5/8CuC14I
-	XsHlDEuhoMSCDQe6N/BMGOVFGtDbmupDxLKuj05EKSNzfbKnTdNnQ0aA7Vs6f+XpgFxloVJ1W6E
-	CZ0kycE8e0xHFSK1MhJRVrky57mYPqDVXTpETfzpYX66ijZJ6oAOfghqqKziQcncEWTmr9/+jo5
-	0VyKRTzxhO6L5ugI48JcuWa/m0Hcs4Qu5SMJOY06QcbViubnPFO3ZdeJg==
-X-Google-Smtp-Source: AGHT+IHFe/sTuuiJ+53/94QiMySpnxf4UN/E970XTSsHg+BmNQprmENpJq+u5KG4abgGaMQyqcrDGuE+yfqH+ShvDHg=
-X-Received: by 2002:a17:906:fe4d:b0:b72:7e7c:e848 with SMTP id
- a640c23a62f3a-b7348570745mr849235566b.17.1763389715484; Mon, 17 Nov 2025
- 06:28:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763392205; x=1763997005;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
+        b=fW63JRA36iC3v2O316SOSCO50KSY3kYopzubc8y54OLZ29jhD47rW/kXqgoW3zlCAH
+         LYaugI3QTwbEnD9ie2exO0tVfDMTLD7vBmYMDrgkggeYFDwaPWqgAWKsky6MDNJmrx43
+         hRPjpv4qz7Xm2zhi5VA1sdrCtU12CjF3/yMo51T9LaZ4A6x84Vc2hPfNrvVqcM2FHBRZ
+         ug+5s3yHgLVwu0cpnpIGzAhlkIoypaoH/QWE6J4SLKsU3W07pkKDuBXSYAISTcAJjlE4
+         De7BzLZj3RBbkvydY+9zmOjBUBl5NtJoAaVnwUuTEmMV384fSlhOgaNuJlE99/foMkfN
+         8dMA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNipv3IlP0DOQwIR+uTu3l4L344M30aPx3i0Z3jkWDLDo3VDcwUFHmF445k5XOe12x5fRfmFVtkhc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyP8mvPewjUnAqQp+mGA53x51cSbTQR+z4UgmXibkTS6Yh4gzV7
+	8VcdSOiNn0cq1x3Cx8PxOdc0pmcnOxK3EHHAF8bzjOk04QKhyI1OIy4DShxVxGFRSfTx8qu2Sm2
+	JMEoUcHkubslS2FS+e6Sd288HcaUuJxY3h+fnMo0iDw==
+X-Gm-Gg: ASbGncuO1pKb9FF7yXVVlJJOYc3Auv2dOeNVxmqnteM2qxOQ74EwVlKKgvelYrN2yyj
+	WnqWmMLv18WTaf1mEWPyIxbg89qqe4kIeX3u1Ke6hdorkoM5Kinfse0LfMMja/MtvuMPuSKtftd
+	0wpi4CwGbCu9fHUAU8CfQ1Z9SFyBYsnuwrOgUFiBwpxTExHbXuxpY6kwJcVC/vghQPZP+PPz4DB
+	WA9TRWUNtJNpHTjpeD4IDVm0EgqdTilirAV2+VBBrlxqI+8GG0v3Qm9AV/qfUQLTyn6
+X-Google-Smtp-Source: AGHT+IE14EI84+1nV9PNUG6pyDkb7Qkp/5p7KJ3U1mYqA34EgSz0oKhHHX1OOhrjgCkHr3Z59mY5mFsJkBFb4s2zZDw=
+X-Received: by 2002:a05:6402:2809:b0:640:fb1f:e95c with SMTP id
+ 4fb4d7f45d1cf-64350e8ecefmr12877833a12.20.1763392205305; Mon, 17 Nov 2025
+ 07:10:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,30 +75,31 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-2-pasha.tatashin@soleen.com> <20251116185406.0fb85a3c52c16c91af1a0c80@linux-foundation.org>
-In-Reply-To: <20251116185406.0fb85a3c52c16c91af1a0c80@linux-foundation.org>
+ <20251115233409.768044-5-pasha.tatashin@soleen.com> <aRoEduya5EO8Xc1b@kernel.org>
+In-Reply-To: <aRoEduya5EO8Xc1b@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 09:27:58 -0500
-X-Gm-Features: AWmQ_blpOVxmRUODWBmJWtPPz2QzcGqIJZJTFHJU9AtpYTtzUk5ADMkO-uE2GJ4
-Message-ID: <CA+CK2bAKm_Mb0Tp3Q5X=B0ngYrrfiT_pQ5P+c0=YVCXymxkqXw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/20] liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
+Date: Mon, 17 Nov 2025 10:09:28 -0500
+X-Gm-Features: AWmQ_bmj83X6sEGtJOzbfwBfqdKgU7Rrd4Q7eSBnGujAPm0UgvTXUn65F7Vknl4
+Message-ID: <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
 	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
 	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
@@ -108,31 +108,181 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 16, 2025 at 9:54=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
+> > +/**
+> > + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
+> > + * @name:    The unique name of the session, copied from the `luo_session`
+> > + *           structure.
 >
-> On Sat, 15 Nov 2025 18:33:47 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
-com> wrote:
+> I'd phase it as
 >
-> > Introduce LUO, a mechanism intended to facilitate kernel updates while
-> > keeping designated devices operational across the transition (e.g., via
-> > kexec).
->
-> Thanks, I updated mm.git's mm-unstable branch to this version.  I
-> expect at least one more version as a result of feedback for this v6.
+>                 The unique name of the session provided by the userspace at
+>                 the time of session creation.
 
-Thank you Andrew! I plan to address all comments and send a v7 in
-about a week. The comments/changes so far are minor, so I hope to land
-this during the next merging window
+Done
 
 >
-> I wasn't able to reproduce Stephen's build error
-> (https://lkml.kernel.org/r/20251117093614.1490d048@canb.auug.org.au)
-> with this series.
+> > + * @files:   The physical address of a contiguous memory block that holds
+> > + *           the serialized state of files.
+>
+> Maybe add                                    ^ in this session?
 
-That build error was fixed with the KHO fix-up patch back on Friday.
+Done
 
 >
+> > + * @pgcnt:   The number of pages occupied by the `files` memory block.
+> > + * @count:   The total number of files that were part of this session during
+> > + *           serialization. Used for iteration and validation during
+> > + *           restoration.
+> > + *
+> > + * This structure is used to package session-specific metadata for transfer
+> > + * between kernels via Kexec Handover. An array of these structures (one per
+> > + * session) is created and passed to the new kernel, allowing it to reconstruct
+> > + * the session context.
+> > + *
+> > + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
+>
+> This comment applies to the luo_session_header_ser description as well.
+
+Done
+
+>
+> > + */
+> > +struct luo_session_ser {
+> > +     char name[LIVEUPDATE_SESSION_NAME_LENGTH];
+> > +     u64 files;
+> > +     u64 pgcnt;
+> > +     u64 count;
+> > +} __packed;
+> > +
+> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
+> > diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
+> > index df34c1642c4d..d2ef2f7e0dbd 100644
+> > --- a/include/uapi/linux/liveupdate.h
+> > +++ b/include/uapi/linux/liveupdate.h
+> > @@ -43,4 +43,7 @@
+> >  /* The ioctl type, documented in ioctl-number.rst */
+> >  #define LIVEUPDATE_IOCTL_TYPE                0xBA
+> >
+> > +/* The maximum length of session name including null termination */
+> > +#define LIVEUPDATE_SESSION_NAME_LENGTH 56
+>
+> You decided not to bump it to 64 in the end? ;-)
+
+I bumped it to 64, but in the next patch, I will fix it in the next version.
+
+>
+> > +
+> >  #endif /* _UAPI_LIVEUPDATE_H */
+> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> > index 413722002b7a..83285e7ad726 100644
+> > --- a/kernel/liveupdate/Makefile
+> > +++ b/kernel/liveupdate/Makefile
+> > @@ -2,7 +2,8 @@
+> >
+> >  luo-y :=                                                             \
+> >               luo_core.o                                              \
+> > -             luo_ioctl.o
+> > +             luo_ioctl.o                                             \
+> > +             luo_session.o
+> >
+> >  obj-$(CONFIG_KEXEC_HANDOVER)         += kexec_handover.o
+> >  obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)   += kexec_handover_debug.o
+>
+> ...
+>
+> > +int luo_session_retrieve(const char *name, struct file **filep)
+> > +{
+> > +     struct luo_session_header *sh = &luo_session_global.incoming;
+> > +     struct luo_session *session = NULL;
+> > +     struct luo_session *it;
+> > +     int err;
+> > +
+> > +     scoped_guard(rwsem_read, &sh->rwsem) {
+> > +             list_for_each_entry(it, &sh->list, list) {
+> > +                     if (!strncmp(it->name, name, sizeof(it->name))) {
+> > +                             session = it;
+> > +                             break;
+> > +                     }
+> > +             }
+> > +     }
+> > +
+> > +     if (!session)
+> > +             return -ENOENT;
+> > +
+> > +     scoped_guard(mutex, &session->mutex) {
+> > +             if (session->retrieved)
+> > +                     return -EINVAL;
+> > +     }
+> > +
+> > +     err = luo_session_getfile(session, filep);
+> > +     if (!err) {
+> > +             scoped_guard(mutex, &session->mutex)
+> > +                     session->retrieved = true;
+>
+> Retaking the mutex here seems a bit odd.
+> Do we really have to lock session->mutex in luo_session_getfile()?
+
+Moved it out of luo_session_getfile(), and added
+lockdep_assert_held(&session->mutex); to luo_session_getfile
+
+
+> > +int luo_session_deserialize(void)
+> > +{
+> > +     struct luo_session_header *sh = &luo_session_global.incoming;
+> > +     int err;
+> > +
+> > +     if (luo_session_is_deserialized())
+> > +             return 0;
+> > +
+> > +     luo_session_global.deserialized = true;
+> > +     if (!sh->active) {
+> > +             INIT_LIST_HEAD(&sh->list);
+> > +             init_rwsem(&sh->rwsem);
+> > +             return 0;
+>
+> How this can happen? luo_session_deserialize() is supposed to be called
+> from ioctl and luo_session_global.incoming should be set up way earlier.
+
+No LUO was passed from the previous kernel, so
+luo_session_global.incoming.active stays false, as it is not
+participating.
+
+> And, why don't we initialize ->list and ->rwsem statically?
+
+Good idea, done.
+
+> > +     }
+> > +
+> > +     for (int i = 0; i < sh->header_ser->count; i++) {
+> > +             struct luo_session *session;
+> > +
+> > +             session = luo_session_alloc(sh->ser[i].name);
+> > +             if (IS_ERR(session)) {
+> > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
+> > +                             sh->ser[i].name, session);
+> > +                     return PTR_ERR(session);
+> > +             }
+>
+> The allocated sessions still need to be freed if an insert fails ;-)
+
+No. We have failed to deserialize, so anyways the machine will need to
+be rebooted by the user in order to release the preserved resources.
+
+This is something that Jason Gunthrope also mentioned regarding IOMMU:
+if something is not correct (i.e., if a session cannot finish for some
+reason), don't add complicated "undo" code that cleans up all
+resources. Instead, treat them as a memory leak and allow a reboot to
+perform the cleanup.
+
+While in this particular patch the clean-up looks simple, later in the
+series we are adding file deserialization to each session to this
+function. So, the clean-up will look like this: we would have to free
+the resources for each session we deserialized, and also free the
+resources for files that were deserialized for those sessions, only to
+still boot into a "maintenance" mode where bunch of resources are not
+accessible from which the machine would have to be rebooted to get
+back to a normal state. This code will never be tested, and never be
+used, so let's use reboot to solve this problem, where devices are
+going to be properly reset, and memory is going to be properly freed.
 
