@@ -1,105 +1,106 @@
-Return-Path: <linux-api+bounces-5335-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5336-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D83DC65DE3
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 20:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BFEC65FA4
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 20:31:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6EEED4ECCBB
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:06:18 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C5F14EEC56
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40044335075;
-	Mon, 17 Nov 2025 19:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3365133344D;
+	Mon, 17 Nov 2025 19:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="V4BdmbS2"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PQil5TVd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FCA32E143
-	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 19:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4018292B44
+	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 19:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763406058; cv=none; b=r5iWQzIh2GM3P+BH3IIaUT1qOvyV93XQ3oLxaEwIDblvC8y7CehBTF+jN10huwsDKKYNjlHMYrHlp+Y6AjduCAWB87UxCMuGd9TB6VgfA90AbgCd4TMrAHrO8CafNSrDhT+agg9a9fbdASK3Y6uSY2IVxtsWWGQMZ0WbM+Dvfq8=
+	t=1763407703; cv=none; b=aK2MzoeHlM2UAUsL39iQfYyMMXHeglKyT7XMhG+QEmUwDRfSxGpD08cxKDpIcbiopnGOTl8BM5l3ZajsvgBUoorz/fkx1gyU9FgFkTYYj2Zg3jUOvZKbsC3pniJcOhi7XtHfSaoGjz3sVLRIsYvfyMHgYYr91tovmSrG2Ub/DxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763406058; c=relaxed/simple;
-	bh=W/pP15q1CttsZvUfyX6F2C+iK5S6h3qctb/NEBwupaE=;
+	s=arc-20240116; t=1763407703; c=relaxed/simple;
+	bh=jMsl51RRcfdYOeK+ixIl6fySL+N2GY9YtwKE3nHyvoA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=euV2EoWfq3Ofo33/L5tyNtbJnctv0tqMujc3NzEfvjJr2cJjlLgbq3hoTz1rd6ZZvlxbOrsmxliINivXKB5/kvC6DiYVUgdMPaxqEdd+PvH4AsMwMKj1zsluwouwrUOunKNl1kHm73n/iBCHLbobfnC10txwyC52qdAcLldwx8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=V4BdmbS2; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-64149f78c0dso7241570a12.3
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 11:00:54 -0800 (PST)
+	 To:Cc:Content-Type; b=Yi2B2ioGrgX9xgYrmUbI/ETYJYnfNNKS3avPfRE3+iXeI9HqN5oRlpb6xr0152MlgV/Q1POSZce1ihE1IvyCMaeLMUhLLI+fqv3r0pHUAxsAfxXskJBsjbTcfDrIKfzvcszzcwh3aPP+JeWii5zccALdgJ3s0mFkRelZ1vjvoUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PQil5TVd; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378e8d10494so61134311fa.2
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 11:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763406053; x=1764010853; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HPFoc/+4ns3fO2ktzkE/+/lUeXaO04xK8Lezo7jSI84=;
-        b=V4BdmbS2aYVd3zPMLXZ8nNGnKhBWGeLQk1Rmw45vzvGzqb8xoAOlOWeQLht45ONAkU
-         oRlsa8N5dj8Dbap92l9JEemjKwZxJbBu9+MXeeWtPbkMhm1KxXwk7BXyfmjGl0Wm2kNg
-         sBIFQ0J4SVi1SM0ASfD30Gqf0b6Nk+Vb6yJX5MZaZx5oay8nyuaorRTe94iA1YqaGqv7
-         Br+pWhCp7cnFXqj5bs75RyT2Tl8iWRKESqjBkIb13AB25scneGG54OmEGl5G+y3L1q6E
-         HZWahSHEdcC2pkD5fNyhhLXRT+k324xymdsFLV/+g6pZjADxD3ouZ6hXEY/svxUJLKVp
-         AUYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763406053; x=1764010853;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1763407698; x=1764012498; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HPFoc/+4ns3fO2ktzkE/+/lUeXaO04xK8Lezo7jSI84=;
-        b=Vp0nf1TKNP02aXOKUqUt2B0vDajjFdrP7MnBKpyazdKLTRNJz9bTbKHXeajE4ry7CO
-         6sTnljJnvXMQyhkoOUCNiBhOmUcxtvrJ8Chrcsa4UEGSgSDKl6T3eJQxZ4lJDCyesO1T
-         4n/GZP+TMGxS1RZYUXDiW4i27hcI8WK2cEziaEnmTuE9WNK7LsUr4IDv7NH/SASpFwq9
-         kSzhaStaiRvMiZzpqidnCg80WjsrUir+YZkBUm5H+G2BcVEfp8F0C4ATjAZ1SmuR0lkY
-         OU0ibBwt8KIQn/XsP+nWiUadQ7siSgY8Xg4BhvTSSo1DhDI4o5S/EEYvGrvxhCSo2YWf
-         VRPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7HnMUlenDcSSW3PaN48HFKQZ3BxhrW+PjM15yy3HcVopQmjWJRUYSiEclmPTxYUmay3Ay8pVtcHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAbodygZhBVuxtniJbSO1GIrbVB/gRyWWD4Oe8k6vueqEIMcF9
-	UP1NFq7XvrIgfeCSaXd7EE6TZlCc01p3fspK5GyaZPLA6XJta1VHvEJVsnTnBTvONbazcskfwjt
-	2H9V/LrBnNEigoxBrCxz53EtCZwKgkeJ5HqFjZxoIYw==
-X-Gm-Gg: ASbGnctdAQWFJv9jZ/TRe3iCzJhE2eHkRa3PG1+rilZ2IjNrZLllopdwJS/am8ZhHvp
-	Kg8BYl6S/0Rsfyl0QN9m8kgOebjeeLK1bvUhhE6VjA/Snal+0LDwizXcumSICzHUABtCzwVI+ZO
-	23uWvxuRg+U3t+NVoSYD9bHDPkARVj2hvuADL1mOmdV1eOps/h+zSsnAspXRX0ggLp8oXj263Or
-	5jVdFdjXhub/4O9pkUF3mxmPiuTLMmCsDYe6glLMjfBmkgl6OIVti8Z3SNGA3dQns+0
-X-Google-Smtp-Source: AGHT+IFV4NJXr23fgmib+nZZop8ZpcGlfzValh3mFozDE5HCWs4UKMYvFXIv7w0dSviSfrbdSBGLz4YMmJN++K6QINE=
-X-Received: by 2002:a05:6402:2812:b0:640:bb28:9a28 with SMTP id
- 4fb4d7f45d1cf-64350e237b9mr14060340a12.15.1763406052900; Mon, 17 Nov 2025
- 11:00:52 -0800 (PST)
+        bh=4BRv+8HFratcORC0sQfd604lhFEiEUlZ0QaYy4EdL4s=;
+        b=PQil5TVdSXdRODQeDw7d1JNLeudd69HwwQ+LcXOF7nDM9V5uUsIuhhyi1s7fpTSmq3
+         l2mjJNlzhayCf2oOEwZBT/5FTOe+FrYoLGWy0OM+2u1vwnmAKv9B3tURdOSbvIYgwqRd
+         qUHP9oCs0achz4wpdn2yQOLY1qw2MBLMjFmANH7Z6A0DKYA5XHKOfAbaIuq8FtNY7Dcs
+         xYWidf/NNvAX/8EFMorCY7TcHiFUCsCl3lntji+QSGjpv5237oggdRzsDadyh5pGhcdE
+         zQe/a7pUq8/gFzS37eKMGZWBxXVfDflXBEdEY0crV1ZomrQf1bSwUpUNAkFF0RMBxJfN
+         S70g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763407698; x=1764012498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4BRv+8HFratcORC0sQfd604lhFEiEUlZ0QaYy4EdL4s=;
+        b=VZoHIqedFSJ1iDJKlptbhjuCyCpSyBQahQ347MUhkCBn/yQUH7AdaarxSZ1GL7DJ0x
+         xLq14EmFiGcJ6r/oCuOph+6Y9byCgQjXiQIjWu2wi/aF10VtA1bOFoOk8k/R/i0Jxpvb
+         O8IWCFaQf19bjJwZrXK7V+R49KF5ZhhFSvxP/xCsv41qcuMsG3c5BVbiRWl3rLDh66X8
+         8nO+tDYoUPiLvKRBwq0fWAM0YW174E1w6j97Nb8voymxjNJaUNBQvy5Tt/TlDmucUBDb
+         G3lQ9kobAVByiBO4ZfahbheL6DJwXoEh6gbRrVgHJik/6DcTHbDm4wt26+uHTPgzeXXU
+         MDPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4VHRa5nNx2leJHaIu0k01PUZf3DyKjhq/uCpp5kCPswJyNFcKbstHuL+OzJHJfpu6GpahIlL/I6c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHa6tuNU1JgigfKcPmTkqTo/5KAGO3E1lyBdEmln0C6Ng3rBsf
+	UeC7Hp9vtwFC2EWHx/hjdvNj6S8l1tF1EcYC3EN7uYiUrCCbSp96AmTaQ+LLwqecKGmk2KpCqeZ
+	dtzAmvwaIlXce3gnse+jzhKo4Y/2oTn7BsiabHMIg
+X-Gm-Gg: ASbGnctBpBSXcsojmB2vLvj5B07Ua3L0Dcus6b3oM+IpgC4LwZ0YjCXGYdUgY1me1u4
+	TJ49hMoLYlEPGQl96P1xlRz8bPIAcDmrUUR7OOFxLnUNaXT1zPqT2INJ2sa0/HZuf7cii1rKKBF
+	4Nc8pwyujhn1HE78QOCzfxrEd+Fp4H/V7bpExYyyzizjEUzRGd5x0J3uDaM//mHUQDGCd99DM2O
+	UrAOydAGgWPCXmcjI4ElLBWdSsm7KSsX2z97d+EpVAFD5jYN57UUKIJmjmdNDLpYomVlBfzEsTp
+	SWC7UA==
+X-Google-Smtp-Source: AGHT+IGG0IuV9djGbvzmPZdLLDSHaSz0ZC8Mlezk0LH8epioFYDWl+Qb1KTas1rmPphaGx6WZjM3247aMHYjmr5MYwI=
+X-Received: by 2002:a05:6512:114f:b0:595:7dc5:165e with SMTP id
+ 2adb3069b0e04-595841a77femr4400958e87.25.1763407697311; Mon, 17 Nov 2025
+ 11:28:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-21-pasha.tatashin@soleen.com> <aRsDb-4bXFQ9Zmtu@kernel.org>
-In-Reply-To: <aRsDb-4bXFQ9Zmtu@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 14:00:15 -0500
-X-Gm-Features: AWmQ_bm3PVSUD_ScaaBFLOLZ3gtlTTKqmWWQ6wfPBc2TSiFgvBGhnxI_qyTqjOU
-Message-ID: <CA+CK2bCfPeY558f499JHKN7aekDzsxQkZJ9Uz4e+saR0qtXyfg@mail.gmail.com>
-Subject: Re: [PATCH v6 20/20] tests/liveupdate: Add in-kernel liveupdate test
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com> <20251115233409.768044-19-pasha.tatashin@soleen.com>
+In-Reply-To: <20251115233409.768044-19-pasha.tatashin@soleen.com>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 17 Nov 2025 11:27:44 -0800
+X-Gm-Features: AWmQ_blZR7KFsAxkxa-ZIGOEZap3-3haAeROnQQby7Ige8teO6F_2irScEIZ73g
+Message-ID: <CALzav=edxTsa7uO7XxiUSx+DZiX169T4WL39vYsn3_WcUuVKrg@mail.gmail.com>
+Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
+ for session lifecycle
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
 	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
@@ -108,23 +109,129 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> > index df337c9c4f21..9a531096bdb5 100644
-> > --- a/kernel/liveupdate/luo_file.c
-> > +++ b/kernel/liveupdate/luo_file.c
-> > @@ -834,6 +834,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
-> >       INIT_LIST_HEAD(&fh->flb_list);
-> >       list_add_tail(&fh->list, &luo_file_handler_list);
-> >
-> > +     liveupdate_test_register(fh);
-> > +
+On Sat, Nov 15, 2025 at 3:34=E2=80=AFPM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
+
+> diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/=
+selftests/liveupdate/Makefile
+> index 2a573c36016e..1563ac84006a 100644
+> --- a/tools/testing/selftests/liveupdate/Makefile
+> +++ b/tools/testing/selftests/liveupdate/Makefile
+> @@ -1,7 +1,39 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +
+> +KHDR_INCLUDES ?=3D -I../../../../usr/include
+
+You shouldn't need to set this variable and $(OUTPUT). Both should be
+provided by lib.mk. Maybe the include is too far down?
+
+>  CFLAGS +=3D -Wall -O2 -Wno-unused-function
+>  CFLAGS +=3D $(KHDR_INCLUDES)
+> +LDFLAGS +=3D -static
+
+Is static build really required or just for your setup? If it's
+setup-specific, I would recommend letting the user pass in -static via
+EXTRA_CFLAGS. That what we do in the KVM and VFIO selftests.
+
+CFLAGS +=3D $(EXTRA_CFLAGS)
+
+Then the user can pass EXTRA_CFLAGS=3D-static on the command line.
+
+> +OUTPUT ?=3D .
+> +
+> +# --- Test Configuration (Edit this section when adding new tests) ---
+> +LUO_SHARED_SRCS :=3D luo_test_utils.c
+> +LUO_SHARED_HDRS +=3D luo_test_utils.h
+
+I would suggest using the -MD flag and Make's -include directive to
+automatically handle headers. That way you don't need to add every
+header to Makefile for Make to detect changes. See the end of my email
+for how to do this.
+
+> +
+> +LUO_MANUAL_TESTS +=3D luo_kexec_simple
+> +
+> +TEST_FILES +=3D do_kexec.sh
 >
-> Why this cannot be called from the test?
+>  TEST_GEN_PROGS +=3D liveupdate
+>
+> +# --- Automatic Rule Generation (Do not edit below) ---
+> +
+> +TEST_GEN_PROGS_EXTENDED +=3D $(LUO_MANUAL_TESTS)
+> +
+> +# Define the full list of sources for each manual test.
+> +$(foreach test,$(LUO_MANUAL_TESTS), \
+> +       $(eval $(test)_SOURCES :=3D $(test).c $(LUO_SHARED_SRCS)))
 
-Because test does not have access to all file_handlers that are being
-registered with LUO.
+This does not build with Google's gbuild wrapper around make. I get
+these errors (after fixing the semi-colon issue below):
 
-Pasha
+clang: error: no such file or directory: 'luo_kexec_simple.c'
+clang: error: no such file or directory: 'luo_test_utils.c'
+clang: error: no such file or directory: 'luo_test_utils.h'
+
+> +
+> +# This loop automatically generates an explicit build rule for each manu=
+al test.
+> +# It includes dependencies on the shared headers and makes the output
+> +# executable.
+> +# Note the use of '$$' to escape automatic variables for the 'eval' comm=
+and.
+> +$(foreach test,$(LUO_MANUAL_TESTS), \
+> +       $(eval $(OUTPUT)/$(test): $($(test)_SOURCES) $(LUO_SHARED_HDRS) \
+> +               $(call msg,LINK,,$$@) ; \
+> +               $(Q)$(LINK.c) $$^ $(LDLIBS) -o $$@ ; \
+> +               $(Q)chmod +x $$@ \
+
+These semi-colons swollow any errors. I would recommend against using
+a foreach and eval. Make supports pattern-based targets so there's
+really no need for loops. See below.
+
+> +       ) \
+> +)
+> +
+>  include ../lib.mk
+
+Putting it all together, here is what I'd recommend for this Makefile
+(drop-in replacement for the current Makefile). This will also make it
+easier for me to share the library code with VFIO selftests, which
+I'll need to do in the VFIO series.
+
+(Sorry in advance for the line wrap. I had to send this through gmail.)
+
+# SPDX-License-Identifier: GPL-2.0-only
+
+LIBLIVEUPDATE_C +=3D luo_test_utils.c
+
+TEST_GEN_PROGS_EXTENDED +=3D luo_kexec_simple
+TEST_GEN_PROGS_EXTENDED +=3D luo_multi_session
+
+TEST_FILES +=3D do_kexec.sh
+
+include ../lib.mk
+
+CFLAGS +=3D $(KHDR_INCLUDES)
+CFLAGS +=3D -Wall -O2 -Wno-unused-function
+CFLAGS +=3D -MD
+CFLAGS +=3D $(EXTRA_CFLAGS)
+
+LIBLIVEUPDATE_O :=3D $(patsubst %.c, $(OUTPUT)/%.o, $(LIBLIVEUPDATE_C))
+TEST_GEN_PROGS_EXTENDED_O +=3D $(patsubst %, %.o, $(TEST_GEN_PROGS_EXTENDED=
+))
+
+TEST_DEP_FILES +=3D $(patsubst %.o, %.d, $(LIBLIVEUPDATE_O))
+TEST_DEP_FILES +=3D $(patsubst %.o, %.d, $(TEST_GEN_PROGS_EXTENDED_O))
+-include $(TEST_DEP_FILES)
+
+$(LIBLIVEUPDATE_O): $(OUTPUT)/%.o: %.c
+        $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
+
+$(TEST_GEN_PROGS_EXTENDED): %: %.o $(LIBLIVEUPDATE_O)
+        $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $<
+$(LIBLIVEUPDATE_O) $(LDLIBS) -o $@
+
+EXTRA_CLEAN +=3D $(LIBLIVEUPDATE_O) $(TEST_GEN_PROGS_EXTENDED_O) $(TEST_DEP=
+_FILES)
 
