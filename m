@@ -1,75 +1,74 @@
-Return-Path: <linux-api+bounces-5333-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5334-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676A4C65C37
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:44:49 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC8EC65C58
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 19:46:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1F3EE354EA4
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 18:44:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 741FA293A0
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 18:46:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F8A7326927;
-	Mon, 17 Nov 2025 18:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1ED2D480F;
+	Mon, 17 Nov 2025 18:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="U1wXuAMv"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UEYm5eQH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89574325731
-	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 18:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A24314B90
+	for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 18:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763405069; cv=none; b=FHyrNAUOnvrDoXcNqFF6zifAbG91PTpLzXp7OTgtxJANt9M5NmAU6XrA9NgJ9oypB7B2cy0AuNeMPwAjEEUpgH0LgeGMeTCqGfBzwZKkZLWgOPJzao4vKTzF9D6vpVQZsbkxL7Pwt9BFJDgRZqb3W37LZNWaQbKisQFWQgb1VKI=
+	t=1763405165; cv=none; b=qJh0VwqJPpi4q3HUAR/AqV5TOUvbmcGDX/hyLVU9tUtE/F40fgpXR5geRTqPSTuvWKhiXTMQXRQdN2DjBiFv6kwXX/5GbqNzpSKX9OgYu16MY4A25xwNbArOKRo8LV3JhHC+3CLp3PcdOEDjjCkREZfkubedvHK7IDqFzi8WU3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763405069; c=relaxed/simple;
-	bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
+	s=arc-20240116; t=1763405165; c=relaxed/simple;
+	bh=9L0PWDNFpIwYA9Tdoy4gSq9mMo+JaoLTYqKodPhceek=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nFBLW5uty9zz7fCOe+lvJoVfs6Djy706HwHFYRUu7P0wVLerBviZhaQYtpA/EDDL/kMrz31B16mHJP6OMhoGu9GNp8aFvVcwUji1pze8Hx5kuwfLyrsKiXot8PzkCp5Bc6+fa16yk81vL5XifOzMoUvM9a/kODAM6vTI07NMKxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=U1wXuAMv; arc=none smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=CkTNpTOYYJuSLAOv7Aa/xyjIqWwt0rjxHkz5SkZo3VBDKQheHvp2vvUnep6u/6FL9U+PUO8LY6jEvAgL1pIwUKLof1HjwVf3guUurhghGjLZJRDoV2VcmgYiB3I6mGtg49fUggmu9Y3cxo8HXYdQ9lcLXp+3ci+fkpU3afAQI3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UEYm5eQH; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso7928728a12.2
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 10:44:27 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6431b0a1948so8181725a12.3
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 10:46:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763405066; x=1764009866; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
-        b=U1wXuAMvZU7H0GNii+4j0rqaGkT1q8fPJ2VYzWzk5BBRfi3AZb+E75Hh+E3Y7ceJt/
-         VWYw53hkjadxriHVmIMTZXBsuOHjieT6j8+rECYPtom1WXUeReurtU+002gtohdNlwbd
-         eagID9PSa/ZpAlLJ7QVTUIw+VypfLC4Qwu1yIFv5uJPxi5l9wIzHKDzl3uvVKgzcbwT+
-         HW4AQYTBtXFoD6XrXlC/dfzGrc+hjtrOplon40hxVux7N4sE9BXPuMQa2mN8Hb9fSwR+
-         qRIF5F3VKifEy3y5SCRyekc7ggqn+lA23DuDEHZ4+XB/YtE/KHeeWh0/O0kDSCVLgSUq
-         FIfQ==
+        d=soleen.com; s=google; t=1763405162; x=1764009962; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9L0PWDNFpIwYA9Tdoy4gSq9mMo+JaoLTYqKodPhceek=;
+        b=UEYm5eQH/ZaHFTniJ/bWeAQjEfOaBtxfEXk1TCtKFVN9k23U2kyh+2CZwX8yhe0Qb3
+         rFFtXAJw2fNQt37zw/8uOu74ndcqA5jmCtAY3gquwM6NVFjweAQ2fokorELyBSt3RwXo
+         Ytoqf6RjHhAJzZmnSVW9rQL2AsDCo0qfJ2h/WHd443/i/I849h+SJZdF+f0S11tw1le3
+         uQeNNR+R9MK6J5lEYRiEXYVT/hhSXe855am6ZUvsN+1RL4tOtn3a4X4oDb/NSshwHIb7
+         6VwlEyN6+mGDu5CW/HA6Zy4NEhgpHbYrhHZJC0a5EhHGz78svG58AN8PgLwJXyagetgL
+         qwbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763405066; x=1764009866;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
-        b=JsFAl/Ekl9t4vKlxI4NAo2CZeeVqq/kZHSH/gkwh0fqKbsUI1qUC3O4JC6eu22J7Z3
-         ZZhsaZvYZmeONtPCYsrhOTI8KQQeqyeRiDb5amC4/AjK9xkjggqGxQVvvKLfVTFD8mOo
-         peMqv5s7HfW+7pXkyD6e38pL+hWsonl1m8PKJ9o79e8fGdAG6TX9n35xH77Po/q8cwEa
-         Ng9pUl61tEKTSbDyFRkSYZrv2yQfaNIdPKtGgbmeFXxdPwGz8AjpUL2FLfbsnRa3mEKD
-         Ujtv1mk+wlNtfnYIH8fqKOes3oYKphPMMaurKq/DqtYK4CeulQS3oepgklulms5zsbp8
-         f4Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUomzTIYe5J9PhJ1gn4hXsEFaAQ1tzclsTXrFqRk/5gmbesxLA1MaiOSUuCLXoA25pb7RyNf7oKjCg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBAVa4FCKRxLW8AWQOqKqgmWDx4iW3QE63t7r359SqxEY3gXac
-	kVaxOLT/MWnGgSvlXwMOv3faGqjnnkTWZiPNSJki657uk0wucZKex+2hmgfGLNxAHgoMKlmu1Nt
-	P3lt0TXsf/0mk0QXZdsqUoe1jPvnoo1LNuUGJu9YZqA==
-X-Gm-Gg: ASbGncsXW+X71lbxxPMFk4ZK+aN64DTZGvrEcDza9HhVR5ZpD0ZuWaJTKJvIymxkI7A
-	m9njMBUddJQFttzzcQdhv9sPI/IrCHWRpOMV/sOThfwD9q3fXqNXpzZRxH5pRBBCZ1eIY2282s6
-	oLRHEmpqRHbkyYqyD6xi/TWk4JjbxXa6h6OEW+HKIDYx9pSXhRsJa0VpBaK6roDJyky2w/MjVt3
-	0T8qtd3fhzBfQsRdZaXcCF8wzIQ25m9xpyiFMjWVyPQhlX8aAJNCdDuHQjichGs5eWbTHKjeCjB
-	+Mg=
-X-Google-Smtp-Source: AGHT+IGuvNw77dXDtTPV0AYardMXM6grq7vkCAHZp53MffW9vtH9Ev6zRMSce2XWGa9IMF6cKfb7xBeYsNCCNwLKBNY=
-X-Received: by 2002:a05:6402:5213:b0:641:72a8:c91c with SMTP id
- 4fb4d7f45d1cf-64350e9b333mr11717643a12.27.1763405065655; Mon, 17 Nov 2025
- 10:44:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763405162; x=1764009962;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9L0PWDNFpIwYA9Tdoy4gSq9mMo+JaoLTYqKodPhceek=;
+        b=syoEV+g1EXskqU9FMUoe76SOsJsuMoLCO+DnlJL4RUnpFIzQbBG5yx9e1WUXV9DB+E
+         HU6MlQWKx+Q7cBdA2E6DMtJ6J8R49nhPNP3aQw9DfkWTqaOKsRegCL4QnRvu14B56UPu
+         ssChKFieVHnfdDynYkW/iM8DzofRZ/b+4HmWtrwxUlgAJUtJT8szyqzd0tATEpFYtj0n
+         RuQy9lu/wnmbgA0KKmtxOjUvFhGiQZJGkkz991os29yFqIQHOBpqRFxJMPyHCupjXKEX
+         mHMuYDw32W51+yr4E1UzFC6kc9K2bEyMetrqfnADveTUJsX1cqLEmNiV/wFBrX7/NnfY
+         ngzg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCpPZt2C6Z6TYQG8A/ZF+eW4+Iv62LpJSuLDgXNRfoOz4yFo1x2zHlky8RdATwyLNXvumrbtyjsTg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkSHMnm7JStP1oMGwtDbA+5be0Vq0KZJlh1Z69tOHWr5rmORbT
+	u8BvuOwOdBWnE2HHfyKNhjYxwOwKvW/kO/ulkPUl8AWR/HGVPwwBux3+roBNcnbI3heGe+jn5c3
+	1yvlHBD4KtksfAKN2H6Kslz/YxCGT1S6EKJ1ugB4VZA==
+X-Gm-Gg: ASbGnctQiak76/wDsNzaEaijMhZEteb42xD5B1lbeKQzjWdWIhZoEKKcjuRa6mXodtO
+	CdA+tsa0wOHvtmRLAh1jcH/vLxkoBs/R+EWqrOfgPZqRpA9qMtzTLHzDmWBaqjNrnU1gSNuQAvO
+	HkLUCylATn+WVildXfXbmW0S+pZuPoJTFKwq8i+ektffZ71ILFu5uJtGYKRxPrZDXWQBD0CUD/M
+	J5ayzQjS8TmfCCXkYJxkR5/lxqEX6kMqA4f5KzDwYMwo5GVJULYFzhTPlCxFM0wWfLmEQsEkfla
+	AAI=
+X-Google-Smtp-Source: AGHT+IHTS9jPR539K9D88biPeBpW9OArAzo2mtlZDaqK9aFcfZt0G8LfWzYGUIJ/Wa0xrvoSHRJmq2qQHBOC/QtRtDw=
+X-Received: by 2002:a05:6402:50cf:b0:640:c9ff:c06a with SMTP id
+ 4fb4d7f45d1cf-64350e1e3c6mr13108669a12.15.1763405162259; Mon, 17 Nov 2025
+ 10:46:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -77,13 +76,14 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-14-pasha.tatashin@soleen.com> <aRr1aw45EYSFTCw9@kernel.org>
-In-Reply-To: <aRr1aw45EYSFTCw9@kernel.org>
+ <20251115233409.768044-15-pasha.tatashin@soleen.com> <aRr13Q1xk9eunilo@kernel.org>
+In-Reply-To: <aRr13Q1xk9eunilo@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 13:43:47 -0500
-X-Gm-Features: AWmQ_bny7bEklZsVXOjnwEc2I8Kpi65plOcoXCf1e7YrheuK91-BqnEf_WUIt4k
-Message-ID: <CA+CK2bDpLfxLZMwNZLmg+K+uU4YaUefJx+xfD+kQchKpkHping@mail.gmail.com>
-Subject: Re: [PATCH v6 13/20] mm: shmem: export some functions to internal.h
+Date: Mon, 17 Nov 2025 13:45:24 -0500
+X-Gm-Features: AWmQ_bmw4ppe8XlI-hroPbUkA515iug7-539nPCKhJSWJUeaHTdUDKi6DO6pH6k
+Message-ID: <CA+CK2bC2_r4Nbjh0CuJwcMeGxpctSZMTodG8Cf=zoue6zj-gyw@mail.gmail.com>
+Subject: Re: [PATCH v6 14/20] liveupdate: luo_file: add private argument to
+ store runtime state
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -110,30 +110,14 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 5:14=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sat, Nov 15, 2025 at 06:33:59PM -0500, Pasha Tatashin wrote:
-> > From: Pratyush Yadav <ptyadav@amazon.de>
-> >
-> > shmem_inode_acct_blocks(), shmem_recalc_inode(), and
-> > shmem_add_to_page_cache() are used by shmem_alloc_and_add_folio(). This
-> > functionality will also be used in the future by Live Update
-> > Orchestrator (LUO) to recreate memfd files after a live update.
->
-> I'd rephrase this a bit to say that it will be used by memfd integration
-> into LUO to emphasize this stays inside mm.
-
-Done
-
->
-> Other than that
-
-
+> > Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
+> > Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 >
 > Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Thank you.
+Thank you!
+
+Pasha
 
