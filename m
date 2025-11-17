@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-5321-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5322-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E696AC63827
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 11:22:30 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A39C63BD2
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 12:12:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BCBEB4F169E
-	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 10:16:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 2927928DE8
+	for <lists+linux-api@lfdr.de>; Mon, 17 Nov 2025 11:11:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73B8C315D21;
-	Mon, 17 Nov 2025 10:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA651333745;
+	Mon, 17 Nov 2025 11:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVxQd+jd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0k3QEKi"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C12D97AA;
-	Mon, 17 Nov 2025 10:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B824632D0C6;
+	Mon, 17 Nov 2025 11:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763374580; cv=none; b=uj7Zi2NQsb6sXWvp48p4tQAKj+eza3lPYONEGyaydvVhtFJs8KYBgxd47+D1+gd/7doFTfZPiXOOxOnOa5mhCtsqVJ607+UNUdzzpkd3QJ55R5ffxIuYNzA5CuR+Pup2+0s5g6d+YVAgA7KHqRJm2ys2y1OAc31xKGol92dRtmY=
+	t=1763377464; cv=none; b=DNaPW2/2Sf+HgQXuAjbOXhSIFhzeXImPbJqrZOotFalwUDR0ZpeWB3firlUNWRyPI7/5py53b77x+AB4IOUi6A/w6Qp6RiifgBr6N6aH8tCn3ZbZOcWOeow2L5xzbmkTeqKuYYmZWxcdk/S9+z5t5cMEARvzAJyi8sI4W5woEvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763374580; c=relaxed/simple;
-	bh=3pqt/emoxDXMJPc9sIUv8mSiIo4NlUAIW0OPRzW2AvE=;
+	s=arc-20240116; t=1763377464; c=relaxed/simple;
+	bh=WWE3t7I3SF3DlAE8BdmFrmCS1M/rFEV0vnSNWTBc5tM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6Zd546okZW1EuOQcN+w0GQozfL7/YklU8zzbwwPLhSmuXU4GFqhqRECUUIbD9mcHkqXambRpQ5r9w6TSBLknz/BsaiQukpM13hYV4y/E5480GanaZrhLdmRESVXIOPm7NHOLT+bsou8OBosxaqsXl8aLjRjjF5OoR08HgIGlnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVxQd+jd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA8CC19422;
-	Mon, 17 Nov 2025 10:16:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=TZEm0YP0PSLkIzYtK4kQXBv+IlFA0tmWtDbWAul6lNb3PAzwdrfU/iOl4XKU3wGCwppbCvTG+DTIHQ+7s1SBG6zDDg3ME6nRUPYnRyjH7RdJvAP7ve6BIER6fx8S/fvaR/O9qsytwdQ5fjoenzBgGnfaScsfqsExiWG9vxbygZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0k3QEKi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E08C4CEF5;
+	Mon, 17 Nov 2025 11:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763374579;
-	bh=3pqt/emoxDXMJPc9sIUv8mSiIo4NlUAIW0OPRzW2AvE=;
+	s=k20201202; t=1763377464;
+	bh=WWE3t7I3SF3DlAE8BdmFrmCS1M/rFEV0vnSNWTBc5tM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dVxQd+jd5trmwBgh/3zu4hTlLkx/9p5IL33qFYnWaBIb3WLOyiuAgzqHpcoyY8DvC
-	 ZKiyBaH9cpng8Pso5NAbKGCW1AMqksvLeji0z7vLUtQynPZB7dfXmSo5pGdXpGyo+1
-	 9y1zMypZS9pqu5U01wxSxH6kHOxp1xOme4U3op9CTwfVOcLKDGW9HLxzfcokqvHM1X
-	 N5dXERXMh6/b5uyPBs0Z2qK1b8rH9LyONeVyW6Q8jsrspPSPTwlC3Vk/hn6kNAKrIF
-	 IkGYpSBwyj2A2bCkDZfCTKCKnmMjwvr+Fr8ufs+Q1LYALnWpYdlaUoyTJeOPu56txT
-	 eO8bZlmOwn+hA==
-Date: Mon, 17 Nov 2025 12:15:57 +0200
+	b=L0k3QEKiD+rh0bxxX4fVCaTPVujvmto8tLg1+BtAac2R9g3v1tykJEAkfem0Pb348
+	 5J7cMEYG97oQY/jmtHQL4hq0YWVyu9sjQ+bamnEw24il8JGqUNljNbi2tNf1SE8M1o
+	 7kIb025ro7tzRhVKkfhrdWEt81mbmyXnC92DQCJfsIuoZ8JOBHVNmGYkW/+mcu+44H
+	 vlDwPn8Ru9Iwj+/+x4jmCovyEDM6GMzKw5WJR2gC21oZNSZMie6FbcjuKvoCZqs1zS
+	 vNI33MsNbl0wbkQ3l3Ms5VR1t1pU7GIybR5Pnkqj3TfEUhoojMKF9MbrI6OEw9HmVl
+	 BTlC8ggjtSRNQ==
+Date: Mon, 17 Nov 2025 13:03:59 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
@@ -71,11 +71,10 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
 	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 14/20] liveupdate: luo_file: add private argument to
- store runtime state
-Message-ID: <aRr13Q1xk9eunilo@kernel.org>
+Subject: Re: [PATCH v6 15/20] mm: memfd_luo: allow preserving memfd
+Message-ID: <aRsBHy5aQ_Ypyy9r@kernel.org>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-15-pasha.tatashin@soleen.com>
+ <20251115233409.768044-16-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -84,120 +83,210 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251115233409.768044-15-pasha.tatashin@soleen.com>
+In-Reply-To: <20251115233409.768044-16-pasha.tatashin@soleen.com>
 
-On Sat, Nov 15, 2025 at 06:34:00PM -0500, Pasha Tatashin wrote:
-> From: Pratyush Yadav <pratyush@kernel.org>
+On Sat, Nov 15, 2025 at 06:34:01PM -0500, Pasha Tatashin wrote:
+> From: Pratyush Yadav <ptyadav@amazon.de>
 > 
-> Currently file handlers only get the serialized_data field to store
-> their state. This field has a pointer to the serialized state of the
-> file, and it becomes a part of LUO file's serialized state.
+> The ability to preserve a memfd allows userspace to use KHO and LUO to
+> transfer its memory contents to the next kernel. This is useful in many
+> ways. For one, it can be used with IOMMUFD as the backing store for
+> IOMMU page tables. Preserving IOMMUFD is essential for performing a
+> hypervisor live update with passthrough devices. memfd support provides
+> the first building block for making that possible.
 > 
-> File handlers can also need some runtime state to track information that
-> shouldn't make it in the serialized data.
+> For another, applications with a large amount of memory that takes time
+> to reconstruct, reboots to consume kernel upgrades can be very
+> expensive. memfd with LUO gives those applications reboot-persistent
+> memory that they can use to quickly save and reconstruct that state.
 > 
-> One such example is a vmalloc pointer. While kho_preserve_vmalloc()
-> preserves the memory backing a vmalloc allocation, it does not store the
-> original vmap pointer, since that has no use being passed to the next
-> kernel. The pointer is needed to free the memory in case the file is
-> unpreserved.
+> While memfd is backed by either hugetlbfs or shmem, currently only
+> support on shmem is added. To be more precise, support for anonymous
+> shmem files is added.
 > 
-> Provide a private field in struct luo_file and pass it to all the
-> callbacks. The field's can be set by preserve, and must be freed by
-> unpreserve.
+> The handover to the next kernel is not transparent. All the properties
+> of the file are not preserved; only its memory contents, position, and
+> size. The recreated file gets the UID and GID of the task doing the
+> restore, and the task's cgroup gets charged with the memory.
 > 
-> Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
+> Once preserved, the file cannot grow or shrink, and all its pages are
+> pinned to avoid migrations and swapping. The file can still be read from
+> or written to.
+> 
+> Use vmalloc to get the buffer to hold the folios, and preserve
+> it using kho_preserve_vmalloc(). This doesn't have the size limit.
+> 
 > Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+The order of signed-offs seems wrong, Pasha's should be the last one.
 
 > ---
->  include/linux/liveupdate.h   | 5 +++++
->  kernel/liveupdate/luo_file.c | 9 +++++++++
->  2 files changed, 14 insertions(+)
-> 
-> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-> index 36a831ae3ead..defc69a1985d 100644
-> --- a/include/linux/liveupdate.h
-> +++ b/include/linux/liveupdate.h
-> @@ -29,6 +29,10 @@ struct file;
->   *                    this to the file being operated on.
->   * @serialized_data:  The opaque u64 handle, preserve/prepare/freeze may update
->   *                    this field.
-> + * @private_data:     Private data for the file used to hold runtime state that
-> + *                    is not preserved. Set by the handler's .preserve()
-> + *                    callback, and must be freed in the handler's
-> + *                    .unpreserve() callback.
->   *
->   * This structure bundles all parameters for the file operation callbacks.
->   * The 'data' and 'file' fields are used for both input and output.
-> @@ -39,6 +43,7 @@ struct liveupdate_file_op_args {
->  	bool retrieved;
->  	struct file *file;
->  	u64 serialized_data;
-> +	void *private_data;
->  };
->  
->  /**
-> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> index 3d3bd84cb281..df337c9c4f21 100644
-> --- a/kernel/liveupdate/luo_file.c
-> +++ b/kernel/liveupdate/luo_file.c
-> @@ -126,6 +126,10 @@ static LIST_HEAD(luo_file_handler_list);
->   *                 This handle is passed back to the handler's .freeze(),
->   *                 .retrieve(), and .finish() callbacks, allowing it to track
->   *                 and update its serialized state across phases.
-> + * @private_data:  Pointer to the private data for the file used to hold runtime
-> + *                 state that is not preserved. Set by the handler's .preserve()
-> + *                 callback, and must be freed in the handler's .unpreserve()
-> + *                 callback.
->   * @retrieved:     A flag indicating whether a user/kernel in the new kernel has
->   *                 successfully called retrieve() on this file. This prevents
->   *                 multiple retrieval attempts.
-> @@ -152,6 +156,7 @@ struct luo_file {
->  	struct liveupdate_file_handler *fh;
->  	struct file *file;
->  	u64 serialized_data;
-> +	void *private_data;
->  	bool retrieved;
->  	struct mutex mutex;
->  	struct list_head list;
-> @@ -309,6 +314,7 @@ int luo_preserve_file(struct luo_session *session, u64 token, int fd)
->  		goto exit_err;
->  	} else {
->  		luo_file->serialized_data = args.serialized_data;
-> +		luo_file->private_data = args.private_data;
->  		list_add_tail(&luo_file->list, &session->files_list);
->  		session->count++;
->  	}
-> @@ -356,6 +362,7 @@ void luo_file_unpreserve_files(struct luo_session *session)
->  		args.session = (struct liveupdate_session *)session;
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
-> +		args.private_data = luo_file->private_data;
->  		luo_file->fh->ops->unpreserve(&args);
->  		luo_flb_file_unpreserve(luo_file->fh);
->  
-> @@ -384,6 +391,7 @@ static int luo_file_freeze_one(struct luo_session *session,
->  		args.session = (struct liveupdate_session *)session;
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
-> +		args.private_data = luo_file->private_data;
->  
->  		err = luo_file->fh->ops->freeze(&args);
->  		if (!err)
-> @@ -405,6 +413,7 @@ static void luo_file_unfreeze_one(struct luo_session *session,
->  		args.session = (struct liveupdate_session *)session;
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
-> +		args.private_data = luo_file->private_data;
->  
->  		luo_file->fh->ops->unfreeze(&args);
->  	}
-> -- 
-> 2.52.0.rc1.455.g30608eb744-goog
-> 
+
+...
+
+> +/**
+> + * DOC: memfd Live Update ABI
+> + *
+> + * This header defines the ABI for preserving the state of a memfd across a
+> + * kexec reboot using the LUO.
+> + *
+> + * The state is serialized into a Flattened Device Tree which is then handed
+> + * over to the next kernel via the KHO mechanism. The FDT is passed as the
+> + * opaque `data` handle in the file handler callbacks.
+> + *
+> + * This interface is a contract. Any modification to the FDT structure,
+> + * node properties, compatible string, or the layout of the serialization
+> + * structures defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the MEMFD_LUO_FH_COMPATIBLE string.
+
+The same comment about contract as for the generic LUO documentation
+applies here (https://lore.kernel.org/all/aRnG8wDSSAtkEI_z@kernel.org/)
+
+> + *
+> + * FDT Structure Overview:
+> + *   The memfd state is contained within a single FDT with the following layout:
+
+...
+
+> +static struct memfd_luo_folio_ser *memfd_luo_preserve_folios(struct file *file, void *fdt,
+> +							     u64 *nr_foliosp)
+> +{
+
+If we are already returning nr_folios by reference, we might do it for
+memfd_luo_folio_ser as well and make the function return int.
+
+> +	struct inode *inode = file_inode(file);
+> +	struct memfd_luo_folio_ser *pfolios;
+> +	struct kho_vmalloc *kho_vmalloc;
+> +	unsigned int max_folios;
+> +	long i, size, nr_pinned;
+> +	struct folio **folios;
+
+pfolios and folios read like the former is a pointer to latter.
+I'd s/pfolios/folios_ser/
+
+> +	int err = -EINVAL;
+> +	pgoff_t offset;
+> +	u64 nr_folios;
+
+...
+
+> +	kvfree(folios);
+> +	*nr_foliosp = nr_folios;
+> +	return pfolios;
+> +
+> +err_unpreserve:
+> +	i--;
+> +	for (; i >= 0; i--)
+
+Maybe a single line
+
+	for (--i; i >= 0; --i)
+
+> +		kho_unpreserve_folio(folios[i]);
+> +	vfree(pfolios);
+> +err_unpin:
+> +	unpin_folios(folios, nr_folios);
+> +err_free_folios:
+> +	kvfree(folios);
+> +	return ERR_PTR(err);
+> +}
+> +
+> +static void memfd_luo_unpreserve_folios(void *fdt, struct memfd_luo_folio_ser *pfolios,
+> +					u64 nr_folios)
+> +{
+> +	struct kho_vmalloc *kho_vmalloc;
+> +	long i;
+> +
+> +	if (!nr_folios)
+> +		return;
+> +
+> +	kho_vmalloc = (struct kho_vmalloc *)fdt_getprop(fdt, 0, MEMFD_FDT_FOLIOS, NULL);
+> +	/* The FDT was created by this kernel so expect it to be sane. */
+> +	WARN_ON_ONCE(!kho_vmalloc);
+
+The FDT won't have FOLIOS property if size was zero, will it?
+I think that if we add kho_vmalloc handle to struct memfd_luo_private and
+pass that around it will make things easier and simpler.
+
+> +	kho_unpreserve_vmalloc(kho_vmalloc);
+> +
+> +	for (i = 0; i < nr_folios; i++) {
+> +		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
+> +		struct folio *folio;
+> +
+> +		if (!pfolio->foliodesc)
+> +			continue;
+
+How can this happen? Can pfolios be a sparse array?
+
+> +		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
+> +
+> +		kho_unpreserve_folio(folio);
+> +		unpin_folio(folio);
+> +	}
+> +
+> +	vfree(pfolios);
+> +}
+
+...
+
+> +static void memfd_luo_finish(struct liveupdate_file_op_args *args)
+> +{
+> +	const struct memfd_luo_folio_ser *pfolios;
+> +	struct folio *fdt_folio;
+> +	const void *fdt;
+> +	u64 nr_folios;
+> +
+> +	if (args->retrieved)
+> +		return;
+> +
+> +	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
+> +	if (!fdt_folio) {
+> +		pr_err("failed to restore memfd FDT\n");
+> +		return;
+> +	}
+> +
+> +	fdt = folio_address(fdt_folio);
+> +
+> +	pfolios = memfd_luo_fdt_folios(fdt, &nr_folios);
+> +	if (!pfolios)
+> +		goto out;
+> +
+> +	memfd_luo_discard_folios(pfolios, nr_folios);
+
+Does not this free the actual folios that were supposed to be preserved?
+
+> +	vfree(pfolios);
+> +
+> +out:
+> +	folio_put(fdt_folio);
+> +}
+
+...
+
+> +static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
+> +{
+> +	struct folio *fdt_folio;
+> +	const u64 *pos, *size;
+> +	struct file *file;
+> +	int len, ret = 0;
+> +	const void *fdt;
+> +
+> +	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
+
+Why do we need to kho_restore_folio() twice? Here and in
+memfd_luo_finish()?
+
+> +	if (!fdt_folio)
+> +		return -ENOENT;
+> +
+> +	fdt = page_to_virt(folio_page(fdt_folio, 0));
+
+folio_address()
+
 
 -- 
 Sincerely yours,
