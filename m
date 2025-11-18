@@ -1,116 +1,152 @@
-Return-Path: <linux-api+bounces-5353-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5354-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565CDC69227
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 12:39:09 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF27BC69B9F
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 14:53:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3386938505E
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 11:36:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 151192BE8C
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 13:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A075359F9A;
-	Tue, 18 Nov 2025 11:31:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CBE2D7817;
+	Tue, 18 Nov 2025 13:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdNW3Shx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDdd6+k8"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC05F3538BE;
-	Tue, 18 Nov 2025 11:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32A83587D2;
+	Tue, 18 Nov 2025 13:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763465475; cv=none; b=lAWPhakv28XwMolInznAre/X3RSxZKU/GtAcoB531fXsSkDXdA77C/DNbZz7K7+GryEJa8VwJkwKIdWHVYp/LShMv4Rhxaxn9veXIRQqLmFH71lEdlO9ImMGLEFGBOtKI2Dvo6jk8idZt1oqxuIJgUYcstJCzxhAW/TTAw1GTtc=
+	t=1763473886; cv=none; b=DLK/KtqayiXcQfIpl0QvqpzT7AXiSAAuekEergwxBb3PykyKouzinTLfaDvxRUr47We8T+8CzIbbhiFZAxNiKUlm+zEiuKCK0Fs5TIqGBsww/xrvXDNycVeqHnuWOwMnZmXDE+khpogwkc+vBGK50ngxOLVUo8z90OhFzbQWKcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763465475; c=relaxed/simple;
-	bh=TDbb2U/vh1bt7ZPBFidhpKgCXs1OsPq/ve44MJ2AfpY=;
+	s=arc-20240116; t=1763473886; c=relaxed/simple;
+	bh=xAU9zpvqzPcvtEu2/LCN92HQeLPzmiIprKa2GpmFbog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HuV51jLoJNb4fII5mAJMEKA7pRrVPkssvkzhuQ7h/hxwPjB6yi9hZL+m6tK0cu3AjdRsIeE6+KxneOuJ3iG61fyGyC42lCAXxIMDpZd1Hcqc5jMR2YthQGJy28/QfZxt4fWkQ9uPL2ZLUGbKwBK/ctwZJ+w9ZhqO94MSi7zz1As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdNW3Shx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F6BC2BCB1;
-	Tue, 18 Nov 2025 11:30:52 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=YOLKZBQizogQpwBovhewgaaHQo0HYgz1ElLj02mFda9QUOgKbsGKsH0/HHce0t1BLqWwLol7SFknjJoYd3lGZPy4NxxAlAVMsTBUaqaLlCr8pl+KvUhQe7QS+stxg99Hc3/xuLhFmtxNxBs/bq0sWMS5XMue2nlklxzg2u/VKQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDdd6+k8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD34DC19422;
+	Tue, 18 Nov 2025 13:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763465475;
-	bh=TDbb2U/vh1bt7ZPBFidhpKgCXs1OsPq/ve44MJ2AfpY=;
+	s=k20201202; t=1763473886;
+	bh=xAU9zpvqzPcvtEu2/LCN92HQeLPzmiIprKa2GpmFbog=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fdNW3ShxByK3KPJ6f/r4xo57HHF29jYKzlWJMzAoEG5qhL4vUeTW7q0vODegzHk7x
-	 Fcht3rxnbZ0AavV8SEB946ijmPMW63uMz1a6R3WkynBS68yVMJHaDkrh5Vi2CJxKij
-	 mL9IWsuiO1hWsOgISGtBoNd7dui5+O7QMhgUupFQl+q75AQCLry25dVxM7lSoo5bCX
-	 myydjdFJZlkHu8XkDHAhal5Sn5XDPCIw+PLb82EM6sTiT7UHDrQDrG8g3phkrgwzHz
-	 JLOWWFQitPFaMb1HLyyXjecgPX26uBVyuXrodjRAsemgX7QeO14EYdKbQE9Bq8GUpJ
-	 QFR4M+EFzMI8Q==
-Date: Tue, 18 Nov 2025 13:30:47 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 20/20] tests/liveupdate: Add in-kernel liveupdate test
-Message-ID: <aRxY53gBbeH-6L0Y@kernel.org>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-21-pasha.tatashin@soleen.com>
- <aRsDb-4bXFQ9Zmtu@kernel.org>
- <CA+CK2bCfPeY558f499JHKN7aekDzsxQkZJ9Uz4e+saR0qtXyfg@mail.gmail.com>
+	b=hDdd6+k80HFqFpMUWqlf/vIu0hqmIEm286G4WhqZTYVw3qdgFooXsIZBPGNmjHaaq
+	 BJVt0Za6wLDNazh0lduri8U+j6hNM5+fk+zqZFaY4JYFrPTL03rFwkRI6vDSepyXoX
+	 kU+Mii84A09avKtT70HQP8R5VWIz+/04CFk2Lo6TlRm/XSA9AZNeoumEf68rTYHgl+
+	 PaX57wXooZp2f3+KHdDZKldX/rKx9qEa4tBOkHPlCJ4wFEr2+qxOycoqNtIAFIi+H5
+	 CHTQ1k6eK7egBav3kvV2Z48t3eNmoWBg0216++z+bsTGU4luhU6oBFOpsLfYHe2tSt
+	 0TDtUZ+qJfM3w==
+Date: Tue, 18 Nov 2025 14:51:22 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Jakub =?utf-8?Q?G=C5=82ogowski?= <not@dzwdz.net>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>, ej@inai.de
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+Message-ID: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+References: <cover.1763130571.git.not@dzwdz.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kexlxzcjisnkdles"
 Content-Disposition: inline
-In-Reply-To: <CA+CK2bCfPeY558f499JHKN7aekDzsxQkZJ9Uz4e+saR0qtXyfg@mail.gmail.com>
+In-Reply-To: <cover.1763130571.git.not@dzwdz.net>
 
-On Mon, Nov 17, 2025 at 02:00:15PM -0500, Pasha Tatashin wrote:
-> > >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> > > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> > > index df337c9c4f21..9a531096bdb5 100644
-> > > --- a/kernel/liveupdate/luo_file.c
-> > > +++ b/kernel/liveupdate/luo_file.c
-> > > @@ -834,6 +834,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
-> > >       INIT_LIST_HEAD(&fh->flb_list);
-> > >       list_add_tail(&fh->list, &luo_file_handler_list);
-> > >
-> > > +     liveupdate_test_register(fh);
-> > > +
-> >
-> > Why this cannot be called from the test?
-> 
-> Because test does not have access to all file_handlers that are being
-> registered with LUO.
 
-Unless I'm missing something, an FLB users registers a file handlers and
-let's LUO know that it will need FLB. Why the test can't do the same?
- 
-> Pasha
+--kexlxzcjisnkdles
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Jakub =?utf-8?Q?G=C5=82ogowski?= <not@dzwdz.net>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>, ej@inai.de
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+Message-ID: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+References: <cover.1763130571.git.not@dzwdz.net>
+MIME-Version: 1.0
+In-Reply-To: <cover.1763130571.git.not@dzwdz.net>
 
--- 
-Sincerely yours,
-Mike.
+Hi Jakub,
+
+On Fri, Nov 14, 2025 at 03:29:29PM +0100, Jakub G=C5=82ogowski wrote:
+> I found the PKTINFO docs pretty confusing, so I tried clarifying them:
+> - being more specific about each field in the struct
+>   (e.g. "local address of the packet" for a received packet could've
+>   been interpreted in myriad ways),
+> - making the differences between sendmsg(2)'s and recvmsg(2)'s handling
+>   of that struct more explicit,
+> - and some other slight rewording to make it (IMO) more readable - I cut
+>   out most of a paragraph that wasn't really saying anything, etc.
+>=20
+> I'm not sure if this should even be documented in ip(7) together with
+> the other sockopts, though?  sendmsg(2)'s handling of in_pktinfo is
+> completely unrelated to the IP_PKTINFO sockopt.  Documenting it in its
+> own manual page would also give us more room for subsection headings and
+> other formatting, examples, etc - instead of trying to cram it into
+> what's already an enormous manpage.
+>=20
+> Same goes for some of the other more complex sockopts, I guess.
+
+Do you suggest moving each socket option to a manual page under
+man2const/?  I think I agree with that.  There's precedent, and it makes
+the pages more readable.
+
+I'll try to do that soon.  I'll ping you when I've finished, in case you
+want to apply further changes.
+
+> PS. sorry for not signing this email, but neomutt didn't want to
+> cooperate :/  I'll try to figure it out for any followup patches.
+
+Ok.
+
+
+Have a lovely day!
+Alex
+
+> Jakub G=C5=82ogowski (2):
+>   man/man7/ip.7: Clarify PKTINFO's semantics depending on packet
+>     direction
+>   man/man7/ip.7: Reword IP_PKTINFO's description
+>=20
+>  man/man7/ip.7 | 57 +++++++++++++++++++++++++++------------------------
+>  1 file changed, 30 insertions(+), 27 deletions(-)
+>=20
+> --=20
+> 2.47.3
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+Use port 80 (that is, <...:80/>).
+
+--kexlxzcjisnkdles
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmkcedMACgkQ64mZXMKQ
+wqknWw/+N9pmp/N2ul5Ix4kzgwy3ILw6Y5RdWIGE/uvQpMV0uIv2sC7xjcvZf66X
+A6nsfbW0Ihz6PyeNA16ByfUu8CZNXd658WPwDqwQU8coQ21PRk43XfpLLSULzfYB
+Pk2fHv5Br/HlTWMTUfRD80EzsTFQ2NaWnyCxnW83tB2LW7hSe07Pi7vayb1cptxe
+3Ev9X4JpzWX9pzgMW53AdQQfvQ9Yxw7lMdT6v/sgvzAxkbLyPSGu0QWFoa60ZEt9
+/i/UM8rnvWcnJwC6A029w6+dQEXZN96xCMhS8clE3W83dG2qaIY/NkEYK4VE6rC0
+vSZ1j1wS5S1G48cVEwDK0hHRZle18zv4vi4iedyljWzVM765MJRm/ZiZOzsEnsjb
+7aeFtGB8viq7Tn5JQi2W7nSIvz0Qa9A7keiCEoVlzQv/amWD86/X1VkkwRO+oJ36
+pJbkQGn+WQVZ1zH7OopCyymQOQcTFyy0RCv3K7Ufq35VG+nraxPuFDKIBRoUIbJP
+iIDA2sqhNzwrX7USFidChJLeyAjo4N+rVBk16YZw3G8+Erw6fZtzuzLpFLaaSlO9
+iRu3NsW0aD6qExMVzk43rlOXC+TWgIdYWFBpA1Po7rMgUEYK1kMLjET7k3TIML7+
+2I4/WRSeuhVVWgdKUrtH48qsz+JksNL7M4VAjYC2YVGW42IJhh4=
+=iy8z
+-----END PGP SIGNATURE-----
+
+--kexlxzcjisnkdles--
 
