@@ -1,74 +1,74 @@
-Return-Path: <linux-api+bounces-5346-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5347-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E60BC67137
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 03:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35648C6730F
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 04:55:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 264064E2E18
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 02:59:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD3554EA471
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 03:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32FED328619;
-	Tue, 18 Nov 2025 02:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAF2E30DD10;
+	Tue, 18 Nov 2025 03:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S09RxRum"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FWq9X/6R"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42231324B2C
-	for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 02:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B091B2FF179
+	for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 03:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763434751; cv=none; b=uzrkRamShWtKhUawisSzg9T1MD5ytnPsIv2JYnVsDzCmhOdoXWBsmCCNhcQ0CvWlSDPpCKNEmKwxSmsDwl8Qt8o6FNXwxBjtmPW4UL8cmrzNyTIrJdDX9Qq2kWctIVnQXCLR2wqUtUTlQncBmelykd7MNEQ/FUsyqZoh7+slL/8=
+	t=1763438110; cv=none; b=cFkrdrSY2CpATmj+N7C3OfJVw0rj3uya+ZVcBS99RHTaEwpyAqP9xPiVoDMwXvenMvfccU48g/nKqUDsM9/B9iuX3tpnhPWVYokflac7evs19fj286FcmWkeaEMJFgeOjD8aysAe68p2bWcQu1M8YXqQRfZkKPk71+Zy9ewnLug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763434751; c=relaxed/simple;
-	bh=BUBQVqhYuDQpDKj8kaZMnE/33PjZCxGNIoQaBsNI2GI=;
+	s=arc-20240116; t=1763438110; c=relaxed/simple;
+	bh=GJQXAYpVXf9WIODL6aAeQUdinB0yRoRp5YgQ/TK1Wps=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E3xejM4gDQyTT2a8bPKh6KVSLDCQmhnnU5zB5EDF7dhJeOH8pqf/0VAEaok77MrwzMn7rbU5bXiK/qtDRamZnEJFkBFO/I9lRpzKa61kWXTidgVMAzikfuy8lM4F/yARhg8OahSVe8vnnNb4dd71PBt8Fb2YdHeDKVNP8tW3ygs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S09RxRum; arc=none smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=Yjzqgh2e6brjFowjBsnL/rX8bKWm4SDBUFlXjaj3ExMCswZfBg1k1emFEPPE82cDSactwRfJlA2jDLUf+hIxqsLipqqJcVIqLumHWQ3reZDRO39blIAD0pUQuSH1eNwhrcMCn2WQ8nyUb+0orMiVIIW2qFfJALmublzUGD2WAMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FWq9X/6R; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b7370698a8eso479080166b.0
-        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 18:59:08 -0800 (PST)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6408f9cb1dcso7625893a12.3
+        for <linux-api@vger.kernel.org>; Mon, 17 Nov 2025 19:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763434747; x=1764039547; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763438106; x=1764042906; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uyA/z3+NX1r8lmPy90ZzbFhLB6Y/TGoAYT7nzfduTWI=;
-        b=S09RxRum2xa9YUFARKFQLyZAIUb8pzrLmc5No4pxbFN+0VZWRe2eAA3w9TdG+UWb0I
-         djrbsFgJmBy3SIxTG2f1dkRjT4C7HYeWKwBeSFma16HkIEuXNSzQ2hsS3kB17R2/GOqv
-         p4m1geAB8IsA+7AMUClVb3R3Qg0pGN7Ba4V36qUTpdK0yJpkNitMFoyW5fINQUMXbMW9
-         w3pN+WvtgyQkYLc8yarZpknb4hbDt466t4ChGD6/o7tk1pltNHmYjQoBL04Zxl9+Z/EX
-         U4S56eyXw6C3jcvIfeZ8BBnmWW+2tzKj6u+vjIfXh+KP8c5FDQbyU5yyTuhJIwFcl4g5
-         3MyA==
+        bh=skgPOZZQd9xc8fmG59fpZy24V3xOREPCSLrN+c1B0bM=;
+        b=FWq9X/6R+JY9PBAjJenHvh8+hVE9S3ytgRdX7L0XnZ/GOmHbh5RoiSASwRPRDmRwu+
+         8F9AiOyhwUwkmb1/EQs21bnF8moYR4OoCgxIrrhbryBoSxNpNWwUgIrJdSJhBVY8t6ge
+         62BFYy8gK7fwnHpG0v+nROjhgF5kZGYNLyCZjX2vlE7ZbFoEFYHdvK/D03s/EHoRQPv9
+         DzfW4kEkpqLEWApA9j+Vv5JNEnDse09V9CHnbCPzHfm5sckQ2o9j4a7GddA6Ko9I8hf/
+         sya+uLeGoZ2f8qT4bgAzVkqWnR+Xi0N2oO5tuoB2TS1q8REgxdQVGLFpzM5dTjIGQdE1
+         s6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763434747; x=1764039547;
+        d=1e100.net; s=20230601; t=1763438106; x=1764042906;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uyA/z3+NX1r8lmPy90ZzbFhLB6Y/TGoAYT7nzfduTWI=;
-        b=vNiyRHpTcq647i8g7D1XekQofFvVqiuCXBRbj/i07o4HlbePelCOZ53KixQ6POjaND
-         SMhuqccg96Y1v/Ky1HgXTWZY5Xn5pOIRHlO19As3QN/ULTMgN5ZY6gmTg03ttMjHuyud
-         hfnz3YpmhSmX8tcU19EIxgSa6vSozy/9PWOPor0mCOKryFZ2u+gmb/20pWS89BPD1uRi
-         97eavju2Mxp85tIkidzgJmz5kjuY91vJkaMi0TNOEC1qlYTMnHP9OGaQJVkHxehjldGL
-         YfHvWCtIY2jouqBEKI4kn7h1RUC7pMs/vf0gxdaHRMz3ny6nR7QsPhDk4XsN0U0pg647
-         zZrw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWWmV5TzdNEMMeo4v1Qp7ctFSrJaCKaLDxI+i4MWc2KbOvie1KST1fmeNVEmq9To9nHkfCFu63+sQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy82DMn9H28ggsak9RQk0hB/N6Qy+xK9i2mDb3pu0fBw0Yb9bUI
-	MQtdRr140GyNUKGLRz/W6voEemoxMiXl9qvJ0IUgX9Bflm7j6DX8XxOUAEiua05e+qRAvUWx5T6
-	Tm2+LfIFGkiHUWQ0QUDtswq5doQp89OMVjnxAxhkpTw==
-X-Gm-Gg: ASbGnctldG5aW5OR+q/MbZiExCzpl3Zf4b6hsyK5UMi+CuHVr2bqXqMxrZPEcHJDhXP
-	H853mc/OMJXsoQHajq44GKEEs9ktDJUOhst/HhyvfzxM6Z+3XUUX3KucoPSTMhrqbHn3hvwY0UM
-	dTLpnRL6E5KWqZxxrVsBaW4TkFyqArOrc7+M7YHVA+ut2ylE+92pd6682GIQSYIXev7sFDruSjA
-	1xRHLy/BucHNm6JsyR3HNPcAtDfC6dzyTQdGdR1whRYFns81DNn2zvFLb2L7alE8f9Fb8h285eO
-	Q3E=
-X-Google-Smtp-Source: AGHT+IE+Xmu/XKzqDItZxK55uKODQ4pXWe1jCDf3/zyE5l7HA0zpyHUAc1wH5fOIbLOq/qTekDcDuTCEd4KGgBq5NiA=
-X-Received: by 2002:a17:907:d9e:b0:b73:9792:919b with SMTP id
- a640c23a62f3a-b739792959cmr714211466b.13.1763434747412; Mon, 17 Nov 2025
- 18:59:07 -0800 (PST)
+        bh=skgPOZZQd9xc8fmG59fpZy24V3xOREPCSLrN+c1B0bM=;
+        b=Qb2sa43JYyvUNK0RU8kWt7wMqD4EjIa0B01lLLhSN2rINvO22ps1nAB1Z9Jxlka369
+         6tCl0T8jTzau/FJCguhnmhVFz8rezq5E1hPl46xARCT3g5sLaz+IVcUFoPajsoxU+P6l
+         U5HYY+mJ+o3Yy+q7J6dQdLEV221PlOauV0++tDSFFfhnzCwqOmRFhUv4r2gkVxXhpT/a
+         2K1mYpO+SbQOa0gycMHnKARmhWBfkHpnuYUg/3CYKZj+FFd51MR2evA6J88Mwm0efK+l
+         qAAax0+mDcqoa9EzP15c2/C5w/SRwn+Rl76hi6lAAmmJDuHy2GZUbNzP/K9/KN2U5FHY
+         /OBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOMibwyoKMUmqsrCZWml3Y3dPh+uaIYtWtDlk2CzR5kgI4Fx3AeWJk/BbERxr/a26/mMnlu3Xnyvk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWR2K+yFKZL1WslibozW6P+i6I1JZPwMDl8dGMtvZXeuBMW8LG
+	uLUtMiEj0OqUmnyxIgMwFjZI6ieQiboeos1qzDBggE4eWENST56iXv5pHGbOaXxOFU9dprpvTgv
+	oEyKYXgvoFKbIMFH2MA2audx/WNxJJWnToKXJFmaEKg==
+X-Gm-Gg: ASbGnctB8ouTcTR2j9OtjY30LMWPu8e6EQhA5bLsZjNgsQXoTIyx4iXUNuA3Bdh2zXH
+	kOYVKrgR2gIgKA/OYjgWn2AsekUe99W2Fgxjbuva1BHtWG5ieYRwqzZdtcjY+1NhJUwudpSj+67
+	pEpS6XKr7BeIULhelciB6T9qOArc2HajZ0rucApnuAIO0ddOvHJGitLtJYAL23EFCy0cYjVRsJ5
+	RchZuTGSbJhoPNv2Uxb9ODdjGx8mRJiLijQW1Jlkym5TBCmEgSa9L9CSiKzdxlBXESl3F5LkDqx
+	tMk=
+X-Google-Smtp-Source: AGHT+IGpZOWjW5LZWKY0Iok3QDFR7NYQQcE+w3n/xTVgTcedHnVbwsy/RegtbkWq0MjsVKCBcc+Ff3JZMy+ys8CEjC0=
+X-Received: by 2002:a05:6402:5056:b0:640:ebca:e66f with SMTP id
+ 4fb4d7f45d1cf-64350ec0198mr11607004a12.34.1763438105963; Mon, 17 Nov 2025
+ 19:55:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,13 +76,14 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-8-pasha.tatashin@soleen.com> <aRoXGYC4GeAoNKPl@kernel.org>
-In-Reply-To: <aRoXGYC4GeAoNKPl@kernel.org>
+ <20251115233409.768044-9-pasha.tatashin@soleen.com> <aRrtRfJaaIHw5DZN@kernel.org>
+In-Reply-To: <aRrtRfJaaIHw5DZN@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 21:58:31 -0500
-X-Gm-Features: AWmQ_bmEx3-y1qL666uuCkHAOhqd8xREWBuFy8c9Q6i-THXVQGPt4k4Gmg9IHVA
-Message-ID: <CA+CK2bDyKzeZBZvNM7OdSm5dBt3ADjsyXc2X3_YedV_xnphMww@mail.gmail.com>
-Subject: Re: [PATCH v6 07/20] liveupdate: luo_session: Add ioctls for file preservation
+Date: Mon, 17 Nov 2025 22:54:29 -0500
+X-Gm-Features: AWmQ_bkZQMN1UOxORLYbivUdr8-ENGLbMFsVRw8DEyZxpK5fJGoXi0eN_5cEvNg
+Message-ID: <CA+CK2bBxVNRkJ-8Qv1AzfHEwpxnc4fSxdzKCL_7ku0TMd6Rjow@mail.gmail.com>
+Subject: Re: [PATCH v6 08/20] liveupdate: luo_flb: Introduce
+ File-Lifecycle-Bound global state
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -110,30 +111,190 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-> >  static int luo_session_release(struct inode *inodep, struct file *filep)
-> >  {
-> >       struct luo_session *session = filep->private_data;
-> >       struct luo_session_header *sh;
-> > +     int err = 0;
+>
+> The concept makes sense to me, but it's hard to review the implementation
+> without an actual user.
+
+There are three users: we will have HugeTLB support that is going to
+be posted as RFC in a few weeks. Also, in two weeks we are going to
+have an updated VFIO and IOMMU series posted both using FLBs. In the
+mean time, this series provides an FLB in-kernel test that verifies
+that multiple FLBs can be attached to File-Handlers, and the basic
+interfaces are working.
+
+
+> > +struct liveupdate_flb {
+> > +     const struct liveupdate_flb_ops *ops;
+> > +     const char compatible[LIVEUPDATE_FLB_COMPAT_LENGTH];
+> > +     struct list_head list;
+> > +     void *internal;
+>
+> Can't list be a part of internal?
+
+Yes, I moved it inside internal, and also, I removed
+liveupdate_init_flb function (do that automatically now), and use the
+__private as you suggested earlier, and also removed the kmalloc() for
+the internal data, so FLBs can be safely used early in boot.
+
+> And don't we usually call this .private rather than .internal?
+
+Renamed.
+
+>
+> >  };
 > >
-> >       /* If retrieved is set, it means this session is from incoming list */
-> > -     if (session->retrieved)
-> > +     if (session->retrieved) {
-> >               sh = &luo_session_global.incoming;
-> > -     else
+> >  #ifdef CONFIG_LIVEUPDATE
+> > @@ -111,6 +187,17 @@ int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
+> >  int liveupdate_get_token_outgoing(struct liveupdate_session *s,
+> >                                 struct file *file, u64 *tokenp);
+> >
+> > +/* Before using FLB for the first time it should be initialized */
+> > +int liveupdate_init_flb(struct liveupdate_flb *flb);
 > > +
-> > +             err = luo_session_finish_one(session);
-> > +             if (err) {
-> > +                     pr_warn("Unable to finish session [%s] on release\n",
-> > +                             session->name);
+> > +int liveupdate_register_flb(struct liveupdate_file_handler *h,
+> > +                         struct liveupdate_flb *flb);
 >
->                         return err;
+> While these are obvious ...
 >
-> and then else can go away here and luo_session_remove() and
-> luo_session_free() can be moved outside if (session->retrieved).
+> > +
+> > +int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **objp);
+> > +void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *obj);
+> > +int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **objp);
+> > +void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *obj);
+> > +
+>
+> ... it's not very clear what these APIs are for and how they are going to be
+> used.
 
-Done.
+Global resource that is accessible either while a file is getting
+preserved or anytime during boot.
 
-Thanks,
-Pasha
+>
+> >  #else /* CONFIG_LIVEUPDATE */
+>
+> ...
+>
+> > +int liveupdate_register_flb(struct liveupdate_file_handler *h,
+> > +                         struct liveupdate_flb *flb)
+> > +{
+> > +     struct luo_flb_internal *internal = flb->internal;
+> > +     struct luo_flb_link *link __free(kfree) = NULL;
+> > +     static DEFINE_MUTEX(register_flb_lock);
+> > +     struct liveupdate_flb *gflb;
+> > +     struct luo_flb_link *iter;
+> > +
+> > +     if (!liveupdate_enabled())
+> > +             return -EOPNOTSUPP;
+> > +
+> > +     if (WARN_ON(!h || !flb || !internal))
+> > +             return -EINVAL;
+> > +
+> > +     if (WARN_ON(!flb->ops->preserve || !flb->ops->unpreserve ||
+> > +                 !flb->ops->retrieve || !flb->ops->finish)) {
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     /*
+> > +      * Once session/files have been deserialized, FLBs cannot be registered,
+> > +      * it is too late. Deserialization uses file handlers, and FLB registers
+> > +      * to file handlers.
+> > +      */
+> > +     if (WARN_ON(luo_session_is_deserialized()))
+> > +             return -EBUSY;
+> > +
+> > +     /*
+> > +      * File handler must already be registered, as it is initializes the
+> > +      * flb_list
+> > +      */
+> > +     if (WARN_ON(list_empty(&h->list)))
+> > +             return -EINVAL;
+> > +
+> > +     link = kzalloc(sizeof(*link), GFP_KERNEL);
+> > +     if (!link)
+> > +             return -ENOMEM;
+> > +
+> > +     guard(mutex)(&register_flb_lock);
+> > +
+> > +     /* Check that this FLB is not already linked to this file handler */
+> > +     list_for_each_entry(iter, &h->flb_list, list) {
+> > +             if (iter->flb == flb)
+> > +                     return -EEXIST;
+> > +     }
+> > +
+> > +     /* Is this FLB linked to global list ? */
+>
+> Maybe:
+>
+>         /*
+>          * If this FLB is not linked to global list it's first time the FLB
+>          * is registered
+>          */
+
+Done
+
+
+> > +/**
+> > + * liveupdate_flb_incoming_unlock - Unlock an incoming FLB object.
+> > + * @flb: The FLB definition.
+> > + * @obj: The object that was returned by the _locked call (used for validation).
+> > + *
+> > + * Releases the internal lock acquired by liveupdate_flb_incoming_locked().
+> > + */
+> > +void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *obj)
+> > +{
+> > +     struct luo_flb_internal *internal = flb->internal;
+> > +
+> > +     lockdep_assert_held(&internal->incoming.lock);
+> > +     internal->incoming.obj = obj;
+>
+> The comment says obj is for validation and here it's assigned to flb.
+> Something is off here :)
+
+Thank you for catching stale comment, fixed.
+
+> > +     mutex_unlock(&internal->incoming.lock);
+> > +}
+> > +
+> > +/**
+> > + * liveupdate_flb_outgoing_locked - Lock and retrieve the outgoing FLB object.
+> > + * @flb:  The FLB definition.
+> > + * @objp: Output parameter; will be populated with the live shared object.
+> > + *
+> > + * Acquires the FLB's internal lock and returns a pointer to its shared live
+> > + * object for the outgoing (pre-reboot) path.
+> > + *
+> > + * This function assumes the object has already been created by the FLB's
+> > + * .preserve() callback, which is triggered when the first dependent file
+> > + * is preserved.
+> > + *
+> > + * The caller MUST call liveupdate_flb_outgoing_unlock() to release the lock.
+> > + *
+> > + * Return: 0 on success, or a negative errno on failure.
+> > + */
+> > +int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **objp)
+> > +{
+> > +     struct luo_flb_internal *internal = flb->internal;
+> > +
+> > +     if (!liveupdate_enabled())
+> > +             return -EOPNOTSUPP;
+> > +
+> > +     if (WARN_ON(!internal))
+> > +             return -EINVAL;
+> > +
+> > +     mutex_lock(&internal->outgoing.lock);
+> > +
+> > +     /* The object must exist if any file is being preserved */
+> > +     if (WARN_ON_ONCE(!internal->outgoing.obj)) {
+> > +             mutex_unlock(&internal->outgoing.lock);
+> > +             return -ENOENT;
+> > +     }
+>
+> _incoming_locked() and outgoing_locked() are nearly identical, it seems we
+> can have the common part in a
+> static liveupdate_flb_locked(struct luo_flb_state *state).
+>
+> liveupdate_flb_incoming_locked() will be oneline wrapper and
+> liveupdate_flb_outgoing_locked() will have this WARN_ON if obj is NULL.
+
+Done
 
