@@ -1,94 +1,96 @@
-Return-Path: <linux-api+bounces-5374-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5375-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB5FC6B740
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 20:32:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D97C6BD2D
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 23:08:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 995534E33BD
-	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 19:32:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8616B4E5068
+	for <lists+linux-api@lfdr.de>; Tue, 18 Nov 2025 22:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01E02D8DCF;
-	Tue, 18 Nov 2025 19:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49A873002B5;
+	Tue, 18 Nov 2025 22:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="am75plmu"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EmLe9qpj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC05919005E
-	for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 19:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7A33164DF
+	for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 22:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763494321; cv=none; b=rXbSZQHz6Csa8x0xGLr5jBNXPGNcvkWaRZN/T7BsV88Bzi1/9ofT2jv3OCTKPC+h4kEW6UNrhVMpmTfdRSwTZSYotiQ4mtls+4pxhNIgpqqthvKc7l9YvT9AOKXPRajy3FmeLaxuGem7Frdhv36wDL+crR91hwOh8fDO+rRIiE4=
+	t=1763503676; cv=none; b=rLMVodleLv901HpNjJ7uwjKQn5TDd9cbo1WsIPLy5E+g11udMJGV3NKOCv8IgPy/bJtZBr+c8sXF0EZAZ5R41Dgr8RLGlO2jeCR6q2qLGzk+26Rc4qfaOndCeiIfIQQ730kA/AYrJ63gf4HDsP/nj3Eqn5SGV79SdFlVXc6XynA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763494321; c=relaxed/simple;
-	bh=RYaqzEIQYjC/AA8fKfHRWLmVY/sXnNn+7WATr1cqH64=;
+	s=arc-20240116; t=1763503676; c=relaxed/simple;
+	bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KoLSsQLvraOqZTEnotFnitqNmirT7TLAMCTgBXYXlsU+fGxsi5DDqBchhWOfUUiOCuQx6SByaqgLM06EMs8f13pDiMZQfPLuEoaBWuBKjGhYc+ZAidooaN5gJ5b1dUw0hhi162K7U6SHlWY6r/AuiypzecVHlWAnb1xwOCtXL6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=am75plmu; arc=none smtp.client-ip=209.85.218.51
+	 To:Cc:Content-Type; b=exxX6EikYLyK54KgKrG6SwujXgakfsa4Z+K/pxh+a8VYF5w1aKlaQ459T2wfoO3gPqjs3SFGt91N6x0OyOnSEBY4DLZzrW5KUJ1wVjFg9PrsOMg7AsZiVWuUYH2Kh3IMZmgZpp92IUS1E95AQ4DQKAZMupzx82Q3qTtb2rqQ8Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=EmLe9qpj; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b73875aa527so464017566b.3
-        for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 11:31:59 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso812265a12.2
+        for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 14:07:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763494318; x=1764099118; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763503673; x=1764108473; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RYaqzEIQYjC/AA8fKfHRWLmVY/sXnNn+7WATr1cqH64=;
-        b=am75plmuQWqaoMVVxSSFawR/0Enf59eLxMKJF2WuTzg1GxdIsi5MmiM2IrE3c/OjuV
-         vArx+DVUex7GiWY1OVxM0lPbzNq2VGwxvGmqmJFDsrMOIfkPl8kkmwWAgwibkWaDJC8p
-         yUr2haCUXDJxA2q4HzJTh+2BxiA1gMtdfD69Z1gDGuVBKmxYPzVJyTBUIoAVrCplahvN
-         bgyCIyzAP3R/PVNSAfNm87kXmUk0yr8c1ykYHq67aQ0QpBCad+dR+h6nQWtfddHjdkwk
-         tX/EOrlS9X8WRmfsSj++ykQmw9jHDYVe+3yIi7jQ0gLJraWR72L3gSaAmu54boixeJTr
-         m1+g==
+        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
+        b=EmLe9qpjaCR6ceFXW9jDbuScNd4gCxIe3H+c9tGUAcikTWQnjgVmjbeme9yb7hFCOb
+         4u2PZLi5EMQ7zkRHpf4Hzhnw7nGFlTY/NlVIPejardOZ4qYAt5x4IJRMDc5Efok+KEkf
+         wcxjLvdItmraEQp1iV1Ajn47IBnLOTDZ6WBlwehEeqbAcWuFYoc6Dr8XJ1goZSeRFpFC
+         QLKWHnRPU6661yvHUPBu2WqD5aZOoI842ct/k2Nk1BAMDs1WuzdOwV5BJCZyrjfwN48H
+         jXEy7+daHCAwZe1L+J9DdBdkDmXWmgWjGwN1MMHbyMNxFXM8JEedIvahbDxnoNSWQHp3
+         Ug+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763494318; x=1764099118;
+        d=1e100.net; s=20230601; t=1763503673; x=1764108473;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RYaqzEIQYjC/AA8fKfHRWLmVY/sXnNn+7WATr1cqH64=;
-        b=YJ9va1nxsE1hfc6U2aFKsDuxifumkPunMR9aidrej/0uLgxkM2HE7+Juf0MpqeclmE
-         wHls3/CB/UQbaLhhV2rW/Pou3yk5/Pt8M+7quBd15LCCzFHflmtZS4a2N2BYi3vJO0Ps
-         AeFOigud3PhFtZa5Es6z9pk6y728iZh7zCUhNfiXlSPfPc6AjylZe+Arv1VG11Qsnj8e
-         sLswaS2QtPcultjR7G+5lEf8C5X1ICT9c/72pAtSGB1kMBRuhC14dgGPSMuVcNxV5kxj
-         EQG2vOtRSYIzyq48aSpYsKQ0RZB5MWoRCInW7RQMKlfftPS1Q805thUaruvrHqawCPCr
-         +wfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWj4t8Oe6M+AcjXTgq2a25oWhkZMBnKau6pSC5iW8insFBtYLSZ5yXCxdlCnTucSMYOqgko86WstKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjQRocxMIcZQ2iaXk8bC4VOq+9stOaO/lRA/M9BEFS0zhpRBiw
-	JVGRLslTJJjRAo3Nbrt/C7MZnien6r+qa2yNIOpMfFxBTIeSGRDyiiiXOkuMkNqt+TRAB5lE0WL
-	ZlUB2Zd1HDK70EZczWOUiDpfR4i47HQBYvizka+DVJw==
-X-Gm-Gg: ASbGncsQoEk//CT3E/N4rpEUkx44312uXgllPbwkEnlz6UlUBZ6kG2LFn0OSZhh1LAP
-	/Cp6rsYTzVhSTsZ94zJAKOVRktkc+r3Bp1pOKlKebQy7BfOttwVA9Crt969z58VqA4IWYvdAyqm
-	kMidr9nLo9T4w5hOdJ9nJpVuB+4gA/mTH06mgDDO7qYDFE7fpakSXpQyz2ppm6iUrweNiH+k5An
-	idNiT5ak3GWEVfWcV/SySPATw3/8vTrKLJSv90lXOT0MK0oTTyv7bxCPbGCdHlBwybs7ytH3F6F
-	xhE=
-X-Google-Smtp-Source: AGHT+IEoY5GxNNnNMoAylXF6Jyy2pRfpo8iGqzyCOOpRdKPPNoDFYT4pwtFBZN3XqQWL9L3hx4nbDu6IprbOG+APsaM=
-X-Received: by 2002:a17:907:7b83:b0:b73:54b6:f892 with SMTP id
- a640c23a62f3a-b73677edcbfmr1719343266b.4.1763494318109; Tue, 18 Nov 2025
- 11:31:58 -0800 (PST)
+        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
+        b=n0TKQ8M3r/vEpTpw8VYLq5RrnEobGXGt9x6CPrKLF89nU/xsjuolJEjdIJY1nsehMh
+         EEhYP7894sLnY7knaLMEApiz3Kv6nyLc5ZksGIzwZ6RHnm1OZO8hIVztbxdfL9vPjhA/
+         nGdzSVu/N/L1MRpLU4zDx0FOg6cDitK5jbOz29cwuBq1XzPLKlXoBx9GuPHKgC9qS6ji
+         3NrR5lGjZbyNH8xYLjqWraIlg9HYVmPqHCWAntQMC2fpWhUwTrfb7KmT6FkHj64RrAjN
+         ZNVd70PV1g1JlcXMCTJc0kdGtFaefiU4bb3o0fIuaVvqqjo1dNmzhpAGH27YX9j5TQZ2
+         bSEA==
+X-Forwarded-Encrypted: i=1; AJvYcCWIfywR+ELW1v9Y4Y/hA4DeDjl0qrRkXwsgunKcTPauVuV5q8VjbzKTle/8TLfZzlih+2eQFUv64S8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbdxHLxBCN4/jDf088fhLxY18jKyNHWleIjyuKsTurwPdeiVjF
+	TiEBpu2DcdhQtYvZUzjW/YSHZy6W8AbfBTApRNqx+46/hOSmYnv5r/kIx9/gT7aQw3OtEUDwflN
+	sPO/4RiPNLsv7W4OhAvrvUBUqF7d285tAwA85UDx+tg==
+X-Gm-Gg: ASbGncvynzl6DrS1BmkPQb6tTVc3in1VpMga0G7G9FqyRpKyJFXLl2anNFXgqmfqM5F
+	Cy4yPKqEF1q08LyTqP5WDRo7P5vbDEC0742hhY3dNlkIw8YE5B/uTRUNlofuDf9XqJxObPNL5cA
+	mU3YPGWJ75z3eCLvWWS3ZcuHogTYvDjSnrgxiZd26KHW/mtEuI1f7137dN+k1uJAi+GXPzi/frs
+	mLm+OQcikPFqQw7TrFMadt6ONZ9me4RF1h732suCDcEyGygqQeUAPoER3Wk/CGnl1eTkJ54dSZY
+	0eM=
+X-Google-Smtp-Source: AGHT+IHtDqrk0qniYZc5AFwR5DqbAOIqGAY4cBt02gO8xxQprKgTQdf+fJMHgzuhx8eUZMd/TIJzeZERktIMHFkuZIY=
+X-Received: by 2002:a05:6402:13cb:b0:640:ca0a:dc1c with SMTP id
+ 4fb4d7f45d1cf-64350e04b49mr16432565a12.7.1763503672627; Tue, 18 Nov 2025
+ 14:07:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-7-pasha.tatashin@soleen.com> <aRyvG308oNRVzuN7@google.com>
- <mafs05xb744pb.fsf@kernel.org> <CA+CK2bAqisSdZ7gSBd7=hGd1VbLHX5WXfBazR=rO8BOVCRx3pg@mail.gmail.com>
- <20251118190901.GS10864@nvidia.com>
-In-Reply-To: <20251118190901.GS10864@nvidia.com>
+References: <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
+ <aRuODFfqP-qsxa-j@kernel.org> <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
+ <aRxWvsdv1dQz8oZ4@kernel.org> <20251118140300.GK10864@nvidia.com>
+ <aRyLbB8yoQwUJ3dh@kernel.org> <CA+CK2bBFtG3LWmCtLs-5vfS8FYm_r24v=jJra9gOGPKKcs=55g@mail.gmail.com>
+ <20251118153631.GB90703@nvidia.com> <CA+CK2bC6sZe1qYd4=KjqDY-eUb95RBPK-Us+-PZbvkrVsvS5Cw@mail.gmail.com>
+ <20251118161526.GD90703@nvidia.com>
+In-Reply-To: <20251118161526.GD90703@nvidia.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 18 Nov 2025 14:31:20 -0500
-X-Gm-Features: AWmQ_bmbBbBA2popU7vHmJW9PAVFFPXLJPyntHOLQd2MbOo1GozNXCODJ9I9W2Y
-Message-ID: <CA+CK2bBXRopZBBJi3YgN_PCwe2b98O=0oyu+XjUkfVrffrDVTw@mail.gmail.com>
-Subject: Re: [PATCH v6 06/20] liveupdate: luo_file: implement file systems callbacks
+Date: Tue, 18 Nov 2025 17:07:15 -0500
+X-Gm-Features: AWmQ_blpcRzsFKrW-N42BrQ1n1NLtjzkNBwejiuKy6hBEe6k9J5ADY-OfS4GodI
+Message-ID: <CA+CK2bCguutAdsXETdDSEPCPT_=OQupgyTfGKQuxi924mOfhTQ@mail.gmail.com>
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
 To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, David Matlack <dmatlack@google.com>, jasonmiu@google.com, 
-	graf@amazon.com, rppt@kernel.org, rientjes@google.com, corbet@lwn.net, 
+Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
 	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
 	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
 	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
@@ -106,25 +108,56 @@ Cc: Pratyush Yadav <pratyush@kernel.org>, David Matlack <dmatlack@google.com>, j
 	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com, 
-	hughd@google.com, skhawaja@google.com, chrisl@kernel.org
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 18, 2025 at 2:09=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+On Tue, Nov 18, 2025 at 11:15=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
 >
-> On Tue, Nov 18, 2025 at 12:58:20PM -0500, Pasha Tatashin wrote:
-> > I actually had full unregister functionality in v4 and earlier, but I
-> > dropped it from this series to minimize the footprint and get the core
-> > infrastructure landed first.
+> On Tue, Nov 18, 2025 at 10:46:35AM -0500, Pasha Tatashin wrote:
+> > > > This won't leak data, as /dev/liveupdate is completely disabled, so
+> > > > nothing preserved in memory will be recoverable.
+> > >
+> > > This seems reasonable, but it is still dangerous.
+> > >
+> > > At the minimum the KHO startup either needs to succeed, panic, or fai=
+l
+> > > to online most of the memory (ie run from the safe region only)
+> >
+> > Allowing degrade booting using only scratch memory sounds like a very
+> > good compromise. This allows the live-update boot to stay alive as a
+> > sort of "crash kernel," particularly since kdump functionality is not
+> > available here. However, it would require some work in KHO to enable
+> > such a feature.
+> >
+> > > The above approach works better for things like VFIO or memfd where
+> > > you can boot significantly safely. Not sure about iommu though, if
+> > > iommu doesn't deserialize properly then it probably corrupts all
+> > > memory too.
+> >
+> > Yes, DMA may corrupt memory if KHO is broken, *but* we are discussing
+> > broken LUO recovering, the KHO preserved memory should still stay as
+> > preserved but unretriable, so DMA activity should only happen to those
+> > regions...
 >
-> I don't think this will make sense, there are enough error paths we
-> can't have registers without unregisters to unwind them.
+> If the iommu is not preserved then normal iommu boot will possibly set
+> the translation the identiy and it will scribble over random memory.
+>
+> You can't rely on the translation being present and only reaching kho
+> preserved memroy if the iommu can't restore itself.
 
-I will add them back in LUOv7.
+In this case, we cannot even rely on having "safe" memory, i.e. this
+scratch only boot to preserve dmesg/core etc, this is unfortunate. Is
+there a way to avoid defaulting to identify mode when we are booting
+into the "maintenance" mode?
+
+Thanks,
+Pasha
 
 >
 > Jason
