@@ -1,155 +1,75 @@
-Return-Path: <linux-api+bounces-5377-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5378-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DCAC6C846
-	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 04:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8341BC6D8BB
+	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 10:00:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5F85C344B90
-	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 03:03:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 443403494E7
+	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 08:57:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBD12D8DB9;
-	Wed, 19 Nov 2025 03:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7936032AAD2;
+	Wed, 19 Nov 2025 08:56:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="X6sXQiw7"
+	dkim=pass (2048-bit key) header.d=novencio.pl header.i=@novencio.pl header.b="dYAXe4Bk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.novencio.pl (mail.novencio.pl [162.19.155.164])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F4917B506
-	for <linux-api@vger.kernel.org>; Wed, 19 Nov 2025 03:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF59A3126D1
+	for <linux-api@vger.kernel.org>; Wed, 19 Nov 2025 08:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.19.155.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763521425; cv=none; b=PiR/Cw3Nx/zxdHF6rmqnFCVPhbq2khaUJUp2zIagH4rxk42vPN24lYP5Hlbp1xMu1n/n61s+WIdX+ljS1J64GPg2jEqsgqt9qtXfIbETnvyNHYlgCkA7k4QCx41XvAMwbjMkI5uHAgpD82P9Moeghynb79GrWdRG/1GKcgyWljk=
+	t=1763542612; cv=none; b=ZnTbP9IlcLrwSIzTvXw4VYVPaNuVssS7h7TuCqDS7wr+I1z6zOLxLHvAui4nsE4Ixfp5h5yxhCzi2jd1mguzLIObjbqpBzKPHK+xTsrqc4dLG/9lYLzE0KAwuNaxxxq1qGtwyMoTCdzAMh6Ac43LTfqGLF1Tw/ZBirEY6xO7ao8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763521425; c=relaxed/simple;
-	bh=iLVQ9fpSMwb+/1OgxzSqM9eSJCO8OgdCf7gGWf7HfaQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eYK4oPYrtuQBAFRXQ/fFbWgYxph7oM6/rR+TlUksDIk/8RD8nBsukrfa/YsX9sMOPLR4ItLkFjMYtVuBqnbKP0ZStsNetf0xg6NYs2JfYyOF5COXuxNUOPhAov4KDfsQUyqh34krP8NRnAe7rxK253nVFYIvjvIbfy/bppKaAdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=X6sXQiw7; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5942b58ac81so4798877e87.2
-        for <linux-api@vger.kernel.org>; Tue, 18 Nov 2025 19:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763521421; x=1764126221; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLVQ9fpSMwb+/1OgxzSqM9eSJCO8OgdCf7gGWf7HfaQ=;
-        b=X6sXQiw7T/4xI6jTDRQdUDiFVxRN2lcSZdE5g0J/kphBQOfMv4LFWFd5zOAQ+h3z+g
-         i2UzCSeZAfD4+70gkbdcy0b2D3122C7kHQTa3Qf2UJLOt3YUgyilen8ZiSrBJS9zJECH
-         6ERPaNWT4fUwV18yz5mxGNFYSWIFtfhXDGKadj+UL6FJVnuBPkl51kNLxqX1NnSpJDPo
-         0v1VWg46cJtUhjBiDCbQDww0odIEBU7jxZ9qreA/7vjv4/khH6Vv/oaYsX03+ZCJFGQa
-         sNlJAX+bxFx8IRiLoECZPAqB2nsMhjhyLkhq9UQjTRB0VPFpJbJh7+0TsFl1VY0UhDeU
-         oWgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763521421; x=1764126221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iLVQ9fpSMwb+/1OgxzSqM9eSJCO8OgdCf7gGWf7HfaQ=;
-        b=GUFrdj6dIyjx8dV1yrQ1zY1goD3hSJTy/PBihnpN5Y6o2K28ET5Y20ZFHuBrFSqwE4
-         NkHXP+g+Hom8C63TSWv8fHy7xduz+WhKmaRK6iT5m1adh+vpbxYAagicPGdwxvgcbMt0
-         KjOtmSDhcYKlOXP1lAuAse/e2rnvErQP1xWxuWq6RzVSt3g7KeY9Cbh2+zzL5mR1SpNB
-         rM4IlY2TStgPYajNsX8EUcYqmWOqYsmD6DEaVowCb/cQCXsjBdEWg6yh4N2O1f5sHFkP
-         WgevpH37TOpHmE31YVb5qVemCk6Jk4VNsGTnFPVIvH/tFv9ahKYL2uNZaNBdsaXLGppz
-         s4Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCUot69SiPE69WoNg9E5ll79S3324xF9yIcrtRPtznyUEFzkIrNdiiu2bhfkV5qG2XzpjEUuki0mL4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBcUI6/XmRUA5NQRsVPZx6d9ATw6Lh4wBXvpNuEcDsVF6DACX8
-	1GNFZ3L9wi49ZtnlaaTo8oVqR7xhigl6dJ+x64LK8ll3KrmNAU8TjT5GKiWafH8ZP69+vY2xOL3
-	v9SmlprzPO13Y89bwLWaWFB9tWWGtMxgKBNKWauNQDQ==
-X-Gm-Gg: ASbGncsc8QFDz4DIspKJfyUbuMaz3h7e/B2sRytFDCi1WMcmGjbU7cl8bSgJO8oMKCQ
-	aWjPcU141vJZcLzrls8S2F1uzg843VVjI13LxboTr6Z6tTyDUPbRj+ZI1O19yhQ2YBWntxkxjZb
-	HBJURRwQOzdXJHR+GjlLWMZg0Ivvywxg28VPqvTDTJwso4WK5WmWzgGQwKd8Vo87xTj2pQnTxvU
-	FTmkyNKuTlmMF8MZ1U6xHeYkIP+H3lWxmenmnmcHcDhu+cdRUQel+Ca5/g2Y+Xgb5qJ
-X-Google-Smtp-Source: AGHT+IF6jFUgyWxnWzJx/waEh+e8ZZZcrBjexbTkHm8gmlq1XM1TXAgMYp45D6MyYvw+W6OQW+owK+2k/XNdPzJADA8=
-X-Received: by 2002:a05:6512:239a:b0:594:3d20:f021 with SMTP id
- 2adb3069b0e04-595841e10e3mr6573440e87.3.1763521421110; Tue, 18 Nov 2025
- 19:03:41 -0800 (PST)
+	s=arc-20240116; t=1763542612; c=relaxed/simple;
+	bh=fIh67CnJs35z4uTVN1yEzBZIG1sWJSjOc8Phu/rB5ug=;
+	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=ds2Eet6QkBAKfeSDGTZBwAMhFtHJ5lztAE82j8auKcU7aOE5wFVZG09Hg2Q2JhjV48FnBVwvK9SP0IUMnnDHn3mODsqvO3SHai3w+w6DfT0as7oF0B8EtavPofY+zVUwU7XOBJBtwLyL7wOn6Qd48BYvm1w657MBylYH+n/Xpgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=novencio.pl; spf=pass smtp.mailfrom=novencio.pl; dkim=pass (2048-bit key) header.d=novencio.pl header.i=@novencio.pl header.b=dYAXe4Bk; arc=none smtp.client-ip=162.19.155.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=novencio.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=novencio.pl
+Received: by mail.novencio.pl (Postfix, from userid 1002)
+	id 0CFBF24D2F; Wed, 19 Nov 2025 08:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=novencio.pl; s=mail;
+	t=1763542609; bh=fIh67CnJs35z4uTVN1yEzBZIG1sWJSjOc8Phu/rB5ug=;
+	h=Date:From:To:Subject:From;
+	b=dYAXe4BkegvVeFBBy90ykNVqmYNnDYyvoflYU3uSBKiHxamnIbU4G+AmaYExZme9y
+	 Oq8yAyqEtdU0r+cdlNwjj7tgRPEprr1EP7rVTVFUFxpdsTlRUqSHtykFx56AmzlEyW
+	 gA1AAmMpn7ccHJit8RDvPz9tgjDpa+mXjORQm3OYduUpgkFZ1sTz8EAKtUqCTO/cmI
+	 Ki0VFItC2DE8wZdaoqZ4xmeAflOq3T4lWoTFiU0Z5J0IuUYnY5vOXAlh18ypxY3uYS
+	 GXNK0R1gv/4kS3/9hBw52bu0OR3H9SvrUb1MFc1h5kAAZTEQrL02/04/eSy+gHm2Mi
+	 ktabytUllwz2g==
+Received: by mail.novencio.pl for <linux-api@vger.kernel.org>; Wed, 19 Nov 2025 08:55:55 GMT
+Message-ID: <20251119074742-0.1.5y.z3pn.0.0qcc0llb2o@novencio.pl>
+Date: Wed, 19 Nov 2025 08:55:55 GMT
+From: "Marek Poradecki" <marek.poradecki@novencio.pl>
+To: <linux-api@vger.kernel.org>
+Subject: =?UTF-8?Q?Wiadomo=C5=9B=C4=87_z_ksi=C4=99gowo=C5=9Bci?=
+X-Mailer: mail.novencio.pl
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aRuODFfqP-qsxa-j@kernel.org> <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
- <aRxWvsdv1dQz8oZ4@kernel.org> <20251118140300.GK10864@nvidia.com>
- <aRyLbB8yoQwUJ3dh@kernel.org> <CA+CK2bBFtG3LWmCtLs-5vfS8FYm_r24v=jJra9gOGPKKcs=55g@mail.gmail.com>
- <20251118153631.GB90703@nvidia.com> <CA+CK2bC6sZe1qYd4=KjqDY-eUb95RBPK-Us+-PZbvkrVsvS5Cw@mail.gmail.com>
- <20251118161526.GD90703@nvidia.com> <CA+CK2bCguutAdsXETdDSEPCPT_=OQupgyTfGKQuxi924mOfhTQ@mail.gmail.com>
- <20251118232517.GD120075@nvidia.com>
-In-Reply-To: <20251118232517.GD120075@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 18 Nov 2025 22:03:03 -0500
-X-Gm-Features: AWmQ_bkhtJuHwb_aYM1P0vArDeVsoqrPaefrD9sFZo9CLgQiJu240K99k3Hl7qU
-Message-ID: <CA+CK2bCtJD-FGtmCOfz8arUGqO6hFkxWcjG-wHz_S1Abt7rXEw@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 18, 2025 at 6:25=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Tue, Nov 18, 2025 at 05:07:15PM -0500, Pasha Tatashin wrote:
->
-> > In this case, we cannot even rely on having "safe" memory, i.e. this
-> > scratch only boot to preserve dmesg/core etc, this is unfortunate. Is
-> > there a way to avoid defaulting to identify mode when we are booting
-> > into the "maintenance" mode?
->
-> Maybe one could be created?
->
-> It's tricky though because you also really want to block drivers from
-> using the iommu if you don't know they are quieted and you can't do
-> that without parsing the KHO data, which you can't do because it
-> doesn't understand it..
->
-> IDK, I think the "maintenance" mode is something that is probably best
-> effort and shouldn't be relied on. It will work if the iommu data is
-> restored or other lucky conditions hit, so it is not useless, but it
-> is certainly not robust or guaranteed.
+Dzie=C5=84 dobry,
 
-Right, even kdump has always been best-effort; many types of crashes
-do not make it to the crash kernel.
+pomagamy przedsi=C4=99biorcom wprowadzi=C4=87 model wymiany walut, kt=C3=B3=
+ry minimalizuje wahania koszt=C3=B3w przy rozliczeniach mi=C4=99dzynarodo=
+wych.
 
-> You are better to squirt a panic message out of the serial port and
+Kiedyv mo=C5=BCemy um=C3=B3wi=C4=87 si=C4=99 na 15-minutow=C4=85 rozmow=C4=
+=99, aby zaprezentowa=C4=87, jak taki model m=C3=B3g=C5=82by dzia=C5=82a=C4=
+=87 w Pa=C5=84stwa firmie - z gwarancj=C4=85 indywidualnych kurs=C3=B3w i=
+ pe=C5=82nym uproszczeniem p=C5=82atno=C5=9Bci? Prosz=C4=99 o propozycj=C4=
+=99 dogodnego terminu.
 
-For early boot LUO mismatches, or if FLB data is inaccessible for any
-reason, devices might go rogue, so triggering a panic during boot is
-appropriate.
 
-However, session and file data structures are deserialized later, when
-/dev/liveupdate is first opened by userspace. If deserialization fails
-at that stage, I think we should simply fail the open(/dev/liveupdate)
-call with an error such as -EIO.
-
-Pasha
+Pozdrawiam
+Marek Poradecki
 
