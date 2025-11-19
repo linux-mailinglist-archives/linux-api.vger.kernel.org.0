@@ -1,75 +1,144 @@
-Return-Path: <linux-api+bounces-5378-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5379-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8341BC6D8BB
-	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 10:00:42 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1B0C6F5C0
+	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 15:41:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 443403494E7
-	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 08:57:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C324A4F1120
+	for <lists+linux-api@lfdr.de>; Wed, 19 Nov 2025 14:29:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7936032AAD2;
-	Wed, 19 Nov 2025 08:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA08D2EA168;
+	Wed, 19 Nov 2025 14:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=novencio.pl header.i=@novencio.pl header.b="dYAXe4Bk"
+	dkim=pass (2048-bit key) header.d=alyssa.is header.i=@alyssa.is header.b="Msp/8Ugq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OXw9+CMn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.novencio.pl (mail.novencio.pl [162.19.155.164])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF59A3126D1
-	for <linux-api@vger.kernel.org>; Wed, 19 Nov 2025 08:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.19.155.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C979A2E7165;
+	Wed, 19 Nov 2025 14:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763542612; cv=none; b=ZnTbP9IlcLrwSIzTvXw4VYVPaNuVssS7h7TuCqDS7wr+I1z6zOLxLHvAui4nsE4Ixfp5h5yxhCzi2jd1mguzLIObjbqpBzKPHK+xTsrqc4dLG/9lYLzE0KAwuNaxxxq1qGtwyMoTCdzAMh6Ac43LTfqGLF1Tw/ZBirEY6xO7ao8=
+	t=1763562320; cv=none; b=el+Zxp+6cFP3z5I9fUwSeg23DB5Ozw4pBAWwa9ERaNDWl6gQqlwed6y3RDQcP2ueiDCt5YzSdebNGNmAvOj7kBpymlaP3CNdNyyK7jRKiu7DG8B/nP5YnPhhkEuHmQPSIx89fBIakJ1EoChtIRXKUhUlyCuBwMOHdglRcXth8/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763542612; c=relaxed/simple;
-	bh=fIh67CnJs35z4uTVN1yEzBZIG1sWJSjOc8Phu/rB5ug=;
-	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=ds2Eet6QkBAKfeSDGTZBwAMhFtHJ5lztAE82j8auKcU7aOE5wFVZG09Hg2Q2JhjV48FnBVwvK9SP0IUMnnDHn3mODsqvO3SHai3w+w6DfT0as7oF0B8EtavPofY+zVUwU7XOBJBtwLyL7wOn6Qd48BYvm1w657MBylYH+n/Xpgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=novencio.pl; spf=pass smtp.mailfrom=novencio.pl; dkim=pass (2048-bit key) header.d=novencio.pl header.i=@novencio.pl header.b=dYAXe4Bk; arc=none smtp.client-ip=162.19.155.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=novencio.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=novencio.pl
-Received: by mail.novencio.pl (Postfix, from userid 1002)
-	id 0CFBF24D2F; Wed, 19 Nov 2025 08:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=novencio.pl; s=mail;
-	t=1763542609; bh=fIh67CnJs35z4uTVN1yEzBZIG1sWJSjOc8Phu/rB5ug=;
-	h=Date:From:To:Subject:From;
-	b=dYAXe4BkegvVeFBBy90ykNVqmYNnDYyvoflYU3uSBKiHxamnIbU4G+AmaYExZme9y
-	 Oq8yAyqEtdU0r+cdlNwjj7tgRPEprr1EP7rVTVFUFxpdsTlRUqSHtykFx56AmzlEyW
-	 gA1AAmMpn7ccHJit8RDvPz9tgjDpa+mXjORQm3OYduUpgkFZ1sTz8EAKtUqCTO/cmI
-	 Ki0VFItC2DE8wZdaoqZ4xmeAflOq3T4lWoTFiU0Z5J0IuUYnY5vOXAlh18ypxY3uYS
-	 GXNK0R1gv/4kS3/9hBw52bu0OR3H9SvrUb1MFc1h5kAAZTEQrL02/04/eSy+gHm2Mi
-	 ktabytUllwz2g==
-Received: by mail.novencio.pl for <linux-api@vger.kernel.org>; Wed, 19 Nov 2025 08:55:55 GMT
-Message-ID: <20251119074742-0.1.5y.z3pn.0.0qcc0llb2o@novencio.pl>
-Date: Wed, 19 Nov 2025 08:55:55 GMT
-From: "Marek Poradecki" <marek.poradecki@novencio.pl>
-To: <linux-api@vger.kernel.org>
-Subject: =?UTF-8?Q?Wiadomo=C5=9B=C4=87_z_ksi=C4=99gowo=C5=9Bci?=
-X-Mailer: mail.novencio.pl
+	s=arc-20240116; t=1763562320; c=relaxed/simple;
+	bh=9SkXPt2mWvs5IIt4XRK/mbXVzF3jutwQkYzM57Xh1a8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hlR523Vl2HsvPLCZGykA4RHoR7N7GsztruZ3rzeFW+uSUgfwapSLSULNwKiESAxaSRbiQllMGQLyQDGOLT3MymbqwbgRJb7zZ9jHBaijgaEGQE7FPcNohivXHuDVYi6fHpZiFSPP5yrn3oUEPkQBQ0YkBn5HrT0nWXw+Q5hL8sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alyssa.is; spf=pass smtp.mailfrom=alyssa.is; dkim=pass (2048-bit key) header.d=alyssa.is header.i=@alyssa.is header.b=Msp/8Ugq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OXw9+CMn; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alyssa.is
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alyssa.is
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 656701400076;
+	Wed, 19 Nov 2025 09:25:15 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 19 Nov 2025 09:25:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
+	 t=1763562315; x=1763648715; bh=uSLyGu3lXBDz6tpjXdnJ72JFOQcMhNbl
+	D6TTCrVdXuE=; b=Msp/8UgqaOnRUDuOe0373Q/9yP49p8WR4cUbZI78nXF8HcR6
+	0eiTHDvtSsZd2CX1J6kD3BuJe88BS7VRNU2WN1sXYXxnAA+wS/GA0R0Fc71q/xG6
+	bFVVmGGdWxlCoMP8kyxe5vkwIXsUl5BTbsNtG5INnPqgobN/Ctp7z8yl3/hgCRUs
+	zVdy03AxBa41JNA8Xb2HhSrAllACb+ONbAgdC6cHkW6PQT2FcvhZ6wgOgPOho1pz
+	jj2SD6v3yO3rK35qKAv+wH+dgmgofnTRuskytfG/Q1/mjIycJEgyYnVzviPwJkxU
+	LLGrSdgNAmliJN51ZYBe44tnzqtEjSRyTM+Gyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763562315; x=
+	1763648715; bh=uSLyGu3lXBDz6tpjXdnJ72JFOQcMhNblD6TTCrVdXuE=; b=O
+	Xw9+CMn+lJ0H/1etQPGXj2wbErAwthvuBv/3FDaJKYXWAHGpG0CigTZO4QKVAOMD
+	Bv76Wd6o/E88t4Vvga6XwC9MG+IxaDPRA3S/L4w77/J0eMO3aZ6MlBXBMa/rwjY1
+	0fWTvy7Uf9A48h+EUu95jazAJyRhRRbejKAYzXEv5jACPuM4YmQtBzdUGx5siW65
+	p1X5XW2SAZkC8AxfmqFJa63fYvoC4n6PT2BcyDf2f5jSGviZE3aDUpg7qsx4BDA2
+	/3mY5RmZpIsOueusg548P+CNtevLc4gndxkrw//jaNZY+Rt6TRTO/Nt8w4KT1b1J
+	YPzRANi97EDckp/zUSSkA==
+X-ME-Sender: <xms:StMdacsOUp53RTmf_pMuxo8HYTuZvvrkO_TUTsLgHorNjLhMb8Nmuw>
+    <xme:StMdaS36xKDpnR4dE0Dg9xq_SU1BBpbjb-TlcWdru7qz0SkOqCzHqiP8A1EuphRc7
+    Wdt6rx99K3kszc0mvq6EBUyOX23md_1E6QeVmLt_2mjv2lVQRCxhT4>
+X-ME-Received: <xmr:StMdaQQxHuTIiniNpoQSWmXFzffVI0DBa8k86gbMG7MLj_z_U7ryADSCqOWTDvZTX7CAaBhYD8GamaJaSvo2_ySaNuOTkpfI_0YRrYfh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvvdeggeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkgggtsehgtderredttddtnecuhfhrohhmpeetlhihshhsrgcutfho
+    shhsuceohhhisegrlhihshhsrgdrihhsqeenucggtffrrghtthgvrhhnpeekjeevuefgue
+    ekheejvddvjeeulefgtedtledtjeefheehtdduvdegtedtleelleenucffohhmrghinhep
+    khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhephhhisegrlhihshhsrgdrihhspdhnsggprhgtphhtthhopeduiedpmhho
+    uggvpehsmhhtphhouhhtpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtph
+    htthhopegthihphhgrrhestgihphhhrghrrdgtohhmpdhrtghpthhtohepsghfihgvlhgu
+    shesfhhivghlughsvghsrdhorhhgpdhrtghpthhtohepuggvmhhiohgsvghnohhurhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehjrghnnhhhsehgohhoghhlvgdrtghomhdprhgt
+    phhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhi
+    htohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhhtoheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:StMdaev0zCR3HVwOji2NighyzGEXgQ4XlWAe_9sQN3qcUgbjGuhQPw>
+    <xmx:StMdaeJvoEDTbvtczkGll2QoFVE-blA0Eoiqm6l_dB9QqyPW6uWJUA>
+    <xmx:StMdaSd5rnbF7n7y6DrA6RQgexvH5iXkiqdddbTxaniPAg0h9oBE0Q>
+    <xmx:StMdaQVCDIVVYeKQoMRRNtmkdtN66zxTaTnwuDFSHrvWd7K65gVsYg>
+    <xmx:S9MdaUg_Q-6U049TOA6ao_zzE74uxVh9f3NschoiGEGf6JRTntFE3HBi>
+Feedback-ID: i12284293:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Nov 2025 09:25:13 -0500 (EST)
+Received: by fw12.qyliss.net (Postfix, from userid 1000)
+	id D0CC22287CB7; Wed, 19 Nov 2025 14:46:37 +0100 (CET)
+From: Alyssa Ross <hi@alyssa.is>
+To: linux-fsdevel@vger.kernel.org
+Cc: Demi Marie Obenour <demiobenour@gmail.com>, Aleksa Sarai
+ <cyphar@cyphar.com>, Jann Horn <jannh@google.com>, "Eric W. Biederman"
+ <ebiederm@xmission.com>, jlayton@kernel.org, Bruce Fields
+ <bfields@fieldses.org>, Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann
+ <arnd@arndb.de>, shuah@kernel.org, David Howells <dhowells@redhat.com>,
+ Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org
+Subject: Safety of resolving untrusted paths with detached mount dirfd
+Date: Wed, 19 Nov 2025 14:46:35 +0100
+Message-ID: <87cy5eqgn8.fsf@alyssa.is>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-Dzie=C5=84 dobry,
+--=-=-=
+Content-Type: text/plain
 
-pomagamy przedsi=C4=99biorcom wprowadzi=C4=87 model wymiany walut, kt=C3=B3=
-ry minimalizuje wahania koszt=C3=B3w przy rozliczeniach mi=C4=99dzynarodo=
-wych.
+Hello,
 
-Kiedyv mo=C5=BCemy um=C3=B3wi=C4=87 si=C4=99 na 15-minutow=C4=85 rozmow=C4=
-=99, aby zaprezentowa=C4=87, jak taki model m=C3=B3g=C5=82by dzia=C5=82a=C4=
-=87 w Pa=C5=84stwa firmie - z gwarancj=C4=85 indywidualnych kurs=C3=B3w i=
- pe=C5=82nym uproszczeniem p=C5=82atno=C5=9Bci? Prosz=C4=99 o propozycj=C4=
-=99 dogodnego terminu.
+As we know, it's not safe to use chroot() for resolving untrusted paths
+within some root, as a subdirectory could be moved outside of the
+process root while walking the path[1].  On the other hand,
+LOOKUP_BENEATH is supposed to be robust against this, and going by [2],
+it sounds like resolving with the mount namespace root as dirfd should
+also be.
 
+My question is: would resolving an untrusted path against a detached
+mount root dirfd opened with OPEN_TREE_CLONE (not necessarily a
+filesystem root) also be expected to be robust against traversal issues?
+i.e. can I rely on an untrusted path never resolving to a path that
+isn't under the mount root?
 
-Pozdrawiam
-Marek Poradecki
+[1]: https://lore.kernel.org/lkml/CAG48ez30WJhbsro2HOc_DR7V91M+hNFzBP5ogRMZaxbAORvqzg@mail.gmail.com/
+[2]: https://lore.kernel.org/lkml/C89D720F-3CC4-4FA9-9CBB-E41A67360A6B@amacapital.net/
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQGoGac7QfI+H5ZtFCZddwkt31pFQUCaR3KOwAKCRCZddwkt31p
+Fdj3AP0SAsCZF1PqR/445B52H+Yf19RvjVlHJh0I/X3OdGW/kAEA3flerEzGP+Fw
+5F0hSZBlcJJwaEN7yFPo51mFvvMT1wA=
+=74+2
+-----END PGP SIGNATURE-----
+--=-=-=--
 
