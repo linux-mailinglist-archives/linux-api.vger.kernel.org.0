@@ -1,162 +1,171 @@
-Return-Path: <linux-api+bounces-5393-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5394-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D63C750DC
-	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 16:41:46 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1B4C75B17
+	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 18:32:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id 4F0D43129A
-	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 15:41:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A9A5734E754
+	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 17:27:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9E735BDD1;
-	Thu, 20 Nov 2025 15:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F9E36C5A2;
+	Thu, 20 Nov 2025 17:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BSbuSzzK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sap5ecG9"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D29358D2A;
-	Thu, 20 Nov 2025 15:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB6D334C27;
+	Thu, 20 Nov 2025 17:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763652896; cv=none; b=I9Q99evnoWraEOrWEyaWz3wDtsYxCPKCQeZhaRnLubudz7vWp5YLxU1PmVD9SZNn6+63XJyURLiZmD0AKFtiCePCmfdnDnwlbdRSuCbowiA2W2ugp/nSkQ2JBcpRkGOPaNw2EN5uNOgkg/ehqLILQulVR7nRjA0/yvs58axxEs0=
+	t=1763659249; cv=none; b=qR8++v9h50IWFptlQGTaQfrXYn7oh+QtiIZkGjcx/sKuxiDokWZqllwGwTmEid2IRA2BzUdlR1m+P+SrLk8SRLdqe++sJKpPPyc/fO9YSfks9S5EnHYcSzyKINJEmgyM5SVl4PLIslRiWoQNCqS8dyH6blJtS83bTHVqlCxcvE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763652896; c=relaxed/simple;
-	bh=iLlpiIoq6RvRNwPu4wKmwbysrxXgehN/NeIhRBCyojQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ARL+nk8+1+u3RA4PD7xRKQ7u9TvOxX55HU6f/0Ppjeo5imGL6FHwsPG+uLPVqwK8VXJibCDzWymo4pA1I+6i5ldUqshDarXeCMYecid8n5cvN4pl1To39CMijYC0QkJ5pzzMsgNF9TVhRIuKuV3IU7s7/0YGDgZ2eiXfD9ueGsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BSbuSzzK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36EEC4CEF1;
-	Thu, 20 Nov 2025 15:34:46 +0000 (UTC)
+	s=arc-20240116; t=1763659249; c=relaxed/simple;
+	bh=fD6KjoGzF7YWD+p5+muskUl3aspahvddrqQqiF5E0oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bIsntqcRgIlbS+G6ClOhGGqKajVbU+E+jXuuWRZPMJMNH1ypAfAaA0fZMBrBv/04SNACp3d733zSzCxt4boeH/Z8rWMLccy+dTkcPhG3wcvYDYUAnE2oll6XnNu8TSx4+8FRLjLD7GmfjO5kpod75dhQ2/b/CaWQYKxoZtutnSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sap5ecG9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7B32C4CEF1;
+	Thu, 20 Nov 2025 17:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763652895;
-	bh=iLlpiIoq6RvRNwPu4wKmwbysrxXgehN/NeIhRBCyojQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BSbuSzzK7NmUg46X6Xqg6ULra0bk2IOvd4ky2Uu2VfaVLOtcvXkx17NUhrXYC5ucU
-	 PJfv6TgrN2RCJfDTXq3QFuGducBydTpyGGuTVt1tX1UsYx158hZaIw6KucGedSBdnj
-	 cnWvat7/iCNuhM3D4FhcULyewVEYpxKNXTsxKMFgotaIX21VGAH+F5QnMtqCQtdQ/z
-	 u0eFdZ3lwuu0TO7ycFLhQMuIe6rxYzaKbfyXFMQmSh3psyGpXYrvKSG8c5ZUAthpep
-	 YZM6LAvl7j2Lgl6pytE3RCmARngLlNipOyV3xf4vphQJBndBwXD2Xe912KrSst9b9D
-	 szpXLx0N6hkVw==
-From: Pratyush Yadav <pratyush@kernel.org>
+	s=k20201202; t=1763659246;
+	bh=fD6KjoGzF7YWD+p5+muskUl3aspahvddrqQqiF5E0oc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sap5ecG9LGJ8wpTAYDVKAIMrPJKlHSE68WffXz2yNvUZnXdIBn7l8lIGbnotMc9qc
+	 4UvFnri9+3qxNKGHl1DKfj1kfzW8tWjCrq0Wav7skSZi671Y+Xf3BWLH2EFS6gHBXG
+	 uUEEe+2Dwp3dW/x64f0jRgjdsbxlTY8DsC3kGsqTj3QqbdbduJse9G9Z7WSNL0FsbB
+	 asf3PkIfJ9IBdOPz2qY0QGN/6cAH7zMJK4iiliG2tCWB3F2jLmuZ8MrGZSMjJPqcmJ
+	 YC8Sp0VH+4R5da77Tmu8lT9QmYW4efCZoC+vDVYT9qDRZBb1/fTjzStTuXldlhqgnJ
+	 gMvfzGioMt3RA==
+Date: Thu, 20 Nov 2025 19:20:23 +0200
+From: Mike Rapoport <rppt@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Mike Rapoport <rppt@kernel.org>,  pratyush@kernel.org,
-  jasonmiu@google.com,  graf@amazon.com,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
-  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
-  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
-  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
-  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
-  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
-Subject: Re: [PATCH v6 15/20] mm: memfd_luo: allow preserving memfd
-In-Reply-To: <CA+CK2bADcVsRnovkwWftPCbubXoaFrPzSavMU+G9f3XAz3YMLQ@mail.gmail.com>
-	(Pasha Tatashin's message of "Wed, 19 Nov 2025 16:56:10 -0500")
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 06/20] liveupdate: luo_file: implement file systems
+ callbacks
+Message-ID: <aR9N14KWaz6SdFcw@kernel.org>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
-	<20251115233409.768044-16-pasha.tatashin@soleen.com>
-	<aRsBHy5aQ_Ypyy9r@kernel.org>
-	<CA+CK2bADcVsRnovkwWftPCbubXoaFrPzSavMU+G9f3XAz3YMLQ@mail.gmail.com>
-Date: Thu, 20 Nov 2025 16:34:45 +0100
-Message-ID: <mafs0a50g3ega.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <20251115233409.768044-7-pasha.tatashin@soleen.com>
+ <aRoU1DSgVmplHr3E@kernel.org>
+ <CA+CK2bBFS754hdPfNAkMp_PqNpOB2nY02OkWbhRdoUiZ+ah=jw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bBFS754hdPfNAkMp_PqNpOB2nY02OkWbhRdoUiZ+ah=jw@mail.gmail.com>
 
-On Wed, Nov 19 2025, Pasha Tatashin wrote:
+On Mon, Nov 17, 2025 at 12:50:56PM -0500, Pasha Tatashin wrote:
+> > > +struct liveupdate_file_handler;
+> > > +struct liveupdate_session;
+> >
+> > Why struct liveupdate_session is a part of public LUO API?
+> 
+> It is an obscure version of private "struct luo_session", in order to
+> give subsystem access to:
+> liveupdate_get_file_incoming(s, token, filep)
+> liveupdate_get_token_outgoing(s, file, tokenp)
+> 
+> For example, if your FD depends on another FD within a session, you
+> can check if another FD is already preserved via
+> liveupdate_get_token_outgoing(), and during retrieval time you can
+> retrieve the "struct file" for your dependency.
+ 
+And it's essentially unused right now.
 
-> On Mon, Nov 17, 2025 at 6:04=E2=80=AFAM Mike Rapoport <rppt@kernel.org> w=
-rote:
->>
->> On Sat, Nov 15, 2025 at 06:34:01PM -0500, Pasha Tatashin wrote:
->> > From: Pratyush Yadav <ptyadav@amazon.de>
->> >
->> > The ability to preserve a memfd allows userspace to use KHO and LUO to
->> > transfer its memory contents to the next kernel. This is useful in many
->> > ways. For one, it can be used with IOMMUFD as the backing store for
->> > IOMMU page tables. Preserving IOMMUFD is essential for performing a
->> > hypervisor live update with passthrough devices. memfd support provides
->> > the first building block for making that possible.
->> >
->> > For another, applications with a large amount of memory that takes time
->> > to reconstruct, reboots to consume kernel upgrades can be very
->> > expensive. memfd with LUO gives those applications reboot-persistent
->> > memory that they can use to quickly save and reconstruct that state.
->> >
->> > While memfd is backed by either hugetlbfs or shmem, currently only
->> > support on shmem is added. To be more precise, support for anonymous
->> > shmem files is added.
->> >
->> > The handover to the next kernel is not transparent. All the properties
->> > of the file are not preserved; only its memory contents, position, and
->> > size. The recreated file gets the UID and GID of the task doing the
->> > restore, and the task's cgroup gets charged with the memory.
->> >
->> > Once preserved, the file cannot grow or shrink, and all its pages are
->> > pinned to avoid migrations and swapping. The file can still be read fr=
-om
->> > or written to.
->> >
->> > Use vmalloc to get the buffer to hold the folios, and preserve
->> > it using kho_preserve_vmalloc(). This doesn't have the size limit.
->> >
->> > Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->> > Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-[...]
->> > +     struct inode *inode =3D file_inode(file);
->> > +     struct memfd_luo_folio_ser *pfolios;
->> > +     struct kho_vmalloc *kho_vmalloc;
->> > +     unsigned int max_folios;
->> > +     long i, size, nr_pinned;
->> > +     struct folio **folios;
->>
->> pfolios and folios read like the former is a pointer to latter.
->> I'd s/pfolios/folios_ser/
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +
+> > > +exit_err:
+> > > +     fput(file);
+> > > +     luo_session_free_files_mem(session);
+> >
+> > The error handling in this function is a mess. Pasha, please, please, use
+> > goto consistently.
+> 
+> How is this a mess? There is a single exit_err destination, no
+> exception, no early returns except at the very top of the function
+> where we do early returns before fget() which makes total sense.
+> 
+> Do you want to add a separate destination for
+> luo_session_free_files_mem() ? But that is not necessary, in many
+> places it is considered totally reasonable for free(NULL) to work
+> correctly...
 
-folios_ser is a tricky name, it is very close to folio_ser (which is
-what you might use for one member of the array).
+You have a mix of releasing resources with goto or inside if (err).
+And while basic free() primitives like kfree() and vfree() work correctly
+with NULL as a parameter, luo_session_free_files_mem() is already not a
+basic primitive and it may grow with a time. It already has two conditions
+that essentially prevent anything from freeing and this will grow with the
+time.
 
-I was bit by this when hacking on some hugetlb preservation code. I
-wrote folios_ser instead of folio_ser in a loop, and then had to spend
-half an hour trying to figure out why the code wasn't working. It is
-kinda hard to differentiate between the two visually.
+So yes, I want a separate goto destination for freeing each resource and a
+goto for 
 
-Not that I have a better name off the top of my head. Just saying that
-this naming causes weird readability problems.
+	err = fh->ops->preserve(&args);
+	if (err)
 
->
-> Done
->
-[...]
+case.
 
---=20
-Regards,
-Pratyush Yadav
+> > > +             luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> > > +             if (!luo_file)
+> > > +                     return -ENOMEM;
+> >
+> > Shouldn't we free files allocated on the previous iterations?
+> 
+> No, for the same reason explained in luo_session.c :-)
+
+A comment here as well please :)
+
+> > > +int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
+> > > +                              struct file **filep)
+> > > +{
+> >
+> > Ditto.
+> 
+> These two functions are part of the public API allowing dependency
+> tracking for vfio->iommu->memfd during preservation.
+
+So like with FLB, until we get actual users for them they are dead code. 
+And until it's clear how exactly dependency tracking for vfio->iommu->memfd
+will work, we won't know if this API is useful at all or we'll need
+something else in the end.
+
+-- 
+Sincerely yours,
+Mike.
 
