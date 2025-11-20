@@ -1,151 +1,166 @@
-Return-Path: <linux-api+bounces-5390-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5391-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECBCC72D32
-	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 09:26:59 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9BFC731CA
+	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 10:25:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E877B3592D8
-	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 08:24:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 873242BC7C
+	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 09:25:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 807B231A572;
-	Thu, 20 Nov 2025 08:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CFC8311C3D;
+	Thu, 20 Nov 2025 09:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="TZQTZgyB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PbZwNbw9"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="rz9KaaXB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB95131AF3C;
-	Thu, 20 Nov 2025 08:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84702116E0;
+	Thu, 20 Nov 2025 09:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763626877; cv=none; b=cf8zOZ1Q9xIlyuxwNeNpfiZedS/9ZQtv7AoYCn2nR44jcbkeQvXkaIigldWiDGkruAng6zwGPxSG0C4RiP1W5lzqA+U9+IaCqXxJbhk3idEAIfnlGPU8noKaOsw42IHZ4ubAPcb54SqHtfCZdTObiJitjG8/E6zS6QD0Jlmeg3Q=
+	t=1763630726; cv=none; b=Z6TgNPNzoGrrLlBiTGy/gKi5HkFyYhDksRTmUPlwx/yO/SC12cDsBl1bOkaVEGkabRXtaAjenwnYRq9MFOTclhNck4Cw/rlM8ldE6gtjMMq/7laybgaU1PqyaEW/prymVX3GWTdJSjILdiHb5mHoWCuRVGRWG4QtUpOxZLEcdkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763626877; c=relaxed/simple;
-	bh=z/8pN91Ni5yt00D0aZA6TYxGreivp4v1oSml4t+EGnM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=uv4HxegSEFAQz1g0nsGeb1TSGYf3Yzfd/wuISTapn9ViR6z7fWrKWNSa0bMErt6RpzBer1qKs+3ydjuOgiFD9wzvlZW7yUOn2lmr2UCucZTu2mLxux/YSLeb1IXzclfoiNjX+M9CYMVaH4H9wAlTgDuJlRdXKNGvr2580hpY1vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=TZQTZgyB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PbZwNbw9; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 75B9114001B3;
-	Thu, 20 Nov 2025 03:21:13 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Thu, 20 Nov 2025 03:21:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1763626873;
-	 x=1763713273; bh=vw18kNyGCqDYWIxezAS79655AupPNhDVjKs/IhFQtF0=; b=
-	TZQTZgyBILHUJ/Tkesi3a1zooFztclctkFHwNarRQlD8uEvrSEz8/ZLMDC4YVKO3
-	vBgcZt3Y5KeAh88AncdKFX0j45BaEu5w3wRl7rUVnNXQNNL9c5BoKAi4gCc3RHgZ
-	GzHstWKMVePbJZl08umAQG4qsoSE30E/gfsfxBBRT8/gE9wXA05yeWnV73+W3/69
-	tIKQ2XWnEOSsO1MhJPfWqTesfkY7o9Pjyolj2Yr3YW8QQPzraqXSF/D0ZKbl7m2h
-	zNOrUyam0y7KkuPobpoYd6EMhZF+cYl3EAMq1QTMrSTiLzw4dTo8gqFAC/wjsm8u
-	yLBLWeKdI1ur6cVjX533Vg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763626873; x=
-	1763713273; bh=vw18kNyGCqDYWIxezAS79655AupPNhDVjKs/IhFQtF0=; b=P
-	bZwNbw94B6GBIFwYUFGKR0gpbLTJnTJw8PC7Iq1YH8wa6nbnTe5qlwr+gZbCEd4F
-	3jFyvOO9q5GQogti0O4oNJu+lDYTxPdSX2pBThnFX7al8Z5vbSw/tcdI9TvdDL6D
-	kAgUv3n06lzmg2KGSWf0bA8pL3EYsZ9sgz4AQ1H3ecywa37AlUWlbcOwupPFo0nt
-	UvzlN9Q72qyAZGIc3biQJqaW5dO0nZ599froyS7KX6D7wU4FTrKwlHBavsbTR5Df
-	gV0tHSW/79qkiFuBmZY/9/kkKBscLLTeYyj4nruj7pAteUw9BK4lm/FCsmZ6YNZ9
-	/vYGkcfMo3HGkEYUbA1uA==
-X-ME-Sender: <xms:ds8eafrt0XZ5raKkctIqJ3bsxTZsJ3_coyiCDR1B8glhoOeG1Us4hQ>
-    <xme:ds8eaUfDNz3nOUSqWwKQtDWBUysvMM-A3YbIjtOsSz-twhZmep6TXBlZfRGjd_2fc
-    3Nx4H7iv5dVD7m15wuSCwVRjPvZEgShvGtQ_mZim6x90Qsitp3V8hk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvvdeiheelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehmiiigrhgvrghrhiestdhpohhinhhtvghrrdguvgdprhgtphhtth
-    hopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopehgrhgrfhesrghmrgiiohhnrdgt
-    ohhmpdhrtghpthhtoheptghhrhhishhtohhphhgvrdhlvghrohihsegtshhgrhhouhhprd
-    gvuhdprhgtphhtthhopehjuhhlihgrnhdrshhtvggtkhhlihhnrgestgihsggvrhhushdq
-    thgvtghhnhholhhoghihrdguvgdprhgtphhtthhopegthihphhgrrhestgihphhhrghrrd
-    gtohhmpdhrtghpthhtohepnhhstghhihgthhgrnhesfhhrvggvsghogidrfhhrpdhrtghp
-    thhtoheprghnugihrdhshhgvvhgthhgvnhhkohesghhmrghilhdrtghomhdprhgtphhtth
-    hopegvmhgrihhlvdhtvghmrgesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:ds8eaU8GJMQFMXMY7ag887-iiAgPBvBEFvogn_AJx2SSSemdle75Yw>
-    <xmx:ds8eadDXsm5xeCIuZaqkJu9DxNh3McNmkrxSEQy7NrDKtfzGmmMoNw>
-    <xmx:ds8eaRqnVSFCVAf1pz7hTWqL9NJXmPlKn_-2-0xEekUQ-h7VVfpOcw>
-    <xmx:ds8eafEzw4fMambw9Ym5jvlE_UEbIKsbkhlkglFK2Ux7LBbh0KXi5g>
-    <xmx:ec8eaT7KiVhTF9AO3TSUH4nk64QGdvPiYBjgGQFexVwi-KIbNi5bYy8I>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 0C1AE700054; Thu, 20 Nov 2025 03:21:10 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1763630726; c=relaxed/simple;
+	bh=RF0ot3oTUmVd+UfiWoVlZXD8HvDSIqhD1CGs/i1fFLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JcdAsiCQpHEXwJqT6Vwr4PuuhObl7SxRE/B0+vVenoEVRP0ujddJSpg3vA1dTX0edpgknOl3Rtv/saj8EB3xGdoWgfk/H2YbxagW+VeVhaTfd18Qshp5qny/v5eHp/O4OsCEXoY0BbRQEuToAixvjVT66QHnn6sfvEdU3NshiZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=rz9KaaXB; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dBtHF06Sqz9vCS;
+	Thu, 20 Nov 2025 10:25:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1763630713;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u8phQttnuU1JatsQgZAAR3JN6cR7M9BIHnUMPn6PNDc=;
+	b=rz9KaaXBSr2KSOJKpJtb7nSdKSvo7mu+FrDeX+N8X59dGmrfdA8ieB9B+3qSauvAnRoGtv
+	cfJYQ/y7Cs86N7VVsJHdynUqW7O/JZP7l16yjRTvMpq6eXUPekoJlP8je1edqUGCEZ37mT
+	bdOAjXtFxWOtPqdalHXHmYEPR8m0HNKKAs01cph5c39kfE8xWXY8s4XFelQj2ekhZJCPMe
+	3qMOkokRcRQHEu5V0tE5DgfhnjHtJwVZd5nqhWtD011IEUh8xn/vIsAgvFMnmuFnK7voM+
+	ZSQTLSOneRGiSB8+/LzEpPbv0cIR6hNcaVvjQo2sWxWOAcX4UHP4BkUlxgFKpw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
+Date: Thu, 20 Nov 2025 20:24:55 +1100
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Alyssa Ross <hi@alyssa.is>, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, "Eric W. Biederman" <ebiederm@xmission.com>, jlayton@kernel.org, 
+	Bruce Fields <bfields@fieldses.org>, Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	shuah@kernel.org, David Howells <dhowells@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: Safety of resolving untrusted paths with detached mount dirfd
+Message-ID: <2025-11-20-nifty-tied-sables-casualty-AgEHtJ@cyphar.com>
+References: <87cy5eqgn8.fsf@alyssa.is>
+ <2025-11-20-limber-salted-luncheon-scads-7AT044@cyphar.com>
+ <cdf9deb2-7a09-48c5-97e2-2ea6d5901882@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AAVmrCFNBMTV
-Date: Thu, 20 Nov 2025 09:20:49 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Askar Safin" <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "Christoph Hellwig" <hch@lst.de>, "Jens Axboe" <axboe@kernel.dk>,
- "Andy Shevchenko" <andy.shevchenko@gmail.com>,
- "Aleksa Sarai" <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- "Julian Stecklina" <julian.stecklina@cyberus-technology.de>,
- "Gao Xiang" <hsiangkao@linux.alibaba.com>,
- "Art Nikpal" <email2tema@gmail.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Alexander Graf" <graf@amazon.com>, "Rob Landley" <rob@landley.net>,
- "Lennart Poettering" <mzxreary@0pointer.de>,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-block@vger.kernel.org,
- initramfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, "Michal Simek" <monstr@monstr.eu>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Thorsten Blum" <thorsten.blum@linux.dev>,
- "Heiko Carstens" <hca@linux.ibm.com>, "Dave Young" <dyoung@redhat.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Borislav Petkov" <bp@alien8.de>, "Jessica Clarke" <jrtc27@jrtc27.com>,
- "Nicolas Schichan" <nschichan@freebox.fr>,
- "David Disseldorp" <ddiss@suse.de>, patches@lists.linux.dev
-Message-Id: <3e2d69f3-8b3a-4c41-8c5b-185c5f3a7b15@app.fastmail.com>
-In-Reply-To: <20251119222407.3333257-2-safinaskar@gmail.com>
-References: <20251119222407.3333257-1-safinaskar@gmail.com>
- <20251119222407.3333257-2-safinaskar@gmail.com>
-Subject: Re: [PATCH v4 1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk"
- command line parameters
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="34v6rjgqhaf7iabt"
+Content-Disposition: inline
+In-Reply-To: <cdf9deb2-7a09-48c5-97e2-2ea6d5901882@gmail.com>
+X-Rspamd-Queue-Id: 4dBtHF06Sqz9vCS
 
-On Wed, Nov 19, 2025, at 23:24, Askar Safin wrote:
-> ...which do nothing. They were deprecated (in documentation) in
-> 6b99e6e6aa62 ("Documentation/admin-guide: blockdev/ramdisk: remove use of
-> "rdev"") in 2020 and in kernel messages in c8376994c86c ("initrd: remove
-> support for multiple floppies") in 2020.
+
+--34v6rjgqhaf7iabt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: Safety of resolving untrusted paths with detached mount dirfd
+MIME-Version: 1.0
+
+On 2025-11-19, Demi Marie Obenour <demiobenour@gmail.com> wrote:
+> On 11/19/25 21:18, Aleksa Sarai wrote:
+> > On 2025-11-19, Alyssa Ross <hi@alyssa.is> wrote:
+> >> Hello,
+> >>
+> >> As we know, it's not safe to use chroot() for resolving untrusted paths
+> >> within some root, as a subdirectory could be moved outside of the
+> >> process root while walking the path[1].  On the other hand,
+> >> LOOKUP_BENEATH is supposed to be robust against this, and going by [2],
+> >> it sounds like resolving with the mount namespace root as dirfd should
+> >> also be.
+> >>
+> >> My question is: would resolving an untrusted path against a detached
+> >> mount root dirfd opened with OPEN_TREE_CLONE (not necessarily a
+> >> filesystem root) also be expected to be robust against traversal issue=
+s?
+> >> i.e. can I rely on an untrusted path never resolving to a path that
+> >> isn't under the mount root?
+> >=20
+> > No, if you hit an absolute symlink or use an absolute path it will
+> > resolve to your current->fs->root (mount namespace root or chroot).
+> > However, OPEN_TREE_CLONE will stop ".." from naively stepping out of the
+> > detached bind-mount. If you are dealing with procfs then magic-links can
+> > also jump out.
+>=20
+> Is using open_tree_attr() with MOUNT_ATTR_NOSYMFOLLOW enough to prevent
+> these?  Will it still provide protection even if someone concurrently
+> renames one of the files out from under the root?  I know that can
+> escape a chroot, but I wonder if this provides more guarantees.
+
+That will block symlinks (in a similar manner to RESOLVE_NO_SYMLINKS),
+so those particular problems would not be an issue. Of course, a lot of
+symlink usages are valid and so this will block those as well (back when
+I wrote openat2 I did a cursory scan and something like 15% of system
+paths contained symlinks on my system).
+
+I think that ".." will not be a problem even with renames because the
+detached mount is associated with the directory (just like how moving a
+bind-mount source doesn't suddenly expose more information).
+
+It also goes without saying that you need to make sure an absolute path
+*never* gets passed to any of the helper functions you write to do this
+-- in my view this is usually going to be quite a fragile setup. Who is
+providing the paths to your program?
+
+> https://github.com/QubesOS/qubes-secpack/blob/main/QSBs/qsb-014-2015.txt
+> was the chroot breakout.
+>=20
+> > You can always use RESOLVE_BENEATH or RESOLVE_IN_ROOT in combination
+> > with OPEN_TREE_CLONE.
 >
-> Signed-off-by: Askar Safin <safinaskar@gmail.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 4 ----
->  arch/arm/configs/neponset_defconfig             | 2 +-
+> Unfortunately not everything supports that.  For instance, mkdirat()
+> doesn't.
 
-For the arm defconfig:
+You can openat2(RESOLVE_BENEATH) the parent directory and then mkdirat()
+the final component (because mkdirat does not follow trailing symlinks).
+This is what libpathrs[1] does, and it works for most *at() syscalls
+(those that support AT_EMPTY_PATH are even easier).
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+[1]: https://github.com/cyphar/libpathrs
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--34v6rjgqhaf7iabt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaR7eZxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8YFAEA2tlI8su/QsFbnk3a10ug
++QV7M5ppRYppVgPBvTzYB10BAPeWS7V+wwoUO5gi/e1GNqMzsmkOtOyeoQOELTfr
+lVIH
+=EPTQ
+-----END PGP SIGNATURE-----
+
+--34v6rjgqhaf7iabt--
 
