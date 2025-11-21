@@ -1,114 +1,111 @@
-Return-Path: <linux-api+bounces-5402-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5403-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F067C76A4F
-	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 00:45:08 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 882DFC7AACB
+	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 16:55:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 2F8AD2A4B3
-	for <lists+linux-api@lfdr.de>; Thu, 20 Nov 2025 23:44:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 391B34E5CDD
+	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 15:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A082EB5A1;
-	Thu, 20 Nov 2025 23:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51FA3451A3;
+	Fri, 21 Nov 2025 15:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ePMfY4jR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WES5sOMj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926A12D9ECF;
-	Thu, 20 Nov 2025 23:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1B72D7388;
+	Fri, 21 Nov 2025 15:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763682273; cv=none; b=khYF3qqrZ/hltGF78hsG1JWaNog5C/HnnG+uSrFxYLEkQ1u/T/ocl9wcJTWk+A5mt/T3g0oPfwsu9XPfR2+6gsMxgCabDwM4GJEpJhR18UO7wWn1CHubm9OMe7rFRekihCMhX2JhRpOktOlG2WIk+9DpT/e6zlLarZHqT4nXO0k=
+	t=1763740550; cv=none; b=GMHJaItxB8RdYTSNc4f257AUn4iAeHeEUeRYCyocrRCtSZ3zspzULG350KzMwKeqxHP3X3UP6A9oSdxZA5R1myXoJ+w0759N2TBBCNbG9xNwPBfKJoiA/RTb5FHfk6gS/eZK3qtk3NmAh3gmN4jfK7coGIWLNGy/Lwrus1JKUww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763682273; c=relaxed/simple;
-	bh=4L45HTjGHrfEl6i1ILnnDzqWPjChLXdsXz8M9gQYW4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z4tSaDM7Hv8UW1FhNpBN7VOd5tnH2E/lMMgkTobY78UguvIyJMD1WBwumjsUuC9TSl22L9hLFo3KpYRGobp+t9BxcU/C7WTq0wG/cb75/Uaiyjp6lNhcNkF6DJZxIjcjEdK2WTnZnOFfeVGojnXFopZo95OVc2PXMQkxslByLIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ePMfY4jR; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=30SBch2rBM61MOy0/thJ71GnBVIcmzjKN0wPaFWE0Ts=; b=ePMfY4jRRP6nkfuZgr/ljc8yzz
-	m//rNXmWwXad1uRggB0KRx9WsnFl0/cqCalj/16lHerWSLcK1q52cEtl7s48HmBGWUVpoDTJdVuh0
-	go/eTdGZ6OZSVjHpj9g6SfuiPB7rmYSQohKpv//KpmZvgkgMSLxk9x2EvOOPo+nWPF4/LhAodcvz1
-	KTC7N3nsyWBu60Z1URVS08mvMyWKrWd+js2pwwi9Yw69ib2yA1KwgzT2EjRP0dyyphnLct+6wI56d
-	JJNHUaeE23/sQSLbMq+E2u5cwCN8htwtU4WWXAL54p54xbl3/agd3JXHDKjLUfy6dxGc+dKJEw/2k
-	Z8fYCpGg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMEK8-00000007aBg-1VuK;
-	Thu, 20 Nov 2025 23:44:24 +0000
-Message-ID: <5c3c4233-3572-4842-850e-0a88ce16eee3@infradead.org>
-Date: Thu, 20 Nov 2025 15:44:23 -0800
+	s=arc-20240116; t=1763740550; c=relaxed/simple;
+	bh=8K8v4Fqc1uPGUBC8powdKMrR3iKxfMCptCFO6IAuuh8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Wl6Kjm5skMl2WSIfnjlGhj+NexQdpMan5u3VoL/BZQ2h603A1UmKMYEDtMFfC6znmIqWck+7tuqzSBq5XZnywGwTGkPlQj+D2ZC0Dok36xsoaTDaKjh2VZFTS4IGx/L88DwWQ9ho1/FbC6H+PFkY6IWKslRiyxNT/V856Orkxyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WES5sOMj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F28C4CEF1;
+	Fri, 21 Nov 2025 15:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763740550;
+	bh=8K8v4Fqc1uPGUBC8powdKMrR3iKxfMCptCFO6IAuuh8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=WES5sOMjmeBJGZu3nYtoQyB/m5dAzcI1PJuJTRFO/cQh1YV4bi5dSqlMG49+TkMWQ
+	 6FvKh4HBeQE3QxPBe5mw/rXyTiMb3cVq7HGL63h/lRTHjmv8SuCYviUw5oMCb5qq5E
+	 0E+wJACBqr/CzkdoUnErDHRT7Tg4hrVh03tbKuHi/Ql3dNMLlcIxoTjn6q0NSEuDTm
+	 oiaf2kQYhlZXogOQGlGhRolF+d4xYE4eZ7588U0oURn5bcn7SCd1bicigyv4ENdImD
+	 iyiZ315qFHzYMbuvr986pS9db9FLhsPyPXvC0M+qREcI1bRi7VidVVZlhHaHpiNXVM
+	 69dMJFY0/3BTw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
+  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
+  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
+  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v6 03/20] kexec: call liveupdate_reboot() before kexec
+In-Reply-To: <20251115233409.768044-4-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Sat, 15 Nov 2025 18:33:49 -0500")
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+	<20251115233409.768044-4-pasha.tatashin@soleen.com>
+Date: Fri, 21 Nov 2025 16:55:39 +0100
+Message-ID: <mafs0cy5b1itg.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] init: remove deprecated "load_ramdisk" and
- "prompt_ramdisk" command line parameters
-To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Aleksa Sarai <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>,
- Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>,
- linux-arch@vger.kernel.org, linux-block@vger.kernel.org,
- initramfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
- Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>, Dave Young <dyoung@redhat.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Krzysztof Kozlowski <krzk@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Jessica Clarke <jrtc27@jrtc27.com>, Nicolas Schichan <nschichan@freebox.fr>,
- David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
-References: <20251119222407.3333257-1-safinaskar@gmail.com>
- <20251119222407.3333257-2-safinaskar@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251119222407.3333257-2-safinaskar@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+On Sat, Nov 15 2025, Pasha Tatashin wrote:
 
+> Modify the kernel_kexec() to call liveupdate_reboot().
+>
+> This ensures that the Live Update Orchestrator is notified just
+> before the kernel executes the kexec jump. The liveupdate_reboot()
+> function triggers the final freeze event, allowing participating
+> FDs perform last-minute check or state saving within the blackout
+> window.
+>
+> If liveupdate_reboot() returns an error (indicating a failure during
+> LUO finalization), the kexec operation is aborted to prevent proceeding
+> with an inconsistent state. An error is returned to user.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-On 11/19/25 2:24 PM, Askar Safin wrote:
-> ...which do nothing. They were deprecated (in documentation) in
-> 6b99e6e6aa62 ("Documentation/admin-guide: blockdev/ramdisk: remove use of
-> "rdev"") in 2020 and in kernel messages in c8376994c86c ("initrd: remove
-> support for multiple floppies") in 2020.
-> 
-> Signed-off-by: Askar Safin <safinaskar@gmail.com>
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 4 ----
->  arch/arm/configs/neponset_defconfig             | 2 +-
->  init/do_mounts.c                                | 7 -------
->  init/do_mounts_rd.c                             | 7 -------
->  4 files changed, 1 insertion(+), 19 deletions(-)
-
+[...]
 
 -- 
-~Randy
+Regards,
+Pratyush Yadav
 
