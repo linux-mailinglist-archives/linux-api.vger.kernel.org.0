@@ -1,46 +1,46 @@
-Return-Path: <linux-api+bounces-5403-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5404-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882DFC7AACB
-	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 16:55:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD8DC7ADD8
+	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 17:33:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 391B34E5CDD
-	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 15:55:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C95CC3A1DFF
+	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 16:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51FA3451A3;
-	Fri, 21 Nov 2025 15:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0F0287265;
+	Fri, 21 Nov 2025 16:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WES5sOMj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jm1SpMw0"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1B72D7388;
-	Fri, 21 Nov 2025 15:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1513238C0F;
+	Fri, 21 Nov 2025 16:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763740550; cv=none; b=GMHJaItxB8RdYTSNc4f257AUn4iAeHeEUeRYCyocrRCtSZ3zspzULG350KzMwKeqxHP3X3UP6A9oSdxZA5R1myXoJ+w0759N2TBBCNbG9xNwPBfKJoiA/RTb5FHfk6gS/eZK3qtk3NmAh3gmN4jfK7coGIWLNGy/Lwrus1JKUww=
+	t=1763742785; cv=none; b=RQ2akdUBcFiLtyv58YGkimFYCFECIrSFG7rULdOyaQn/7RabXRcFV4KeXTrGIKBJsTjL9jWIRjhm8ejoxTBrXMhyz6fwiUuLMn12NB0IMvB5hj5N7sFjd69f/lyQf9K8tQFtamA6wSTCrt8azzzP8++Sy2HYOtswaNtw4fBpwIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763740550; c=relaxed/simple;
-	bh=8K8v4Fqc1uPGUBC8powdKMrR3iKxfMCptCFO6IAuuh8=;
+	s=arc-20240116; t=1763742785; c=relaxed/simple;
+	bh=EnuteN5J9YttfHD5PxJfkcAGy9x3+mjN5oTZTsrJRc0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Wl6Kjm5skMl2WSIfnjlGhj+NexQdpMan5u3VoL/BZQ2h603A1UmKMYEDtMFfC6znmIqWck+7tuqzSBq5XZnywGwTGkPlQj+D2ZC0Dok36xsoaTDaKjh2VZFTS4IGx/L88DwWQ9ho1/FbC6H+PFkY6IWKslRiyxNT/V856Orkxyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WES5sOMj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F28C4CEF1;
-	Fri, 21 Nov 2025 15:55:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=eZiznOzlwrOBltIjWCk+FgA/QTHd72tVttuiLkbUuBUDYQxwtHFPOQ59H5ZmyF+Y4rpeewgOZI/UGN/9zbHXwD1HM9e2NLe7KheMYsJvJ0Dd8Z9lBypngW5oCjThcd+2x4IwHLF0WDePUwUXrpLETpHNVPAxex+zNc11jyZh8s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jm1SpMw0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98423C4CEF1;
+	Fri, 21 Nov 2025 16:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763740550;
-	bh=8K8v4Fqc1uPGUBC8powdKMrR3iKxfMCptCFO6IAuuh8=;
+	s=k20201202; t=1763742785;
+	bh=EnuteN5J9YttfHD5PxJfkcAGy9x3+mjN5oTZTsrJRc0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WES5sOMjmeBJGZu3nYtoQyB/m5dAzcI1PJuJTRFO/cQh1YV4bi5dSqlMG49+TkMWQ
-	 6FvKh4HBeQE3QxPBe5mw/rXyTiMb3cVq7HGL63h/lRTHjmv8SuCYviUw5oMCb5qq5E
-	 0E+wJACBqr/CzkdoUnErDHRT7Tg4hrVh03tbKuHi/Ql3dNMLlcIxoTjn6q0NSEuDTm
-	 oiaf2kQYhlZXogOQGlGhRolF+d4xYE4eZ7588U0oURn5bcn7SCd1bicigyv4ENdImD
-	 iyiZ315qFHzYMbuvr986pS9db9FLhsPyPXvC0M+qREcI1bRi7VidVVZlhHaHpiNXVM
-	 69dMJFY0/3BTw==
+	b=Jm1SpMw0uwR92glh2ACwsFKTfDLGr7/AYBZAfrYhstCZSQsBZTAdJRvKtfGt7/hwm
+	 vjNb2OoVl52n1Q2mzUK8yq/ei6+qCG9dAg4TKysjLBmNm7dCLUwal0ZuzaKL6XDhiz
+	 lTyD3RG3V2enine1j0EKVl7RdikW/s2lKpGVEZ+iQM1iiZ3vveJn3mUISWIpZ8GGJR
+	 Z0rtSrsfsWYbWl1aT3sQNcFdUdV/SF7qoqRuKmSjXX2MuFb3Iq6GMS6h8HPIrp05R8
+	 kOh2W1/40gdDHBO2h2U3+Hy7y/6DQgRs1qAlr1SLdH3A5vOEefYO88A+/A0S2RdJbg
+	 CfmbdJOX4xlug==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
@@ -69,13 +69,13 @@ Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
   saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
   parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
   hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
-Subject: Re: [PATCH v6 03/20] kexec: call liveupdate_reboot() before kexec
-In-Reply-To: <20251115233409.768044-4-pasha.tatashin@soleen.com> (Pasha
-	Tatashin's message of "Sat, 15 Nov 2025 18:33:49 -0500")
+Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
+In-Reply-To: <20251115233409.768044-5-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Sat, 15 Nov 2025 18:33:50 -0500")
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
-	<20251115233409.768044-4-pasha.tatashin@soleen.com>
-Date: Fri, 21 Nov 2025 16:55:39 +0100
-Message-ID: <mafs0cy5b1itg.fsf@kernel.org>
+	<20251115233409.768044-5-pasha.tatashin@soleen.com>
+Date: Fri, 21 Nov 2025 17:32:55 +0100
+Message-ID: <mafs08qfz1h3c.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -87,22 +87,211 @@ Content-Type: text/plain
 
 On Sat, Nov 15 2025, Pasha Tatashin wrote:
 
-> Modify the kernel_kexec() to call liveupdate_reboot().
+> Introduce concept of "Live Update Sessions" within the LUO framework.
+> LUO sessions provide a mechanism to group and manage `struct file *`
+> instances (representing file descriptors) that need to be preserved
+> across a kexec-based live update.
 >
-> This ensures that the Live Update Orchestrator is notified just
-> before the kernel executes the kexec jump. The liveupdate_reboot()
-> function triggers the final freeze event, allowing participating
-> FDs perform last-minute check or state saving within the blackout
-> window.
+> Each session is identified by a unique name and acts as a container
+> for file objects whose state is critical to a userspace workload, such
+> as a virtual machine or a high-performance database, aiming to maintain
+> their functionality across a kernel transition.
 >
-> If liveupdate_reboot() returns an error (indicating a failure during
-> LUO finalization), the kexec operation is aborted to prevent proceeding
-> with an inconsistent state. An error is returned to user.
+> This groundwork establishes the framework for preserving file-backed
+> state across kernel updates, with the actual file data preservation
+> mechanisms to be implemented in subsequent patches.
 >
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[...]
+>  
+>  #ifndef _LINUX_LIVEUPDATE_ABI_LUO_H
+>  #define _LINUX_LIVEUPDATE_ABI_LUO_H
+>  
+> +#include <uapi/linux/liveupdate.h>
+> +
+>  /*
+>   * The LUO FDT hooks all LUO state for sessions, fds, etc.
+> - * In the root it allso carries "liveupdate-number" 64-bit property that
+> + * In the root it also carries "liveupdate-number" 64-bit property that
 
-Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+Nit: This needs a bit of patch massaging. Patch 2 added the typo, and
+this patch fixes it. It would be better to just update patch 2.
 
+>   * corresponds to the number of live-updates performed on this machine.
+>   */
+>  #define LUO_FDT_SIZE		PAGE_SIZE
+> @@ -51,4 +82,54 @@
+>  #define LUO_FDT_COMPATIBLE	"luo-v1"
+>  #define LUO_FDT_LIVEUPDATE_NUM	"liveupdate-number"
+>  
+> +/*
+> + * LUO FDT session node
+> + * LUO_FDT_SESSION_HEADER:  is a u64 physical address of struct
+> + *                          luo_session_header_ser
+> + */
+> +#define LUO_FDT_SESSION_NODE_NAME	"luo-session"
+> +#define LUO_FDT_SESSION_COMPATIBLE	"luo-session-v1"
+> +#define LUO_FDT_SESSION_HEADER		"luo-session-header"
+> +
+> +/**
+> + * struct luo_session_header_ser - Header for the serialized session data block.
+> + * @pgcnt: The total size, in pages, of the entire preserved memory block
+> + *         that this header describes.
+> + * @count: The number of 'struct luo_session_ser' entries that immediately
+> + *         follow this header in the memory block.
+> + *
+> + * This structure is located at the beginning of a contiguous block of
+> + * physical memory preserved across the kexec. It provides the necessary
+> + * metadata to interpret the array of session entries that follow.
+> + */
+> +struct luo_session_header_ser {
+> +	u64 pgcnt;
+
+Why do you need pgcnt here? Can't the size be inferred from count? And
+since you use contiguous memory block, the folio will know its page
+count anyway, right? The less we have in the ABI the better IMO.
+
+Same for other structures below.
+
+> +	u64 count;
+> +} __packed;
+> +
+> +/**
+> + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
+> + * @name:    The unique name of the session, copied from the `luo_session`
+> + *           structure.
+> + * @files:   The physical address of a contiguous memory block that holds
+> + *           the serialized state of files.
+> + * @pgcnt:   The number of pages occupied by the `files` memory block.
+> + * @count:   The total number of files that were part of this session during
+> + *           serialization. Used for iteration and validation during
+> + *           restoration.
+> + *
+> + * This structure is used to package session-specific metadata for transfer
+> + * between kernels via Kexec Handover. An array of these structures (one per
+> + * session) is created and passed to the new kernel, allowing it to reconstruct
+> + * the session context.
+> + *
+> + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
+> + */
+> +struct luo_session_ser {
+> +	char name[LIVEUPDATE_SESSION_NAME_LENGTH];
+> +	u64 files;
+> +	u64 pgcnt;
+> +	u64 count;
+> +} __packed;
+> +
+>  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
+[...]
+> +/* Create a "struct file" for session */
+> +static int luo_session_getfile(struct luo_session *session, struct file **filep)
+> +{
+> +	char name_buf[128];
+> +	struct file *file;
+> +
+> +	guard(mutex)(&session->mutex);
+> +	snprintf(name_buf, sizeof(name_buf), "[luo_session] %s", session->name);
+> +	file = anon_inode_getfile(name_buf, &luo_session_fops, session, O_RDWR);
+
+Nit: You can return the file directly and get rid of filep.
+
+> +	if (IS_ERR(file))
+> +		return PTR_ERR(file);
+> +
+> +	*filep = file;
+> +
+> +	return 0;
+> +}
+[...]
+> +int __init luo_session_setup_outgoing(void *fdt_out)
+> +{
+> +	struct luo_session_header_ser *header_ser;
+> +	u64 header_ser_pa;
+> +	int err;
+> +
+> +	header_ser = kho_alloc_preserve(LUO_SESSION_PGCNT << PAGE_SHIFT);
+
+Nit: The naming is a bit confusing here. At first glance I thought this
+was just allocating the header, but it allocates the whole session
+serialization buffer.
+
+> +	if (IS_ERR(header_ser))
+> +		return PTR_ERR(header_ser);
+> +	header_ser_pa = virt_to_phys(header_ser);
+> +
+> +	err = fdt_begin_node(fdt_out, LUO_FDT_SESSION_NODE_NAME);
+> +	err |= fdt_property_string(fdt_out, "compatible",
+> +				   LUO_FDT_SESSION_COMPATIBLE);
+> +	err |= fdt_property(fdt_out, LUO_FDT_SESSION_HEADER, &header_ser_pa,
+> +			    sizeof(header_ser_pa));
+> +	err |= fdt_end_node(fdt_out);
+> +
+> +	if (err)
+> +		goto err_unpreserve;
+> +
+> +	header_ser->pgcnt = LUO_SESSION_PGCNT;
+> +	INIT_LIST_HEAD(&luo_session_global.outgoing.list);
+> +	init_rwsem(&luo_session_global.outgoing.rwsem);
+> +	luo_session_global.outgoing.header_ser = header_ser;
+> +	luo_session_global.outgoing.ser = (void *)(header_ser + 1);
+> +	luo_session_global.outgoing.active = true;
+> +
+> +	return 0;
+> +
+> +err_unpreserve:
+> +	kho_unpreserve_free(header_ser);
+> +	return err;
+> +}
+[...]
+> +int luo_session_deserialize(void)
+> +{
+> +	struct luo_session_header *sh = &luo_session_global.incoming;
+> +	int err;
+> +
+> +	if (luo_session_is_deserialized())
+> +		return 0;
+> +
+> +	luo_session_global.deserialized = true;
+> +	if (!sh->active) {
+> +		INIT_LIST_HEAD(&sh->list);
+> +		init_rwsem(&sh->rwsem);
+
+Nit: it would be a bit simpler if LUO init always initialized this. And
+then luo_session_setup_incoming() can fill the list if it has any data.
+Slight reduction in code duplication and mental load.
+
+> +		return 0;
+> +	}
+> +
+> +	for (int i = 0; i < sh->header_ser->count; i++) {
+> +		struct luo_session *session;
+> +
+> +		session = luo_session_alloc(sh->ser[i].name);
+> +		if (IS_ERR(session)) {
+> +			pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
+> +				sh->ser[i].name, session);
+> +			return PTR_ERR(session);
+> +		}
+> +
+> +		err = luo_session_insert(sh, session); 
+> +		if (err) {
+> +			luo_session_free(session);
+> +			pr_warn("Failed to insert session [%s] %pe\n",
+> +				session->name, ERR_PTR(err));
+> +			return err;
+> +		}
+> +
+> +		session->count = sh->ser[i].count;
+> +		session->files = sh->ser[i].files ? phys_to_virt(sh->ser[i].files) : 0;
+> +		session->pgcnt = sh->ser[i].pgcnt;
+> +	}
+> +
+> +	kho_restore_free(sh->header_ser);
+> +	sh->header_ser = NULL;
+> +	sh->ser = NULL;
+> +
+> +	return 0;
+> +}
 [...]
 
 -- 
