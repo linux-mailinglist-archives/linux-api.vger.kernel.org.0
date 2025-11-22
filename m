@@ -1,294 +1,161 @@
-Return-Path: <linux-api+bounces-5407-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5409-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2D0C7BC1E
-	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 22:31:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A977DC7C818
+	for <lists+linux-api@lfdr.de>; Sat, 22 Nov 2025 06:51:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CAE983563A1
-	for <lists+linux-api@lfdr.de>; Fri, 21 Nov 2025 21:31:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9BDF94E289D
+	for <lists+linux-api@lfdr.de>; Sat, 22 Nov 2025 05:51:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45672F60A1;
-	Fri, 21 Nov 2025 21:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E17BC29E0E1;
+	Sat, 22 Nov 2025 05:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FU5oByk/"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RCqbhBk0"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42C6280A20
-	for <linux-api@vger.kernel.org>; Fri, 21 Nov 2025 21:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C37217F27;
+	Sat, 22 Nov 2025 05:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763760686; cv=none; b=ayrIRYBZ0tKvlKhaq2be/6FZA7u5kTbUep2AiMnGiOxvA5XcFKXJLM+AGWmLhBmscQb39DcjyAy3HrTXQKO3WK2JbP83QllHtwSdhu8tCnqDbKLFxrbygSsyGFaDBGGXEcBBwK65eo+ypYpLodMiOxMoBRt7lT28Bs7EGcacaTA=
+	t=1763790679; cv=none; b=ZMoYvhG4VSYJzpc5jLcPlLCYEtKBlFnq1ZJ3nN0Cv4GBSRIXMFy6s5aeMe8uOGWgmoOImLk+CbTRFxyyjbC39No3rHCLrn3reaRJYag4fEk2oola8zhl1W2BwGvpLoF4lxCk+Ju2k71eUQN326RxCGauo1Zxv+g0/IAIkkKQ03o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763760686; c=relaxed/simple;
-	bh=51TGYrsgBnz8fkKL33FrJi93VLUlmGwP1Py2nYzy7Fg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=myKoHN4ItiiPiWlrwx1As0FPtQr2lgu5K2dpJGDtMpQ1Ul6HX+1sKpO4xxkaKH5AB56dF+4Fzzq/IyBo2KbO2sst194SEh9pFVy10OUtCU5FLVyaXxsHfJOd9i64osHHvaYtCZxkOF+blzOaZeKBLgvRpb1AxYDdoHRcYxZWmiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FU5oByk/; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-640aa1445c3so3959457a12.1
-        for <linux-api@vger.kernel.org>; Fri, 21 Nov 2025 13:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763760683; x=1764365483; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+byFGoWk/0V52ELeDrnzRQimZK8yvBtN44GDPwhdBk0=;
-        b=FU5oByk/BiqfVPKMhVP7o1j5ToDaGm2herCIdfHyX0U1BClwhkrpvFnCtkRXaJi0fV
-         R6Ghd2xkNVUgtCk9p6OqW7tSGhKgZutrM5qu9cplMQbg5FB32aCyJrRG4dD+7rAAy9dy
-         4qKRZyQuTKBNRZlY+Ttkc+L4nNSyfFMbsJIrckmwbnpYXSOMdbF+6rk1BCE0EcUcBqaz
-         xYybISBe3KW3FZdkSrarJBM/JLcr6odNMBCa9G5Cs8ptmX29joJkqcaV73ag62rOXMGq
-         pd00qHzOIcoKZ1/9PEk6mX/ZUp8rQbGu8SXmORkLkdtLP92kX7wIAQC/QGiKChj5JIrQ
-         Sxiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763760683; x=1764365483;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+byFGoWk/0V52ELeDrnzRQimZK8yvBtN44GDPwhdBk0=;
-        b=BHtnoYnSCxq6TC+m4KNPycjAIli3wzojwji7KeuOaRHQvX0dc7nUbt/FafimPHo01p
-         m0nkEC407lxkF/QrPGn4Xy5EfKlvUrVfImPR/Dt4kDXyMOZSqOgglo7YXDPeSxYS3VZx
-         nVtpC1Gh2SEbp4bgzvHbIy4QaPQCkuuX3hhZCSYxZUbqTjoggToOGEkcA/a+pLzhfshe
-         JIOSV998j7+h8uZjupWLrfEsrBXQGLAEwyyB1r28j0UqtMruRZbR1uPq4WwNlpMQ8DaC
-         8fd/lmOKQF3LDdN3kn2KKk0Moo6H7Tfn9noKzH4mEywk5zZGysiNBVsEUrFHEoAyNR7U
-         wn4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVdSXYUcUkO0Jug7YNaGWIv+uj55l8YzU5SidMy2Cy7zqZBzBuPzn71C0UQ9rHeYPsbs6WdVrpTF/E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd5/BUmXGvxcMHRi23sOfHRGnPCOQSbmZTaVM+AHLiTa9EOwWl
-	P4ledVTdIXhkqIzeRwa1DtGdyW/lh2qJZcBH2gWNyVPE1bo6eOmnYtx2Uky12QPyKq46HeDFft9
-	lbE4jN0DVke2DYR4d0AzEUiuuviaM1SoqDswLFr1aAA==
-X-Gm-Gg: ASbGncs8bzaFgeE+79W4NydV+2HDPUKwQZRjw1WY9lLeadqa5g1nBgWirkm0bXcNdtw
-	2SWYa2hgaiF6SlsMuAtpmMWCUj/AxUMVMABB3QNMvQMHzeo2wDv135gw39FdqkD2BkXJiEcLpTY
-	c2mEFB4bSCPgqhHVHjyuNLkoENTjr5YLGE+aWZXRrInsdQidmNDNIw9be7eZod90t1fbRlh5Vvn
-	8B1ssd3ojOt4NACEwGWIIlz+lJSA3+wOCONgZLCeEB+H6gYKVPyW9X6QxMWmtmjScrm
-X-Google-Smtp-Source: AGHT+IHb/TNH6HpXoXxdJqBqtls7NiUE5U9WcaIN1X3bEaIYHVHMwMKVOTZ0kii/oe8jLFgQnVtKbwI5uYAd2wY8FI4=
-X-Received: by 2002:a05:6402:20d1:10b0:640:f8a7:aa25 with SMTP id
- 4fb4d7f45d1cf-64555d0426fmr2711637a12.30.1763760682926; Fri, 21 Nov 2025
- 13:31:22 -0800 (PST)
+	s=arc-20240116; t=1763790679; c=relaxed/simple;
+	bh=1D5v/fKgYYKYaoFZC629XonJ3BD4SQaUT1WaNW00avI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jvtusJCJfrt+LAeoxPoP3uV+5H7GXSC6ayWkhKo47/0dP1oxp66ZWFhxdvrbNH98wTOlHvE288n2ZyShcNGZIteUBwRLsEDpfhZD0hQSIDNs8f/uSPE8pQpD9CIBei+TZ8c0lG98bqUTbHo+nTFHWPey0jlUCbpQ5CI1lI8liPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RCqbhBk0; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gj9M11rG3nyucSNDtSY6uj9N6BoDcuHAIv9iGYYsw3E=; b=RCqbhBk0/S8X7gn8AWgj6lf8Bs
+	M3V/C87MVc8rMRWDOlGj0rBu37ylVn/YOsVvkw/cJhy+QUetxDVatZbGTUSYIpUJqEMSQ36I8RArq
+	8NC6V7Gte3Ey4QSY4FaF3xWytKQmhVc9e+RgiL7Gjb1Bu5fXNtBBIZLfymcV5fB8F4Cxrw+gwrWYr
+	sS7SYTsklti4T03sQpIRumcN+BurWZb2Vm5/0gRCuSn4OGI1BaZXG1yKQaPEgwNyIwwEUoGhSD1Tt
+	GWnWGWSeNnGB4pxis7A1S69bkk/gZmO60UiNK5jiybp10lL4YQBnjidp6nbvgaV+rTW6THFe0Fssw
+	p/oesqlg==;
+Received: from [187.101.0.152] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vMgWZ-003xEt-7p; Sat, 22 Nov 2025 06:51:06 +0100
+From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v6 0/9] futex: Create {set,get}_robust_list2() syscalls
+Date: Sat, 22 Nov 2025 02:50:42 -0300
+Message-Id: <20251122-tonyk-robust_futex-v6-0-05fea005a0fd@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-5-pasha.tatashin@soleen.com> <mafs08qfz1h3c.fsf@kernel.org>
-In-Reply-To: <mafs08qfz1h3c.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 21 Nov 2025 16:30:46 -0500
-X-Gm-Features: AWmQ_bmySwNVArPJNxXTzBmV6LhGk1Wdy9I8BgPPnIaZuGaVx8wlezdZ8VKPhXs
-Message-ID: <CA+CK2bDSSJhjx8fH1rsb3unS099pKWze-=WX1B2ZnE0LCMXUAw@mail.gmail.com>
-Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADJPIWkC/23N0Q6CIBTG8VdpXEdDFIqueo/WGspRzyppgEznf
+ PfQLlqbl/9vO78zEQ8OwZPzbiIOInq0XQq535Gq1V0DFE1qwhkXjHNBg+3GB3W27H24132AgUq
+ mDYDRlVSCpMO3gxqHFb3eUrfog3Xj+iMWy/rlBGdbXCwoo1nGc6ZyEMrABRv9RH2o7IssXhQ/Q
+ 3K5aYjFOKpMFaY0cKr/jHmeP1YJqZT5AAAA
+X-Change-ID: 20250225-tonyk-robust_futex-60adeedac695
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+ Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Waiman Long <longman@redhat.com>, Ryan Houdek <Sonicadvance1@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, kernel-dev@igalia.com, 
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+X-Mailer: b4 0.14.3
 
-> >  /*
-> >   * The LUO FDT hooks all LUO state for sessions, fds, etc.
-> > - * In the root it allso carries "liveupdate-number" 64-bit property that
-> > + * In the root it also carries "liveupdate-number" 64-bit property that
->
-> Nit: This needs a bit of patch massaging. Patch 2 added the typo, and
-> this patch fixes it. It would be better to just update patch 2.
+Hello,
 
-Yeap, this is fixed.
+This version is a complete rewrite of the syscall (thanks Thomas for the
+suggestions!). 
 
+ * Use case
 
-> > + * This structure is located at the beginning of a contiguous block of
-> > + * physical memory preserved across the kexec. It provides the necessary
-> > + * metadata to interpret the array of session entries that follow.
-> > + */
-> > +struct luo_session_header_ser {
-> > +     u64 pgcnt;
->
-> Why do you need pgcnt here? Can't the size be inferred from count? And
-> since you use contiguous memory block, the folio will know its page
-> count anyway, right? The less we have in the ABI the better IMO.
+The use-case for the new syscalls is detailed in the last patch version:
 
-Right, I had pgnct because my allocators were using size as an
-argument, but we removed that, so pgcnt can also be removed.
+  https://lore.kernel.org/lkml/20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com
 
-> Same for other structures below.
->
-> > +     u64 count;
-> > +} __packed;
-> > +
-> > +/**
-> > + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
-> > + * @name:    The unique name of the session, copied from the `luo_session`
-> > + *           structure.
-> > + * @files:   The physical address of a contiguous memory block that holds
-> > + *           the serialized state of files.
-> > + * @pgcnt:   The number of pages occupied by the `files` memory block.
-> > + * @count:   The total number of files that were part of this session during
-> > + *           serialization. Used for iteration and validation during
-> > + *           restoration.
-> > + *
-> > + * This structure is used to package session-specific metadata for transfer
-> > + * between kernels via Kexec Handover. An array of these structures (one per
-> > + * session) is created and passed to the new kernel, allowing it to reconstruct
-> > + * the session context.
-> > + *
-> > + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
-> > + */
-> > +struct luo_session_ser {
-> > +     char name[LIVEUPDATE_SESSION_NAME_LENGTH];
-> > +     u64 files;
-> > +     u64 pgcnt;
-> > +     u64 count;
-> > +} __packed;
-> > +
-> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> [...]
-> > +/* Create a "struct file" for session */
-> > +static int luo_session_getfile(struct luo_session *session, struct file **filep)
-> > +{
-> > +     char name_buf[128];
-> > +     struct file *file;
-> > +
-> > +     guard(mutex)(&session->mutex);
-> > +     snprintf(name_buf, sizeof(name_buf), "[luo_session] %s", session->name);
-> > +     file = anon_inode_getfile(name_buf, &luo_session_fops, session, O_RDWR);
->
-> Nit: You can return the file directly and get rid of filep.
+ * The syscall interface
 
-I prefer returning error here.
+Documented at patches 3/9 "futex: Create set_robust_list2() syscall" and
+4/9 "futex: Create get_robust_list2() syscall".
 
->
-> > +     if (IS_ERR(file))
-> > +             return PTR_ERR(file);
-> > +
-> > +     *filep = file;
-> > +
-> > +     return 0;
-> > +}
-> [...]
-> > +int __init luo_session_setup_outgoing(void *fdt_out)
-> > +{
-> > +     struct luo_session_header_ser *header_ser;
-> > +     u64 header_ser_pa;
-> > +     int err;
-> > +
-> > +     header_ser = kho_alloc_preserve(LUO_SESSION_PGCNT << PAGE_SHIFT);
->
-> Nit: The naming is a bit confusing here. At first glance I thought this
-> was just allocating the header, but it allocates the whole session
-> serialization buffer.
+ * Testing
 
-I made it a little clearer by adding "outgoing_buffer" local variable,
-and then assigning head_ser to this local variable.
+I expanded the current robust list selftest to use the new interface,
+and also ported the original syscall to use the new syscall internals,
+and everything survived the tests.
 
-> > +     if (IS_ERR(header_ser))
-> > +             return PTR_ERR(header_ser);
-> > +     header_ser_pa = virt_to_phys(header_ser);
-> > +
-> > +     err = fdt_begin_node(fdt_out, LUO_FDT_SESSION_NODE_NAME);
-> > +     err |= fdt_property_string(fdt_out, "compatible",
-> > +                                LUO_FDT_SESSION_COMPATIBLE);
-> > +     err |= fdt_property(fdt_out, LUO_FDT_SESSION_HEADER, &header_ser_pa,
-> > +                         sizeof(header_ser_pa));
-> > +     err |= fdt_end_node(fdt_out);
-> > +
-> > +     if (err)
-> > +             goto err_unpreserve;
-> > +
-> > +     header_ser->pgcnt = LUO_SESSION_PGCNT;
-> > +     INIT_LIST_HEAD(&luo_session_global.outgoing.list);
-> > +     init_rwsem(&luo_session_global.outgoing.rwsem);
-> > +     luo_session_global.outgoing.header_ser = header_ser;
-> > +     luo_session_global.outgoing.ser = (void *)(header_ser + 1);
-> > +     luo_session_global.outgoing.active = true;
-> > +
-> > +     return 0;
-> > +
-> > +err_unpreserve:
-> > +     kho_unpreserve_free(header_ser);
-> > +     return err;
-> > +}
-> [...]
-> > +int luo_session_deserialize(void)
-> > +{
-> > +     struct luo_session_header *sh = &luo_session_global.incoming;
-> > +     int err;
-> > +
-> > +     if (luo_session_is_deserialized())
-> > +             return 0;
-> > +
-> > +     luo_session_global.deserialized = true;
-> > +     if (!sh->active) {
-> > +             INIT_LIST_HEAD(&sh->list);
-> > +             init_rwsem(&sh->rwsem);
->
-> Nit: it would be a bit simpler if LUO init always initialized this. And
-> then luo_session_setup_incoming() can fill the list if it has any data.
-> Slight reduction in code duplication and mental load.
+ * Changelog
 
-These are now statically initialized.
+Changes from v5:
+ - Complete interface rewrite, there are so many changes but the main
+   ones are the following points
+ - Array of robust lists now has a static size, allocated once during the
+   first usage of the list
+ - Now that the list of robust lists have a fixed size, I removed the
+   logic of having a command for creating a new index on the list. To
+   simplify things for everyone, userspace just need to call
+   set_robust_list2(head, 32-bit/64-bit type, index).
+ - Created get_robust_list2()
+ - The new code can be better integrated with the original interface
+ - v5: https://lore.kernel.org/r/20250626-tonyk-robust_futex-v5-0-179194dbde8f@igalia.com
 
->
-> > +             return 0;
-> > +     }
-> > +
-> > +     for (int i = 0; i < sh->header_ser->count; i++) {
-> > +             struct luo_session *session;
-> > +
-> > +             session = luo_session_alloc(sh->ser[i].name);
-> > +             if (IS_ERR(session)) {
-> > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
-> > +                             sh->ser[i].name, session);
-> > +                     return PTR_ERR(session);
-> > +             }
-> > +
-> > +             err = luo_session_insert(sh, session);
-> > +             if (err) {
-> > +                     luo_session_free(session);
-> > +                     pr_warn("Failed to insert session [%s] %pe\n",
-> > +                             session->name, ERR_PTR(err));
-> > +                     return err;
-> > +             }
-> > +
-> > +             session->count = sh->ser[i].count;
-> > +             session->files = sh->ser[i].files ? phys_to_virt(sh->ser[i].files) : 0;
-> > +             session->pgcnt = sh->ser[i].pgcnt;
-> > +     }
-> > +
-> > +     kho_restore_free(sh->header_ser);
-> > +     sh->header_ser = NULL;
-> > +     sh->ser = NULL;
-> > +
-> > +     return 0;
-> > +}
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
+Feedback is very welcomed!
 
-Thanks!
+---
+André Almeida (9):
+      futex: Use explicit sizes for compat_robust_list structs
+      futex: Make exit_robust_list32() unconditionally available for 64-bit kernels
+      futex: Create set_robust_list2() syscall
+      futex: Create get_robust_list2() syscall
+      futex: Wire up set_robust_list2 syscall
+      futex: Wire up get_robust_list2 syscall
+      selftests/futex: Expand for set_robust_list2()
+      selftests/futex: Expand for get_robust_list2()
+      futex: Use new robust list API internally
 
-Pasha
+ arch/alpha/kernel/syscalls/syscall.tbl             |   2 +
+ arch/arm/tools/syscall.tbl                         |   2 +
+ arch/m68k/kernel/syscalls/syscall.tbl              |   2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl        |   2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl          |   2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl          |   2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl          |   2 +
+ arch/parisc/kernel/syscalls/syscall.tbl            |   2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl           |   2 +
+ arch/s390/kernel/syscalls/syscall.tbl              |   2 +
+ arch/sh/kernel/syscalls/syscall.tbl                |   2 +
+ arch/sparc/kernel/syscalls/syscall.tbl             |   2 +
+ arch/x86/entry/syscalls/syscall_32.tbl             |   2 +
+ arch/x86/entry/syscalls/syscall_64.tbl             |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl            |   2 +
+ include/linux/compat.h                             |  13 +-
+ include/linux/futex.h                              |  30 +-
+ include/linux/sched.h                              |   6 +-
+ include/uapi/asm-generic/unistd.h                  |   7 +-
+ include/uapi/linux/futex.h                         |  26 ++
+ kernel/futex/core.c                                | 140 ++++--
+ kernel/futex/syscalls.c                            | 134 +++++-
+ kernel/sys_ni.c                                    |   2 +
+ scripts/syscall.tbl                                |   1 +
+ .../selftests/futex/functional/robust_list.c       | 504 +++++++++++++++++++--
+ 25 files changed, 788 insertions(+), 105 deletions(-)
+---
+base-commit: c42ba5a87bdccbca11403b7ca8bad1a57b833732
+change-id: 20250225-tonyk-robust_futex-60adeedac695
+
+Best regards,
+-- 
+André Almeida <andrealmeid@igalia.com>
+
 
