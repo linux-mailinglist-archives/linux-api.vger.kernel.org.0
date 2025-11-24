@@ -1,148 +1,194 @@
-Return-Path: <linux-api+bounces-5468-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5469-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27584C7EE13
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 04:14:28 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAD0C7EFB4
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 06:08:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D99123A40DC
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 03:14:26 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C74CB3462B6
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 05:08:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDAB298CC9;
-	Mon, 24 Nov 2025 03:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B0C92C21ED;
+	Mon, 24 Nov 2025 05:08:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="R4zZTJYQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGWFz4wk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9262652B7
-	for <linux-api@vger.kernel.org>; Mon, 24 Nov 2025 03:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0568B29D29A;
+	Mon, 24 Nov 2025 05:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763954060; cv=none; b=pvQ6Iv+grUS7uSaT/cxoII+ZZ2H7E+mSEXK2Jw5tRtiSfP5bo4HtBKVkoaIxi2rfQ5QGAC2lVSzys9aZWAlrJNFFiQ6PW1t3idjQu32nn6irMoQailY3fcRYZpgjJXeGbUZXMRpOUev7w+Tm+aBGDZx9uFvUNemXQg8qzmaUiYI=
+	t=1763960893; cv=none; b=PNIN7NN0a7aQZ/HCLUdhnrw6h0FvCxJACoRe2+d+U+t8RhZ82DoY872gYwUUkBHuUm9vnk8CNUY8ILjEMCsfSLFPNyWsOLUbstzJuzuFq6lpcwH41egxmY9Ob4Poq12pQEYlCEZzYDcmnrE3acfhICNQdmPpsWeVHOVDVp4hTR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763954060; c=relaxed/simple;
-	bh=m7otrMWhBJM9ta+y1m0Kw4P0enGP7S7+XlIcKLt3qIQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fgwr1Xe+DR0l3IhjERSe3FkXQ89I1CHQVpMmLIGGrSiZqRUh5Sfj9dbycucFim72nZ/YC160X9voaVasH2S1Ujnm2SK46RL1/LW802ewljemfdHCPIcVUzNRQLSwW5BIJMf+NvdUpF83aO9YbpwXFIToWAlTwMhBkHsuQXru7PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=R4zZTJYQ; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-644f90587e5so5894227a12.0
-        for <linux-api@vger.kernel.org>; Sun, 23 Nov 2025 19:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763954056; x=1764558856; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
-        b=R4zZTJYQ8Edmu3CjI8FZOt/tfdZatJjJcfAnV6s4bUjJ7ZvQ2Rhh8ANNQwYJ3gEhFW
-         aKrU1gfMUEmN5dFsBaoNhUY755lzg+dfdtvUy2lzSsa5I3le9CcVjjWNZYiD8ltWAgke
-         bBxvhn2XQY8NoS6KDwNBSmHkjfLKlXQawhVpmJ+cshiKRMt+t1RX3g5gVgsbex1YmWIT
-         Tyn5wnvLUs83XXipjPoRo1I/+Tq95WlZV/B6j04eTpcQPONgVJJZzo2oEg1W4p5gDEmH
-         vEM1vIVb4NhurLHBy/CRhdm3dOTdI/nYXzd0TrZl4OJRdMa8+W//S9b43wGhiec6HwLv
-         EqRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763954056; x=1764558856;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
-        b=suBZ+Ses32x70TJ6IvhqAQtHEb0b9UO+gDzes6uv5hCO3j8b2ID7EZfm7X9y2lLs5I
-         4kYUmzNz4y0pLMR9Qox9Ey/NUps0OCwJtb0zdv1HZwyWFaK8Sbf6bzJkHcL2hhIrTFPW
-         HiP9hpNhqSZDIhXw7UyV7LnGaSyNEvfALWFnPDfNoOSFIz9SBwqyAUTK9pqpewfhfXm4
-         57sNET22IPKqxy9ERZHayhtuyEAq1S4c5GAC7Pws8ihSh6YQocziMXqJ3FYVBNYcWimR
-         OgsS0gG+xyVVzkiwTU/IR6v2Qa/JunlSH/dYR+DUtBZlgXP5hqACR4tPm+akdFYgDwkg
-         +34g==
-X-Forwarded-Encrypted: i=1; AJvYcCVe52x9I6usDhfS7PCCz/sguc3JBTa4un58mwkRW7NxkhuKGmYOaEOECMUuqUpJvzOT8fmPVmGpmWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBL+evyn/a2wqxiCh1GSsnaoqw4ylK4XzURh8pC265mCKtBkTI
-	5hpJJ44mNzMvuTIDW2bGzlNMocfAKAzo3T2u+7vEwdcVoT/U5AWvQDeacR1NJ/WttiznhQ/0QvL
-	tAIubBJD6KX86E9paSue0xXZHyXRd+DZ7JwVnYdg0oQ==
-X-Gm-Gg: ASbGncsQ6jIzv6KOs9LgESwZunGjcKZQBkFZrgPt8ifBt0qYbxtARAu8FGRDzUIKu1P
-	s+6XO2ygneHXwBQmmFdA4QrU61mh3FXDQq2axWcnMKXwp7DejG9CuioXHHgXP70+Bv41G05sp2O
-	zj/gLhGsZs3NLiwDGOaOQg1dtljus5ZytwxSm4T+6HEgTT5RFJhI53t3eZ+1x4235hDf62cD9Dl
-	m675cFrI3diBjYVNMS2UMZS4DLsfNZutVaG/74jmm0YYQwXDmKy/VqLPiSGChY0AE4s
-X-Google-Smtp-Source: AGHT+IH67JP1UaR3gpoqZ3MrgHkQzMQhpp66V9UPwtAjbwPOvJT5SkZilFWd08WjSbu3wTcfKGr6KSLWlhGvqm+wzqg=
-X-Received: by 2002:a05:6402:40c5:b0:640:ebca:e66f with SMTP id
- 4fb4d7f45d1cf-6455469272fmr8497105a12.34.1763954055610; Sun, 23 Nov 2025
- 19:14:15 -0800 (PST)
+	s=arc-20240116; t=1763960893; c=relaxed/simple;
+	bh=hieoIPxIhRSooVrU3/2wVozJyRs1qMXLmzpW8xV1wzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rpr3vdwRU1szvrOanwMZ4JycVih+/gN0PpI7ePJFcaM915mFjtqBc5W5VhCXwa2rCy/kFtl+4qorO567NdY9uQZ3bXaupFyz306N2/LRf+djnve+Z5iysTxV1GoK6DZwjliQfO/Mbw33oXcZWhDTRGb16dvg8FGEj/zl0BfsbQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGWFz4wk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 463A1C4CEF1;
+	Mon, 24 Nov 2025 05:07:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763960891;
+	bh=hieoIPxIhRSooVrU3/2wVozJyRs1qMXLmzpW8xV1wzY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PGWFz4wkyghWCM5P7ckMfeF1ztZvSWtS2QEwkzMCzyzCVgtFKGEkLgJqy/viT440v
+	 yaLEfYvDaQKnLSy6uR+9I+i+ZINn7SDTB+/qX8KrflY1cjgOHRmknnXDOV/u0/FvGu
+	 NNUNwqZ/xrD2U3CUlUTED32zlbalE8ApcvCTVV7fCZM+JTWXoXtS4lzsdcfGlmNLAZ
+	 /qzpXLU7vNgOw/YDtFTUPhAuvbAOle9zzBCqJRbhAWlNE1Pbz9cKm2a0gIDY1NPbmC
+	 0aQfUTilZ7Bh0ou+L5xM7SHml4e2W0OPll/Ctzpic/zP4fsRsIy5pDrE+VWMcYh228
+	 +PoEtTeYVePdw==
+Date: Mon, 24 Nov 2025 07:07:47 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v7 01/22] liveupdate: luo_core: Live Update Orchestrator
+Message-ID: <aSPoIw2keoueM2q8@kernel.org>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-2-pasha.tatashin@soleen.com>
+ <aSLsCxLhrnyUlcy4@kernel.org>
+ <CA+CK2bCN7x=eMwfTXF-2+vR=Gn3=41z6Xxx6wM1m7i-rxzug9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-15-pasha.tatashin@soleen.com> <aSMsqD5mB2mHHH9v@kernel.org>
-In-Reply-To: <aSMsqD5mB2mHHH9v@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 22:13:39 -0500
-X-Gm-Features: AWmQ_bn9jKi7Ktx8U1VC5NBm-L4AbZd5N5WS8ORgDcSjrzKv7tbGyIW2qlGBRlc
-Message-ID: <CA+CK2bCrNC0uYdXbC+JK_bvk8BYFPSL=ZbTZ_T6LMHtoum+Z8Q@mail.gmail.com>
-Subject: Re: [PATCH v7 14/22] mm: memfd_luo: allow preserving memfd
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bCN7x=eMwfTXF-2+vR=Gn3=41z6Xxx6wM1m7i-rxzug9w@mail.gmail.com>
 
-> > +unlock_folio:
-> > +     folio_unlock(folio);
-> > +     folio_put(folio);
-> > +     i++;
->
-> I'd add a counter and use it int the below for loop.
+On Sun, Nov 23, 2025 at 07:15:44AM -0500, Pasha Tatashin wrote:
+> On Sun, Nov 23, 2025 at 6:12 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > On Sat, Nov 22, 2025 at 05:23:28PM -0500, Pasha Tatashin wrote:
+> > > Introduce LUO, a mechanism intended to facilitate kernel updates while
+> > > keeping designated devices operational across the transition (e.g., via
+> > > kexec). The primary use case is updating hypervisors with minimal
+> > > disruption to running virtual machines. For userspace side of hypervisor
+> > > update we have copyless migration. LUO is for updating the kernel.
+> > >
+> > > This initial patch lays the groundwork for the LUO subsystem.
+> > >
+> > > Further functionality, including the implementation of state transition
+> > > logic, integration with KHO, and hooks for subsystems and file
+> > > descriptors, will be added in subsequent patches.
+> > >
+> > > Create a character device at /dev/liveupdate.
+> > >
+> > > A new uAPI header, <uapi/linux/liveupdate.h>, will define the necessary
+> > > structures. The magic number for IOCTL is registered in
+> > > Documentation/userspace-api/ioctl/ioctl-number.rst.
+> > >
+> > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+> >
+> > Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> 
+> Thank you
+> 
+> >
+> > with a few nits below
+> >
+> > > ---
+> >
+> > > diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+> > > index a973a54447de..90857dccb359 100644
+> > > --- a/kernel/liveupdate/Kconfig
+> > > +++ b/kernel/liveupdate/Kconfig
+> > > @@ -1,4 +1,10 @@
+> > >  # SPDX-License-Identifier: GPL-2.0-only
+> > > +#
+> > > +# Copyright (c) 2025, Google LLC.
+> > > +# Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > +#
+> > > +# Live Update Orchestrator
+> > > +#
+> >
+> > If you are adding copyrights it should have Amazon and Microsoft as well.
+> > I believe those from kexec_handover.c would work.
+> >
+> > @Alex?
+> 
+> Sure, or I can remove all of them from Kconfig, whatever you prefer :-)
 
-Done.
+Quick grepping shows that the vast majority of Kconfigs does not have
+copyright, let's just drop it.
 
->
-> > +put_folios:
-> > +     /*
-> > +      * Note: don't free the folios already added to the file. They will be
-> > +      * freed when the file is freed. Free the ones not added yet here.
-> > +      */
-> > +     for (; i < nr_folios; i++) {
-> > +             const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-> > +
-> > +             folio = kho_restore_folio(pfolio->pfn);
-> > +             if (folio)
-> > +                     folio_put(folio);
-> > +     }
-> > +
-> > +     return err;
-> > +}
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > >  menu "Live Update and Kexec HandOver"
+> > >       depends on !DEFERRED_STRUCT_PAGE_INIT
+> > > @@ -51,4 +57,25 @@ config KEXEC_HANDOVER_ENABLE_DEFAULT
+> > >         The default behavior can still be overridden at boot time by
+> > >         passing 'kho=off'.
+> > >
+> > > +config LIVEUPDATE
+> > > +     bool "Live Update Orchestrator"
+> > > +     depends on KEXEC_HANDOVER
+> > > +     help
+> > > +       Enable the Live Update Orchestrator. Live Update is a mechanism,
+> > > +       typically based on kexec, that allows the kernel to be updated
+> > > +       while keeping selected devices operational across the transition.
+> > > +       These devices are intended to be reclaimed by the new kernel and
+> > > +       re-attached to their original workload without requiring a device
+> > > +       reset.
+> > > +
+> > > +       Ability to handover a device from current to the next kernel depends
+> > > +       on specific support within device drivers and related kernel
+> > > +       subsystems.
+> >
+> > Sorry, somehow this slipped during v6 review.
+> > These days LUO is less about devices and more about file descriptors :)
+> 
+> Device preservation through file descriptors: memfd, iommufd, vfiofd
+> are all dependencies for preserving devices.
+> 
+> That Kconfig description is correct and essential because the core
+> complexity of the LUO is the preservation of device state and I/O
+> across a kernel transition, which is a harder problem than just
+> preserving memory or files, for that we could have used a file system
+> instead of inventing something new with logic of can_preserve() etc.
+> 
+> Device preservation requires exactly what is stated in the description
+> for this config:
+> "Ability to handover a device from current to the next kernel depends
+> on specific support within device drivers and related kernel
+> subsystems." The only subsystem that is getting upstreamed with this
+> series is MEMFD, it is a hard pre-requirement for iommufd
+> preservation; the other subsystems: VFIO, PCI, IOMMU are WIP.
+ 
+Ok.
 
-Thanks!
-
-Pasha
-
->
-> --
-> Sincerely yours,
-> Mike.
+-- 
+Sincerely yours,
+Mike.
 
