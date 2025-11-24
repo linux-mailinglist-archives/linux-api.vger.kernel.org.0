@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-5474-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5475-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7C3C7F465
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 08:55:30 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B4AC7F5FF
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 09:18:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5811D3A227E
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 07:55:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DD2454E1065
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 08:18:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4A32EB5BA;
-	Mon, 24 Nov 2025 07:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB65C23EAB5;
+	Mon, 24 Nov 2025 08:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKU9yvDN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4nb9B6N"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1B62E7F14;
-	Mon, 24 Nov 2025 07:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1C11D5154;
+	Mon, 24 Nov 2025 08:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763970896; cv=none; b=POisF7RSYLHWzTo7hJjodZgt1nMydJ8aWg0RbMyBlD9mKuPiW11b/lqxZmcNtABauDYaOr/Gor9HaYKqQubhuoi+P9i6Gh35YIFT9YfBc1k4KHBIgXOBOYlhhNUKaUXCHevdyUQK04R7srk9vUrE/hTzmE4EI5+xJ8KgYFJvxPw=
+	t=1763972332; cv=none; b=jOnUyLDKNJSn+Bjl3OEsuv7M6GV9gxNWNMyrLvm6JtQ3v/bBzfxKrRs2RrM39Tnp0zP+Z10CLVIOCXucr0UkBiaDwOqsE11t46GsM9dJoIVt7ZV6DogwgbiTfZZSQpXAPM+2L+M9kaYkhEvMFmP/EnAYzadilnCNlY2LE6PkJYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763970896; c=relaxed/simple;
-	bh=GxSzjePlSmo3UxO8BdvyDyDiWI+1rs3wnEyy6hlkCKQ=;
+	s=arc-20240116; t=1763972332; c=relaxed/simple;
+	bh=WYWLQ0T4dkN8ERXG3u9J8ksvyh7k5Zp6ptzavMDxTI0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/m9Epzv1gYBjDc1YBBlpeRNEL4AGBViPJ2nYvI2iwrI5bpMTIpree7CKPoHrknS6D5MKhlqrdXX7sH2HnyQOVZwOIQXH1GCS2ZKq5v27B2xgSQzL6mFCkK+sxi3jxDF2AlVqNMvbV+/PbNVMOragOrTZJknuJRr+YCBI6sR2Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKU9yvDN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AAE4C16AAE;
-	Mon, 24 Nov 2025 07:54:34 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=alq3DNfgqoaFunODM4aLSNl6NSIQnYVxwCYoM7+6z9pXl9+FR7dscCGoRLf/wL3EpifNuhZNhSQQHR6bUstIxAPzo2ELcPZ62kMgt3qe3T8jZ4l9Bi3euuuY3nHgviEopUmOKz0KckCaGBwvrhw365nt2sjBaDweV7UQhEAfVlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4nb9B6N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A781AC4CEF1;
+	Mon, 24 Nov 2025 08:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763970895;
-	bh=GxSzjePlSmo3UxO8BdvyDyDiWI+1rs3wnEyy6hlkCKQ=;
+	s=k20201202; t=1763972332;
+	bh=WYWLQ0T4dkN8ERXG3u9J8ksvyh7k5Zp6ptzavMDxTI0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JKU9yvDNDyvfFrDA4ZITWehj+Dvbr5qW/VQsPyzWFvprnRUDIeYiuqLGKZNjPunnV
-	 /SBIit0kYksz6HfSeIuvx/iHGsw8XMEvIK83ZDQLzC4PmXh4V/D1CJqli0Ll6d4TkE
-	 SAyMv2W8VZJhTeX6UACR6f9l6bfXZ/k/SERlaFnFCBT15urJkAZwAIAyPUJv4d+VHJ
-	 JkZ4x6uJfsfbrd5lPMj3R4Op0ePl4EDCwbc3pmcP6FMsyjrwiPJOt7i6LQdWkyRm1b
-	 RTC8818U6PATHeFjxMvtXNKivl+uMltoaFYd2CJcQuAW5cQYV+Jtml2HanqnEen8H+
-	 A3UZeELgzIcTg==
-Date: Mon, 24 Nov 2025 09:54:30 +0200
+	b=Q4nb9B6NtVz90XW2XdKcz2w3HBHpJZR/aM1ZNR35r4yvDfhHSypM9mzA3W6YfsD/b
+	 CWTbTvQXuj2Ivelvod05bz13F/xMHSMh1eB4TIvqOhmzJgVuCYUbTaBRdIMDu+WsnQ
+	 Hv9hSiSlm6h42pfXMm7526csug76VGAcAJ2QBfe7LaRFocbC8f65jRuQcfxoz+Yj6F
+	 cDXFj8FL/XpKzmWpGWFT8PIva62JL2DAm1+v1Af9C+1qlUdrYFe5xrV3OBFSKfdEFW
+	 kYCoeLF1kbCOnDt1/j3vavEhYmdYkkkz/YxhVQ7NzlE5exG8jkVQg3JaMIns28yd2n
+	 VlYneYz7SNm7w==
+Date: Mon, 24 Nov 2025 10:18:28 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
@@ -71,278 +71,232 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
 	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure
- and scripts
-Message-ID: <aSQPNuFIv0rRr2tp@kernel.org>
+Subject: Re: [PATCH v7 06/22] liveupdate: luo_file: implement file systems
+ callbacks
+Message-ID: <aSQU1LlPDDsN2rUw@kernel.org>
 References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-20-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-7-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251122222351.1059049-20-pasha.tatashin@soleen.com>
+In-Reply-To: <20251122222351.1059049-7-pasha.tatashin@soleen.com>
 
-On Sat, Nov 22, 2025 at 05:23:46PM -0500, Pasha Tatashin wrote:
-> Subject: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure and scripts
-
-Maybe                                                ^ end to end
-
-> Add the testing infrastructure required to verify the liveupdate
-> feature. This includes a custom init process, a test orchestration
-> script, and a batch runner.
-
-And say here that it's end to end test.
- 
-> The framework consists of:
+On Sat, Nov 22, 2025 at 05:23:33PM -0500, Pasha Tatashin wrote:
+> This patch implements the core mechanism for managing preserved
+> files throughout the live update lifecycle. It provides the logic to
+> invoke the file handler callbacks (preserve, unpreserve, freeze,
+> unfreeze, retrieve, and finish) at the appropriate stages.
 > 
-> init.c:
-> A lightweight init process that manages the kexec lifecycle.
-> It mounts necessary filesystems, determines the current execution
-> stage (1 or 2) via the kernel command line, and handles the
-> kexec_file_load() sequence to transition between kernels.
-> 
-> luo_test.sh:
-> The primary KTAP-compliant test driver. It handles:
-> - Kernel configuration merging and building.
-> - Cross-compilation detection for x86_64 and arm64.
-> - Generation of the initrd containing the test binary and init.
-> - QEMU execution with automatic accelerator detection (KVM, HVF,
->  or TCG).
-> 
-> run.sh:
-> A wrapper script to discover and execute all `luo_*.c`
-> tests across supported architectures, providing a summary of
-> pass/fail/skip results.
+> During the reboot phase, luo_file_freeze() serializes the final
+> metadata for each file (handler compatible string, token, and data
+> handle) into a memory region preserved by KHO. In the new kernel,
+> luo_file_deserialize() reconstructs the in-memory file list from this
+> data, preparing the session for retrieval.
 > 
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+
+With some comments below
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
 > ---
->  tools/testing/selftests/liveupdate/init.c     | 174 ++++++++++
->  .../testing/selftests/liveupdate/luo_test.sh  | 296 ++++++++++++++++++
->  tools/testing/selftests/liveupdate/run.sh     |  68 ++++
->  3 files changed, 538 insertions(+)
->  create mode 100644 tools/testing/selftests/liveupdate/init.c
->  create mode 100755 tools/testing/selftests/liveupdate/luo_test.sh
->  create mode 100755 tools/testing/selftests/liveupdate/run.sh
+>  include/linux/kho/abi/luo.h      |  39 +-
+>  include/linux/liveupdate.h       |  98 ++++
+>  kernel/liveupdate/Makefile       |   1 +
+>  kernel/liveupdate/luo_file.c     | 882 +++++++++++++++++++++++++++++++
+>  kernel/liveupdate/luo_internal.h |  38 ++
+>  5 files changed, 1057 insertions(+), 1 deletion(-)
+>  create mode 100644 kernel/liveupdate/luo_file.c
 > 
 
 ...
 
-> +static int is_stage_2(void)
+> +int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
 > +{
-> +	char cmdline[COMMAND_LINE_SIZE];
-> +	ssize_t len;
-> +	int fd;
+> +	struct liveupdate_file_op_args args = {0};
+> +	struct liveupdate_file_handler *fh;
+> +	struct luo_file *luo_file;
+> +	struct file *file;
+> +	int err;
 > +
-> +	fd = open("/proc/cmdline", O_RDONLY);
-> +	if (fd < 0)
-> +		return 0;
+> +	if (luo_token_is_used(file_set, token))
+> +		return -EEXIST;
 > +
-> +	len = read(fd, cmdline, sizeof(cmdline) - 1);
-> +	close(fd);
+> +	file = fget(fd);
+> +	if (!file)
+> +		return -EBADF;
 > +
-> +	if (len < 0)
-> +		return 0;
+> +	err = luo_alloc_files_mem(file_set);
+> +	if (err)
+> +		goto  err_files_mem;
+> +
+> +	if (file_set->count == LUO_FILE_MAX) {
 
-Shouldn't we bail out of the test if read of command line failed?
+This can be checked before getting the file and allocating memory, can't it?
+
+> +		err = -ENOSPC;
+> +		goto err_files_mem;
+
+The goto label should say what it does, not what the error was.
+
+> +	}
+> +
+> +	err = -ENOENT;
+> +	luo_list_for_each_private(fh, &luo_file_handler_list, list) {
+> +		if (fh->ops->can_preserve(fh, file)) {
+> +			err = 0;
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* err is still -ENOENT if no handler was found */
+> +	if (err)
+> +		goto err_files_mem;
+> +
+> +	luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> +	if (!luo_file) {
+> +		err = -ENOMEM;
+> +		goto err_files_mem;
+> +	}
+> +
+> +	luo_file->file = file;
+> +	luo_file->fh = fh;
+> +	luo_file->token = token;
+> +	luo_file->retrieved = false;
+> +	mutex_init(&luo_file->mutex);
+> +
+> +	args.handler = fh;
+> +	args.file = file;
+> +	err = fh->ops->preserve(&args);
+> +	if (err)
+> +		goto err_kfree;
+> +
+> +	luo_file->serialized_data = args.serialized_data;
+> +	list_add_tail(&luo_file->list, &file_set->files_list);
+> +	file_set->count++;
+> +
+> +	return 0;
+> +
+> +err_kfree:
+> +	mutex_destroy(&luo_file->mutex);
+
+Don't think we need this, luo_file is freed in the next line.
+
+> +	kfree(luo_file);
+> +err_files_mem:
+> +	fput(file);
+> +	luo_free_files_mem(file_set);
+
+I'd have the error path as
+
+err_free_luo_file:
+	kfree(luo_file);
+err_free_files_mem:
+	luo_free_files_mem(file_set);
+err_put_file:
+	fput(file);
 
 > +
-> +	cmdline[len] = 0;
-> +
-> +	return !!strstr(cmdline, "luo_stage=2");
+> +	return err;
 > +}
+
+...
+
+> +void luo_file_unpreserve_files(struct luo_file_set *file_set)
+> +{
+> +	struct luo_file *luo_file;
+> +
+> +	while (!list_empty(&file_set->files_list)) {
+
+list_for_each_entry_safe_reverse()?
+
+> +		struct liveupdate_file_op_args args = {0};
+> +
+> +		luo_file = list_last_entry(&file_set->files_list,
+> +					   struct luo_file, list);
+> +
+> +		args.handler = luo_file->fh;
+> +		args.file = luo_file->file;
+> +		args.serialized_data = luo_file->serialized_data;
+> +		luo_file->fh->ops->unpreserve(&args);
+> +
+> +		list_del(&luo_file->list);
+> +		file_set->count--;
+> +
+> +		fput(luo_file->file);
+> +		mutex_destroy(&luo_file->mutex);
+> +		kfree(luo_file);
+> +	}
+> +
+> +	luo_free_files_mem(file_set);
+> +}
+
+...
+
+> +int luo_file_finish(struct luo_file_set *file_set)
+> +{
+> +	struct list_head *files_list = &file_set->files_list;
+> +	struct luo_file *luo_file;
+> +	int err;
+> +
+> +	if (!file_set->count)
+> +		return 0;
+> +
+> +	list_for_each_entry(luo_file, files_list, list) {
+> +		err = luo_file_can_finish_one(file_set, luo_file);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	while (!list_empty(&file_set->files_list)) {
+
+list_for_each_entry_safe_reverse()?
+
+> +		luo_file = list_last_entry(&file_set->files_list,
+> +					   struct luo_file, list);
+> +
+> +		luo_file_finish_one(file_set, luo_file);
+> +
+> +		if (luo_file->file)
+> +			fput(luo_file->file);
+> +		list_del(&luo_file->list);
+> +		file_set->count--;
+> +		mutex_destroy(&luo_file->mutex);
+> +		kfree(luo_file);
+> +	}
 > +
 
 ...
 
-> +function cleanup() {
-> +	local exit_code=$?
-> +
-> +	if [ -z "$workspace_dir" ]; then
-> +		ktap_finished
-> +		return
-> +	fi
-> +
-> +	if [ $exit_code -ne 0 ]; then
-> +		echo "# Test failed (exit code $exit_code)."
-> +		echo "# Workspace preserved at: $workspace_dir"
-> +	elif [ "$KEEP_WORKSPACE" -eq 1 ]; then
-> +		echo "# Workspace preserved (user request) at: $workspace_dir"
-> +	else
-> +		rm -fr "$workspace_dir"
-> +	fi
-> +	ktap_finished
+> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+> index 1292ac47eef8..c8973b543d1d 100644
+> --- a/kernel/liveupdate/luo_internal.h
+> +++ b/kernel/liveupdate/luo_internal.h
+> @@ -40,6 +40,28 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
+>   */
+>  #define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
+>  
+> +/* Mimics list_for_each_entry() but for private list head entries */
+> +#define luo_list_for_each_private(pos, head, member)				\
+> +	for (struct list_head *__iter = (head)->next;				\
+> +	     __iter != (head) &&						\
+> +	     ({ pos = container_of(__iter, typeof(*(pos)), member); 1; });	\
+> +	     __iter = __iter->next)
 
-	exit $exit_code
+Ideally something like this should go to include/linux/list.h, but it can
+be done later to avoid bikeshedding about the name :)
 
-> +}
+And you can reuse most of list_for_each_entry, just replace the line that
+accesses __private member:
 
-...
-
-> +function build_kernel() {
-> +	local build_dir=$1
-> +	local make_cmd=$2
-> +	local kimage=$3
-> +	local target_arch=$4
-> +
-> +	local kconfig="$build_dir/.config"
-> +	local common_conf="$test_dir/config"
-> +	local arch_conf="$test_dir/config.$target_arch"
-> +
-> +	echo "# Building kernel in: $build_dir"
-> +	$make_cmd defconfig
-> +
-> +	local fragments=""
-> +	if [[ -f "$common_conf" ]]; then
-> +		fragments="$fragments $common_conf"
-> +	fi
-
-Without this CONFIG_LIVEUPDATE won't be set
-> +
-> +	if [[ -f "$arch_conf" ]]; then
-> +		fragments="$fragments $arch_conf"
-> +	fi
-> +
-> +	if [[ -n "$fragments" ]]; then
-> +		"$kernel_dir/scripts/kconfig/merge_config.sh" \
-> +			-Q -m -O "$build_dir" "$kconfig" $fragments >> /dev/null
-> +	fi
-
-I believe you can just
-
-	cat $common_conf $fragments >  $build_dir/.config
-	make olddefconfig
-
-without running defconfig at the beginning
-It will build faster, just make sure to add CONFIG_SERIAL_ to $arch_conf
-
-> +	$make_cmd olddefconfig
-> +	$make_cmd "$kimage"
-> +	$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
-> +}
-> +
-> +function mkinitrd() {
-> +	local build_dir=$1
-> +	local kernel_path=$2
-> +	local test_name=$3
-> +
-> +	# 1. Compile the test binary and the init process
-
-Didn't find 2. ;-)
-Don't think we want the numbering here, plain comments are fine
-
-> +	"$CROSS_COMPILE"gcc -static -O2 \
-> +		-I "$headers_dir/include" \
-> +		-I "$test_dir" \
-> +		-o "$workspace_dir/test_binary" \
-> +		"$test_dir/$test_name.c" "$test_dir/luo_test_utils.c"
-
-This will have hard time cross-compiling with -nolibc toolchains
-
-> +
-> +	"$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib		\
-> +			-fno-asynchronous-unwind-tables -fno-ident	\
-> +			-fno-stack-protector				\
-> +			-I "$headers_dir/include"			\
-> +			-I "$kernel_dir/tools/include/nolibc"		\
-> +			-o "$workspace_dir/init" "$test_dir/init.c"
-
-This failed for me with gcc 14.2.0 (Debian 14.2.0-19):
-
-/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c: In function ‘run_test’:
-/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: error: initializer element is not constant
-  111 |             static const char *const argv[] = {TEST_BINARY, stage_arg, NULL};
-      |                                                             ^~~~~~~~~
-
-/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: note: (near initialization for ‘argv[1]’)
-/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:113:37: error: passing argument 2 of ‘execve’ from incompatible pointer type [-Wincompatible-pointer-types]
-  113 |                 execve(TEST_BINARY, argv, NULL);
-      |                                     ^~~~
-      |                                     |
-      |                                     const char * const*
-In file included from /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:16:
-/usr/include/unistd.h:572:52: note: expected ‘char * const*’ but argument is of type ‘const char * const*’
-  572 | extern int execve (const char *__path, char *const __argv[],
-      |                                        ~~~~~~~~~~~~^~~~~~~~
-
-> +
-> +	cat > "$workspace_dir/cpio_list_inner" <<EOF
-> +dir /dev 0755 0 0
-> +dir /proc 0755 0 0
-> +dir /debugfs 0755 0 0
-> +nod /dev/console 0600 0 0 c 5 1
-
-Don't you need /dev/liveupdate node?
-
-> +file /init $workspace_dir/init 0755 0 0
-> +file /test_binary $workspace_dir/test_binary 0755 0 0
-> +EOF
-> +
-> +	# Generate inner_initrd.cpio
-> +	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" > "$workspace_dir/inner_initrd.cpio"
-> +
-> +	cat > "$workspace_dir/cpio_list" <<EOF
-> +dir /dev 0755 0 0
-> +dir /proc 0755 0 0
-> +dir /debugfs 0755 0 0
-> +nod /dev/console 0600 0 0 c 5 1
-
-And here as well.
-
-> +file /init $workspace_dir/init 0755 0 0
-> +file /kernel $kernel_path 0644 0 0
-> +file /test_binary $workspace_dir/test_binary 0755 0 0
-> +file /initrd.img $workspace_dir/inner_initrd.cpio 0644 0 0
-> +EOF
-> +
-> +	# Generate the final initrd
-> +	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$initrd"
-> +	local size=$(du -h "$initrd" | cut -f1)
-> +}
-> +
-> +function run_qemu() {
-> +	local qemu_cmd=$1
-> +	local cmdline=$2
-> +	local kernel_path=$3
-> +	local serial="$workspace_dir/qemu.serial"
-> +
-> +	local accel="-accel tcg"
-> +	local host_machine=$(uname -m)
-> +
-> +	[[ "$host_machine" == "arm64" ]] && host_machine="aarch64"
-> +	[[ "$host_machine" == "x86_64" ]] && host_machine="x86_64"
-> +
-> +	if [[ "$qemu_cmd" == *"$host_machine"* ]]; then
-> +		if [ -w /dev/kvm ]; then
-> +			accel="-accel kvm"
-
-Just pass both kvm and tcg and let qemu complain.
-
-> +		fi
-> +	fi
-> +
-> +	cmdline="$cmdline liveupdate=on panic=-1"
-> +
-> +	echo "# Serial Log: $serial"
-> +	timeout 30s $qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults	\
-> +		  $accel							\
-> +		  -serial file:"$serial"					\
-> +		  -append "$cmdline"						\
-> +		  -kernel "$kernel_path"					\
-> +		  -initrd "$initrd"
-> +
-> +	local ret=$?
-> +
-> +	if [ $ret -eq 124 ]; then
-> +		fail "QEMU timed out"
-> +	fi
-> +
-> +	grep "TEST PASSED" "$serial" &> /dev/null || fail "Liveupdate failed. Check $serial for details."
-> +}
+#define luo_list_for_each_private(pos, head, member)			\
+	for (pos = list_first_entry(head, typeof(*pos), member);	\
+	     &ACCESS_PRIVATE(pos, member) != head;			\
+	     pos = list_next_entry(pos, member))
 
 -- 
 Sincerely yours,
