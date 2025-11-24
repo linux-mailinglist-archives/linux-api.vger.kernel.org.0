@@ -1,123 +1,148 @@
-Return-Path: <linux-api+bounces-5467-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5468-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F183C7E6EC
-	for <lists+linux-api@lfdr.de>; Sun, 23 Nov 2025 21:02:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27584C7EE13
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 04:14:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D081A3A3987
-	for <lists+linux-api@lfdr.de>; Sun, 23 Nov 2025 20:02:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D99123A40DC
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 03:14:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15732609C5;
-	Sun, 23 Nov 2025 20:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDAB298CC9;
+	Mon, 24 Nov 2025 03:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CLr4w+EI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GnxbGwP2"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="R4zZTJYQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E731E7C08;
-	Sun, 23 Nov 2025 20:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9262652B7
+	for <linux-api@vger.kernel.org>; Mon, 24 Nov 2025 03:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763928133; cv=none; b=uxys8Zhb21qHj0/CPtAdMDlo5rma9NdBVqw/jUG42ygCR9qVbSF2qRSUlKi2wFrM1+IjXLEvpKNlIhuuZCBDolg9wvB7T/LtahmBG2y9a9zNHO0wbLhL1f61G+SU2PwG0Lgi1gQh/qk6mqYGGIo+MiCkKIpJX2NmW+KelbLMK4c=
+	t=1763954060; cv=none; b=pvQ6Iv+grUS7uSaT/cxoII+ZZ2H7E+mSEXK2Jw5tRtiSfP5bo4HtBKVkoaIxi2rfQ5QGAC2lVSzys9aZWAlrJNFFiQ6PW1t3idjQu32nn6irMoQailY3fcRYZpgjJXeGbUZXMRpOUev7w+Tm+aBGDZx9uFvUNemXQg8qzmaUiYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763928133; c=relaxed/simple;
-	bh=F3GuzaZscKcz2i4B2SSFistEug+/34/3N87ema8im4c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mOkOI2WsNzO2e0sc6ed+pq0+978C1vfBobf+2rdt3XzFEcAezEp9Zj/qYCSAv1RfEwHdH9R6Jl7B6mcQEr2jdNt4E7Qp4eQx+ByMIG3DxT1TkBr+RQwPMf2bPqQWKb626IuuvhbPP4LfQ0JwudfVflaM5nzpe6466v9pWY2kwZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CLr4w+EI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GnxbGwP2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763928130;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nc4X29K4gmWMDQv5iAIKVGHKqb9bsyOwWA1vx5q2bxw=;
-	b=CLr4w+EIKY3htKNF+HNBSplviqNNZK93+fyvtV6GRRvsPkmrrdbBK+LzWJqZ3Iz1XyWtwg
-	xlWPy6m1E4Zzd3Pr/T2S19CWGV9UzW0r67LlibvEs9BZiap0MgAdWAfuEcR33nU5ZLjCZR
-	UJxIVkYi7ybQkD5AM9j3GKjBzYhEowLobgIpgj20AuP45c7DPged94HrHefKuQKRBWHu4d
-	0O4UvqPj7nALDpxBRjcUqIBH65cDMKLINnLLLI9FvV0d6fWhV5MfUQOt9typZy3mOD11H1
-	bWFIctHwmGUpXbVD0iGVRN4dGtQUJyg2E0JnhoNgRsIa3Ql3heEl5pJVu91oWg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763928130;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nc4X29K4gmWMDQv5iAIKVGHKqb9bsyOwWA1vx5q2bxw=;
-	b=GnxbGwP22UmW38kOzrstcqCxFTe3uCSiwHjXhoBSKdlFt6Tq+YBKMhN5vaOrD+MXMD1EnA
-	+vhvKNf67jUXv2CA==
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- =?utf-8?Q?Andr=C3=A9?=
- Almeida <andrealmeid@igalia.com>, Ingo Molnar <mingo@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
- Davidlohr Bueso <dave@stgolabs.net>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Waiman Long <longman@redhat.com>, Ryan Houdek
- <Sonicadvance1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
- kernel-dev@igalia.com
-Subject: Re: [PATCH v6 6/9] futex: Wire up get_robust_list2 syscall
-In-Reply-To: <326957b0-fbce-4850-a8fb-8eed90fc4fae@app.fastmail.com>
-References: <20251122-tonyk-robust_futex-v6-6-05fea005a0fd@igalia.com>
- <202511221454.rsysOoSt-lkp@intel.com> <87ms4cio14.ffs@tglx>
- <326957b0-fbce-4850-a8fb-8eed90fc4fae@app.fastmail.com>
-Date: Sun, 23 Nov 2025 21:02:09 +0100
-Message-ID: <87jyzgikla.ffs@tglx>
+	s=arc-20240116; t=1763954060; c=relaxed/simple;
+	bh=m7otrMWhBJM9ta+y1m0Kw4P0enGP7S7+XlIcKLt3qIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fgwr1Xe+DR0l3IhjERSe3FkXQ89I1CHQVpMmLIGGrSiZqRUh5Sfj9dbycucFim72nZ/YC160X9voaVasH2S1Ujnm2SK46RL1/LW802ewljemfdHCPIcVUzNRQLSwW5BIJMf+NvdUpF83aO9YbpwXFIToWAlTwMhBkHsuQXru7PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=R4zZTJYQ; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-644f90587e5so5894227a12.0
+        for <linux-api@vger.kernel.org>; Sun, 23 Nov 2025 19:14:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1763954056; x=1764558856; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
+        b=R4zZTJYQ8Edmu3CjI8FZOt/tfdZatJjJcfAnV6s4bUjJ7ZvQ2Rhh8ANNQwYJ3gEhFW
+         aKrU1gfMUEmN5dFsBaoNhUY755lzg+dfdtvUy2lzSsa5I3le9CcVjjWNZYiD8ltWAgke
+         bBxvhn2XQY8NoS6KDwNBSmHkjfLKlXQawhVpmJ+cshiKRMt+t1RX3g5gVgsbex1YmWIT
+         Tyn5wnvLUs83XXipjPoRo1I/+Tq95WlZV/B6j04eTpcQPONgVJJZzo2oEg1W4p5gDEmH
+         vEM1vIVb4NhurLHBy/CRhdm3dOTdI/nYXzd0TrZl4OJRdMa8+W//S9b43wGhiec6HwLv
+         EqRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763954056; x=1764558856;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
+        b=suBZ+Ses32x70TJ6IvhqAQtHEb0b9UO+gDzes6uv5hCO3j8b2ID7EZfm7X9y2lLs5I
+         4kYUmzNz4y0pLMR9Qox9Ey/NUps0OCwJtb0zdv1HZwyWFaK8Sbf6bzJkHcL2hhIrTFPW
+         HiP9hpNhqSZDIhXw7UyV7LnGaSyNEvfALWFnPDfNoOSFIz9SBwqyAUTK9pqpewfhfXm4
+         57sNET22IPKqxy9ERZHayhtuyEAq1S4c5GAC7Pws8ihSh6YQocziMXqJ3FYVBNYcWimR
+         OgsS0gG+xyVVzkiwTU/IR6v2Qa/JunlSH/dYR+DUtBZlgXP5hqACR4tPm+akdFYgDwkg
+         +34g==
+X-Forwarded-Encrypted: i=1; AJvYcCVe52x9I6usDhfS7PCCz/sguc3JBTa4un58mwkRW7NxkhuKGmYOaEOECMUuqUpJvzOT8fmPVmGpmWo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBL+evyn/a2wqxiCh1GSsnaoqw4ylK4XzURh8pC265mCKtBkTI
+	5hpJJ44mNzMvuTIDW2bGzlNMocfAKAzo3T2u+7vEwdcVoT/U5AWvQDeacR1NJ/WttiznhQ/0QvL
+	tAIubBJD6KX86E9paSue0xXZHyXRd+DZ7JwVnYdg0oQ==
+X-Gm-Gg: ASbGncsQ6jIzv6KOs9LgESwZunGjcKZQBkFZrgPt8ifBt0qYbxtARAu8FGRDzUIKu1P
+	s+6XO2ygneHXwBQmmFdA4QrU61mh3FXDQq2axWcnMKXwp7DejG9CuioXHHgXP70+Bv41G05sp2O
+	zj/gLhGsZs3NLiwDGOaOQg1dtljus5ZytwxSm4T+6HEgTT5RFJhI53t3eZ+1x4235hDf62cD9Dl
+	m675cFrI3diBjYVNMS2UMZS4DLsfNZutVaG/74jmm0YYQwXDmKy/VqLPiSGChY0AE4s
+X-Google-Smtp-Source: AGHT+IH67JP1UaR3gpoqZ3MrgHkQzMQhpp66V9UPwtAjbwPOvJT5SkZilFWd08WjSbu3wTcfKGr6KSLWlhGvqm+wzqg=
+X-Received: by 2002:a05:6402:40c5:b0:640:ebca:e66f with SMTP id
+ 4fb4d7f45d1cf-6455469272fmr8497105a12.34.1763954055610; Sun, 23 Nov 2025
+ 19:14:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-15-pasha.tatashin@soleen.com> <aSMsqD5mB2mHHH9v@kernel.org>
+In-Reply-To: <aSMsqD5mB2mHHH9v@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sun, 23 Nov 2025 22:13:39 -0500
+X-Gm-Features: AWmQ_bn9jKi7Ktx8U1VC5NBm-L4AbZd5N5WS8ORgDcSjrzKv7tbGyIW2qlGBRlc
+Message-ID: <CA+CK2bCrNC0uYdXbC+JK_bvk8BYFPSL=ZbTZ_T6LMHtoum+Z8Q@mail.gmail.com>
+Subject: Re: [PATCH v7 14/22] mm: memfd_luo: allow preserving memfd
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Nov 23 2025 at 20:19, Arnd Bergmann wrote:
-> On Sun, Nov 23, 2025, at 19:47, Thomas Gleixner wrote:
->> On Sat, Nov 22 2025 at 14:49, kernel test robot wrote:
->>> kernel test robot noticed the following build warnings:
->>>
->>> [auto build test WARNING on c42ba5a87bdccbca11403b7ca8bad1a57b833732]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Use-explicit-sizes-for-compat_robust_list-structs/20251122-135406
->>> base:   c42ba5a87bdccbca11403b7ca8bad1a57b833732
->>> patch link:    https://lore.kernel.org/r/20251122-tonyk-robust_futex-v6-6-05fea005a0fd%40igalia.com
->>> patch subject: [PATCH v6 6/9] futex: Wire up get_robust_list2 syscall
->>> config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20251122/202511221454.rsysOoSt-lkp@intel.com/config)
->>> compiler: arc-linux-gcc (GCC) 15.1.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221454.rsysOoSt-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202511221454.rsysOoSt-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>>> <stdin>:1627:2: warning: #warning syscall get_robust_list2 not implemented [-Wcpp]
->>> --
->>>>> <stdin>:1627:2: warning: #warning syscall get_robust_list2 not implemented [-Wcpp]
->>
->> Lacks a COND_SYSCALL()
+> > +unlock_folio:
+> > +     folio_unlock(folio);
+> > +     folio_put(folio);
+> > +     i++;
 >
-> No, it's actually
+> I'd add a counter and use it int the below for loop.
+
+Done.
+
 >
-> scripts/syscall.tbl
+> > +put_folios:
+> > +     /*
+> > +      * Note: don't free the folios already added to the file. They will be
+> > +      * freed when the file is freed. Free the ones not added yet here.
+> > +      */
+> > +     for (; i < nr_folios; i++) {
+> > +             const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
+> > +
+> > +             folio = kho_restore_folio(pfolio->pfn);
+> > +             if (folio)
+> > +                     folio_put(folio);
+> > +     }
+> > +
+> > +     return err;
+> > +}
 >
-> that is missing, which means that the newer architectures
-> are missing the update. This used to be include/uapi/asm/unistd.h,
-> which still exists but is now unused.
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-So it's both. That syscall depends on CONFIG_FUTEX, which means
-COND_SYCALL() is required and it's actually added in patch 9/9 while 5/9
-which adds the set() variant adds it right away :)
+Thanks!
 
-Thanks,
+Pasha
 
-        tglx
+>
+> --
+> Sincerely yours,
+> Mike.
 
