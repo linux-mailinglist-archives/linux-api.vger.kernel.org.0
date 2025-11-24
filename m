@@ -1,87 +1,115 @@
-Return-Path: <linux-api+bounces-5479-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5480-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D89C81026
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 15:29:11 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA038C81315
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 15:58:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEAB63A7BA1
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 14:28:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8CB0B4E5223
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 14:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EFC30F951;
-	Mon, 24 Nov 2025 14:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295F13128CB;
+	Mon, 24 Nov 2025 14:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yo98vvMZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7280130F818;
-	Mon, 24 Nov 2025 14:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC24430DEDC;
+	Mon, 24 Nov 2025 14:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763994489; cv=none; b=vF9AsPh5h3Hvmnsq7ivB9G4QxqUjQQe6g76zTPkD8DaCGZpBQvF6QBoPT2H8fITuZQJ/uyHD/VXfioXh0VV2vne4ESYX5rpQ9FLaBttbxOzc1A+sXY6khNPbj1sINKKDj5VG1FBKTPoJPcpiiDLkGzVzS+LATzr7e7u3Y4Bawfg=
+	t=1763996276; cv=none; b=HiSLD5k26ktcGG8b/cURKsjWfjL0PQxmB6uuXKTVSZu9uycGOlBho6aRldwTdinb7o59YwH1SPOMenUiN+ERTHwtVJPHPzolEQY0k+YSlwQpUzPaA/R1eRE4O/AhRjyHS0cSwFwHZ0ulALJOqhnlDIYKx/bJiFWgVhBoF3/Cqww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763994489; c=relaxed/simple;
-	bh=UOH3L1PAcZXM/qfMxyW2ujcALSBFZdSV7XLCASl6KLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GUC4lHqqJO69SW+DGprSd7OhPm8lO2DD4zuDixWAXUnoFhJK5Q+I0YaTzzdJDr1SrphgB1Q9Uzdw4B4nQECRm5Hg13olh5rZRtnOrhMbmNWZq4bScErGJueWeWEWpl0tMMR0MAWOdKy8VYiWdz9sLWlF9X1RW7PENO69I6wrTqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id BC2CC68B05; Mon, 24 Nov 2025 15:28:04 +0100 (CET)
-Date: Mon, 24 Nov 2025 15:28:04 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
-	Gao Xiang <hsiangkao@linux.alibaba.com>,
-	Art Nikpal <email2tema@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>,
-	Lennart Poettering <mzxreary@0pointer.de>,
-	linux-arch@vger.kernel.org, linux-block@vger.kernel.org,
-	initramfs@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
-	Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Heiko Carstens <hca@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Dave Young <dyoung@redhat.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Jessica Clarke <jrtc27@jrtc27.com>,
-	Nicolas Schichan <nschichan@freebox.fr>,
-	David Disseldorp <ddiss@suse.de>, patches@lists.linux.dev
-Subject: Re: [PATCH v4 3/3] init: remove /proc/sys/kernel/real-root-dev
-Message-ID: <20251124142804.GC16938@lst.de>
-References: <20251119222407.3333257-1-safinaskar@gmail.com> <20251119222407.3333257-4-safinaskar@gmail.com>
+	s=arc-20240116; t=1763996276; c=relaxed/simple;
+	bh=eT4pJrflwgRPMF4ryE6lrh/N+OcL3X6tkjV48AA+6HI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HGKLl8yfk7lPYBt+Tsad3SjhswUScvX9QtBuJIPZoFl3rnL9YMxA2PI7mJKoSBiSCDKqwzjuI0o/hr59wEHMJgsPnRwWHjpkGVGTL/BG3R8TvJtrHYrZf0O+ps0XsY4DtKhkB2J1ieQ8GyNjAFcblIUqTtLsQ8EZ28oTsLtlnFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yo98vvMZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5B8C4CEF1;
+	Mon, 24 Nov 2025 14:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763996275;
+	bh=eT4pJrflwgRPMF4ryE6lrh/N+OcL3X6tkjV48AA+6HI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Yo98vvMZm/olLPqpxnPsvRURyK/2mRNeN/gLay7rE5jE+UrJoSq3l1gTUDijol2vR
+	 sTBC6XG3vdtj6VgW8PaH5OH2BDzAKQX0aG4V/3G8A8QI7mu1Z+GFyXK5+FOqp+/Zfr
+	 WhvErW8+LgmXEsRBaOewO3lQEgH594+zmhorrmc1Lj3BNCSUVI8PtG/9zDSMKmMpWh
+	 aGkZnmwGfxqEDUQx4p32IcugsCxlxtbiCRJHWSVA30dtIbZ/ImNdeJXs7fZ8y4b0x0
+	 vJ+7C5GiMTHLP+I3Um/3AkDZvYkTgOuQWucN73eVWfujBPE0D1D1mUEHqoTBVasuVh
+	 61m02b938kG6Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
+  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
+  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
+  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v7 04/22] liveupdate: luo_session: add sessions support
+In-Reply-To: <20251122222351.1059049-5-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Sat, 22 Nov 2025 17:23:31 -0500")
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+	<20251122222351.1059049-5-pasha.tatashin@soleen.com>
+Date: Mon, 24 Nov 2025 15:57:45 +0100
+Message-ID: <mafs0ecpnzdee.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119222407.3333257-4-safinaskar@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain
 
-On Wed, Nov 19, 2025 at 10:24:07PM +0000, Askar Safin wrote:
-> It is not used anymore.
+On Sat, Nov 22 2025, Pasha Tatashin wrote:
 
-Let's hope whacky userspace agrees with that :)
+> Introduce concept of "Live Update Sessions" within the LUO framework.
+> LUO sessions provide a mechanism to group and manage `struct file *`
+> instances (representing file descriptors) that need to be preserved
+> across a kexec-based live update.
+>
+> Each session is identified by a unique name and acts as a container
+> for file objects whose state is critical to a userspace workload, such
+> as a virtual machine or a high-performance database, aiming to maintain
+> their functionality across a kernel transition.
+>
+> This groundwork establishes the framework for preserving file-backed
+> state across kernel updates, with the actual file data preservation
+> mechanisms to be implemented in subsequent patches.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-But we'll have to try this to find out, so:
+With Mike's comments addressed,
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
 
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
 
