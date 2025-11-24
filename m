@@ -1,56 +1,57 @@
-Return-Path: <linux-api+bounces-5480-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5481-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA038C81315
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 15:58:15 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E96D4C813B2
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 16:06:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8CB0B4E5223
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 14:58:05 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9734D344C77
+	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 15:06:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295F13128CB;
-	Mon, 24 Nov 2025 14:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07897296BA8;
+	Mon, 24 Nov 2025 15:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yo98vvMZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cL1v2+Ts"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC24430DEDC;
-	Mon, 24 Nov 2025 14:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667C28725B;
+	Mon, 24 Nov 2025 15:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763996276; cv=none; b=HiSLD5k26ktcGG8b/cURKsjWfjL0PQxmB6uuXKTVSZu9uycGOlBho6aRldwTdinb7o59YwH1SPOMenUiN+ERTHwtVJPHPzolEQY0k+YSlwQpUzPaA/R1eRE4O/AhRjyHS0cSwFwHZ0ulALJOqhnlDIYKx/bJiFWgVhBoF3/Cqww=
+	t=1763996814; cv=none; b=F46UkUhMurroF4IcFeXEoL6RqmpAWSKZwil1XNly0xfi8ghlgv2FSHvFLi8NYINlf91vjXRHLGEM+WN67+z2TruxByZb4sThJSg4iJLw3PGd4KD/MUEN3jW/HmiBj/27LcnI/tBG1V+2WuHGLz0bbIgU8S6lH+osQqVs7OrBRh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763996276; c=relaxed/simple;
-	bh=eT4pJrflwgRPMF4ryE6lrh/N+OcL3X6tkjV48AA+6HI=;
+	s=arc-20240116; t=1763996814; c=relaxed/simple;
+	bh=hjVka/8UJVXnMcGE16R4he/m5Oo5PixYwejWPEsOQ1g=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HGKLl8yfk7lPYBt+Tsad3SjhswUScvX9QtBuJIPZoFl3rnL9YMxA2PI7mJKoSBiSCDKqwzjuI0o/hr59wEHMJgsPnRwWHjpkGVGTL/BG3R8TvJtrHYrZf0O+ps0XsY4DtKhkB2J1ieQ8GyNjAFcblIUqTtLsQ8EZ28oTsLtlnFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yo98vvMZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5B8C4CEF1;
-	Mon, 24 Nov 2025 14:57:46 +0000 (UTC)
+	 MIME-Version:Content-Type; b=bTwWKA6gWG/++zdgJRXJxsN3lPtZiHnIfMD3A3VwdwC0MCRhu6PZHTW0rIPR99WkJ930Yx9ZtAf9VvQ5hzuVOUp1cxwJBM3E9SoTQvbBQDuJaac7uH/o0KZEFPE4JC0cFuSDdRTNCrHhcfcOIbaEa4qn70FSsXkPC3J7o4z3ces=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cL1v2+Ts; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91754C19421;
+	Mon, 24 Nov 2025 15:06:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763996275;
-	bh=eT4pJrflwgRPMF4ryE6lrh/N+OcL3X6tkjV48AA+6HI=;
+	s=k20201202; t=1763996814;
+	bh=hjVka/8UJVXnMcGE16R4he/m5Oo5PixYwejWPEsOQ1g=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Yo98vvMZm/olLPqpxnPsvRURyK/2mRNeN/gLay7rE5jE+UrJoSq3l1gTUDijol2vR
-	 sTBC6XG3vdtj6VgW8PaH5OH2BDzAKQX0aG4V/3G8A8QI7mu1Z+GFyXK5+FOqp+/Zfr
-	 WhvErW8+LgmXEsRBaOewO3lQEgH594+zmhorrmc1Lj3BNCSUVI8PtG/9zDSMKmMpWh
-	 aGkZnmwGfxqEDUQx4p32IcugsCxlxtbiCRJHWSVA30dtIbZ/ImNdeJXs7fZ8y4b0x0
-	 vJ+7C5GiMTHLP+I3Um/3AkDZvYkTgOuQWucN73eVWfujBPE0D1D1mUEHqoTBVasuVh
-	 61m02b938kG6Q==
+	b=cL1v2+Tszy/h+jhmobTHqTpgFHjagqVVaCUaz+wK13OfbBpa6MzGIDAh0nshBcutN
+	 DrH2mDUz8PxmhHv5LoIvBZFwpOOKPBZRDC5Ky6KqbUTFP9BjytnUFoiHjShjtbeOdH
+	 QhNyc2aLiQekqmQUuvjVnMXvaHFqDMo0Fnh05ZtXsbUoS83jn2aufdoRzu+nEo3ct1
+	 rqvQAkV60dhx2utBqGybYIBcJnWOhYuTDU29Auvog8yWViX9GLTTDzxOv6yUVvFg36
+	 WxW6JlNJKKhQqU+3Q3B46N1SNHKRH611QELwaMl2ZV8uKpDXXP3benVY5Qh1MCN2ud
+	 qeRYO+2kGet2Q==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
+  jasonmiu@google.com,  graf@amazon.com,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
   dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
   rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
   linux@weissschuh.net,  linux-kernel@vger.kernel.org,
@@ -69,13 +70,14 @@ Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
   saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
   parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
   hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
-Subject: Re: [PATCH v7 04/22] liveupdate: luo_session: add sessions support
-In-Reply-To: <20251122222351.1059049-5-pasha.tatashin@soleen.com> (Pasha
-	Tatashin's message of "Sat, 22 Nov 2025 17:23:31 -0500")
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
-	<20251122222351.1059049-5-pasha.tatashin@soleen.com>
-Date: Mon, 24 Nov 2025 15:57:45 +0100
-Message-ID: <mafs0ecpnzdee.fsf@kernel.org>
+Subject: Re: [PATCH v6 12/20] mm: shmem: allow freezing inode mapping
+In-Reply-To: <aRr0CQsV16usRW1J@kernel.org> (Mike Rapoport's message of "Mon,
+	17 Nov 2025 12:08:09 +0200")
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+	<20251115233409.768044-13-pasha.tatashin@soleen.com>
+	<aRr0CQsV16usRW1J@kernel.org>
+Date: Mon, 24 Nov 2025 16:06:44 +0100
+Message-ID: <mafs0a50bzczf.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -85,28 +87,55 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Sat, Nov 22 2025, Pasha Tatashin wrote:
+On Mon, Nov 17 2025, Mike Rapoport wrote:
 
-> Introduce concept of "Live Update Sessions" within the LUO framework.
-> LUO sessions provide a mechanism to group and manage `struct file *`
-> instances (representing file descriptors) that need to be preserved
-> across a kexec-based live update.
+> On Sat, Nov 15, 2025 at 06:33:58PM -0500, Pasha Tatashin wrote:
+>> From: Pratyush Yadav <ptyadav@amazon.de>
+>> 
+>> To prepare a shmem inode for live update via the Live Update
+>> Orchestrator (LUO), its index -> folio mappings must be serialized. Once
+>> the mappings are serialized, they cannot change since it would cause the
+>> serialized data to become inconsistent. This can be done by pinning the
+>> folios to avoid migration, and by making sure no folios can be added to
+>> or removed from the inode.
+>> 
+>> While mechanisms to pin folios already exist, the only way to stop
+>> folios being added or removed are the grow and shrink file seals. But
+>> file seals come with their own semantics, one of which is that they
+>> can't be removed. This doesn't work with liveupdate since it can be
+>> cancelled or error out, which would need the seals to be removed and the
+>> file's normal functionality to be restored.
+>> 
+>> Introduce SHMEM_F_MAPPING_FROZEN to indicate this instead. It is
+>> internal to shmem and is not directly exposed to userspace. It functions
+>> similar to F_SEAL_GROW | F_SEAL_SHRINK, but additionally disallows hole
+>> punching, and can be removed.
+>> 
+>> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
+>> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>> ---
+[...]
+>> diff --git a/mm/shmem.c b/mm/shmem.c
+>> index 1d5036dec08a..05c3db840257 100644
+>> --- a/mm/shmem.c
+>> +++ b/mm/shmem.c
+>> @@ -1292,7 +1292,8 @@ static int shmem_setattr(struct mnt_idmap *idmap,
+>>  		loff_t newsize = attr->ia_size;
+>>  
+>>  		/* protected by i_rwsem */
+>> -		if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
+>> +		if ((info->flags & SHMEM_F_MAPPING_FROZEN) ||
 >
-> Each session is identified by a unique name and acts as a container
-> for file objects whose state is critical to a userspace workload, such
-> as a virtual machine or a high-performance database, aiming to maintain
-> their functionality across a kernel transition.
+> A corner case: if newsize == oldsize this will be a false positive
+
+Good catch. Though I wonder why anyone would do a truncate with the same
+size.
+
 >
-> This groundwork establishes the framework for preserving file-backed
-> state across kernel updates, with the actual file data preservation
-> mechanisms to be implemented in subsequent patches.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-
-With Mike's comments addressed,
-
-Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
-
+>> +		    (newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
+>>  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+>>  			return -EPERM;
+>>  
 [...]
 
 -- 
