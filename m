@@ -1,147 +1,358 @@
-Return-Path: <linux-api+bounces-5522-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5523-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00E7C86A24
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 19:31:42 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF9CC86B05
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 19:43:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 496563B3EF0
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 18:31:41 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E6DB94E9BFC
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 18:43:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488753314B6;
-	Tue, 25 Nov 2025 18:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA18C33291D;
+	Tue, 25 Nov 2025 18:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aYGZ5fqB"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ju8/U9rD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ED8330D3D
-	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 18:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B780E3328EA
+	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 18:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764095494; cv=none; b=tWGK8k7furGpj9UaO9I8ofhmXX+ToRZsK8C3kAQCWu7EGE7+M/Pd+JhcbqpkWb4yLTWyQt6opmenwr3KyOY86NNxGkCP5m/Fhjq6scnnS+qgduvUZvCLKTyBZvM/zN302Z9sXDlLqmKu9RdGOx5tG5/ZKdPe/S+0gN/XErVld8U=
+	t=1764096187; cv=none; b=FXLy0yJOIIU/JzGq73f3WntWzBUSpZOX1snvmAB5UbZSQGcVyPKOsWWlTOovvuBFjDqmL2B9II5744xE+JJ63AICj3FX6C47VrWX/LwsByMimxazOX7bzpaDDpolGpN7SIYePDxUHF7pbeCpt/6iJK4ulU4UESApopt8jKE1c6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764095494; c=relaxed/simple;
-	bh=5tz2aAHBD7vTNYLjZkzJH3s9gWYpFddvilCC/4yN7Zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=puEgf0MtqHPScyeITv1WWDwLNGFfCJZ723tWfEGGSaiEHWsFKZWZOqXq/+cBnmDez6V4aufkLyDefg5/0Aekysb5DygzvmpLqGGLfyujC1iyGPGlWyucU2XYDybx5R/zrAbBKZR9tD0dR7whiRuWy+2Q2CruBi9OFmzirLBYqO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aYGZ5fqB; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29806bd47b5so35708805ad.3
-        for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 10:31:26 -0800 (PST)
+	s=arc-20240116; t=1764096187; c=relaxed/simple;
+	bh=J5yb/UC1A7vYdK0jmfuKjigsoEcRGW2DZN91dhTvAqk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LcQS5AJJBSKpdh0TGh8Edm3cCaVcP2rVQRXspsQORPQXXp5IKCxbWUtvIMBtgVC3WI9tjc0YSjfzfB6k46E+k3vH7tLKryn4j3QOaFT2vfVBD/rfa0KKtboqbMVopbnPssodew1iFgQkhUezqlsa7zfKt6Y+H/8WZjgtw0K6KG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ju8/U9rD; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so10407423a12.1
+        for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 10:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764095483; x=1764700283; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7O4GSlYSAloya2gWAKt06Wd2oP8bRALkgcDobg98SWs=;
-        b=aYGZ5fqB44pcrFVN8TRn947PWEw4614zXbXiJ67T3hNxZYwAWtkslkYq+4QZAL9ZHU
-         Xz2/Kb/GUjT/9T92647u39aYnmz30z3PMv4eSjIcimJbMlc5YfdGxkD9iQJUmzpo7YAk
-         PoEtFVfyeHuMFC1znRZrd6Y82Mg5WtEVct9WxztFv3T86rPp/MPuVMvq2MsZp47Io6RH
-         Uxa8LWtwTSUi4Mac1UDbAbpjUbyIKHp0OPMKw//ygq16YYazGu7ZsaehloVTbOXe6NYY
-         39SbxX6P7TAsIyRlooEfamSOE/nL6mzozue0sa7zLXvBkZyNP6io1RQQPRFp8nC6J7Fh
-         /l/A==
+        d=soleen.com; s=google; t=1764096182; x=1764700982; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8sl7d4yuCxVIIt38N0Zrxf3gnAJfLpB9v0r3s+kB8/4=;
+        b=ju8/U9rDg0IM6nszTbDpgE9ubWDJ2+H1pKU/AACHauBECgfXoeUZMACBVS3uGTnWol
+         3Aj1WJum91nFhIAvnmUEz7nclIdS99TQLCH9lDHe3JqMbQZO3zJHs3IkhgMjrG3G4Dba
+         lhdUYApv0BrtwlNn5WvncJp2u8mq4pZOdH1mr9DwaJNkW1cBEAqZL2Ow3kJdvHD5xlQU
+         kz1vWxuxw/yJfg5AhbHhQ25mBqed6YIhYOxf//YyAKzF+pAlaq9kXT/wA5tl/p9JTCN+
+         S1/5saxl/MIdGafGtyUdJZo4oba/NybJq64fF85YtlbQ7EQ1alB8FQYKSjmD7jMsXJer
+         58vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764095483; x=1764700283;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7O4GSlYSAloya2gWAKt06Wd2oP8bRALkgcDobg98SWs=;
-        b=LYdACES0wdXfLvWBxPoWRO7NR42M740IOZB8qBtMo+V0wF5GADR7k+9JM4wf3y0k+p
-         KsRam35tZFWyaLoP7+8DN23YseHuesZQFaGnynvmTLfatObQlqb+I4f6j+iqoUyNZIbE
-         f0L8j/sr9O244lAjeeX8l1ElL0EsThP73TwGw3KX1xVWGGLEVGC3WXXhgSf7ThsPVoKN
-         NXuAv7ds9rjSq9uKOg9s3EgvtMrc5IbfHdtmLbJoOER2mhMuTt7jQQRtvVHBG0C9MhFO
-         cckVDLenWZA3Raxm+ZFHwgD85uTpEDuETKZE8FlKXqpfXwAr9PgFSFQ5A3xun7LyWSfG
-         yQ7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWVqXtABWNBwQmy11fFq0EpzhmwspHMDIrpAVxKr2z5uyFjxuPKkbDGqGHlA0AFJWnAFEEhHNfhWjA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzegSe5fdzXop9QLr6QegNFlSvTYtI5P5tUI8PkuUra8cAI+l+O
-	0MxEjgLoGd3C65I858LeSTz8ZGGTFWHjzJFm+QGtJSoDF+jlXNfQ6M+QXFCMYXZL8g==
-X-Gm-Gg: ASbGnctw5zuETsMXhI09n8n0uwdHnh+Sl8w8b6DWxcyjcUi5vWRUEMEvFGzrvktMbJQ
-	qLYi1mpi6q294x2R6zAOaHWOQQXtbtiGeP2wgsWoosSgmagG1YjPLhh2AeD1BDEr3kuJEEvkIIs
-	Yj+y3VVBCeOX2aCgfMCCYJ/bRRqsVR7hj1C2XO5/gilZQtdky5seOMGnWEan8lxESNoz/GHFYJs
-	bh/t1piX8x7I8tz4A4VAfD3Ubk4K5z/HQ/LJXlGRd4aD28TYQ/ykfRjLQF4jmwM8Asqu+WT4Zzc
-	1W2BMLSpTSXSWyCio58uUfvDUKkPXYjgdBab3egeFPHHhkOORK0iCnA/bRoq72CquIURXTVgxEC
-	lzvZN8dPzh7h8qXGEK3R2m3IkqziQQBySeWefsYOOxhqmWRmG5w+8MaWxVB+zD7RBM3uiZ/7X3R
-	MljOhhAgvr/8s10rRJWg4mykLwDDJw/uivbFMzjgtYHUtrVYc=
-X-Google-Smtp-Source: AGHT+IH53ckBol+4yeTGTxnoskxcelqMTn+43AKcIW+arxac7wzKqrO4rD1ChIviUV6IKHO85b4pJw==
-X-Received: by 2002:a17:902:f691:b0:295:68dd:4ebf with SMTP id d9443c01a7336-29b6c3e3c48mr197452115ad.16.1764095482759;
-        Tue, 25 Nov 2025 10:31:22 -0800 (PST)
-Received: from google.com (28.29.230.35.bc.googleusercontent.com. [35.230.29.28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b26fff4sm176035005ad.68.2025.11.25.10.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 10:31:21 -0800 (PST)
-Date: Tue, 25 Nov 2025 18:31:17 +0000
-From: David Matlack <dmatlack@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	rppt@kernel.org, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v8 00/18] Live Update Orchestrator
-Message-ID: <aSX19cWypvh1mKWM@google.com>
-References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
+        d=1e100.net; s=20230601; t=1764096182; x=1764700982;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8sl7d4yuCxVIIt38N0Zrxf3gnAJfLpB9v0r3s+kB8/4=;
+        b=tFK3FLRBt1YVraUhX11Qm4gYBhxfXrmChCNZWnuiLw13LTP8ZrJA2iSATfdpSbta+c
+         u5cUpIPtBqZ4wSwGLqmexip7wUejnPMMHyfZSDRhJcChH9AZtKHrnYYYxzDXAnLhQdFA
+         n94NRDEguDxkVdxg18UzyPFleMRcXW5Oq1GUEIs9GDUWZ+9Hk6Q46RNyBq5Na2VVQGyO
+         DtCpecfTOVycS9Mtl8T/wFQi2PkVYi6diW//4G+S/cfYuEhW7t5Cy8YHVALCKLkoLCps
+         AC9MmlQtaZj2kuzZQ62s4eKimKjgQngJbFQ1zb+HlM+RzZ/Qc1c4TJnKA0RKeIh+06OK
+         L0cA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/2pGN8J21tGENZM3NJGHCkO2iP2jK2PUAXDpFVnCUehqLgp5J6otBMIdUrILm4tFEn4QaCvlyxBs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfzFwPzAcyNz3aWY1tPgC3jif0zZyIbCo7dEB7gUaVIQ+F3bxr
+	XYCw/qCTAtRM3HdePGcNpr33LYK0KTmuWp9WS4PzZGj3ktPDy6rjpXziMTqoInZEz1lowOwjTPh
+	4f18fAG8g3b05+BCKrVAf0r+m52e2FHd4dOLKWntsCQ==
+X-Gm-Gg: ASbGnctmkJJGLnVp6Up0WIc5eU3hkSg2i2ud8LDFySGXBQh12/JqNTmSNgPCs9YVx4W
+	SMTzaMN+F4fAyD7SMcWqIw/5IDrkD+9GngrIyxI8aT6pvdLHCvL8zSzFDzFYNU3unTdt/1bA0wN
+	9gYpXNUI0fJe4wNN0VuUQaM8Nuz6QJiaCCe8pvssclOhKMGEvpJic0xwDU4tHyi81ONtvCep3xq
+	xdV3my6yWJe2gQi9ZrlvEgfzeGo5CtFux3MGlfilqAf8VkZ7ZDSNnxzYF+g/kdway++
+X-Google-Smtp-Source: AGHT+IGSMJtx2bO2sylBPLFg9TBSoq5VimU44LG0EK6+xX3ux9ORu14DJvucOQEenuC++UueKyTADqq7bGyGwdliFos=
+X-Received: by 2002:a17:906:240e:b0:b76:d825:caca with SMTP id
+ a640c23a62f3a-b76d825cd38mr74808366b.38.1764096181962; Tue, 25 Nov 2025
+ 10:43:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-20-pasha.tatashin@soleen.com> <aSQPNuFIv0rRr2tp@kernel.org>
+In-Reply-To: <aSQPNuFIv0rRr2tp@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 25 Nov 2025 13:42:25 -0500
+X-Gm-Features: AWmQ_bnIS98IIm55LCZoBkdO3g3lJwbqWrOuaBnNVwpmXpd9QYlsv3e6UPqSTqM
+Message-ID: <CA+CK2bAWe15SkcvWx_hRHvT-RAcudKQ1hRV1htuWanh9Mbh_YA@mail.gmail.com>
+Subject: Re: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure
+ and scripts
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-11-25 11:58 AM, Pasha Tatashin wrote:
-> 
-> Pasha Tatashin (12):
->   liveupdate: luo_core: Live Update Orchestrato,
->   liveupdate: luo_core: integrate with KHO
->   kexec: call liveupdate_reboot() before kexec
->   liveupdate: luo_session: add sessions support
->   liveupdate: luo_core: add user interface
->   liveupdate: luo_file: implement file systems callbacks
->   liveupdate: luo_session: Add ioctls for file preservation
->   docs: add luo documentation
->   MAINTAINERS: add liveupdate entry
->   selftests/liveupdate: Add userspace API selftests
->   selftests/liveupdate: Add simple kexec-based selftest for LUO
->   selftests/liveupdate: Add kexec test for multiple and empty sessions
-> 
-> Pratyush Yadav (6):
->   mm: shmem: use SHMEM_F_* flags instead of VM_* flags
->   mm: shmem: allow freezing inode mapping
->   mm: shmem: export some functions to internal.h
->   liveupdate: luo_file: add private argument to store runtime state
->   mm: memfd_luo: allow preserving memfd
->   docs: add documentation for memfd preservation via LUO
+On Mon, Nov 24, 2025 at 2:54=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> On Sat, Nov 22, 2025 at 05:23:46PM -0500, Pasha Tatashin wrote:
+> > Subject: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure=
+ and scripts
+>
+> Maybe                                                ^ end to end
 
-I ran all the new selftests, including those that require kexec on an
-Intel EMR server, and all tests passed.
+Done.
 
-Tested-by: David Matlack <dmatlack@google.com>
+>
+> > Add the testing infrastructure required to verify the liveupdate
+> > feature. This includes a custom init process, a test orchestration
+> > script, and a batch runner.
+>
+> And say here that it's end to end test.
+
+Done
+
+> > +static int is_stage_2(void)
+> > +{
+> > +     char cmdline[COMMAND_LINE_SIZE];
+> > +     ssize_t len;
+> > +     int fd;
+> > +
+> > +     fd =3D open("/proc/cmdline", O_RDONLY);
+> > +     if (fd < 0)
+> > +             return 0;
+> > +
+> > +     len =3D read(fd, cmdline, sizeof(cmdline) - 1);
+> > +     close(fd);
+> > +
+> > +     if (len < 0)
+> > +             return 0;
+>
+> Shouldn't we bail out of the test if read of command line failed?
+
+Sure, done.
+
+> > +function cleanup() {
+> > +     local exit_code=3D$?
+> > +
+> > +     if [ -z "$workspace_dir" ]; then
+> > +             ktap_finished
+> > +             return
+> > +     fi
+> > +
+> > +     if [ $exit_code -ne 0 ]; then
+> > +             echo "# Test failed (exit code $exit_code)."
+> > +             echo "# Workspace preserved at: $workspace_dir"
+> > +     elif [ "$KEEP_WORKSPACE" -eq 1 ]; then
+> > +             echo "# Workspace preserved (user request) at: $workspace=
+_dir"
+> > +     else
+> > +             rm -fr "$workspace_dir"
+> > +     fi
+> > +     ktap_finished
+>
+>         exit $exit_code
+
+Done
+
+> > +function build_kernel() {
+> > +     local build_dir=3D$1
+> > +     local make_cmd=3D$2
+> > +     local kimage=3D$3
+> > +     local target_arch=3D$4
+> > +
+> > +     local kconfig=3D"$build_dir/.config"
+> > +     local common_conf=3D"$test_dir/config"
+> > +     local arch_conf=3D"$test_dir/config.$target_arch"
+> > +
+> > +     echo "# Building kernel in: $build_dir"
+> > +     $make_cmd defconfig
+> > +
+> > +     local fragments=3D""
+> > +     if [[ -f "$common_conf" ]]; then
+> > +             fragments=3D"$fragments $common_conf"
+> > +     fi
+>
+> Without this CONFIG_LIVEUPDATE won't be set
+> > +
+> > +     if [[ -f "$arch_conf" ]]; then
+> > +             fragments=3D"$fragments $arch_conf"
+> > +     fi
+> > +
+> > +     if [[ -n "$fragments" ]]; then
+> > +             "$kernel_dir/scripts/kconfig/merge_config.sh" \
+> > +                     -Q -m -O "$build_dir" "$kconfig" $fragments >> /d=
+ev/null
+> > +     fi
+>
+> I believe you can just
+>
+>         cat $common_conf $fragments >  $build_dir/.config
+>         make olddefconfig
+>
+> without running defconfig at the beginning
+> It will build faster, just make sure to add CONFIG_SERIAL_ to $arch_conf
+
+I will look into that, so how performance really changes,  I liked
+using merge_config.sh as it does not print warnings.
+
+>
+> > +     $make_cmd olddefconfig
+> > +     $make_cmd "$kimage"
+> > +     $make_cmd headers_install INSTALL_HDR_PATH=3D"$headers_dir"
+> > +}
+> > +
+> > +function mkinitrd() {
+> > +     local build_dir=3D$1
+> > +     local kernel_path=3D$2
+> > +     local test_name=3D$3
+> > +
+> > +     # 1. Compile the test binary and the init process
+>
+> Didn't find 2. ;-)
+> Don't think we want the numbering here, plain comments are fine
+
+Updated comment.
+
+
+>
+> > +     "$CROSS_COMPILE"gcc -static -O2 \
+> > +             -I "$headers_dir/include" \
+> > +             -I "$test_dir" \
+> > +             -o "$workspace_dir/test_binary" \
+> > +             "$test_dir/$test_name.c" "$test_dir/luo_test_utils.c"
+>
+> This will have hard time cross-compiling with -nolibc toolchains
+
+Hm, it works for me, I am not sure with nolibc cross compiler, am I
+missing something?
+
+>
+> > +
+> > +     "$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib          \
+> > +                     -fno-asynchronous-unwind-tables -fno-ident      \
+> > +                     -fno-stack-protector                            \
+> > +                     -I "$headers_dir/include"                       \
+> > +                     -I "$kernel_dir/tools/include/nolibc"           \
+> > +                     -o "$workspace_dir/init" "$test_dir/init.c"
+>
+> This failed for me with gcc 14.2.0 (Debian 14.2.0-19):
+
+
+Updated, removed the extra const, and static.
+
+>
+> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c: In functi=
+on =E2=80=98run_test=E2=80=99:
+> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: er=
+ror: initializer element is not constant
+>   111 |             static const char *const argv[] =3D {TEST_BINARY, sta=
+ge_arg, NULL};
+>       |                                                             ^~~~~=
+~~~~
+>
+> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: no=
+te: (near initialization for =E2=80=98argv[1]=E2=80=99)
+> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:113:37: er=
+ror: passing argument 2 of =E2=80=98execve=E2=80=99 from incompatible point=
+er type [-Wincompatible-pointer-types]
+>   113 |                 execve(TEST_BINARY, argv, NULL);
+>       |                                     ^~~~
+>       |                                     |
+>       |                                     const char * const*
+> In file included from /home/mike/git/linux/tools/testing/selftests/liveup=
+date/init.c:16:
+> /usr/include/unistd.h:572:52: note: expected =E2=80=98char * const*=E2=80=
+=99 but argument is of type =E2=80=98const char * const*=E2=80=99
+>   572 | extern int execve (const char *__path, char *const __argv[],
+>       |                                        ~~~~~~~~~~~~^~~~~~~~
+>
+> > +
+> > +     cat > "$workspace_dir/cpio_list_inner" <<EOF
+> > +dir /dev 0755 0 0
+> > +dir /proc 0755 0 0
+> > +dir /debugfs 0755 0 0
+> > +nod /dev/console 0600 0 0 c 5 1
+>
+> Don't you need /dev/liveupdate node?
+
+That should be created by the kernel itself.
+
+>
+> > +file /init $workspace_dir/init 0755 0 0
+> > +file /test_binary $workspace_dir/test_binary 0755 0 0
+> > +EOF
+> > +
+> > +     # Generate inner_initrd.cpio
+> > +     "$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" >=
+ "$workspace_dir/inner_initrd.cpio"
+> > +
+> > +     cat > "$workspace_dir/cpio_list" <<EOF
+> > +dir /dev 0755 0 0
+> > +dir /proc 0755 0 0
+> > +dir /debugfs 0755 0 0
+> > +nod /dev/console 0600 0 0 c 5 1
+>
+> And here as well.
+
+Not needed.
+
+>
+> > +file /init $workspace_dir/init 0755 0 0
+> > +file /kernel $kernel_path 0644 0 0
+> > +file /test_binary $workspace_dir/test_binary 0755 0 0
+> > +file /initrd.img $workspace_dir/inner_initrd.cpio 0644 0 0
+> > +EOF
+> > +
+> > +     # Generate the final initrd
+> > +     "$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$ini=
+trd"
+> > +     local size=3D$(du -h "$initrd" | cut -f1)
+> > +}
+> > +
+> > +function run_qemu() {
+> > +     local qemu_cmd=3D$1
+> > +     local cmdline=3D$2
+> > +     local kernel_path=3D$3
+> > +     local serial=3D"$workspace_dir/qemu.serial"
+> > +
+> > +     local accel=3D"-accel tcg"
+> > +     local host_machine=3D$(uname -m)
+> > +
+> > +     [[ "$host_machine" =3D=3D "arm64" ]] && host_machine=3D"aarch64"
+> > +     [[ "$host_machine" =3D=3D "x86_64" ]] && host_machine=3D"x86_64"
+> > +
+> > +     if [[ "$qemu_cmd" =3D=3D *"$host_machine"* ]]; then
+> > +             if [ -w /dev/kvm ]; then
+> > +                     accel=3D"-accel kvm"
+>
+> Just pass both kvm and tcg and let qemu complain.
+
+I hated those warnings, this is why I added this "if" in the first place :-=
+)
+
+Thank you for your reviews, I am going to send this patch separately
+from this series, so let's continue the discussion there.
+
+Pasha
 
