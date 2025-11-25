@@ -1,178 +1,135 @@
-Return-Path: <linux-api+bounces-5491-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5492-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3797C82D7B
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 00:45:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095ECC830D0
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 02:51:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 722DB4E0F8D
-	for <lists+linux-api@lfdr.de>; Mon, 24 Nov 2025 23:45:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E94044E4655
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 01:51:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E817C26F28F;
-	Mon, 24 Nov 2025 23:45:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40FEE1A9FAC;
+	Tue, 25 Nov 2025 01:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i2lkP09Q"
+	dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b="C8hdvPtl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA76246335
-	for <linux-api@vger.kernel.org>; Mon, 24 Nov 2025 23:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075981B4F09
+	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 01:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764027931; cv=none; b=sfD5uE7ZbB4TaScNi28O9MXgC6kwzyrHTy02dZqivM9Ay+OqNrMqig/eD8uYvivJeN1kl2eZDqP/MBrCY1dR8haV3AGIjzCpPTs9RgkInKahqBwFg+2r3ZlBRCPItc8XMgDkBIyVMijHTVO92lSMEd/bUd0ZjfMJZru02qIUkmk=
+	t=1764035437; cv=none; b=LoEsXkHU79j50F0xPy3r8aZvdGDy3bjjAc2Y3Rln4lxzC1A6ZybxbBcFQwcK/C8p3pCahXqxt9EGPhNyqNEY/iCSv57V0c1cOPuDTjMl4Tql9cRVk7x350rr5epSTZWnzUUrjVjRntkhR224ul0IM4Xz8fjtsZ+VrW7Q3/eOJxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764027931; c=relaxed/simple;
-	bh=1YT7lz9VAjzJFR6KJdWMrofH24QSVAwiNd/A0dtf4zs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ra/K2UNM6EnoHaQNj5YmsejkJu2hVDOcrk8FTlVCfjYY389rGhZxr9a1Lv8tOhN+3sG1AMCUlFZ0jnt/sH5segu2ZmoMmD/RXUk3tOBYhsa7WA17mr1z9PAX01rVKkjki7J4pH3j+hEbqS+tGaV9UsWyHSGRF8EDKBEtWbiboJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i2lkP09Q; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5957753e0efso5086027e87.1
-        for <linux-api@vger.kernel.org>; Mon, 24 Nov 2025 15:45:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764027928; x=1764632728; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=05wP4M5m8hN24FSCktfwvvhdg9eAu0qN4WDwWhg5IsU=;
-        b=i2lkP09QFZfmvM5LE5tWH3MrpB88FwrsAYBGUFlYDXVWWnE0FViOplvOsEJShw6UOc
-         wGd5jbXrzsatKkAxno2xDJFUPnWIrscvD53KwKfrmjSasUO3y2/r3IDxeV0nPey1cYTR
-         eykQQZ3NOmRTZrCAKBA0dYNHXRxkxTvV5f95HOsU/2/m/Wtc45SaHf6E8ayrKo5A7pXQ
-         /UU5dWhj8lKF1KI3HeMXKPY8ccdRrHrVamjHD6h3GWqzVgCT4GKfo4dMFMHrXnvHoeFL
-         /1POdbOzqrp6FEROgcJUaD401j6p6FYB7RLsMmvvvLJJD/81TSrEAGW0EliDs2ykSSsF
-         Gcsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764027928; x=1764632728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=05wP4M5m8hN24FSCktfwvvhdg9eAu0qN4WDwWhg5IsU=;
-        b=A0UDUueCxfvR9yGNQ6Km3XZy5fq2GcCYUdjn5J5v/viEB+olDQiITKT4Ay7jm1NKSW
-         QZcuc0fBU8tSJkEr6u7wJPeG8D1RVryIPcDn25rPqQCchsrQp5HLNqpwMLBYKEBp6/yb
-         qITe3ZRfmkXwC6iKACsDB04T8jHvU1xnqjFMPKEIWtYP2zUL7gM3Zs0AqjCqYzr75J44
-         I865h7cCAc2An280orkGEb7q3Ui9waOsiGR7SbAyo/63O2Tlc1Y1Ba1sPaeEkOdAvwFU
-         S+vyMz8S+sFzd4gqqOTBN08HRN8NjlB+4aECXQlwSPvO/8YCZxE4X33RJHVUa0UVn3cL
-         0kgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoXHZlYoOASoAD7EhwdhWqVw3mLRYgewTMbTE3OQ+BQu7SdhABgjoMwLmtRh3hLyKrvcHFV2OV2u4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh9SgN0XELf5zLxnDBK4cBZVgK8EVUEa93TwHMvSPHHcH5LYSA
-	yoURkkq50YyFMCmkaZlN6OIyUvx//YCOQG/f1cDqdEjK5SNsE+oKxIjdQaKF/pUAp+W6i25sOAx
-	qK26E441bgBEwjgRaDCG3EsCdfMbXJtELQu8hc9it
-X-Gm-Gg: ASbGncsoFjNn6Gq4Hocu51QlOfZ3YCZjBt50gxQlFm1yifI55LAKHeooKmo53VtSRw/
-	d8/w+mfXlWnLiUqF1U+YWpgZVjAlkKceuPFpFGLxBFWG5sKv3TzXj9lJVUmevVsF0U9Ta+W94U9
-	LIiiQrLj7CBAYPUFLJhdIKG6cLAaBjNenxnRNkigEmZWEJfPyKXCiwi/mMwUMrhmGPxOADCs4Or
-	x2g31778pIbifLwg72pj9rgGwDJ8YO+9PBfLuA8oJU/LYArxpekkUHIzRSE5/+Cw0GYxIQy3Jl9
-	Z3GqdQ==
-X-Google-Smtp-Source: AGHT+IFG3B3wjJ5hUmdHvUSiONpPpEjo/smMGL+Sq7VqjhpIWo7YbanBRf0jnx+HWEMfNF7y44/hOJQ08ua0/lRI7nY=
-X-Received: by 2002:a05:6512:3c89:b0:595:e35d:6b80 with SMTP id
- 2adb3069b0e04-596a3ea6658mr4439445e87.5.1764027927918; Mon, 24 Nov 2025
- 15:45:27 -0800 (PST)
+	s=arc-20240116; t=1764035437; c=relaxed/simple;
+	bh=tA1EEPB5g8EbWUBOe9hcES3yi9cVRI6Dk1dzCgOHBzE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HQSHU6VjSdsRjqBxpkMhyi/OXcqNw6IQD73uFmWqxInja4fQN9xgyprxo0SvMgc9/l0KBfHlrIeq8jwFJYNi25NKHRKDLjHHWKPcpsUF/2H8KyYS7K1FV8EagOnucjWg8aYHfwwQMeOnrVeZYW9sNiPxi7K3jDB8kGV7W5xyboQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net; spf=pass smtp.mailfrom=dzwdz.net; dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b=C8hdvPtl; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dzwdz.net
+Message-ID: <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dzwdz.net; s=key1;
+	t=1764035423;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=tA1EEPB5g8EbWUBOe9hcES3yi9cVRI6Dk1dzCgOHBzE=;
+	b=C8hdvPtlWDGBOasebEMxzjFIyQVXKUgl4ZWE+X+WA1kBiq79zWJMwPDXkjfcQRRYWYOpbl
+	BvIAYM/P0qL4HyUfU4f8xQs8LreC50fIODrqPJ6Ix3czg5YPThi6nt38XMa7deTRHW7rtM
+	cno45kPlZMQ07hWbLCR5arP1ll4O2Ygoy+nylhuUWfCxdm/PjTyRDQ5b8sFd7gd3z8Oh+v
+	jYUBN+vA+mJCVF9xWNw1UcyR/QSV7hwlZ6jXlwpAjwEZ/1ejWBz6+SDqcTbnyg7JF9vtqZ
+	TsBAczVnZ0jTJUhWBgFUSP+kS5A7eHw8HqC/16VUt6YN7DnYApSt+2vzo8FFnQ==
+Date: Tue, 25 Nov 2025 02:50:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com> <20251122222351.1059049-22-pasha.tatashin@soleen.com>
-In-Reply-To: <20251122222351.1059049-22-pasha.tatashin@soleen.com>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 24 Nov 2025 15:45:00 -0800
-X-Gm-Features: AWmQ_bnJaOF-T9FnnUyFXJgRaTp9b-dM-s_K88NADK1Pd4LiL71E0T19a9fmhbE
-Message-ID: <CALzav=f+=c5XH7Uw9EGVb2P6VxsnpF76e0DXAAXhM0gsWPxw2w@mail.gmail.com>
-Subject: Re: [PATCH v7 21/22] liveupdate: luo_flb: Introduce
- File-Lifecycle-Bound global state
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, ej@inai.de
+References: <cover.1763130571.git.not@dzwdz.net>
+ <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+Content-Language: en-US, pl
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: dzwdz <not@dzwdz.net>
+Autocrypt: addr=not@dzwdz.net; keydata=
+ xjMEaLoI3BYJKwYBBAHaRw8BAQdAz9aX/esCy0Q9BudRG1rXdo+DCQJDFADFKNaYyZnRk/DN
+ FWR6d2R6IDxub3RAZHp3ZHoubmV0PsLBPwQTFgoBpwIbAwUJAO1OAAULCQgHAwUVCgkICwUW
+ AgMBAAIeAQIXgBYhBOsX9f4IFOdcieO1LSjiaiZRZQv2BQJoujc2QBSAAAAAABAAJ3Byb29m
+ QGFyaWFkbmUuaWRodHRwczovL2dpdC5zci5odC9+ZHp3ZHova2V5b3hpZGVfcHJvb2Y0FIAA
+ AAAAEAAbcHJvb2ZAYXJpYWRuZS5pZGlyYzovL2lyYy5oYWNraW50Lm9yZy9kendkelcUgAAA
+ AAAQAD5wcm9vZkBhcmlhZG5lLmlkaHR0cHM6Ly9naXN0LmdpdGh1Yi5jb20vZHp3ZHovMGIx
+ N2M2ZDk0ZjM2OGJlZDJhM2M2NTk4OTMxNDhlM2UzFIAAAAAAEAAacHJvb2ZAYXJpYWRuZS5p
+ ZGRuczpub3QuZHp3ZHoubmV0P3R5cGU9VFhUNBSAAAAAABAAG3Byb29mQGFyaWFkbmUuaWRp
+ cmM6Ly9pcmMubGliZXJhLmNoYXQvZHp3ZHoxFIAAAAAAEAAYcHJvb2ZAYXJpYWRuZS5pZGh0
+ dHBzOi8vbG9ic3RlLnJzL35kendkegAKCRAo4momUWUL9gZ7AP92NUwydt7PvXE3nJxrzc8z
+ zXy7932PUcqWi0EyyL0g6gEA92OwaOXjsJEj9SQT6L2rVs48M6NLTsTWBYeULHt7SQvOOARo
+ ugkYEgorBgEEAZdVAQUBAQdAKREKv3RUs0sVu41DJHmRm2BWii+JVkscG4l9YlrL/mkDAQgH
+ wn4EGBYKACYWIQTrF/X+CBTnXInjtS0o4momUWUL9gUCaLoJGAIbDAUJAO1OAAAKCRAo4mom
+ UWUL9tKpAP4hrnUCmd/w22Huur8UIr1ipOPUbnKOEbNEEroYL4JmJwD+IijYhfW2lQurN3VD
+ 16zziWtajA+YA/n+hMg9izVgXwc=
+In-Reply-To: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BMTVIp0f79s511iRogKGtTVJ"
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Nov 22, 2025 at 2:24=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BMTVIp0f79s511iRogKGtTVJ
+Content-Type: multipart/mixed; boundary="------------c9LgEiEL390hwNGdBfjqf2xe";
+ protected-headers="v1"
+From: dzwdz <not@dzwdz.net>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, ej@inai.de
+Message-ID: <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+References: <cover.1763130571.git.not@dzwdz.net>
+ <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+In-Reply-To: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
 
-> +int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **ob=
-jp);
-> +void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *ob=
-j);
-> +int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **ob=
-jp);
-> +void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *ob=
-j);
+--------------c9LgEiEL390hwNGdBfjqf2xe
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-nit: "locked" should be "lock". "locked" is used for situations where
-the lock must already be held by the caller.
+T24gMTEvMTgvMjUgMTQ6NTEsIEFsZWphbmRybyBDb2xvbWFyIHdyb3RlOg0KPiBEbyB5b3Ug
+c3VnZ2VzdCBtb3ZpbmcgZWFjaCBzb2NrZXQgb3B0aW9uIHRvIGEgbWFudWFsIHBhZ2UgdW5k
+ZXINCj4gbWFuMmNvbnN0Lz8gIEkgdGhpbmsgSSBhZ3JlZSB3aXRoIHRoYXQuICBUaGVyZSdz
+IHByZWNlZGVudCwgYW5kIGl0IG1ha2VzDQo+IHRoZSBwYWdlcyBtb3JlIHJlYWRhYmxlLg0K
+DQpJbiBnZW5lcmFsIC0geWVzLCBkZWZpbml0ZWx5IQ0KDQpIb3dldmVyLCBzdHJ1Y3QgaW5f
+cGt0aW5mbyBjYW4gYmUgcGFzc2VkIHRvIHNlbmRtc2cgZXZlbiBpZiBJUF9QS1RJTkZPIA0K
+aXNuJ3Qgc2V0LCBzbyBJIGRvbid0IHRoaW5rIGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8gZG9j
+dW1lbnQgaXQgaW4gZS5nLiANCklQX1BLVElORk8oMmNvbnN0KSAtIGl0IHNob3VsZCBwcm9i
+YWJseSBnZXQgaXRzIG93biBtYW5wYWdlIGluIG1hbjJ0eXBlLg0KVGhhdCBvcHRpb24sIGlu
+IHR1cm4sIG9ubHkgbWFrZXMgc2Vuc2UgaW4gdGhlIGNvbnRleHQgb2YgdGhhdCBzdHJ1Y3Qs
+IHNvIA0KSSB0aGluayBpdCBzaG91bGQgcHJvYmFibHkgYmUgZG9jdW1lbnRlZCBpbiBpbl9w
+a3RpbmZvKDJ0eXBlKS4NCg0KVGhpcyB3b3VsZCAva2luZGEvIGJlIGxpa2UgaG93IGUuZy4g
+UEFfSU5UKDNjb25zdCkgcG9pbnRzIHRvIA0KcHJpbnRmLmgoM2hlYWQpLCBJIGd1ZXNzPw0K
+DQpJJ2QgYmUgaGFwcHkgdG8gdHJ5IHdyaXRpbmcgdGhhdCBtYW5wYWdlIGlmIHlvdSB0aGlu
+ayB0aGlzIGFwcHJvYWNoIA0KbWFrZXMgc2Vuc2UgOikNCg0KVGhhbmtzLA0KZHp3ZHoNCg==
 
-> @@ -633,6 +639,7 @@ static void luo_file_finish_one(struct luo_file_set *=
-file_set,
->         args.file =3D luo_file->file;
->         args.serialized_data =3D luo_file->serialized_data;
->         args.retrieved =3D luo_file->retrieved;
-> +       luo_flb_file_finish(luo_file->fh);
->
->         luo_file->fh->ops->finish(&args);
 
-I think luo_flb_file_finish() should be called after the file's
-finish() callback. Otherwise the FLB data will be cleaned just before
-the last file's finish() callback.
+--------------c9LgEiEL390hwNGdBfjqf2xe--
 
-i.e. The order should be
+--------------BMTVIp0f79s511iRogKGtTVJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-  file1->finish()
-  file2->finish()
-  file3->finish() // last file
-  flb->finish()
+-----BEGIN PGP SIGNATURE-----
 
-rather than
+wnsEABYIACMWIQS3V6hRlZD1kB2FLDBjtssx7Ny7DgUCaSULWwUDAAAAAAAKCRBjtssx7Ny7Djd6
+AQDxA5T2+kSltw+aQgN4rQO/TPabZivm+CFgOFoLCG9xGgEA9akeqON+TFwT+dEW45DwQL4rvAlf
+v+ljgXKbqNf1Ogc=
+=SSPn
+-----END PGP SIGNATURE-----
 
-  file1->finish()
-  file2->finish()
-  flb->finish()
-  file3->finish() // last file
-
-> +static void luo_flb_unlock(struct liveupdate_flb *flb, bool incoming,
-> +                          void *obj)
-> +{
-> +       struct luo_flb_private *private =3D luo_flb_get_private(flb);
-> +       struct luo_flb_private_state *state;
-> +
-> +       state =3D incoming ? &private->incoming : &private->outgoing;
-> +
-> +       lockdep_assert_held(&state->lock);
-> +       state->obj =3D obj;
-
-I tripped over this when developing the PCI FLB state. The following
-compiles fine and looks innocent enough:
-
-  liveupdate_flb_incoming_locked(&pci_liveupdate_flb, &ser);
-  ...
-  liveupdate_flb_incoming_unlock(&pci_liveupdate_flb, &ser);
-
-But this ends up corrupting state->obj.
-
-Do we have a use-case for replacing obj on unlock? If not I'd suggest
-dropping it.
+--------------BMTVIp0f79s511iRogKGtTVJ--
 
