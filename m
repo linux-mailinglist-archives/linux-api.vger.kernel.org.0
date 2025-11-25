@@ -1,159 +1,147 @@
-Return-Path: <linux-api+bounces-5521-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5522-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02ABFC869EE
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 19:30:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D00E7C86A24
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 19:31:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 836594E439E
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 18:30:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 496563B3EF0
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 18:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0474932C929;
-	Tue, 25 Nov 2025 18:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488753314B6;
+	Tue, 25 Nov 2025 18:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="b+tzixxm"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aYGZ5fqB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEF91F8BD6;
-	Tue, 25 Nov 2025 18:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ED8330D3D
+	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 18:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764095416; cv=none; b=VCxaov+Mi4dUya9SetTPESe3W3NsJ8NXgakxcMX1CmgUYEYdJRmXTCNOfU5le7TxUt51uAo3s/67dl3eTh2nRmgQer2a/icDAJSXLZl5uTZzUozGBedQriboNiyEV7lbo007P9GIDKBJ+VqmSTo/ljRejfT6+ko8RqD2RY41dQ4=
+	t=1764095494; cv=none; b=tWGK8k7furGpj9UaO9I8ofhmXX+ToRZsK8C3kAQCWu7EGE7+M/Pd+JhcbqpkWb4yLTWyQt6opmenwr3KyOY86NNxGkCP5m/Fhjq6scnnS+qgduvUZvCLKTyBZvM/zN302Z9sXDlLqmKu9RdGOx5tG5/ZKdPe/S+0gN/XErVld8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764095416; c=relaxed/simple;
-	bh=ilWEu5RxIVLfVIaXLQHAdQTbENf6mqv/Hm1iZ1MhI6w=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=XBJnQuRW8JP4OBCHdTuOMnrslkJ+ehAk9c8x+VcR+Fq0q4bHBjl2aN8JeatPUa3A9Lj57JJqHN72xJxI/Az9ujE6Kayaz/+QlJhLw2pTgqRW+i0ynya9NiTv5Oki+0xD/IXiB/023fY02ws4C5mdRYmNm40FTvEcZM1OoBIu/ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=b+tzixxm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD2C0C4CEF1;
-	Tue, 25 Nov 2025 18:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1764095416;
-	bh=ilWEu5RxIVLfVIaXLQHAdQTbENf6mqv/Hm1iZ1MhI6w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b+tzixxmV1ZRmL/hj6nA0kkhxHaUdNXKQqWLsC+tDqtp42wPV/HVAldl2UR2lg/rT
-	 xSJtZgyEUdh9WxYrFtcKmqnPiupLOQerU+GcoaZlxAwHQ7BHUkwHOT+4MLntXo2qFU
-	 9de67fdf8StJsO22yf01YKRQiw7y3RYkO/wk+/pk=
-Date: Tue, 25 Nov 2025 10:30:12 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
+	s=arc-20240116; t=1764095494; c=relaxed/simple;
+	bh=5tz2aAHBD7vTNYLjZkzJH3s9gWYpFddvilCC/4yN7Zo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=puEgf0MtqHPScyeITv1WWDwLNGFfCJZ723tWfEGGSaiEHWsFKZWZOqXq/+cBnmDez6V4aufkLyDefg5/0Aekysb5DygzvmpLqGGLfyujC1iyGPGlWyucU2XYDybx5R/zrAbBKZR9tD0dR7whiRuWy+2Q2CruBi9OFmzirLBYqO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aYGZ5fqB; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29806bd47b5so35708805ad.3
+        for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 10:31:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764095483; x=1764700283; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7O4GSlYSAloya2gWAKt06Wd2oP8bRALkgcDobg98SWs=;
+        b=aYGZ5fqB44pcrFVN8TRn947PWEw4614zXbXiJ67T3hNxZYwAWtkslkYq+4QZAL9ZHU
+         Xz2/Kb/GUjT/9T92647u39aYnmz30z3PMv4eSjIcimJbMlc5YfdGxkD9iQJUmzpo7YAk
+         PoEtFVfyeHuMFC1znRZrd6Y82Mg5WtEVct9WxztFv3T86rPp/MPuVMvq2MsZp47Io6RH
+         Uxa8LWtwTSUi4Mac1UDbAbpjUbyIKHp0OPMKw//ygq16YYazGu7ZsaehloVTbOXe6NYY
+         39SbxX6P7TAsIyRlooEfamSOE/nL6mzozue0sa7zLXvBkZyNP6io1RQQPRFp8nC6J7Fh
+         /l/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764095483; x=1764700283;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7O4GSlYSAloya2gWAKt06Wd2oP8bRALkgcDobg98SWs=;
+        b=LYdACES0wdXfLvWBxPoWRO7NR42M740IOZB8qBtMo+V0wF5GADR7k+9JM4wf3y0k+p
+         KsRam35tZFWyaLoP7+8DN23YseHuesZQFaGnynvmTLfatObQlqb+I4f6j+iqoUyNZIbE
+         f0L8j/sr9O244lAjeeX8l1ElL0EsThP73TwGw3KX1xVWGGLEVGC3WXXhgSf7ThsPVoKN
+         NXuAv7ds9rjSq9uKOg9s3EgvtMrc5IbfHdtmLbJoOER2mhMuTt7jQQRtvVHBG0C9MhFO
+         cckVDLenWZA3Raxm+ZFHwgD85uTpEDuETKZE8FlKXqpfXwAr9PgFSFQ5A3xun7LyWSfG
+         yQ7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWVqXtABWNBwQmy11fFq0EpzhmwspHMDIrpAVxKr2z5uyFjxuPKkbDGqGHlA0AFJWnAFEEhHNfhWjA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzegSe5fdzXop9QLr6QegNFlSvTYtI5P5tUI8PkuUra8cAI+l+O
+	0MxEjgLoGd3C65I858LeSTz8ZGGTFWHjzJFm+QGtJSoDF+jlXNfQ6M+QXFCMYXZL8g==
+X-Gm-Gg: ASbGnctw5zuETsMXhI09n8n0uwdHnh+Sl8w8b6DWxcyjcUi5vWRUEMEvFGzrvktMbJQ
+	qLYi1mpi6q294x2R6zAOaHWOQQXtbtiGeP2wgsWoosSgmagG1YjPLhh2AeD1BDEr3kuJEEvkIIs
+	Yj+y3VVBCeOX2aCgfMCCYJ/bRRqsVR7hj1C2XO5/gilZQtdky5seOMGnWEan8lxESNoz/GHFYJs
+	bh/t1piX8x7I8tz4A4VAfD3Ubk4K5z/HQ/LJXlGRd4aD28TYQ/ykfRjLQF4jmwM8Asqu+WT4Zzc
+	1W2BMLSpTSXSWyCio58uUfvDUKkPXYjgdBab3egeFPHHhkOORK0iCnA/bRoq72CquIURXTVgxEC
+	lzvZN8dPzh7h8qXGEK3R2m3IkqziQQBySeWefsYOOxhqmWRmG5w+8MaWxVB+zD7RBM3uiZ/7X3R
+	MljOhhAgvr/8s10rRJWg4mykLwDDJw/uivbFMzjgtYHUtrVYc=
+X-Google-Smtp-Source: AGHT+IH53ckBol+4yeTGTxnoskxcelqMTn+43AKcIW+arxac7wzKqrO4rD1ChIviUV6IKHO85b4pJw==
+X-Received: by 2002:a17:902:f691:b0:295:68dd:4ebf with SMTP id d9443c01a7336-29b6c3e3c48mr197452115ad.16.1764095482759;
+        Tue, 25 Nov 2025 10:31:22 -0800 (PST)
+Received: from google.com (28.29.230.35.bc.googleusercontent.com. [35.230.29.28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b26fff4sm176035005ad.68.2025.11.25.10.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 10:31:21 -0800 (PST)
+Date: Tue, 25 Nov 2025 18:31:17 +0000
+From: David Matlack <dmatlack@google.com>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
- rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
- rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
- kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
- masahiroy@kernel.org, tj@kernel.org, yoann.congal@smile.fr,
- mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
- axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
- vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com,
- david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org,
- anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
- bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
- myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
- brauner@kernel.org, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
- jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com,
- hughd@google.com, skhawaja@google.com, chrisl@kernel.org
+	rppt@kernel.org, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
 Subject: Re: [PATCH v8 00/18] Live Update Orchestrator
-Message-Id: <20251125103012.c9f0519e166b810e2e03e1b0@linux-foundation.org>
-In-Reply-To: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
+Message-ID: <aSX19cWypvh1mKWM@google.com>
 References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
 
-On Tue, 25 Nov 2025 11:58:30 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-
-> Andrew: This series has been fully reviewed, and contains minimal
-> changes compared to what is currently being tested in linux-next
-> diff between v7 and v8 can be viewe, here: [8]
+On 2025-11-25 11:58 AM, Pasha Tatashin wrote:
 > 
-> Four patches have been dropped compared to v7: and are going to be sent
-> separately.
+> Pasha Tatashin (12):
+>   liveupdate: luo_core: Live Update Orchestrato,
+>   liveupdate: luo_core: integrate with KHO
+>   kexec: call liveupdate_reboot() before kexec
+>   liveupdate: luo_session: add sessions support
+>   liveupdate: luo_core: add user interface
+>   liveupdate: luo_file: implement file systems callbacks
+>   liveupdate: luo_session: Add ioctls for file preservation
+>   docs: add luo documentation
+>   MAINTAINERS: add liveupdate entry
+>   selftests/liveupdate: Add userspace API selftests
+>   selftests/liveupdate: Add simple kexec-based selftest for LUO
+>   selftests/liveupdate: Add kexec test for multiple and empty sessions
 > 
-> This series introduces the Live Update Orchestrator, a kernel subsystem
-> designed to facilitate live kernel updates using a kexec-based reboot.
-> This capability is critical for cloud environments, allowing hypervisors
-> to be updated with minimal downtime for running virtual machines. LUO
-> achieves this by preserving the state of selected resources, such as
-> memory, devices and their dependencies, across the kernel transition.
+> Pratyush Yadav (6):
+>   mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+>   mm: shmem: allow freezing inode mapping
+>   mm: shmem: export some functions to internal.h
+>   liveupdate: luo_file: add private argument to store runtime state
+>   mm: memfd_luo: allow preserving memfd
+>   docs: add documentation for memfd preservation via LUO
 
-Thanks, I updated mm.git's mm-nonmm-unstable branch to this version.
+I ran all the new selftests, including those that require kexec on an
+Intel EMR server, and all tests passed.
 
-I expect I'll move all the below material into mm-nonmm-stable in a
-couple of days.
-
-kho-make-debugfs-interface-optional.patch
-kho-drop-notifiers.patch
-kho-add-interfaces-to-unpreserve-folios-page-ranges-and-vmalloc.patch
-memblock-unpreserve-memory-in-case-of-error.patch
-memblock-unpreserve-memory-in-case-of-error-fix.patch
-test_kho-unpreserve-memory-in-case-of-error.patch
-kho-dont-unpreserve-memory-during-abort.patch
-liveupdate-kho-move-to-kernel-liveupdate.patch
-liveupdate-kho-move-to-kernel-liveupdate-fix.patch
-maintainers-update-kho-maintainers.patch
-liveupdate-kho-use-%pe-format-specifier-for-error-pointer-printing.patch
-#
-kho-fix-misleading-log-message-in-kho_populate.patch
-kho-convert-__kho_abort-to-return-void.patch
-kho-introduce-high-level-memory-allocation-api.patch
-kho-introduce-high-level-memory-allocation-api-fix.patch
-kho-preserve-fdt-folio-only-once-during-initialization.patch
-kho-verify-deserialization-status-and-fix-fdt-alignment-access.patch
-kho-always-expose-output-fdt-in-debugfs.patch
-kho-simplify-serialization-and-remove-__kho_abort.patch
-kho-remove-global-preserved_mem_map-and-store-state-in-fdt.patch
-kho-remove-abort-functionality-and-support-state-refresh.patch
-kho-update-fdt-dynamically-for-subtree-addition-removal.patch
-kho-allow-kexec-load-before-kho-finalization.patch
-kho-allow-memory-preservation-state-updates-after-finalization.patch
-kho-add-kconfig-option-to-enable-kho-by-default.patch
-#
-#
-liveupdate-luo_core-live-update-orchestrato.patch
-liveupdate-luo_core-integrate-with-kho.patch
-kexec-call-liveupdate_reboot-before-kexec.patch
-liveupdate-luo_session-add-sessions-support.patch
-liveupdate-luo_core-add-user-interface.patch
-liveupdate-luo_file-implement-file-systems-callbacks.patch
-liveupdate-luo_session-add-ioctls-for-file-preservation.patch
-docs-add-luo-documentation.patch
-maintainers-add-liveupdate-entry.patch
-mm-shmem-use-shmem_f_-flags-instead-of-vm_-flags.patch
-mm-shmem-allow-freezing-inode-mapping.patch
-mm-shmem-export-some-functions-to-internalh.patch
-liveupdate-luo_file-add-private-argument-to-store-runtime-state.patch
-mm-memfd_luo-allow-preserving-memfd.patch
-docs-add-documentation-for-memfd-preservation-via-luo.patch
-selftests-liveupdate-add-userspace-api-selftests.patch
-selftests-liveupdate-add-simple-kexec-based-selftest-for-luo.patch
-selftests-liveupdate-add-kexec-test-for-multiple-and-empty-sessions.patch
-#
-#
-kho-free-chunks-using-free_page-instead-of-kfree.patch
-#
-test_kho-always-print-restore-status.patch
-#
-kho-kho_restore_vmalloc-fix-initialization-of-pages-array.patch
-kho-fix-restoring-of-contiguous-ranges-of-order-0-pages.patch
-#
+Tested-by: David Matlack <dmatlack@google.com>
 
