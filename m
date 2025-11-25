@@ -1,135 +1,139 @@
-Return-Path: <linux-api+bounces-5492-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5493-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095ECC830D0
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 02:51:06 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA14C84437
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 10:41:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E94044E4655
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 01:51:01 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7D79C4E2809
+	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 09:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40FEE1A9FAC;
-	Tue, 25 Nov 2025 01:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E42E92EAB6F;
+	Tue, 25 Nov 2025 09:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b="C8hdvPtl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OucKf52F"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075981B4F09
-	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 01:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCDB2EA723;
+	Tue, 25 Nov 2025 09:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764035437; cv=none; b=LoEsXkHU79j50F0xPy3r8aZvdGDy3bjjAc2Y3Rln4lxzC1A6ZybxbBcFQwcK/C8p3pCahXqxt9EGPhNyqNEY/iCSv57V0c1cOPuDTjMl4Tql9cRVk7x350rr5epSTZWnzUUrjVjRntkhR224ul0IM4Xz8fjtsZ+VrW7Q3/eOJxc=
+	t=1764063699; cv=none; b=N0n9QMsgrjq88zjtFg+N8YOgGeQwvl7yfTrPjwr6RponUBn9gjctEm/TqpWP5ZeAOtrrUKbvlg52xYB0RzCNrOy1RhC6gNeScQiCvo5aP+DjcqdEhN1MBHZLf4D7A1sNSPaz9CVAuRh3SEjztvL0mjlDpi818G1g8uf2FWTDviI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764035437; c=relaxed/simple;
-	bh=tA1EEPB5g8EbWUBOe9hcES3yi9cVRI6Dk1dzCgOHBzE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HQSHU6VjSdsRjqBxpkMhyi/OXcqNw6IQD73uFmWqxInja4fQN9xgyprxo0SvMgc9/l0KBfHlrIeq8jwFJYNi25NKHRKDLjHHWKPcpsUF/2H8KyYS7K1FV8EagOnucjWg8aYHfwwQMeOnrVeZYW9sNiPxi7K3jDB8kGV7W5xyboQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net; spf=pass smtp.mailfrom=dzwdz.net; dkim=pass (2048-bit key) header.d=dzwdz.net header.i=@dzwdz.net header.b=C8hdvPtl; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dzwdz.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dzwdz.net
-Message-ID: <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dzwdz.net; s=key1;
-	t=1764035423;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tA1EEPB5g8EbWUBOe9hcES3yi9cVRI6Dk1dzCgOHBzE=;
-	b=C8hdvPtlWDGBOasebEMxzjFIyQVXKUgl4ZWE+X+WA1kBiq79zWJMwPDXkjfcQRRYWYOpbl
-	BvIAYM/P0qL4HyUfU4f8xQs8LreC50fIODrqPJ6Ix3czg5YPThi6nt38XMa7deTRHW7rtM
-	cno45kPlZMQ07hWbLCR5arP1ll4O2Ygoy+nylhuUWfCxdm/PjTyRDQ5b8sFd7gd3z8Oh+v
-	jYUBN+vA+mJCVF9xWNw1UcyR/QSV7hwlZ6jXlwpAjwEZ/1ejWBz6+SDqcTbnyg7JF9vtqZ
-	TsBAczVnZ0jTJUhWBgFUSP+kS5A7eHw8HqC/16VUt6YN7DnYApSt+2vzo8FFnQ==
-Date: Tue, 25 Nov 2025 02:50:19 +0100
+	s=arc-20240116; t=1764063699; c=relaxed/simple;
+	bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ioVMNMo/7KX9Q5MvQ3g18SZKDOjZAzT2rvqEvNsTi4o275iDNl1906w2JQ6/md3/zZWgBTQLZHNZdFbw7SIlx58X8iSO3I7eGJ4ZiVWhgV4umI5vgeEW0G84yJc7L3XqGdNZNAIQwBKp8jAbSm1mHXcfuJK9dfCxoHjw7dwdWPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OucKf52F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45365C4CEF1;
+	Tue, 25 Nov 2025 09:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764063699;
+	bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OucKf52FhPtINc8o+rDHlyQuoWdOZ23WYUkamnBRMbBwq8b5wBELAg9Wd4kLteX2w
+	 E+PAenq6asoXSS9vtZfQWPPpg6If+O+uAodJW14BlxwNCLQF4RpeB5cfBTdj8cjh3n
+	 0BBXe3bLULjAUcCpRrHsZgNtXNnr8fY6XCeUcrIYnYYRX9FBJ+O3fV1Z9pGprv4+cJ
+	 4Wvez7nmvM61jSRX41bjw5l7VD/xKEz5kFV73RMTkjEH6eI9Amo/G4vrAVkS/sSqRq
+	 o5e/7wM1zV8+V7UAaPa8Me70HeCcc5/tm5lkmztgHFGTNCC2hI1FYzCXScOhdPU68K
+	 MQS/vhLTkkWmw==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Askar Safin <safinaskar@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev,
+	Gao Xiang <xiang@kernel.org>
+Subject: Re: [PATCH v4 0/3] initrd: remove half of classic initrd support
+Date: Tue, 25 Nov 2025 10:41:24 +0100
+Message-ID: <20251125-kotzen-achtzehn-551ae5a8ed70@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251119222407.3333257-1-safinaskar@gmail.com>
+References: <20251119222407.3333257-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Linux API <linux-api@vger.kernel.org>, ej@inai.de
-References: <cover.1763130571.git.not@dzwdz.net>
- <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
-Content-Language: en-US, pl
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: dzwdz <not@dzwdz.net>
-Autocrypt: addr=not@dzwdz.net; keydata=
- xjMEaLoI3BYJKwYBBAHaRw8BAQdAz9aX/esCy0Q9BudRG1rXdo+DCQJDFADFKNaYyZnRk/DN
- FWR6d2R6IDxub3RAZHp3ZHoubmV0PsLBPwQTFgoBpwIbAwUJAO1OAAULCQgHAwUVCgkICwUW
- AgMBAAIeAQIXgBYhBOsX9f4IFOdcieO1LSjiaiZRZQv2BQJoujc2QBSAAAAAABAAJ3Byb29m
- QGFyaWFkbmUuaWRodHRwczovL2dpdC5zci5odC9+ZHp3ZHova2V5b3hpZGVfcHJvb2Y0FIAA
- AAAAEAAbcHJvb2ZAYXJpYWRuZS5pZGlyYzovL2lyYy5oYWNraW50Lm9yZy9kendkelcUgAAA
- AAAQAD5wcm9vZkBhcmlhZG5lLmlkaHR0cHM6Ly9naXN0LmdpdGh1Yi5jb20vZHp3ZHovMGIx
- N2M2ZDk0ZjM2OGJlZDJhM2M2NTk4OTMxNDhlM2UzFIAAAAAAEAAacHJvb2ZAYXJpYWRuZS5p
- ZGRuczpub3QuZHp3ZHoubmV0P3R5cGU9VFhUNBSAAAAAABAAG3Byb29mQGFyaWFkbmUuaWRp
- cmM6Ly9pcmMubGliZXJhLmNoYXQvZHp3ZHoxFIAAAAAAEAAYcHJvb2ZAYXJpYWRuZS5pZGh0
- dHBzOi8vbG9ic3RlLnJzL35kendkegAKCRAo4momUWUL9gZ7AP92NUwydt7PvXE3nJxrzc8z
- zXy7932PUcqWi0EyyL0g6gEA92OwaOXjsJEj9SQT6L2rVs48M6NLTsTWBYeULHt7SQvOOARo
- ugkYEgorBgEEAZdVAQUBAQdAKREKv3RUs0sVu41DJHmRm2BWii+JVkscG4l9YlrL/mkDAQgH
- wn4EGBYKACYWIQTrF/X+CBTnXInjtS0o4momUWUL9gUCaLoJGAIbDAUJAO1OAAAKCRAo4mom
- UWUL9tKpAP4hrnUCmd/w22Huur8UIr1ipOPUbnKOEbNEEroYL4JmJwD+IijYhfW2lQurN3VD
- 16zziWtajA+YA/n+hMg9izVgXwc=
-In-Reply-To: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BMTVIp0f79s511iRogKGtTVJ"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1683; i=brauner@kernel.org; h=from:subject:message-id; bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSqVp5wOpontKfZfe/70xWPbcu9vFrnFNWIXimcunPlm p2ugXNWd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk6muGP/yNHN382vYp2+2N JS/4VSsWM669Ezy51uzfzqJrEp8/hzL8DzfNbzv7aL5v4O+0RcyWehO4XT7wWjL+P/xW/uVfZ1t pTgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BMTVIp0f79s511iRogKGtTVJ
-Content-Type: multipart/mixed; boundary="------------c9LgEiEL390hwNGdBfjqf2xe";
- protected-headers="v1"
-From: dzwdz <not@dzwdz.net>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Linux API <linux-api@vger.kernel.org>, ej@inai.de
-Message-ID: <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
-Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
-References: <cover.1763130571.git.not@dzwdz.net>
- <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
-In-Reply-To: <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+On Wed, 19 Nov 2025 22:24:04 +0000, Askar Safin wrote:
+> This patchset will not affect anyone, who showed up in these lists.
+> See [5] for details.
+> 
+> Intro
+> ====
+> This patchset removes half of classic initrd (initial RAM disk) support,
+> i. e. linuxrc code path, which was deprecated in 2020.
+> Initramfs still stays, RAM disk itself (brd) still stays.
+> And other half of initrd stays, too.
+> init/do_mounts* are listed in VFS entry in
+> MAINTAINERS, so I think this patchset should go through VFS tree.
+> I tested the patchset on 8 (!!!) archs in Qemu (see details below).
+> If you still use initrd, see below for workaround.
+> 
+> [...]
 
---------------c9LgEiEL390hwNGdBfjqf2xe
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Applied to the vfs-6.20.inird branch of the vfs/vfs.git tree.
+Patches in the vfs-6.20.inird branch should appear in linux-next soon.
 
-T24gMTEvMTgvMjUgMTQ6NTEsIEFsZWphbmRybyBDb2xvbWFyIHdyb3RlOg0KPiBEbyB5b3Ug
-c3VnZ2VzdCBtb3ZpbmcgZWFjaCBzb2NrZXQgb3B0aW9uIHRvIGEgbWFudWFsIHBhZ2UgdW5k
-ZXINCj4gbWFuMmNvbnN0Lz8gIEkgdGhpbmsgSSBhZ3JlZSB3aXRoIHRoYXQuICBUaGVyZSdz
-IHByZWNlZGVudCwgYW5kIGl0IG1ha2VzDQo+IHRoZSBwYWdlcyBtb3JlIHJlYWRhYmxlLg0K
-DQpJbiBnZW5lcmFsIC0geWVzLCBkZWZpbml0ZWx5IQ0KDQpIb3dldmVyLCBzdHJ1Y3QgaW5f
-cGt0aW5mbyBjYW4gYmUgcGFzc2VkIHRvIHNlbmRtc2cgZXZlbiBpZiBJUF9QS1RJTkZPIA0K
-aXNuJ3Qgc2V0LCBzbyBJIGRvbid0IHRoaW5rIGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8gZG9j
-dW1lbnQgaXQgaW4gZS5nLiANCklQX1BLVElORk8oMmNvbnN0KSAtIGl0IHNob3VsZCBwcm9i
-YWJseSBnZXQgaXRzIG93biBtYW5wYWdlIGluIG1hbjJ0eXBlLg0KVGhhdCBvcHRpb24sIGlu
-IHR1cm4sIG9ubHkgbWFrZXMgc2Vuc2UgaW4gdGhlIGNvbnRleHQgb2YgdGhhdCBzdHJ1Y3Qs
-IHNvIA0KSSB0aGluayBpdCBzaG91bGQgcHJvYmFibHkgYmUgZG9jdW1lbnRlZCBpbiBpbl9w
-a3RpbmZvKDJ0eXBlKS4NCg0KVGhpcyB3b3VsZCAva2luZGEvIGJlIGxpa2UgaG93IGUuZy4g
-UEFfSU5UKDNjb25zdCkgcG9pbnRzIHRvIA0KcHJpbnRmLmgoM2hlYWQpLCBJIGd1ZXNzPw0K
-DQpJJ2QgYmUgaGFwcHkgdG8gdHJ5IHdyaXRpbmcgdGhhdCBtYW5wYWdlIGlmIHlvdSB0aGlu
-ayB0aGlzIGFwcHJvYWNoIA0KbWFrZXMgc2Vuc2UgOikNCg0KVGhhbmtzLA0KZHp3ZHoNCg==
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
---------------c9LgEiEL390hwNGdBfjqf2xe--
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
---------------BMTVIp0f79s511iRogKGtTVJ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.20.inird
 
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS3V6hRlZD1kB2FLDBjtssx7Ny7DgUCaSULWwUDAAAAAAAKCRBjtssx7Ny7Djd6
-AQDxA5T2+kSltw+aQgN4rQO/TPabZivm+CFgOFoLCG9xGgEA9akeqON+TFwT+dEW45DwQL4rvAlf
-v+ljgXKbqNf1Ogc=
-=SSPn
------END PGP SIGNATURE-----
-
---------------BMTVIp0f79s511iRogKGtTVJ--
+[1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command line parameters
+      https://git.kernel.org/vfs/vfs/c/9c598c04183e
+[2/3] initrd: remove deprecated code path (linuxrc)
+      https://git.kernel.org/vfs/vfs/c/445b357b72aa
+[3/3] init: remove /proc/sys/kernel/real-root-dev
+      https://git.kernel.org/vfs/vfs/c/f84d950a0ef1
 
