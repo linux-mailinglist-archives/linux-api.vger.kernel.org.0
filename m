@@ -1,147 +1,172 @@
-Return-Path: <linux-api+bounces-5528-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5529-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B21C86BA9
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 20:02:54 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED245C8BF73
+	for <lists+linux-api@lfdr.de>; Wed, 26 Nov 2025 22:06:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F17254EA2CE
-	for <lists+linux-api@lfdr.de>; Tue, 25 Nov 2025 19:02:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 95F924E113C
+	for <lists+linux-api@lfdr.de>; Wed, 26 Nov 2025 21:06:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF64A334378;
-	Tue, 25 Nov 2025 19:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474E3225788;
+	Wed, 26 Nov 2025 21:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ri43bzU9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGW+wM4E"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629C433372C
-	for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 19:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE945BE3;
+	Wed, 26 Nov 2025 21:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764097336; cv=none; b=SO3BnHh2IXKDm4c0ftMLLRiyQLhAOUDaBB39e7ZqCE3kTtyi8qNZuuGVoegjRIsCnOHPmUWJ6iTRAZNNSlJbv8mt/mO11OdbTVipYYzaT27WZhHMy3Kk3il5BIqdfjo42too5I+jjffMW52+v1JVRJibnkqOyl3pQun7q/SlDtE=
+	t=1764191173; cv=none; b=skMYoldOoMSM676guAImKdjjlPRTesT254MMcoxr8PEDqVkEqaf8c4C2EkTjsfRWOOcoPILttK5TsUP4T36sm1yfbyql52NULslXhC7bzWS909tBvl3WrRFEtOhKhTlZc0F19ld5eS1JoCCsZ1XoTqtGhvba7gBLpakQN8dEdCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764097336; c=relaxed/simple;
-	bh=970Jb+cB9ffJi62n0bHygDXaRpTlD4aGe7LWlTUIJZ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g/USDGKOhEeH0cn5k126sFdB97nDx6FYNrABK9QYEM/XGjVaPJFthlVsUKTqv46MGWKTv80Tun1QkaCaUN6oNaahIg7zwdD+2zkVPbhY3E6ndmm2/w0T72naSuIo7dlofGbxHusmBirNwiuXq6glIj38SI/NTMQaBCEfiugaFCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ri43bzU9; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6431b0a1948so9650108a12.3
-        for <linux-api@vger.kernel.org>; Tue, 25 Nov 2025 11:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764097332; x=1764702132; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pZbg8SojFwo+/6fxa8iIzTLQdoY14/XcMqsoNhFxHBw=;
-        b=Ri43bzU9PV3GsKnbo5msKUxeko746al/XKpgFUQIawRvXxZ8dbkldE3ryv/+HaQDvC
-         6KfH3c7PBTV78p+xxTMsMs1QZI9xg1W2X2VxjjSxH773PeCwaHKyl7GaN8meS/qe/Hba
-         lYGw5y2jp9GaXsLEn7KMNvS/8/+5EidpUzLca6fF3OEQjUFL+wNpjpbfq2LjYmfWM+Y1
-         UjPfA/vP7q24euMX0piDER9ICqZ/wNKnYXoeS2QNFUn4beB5p2YiuU4KyHIeaBG8QpcV
-         7mh6OPBi6TFdKPKBwBH+ZM01b06+QlrjX7rK8b3n3UlEsGZ1A+iSdLsMbKBxIafuONGB
-         SQug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764097332; x=1764702132;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pZbg8SojFwo+/6fxa8iIzTLQdoY14/XcMqsoNhFxHBw=;
-        b=pqpPZjKsvPLFSY1U0/xwETFWGlOHXH6dayEqj0yl2khwl9h3L5vNgdjfiZSjxY82/N
-         c1KTg09Ar/Ipt219XxcZLmMgJdCeu0Dxg4KTaj8uVWfXvS13GqWNP6T9AXnMc9hWEWXU
-         q87zTH023jRVxNLSm477hLcr9RkoZboZwYBKBBc9Hj8ZLzanm+RJOM5+kKwMgHi7MuC+
-         Ownh4Ww1GV2jZwTndeYoxlMsl/UAPCexOZpufEo8AobEuknfA5XUVr4wkE+Gzl/WdbYi
-         w8aYXd/iXeG5Mus6XvLReRtV9sj4DdjMAZvrxItLMfc7/gIkzwDWljrf5NnS6xwLHY2w
-         YT9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUwKA9JCeDOOjawOxfvx4E449bNnij1kUd6aKFer7BwCyrKwT169GO4BQoKJc0gMiBYNx6G4B5Hl7A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQVB3ZaBBQJFJ1cji8L0wkMXu823hEzZJ+lXt84HMuSFp4hcD0
-	ZwwwLAIgGYj0KOTlDyEqvwlzNHkAj2BB63M1sFuu/UQUKqhlV++jmi7D9saCr9wXAqDdVQRpTe9
-	Vcb5ToY5BSxh9feCvAzaVW7UBq+VA3OrzqNPe/ffI5Q==
-X-Gm-Gg: ASbGnctUcVutwzt2hgL/agpxBpk56wAFBQ9BrUId3bXSy4pwesKcNz2VmNhzffXR2WO
-	+Vfr/Z1vE6GKG5pa8/H53wU5THa/gMCSzrieF5hBEBEXJMFYhWbhdQk+/TSwiXrSRveDWcE3Riq
-	R6rkjQRoeQKdTIkPSoO7wSZ2qcsPVATN41b9i6QItSLKNwzxBXQtgZBZkQZQIL5cLyIC6NrzKDx
-	V5SSJce8Uy2eJPfFoUucRUAQEGfoNyua5+TW6tKiMoRxPCXvoncaWH12rmGyjS18tgx
-X-Google-Smtp-Source: AGHT+IHaJ/LbREE5Jpzko9OcKbnJBE1+OgV3WfTKWJciDLFdWD0t5cmLQ1AQFk0Y1AJ05l0WSop6DSkyv43G2Zwocz4=
-X-Received: by 2002:a17:907:9720:b0:b6d:5262:a615 with SMTP id
- a640c23a62f3a-b76c5630b03mr446231166b.41.1764097331448; Tue, 25 Nov 2025
- 11:02:11 -0800 (PST)
+	s=arc-20240116; t=1764191173; c=relaxed/simple;
+	bh=chPG1Hq3jMWfISrAyPSZCHkALI6TJRLR7Vx9r3UxTFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cD9zT2FI5/JiI7oW6vuKIMt/4vy72AJSSK9pPQGxcOAXVT/HjuZ1tD3uDhYeytGRS2FlpUdkfMFJkvB65hvY+sZtSB9Pfn8WE1wr07wR6gHJDuj6hAPPlezvAQ5joLA8wW0QEv5HbqGtvsNek4Kyv18OSDRayBXaglhGEDVzXoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGW+wM4E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7B7C4CEF7;
+	Wed, 26 Nov 2025 21:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764191172;
+	bh=chPG1Hq3jMWfISrAyPSZCHkALI6TJRLR7Vx9r3UxTFo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fGW+wM4Ee9C8LSAJxTH08Vto2qasANX8uSnY5Qkn88+vqbdOBb6+SLMhAhoN+OHow
+	 zKHKUXXRbsy/92OyKfOnpkoJ/r4w0fLMa6EEsP0sR8PPB3ibCaHnfwckXxCD/OZzwo
+	 76G80nPVcCyWvYBbv+Yjbnk71QyS+saflCu80GW59ejUak7AfpR8PSli1va2+1/mo1
+	 8hKx+unf5NeGN9ulrMYRHuMSlxkFCUpLjq4hphWiHYJyPLYlvm7xNQV64UStSEVM/f
+	 55IUPvdIpfm6GI5yquusRbs+T4370agbfmlnmnN1hfxZaWd7+rrAR7h24dR/esHBWw
+	 3K68zIAvTrrvQ==
+Date: Wed, 26 Nov 2025 22:06:08 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: dzwdz <not@dzwdz.net>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>, ej@inai.de
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+Message-ID: <yidcan2omaer4aewp7f57oohdogg3l6nvw5udxho5opd2xupfn@5lj7fk4fogon>
+References: <cover.1763130571.git.not@dzwdz.net>
+ <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+ <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
+ <7zsiwtuwz3ybq6cymwkfbp2fxiliof25ko2zk77cgitfsxxgc6@x5jbr76h3f4s>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251125165850.3389713-1-pasha.tatashin@soleen.com> <aSX19cWypvh1mKWM@google.com>
-In-Reply-To: <aSX19cWypvh1mKWM@google.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 14:01:34 -0500
-X-Gm-Features: AWmQ_bmdDcUwBBud3cZl0TGUz3iSEuxf2L3NoBzXOoPUOHJetvLBDiXl30iG0_Y
-Message-ID: <CA+CK2bCq3K3dd1a+OGtsqGHpraFZcbxc_LCGt2CPz6euFD=_CQ@mail.gmail.com>
-Subject: Re: [PATCH v8 00/18] Live Update Orchestrator
-To: David Matlack <dmatlack@google.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gcwjfbgf4cx3opda"
+Content-Disposition: inline
+In-Reply-To: <7zsiwtuwz3ybq6cymwkfbp2fxiliof25ko2zk77cgitfsxxgc6@x5jbr76h3f4s>
+
+
+--gcwjfbgf4cx3opda
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: dzwdz <not@dzwdz.net>
+Cc: linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>, ej@inai.de
+Subject: Re: [PATCH 0/2] man7/ip.7: Clarify PKTINFO's docs
+Message-ID: <yidcan2omaer4aewp7f57oohdogg3l6nvw5udxho5opd2xupfn@5lj7fk4fogon>
+References: <cover.1763130571.git.not@dzwdz.net>
+ <vbdfw7ecw4mw4jlvcv4evtj7ngeqbxenr5wzxl56sn5d6ducw3@yomryb4vbtr5>
+ <b89c3f75-0b70-4620-b525-b264adb74c7b@dzwdz.net>
+ <7zsiwtuwz3ybq6cymwkfbp2fxiliof25ko2zk77cgitfsxxgc6@x5jbr76h3f4s>
+MIME-Version: 1.0
+In-Reply-To: <7zsiwtuwz3ybq6cymwkfbp2fxiliof25ko2zk77cgitfsxxgc6@x5jbr76h3f4s>
 
-On Tue, Nov 25, 2025 at 1:31=E2=80=AFPM David Matlack <dmatlack@google.com>=
- wrote:
->
-> On 2025-11-25 11:58 AM, Pasha Tatashin wrote:
-> >
-> > Pasha Tatashin (12):
-> >   liveupdate: luo_core: Live Update Orchestrato,
-> >   liveupdate: luo_core: integrate with KHO
-> >   kexec: call liveupdate_reboot() before kexec
-> >   liveupdate: luo_session: add sessions support
-> >   liveupdate: luo_core: add user interface
-> >   liveupdate: luo_file: implement file systems callbacks
-> >   liveupdate: luo_session: Add ioctls for file preservation
-> >   docs: add luo documentation
-> >   MAINTAINERS: add liveupdate entry
-> >   selftests/liveupdate: Add userspace API selftests
-> >   selftests/liveupdate: Add simple kexec-based selftest for LUO
-> >   selftests/liveupdate: Add kexec test for multiple and empty sessions
-> >
-> > Pratyush Yadav (6):
-> >   mm: shmem: use SHMEM_F_* flags instead of VM_* flags
-> >   mm: shmem: allow freezing inode mapping
-> >   mm: shmem: export some functions to internal.h
-> >   liveupdate: luo_file: add private argument to store runtime state
-> >   mm: memfd_luo: allow preserving memfd
-> >   docs: add documentation for memfd preservation via LUO
->
-> I ran all the new selftests, including those that require kexec on an
-> Intel EMR server, and all tests passed.
->
-> Tested-by: David Matlack <dmatlack@google.com>
+Hi Jakub,
 
-Great, thank you David!
+On Tue, Nov 25, 2025 at 01:13:05PM +0100, Alejandro Colomar wrote:
+> Hi dzwdz,
+>=20
+> On Tue, Nov 25, 2025 at 02:50:19AM +0100, dzwdz wrote:
+> > On 11/18/25 14:51, Alejandro Colomar wrote:
+> > > Do you suggest moving each socket option to a manual page under
+> > > man2const/?  I think I agree with that.  There's precedent, and it ma=
+kes
+> > > the pages more readable.
+> >=20
+> > In general - yes, definitely!
+>=20
+> Done.  I've split ip(7) into a large amount of small pages this weekend.
+> Please have a look at them and suggest any improvements you consider
+> appropriate.  ;)
+>=20
+> > However, struct in_pktinfo can be passed to sendmsg even if IP_PKTINFO =
+isn't
+> > set, so I don't think it would make sense to document it in e.g.
+> > IP_PKTINFO(2const) - it should probably get its own manpage in man2type.
+> > That option, in turn, only makes sense in the context of that struct, s=
+o I
+> > think it should probably be documented in in_pktinfo(2type).
+> >=20
+> > This would /kinda/ be like how e.g. PA_INT(3const) points to
+> > printf.h(3head), I guess?
+> >=20
+> > I'd be happy to try writing that manpage if you think this approach mak=
+es
+> > sense :)
+>=20
+> Yup, it makes sense.  :)
+>=20
+> I'll simplify your work by doing some initial changes.  Please wait
+> a couple of days before starting, so I can finish doing that.
 
-Pasha
+Done.  Please fetch the latest changes, and do what you consider
+appropriate.  :)
+
+
+Have a lovely night!
+Alex
+
+>=20
+>=20
+> Have a lovely day!
+> Alex
+>=20
+> >=20
+> > Thanks,
+> > dzwdz
+>=20
+>=20
+>=20
+>=20
+> --=20
+> <https://www.alejandro-colomar.es>
+> Use port 80 (that is, <...:80/>).
+
+
+
+--=20
+<https://www.alejandro-colomar.es>
+Use port 80 (that is, <...:80/>).
+
+--gcwjfbgf4cx3opda
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmkna8AACgkQ64mZXMKQ
+wqmQQRAAsCD1NI2ETqcG06Hbe+v892a+r4VH14oaDwHy79wrOAVbEnAlHJAVwehm
+BILEUuS8zSpmv39wA9cucncYzyvZBJNWg66u0S3a6WtiHQyGjzQBCnAPO772i2su
+KDeOCfp8jwtjTBYbUznPwo58HTt0jdmiYaF6wkZ2UrZXJzMfLWK0x9PfN8UGquxZ
+MBU/qpiEQr5vWBES6ImZ41SnTsmZw3VNbmZCbOTDhMQkZYgezGe0G6szefCwVIhp
+nn2rflYRJs4V5DLPk6epA+M8NJ6WoZgwVBWVDOTv+OWmxTBQ1NXINodNW1DI+B1A
+xj9hjafMyrWRKsolRbHxh1OEYjp1u66KUfwwlF4V/iksC67Ndwra8Zc+zDBphe4f
+uFO7+6B6fMWJqN9LJ9Vn9eFNcSN/+uvkx5dSp/vAMAyUiegLvUUZXYb1z94vlLMP
+ZxsQXaSN9g2xDiEiGSuWqfyhxlhHzL7IfBU85/i+g7SC5DQ0R7vl7gk4UMQJf1bn
+vx7yOeE/KKYSM1ZD3VqtLA5EmHb6OTpOE++FTGoqrl53rxutAo+RP9JAOoenyEy6
+saoOn6xGzZxpZtvwMujXcL5qJEsvs46hU0dbn4OyCTh3/2G1FyhxCOBPi891UVg4
+/hYmyejUkDGxWnHRr16ARcSuRTanrBYHLDoQc0JX+KxifxC0eP8=
+=Tzgc
+-----END PGP SIGNATURE-----
+
+--gcwjfbgf4cx3opda--
 
