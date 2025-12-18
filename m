@@ -1,44 +1,44 @@
-Return-Path: <linux-api+bounces-5557-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5558-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F94CCCD9A9
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15151CCD8F1
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:45:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA669304DEE3
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:52:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AB0743082FDA
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02CE02E7F27;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB1A2EB874;
 	Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fm6VCal9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WaJ3h4kz"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E9F2DA76F;
-	Thu, 18 Dec 2025 20:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EF42E92D4;
+	Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090571; cv=none; b=KQGZzd6lS6wXELOmEB07ota3rnUkvLMbXzBxJsbRXRtoF5PM7qs7LwQdLehcUcGoS/I1wKvqTdFkreIV256FkOhkrtZz4glcXS1q8mY3oy2yayrpmD12tpaPLGD/M7jvX3ZHlDCsOlWfn2uq61OKdqKk/3WsniXIKruycCpkpBc=
+	t=1766090572; cv=none; b=OdO/aE7E5I/uIR0IeMpEatCIPnrOWV0Gd9m2hRYtTM3q/JJJa3TlM7FiJ+gn7j6Z4QJB12ZimtHCu4RaKkLT7Kgnq9i5IrhhP1+THPEZq815vX5mp+RMbbByaAniidqcivlKTX9y3dECw4JwrxIcIDPtXysYJdFB7Lebkn33w4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090571; c=relaxed/simple;
-	bh=oadfCL6p3szPYR2rpUi6FOTD0UWKkS2PI57OHH5y6lA=;
+	s=arc-20240116; t=1766090572; c=relaxed/simple;
+	bh=15QMa2QRWzuHNFPoY2VDNiHPRh2YTSroy0oCN7V30og=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RANKyyTVymGQ14OeywkXkaXpnXO1VDcVl6hJSn22Ev9S30E1X8gMqEiw3HNHbUJdkdFHa9+/3gOyojVRayhrZb9QkQt2yc4Zgo2STnSqfIxP4WaiqwH39W6Pc6O0hHx/TgRZQ+sX4PiCffXNDsI8N6d0gIdEEmJUUmUfkVOEzaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fm6VCal9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6AFC19423;
-	Thu, 18 Dec 2025 20:42:50 +0000 (UTC)
+	 MIME-Version; b=mg8S+JPgDJdv5vcpGyIabVpxw3HcDnjtzNer9AOrl6s19eJHWlFZNVn2+g4SjDAeeYELPJbRO/AzcFnNi0eE88f83Sa5LtB3jq+3sew28t93xZNBmNJX459+MVAogzaYHU4a8e7nrh4/TmBMRwetDRP86jM6q4MSEwF+GoyQ5ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WaJ3h4kz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E831DC113D0;
+	Thu, 18 Dec 2025 20:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766090571;
-	bh=oadfCL6p3szPYR2rpUi6FOTD0UWKkS2PI57OHH5y6lA=;
+	s=k20201202; t=1766090572;
+	bh=15QMa2QRWzuHNFPoY2VDNiHPRh2YTSroy0oCN7V30og=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fm6VCal9OVCusmvNBANryV9Ku48KmSgUngHs6E9F9poBj/ENW8+xW3bdhfePPfrnc
-	 ub9jivnDRBaNuMVq66Sxj7ZAADm5y2EReU2qsber1EMth8JhXo8b/IU6wp3RYHn0Do
-	 5p9OXfqEcQ/JhfwXcWJyp8ZSe/tQ0UxloTleGr1adR60QIwFGI3+l6hwyPwnRc0R4A
-	 e2G5m/mdx0T3olPLGGocY1v7fd1c6GAS3s5yBDlg8bj8/rKjD1yRtk8VFAb/Lx9VRs
-	 wDVr2rVoY742WUaQYU4VvXfHC+phLNtAqFoFv0ZOb24IWtkahCmThWfuxkvi6BUXDO
-	 htch9anzS6V6g==
+	b=WaJ3h4kzgOxMbfRPwjaKsQf1Q0ly1MlEO2Z6as2aBmSn2YHPh/S3laqZbnBjh0rNg
+	 3fiKDg3f6HmZj8UKBTHgfzDR3lvymRX6uOKqyCxVX4Uq0/KKsHxIestUJ5y8NB/q/f
+	 hQ+3qrQVFq2sNaTfXvx2Si/kbAz4m/8MZX0uJX5IWrPcfctHTpW7oC8ojb40zIL0Q1
+	 wNHuHcRFtWzd4r9hepjKf3zIPrLodONtFc3oYWyEE3Am8WKdprLrnpv8iiQrPDEplk
+	 L7lpLmhUz40izRmbA0Z0V8qZnANCmVZMpFua5MSResYufSi4AyPi6CadgERE8Aseb2
+	 bqu9oatLRvmDw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -46,9 +46,9 @@ Cc: linux-doc@vger.kernel.org,
 	tools@kernel.org,
 	gpaoloni@redhat.com,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v5 06/15] kernel/api: add API specification for io_destroy
-Date: Thu, 18 Dec 2025 15:42:28 -0500
-Message-ID: <20251218204239.4159453-7-sashal@kernel.org>
+Subject: [RFC PATCH v5 07/15] kernel/api: add API specification for io_submit
+Date: Thu, 18 Dec 2025 15:42:29 -0500
+Message-ID: <20251218204239.4159453-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251218204239.4159453-1-sashal@kernel.org>
 References: <20251218204239.4159453-1-sashal@kernel.org>
@@ -62,209 +62,339 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/aio.c | 189 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 184 insertions(+), 5 deletions(-)
+ fs/aio.c | 319 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 308 insertions(+), 11 deletions(-)
 
 diff --git a/fs/aio.c b/fs/aio.c
-index 36556e7a8e2c0..ff2a8527e1b85 100644
+index ff2a8527e1b85..f6f1b3790c88b 100644
 --- a/fs/aio.c
 +++ b/fs/aio.c
-@@ -1646,11 +1646,190 @@ COMPAT_SYSCALL_DEFINE2(io_setup, unsigned, nr_events, u32 __user *, ctx32p)
+@@ -2450,17 +2450,314 @@ static int io_submit_one(struct kioctx *ctx, struct iocb __user *user_iocb,
+ 	return err;
  }
- #endif
  
--/* sys_io_destroy:
-- *	Destroy the aio_context specified.  May cancel any outstanding 
-- *	AIOs and block on completion.  Will fail with -ENOSYS if not
-- *	implemented.  May fail with -EINVAL if the context pointed to
-- *	is invalid.
+-/* sys_io_submit:
+- *	Queue the nr iocbs pointed to by iocbpp for processing.  Returns
+- *	the number of iocbs queued.  May return -EINVAL if the aio_context
+- *	specified by ctx_id is invalid, if nr is < 0, if the iocb at
+- *	*iocbpp[0] is not properly initialized, if the operation specified
+- *	is invalid for the file descriptor in the iocb.  May fail with
+- *	-EFAULT if any of the data structures point to invalid data.  May
+- *	fail with -EBADF if the file descriptor specified in the first
+- *	iocb is invalid.  May fail with -EAGAIN if insufficient resources
+- *	are available to queue any iocbs.  Will return 0 if nr is 0.  Will
+- *	fail with -ENOSYS if not implemented.
 +/**
-+ * sys_io_destroy - Destroy an asynchronous I/O context
-+ * @ctx: AIO context handle returned by io_setup
++ * sys_io_submit - Submit asynchronous I/O operations for processing
++ * @ctx_id: AIO context handle returned by io_setup
++ * @nr: Number of I/O control blocks to submit
++ * @iocbpp: Array of pointers to iocb structures describing the operations
 + *
-+ * long-desc: Destroys the asynchronous I/O context identified by ctx. This
-+ *   syscall will attempt to cancel all outstanding asynchronous I/O operations
-+ *   against the context and block until all operations have completed. Once
-+ *   this syscall returns successfully, the context handle becomes invalid and
-+ *   must not be used with any other io_* syscalls.
++ * long-desc: Submits one or more asynchronous I/O operations for processing
++ *   against a previously created AIO context. Each iocb structure describes
++ *   a single I/O operation including the operation type, file descriptor,
++ *   buffer, size, and offset.
 + *
-+ *   The context's memory-mapped ring buffer is unmapped from the process address
-+ *   space, and all associated kernel resources are freed. The system-wide AIO
-+ *   event counter (aio_nr) is decremented by the original nr_events value that
-+ *   was passed to io_setup when creating this context.
++ *   The syscall processes iocbs sequentially from the array. If an error
++ *   occurs while processing an iocb, submission stops at that point and
++ *   the number of successfully submitted operations is returned. This means
++ *   partial submission is possible: if submitting 10 iocbs and the 5th fails,
++ *   4 is returned and iocbs 0-3 are queued for processing.
 + *
-+ *   This syscall blocks until all in-flight I/O operations have completed. This
-+ *   ensures that userspace buffers passed to io_submit are no longer accessed
-+ *   by the kernel after io_destroy returns. The wait is NOT interruptible by
-+ *   signals, so callers cannot cancel this blocking behavior.
++ *   Supported operations (specified via aio_lio_opcode):
++ *   - IOCB_CMD_PREAD (0): Positioned read from file
++ *   - IOCB_CMD_PWRITE (1): Positioned write to file
++ *   - IOCB_CMD_FSYNC (2): Sync file data and metadata
++ *   - IOCB_CMD_FDSYNC (3): Sync file data only
++ *   - IOCB_CMD_POLL (5): Poll for events on file descriptor
++ *   - IOCB_CMD_NOOP (6): No operation (useful for testing)
++ *   - IOCB_CMD_PREADV (7): Positioned scatter read
++ *   - IOCB_CMD_PWRITEV (8): Positioned gather write
 + *
-+ *   If two threads call io_destroy on the same context simultaneously, only the
-+ *   first call will succeed; subsequent calls return -EINVAL as the context is
-+ *   already marked as dead.
++ *   The iocb structure fields include:
++ *   - aio_data: User data copied to io_event on completion
++ *   - aio_lio_opcode: Operation type (one of IOCB_CMD_*)
++ *   - aio_fildes: File descriptor for the operation
++ *   - aio_buf: Buffer address (or iovec array for vectored ops)
++ *   - aio_nbytes: Buffer size (or iovec count for vectored ops)
++ *   - aio_offset: File offset for positioned operations
++ *   - aio_flags: Optional flags (IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO)
++ *   - aio_resfd: eventfd to signal on completion (if IOCB_FLAG_RESFD set)
++ *   - aio_rw_flags: Per-operation RWF_* flags
++ *   - aio_reqprio: I/O priority (if IOCB_FLAG_IOPRIO set)
++ *
++ *   After successful submission, operations complete asynchronously. Results
++ *   are delivered to the completion ring buffer and can be retrieved via
++ *   io_getevents(). If aio_resfd specifies a valid eventfd, it is signaled
++ *   when each operation completes.
++ *
++ *   The actual I/O may complete synchronously if the data is cached or if
++ *   the underlying filesystem doesn't support truly asynchronous I/O. In
++ *   such cases, the operation is still reported via the completion ring.
 + *
 + * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
 + *
-+ * param: ctx
++ * param: ctx_id
 + *   type: KAPI_TYPE_UINT
 + *   flags: KAPI_PARAM_IN
 + *   constraint-type: KAPI_CONSTRAINT_CUSTOM
-+ *   constraint: Must be a valid context handle previously returned by io_setup.
-+ *     The handle is actually the virtual address of the ring buffer mapping in
-+ *     the calling process's address space. A value of 0 is always invalid.
-+ *     The context must not have been previously destroyed.
++ *   constraint: Must be a valid AIO context handle previously returned by
++ *     io_setup() for the current process. The context must not have been
++ *     destroyed. A value of 0 is always invalid. The handle is actually
++ *     the virtual address of the ring buffer mapping.
++ *
++ * param: nr
++ *   type: KAPI_TYPE_INT
++ *   flags: KAPI_PARAM_IN
++ *   constraint-type: KAPI_CONSTRAINT_RANGE
++ *   range: 0, LONG_MAX
++ *   constraint: Must be >= 0. If 0, the syscall returns immediately with 0.
++ *     The actual number processed is capped to ctx->nr_events (the context's
++ *     capacity). Very large values are effectively limited by the context
++ *     capacity and available ring buffer slots.
++ *
++ * param: iocbpp
++ *   type: KAPI_TYPE_USER_PTR
++ *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
++ *   constraint-type: KAPI_CONSTRAINT_CUSTOM
++ *   constraint: Must be a valid userspace pointer to an array of nr pointers
++ *     to struct iocb. Each iocb pointer must itself be valid and point to a
++ *     properly initialized iocb structure. The iocb structures must have
++ *     aio_reserved2 set to 0 for forward compatibility.
 + *
 + * return:
 + *   type: KAPI_TYPE_INT
-+ *   check-type: KAPI_RETURN_ERROR_CHECK
-+ *   success: 0
-+ *   desc: Returns 0 on success. After successful return, the context handle is
-+ *     invalid and all resources have been released. All outstanding I/O
-+ *     operations have completed.
++ *   check-type: KAPI_RETURN_RANGE
++ *   success: >= 0
++ *   desc: Returns the number of iocbs successfully submitted (0 to nr). If
++ *     partial submission occurs due to an error, returns the count of
++ *     successfully submitted operations. Returns 0 if nr is 0.
 + *
-+ * error: EINVAL, Invalid context
-+ *   desc: The ctx argument does not refer to a valid AIO context in the calling
-+ *     process. This can occur if: (1) ctx was never returned by io_setup,
-+ *     (2) ctx was returned by io_setup in a different process, (3) ctx was
-+ *     already destroyed by a previous io_destroy call, (4) ctx is 0 or an
-+ *     arbitrary invalid value, or (5) the ring buffer at the ctx address has
-+ *     been corrupted (e.g., the id field no longer matches).
++ * error: EINVAL, Invalid context or parameter
++ *   desc: Returned if ctx_id is invalid, nr is negative, aio_reserved2 is
++ *     non-zero, aio_lio_opcode is invalid, aio_buf/aio_nbytes overflow,
++ *     aio_resfd is not an eventfd, conflicting aio_rw_flags, file lacks
++ *     required operation support, invalid POLL/FSYNC parameters, or
++ *     invalid aio_reqprio class.
 + *
-+ * lock: mm->ioctx_lock
-+ *   type: KAPI_LOCK_SPINLOCK
-+ *   desc: Per-mm spinlock protecting the ioctx_table. Held briefly while
-+ *     marking the context as dead and removing it from the process's AIO
-+ *     context table.
++ * error: EFAULT, Invalid memory access
++ *   desc: Returned if: (1) iocbpp is not a valid userspace pointer, (2) any
++ *     pointer in the iocbpp array is invalid, (3) the iocb data cannot be
++ *     copied from userspace, (4) aio_buf points to invalid memory, or
++ *     (5) the kernel cannot write the aio_key field back to userspace.
++ *
++ * error: EBADF, Bad file descriptor
++ *   desc: Returned if: (1) aio_fildes in an iocb does not refer to an open
++ *     file, (2) aio_resfd does not refer to a valid file descriptor when
++ *     IOCB_FLAG_RESFD is set, (3) the file is not opened with appropriate
++ *     mode for the operation (e.g., read on write-only file).
++ *
++ * error: EAGAIN, Resource temporarily unavailable
++ *   desc: Returned if insufficient slots are available in the completion
++ *     ring buffer. This typically means too many operations are already
++ *     in flight and the application should call io_getevents() to consume
++ *     completed events before submitting more.
++ *
++ * error: EPERM, Operation not permitted
++ *   desc: Returned if: (1) IOCB_FLAG_IOPRIO is set and aio_reqprio specifies
++ *     IOPRIO_CLASS_RT (real-time I/O priority) but the process lacks
++ *     CAP_SYS_ADMIN or CAP_SYS_NICE capability, or (2) RWF_NOAPPEND is
++ *     specified but the file has the append-only attribute (IS_APPEND).
++ *
++ * error: EOPNOTSUPP, Operation not supported
++ *   desc: Returned if: (1) unsupported aio_rw_flags are specified, (2)
++ *     RWF_NOWAIT is specified but the file doesn't support non-blocking I/O
++ *     (FMODE_NOWAIT not set), (3) RWF_ATOMIC is specified for a read or
++ *     the file doesn't support atomic writes, or (4) RWF_DONTCACHE is
++ *     specified but not supported by the filesystem or file is DAX-mapped.
++ *
++ * error: EOVERFLOW, Value too large
++ *   desc: Returned if aio_offset plus aio_nbytes would overflow and the
++ *     file does not support unsigned offsets. This check prevents reading
++ *     or writing past the maximum representable file position.
++ *
++ * error: ENOMEM, Out of memory
++ *   desc: Returned if memory allocation fails when preparing credentials
++ *     for IOCB_CMD_FSYNC operations, or if vectored I/O (preadv/pwritev)
++ *     requires allocating iovec arrays larger than the stack buffer.
 + *
 + * lock: RCU read lock
 + *   type: KAPI_LOCK_RCU
-+ *   desc: RCU read-side critical section held during context lookup in
-+ *     lookup_ioctx(). Protects against concurrent modification of the
-+ *     ioctx_table.
++ *   desc: Acquired during context lookup in lookup_ioctx(). Protects against
++ *     concurrent modification of the ioctx_table while looking up the
++ *     context. Released before processing any iocbs.
++ *
++ * lock: ctx->completion_lock
++ *   type: KAPI_LOCK_SPINLOCK
++ *   desc: Per-context spinlock acquired briefly during request slot allocation
++ *     via user_refill_reqs_available() if the percpu request counter is empty.
++ *     Protects the ring buffer tail and completed_events counters.
 + *
 + * lock: ctx->ctx_lock
 + *   type: KAPI_LOCK_SPINLOCK
-+ *   desc: Per-context spinlock held while cancelling outstanding I/O requests
-+ *     in free_ioctx_users(). Protects the active_reqs list.
++ *   desc: Per-context spinlock acquired when adding cancellable requests to
++ *     the active_reqs list. This enables io_cancel() to find and cancel
++ *     in-flight operations.
 + *
-+ * lock: mmap_lock
-+ *   type: KAPI_LOCK_RWLOCK
-+ *   desc: Process memory map write lock acquired during vm_munmap() when
-+ *     unmapping the ring buffer. May contend with other memory operations
-+ *     in the same process.
++ * lock: blk_plug
++ *   type: KAPI_LOCK_CUSTOM
++ *   desc: Block layer plugging is enabled when nr > 2 (AIO_PLUG_THRESHOLD)
++ *     to batch block I/O requests for better performance. This is not a
++ *     traditional lock but affects I/O scheduling.
++ *
++ * signal: any
++ *   direction: KAPI_SIGNAL_RECEIVE
++ *   action: KAPI_SIGNAL_ACTION_TRANSFORM
++ *   condition: Signal arrives during underlying read/write operation
++ *   desc: If a signal arrives during the underlying file read/write operation
++ *     and the operation returns ERESTARTSYS/ERESTARTNOINTR/etc., the error
++ *     is transformed to EINTR for the completion event. AIO operations cannot
++ *     be restarted in the traditional sense because other operations may have
++ *     already been submitted. The syscall itself (io_submit) is NOT interrupted
++ *     by signals - only the individual async operations can be.
++ *   error: -EINTR (in io_event.res, not syscall return)
++ *   timing: KAPI_SIGNAL_TIME_DURING
++ *   restartable: no
++ *
++ * side-effect: KAPI_EFFECT_ALLOC_MEMORY
++ *   target: aio_kiocb structures
++ *   desc: Allocates one aio_kiocb structure per submitted operation from the
++ *     kiocb_cachep slab cache. These structures track the in-flight operations
++ *     and are freed after completion is recorded in the ring buffer.
++ *   reversible: yes
 + *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: ctx->dead flag
-+ *   desc: Atomically sets the context's dead flag to 1, marking it as being
-+ *     destroyed. This prevents new I/O submissions and ensures subsequent
-+ *     io_destroy calls return -EINVAL.
++ *   target: AIO context request counters
++ *   desc: Decrements the available request slot counter in the context.
++ *     Slots are reclaimed when completion events are consumed from the ring
++ *     buffer via io_getevents().
++ *   reversible: yes
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE
++ *   target: ctx->active_reqs list
++ *   desc: Cancellable operations (reads, writes, polls) are added to the
++ *     context's active_reqs list, enabling cancellation via io_cancel().
++ *   condition: Operation supports cancellation
++ *   reversible: yes
++ *
++ * side-effect: KAPI_EFFECT_MODIFY_STATE
++ *   target: iocb->aio_key field
++ *   desc: The kernel writes KIOCB_KEY (0) to the aio_key field of each
++ *     submitted iocb in userspace memory. This marks the iocb as submitted
++ *     and is checked by io_cancel() to validate the iocb.
 + *   reversible: no
 + *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: mm->ioctx_table
-+ *   desc: Removes the context from the process's AIO context table by setting
-+ *     the corresponding table entry to NULL. After this, lookup_ioctx will
-+ *     no longer find this context.
++ *   target: file reference count
++ *   desc: Increments the reference count of the file descriptor's struct file
++ *     via fget() for each submitted operation. The reference is released
++ *     when the operation completes (via fput() in iocb_destroy()).
++ *   reversible: yes
++ *
++ * side-effect: KAPI_EFFECT_FILESYSTEM
++ *   target: target file(s)
++ *   desc: For write operations, the file content may be modified. For fsync
++ *     operations, dirty data is flushed to storage. The actual I/O may
++ *     complete synchronously or asynchronously depending on the filesystem.
++ *   condition: IOCB_CMD_PWRITE, IOCB_CMD_PWRITEV, IOCB_CMD_FSYNC, IOCB_CMD_FDSYNC
 + *   reversible: no
 + *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: aio_nr (global counter)
-+ *   desc: Decrements the system-wide AIO context counter by the context's
-+ *     max_reqs value (the nr_events originally passed to io_setup). This
-+ *     counter is visible via /proc/sys/fs/aio-nr.
++ * side-effect: KAPI_EFFECT_SCHEDULE
++ *   target: fsync work queue
++ *   desc: FSYNC and FDSYNC operations are scheduled to run on a workqueue
++ *     because vfs_fsync() can block. The operation runs asynchronously and
++ *     completion is signaled via the ring buffer.
++ *   condition: IOCB_CMD_FSYNC or IOCB_CMD_FDSYNC
 + *   reversible: no
 + *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: process virtual memory
-+ *   desc: Unmaps the ring buffer from the process's address space via
-+ *     vm_munmap(). The memory region at ctx becomes invalid.
-+ *   condition: ctx->mmap_size > 0
-+ *   reversible: no
++ * state-trans: iocb state
++ *   from: user-prepared iocb
++ *   to: submitted (aio_key set to KIOCB_KEY)
++ *   condition: successful submission of each iocb
++ *   desc: Each successfully submitted iocb transitions from user-prepared
++ *     state to submitted state, marked by the kernel writing KIOCB_KEY to
++ *     aio_key. The iocb remains in submitted state until completion.
 + *
-+ * side-effect: KAPI_EFFECT_FREE_MEMORY
-+ *   target: kioctx structure and associated resources
-+ *   desc: Frees the AIO context structure, percpu data, ring buffer pages, and
-+ *     the anonymous file backing the ring buffer. Deferred via RCU work queue
-+ *     to ensure safe cleanup after all references are dropped.
-+ *   reversible: no
++ * state-trans: AIO context slot availability
++ *   from: slots_available = N
++ *   to: slots_available = N - submitted_count
++ *   condition: successful submission
++ *   desc: Available slots in the context decrease by the number of successfully
++ *     submitted operations. Slots are reclaimed when io_getevents() consumes
++ *     completion events.
 + *
-+ * side-effect: KAPI_EFFECT_SIGNAL_SEND
-+ *   target: outstanding AIO operations
-+ *   desc: Cancels all outstanding asynchronous I/O operations by invoking their
-+ *     ki_cancel callbacks. The specific effect depends on the operation type
-+ *     (read, write, fsync, poll).
-+ *   condition: active_reqs list is not empty
-+ *   reversible: no
++ * capability: CAP_SYS_ADMIN
++ *   type: KAPI_CAP_GRANT_PERMISSION
++ *   allows: Use of IOPRIO_CLASS_RT (real-time I/O priority class)
++ *   without: Returns EPERM when attempting to use RT I/O priority
++ *   condition: IOCB_FLAG_IOPRIO set and aio_reqprio specifies IOPRIO_CLASS_RT
 + *
-+ * state-trans: AIO context state
-+ *   from: alive (ctx->dead == 0)
-+ *   to: dead (ctx->dead == 1)
-+ *   condition: successful atomic exchange in kill_ioctx
-+ *   desc: The context transitions from usable to destroyed. Once dead, the
-+ *     context cannot be used for any operations and will be freed after all
-+ *     references are dropped.
++ * capability: CAP_SYS_NICE
++ *   type: KAPI_CAP_GRANT_PERMISSION
++ *   allows: Use of IOPRIO_CLASS_RT (alternative to CAP_SYS_ADMIN)
++ *   without: Returns EPERM when attempting to use RT I/O priority
++ *   condition: IOCB_FLAG_IOPRIO set and aio_reqprio specifies IOPRIO_CLASS_RT
 + *
-+ * state-trans: process AIO state
-+ *   from: has AIO context(s)
-+ *   to: context removed (or no contexts)
-+ *   condition: successful io_destroy
-+ *   desc: The destroyed context is removed from the process's context table.
-+ *     If this was the only context, the process no longer has any active
-+ *     AIO contexts.
++ * constraint: Ring buffer slot availability
++ *   desc: There must be available slots in the completion ring buffer for
++ *     each operation to be submitted. If all slots are occupied by pending
++ *     completion events, submission fails with EAGAIN. The number of slots
++ *     is determined by nr_events passed to io_setup(), though internal
++ *     doubling means more slots may be available.
++ *   expr: available_slots >= 1 for each submission
 + *
-+ * state-trans: system AIO resources
-+ *   from: aio_nr = N
-+ *   to: aio_nr = N - max_reqs
-+ *   condition: successful io_destroy
-+ *   desc: System-wide AIO resource counter decreases, making room for other
-+ *     processes to create new AIO contexts.
++ * constraint: Valid file descriptor per iocb
++ *   desc: Each iocb must reference a valid, open file descriptor via
++ *     aio_fildes. The file must be opened with appropriate access mode
++ *     for the requested operation (read access for PREAD, write access
++ *     for PWRITE, etc.).
++ *
++ * constraint: File must support operation
++ *   desc: For read/write operations, the underlying file must implement
++ *     read_iter/write_iter file operations. For fsync, the file must
++ *     implement fsync. For poll, the file must support vfs_poll().
 + *
 + * constraint: CONFIG_AIO required
-+ *   desc: The kernel must be compiled with CONFIG_AIO=y for this syscall to be
-+ *     available. If not configured, the syscall returns -ENOSYS. This is
-+ *     typically enabled by default but may be disabled on embedded systems.
++ *   desc: The kernel must be compiled with CONFIG_AIO=y for this syscall
++ *     to be available. If not configured, returns -ENOSYS.
 + *
-+ * constraint: Context must belong to calling process
-+ *   desc: Each AIO context is bound to a specific process (mm_struct). A context
-+ *     created by one process cannot be destroyed by another process, even if
-+ *     the context handle value is somehow known.
-+ *   expr: ctx belongs to current->mm
++ * examples: struct iocb iocb, *iocbp = &iocb; io_submit(ctx, 1, &iocbp);
++ *   struct iocb iocbs[10], *ptrs[10]; io_submit(ctx, 10, ptrs);  // Batch submit
 + *
-+ * examples: io_destroy(ctx);  // Destroy context and wait for completion
-+ *   if (io_destroy(ctx) == -EINVAL) handle_error();  // Invalid context
++ * notes: Unlike traditional synchronous I/O, errors from io_submit() indicate
++ *   submission failures, not I/O errors. Actual I/O errors are reported via
++ *   the res field of struct io_event when retrieved via io_getevents().
 + *
-+ * notes: The man page documents EFAULT as a possible error, but code analysis
-+ *   shows that EFAULT conditions (e.g., invalid ring buffer pointer) actually
-+ *   result in EINVAL being returned, as lookup_ioctx returns NULL on any
-+ *   failure to access the ring buffer header.
++ *   The return value indicates how many iocbs were successfully submitted.
++ *   If this is less than nr, the application should check which operation
++ *   failed (it's the one at index = return_value) and handle the error.
++ *   Previously submitted operations in the batch are still queued.
 + *
-+ *   This syscall blocks in TASK_UNINTERRUPTIBLE state while waiting for
-+ *   outstanding I/O operations to complete. This means the process cannot be
-+ *   interrupted by signals during this wait. In extreme cases with very slow
-+ *   I/O devices, this could cause the process to appear hung.
++ *   For vectored operations (PREADV/PWRITEV), aio_buf points to an array
++ *   of struct iovec and aio_nbytes contains the iovec count. The maximum
++ *   iovec count is UIO_MAXIOV (1024).
 + *
-+ *   Historical note: Before kernel 3.11, io_destroy blocked waiting for I/O
-+ *   completion. A refactoring in 3.11 accidentally removed this behavior,
-+ *   creating a race where userspace buffers could be freed while the kernel
-+ *   was still using them. This was fixed by commit e02ba72aabfa that blocks
-+ *   io_destroy until all context requests are completed.
++ *   Block layer plugging is automatically enabled for batches larger than
++ *   2 operations, improving I/O merging and reducing per-I/O overhead.
 + *
-+ *   Race condition handling: A race between io_destroy and io_submit was fixed
-+ *   by commit 7137c6bd4552. A race between io_setup and io_destroy was fixed
-+ *   by commit 86b62a2cb4fc. Both fixes ensure proper synchronization via
-+ *   reference counting.
++ *   The COMPAT_SYSCALL variant handles 32-bit userspace on 64-bit kernels,
++ *   using compat_uptr_t for the iocbpp array elements.
 + *
-+ *   io_uring (since Linux 5.1) is a more modern alternative that provides better
-+ *   performance and more features. Consider using io_uring for new applications.
++ *   Historical note: commit d6b2615f7d31d ("aio: simplify - and fix - fget/fput
++ *   for io_submit()") fixed file descriptor reference counting issues. Earlier
++ *   kernels could leak file references on certain error paths.
 + *
-+ *   There is no glibc wrapper for this syscall. Use syscall(SYS_io_destroy, ctx)
-+ *   or the libaio library wrapper io_destroy(). Note: libaio has slightly
-+ *   different error semantics, returning negative error numbers directly instead
-+ *   of -1 with errno.
++ *   io_uring (since Linux 5.1) is a more modern and performant alternative.
++ *   Consider using io_uring_enter() for new applications requiring async I/O.
++ *
++ *   There is no glibc wrapper; use syscall(SYS_io_submit, ...) or the libaio
++ *   library. The libaio wrapper io_submit() returns negative error numbers
++ *   directly rather than returning -1 and setting errno.
 + *
 + * since-version: 2.5
   */
- SYSCALL_DEFINE1(io_destroy, aio_context_t, ctx)
- {
+ SYSCALL_DEFINE3(io_submit, aio_context_t, ctx_id, long, nr,
+ 		struct iocb __user * __user *, iocbpp)
 -- 
 2.51.0
 
