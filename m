@@ -1,44 +1,44 @@
-Return-Path: <linux-api+bounces-5560-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5561-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52488CCD8FD
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F3CCD906
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DDB443091CE3
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:43:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 743143030FF2
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:44:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1582FF144;
-	Thu, 18 Dec 2025 20:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E218303CB6;
+	Thu, 18 Dec 2025 20:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q7ihrVzC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTJZ/lw8"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8408D2FDC55;
-	Thu, 18 Dec 2025 20:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE182DC76E;
+	Thu, 18 Dec 2025 20:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090574; cv=none; b=UoQ0kQWui1uwxL8pESu5/yyFzO5kt+OH8ZIhXUnkt6VGMditDL7wIpt+v6c/D4MaGdrSEuGIHKnhulOFuXHr+VrJJgmuhZKXHBz/VVoEVO5Ff/QuuhMtfb6Jt6tDCy/E0GK7ObWAE85nK8n94gnYe1wXSlt+oqARfBPvKdO5SpU=
+	t=1766090575; cv=none; b=Ctc6PswLq8Nus8JqKE7fQwJDqbnZMRsAgN8Iodj4hwTQ+bJa1f9CDFAjETvO+Au3SrXBoQNAdgXrvITnf0fpRJHw2qYn4cuA12aX7LPnAC80ZbOQM0Tva4ZUNbF+oQiUUfUArDIwawM9ylrcJrbr/NA4oTGGo8fDTev8hhs2R34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090574; c=relaxed/simple;
-	bh=xlCNwYq6t1K/Oh4koGEQ7yQiu7YrMCTvErifTUwoWj8=;
+	s=arc-20240116; t=1766090575; c=relaxed/simple;
+	bh=zAaMAeb+vma2V6BMJ/mtlrX8goEiJYIzNdlfNY7U8Ww=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gtsU8uNTdpJb9wHWSsaVjWWiY6WADrCq9vWZR2g/hs9YtmLNRfm1Amv6eh81eJjfZe01jW6LOK+HcqtqY8R8/5U1o39SL+LzjYLZ9FJXHbq1a7BTuwrD27mOJEkBWKAm1DJ4wy/N/EgIbFSv1MDm6/1MCEs/gtcv8PHUF0hxtkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q7ihrVzC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD622C113D0;
-	Thu, 18 Dec 2025 20:42:53 +0000 (UTC)
+	 MIME-Version; b=SVfgSq34SL71AFXXIjags5vA2jlD2bkaQf3iIv9RYdGDRaoN+rU86xaBjbVgFvy92g6SWa50NaPEGxQst+aMitVOrnnIxEPfpAe/O6jRBt8FiGDq0egwFiJUQdR0lsLQkE/U10JYZb6Jt0TyYkDIfRY5PNTIdskzOA9X3qjAI/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTJZ/lw8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5ECCC16AAE;
+	Thu, 18 Dec 2025 20:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766090574;
-	bh=xlCNwYq6t1K/Oh4koGEQ7yQiu7YrMCTvErifTUwoWj8=;
+	s=k20201202; t=1766090575;
+	bh=zAaMAeb+vma2V6BMJ/mtlrX8goEiJYIzNdlfNY7U8Ww=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q7ihrVzCNwuIW9WK97CFNOhHYvkL9Gg0YHIC2Rzauaq5MUracAm5tT2GrjMczLPEQ
-	 sfLBmuT6v0OuH4aQuGyc9IWllluv8hnbo2+xpDuVCmOz79IK98QahlLULMGvFoV299
-	 O86BfysuZz8XLvYbwyYLyr6E9rriXJ3mDFzz7EP7t6+YgRT5TjvPmHEanQln6Bjwcr
-	 ZvTGfCelyZn+2Vk9qQfMZ6aobXhjQpDNkgS2GgoLjqyVp6SsD4HXyS2ADoEo3gVRHk
-	 13/LgvJzHnTm/GzJYwNlXx+crzXNAkSrJsdQdTT8XTb6zRtf9faSr64+0qgqgyBpDA
-	 ENwhDilrA9CkQ==
+	b=WTJZ/lw8rYIFpL9b9tkPKX213FV1bCRVLL+jHd9ImLjY2+Ny0T2ZYFHQowKRf6XBp
+	 C73uqLOOMexjugPzLwLBJkPBzgTW7z04Ald2jtglKkukLpruvtFYqJUTpFBO2Gvyao
+	 SUq4Jk1Z3vZt+fWkvbqQQWoS2hWnsii8Miu7waxREfHIohVLsZ++d+yioq6vqcXl9G
+	 aFnbnMyPVh+gbF5705BavUCXfsCkmDfJtkaomBWvoYRTJBpaqPgPB4384jnrQsx6hN
+	 ZL6KDFxZ4xF1/p0xUTeIy3zLW2T1rtgDBlIZyVRxppN20iZiiWEoGGMSphDHibIppU
+	 TRKMy8GlJfziw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -46,9 +46,9 @@ Cc: linux-doc@vger.kernel.org,
 	tools@kernel.org,
 	gpaoloni@redhat.com,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v5 09/15] kernel/api: add API specification for setxattr
-Date: Thu, 18 Dec 2025 15:42:31 -0500
-Message-ID: <20251218204239.4159453-10-sashal@kernel.org>
+Subject: [RFC PATCH v5 10/15] kernel/api: add API specification for lsetxattr
+Date: Thu, 18 Dec 2025 15:42:32 -0500
+Message-ID: <20251218204239.4159453-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251218204239.4159453-1-sashal@kernel.org>
 References: <20251218204239.4159453-1-sashal@kernel.org>
@@ -62,29 +62,33 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/xattr.c | 310 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 310 insertions(+)
+ fs/xattr.c | 327 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 327 insertions(+)
 
 diff --git a/fs/xattr.c b/fs/xattr.c
-index 32d445fb60aaf..02a946227129e 100644
+index 02a946227129e..466dcaf7ba83e 100644
 --- a/fs/xattr.c
 +++ b/fs/xattr.c
-@@ -740,6 +740,316 @@ SYSCALL_DEFINE6(setxattrat, int, dfd, const char __user *, pathname, unsigned in
- 			       args.flags);
+@@ -1057,6 +1057,333 @@ SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
+ 	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags);
  }
  
 +/**
-+ * sys_setxattr - Set an extended attribute value on a file
-+ * @pathname: Path to the file on which to set the extended attribute
++ * sys_lsetxattr - Set an extended attribute value on a symbolic link
++ * @pathname: Path to the file or symbolic link on which to set the attribute
 + * @name: Null-terminated name of the extended attribute (includes namespace prefix)
 + * @value: Buffer containing the attribute value to set
 + * @size: Size of the value buffer in bytes
 + * @flags: Flags controlling attribute creation/replacement behavior
 + *
 + * long-desc: Sets the value of an extended attribute identified by name on
-+ *   the file specified by pathname. Extended attributes are name:value pairs
-+ *   associated with inodes (files, directories, symbolic links, etc.) that
-+ *   extend the normal attributes (stat data) associated with all inodes.
++ *   the file specified by pathname. Unlike setxattr(), this syscall does not
++ *   follow symbolic links - if pathname refers to a symbolic link, the
++ *   extended attribute is set on the link itself, not on the file it refers to.
++ *
++ *   Extended attributes are name:value pairs associated with inodes (files,
++ *   directories, symbolic links, etc.) that extend the normal attributes
++ *   (stat data) associated with all inodes.
 + *
 + *   The attribute name must include a namespace prefix. Valid namespaces are:
 + *   - "user." - User-defined attributes (regular files and directories only)
@@ -96,8 +100,9 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   permitted and creates an attribute with an empty value (different from
 + *   removing the attribute).
 + *
-+ *   This syscall follows symbolic links. Use lsetxattr() to operate on the
-+ *   symbolic link itself, or fsetxattr() to operate on an open file descriptor.
++ *   Note that not all filesystems support extended attributes on symbolic links.
++ *   Additionally, the user.* namespace is not available on symbolic links since
++ *   they are not regular files or directories.
 + *
 + * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
 + *
@@ -106,9 +111,10 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
 + *   constraint-type: KAPI_CONSTRAINT_USER_PATH
 + *   constraint: Must be a valid null-terminated path string in user memory.
-+ *     The path is resolved following symbolic links. Maximum path length is
-+ *     PATH_MAX (4096 bytes). The file must exist and the caller must have
-+ *     appropriate permissions.
++ *     The path is resolved WITHOUT following symbolic links - if the final
++ *     component is a symbolic link, the operation applies to the link itself.
++ *     Maximum path length is PATH_MAX (4096 bytes). The file or link must
++ *     exist and the caller must have appropriate permissions.
 + *
 + * param: name
 + *   type: KAPI_TYPE_USER_PTR
@@ -116,9 +122,10 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   constraint-type: KAPI_CONSTRAINT_USER_STRING
 + *   range: 1, 255
 + *   constraint: Must be a valid null-terminated string in user memory containing
-+ *     the extended attribute name with namespace prefix (e.g., "user.myattr").
++ *     the extended attribute name with namespace prefix (e.g., "security.selinux").
 + *     The name (including prefix) must be between 1 and XATTR_NAME_MAX (255)
-+ *     characters. An empty name returns ERANGE.
++ *     characters. An empty name returns ERANGE. Note that user.* namespace is
++ *     not supported on symbolic links.
 + *
 + * param: value
 + *   type: KAPI_TYPE_USER_PTR
@@ -154,11 +161,12 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   check-type: KAPI_RETURN_ERROR_CHECK
 + *   success: 0
 + *   desc: Returns 0 on success. The extended attribute is set with the specified
-+ *     value. Any previous value for the attribute is replaced.
++ *     value on the symbolic link itself. Any previous value for the attribute
++ *     is replaced.
 + *
-+ * error: ENOENT, File not found
-+ *   desc: The file specified by pathname does not exist, or a directory component
-+ *     in the path does not exist. Returned from path lookup (filename_lookup).
++ * error: ENOENT, File or symlink not found
++ *   desc: The file or symbolic link specified by pathname does not exist, or a
++ *     directory component in the path does not exist. Returned from path lookup.
 + *
 + * error: EACCES, Permission denied
 + *   desc: Permission denied during path resolution (search permission on a directory
@@ -171,15 +179,15 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     namespace (except security.capability), caller lacks CAP_SYS_ADMIN.
 + *     (4) For user.* namespace on sticky directories, caller is not the owner
 + *     and lacks CAP_FOWNER. (5) The inode has an unmapped ID in an idmapped mount.
++ *     (6) Attempting to set user.* namespace on a symbolic link (not supported).
 + *
 + * error: ENODATA, Attribute not found
 + *   desc: XATTR_REPLACE was specified but the named attribute does not exist on
-+ *     the file. Also returned when reading trusted.* without CAP_SYS_ADMIN (for
-+ *     read operations, but included here for completeness with the flag).
++ *     the symbolic link.
 + *
 + * error: EEXIST, Attribute already exists
 + *   desc: XATTR_CREATE was specified but the named attribute already exists on
-+ *     the file.
++ *     the symbolic link.
 + *
 + * error: ERANGE, Name out of range
 + *   desc: The attribute name is empty (zero length) or exceeds XATTR_NAME_MAX
@@ -205,14 +213,14 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     (cap_convert_nscap allocates memory for v3 capability format).
 + *
 + * error: EOPNOTSUPP, Operation not supported
-+ *   desc: The filesystem does not support extended attributes (IOP_XATTR not set),
++ *   desc: The filesystem does not support extended attributes on symbolic links,
 + *     or no xattr handler exists for the given namespace prefix, or the handler
-+ *     does not implement the set operation. Also returned for POSIX ACL xattrs
-+ *     (system.posix_acl_*) when CONFIG_FS_POSIX_ACL is disabled.
++ *     does not implement the set operation. Many filesystems do not support
++ *     setting xattrs on symbolic links.
 + *
 + * error: EROFS, Read-only filesystem
-+ *   desc: The filesystem containing the file is mounted read-only. Returned from
-+ *     mnt_want_write() before attempting any modification.
++ *   desc: The filesystem containing the symbolic link is mounted read-only.
++ *     Returned from mnt_want_write() before attempting any modification.
 + *
 + * error: EIO, I/O error
 + *   desc: The inode is marked as bad (is_bad_inode), indicating filesystem
@@ -228,8 +236,9 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     Filesystem-specific error from handler's set operation.
 + *
 + * error: ELOOP, Too many symbolic links
-+ *   desc: Too many symbolic links were encountered during path resolution
-+ *     (more than MAXSYMLINKS, typically 40).
++ *   desc: Too many symbolic links were encountered during path resolution of
++ *     directory components (more than MAXSYMLINKS, typically 40). Note that the
++ *     final component (the target of the operation) is not followed.
 + *
 + * error: ENAMETOOLONG, Filename too long
 + *   desc: The pathname or a component of the pathname exceeds the system limit
@@ -244,18 +253,24 @@ index 32d445fb60aaf..02a946227129e 100644
 + *
 + * lock: inode->i_rwsem
 + *   type: KAPI_LOCK_MUTEX
++ *   acquired: true
++ *   released: true
 + *   desc: The inode's read-write semaphore is acquired exclusively via inode_lock()
 + *     before calling __vfs_setxattr_locked() and released via inode_unlock() after.
 + *     This serializes concurrent xattr modifications on the same inode.
 + *
 + * lock: sb->s_writers (superblock freeze protection)
 + *   type: KAPI_LOCK_SEMAPHORE
++ *   acquired: true
++ *   released: true
 + *   desc: Write access to the mount is acquired via mnt_want_write() which calls
 + *     sb_start_write(). This prevents filesystem freeze during the operation.
 + *     Released via mnt_drop_write() after the operation completes.
 + *
 + * lock: file_rwsem (delegation breaking)
 + *   type: KAPI_LOCK_SEMAPHORE
++ *   acquired: true
++ *   released: true
 + *   desc: If the file has NFSv4 delegations, the percpu file_rwsem is acquired
 + *     during delegation breaking in __break_lease(). The syscall may wait for
 + *     delegation holders to acknowledge the break.
@@ -279,10 +294,10 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   reversible: yes
 + *
 + * side-effect: KAPI_EFFECT_FILESYSTEM
-+ *   target: File's extended attributes
-+ *   desc: On success, the specified extended attribute is created or modified.
-+ *     The change is typically persisted to storage synchronously or asynchronously
-+ *     depending on filesystem and mount options.
++ *   target: Symbolic link's extended attributes
++ *   desc: On success, the specified extended attribute is created or modified
++ *     on the symbolic link itself. The change is typically persisted to storage
++ *     synchronously or asynchronously depending on filesystem and mount options.
 + *   reversible: yes
 + *   condition: Operation succeeds
 + *
@@ -305,9 +320,10 @@ index 32d445fb60aaf..02a946227129e 100644
 + *   from: nonexistent or has old value
 + *   to: has new value
 + *   condition: Operation succeeds with flags=0 or appropriate flags
-+ *   desc: The extended attribute transitions from not existing (or having its
-+ *     previous value) to containing the new value. With XATTR_CREATE, the
-+ *     attribute must not exist beforehand. With XATTR_REPLACE, it must exist.
++ *   desc: The extended attribute on the symbolic link transitions from not
++ *     existing (or having its previous value) to containing the new value.
++ *     With XATTR_CREATE, the attribute must not exist beforehand. With
++ *     XATTR_REPLACE, it must exist.
 + *
 + * capability: CAP_SYS_ADMIN
 + *   type: KAPI_CAP_GRANT_PERMISSION
@@ -332,11 +348,11 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     directories without this capability
 + *   condition: Setting user.* namespace attribute on a file in a sticky directory
 + *
-+ * constraint: Filesystem support
-+ *   desc: The filesystem must support extended attributes (have IOP_XATTR flag
-+ *     set and provide xattr handlers). Common filesystems supporting xattrs
-+ *     include ext4, XFS, Btrfs, and tmpfs. Some filesystems (e.g., FAT, older
-+ *     ext2) do not support extended attributes.
++ * constraint: Filesystem support for symlinks
++ *   desc: Not all filesystems support extended attributes on symbolic links.
++ *     Some filesystems (like ext4) may only support certain xattr namespaces
++ *     on symlinks. The user.* namespace is explicitly not supported on symbolic
++ *     links since they are not regular files or directories.
 + *
 + * constraint: Filesystem-specific size limits
 + *   desc: While the VFS limit is 64KB (XATTR_SIZE_MAX), filesystems may impose
@@ -344,10 +360,11 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     in a single filesystem block (typically 4KB). XFS and ReiserFS support
 + *     the full 64KB. Exceeding filesystem limits returns ENOSPC or E2BIG.
 + *
-+ * constraint: user.* namespace restrictions
++ * constraint: user.* namespace restrictions on symlinks
 + *   desc: The user.* namespace is only supported on regular files and directories.
-+ *     Attempting to set user.* attributes on other file types (symlinks, devices,
-+ *     sockets, FIFOs) returns EPERM (for write) or ENODATA (for read).
++ *     Attempting to set user.* attributes on symbolic links returns EPERM.
++ *     This is because user.* xattrs have permission semantics that don't apply
++ *     to symbolic links which anyone can follow.
 + *
 + * constraint: LSM checks
 + *   desc: Linux Security Modules (SELinux, Smack, AppArmor) may impose additional
@@ -355,35 +372,35 @@ index 32d445fb60aaf..02a946227129e 100644
 + *     error codes depending on the security policy. The LSM is called after
 + *     permission checks but before the actual xattr modification.
 + *
-+ * examples: setxattr("/path/file", "user.comment", "test", 4, 0);  // Set user attr
-+ *   setxattr("/path/file", "user.new", "val", 3, XATTR_CREATE);  // Create only
-+ *   setxattr("/path/file", "user.existing", "new", 3, XATTR_REPLACE);  // Replace
++ * examples: lsetxattr("/path/symlink", "security.selinux", ctx, len, 0);  // Set SELinux context on link
++ *   lsetxattr("/path/symlink", "trusted.overlay.opaque", "y", 1, XATTR_CREATE);  // Set overlay attr
 + *
-+ * notes: Extended attributes provide a way to associate arbitrary metadata with
-+ *   files beyond the standard stat attributes. They are commonly used for:
-+ *   - SELinux security contexts (security.selinux)
-+ *   - File capabilities (security.capability)
-+ *   - POSIX ACLs (system.posix_acl_access, system.posix_acl_default)
-+ *   - User-defined metadata (user.* namespace)
++ * notes: This syscall is primarily used for security labeling of symbolic links
++ *   themselves (as opposed to their targets). Common use cases include:
++ *   - SELinux security contexts on symbolic links (security.selinux)
++ *   - Overlay filesystem metadata (trusted.overlay.*)
++ *   - IMA/EVM integrity metadata (security.ima, security.evm)
 + *
-+ *   The trusted.* namespace is designed for use by privileged processes to store
-+ *   data that should not be accessible to unprivileged users (e.g., during
-+ *   backup/restore operations).
++ *   Unlike regular files and directories, symbolic links do not support the
++ *   user.* xattr namespace. This is because user.* xattrs require ownership
++ *   or capability checks that don't make sense for symlinks which can be
++ *   followed by anyone with directory access.
++ *
++ *   The trusted.* namespace on symbolic links requires CAP_SYS_ADMIN and is
++ *   commonly used by overlay filesystems to store metadata about redirected
++ *   or opaque directories.
 + *
 + *   NFSv4 delegation support means this syscall may need to wait for remote
 + *   clients to release their delegations before the operation can complete.
-+ *   This can introduce unbounded delays in pathological cases.
 + *
-+ *   For security.capability specifically, the kernel may convert between v2
-+ *   (non-namespaced) and v3 (namespaced) capability formats depending on the
-+ *   filesystem's user namespace and caller's capabilities.
-+ *
-+ *   The setxattrat() syscall (added in Linux 6.17) provides more flexibility
-+ *   with AT_FDCWD and AT_* flags for specifying the file location.
++ *   This syscall was introduced alongside setxattr(), fsetxattr(), and the
++ *   corresponding get/list/remove variants in Linux 2.4 to provide the
++ *   non-following behavior needed for backup/restore tools and security
++ *   labeling of links.
 + *
 + * since-version: 2.4
 + */
- SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
+ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
  		const char __user *, name, const void __user *, value,
  		size_t, size, int, flags)
 -- 
