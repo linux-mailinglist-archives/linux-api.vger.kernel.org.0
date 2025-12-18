@@ -1,404 +1,341 @@
-Return-Path: <linux-api+bounces-5537-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5538-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64FECCA4C0
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 06:17:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03660CCAF9E
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 09:44:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 75195301FC38
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 05:17:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D33C430FDB4E
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 08:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FC3D2FC004;
-	Thu, 18 Dec 2025 05:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948DB2ECD32;
+	Thu, 18 Dec 2025 08:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Enz99r65"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7lDn6wp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C4E18B0F;
-	Thu, 18 Dec 2025 05:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA082F1FFA;
+	Thu, 18 Dec 2025 08:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766035041; cv=none; b=Xx8gXapjG3fX32PCNUQDgYZGRUTPUHEqAgdaHJf7EBTlGNykhHQJO+9UwfzHa7MRxx0MJWqSum9hZDHjLPYDHHM7xZgU7UVCWopZHOIsWYi57XICHrrNGhzdsGR5To8aiMJKL8DP38jFUiilpF66+NB5zQLNWW8KraQ18wWjst8=
+	t=1766045575; cv=none; b=JcA8AKAXOn2lnhPvdCUnyDE7+NPP87WNk9xXankGMHiOXFUvvMaZ0Jh4V6IBDCS1xs7qJUx9OkxYHZQAS78fD0OQVpCw6YisEJ6hDrcE/uCsi3Z7szI8a9+Zqxsm8/a5gSDKZu7i8Xqly93rCYC7F7Tze4g0sXPj+aJkkrL94w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766035041; c=relaxed/simple;
-	bh=/6QXAGIURpv2Nh2mYCEAy3CsdaGtWLbSAIpwtRV6dTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mcQ8HRQdCWu6ahj8uH0efRhtKi5Ey9bEc2lcrhStb6qtpd4uFIVs5YAKtV6W8z8a5BYob2EIJoJ6Ze8BXSsLrmxw10KSnITL6C7ht8W07HDi4UuaeLnhBdQuTtFfx+CYfOnK33k9uWURZ8g5ALHaVbtwjTKh9NlYPrP0H/SJ+WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Enz99r65; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ywGqXo3KnkhaaWWbXkrkr+rF0feJrXkyNkz8h39qvxE=; b=Enz99r65ai04gcWCJI0SAfHVxR
-	7M8BEntt68wvOQgwvKAChmIRJeOmDiy5FjValL5dqEZKqHWCdAiBLN8ktbkrHacRWnPs1OM71jWV3
-	IiTTwLHGtFdhkn5AZAZ+IWKfM0Hkj/p2TA8hEfxX7oyvvuHaq9Wr/OeOEGMKnc0oKG2q8BMgp+AWR
-	BvNTTU1AYCUYQHluNup6fKPffT6bn8Tjh8M5az4k77KikXwFyJNmwMOGPP/5y8Bl2pIHdCR3aGCRI
-	l9o4t33634qpRdULCng4q19L1IK2YaJRA8J9keho+LB1WDwN/EYP9QdIOStcsZhooV5yicQucR3Cp
-	TCkU7fuQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vW6O3-00000007oyU-3pxc;
-	Thu, 18 Dec 2025 05:17:15 +0000
-Date: Wed, 17 Dec 2025 21:17:15 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-ext4@vger.kernel.org, jack@suse.cz, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, gabriel@krisman.be,
-	amir73il@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/6] uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
-Message-ID: <aUOOW9z3K5ff-531@infradead.org>
-References: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
- <176602332146.686273.6355079912638580915.stgit@frogsfrogsfrogs>
+	s=arc-20240116; t=1766045575; c=relaxed/simple;
+	bh=8qRRpC4M0JMTK3/GPa/3kMzJEJIjaNQLxz7IWHNCfok=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KvSgu7Br0HSJi7WZm5Aa54iX7AYnKaHKRBxC5BbChTvjnsh87hIenS3QE28z/Y1yR6VuzLTa02njDmWxKpxyMv2CIBPWcYkFlo/83cnlw35R81uMt5cQh4EtkwdjDTHx38VlR0+qHMgJ8EMywWyH7mol+7BXYUwyCS/ScrM/5Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7lDn6wp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAAD0C4CEFB;
+	Thu, 18 Dec 2025 08:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766045574;
+	bh=8qRRpC4M0JMTK3/GPa/3kMzJEJIjaNQLxz7IWHNCfok=;
+	h=From:Subject:Date:To:Cc:From;
+	b=e7lDn6wpB/EMn1FGeiN2/D1BT9u/di8hIKgOa0o3P9449fpv7KtMU+fZjC5trfgEl
+	 4F97rp9uuME9WmUdu7caihDCM/3ssEio+yHU1tyioFxdPlF+Eg0k6mVbKjHKxC4EtI
+	 z4j9aBy3e/+YHLbbFbNErvlrZmdigr0t0ugOLdJCBJ1k6DEnqSiMH6M4t/J2tK2t8V
+	 E1yaex0aaRprmpPQbokNmiIzBIYSm99hTmdBKLMpfG72apjJ3tavs1AgX2yj5Fz6AN
+	 zwyDUpfvPBNzd0OHOgfDPHgcc2pDMUVokB+gOlv677lLJgFkpc83nXaogLq1at4k0q
+	 xGaqJIZgk+61g==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v23 0/8] fork: Support shadow stacks in clone3()
+Date: Thu, 18 Dec 2025 08:10:05 +0000
+Message-Id: <20251218-clone3-shadow-stack-v23-0-7cb318fbb385@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <176602332146.686273.6355079912638580915.stgit@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN22Q2kC/3XVS27bMBCA4asEWlcFZ/gYTle9R9EFH8PESGAXU
+ uC2CHz3kkZrqaC4lAB/Go1+yR/TKstJ1unL08e0yPW0ni7neoD609OUXsL5WeZTricmVKhBAc/
+ p7XIWPa8vIV9+zut7SK8z2GxUxlisdlP95Y9FyunXnf32vR6/nNb3y/L7fpUrtLN/PdSH3hVmN
+ WfvKKtY6ay+vspylrfPl+V5auAVNwTAHCNYkehAF+88gLUdoncIqmNEVyRQ9JK1YEipQ8we8ce
+ IqYiP6EsRUxy5DrH/EKNQDXZiK6IRk2PLXkzsELchbrRYVxEWIfI6QoncIbQhpOEYobYTthpFY
+ omQO8RviFeDnfiKqJCKphQKmH6xvEMG3V253Y7DTKYwG2c6BNROwcH9gGqzOPHEFNmYvhR4RGt
+ AKTtgWrUYXMCYXXYWegZ3zGi70Lol8FqijyJAPaM3ZpgLtHJZR8/BQ7DSPyV4pGtrdW7A3NtVN
+ lodCumDYsBujBk9bbjXWwIam5zoKD3jdgyMpmn9YimJU9AM1L8EQBvj1CAbaAV7b5RkplJc6Rm
+ /MaRwwLSGiZ2tnz7HJh9MwxszjBhaxTGxJUXWEPcMqo3h0TTYKjaZSymQrJa+G4QdM1oxtooZl
+ GFtkRTonnlUbOs/wuBlwFZx8MnnoOoXGv+f5na7/QE3W0pGewYAAA==
+X-Change-ID: 20231019-clone3-shadow-stack-15d40d2bf536
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, "H.J. Lu" <hjl.tools@gmail.com>, 
+ Florian Weimer <fweimer@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Yury Khrustalev <yury.khrustalev@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, 
+ Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, 
+ Wilco Dijkstra <wilco.dijkstra@arm.com>, 
+ CarlosO'Donell <codonell@redhat.com>, Florian Weimer <fweimer@redhat.com>, 
+ Rich Felker <dalias@libc.org>, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Kees Cook <kees@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11499; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=8qRRpC4M0JMTK3/GPa/3kMzJEJIjaNQLxz7IWHNCfok=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpQ7d5/53yEG63usyP8j+s8EO6cOmH0QMj9Ghva
+ 3QkdOTjixCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaUO3eQAKCRAk1otyXVSH
+ 0BpLB/42V8/gqwWbg8fFM8hBDQLRUzFEcYM/FtYNwFnrAarQny3fF6PhGYQBC0f+1SMXRTtLZkv
+ sVcxdPDvffAKqCBZBreiQcVVzctcgejNrO+eAVtLO1HgzTf3rpJVv/cio0OuP9K1PuuziVi9qT6
+ JUZ9T2ACvaNyVXpbijTdW5VmSJbJh6GAOQqMPiLAe2/L3QPywgzTYxNvryRxlwtP4dYMsLLlFC2
+ ZjcNjCnUvvGCy8nsM0lZjT9wLbSkjYPvu/LTA6NCKVtlLwyuM6sDJIL3La2+8+uciroU1vMC9Uf
+ qu1zr4Ol7oXBBHmGTKnIfYQXfy68L87tZnZzHiGCafoSeS3R
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, Dec 17, 2025 at 06:02:56PM -0800, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Stop definining these privately and instead move them to the uapi
-> errno.h so that they become canonical instead of copy pasta.
+At this point I think everyone in the on the kernel side is happy with
+this but there were some questions from the glibc side about the value
+of controlling the shadow stack placement and size, especially with the
+current inability to reuse the shadow stack for an exited thread.  With
+support for reuse it would be possible to have a cache of shadow stacks
+as is currently supported for the normal stack.
 
-Sounds fine:
+Since the discussion petered out I'm resending this in order to give
+people something work with while prototyping.  It should be possible to
+prototype any potential kernel features to help build out shadow stack
+support in userspace by enabling shadow stack writes, as suggested by
+Rick Edgecombe this may end up being required anyway for supporting more
+exotic scenarios.  On all current architectures with the feature writes
+to shadow stack require specific instructions so there are still
+security benefits even with writes enabled.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I did send a change implementing a feature writing a token on thread
+exit to allow reuse:
 
-Do we need to document these overlay errnos in the man man pages,
-though?
+   https://lore.kernel.org/r/20250921-arm64-gcs-exit-token-v1-0-45cf64e648d5@kernel.org
 
-> 
-> Cc: linux-api@vger.kernel.org
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  arch/alpha/include/uapi/asm/errno.h        |    2 ++
->  arch/mips/include/uapi/asm/errno.h         |    2 ++
->  arch/parisc/include/uapi/asm/errno.h       |    2 ++
->  arch/sparc/include/uapi/asm/errno.h        |    2 ++
->  fs/erofs/internal.h                        |    2 --
->  fs/ext2/ext2.h                             |    1 -
->  fs/ext4/ext4.h                             |    3 ---
->  fs/f2fs/f2fs.h                             |    3 ---
->  fs/minix/minix.h                           |    2 --
->  fs/udf/udf_sb.h                            |    2 --
->  fs/xfs/xfs_linux.h                         |    2 --
->  include/linux/jbd2.h                       |    3 ---
->  include/uapi/asm-generic/errno.h           |    2 ++
->  tools/arch/alpha/include/uapi/asm/errno.h  |    2 ++
->  tools/arch/mips/include/uapi/asm/errno.h   |    2 ++
->  tools/arch/parisc/include/uapi/asm/errno.h |    2 ++
->  tools/arch/sparc/include/uapi/asm/errno.h  |    2 ++
->  tools/include/uapi/asm-generic/errno.h     |    2 ++
->  18 files changed, 20 insertions(+), 18 deletions(-)
-> 
-> 
-> diff --git a/arch/alpha/include/uapi/asm/errno.h b/arch/alpha/include/uapi/asm/errno.h
-> index 3d265f6babaf0a..6791f6508632ee 100644
-> --- a/arch/alpha/include/uapi/asm/errno.h
-> +++ b/arch/alpha/include/uapi/asm/errno.h
-> @@ -55,6 +55,7 @@
->  #define	ENOSR		82	/* Out of streams resources */
->  #define	ETIME		83	/* Timer expired */
->  #define	EBADMSG		84	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EPROTO		85	/* Protocol error */
->  #define	ENODATA		86	/* No data available */
->  #define	ENOSTR		87	/* Device not a stream */
-> @@ -96,6 +97,7 @@
->  #define	EREMCHG		115	/* Remote address changed */
->  
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> diff --git a/arch/mips/include/uapi/asm/errno.h b/arch/mips/include/uapi/asm/errno.h
-> index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
-> --- a/arch/mips/include/uapi/asm/errno.h
-> +++ b/arch/mips/include/uapi/asm/errno.h
-> @@ -50,6 +50,7 @@
->  #define EDOTDOT		73	/* RFS specific error */
->  #define EMULTIHOP	74	/* Multihop attempted */
->  #define EBADMSG		77	/* Not a data message */
-> +#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define ENAMETOOLONG	78	/* File name too long */
->  #define EOVERFLOW	79	/* Value too large for defined data type */
->  #define ENOTUNIQ	80	/* Name not unique on network */
-> @@ -88,6 +89,7 @@
->  #define EISCONN		133	/* Transport endpoint is already connected */
->  #define ENOTCONN	134	/* Transport endpoint is not connected */
->  #define EUCLEAN		135	/* Structure needs cleaning */
-> +#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define ENOTNAM		137	/* Not a XENIX named type file */
->  #define ENAVAIL		138	/* No XENIX semaphores available */
->  #define EISNAM		139	/* Is a named type file */
-> diff --git a/arch/parisc/include/uapi/asm/errno.h b/arch/parisc/include/uapi/asm/errno.h
-> index 8d94739d75c67c..8cbc07c1903e4c 100644
-> --- a/arch/parisc/include/uapi/asm/errno.h
-> +++ b/arch/parisc/include/uapi/asm/errno.h
-> @@ -36,6 +36,7 @@
->  
->  #define	EDOTDOT		66	/* RFS specific error */
->  #define	EBADMSG		67	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EUSERS		68	/* Too many users */
->  #define	EDQUOT		69	/* Quota exceeded */
->  #define	ESTALE		70	/* Stale file handle */
-> @@ -62,6 +63,7 @@
->  #define	ERESTART	175	/* Interrupted system call should be restarted */
->  #define	ESTRPIPE	176	/* Streams pipe error */
->  #define	EUCLEAN		177	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		178	/* Not a XENIX named type file */
->  #define	ENAVAIL		179	/* No XENIX semaphores available */
->  #define	EISNAM		180	/* Is a named type file */
-> diff --git a/arch/sparc/include/uapi/asm/errno.h b/arch/sparc/include/uapi/asm/errno.h
-> index 81a732b902ee38..4a41e7835fd5b8 100644
-> --- a/arch/sparc/include/uapi/asm/errno.h
-> +++ b/arch/sparc/include/uapi/asm/errno.h
-> @@ -48,6 +48,7 @@
->  #define	ENOSR		74	/* Out of streams resources */
->  #define	ENOMSG		75	/* No message of desired type */
->  #define	EBADMSG		76	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EIDRM		77	/* Identifier removed */
->  #define	EDEADLK		78	/* Resource deadlock would occur */
->  #define	ENOLCK		79	/* No record locks available */
-> @@ -91,6 +92,7 @@
->  #define	ENOTUNIQ	115	/* Name not unique on network */
->  #define	ERESTART	116	/* Interrupted syscall should be restarted */
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
-> index f7f622836198da..d06e99baf5d5ae 100644
-> --- a/fs/erofs/internal.h
-> +++ b/fs/erofs/internal.h
-> @@ -541,6 +541,4 @@ long erofs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
->  long erofs_compat_ioctl(struct file *filp, unsigned int cmd,
->  			unsigned long arg);
->  
-> -#define EFSCORRUPTED    EUCLEAN         /* Filesystem is corrupted */
-> -
->  #endif	/* __EROFS_INTERNAL_H */
-> diff --git a/fs/ext2/ext2.h b/fs/ext2/ext2.h
-> index cf97b76e9fd3e9..5e0c6c5fcb6cd6 100644
-> --- a/fs/ext2/ext2.h
-> +++ b/fs/ext2/ext2.h
-> @@ -357,7 +357,6 @@ struct ext2_inode {
->   */
->  #define	EXT2_VALID_FS			0x0001	/* Unmounted cleanly */
->  #define	EXT2_ERROR_FS			0x0002	/* Errors detected */
-> -#define	EFSCORRUPTED			EUCLEAN	/* Filesystem is corrupted */
->  
->  /*
->   * Mount flags
-> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> index 56112f201cace7..62c091b52bacdf 100644
-> --- a/fs/ext4/ext4.h
-> +++ b/fs/ext4/ext4.h
-> @@ -3938,7 +3938,4 @@ extern int ext4_block_write_begin(handle_t *handle, struct folio *folio,
->  				  get_block_t *get_block);
->  #endif	/* __KERNEL__ */
->  
-> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
-> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
-> -
->  #endif	/* _EXT4_H */
-> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> index 20edbb99b814a7..9f3aa3c7f12613 100644
-> --- a/fs/f2fs/f2fs.h
-> +++ b/fs/f2fs/f2fs.h
-> @@ -5004,7 +5004,4 @@ static inline void f2fs_invalidate_internal_cache(struct f2fs_sb_info *sbi,
->  	f2fs_invalidate_compress_pages_range(sbi, blkaddr, len);
->  }
->  
-> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
-> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
-> -
->  #endif /* _LINUX_F2FS_H */
-> diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-> index 2bfaf377f2086c..7e1f652f16d311 100644
-> --- a/fs/minix/minix.h
-> +++ b/fs/minix/minix.h
-> @@ -175,6 +175,4 @@ static inline int minix_test_bit(int nr, const void *vaddr)
->  	__minix_error_inode((inode), __func__, __LINE__,	\
->  			    (fmt), ##__VA_ARGS__)
->  
-> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
-> -
->  #endif /* FS_MINIX_H */
-> diff --git a/fs/udf/udf_sb.h b/fs/udf/udf_sb.h
-> index 08ec8756b9487b..8399accc788dea 100644
-> --- a/fs/udf/udf_sb.h
-> +++ b/fs/udf/udf_sb.h
-> @@ -55,8 +55,6 @@
->  #define MF_DUPLICATE_MD		0x01
->  #define MF_MIRROR_FE_LOADED	0x02
->  
-> -#define EFSCORRUPTED EUCLEAN
-> -
->  struct udf_meta_data {
->  	__u32	s_meta_file_loc;
->  	__u32	s_mirror_file_loc;
-> diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
-> index 4dd747bdbccab2..55064228c4d574 100644
-> --- a/fs/xfs/xfs_linux.h
-> +++ b/fs/xfs/xfs_linux.h
-> @@ -121,8 +121,6 @@ typedef __u32			xfs_nlink_t;
->  
->  #define ENOATTR		ENODATA		/* Attribute not found */
->  #define EWRONGFS	EINVAL		/* Mount with wrong filesystem type */
-> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
-> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
->  
->  #define __return_address __builtin_return_address(0)
->  
-> diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-> index f5eaf76198f377..a53a00d36228ce 100644
-> --- a/include/linux/jbd2.h
-> +++ b/include/linux/jbd2.h
-> @@ -1815,7 +1815,4 @@ static inline int jbd2_handle_buffer_credits(handle_t *handle)
->  
->  #endif	/* __KERNEL__ */
->  
-> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
-> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
-> -
->  #endif	/* _LINUX_JBD2_H */
-> diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
-> index cf9c51ac49f97e..92e7ae493ee315 100644
-> --- a/include/uapi/asm-generic/errno.h
-> +++ b/include/uapi/asm-generic/errno.h
-> @@ -55,6 +55,7 @@
->  #define	EMULTIHOP	72	/* Multihop attempted */
->  #define	EDOTDOT		73	/* RFS specific error */
->  #define	EBADMSG		74	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EOVERFLOW	75	/* Value too large for defined data type */
->  #define	ENOTUNIQ	76	/* Name not unique on network */
->  #define	EBADFD		77	/* File descriptor in bad state */
-> @@ -98,6 +99,7 @@
->  #define	EINPROGRESS	115	/* Operation now in progress */
->  #define	ESTALE		116	/* Stale file handle */
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> diff --git a/tools/arch/alpha/include/uapi/asm/errno.h b/tools/arch/alpha/include/uapi/asm/errno.h
-> index 3d265f6babaf0a..6791f6508632ee 100644
-> --- a/tools/arch/alpha/include/uapi/asm/errno.h
-> +++ b/tools/arch/alpha/include/uapi/asm/errno.h
-> @@ -55,6 +55,7 @@
->  #define	ENOSR		82	/* Out of streams resources */
->  #define	ETIME		83	/* Timer expired */
->  #define	EBADMSG		84	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EPROTO		85	/* Protocol error */
->  #define	ENODATA		86	/* No data available */
->  #define	ENOSTR		87	/* Device not a stream */
-> @@ -96,6 +97,7 @@
->  #define	EREMCHG		115	/* Remote address changed */
->  
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> diff --git a/tools/arch/mips/include/uapi/asm/errno.h b/tools/arch/mips/include/uapi/asm/errno.h
-> index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
-> --- a/tools/arch/mips/include/uapi/asm/errno.h
-> +++ b/tools/arch/mips/include/uapi/asm/errno.h
-> @@ -50,6 +50,7 @@
->  #define EDOTDOT		73	/* RFS specific error */
->  #define EMULTIHOP	74	/* Multihop attempted */
->  #define EBADMSG		77	/* Not a data message */
-> +#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define ENAMETOOLONG	78	/* File name too long */
->  #define EOVERFLOW	79	/* Value too large for defined data type */
->  #define ENOTUNIQ	80	/* Name not unique on network */
-> @@ -88,6 +89,7 @@
->  #define EISCONN		133	/* Transport endpoint is already connected */
->  #define ENOTCONN	134	/* Transport endpoint is not connected */
->  #define EUCLEAN		135	/* Structure needs cleaning */
-> +#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define ENOTNAM		137	/* Not a XENIX named type file */
->  #define ENAVAIL		138	/* No XENIX semaphores available */
->  #define EISNAM		139	/* Is a named type file */
-> diff --git a/tools/arch/parisc/include/uapi/asm/errno.h b/tools/arch/parisc/include/uapi/asm/errno.h
-> index 8d94739d75c67c..8cbc07c1903e4c 100644
-> --- a/tools/arch/parisc/include/uapi/asm/errno.h
-> +++ b/tools/arch/parisc/include/uapi/asm/errno.h
-> @@ -36,6 +36,7 @@
->  
->  #define	EDOTDOT		66	/* RFS specific error */
->  #define	EBADMSG		67	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EUSERS		68	/* Too many users */
->  #define	EDQUOT		69	/* Quota exceeded */
->  #define	ESTALE		70	/* Stale file handle */
-> @@ -62,6 +63,7 @@
->  #define	ERESTART	175	/* Interrupted system call should be restarted */
->  #define	ESTRPIPE	176	/* Streams pipe error */
->  #define	EUCLEAN		177	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		178	/* Not a XENIX named type file */
->  #define	ENAVAIL		179	/* No XENIX semaphores available */
->  #define	EISNAM		180	/* Is a named type file */
-> diff --git a/tools/arch/sparc/include/uapi/asm/errno.h b/tools/arch/sparc/include/uapi/asm/errno.h
-> index 81a732b902ee38..4a41e7835fd5b8 100644
-> --- a/tools/arch/sparc/include/uapi/asm/errno.h
-> +++ b/tools/arch/sparc/include/uapi/asm/errno.h
-> @@ -48,6 +48,7 @@
->  #define	ENOSR		74	/* Out of streams resources */
->  #define	ENOMSG		75	/* No message of desired type */
->  #define	EBADMSG		76	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EIDRM		77	/* Identifier removed */
->  #define	EDEADLK		78	/* Resource deadlock would occur */
->  #define	ENOLCK		79	/* No record locks available */
-> @@ -91,6 +92,7 @@
->  #define	ENOTUNIQ	115	/* Name not unique on network */
->  #define	ERESTART	116	/* Interrupted syscall should be restarted */
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> diff --git a/tools/include/uapi/asm-generic/errno.h b/tools/include/uapi/asm-generic/errno.h
-> index cf9c51ac49f97e..92e7ae493ee315 100644
-> --- a/tools/include/uapi/asm-generic/errno.h
-> +++ b/tools/include/uapi/asm-generic/errno.h
-> @@ -55,6 +55,7 @@
->  #define	EMULTIHOP	72	/* Multihop attempted */
->  #define	EDOTDOT		73	/* RFS specific error */
->  #define	EBADMSG		74	/* Not a data message */
-> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
->  #define	EOVERFLOW	75	/* Value too large for defined data type */
->  #define	ENOTUNIQ	76	/* Name not unique on network */
->  #define	EBADFD		77	/* File descriptor in bad state */
-> @@ -98,6 +99,7 @@
->  #define	EINPROGRESS	115	/* Operation now in progress */
->  #define	ESTALE		116	/* Stale file handle */
->  #define	EUCLEAN		117	/* Structure needs cleaning */
-> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
->  #define	ENOTNAM		118	/* Not a XENIX named type file */
->  #define	ENAVAIL		119	/* No XENIX semaphores available */
->  #define	EISNAM		120	/* Is a named type file */
-> 
-> 
----end quoted text---
+but wasn't planning to refresh it without some indication from the
+userspace side that that'd be useful.
+
+Non-process cover letter:
+
+The kernel has added support for shadow stacks, currently x86 only using
+their CET feature but both arm64 and RISC-V have equivalent features
+(GCS and Zicfiss respectively), I am actively working on GCS[1].  With
+shadow stacks the hardware maintains an additional stack containing only
+the return addresses for branch instructions which is not generally
+writeable by userspace and ensures that any returns are to the recorded
+addresses.  This provides some protection against ROP attacks and making
+it easier to collect call stacks.  These shadow stacks are allocated in
+the address space of the userspace process.
+
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
+
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process, keeping the current
+implicit allocation behaviour if one is not specified either with
+clone3() or through the use of clone().  The user must provide a shadow
+stack pointer, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with an architecture specified shadow stack
+token at the top of the stack.
+
+Yuri Khrustalev has raised questions from the libc side regarding
+discoverability of extended clone3() structure sizes[2], this seems like
+a general issue with clone3().  There was a suggestion to add a hwcap on
+arm64 which isn't ideal but is doable there, though architecture
+specific mechanisms would also be needed for x86 (and RISC-V if it's
+support gets merged before this does).  The idea has, however, had
+strong pushback from the architecture maintainers and it is possible to
+detect support for this in clone3() by attempting a call with a
+misaligned shadow stack pointer specified so no hwcap has been added.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org/T/#mc58f97f27461749ccf400ebabf6f9f937116a86b
+[2] https://lore.kernel.org/r/aCs65ccRQtJBnZ_5@arm.com
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v23:
+- Rebase onto v6.19-rc1.
+- Link to v22: https://lore.kernel.org/r/20251015-clone3-shadow-stack-v22-0-a8c8da011427@kernel.org
+
+Changes in v22:
+- Rebase onto v6.18-rc1.
+- Cover letter updates.
+- Link to v21: https://lore.kernel.org/r/20250916-clone3-shadow-stack-v21-0-910493527013@kernel.org
+
+Changes in v21:
+- Rebase onto https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git kernel-6.18.clone3
+- Rename shadow_stack_token to shstk_token, since it's a simple rename I've
+  kept the acks and reviews but I dropped the tested-bys just to be safe.
+- Link to v20: https://lore.kernel.org/r/20250902-clone3-shadow-stack-v20-0-4d9fff1c53e7@kernel.org
+
+Changes in v20:
+- Comment fixes and clarifications in x86 arch_shstk_validate_clone()
+  from Rick Edgecombe.
+- Spelling fix in documentation.
+- Link to v19: https://lore.kernel.org/r/20250819-clone3-shadow-stack-v19-0-bc957075479b@kernel.org
+
+Changes in v19:
+- Rebase onto v6.17-rc1.
+- Link to v18: https://lore.kernel.org/r/20250702-clone3-shadow-stack-v18-0-7965d2b694db@kernel.org
+
+Changes in v18:
+- Rebase onto v6.16-rc3.
+- Thanks to pointers from Yuri Khrustalev this version has been tested
+  on x86 so I have removed the RFT tag.
+- Clarify clone3_shadow_stack_valid() comment about the Kconfig check.
+- Remove redundant GCSB DSYNCs in arm64 code.
+- Fix token validation on x86.
+- Link to v17: https://lore.kernel.org/r/20250609-clone3-shadow-stack-v17-0-8840ed97ff6f@kernel.org
+
+Changes in v17:
+- Rebase onto v6.16-rc1.
+- Link to v16: https://lore.kernel.org/r/20250416-clone3-shadow-stack-v16-0-2ffc9ca3917b@kernel.org
+
+Changes in v16:
+- Rebase onto v6.15-rc2.
+- Roll in fixes from x86 testing from Rick Edgecombe.
+- Rework so that the argument is shadow_stack_token.
+- Link to v15: https://lore.kernel.org/r/20250408-clone3-shadow-stack-v15-0-3fa245c6e3be@kernel.org
+
+Changes in v15:
+- Rebase onto v6.15-rc1.
+- Link to v14: https://lore.kernel.org/r/20250206-clone3-shadow-stack-v14-0-805b53af73b9@kernel.org
+
+Changes in v14:
+- Rebase onto v6.14-rc1.
+- Link to v13: https://lore.kernel.org/r/20241203-clone3-shadow-stack-v13-0-93b89a81a5ed@kernel.org
+
+Changes in v13:
+- Rebase onto v6.13-rc1.
+- Link to v12: https://lore.kernel.org/r/20241031-clone3-shadow-stack-v12-0-7183eb8bee17@kernel.org
+
+Changes in v12:
+- Add the regular prctl() to the userspace API document since arm64
+  support is queued in -next.
+- Link to v11: https://lore.kernel.org/r/20241005-clone3-shadow-stack-v11-0-2a6a2bd6d651@kernel.org
+
+Changes in v11:
+- Rebase onto arm64 for-next/gcs, which is based on v6.12-rc1, and
+  integrate arm64 support.
+- Rework the interface to specify a shadow stack pointer rather than a
+  base and size like we do for the regular stack.
+- Link to v10: https://lore.kernel.org/r/20240821-clone3-shadow-stack-v10-0-06e8797b9445@kernel.org
+
+Changes in v10:
+- Integrate fixes & improvements for the x86 implementation from Rick
+  Edgecombe.
+- Require that the shadow stack be VM_WRITE.
+- Require that the shadow stack base and size be sizeof(void *) aligned.
+- Clean up trailing newline.
+- Link to v9: https://lore.kernel.org/r/20240819-clone3-shadow-stack-v9-0-962d74f99464@kernel.org
+
+Changes in v9:
+- Pull token validation earlier and report problems with an error return
+  to parent rather than signal delivery to the child.
+- Verify that the top of the supplied shadow stack is VM_SHADOW_STACK.
+- Rework token validation to only do the page mapping once.
+- Drop no longer needed support for testing for signals in selftest.
+- Fix typo in comments.
+- Link to v8: https://lore.kernel.org/r/20240808-clone3-shadow-stack-v8-0-0acf37caf14c@kernel.org
+
+Changes in v8:
+- Fix token verification with user specified shadow stack.
+- Don't track user managed shadow stacks for child processes.
+- Link to v7: https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
+
+Changes in v7:
+- Rebase onto v6.11-rc1.
+- Typo fixes.
+- Link to v6: https://lore.kernel.org/r/20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org
+
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (8):
+      arm64/gcs: Return a success value from gcs_alloc_thread_stack()
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  44 +++++
+ arch/arm64/include/asm/gcs.h                      |   8 +-
+ arch/arm64/kernel/process.c                       |   8 +-
+ arch/arm64/mm/gcs.c                               |  55 +++++-
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           |  53 ++++-
+ include/asm-generic/cacheflush.h                  |  11 ++
+ include/linux/sched/task.h                        |  17 ++
+ include/uapi/linux/sched.h                        |   9 +-
+ kernel/fork.c                                     |  93 +++++++--
+ tools/testing/selftests/clone3/clone3.c           | 226 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  65 ++++++-
+ tools/testing/selftests/ksft_shstk.h              |  98 ++++++++++
+ 15 files changed, 620 insertions(+), 81 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
 
