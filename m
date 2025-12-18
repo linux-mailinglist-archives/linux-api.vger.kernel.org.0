@@ -1,112 +1,127 @@
-Return-Path: <linux-api+bounces-5534-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5535-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4700CBF54E
-	for <lists+linux-api@lfdr.de>; Mon, 15 Dec 2025 19:00:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D37F9CCA07E
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 03:02:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4562B3012761
-	for <lists+linux-api@lfdr.de>; Mon, 15 Dec 2025 17:59:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9376C301A1BE
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 02:02:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E915324712;
-	Mon, 15 Dec 2025 17:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D52241CB7;
+	Thu, 18 Dec 2025 02:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWcISiYv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+j1uXJM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F693242B8
-	for <linux-api@vger.kernel.org>; Mon, 15 Dec 2025 17:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966BF1D5CD4;
+	Thu, 18 Dec 2025 02:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765821584; cv=none; b=RtZfSs8J14hpXavR6nvtIDoBjWvKkZh/Wvq6GqYJaRMr5pTjY+Y4YSzI3i61l/56vMTFN76dAsjZz6y2qCPJPYQ8xZkUbsYC3kNlVkWtcqGdncfm8MuKUIU5I6Drot6x2F4vehYuVJ+ea4BiDu+nbaFVKofrlz0LLq1LQJfyInw=
+	t=1766023365; cv=none; b=tPPBp7x9tMWZRMejqz4+KUX6q1dxL491J9m0jEtRuE6H5L78H1bnV5alcISc4HzHC5iAphwfovhHsZfc9zk97vsjvgRvMpfmWtLpnwW+NRTz75Wo+W4vuFQI1Wi0OsUFAG0jX8CC4EPSRAZ1zWAL+Dvw3vX4hp3+DfufN3137b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765821584; c=relaxed/simple;
-	bh=rKVKnsmZY5Zk5WseCbLhC70tZU73oYSI0ZX68nvqOpU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OgNhlcnxX4w4PKrkTVsnYceKQ+eF4/FTUHGXa8VgEXtjjYWOjMItBIqVO9PKMlCmVTbGcxGPn4/6uUA3fZkIYH+4BCrSmFiN8JmIntPoaM/wSmcdyzSFHt86DxXlRpO8A+AINXOzdhme462ISn4ZyAdO+QkwwrDaZUhVlWFdkAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWcISiYv; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5959b2f3fc9so4174750e87.2
-        for <linux-api@vger.kernel.org>; Mon, 15 Dec 2025 09:59:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765821580; x=1766426380; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zIbn2oDFRSGWfD5W22SaWrURpraJkYSQ1nm0bbeV7eo=;
-        b=mWcISiYvQDMyWrcSRycAfbgC2LcfDHeiHNEwlrIHZIiej1AYC1xSGsNIQAQ09hrYkV
-         JX5RKvAXPuBpvT42pleeeJWKLBH2sgmOEqfv/KpJmG2j4MZwEb/VhmN2KUWZSKmpR4y8
-         W9Y9TRYiK/LUJSWBxJeCtVm6+grs9CMML+9OjkE4C8237semIawFtJN/0+n1tfa/B4sH
-         4PXZxM7CBczsbeXD5LrxS/cB7X27CZ/SgFLeQqgNRSooR0u6fqf5viqD1bfmET98d1BJ
-         y+OTGkBGOVpj54S8EoEEBS6SOazJkp5BEh/6fqKDGAxYCvW45iAXLY5VypDKgUjIZ0ta
-         NCVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765821580; x=1766426380;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zIbn2oDFRSGWfD5W22SaWrURpraJkYSQ1nm0bbeV7eo=;
-        b=jPj4cazdw1GV2uriVDp9l9nXb8pfqP9gw8DpuaXOnoe/rovuuaj8blaC3+ivkzxWJl
-         tR7X3Z5cFRptrZBUY4596/RV6x/gqDNrE2VE1SZBNTm+o4X/36r2FT1tO9r7nVSARiEh
-         WnpU2Ht1jzRJaz9O3yaRXEu94qHruYFeo8TJQkUI5A5V1vfFM2GRSrfVv3E35fNUPpMt
-         KpdEx24cjvdxHKJRAHjpx57MF22zO4wFl/tJeyV5WexVK07iBTN1A+/utUbBAZEo7Ixf
-         6hzp/MnHKjtYAmKVbIMavigtwnu/0EYeEU+7QXu667kP8NyIt7oAZlZSSdm07JaOA7CN
-         k/nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXK52Sn9EYx80LtPjxfCvFjl+Fdr0QJo8u5e2QRtI5YynRaNZncvFXBKxK4mT0crWvhVbC3oA5wYDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMwCuU826u7lkYtzEmWjdDkKtAtupnf5tNQE+7jijQ+KW6Bc1s
-	Em1u1c7FpKJ6o09/1cpn372lMyWQ1rnL8cEgmO8+P71nkOOJjmZqblNF
-X-Gm-Gg: AY/fxX6Nt4xOeg6lPy/N62V9Rj1TqV9pK3ggSDq/URHBX6dKGHesb3zJ4UQxYG42tY6
-	GkO8WHi82ZI/nKAXA8aPSISRjdO3PGH3hhFbUAzBYU7l8pArZ/ixXOJOCYO8cCDW4pVZd5B6G1P
-	MQXuRAIUcmhXbtDVita2e9GtY5O8gnX4T95rXLyn/Cc6LQLXlzLyrSPvbMvyxBrQj0FcMxJVbb7
-	c1NsgUAdTOJoLW2nUJfxDCE3dy/WgaWkxMLYa3U5G5vPyK+cjvpES4qWcRwLzDjYCeGPsjLI/Fz
-	G73BqJ+tXxhgtQm0/BPjoIV1ZXFltOn67UP4+YPq+RvBZIehx8qniVhnxJa14GvS/paIjRgW/VQ
-	0ChjtDDR7JKMo6tgUQAxC0qeQzsn1OPkyiBLT4uiIVPCiEBILG3OSddXgvMc5Tbs4n0Ht2CN2rn
-	d8WFGHYQWC
-X-Google-Smtp-Source: AGHT+IFsDUVoZATaLzj9N1/hjfRE03GZ2gIP+Qj4HQeX9tt2ONoJL779FMDFpau9DQULSPR5u/L2Cg==
-X-Received: by 2002:a05:6512:1154:b0:597:d59a:69ca with SMTP id 2adb3069b0e04-598faa4d5b5mr3889154e87.28.1765821580147;
-        Mon, 15 Dec 2025 09:59:40 -0800 (PST)
-Received: from localhost ([194.190.17.114])
-        by smtp.gmail.com with UTF8SMTPSA id 2adb3069b0e04-5990da11dbfsm5648e87.13.2025.12.15.09.59.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 09:59:39 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: rdunlap@infradead.org
-Cc: initramfs@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v4 1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command line parameters
-Date: Mon, 15 Dec 2025 20:59:27 +0300
-Message-ID: <20251215175927.300936-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <5c3c4233-3572-4842-850e-0a88ce16eee3@infradead.org>
-References: <5c3c4233-3572-4842-850e-0a88ce16eee3@infradead.org>
+	s=arc-20240116; t=1766023365; c=relaxed/simple;
+	bh=u76OWdWN5eeNBkvlN2MC7QTcfUrXbEvUqPLzjrIxIdQ=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=KNHL9vw//uCuGYKRdfjVWukXCxTbfMrWYnyTDgfMbegdYm8mfXV21VDkUR7rK4CMRTSfrJySclklCgb7HXYwfqHPCu5nQBiGF6cqQFFKGtSTRyVrlfLtT2OUzF+4ezf2m30t7m4i8OTuOXa6j103bl+8imBK/C203gNblIMgkio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+j1uXJM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 185CAC116B1;
+	Thu, 18 Dec 2025 02:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766023365;
+	bh=u76OWdWN5eeNBkvlN2MC7QTcfUrXbEvUqPLzjrIxIdQ=;
+	h=Date:Subject:From:To:Cc:From;
+	b=p+j1uXJMSevQnBN9YQCxDFxiW3b9URZnH3oHaYi6tA8aRxPrMUFiZN8dB5g8KTaxJ
+	 g4idxaHWo6DFhmLnlXk/cbandUV2vYdoVUUa5o/3RoFUhnsSfSy0ycil2QNzn/54yh
+	 aEy0Gui8Vno5cTq9dltljvgwSLYKD4ZQZhAPFGN0yHQKVGX1q1EPE0t8LZ3N9+y4Pf
+	 emy6y270WMS2NFOzcwSgQM/bUMagTcUpgk8zC68g3ZXosLDI9z7St/QX1Ec5/I/b6U
+	 yfKGB3C1zIGRxtOGV2bGyFu8YrqGZ4tJhFOGu513jPnCU+BUI7cDgpJzd1fj25Hw1B
+	 puwQqWIJSWeig==
+Date: Wed, 17 Dec 2025 18:02:44 -0800
+Subject: [PATCHSET V4 1/2] fs: generic file IO error reporting
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: brauner@kernel.org, djwong@kernel.org
+Cc: linux-api@vger.kernel.org, hch@lst.de, linux-ext4@vger.kernel.org,
+ jack@suse.cz, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ gabriel@krisman.be, hch@lst.de, amir73il@gmail.com
+Message-ID: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Randy Dunlap <rdunlap@infradead.org>:
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks.
+Hi all,
 
-Thank you!
+This patchset adds some generic helpers so that filesystems can report
+errors to fsnotify in a standard way.  Then it adapts iomap to use the
+generic helpers so that any iomap-enabled filesystem can report I/O
+errors through this mechanism as well.  Finally, it makes XFS report
+metadata errors through this mechanism in much the same way that ext4
+does now.
 
-P. S. For unknown reasons I don't see your email in my Gmail. Not even in
-spam folder.
+These are a prerequisite for the XFS self-healing V4 series which will
+come at a later time.
 
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
 
--- 
-Askar Safin
+This has been running on the djcloud for months with no problems.  Enjoy!
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=filesystem-error-reporting
+
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=filesystem-error-reporting
+---
+Commits in this patchset:
+ * uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
+ * fs: report filesystem and file I/O errors to fsnotify
+ * iomap: report file I/O errors to the VFS
+ * xfs: report fs metadata errors via fsnotify
+ * xfs: translate fsdax media errors into file "data lost" errors when convenient
+ * ext4: convert to new fserror helpers
+---
+ arch/alpha/include/uapi/asm/errno.h        |    2 
+ arch/mips/include/uapi/asm/errno.h         |    2 
+ arch/parisc/include/uapi/asm/errno.h       |    2 
+ arch/sparc/include/uapi/asm/errno.h        |    2 
+ fs/erofs/internal.h                        |    2 
+ fs/ext2/ext2.h                             |    1 
+ fs/ext4/ext4.h                             |    3 -
+ fs/f2fs/f2fs.h                             |    3 -
+ fs/minix/minix.h                           |    2 
+ fs/udf/udf_sb.h                            |    2 
+ fs/xfs/xfs_linux.h                         |    2 
+ include/linux/fs/super_types.h             |    7 +
+ include/linux/fserror.h                    |   93 ++++++++++++++++
+ include/linux/jbd2.h                       |    3 -
+ include/uapi/asm-generic/errno.h           |    2 
+ tools/arch/alpha/include/uapi/asm/errno.h  |    2 
+ tools/arch/mips/include/uapi/asm/errno.h   |    2 
+ tools/arch/parisc/include/uapi/asm/errno.h |    2 
+ tools/arch/sparc/include/uapi/asm/errno.h  |    2 
+ tools/include/uapi/asm-generic/errno.h     |    2 
+ fs/Makefile                                |    2 
+ fs/ext4/ioctl.c                            |    2 
+ fs/ext4/super.c                            |   13 ++
+ fs/fserror.c                               |  168 ++++++++++++++++++++++++++++
+ fs/iomap/buffered-io.c                     |   23 ++++
+ fs/iomap/direct-io.c                       |   12 ++
+ fs/iomap/ioend.c                           |    6 +
+ fs/super.c                                 |    3 +
+ fs/xfs/xfs_fsops.c                         |    4 +
+ fs/xfs/xfs_health.c                        |   14 ++
+ fs/xfs/xfs_notify_failure.c                |    4 +
+ 31 files changed, 365 insertions(+), 24 deletions(-)
+ create mode 100644 include/linux/fserror.h
+ create mode 100644 fs/fserror.c
+
 
