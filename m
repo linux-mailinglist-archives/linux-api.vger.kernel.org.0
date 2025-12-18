@@ -1,44 +1,44 @@
-Return-Path: <linux-api+bounces-5558-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5559-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15151CCD8F1
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:45:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BD4CCD8F4
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 21:46:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AB0743082FDA
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:43:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 70A563087F7C
+	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB1A2EB874;
-	Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77B22F6560;
+	Thu, 18 Dec 2025 20:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WaJ3h4kz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9x40JpJ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EF42E92D4;
-	Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD332DC774;
+	Thu, 18 Dec 2025 20:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090572; cv=none; b=OdO/aE7E5I/uIR0IeMpEatCIPnrOWV0Gd9m2hRYtTM3q/JJJa3TlM7FiJ+gn7j6Z4QJB12ZimtHCu4RaKkLT7Kgnq9i5IrhhP1+THPEZq815vX5mp+RMbbByaAniidqcivlKTX9y3dECw4JwrxIcIDPtXysYJdFB7Lebkn33w4I=
+	t=1766090573; cv=none; b=Gl7UNtW5015L0MhbvgV/FJuwsiL1jxH+qRIVljKJz6aiUrkeXVCozhT5Mn0ZHFTykxx6IH1kShvS/kXAVzKPEao7KpvG/inxmq+IEALfcDsuptEW3z+ZFgje87pKsXMAOyZx9DBrRuz2iWXrTMyglpLaxYXYFa8vxbBZ71aOLe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090572; c=relaxed/simple;
-	bh=15QMa2QRWzuHNFPoY2VDNiHPRh2YTSroy0oCN7V30og=;
+	s=arc-20240116; t=1766090573; c=relaxed/simple;
+	bh=TWRyLzOK+gmM4eFtawhYOHlyCd0Mmshknky6n5T1bvA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mg8S+JPgDJdv5vcpGyIabVpxw3HcDnjtzNer9AOrl6s19eJHWlFZNVn2+g4SjDAeeYELPJbRO/AzcFnNi0eE88f83Sa5LtB3jq+3sew28t93xZNBmNJX459+MVAogzaYHU4a8e7nrh4/TmBMRwetDRP86jM6q4MSEwF+GoyQ5ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WaJ3h4kz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E831DC113D0;
-	Thu, 18 Dec 2025 20:42:51 +0000 (UTC)
+	 MIME-Version; b=YKz7Jy6px1QwN4pjoW4PujLdbIZqRrKFxBFLxBpmAsCr/mU3hvzRMQFAmvu9U4pXf/b/0xQIML2cLUcnDL6Yy2QCS933+Thi4Ey2bwyTJX1YP7qJ2FvPv4zTrDxSBs1bIx2qC0TPkQT9cvAkTMT8+qrS2uyrZGauw077bBhATUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9x40JpJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D51C5C16AAE;
+	Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766090572;
-	bh=15QMa2QRWzuHNFPoY2VDNiHPRh2YTSroy0oCN7V30og=;
+	s=k20201202; t=1766090573;
+	bh=TWRyLzOK+gmM4eFtawhYOHlyCd0Mmshknky6n5T1bvA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WaJ3h4kzgOxMbfRPwjaKsQf1Q0ly1MlEO2Z6as2aBmSn2YHPh/S3laqZbnBjh0rNg
-	 3fiKDg3f6HmZj8UKBTHgfzDR3lvymRX6uOKqyCxVX4Uq0/KKsHxIestUJ5y8NB/q/f
-	 hQ+3qrQVFq2sNaTfXvx2Si/kbAz4m/8MZX0uJX5IWrPcfctHTpW7oC8ojb40zIL0Q1
-	 wNHuHcRFtWzd4r9hepjKf3zIPrLodONtFc3oYWyEE3Am8WKdprLrnpv8iiQrPDEplk
-	 L7lpLmhUz40izRmbA0Z0V8qZnANCmVZMpFua5MSResYufSi4AyPi6CadgERE8Aseb2
-	 bqu9oatLRvmDw==
+	b=N9x40JpJzNzswbsy0KgfTXDPQ+7AX/0Cb23mAAxbniebGBmJroQoF6ztOd1IbJ05q
+	 2QNRSt22Fd1ZXIbpxPMGH3u2RqmR+YAHzwbyVaVVTMj9rvhsjHS1sXPB+R31/0uwFc
+	 ik7zr1FK3s8tVRl4bKhflAfh6MUW523SmtWAzQ0HRck+hbiAG+ZXoNMXqTD6tq57AJ
+	 90oM0JljpKVftqKgnBGojSs3ga6DMg/h41bz2GUAG46lwu5QiSWJNUXK04cz/ZPp7k
+	 mp96toMdHgXqN+9b3WGEJQbs9fRlqXlKAAclomIir0NndPOHsftP52k9HUT8UWFxMp
+	 TSssBV800vqCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -46,9 +46,9 @@ Cc: linux-doc@vger.kernel.org,
 	tools@kernel.org,
 	gpaoloni@redhat.com,
 	Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v5 07/15] kernel/api: add API specification for io_submit
-Date: Thu, 18 Dec 2025 15:42:29 -0500
-Message-ID: <20251218204239.4159453-8-sashal@kernel.org>
+Subject: [RFC PATCH v5 08/15] kernel/api: add API specification for io_cancel
+Date: Thu, 18 Dec 2025 15:42:30 -0500
+Message-ID: <20251218204239.4159453-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251218204239.4159453-1-sashal@kernel.org>
 References: <20251218204239.4159453-1-sashal@kernel.org>
@@ -62,77 +62,61 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/aio.c | 319 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 308 insertions(+), 11 deletions(-)
+ fs/aio.c | 246 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 237 insertions(+), 9 deletions(-)
 
 diff --git a/fs/aio.c b/fs/aio.c
-index ff2a8527e1b85..f6f1b3790c88b 100644
+index f6f1b3790c88b..710517c9a990d 100644
 --- a/fs/aio.c
 +++ b/fs/aio.c
-@@ -2450,17 +2450,314 @@ static int io_submit_one(struct kioctx *ctx, struct iocb __user *user_iocb,
- 	return err;
+@@ -2843,15 +2843,243 @@ COMPAT_SYSCALL_DEFINE3(io_submit, compat_aio_context_t, ctx_id,
  }
+ #endif
  
--/* sys_io_submit:
-- *	Queue the nr iocbs pointed to by iocbpp for processing.  Returns
-- *	the number of iocbs queued.  May return -EINVAL if the aio_context
-- *	specified by ctx_id is invalid, if nr is < 0, if the iocb at
-- *	*iocbpp[0] is not properly initialized, if the operation specified
-- *	is invalid for the file descriptor in the iocb.  May fail with
-- *	-EFAULT if any of the data structures point to invalid data.  May
-- *	fail with -EBADF if the file descriptor specified in the first
-- *	iocb is invalid.  May fail with -EAGAIN if insufficient resources
-- *	are available to queue any iocbs.  Will return 0 if nr is 0.  Will
-- *	fail with -ENOSYS if not implemented.
+-/* sys_io_cancel:
+- *	Attempts to cancel an iocb previously passed to io_submit.  If
+- *	the operation is successfully cancelled, the resulting event is
+- *	copied into the memory pointed to by result without being placed
+- *	into the completion queue and 0 is returned.  May fail with
+- *	-EFAULT if any of the data structures pointed to are invalid.
+- *	May fail with -EINVAL if aio_context specified by ctx_id is
+- *	invalid.  May fail with -EAGAIN if the iocb specified was not
+- *	cancelled.  Will fail with -ENOSYS if not implemented.
 +/**
-+ * sys_io_submit - Submit asynchronous I/O operations for processing
++ * sys_io_cancel - Attempt to cancel an outstanding asynchronous I/O operation
 + * @ctx_id: AIO context handle returned by io_setup
-+ * @nr: Number of I/O control blocks to submit
-+ * @iocbpp: Array of pointers to iocb structures describing the operations
++ * @iocb: Pointer to the iocb structure that was previously submitted
++ * @result: Unused parameter (historically for result storage, now ignored)
 + *
-+ * long-desc: Submits one or more asynchronous I/O operations for processing
-+ *   against a previously created AIO context. Each iocb structure describes
-+ *   a single I/O operation including the operation type, file descriptor,
-+ *   buffer, size, and offset.
++ * long-desc: Attempts to cancel an asynchronous I/O operation that was
++ *   previously submitted via io_submit(). The syscall searches for the
++ *   specified iocb in the context's active request list and invokes the
++ *   operation-specific cancellation callback if found.
 + *
-+ *   The syscall processes iocbs sequentially from the array. If an error
-+ *   occurs while processing an iocb, submission stops at that point and
-+ *   the number of successfully submitted operations is returned. This means
-+ *   partial submission is possible: if submitting 10 iocbs and the 5th fails,
-+ *   4 is returned and iocbs 0-3 are queued for processing.
++ *   The cancellation behavior depends on the type of I/O operation:
++ *   - For poll operations (IOCB_CMD_POLL): The request is marked as cancelled
++ *     and a work item is scheduled to complete the cancellation.
++ *   - For USB gadget I/O: The USB endpoint dequeue function is called, which
++ *     triggers the completion callback with -ECONNRESET status.
++ *   - For most direct I/O operations: Cancellation is typically not supported
++ *     as these operations do not register a cancel callback.
 + *
-+ *   Supported operations (specified via aio_lio_opcode):
-+ *   - IOCB_CMD_PREAD (0): Positioned read from file
-+ *   - IOCB_CMD_PWRITE (1): Positioned write to file
-+ *   - IOCB_CMD_FSYNC (2): Sync file data and metadata
-+ *   - IOCB_CMD_FDSYNC (3): Sync file data only
-+ *   - IOCB_CMD_POLL (5): Poll for events on file descriptor
-+ *   - IOCB_CMD_NOOP (6): No operation (useful for testing)
-+ *   - IOCB_CMD_PREADV (7): Positioned scatter read
-+ *   - IOCB_CMD_PWRITEV (8): Positioned gather write
++ *   If the iocb is found and has a registered cancellation callback, that
++ *   callback is invoked and the iocb is removed from the active request list.
++ *   The completion event is delivered via the ring buffer (not via the result
++ *   parameter, which is now unused for this purpose).
 + *
-+ *   The iocb structure fields include:
-+ *   - aio_data: User data copied to io_event on completion
-+ *   - aio_lio_opcode: Operation type (one of IOCB_CMD_*)
-+ *   - aio_fildes: File descriptor for the operation
-+ *   - aio_buf: Buffer address (or iovec array for vectored ops)
-+ *   - aio_nbytes: Buffer size (or iovec count for vectored ops)
-+ *   - aio_offset: File offset for positioned operations
-+ *   - aio_flags: Optional flags (IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO)
-+ *   - aio_resfd: eventfd to signal on completion (if IOCB_FLAG_RESFD set)
-+ *   - aio_rw_flags: Per-operation RWF_* flags
-+ *   - aio_reqprio: I/O priority (if IOCB_FLAG_IOPRIO set)
++ *   On successful cancellation initiation, the syscall returns -EINPROGRESS
++ *   (not 0) to indicate that cancellation is in progress. This is because
++ *   the actual completion may occur asynchronously via the cancel callback.
 + *
-+ *   After successful submission, operations complete asynchronously. Results
-+ *   are delivered to the completion ring buffer and can be retrieved via
-+ *   io_getevents(). If aio_resfd specifies a valid eventfd, it is signaled
-+ *   when each operation completes.
++ *   Important limitations:
++ *   - Most file I/O operations do not support cancellation
++ *   - The iocb must still be pending (not yet completed)
++ *   - The iocb must have been submitted via io_submit (aio_key == KIOCB_KEY)
++ *   - Only operations that register a ki_cancel callback can be cancelled
 + *
-+ *   The actual I/O may complete synchronously if the data is cached or if
-+ *   the underlying filesystem doesn't support truly asynchronous I/O. In
-+ *   such cases, the operation is still reported via the completion ring.
-+ *
-+ * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
++ * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_ATOMIC
 + *
 + * param: ctx_id
 + *   type: KAPI_TYPE_UINT
@@ -140,261 +124,204 @@ index ff2a8527e1b85..f6f1b3790c88b 100644
 + *   constraint-type: KAPI_CONSTRAINT_CUSTOM
 + *   constraint: Must be a valid AIO context handle previously returned by
 + *     io_setup() for the current process. The context must not have been
-+ *     destroyed. A value of 0 is always invalid. The handle is actually
-+ *     the virtual address of the ring buffer mapping.
++ *     destroyed via io_destroy(). A value of 0 is always invalid. The handle
++ *     is actually the virtual address of the ring buffer mapping, and must
++ *     belong to the calling process's address space.
 + *
-+ * param: nr
-+ *   type: KAPI_TYPE_INT
-+ *   flags: KAPI_PARAM_IN
-+ *   constraint-type: KAPI_CONSTRAINT_RANGE
-+ *   range: 0, LONG_MAX
-+ *   constraint: Must be >= 0. If 0, the syscall returns immediately with 0.
-+ *     The actual number processed is capped to ctx->nr_events (the context's
-+ *     capacity). Very large values are effectively limited by the context
-+ *     capacity and available ring buffer slots.
-+ *
-+ * param: iocbpp
++ * param: iocb
 + *   type: KAPI_TYPE_USER_PTR
 + *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
-+ *   constraint-type: KAPI_CONSTRAINT_CUSTOM
-+ *   constraint: Must be a valid userspace pointer to an array of nr pointers
-+ *     to struct iocb. Each iocb pointer must itself be valid and point to a
-+ *     properly initialized iocb structure. The iocb structures must have
-+ *     aio_reserved2 set to 0 for forward compatibility.
++ *   size: sizeof(struct iocb)
++ *   constraint-type: KAPI_CONSTRAINT_USER_PTR
++ *   constraint: Must be a valid userspace pointer to a struct iocb that was
++ *     previously submitted via io_submit(). The iocb's aio_key field must
++ *     contain KIOCB_KEY (0), which is written by the kernel during io_submit.
++ *     A NULL pointer will result in EFAULT. The iocb must still be pending
++ *     (present in the context's active_reqs list) for cancellation to succeed.
++ *
++ * param: result
++ *   type: KAPI_TYPE_USER_PTR
++ *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER | KAPI_PARAM_OPTIONAL
++ *   constraint-type: KAPI_CONSTRAINT_NONE
++ *   constraint: This parameter is no longer used by the kernel. It was
++ *     historically intended to receive the io_event result on successful
++ *     cancellation, but completion events are now always delivered via the
++ *     ring buffer. May be NULL.
 + *
 + * return:
 + *   type: KAPI_TYPE_INT
-+ *   check-type: KAPI_RETURN_RANGE
-+ *   success: >= 0
-+ *   desc: Returns the number of iocbs successfully submitted (0 to nr). If
-+ *     partial submission occurs due to an error, returns the count of
-+ *     successfully submitted operations. Returns 0 if nr is 0.
++ *   check-type: KAPI_RETURN_ERROR_CHECK
++ *   success: -EINPROGRESS
++ *   desc: Returns -EINPROGRESS when the cancellation callback was successfully
++ *     invoked and the request is being cancelled. This is the expected return
++ *     value on successful cancellation initiation. The completion event will
++ *     be delivered via the ring buffer. Note that this is different from the
++ *     man page which claims 0 is returned on success.
 + *
-+ * error: EINVAL, Invalid context or parameter
-+ *   desc: Returned if ctx_id is invalid, nr is negative, aio_reserved2 is
-+ *     non-zero, aio_lio_opcode is invalid, aio_buf/aio_nbytes overflow,
-+ *     aio_resfd is not an eventfd, conflicting aio_rw_flags, file lacks
-+ *     required operation support, invalid POLL/FSYNC parameters, or
-+ *     invalid aio_reqprio class.
++ * error: EFAULT, Cannot read iocb from userspace
++ *   desc: Returned if the iocb pointer is invalid or points to memory that
++ *     cannot be read. Specifically, the kernel attempts to read the aio_key
++ *     field from the iocb via get_user() and returns EFAULT if this fails.
++ *     A NULL iocb pointer will trigger this error.
 + *
-+ * error: EFAULT, Invalid memory access
-+ *   desc: Returned if: (1) iocbpp is not a valid userspace pointer, (2) any
-+ *     pointer in the iocbpp array is invalid, (3) the iocb data cannot be
-+ *     copied from userspace, (4) aio_buf points to invalid memory, or
-+ *     (5) the kernel cannot write the aio_key field back to userspace.
++ * error: EINVAL, iocb not submitted via io_submit
++ *   desc: Returned if the aio_key field of the iocb does not contain KIOCB_KEY
++ *     (which is 0). The kernel sets aio_key to KIOCB_KEY when an iocb is
++ *     successfully submitted via io_submit(). If aio_key contains a different
++ *     value, it indicates the iocb was never successfully submitted, is
++ *     corrupted, or the memory has been reused.
 + *
-+ * error: EBADF, Bad file descriptor
-+ *   desc: Returned if: (1) aio_fildes in an iocb does not refer to an open
-+ *     file, (2) aio_resfd does not refer to a valid file descriptor when
-+ *     IOCB_FLAG_RESFD is set, (3) the file is not opened with appropriate
-+ *     mode for the operation (e.g., read on write-only file).
++ * error: EINVAL, Invalid AIO context
++ *   desc: Returned if ctx_id does not refer to a valid AIO context. This can
++ *     occur if: (1) the context was never created, (2) the context was
++ *     destroyed via io_destroy(), (3) the ctx_id is 0, (4) the ring buffer
++ *     header cannot be read from userspace, (5) the context belongs to a
++ *     different process, or (6) the context's internal ID doesn't match.
 + *
-+ * error: EAGAIN, Resource temporarily unavailable
-+ *   desc: Returned if insufficient slots are available in the completion
-+ *     ring buffer. This typically means too many operations are already
-+ *     in flight and the application should call io_getevents() to consume
-+ *     completed events before submitting more.
++ * error: EINVAL, iocb not found or not cancellable
++ *   desc: Returned if the specified iocb is not present in the context's
++ *     active request list. This occurs when: (1) the operation has already
++ *     completed and the completion event is in the ring buffer, (2) the
++ *     operation was never submitted to this context, (3) the iocb pointer
++ *     does not match any pending operation (comparison is by pointer value
++ *     converted to u64), or (4) the operation did not register a cancellation
++ *     callback (though in this case EINVAL comes from the default ret value).
++ *     Note: The man page documents EAGAIN for this case, but the actual
++ *     implementation returns EINVAL.
 + *
-+ * error: EPERM, Operation not permitted
-+ *   desc: Returned if: (1) IOCB_FLAG_IOPRIO is set and aio_reqprio specifies
-+ *     IOPRIO_CLASS_RT (real-time I/O priority) but the process lacks
-+ *     CAP_SYS_ADMIN or CAP_SYS_NICE capability, or (2) RWF_NOAPPEND is
-+ *     specified but the file has the append-only attribute (IS_APPEND).
++ * error: ENOSYS, AIO not implemented
++ *   desc: Returned if the kernel was compiled without CONFIG_AIO support.
++ *     This error is returned by the syscall dispatch mechanism before the
++ *     io_cancel implementation is even reached.
 + *
-+ * error: EOPNOTSUPP, Operation not supported
-+ *   desc: Returned if: (1) unsupported aio_rw_flags are specified, (2)
-+ *     RWF_NOWAIT is specified but the file doesn't support non-blocking I/O
-+ *     (FMODE_NOWAIT not set), (3) RWF_ATOMIC is specified for a read or
-+ *     the file doesn't support atomic writes, or (4) RWF_DONTCACHE is
-+ *     specified but not supported by the filesystem or file is DAX-mapped.
-+ *
-+ * error: EOVERFLOW, Value too large
-+ *   desc: Returned if aio_offset plus aio_nbytes would overflow and the
-+ *     file does not support unsigned offsets. This check prevents reading
-+ *     or writing past the maximum representable file position.
-+ *
-+ * error: ENOMEM, Out of memory
-+ *   desc: Returned if memory allocation fails when preparing credentials
-+ *     for IOCB_CMD_FSYNC operations, or if vectored I/O (preadv/pwritev)
-+ *     requires allocating iovec arrays larger than the stack buffer.
++ * error: (driver-specific), Cancellation callback failed
++ *   desc: If the iocb is found and its ki_cancel callback is invoked, the
++ *     callback's return value is propagated to userspace if non-zero. For
++ *     USB gadget operations, usb_ep_dequeue() may return various errors
++ *     including EINVAL if the request wasn't queued. The aio_poll_cancel
++ *     callback always returns 0. Driver-specific cancellation functions
++ *     may return other error codes.
 + *
 + * lock: RCU read lock
 + *   type: KAPI_LOCK_RCU
-+ *   desc: Acquired during context lookup in lookup_ioctx(). Protects against
-+ *     concurrent modification of the ioctx_table while looking up the
-+ *     context. Released before processing any iocbs.
-+ *
-+ * lock: ctx->completion_lock
-+ *   type: KAPI_LOCK_SPINLOCK
-+ *   desc: Per-context spinlock acquired briefly during request slot allocation
-+ *     via user_refill_reqs_available() if the percpu request counter is empty.
-+ *     Protects the ring buffer tail and completed_events counters.
++ *   desc: Acquired in lookup_ioctx() during context lookup. Protects against
++ *     concurrent modification of the mm->ioctx_table while searching for the
++ *     context. Released before any spinlocks are acquired.
 + *
 + * lock: ctx->ctx_lock
 + *   type: KAPI_LOCK_SPINLOCK
-+ *   desc: Per-context spinlock acquired when adding cancellable requests to
-+ *     the active_reqs list. This enables io_cancel() to find and cancel
-+ *     in-flight operations.
-+ *
-+ * lock: blk_plug
-+ *   type: KAPI_LOCK_CUSTOM
-+ *   desc: Block layer plugging is enabled when nr > 2 (AIO_PLUG_THRESHOLD)
-+ *     to batch block I/O requests for better performance. This is not a
-+ *     traditional lock but affects I/O scheduling.
-+ *
-+ * signal: any
-+ *   direction: KAPI_SIGNAL_RECEIVE
-+ *   action: KAPI_SIGNAL_ACTION_TRANSFORM
-+ *   condition: Signal arrives during underlying read/write operation
-+ *   desc: If a signal arrives during the underlying file read/write operation
-+ *     and the operation returns ERESTARTSYS/ERESTARTNOINTR/etc., the error
-+ *     is transformed to EINTR for the completion event. AIO operations cannot
-+ *     be restarted in the traditional sense because other operations may have
-+ *     already been submitted. The syscall itself (io_submit) is NOT interrupted
-+ *     by signals - only the individual async operations can be.
-+ *   error: -EINTR (in io_event.res, not syscall return)
-+ *   timing: KAPI_SIGNAL_TIME_DURING
-+ *   restartable: no
-+ *
-+ * side-effect: KAPI_EFFECT_ALLOC_MEMORY
-+ *   target: aio_kiocb structures
-+ *   desc: Allocates one aio_kiocb structure per submitted operation from the
-+ *     kiocb_cachep slab cache. These structures track the in-flight operations
-+ *     and are freed after completion is recorded in the ring buffer.
-+ *   reversible: yes
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: AIO context request counters
-+ *   desc: Decrements the available request slot counter in the context.
-+ *     Slots are reclaimed when completion events are consumed from the ring
-+ *     buffer via io_getevents().
-+ *   reversible: yes
++ *   desc: Per-context spinlock acquired with interrupts disabled via
++ *     spin_lock_irq(). Held while iterating through the active_reqs list
++ *     searching for the iocb, while invoking the ki_cancel callback, and
++ *     while removing the iocb from the list. The cancel callback is invoked
++ *     with this lock held, so callbacks must not sleep and must be IRQ-safe.
 + *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
 + *   target: ctx->active_reqs list
-+ *   desc: Cancellable operations (reads, writes, polls) are added to the
-+ *     context's active_reqs list, enabling cancellation via io_cancel().
-+ *   condition: Operation supports cancellation
-+ *   reversible: yes
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: iocb->aio_key field
-+ *   desc: The kernel writes KIOCB_KEY (0) to the aio_key field of each
-+ *     submitted iocb in userspace memory. This marks the iocb as submitted
-+ *     and is checked by io_cancel() to validate the iocb.
++ *   desc: If the iocb is found and its cancellation callback is invoked, the
++ *     kiocb is removed from the context's active_reqs list via list_del_init().
++ *     This prevents the iocb from being found by subsequent io_cancel calls.
++ *   condition: iocb found and ki_cancel callback invoked
 + *   reversible: no
 + *
 + * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: file reference count
-+ *   desc: Increments the reference count of the file descriptor's struct file
-+ *     via fget() for each submitted operation. The reference is released
-+ *     when the operation completes (via fput() in iocb_destroy()).
-+ *   reversible: yes
-+ *
-+ * side-effect: KAPI_EFFECT_FILESYSTEM
-+ *   target: target file(s)
-+ *   desc: For write operations, the file content may be modified. For fsync
-+ *     operations, dirty data is flushed to storage. The actual I/O may
-+ *     complete synchronously or asynchronously depending on the filesystem.
-+ *   condition: IOCB_CMD_PWRITE, IOCB_CMD_PWRITEV, IOCB_CMD_FSYNC, IOCB_CMD_FDSYNC
++ *   target: Pending I/O operation
++ *   desc: The cancellation callback may modify the state of the underlying
++ *     I/O operation. For poll operations, the cancelled flag is set. For USB
++ *     operations, the USB request is dequeued which triggers the completion
++ *     callback. The completion event is delivered via the ring buffer.
++ *   condition: ki_cancel callback is invoked
 + *   reversible: no
 + *
 + * side-effect: KAPI_EFFECT_SCHEDULE
-+ *   target: fsync work queue
-+ *   desc: FSYNC and FDSYNC operations are scheduled to run on a workqueue
-+ *     because vfs_fsync() can block. The operation runs asynchronously and
-+ *     completion is signaled via the ring buffer.
-+ *   condition: IOCB_CMD_FSYNC or IOCB_CMD_FDSYNC
++ *   target: aio_poll work queue
++ *   desc: For poll operations (IOCB_CMD_POLL), the aio_poll_cancel callback
++ *     schedules a work item via schedule_work() to complete the cancellation
++ *     asynchronously. This work item will eventually deliver the completion
++ *     event to the ring buffer.
++ *   condition: Cancelling a poll operation
 + *   reversible: no
 + *
-+ * state-trans: iocb state
-+ *   from: user-prepared iocb
-+ *   to: submitted (aio_key set to KIOCB_KEY)
-+ *   condition: successful submission of each iocb
-+ *   desc: Each successfully submitted iocb transitions from user-prepared
-+ *     state to submitted state, marked by the kernel writing KIOCB_KEY to
-+ *     aio_key. The iocb remains in submitted state until completion.
++ * state-trans: kiocb state
++ *   from: in_flight (in active_reqs list)
++ *   to: cancelling (removed from list, cancel callback invoked)
++ *   condition: iocb found and ki_cancel invoked
++ *   desc: When the iocb is found in the active_reqs list and its cancellation
++ *     callback is invoked, the kiocb transitions from in-flight to cancelling
++ *     state. The kiocb is removed from the active_reqs list, preventing
++ *     duplicate cancellation attempts. Final completion occurs asynchronously.
 + *
-+ * state-trans: AIO context slot availability
-+ *   from: slots_available = N
-+ *   to: slots_available = N - submitted_count
-+ *   condition: successful submission
-+ *   desc: Available slots in the context decrease by the number of successfully
-+ *     submitted operations. Slots are reclaimed when io_getevents() consumes
-+ *     completion events.
++ * state-trans: poll_iocb cancelled flag
++ *   from: false
++ *   to: true
++ *   condition: aio_poll_cancel is invoked
++ *   desc: For poll operations, the aio_poll_cancel callback sets the cancelled
++ *     flag on the poll_iocb structure. This signals to the poll completion
++ *     handler that the operation was cancelled rather than completed normally.
 + *
-+ * capability: CAP_SYS_ADMIN
-+ *   type: KAPI_CAP_GRANT_PERMISSION
-+ *   allows: Use of IOPRIO_CLASS_RT (real-time I/O priority class)
-+ *   without: Returns EPERM when attempting to use RT I/O priority
-+ *   condition: IOCB_FLAG_IOPRIO set and aio_reqprio specifies IOPRIO_CLASS_RT
++ * constraint: Operation must support cancellation
++ *   desc: Only operations that register a ki_cancel callback can be cancelled.
++ *     Operations that don't set this callback (most direct I/O operations)
++ *     will never appear in the active_reqs list and thus cannot be cancelled.
++ *     Currently, only IOCB_CMD_POLL operations in the kernel AIO subsystem
++ *     and USB gadget operations support cancellation.
 + *
-+ * capability: CAP_SYS_NICE
-+ *   type: KAPI_CAP_GRANT_PERMISSION
-+ *   allows: Use of IOPRIO_CLASS_RT (alternative to CAP_SYS_ADMIN)
-+ *   without: Returns EPERM when attempting to use RT I/O priority
-+ *   condition: IOCB_FLAG_IOPRIO set and aio_reqprio specifies IOPRIO_CLASS_RT
-+ *
-+ * constraint: Ring buffer slot availability
-+ *   desc: There must be available slots in the completion ring buffer for
-+ *     each operation to be submitted. If all slots are occupied by pending
-+ *     completion events, submission fails with EAGAIN. The number of slots
-+ *     is determined by nr_events passed to io_setup(), though internal
-+ *     doubling means more slots may be available.
-+ *   expr: available_slots >= 1 for each submission
-+ *
-+ * constraint: Valid file descriptor per iocb
-+ *   desc: Each iocb must reference a valid, open file descriptor via
-+ *     aio_fildes. The file must be opened with appropriate access mode
-+ *     for the requested operation (read access for PREAD, write access
-+ *     for PWRITE, etc.).
-+ *
-+ * constraint: File must support operation
-+ *   desc: For read/write operations, the underlying file must implement
-+ *     read_iter/write_iter file operations. For fsync, the file must
-+ *     implement fsync. For poll, the file must support vfs_poll().
++ * constraint: Timing window for cancellation
++ *   desc: The iocb must still be pending at the time io_cancel is called.
++ *     There is an inherent race condition: the operation may complete
++ *     naturally between the time the application decides to cancel and when
++ *     io_cancel is invoked. In this case, EINVAL is returned because the
++ *     iocb is no longer in the active_reqs list.
 + *
 + * constraint: CONFIG_AIO required
 + *   desc: The kernel must be compiled with CONFIG_AIO=y for this syscall
-+ *     to be available. If not configured, returns -ENOSYS.
++ *     to be available. If not configured, ENOSYS is returned.
 + *
-+ * examples: struct iocb iocb, *iocbp = &iocb; io_submit(ctx, 1, &iocbp);
-+ *   struct iocb iocbs[10], *ptrs[10]; io_submit(ctx, 10, ptrs);  // Batch submit
++ * examples: io_cancel(ctx, &iocb, NULL);  // Cancel with unused result param
++ *   if (io_cancel(ctx, &iocb, NULL) == -EINPROGRESS) handle_cancellation();
++ *   ret = io_cancel(ctx, &iocb, NULL); if (ret && ret != -EINPROGRESS) error();
 + *
-+ * notes: Unlike traditional synchronous I/O, errors from io_submit() indicate
-+ *   submission failures, not I/O errors. Actual I/O errors are reported via
-+ *   the res field of struct io_event when retrieved via io_getevents().
++ * notes: The return value semantics are unusual: -EINPROGRESS indicates
++ *   successful cancellation initiation, not an error. This is because the
++ *   actual cancellation may complete asynchronously, with the completion
++ *   event delivered via the ring buffer.
 + *
-+ *   The return value indicates how many iocbs were successfully submitted.
-+ *   If this is less than nr, the application should check which operation
-+ *   failed (it's the one at index = return_value) and handle the error.
-+ *   Previously submitted operations in the batch are still queued.
++ *   The result parameter is completely ignored by current kernels. It was
++ *   historically used to return the io_event directly, but since commit
++ *   28468cbed92e ("Revert 'fs/aio: Make io_cancel() generate completions
++ *   again'"), completion events are always delivered via the ring buffer.
++ *   Applications should use io_getevents() to retrieve the cancelled
++ *   operation's completion event.
 + *
-+ *   For vectored operations (PREADV/PWRITEV), aio_buf points to an array
-+ *   of struct iovec and aio_nbytes contains the iovec count. The maximum
-+ *   iovec count is UIO_MAXIOV (1024).
++ *   The man page documents EAGAIN as a possible error when "the iocb specified
++ *   was not cancelled", but code analysis shows that EINVAL is actually
++ *   returned in this case. The man page is outdated in this regard.
 + *
-+ *   Block layer plugging is automatically enabled for batches larger than
-+ *   2 operations, improving I/O merging and reducing per-I/O overhead.
++ *   The aio_key field must equal KIOCB_KEY (0) because the kernel writes this
++ *   value during io_submit. If an application attempts to cancel an iocb
++ *   before submitting it, or after the memory has been reused, this check
++ *   will fail with EINVAL.
 + *
-+ *   The COMPAT_SYSCALL variant handles 32-bit userspace on 64-bit kernels,
-+ *   using compat_uptr_t for the iocbpp array elements.
++ *   For poll operations specifically, the cancellation is marked but the
++ *   actual completion may be delayed until a worker processes it. The
++ *   -EINPROGRESS return value reflects this asynchronous completion model.
 + *
-+ *   Historical note: commit d6b2615f7d31d ("aio: simplify - and fix - fget/fput
-+ *   for io_submit()") fixed file descriptor reference counting issues. Earlier
-+ *   kernels could leak file references on certain error paths.
++ *   USB gadget operations are an exception: when usb_ep_dequeue() is called,
++ *   it typically completes the request synchronously with -ECONNRESET status
++ *   in the completion callback.
 + *
-+ *   io_uring (since Linux 5.1) is a more modern and performant alternative.
-+ *   Consider using io_uring_enter() for new applications requiring async I/O.
++ *   There is no glibc wrapper for this syscall. Applications must use
++ *   syscall(SYS_io_cancel, ...) or the libaio library. The libaio wrapper
++ *   returns negative error numbers directly rather than returning -1 and
++ *   setting errno.
 + *
-+ *   There is no glibc wrapper; use syscall(SYS_io_submit, ...) or the libaio
-+ *   library. The libaio wrapper io_submit() returns negative error numbers
-+ *   directly rather than returning -1 and setting errno.
++ *   io_uring (since Linux 5.1) provides a more capable and widely-supported
++ *   async I/O interface with better cancellation support via IORING_OP_ASYNC_CANCEL.
 + *
 + * since-version: 2.5
   */
- SYSCALL_DEFINE3(io_submit, aio_context_t, ctx_id, long, nr,
- 		struct iocb __user * __user *, iocbpp)
+ SYSCALL_DEFINE3(io_cancel, aio_context_t, ctx_id, struct iocb __user *, iocb,
+ 		struct io_event __user *, result)
 -- 
 2.51.0
 
