@@ -1,459 +1,479 @@
-Return-Path: <linux-api+bounces-5566-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5567-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77C1CCD9D7
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 22:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64D0CD6782
+	for <lists+linux-api@lfdr.de>; Mon, 22 Dec 2025 16:04:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 04F703035D17
-	for <lists+linux-api@lfdr.de>; Thu, 18 Dec 2025 20:55:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8542307C8EB
+	for <lists+linux-api@lfdr.de>; Mon, 22 Dec 2025 15:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34090339842;
-	Thu, 18 Dec 2025 20:43:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5FC931DDBB;
+	Mon, 22 Dec 2025 15:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rI1Szzzi"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PBq8bao2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AfR+7BPY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="I1Dngh0w";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UER1f8ES"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F334C336EEE;
-	Thu, 18 Dec 2025 20:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA6C31E11C
+	for <linux-api@vger.kernel.org>; Mon, 22 Dec 2025 15:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090580; cv=none; b=ijXn4NCD+2F4Y6wIphe4sgO6RyPA9KtBTYWn3a0c3Vo0oRrHdelqaEP5i7u5e5Q5M9e9nHGt5cIIvGSWiRGETnAaiTvwBgWrqKVB6eLLzjlUodumbL2snZlK9LiYPlf1STdK2Qjr5JTVBce+i8Vxr2IpUy7QvrAATHxR1b25cas=
+	t=1766415682; cv=none; b=WiU1pDkHbC89aA7NA1ASE4WcydFvvWlvpM0rjaq62p7lcKAyr1VP0wyAtzDxxHNzY0O16/WEJ6RATn+IOpD/mKBnS95JznbnMglrXC/PDCqpiP/Naoztnf+yC5swNWZA6Sh+Ilv2N2QHbzd3xgYxiZ/oHydvFCNngwB3uvAUbW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090580; c=relaxed/simple;
-	bh=oL3b1IdHz7HdHacAQkdzJP1OcLLI3zfDFml5NRFS38s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MTh8wiAF+0gXyfcUYX03To0JtNlPRequnsbqi/UPRghXzdNdC2r0ZS2d+vwAVy9iMBQ8c0pgXIaV5LlL45yHvEgkcg+KUnhqQYDY99qPkVLDOPWzf4h6TNcHJqdbAeGRpmewSlaI+1JNSWgH4A/+hRpvFcn6Mrg0VfLfkO5gxz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rI1Szzzi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36279C19421;
-	Thu, 18 Dec 2025 20:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766090579;
-	bh=oL3b1IdHz7HdHacAQkdzJP1OcLLI3zfDFml5NRFS38s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rI1Szzzice7aDP+OFJBuhoZ3KxNQ4WkxGN3J9nLZNLSTWQBmiaVB7hRwBPajFFOUf
-	 YmsG+f/3uaIq3WZCqQzFgihxRzaDsNmNTBUegYtv/+czHsxU6vh6IgIwNOU9isPLKR
-	 CO4E3CuOlOGSsZbn52k4nh7+/NHdVZII59C5MOsNyEix/8K2Vjp4/sVsEBtZWxQ8GA
-	 uxK/Ry6vsaDLl+OPcvfMLBERZqTC7VcG+1T7FWQXMHM20r9UPnDYtfvMCOg8gnVRyg
-	 Lh7duABLHg9rBVnh1Yb7W9SZLO2EzqGjKCcv+wE41QhNR/Z+PmKUOs+NZqa0sRtE8t
-	 egq+peiDyNtjQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tools@kernel.org,
-	gpaoloni@redhat.com,
-	Sasha Levin <sashal@kernel.org>
-Subject: [RFC PATCH v5 15/15] kernel/api: add API specification for sys_write
-Date: Thu, 18 Dec 2025 15:42:37 -0500
-Message-ID: <20251218204239.4159453-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251218204239.4159453-1-sashal@kernel.org>
-References: <20251218204239.4159453-1-sashal@kernel.org>
+	s=arc-20240116; t=1766415682; c=relaxed/simple;
+	bh=SZdQECnAuh3evi5qEo98CncBOOT5aJFsfafebtH24xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DW3lSa/vtr/EL2ovHQodOQuazUekGDCoFnWnsMSLO91DyPyqy9Voygy2TDPcpIF97ZIEow1XaaFb/cf8hUuKxq+6s+Dd2dSIJMb5fBxJXNVm0DZbxfgYiBw411iSmrcmrLgvKYrSEaQQ02xS+oVIBWkgZjS3pED4QLwOCejg+rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PBq8bao2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=AfR+7BPY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=I1Dngh0w; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UER1f8ES; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4721A336A9;
+	Mon, 22 Dec 2025 15:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1766415672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/4+Tyu8tctXsQondAS9xaAdXgKieYmZ4xcN5I5GwVHk=;
+	b=PBq8bao2ufYtkjqAs92m6higCGY5Kg9/t0RvXWcFJBpxXzO7Byb18mjzkGgkUN1QTvVaUg
+	oAkGjwvSqsFHaCGuSx+0LZjVQsFDxyxaD1PLNE6BqMEz6uZjfErn8TMExfXrrhTRqLi+fM
+	jMn7tVUNbYUrjHbVKX0i5E3Lxq6XMWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1766415672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/4+Tyu8tctXsQondAS9xaAdXgKieYmZ4xcN5I5GwVHk=;
+	b=AfR+7BPYyKDR4IACLknj76He/9T3+LCT82QoPHTb5y3/69sbYDDUrChUEV0Wn7gPKKK8SL
+	69xAM84ssswarUCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=I1Dngh0w;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=UER1f8ES
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1766415671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/4+Tyu8tctXsQondAS9xaAdXgKieYmZ4xcN5I5GwVHk=;
+	b=I1Dngh0wG11P/29NCvf0BZvwBNUALZBK+ub1bgmqI5nfiKuFdYFQ1L76hqs5gEHUWhDDCO
+	srcQBAm+zmN6nWKQRotBcHrRdLss4Rmft1zl/ldgYrVpPU3C3XlI5rIrhVcNGtqSvOvgWR
+	12FebBT7XpJjoNUQRn8nJp/PkEbXgvo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1766415671;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/4+Tyu8tctXsQondAS9xaAdXgKieYmZ4xcN5I5GwVHk=;
+	b=UER1f8ESdqa4Ii8TK8pgsnKa6ccmoB2cY2Mfydbta40+9T2ExYiFZG7oc2IhZfCiDL/Hew
+	yp7BD6Aqw3fWgnCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 37DA71364B;
+	Mon, 22 Dec 2025 15:01:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C62cDTddSWm1BwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 22 Dec 2025 15:01:11 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C298BA09CB; Mon, 22 Dec 2025 16:01:10 +0100 (CET)
+Date: Mon, 22 Dec 2025 16:01:10 +0100
+From: Jan Kara <jack@suse.cz>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: brauner@kernel.org, linux-api@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, jack@suse.cz, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, gabriel@krisman.be, hch@lst.de, amir73il@gmail.com
+Subject: Re: [PATCH 1/6] uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
+Message-ID: <vn6wnmfy2az6aecm43zmyttbnno2y7gm4jlria5vwe2ylwj3ka@m3jq5nm6yupa>
+References: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
+ <176602332146.686273.6355079912638580915.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176602332146.686273.6355079912638580915.stgit@frogsfrogsfrogs>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,suse.cz:email];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,suse.cz,krisman.be,lst.de,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,suse.com:email]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 4721A336A9
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/read_write.c | 377 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 377 insertions(+)
+On Wed 17-12-25 18:02:56, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Stop definining these privately and instead move them to the uapi
+> errno.h so that they become canonical instead of copy pasta.
+> 
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 422046a666b1d..685bf6b9bd3b1 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1030,6 +1030,383 @@ ssize_t ksys_write(unsigned int fd, const char __user *buf, size_t count)
- 	return ret;
- }
- 
-+/**
-+ * sys_write - Write data to a file descriptor
-+ * @fd: File descriptor to write to
-+ * @buf: User-space buffer containing data to write
-+ * @count: Maximum number of bytes to write
-+ *
-+ * long-desc: Attempts to write up to count bytes from the buffer starting at
-+ *   buf to the file referred to by the file descriptor fd. For seekable files
-+ *   (regular files, block devices), the write begins at the current file offset,
-+ *   and the file offset is advanced by the number of bytes written. If the file
-+ *   was opened with O_APPEND, the file offset is first set to the end of the
-+ *   file before writing. For non-seekable files (pipes, FIFOs, sockets, character
-+ *   devices), the file offset is not used and writing occurs at the current
-+ *   position as defined by the device.
-+ *
-+ *   The number of bytes written may be less than count if, for example, there is
-+ *   insufficient space on the underlying physical medium, or the RLIMIT_FSIZE
-+ *   resource limit is encountered, or the call was interrupted by a signal
-+ *   handler after having written less than count bytes. In the event of a
-+ *   successful partial write, the caller should make another write() call to
-+ *   transfer the remaining bytes. This behavior is called a "short write."
-+ *
-+ *   On Linux, write() transfers at most MAX_RW_COUNT (0x7ffff000, approximately
-+ *   2GB minus one page) bytes per call, regardless of whether the file or
-+ *   filesystem would allow more. This prevents signed arithmetic overflow.
-+ *
-+ *   For regular files, a successful write() does not guarantee that data has been
-+ *   committed to disk. Use fsync(2) or fdatasync(2) if durability is required.
-+ *   For O_SYNC or O_DSYNC files, the kernel automatically syncs data on write.
-+ *
-+ *   POSIX permits writes that are interrupted after partial writes to either
-+ *   return -1 with errno=EINTR, or to return the count of bytes already written.
-+ *   Linux implements the latter behavior: if some data has been written before
-+ *   a signal arrives, write() returns the number of bytes written rather than
-+ *   failing with EINTR.
-+ *
-+ * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
-+ *
-+ * param: fd
-+ *   type: KAPI_TYPE_FD
-+ *   flags: KAPI_PARAM_IN
-+ *   constraint-type: KAPI_CONSTRAINT_RANGE
-+ *   range: 0, INT_MAX
-+ *   constraint: Must be a valid, open file descriptor with write permission.
-+ *     The file must have been opened with O_WRONLY or O_RDWR. File descriptors
-+ *     opened with O_RDONLY, O_PATH, or that have been closed return EBADF.
-+ *     Standard file descriptors 0 (stdin), 1 (stdout), 2 (stderr) are valid if
-+ *     open and writable. AT_FDCWD and other special values are not valid.
-+ *
-+ * param: buf
-+ *   type: KAPI_TYPE_USER_PTR
-+ *   flags: KAPI_PARAM_IN | KAPI_PARAM_USER
-+ *   constraint-type: KAPI_CONSTRAINT_CUSTOM
-+ *   constraint: Must point to a valid, readable user-space memory region of at
-+ *     least count bytes. The buffer is validated via access_ok() before any
-+ *     write operation. NULL is invalid and returns EFAULT. For O_DIRECT writes,
-+ *     the buffer may need to be aligned to the filesystem's block size (varies
-+ *     by filesystem; query with statx() using STATX_DIOALIGN on Linux 6.1+).
-+ *
-+ * param: count
-+ *   type: KAPI_TYPE_UINT
-+ *   flags: KAPI_PARAM_IN
-+ *   constraint-type: KAPI_CONSTRAINT_RANGE
-+ *   range: 0, SIZE_MAX
-+ *   constraint: Maximum number of bytes to write. Clamped internally to
-+ *     MAX_RW_COUNT (INT_MAX & PAGE_MASK, approximately 0x7ffff000 bytes) to
-+ *     prevent signed overflow. A count of 0 returns 0 immediately without any
-+ *     file operations. Cast to ssize_t must not be negative.
-+ *
-+ * return:
-+ *   type: KAPI_TYPE_INT
-+ *   check-type: KAPI_RETURN_RANGE
-+ *   success: >= 0
-+ *   desc: On success, returns the number of bytes written (non-negative). Zero
-+ *     indicates that nothing was written (count was 0, or no space available
-+ *     for non-blocking writes). The return value may be less than count due to
-+ *     resource limits, signal interruption, or device constraints (short write).
-+ *     On error, returns a negative error code.
-+ *
-+ * error: EBADF, Bad file descriptor
-+ *   desc: fd is not a valid file descriptor, or fd was not opened for writing.
-+ *     This includes file descriptors opened with O_RDONLY, O_PATH, or file
-+ *     descriptors that have been closed. Also returned if the file structure
-+ *     does not have FMODE_WRITE or FMODE_CAN_WRITE set.
-+ *
-+ * error: EFAULT, Bad address
-+ *   desc: buf points outside the accessible address space. The buffer address
-+ *     failed access_ok() validation. Can also occur if a fault happens during
-+ *     copy_from_user() when reading data from user space.
-+ *
-+ * error: EINVAL, Invalid argument
-+ *   desc: Returned in several cases: (1) The file descriptor refers to an
-+ *     object that is not suitable for writing (no write or write_iter method).
-+ *     (2) The file was opened with O_DIRECT and the buffer alignment, offset,
-+ *     or count does not meet the filesystem's alignment requirements. (3) The
-+ *     count argument, when cast to ssize_t, is negative. (4) For IOCB_NOWAIT
-+ *     operations on non-O_DIRECT files that don't support WASYNC.
-+ *
-+ * error: EAGAIN, Resource temporarily unavailable
-+ *   desc: fd refers to a file (pipe, socket, device) that is marked non-blocking
-+ *     (O_NONBLOCK) and the write would block because the buffer is full. Also
-+ *     returned with IOCB_NOWAIT when data cannot be written immediately.
-+ *     Equivalent to EWOULDBLOCK. The application should retry later or use
-+ *     select/poll/epoll to wait for writability.
-+ *
-+ * error: EINTR, Interrupted system call
-+ *   desc: The call was interrupted by a signal before any data was written. This
-+ *     only occurs if no data has been transferred; if some data was written
-+ *     before the signal, the call returns the number of bytes written. The
-+ *     caller should typically restart the write.
-+ *
-+ * error: EPIPE, Broken pipe
-+ *   desc: fd refers to a pipe or socket whose reading end has been closed.
-+ *     When this condition occurs, the calling process also receives a SIGPIPE
-+ *     signal unless MSG_NOSIGNAL is used (for sockets) or IOCB_NOSIGNAL is set.
-+ *     If the signal is caught or ignored, EPIPE is still returned.
-+ *
-+ * error: EFBIG, File too large
-+ *   desc: An attempt was made to write a file that exceeds the implementation-
-+ *     defined maximum file size or the file size limit (RLIMIT_FSIZE) of the
-+ *     process. When RLIMIT_FSIZE is exceeded, the process also receives SIGXFSZ.
-+ *     For files not opened with O_LARGEFILE on 32-bit systems, the limit is 2GB.
-+ *
-+ * error: ENOSPC, No space left on device
-+ *   desc: The device containing the file has no room for the data. This can
-+ *     occur mid-write resulting in a short write followed by ENOSPC on retry.
-+ *
-+ * error: EDQUOT, Disk quota exceeded
-+ *   desc: The user's quota of disk blocks on the filesystem has been exhausted.
-+ *     Like ENOSPC, this can result in a short write.
-+ *
-+ * error: EIO, Input/output error
-+ *   desc: A low-level I/O error occurred while modifying the inode or writing
-+ *     data. This typically indicates hardware failure, filesystem corruption,
-+ *     or network filesystem timeout. Some data may have been written.
-+ *
-+ * error: EPERM, Operation not permitted
-+ *   desc: The operation was prevented: (1) by a file seal (F_SEAL_WRITE or
-+ *     F_SEAL_FUTURE_WRITE on memfd/shmem), (2) writing to an immutable inode
-+ *     (IS_IMMUTABLE), (3) by an LSM hook denying the operation, or (4) by a
-+ *     fanotify permission event denying the write.
-+ *
-+ * error: EOVERFLOW, Value too large for defined data type
-+ *   desc: The file position plus count would exceed LLONG_MAX. Also returned
-+ *     when the offset would exceed filesystem limits after the write.
-+ *
-+ * error: EDESTADDRREQ, Destination address required
-+ *   desc: fd is a datagram socket for which no peer address has been set using
-+ *     connect(2). Use sendto(2) to specify the destination address.
-+ *
-+ * error: ETXTBSY, Text file busy
-+ *   desc: The file is being used as a swap file (IS_SWAPFILE).
-+ *
-+ * error: EXDEV, Cross-device link
-+ *   desc: When writing to a pipe that has been configured as a watch queue
-+ *     (CONFIG_WATCH_QUEUE), direct write() calls are not supported.
-+ *
-+ * error: ENOMEM, Out of memory
-+ *   desc: Insufficient kernel memory was available for the write operation.
-+ *     For pipes, this occurs when allocating pages for the pipe buffer.
-+ *
-+ * error: ERESTARTSYS, Restart system call (internal)
-+ *   desc: Internal error code indicating the syscall should be restarted. This
-+ *     is converted to EINTR if SA_RESTART is not set on the signal handler, or
-+ *     the syscall is transparently restarted if SA_RESTART is set. User space
-+ *     should not see this error code directly.
-+ *
-+ * error: EACCES, Permission denied
-+ *   desc: The security subsystem (LSM such as SELinux or AppArmor) denied the
-+ *     write operation via security_file_permission(). This can occur even if
-+ *     the file was successfully opened.
-+ *
-+ * lock: file->f_pos_lock
-+ *   type: KAPI_LOCK_MUTEX
-+ *   acquired: conditional
-+ *   released: true
-+ *   desc: For regular files that require atomic position updates (FMODE_ATOMIC_POS),
-+ *     the f_pos_lock mutex is acquired by fdget_pos() at syscall entry and released
-+ *     by fdput_pos() at syscall exit. This serializes concurrent writes sharing
-+ *     the same file description. Not acquired for stream files (FMODE_STREAM like
-+ *     pipes and sockets) or when the file is not shared.
-+ *
-+ * lock: sb->s_writers (freeze protection)
-+ *   type: KAPI_LOCK_CUSTOM
-+ *   acquired: conditional
-+ *   released: true
-+ *   desc: For regular files, file_start_write() acquires freeze protection on
-+ *     the superblock via sb_start_write() before the write, and file_end_write()
-+ *     releases it after. This prevents writes during filesystem freeze. Not
-+ *     acquired for non-regular files (pipes, sockets, devices).
-+ *
-+ * lock: inode->i_rwsem
-+ *   type: KAPI_LOCK_RWLOCK
-+ *   acquired: conditional
-+ *   released: true
-+ *   desc: For regular files using generic_file_write_iter(), the inode's i_rwsem
-+ *     is acquired in write mode before modifying file data. This is internal to
-+ *     the filesystem and released before return. Not all filesystems use this
-+ *     pattern.
-+ *
-+ * lock: pipe->mutex
-+ *   type: KAPI_LOCK_MUTEX
-+ *   acquired: conditional
-+ *   released: true
-+ *   desc: For pipes and FIFOs, the pipe's mutex is held while modifying pipe
-+ *     buffers. Released temporarily while waiting for space, then reacquired.
-+ *
-+ * lock: RCU read-side
-+ *   type: KAPI_LOCK_RCU
-+ *   acquired: conditional
-+ *   released: true
-+ *   desc: Used during file descriptor lookup via fdget(). RCU read lock protects
-+ *     access to the file descriptor table. Released by fdput() at syscall exit.
-+ *
-+ * signal: SIGPIPE
-+ *   direction: KAPI_SIGNAL_SEND
-+ *   action: KAPI_SIGNAL_ACTION_TERMINATE
-+ *   condition: Writing to a pipe or socket with no readers
-+ *   desc: When writing to a pipe whose read end is closed, or a socket whose
-+ *     peer has closed, SIGPIPE is sent to the calling process. The default
-+ *     action terminates the process. Use signal(SIGPIPE, SIG_IGN) or set
-+ *     IOCB_NOSIGNAL/MSG_NOSIGNAL to suppress. EPIPE is returned regardless.
-+ *   timing: KAPI_SIGNAL_TIME_DURING
-+ *
-+ * signal: SIGXFSZ
-+ *   direction: KAPI_SIGNAL_SEND
-+ *   action: KAPI_SIGNAL_ACTION_COREDUMP
-+ *   condition: Writing exceeds RLIMIT_FSIZE
-+ *   desc: When a write would exceed the soft file size limit (RLIMIT_FSIZE),
-+ *     SIGXFSZ is sent. The default action terminates with a core dump. The
-+ *     write returns EFBIG. If RLIMIT_FSIZE is RLIM_INFINITY, no signal is sent.
-+ *   timing: KAPI_SIGNAL_TIME_DURING
-+ *
-+ * signal: Any signal
-+ *   direction: KAPI_SIGNAL_RECEIVE
-+ *   action: KAPI_SIGNAL_ACTION_RETURN
-+ *   condition: While blocked waiting for space (pipes, sockets)
-+ *   desc: The syscall may be interrupted by signals while waiting for buffer
-+ *     space to become available. If interrupted before any data is written,
-+ *     returns -EINTR or -ERESTARTSYS. If data was already written, returns the
-+ *     byte count. Restartable if SA_RESTART is set and no data was written.
-+ *   error: -EINTR
-+ *   timing: KAPI_SIGNAL_TIME_DURING
-+ *   restartable: yes
-+ *
-+ * side-effect: KAPI_EFFECT_FILE_POSITION
-+ *   target: file->f_pos
-+ *   condition: For seekable files when write succeeds (returns > 0)
-+ *   desc: The file offset (f_pos) is advanced by the number of bytes written.
-+ *     For files opened with O_APPEND, f_pos is first set to file size. For
-+ *     stream files (FMODE_STREAM such as pipes and sockets), the offset is not
-+ *     used or modified. Position updates are protected by f_pos_lock when
-+ *     shared.
-+ *   reversible: no
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: inode timestamps (mtime, ctime)
-+ *   condition: When write succeeds (returns > 0)
-+ *   desc: Updates the file's modification time (mtime) and change time (ctime)
-+ *     via file_update_time(). The update precision depends on filesystem mount
-+ *     options (fine-grained timestamps for multigrain inodes).
-+ *   reversible: no
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: SUID/SGID bits (mode)
-+ *   condition: When writing to a setuid/setgid file
-+ *   desc: The SUID bit is cleared when a non-root user writes to a file with
-+ *     the bit set. The SGID bit may also be cleared. This is a security feature
-+ *     to prevent privilege escalation via modified setuid binaries. Done via
-+ *     file_remove_privs().
-+ *   reversible: no
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: file data
-+ *   condition: When write succeeds (returns > 0)
-+ *   desc: Modifies the file's data content. For regular files, data is written
-+ *     to the page cache (buffered I/O) or directly to storage (O_DIRECT).
-+ *     Data may not be persistent until fsync() is called or the file is closed.
-+ *   reversible: no
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: task I/O accounting
-+ *   condition: Always
-+ *   desc: Updates the current task's I/O accounting statistics. The wchar field
-+ *     (write characters) is incremented by bytes written via add_wchar(). The
-+ *     syscw field (syscall write count) is incremented via inc_syscw(). These
-+ *     statistics are visible in /proc/[pid]/io.
-+ *   reversible: no
-+ *
-+ * side-effect: KAPI_EFFECT_MODIFY_STATE
-+ *   target: fsnotify events
-+ *   condition: When write returns > 0
-+ *   desc: Generates an FS_MODIFY fsnotify event via fsnotify_modify(), allowing
-+ *     inotify, fanotify, and dnotify watchers to be notified of the write.
-+ *
-+ * capability: CAP_DAC_OVERRIDE
-+ *   type: KAPI_CAP_BYPASS_CHECK
-+ *   allows: Bypass discretionary access control on write permission
-+ *   without: Standard DAC checks are enforced
-+ *   condition: Checked via security_file_permission() during rw_verify_area()
-+ *
-+ * capability: CAP_FOWNER
-+ *   type: KAPI_CAP_BYPASS_CHECK
-+ *   allows: Bypass ownership checks for SUID/SGID clearing
-+ *   without: SUID/SGID bits are cleared on write by non-owner
-+ *   condition: Checked during file_remove_privs()
-+ *
-+ * constraint: MAX_RW_COUNT
-+ *   desc: The count parameter is silently clamped to MAX_RW_COUNT (INT_MAX &
-+ *     PAGE_MASK, approximately 2GB minus one page) to prevent integer overflow
-+ *     in internal calculations. This is transparent to the caller.
-+ *   expr: actual_count = min(count, MAX_RW_COUNT)
-+ *
-+ * constraint: File must be open for writing
-+ *   desc: The file descriptor must have been opened with O_WRONLY or O_RDWR.
-+ *     Files opened with O_RDONLY or O_PATH cannot be written and return EBADF.
-+ *     The file must have both FMODE_WRITE and FMODE_CAN_WRITE flags set.
-+ *   expr: (file->f_mode & FMODE_WRITE) && (file->f_mode & FMODE_CAN_WRITE)
-+ *
-+ * constraint: RLIMIT_FSIZE
-+ *   desc: The size of data written is constrained by the RLIMIT_FSIZE resource
-+ *     limit. If writing would exceed this limit, SIGXFSZ is sent and EFBIG is
-+ *     returned. The limit does not apply to files beyond the limit - only to
-+ *     writes that would cross it.
-+ *   expr: pos + count <= rlimit(RLIMIT_FSIZE) || rlimit(RLIMIT_FSIZE) == RLIM_INFINITY
-+ *
-+ * constraint: File seals
-+ *   desc: For memfd or shmem files with F_SEAL_WRITE or F_SEAL_FUTURE_WRITE
-+ *     seals applied, all write operations fail with EPERM. With F_SEAL_GROW,
-+ *     writes that would extend file size fail with EPERM.
-+ *
-+ * examples: n = write(fd, buf, sizeof(buf));  // Basic write
-+ *   n = write(STDOUT_FILENO, msg, strlen(msg));  // Write to stdout
-+ *   while (total < len) { n = write(fd, buf+total, len-total); if (n<0) break; total += n; }  // Handle short writes
-+ *   if (write(pipefd[1], &byte, 1) < 0 && errno == EPIPE) { handle_broken_pipe(); }  // Pipe error handling
-+ *
-+ * notes: The behavior of write() varies significantly depending on the type of
-+ *   file descriptor:
-+ *
-+ *   - Regular files: Writes to the page cache (buffered) or directly to storage
-+ *     (O_DIRECT). Short writes are rare except near RLIMIT_FSIZE or disk full.
-+ *     O_APPEND is atomic for determining write position.
-+ *
-+ *   - Pipes and FIFOs: Blocking by default. Writes up to PIPE_BUF (4096 bytes
-+ *     on Linux) are guaranteed atomic. Larger writes may be interleaved with
-+ *     writes from other processes. Blocks if pipe is full; returns EAGAIN with
-+ *     O_NONBLOCK. SIGPIPE/EPIPE if no readers.
-+ *
-+ *   - Sockets: Behavior depends on socket type and protocol. Stream sockets
-+ *     (TCP) may return partial writes. Datagram sockets (UDP) typically write
-+ *     complete messages or fail. SIGPIPE/EPIPE for broken connections (unless
-+ *     MSG_NOSIGNAL). EDESTADDRREQ for unconnected datagram sockets.
-+ *
-+ *   - Terminals: May block on flow control. Canonical vs raw mode affects
-+ *     behavior. Special characters may be interpreted.
-+ *
-+ *   - Device special files: Behavior is device-specific. Block devices behave
-+ *     similarly to regular files. Character device behavior varies.
-+ *
-+ *   Race condition considerations: Concurrent writes from threads sharing a
-+ *   file description race on the file position. Linux 3.14+ provides atomic
-+ *   position updates via f_pos_lock for regular files (FMODE_ATOMIC_POS), but
-+ *   for maximum safety, use pwrite() for concurrent positioned writes.
-+ *
-+ *   O_DIRECT writes bypass the page cache and typically require buffer and
-+ *   offset alignment to filesystem block size. Query requirements via statx()
-+ *   with STATX_DIOALIGN (Linux 6.1+). Unaligned O_DIRECT writes return EINVAL
-+ *   on most filesystems.
-+ *
-+ *   For zero-copy writes, consider using splice(2), sendfile(2), or vmsplice(2)
-+ *   instead of copying data through user-space buffers with write().
-+ *
-+ *   Partial writes (short writes) must be handled by application code.
-+ *   Applications should loop until all data is written or an error occurs.
-+ *
-+ * since-version: 1.0
-+ */
- SYSCALL_DEFINE3(write, unsigned int, fd, const char __user *, buf,
- 		size_t, count)
- {
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  arch/alpha/include/uapi/asm/errno.h        |    2 ++
+>  arch/mips/include/uapi/asm/errno.h         |    2 ++
+>  arch/parisc/include/uapi/asm/errno.h       |    2 ++
+>  arch/sparc/include/uapi/asm/errno.h        |    2 ++
+>  fs/erofs/internal.h                        |    2 --
+>  fs/ext2/ext2.h                             |    1 -
+>  fs/ext4/ext4.h                             |    3 ---
+>  fs/f2fs/f2fs.h                             |    3 ---
+>  fs/minix/minix.h                           |    2 --
+>  fs/udf/udf_sb.h                            |    2 --
+>  fs/xfs/xfs_linux.h                         |    2 --
+>  include/linux/jbd2.h                       |    3 ---
+>  include/uapi/asm-generic/errno.h           |    2 ++
+>  tools/arch/alpha/include/uapi/asm/errno.h  |    2 ++
+>  tools/arch/mips/include/uapi/asm/errno.h   |    2 ++
+>  tools/arch/parisc/include/uapi/asm/errno.h |    2 ++
+>  tools/arch/sparc/include/uapi/asm/errno.h  |    2 ++
+>  tools/include/uapi/asm-generic/errno.h     |    2 ++
+>  18 files changed, 20 insertions(+), 18 deletions(-)
+> 
+> 
+> diff --git a/arch/alpha/include/uapi/asm/errno.h b/arch/alpha/include/uapi/asm/errno.h
+> index 3d265f6babaf0a..6791f6508632ee 100644
+> --- a/arch/alpha/include/uapi/asm/errno.h
+> +++ b/arch/alpha/include/uapi/asm/errno.h
+> @@ -55,6 +55,7 @@
+>  #define	ENOSR		82	/* Out of streams resources */
+>  #define	ETIME		83	/* Timer expired */
+>  #define	EBADMSG		84	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EPROTO		85	/* Protocol error */
+>  #define	ENODATA		86	/* No data available */
+>  #define	ENOSTR		87	/* Device not a stream */
+> @@ -96,6 +97,7 @@
+>  #define	EREMCHG		115	/* Remote address changed */
+>  
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> diff --git a/arch/mips/include/uapi/asm/errno.h b/arch/mips/include/uapi/asm/errno.h
+> index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
+> --- a/arch/mips/include/uapi/asm/errno.h
+> +++ b/arch/mips/include/uapi/asm/errno.h
+> @@ -50,6 +50,7 @@
+>  #define EDOTDOT		73	/* RFS specific error */
+>  #define EMULTIHOP	74	/* Multihop attempted */
+>  #define EBADMSG		77	/* Not a data message */
+> +#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define ENAMETOOLONG	78	/* File name too long */
+>  #define EOVERFLOW	79	/* Value too large for defined data type */
+>  #define ENOTUNIQ	80	/* Name not unique on network */
+> @@ -88,6 +89,7 @@
+>  #define EISCONN		133	/* Transport endpoint is already connected */
+>  #define ENOTCONN	134	/* Transport endpoint is not connected */
+>  #define EUCLEAN		135	/* Structure needs cleaning */
+> +#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define ENOTNAM		137	/* Not a XENIX named type file */
+>  #define ENAVAIL		138	/* No XENIX semaphores available */
+>  #define EISNAM		139	/* Is a named type file */
+> diff --git a/arch/parisc/include/uapi/asm/errno.h b/arch/parisc/include/uapi/asm/errno.h
+> index 8d94739d75c67c..8cbc07c1903e4c 100644
+> --- a/arch/parisc/include/uapi/asm/errno.h
+> +++ b/arch/parisc/include/uapi/asm/errno.h
+> @@ -36,6 +36,7 @@
+>  
+>  #define	EDOTDOT		66	/* RFS specific error */
+>  #define	EBADMSG		67	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EUSERS		68	/* Too many users */
+>  #define	EDQUOT		69	/* Quota exceeded */
+>  #define	ESTALE		70	/* Stale file handle */
+> @@ -62,6 +63,7 @@
+>  #define	ERESTART	175	/* Interrupted system call should be restarted */
+>  #define	ESTRPIPE	176	/* Streams pipe error */
+>  #define	EUCLEAN		177	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		178	/* Not a XENIX named type file */
+>  #define	ENAVAIL		179	/* No XENIX semaphores available */
+>  #define	EISNAM		180	/* Is a named type file */
+> diff --git a/arch/sparc/include/uapi/asm/errno.h b/arch/sparc/include/uapi/asm/errno.h
+> index 81a732b902ee38..4a41e7835fd5b8 100644
+> --- a/arch/sparc/include/uapi/asm/errno.h
+> +++ b/arch/sparc/include/uapi/asm/errno.h
+> @@ -48,6 +48,7 @@
+>  #define	ENOSR		74	/* Out of streams resources */
+>  #define	ENOMSG		75	/* No message of desired type */
+>  #define	EBADMSG		76	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EIDRM		77	/* Identifier removed */
+>  #define	EDEADLK		78	/* Resource deadlock would occur */
+>  #define	ENOLCK		79	/* No record locks available */
+> @@ -91,6 +92,7 @@
+>  #define	ENOTUNIQ	115	/* Name not unique on network */
+>  #define	ERESTART	116	/* Interrupted syscall should be restarted */
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+> index f7f622836198da..d06e99baf5d5ae 100644
+> --- a/fs/erofs/internal.h
+> +++ b/fs/erofs/internal.h
+> @@ -541,6 +541,4 @@ long erofs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+>  long erofs_compat_ioctl(struct file *filp, unsigned int cmd,
+>  			unsigned long arg);
+>  
+> -#define EFSCORRUPTED    EUCLEAN         /* Filesystem is corrupted */
+> -
+>  #endif	/* __EROFS_INTERNAL_H */
+> diff --git a/fs/ext2/ext2.h b/fs/ext2/ext2.h
+> index cf97b76e9fd3e9..5e0c6c5fcb6cd6 100644
+> --- a/fs/ext2/ext2.h
+> +++ b/fs/ext2/ext2.h
+> @@ -357,7 +357,6 @@ struct ext2_inode {
+>   */
+>  #define	EXT2_VALID_FS			0x0001	/* Unmounted cleanly */
+>  #define	EXT2_ERROR_FS			0x0002	/* Errors detected */
+> -#define	EFSCORRUPTED			EUCLEAN	/* Filesystem is corrupted */
+>  
+>  /*
+>   * Mount flags
+> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> index 56112f201cace7..62c091b52bacdf 100644
+> --- a/fs/ext4/ext4.h
+> +++ b/fs/ext4/ext4.h
+> @@ -3938,7 +3938,4 @@ extern int ext4_block_write_begin(handle_t *handle, struct folio *folio,
+>  				  get_block_t *get_block);
+>  #endif	/* __KERNEL__ */
+>  
+> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
+> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+> -
+>  #endif	/* _EXT4_H */
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index 20edbb99b814a7..9f3aa3c7f12613 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -5004,7 +5004,4 @@ static inline void f2fs_invalidate_internal_cache(struct f2fs_sb_info *sbi,
+>  	f2fs_invalidate_compress_pages_range(sbi, blkaddr, len);
+>  }
+>  
+> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
+> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+> -
+>  #endif /* _LINUX_F2FS_H */
+> diff --git a/fs/minix/minix.h b/fs/minix/minix.h
+> index 2bfaf377f2086c..7e1f652f16d311 100644
+> --- a/fs/minix/minix.h
+> +++ b/fs/minix/minix.h
+> @@ -175,6 +175,4 @@ static inline int minix_test_bit(int nr, const void *vaddr)
+>  	__minix_error_inode((inode), __func__, __LINE__,	\
+>  			    (fmt), ##__VA_ARGS__)
+>  
+> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+> -
+>  #endif /* FS_MINIX_H */
+> diff --git a/fs/udf/udf_sb.h b/fs/udf/udf_sb.h
+> index 08ec8756b9487b..8399accc788dea 100644
+> --- a/fs/udf/udf_sb.h
+> +++ b/fs/udf/udf_sb.h
+> @@ -55,8 +55,6 @@
+>  #define MF_DUPLICATE_MD		0x01
+>  #define MF_MIRROR_FE_LOADED	0x02
+>  
+> -#define EFSCORRUPTED EUCLEAN
+> -
+>  struct udf_meta_data {
+>  	__u32	s_meta_file_loc;
+>  	__u32	s_mirror_file_loc;
+> diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
+> index 4dd747bdbccab2..55064228c4d574 100644
+> --- a/fs/xfs/xfs_linux.h
+> +++ b/fs/xfs/xfs_linux.h
+> @@ -121,8 +121,6 @@ typedef __u32			xfs_nlink_t;
+>  
+>  #define ENOATTR		ENODATA		/* Attribute not found */
+>  #define EWRONGFS	EINVAL		/* Mount with wrong filesystem type */
+> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
+>  
+>  #define __return_address __builtin_return_address(0)
+>  
+> diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+> index f5eaf76198f377..a53a00d36228ce 100644
+> --- a/include/linux/jbd2.h
+> +++ b/include/linux/jbd2.h
+> @@ -1815,7 +1815,4 @@ static inline int jbd2_handle_buffer_credits(handle_t *handle)
+>  
+>  #endif	/* __KERNEL__ */
+>  
+> -#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
+> -#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+> -
+>  #endif	/* _LINUX_JBD2_H */
+> diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
+> index cf9c51ac49f97e..92e7ae493ee315 100644
+> --- a/include/uapi/asm-generic/errno.h
+> +++ b/include/uapi/asm-generic/errno.h
+> @@ -55,6 +55,7 @@
+>  #define	EMULTIHOP	72	/* Multihop attempted */
+>  #define	EDOTDOT		73	/* RFS specific error */
+>  #define	EBADMSG		74	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EOVERFLOW	75	/* Value too large for defined data type */
+>  #define	ENOTUNIQ	76	/* Name not unique on network */
+>  #define	EBADFD		77	/* File descriptor in bad state */
+> @@ -98,6 +99,7 @@
+>  #define	EINPROGRESS	115	/* Operation now in progress */
+>  #define	ESTALE		116	/* Stale file handle */
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> diff --git a/tools/arch/alpha/include/uapi/asm/errno.h b/tools/arch/alpha/include/uapi/asm/errno.h
+> index 3d265f6babaf0a..6791f6508632ee 100644
+> --- a/tools/arch/alpha/include/uapi/asm/errno.h
+> +++ b/tools/arch/alpha/include/uapi/asm/errno.h
+> @@ -55,6 +55,7 @@
+>  #define	ENOSR		82	/* Out of streams resources */
+>  #define	ETIME		83	/* Timer expired */
+>  #define	EBADMSG		84	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EPROTO		85	/* Protocol error */
+>  #define	ENODATA		86	/* No data available */
+>  #define	ENOSTR		87	/* Device not a stream */
+> @@ -96,6 +97,7 @@
+>  #define	EREMCHG		115	/* Remote address changed */
+>  
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> diff --git a/tools/arch/mips/include/uapi/asm/errno.h b/tools/arch/mips/include/uapi/asm/errno.h
+> index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
+> --- a/tools/arch/mips/include/uapi/asm/errno.h
+> +++ b/tools/arch/mips/include/uapi/asm/errno.h
+> @@ -50,6 +50,7 @@
+>  #define EDOTDOT		73	/* RFS specific error */
+>  #define EMULTIHOP	74	/* Multihop attempted */
+>  #define EBADMSG		77	/* Not a data message */
+> +#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define ENAMETOOLONG	78	/* File name too long */
+>  #define EOVERFLOW	79	/* Value too large for defined data type */
+>  #define ENOTUNIQ	80	/* Name not unique on network */
+> @@ -88,6 +89,7 @@
+>  #define EISCONN		133	/* Transport endpoint is already connected */
+>  #define ENOTCONN	134	/* Transport endpoint is not connected */
+>  #define EUCLEAN		135	/* Structure needs cleaning */
+> +#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define ENOTNAM		137	/* Not a XENIX named type file */
+>  #define ENAVAIL		138	/* No XENIX semaphores available */
+>  #define EISNAM		139	/* Is a named type file */
+> diff --git a/tools/arch/parisc/include/uapi/asm/errno.h b/tools/arch/parisc/include/uapi/asm/errno.h
+> index 8d94739d75c67c..8cbc07c1903e4c 100644
+> --- a/tools/arch/parisc/include/uapi/asm/errno.h
+> +++ b/tools/arch/parisc/include/uapi/asm/errno.h
+> @@ -36,6 +36,7 @@
+>  
+>  #define	EDOTDOT		66	/* RFS specific error */
+>  #define	EBADMSG		67	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EUSERS		68	/* Too many users */
+>  #define	EDQUOT		69	/* Quota exceeded */
+>  #define	ESTALE		70	/* Stale file handle */
+> @@ -62,6 +63,7 @@
+>  #define	ERESTART	175	/* Interrupted system call should be restarted */
+>  #define	ESTRPIPE	176	/* Streams pipe error */
+>  #define	EUCLEAN		177	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		178	/* Not a XENIX named type file */
+>  #define	ENAVAIL		179	/* No XENIX semaphores available */
+>  #define	EISNAM		180	/* Is a named type file */
+> diff --git a/tools/arch/sparc/include/uapi/asm/errno.h b/tools/arch/sparc/include/uapi/asm/errno.h
+> index 81a732b902ee38..4a41e7835fd5b8 100644
+> --- a/tools/arch/sparc/include/uapi/asm/errno.h
+> +++ b/tools/arch/sparc/include/uapi/asm/errno.h
+> @@ -48,6 +48,7 @@
+>  #define	ENOSR		74	/* Out of streams resources */
+>  #define	ENOMSG		75	/* No message of desired type */
+>  #define	EBADMSG		76	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EIDRM		77	/* Identifier removed */
+>  #define	EDEADLK		78	/* Resource deadlock would occur */
+>  #define	ENOLCK		79	/* No record locks available */
+> @@ -91,6 +92,7 @@
+>  #define	ENOTUNIQ	115	/* Name not unique on network */
+>  #define	ERESTART	116	/* Interrupted syscall should be restarted */
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> diff --git a/tools/include/uapi/asm-generic/errno.h b/tools/include/uapi/asm-generic/errno.h
+> index cf9c51ac49f97e..92e7ae493ee315 100644
+> --- a/tools/include/uapi/asm-generic/errno.h
+> +++ b/tools/include/uapi/asm-generic/errno.h
+> @@ -55,6 +55,7 @@
+>  #define	EMULTIHOP	72	/* Multihop attempted */
+>  #define	EDOTDOT		73	/* RFS specific error */
+>  #define	EBADMSG		74	/* Not a data message */
+> +#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
+>  #define	EOVERFLOW	75	/* Value too large for defined data type */
+>  #define	ENOTUNIQ	76	/* Name not unique on network */
+>  #define	EBADFD		77	/* File descriptor in bad state */
+> @@ -98,6 +99,7 @@
+>  #define	EINPROGRESS	115	/* Operation now in progress */
+>  #define	ESTALE		116	/* Stale file handle */
+>  #define	EUCLEAN		117	/* Structure needs cleaning */
+> +#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
+>  #define	ENOTNAM		118	/* Not a XENIX named type file */
+>  #define	ENAVAIL		119	/* No XENIX semaphores available */
+>  #define	EISNAM		120	/* Is a named type file */
+> 
 -- 
-2.51.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
