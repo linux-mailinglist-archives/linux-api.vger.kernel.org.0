@@ -1,164 +1,210 @@
-Return-Path: <linux-api+bounces-5580-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5581-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB64CEE81F
-	for <lists+linux-api@lfdr.de>; Fri, 02 Jan 2026 13:22:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D849BCF2663
+	for <lists+linux-api@lfdr.de>; Mon, 05 Jan 2026 09:27:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 10BFA303B196
-	for <lists+linux-api@lfdr.de>; Fri,  2 Jan 2026 12:20:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4C9E5301470E
+	for <lists+linux-api@lfdr.de>; Mon,  5 Jan 2026 08:27:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD4B30F94D;
-	Fri,  2 Jan 2026 12:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B3B331227;
+	Mon,  5 Jan 2026 08:26:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="N/c87wbu"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nWSSKglL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="m2V5ETSY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339A330F931;
-	Fri,  2 Jan 2026 12:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92AE32E6B4;
+	Mon,  5 Jan 2026 08:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767356453; cv=none; b=JoBNVDXmO1FDfVkjc+jGn2LZJexcjTYJ1PnkxALV14KSGvC8jZNIZirgzGI1VMb4K/jnFv/Mhr9ETXLGf57CPANTBvAgcTZ3zUA3WqVA79hXxwXGuBWd5AtGF5JhF+uanEXgZfkbCrc6Sfgd2nAjCqxHchuq3mwYCTHLV1Tj2/o=
+	t=1767601560; cv=none; b=Rd38tzWOxfN3dLlqtp1eoflqIsdO6gvc65LNImqkRNqMn8f4GM117ggkwrEKOLelDogFaYo3f4sXPpBkj0/aABAHnCO/IBwdeuMeTY8Qb+HpXK8C1/pOuLvaEBw8EVzGLLYDNpO3hfe38Ta0aFW3FqBWVTXo/sZk15sMkuie0Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767356453; c=relaxed/simple;
-	bh=2HnA4NQf63mqdoCRpSaED2UJTl1zBpXs4OSoQ9qTJSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K11L0sUonAdn7IKLjUP0itVVXWeVF0T9zcgIKTeyLaI4bgnz2NmqxftG6PphfPMhT/LhvCnN0n1giUYPvEm/zGPHKOwyIBeUZYVB9/JlE0B82jzyPoXXbSQwkmwk0WPAmq0i6tQvy1UfhnFn+3tykrxg+L9fcunFrPe5FARisAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=N/c87wbu; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 601Nsvtq013909;
-	Fri, 2 Jan 2026 12:20:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=TKK5Sw
-	BrypXXv9T4so3tN8W+1qltUU+uy3Mi8alEDvE=; b=N/c87wbuCw9e7OZaVs287x
-	U6/QbNs0KMa60aAtjtNK0YlS1yuEebcSx9n7qy+lxKdZAOT2K9r6MoaGZSdgaWKP
-	52ZP/A8NY7NnMOFP7UFdoo36h9XPjRyHVo91LaTLf7hYQk3BNwf0/SdXi0Xc2353
-	Z30Yex2Hhv/VN6SjSsA/iLRPilZgugRVnfZeA21Apgp3q592Ka0KROZBctRdI51n
-	iB3YQrXGVwvQkG2VAbDY+pIiq8KqGQH13M2+1AhPQjwyZS6TGDwr+wYjeJAm000x
-	kbt/qiW8shvJWvO5hkxpdFkhCcVFfxgOW+v3bubkkc2EJZtJ3SPIFc8B44HsEoNA
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bb46xujm7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Jan 2026 12:20:22 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 602BvSbP003059;
-	Fri, 2 Jan 2026 12:20:21 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bavg265ak-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Jan 2026 12:20:21 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 602CKG8a52494652
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 2 Jan 2026 12:20:16 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AD8C420040;
-	Fri,  2 Jan 2026 12:20:16 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 95F0C20043;
-	Fri,  2 Jan 2026 12:20:15 +0000 (GMT)
-Received: from osiris (unknown [9.111.41.241])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  2 Jan 2026 12:20:15 +0000 (GMT)
-Date: Fri, 2 Jan 2026 13:20:14 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3] vdso: Remove struct getcpu_cache
-Message-ID: <20260102122014.10318A55-hca@linux.ibm.com>
-References: <20251230-getcpu_cache-v3-1-fb9c5f880ebe@linutronix.de>
+	s=arc-20240116; t=1767601560; c=relaxed/simple;
+	bh=F0BXKGEIbQEgNDpnR4sFqfVyBXsRDo0ukaJR9qC1Fkg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QNSZVHQDHV9+cPsc2dKQmAEyhDMfYuBftpkuX3IIBKPJkcZWJ9O1eULDqH+YdSAf5BQ4qBddv6hIszpjP0IMUQncFUEm0gGUyBN9Sxms4Vf1FI6letf37IUB8mRvduAjIfL9kNrtv8b2St0q88V3Ox5GQ5c0eVzGU5HvJyFQJR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nWSSKglL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=m2V5ETSY; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1767601556;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iomAiraVidAewY3lmJu2od0SPuPOGXSVoNfq8xPpxJ4=;
+	b=nWSSKglLmp7/eMP8nNDM6vrYHRfHBOQTAiOT8zKJaWCE+nktUo2aokh8aI3ImWVItHeIl2
+	30iVoK3GBcpuit5sL7ev/V7jRlMygpMGPM6E/uHVmRfG58UBmH8SsMcOinRpPLOuuc1QLM
+	ybuRK+dzlE44E4Cys2aWy7QOeRcnxaLVkVBeGrCxMopEPWmKywtcBQ3olFS8BQaOtITgLf
+	dWx5EKseWRiOZRh7ZXC33opAP6moL2/W90accepPsi7dCtzoVvBkabECN/ivUz+2Uqa8+S
+	n3/rKvTrGQ8XU9BdRlq52Xc/QELnMg4+tt11RSX3U/AYv4v2dG3Q1TFGSYmfNA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1767601556;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iomAiraVidAewY3lmJu2od0SPuPOGXSVoNfq8xPpxJ4=;
+	b=m2V5ETSYA+AAksePtKRl2SD9H+s59ZvuDemc1NOyEhpaSKvY+UBYMGcwal2eg4vTfz//+Y
+	K0MBhOtdTKFyVEAQ==
+Date: Mon, 05 Jan 2026 09:25:55 +0100
+Subject: [PATCH net-next] net: uapi: Provide an UAPI definition of 'struct
+ sockaddr'
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251230-getcpu_cache-v3-1-fb9c5f880ebe@linutronix.de>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAyMDEwOCBTYWx0ZWRfX9vvRNnkd8Pfx
- iw1giuFwzqM2vrv6sGKjDUbgff0h0Y3jUCCV+buGKuhJKmIds+6tH5OCPgPJ2qLIM3h06dIiFaP
- 1UYq0HSsD3FH7rEYyqTRKGtk6rSfb4j3xN+CP0hhZVFP/ejElo1I82+KGR5JFRuLRxaUXgqSt9W
- Zvsnv/2QMUpAgYrECXfeG0QvM1VSvnxqxLO+1+uyR9VK1+y/ETAGBSi3c/8MW6PBkQ7z1maYW/f
- xkjGvwoo1/AkQqTQUfB0qr3ZoKf5jVPVG/dOvw1dDtw7K2FTDJecoJYCRRJ47H74VimRcSraDZL
- Nnm2ews70dEM07L/U9IPmu8Qz252j9h0zu+hetSfHmoGZ3+2/VeXvKezWdQHDgiGnNH6huCdNc1
- nRLPlTKY9cSU5T/esXreLKw1L7W+/DXeX9pIOj85YApUXusXHF7ypYyxHhVEmQ2IUo3fF8N7RBh
- rfurbe/WqzaJ7fhU/Bg==
-X-Proofpoint-ORIG-GUID: u-CeqcOxJgfmuySfQGUJRGwUwbFNnK6A
-X-Authority-Analysis: v=2.4 cv=L7AQguT8 c=1 sm=1 tr=0 ts=6957b807 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=8nJEP1OIZ-IA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=hd350nrAjBw2G0HVihMA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10
-X-Proofpoint-GUID: u-CeqcOxJgfmuySfQGUJRGwUwbFNnK6A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-02_01,2025-12-31_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1011 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601020108
+Message-Id: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAJJ1W2kC/x3MQQqAIBBA0avErBvIoZK6SrQQHWsILLRCiO6et
+ HyL/x9IHIUTjNUDkW9JsocCVVdgVxMWRnHFQA11iojwModg2u1mnItovWpY99RqGqA0R2Qv+f9
+ NEPjEwPmE+X0/S41aq2kAAAA=
+X-Change-ID: 20251222-uapi-sockaddr-cf10e7624729
+To: Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767601555; l=4018;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=F0BXKGEIbQEgNDpnR4sFqfVyBXsRDo0ukaJR9qC1Fkg=;
+ b=+I/qcHQzJobm848ZdicumfKVxZIq5NV0lyRX410kNtzxyPvyrXtlW+t4seoD6lIEOrLdduxY/
+ XNiqcVgytBrC6QmA9VNd5M89I7FZdLRhJ9ajIpFVm9kxXMmr25AOd26
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Tue, Dec 30, 2025 at 08:08:44AM +0100, Thomas Weiﬂschuh wrote:
-> The cache parameter of getcpu() is useless nowadays for various reasons.
-> * It is never passed by userspace for either the vDSO or syscalls.
-> * It is never used by the kernel.
-> * It could not be made to work on the current vDSO architecture.
-> * The structure definition is not part of the UAPI headers.
-> * vdso_getcpu() is superseded by restartable sequences in any case.
-> 
-> Remove the struct and its header.
-> 
-> As a side-effect we get rid of an unwanted inclusion of the linux/
-> header namespace from vDSO code.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> ---
-> Changes in v3:
-> - Rebase on v6.19-rc1
->   - Fix conflict with UML vdso_getcpu() removal
-> - Flesh out commit message
-> - Link to v2: https://lore.kernel.org/r/20251013-getcpu_cache-v2-1-880fbfa3b7cc@linutronix.de
-> 
-> Changes in v2:
-> - Rebase on v6.18-rc1
-> - Link to v1: https://lore.kernel.org/r/20250826-getcpu_cache-v1-1-8748318f6141@linutronix.de
-> ---
-> We could also completely remove the parameter, but I am not sure if
-> that is a good idea for syscalls and vDSO entrypoints.
-> ---
->  arch/loongarch/vdso/vgetcpu.c                   |  5 ++---
->  arch/s390/kernel/vdso/getcpu.c                  |  3 +--
->  arch/s390/kernel/vdso/vdso.h                    |  4 +---
->  arch/x86/entry/vdso/vgetcpu.c                   |  5 ++---
->  arch/x86/include/asm/vdso/processor.h           |  4 +---
->  include/linux/getcpu.h                          | 19 -------------------
->  include/linux/syscalls.h                        |  3 +--
->  kernel/sys.c                                    |  4 +---
->  tools/testing/selftests/vDSO/vdso_test_getcpu.c |  4 +---
->  9 files changed, 10 insertions(+), 41 deletions(-)
+Various UAPI headers reference 'struct sockaddr'. Currently the
+definition of this struct is pulled in from the libc header
+sys/socket.h. This is problematic as it introduces a dependency
+on a full userspace toolchain.
 
-Acked-by: Heiko Carstens <hca@linux.ibm.com> # s390
+Instead expose a custom but compatible definition of 'struct sockaddr'
+in the UAPI headers. It is guarded by the libc compatibility
+infrastructure to avoid potential conflicts.
+
+The compatibility symbol won't be supported by glibc right away,
+but right now __UAPI_DEF_IF_IFNAMSIZ is not supported either,
+so including the libc headers before the UAPI headers is broken anyways.
+
+Signed-off-by: Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
+---
+ include/linux/socket.h           | 10 ----------
+ include/uapi/linux/if.h          |  4 ----
+ include/uapi/linux/libc-compat.h | 12 ++++++++++++
+ include/uapi/linux/socket.h      | 14 ++++++++++++++
+ 4 files changed, 26 insertions(+), 14 deletions(-)
+
+diff --git a/include/linux/socket.h b/include/linux/socket.h
+index ec715ad4bf25..8363d4e0a044 100644
+--- a/include/linux/socket.h
++++ b/include/linux/socket.h
+@@ -28,16 +28,6 @@ extern void socket_seq_show(struct seq_file *seq);
+ 
+ typedef __kernel_sa_family_t	sa_family_t;
+ 
+-/*
+- *	1003.1g requires sa_family_t and that sa_data is char.
+- */
+-
+-/* Deprecated for in-kernel use. Use struct sockaddr_unsized instead. */
+-struct sockaddr {
+-	sa_family_t	sa_family;	/* address family, AF_xxx	*/
+-	char		sa_data[14];	/* 14 bytes of protocol address	*/
+-};
+-
+ /**
+  * struct sockaddr_unsized - Unspecified size sockaddr for callbacks
+  * @sa_family: Address family (AF_UNIX, AF_INET, AF_INET6, etc.)
+diff --git a/include/uapi/linux/if.h b/include/uapi/linux/if.h
+index 797ba2c1562a..a4bc54196a07 100644
+--- a/include/uapi/linux/if.h
++++ b/include/uapi/linux/if.h
+@@ -25,10 +25,6 @@
+ #include <linux/socket.h>		/* for "struct sockaddr" et al	*/
+ #include <linux/compiler.h>		/* for "__user" et al           */
+ 
+-#ifndef __KERNEL__
+-#include <sys/socket.h>			/* for struct sockaddr.		*/
+-#endif
+-
+ #if __UAPI_DEF_IF_IFNAMSIZ
+ #define	IFNAMSIZ	16
+ #endif /* __UAPI_DEF_IF_IFNAMSIZ */
+diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
+index 0eca95ccb41e..13a06ce4e825 100644
+--- a/include/uapi/linux/libc-compat.h
++++ b/include/uapi/linux/libc-compat.h
+@@ -140,6 +140,13 @@
+ 
+ #endif /* _NETINET_IN_H */
+ 
++/* Definitions for socket.h */
++#if defined(_SYS_SOCKET_H)
++#define __UAPI_DEF_SOCKADDR		0
++#else
++#define __UAPI_DEF_SOCKADDR		1
++#endif
++
+ /* Definitions for xattr.h */
+ #if defined(_SYS_XATTR_H)
+ #define __UAPI_DEF_XATTR		0
+@@ -221,6 +228,11 @@
+ #define __UAPI_DEF_IP6_MTUINFO		1
+ #endif
+ 
++/* Definitions for socket.h */
++#ifndef __UAPI_DEF_SOCKADDR
++#define __UAPI_DEF_SOCKADDR		1
++#endif
++
+ /* Definitions for xattr.h */
+ #ifndef __UAPI_DEF_XATTR
+ #define __UAPI_DEF_XATTR		1
+diff --git a/include/uapi/linux/socket.h b/include/uapi/linux/socket.h
+index d3fcd3b5ec53..35d7d5f4b1a8 100644
+--- a/include/uapi/linux/socket.h
++++ b/include/uapi/linux/socket.h
+@@ -2,6 +2,8 @@
+ #ifndef _UAPI_LINUX_SOCKET_H
+ #define _UAPI_LINUX_SOCKET_H
+ 
++#include <linux/libc-compat.h>          /* for compatibility with glibc */
++
+ /*
+  * Desired design of maximum size and alignment (see RFC2553)
+  */
+@@ -26,6 +28,18 @@ struct __kernel_sockaddr_storage {
+ 	};
+ };
+ 
++/*
++ *	1003.1g requires sa_family_t and that sa_data is char.
++ */
++
++/* Deprecated for in-kernel use. Use struct sockaddr_unsized instead. */
++#if __UAPI_DEF_SOCKADDR
++struct sockaddr {
++	__kernel_sa_family_t	sa_family;	/* address family, AF_xxx	*/
++	char			sa_data[14];	/* 14 bytes of protocol address	*/
++};
++#endif /* __UAPI_DEF_SOCKADDR */
++
+ #define SOCK_SNDBUF_LOCK	1
+ #define SOCK_RCVBUF_LOCK	2
+ 
+
+---
+base-commit: dbf8fe85a16a33d6b6bd01f2bc606fc017771465
+change-id: 20251222-uapi-sockaddr-cf10e7624729
+
+Best regards,
+-- 
+Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
+
 
