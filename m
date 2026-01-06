@@ -1,108 +1,184 @@
-Return-Path: <linux-api+bounces-5585-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5586-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FEACF7D59
-	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 11:39:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0163CF97F2
+	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 18:00:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C2733110C1B
-	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 10:33:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AE702301597F
+	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 17:00:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C42E344025;
-	Tue,  6 Jan 2026 10:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 807482750E6;
+	Tue,  6 Jan 2026 17:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dGg/ap0R";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2qYNiajn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ndIwL2ut"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321FA3195EF;
-	Tue,  6 Jan 2026 10:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396C11A9F9F
+	for <linux-api@vger.kernel.org>; Tue,  6 Jan 2026 16:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767695592; cv=none; b=mu10YcyRAlzuYYtnN8YPKlU4ml+OgClEtMVIKifWkUUEGKvl8YQdXNs/DO/jQq+xZ0upb+lQqCjqw7L+KA2OdtJRTy42q4gQ9P3/jIARWvMsQh/ks0e0W1ZcRacIz9LGhd6prSfyvhrazDcjurSLu9f9ZeP2Iv8KF0w3oYZ+MMg=
+	t=1767718801; cv=none; b=glmBVJ0CJAAQTuYzR7L/fSlOyuoTyPU4wVUejTyjMz8BNMNeYNdxo0yrePI2OGEI24AoG3UtXsX4s/2b+/kQu/Je1Ik0J55xfPyj5h4zw1UxLW4Mulxh/aaATxAF4vQ7L3PvRft6bQ7XL4ZvSAc1/UBiSUefCXBfQEkf5NqslXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767695592; c=relaxed/simple;
-	bh=H8/17NULFy8CplKH1nS0Kom0Evptl///XzL5Gln2hpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QL2lgnnMUa+Eg8tQC5uTh90kVakjZmt4F9gSuHi6JB5swg3S8fHWLQQ8XtAZKyKR5gD7I22jp809qvGeHjlfKANkvxW3gCJa8HQ/hzZRwno9q6TuFPPODW6Jlk6GZ8jwwtoycYvaLDHjhMvCE+/15nJFdy0ho8BiWOlXuC2p7/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dGg/ap0R; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2qYNiajn; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 6 Jan 2026 11:32:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1767695578;
+	s=arc-20240116; t=1767718801; c=relaxed/simple;
+	bh=ed6J4D+h4aAzS3v0l3t0IYccwfe7jU9Ro84by4sLbPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K9Fr1hFwgIWN5pwW/8FfqnjQF+kUymUcxAmJIErlfJv7VDKJqqjQTjRZi5axiWZXExkKrAhBCUjaZZ80WiqRGecO4KZR4aGGGbFTLhXtFUlYXcQtjWaWwJyI1RG7VYBYSJN97xlNxV90qgXQ1HoxesDfLTnN7Yoj4FdeZ2kfwYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ndIwL2ut; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767718794;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J/r76hoBo6xwYcVTj09hRbJ+2p05uWHpUI4bIIlSY4Q=;
-	b=dGg/ap0RA1MNR6hNwMj4nxF55pEzJV+i4uUruVW1FIiNecYgMjVSS+XPWwekM98/jdDYbb
-	O22FNIsnYLTS28qNJzLWJZDgsi9im9pNNFkPjfiqSseUVGysQAvHViRswTkG8VV68XtwBn
-	P8MDop5c7lB4uFRWfHWCdlHH6xrRv1YzWrTaFTeEkTBSXLXRkE5peyNBEqt5KGmIit/84L
-	HSV0yz7LHU9+cwlU58NhSwdrhqJ1d0+Nhn7PuruGlzwHH7WFj9TvAgGy754TqvYCIJGZ8P
-	CLmlBbOD5xjK/NPG25rGnNB3dmtHYNsJjxU/BlpGwtgUG6MfXfM1Eo2benRDkA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1767695578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J/r76hoBo6xwYcVTj09hRbJ+2p05uWHpUI4bIIlSY4Q=;
-	b=2qYNiajn5JqKxHCUD2M59p+xgpngjaPwIdExDH7bEynsMz/lnIjIY7bFoBpficKnMlMCC/
-	9gIqD2lUyHixhRBQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Eric Dumazet <edumazet@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH net-next] net: uapi: Provide an UAPI definition of
- 'struct sockaddr'
-Message-ID: <20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
-References: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
- <20260105095713.0b312b26@kernel.org>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OEOvyGDso56BwexNC9olhG5cNctIEBpuqHitobdOpOQ=;
+	b=ndIwL2utog3RcHO5x+wROXXc7GTD+/LwKd86lX+sLm8O4Kp2V34h8kW2TalWL5iaN/vnxX
+	k8KvTxMSWTkpYNR02nx7rhCmu6NIkr4UBxQi+wX5XUgl7PjBTxOyvIji9ih4MjaFQpRPDq
+	YAuTDNwwbWtutAQicv+3wuE0XlPCnOM=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Paul Chaignon <paul.chaignon@gmail.com>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [PATCH bpf-next v4 0/9] bpf: Extend bpf syscall with common attributes support
+Date: Wed,  7 Jan 2026 00:58:58 +0800
+Message-ID: <20260106165907.53631-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260105095713.0b312b26@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Jakub,
+This patch series builds upon the discussion in
+"[PATCH bpf-next v4 0/4] bpf: Improve error reporting for freplace attachment failure" [1].
 
-On Mon, Jan 05, 2026 at 09:57:13AM -0800, Jakub Kicinski wrote:
-> On Mon, 05 Jan 2026 09:25:55 +0100 Thomas Weißschuh wrote:
-> > Various UAPI headers reference 'struct sockaddr'. Currently the
-> > definition of this struct is pulled in from the libc header
-> > sys/socket.h. This is problematic as it introduces a dependency
-> > on a full userspace toolchain.
-> > 
-> > Instead expose a custom but compatible definition of 'struct sockaddr'
-> > in the UAPI headers. It is guarded by the libc compatibility
-> > infrastructure to avoid potential conflicts.
-> > 
-> > The compatibility symbol won't be supported by glibc right away,
-> > but right now __UAPI_DEF_IF_IFNAMSIZ is not supported either,
-> > so including the libc headers before the UAPI headers is broken anyways.
-> 
-> I did not look too closely but this seems to break build of selftests
-> in netdev and BPF CI (netdev on AWS Linux, not sure what base BPF uses)
+This patch series introduces support for *common attributes* in the BPF
+syscall, providing a unified mechanism for passing shared metadata across
+all BPF commands.
 
-Thanks for the report.
+The initial set of common attributes includes:
 
-I found the reported CI failures in BPF CI and will work on those.
+1. 'log_buf': User-provided buffer for storing log output.
+2. 'log_size': Size of the provided log buffer.
+3. 'log_level': Verbosity level for logging.
+4. 'log_true_size': The size of log reported by kernel.
 
-As for the failure in netdev CI however I am not so sure.
-Looking at net-next-2026-01-05--12-00, the only failures triggered by my
-change are also the ones from the bpf-ci. Are these the ones you meant,
-or am I missing some others?
+With this extension, the BPF syscall will be able to return meaningful
+error messages (e.g., failures of creating map), improving debuggability
+and user experience.
 
+Changes:
+RFC v3 -> v4:
+* Drop RFC.
+* Address comments from Andrii:
+  * Add parentheses in 'sys_bpf_ext()'.
+  * Avoid creating new fd in 'probe_sys_bpf_ext()'.
+  * Add a new struct to wrap log fields in libbpf.
+* Address comments from Alexei:
+  * Do not skip writing to user space when log_true_size is zero.
+  * Do not use 'bool' arguments.
+  * Drop the adding WARN_ON_ONCE()'s.
 
-Thomas
+RFC v2 -> RFC v3:
+* Rename probe_sys_bpf_extended to probe_sys_bpf_ext.
+* Refactor reporting 'log_true_size' for prog_load.
+* Refactor reporting 'btf_log_true_size' for btf_load.
+* Add warnings for internal bugs in map_create.
+* Check log_true_size in test cases.
+* Address comment from Alexei:
+  * Change kvzalloc/kvfree to kzalloc/kfree.
+* Address comments from Andrii:
+  * Move BPF_COMMON_ATTRS to 'enum bpf_cmd' alongside brief comment.
+  * Add bpf_check_uarg_tail_zero() for extra checks.
+  * Rename sys_bpf_extended to sys_bpf_ext.
+  * Rename sys_bpf_fd_extended to sys_bpf_ext_fd.
+  * Probe the new feature using NULL and -EFAULT.
+  * Move probe_sys_bpf_ext to libbpf_internal.h and drop LIBBPF_API.
+  * Return -EUSERS when log attrs are conflict between bpf_attr and
+    bpf_common_attr.
+  * Avoid touching bpf_vlog_init().
+  * Update the reason messages in map_create.
+  * Finalize the log using __cleanup().
+  * Report log size to users.
+  * Change type of log_buf from '__u64' to 'const char *' and cast type
+    using ptr_to_u64() in bpf_map_create().
+  * Do not return -EOPNOTSUPP when kernel doesn't support this feature
+    in bpf_map_create().
+  * Add log_level support for map creation for consistency.
+* Address comment from Eduard:
+  * Use common_attrs->log_level instead of BPF_LOG_FIXED.
+
+RFC v1 -> RFC v2:
+* Fix build error reported by test bot.
+* Address comments from Alexei:
+  * Drop new uapi for freplace.
+  * Add common attributes support for prog_load and btf_load.
+  * Add common attributes support for map_create.
+
+Links:
+[1] https://lore.kernel.org/bpf/20250224153352.64689-1-leon.hwang@linux.dev/
+
+Leon Hwang (9):
+  bpf: Extend bpf syscall with common attributes support
+  libbpf: Add support for extended bpf syscall
+  bpf: Refactor reporting log_true_size for prog_load
+  bpf: Add common attr support for prog_load
+  bpf: Refactor reporting btf_log_true_size for btf_load
+  bpf: Add common attr support for btf_load
+  bpf: Add common attr support for map_create
+  libbpf: Add common attr support for map_create
+  selftests/bpf: Add tests to verify map create failure log
+
+ include/linux/bpf.h                           |   2 +-
+ include/linux/btf.h                           |   2 +-
+ include/linux/syscalls.h                      |   3 +-
+ include/uapi/linux/bpf.h                      |   8 +
+ kernel/bpf/btf.c                              |  25 +-
+ kernel/bpf/syscall.c                          | 223 ++++++++++++++++--
+ kernel/bpf/verifier.c                         |  12 +-
+ tools/include/uapi/linux/bpf.h                |   8 +
+ tools/lib/bpf/bpf.c                           |  49 +++-
+ tools/lib/bpf/bpf.h                           |  17 +-
+ tools/lib/bpf/features.c                      |   8 +
+ tools/lib/bpf/libbpf_internal.h               |   3 +
+ .../selftests/bpf/prog_tests/map_init.c       | 143 +++++++++++
+ 13 files changed, 448 insertions(+), 55 deletions(-)
+
+--
+2.52.0
+
 
