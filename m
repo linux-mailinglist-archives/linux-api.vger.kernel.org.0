@@ -1,109 +1,200 @@
-Return-Path: <linux-api+bounces-5603-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5594-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6370CF9F40
-	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 19:08:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F66CFAE6D
+	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 21:21:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C88783073797
-	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 18:07:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5B862304D48F
+	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 20:21:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 439163502B9;
-	Tue,  6 Jan 2026 17:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11BEC34DB6D;
+	Tue,  6 Jan 2026 17:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="njyfa1Rx"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t9Ap5Gi9"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC523502AC;
-	Tue,  6 Jan 2026 17:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CB734DB5C
+	for <linux-api@vger.kernel.org>; Tue,  6 Jan 2026 17:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767721473; cv=none; b=ooNxFDikOeJLk7U1OcVdda/f8folrDAAOEzyeby2h02aCmt2fu0ZapVEMS9LnqJQpDsZLugqlPNIrJg7ORhEtDGBuoZeqoaVA8gErU8wcC+BYaqWFfBLxujUkiPyn6ktQ9zqbKbcjX7UB0Z74Jhqf6JjQHFQdTbIsKIHQdazVOk=
+	t=1767720070; cv=none; b=QjlWqTXP5eqAXHSJLU9ycIzq2ro/ihEahmITHEHHjjIwrQegCbGS82FVjX3Dx12A/5CGNGEUzVa5aOQzzZU/DerTGtl7ThbJVYKlUsFu2P399aSOk/coegUhBpjjqyrynu4ydlW32IXDHQxaEHuOwvvRLzkFKS+WnvUPFz6Ih2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767721473; c=relaxed/simple;
-	bh=OryeiQL9V1ShuYrv8grMsRnle5IZx/eVvb7YtNXlOiU=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=b9NoOYwb2g3XkFMrL4BzUP7QEbJc0wflK3pEgiqUyWs/cqQfZPKMphbEF0n6nJJSgr8witn7WJhF+7sGAB41M6TSekII6p3Y9OIQWXVYxVROsXEceOfLNZ++c8T3AUXxUlrjTva5GysMIR9sbEkAHGDT82uhrYxjBzxzlsklOV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=njyfa1Rx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C25C116C6;
-	Tue,  6 Jan 2026 17:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767721472;
-	bh=OryeiQL9V1ShuYrv8grMsRnle5IZx/eVvb7YtNXlOiU=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=njyfa1RxGQPyGMeq7siQSLlMa1mRtYKzY5sKPzuMhFbI/OVIBeo5nvHEhFjYJUmbj
-	 i7BnnE9du8VPC67CVgajROsX7R9N2cO56Szlfg60IY6qTWpaQp09+3Lu3r9wfHPTsJ
-	 nc/USqC6R87y3E/H3BCn6SQRAgI0Slt4y+PbvcoydsdsGcsvTboQyMJs0VZ/H33FY0
-	 ZK4TyJtUe6v7mMkrHuxkmZ68gN2bn+EthJqRe7WXdu+nRIHUn/NNM8wSWyJFfbH61A
-	 pzCqrdfx5GdRz1YbYEa30kd/SEHN26wu94I54OS75aPl6p7uE5UaeQNQ6jCHimBXdK
-	 mGLsFpRwIgYRA==
-Content-Type: multipart/mixed; boundary="===============3784221737981949726=="
+	s=arc-20240116; t=1767720070; c=relaxed/simple;
+	bh=qdZdan8Bg/3zMmLeA4fE/+22k8U9TKV55zGuSzKMjWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iPKH0wIt2YLLlLUFbBTGDESD1TiBycjmgWjbHpWGcTWwRjsFruHrF+rJBZ4zt+Mfj5m0V23HuqesMNAkwR0z+LLhWpoNy63BlzfaE5XPkrz2rc4RtijqVJVGPU4C53m6pqYGlOvYSSI0mi908fwM4JSmXeJv+0A0m/+0dR04yls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t9Ap5Gi9; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767720065;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=el+zFEiv5MlCth3d6SGPMrwMvtewF+0XV0F7CsdC9cM=;
+	b=t9Ap5Gi9xp+auW0Bk3FclI8wYWxDTul6sjO24BmGqXJzJVxJuhAIddY9hDLV6YoNVJWu1Q
+	i1Ee+p2HseJFBRIA5e0LT2JLW4uuGPTyIgYxs4/w7aieStTDrnsyRj6/5k/BNinD1tpM5R
+	PvTvU9SZ+kYBOiPddh9bLE5Ap7IHoMI=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Paul Chaignon <paul.chaignon@gmail.com>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [RESEND PATCH bpf-next v4 2/9] libbpf: Add support for extended bpf syscall
+Date: Wed,  7 Jan 2026 01:20:11 +0800
+Message-ID: <20260106172018.57757-3-leon.hwang@linux.dev>
+In-Reply-To: <20260106172018.57757-1-leon.hwang@linux.dev>
+References: <20260106172018.57757-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <db428e27fdf0110ea05cdadf8980c7758d7f4dcd61289293394db7e34ce99601@mail.kernel.org>
-In-Reply-To: <20260106172018.57757-8-leon.hwang@linux.dev>
-References: <20260106172018.57757-8-leon.hwang@linux.dev>
-Subject: Re: [RESEND PATCH bpf-next v4 7/9] bpf: Add common attr support for map_create
-From: bot+bpf-ci@kernel.org
-To: leon.hwang@linux.dev,bpf@vger.kernel.org
-Cc: ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,brauner@kernel.org,oleg@redhat.com,leon.hwang@linux.dev,sforshee@kernel.org,yuichtsu@amazon.com,aalbersh@redhat.com,willemb@google.com,kerneljasonxing@gmail.com,paul.chaignon@gmail.com,yatsenko@meta.com,memxor@gmail.com,a.s.protopopov@gmail.com,ameryhung@gmail.com,rongtao@cestc.cn,linux-kernel@vger.kernel.org,linux-api@vger.kernel.org,linux-kselftest@vger.kernel.org,kernel-patches-bot@fb.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Tue,  6 Jan 2026 17:44:31 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
---===============3784221737981949726==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+To support the extended BPF syscall introduced in the previous commit,
+introduce the following internal APIs:
 
-> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-> index 14fc5738f2b9..e64cc7504731 100644
-> --- a/kernel/bpf/syscall.c
-> +++ b/kernel/bpf/syscall.c
+* 'sys_bpf_ext()'
+* 'sys_bpf_ext_fd()'
+  They wrap the raw 'syscall()' interface to support passing extended
+  attributes.
+* 'probe_sys_bpf_ext()'
+  Check whether current kernel supports the extended attributes.
 
-[ ... ]
-
-> @@ -6279,7 +6345,11 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
->
->  	switch (cmd) {
->  	case BPF_MAP_CREATE:
-> -		err = map_create(&attr, uattr);
-> +		common_attrs.log_true_size = 0;
-> +		err = map_create(&attr, uattr, &common_attrs);
-> +		ret = copy_common_attr_log_true_size(uattr_common, size_common,
-> +						     &common_attrs.log_true_size);
-> +		err = ret ? ret : err;
-
-When map_create() succeeds, it returns a file descriptor that is already
-installed in the caller's fd table via bpf_map_new_fd(). If
-copy_common_attr_log_true_size() then fails (e.g., user provided a
-read-only buffer for uattr_common), the syscall returns -EFAULT but the
-fd remains installed.
-
-Could this leak the file descriptor? The user gets an error and has no
-way to know what fd number was allocated, so they cannot close it.
-
-The sequence would be:
-  1. map_create() succeeds, returns fd (e.g., 5)
-  2. copy_common_attr_log_true_size() fails, ret = -EFAULT
-  3. err = ret ? ret : err = -EFAULT
-  4. syscall returns -EFAULT
-  5. map and fd persist, but user cannot close fd 5
-
-> +		break;
->  	case BPF_MAP_LOOKUP_ELEM:
->  		err = map_lookup_elem(&attr);
-
-
+Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
 ---
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+ tools/lib/bpf/bpf.c             | 34 +++++++++++++++++++++++++++++++++
+ tools/lib/bpf/features.c        |  8 ++++++++
+ tools/lib/bpf/libbpf_internal.h |  3 +++
+ 3 files changed, 45 insertions(+)
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/20756616585
+diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
+index 21b57a629916..689ade4a822b 100644
+--- a/tools/lib/bpf/bpf.c
++++ b/tools/lib/bpf/bpf.c
+@@ -69,6 +69,40 @@ static inline __u64 ptr_to_u64(const void *ptr)
+ 	return (__u64) (unsigned long) ptr;
+ }
+ 
++static inline int sys_bpf_ext(enum bpf_cmd cmd, union bpf_attr *attr,
++			      unsigned int size,
++			      struct bpf_common_attr *common_attrs,
++			      unsigned int size_common)
++{
++	cmd = common_attrs ? (cmd | BPF_COMMON_ATTRS) : (cmd & ~BPF_COMMON_ATTRS);
++	return syscall(__NR_bpf, cmd, attr, size, common_attrs, size_common);
++}
++
++static inline int sys_bpf_ext_fd(enum bpf_cmd cmd, union bpf_attr *attr,
++				 unsigned int size,
++				 struct bpf_common_attr *common_attrs,
++				 unsigned int size_common)
++{
++	int fd;
++
++	fd = sys_bpf_ext(cmd, attr, size, common_attrs, size_common);
++	return ensure_good_fd(fd);
++}
++
++int probe_sys_bpf_ext(void)
++{
++	const size_t attr_sz = offsetofend(union bpf_attr, prog_token_fd);
++	union bpf_attr attr;
++	int fd;
++
++	memset(&attr, 0, attr_sz);
++	fd = syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &attr, attr_sz, NULL,
++		     sizeof(struct bpf_common_attr));
++	if (fd >= 0)
++		close(fd);
++	return errno == EFAULT;
++}
++
+ static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
+ 			  unsigned int size)
+ {
+diff --git a/tools/lib/bpf/features.c b/tools/lib/bpf/features.c
+index b842b83e2480..d786a815f1ae 100644
+--- a/tools/lib/bpf/features.c
++++ b/tools/lib/bpf/features.c
+@@ -506,6 +506,11 @@ static int probe_kern_arg_ctx_tag(int token_fd)
+ 	return probe_fd(prog_fd);
+ }
+ 
++static int probe_kern_extended_syscall(int token_fd)
++{
++	return probe_sys_bpf_ext();
++}
++
+ typedef int (*feature_probe_fn)(int /* token_fd */);
+ 
+ static struct kern_feature_cache feature_cache;
+@@ -581,6 +586,9 @@ static struct kern_feature_desc {
+ 	[FEAT_BTF_QMARK_DATASEC] = {
+ 		"BTF DATASEC names starting from '?'", probe_kern_btf_qmark_datasec,
+ 	},
++	[FEAT_EXTENDED_SYSCALL] = {
++		"Kernel supports extended syscall", probe_kern_extended_syscall,
++	},
+ };
+ 
+ bool feat_supported(struct kern_feature_cache *cache, enum kern_feature_id feat_id)
+diff --git a/tools/lib/bpf/libbpf_internal.h b/tools/lib/bpf/libbpf_internal.h
+index fc59b21b51b5..e2a6ef4b45ae 100644
+--- a/tools/lib/bpf/libbpf_internal.h
++++ b/tools/lib/bpf/libbpf_internal.h
+@@ -392,6 +392,8 @@ enum kern_feature_id {
+ 	FEAT_ARG_CTX_TAG,
+ 	/* Kernel supports '?' at the front of datasec names */
+ 	FEAT_BTF_QMARK_DATASEC,
++	/* Kernel supports extended syscall */
++	FEAT_EXTENDED_SYSCALL,
+ 	__FEAT_CNT,
+ };
+ 
+@@ -757,4 +759,5 @@ int probe_fd(int fd);
+ #define SHA256_DWORD_SIZE SHA256_DIGEST_LENGTH / sizeof(__u64)
+ 
+ void libbpf_sha256(const void *data, size_t len, __u8 out[SHA256_DIGEST_LENGTH]);
++int probe_sys_bpf_ext(void);
+ #endif /* __LIBBPF_LIBBPF_INTERNAL_H */
+-- 
+2.52.0
 
---===============3784221737981949726==--
 
