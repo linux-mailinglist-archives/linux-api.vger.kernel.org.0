@@ -1,252 +1,136 @@
-Return-Path: <linux-api+bounces-5601-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5602-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0868CF9BB3
-	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 18:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECC6CF9F31
+	for <lists+linux-api@lfdr.de>; Tue, 06 Jan 2026 19:08:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A8FBD303C10B
-	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 17:35:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 973A430499FC
+	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 18:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D199350D5D;
-	Tue,  6 Jan 2026 17:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54CC934FF65;
+	Tue,  6 Jan 2026 17:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BHB/Ap6K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yi8mYVt8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323AF350D4F
-	for <linux-api@vger.kernel.org>; Tue,  6 Jan 2026 17:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BAF34B1AE;
+	Tue,  6 Jan 2026 17:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767720138; cv=none; b=YvwNXJmf1WBATDH33/vsjOcJc09wzoaCGroFTqqYMAUbfRj1MbyMuNTqmW9rR/7Rb6/gmK5WZUWr1jRdcfyIOY2PMcanMSHA3Aw4cFGFt0RtcGRFkJYBOLVO0WFcfMFEm2WscBjEwEZVOHmY/S94fo7zDdpFbg7xyhcPiXpnc2g=
+	t=1767721471; cv=none; b=I/B2/UOO2sK8Y2m00T3Q8JH8aHmoGhG0w57z5oyAATEg5yXZiOTsl2m5lhrvKdRH6HPLUaSXRMdq+1xVZa5unf5oHAhGfNa5YFUySpD/oZRRkYzGRRCF61Bg08BeDIKSId2i/2TtDwtmYIcseNVgqIhTY1VRB4qYzqGEncCTHpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767720138; c=relaxed/simple;
-	bh=MAXHjOZ2vDeALsrSrzEPhCR/6gju9wZ2EZGKEhw6FRs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SPstI79xblJAFzleX3RlVOspD3MNCjk+4LoZXxLtmu7fj/qlwwQMle75cOp0erkxVRM6FYulMT6YpYVS5CQJg7eQ/7y8B97lDm2i2bJCSd0t2ZzjQTOkd2ABOKV6mw9dVPFMAUxbn65g4qCx/Wod3UrSD+/p/1ORQaUbKgBTe/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BHB/Ap6K; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767720133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8nQ8vlpZLZ5VvbTZ6i9ChLmZ/pLF0l+ICk23bpsc6Vs=;
-	b=BHB/Ap6KtyI5TVmKGrT6iNUzOQCaSXYwhBOh8hg6YVDSGmKLlB/4aNEHyGe7mWw8XC38NV
-	o1F+TCZ/vT8E4SL42MJybXrnsK/i8t6s0UDyBZ3tJa+FlsMA2XR/LO63A3vZVZ2Zg3RYQQ
-	pvqeN4JLCzQqqpgodutY/nBOCZCGWQk=
-From: Leon Hwang <leon.hwang@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Leon Hwang <leon.hwang@linux.dev>,
-	Seth Forshee <sforshee@kernel.org>,
-	Yuichiro Tsuji <yuichtsu@amazon.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Paul Chaignon <paul.chaignon@gmail.com>,
-	Mykyta Yatsenko <yatsenko@meta.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Anton Protopopov <a.s.protopopov@gmail.com>,
-	Amery Hung <ameryhung@gmail.com>,
-	Rong Tao <rongtao@cestc.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-patches-bot@fb.com
-Subject: [RESEND PATCH bpf-next v4 9/9] selftests/bpf: Add tests to verify map create failure log
-Date: Wed,  7 Jan 2026 01:20:18 +0800
-Message-ID: <20260106172018.57757-10-leon.hwang@linux.dev>
-In-Reply-To: <20260106172018.57757-1-leon.hwang@linux.dev>
-References: <20260106172018.57757-1-leon.hwang@linux.dev>
+	s=arc-20240116; t=1767721471; c=relaxed/simple;
+	bh=laYqOL5e+Dyr/33tSA3p8NIZiT4lV2AVKHO90HrI+Tw=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=L+RXUhZCyT5lcPaAgEWf1M3VfYFGCtKql2+I2WZcOzlQI5iX6fKDodfHuAGuswSsVelYBWRXIYNr6f7k9o2eyjIQOLtPhWMPlonE3lQflDB5x6UI7jXeLtJbtGJrsz+jupkX/21hucCIklGXj5gQBmRiaMbMBpDf9WVkUgBJA/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yi8mYVt8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5B5C116C6;
+	Tue,  6 Jan 2026 17:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767721470;
+	bh=laYqOL5e+Dyr/33tSA3p8NIZiT4lV2AVKHO90HrI+Tw=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=Yi8mYVt8t6s0y5JSo5uoh5xuFuh6cB66j010+1x90/15GxYS+PMwHMgsWb9Ex4l9x
+	 t/2MZUFJ3/F4p23QdNkbhTyPezoFhv8lCyb0a/oAHLTj1haYdWeRcCJHMNrmfFXQov
+	 QsuYYfQvmYcof0dW9QyPcgnla7QYKNuqEikF99/7xpaWY+/kZTvnr0ifa0riSzj9iV
+	 zWFwAT8WLAdy1tPlx6n97PZDbsepyo2jqpEW2q75w6ddGRp6D0cLGEkhRzp8aoAsTw
+	 DIOIkvboeUGm6Cf/k3Vlswn9K98FhmRAojvyEcxrJ3VU1tAdM4jyApkgQ5/ILTaTF6
+	 9xrk0zs64aQkQ==
+Content-Type: multipart/mixed; boundary="===============3537800355671611745=="
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <53542ad28c0d27ffcfcf9ea325fb6a77eeb3d569e17a6fad9d95685b5ea25467@mail.kernel.org>
+In-Reply-To: <20260106172018.57757-4-leon.hwang@linux.dev>
+References: <20260106172018.57757-4-leon.hwang@linux.dev>
+Subject: Re: [RESEND PATCH bpf-next v4 3/9] bpf: Refactor reporting log_true_size for prog_load
+From: bot+bpf-ci@kernel.org
+To: leon.hwang@linux.dev,bpf@vger.kernel.org
+Cc: ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,brauner@kernel.org,oleg@redhat.com,leon.hwang@linux.dev,sforshee@kernel.org,yuichtsu@amazon.com,aalbersh@redhat.com,willemb@google.com,kerneljasonxing@gmail.com,paul.chaignon@gmail.com,yatsenko@meta.com,memxor@gmail.com,a.s.protopopov@gmail.com,ameryhung@gmail.com,rongtao@cestc.cn,linux-kernel@vger.kernel.org,linux-api@vger.kernel.org,linux-kselftest@vger.kernel.org,kernel-patches-bot@fb.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Tue,  6 Jan 2026 17:44:30 +0000 (UTC)
 
-As kernel is able to report log when fail to create map, add tests to
-verify those logs.
+--===============3537800355671611745==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> index 8f464b847405..1739601fb7bd 100644
+> --- a/kernel/bpf/syscall.c
+> +++ b/kernel/bpf/syscall.c
+
+[ ... ]
+
+> @@ -6160,12 +6160,22 @@ static int prog_assoc_struct_ops(union bpf_attr *attr)
+>  	return ret;
+>  }
+>
+> +static int copy_prog_load_log_true_size(union bpf_attr *attr, bpfptr_t uattr, unsigned int size)
+> +{
+> +	if (size >= offsetofend(union bpf_attr, log_true_size) &&
+> +	    copy_to_bpfptr_offset(uattr, offsetof(union bpf_attr, log_true_size),
+> +				  &attr->log_true_size, sizeof(attr->log_true_size)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+>  static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
+>  		     bpfptr_t uattr_common, unsigned int size_common)
+>  {
+>  	struct bpf_common_attr common_attrs;
+>  	union bpf_attr attr;
+> -	int err;
+> +	int err, ret;
+
+[ ... ]
+
+> @@ -6215,7 +6225,10 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
+>  		err = map_freeze(&attr);
+>  		break;
+>  	case BPF_PROG_LOAD:
+> -		err = bpf_prog_load(&attr, uattr, size);
+> +		attr.log_true_size = 0;
+> +		err = bpf_prog_load(&attr, uattr);
+> +		ret = copy_prog_load_log_true_size(&attr, uattr, size);
+> +		err = ret ? ret : err;
+                    ^^^^^^^^^^^^^^^^^^^^
+
+If bpf_prog_load() succeeds, it returns a positive file descriptor.
+Then if copy_prog_load_log_true_size() fails with -EFAULT, this line
+overwrites err with -EFAULT, losing the FD value.
+
+The BPF program has already been loaded and the FD allocated at this
+point. Since the FD is never returned to userspace, the program
+remains loaded but unreachable - could this leak the BPF program?
+
+In the previous code, the copy_to_bpfptr_offset() happened inside
+bpf_check() before the program was fully committed:
+
+    if (uattr_size >= offsetofend(...) &&
+        copy_to_bpfptr_offset(...)) {
+            ret = -EFAULT;
+            goto err_release_maps;
+        }
+
+This goto caused bpf_check() to return an error, preventing the FD
+allocation in bpf_prog_load(). Moving the copy outside changes the
+semantics - the FD can now be allocated before a copy failure occurs.
+
+> +		break;
+
+
 ---
- .../selftests/bpf/prog_tests/map_init.c       | 143 ++++++++++++++++++
- 1 file changed, 143 insertions(+)
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/map_init.c b/tools/testing/selftests/bpf/prog_tests/map_init.c
-index 14a31109dd0e..52bd4b1966c8 100644
---- a/tools/testing/selftests/bpf/prog_tests/map_init.c
-+++ b/tools/testing/selftests/bpf/prog_tests/map_init.c
-@@ -212,3 +212,146 @@ void test_map_init(void)
- 	if (test__start_subtest("pcpu_lru_map_init"))
- 		test_pcpu_lru_map_init();
- }
-+
-+#define BPF_LOG_FIXED	8
-+
-+static void test_map_create(enum bpf_map_type map_type, const char *map_name,
-+			    struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	const int key_size = 4, value_size = 4, max_entries = 1;
-+	char log_buf[128];
-+	int fd;
-+	LIBBPF_OPTS(bpf_syscall_common_attr_opts, copts);
-+
-+	log_buf[0] = '\0';
-+	copts.log_buf = log_buf;
-+	copts.log_size = sizeof(log_buf);
-+	copts.log_level = BPF_LOG_FIXED;
-+	opts->cattr_opts = &copts;
-+	fd = bpf_map_create(map_type, map_name, key_size, value_size, max_entries, opts);
-+	if (!ASSERT_LT(fd, 0, "bpf_map_create")) {
-+		close(fd);
-+		return;
-+	}
-+
-+	ASSERT_STREQ(log_buf, exp_msg, "log_buf");
-+	ASSERT_EQ(copts.log_true_size, strlen(exp_msg) + 1, "log_true_size");
-+}
-+
-+static void test_map_create_array(struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test_map_create", opts, exp_msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_struct_ops(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id can only be used with struct_ops maps.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_kv_type_id(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id is mutually exclusive with btf_key_type_id and btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create(BPF_MAP_TYPE_STRUCT_OPS, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_value_type_id(void)
-+{
-+	const char *msg = "Invalid btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_extra(void)
-+{
-+	const char *msg = "Invalid map_extra.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_extra = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_numa_node(void)
-+{
-+	const char *msg = "Invalid numa_node.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_NUMA_NODE,
-+		    .numa_node = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_type(void)
-+{
-+	const char *msg = "Invalid map_type.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(__MAX_BPF_MAP_TYPE, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_token_fd(void)
-+{
-+	const char *msg = "Invalid map_token_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_TOKEN_FD,
-+		    .token_fd = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_name(void)
-+{
-+	const char *msg = "Invalid map_name.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test-!@#", &opts, msg);
-+}
-+
-+static void test_invalid_btf_fd(void)
-+{
-+	const char *msg = "Invalid btf_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_fd = -1,
-+		    .btf_key_type_id = 1,
-+		    .btf_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+void test_map_create_failure(void)
-+{
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_struct_ops"))
-+		test_invalid_vmlinux_value_type_id_struct_ops();
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_kv_type_id"))
-+		test_invalid_vmlinux_value_type_id_kv_type_id();
-+	if (test__start_subtest("invalid_value_type_id"))
-+		test_invalid_value_type_id();
-+	if (test__start_subtest("invalid_map_extra"))
-+		test_invalid_map_extra();
-+	if (test__start_subtest("invalid_numa_node"))
-+		test_invalid_numa_node();
-+	if (test__start_subtest("invalid_map_type"))
-+		test_invalid_map_type();
-+	if (test__start_subtest("invalid_token_fd"))
-+		test_invalid_token_fd();
-+	if (test__start_subtest("invalid_map_name"))
-+		test_invalid_map_name();
-+	if (test__start_subtest("invalid_btf_fd"))
-+		test_invalid_btf_fd();
-+}
--- 
-2.52.0
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/20756616585
 
+--===============3537800355671611745==--
 
