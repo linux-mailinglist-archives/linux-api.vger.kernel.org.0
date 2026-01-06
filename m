@@ -1,107 +1,88 @@
-Return-Path: <linux-api+bounces-5604-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5605-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDCBCFB559
-	for <lists+linux-api@lfdr.de>; Wed, 07 Jan 2026 00:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A437CCFB599
+	for <lists+linux-api@lfdr.de>; Wed, 07 Jan 2026 00:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AEBFF302F6B0
-	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 23:13:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D2A243006F47
+	for <lists+linux-api@lfdr.de>; Tue,  6 Jan 2026 23:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB2C2FD685;
-	Tue,  6 Jan 2026 23:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E263225FA10;
+	Tue,  6 Jan 2026 23:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD4TTabC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IHIGLAWB"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17E62E542C;
-	Tue,  6 Jan 2026 23:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF84DAD24;
+	Tue,  6 Jan 2026 23:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767741194; cv=none; b=HCAWkWJ9+rTzSmDxSkjQlSpWhHbSxujZm3UlJ2ZECe/x/19Flt/7llEOXKnMwUHPl8W4SlrYZTytPaCrqw5R8PTpsJHTjW/diyRME5Xmy+2GIzEqe7u/GyXtlTXM3P9Xa2hxzfsgvoiW1uc70nu0JuogxTkUTdDGxsndFO14PpE=
+	t=1767742430; cv=none; b=LdaNsbISPFyoD2MGJqXoPW4CoLo2jywCugqDOCF4PwhOe+pdA/JO1/48jPPd+jo7w2YFbRoOlA+YCOJS30sOkclaaWde/CBVS1lDNjM4o9eVHChB4f4Xp10uT8CKL7Q52EJe9vsBw/IMh5g+jiGB4Wb5kLp+kfkZ4hSR0lUKsRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767741194; c=relaxed/simple;
-	bh=/ytDw2AdQR7uZ21ZJAztZBzoug6vYgK3l5h0rxyFnnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQDTMyVtW5UbtFbFZhUiwvbnb2DVBj+2GwDTmt6XDgB4p9pUJ97p62fDjJhHGzfkQ7L1KM4bbqVHB/IQYtnMWO5+igelCtJnQsNcB813KCxIkq9Mbxe6JtuF4OTy/wIHKvFTYAIuA8ZYFigVUTTVpGq2ggf9/WCvs939zcKdoj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD4TTabC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5F1C116C6;
-	Tue,  6 Jan 2026 23:13:14 +0000 (UTC)
+	s=arc-20240116; t=1767742430; c=relaxed/simple;
+	bh=51Mf1jtyugfdrBHzcpwBgck3+J4uCtDVXn8KnskGVIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YyI4LQjCgrLtvh5qXrATFoY/wnCjqhzim2ykOAELibSu8rwf2Av/XfNlxtloVq5rmqvwCYELvnl7Z4ecJYi0gRgZ1Q90hbxK/TsatRramxt7VB+0CEs3iv5rP6RtUE3/zNkAN2UcN1vetwzTO+nGhxErDdao64gzIMF1vgjocK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IHIGLAWB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20794C116C6;
+	Tue,  6 Jan 2026 23:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767741194;
-	bh=/ytDw2AdQR7uZ21ZJAztZBzoug6vYgK3l5h0rxyFnnQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bD4TTabCnqpOvjlPxal3FABWEJidSlDMLjfyCRwToqf8m7hgqGdU93Qvgqf22owUs
-	 +rVFeyA/D2wz9NWsOwNFRG/VYRdhtyMQ4ARGWJvGn1ZiWOX7W3PssEkna8Kyw24Zs9
-	 +pvJSTHE3Z5vzM05xtRR1L1lmXHD/wuXZGJe0EnCycRGDLHfGhd5hb8Va0iKzueAbA
-	 ZAYrRfjIZQdpcrI3LBuUuMisg8/NAaIuKBubDNPRYjfxupfGg2b66UfqVKCBDVQl8a
-	 D43/PFKptnxUxDn3RLNxbhQQNgGGq7fFvM9GZ0T1hv294UhdVe6+BjV1Owrmfrzf/3
-	 fMIfCHIk1/ofg==
-Date: Tue, 6 Jan 2026 15:13:13 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
-Cc: Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn
- <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH net-next] net: uapi: Provide an UAPI definition of
- 'struct sockaddr'
-Message-ID: <20260106151313.1f8bd508@kernel.org>
-In-Reply-To: <20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
-References: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
-	<20260105095713.0b312b26@kernel.org>
-	<20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
+	s=k20201202; t=1767742430;
+	bh=51Mf1jtyugfdrBHzcpwBgck3+J4uCtDVXn8KnskGVIc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IHIGLAWBckTuW90Tqk9AwWGKjF2td8rqovwg0NRbguo2bIlxwGpBGzsf1NLvMUILi
+	 BQoWFioS862+nXI2dd8mWKpoXaJJ1YWihNNSbfnN5KPg9hqcMRvsKDOpqV4CPEorYY
+	 5k4soKXZgcFh4/+7DO0jYUjkOFfrT4QBt41+h1q4KuL73AWbgVyQ+kIsfuEhj7rUSN
+	 NTAm6kdG9jmZ0/CYsQaP/SRQ2kEhUibnKmP4QypshaRpk5WPy+MeWmqOyUXsvufo3I
+	 6XAJSSfoKz67Z5XGzg3bxR5KXG5l1dB4Phf1Aujw4wJcFiq9b4bQHdjN9FgVMgfKEY
+	 j9N30nD73TzCA==
+Date: Tue, 6 Jan 2026 15:33:49 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: jack@suse.cz, brauner@kernel.org
+Cc: linux-api@vger.kernel.org, hch@lst.de, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gabriel@krisman.be, amir73il@gmail.com
+Subject: [PATCH 7/6] fs: improve comment in fserror_alloc_event
+Message-ID: <20260106233349.GL191501@frogsfrogsfrogs>
+References: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
 
-On Tue, 6 Jan 2026 11:32:52 +0100 Thomas Wei=C3=9Fschuh wrote:
-> As for the failure in netdev CI however I am not so sure.
-> Looking at net-next-2026-01-05--12-00, the only failures triggered by my
-> change are also the ones from the bpf-ci. Are these the ones you meant,
-> or am I missing some others?
+From: Darrick J. Wong <djwong@kernel.org>
 
-Multiple things broke at once so slightly hard to fish the relevant
-stuff out from here:
+Document the ordering requirements between SB_ACTIVE and
+s_pending_errors in the new fserror code.
 
-https://netdev.bots.linux.dev/contest.html?branch=3Dnet-next-2026-01-05--15=
--00&pass=3D0&pw-n=3D0
+Cc: jack@suse.cz
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+---
+ fs/fserror.c |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-Here's one:
-
-make[1]: Entering directory '/home/virtme/testing/wt-3/tools/testing/selfte=
-sts/net'
-  CC       busy_poller
-In file included from [01m[K/usr/include/sys/socket.h:33[m[K,
-                 from [01m[K/usr/include/netinet/in.h:23[m[K,
-                 from [01m[K/usr/include/arpa/inet.h:22[m[K,
-                 from [01m[Kbusy_poller.c:14[m[K:
-[01m[K/usr/include/bits/socket.h:182:8:[m[K [01;31m[Kerror: [m[Kredefinitio=
-n of '[01m[Kstruct sockaddr[m[K'
-  182 | struct [01;31m[Ksockaddr[m[K
-      |        [01;31m[K^~~~~~~~[m[K
-In file included from [01m[K/home/virtme/testing/wt-3/usr/include/linux/net=
-link.h:6[m[K,
-                 from [01m[K/home/virtme/testing/wt-3/usr/include/linux/gen=
-etlink.h:6[m[K,
-                 from [01m[K/home/virtme/testing/wt-3/tools/testing/selftes=
-ts/../../../tools/net/ynl/lib/ynl.h:7[m[K,
-                 from [01m[Kbusy_poller.c:12[m[K:
-[01m[K/home/virtme/testing/wt-3/usr/include/linux/socket.h:37:8:[m[K [01;36=
-m[Knote: [m[Koriginally defined here
-   37 | struct [01;36m[Ksockaddr[m[K {
-      |        [01;36m[K^~~~~~~~[m[K
-make[1]: *** [../lib.mk:225: /home/virtme/testing/wt-3/tools/testing/selfte=
-sts/net/busy_poller] Error 1
-
-https://netdev-3.bots.linux.dev/vmksft-net-dbg/results/460421/7-xfrm-policy=
--sh/stdout
-
+diff --git a/fs/fserror.c b/fs/fserror.c
+index ec92f5a6db59ce..06ca86adab9b76 100644
+--- a/fs/fserror.c
++++ b/fs/fserror.c
+@@ -79,6 +79,11 @@ static inline struct fserror_event *fserror_alloc_event(struct super_block *sb,
+ 	 * If pending_errors already reached zero or is no longer active,
+ 	 * the superblock is being deactivated so there's no point in
+ 	 * continuing.
++	 *
++	 * The order of the check of s_pending_errors and SB_ACTIVE are
++	 * mandated by order of accesses in generic_shutdown_super and
++	 * fserror_unmount.  Barriers are implicitly provided by the refcount
++	 * manipulations in this function and fserror_unmount.
+ 	 */
+ 	if (!refcount_inc_not_zero(&sb->s_pending_errors))
+ 		return NULL;
 
