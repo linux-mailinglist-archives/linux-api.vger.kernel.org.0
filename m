@@ -1,148 +1,171 @@
-Return-Path: <linux-api+bounces-5609-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5610-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34CECFC303
-	for <lists+linux-api@lfdr.de>; Wed, 07 Jan 2026 07:33:06 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F91CFCDD0
+	for <lists+linux-api@lfdr.de>; Wed, 07 Jan 2026 10:30:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D179A3026841
-	for <lists+linux-api@lfdr.de>; Wed,  7 Jan 2026 06:32:17 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3EC4630028BC
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jan 2026 09:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C69613C918;
-	Wed,  7 Jan 2026 06:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79FC23016F7;
+	Wed,  7 Jan 2026 09:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RXxPw2q8"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bXfedOmC";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jW9f7Yus";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h4IHSs4J";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KP6u3b9p"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600E7238D52
-	for <linux-api@vger.kernel.org>; Wed,  7 Jan 2026 06:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB692FBDFD
+	for <linux-api@vger.kernel.org>; Wed,  7 Jan 2026 09:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767767537; cv=none; b=jrHMnMpuGbMjbO6yg11evroXHnV1Nz9q7S66iMJXbSryEFxEUr4e6+XzsYP1vOK0y8qJ93lEYMXed/N1PKL4jIX22ASpPcc3Ov2p8+G3RR05adzWJXUJbUzTbrOjl0zvZlXVUkCNi8MRheKDWMH4c9loPm7PFlbPv9pVWuuI05o=
+	t=1767777605; cv=none; b=H1M/tGVJ1L41jp0OzC9DrscjIdjiTXTzv8ljwhgsE59BeLbOCg8nbnDBAtD3t+P/y4fo7MJHcM3vpF+KdDSIFw0VTzfyoPo5cAeq00qHtJeX49vUToL8dNRVm8dlPXkXgH0tP0m/PZRiYTt9G018IXnzC+y8hLlNPWyu2dph7so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767767537; c=relaxed/simple;
-	bh=uGeMEPVRkSpC2V0Et/jcxXoOPjhyW6CgqXy2Of33Llo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y48N0UBaX2VKE1ne8KWBt+BPDSOWzfETSrCdXS+pT8yBg73jLtG1bY41liOyXTehuqQr2FRcNTIDLqiOlCHe1VPwPttXkxyjzSjIWFi3fjwed9g+DERQcd5wJU9Wkc1d8bRXb5e1VQOTXCivxJVEm3pYVoQ24f3r0RYrVqUCeWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RXxPw2q8; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <a936f459-a7a1-431d-8ef8-cae5cf4d2196@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767767523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	s=arc-20240116; t=1767777605; c=relaxed/simple;
+	bh=JCHXxrF7Y+7Sq6FcTC54S4bP/QhVFrsw6qhIl7klmFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiQYLhcpyvWy4BoqY1kGDlQkRiIqTAVB+EZnL+Q2FJS415+3af2jdAHi0fbk+BSujDUuPEXnKDV65OT7AA1k7fKB/Fzl72FlKeqxh1SNGKFyWeVmSO7jWsUSfmFKM/8q+vviZJAdy/T0OjKpm8DnplnIA2KDQsJK7OaPeWsjlRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bXfedOmC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jW9f7Yus; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h4IHSs4J; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KP6u3b9p; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D65D15BD1D;
+	Wed,  7 Jan 2026 09:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767777600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sSuPmFTwU8SaKs0RPK0cyiAQml5VD95wZprmiScp9NI=;
-	b=RXxPw2q85UPGYKCScgWbYZi1Hbvbk1vwLOaBqW8aO/60324qQrBvV7dFwVVpNEYywGSeuT
-	eDbywsD7RSGWvXg3wjFrrpuY+GhjzaqKMwz0Cj7bc5Zz/4IwZpBsrL9x5K0/bCpM6g0CuY
-	S4rc/dpAWi+1mX1tcz55XSSizoXh/94=
-Date: Wed, 7 Jan 2026 14:31:48 +0800
+	bh=qlGYLZNyph8hwnmX949LAFvR/W9X+jGV+eGG9YFr+iU=;
+	b=bXfedOmC9atRFSGdFpW1KxyaZNPQ4bY5Nyh29DSJ492/Babj0RmmYLqYpWxq9JZrJe5kVX
+	zs4ErBlXbW+vSSqF5TawBIERL8bQENJc2jRkTo2bzHC1OAQK2YhO6xLQe0gYy4bJi1AaUe
+	NfHKBGsVD5csw+3oOD9mUhsP5bVcaL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767777600;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qlGYLZNyph8hwnmX949LAFvR/W9X+jGV+eGG9YFr+iU=;
+	b=jW9f7YusVK7GF6BmyqVhLyHQirVfDQqoFe1Q6WfCw/NFBUdpbaixfEtocef55I/BF+HdPY
+	146nuCRl07Lgk3Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767777599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qlGYLZNyph8hwnmX949LAFvR/W9X+jGV+eGG9YFr+iU=;
+	b=h4IHSs4JSrqj93ZXFqsMfDZ6GZ21Tbxlffs3UXOrzRKnB9ECSpAS/oAq7vCKgKY2Hbtoke
+	A8EAyhTBY7D6Y3Yjn/pirqKly+89tzaR83PMfR3K32XUOiVEbp2MM8iHn3gGta5ppkhYei
+	0+Qc37vjlr9RhkunSG5K8e97klx/dqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767777599;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qlGYLZNyph8hwnmX949LAFvR/W9X+jGV+eGG9YFr+iU=;
+	b=KP6u3b9p1clYfgk7bXomx05vaoCAYs/KU1Zr8RhMhBWKm1K6mC6l85Eg8z9jdBVwz3LoE9
+	9+IeyLKYVe83l2Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBB083EA63;
+	Wed,  7 Jan 2026 09:19:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l621MT8lXmntEwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 07 Jan 2026 09:19:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7CA55A090B; Wed,  7 Jan 2026 10:19:59 +0100 (CET)
+Date: Wed, 7 Jan 2026 10:19:59 +0100
+From: Jan Kara <jack@suse.cz>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: jack@suse.cz, brauner@kernel.org, linux-api@vger.kernel.org, 
+	hch@lst.de, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, gabriel@krisman.be, amir73il@gmail.com
+Subject: Re: [PATCH 7/6] fs: improve comment in fserror_alloc_event
+Message-ID: <z64qfesodgulcztm7377w475vpriwo47svljmvorwdqmoxo5qm@konpxvnqn4se>
+References: <176602332085.686273.7564676516217176769.stgit@frogsfrogsfrogs>
+ <20260106233349.GL191501@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RESEND PATCH bpf-next v4 7/9] bpf: Add common attr support for
- map_create
-Content-Language: en-US
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: bot+bpf-ci@kernel.org, bpf <bpf@vger.kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- sforshee@kernel.org, yuichtsu@amazon.com, aalbersh@redhat.com,
- Willem de Bruijn <willemb@google.com>, Jason Xing
- <kerneljasonxing@gmail.com>, Paul Chaignon <paul.chaignon@gmail.com>,
- Mykyta Yatsenko <yatsenko@meta.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Anton Protopopov <a.s.protopopov@gmail.com>, Amery Hung
- <ameryhung@gmail.com>, Rong Tao <rongtao@cestc.cn>,
- LKML <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- kernel-patches-bot@fb.com, Martin KaFai Lau <martin.lau@kernel.org>,
- Chris Mason <clm@meta.com>, Ihor Solodrai <ihor.solodrai@linux.dev>
-References: <20260106172018.57757-8-leon.hwang@linux.dev>
- <db428e27fdf0110ea05cdadf8980c7758d7f4dcd61289293394db7e34ce99601@mail.kernel.org>
- <28ace50f-9ae6-46da-a05d-eab31f33f9cb@linux.dev>
- <CAADnVQJLifBhcpe5ci7FBB2uzTR5OXPji5RPq2NLSoVXpTfScg@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CAADnVQJLifBhcpe5ci7FBB2uzTR5OXPji5RPq2NLSoVXpTfScg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260106233349.GL191501@frogsfrogsfrogs>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,vger.kernel.org,lst.de,krisman.be,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
 
-
-
-On 7/1/26 14:20, Alexei Starovoitov wrote:
-> On Tue, Jan 6, 2026 at 9:57 PM Leon Hwang <leon.hwang@linux.dev> wrote:
->>
->>
->>
->> On 7/1/26 01:44, bot+bpf-ci@kernel.org wrote:
->>>> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
->>>> index 14fc5738f2b9..e64cc7504731 100644
->>>> --- a/kernel/bpf/syscall.c
->>>> +++ b/kernel/bpf/syscall.c
->>>
->>> [ ... ]
->>>
->>>> @@ -6279,7 +6345,11 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
->>>>
->>>>      switch (cmd) {
->>>>      case BPF_MAP_CREATE:
->>>> -            err = map_create(&attr, uattr);
->>>> +            common_attrs.log_true_size = 0;
->>>> +            err = map_create(&attr, uattr, &common_attrs);
->>>> +            ret = copy_common_attr_log_true_size(uattr_common, size_common,
->>>> +                                                 &common_attrs.log_true_size);
->>>> +            err = ret ? ret : err;
->>>
->>> When map_create() succeeds, it returns a file descriptor that is already
->>> installed in the caller's fd table via bpf_map_new_fd(). If
->>> copy_common_attr_log_true_size() then fails (e.g., user provided a
->>> read-only buffer for uattr_common), the syscall returns -EFAULT but the
->>> fd remains installed.
->>>
->>> Could this leak the file descriptor? The user gets an error and has no
->>> way to know what fd number was allocated, so they cannot close it.
->>>
->>
->> Good catch — you’re right.
->>
->> If 'map_create()' succeeds and 'copy_common_attr_log_true_size()' later
->> fails (e.g. returning -EFAULT), the newly created file descriptor would
->> remain installed and could be leaked.
->>
->> I’ll fix this in the next revision by explicitly closing the fd when
->> ret is non-zero.
+On Tue 06-01-26 15:33:49, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
 > 
-> No. The refactoring was wrong. Don't make the kernel do extra work.
-> Patch 3 introduced a bug and closing fd is not a solution.
-> Such a pattern can be exploited for DoS.
+> Document the ordering requirements between SB_ACTIVE and
+> s_pending_errors in the new fserror code.
+> 
+> Cc: jack@suse.cz
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 
-You’re right — closing the fd after the fact is not the correct
-solution, and introducing extra work in the kernel is undesirable. Doing
-so could also open the door to DoS-style abuse.
+Thanks! I guess this will be folded into the original patch but just in
+case:
 
-The correct approach is to copy log_true_size into common_attrs
-before allocating and installing the new fd, so that a failure in
-copying cannot leave behind a partially created object.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-I’ll rework this accordingly in the next revision.
+								Honza
 
-Thanks,
-Leon
-
-
+> ---
+>  fs/fserror.c |    5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/fs/fserror.c b/fs/fserror.c
+> index ec92f5a6db59ce..06ca86adab9b76 100644
+> --- a/fs/fserror.c
+> +++ b/fs/fserror.c
+> @@ -79,6 +79,11 @@ static inline struct fserror_event *fserror_alloc_event(struct super_block *sb,
+>  	 * If pending_errors already reached zero or is no longer active,
+>  	 * the superblock is being deactivated so there's no point in
+>  	 * continuing.
+> +	 *
+> +	 * The order of the check of s_pending_errors and SB_ACTIVE are
+> +	 * mandated by order of accesses in generic_shutdown_super and
+> +	 * fserror_unmount.  Barriers are implicitly provided by the refcount
+> +	 * manipulations in this function and fserror_unmount.
+>  	 */
+>  	if (!refcount_inc_not_zero(&sb->s_pending_errors))
+>  		return NULL;
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
