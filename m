@@ -1,100 +1,117 @@
-Return-Path: <linux-api+bounces-5620-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5621-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53E7D12D3E
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 14:33:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3257D12DB6
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 14:37:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9CE7D30021FE
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 13:33:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 74B4E30021D9
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 13:37:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6CD92D47E3;
-	Mon, 12 Jan 2026 13:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9318E35970D;
+	Mon, 12 Jan 2026 13:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KYQdp0nD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PqZ2/STn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SvNQQ0Kw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C05A27E07A;
-	Mon, 12 Jan 2026 13:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D707635970A
+	for <linux-api@vger.kernel.org>; Mon, 12 Jan 2026 13:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768224825; cv=none; b=XP1Vxf7GwlMqdkzuzDUv5I4DsG4RhWC/8V1uAze2w+OFZrz8TF0lvoZ8yQgIcpWE1trlWC9SbafNXm4pLnQsaNqVs7GG6b4qF89hH8J7pOCVva80VyJYj8Mm1EpnPV6bP6qPu4iPMie6iFf5PHojWnijSSDSMB7kf+moDHw1IQI=
+	t=1768225059; cv=none; b=PjO5UnQJJnslfo/jzSCrjOYf3i5/WbhcaqRUJAxrvA3v2KpLAOYLot38ee6rigK51tuHnxBG2W35xLT6O60RH3/bSyaC/s7JSvCj8VZ1NISIR7rM6MxGU5x1vIsqgHxQA7hJ0iFlN4paaG2Vq685TvssKjiN6wy1+PZpJn1h5hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768224825; c=relaxed/simple;
-	bh=EYL6qPvUJNB85ib1joVC7jyA9C3txlDMBBMZAbT+6eE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpYBFVhqyAKG3lbrLRgqbqAjX1NNynRsQ2viW4gmhaTwnhtd/0M0Nfc+aoAA68nia2UueVaIuvffctwG70aqasknFzSnpx6GaeEy4obXva8MCiKPmThsltn48K7cBaf8z0CEUz7pXbaF026FXpE8K698CMkOcvpdR4NowSaEb6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KYQdp0nD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PqZ2/STn; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 12 Jan 2026 14:33:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768224821;
+	s=arc-20240116; t=1768225059; c=relaxed/simple;
+	bh=cxa/5Rl6a1TnXAsHeNesfXs4j6wa884AGuYzr6qKe0A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=O2AYkjYe/yd07QqtDIVu/rqtJ9vEoeHdGKnQaDsW+YNaH8m3DaS+STdPXgL4uoXQPA4fBnHbGcyW+lfUf56xgFmxuBhH43NqBDO+S8khClvgPsKx0e2szrb1GK+IUJrgHeLLx3FfzNBdeYEw2G9YXo4AX4ZkJKPp756WsrucVfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SvNQQ0Kw; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768225047;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JWj4H2Lgq+WhqUr9o6eZinAp459hvArUl+5f/ZqyT2k=;
-	b=KYQdp0nDiI90EXdJkoIOi3C2UwZe5hY0UxJtySajl+TmkR9u5p/91NT4ihNdKxuCS0uhr1
-	63n+WT/0FbnSc4MQog88JJqgockJZBGurJFgngg+edfeHTVuP2oYKUizksKYJvnrD+i2u8
-	vXX0j3en1zIKt8YwNUgBVxVGManZM1vJMrny6o5ha59uaqeXBAIf8888HOYnXafPkP/x7W
-	wrQL+mwVuUY1ktJhNuecKsD4L2OH3+DVt0pMPUgB6yDLXun0SB760gfrfrXSKGlfxrJDpC
-	zPDvFcpX7XGpmPQBBTxrMijN9KzA+PNxab+4TCnwTm1Jme2LV745CQYVvw2HgQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768224821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JWj4H2Lgq+WhqUr9o6eZinAp459hvArUl+5f/ZqyT2k=;
-	b=PqZ2/STn7G+lEHLlQVIIXDb3DYQhyKIMPjO8HDgx2dsjxMNawG+2VKJ3dkRwZspGS8y2uH
-	oz1kuz7zjdP3k2Ag==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>, 
-	Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
-	Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+	bh=STZX6GfdAf+NNNJHFcpfAAJdJSUJl9RVZRSMHHM/8d4=;
+	b=SvNQQ0Kwzi4CwzS/c6uu/3SND2yeu5DcMzy67QWuUM5NGksIPG2TisqciB4Guwiw0pusHM
+	1DMEGmClF/33fahb6/Uc3IMxsn5pIvGrVC6CI90zovwbrGq9Ke/z1EEijjBEtK8Tw/pvkd
+	lIdWyhZKPgHn5K4SRAMBlqmg04P9KYM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-Hk15Jl2ZMIqKS-Dr_qmnxA-1; Mon,
+ 12 Jan 2026 08:37:22 -0500
+X-MC-Unique: Hk15Jl2ZMIqKS-Dr_qmnxA-1
+X-Mimecast-MFC-AGG-ID: Hk15Jl2ZMIqKS-Dr_qmnxA_1768225040
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 60FD71956050;
+	Mon, 12 Jan 2026 13:37:20 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.58])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B6CF30001A2;
+	Mon, 12 Jan 2026 13:37:17 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Arnd Bergmann <arnd@arndb.de>,  Jakub Kicinski <kuba@kernel.org>,  Eric
+ Dumazet <edumazet@google.com>,  Kuniyuki Iwashima <kuniyu@google.com>,
+  Paolo Abeni <pabeni@redhat.com>,  Willem de Bruijn <willemb@google.com>,
+  Netdev <netdev@vger.kernel.org>,  linux-kernel@vger.kernel.org,
+  linux-api@vger.kernel.org
 Subject: Re: [PATCH net-next] net: uapi: Provide an UAPI definition of
  'struct sockaddr'
-Message-ID: <20260112143158-efc74534-0283-4db1-812f-402794eb8844@linutronix.de>
+In-Reply-To: <20260112143158-efc74534-0283-4db1-812f-402794eb8844@linutronix.de>
+	("Thomas =?utf-8?Q?Wei=C3=9Fschuh=22's?= message of "Mon, 12 Jan 2026
+ 14:33:39 +0100")
 References: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
- <20260105095713.0b312b26@kernel.org>
- <20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
- <20260106151313.1f8bd508@kernel.org>
- <06cf1396-c100-45ba-8b46-edb4ed4feb62@app.fastmail.com>
- <lhu7btnkqg6.fsf@oldenburg.str.redhat.com>
- <20260112124604-dbf7f68d-2182-438f-9495-2931cac02a81@linutronix.de>
- <lhutswrj73u.fsf@oldenburg.str.redhat.com>
+	<20260105095713.0b312b26@kernel.org>
+	<20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
+	<20260106151313.1f8bd508@kernel.org>
+	<06cf1396-c100-45ba-8b46-edb4ed4feb62@app.fastmail.com>
+	<lhu7btnkqg6.fsf@oldenburg.str.redhat.com>
+	<20260112124604-dbf7f68d-2182-438f-9495-2931cac02a81@linutronix.de>
+	<lhutswrj73u.fsf@oldenburg.str.redhat.com>
+	<20260112143158-efc74534-0283-4db1-812f-402794eb8844@linutronix.de>
+Date: Mon, 12 Jan 2026 14:37:15 +0100
+Message-ID: <lhuikd7j6k4.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <lhutswrj73u.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Mon, Jan 12, 2026 at 02:25:25PM +0100, Florian Weimer wrote:
-> * Thomas Weißschuh:
-> 
-> >> If you call the data member sa_data just like glibc, it will only fail
-> >> in C++, not C.  GCC considers the two definitions sufficiently
-> >> equivalent (even though glibc adds a may_alias attribute to meet POSIX
-> >> requirements), and duplicate definitions are permitted in C.
-> >
-> > clang is not so lenient and will error out.
-> 
-> It seems it accepts it if you switch to C23 mode.
+* Thomas Wei=C3=9Fschuh:
 
-The currently supported baseline for UAPI headers is C90.
-We can't really force userspace to switch here.
+> On Mon, Jan 12, 2026 at 02:25:25PM +0100, Florian Weimer wrote:
+>> * Thomas Wei=C3=9Fschuh:
+>>=20
+>> >> If you call the data member sa_data just like glibc, it will only fail
+>> >> in C++, not C.  GCC considers the two definitions sufficiently
+>> >> equivalent (even though glibc adds a may_alias attribute to meet POSIX
+>> >> requirements), and duplicate definitions are permitted in C.
+>> >
+>> > clang is not so lenient and will error out.
+>>=20
+>> It seems it accepts it if you switch to C23 mode.
+>
+> The currently supported baseline for UAPI headers is C90.
+> We can't really force userspace to switch here.
 
+Including libc and UAPI headers at the same time is still officially
+unsupported, right?
 
-Thomas
+We don't test for it, so lots of combinations do not work.
+
+Thanks,
+Florian
+
 
