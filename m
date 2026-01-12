@@ -1,45 +1,45 @@
-Return-Path: <linux-api+bounces-5629-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5631-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03ECD1388E
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 16:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA48D137E4
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 16:10:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F07743186E9B
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 15:00:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0025B30DF3D9
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 15:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98772DFF1D;
-	Mon, 12 Jan 2026 14:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E86E2E54BD;
+	Mon, 12 Jan 2026 14:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H9PjDDfa"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vcs4wVzs"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D194433B3
-	for <linux-api@vger.kernel.org>; Mon, 12 Jan 2026 14:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618CD2E36F3
+	for <linux-api@vger.kernel.org>; Mon, 12 Jan 2026 14:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229972; cv=none; b=iP7WzD7eGeSSXVM3qr3Ck51uMtCG8KbdhiXOMABdZ3jUR59CgL4tZA5NQLJPanQ2WliKE7arW6rBKJbU7odDp2a+kLalCpSzcToaiHXFR/3e11mIUGLxas6kxbw5JfR+DU2go90Gc3JYFd69T4uFYv+3hwtShKfuf0cRryOp7EU=
+	t=1768229990; cv=none; b=YQo2wx6A+3EBBkB4Wwx1Cge+eA8eFbMGqJ2Md2lvK5LjsGzA0E2YiwmzXF4yYp2M67LM3gnX5HAzoIosylGZfItj3/vtpJmxiS/JnZqhjAp0T4DqkRH+p75farMPwLfyKwgFFQdcQhdZFNXCmUx2tP1x38oM27CMkCA5nIsITUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229972; c=relaxed/simple;
-	bh=xdEKcnIuRvnkKprV7MZfKu9TFcwFGvDSVPZUZlgi+iI=;
+	s=arc-20240116; t=1768229990; c=relaxed/simple;
+	bh=twu10ehvwUj2uGL7MPrVQ/c2Lls/a3gbBva757ksxMQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sve6CsycV822y7GT0KkVs3RIZ3eCECoIkMf08b0NBAx/ads1CEAuKE2DWY/TPPC912F/pfUYhsaGg99jXsrEY+ydT2kuTXEcpQNd89co8e1A043Jf8Wxg4X3eVJqJb1eUCa62Y9yStEWeQ65mGLBkZXdVJmRs2j9UJyFdxBtxcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H9PjDDfa; arc=none smtp.client-ip=91.218.175.181
+	 MIME-Version; b=cTpfhi72hdLIxP1ApejXQVNGHQ+C8fn5QI7O8hXovoVQoJHOFmjvv9W5s7WCg7rBC5HvwbckpEFN0BKg2ztkLSNohOUUZcMhl+NWPdoNGAFJUla1H325J0lk5WYhbdTmCaTpBYHpOs4LZiIAnX2paGOj1Uu2eD2bt0ECgBPpyGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vcs4wVzs; arc=none smtp.client-ip=91.218.175.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768229968;
+	t=1768229985;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6rIjtBtg4j5ppg7ai8t6gRwAk9XLgVvAUqy+c8sSBgU=;
-	b=H9PjDDfaXBMQ3YazqTGBTfaTx4YSC2FQwKw/30z0UWzq+ed3zzXYSlfkIT8ETIdnWLrU41
-	JCprAhJs5gm4g8eKyrL4or249HqoXOcNtkyRDOzRqquvUGX5T4zHfOPvY4vM4pLQ531lZe
-	V2SW/RDmrjWbJJL4sd8t7Cm5hDCz8B0=
+	bh=oDfhocTnYtUNJjj9Jwm25T7XvlMuWgWSlNCBJIpxmZE=;
+	b=Vcs4wVzsICnvDJqyhpJnfhoT1wMvVMA67Lz9WlPd1ZYjZhCiKnnU3+Z6XCT0XL5a5SvvhI
+	lK9xb5ruuQwE7IzHjwBTPMs9A4+AfRH3bi9PA4lhPSRXaZSKVmKfFc/Urf3JTS3BnMVXSi
+	9/vrRmIosPIu9jbmHpNVi22wCLXOusw=
 From: Leon Hwang <leon.hwang@linux.dev>
 To: bpf@vger.kernel.org
 Cc: Alexei Starovoitov <ast@kernel.org>,
@@ -72,9 +72,9 @@ Cc: Alexei Starovoitov <ast@kernel.org>,
 	linux-api@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	kernel-patches-bot@fb.com
-Subject: [PATCH bpf-next v5 7/9] bpf: Add syscall common attributes support for map_create
-Date: Mon, 12 Jan 2026 22:56:14 +0800
-Message-ID: <20260112145616.44195-8-leon.hwang@linux.dev>
+Subject: [PATCH bpf-next v5 9/9] selftests/bpf: Add tests to verify map create failure log
+Date: Mon, 12 Jan 2026 22:56:16 +0800
+Message-ID: <20260112145616.44195-10-leon.hwang@linux.dev>
 In-Reply-To: <20260112145616.44195-1-leon.hwang@linux.dev>
 References: <20260112145616.44195-1-leon.hwang@linux.dev>
 Precedence: bulk
@@ -86,236 +86,190 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Currently, many BPF_MAP_CREATE failures return -EINVAL without providing
-any explanation to userspace.
-
-With extended BPF syscall support, detailed error messages can now be
-reported via the log buffer, allowing users to understand the specific
-reason for a failed map creation.
+Add tests to verify that the kernel reports the expected error messages
+when map creation fails.
 
 Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
 ---
- include/linux/bpf_verifier.h |  2 ++
- kernel/bpf/log.c             | 30 +++++++++++++++++
- kernel/bpf/syscall.c         | 65 ++++++++++++++++++++++++++++++------
- 3 files changed, 87 insertions(+), 10 deletions(-)
+ .../selftests/bpf/prog_tests/map_init.c       | 168 ++++++++++++++++++
+ 1 file changed, 168 insertions(+)
 
-diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
-index 9022e4f515f9..280beca480ea 100644
---- a/include/linux/bpf_verifier.h
-+++ b/include/linux/bpf_verifier.h
-@@ -644,6 +644,8 @@ int bpf_prog_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs
- 				struct bpf_attrs *attrs_common);
- int bpf_btf_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs,
- 			       struct bpf_attrs *attrs_common);
-+struct bpf_verifier_log *bpf_log_attr_create_vlog(struct bpf_log_attr *log_attr,
-+						  struct bpf_attrs *attrs_common);
- int bpf_log_attr_finalize(struct bpf_log_attr *log_attr, struct bpf_verifier_log *log);
- 
- #define BPF_MAX_SUBPROGS 256
-diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
-index 0dba014ca055..6586d752970f 100644
---- a/kernel/bpf/log.c
-+++ b/kernel/bpf/log.c
-@@ -912,6 +912,36 @@ int bpf_btf_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *
- 				 attrs_common);
+diff --git a/tools/testing/selftests/bpf/prog_tests/map_init.c b/tools/testing/selftests/bpf/prog_tests/map_init.c
+index 14a31109dd0e..824e2bea74bf 100644
+--- a/tools/testing/selftests/bpf/prog_tests/map_init.c
++++ b/tools/testing/selftests/bpf/prog_tests/map_init.c
+@@ -212,3 +212,171 @@ void test_map_init(void)
+ 	if (test__start_subtest("pcpu_lru_map_init"))
+ 		test_pcpu_lru_map_init();
  }
- 
-+struct bpf_verifier_log *bpf_log_attr_create_vlog(struct bpf_log_attr *log_attr,
-+						  struct bpf_attrs *attrs_common)
++
++#define BPF_LOG_FIXED	8
++
++static void test_map_create(enum bpf_map_type map_type, const char *map_name,
++			    struct bpf_map_create_opts *opts, const char *exp_msg)
 +{
-+	const struct bpf_common_attr *common_attr = attrs_common->attr;
-+	struct bpf_verifier_log *log;
-+	int err;
++	const int key_size = 4, value_size = 4, max_entries = 1;
++	char log_buf[128];
++	int fd;
++	LIBBPF_OPTS(bpf_syscall_common_attr_opts, copts);
 +
-+	memset(log_attr, 0, sizeof(*log_attr));
-+	log_attr->log_buf = common_attr->log_buf;
-+	log_attr->log_size = common_attr->log_size;
-+	log_attr->log_level = common_attr->log_level;
-+	log_attr->attrs_common = attrs_common;
-+
-+	if (!log_attr->log_buf)
-+		return NULL;
-+
-+	log = kzalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log)
-+		return ERR_PTR(-ENOMEM);
-+
-+	err = bpf_vlog_init(log, log_attr->log_level, u64_to_user_ptr(log_attr->log_buf),
-+			    log_attr->log_size);
-+	if (err) {
-+		kfree(log);
-+		return ERR_PTR(err);
++	log_buf[0] = '\0';
++	copts.log_buf = log_buf;
++	copts.log_size = sizeof(log_buf);
++	copts.log_level = BPF_LOG_FIXED;
++	opts->common_attr_opts = &copts;
++	fd = bpf_map_create(map_type, map_name, key_size, value_size, max_entries, opts);
++	if (!ASSERT_LT(fd, 0, "bpf_map_create")) {
++		close(fd);
++		return;
 +	}
 +
-+	return log;
++	ASSERT_STREQ(log_buf, exp_msg, "log_buf");
++	ASSERT_EQ(copts.log_true_size, strlen(exp_msg) + 1, "log_true_size");
 +}
 +
- int bpf_log_attr_finalize(struct bpf_log_attr *log_attr, struct bpf_verifier_log *log)
- {
- 	u32 log_true_size, off;
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index d0440e640e40..52e1ab142da9 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -1370,7 +1370,7 @@ static bool bpf_net_capable(void)
- 
- #define BPF_MAP_CREATE_LAST_FIELD excl_prog_hash_size
- /* called via syscall */
--static int map_create(union bpf_attr *attr, bpfptr_t uattr)
-+static int __map_create(union bpf_attr *attr, bpfptr_t uattr, struct bpf_verifier_log *log)
- {
- 	const struct bpf_map_ops *ops;
- 	struct bpf_token *token = NULL;
-@@ -1382,8 +1382,10 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 	int err;
- 
- 	err = CHECK_ATTR(BPF_MAP_CREATE);
--	if (err)
-+	if (err) {
-+		bpf_log(log, "Invalid attr.\n");
- 		return -EINVAL;
-+	}
- 
- 	/* check BPF_F_TOKEN_FD flag, remember if it's set, and then clear it
- 	 * to avoid per-map type checks tripping on unknown flag
-@@ -1392,17 +1394,25 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 	attr->map_flags &= ~BPF_F_TOKEN_FD;
- 
- 	if (attr->btf_vmlinux_value_type_id) {
--		if (attr->map_type != BPF_MAP_TYPE_STRUCT_OPS ||
--		    attr->btf_key_type_id || attr->btf_value_type_id)
-+		if (attr->map_type != BPF_MAP_TYPE_STRUCT_OPS) {
-+			bpf_log(log, "btf_vmlinux_value_type_id can only be used with struct_ops maps.\n");
- 			return -EINVAL;
-+		}
-+		if (attr->btf_key_type_id || attr->btf_value_type_id) {
-+			bpf_log(log, "btf_vmlinux_value_type_id is mutually exclusive with btf_key_type_id and btf_value_type_id.\n");
-+			return -EINVAL;
-+		}
- 	} else if (attr->btf_key_type_id && !attr->btf_value_type_id) {
-+		bpf_log(log, "Invalid btf_value_type_id.\n");
- 		return -EINVAL;
- 	}
- 
- 	if (attr->map_type != BPF_MAP_TYPE_BLOOM_FILTER &&
- 	    attr->map_type != BPF_MAP_TYPE_ARENA &&
--	    attr->map_extra != 0)
-+	    attr->map_extra != 0) {
-+		bpf_log(log, "Invalid map_extra.\n");
- 		return -EINVAL;
-+	}
- 
- 	f_flags = bpf_get_file_flag(attr->map_flags);
- 	if (f_flags < 0)
-@@ -1410,13 +1420,17 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 
- 	if (numa_node != NUMA_NO_NODE &&
- 	    ((unsigned int)numa_node >= nr_node_ids ||
--	     !node_online(numa_node)))
-+	     !node_online(numa_node))) {
-+		bpf_log(log, "Invalid numa_node.\n");
- 		return -EINVAL;
-+	}
- 
- 	/* find map type and init map: hashtable vs rbtree vs bloom vs ... */
- 	map_type = attr->map_type;
--	if (map_type >= ARRAY_SIZE(bpf_map_types))
-+	if (map_type >= ARRAY_SIZE(bpf_map_types)) {
-+		bpf_log(log, "Invalid map_type.\n");
- 		return -EINVAL;
-+	}
- 	map_type = array_index_nospec(map_type, ARRAY_SIZE(bpf_map_types));
- 	ops = bpf_map_types[map_type];
- 	if (!ops)
-@@ -1434,8 +1448,10 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 
- 	if (token_flag) {
- 		token = bpf_token_get_from_fd(attr->map_token_fd);
--		if (IS_ERR(token))
-+		if (IS_ERR(token)) {
-+			bpf_log(log, "Invalid map_token_fd.\n");
- 			return PTR_ERR(token);
-+		}
- 
- 		/* if current token doesn't grant map creation permissions,
- 		 * then we can't use this token, so ignore it and rely on
-@@ -1518,8 +1534,10 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 
- 	err = bpf_obj_name_cpy(map->name, attr->map_name,
- 			       sizeof(attr->map_name));
--	if (err < 0)
-+	if (err < 0) {
-+		bpf_log(log, "Invalid map_name.\n");
- 		goto free_map;
-+	}
- 
- 	preempt_disable();
- 	map->cookie = gen_cookie_next(&bpf_map_cookie);
-@@ -1542,6 +1560,7 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 
- 		btf = btf_get_by_fd(attr->btf_fd);
- 		if (IS_ERR(btf)) {
-+			bpf_log(log, "Invalid btf_fd.\n");
- 			err = PTR_ERR(btf);
- 			goto free_map;
- 		}
-@@ -1569,6 +1588,7 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 		bpfptr_t uprog_hash = make_bpfptr(attr->excl_prog_hash, uattr.is_kernel);
- 
- 		if (attr->excl_prog_hash_size != SHA256_DIGEST_SIZE) {
-+			bpf_log(log, "Invalid excl_prog_hash_size.\n");
- 			err = -EINVAL;
- 			goto free_map;
- 		}
-@@ -1584,6 +1604,7 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 			goto free_map;
- 		}
- 	} else if (attr->excl_prog_hash_size) {
-+		bpf_log(log, "Invalid excl_prog_hash_size.\n");
- 		err = -EINVAL;
- 		goto free_map;
- 	}
-@@ -1622,6 +1643,29 @@ static int map_create(union bpf_attr *attr, bpfptr_t uattr)
- 	return err;
- }
- 
-+static int map_create(union bpf_attr *attr, bpfptr_t uattr, struct bpf_attrs *common_attrs)
++static void test_map_create_array(struct bpf_map_create_opts *opts, const char *exp_msg)
 +{
-+	struct bpf_verifier_log *log;
-+	struct bpf_log_attr log_attr;
-+	int err, ret;
-+
-+	log = bpf_log_attr_create_vlog(&log_attr, common_attrs);
-+	if (IS_ERR(log))
-+		return PTR_ERR(log);
-+
-+	err = __map_create(attr, uattr, log);
-+	if (err >= 0)
-+		goto free;
-+
-+	ret = bpf_log_attr_finalize(&log_attr, log);
-+	if (ret)
-+		err = ret;
-+
-+free:
-+	kfree(log);
-+	return err;
++	test_map_create(BPF_MAP_TYPE_ARRAY, "test_map_create", opts, exp_msg);
 +}
 +
- void bpf_map_inc(struct bpf_map *map)
- {
- 	atomic64_inc(&map->refcnt);
-@@ -6218,7 +6262,8 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
- 
- 	switch (cmd) {
- 	case BPF_MAP_CREATE:
--		err = map_create(&attr, uattr);
-+		bpf_attrs_init(&common_attrs, &common_attr, uattr_common, size_common);
-+		err = map_create(&attr, uattr, &common_attrs);
- 		break;
- 	case BPF_MAP_LOOKUP_ELEM:
- 		err = map_lookup_elem(&attr);
++static void test_invalid_vmlinux_value_type_id_struct_ops(void)
++{
++	const char *msg = "btf_vmlinux_value_type_id can only be used with struct_ops maps.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .btf_vmlinux_value_type_id = 1,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_invalid_vmlinux_value_type_id_kv_type_id(void)
++{
++	const char *msg = "btf_vmlinux_value_type_id is mutually exclusive with btf_key_type_id and btf_value_type_id.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .btf_vmlinux_value_type_id = 1,
++		    .btf_key_type_id = 1,
++	);
++
++	test_map_create(BPF_MAP_TYPE_STRUCT_OPS, "test_map_create", &opts, msg);
++}
++
++static void test_invalid_value_type_id(void)
++{
++	const char *msg = "Invalid btf_value_type_id.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .btf_key_type_id = 1,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_invalid_map_extra(void)
++{
++	const char *msg = "Invalid map_extra.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .map_extra = 1,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_invalid_numa_node(void)
++{
++	const char *msg = "Invalid numa_node.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .map_flags = BPF_F_NUMA_NODE,
++		    .numa_node = 0xFF,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_invalid_map_type(void)
++{
++	const char *msg = "Invalid map_type.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts);
++
++	test_map_create(__MAX_BPF_MAP_TYPE, "test_map_create", &opts, msg);
++}
++
++static void test_invalid_token_fd(void)
++{
++	const char *msg = "Invalid map_token_fd.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .map_flags = BPF_F_TOKEN_FD,
++		    .token_fd = 0xFF,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_invalid_map_name(void)
++{
++	const char *msg = "Invalid map_name.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts);
++
++	test_map_create(BPF_MAP_TYPE_ARRAY, "test-!@#", &opts, msg);
++}
++
++static void test_invalid_btf_fd(void)
++{
++	const char *msg = "Invalid btf_fd.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .btf_fd = -1,
++		    .btf_key_type_id = 1,
++		    .btf_value_type_id = 1,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_excl_prog_hash_size_1(void)
++{
++	const char *msg = "Invalid excl_prog_hash_size.\n";
++	const char *hash = "DEADCODE";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .excl_prog_hash = hash,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++static void test_excl_prog_hash_size_2(void)
++{
++	const char *msg = "Invalid excl_prog_hash_size.\n";
++	LIBBPF_OPTS(bpf_map_create_opts, opts,
++		    .excl_prog_hash_size = 1,
++	);
++
++	test_map_create_array(&opts, msg);
++}
++
++void test_map_create_failure(void)
++{
++	if (test__start_subtest("invalid_vmlinux_value_type_id_struct_ops"))
++		test_invalid_vmlinux_value_type_id_struct_ops();
++	if (test__start_subtest("invalid_vmlinux_value_type_id_kv_type_id"))
++		test_invalid_vmlinux_value_type_id_kv_type_id();
++	if (test__start_subtest("invalid_value_type_id"))
++		test_invalid_value_type_id();
++	if (test__start_subtest("invalid_map_extra"))
++		test_invalid_map_extra();
++	if (test__start_subtest("invalid_numa_node"))
++		test_invalid_numa_node();
++	if (test__start_subtest("invalid_map_type"))
++		test_invalid_map_type();
++	if (test__start_subtest("invalid_token_fd"))
++		test_invalid_token_fd();
++	if (test__start_subtest("invalid_map_name"))
++		test_invalid_map_name();
++	if (test__start_subtest("invalid_btf_fd"))
++		test_invalid_btf_fd();
++	if (test__start_subtest("invalid_excl_prog_hash_size_1"))
++		test_excl_prog_hash_size_1();
++	if (test__start_subtest("invalid_excl_prog_hash_size_2"))
++		test_excl_prog_hash_size_2();
++}
 -- 
 2.52.0
 
