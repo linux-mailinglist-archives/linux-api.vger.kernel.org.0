@@ -1,117 +1,199 @@
-Return-Path: <linux-api+bounces-5621-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5624-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3257D12DB6
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 14:37:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3047D135E1
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 15:59:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 74B4E30021D9
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 13:37:40 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 54FE030051A4
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 14:58:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9318E35970D;
-	Mon, 12 Jan 2026 13:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 800CB2DCBE6;
+	Mon, 12 Jan 2026 14:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SvNQQ0Kw"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qwwn40AJ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D707635970A
-	for <linux-api@vger.kernel.org>; Mon, 12 Jan 2026 13:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3566F2F2;
+	Mon, 12 Jan 2026 14:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768225059; cv=none; b=PjO5UnQJJnslfo/jzSCrjOYf3i5/WbhcaqRUJAxrvA3v2KpLAOYLot38ee6rigK51tuHnxBG2W35xLT6O60RH3/bSyaC/s7JSvCj8VZ1NISIR7rM6MxGU5x1vIsqgHxQA7hJ0iFlN4paaG2Vq685TvssKjiN6wy1+PZpJn1h5hs=
+	t=1768229926; cv=none; b=p+fJvagbdtmPf5NKDivTh2/vwAwnrQZ30HeOFE45N+p/u92k/0bgtXx6FjdMsEOXzjnB2xff111qGd2OR4TLC02cK47WoCjtPbfPXfKjb/LCjhIYbMKg+l2sWPoi7liDxKhnmfDwgBPc0yoxDKEf0LL5knvP4bBJjvDY/qLdZqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768225059; c=relaxed/simple;
-	bh=cxa/5Rl6a1TnXAsHeNesfXs4j6wa884AGuYzr6qKe0A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O2AYkjYe/yd07QqtDIVu/rqtJ9vEoeHdGKnQaDsW+YNaH8m3DaS+STdPXgL4uoXQPA4fBnHbGcyW+lfUf56xgFmxuBhH43NqBDO+S8khClvgPsKx0e2szrb1GK+IUJrgHeLLx3FfzNBdeYEw2G9YXo4AX4ZkJKPp756WsrucVfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SvNQQ0Kw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768225047;
+	s=arc-20240116; t=1768229926; c=relaxed/simple;
+	bh=IRgMc/XfANyqVhfRyUJzvdXZ/4Ji8WjdwZrXeWopnR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ICiwsNNR56m2kmYEmuhnwmwftEZulgzrI3PWzUB7JTxOk1ugyt3W3KHAS8FO2C3sSq/4Od1a3n5vpc+3t762NmV6PjL+Csm0EFJDBJMb7SGFcTwKBMc6qRG6Bbh/R0cs8kWgWivZ04UaDBtGWvoDwdT/2BwqSi0iuKQDUMq0+LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qwwn40AJ; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768229921;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=STZX6GfdAf+NNNJHFcpfAAJdJSUJl9RVZRSMHHM/8d4=;
-	b=SvNQQ0Kwzi4CwzS/c6uu/3SND2yeu5DcMzy67QWuUM5NGksIPG2TisqciB4Guwiw0pusHM
-	1DMEGmClF/33fahb6/Uc3IMxsn5pIvGrVC6CI90zovwbrGq9Ke/z1EEijjBEtK8Tw/pvkd
-	lIdWyhZKPgHn5K4SRAMBlqmg04P9KYM=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-Hk15Jl2ZMIqKS-Dr_qmnxA-1; Mon,
- 12 Jan 2026 08:37:22 -0500
-X-MC-Unique: Hk15Jl2ZMIqKS-Dr_qmnxA-1
-X-Mimecast-MFC-AGG-ID: Hk15Jl2ZMIqKS-Dr_qmnxA_1768225040
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 60FD71956050;
-	Mon, 12 Jan 2026 13:37:20 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.58])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B6CF30001A2;
-	Mon, 12 Jan 2026 13:37:17 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Arnd Bergmann <arnd@arndb.de>,  Jakub Kicinski <kuba@kernel.org>,  Eric
- Dumazet <edumazet@google.com>,  Kuniyuki Iwashima <kuniyu@google.com>,
-  Paolo Abeni <pabeni@redhat.com>,  Willem de Bruijn <willemb@google.com>,
-  Netdev <netdev@vger.kernel.org>,  linux-kernel@vger.kernel.org,
-  linux-api@vger.kernel.org
-Subject: Re: [PATCH net-next] net: uapi: Provide an UAPI definition of
- 'struct sockaddr'
-In-Reply-To: <20260112143158-efc74534-0283-4db1-812f-402794eb8844@linutronix.de>
-	("Thomas =?utf-8?Q?Wei=C3=9Fschuh=22's?= message of "Mon, 12 Jan 2026
- 14:33:39 +0100")
-References: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
-	<20260105095713.0b312b26@kernel.org>
-	<20260106112714-d47c16e0-0020-4851-9c2a-f8849c9a0677@linutronix.de>
-	<20260106151313.1f8bd508@kernel.org>
-	<06cf1396-c100-45ba-8b46-edb4ed4feb62@app.fastmail.com>
-	<lhu7btnkqg6.fsf@oldenburg.str.redhat.com>
-	<20260112124604-dbf7f68d-2182-438f-9495-2931cac02a81@linutronix.de>
-	<lhutswrj73u.fsf@oldenburg.str.redhat.com>
-	<20260112143158-efc74534-0283-4db1-812f-402794eb8844@linutronix.de>
-Date: Mon, 12 Jan 2026 14:37:15 +0100
-Message-ID: <lhuikd7j6k4.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	bh=mcWoljT9frMoghdBcUPWuALa6vKuzC/XmKnEw5FIGs8=;
+	b=qwwn40AJQ/xgO4pUXNLLcvoPWV4aN/pjxhzgGUcT+XQqTKls0Gf2sgubrTw6CptyGlUlMD
+	bPP6Nhw1YwxLkyzj7KEgyFw1B4ixxtdkDKoQLf2rMjYJIiSVXlqDktXRnWqeBpaTESVoRv
+	EY1zEBMzizEzUq6LKG6komxBsOHcFnI=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Tao Chen <chen.dylane@linux.dev>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [PATCH bpf-next v5 2/9] libbpf: Add support for extended bpf syscall
+Date: Mon, 12 Jan 2026 22:56:09 +0800
+Message-ID: <20260112145616.44195-3-leon.hwang@linux.dev>
+In-Reply-To: <20260112145616.44195-1-leon.hwang@linux.dev>
+References: <20260112145616.44195-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-* Thomas Wei=C3=9Fschuh:
+To support the extended BPF syscall introduced in the previous commit,
+introduce the following internal APIs:
 
-> On Mon, Jan 12, 2026 at 02:25:25PM +0100, Florian Weimer wrote:
->> * Thomas Wei=C3=9Fschuh:
->>=20
->> >> If you call the data member sa_data just like glibc, it will only fail
->> >> in C++, not C.  GCC considers the two definitions sufficiently
->> >> equivalent (even though glibc adds a may_alias attribute to meet POSIX
->> >> requirements), and duplicate definitions are permitted in C.
->> >
->> > clang is not so lenient and will error out.
->>=20
->> It seems it accepts it if you switch to C23 mode.
->
-> The currently supported baseline for UAPI headers is C90.
-> We can't really force userspace to switch here.
+* 'sys_bpf_ext()'
+* 'sys_bpf_ext_fd()'
+  They wrap the raw 'syscall()' interface to support passing extended
+  attributes.
+* 'probe_sys_bpf_ext()'
+  Check whether current kernel supports the extended attributes.
 
-Including libc and UAPI headers at the same time is still officially
-unsupported, right?
+Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+---
+ tools/lib/bpf/bpf.c             | 34 +++++++++++++++++++++++++++++++++
+ tools/lib/bpf/features.c        |  8 ++++++++
+ tools/lib/bpf/libbpf_internal.h |  3 +++
+ 3 files changed, 45 insertions(+)
 
-We don't test for it, so lots of combinations do not work.
-
-Thanks,
-Florian
+diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
+index 21b57a629916..d44e667aaf02 100644
+--- a/tools/lib/bpf/bpf.c
++++ b/tools/lib/bpf/bpf.c
+@@ -69,6 +69,40 @@ static inline __u64 ptr_to_u64(const void *ptr)
+ 	return (__u64) (unsigned long) ptr;
+ }
+ 
++static inline int sys_bpf_ext(enum bpf_cmd cmd, union bpf_attr *attr,
++			      unsigned int size,
++			      struct bpf_common_attr *common_attr,
++			      unsigned int size_common)
++{
++	cmd = common_attr ? (cmd | BPF_COMMON_ATTRS) : (cmd & ~BPF_COMMON_ATTRS);
++	return syscall(__NR_bpf, cmd, attr, size, common_attr, size_common);
++}
++
++static inline int sys_bpf_ext_fd(enum bpf_cmd cmd, union bpf_attr *attr,
++				 unsigned int size,
++				 struct bpf_common_attr *common_attr,
++				 unsigned int size_common)
++{
++	int fd;
++
++	fd = sys_bpf_ext(cmd, attr, size, common_attr, size_common);
++	return ensure_good_fd(fd);
++}
++
++int probe_sys_bpf_ext(void)
++{
++	const size_t attr_sz = offsetofend(union bpf_attr, prog_token_fd);
++	union bpf_attr attr;
++	int fd;
++
++	memset(&attr, 0, attr_sz);
++	fd = syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &attr, attr_sz, NULL,
++		     sizeof(struct bpf_common_attr));
++	if (fd >= 0)
++		close(fd);
++	return errno == EFAULT;
++}
++
+ static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
+ 			  unsigned int size)
+ {
+diff --git a/tools/lib/bpf/features.c b/tools/lib/bpf/features.c
+index b842b83e2480..d786a815f1ae 100644
+--- a/tools/lib/bpf/features.c
++++ b/tools/lib/bpf/features.c
+@@ -506,6 +506,11 @@ static int probe_kern_arg_ctx_tag(int token_fd)
+ 	return probe_fd(prog_fd);
+ }
+ 
++static int probe_kern_extended_syscall(int token_fd)
++{
++	return probe_sys_bpf_ext();
++}
++
+ typedef int (*feature_probe_fn)(int /* token_fd */);
+ 
+ static struct kern_feature_cache feature_cache;
+@@ -581,6 +586,9 @@ static struct kern_feature_desc {
+ 	[FEAT_BTF_QMARK_DATASEC] = {
+ 		"BTF DATASEC names starting from '?'", probe_kern_btf_qmark_datasec,
+ 	},
++	[FEAT_EXTENDED_SYSCALL] = {
++		"Kernel supports extended syscall", probe_kern_extended_syscall,
++	},
+ };
+ 
+ bool feat_supported(struct kern_feature_cache *cache, enum kern_feature_id feat_id)
+diff --git a/tools/lib/bpf/libbpf_internal.h b/tools/lib/bpf/libbpf_internal.h
+index fc59b21b51b5..e2a6ef4b45ae 100644
+--- a/tools/lib/bpf/libbpf_internal.h
++++ b/tools/lib/bpf/libbpf_internal.h
+@@ -392,6 +392,8 @@ enum kern_feature_id {
+ 	FEAT_ARG_CTX_TAG,
+ 	/* Kernel supports '?' at the front of datasec names */
+ 	FEAT_BTF_QMARK_DATASEC,
++	/* Kernel supports extended syscall */
++	FEAT_EXTENDED_SYSCALL,
+ 	__FEAT_CNT,
+ };
+ 
+@@ -757,4 +759,5 @@ int probe_fd(int fd);
+ #define SHA256_DWORD_SIZE SHA256_DIGEST_LENGTH / sizeof(__u64)
+ 
+ void libbpf_sha256(const void *data, size_t len, __u8 out[SHA256_DIGEST_LENGTH]);
++int probe_sys_bpf_ext(void);
+ #endif /* __LIBBPF_LIBBPF_INTERNAL_H */
+-- 
+2.52.0
 
 
