@@ -1,53 +1,60 @@
-Return-Path: <linux-api+bounces-5633-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5634-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD188D1603B
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 01:33:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29801D176D1
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 09:58:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8B29E300DDB9
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 00:32:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 423723005300
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 08:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6600E23957D;
-	Tue, 13 Jan 2026 00:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BC937FF64;
+	Tue, 13 Jan 2026 08:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jv4ejlQK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaduiMnp"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4296C2356D9;
-	Tue, 13 Jan 2026 00:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6C43128AE;
+	Tue, 13 Jan 2026 08:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768264270; cv=none; b=Th5mwm2rJqC0GPOO0n/R5OmVzL9oJ0992q216DpBLi2lcPN3tkBPI28xBO4nelOExnLwXitDd0cH0kzD1mMvkoBhNlxqooMnBiPsq7K959zRc9Wb8G48v56FLO1OKCIyNXwJRPRTwpEm65mMl1wsgvj870yGkWrPevb3cxCiJ30=
+	t=1768294716; cv=none; b=XYvUXGcTiK554oAO4lxW8zE5gk5gHszykjmrrLj/B0I+Hy1+2FZgEWxwZA/yqLScbrRp7IIJbNNw0iJV9qYY+nIIZJNH0qdlhRuwvehaqDJMuOd85zkcDIRF6ObN4NTESvEOWiaVThINaTW/cVvV87Qta8v+g0dHv4MFrlQv9Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768264270; c=relaxed/simple;
-	bh=ZPckDpRfG8ORfLU4FNGuuMYIlizi5W5YBrJn3nGo74Q=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GhJZPS2+zLCibFJ5Ugi6ay2EuBp/HWH+awgs7bbZUY98iZs+z4kW5WzjXOCnWNr/COoQ8mru56+W7K/Qq8mRoGmUmhhFHWesyGtXQASkDkxOiMeq90zmsHDruQIi1xqwHBzWV1z6oK5o47gQp/utGhTbJmBhl7DTe1PuOgM6Dy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jv4ejlQK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD2CC116D0;
-	Tue, 13 Jan 2026 00:31:10 +0000 (UTC)
+	s=arc-20240116; t=1768294716; c=relaxed/simple;
+	bh=V0lPzn6kjF9luU67P+V3gLXM71Kj7taU4Pd0q0Ba/8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uTEdH5CrOZvBwQopxqU4sABt4ycG4qBvrIAM4/4ctUIImU+eyPz44BZGD/ba4P6bEKy/alRbEeN7emm2Xfr33TdbOclKW2I8ObsVPhJC2peiKWtaGTYtZQW1qY5YMSg+0V1gZer/ogAsCFHnAW2Zi7T1nednegEYQE90zrSrSkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaduiMnp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8991EC116C6;
+	Tue, 13 Jan 2026 08:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768264270;
-	bh=ZPckDpRfG8ORfLU4FNGuuMYIlizi5W5YBrJn3nGo74Q=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=Jv4ejlQKkROtemjY6mtP4NtEkHdUn9d9XMqV8dwq2ONiRltStDMaOYWqkzcU7xSA5
-	 kD5nKcLRag4RYzahQsYLB7VbdXxW9sYPMZEmn0uX/9pH1vAjbuAfImA3le0No21Q2E
-	 vSbOv70nTLUGGfuuk3BC4b1T1FnxZewRiatjcnlg+yhHcndqAs79W5SSu/WqdQAQcM
-	 7Lxa8CAtqPsaD3g8VBkv+lmYl6FKzhrSII2Yf89Ra1wWpz9bHzGBgBS4ItAeALdMUU
-	 wMY4hSxvZfWQfuMLiY9U/BnzmCjjTUBppv/yp7786cPR2pyniUAddgfc3CF6znTs8n
-	 qZYrvuyTj0tPQ==
-Date: Mon, 12 Jan 2026 16:31:09 -0800
-Subject: [PATCH 1/6] uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: djwong@kernel.org, brauner@kernel.org
-Cc: hch@lst.de, hsiangkao@linux.alibaba.com, jack@suse.cz,
- linux-api@vger.kernel.org, linux-xfs@vger.kernel.org, jack@suse.cz,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- gabriel@krisman.be, hch@lst.de, amir73il@gmail.com
-Message-ID: <176826402587.3490369.17659117524205214600.stgit@frogsfrogsfrogs>
+	s=k20201202; t=1768294716;
+	bh=V0lPzn6kjF9luU67P+V3gLXM71Kj7taU4Pd0q0Ba/8I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TaduiMnpFkWny3b2YLxjW57cFvY/g5OFjPzd5BvaUiWiy3q9NLnPZAnpXG+4Gi3jZ
+	 z93uc0PXEBR4Mv8avBvc1N1/Fiut2tLXYdldycU+Qz02qTET9eQk/ItO+bDLH+Y05R
+	 ZeXx0H8fmloCFtVYEaxRXdGy38hxyFA0mLIFRFLPtA+hzmU5n3rWuzsh6ceJDW6lAw
+	 EmmdULq0l54SPUEkdhA4Lnin6iGw+ThAg+ggcxGvpiOm0Q40lqubbO+O+G/Cnu8vaC
+	 Ld67n0NDELTF+iWk+mkX9bq1wkkfGmzyuZtOgntzONxIh55dGOPnGa/SD9wBAIN1m8
+	 qfbt+3Q3R1mQw==
+From: Christian Brauner <brauner@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-api@vger.kernel.org,
+	jack@suse.cz,
+	hch@lst.de,
+	linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	gabriel@krisman.be,
+	amir73il@gmail.com,
+	Gao Xiang <xiang@kernel.org>
+Subject: Re: [PATCHSET v5] fs: generic file IO error reporting
+Date: Tue, 13 Jan 2026 09:58:29 +0100
+Message-ID: <20260113-ortsbegehung-erklettern-a8cde9472f0d@brauner>
+X-Mailer: git-send-email 2.47.3
 In-Reply-To: <176826402528.3490369.2415315475116356277.stgit@frogsfrogsfrogs>
 References: <176826402528.3490369.2415315475116356277.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -57,335 +64,45 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1787; i=brauner@kernel.org; h=from:subject:message-id; bh=V0lPzn6kjF9luU67P+V3gLXM71Kj7taU4Pd0q0Ba/8I=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSmcZo1vI/9eP5ArLrUz/d6tyUbLVZVL1Na7R8T+G3H9 jV1nG/YOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbi1c/wP21NrubuU3JbRMU9 p4WrlRpHXzI66qec98StoJvxlZ18KsNfsaOvns/bYPE+w5LdqvqmfNf6sqR3rzOPC908tuXhtHO ynAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-From: Darrick J. Wong <djwong@kernel.org>
+On Mon, 12 Jan 2026 16:31:03 -0800, Darrick J. Wong wrote:
+> This patchset adds some generic helpers so that filesystems can report
+> errors to fsnotify in a standard way.  Then it adapts iomap to use the
+> generic helpers so that any iomap-enabled filesystem can report I/O
+> errors through this mechanism as well.  Finally, it makes XFS report
+> metadata errors through this mechanism in much the same way that ext4
+> does now.
+> 
+> [...]
 
-Stop definining these privately and instead move them to the uapi
-errno.h so that they become canonical instead of copy pasta.
+Applied to the vfs-7.0.fserror branch of the vfs/vfs.git tree.
+Patches in the vfs-7.0.fserror branch should appear in linux-next soon.
 
-Cc: linux-api@vger.kernel.org
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jan Kara <jack@suse.cz>
----
- arch/alpha/include/uapi/asm/errno.h        |    2 ++
- arch/mips/include/uapi/asm/errno.h         |    2 ++
- arch/parisc/include/uapi/asm/errno.h       |    2 ++
- arch/sparc/include/uapi/asm/errno.h        |    2 ++
- fs/erofs/internal.h                        |    2 --
- fs/ext2/ext2.h                             |    1 -
- fs/ext4/ext4.h                             |    3 ---
- fs/f2fs/f2fs.h                             |    3 ---
- fs/minix/minix.h                           |    2 --
- fs/udf/udf_sb.h                            |    2 --
- fs/xfs/xfs_linux.h                         |    2 --
- include/linux/jbd2.h                       |    3 ---
- include/uapi/asm-generic/errno.h           |    2 ++
- tools/arch/alpha/include/uapi/asm/errno.h  |    2 ++
- tools/arch/mips/include/uapi/asm/errno.h   |    2 ++
- tools/arch/parisc/include/uapi/asm/errno.h |    2 ++
- tools/arch/sparc/include/uapi/asm/errno.h  |    2 ++
- tools/include/uapi/asm-generic/errno.h     |    2 ++
- 18 files changed, 20 insertions(+), 18 deletions(-)
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-diff --git a/arch/alpha/include/uapi/asm/errno.h b/arch/alpha/include/uapi/asm/errno.h
-index 3d265f6babaf0a..6791f6508632ee 100644
---- a/arch/alpha/include/uapi/asm/errno.h
-+++ b/arch/alpha/include/uapi/asm/errno.h
-@@ -55,6 +55,7 @@
- #define	ENOSR		82	/* Out of streams resources */
- #define	ETIME		83	/* Timer expired */
- #define	EBADMSG		84	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EPROTO		85	/* Protocol error */
- #define	ENODATA		86	/* No data available */
- #define	ENOSTR		87	/* Device not a stream */
-@@ -96,6 +97,7 @@
- #define	EREMCHG		115	/* Remote address changed */
- 
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
-diff --git a/arch/mips/include/uapi/asm/errno.h b/arch/mips/include/uapi/asm/errno.h
-index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
---- a/arch/mips/include/uapi/asm/errno.h
-+++ b/arch/mips/include/uapi/asm/errno.h
-@@ -50,6 +50,7 @@
- #define EDOTDOT		73	/* RFS specific error */
- #define EMULTIHOP	74	/* Multihop attempted */
- #define EBADMSG		77	/* Not a data message */
-+#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define ENAMETOOLONG	78	/* File name too long */
- #define EOVERFLOW	79	/* Value too large for defined data type */
- #define ENOTUNIQ	80	/* Name not unique on network */
-@@ -88,6 +89,7 @@
- #define EISCONN		133	/* Transport endpoint is already connected */
- #define ENOTCONN	134	/* Transport endpoint is not connected */
- #define EUCLEAN		135	/* Structure needs cleaning */
-+#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define ENOTNAM		137	/* Not a XENIX named type file */
- #define ENAVAIL		138	/* No XENIX semaphores available */
- #define EISNAM		139	/* Is a named type file */
-diff --git a/arch/parisc/include/uapi/asm/errno.h b/arch/parisc/include/uapi/asm/errno.h
-index 8d94739d75c67c..8cbc07c1903e4c 100644
---- a/arch/parisc/include/uapi/asm/errno.h
-+++ b/arch/parisc/include/uapi/asm/errno.h
-@@ -36,6 +36,7 @@
- 
- #define	EDOTDOT		66	/* RFS specific error */
- #define	EBADMSG		67	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EUSERS		68	/* Too many users */
- #define	EDQUOT		69	/* Quota exceeded */
- #define	ESTALE		70	/* Stale file handle */
-@@ -62,6 +63,7 @@
- #define	ERESTART	175	/* Interrupted system call should be restarted */
- #define	ESTRPIPE	176	/* Streams pipe error */
- #define	EUCLEAN		177	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		178	/* Not a XENIX named type file */
- #define	ENAVAIL		179	/* No XENIX semaphores available */
- #define	EISNAM		180	/* Is a named type file */
-diff --git a/arch/sparc/include/uapi/asm/errno.h b/arch/sparc/include/uapi/asm/errno.h
-index 81a732b902ee38..4a41e7835fd5b8 100644
---- a/arch/sparc/include/uapi/asm/errno.h
-+++ b/arch/sparc/include/uapi/asm/errno.h
-@@ -48,6 +48,7 @@
- #define	ENOSR		74	/* Out of streams resources */
- #define	ENOMSG		75	/* No message of desired type */
- #define	EBADMSG		76	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EIDRM		77	/* Identifier removed */
- #define	EDEADLK		78	/* Resource deadlock would occur */
- #define	ENOLCK		79	/* No record locks available */
-@@ -91,6 +92,7 @@
- #define	ENOTUNIQ	115	/* Name not unique on network */
- #define	ERESTART	116	/* Interrupted syscall should be restarted */
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
-diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
-index f7f622836198da..d06e99baf5d5ae 100644
---- a/fs/erofs/internal.h
-+++ b/fs/erofs/internal.h
-@@ -541,6 +541,4 @@ long erofs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
- long erofs_compat_ioctl(struct file *filp, unsigned int cmd,
- 			unsigned long arg);
- 
--#define EFSCORRUPTED    EUCLEAN         /* Filesystem is corrupted */
--
- #endif	/* __EROFS_INTERNAL_H */
-diff --git a/fs/ext2/ext2.h b/fs/ext2/ext2.h
-index cf97b76e9fd3e9..5e0c6c5fcb6cd6 100644
---- a/fs/ext2/ext2.h
-+++ b/fs/ext2/ext2.h
-@@ -357,7 +357,6 @@ struct ext2_inode {
-  */
- #define	EXT2_VALID_FS			0x0001	/* Unmounted cleanly */
- #define	EXT2_ERROR_FS			0x0002	/* Errors detected */
--#define	EFSCORRUPTED			EUCLEAN	/* Filesystem is corrupted */
- 
- /*
-  * Mount flags
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 56112f201cace7..62c091b52bacdf 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -3938,7 +3938,4 @@ extern int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 				  get_block_t *get_block);
- #endif	/* __KERNEL__ */
- 
--#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
--#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
--
- #endif	/* _EXT4_H */
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index 20edbb99b814a7..9f3aa3c7f12613 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -5004,7 +5004,4 @@ static inline void f2fs_invalidate_internal_cache(struct f2fs_sb_info *sbi,
- 	f2fs_invalidate_compress_pages_range(sbi, blkaddr, len);
- }
- 
--#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
--#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
--
- #endif /* _LINUX_F2FS_H */
-diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-index 2bfaf377f2086c..7e1f652f16d311 100644
---- a/fs/minix/minix.h
-+++ b/fs/minix/minix.h
-@@ -175,6 +175,4 @@ static inline int minix_test_bit(int nr, const void *vaddr)
- 	__minix_error_inode((inode), __func__, __LINE__,	\
- 			    (fmt), ##__VA_ARGS__)
- 
--#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
--
- #endif /* FS_MINIX_H */
-diff --git a/fs/udf/udf_sb.h b/fs/udf/udf_sb.h
-index 08ec8756b9487b..8399accc788dea 100644
---- a/fs/udf/udf_sb.h
-+++ b/fs/udf/udf_sb.h
-@@ -55,8 +55,6 @@
- #define MF_DUPLICATE_MD		0x01
- #define MF_MIRROR_FE_LOADED	0x02
- 
--#define EFSCORRUPTED EUCLEAN
--
- struct udf_meta_data {
- 	__u32	s_meta_file_loc;
- 	__u32	s_mirror_file_loc;
-diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
-index 4dd747bdbccab2..55064228c4d574 100644
---- a/fs/xfs/xfs_linux.h
-+++ b/fs/xfs/xfs_linux.h
-@@ -121,8 +121,6 @@ typedef __u32			xfs_nlink_t;
- 
- #define ENOATTR		ENODATA		/* Attribute not found */
- #define EWRONGFS	EINVAL		/* Mount with wrong filesystem type */
--#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
--#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
- 
- #define __return_address __builtin_return_address(0)
- 
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index f5eaf76198f377..a53a00d36228ce 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -1815,7 +1815,4 @@ static inline int jbd2_handle_buffer_credits(handle_t *handle)
- 
- #endif	/* __KERNEL__ */
- 
--#define EFSBADCRC	EBADMSG		/* Bad CRC detected */
--#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
--
- #endif	/* _LINUX_JBD2_H */
-diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
-index cf9c51ac49f97e..92e7ae493ee315 100644
---- a/include/uapi/asm-generic/errno.h
-+++ b/include/uapi/asm-generic/errno.h
-@@ -55,6 +55,7 @@
- #define	EMULTIHOP	72	/* Multihop attempted */
- #define	EDOTDOT		73	/* RFS specific error */
- #define	EBADMSG		74	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EOVERFLOW	75	/* Value too large for defined data type */
- #define	ENOTUNIQ	76	/* Name not unique on network */
- #define	EBADFD		77	/* File descriptor in bad state */
-@@ -98,6 +99,7 @@
- #define	EINPROGRESS	115	/* Operation now in progress */
- #define	ESTALE		116	/* Stale file handle */
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
-diff --git a/tools/arch/alpha/include/uapi/asm/errno.h b/tools/arch/alpha/include/uapi/asm/errno.h
-index 3d265f6babaf0a..6791f6508632ee 100644
---- a/tools/arch/alpha/include/uapi/asm/errno.h
-+++ b/tools/arch/alpha/include/uapi/asm/errno.h
-@@ -55,6 +55,7 @@
- #define	ENOSR		82	/* Out of streams resources */
- #define	ETIME		83	/* Timer expired */
- #define	EBADMSG		84	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EPROTO		85	/* Protocol error */
- #define	ENODATA		86	/* No data available */
- #define	ENOSTR		87	/* Device not a stream */
-@@ -96,6 +97,7 @@
- #define	EREMCHG		115	/* Remote address changed */
- 
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
-diff --git a/tools/arch/mips/include/uapi/asm/errno.h b/tools/arch/mips/include/uapi/asm/errno.h
-index 2fb714e2d6d8fc..c01ed91b1ef44b 100644
---- a/tools/arch/mips/include/uapi/asm/errno.h
-+++ b/tools/arch/mips/include/uapi/asm/errno.h
-@@ -50,6 +50,7 @@
- #define EDOTDOT		73	/* RFS specific error */
- #define EMULTIHOP	74	/* Multihop attempted */
- #define EBADMSG		77	/* Not a data message */
-+#define EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define ENAMETOOLONG	78	/* File name too long */
- #define EOVERFLOW	79	/* Value too large for defined data type */
- #define ENOTUNIQ	80	/* Name not unique on network */
-@@ -88,6 +89,7 @@
- #define EISCONN		133	/* Transport endpoint is already connected */
- #define ENOTCONN	134	/* Transport endpoint is not connected */
- #define EUCLEAN		135	/* Structure needs cleaning */
-+#define EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define ENOTNAM		137	/* Not a XENIX named type file */
- #define ENAVAIL		138	/* No XENIX semaphores available */
- #define EISNAM		139	/* Is a named type file */
-diff --git a/tools/arch/parisc/include/uapi/asm/errno.h b/tools/arch/parisc/include/uapi/asm/errno.h
-index 8d94739d75c67c..8cbc07c1903e4c 100644
---- a/tools/arch/parisc/include/uapi/asm/errno.h
-+++ b/tools/arch/parisc/include/uapi/asm/errno.h
-@@ -36,6 +36,7 @@
- 
- #define	EDOTDOT		66	/* RFS specific error */
- #define	EBADMSG		67	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EUSERS		68	/* Too many users */
- #define	EDQUOT		69	/* Quota exceeded */
- #define	ESTALE		70	/* Stale file handle */
-@@ -62,6 +63,7 @@
- #define	ERESTART	175	/* Interrupted system call should be restarted */
- #define	ESTRPIPE	176	/* Streams pipe error */
- #define	EUCLEAN		177	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		178	/* Not a XENIX named type file */
- #define	ENAVAIL		179	/* No XENIX semaphores available */
- #define	EISNAM		180	/* Is a named type file */
-diff --git a/tools/arch/sparc/include/uapi/asm/errno.h b/tools/arch/sparc/include/uapi/asm/errno.h
-index 81a732b902ee38..4a41e7835fd5b8 100644
---- a/tools/arch/sparc/include/uapi/asm/errno.h
-+++ b/tools/arch/sparc/include/uapi/asm/errno.h
-@@ -48,6 +48,7 @@
- #define	ENOSR		74	/* Out of streams resources */
- #define	ENOMSG		75	/* No message of desired type */
- #define	EBADMSG		76	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EIDRM		77	/* Identifier removed */
- #define	EDEADLK		78	/* Resource deadlock would occur */
- #define	ENOLCK		79	/* No record locks available */
-@@ -91,6 +92,7 @@
- #define	ENOTUNIQ	115	/* Name not unique on network */
- #define	ERESTART	116	/* Interrupted syscall should be restarted */
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
-diff --git a/tools/include/uapi/asm-generic/errno.h b/tools/include/uapi/asm-generic/errno.h
-index cf9c51ac49f97e..92e7ae493ee315 100644
---- a/tools/include/uapi/asm-generic/errno.h
-+++ b/tools/include/uapi/asm-generic/errno.h
-@@ -55,6 +55,7 @@
- #define	EMULTIHOP	72	/* Multihop attempted */
- #define	EDOTDOT		73	/* RFS specific error */
- #define	EBADMSG		74	/* Not a data message */
-+#define	EFSBADCRC	EBADMSG	/* Bad CRC detected */
- #define	EOVERFLOW	75	/* Value too large for defined data type */
- #define	ENOTUNIQ	76	/* Name not unique on network */
- #define	EBADFD		77	/* File descriptor in bad state */
-@@ -98,6 +99,7 @@
- #define	EINPROGRESS	115	/* Operation now in progress */
- #define	ESTALE		116	/* Stale file handle */
- #define	EUCLEAN		117	/* Structure needs cleaning */
-+#define	EFSCORRUPTED	EUCLEAN	/* Filesystem is corrupted */
- #define	ENOTNAM		118	/* Not a XENIX named type file */
- #define	ENAVAIL		119	/* No XENIX semaphores available */
- #define	EISNAM		120	/* Is a named type file */
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.0.fserror
+
+[1/6] uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
+      https://git.kernel.org/vfs/vfs/c/602544773763
+[2/6] fs: report filesystem and file I/O errors to fsnotify
+      https://git.kernel.org/vfs/vfs/c/21945e6cb516
+[3/6] iomap: report file I/O errors to the VFS
+      https://git.kernel.org/vfs/vfs/c/a9d573ee88af
+[4/6] xfs: report fs metadata errors via fsnotify
+      https://git.kernel.org/vfs/vfs/c/efd87a100729
+[5/6] xfs: translate fsdax media errors into file "data lost" errors when convenient
+      https://git.kernel.org/vfs/vfs/c/94503211d2fd
+[6/6] ext4: convert to new fserror helpers
+      https://git.kernel.org/vfs/vfs/c/81d2e13a57c9
 
