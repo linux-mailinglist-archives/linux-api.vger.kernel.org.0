@@ -1,276 +1,131 @@
-Return-Path: <linux-api+bounces-5631-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5632-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA48D137E4
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 16:10:10 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFADD16056
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 01:33:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0025B30DF3D9
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jan 2026 15:01:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D2B4B3020FDC
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jan 2026 00:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E86E2E54BD;
-	Mon, 12 Jan 2026 14:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB4B9265629;
+	Tue, 13 Jan 2026 00:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vcs4wVzs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqNzNFuM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618CD2E36F3
-	for <linux-api@vger.kernel.org>; Mon, 12 Jan 2026 14:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ED322D4C3;
+	Tue, 13 Jan 2026 00:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229990; cv=none; b=YQo2wx6A+3EBBkB4Wwx1Cge+eA8eFbMGqJ2Md2lvK5LjsGzA0E2YiwmzXF4yYp2M67LM3gnX5HAzoIosylGZfItj3/vtpJmxiS/JnZqhjAp0T4DqkRH+p75farMPwLfyKwgFFQdcQhdZFNXCmUx2tP1x38oM27CMkCA5nIsITUg=
+	t=1768264264; cv=none; b=XzoTefZTxPqsiSay9zywqJGFHOcHFk8W7osQolnUJObpjLrBuzirSZLqzfBbW3D25So6c7fURPKnKiGv3LlZ3Tod7b4F+Qewo+s1DY959rzZj/8efqWDjl2Ejj4NfDUfj+YX0GOU6MAltkB38UiXETVtT1NaeL7H3o3KHc/44pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229990; c=relaxed/simple;
-	bh=twu10ehvwUj2uGL7MPrVQ/c2Lls/a3gbBva757ksxMQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cTpfhi72hdLIxP1ApejXQVNGHQ+C8fn5QI7O8hXovoVQoJHOFmjvv9W5s7WCg7rBC5HvwbckpEFN0BKg2ztkLSNohOUUZcMhl+NWPdoNGAFJUla1H325J0lk5WYhbdTmCaTpBYHpOs4LZiIAnX2paGOj1Uu2eD2bt0ECgBPpyGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vcs4wVzs; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768229985;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oDfhocTnYtUNJjj9Jwm25T7XvlMuWgWSlNCBJIpxmZE=;
-	b=Vcs4wVzsICnvDJqyhpJnfhoT1wMvVMA67Lz9WlPd1ZYjZhCiKnnU3+Z6XCT0XL5a5SvvhI
-	lK9xb5ruuQwE7IzHjwBTPMs9A4+AfRH3bi9PA4lhPSRXaZSKVmKfFc/Urf3JTS3BnMVXSi
-	9/vrRmIosPIu9jbmHpNVi22wCLXOusw=
-From: Leon Hwang <leon.hwang@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Seth Forshee <sforshee@kernel.org>,
-	Yuichiro Tsuji <yuichtsu@amazon.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Leon Hwang <leon.hwang@linux.dev>,
-	Willem de Bruijn <willemb@google.com>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Tao Chen <chen.dylane@linux.dev>,
-	Mykyta Yatsenko <yatsenko@meta.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Anton Protopopov <a.s.protopopov@gmail.com>,
-	Amery Hung <ameryhung@gmail.com>,
-	Rong Tao <rongtao@cestc.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-patches-bot@fb.com
-Subject: [PATCH bpf-next v5 9/9] selftests/bpf: Add tests to verify map create failure log
-Date: Mon, 12 Jan 2026 22:56:16 +0800
-Message-ID: <20260112145616.44195-10-leon.hwang@linux.dev>
-In-Reply-To: <20260112145616.44195-1-leon.hwang@linux.dev>
-References: <20260112145616.44195-1-leon.hwang@linux.dev>
+	s=arc-20240116; t=1768264264; c=relaxed/simple;
+	bh=DoVnohM3KBF8iAxZ57g2+ikEUZiTeD/SvaJUOQDGUb0=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=r+H/VRzzInPfwhN4mBBT+dmvIEaQRc35dpTr3Ody86V9l3QkaU8cjjVGC7Q4H+xlSxmOGYN+N+MmetpxcB0HkVNEGtCpYU7LG+uvWurppKYRF+mt8g3P569M+A+hjMHaToMHwh4riyN5UjBIaHkEBJwRyKVdYeaN7gNavLL2Ujc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqNzNFuM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D196C19421;
+	Tue, 13 Jan 2026 00:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768264264;
+	bh=DoVnohM3KBF8iAxZ57g2+ikEUZiTeD/SvaJUOQDGUb0=;
+	h=Date:Subject:From:To:Cc:From;
+	b=hqNzNFuMthw4J+yzmREuEB3Gwe2OlW3IN5iINtmqtdwl2zGwmu4UPvB85KVzPty6S
+	 pqTDsuxyxNTRg9nixgpOm212BlTPwON0o4SLqm0nLkLiHwGHXQrP0YV80gMzPZjlDm
+	 i900BBAew1SrCI/hPT2WotSWIcZuNnVNDGfgS4mRRvGGjP5BlDXf+KOL4m0TQzRzM1
+	 adGcyi+BasBoDNiiSsss5+4xZOZwM9aPTik8QZ19kRXEeXbssPHoCeBmIzksGfuPNZ
+	 ldzbGUmf2rNu1bJp1I9g2w7raKnfXBouVD4jk5c6Oum0ItoVwJR8mAcbDPDJwVwOlB
+	 iwZgbbQsiUTiA==
+Date: Mon, 12 Jan 2026 16:31:03 -0800
+Subject: [PATCHSET v5] fs: generic file IO error reporting
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: djwong@kernel.org, brauner@kernel.org
+Cc: linux-api@vger.kernel.org, jack@suse.cz, hch@lst.de,
+ hsiangkao@linux.alibaba.com, linux-xfs@vger.kernel.org, jack@suse.cz,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ gabriel@krisman.be, hch@lst.de, amir73il@gmail.com
+Message-ID: <176826402528.3490369.2415315475116356277.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Add tests to verify that the kernel reports the expected error messages
-when map creation fails.
+Hi all,
 
-Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+This patchset adds some generic helpers so that filesystems can report
+errors to fsnotify in a standard way.  Then it adapts iomap to use the
+generic helpers so that any iomap-enabled filesystem can report I/O
+errors through this mechanism as well.  Finally, it makes XFS report
+metadata errors through this mechanism in much the same way that ext4
+does now.
+
+These are a prerequisite for the XFS self-healing series which will
+come at a later time.
+
+v5: tidy comments, un-inline the unmount function
+v4: drag out of RFC status, finalize the sign of errnos that we accept
+
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
+
+This has been running on the djcloud for months with no problems.  Enjoy!
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=filesystem-error-reporting
+
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=filesystem-error-reporting
 ---
- .../selftests/bpf/prog_tests/map_init.c       | 168 ++++++++++++++++++
- 1 file changed, 168 insertions(+)
-
-diff --git a/tools/testing/selftests/bpf/prog_tests/map_init.c b/tools/testing/selftests/bpf/prog_tests/map_init.c
-index 14a31109dd0e..824e2bea74bf 100644
---- a/tools/testing/selftests/bpf/prog_tests/map_init.c
-+++ b/tools/testing/selftests/bpf/prog_tests/map_init.c
-@@ -212,3 +212,171 @@ void test_map_init(void)
- 	if (test__start_subtest("pcpu_lru_map_init"))
- 		test_pcpu_lru_map_init();
- }
-+
-+#define BPF_LOG_FIXED	8
-+
-+static void test_map_create(enum bpf_map_type map_type, const char *map_name,
-+			    struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	const int key_size = 4, value_size = 4, max_entries = 1;
-+	char log_buf[128];
-+	int fd;
-+	LIBBPF_OPTS(bpf_syscall_common_attr_opts, copts);
-+
-+	log_buf[0] = '\0';
-+	copts.log_buf = log_buf;
-+	copts.log_size = sizeof(log_buf);
-+	copts.log_level = BPF_LOG_FIXED;
-+	opts->common_attr_opts = &copts;
-+	fd = bpf_map_create(map_type, map_name, key_size, value_size, max_entries, opts);
-+	if (!ASSERT_LT(fd, 0, "bpf_map_create")) {
-+		close(fd);
-+		return;
-+	}
-+
-+	ASSERT_STREQ(log_buf, exp_msg, "log_buf");
-+	ASSERT_EQ(copts.log_true_size, strlen(exp_msg) + 1, "log_true_size");
-+}
-+
-+static void test_map_create_array(struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test_map_create", opts, exp_msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_struct_ops(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id can only be used with struct_ops maps.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_kv_type_id(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id is mutually exclusive with btf_key_type_id and btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create(BPF_MAP_TYPE_STRUCT_OPS, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_value_type_id(void)
-+{
-+	const char *msg = "Invalid btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_extra(void)
-+{
-+	const char *msg = "Invalid map_extra.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_extra = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_numa_node(void)
-+{
-+	const char *msg = "Invalid numa_node.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_NUMA_NODE,
-+		    .numa_node = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_type(void)
-+{
-+	const char *msg = "Invalid map_type.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(__MAX_BPF_MAP_TYPE, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_token_fd(void)
-+{
-+	const char *msg = "Invalid map_token_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_TOKEN_FD,
-+		    .token_fd = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_name(void)
-+{
-+	const char *msg = "Invalid map_name.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test-!@#", &opts, msg);
-+}
-+
-+static void test_invalid_btf_fd(void)
-+{
-+	const char *msg = "Invalid btf_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_fd = -1,
-+		    .btf_key_type_id = 1,
-+		    .btf_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_excl_prog_hash_size_1(void)
-+{
-+	const char *msg = "Invalid excl_prog_hash_size.\n";
-+	const char *hash = "DEADCODE";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .excl_prog_hash = hash,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_excl_prog_hash_size_2(void)
-+{
-+	const char *msg = "Invalid excl_prog_hash_size.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .excl_prog_hash_size = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+void test_map_create_failure(void)
-+{
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_struct_ops"))
-+		test_invalid_vmlinux_value_type_id_struct_ops();
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_kv_type_id"))
-+		test_invalid_vmlinux_value_type_id_kv_type_id();
-+	if (test__start_subtest("invalid_value_type_id"))
-+		test_invalid_value_type_id();
-+	if (test__start_subtest("invalid_map_extra"))
-+		test_invalid_map_extra();
-+	if (test__start_subtest("invalid_numa_node"))
-+		test_invalid_numa_node();
-+	if (test__start_subtest("invalid_map_type"))
-+		test_invalid_map_type();
-+	if (test__start_subtest("invalid_token_fd"))
-+		test_invalid_token_fd();
-+	if (test__start_subtest("invalid_map_name"))
-+		test_invalid_map_name();
-+	if (test__start_subtest("invalid_btf_fd"))
-+		test_invalid_btf_fd();
-+	if (test__start_subtest("invalid_excl_prog_hash_size_1"))
-+		test_excl_prog_hash_size_1();
-+	if (test__start_subtest("invalid_excl_prog_hash_size_2"))
-+		test_excl_prog_hash_size_2();
-+}
--- 
-2.52.0
+Commits in this patchset:
+ * uapi: promote EFSCORRUPTED and EUCLEAN to errno.h
+ * fs: report filesystem and file I/O errors to fsnotify
+ * iomap: report file I/O errors to the VFS
+ * xfs: report fs metadata errors via fsnotify
+ * xfs: translate fsdax media errors into file "data lost" errors when convenient
+ * ext4: convert to new fserror helpers
+---
+ arch/alpha/include/uapi/asm/errno.h        |    2 
+ arch/mips/include/uapi/asm/errno.h         |    2 
+ arch/parisc/include/uapi/asm/errno.h       |    2 
+ arch/sparc/include/uapi/asm/errno.h        |    2 
+ fs/erofs/internal.h                        |    2 
+ fs/ext2/ext2.h                             |    1 
+ fs/ext4/ext4.h                             |    3 
+ fs/f2fs/f2fs.h                             |    3 
+ fs/minix/minix.h                           |    2 
+ fs/udf/udf_sb.h                            |    2 
+ fs/xfs/xfs_linux.h                         |    2 
+ include/linux/fs/super_types.h             |    7 +
+ include/linux/fserror.h                    |   75 +++++++++++
+ include/linux/jbd2.h                       |    3 
+ include/uapi/asm-generic/errno.h           |    2 
+ tools/arch/alpha/include/uapi/asm/errno.h  |    2 
+ tools/arch/mips/include/uapi/asm/errno.h   |    2 
+ tools/arch/parisc/include/uapi/asm/errno.h |    2 
+ tools/arch/sparc/include/uapi/asm/errno.h  |    2 
+ tools/include/uapi/asm-generic/errno.h     |    2 
+ fs/Makefile                                |    2 
+ fs/ext4/ioctl.c                            |    2 
+ fs/ext4/super.c                            |   13 +-
+ fs/fserror.c                               |  194 ++++++++++++++++++++++++++++
+ fs/iomap/buffered-io.c                     |   23 +++
+ fs/iomap/direct-io.c                       |   12 ++
+ fs/iomap/ioend.c                           |    6 +
+ fs/super.c                                 |    3 
+ fs/xfs/xfs_fsops.c                         |    4 +
+ fs/xfs/xfs_health.c                        |   14 ++
+ fs/xfs/xfs_notify_failure.c                |    4 +
+ 31 files changed, 373 insertions(+), 24 deletions(-)
+ create mode 100644 include/linux/fserror.h
+ create mode 100644 fs/fserror.c
 
 
