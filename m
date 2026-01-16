@@ -1,54 +1,54 @@
-Return-Path: <linux-api+bounces-5648-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5649-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B6CD323EB
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 15:00:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B351D326A4
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 15:13:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 051FE310560E
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 13:58:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2303F300982F
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 14:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D143E286D57;
-	Fri, 16 Jan 2026 13:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59812284665;
+	Fri, 16 Jan 2026 14:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="unEYD31Y"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="w8mhEmgH"
 X-Original-To: linux-api@vger.kernel.org
 Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2032773E3;
-	Fri, 16 Jan 2026 13:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB2928725A
+	for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 14:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768571900; cv=none; b=C7nD3PVWeqIToDkXNKuuTXULYbBdZE9y3bcEBdeOlh2ObHC5+0gNuhL7eTz5ry9X2TVzInGjAjZukp+7LX01yErSG4tcYD0jz4s732mEVUP0zJ5i5WJBPx1wukp9ZFlCgfnozGJGj1ovN6OJIk1Lk+rUv+aQKm0Vct0KBOGs5Ts=
+	t=1768572646; cv=none; b=Wl6lk5bsseHF+NOdk/0ShIp5+4thTsa4zSW9DUMw4MoLb//sMzrXfwhZxPDExNLFwek/dIKuxcgpRXNFMnC+GoAtaNBuqNwsud+jvYyXiBxZrWjxx8/2SUkpo0uAeucqja/KDgDSCO0eCvoA3mfB8y04W+CcXOj1ksz/o2hGvns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768571900; c=relaxed/simple;
-	bh=tp/RuFxl25c/3MAHh/OGbpkoPnnqRe0fleAQ03AG4lc=;
+	s=arc-20240116; t=1768572646; c=relaxed/simple;
+	bh=+jgDwfGEgZ/gfdC0Vw6xWmOfG9Ku+O5C3mi5MoII2Yw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DaFvKx+AQHu6MvF/noCIvJ1cfihyVXVjsVA38ssZ3FbkaH3sJ5TbfxST/yDxM9JOhJwKwlEl7F0JawU5nl6bWsa63Ox+RX/tpQisExt7vA2W49ACzhspXFrZ6CRmquIUDb5Rap7Qo78b4txc0eJxmOp5U5lHWaLyIyiWoXFHmzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=unEYD31Y; arc=none smtp.client-ip=95.215.58.188
+	 In-Reply-To:Content-Type; b=YZMj28On5QplQTByCOBhqhuYMzh7R+Rv1C5dEIJLTgWechfGqQn0lDszvZsSFDAThPf0lRBh5UifJPibtSoSBceMZC1cW41EFzTYrU2y+q/XmAwzhNtjfg7v9SaroAlh7ClO8NWnzMASUy03aPkRlcoK3ORTjRhGFPqdUZZSDxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=w8mhEmgH; arc=none smtp.client-ip=95.215.58.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <3b0fa14d-a11d-4ed7-8f28-2e99d74f6b46@linux.dev>
+Message-ID: <36cf80a8-a224-4191-b235-50c2b3dd73f6@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768571887;
+	t=1768572632;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Im3pXRquGmKg1XDHvYG50pWNpmpor53XZzJQHnENrGo=;
-	b=unEYD31YS7QXZeQ/1xU7bRf697wc8+qsW4C791IXzV19kwBtQnh7DpvcxQko0VpUdrGKyG
-	zl+uimAv7RvYE+Hzzpq0tDD/LLu20sw+sjUyXSzuhu+QOrqnBjfIMAlen8melDzEYBMScy
-	9mmSBX9VyyK8MBI6Ilf4YWjqrBGJXv4=
-Date: Fri, 16 Jan 2026 21:57:47 +0800
+	bh=LltPikOjfn91v4eQf5wN9GiDkEuZIGDG/ABublmrXDA=;
+	b=w8mhEmgHxpePEGZgYwqycR5BSjb33zglHkzQuRAsu+5zMXMstSGTHQduak5A1ZSIqRYQXY
+	o9x8dMApX3LtTYR7BWK/oeGQkMMJXJlPGMVkv8KG5CKuCfZBxEONIBfv/JLQGdz++mNDlO
+	bpWCLY7R0NEnSryu+da6E+wrKAi1XZk=
+Date: Fri, 16 Jan 2026 22:10:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 2/9] libbpf: Add support for extended bpf
- syscall
+Subject: Re: [PATCH bpf-next v5 4/9] bpf: Add syscall common attributes
+ support for prog_load
 To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
 Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
  Daniel Borkmann <daniel@iogearbox.net>,
@@ -70,171 +70,107 @@ Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
  linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
 References: <20260112145616.44195-1-leon.hwang@linux.dev>
- <20260112145616.44195-3-leon.hwang@linux.dev>
- <CAEf4BzYRC+=J05C6QDwgzbJ7gO7gZD4xcEcj9ixCaJ=xaRuSsQ@mail.gmail.com>
+ <20260112145616.44195-5-leon.hwang@linux.dev>
+ <CAEf4BzZbcA2T8+OR1_68sxq9Chukmh8beyz+018O22U=SsafrA@mail.gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CAEf4BzYRC+=J05C6QDwgzbJ7gO7gZD4xcEcj9ixCaJ=xaRuSsQ@mail.gmail.com>
+In-Reply-To: <CAEf4BzZbcA2T8+OR1_68sxq9Chukmh8beyz+018O22U=SsafrA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 2026/1/16 08:42, Andrii Nakryiko wrote:
-> On Mon, Jan 12, 2026 at 6:58 AM Leon Hwang <leon.hwang@linux.dev> wrote:
+On 2026/1/16 08:54, Andrii Nakryiko wrote:
+> On Mon, Jan 12, 2026 at 6:59 AM Leon Hwang <leon.hwang@linux.dev> wrote:
 >>
->> To support the extended BPF syscall introduced in the previous commit,
->> introduce the following internal APIs:
+>> The log buffer of common attributes would be confusing with the one in
+>> 'union bpf_attr' for BPF_PROG_LOAD.
 >>
->> * 'sys_bpf_ext()'
->> * 'sys_bpf_ext_fd()'
->>   They wrap the raw 'syscall()' interface to support passing extended
->>   attributes.
->> * 'probe_sys_bpf_ext()'
->>   Check whether current kernel supports the extended attributes.
+>> In order to clarify the usage of these two log buffers, they both can be
+>> used for logging if:
+>>
+>> * They are same, including 'log_buf', 'log_level' and 'log_size'.
+>> * One of them is missing, then another one will be used for logging.
+>>
+>> If they both have 'log_buf' but they are not same totally, return -EUSERS.
+> 
+> why use this special error code that we don't seem to use in BPF
+> subsystem at all? What's wrong with -EINVAL. This shouldn't be an easy
+> mistake to do, tbh.
+> 
+
+-EUSERS was suggested by Alexei.
+
+However, I agree with you that it is better to use -EINVAL here.
+
 >>
 >> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
 >> ---
->>  tools/lib/bpf/bpf.c             | 34 +++++++++++++++++++++++++++++++++
->>  tools/lib/bpf/features.c        |  8 ++++++++
->>  tools/lib/bpf/libbpf_internal.h |  3 +++
->>  3 files changed, 45 insertions(+)
+>>  include/linux/bpf_verifier.h |  4 +++-
+>>  kernel/bpf/log.c             | 29 ++++++++++++++++++++++++++---
+>>  kernel/bpf/syscall.c         |  9 ++++++---
+>>  3 files changed, 35 insertions(+), 7 deletions(-)
 >>
->> diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
->> index 21b57a629916..d44e667aaf02 100644
->> --- a/tools/lib/bpf/bpf.c
->> +++ b/tools/lib/bpf/bpf.c
->> @@ -69,6 +69,40 @@ static inline __u64 ptr_to_u64(const void *ptr)
->>         return (__u64) (unsigned long) ptr;
->>  }
->>
->> +static inline int sys_bpf_ext(enum bpf_cmd cmd, union bpf_attr *attr,
->> +                             unsigned int size,
->> +                             struct bpf_common_attr *common_attr,
-> 
-> nit: kernel uses consistent attr_common/size_common pattern, but here
-> you are inverting attr_common -> common_attr, let's not?
-> 
-
-Ack.
-
-I'll keep the same pattern.
-
->> +                             unsigned int size_common)
->> +{
->> +       cmd = common_attr ? (cmd | BPF_COMMON_ATTRS) : (cmd & ~BPF_COMMON_ATTRS);
->> +       return syscall(__NR_bpf, cmd, attr, size, common_attr, size_common);
->> +}
->> +
->> +static inline int sys_bpf_ext_fd(enum bpf_cmd cmd, union bpf_attr *attr,
->> +                                unsigned int size,
->> +                                struct bpf_common_attr *common_attr,
->> +                                unsigned int size_common)
->> +{
->> +       int fd;
->> +
->> +       fd = sys_bpf_ext(cmd, attr, size, common_attr, size_common);
->> +       return ensure_good_fd(fd);
->> +}
->> +
->> +int probe_sys_bpf_ext(void)
->> +{
->> +       const size_t attr_sz = offsetofend(union bpf_attr, prog_token_fd);
->> +       union bpf_attr attr;
->> +       int fd;
->> +
->> +       memset(&attr, 0, attr_sz);
->> +       fd = syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &attr, attr_sz, NULL,
->> +                    sizeof(struct bpf_common_attr));
->> +       if (fd >= 0)
->> +               close(fd);
-> 
-> hm... close can change errno, this is fragile. If fd >= 0, something
-> is wrong with our detection, just return error right away?
-> 
-
-How about capture errno before closing?
-
-err = errno;
-if (fd >= 0)
-	close(fd);
-return err = EFAULT;
-
-Then, we can wrap all details in probe_sys_bpf_ext().
-
->> +       return errno == EFAULT;
->> +}
->> +
->>  static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
->>                           unsigned int size)
->>  {
->> diff --git a/tools/lib/bpf/features.c b/tools/lib/bpf/features.c
->> index b842b83e2480..d786a815f1ae 100644
->> --- a/tools/lib/bpf/features.c
->> +++ b/tools/lib/bpf/features.c
->> @@ -506,6 +506,11 @@ static int probe_kern_arg_ctx_tag(int token_fd)
->>         return probe_fd(prog_fd);
->>  }
->>
->> +static int probe_kern_extended_syscall(int token_fd)
->> +{
->> +       return probe_sys_bpf_ext();
->> +}
->> +
->>  typedef int (*feature_probe_fn)(int /* token_fd */);
->>
->>  static struct kern_feature_cache feature_cache;
->> @@ -581,6 +586,9 @@ static struct kern_feature_desc {
->>         [FEAT_BTF_QMARK_DATASEC] = {
->>                 "BTF DATASEC names starting from '?'", probe_kern_btf_qmark_datasec,
->>         },
->> +       [FEAT_EXTENDED_SYSCALL] = {
->> +               "Kernel supports extended syscall", probe_kern_extended_syscall,
-> 
-> "extended syscall" is a bit vague... We specifically detect common
-> attrs support, maybe say that?
-> 
-
-Ack.
-
-I'll update it to "BPF syscall common attributes support."
-
->> +       },
+>> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
+>> index 4c9632c40059..da2d37ca60e7 100644
+>> --- a/include/linux/bpf_verifier.h
+>> +++ b/include/linux/bpf_verifier.h
+>> @@ -637,9 +637,11 @@ struct bpf_log_attr {
+>>         u32 log_level;
+>>         struct bpf_attrs *attrs;
+>>         u32 offsetof_log_true_size;
+>> +       struct bpf_attrs *attrs_common;
 >>  };
 >>
->>  bool feat_supported(struct kern_feature_cache *cache, enum kern_feature_id feat_id)
->> diff --git a/tools/lib/bpf/libbpf_internal.h b/tools/lib/bpf/libbpf_internal.h
->> index fc59b21b51b5..e2a6ef4b45ae 100644
->> --- a/tools/lib/bpf/libbpf_internal.h
->> +++ b/tools/lib/bpf/libbpf_internal.h
->> @@ -392,6 +392,8 @@ enum kern_feature_id {
->>         FEAT_ARG_CTX_TAG,
->>         /* Kernel supports '?' at the front of datasec names */
->>         FEAT_BTF_QMARK_DATASEC,
->> +       /* Kernel supports extended syscall */
->> +       FEAT_EXTENDED_SYSCALL,
+>> -int bpf_prog_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs);
+>> +int bpf_prog_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs,
+>> +                               struct bpf_attrs *attrs_common);
+>>  int bpf_log_attr_finalize(struct bpf_log_attr *log_attr, struct bpf_verifier_log *log);
+>>
+>>  #define BPF_MAX_SUBPROGS 256
+>> diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
+>> index 457b724c4176..eba60a13e244 100644
+>> --- a/kernel/bpf/log.c
+>> +++ b/kernel/bpf/log.c
+>> @@ -865,23 +865,41 @@ void print_insn_state(struct bpf_verifier_env *env, const struct bpf_verifier_st
+>>  }
+>>
+>>  static int bpf_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs, u64 log_buf,
+>> -                            u32 log_size, u32 log_level, int offsetof_log_true_size)
+>> +                            u32 log_size, u32 log_level, int offsetof_log_true_size,
+>> +                            struct bpf_attrs *attrs_common)
+>>  {
+>> +       const struct bpf_common_attr *common_attr = attrs_common ? attrs_common->attr : NULL;
+>> +
 > 
-> FEAT_BPF_COMMON_ATTRS ?
+> There is something to be said about naming choices here :) it's easy
+> to get lost in attrs_common being actually bpf_attrs, which contains
+> attr field, which is actually of bpf_common_attr type... It's a bit
+> disorienting. :)
 > 
 
-FEAT_BPF_SYSCALL_COMMON_ATTRS seems more accurate.
+I see your point about the naming being confusing.
+
+The original intent of 'struct bpf_attrs' was to provide a shared
+wrapper for both 'union bpf_attr' and 'struct bpf_common_attr'. However,
+I agree that using 'attrs_common' here makes the layering harder to follow.
+
+If that approach is undesirable, how about introducing a dedicated
+structure instead, e.g.:
+
+struct bpf_common_attrs {
+	const struct bpf_common_attr *attr;
+	bpfptr_t uattr;
+	u32 size;
+};
+
+This should make the ownership and intent clearer.
 
 Thanks,
 Leon
 
->>         __FEAT_CNT,
->>  };
->>
->> @@ -757,4 +759,5 @@ int probe_fd(int fd);
->>  #define SHA256_DWORD_SIZE SHA256_DIGEST_LENGTH / sizeof(__u64)
->>
->>  void libbpf_sha256(const void *data, size_t len, __u8 out[SHA256_DIGEST_LENGTH]);
->> +int probe_sys_bpf_ext(void);
->>  #endif /* __LIBBPF_LIBBPF_INTERNAL_H */
->> --
->> 2.52.0
->>
+[...]
 
 
