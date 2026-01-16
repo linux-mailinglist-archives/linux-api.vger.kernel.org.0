@@ -1,54 +1,54 @@
-Return-Path: <linux-api+bounces-5649-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5650-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B351D326A4
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 15:13:51 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F38CD32751
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 15:17:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2303F300982F
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 14:10:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BDEFC300250A
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 14:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59812284665;
-	Fri, 16 Jan 2026 14:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8D130FC35;
+	Fri, 16 Jan 2026 14:17:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="w8mhEmgH"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ckUPJAd3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB2928725A
-	for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 14:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB2513AF2
+	for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 14:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768572646; cv=none; b=Wl6lk5bsseHF+NOdk/0ShIp5+4thTsa4zSW9DUMw4MoLb//sMzrXfwhZxPDExNLFwek/dIKuxcgpRXNFMnC+GoAtaNBuqNwsud+jvYyXiBxZrWjxx8/2SUkpo0uAeucqja/KDgDSCO0eCvoA3mfB8y04W+CcXOj1ksz/o2hGvns=
+	t=1768573059; cv=none; b=dyztuHfu/6h1sCdetyB8uXHUDkKS6ZgYQZicEp8dl7Cy6rcFbcH98tlECH+B3y5abJYRRETGQa4BMuHlDWxnecxIZEaDGdgmRaBKdCobrBj3fKx/vlVz8TQlZImK343P54rg5kYd758i7oUfSCN23dqDzgYTfKz17je++J8rMj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768572646; c=relaxed/simple;
-	bh=+jgDwfGEgZ/gfdC0Vw6xWmOfG9Ku+O5C3mi5MoII2Yw=;
+	s=arc-20240116; t=1768573059; c=relaxed/simple;
+	bh=tFAb7kU+GUoUou6pVG4vlKLk0Na2EuYIDz5ZFMRn7jQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YZMj28On5QplQTByCOBhqhuYMzh7R+Rv1C5dEIJLTgWechfGqQn0lDszvZsSFDAThPf0lRBh5UifJPibtSoSBceMZC1cW41EFzTYrU2y+q/XmAwzhNtjfg7v9SaroAlh7ClO8NWnzMASUy03aPkRlcoK3ORTjRhGFPqdUZZSDxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=w8mhEmgH; arc=none smtp.client-ip=95.215.58.188
+	 In-Reply-To:Content-Type; b=O8oVhz7Ov3lqfXZpACwqCQ5rhbtJwSzwOjeMLVVEJGmt75ZFwNELfcKbz6vEqukin0+lms65mIUdJBe4p1bnPrw3tdYq5RGkdfmx+/n78bOzvpWusHuHUZvNbsL3adrgG7/FXeVG67i36LQMEG6BOwcHNBBJpFELoRxHIFRhMdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ckUPJAd3; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <36cf80a8-a224-4191-b235-50c2b3dd73f6@linux.dev>
+Message-ID: <22e0de9a-8963-454b-8b35-f8c9be15dee3@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768572632;
+	t=1768573055;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LltPikOjfn91v4eQf5wN9GiDkEuZIGDG/ABublmrXDA=;
-	b=w8mhEmgHxpePEGZgYwqycR5BSjb33zglHkzQuRAsu+5zMXMstSGTHQduak5A1ZSIqRYQXY
-	o9x8dMApX3LtTYR7BWK/oeGQkMMJXJlPGMVkv8KG5CKuCfZBxEONIBfv/JLQGdz++mNDlO
-	bpWCLY7R0NEnSryu+da6E+wrKAi1XZk=
-Date: Fri, 16 Jan 2026 22:10:12 +0800
+	bh=AyxPKtVnYEhbqY5ej9xEJpQHHwFramyrAhZn0x12s5U=;
+	b=ckUPJAd3AWNAzWG97rpe0cF0VTKDfX59rtFnngz7SQij8DTo8BgeJF3Ln4lP7Ic9HbHP61
+	mqpyDrYxm7kU0I5vONV/s4RuQf1ugVizWLwm/dh92y5Nn5kfNarN8fi82Vpo9htNbHJn40
+	xLjerGNKDdt38fClMkTqaSxZfZLCCXU=
+Date: Fri, 16 Jan 2026 22:17:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 4/9] bpf: Add syscall common attributes
- support for prog_load
+Subject: Re: [PATCH bpf-next v5 8/9] libbpf: Add common attr support for
+ map_create
 To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
 Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
  Daniel Borkmann <daniel@iogearbox.net>,
@@ -70,107 +70,137 @@ Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
  linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
 References: <20260112145616.44195-1-leon.hwang@linux.dev>
- <20260112145616.44195-5-leon.hwang@linux.dev>
- <CAEf4BzZbcA2T8+OR1_68sxq9Chukmh8beyz+018O22U=SsafrA@mail.gmail.com>
+ <20260112145616.44195-9-leon.hwang@linux.dev>
+ <CAEf4BzarSrW1aTRcjrheLWqxFCh1FFd7vwJ4OQup1dbT13EapQ@mail.gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CAEf4BzZbcA2T8+OR1_68sxq9Chukmh8beyz+018O22U=SsafrA@mail.gmail.com>
+In-Reply-To: <CAEf4BzarSrW1aTRcjrheLWqxFCh1FFd7vwJ4OQup1dbT13EapQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 2026/1/16 08:54, Andrii Nakryiko wrote:
+On 2026/1/16 09:03, Andrii Nakryiko wrote:
 > On Mon, Jan 12, 2026 at 6:59 AM Leon Hwang <leon.hwang@linux.dev> wrote:
 >>
->> The log buffer of common attributes would be confusing with the one in
->> 'union bpf_attr' for BPF_PROG_LOAD.
+>> With the previous commit adding common attribute support for
+>> BPF_MAP_CREATE, users can now retrieve detailed error messages when map
+>> creation fails via the log_buf field.
 >>
->> In order to clarify the usage of these two log buffers, they both can be
->> used for logging if:
+>> Introduce struct bpf_syscall_common_attr_opts with the following fields:
+>> log_buf, log_size, log_level, and log_true_size.
 >>
->> * They are same, including 'log_buf', 'log_level' and 'log_size'.
->> * One of them is missing, then another one will be used for logging.
->>
->> If they both have 'log_buf' but they are not same totally, return -EUSERS.
-> 
-> why use this special error code that we don't seem to use in BPF
-> subsystem at all? What's wrong with -EINVAL. This shouldn't be an easy
-> mistake to do, tbh.
-> 
-
--EUSERS was suggested by Alexei.
-
-However, I agree with you that it is better to use -EINVAL here.
-
+>> Extend bpf_map_create_opts with a new field common_attr_opts, allowing
+>> users to capture and inspect log messages on map creation failures.
 >>
 >> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
 >> ---
->>  include/linux/bpf_verifier.h |  4 +++-
->>  kernel/bpf/log.c             | 29 ++++++++++++++++++++++++++---
->>  kernel/bpf/syscall.c         |  9 ++++++---
->>  3 files changed, 35 insertions(+), 7 deletions(-)
+>>  tools/lib/bpf/bpf.c | 15 ++++++++++++++-
+>>  tools/lib/bpf/bpf.h | 17 ++++++++++++++++-
+>>  2 files changed, 30 insertions(+), 2 deletions(-)
 >>
->> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
->> index 4c9632c40059..da2d37ca60e7 100644
->> --- a/include/linux/bpf_verifier.h
->> +++ b/include/linux/bpf_verifier.h
->> @@ -637,9 +637,11 @@ struct bpf_log_attr {
->>         u32 log_level;
->>         struct bpf_attrs *attrs;
->>         u32 offsetof_log_true_size;
->> +       struct bpf_attrs *attrs_common;
->>  };
+>> diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
+>> index d44e667aaf02..d65df1b7b2be 100644
+>> --- a/tools/lib/bpf/bpf.c
+>> +++ b/tools/lib/bpf/bpf.c
+>> @@ -207,6 +207,9 @@ int bpf_map_create(enum bpf_map_type map_type,
+>>                    const struct bpf_map_create_opts *opts)
+>>  {
+>>         const size_t attr_sz = offsetofend(union bpf_attr, excl_prog_hash_size);
+>> +       const size_t common_attr_sz = sizeof(struct bpf_common_attr);
+>> +       struct bpf_syscall_common_attr_opts *common_attr_opts;
+>> +       struct bpf_common_attr common_attr;
+>>         union bpf_attr attr;
+>>         int fd;
 >>
->> -int bpf_prog_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs);
->> +int bpf_prog_load_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs,
->> +                               struct bpf_attrs *attrs_common);
->>  int bpf_log_attr_finalize(struct bpf_log_attr *log_attr, struct bpf_verifier_log *log);
+>> @@ -240,7 +243,17 @@ int bpf_map_create(enum bpf_map_type map_type,
+>>         attr.excl_prog_hash = ptr_to_u64(OPTS_GET(opts, excl_prog_hash, NULL));
+>>         attr.excl_prog_hash_size = OPTS_GET(opts, excl_prog_hash_size, 0);
 >>
->>  #define BPF_MAX_SUBPROGS 256
->> diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
->> index 457b724c4176..eba60a13e244 100644
->> --- a/kernel/bpf/log.c
->> +++ b/kernel/bpf/log.c
->> @@ -865,23 +865,41 @@ void print_insn_state(struct bpf_verifier_env *env, const struct bpf_verifier_st
+>> -       fd = sys_bpf_fd(BPF_MAP_CREATE, &attr, attr_sz);
+>> +       common_attr_opts = OPTS_GET(opts, common_attr_opts, NULL);
+>> +       if (common_attr_opts && feat_supported(NULL, FEAT_EXTENDED_SYSCALL)) {
+>> +               memset(&common_attr, 0, common_attr_sz);
+>> +               common_attr.log_buf = ptr_to_u64(OPTS_GET(common_attr_opts, log_buf, NULL));
+>> +               common_attr.log_size = OPTS_GET(common_attr_opts, log_size, 0);
+>> +               common_attr.log_level = OPTS_GET(common_attr_opts, log_level, 0);
+>> +               fd = sys_bpf_ext_fd(BPF_MAP_CREATE, &attr, attr_sz, &common_attr, common_attr_sz);
+>> +               OPTS_SET(common_attr_opts, log_true_size, common_attr.log_true_size);
+>> +       } else {
+>> +               fd = sys_bpf_fd(BPF_MAP_CREATE, &attr, attr_sz);
+> 
+> OPTS_SET(log_true_size) to zero here, maybe?
+> 
+
+Unnecessary, but ok to do it.
+
+>> +       }
+>>         return libbpf_err_errno(fd);
 >>  }
 >>
->>  static int bpf_log_attr_init(struct bpf_log_attr *log_attr, struct bpf_attrs *attrs, u64 log_buf,
->> -                            u32 log_size, u32 log_level, int offsetof_log_true_size)
->> +                            u32 log_size, u32 log_level, int offsetof_log_true_size,
->> +                            struct bpf_attrs *attrs_common)
->>  {
->> +       const struct bpf_common_attr *common_attr = attrs_common ? attrs_common->attr : NULL;
+>> diff --git a/tools/lib/bpf/bpf.h b/tools/lib/bpf/bpf.h
+>> index 2c8e88ddb674..c4a26e6b71ea 100644
+>> --- a/tools/lib/bpf/bpf.h
+>> +++ b/tools/lib/bpf/bpf.h
+>> @@ -37,6 +37,18 @@ extern "C" {
+>>
+>>  LIBBPF_API int libbpf_set_memlock_rlim(size_t memlock_bytes);
+>>
+>> +struct bpf_syscall_common_attr_opts {
+>> +       size_t sz; /* size of this struct for forward/backward compatibility */
 >> +
+>> +       char *log_buf;
+>> +       __u32 log_size;
+>> +       __u32 log_level;
+>> +       __u32 log_true_size;
+>> +
+>> +       size_t :0;
+>> +};
+>> +#define bpf_syscall_common_attr_opts__last_field log_true_size
 > 
-> There is something to be said about naming choices here :) it's easy
-> to get lost in attrs_common being actually bpf_attrs, which contains
-> attr field, which is actually of bpf_common_attr type... It's a bit
-> disorienting. :)
+> see below, let's drop this struct and just add these 4 fields directly
+> to bpf_map_create_opts
+> 
+>> +
+>>  struct bpf_map_create_opts {
+>>         size_t sz; /* size of this struct for forward/backward compatibility */
+>>
+>> @@ -57,9 +69,12 @@ struct bpf_map_create_opts {
+>>
+>>         const void *excl_prog_hash;
+>>         __u32 excl_prog_hash_size;
+>> +
+>> +       struct bpf_syscall_common_attr_opts *common_attr_opts;
+> 
+> maybe let's just add those log_xxx fields here directly? This whole
+> extra bpf_syscall_common_attr_opts pointer and struct seems like a
+> cumbersome API.
 > 
 
-I see your point about the naming being confusing.
+Oops... This struct was suggested by the v3 discussion [1].
 
-The original intent of 'struct bpf_attrs' was to provide a shared
-wrapper for both 'union bpf_attr' and 'struct bpf_common_attr'. However,
-I agree that using 'attrs_common' here makes the layering harder to follow.
+This struct was used to report 'log_true_size' without changing
+'bpf_map_create()' API.
 
-If that approach is undesirable, how about introducing a dedicated
-structure instead, e.g.:
-
-struct bpf_common_attrs {
-	const struct bpf_common_attr *attr;
-	bpfptr_t uattr;
-	u32 size;
-};
-
-This should make the ownership and intent clearer.
+Links
+[1]
+https://lore.kernel.org/bpf/CAEf4Bzaw9cboFSf1OXmD84S7pKaeyj=bcQg_diUzGwAkFsjUgg@mail.gmail.com/
 
 Thanks,
 Leon
 
-[...]
+>> +
+>>         size_t :0;
+>>  };
+>> -#define bpf_map_create_opts__last_field excl_prog_hash_size
+>> +#define bpf_map_create_opts__last_field common_attr_opts
+>>
+>>  LIBBPF_API int bpf_map_create(enum bpf_map_type map_type,
+>>                               const char *map_name,
+>> --
+>> 2.52.0
+>>
 
 
