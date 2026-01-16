@@ -1,206 +1,230 @@
-Return-Path: <linux-api+bounces-5650-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5651-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F38CD32751
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 15:17:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EA9D38935
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 23:28:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BDEFC300250A
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 14:17:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B7B2C300F9DB
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jan 2026 22:28:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8D130FC35;
-	Fri, 16 Jan 2026 14:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2D8311963;
+	Fri, 16 Jan 2026 22:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ckUPJAd3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnGZbEP2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB2513AF2
-	for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 14:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768573059; cv=none; b=dyztuHfu/6h1sCdetyB8uXHUDkKS6ZgYQZicEp8dl7Cy6rcFbcH98tlECH+B3y5abJYRRETGQa4BMuHlDWxnecxIZEaDGdgmRaBKdCobrBj3fKx/vlVz8TQlZImK343P54rg5kYd758i7oUfSCN23dqDzgYTfKz17je++J8rMj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768573059; c=relaxed/simple;
-	bh=tFAb7kU+GUoUou6pVG4vlKLk0Na2EuYIDz5ZFMRn7jQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O8oVhz7Ov3lqfXZpACwqCQ5rhbtJwSzwOjeMLVVEJGmt75ZFwNELfcKbz6vEqukin0+lms65mIUdJBe4p1bnPrw3tdYq5RGkdfmx+/n78bOzvpWusHuHUZvNbsL3adrgG7/FXeVG67i36LQMEG6BOwcHNBBJpFELoRxHIFRhMdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ckUPJAd3; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <22e0de9a-8963-454b-8b35-f8c9be15dee3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768573055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AyxPKtVnYEhbqY5ej9xEJpQHHwFramyrAhZn0x12s5U=;
-	b=ckUPJAd3AWNAzWG97rpe0cF0VTKDfX59rtFnngz7SQij8DTo8BgeJF3Ln4lP7Ic9HbHP61
-	mqpyDrYxm7kU0I5vONV/s4RuQf1ugVizWLwm/dh92y5Nn5kfNarN8fi82Vpo9htNbHJn40
-	xLjerGNKDdt38fClMkTqaSxZfZLCCXU=
-Date: Fri, 16 Jan 2026 22:17:20 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63032EBB8F
+	for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 22:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768602487; cv=pass; b=X0hLDIXqrKOp5/nKDuVhyyotEfAZreTZJO/DHibQvUNVURR9Pw2PZ1dzF0VUER/bL4dKlnGmr2mj4LhG+zgJY68aWxeklU9Los3osx2QYIMVJkqrhEfg9XreTFVwete4BJ1yRalYG1IpWPbbwXyAhzJ4WIlabWYh8CCHrZMqOgg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768602487; c=relaxed/simple;
+	bh=e5O3aFYeIvcKbfg0/jZu7gJTJoVVq8BY3YqjjOKcV04=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iFf2az50I5pQ1qcp8qD4SrBfgBjKzq8oWL9BSSaJ4l/yNuC7oHJMo92nxS2qug2uWwVW5zIzTo0O0/knUr76v6Uxup+BfAOl+3kpUmDf2npUFqkEraziSCH7IKOuNbmKPn9Wj+mVaz4ZL7nZP6p4lh24N3cpPxsQcnI5irKdBio=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnGZbEP2; arc=pass smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c54f700b5b1so1493383a12.0
+        for <linux-api@vger.kernel.org>; Fri, 16 Jan 2026 14:28:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768602485; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QYGWg6UvB35UCYLDaWPsiZscwlUmlecJQWIZIkQw2AMBjAgGg2Ch5HxM5p6ZqlsHYL
+         ddgtEd1Kz0tP8CYnEwp+pSxnXT3MMbsz+qbpE74wcXpValK1b2oOhviSulVGkLa461ur
+         2fk4+I9UQLGRsZCyxWf6v1M2wM/EmMQRF49+fq/xGzEQI96uBiRMewLrFSQDxZQiMrOf
+         Cergza2w8vSUKQSKZmKiEvoZyl0aVNaste3KCfGt3oLeJlkSMzIQ78dZ+Pan419E6OTE
+         79M7xPvQx3Js4dznic+5HrhGDxKoGU3UwMfAUVVxXUwFUfW0GedWaMkfyjETwh0yzwXZ
+         E3hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mhIrDxLvEVi4Sv2JLQc+7wy2/rTmaDaiC7LdgHxYqR0=;
+        fh=90qQtMTWFDFgDqfTGZwMD9R0D9zmrkYNen2oVCMCYCw=;
+        b=dyO+I8kf4dKRlMbEim2TeVczg2zfQKUiTzPw13bauikQ3Q4+6nC4mIcreOOz+HASeO
+         o+GsqgTiHggida1rMogJYsiptM4AIfAlwa/dXDWuaZ9vxq2N8hzLDPYVnGgydReZRih+
+         PtxwwZDliowENXakAb0jB8WYhI6N7EFWJuVmH/wNOfz1pz6mjDrq0DWg08SJDtZGxspK
+         CpJpBsLk6KYAkQcEMIeYXOKUdady/xr3U10ZFLMQNrDjPBynGGpao2RLX+g+Uqppkr+L
+         Aw13a6pzjErl7xmWD+DMygssId/Emu5vQNLPbfbhh4769BjH9mlyeT20PVLNhBTin6tw
+         drtw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768602485; x=1769207285; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mhIrDxLvEVi4Sv2JLQc+7wy2/rTmaDaiC7LdgHxYqR0=;
+        b=fnGZbEP2krZR1mRqomojCpv8Yth1Dn/wRHLNNiTicWzmKaC07xWWXh6xAUJfdzK6yx
+         sglAtpEw8+CQ90x3RXACz9OsOSJBmiY9bJr8sXnATUZ/n3i0AZZ4nZyd2Ae1LOcJeNuT
+         d8v8bduZqTERy5oPEU1IatabyHD/YbRqn5sX8ixtyCM0PWq3tYA4xXxorczeO4cVdL9K
+         BkUT493Xj3C5yokH0YpXn07V40fanlJs7jnp6+fpsY9N5Gp8Q5gyiXYbkIVE91/uklyt
+         Y5rR7RecrvDRhhOFB4E8j8egChyoERbEtJAK0p8kdokyN0lYvTZxowWdf+O4PWcHCP8u
+         XBNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768602485; x=1769207285;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mhIrDxLvEVi4Sv2JLQc+7wy2/rTmaDaiC7LdgHxYqR0=;
+        b=xBj3t86+DFsIr5xrJkEEAHyQvSqbVuCkROFbQyYaYPqsKEm0aIYf1fE+5ZfOZtFw0U
+         Yn70byW42+0PbE/4Q9KpfviH6qGwXrLig+4xlSS/Vy4uj4OZCsb6Gi/PrTUepvPzByO8
+         J15sVRdcGYiT+MwVslSny1esZW52T6ZyyhA4KrcOJjyxGykRJGt9PJMGibmTBcWT3+RF
+         U4297ZCuzfWWYXe6tzvTOTlWnH1fwZx8nY/EYWXoh8hK2h4TOoi68vQwI750fl/RrW95
+         gLipXCbhZGklT7PJdOEyD0OY6edYZ6+OH4NnyBPLsfBWttXGKHGDsNnPRHfkFhU8em70
+         L8cA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjCjW+G1ZpkTRFTHO0dJsDPW35T03BTohP7OwUSixA/0tVk08oKmYLoL8W9bXl3FGfnUqIn4HDytI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoPlZ7j5l2gduhii5/BvZ/PA/Ufrg0fkdXXjvC/gEDLaOkwZsd
+	PVvkAg60gFd+qjuOi+Z9xnWeSz3BDVVIT0KN5HohLo9dOqcAZR3CbEArnwPQzjHp61t0buLYjM0
+	z2LWxChBgXpucbWgt08nSFHgWQF4mp0I=
+X-Gm-Gg: AY/fxX4LZ2TIFGjWxeLTwVMudCqh02jT/lrOcNVSKJVtONrrtnpgedIQEaGJ2eJJnbY
+	MnjAlQAqW0C8mSLAokslNwD61K3Z9pIajQqzmhWnjgFDLsyxJKTNohTmjc9rn4AiIMDwTeMBw4H
+	Ww91/pnr2otKw74KfAL3P/KnmRq4rzL5vQGfBavOtogNRV4liENeMprKyZpYyLvpmxTuDXRREpj
+	D8phTChRUQtm9KTw5BcDK3N/YQG8mD+dXyJ8S7g8/uRzT+DMzXiy/lRXMfNDEuiQn9x8hSMuHIX
+	gHvuI0KHqt4=
+X-Received: by 2002:a17:90b:3c85:b0:340:b86b:39c7 with SMTP id
+ 98e67ed59e1d1-3527317db23mr3752920a91.11.1768602484921; Fri, 16 Jan 2026
+ 14:28:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 8/9] libbpf: Add common attr support for
- map_create
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Seth Forshee <sforshee@kernel.org>, Yuichiro Tsuji <yuichtsu@amazon.com>,
- Andrey Albershteyn <aalbersh@redhat.com>,
- Willem de Bruijn <willemb@google.com>, Jason Xing
- <kerneljasonxing@gmail.com>, Tao Chen <chen.dylane@linux.dev>,
- Mykyta Yatsenko <yatsenko@meta.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Anton Protopopov <a.s.protopopov@gmail.com>, Amery Hung
- <ameryhung@gmail.com>, Rong Tao <rongtao@cestc.cn>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
-References: <20260112145616.44195-1-leon.hwang@linux.dev>
- <20260112145616.44195-9-leon.hwang@linux.dev>
- <CAEf4BzarSrW1aTRcjrheLWqxFCh1FFd7vwJ4OQup1dbT13EapQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CAEf4BzarSrW1aTRcjrheLWqxFCh1FFd7vwJ4OQup1dbT13EapQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260112145616.44195-1-leon.hwang@linux.dev> <20260112145616.44195-3-leon.hwang@linux.dev>
+ <CAEf4BzYRC+=J05C6QDwgzbJ7gO7gZD4xcEcj9ixCaJ=xaRuSsQ@mail.gmail.com> <3b0fa14d-a11d-4ed7-8f28-2e99d74f6b46@linux.dev>
+In-Reply-To: <3b0fa14d-a11d-4ed7-8f28-2e99d74f6b46@linux.dev>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Fri, 16 Jan 2026 14:27:38 -0800
+X-Gm-Features: AZwV_QiRj9jk-5uJ87ReS5F4IFipAEUi6jE4X1Cajov5CAwqsqjl7f0Fw_saIUU
+Message-ID: <CAEf4Bzbig7bZoaOgOWvcv1W46iUe6m77NpToghu+vZCvQYsMpA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 2/9] libbpf: Add support for extended bpf syscall
+To: Leon Hwang <leon.hwang@linux.dev>
+Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Seth Forshee <sforshee@kernel.org>, Yuichiro Tsuji <yuichtsu@amazon.com>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, Willem de Bruijn <willemb@google.com>, 
+	Jason Xing <kerneljasonxing@gmail.com>, Tao Chen <chen.dylane@linux.dev>, 
+	Mykyta Yatsenko <yatsenko@meta.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Anton Protopopov <a.s.protopopov@gmail.com>, Amery Hung <ameryhung@gmail.com>, 
+	Rong Tao <rongtao@cestc.cn>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jan 16, 2026 at 5:58=E2=80=AFAM Leon Hwang <leon.hwang@linux.dev> w=
+rote:
+>
+>
+>
+> On 2026/1/16 08:42, Andrii Nakryiko wrote:
+> > On Mon, Jan 12, 2026 at 6:58=E2=80=AFAM Leon Hwang <leon.hwang@linux.de=
+v> wrote:
+> >>
+> >> To support the extended BPF syscall introduced in the previous commit,
+> >> introduce the following internal APIs:
+> >>
+> >> * 'sys_bpf_ext()'
+> >> * 'sys_bpf_ext_fd()'
+> >>   They wrap the raw 'syscall()' interface to support passing extended
+> >>   attributes.
+> >> * 'probe_sys_bpf_ext()'
+> >>   Check whether current kernel supports the extended attributes.
+> >>
+> >> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+> >> ---
+> >>  tools/lib/bpf/bpf.c             | 34 ++++++++++++++++++++++++++++++++=
++
+> >>  tools/lib/bpf/features.c        |  8 ++++++++
+> >>  tools/lib/bpf/libbpf_internal.h |  3 +++
+> >>  3 files changed, 45 insertions(+)
+> >>
+> >> diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
+> >> index 21b57a629916..d44e667aaf02 100644
+> >> --- a/tools/lib/bpf/bpf.c
+> >> +++ b/tools/lib/bpf/bpf.c
+> >> @@ -69,6 +69,40 @@ static inline __u64 ptr_to_u64(const void *ptr)
+> >>         return (__u64) (unsigned long) ptr;
+> >>  }
+> >>
+> >> +static inline int sys_bpf_ext(enum bpf_cmd cmd, union bpf_attr *attr,
+> >> +                             unsigned int size,
+> >> +                             struct bpf_common_attr *common_attr,
+> >
+> > nit: kernel uses consistent attr_common/size_common pattern, but here
+> > you are inverting attr_common -> common_attr, let's not?
+> >
+>
+> Ack.
+>
+> I'll keep the same pattern.
+>
+> >> +                             unsigned int size_common)
+> >> +{
+> >> +       cmd =3D common_attr ? (cmd | BPF_COMMON_ATTRS) : (cmd & ~BPF_C=
+OMMON_ATTRS);
+> >> +       return syscall(__NR_bpf, cmd, attr, size, common_attr, size_co=
+mmon);
+> >> +}
+> >> +
+> >> +static inline int sys_bpf_ext_fd(enum bpf_cmd cmd, union bpf_attr *at=
+tr,
+> >> +                                unsigned int size,
+> >> +                                struct bpf_common_attr *common_attr,
+> >> +                                unsigned int size_common)
+> >> +{
+> >> +       int fd;
+> >> +
+> >> +       fd =3D sys_bpf_ext(cmd, attr, size, common_attr, size_common);
+> >> +       return ensure_good_fd(fd);
+> >> +}
+> >> +
+> >> +int probe_sys_bpf_ext(void)
+> >> +{
+> >> +       const size_t attr_sz =3D offsetofend(union bpf_attr, prog_toke=
+n_fd);
+> >> +       union bpf_attr attr;
+> >> +       int fd;
+> >> +
+> >> +       memset(&attr, 0, attr_sz);
+> >> +       fd =3D syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &at=
+tr, attr_sz, NULL,
+> >> +                    sizeof(struct bpf_common_attr));
+> >> +       if (fd >=3D 0)
+> >> +               close(fd);
+> >
+> > hm... close can change errno, this is fragile. If fd >=3D 0, something
+> > is wrong with our detection, just return error right away?
+> >
+>
+> How about capture errno before closing?
+>
+> err =3D errno;
+> if (fd >=3D 0)
+>         close(fd);
+> return err =3D EFAULT;
 
+not sure what this code is trying to do, but yes, preserving errno is
+one way to fix an immediate problem.
 
-On 2026/1/16 09:03, Andrii Nakryiko wrote:
-> On Mon, Jan 12, 2026 at 6:59 AM Leon Hwang <leon.hwang@linux.dev> wrote:
->>
->> With the previous commit adding common attribute support for
->> BPF_MAP_CREATE, users can now retrieve detailed error messages when map
->> creation fails via the log_buf field.
->>
->> Introduce struct bpf_syscall_common_attr_opts with the following fields:
->> log_buf, log_size, log_level, and log_true_size.
->>
->> Extend bpf_map_create_opts with a new field common_attr_opts, allowing
->> users to capture and inspect log messages on map creation failures.
->>
->> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
->> ---
->>  tools/lib/bpf/bpf.c | 15 ++++++++++++++-
->>  tools/lib/bpf/bpf.h | 17 ++++++++++++++++-
->>  2 files changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
->> index d44e667aaf02..d65df1b7b2be 100644
->> --- a/tools/lib/bpf/bpf.c
->> +++ b/tools/lib/bpf/bpf.c
->> @@ -207,6 +207,9 @@ int bpf_map_create(enum bpf_map_type map_type,
->>                    const struct bpf_map_create_opts *opts)
->>  {
->>         const size_t attr_sz = offsetofend(union bpf_attr, excl_prog_hash_size);
->> +       const size_t common_attr_sz = sizeof(struct bpf_common_attr);
->> +       struct bpf_syscall_common_attr_opts *common_attr_opts;
->> +       struct bpf_common_attr common_attr;
->>         union bpf_attr attr;
->>         int fd;
->>
->> @@ -240,7 +243,17 @@ int bpf_map_create(enum bpf_map_type map_type,
->>         attr.excl_prog_hash = ptr_to_u64(OPTS_GET(opts, excl_prog_hash, NULL));
->>         attr.excl_prog_hash_size = OPTS_GET(opts, excl_prog_hash_size, 0);
->>
->> -       fd = sys_bpf_fd(BPF_MAP_CREATE, &attr, attr_sz);
->> +       common_attr_opts = OPTS_GET(opts, common_attr_opts, NULL);
->> +       if (common_attr_opts && feat_supported(NULL, FEAT_EXTENDED_SYSCALL)) {
->> +               memset(&common_attr, 0, common_attr_sz);
->> +               common_attr.log_buf = ptr_to_u64(OPTS_GET(common_attr_opts, log_buf, NULL));
->> +               common_attr.log_size = OPTS_GET(common_attr_opts, log_size, 0);
->> +               common_attr.log_level = OPTS_GET(common_attr_opts, log_level, 0);
->> +               fd = sys_bpf_ext_fd(BPF_MAP_CREATE, &attr, attr_sz, &common_attr, common_attr_sz);
->> +               OPTS_SET(common_attr_opts, log_true_size, common_attr.log_true_size);
->> +       } else {
->> +               fd = sys_bpf_fd(BPF_MAP_CREATE, &attr, attr_sz);
-> 
-> OPTS_SET(log_true_size) to zero here, maybe?
-> 
+But fd should really not be >=3D 0, and if it is -- it's some problem,
+so I'd return an error in that case to keep us aware, which is why I'm
+saying I'd just return inside if (fd >=3D 0) { }
 
-Unnecessary, but ok to do it.
+>
+> Then, we can wrap all details in probe_sys_bpf_ext().
+>
+> >> +       return errno =3D=3D EFAULT;
+> >> +}
+> >> +
 
->> +       }
->>         return libbpf_err_errno(fd);
->>  }
->>
->> diff --git a/tools/lib/bpf/bpf.h b/tools/lib/bpf/bpf.h
->> index 2c8e88ddb674..c4a26e6b71ea 100644
->> --- a/tools/lib/bpf/bpf.h
->> +++ b/tools/lib/bpf/bpf.h
->> @@ -37,6 +37,18 @@ extern "C" {
->>
->>  LIBBPF_API int libbpf_set_memlock_rlim(size_t memlock_bytes);
->>
->> +struct bpf_syscall_common_attr_opts {
->> +       size_t sz; /* size of this struct for forward/backward compatibility */
->> +
->> +       char *log_buf;
->> +       __u32 log_size;
->> +       __u32 log_level;
->> +       __u32 log_true_size;
->> +
->> +       size_t :0;
->> +};
->> +#define bpf_syscall_common_attr_opts__last_field log_true_size
-> 
-> see below, let's drop this struct and just add these 4 fields directly
-> to bpf_map_create_opts
-> 
->> +
->>  struct bpf_map_create_opts {
->>         size_t sz; /* size of this struct for forward/backward compatibility */
->>
->> @@ -57,9 +69,12 @@ struct bpf_map_create_opts {
->>
->>         const void *excl_prog_hash;
->>         __u32 excl_prog_hash_size;
->> +
->> +       struct bpf_syscall_common_attr_opts *common_attr_opts;
-> 
-> maybe let's just add those log_xxx fields here directly? This whole
-> extra bpf_syscall_common_attr_opts pointer and struct seems like a
-> cumbersome API.
-> 
-
-Oops... This struct was suggested by the v3 discussion [1].
-
-This struct was used to report 'log_true_size' without changing
-'bpf_map_create()' API.
-
-Links
-[1]
-https://lore.kernel.org/bpf/CAEf4Bzaw9cboFSf1OXmD84S7pKaeyj=bcQg_diUzGwAkFsjUgg@mail.gmail.com/
-
-Thanks,
-Leon
-
->> +
->>         size_t :0;
->>  };
->> -#define bpf_map_create_opts__last_field excl_prog_hash_size
->> +#define bpf_map_create_opts__last_field common_attr_opts
->>
->>  LIBBPF_API int bpf_map_create(enum bpf_map_type map_type,
->>                               const char *map_name,
->> --
->> 2.52.0
->>
-
+[...]
 
