@@ -1,245 +1,166 @@
-Return-Path: <linux-api+bounces-5654-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5655-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15DCD39A7A
-	for <lists+linux-api@lfdr.de>; Sun, 18 Jan 2026 23:23:07 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B31AD3B657
+	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 19:56:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6A4B53008193
-	for <lists+linux-api@lfdr.de>; Sun, 18 Jan 2026 22:23:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1E6803001CA5
+	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 18:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE832FFDF4;
-	Sun, 18 Jan 2026 22:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21BE038F224;
+	Mon, 19 Jan 2026 18:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="halLDZNG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GGebSY8o"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DFB2C21F6;
-	Sun, 18 Jan 2026 22:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4A332C31D
+	for <linux-api@vger.kernel.org>; Mon, 19 Jan 2026 18:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768774985; cv=none; b=U30QywDlh3oswQmQomlHoKypLcgzyeeCDmB07EWU8w4BGEvIM3O5C9ZF0rIjotwUoYCwkMOmN54gCOEGUrVgmVwhNaXCBEsZgMSKpLkzZAwvaOv5CJDRAzwjqmgcwIIHIOZTZ/gOcudiuTmNHYnm0QWosexajgKErsYYeusaEg4=
+	t=1768849003; cv=none; b=m2Khxoys1cF/klH4Y78bZT+ztS4ua19IyL1udtmGy5XC7NQGb2lu6GJVoCATOZsFdCL7lY5ptZ83dVEwragSwMAZdQh214xflpPSalClWQFyvexfdiX1U8YH4SzERumEmL9+7gDaffPgsqbEdJVMUTEaVDm8rcO5iFC2XQ3uuQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768774985; c=relaxed/simple;
-	bh=dsCQxyhrH1v6cjkYcvZB/mhb3trXAqJHMFOiDMtYaTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cMYcJ9TU9VYi6nbDj1XMS30qm65x20NaOG12vR+k2Sq2Zzagr1H5xSbaFsQMMj3TwpF2LsyLCT4KMTnKZFgilqPqLC/npoplQPJJSSit/UJuC1z9rMyFyl9TvANLfgE0zBP4yAejpHKk3bek8eanPdThdJDjZqnY4sBtVl2PEck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=halLDZNG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D870C116D0;
-	Sun, 18 Jan 2026 22:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768774985;
-	bh=dsCQxyhrH1v6cjkYcvZB/mhb3trXAqJHMFOiDMtYaTs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=halLDZNGoxbJBOpVxMLZBA3d1Be2UZSsYj6lQjlhqCyCwueqm4HQ3o+yEhxDnrW87
-	 Ep8hICglF/48eZMOIEzvKmsqh+Mf86iD5nHL/G4YtdmlONbyH/H97/Ed2KjF1PVvHn
-	 uSO7AklqrW2FLs8CgngrL5cAmKr5SMr5RrgFHCHs61hjUhF+OFrG3lx1jnqUsUeKCx
-	 5eSCfEOgRLMqrX/lxmkorZUs1CRmMLCqTlKOoZ7PFZxhrlWfcnSB5uB6lx8hRogmI3
-	 wHzTU8r0UFNp2c2xmjQNw48u8mbkWIXMdRZLtE2Oa96xpBKK3TlkaiUGU3v0fQDL3c
-	 ZKrpqoP3qhK7g==
-Date: Sun, 18 Jan 2026 23:23:01 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Zack Weinberg <zack@owlfolio.org>
-Cc: Rich Felker <dalias@libc.org>, Vincent Lefevre <vincent@vinc17.net>, 
-	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <aW1dE9j91WAte1gf@devuan>
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
- <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
- <20250516130547.GV1509@brightrain.aerifal.cx>
- <20250516143957.GB5388@qaa.vinc17.org>
- <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+	s=arc-20240116; t=1768849003; c=relaxed/simple;
+	bh=bI5IPQFJ+by3IIQyhZwdLpvLyRBSEgqkFjkzhjf0OBQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tbOXEa6DMvbXyj1nH7jHGfM2GOMKTCkP1pA4Dxv5lEoApfUeJk0DVcroGzigP6zWPYU6TIGcuKVqECsqj8VnyqfWlFLYYfhdA1Lr/x/QiAW7purJvBw5R3vr5yn18zm95szzXK4RzEHgaIDf1XfmhEg26Ago+IK9fZFHGJ0+1OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GGebSY8o; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-655af782859so6759018a12.2
+        for <linux-api@vger.kernel.org>; Mon, 19 Jan 2026 10:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768849000; x=1769453800; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ihXpfk6s5RJismx/mSJFIyW5r33kfZuDg7he69hJB7c=;
+        b=GGebSY8oyfw+tfFlPckAmtRdNMFioP3AnzwpPbBvBGgeum3a0zf+QU30QZKcZ5AgBY
+         nHs18dHOkG1hT0NuMOBCvA/5K7PWOpxflLQ6AtdohpZKw/CfUusLi/8ykpY8lMA06Hgs
+         ImK+ebCoHV0CWFQ2qShkilkGeWZSAH7SfmGENV68HzKR7H9l9xqAHlTXVGBg0vnmKjay
+         vud0SN9yL+AZ42wPAR98KbUW8RzRWqkhm6VK+xocWB1gY7XAEGd/sAsX8K4N1/wGDGJQ
+         /VyiilYbraz9ntgm/QaEyiobElzranr0X3VUJAmJ9XVwqVL0WMIdTPnxMiouGRSDSLIm
+         3HGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768849000; x=1769453800;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ihXpfk6s5RJismx/mSJFIyW5r33kfZuDg7he69hJB7c=;
+        b=Sr06tQGOh1TwWx193N8K85pNKDU3CY7UqHUSskr8r+NT6gWzai5YgjNceEGZLSkf+W
+         t/tP285D2X2zii7mQBu0xU4NPmflheap1eXy2eC7qeX4mVu5ACfiXyw7pwVyhsyu9xBi
+         cTm6Z+SLfOxAQV/TUjsCzbfVsOePzEsRt1NaStMaMrgam3tyCu3wm3/5SIALM4qxS1Kb
+         +VH08p76sDCWk6eqMS6xTwzI3o6joJk8W/AIaDHDTtBBvriCI5SscKCH1ALCo/bIAtEf
+         uQC88lLk9DE1TNSdvLOSTzCz1PL7Fom+Lar5b6pvFb8pDB4nODfShWcSFAgimOvo0kr9
+         9wsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNluLN2naT5S3xO9bwt0HtprWxG2sUpT2Y6XkqanFF3n1QaabnlhXnXS9s6SLiIyPzow04MR1f1n4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXOjrBBAqNK2eOJ/VNUCcWHYIsf3ZMS84XjoPzZb+a4rn29Rtp
+	sIfnXRARbAZATQs1WBum01W2+EqlGuG+Jy2eyIqFJDVn531wLaDTK0cCnNd+pw==
+X-Gm-Gg: AZuq6aKwUTwclfr7YpcvMcpdxTLS6T9Uw0M1jy6kmdUAjfMAry8IQ2HXf0KaGfmZQC8
+	rwdWbz64TtxavE9m615E1L7ET6MdKtVX15eMgX9bVIqPkOIwOQH6jl3FzKaP4ZFBcujn1Mv4/6v
+	PLxM1OFdpEYwhVNLr+Ls8HZiJgGeWDIdAthgjJN4HcqvVMH892veS3Q0+jbqR7TTFqpFDu91JyB
+	KAUcfXMwjGYJmDkPmI8BjjeiZj4o09ftU5DAKukHSrFgvANrLmtPowc3Zl293HIGdIxyJj0vurW
+	GXh/T+YlhI7g9WUlJH7H85TS/05djgJdMywuGmqOIFOodDhUrEWyXO6b4r4pHbG21OIuSz4lVi+
+	u8qFD2nu5EVWT7r9H2Xn33AbGFDflYBt/v9xSV7NvtVjaMKV6ywgOxaOrQQvP4h2Am0iyt6y7hA
+	d+n2Jcb9oF2+RdjQDaKA==
+X-Received: by 2002:a05:6000:613:b0:432:586f:2ab9 with SMTP id ffacd0b85a97d-435699787cdmr17106815f8f.5.1768842854026;
+        Mon, 19 Jan 2026 09:14:14 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43569922032sm25380858f8f.8.2026.01.19.09.14.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jan 2026 09:14:13 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: brauner@kernel.org
+Cc: amir73il@gmail.com,
+	cyphar@cyphar.com,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	josef@toxicpanda.com,
+	linux-fsdevel@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	David Howells <dhowells@redhat.com>,
+	Zhang Yunkai <zhang.yunkai@zte.com.cn>,
+	cgel.zte@gmail.com,
+	Menglong Dong <menglong8.dong@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	containers@lists.linux.dev,
+	linux-api@vger.kernel.org,
+	news@phoronix.com,
+	lwn@lwn.net,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rob Landley <rob@landley.net>,
+	emily@redcoat.dev,
+	Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
+Date: Mon, 19 Jan 2026 20:11:01 +0300
+Message-ID: <20260119171101.3215697-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
+References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mr5k7uzoinhlwyzp"
-Content-Disposition: inline
-In-Reply-To: <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
 
+Christian Brauner <brauner@kernel.org>:
+> Extend open_tree() with a new OPEN_TREE_NAMESPACE flag. Similar to
+> OPEN_TREE_CLONE only the indicated mount tree is copied. Instead of
+> returning a file descriptor referring to that mount tree
+> OPEN_TREE_NAMESPACE will cause open_tree() to return a file descriptor
+> to a new mount namespace. In that new mount namespace the copied mount
+> tree has been mounted on top of a copy of the real rootfs.
 
---mr5k7uzoinhlwyzp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Zack Weinberg <zack@owlfolio.org>
-Cc: Rich Felker <dalias@libc.org>, Vincent Lefevre <vincent@vinc17.net>, 
-	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <aW1dE9j91WAte1gf@devuan>
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
- <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
- <20250516130547.GV1509@brightrain.aerifal.cx>
- <20250516143957.GB5388@qaa.vinc17.org>
- <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
-MIME-Version: 1.0
-In-Reply-To: <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+I want to point at security benefits of this.
 
-Hi Zack and others,
+[[ TL;DR: [1] and [2] are very big changes to how mount namespaces work.
+I like them, and I think they should get wider exposure. ]]
 
-Just a gentle ping.  It would be nice to have an agreement for some
-patch.
+If this patchset ([1]) and [2] both land (they are both in "next" now and
+likely will be submitted to mainline soon) and "nullfs_rootfs" is passed on
+command line, then mount namespace created by open_tree(OPEN_TREE_NAMESPACE) will
+usually contain exactly 2 mounts: nullfs and whatever was passed to
+open_tree(OPEN_TREE_NAMESPACE).
 
+This means that even if attacker somehow is able to unmount its root and
+get access to underlying mounts, then the only underlying thing they will
+get is nullfs.
 
-Have a lovely night!
-Alex
+Also this means that other mounts are not only hidden in new namespace, they
+are fully absent. This prevents attacks discussed here: [3], [4].
 
-On Fri, May 23, 2025 at 02:10:57PM -0400, Zack Weinberg wrote:
-> Taking everything said in this thread into account, I have attempted to
-> wordsmith new language for the close(2) manpage.  Please let me know
-> what you think, and please help me with the bits marked in square
-> brackets. I can make this into a proper patch for the manpages
-> when everyone is happy with it.
->=20
-> zw
->=20
-> ---
->=20
-> DESCRIPTION
->     ... existing text ...
->=20
->     close() always succeeds.  That is, after it returns, _fd_ has
->     always been disconnected from the open file it formerly referred
->     to, and its number can be recycled to refer to some other file.
->     Furthermore, if _fd_ was the last reference to the underlying
->     open file description, the resources associated with the open file
->     description will always have been scheduled to be released.
->=20
->     However, close may report _delayed errors_ from a previous I/O
->     operation.  Therefore, its return value should not be ignored.
->=20
-> RETURN VALUE
->     close() returns zero if there are no delayed errors to report,
->     or -1 if there _might_ be delayed errors.
->=20
->     When close() returns -1, check _errno_ to see what the situation
->     actually is.  Most, but not all, _errno_ codes indicate a delayed
->     I/O error that should be reported to the user.  See ERRORS and
->     NOTES for more detail.
->=20
->     [QUERY: Is it ever possible to get delayed errors on close() from
->     a file that was opened with O_RDONLY?  What about a file that was
->     opened with O_RDWR but never actually written to?  If people only
->     have to worry about delayed errors if the file was actually
->     written to, we should say so at this point.
->=20
->     It would also be good to mention whether it is possible to get a
->     delayed error on close() even if a previous call to fsync() or
->     fdatasync() succeeded and there haven=E2=80=99t been any more writes =
-to
->     that file *description* (not necessarily via the fd being closed)
->     since.]
->=20
-> ERRORS
->     EBADF  _fd_ wasn=E2=80=99t open in the first place, or is outside the
->            valid numeric range for file descriptors.
->=20
->     EINPROGRESS
->     EINTR
->            There are no delayed errors to report, but the kernel is
->            still doing some clean-up work in the background.  This
->            situation should be treated the same as if close() had
->            returned zero.  Do not retry the close(), and do not report
->            an error to the user.
->=20
->     EDQUOT
->     EFBIG
->     EIO
->     ENOSPC
->            These are the most common errno codes associated with
->            delayed I/O errors.  They should be treated as a hard
->            failure to write to the file that was formerly associated
->            with _fd_, the same as if an earlier write(2) had failed
->            with one of these codes.  The file has still been closed!
->            Do not retry the close().  But do report an error to the user.
->=20
->     Depending on the underlying file, close() may return other errno
->     codes; these should generally also be treated as delayed I/O errors.
->=20
-> NOTES
->   Dealing with error returns from close()
->=20
->     As discussed above, close() always closes the file.  Except when
->     errno is set to EBADF, EINPROGRESS, or EINTR, an error return from
->     close() reports a _delayed I/O error_ from a previous write()
->     operation.
->=20
->     It is vital to report delayed I/O errors to the user; failing to
->     check the return value of close() can cause _silent_ loss of data.
->     The most common situations where this actually happens involve
->     networked filesystems, where, in the name of throughput, write()
->     often returns success before the server has actually confirmed a
->     successful write.
->=20
->     However, it is also vital to understand that _no matter what_
->     close() returns, and _no matter what_ it sets errno to, when it
->     returns, _the file descriptor passed to close() has been closed_,
->     and its number is _immediately_ available for reuse by open(2),
->     dup(2), etc.  Therefore, one should never retry a close(), not
->     even if it set errno to a value that normally indicates the
->     operation needs to be retried (e.g. EINTR).  Retrying a close()
->     is a serious bug, particularly in a multithreaded program; if
->     the file descriptor number has already been reused, _that file_
->     will get closed out from under whatever other thread opened it.
->=20
->     [Possibly something about fsync/fdatasync here?]
->=20
-> BUGS
->     Prior to POSIX.1-2024, there was no official guarantee that
->     close() would always close the file descriptor, even on error.
->     Linux has always closed the file descriptor, even on error,
->     but other implementations might not have.
->=20
->     The only such implementation we have heard of is HP-UX; at least
->     some versions of HP-UX=E2=80=99s man page for close() said it should =
-be
->     retried if it returned -1 with errno set to EINTR.  (If you know
->     exactly which versions of HP-UX are affected, or of any other
->     Unix where close() doesn=E2=80=99t always close the file descriptor,
->     please contact us about it.)
->=20
->     Portable code should nonetheless never retry a failed close(); the
->     consequences of a file descriptor leak are far less dangerous than
->     the consequences of closing a file out from under another thread.
+Also this means that (assuming we have both [1] and [2] and "nullfs_rootfs"
+is passed), there is no anymore hidden writable mount shared by all containers,
+potentially available to attackers. This is concern raised in [5]:
 
---=20
-<https://www.alejandro-colomar.es>
+> You want rootfs to be a NULLFS instead of ramfs. You don't seem to want it to
+> actually _be_ a filesystem. Even with your "fix", containers could communicate
+> with each _other_ through it if it becomes accessible. If a container can get
+> access to an empty initramfs and write into it, it can ask/answer the question
+> "Are there any other containers on this machine running stux24" and then coordinate.
 
---mr5k7uzoinhlwyzp
-Content-Type: application/pgp-signature; name="signature.asc"
+Note: as well as I understand all actual security bugs are already fixed in kernel,
+runc and similar tools. But still [1] and [2] reduce chances of similar bugs
+in the future, and this is very good thing.
 
------BEGIN PGP SIGNATURE-----
+Also: [1] and [2] are pretty big changes to how mount namespaces work, so
+I added more people and lists to CC.
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmltXUQACgkQ64mZXMKQ
-wqnhWRAAmGubZJzYdwl5q65sObpsQN+Ok2jQM+Yy/U1E8Z2S/qejYo8lo+l7EiPN
-otVSQMNwCi6iXSfF69Dlxygee2bQRKGy4h6hGxfsOKNW8+JhSLxgqNRSbnTcsDNN
-DwaGHK+4TsWvgnLSw5NATJuAAKQb7Bg3O1u8Z6nGtUqbwmxoSYrcoFzRHO58jBNq
-dZei0w2+q4TT/6c1oqpJoaoHcs8tQdKYg5auw88MGt4u1vfOasvw7Jq6x9W1n5lZ
-DhEthGI4qPsY3bPmadryZOHmXzQxlrAsPFSYWgcUATe7o6LQe+AqqsOAivy0LThG
-9RqWc6txbj7IEJOTc79AoRtagzsV9jzzwDQwm/9rQGfSO/ykpejnhg2YI4ctWqhV
-9ZK/EoE8Wc6WIaRgqFHVgy/l9frkWBtj0GMGnxOMsGoYsIpSSaIGgIoaMbirzEuL
-oN2yMdE1cSNY7uNWdykCcV/PvdZkW66i2AVz4LMY1zDjCxiGzG/xi1Q2L5Mx/CXv
-JyW04h+t0wWzGtwkrrveyh3kMIzuuzjwV0D09REn3/y3gmUOQHEwGsZIxEuyRY2G
-w9Ult7whUbrMSgAUjCzikevQhqPzqvTGQVdToLASZ9qaHIcy5XQ7IWe/UoxVqWGO
-vgYg5vIHoz/fGU1BePWnnqJb1C6/V6wz1+hoYrqiQEwoYrzsKLM=
-=RH+w
------END PGP SIGNATURE-----
+This mail is answer to [1].
 
---mr5k7uzoinhlwyzp--
+[1] https://lore.kernel.org/all/20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org/
+[2] https://lore.kernel.org/all/20260112-work-immutable-rootfs-v2-0-88dd1c34a204@kernel.org/
+
+[3] https://lore.kernel.org/all/rxh6knvencwjajhgvdgzmrkwmyxwotu3itqyreun3h2pmaujhr@snhuqoq44kkf/
+[4] https://github.com/opencontainers/runc/pull/1962
+[5] https://lore.kernel.org/all/cec90924-e7ec-377c-fb02-e0f25ab9db73@landley.net/
+
+-- 
+Askar Safin
 
