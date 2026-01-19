@@ -1,172 +1,218 @@
-Return-Path: <linux-api+bounces-5656-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5657-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48FAD3B6D2
-	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 20:08:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017B7D3BAC7
+	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 23:21:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B815530C86D2
-	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 19:05:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 767E03004E0E
+	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 22:21:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A653904FB;
-	Mon, 19 Jan 2026 19:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB302FCBE3;
+	Mon, 19 Jan 2026 22:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="ZLCChveB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCtiQ0SO"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184063904DB
-	for <linux-api@vger.kernel.org>; Mon, 19 Jan 2026 19:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768849531; cv=pass; b=RHopWhL1H4wt9CFLUFUBpKwQ9H5ksgYqj2xFP0XPYA+i9f3Rt4ge54UYjWrx4h+5V2ef6wAsOsRGirEEQjJJEalkoxuyYE2aon0LdF39pW+qFPUhMhI0x1IUXmF6+3JmiP9kOqiSW96tkQAyKWOZzrSxJH9LVqr/lY3HQDFdNjs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768849531; c=relaxed/simple;
-	bh=/ce3dudxc2POARZLcfse5sBstVqNXvQFSe7cYp3NGco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BBJiKdqz8NZn8YXk6nxB1GdT1hBf+D53xC2RmD6NTrbUx4ZLVLO9CA63XN34VMob9X2un5X4I5fp/hL/cUNVjsjJPstaXVnU0S7oY82yysZbDstnIxz3GUcblX8GlRaccGUkerTC/KolKDs/3gvGnrn8TMjcXVCX6LZIfYtyp2E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=ZLCChveB; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59b7073f61dso5660679e87.2
-        for <linux-api@vger.kernel.org>; Mon, 19 Jan 2026 11:05:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768849526; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ar48OYxxZ3XCjN7Rlezr08Cp6xxK0FbBWTRl9OzGJ0HzQ7j+DhM0yq7iTNjcM43yhg
-         Agd5cVF++u324vYV5SLMyiXMKJUCX+xSZBfXKIZgsNRk0TQf/nPlrSb7DAbAXLMOrJjj
-         Q1B8sZ8cCETfaSqqAQVGTl8CdNCII67u+3b+md57rUqxtQckDPJ6a2BMWHfxvO0IAE/d
-         mLuTMkiyH85y8UD8ZHm3SmQb3w/q1EeuzfumvO4oxjeD4uQ11A68niIbGTzhkIeM5cX2
-         KKyGJ+Bfi7ewSxaI4EwnJ13980t1hDEilh5kItw0Lycj8UueEGssgHxs5RehzE+H2dpx
-         v34Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uPgi7F8HbiHDXFnHy8+BFZNxNaHpq/Qib+SGUInhGco=;
-        fh=Ts5oqKLjyBDsqMxZ0rFx3TUY2HohtAQoC8NNUM6W4v4=;
-        b=l23WZtYvSAtQMBRPCy0W/9ZfWyIGxVVe9P8f172CbKg2raimSETaidmo0nR6kAowNf
-         Hrwp1D2jyswRo1S9xufNbfFZGsJ5tIMAsa43NxKvqCxaBULNMm3Om22cjJX54WIKRd5Q
-         NfgXEG3O8IC+5dL7hWYCgrNUaXKNJBgz7Knjz25dqa206586SHdXLvgSdQYbSpyGW06s
-         Y5ja2ZOGmSQz90iI0CG/f4jxI2ebhSEVnv5LLgrz54xD5W0GhCDo3Goifx3pZeNYIJjT
-         bmOvsa1gtN5n+gF21/TFzFDPsjn8h5XNNoWFli9bWm4XmbiuDkmw4MvA3xH2bkSiKRwq
-         IfYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1768849526; x=1769454326; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uPgi7F8HbiHDXFnHy8+BFZNxNaHpq/Qib+SGUInhGco=;
-        b=ZLCChveBpdWvmIIICTa6S/fc053UxqrmmgURpdZW4LIFa5kVxRtc9VCz7L9Hft9W42
-         /XusbZMRQfSJ/+Zk3bm2qmindiU2KL9Vu5aPbKqode4lTBaRrDFuAlRnhroW+TlWqM1A
-         w0/KsiQaEic9f+uvYLWwMN5rvaUDBEobMpjIQW6qfZGoxDEoDwJ76XMH5t4z2OLugh+p
-         SMRz4F+sLSz51Mzt3h7BXK9cogEQyp9VwwFBdyUg9DnL1o7/Z5SUs+zwlghLOEv/Mhkb
-         BqP7H7D4lAyKvP1aCfgWXICvg+iUaCT1iswB08UEggCCUa0XLsvLiMMjs5T/RH6SL7hC
-         jsZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768849526; x=1769454326;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uPgi7F8HbiHDXFnHy8+BFZNxNaHpq/Qib+SGUInhGco=;
-        b=Y3/BF9dgi3goR/ehdqc6l+tO7DdMd+0q0+I/TIfRzVbe8uuocDHZNpdgjp6pKkU47T
-         lnyIIs14MWN+PNMr4LKaCxu21wH0y+XEH0UzqaYKlfC3oCmsE0D5ysj8AO9qYWj0r+fL
-         1QENAhDDagAc9oz3yxRXsQJBZSTnxdpKa2iNhqKIIoUx7F9savLebVNvI5UTdOH3wo0H
-         RFbaWl37vrIJsYJ2cfWf6cFJvuIOeFDuCanN2DTWSOWXSLOeP1AD0wcYOX3wCuhrEyeZ
-         /sR9EeOh2ZIj00mZRJZRUyqoytyRyFaj/H4Eq/8EgJAIWWjrEqLyRZzXJ5uxTOB3T/5z
-         PxCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVN7jSGsRFCkcfGfM39hgtSR6DewvrwIrizNo/RV3Fzss4EAyLy42f1Dz2PrEGLvKxTYvC/16/Xm3M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/5XGlZiMKj01lK5ymiFvqEH9P7JMzCgt2Amigv2yTvu2JtQX
-	aaOkf3LL8vKu5caqUadHfYHkLVWOb3dvGiSq6HI1q69WDzIPhSdQvdiultbUKjalfIl/Y05wzMH
-	iA+Eq4t6fS6n40flD2+WoaZKxiLBV2fqlcNOk/fYo
-X-Gm-Gg: AY/fxX7p6cb9VjJByIBPwI1vVgZZK6fbf1qkH9YrJrI7cqXlmMRNCO2ByUCQJvqbkuO
-	VMGMEytuRXdduZqKhNfTvKSxiIKoWE2QwYGeY/0IckzV4acwm1z0Y4hFrhPmVx8Ig2aHafwPoG6
-	pZxadAPhrMKcQltv9vhbw7veaKjGUOLFkff0LAMitobm4IWHNYUFYnQRiT5Pukg+cUmsEWihfIU
-	qJqljGNXKyZaB4ty6Y8jfMf4Cw6mHHDqOh+4C7ICfSfjeCKfrXUT0qhtfafGXjSKeQh
-X-Received: by 2002:a05:6512:3c95:b0:599:289c:67b with SMTP id
- 2adb3069b0e04-59baeeadbc3mr4115534e87.21.1768849526113; Mon, 19 Jan 2026
- 11:05:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031EA2638BA;
+	Mon, 19 Jan 2026 22:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768861294; cv=none; b=ZhFZ/vU9u5IlgtnbP1bBcNe5luOaBT+dNv0IGcyYP+I228HGYTfbRraldfEWVXcRA2qfG+PAaOYhW+Jbgs8aaBEMFo8IJRL0jFtx4v0unPnKjjaRQl/8qvsepddyB+Cm83UK8dadNsJox9BlgbgtJXjeoHaHZO3gkQMp5vvHi/g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768861294; c=relaxed/simple;
+	bh=v0zoQJ9VTDdjgWvqt467kSWjX13CHw9aV9sv+B4D3bU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kwKXvoypoVArODXoiG7mJERZAuq92gAPFtyldsMdJoXxmJ7u57ckMxUCPFHFAu8vWL9DVljiqmGCw2YwwCq5c8qa7qxx/tRG9NVmlBep3unPpYYTBg3/kq5uW9m9jkEMZK/m5M8qHn4/5XNsp38lX8z/mlP+daHtgP7W2FveCWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCtiQ0SO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49405C116C6;
+	Mon, 19 Jan 2026 22:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768861293;
+	bh=v0zoQJ9VTDdjgWvqt467kSWjX13CHw9aV9sv+B4D3bU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jCtiQ0SObaka+k8So8DIS7FWE83ocgRcxvuaE9osVhAK995qX+cN7txShRYE1Zpoo
+	 Zzob+wLm+pPiLr3u113HVtmlKdvUtvEUA/dayLG+HXmpE6rfzlEz4Taii6NLj7PpAy
+	 guvG/q6rHcoTdWWuAa+cL+f7LcRgIOFGziJ0cGUHap/CFfMCMa75sifGIgIEXB0EVE
+	 Ovodgdln7wlsHxaudGibF993rq9DPjyFJb1gFJk8j1ppx5cokmT8egss+Ec/Uol65G
+	 yBX5ot3lQKQvvv87uMBew3mLFPU6KBgted8lQH9vUBr0No5y74iF1JGc6aIH1UT5dN
+	 Bpq7PkiZt+S0g==
+Message-ID: <acb859e1684122e1a73f30115f2389d2c9897251.camel@kernel.org>
+Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
+From: Jeff Layton <jlayton@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>
+Cc: brauner@kernel.org, amir73il@gmail.com, cyphar@cyphar.com, jack@suse.cz,
+ 	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
+ viro@zeniv.linux.org.uk,  Lennart Poettering <mzxreary@0pointer.de>, David
+ Howells <dhowells@redhat.com>, Zhang Yunkai <zhang.yunkai@zte.com.cn>, 
+	cgel.zte@gmail.com, Menglong Dong <menglong8.dong@gmail.com>, 
+	linux-kernel@vger.kernel.org, initramfs@vger.kernel.org, 
+	containers@lists.linux.dev, linux-api@vger.kernel.org, news@phoronix.com, 
+	lwn@lwn.net, Jonathan Corbet <corbet@lwn.net>, Rob Landley
+ <rob@landley.net>, 	emily@redcoat.dev, Christoph Hellwig <hch@lst.de>
+Date: Mon, 19 Jan 2026 17:21:30 -0500
+In-Reply-To: <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
+References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
+	 <20260119171101.3215697-1-safinaskar@gmail.com>
+	 <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org> <20260119171101.3215697-1-safinaskar@gmail.com>
-In-Reply-To: <20260119171101.3215697-1-safinaskar@gmail.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 19 Jan 2026 11:05:14 -0800
-X-Gm-Features: AZwV_Qi9RyaiB91QL-WyEcAJf4X_KdMWwLXZLw6yqaw5pxCOP4suRdhto2Jp-kE
-Message-ID: <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
-To: Askar Safin <safinaskar@gmail.com>
-Cc: brauner@kernel.org, amir73il@gmail.com, cyphar@cyphar.com, jack@suse.cz, 
-	jlayton@kernel.org, josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, Lennart Poettering <mzxreary@0pointer.de>, 
-	David Howells <dhowells@redhat.com>, Zhang Yunkai <zhang.yunkai@zte.com.cn>, cgel.zte@gmail.com, 
-	Menglong Dong <menglong8.dong@gmail.com>, linux-kernel@vger.kernel.org, 
-	initramfs@vger.kernel.org, containers@lists.linux.dev, 
-	linux-api@vger.kernel.org, news@phoronix.com, lwn@lwn.net, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Landley <rob@landley.net>, emily@redcoat.dev, 
-	Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 19, 2026 at 10:56=E2=80=AFAM Askar Safin <safinaskar@gmail.com>=
- wrote:
->
-> Christian Brauner <brauner@kernel.org>:
-> > Extend open_tree() with a new OPEN_TREE_NAMESPACE flag. Similar to
-> > OPEN_TREE_CLONE only the indicated mount tree is copied. Instead of
-> > returning a file descriptor referring to that mount tree
-> > OPEN_TREE_NAMESPACE will cause open_tree() to return a file descriptor
-> > to a new mount namespace. In that new mount namespace the copied mount
-> > tree has been mounted on top of a copy of the real rootfs.
->
-> I want to point at security benefits of this.
->
-> [[ TL;DR: [1] and [2] are very big changes to how mount namespaces work.
-> I like them, and I think they should get wider exposure. ]]
->
-> If this patchset ([1]) and [2] both land (they are both in "next" now and
-> likely will be submitted to mainline soon) and "nullfs_rootfs" is passed =
-on
-> command line, then mount namespace created by open_tree(OPEN_TREE_NAMESPA=
-CE) will
-> usually contain exactly 2 mounts: nullfs and whatever was passed to
-> open_tree(OPEN_TREE_NAMESPACE).
->
-> This means that even if attacker somehow is able to unmount its root and
-> get access to underlying mounts, then the only underlying thing they will
-> get is nullfs.
->
-> Also this means that other mounts are not only hidden in new namespace, t=
-hey
-> are fully absent. This prevents attacks discussed here: [3], [4].
->
-> Also this means that (assuming we have both [1] and [2] and "nullfs_rootf=
-s"
-> is passed), there is no anymore hidden writable mount shared by all conta=
-iners,
-> potentially available to attackers. This is concern raised in [5]:
->
-> > You want rootfs to be a NULLFS instead of ramfs. You don't seem to want=
- it to
-> > actually _be_ a filesystem. Even with your "fix", containers could comm=
-unicate
-> > with each _other_ through it if it becomes accessible. If a container c=
-an get
-> > access to an empty initramfs and write into it, it can ask/answer the q=
-uestion
-> > "Are there any other containers on this machine running stux24" and the=
-n coordinate.
+On Mon, 2026-01-19 at 11:05 -0800, Andy Lutomirski wrote:
+> On Mon, Jan 19, 2026 at 10:56=E2=80=AFAM Askar Safin <safinaskar@gmail.co=
+m> wrote:
+> >=20
+> > Christian Brauner <brauner@kernel.org>:
+> > > Extend open_tree() with a new OPEN_TREE_NAMESPACE flag. Similar to
+> > > OPEN_TREE_CLONE only the indicated mount tree is copied. Instead of
+> > > returning a file descriptor referring to that mount tree
+> > > OPEN_TREE_NAMESPACE will cause open_tree() to return a file descripto=
+r
+> > > to a new mount namespace. In that new mount namespace the copied moun=
+t
+> > > tree has been mounted on top of a copy of the real rootfs.
+> >=20
+> > I want to point at security benefits of this.
+> >=20
+> > [[ TL;DR: [1] and [2] are very big changes to how mount namespaces work=
+.
+> > I like them, and I think they should get wider exposure. ]]
+> >=20
+> > If this patchset ([1]) and [2] both land (they are both in "next" now a=
+nd
+> > likely will be submitted to mainline soon) and "nullfs_rootfs" is passe=
+d on
+> > command line, then mount namespace created by open_tree(OPEN_TREE_NAMES=
+PACE) will
+> > usually contain exactly 2 mounts: nullfs and whatever was passed to
+> > open_tree(OPEN_TREE_NAMESPACE).
+> >=20
+> > This means that even if attacker somehow is able to unmount its root an=
+d
+> > get access to underlying mounts, then the only underlying thing they wi=
+ll
+> > get is nullfs.
+> >=20
+> > Also this means that other mounts are not only hidden in new namespace,=
+ they
+> > are fully absent. This prevents attacks discussed here: [3], [4].
+> >=20
+> > Also this means that (assuming we have both [1] and [2] and "nullfs_roo=
+tfs"
+> > is passed), there is no anymore hidden writable mount shared by all con=
+tainers,
+> > potentially available to attackers. This is concern raised in [5]:
+> >=20
+> > > You want rootfs to be a NULLFS instead of ramfs. You don't seem to wa=
+nt it to
+> > > actually _be_ a filesystem. Even with your "fix", containers could co=
+mmunicate
+> > > with each _other_ through it if it becomes accessible. If a container=
+ can get
+> > > access to an empty initramfs and write into it, it can ask/answer the=
+ question
+> > > "Are there any other containers on this machine running stux24" and t=
+hen coordinate.
+>=20
+> I think this new OPEN_TREE_NAMESPACE is nifty, but I don't think the
+> path that gives it sensible behavior should be conditional like this.
+> Either make it *always* mount on top of nullfs (regardless of boot
+> options) or find some way to have it actually be the root.  I assume
+> the latter is challenging for some reason.
+>=20
 
-I think this new OPEN_TREE_NAMESPACE is nifty, but I don't think the
-path that gives it sensible behavior should be conditional like this.
-Either make it *always* mount on top of nullfs (regardless of boot
-options) or find some way to have it actually be the root.  I assume
-the latter is challenging for some reason.
+I think that's the plan. I suggested the same to Christian last week,
+and he was amenable to removing the option and just always doing a
+nullfs_rootfs mount.
 
---Andy
+We think that older runtimes should still "just work" with this scheme.
+Out of an abundance of caution, we _might_ want a command-line option
+to make it go back to old way, in case we find some userland stuff that
+doesn't like this for some reason, but hopefully we won't even need
+that.
+--=20
+Jeff Layton <jlayton@kernel.org>
 
