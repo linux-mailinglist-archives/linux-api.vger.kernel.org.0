@@ -1,136 +1,195 @@
-Return-Path: <linux-api+bounces-5687-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5688-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAr1JTHrb2m+UQAAu9opvQ
-	(envelope-from <linux-api+bounces-5687-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:53:05 +0100
+	id wGjuGkH4b2mLUgAAu9opvQ
+	(envelope-from <linux-api+bounces-5688-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 22:48:49 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479294BC84
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:53:05 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C544C86A
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 22:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6169352D494
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 19:16:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 632AAAC0E47
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 20:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46979477E4C;
-	Tue, 20 Jan 2026 19:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A0D3A4AA5;
+	Tue, 20 Jan 2026 20:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="PfDYkCH1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a8MfLtr8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF1C47884B;
-	Tue, 20 Jan 2026 19:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44A839E6D4
+	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 20:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768936554; cv=none; b=EHybUfItC/shOT5SZRGIkbXX+R5siXuqVV4xS61rj9xfK30uRxw6HUlyDl1x0VYFCU18z5JROBDxnnR/ZvTtWjD0W0rpbJAFnjUnno0eItnGZ3OeGBoetlfY9qifVic+vDoVwlAM7Ows8d/DK4FV6KyMaeH2OCFwA83u5NXmBUc=
+	t=1768939551; cv=none; b=geCnwChWtV8Md34zUyoI9MHLvI1GZZBROTLA8q8patNx3oaqY3YtjvAMprEuIfkL5uF+EKraGswocYm8IHXaSMYF6plkcHgZs94a259P9FibttGejP3abw6xSNHazrxWgI8iuMNGccwtyatHxvtP5YBBkv8Ff0Axa9enF2rYqC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768936554; c=relaxed/simple;
-	bh=t8z3Rwu7qOd+nhn4EsS5Aj8jJGv7Rw2YMqx/E2B1zZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V0ijfCNi2z45DFxb0Ab8rZI2A65LfoDU8lUzVRatZlJqMHiXkkK1x2scoVysnfRlZ9BWd59Bw3yWEmlEMjGXXP0R+AR0apMjtIUnUDwJ7og/tl/42dfxF7eKqR91vtvrk+Mr+COHu9G347ElheCtSjXiDp0hUGta6omqZYAB/Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=PfDYkCH1; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=DjMUgMTbUmtrrp7aKjAsaMnjZcwTC03kGRkrVlxFZoY=; b=PfDYkCH1fMpw3iQS78xl3lkl1X
-	+UKJO0a1+Zw6GZWasBeoJ66ZHOb/1juI+qpE0DMbQodRCgR4vYJ1MoT9wNaIhxQTK8hN3SYuJEp7t
-	6n274mf1jgWeUAp4lI3LMtZTeNuEsdv8WtjMiKvm92kkKxCAMzJHh/UynAMnHyqSDDfjExly6X6yD
-	0OqYepr9gvvmTLq7v8mVfgXrEmkDKWBLOf2h6D9dalMtAOReXZcAOyvy5n08AVaio/xjOMQC7o7yu
-	4KNmUvQ/48XnKHVw1jIeyvvTsSmSCbGJj4lF0ssx4iXQrEq5xoySsQFD2lDtgwj24BZoj7LZr6vsW
-	Bt/LYm4Q==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
-	id 1viHEB-0000000DMsh-0cwj;
-	Tue, 20 Jan 2026 19:17:23 +0000
-Date: Tue, 20 Jan 2026 19:17:23 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
+	s=arc-20240116; t=1768939551; c=relaxed/simple;
+	bh=SUNvMYtW/TcwIuaDqMMdwgFCTrPc414Jk7rxkcfOo40=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YFS6IlMkEZpWj1ZE+2jV9QtCrRhVW+lgHcT+UmZmwn77qNoan99fL32gLAmDdS8A0FB2vInTYC28BzYdJOUQM1WQMUcersorNjsSbX3t3Dh00w83kvn9uWLwDSTaOLjAFXbwE5BnJnTSUc4FMku4b2pOAidtMJcGQbrviTKSOps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a8MfLtr8; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768939547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qVpU95EqnKCxe7aajIcL8940khkgc0B65R3zB78nGo8=;
+	b=a8MfLtr88L9J4fqXK8Dk5ZBEejn+0x1ZPP2JFJj6vYs6HGeoYlDSx5IAx9wW6afvCt7BTx
+	d2CWOlcc/+9KVCPgnTPeJArJcKbmnyvLnXeY3DnTzjoR+/uwCRkMBmkxhU2noyr4rsRf00
+	56Rzhsgz2uEpr3pQK/g57gfFhhzzqw4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-155-0dIEiXlNMjytkPPPjwJU3w-1; Tue,
+ 20 Jan 2026 15:05:45 -0500
+X-MC-Unique: 0dIEiXlNMjytkPPPjwJU3w-1
+X-Mimecast-MFC-AGG-ID: 0dIEiXlNMjytkPPPjwJU3w_1768939543
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 83DD118005B2;
+	Tue, 20 Jan 2026 20:05:42 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.41])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1206E1800240;
+	Tue, 20 Jan 2026 20:05:38 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
 To: Rich Felker <dalias@libc.org>
-Cc: Zack Weinberg <zack@owlfolio.org>, Alejandro Colomar <alx@kernel.org>,
-	Vincent Lefevre <vincent@vinc17.net>, Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	GNU libc development <libc-alpha@sourceware.org>
+Cc: Zack Weinberg <zack@owlfolio.org>,  Alejandro Colomar <alx@kernel.org>,
+  Vincent Lefevre <vincent@vinc17.net>,  Jan Kara <jack@suse.cz>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
+ <brauner@kernel.org>,  linux-fsdevel@vger.kernel.org,
+  linux-api@vger.kernel.org,  GNU libc development
+ <libc-alpha@sourceware.org>
 Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
  POSIX.1-2024
-Message-ID: <20260120191723.GA3183987@ZenIV>
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
- <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
- <20250516130547.GV1509@brightrain.aerifal.cx>
- <20250516143957.GB5388@qaa.vinc17.org>
- <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <aW1dE9j91WAte1gf@devuan>
- <60c77e5c-dbab-4cca-8d0d-9857875c73fb@app.fastmail.com>
- <20260120163634.GD6263@brightrain.aerifal.cx>
+In-Reply-To: <20260120190010.GF6263@brightrain.aerifal.cx> (Rich Felker's
+	message of "Tue, 20 Jan 2026 14:00:10 -0500")
+References: <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
+	<20250516130547.GV1509@brightrain.aerifal.cx>
+	<20250516143957.GB5388@qaa.vinc17.org>
+	<20250517133251.GY1509@brightrain.aerifal.cx>
+	<5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
+	<8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+	<20250524022416.GB6263@brightrain.aerifal.cx>
+	<1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+	<20260120174659.GE6263@brightrain.aerifal.cx>
+	<lhubjio5dsb.fsf@oldenburg.str.redhat.com>
+	<20260120190010.GF6263@brightrain.aerifal.cx>
+Date: Tue, 20 Jan 2026 21:05:36 +0100
+Message-ID: <lhu7btc59tb.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120163634.GD6263@brightrain.aerifal.cx>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[linux.org.uk:s=zeniv-20220401];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DMARC_POLICY_ALLOW(0.00)[redhat.com,quarantine];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5687-lists,linux-api=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[zeniv.linux.org.uk,none];
-	DKIM_TRACE(0.00)[linux.org.uk:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_FROM(0.00)[bounces-5688-lists,linux-api=lfdr.de];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[viro@zeniv.linux.org.uk,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,linux.org.uk:dkim]
-X-Rspamd-Queue-Id: 479294BC84
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,oldenburg.str.redhat.com:mid]
+X-Rspamd-Queue-Id: D6C544C86A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 11:36:34AM -0500, Rich Felker wrote:
-> On Tue, Jan 20, 2026 at 11:15:15AM -0500, Zack Weinberg wrote:
-> > Rich and I have an irreconciliable disagreement on what the semantics of close
-> > _should_ be.  I'm not going to do any more work on this until/unless he
-> > changes his mind.
-> 
-> It's been way too long since I read this thread to recall what our
-> point of disagreement is or what point glibc might be at in
-> reconciling the Linux kernel disagreement with POSIX.
+* Rich Felker:
 
-It's not so much disagreement as breakage of internal POSIX decision
-process that has lead to POSIX irrelevance in this particular area.
+> On Tue, Jan 20, 2026 at 07:39:48PM +0100, Florian Weimer wrote:
+>> * Rich Felker:
+>> 
+>> > On Tue, Jan 20, 2026 at 12:05:52PM -0500, Zack Weinberg wrote:
+>> >> > On Fri, May 23, 2025 at 02:10:57PM -0400, Zack Weinberg wrote:
+>> >> >>     close() always succeeds.  That is, after it returns, _fd_ has
+>> >> >>     always been disconnected from the open file it formerly referred
+>> >> >>     to, and its number can be recycled to refer to some other file.
+>> >> >>     Furthermore, if _fd_ was the last reference to the underlying
+>> >> >>     open file description, the resources associated with the open file
+>> >> >>     description will always have been scheduled to be released.
+>> >> ...
+>> >> >>     EINPROGRESS
+>> >> >>     EINTR
+>> >> >>            There are no delayed errors to report, but the kernel is
+>> >> >>            still doing some clean-up work in the background.  This
+>> >> >>            situation should be treated the same as if close() had
+>> >> >>            returned zero.  Do not retry the close(), and do not report
+>> >> >>            an error to the user.
+>> >> >
+>> >> > Since this behavior for EINTR is non-conforming (and even prior to the
+>> >> > POSIX 2024 update, it was contrary to the general semantics for EINTR,
+>> >> > that no non-ignoreable side-effects have taken place), it should be
+>> >> > noted that it's Linux/glibc-specific.
+>> >> 
+>> >> I am prepared to take your word for it that POSIX says this is
+>> >> non-conforming, but in that case, POSIX is wrong, and I will not be
+>> >> convinced otherwise by any argument.  Operations that release a
+>> >> resource must always succeed.
+>> >
+>> > There are two conflicting requirements here:
+>> >
+>> > 1. Operations that release a resource must always succeed.
+>> > 2. Failure with EINTR must not not have side effects.
+>> >
+>> > The right conclusion is that operations that release resources must
+>> > not be able to fail with EINTR. And that's how POSIX should have
+>> > resolved the situation -- by getting rid of support for the silly
+>> > legacy synchronous-tape-drive-rewinding behavior of close on some
+>> > systems, and requiring close to succeed immediately with no waiting
+>> > for anything.
+>> 
+>> What about SO_LINGER?  Isn't this relevant in context?
+>
+> shutdown should be used for this, not close. So that the acts of
+> waiting for the operation to finish, and releasing the resource handle
+> needed to observe if it's finished, are separate.
 
-POSIX authority derives from the agreement of actual behaviour of
-Unices.  Always had been, witness the amount of underspecified
-areas where various vendor implementation had different semantics,
-due to exact that reason.
+I think shutdown on TCP sockets is non-blocking under Linux.  It doesn't
+wait until the peer has acknowledged the FIN segment, as far as I
+understand it.  Other systems may behave differently.
 
-They (or anybody else, really) can argue that such-and-such behaviour
-ought to change.  In quite a few cases that has succeeded.  What they
-can't do is to force such change by fiat.  Especially not when Linux
-and *BSD happen to agree on behaviour that differs from what they
-wish it to be.
+>> As far as I know, there is no other way besides SO_LINGER to get
+>> notification if the packet buffers are actually gone.  If you don't use
+>> it, memory can pile up in the kernel without the application's
+>> knowledge.
+>
+> The way Linux's EINTR behaves, using close can't ensure this memory
+> doesn't pile up, because on EINTR you lose the ability to wait for it.
+
+Can't the application reliably avoid EINTR by blocking signals?
+
+Thanks,
+Florian
+
 
