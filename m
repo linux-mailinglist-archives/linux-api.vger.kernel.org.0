@@ -1,52 +1,52 @@
-Return-Path: <linux-api+bounces-5665-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5672-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +M5aJAKsb2mgEwAAu9opvQ
-	(envelope-from <linux-api+bounces-5665-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:23:30 +0100
+	id ABzzMf6lb2lDEgAAu9opvQ
+	(envelope-from <linux-api+bounces-5672-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 16:57:50 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45678476B2
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:23:30 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B22D46E2E
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 16:57:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DF11B7E2557
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 15:37:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7C86088DD50
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 15:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B8C830AACF;
-	Tue, 20 Jan 2026 15:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F133E47278F;
+	Tue, 20 Jan 2026 15:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cUnoA2qN"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VDuMbnAI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A021E3090C4
-	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 15:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5DA46AF03
+	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 15:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768922330; cv=none; b=CunecEVqTotf/501Kiwq7Q4cHSSHC3m19VngRZOZfFdSp3R99Dk8NwTBB5cwPztLSS9ardPVe48yYaZf0Mj+WPqXtggykLIIl+5J2d/wUzEW5C5xFCQLkDryy35WY4rotEFgr0ECH+VINETzRzCHMIjxHOyu4CQRtURCyg6PLrc=
+	t=1768922767; cv=none; b=lijtDFC8klG6jMaKU2cndbrFXWkDv5s2ifonjp9pNPjiHE9sVTqVrsTb+O8evtKC/i0+7z0va1BKZ9QJOWkRtQqI+Ld2Y41063EdRngoO1f25A9JLr0x5V0pxqueE129ykez+WRMcZhejZj1tEvVBAF8jMpbUlOrM6sW/i2mTqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768922330; c=relaxed/simple;
+	s=arc-20240116; t=1768922767; c=relaxed/simple;
 	bh=VdT+qfzrEMk9+yt37S7v4EN0NFQasyDvpE4a1Fswi2Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GXFvZxJ5/a4Dspnfrzx7/M1a3l054jj3bojjWqlTv8uPgwVQ06xOG8+DNU4dvxPbCiIOALtgzUGCmGg297Px++6WJhaqfF5sj0lrsNmJR6+JEhtU9ieKwJ9gphJJ+SpRggD3xtVTPD9avJNFOze7cH7YR/YDYGO2A7kyIcThHn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cUnoA2qN; arc=none smtp.client-ip=91.218.175.185
+	 MIME-Version; b=Y5xL3DNb9oO1bfI0OLG3PwuJ8+QxF4Ev8nn+vdSjjImVHjzYLgGPXxnLl3HYHyCcQVWw+iFrsN3eviz6db3DezS9KEIyTem7IITgCS8kvFl/nTH7VFrzSfC/z5LHFNc7pqfISnmgf2z+pIniL5jf+9ii7BC/c5raTMHz5YBXgN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VDuMbnAI; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768922325;
+	t=1768922761;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=kRTfHCwrpnuV0VymQxiwG5FoFnK+9yQFhsoaAGJJJH8=;
-	b=cUnoA2qNFh54RF+qb5rWTzg23FTZVEpyq30AMAJ2b5s6ZgdG9rSL+MvTM+fIwrt8K1kpfx
-	pSkHS6Om/su2iGaY4v9P2Rw2XsjejISA84fkXzdz8mwrYhcErL7dqzrS6Kp+CbcVPU8kDX
-	Ljdzbmi+8fXphViBk1j4gi0StuMXlKg=
+	b=VDuMbnAISim49rGxk7/apW0PDYg5f/M6k+W6PMvuINM406rCG0/7xuFWJngcmkc1ksWghG
+	2pgzlLaXC9uWswy8YUAvf7uXNYET6fugMqm3lPkuJEbS1gqeY2cpJ6b6s014D8gO6y1P8x
+	8aa7at/i6jv1uPRaqJGWggmaXUHy808=
 From: Leon Hwang <leon.hwang@linux.dev>
 To: bpf@vger.kernel.org
 Cc: Alexei Starovoitov <ast@kernel.org>,
@@ -79,11 +79,11 @@ Cc: Alexei Starovoitov <ast@kernel.org>,
 	linux-api@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	kernel-patches-bot@fb.com
-Subject: [PATCH bpf-next v6 2/9] libbpf: Add support for extended bpf syscall
-Date: Tue, 20 Jan 2026 23:15:09 +0800
-Message-ID: <20260120151516.39607-3-leon.hwang@linux.dev>
-In-Reply-To: <20260120151516.39607-1-leon.hwang@linux.dev>
-References: <20260120151516.39607-1-leon.hwang@linux.dev>
+Subject: [RESEND PATCH bpf-next v6 2/9] libbpf: Add support for extended bpf syscall
+Date: Tue, 20 Jan 2026 23:24:16 +0800
+Message-ID: <20260120152424.40766-3-leon.hwang@linux.dev>
+In-Reply-To: <20260120152424.40766-1-leon.hwang@linux.dev>
+References: <20260120152424.40766-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -107,7 +107,7 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[3];
-	TAGGED_FROM(0.00)[bounces-5665-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5672-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[linux.dev:+];
@@ -116,12 +116,12 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[linux.dev,none];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,linux.dev:email,linux.dev:dkim,linux.dev:mid]
-X-Rspamd-Queue-Id: 45678476B2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:dkim,linux.dev:mid,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: 4B22D46E2E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
