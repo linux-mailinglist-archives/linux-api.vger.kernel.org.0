@@ -1,296 +1,273 @@
-Return-Path: <linux-api+bounces-5661-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5682-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEi2IDdXcGlvXQAAu9opvQ
-	(envelope-from <linux-api+bounces-5661-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 05:33:59 +0100
+	id oHoTJwfeb2n8RwAAu9opvQ
+	(envelope-from <linux-api+bounces-5682-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 20:56:55 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3706751103
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 05:33:59 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EEB4ADF9
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 20:56:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0912170B54C
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:20:21 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D53379EDD76
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C1D44CF50;
-	Tue, 20 Jan 2026 14:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C4B34D393;
+	Tue, 20 Jan 2026 17:06:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QVf5JIqw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RJuRitW1"
+	dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b="b28UhvJ7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QoWUg9A/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA82500940;
-	Tue, 20 Jan 2026 14:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F5F34D3AA;
+	Tue, 20 Jan 2026 17:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918244; cv=none; b=FdvIoOgpHbdp57WsOJXCO//4rFWALMecvrYmpUj/GyVr3HBqMfwVSgpQ8wMcsBncuWqn490LLXIxa4t2kFvrQwY+VRMNg6YjprL+HF4ZDooG14hAD9x/Jgg7D+uQR8Gjw8APQE1tqUlxtQpNpBEU6IQV9qeJzDv8aD3edjSJQ8s=
+	t=1768928778; cv=none; b=f1AyoKqPLza8tt2vQSBcqsXt85N0fB3WyO7k1/CJphQ+z++d3Hln1jqujUCl9BNFeIkQraG4mSGJV3CW+splGc/Fr2szQiWm232ZBVm29ATPz1kQ74qT1PgRPbU6MOZ6XyXPWPCYdUS8DFn7Deafn/h5vkAwugQQt1gzKwtXRdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918244; c=relaxed/simple;
-	bh=NL2NiPJiVOXGlDSPX/IXGVFv3gZqRodtnl63WyHlrT8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xrm++7RxC0Em3RiWpH6rlu+9a9eX8ihfykwiaKmuG77ONR1fI4CZoZyVJYKqKlH7gtI5TWw6pNUQBOks4I+JgKkCWeuDKJykLXHp8KH7VAWvCi+zXDY0MQcAC8gYEnWR0+qD1d1K8VLzaRxkM4c/cVeAryGrsrgZQ1CJVz9SCYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QVf5JIqw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RJuRitW1; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768918240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nu42fbo/KTwWbTEJNSfohypBk88voIUWzFlL0jg8Asc=;
-	b=QVf5JIqwol6mD0wSHtGINS/EN7+SG1TaEysglbq9pi9jkITL/Re6B8r9X9x+lyNMsRqpr+
-	8XrMkTgdTEMUkLM7sG25qiqfsjXPXILaLxUPkLqs52GkMbuftElrt8h5Drpp8hcFEbZXPG
-	/l0Ip8WnVMNiGYJW7keA34hVfcfLNEU/+kvuEEhZY8PIGxociJ7gyB7cQDJUbrn9MoK+LX
-	uLuDbu849BBC73+/qR2YZyQtxWhx1C1CbOcSbukm0RFVtcDlZ2SDYlZ0kbhUQhjE+B1rEJ
-	+8UInYr5n8/ESscYa9Cd16etJGdVkxKTNhXenTkKtKmmdrQWx9ps+uluO9a0gw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768918240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nu42fbo/KTwWbTEJNSfohypBk88voIUWzFlL0jg8Asc=;
-	b=RJuRitW17NsGCwZrxdyALTxa2Sop4NEm7M4/2D1lY0J5eoYWa1sEGUUHeaCOAJEb0w0nD3
-	s37/9rX4lucFajCQ==
-Date: Tue, 20 Jan 2026 15:10:33 +0100
-Subject: [PATCH net-next v2 3/4] samples/bpf: Move some UAPI header
- inclusions after libc ones
+	s=arc-20240116; t=1768928778; c=relaxed/simple;
+	bh=gQUn6VgMD2aVniL9VRjxy/FxzKf3Kxl5uh/tYUZlGdM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=SbrnUGRSPc8Me/c6UXrgynR1b997gy6biDwTHAgP9FPChGuE+gBePgQ7cofKzEET2HTsSG43KErwnZ0GA3yKHZTPS9+UZSQOcwu/QaXvXMmGap90AlEMsJ3lRfncnFZgXbfbR7aFMDZOIOndwFGiZq32H/AGH0ksyMMkyLjW+Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org; spf=pass smtp.mailfrom=owlfolio.org; dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b=b28UhvJ7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QoWUg9A/; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=owlfolio.org
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 31AB0140012B;
+	Tue, 20 Jan 2026 12:06:13 -0500 (EST)
+Received: from phl-imap-14 ([10.202.2.87])
+  by phl-compute-01.internal (MEProxy); Tue, 20 Jan 2026 12:06:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owlfolio.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1768928773;
+	 x=1769015173; bh=nAiW6WegsgPmLl1q3wuzftZ9jw7egh7KDiRbpWI6gOk=; b=
+	b28UhvJ7RWijKq8NymkdFRxFys45388bX3GgfJFP9RjAKxI9tG9T/GHhlyeXEzmp
+	gQUTFSUzSjtx1tM7oFx67GfYceub4Q/GqQoQKHCT84WYqAF2GJi408Dyw7MzXaEC
+	A6K62g9c9wijO3hNZ9iAf/NuGCD0eBHAyx30UItt8IIsKXESWBszT95fL/vb5YSs
+	4QzWmphqA/NmeYahEELgOng1q2MnXIiXty6os3bOxGDo3Ism9u8nosuEbS9FfD2m
+	MOp9yyUHrTnxbqThQFFEdf6kGbH0w6E3/7mDf3B9gEC77a+wQlgfUYG97LmMybFk
+	kTI0B/cQDTj9uHUM961ZGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768928773; x=
+	1769015173; bh=nAiW6WegsgPmLl1q3wuzftZ9jw7egh7KDiRbpWI6gOk=; b=Q
+	oWUg9A/WI8IDBLt7XyKJmdg3PNkNnGDgUNOT+JBtYA9gdG5pIwCZEJ8gle9puZXy
+	l82nYIdZKgBCiWT7ncNzCMVlutX5OeNwJVzzH9JjAgdtVljII60SzzYp3bfEnuu9
+	CUmccPdPzw2DKsBCkubEmiUu7MOt4gJctc24oGLdtEp6ByW1asVkcrhOjNvKURgm
+	IYKQZXIWKaBTXEQ6cCF35iftqnAvoLRwxgt+0GVRwCmQxx47S+vx6LDP0ZxvKyV1
+	wRDOLrXIAWuRCdEQtNK//3hRntsDM9pqV/e5xKRifx7SbHMuw4ZnNV7ewIEeWo1N
+	gfgN213FD3mSY8vkDbdgw==
+X-ME-Sender: <xms:BLZvaWlEHfyoJj6fmWMEhWtTbkQY-hYh0fO9h3eboiETJyxri1VcPQ>
+    <xme:BLZvaYpKR54EseELv4SNHncY8_mb6qIEv3H1FZY8JlHGaG7BPgOj8Wa9z5nHvITMN
+    z17y8EAlUk_ulFd48wCxerrIvX5IVr1XpYpP_RAh4YhJAHNd0K7UnXI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedtleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfkggrtghk
+    ucghvghinhgsvghrghdfuceoiigrtghksehofihlfhholhhiohdrohhrgheqnecuggftrf
+    grthhtvghrnhepheehgeejffeiieeigeetffdvgfefvdduieegkeejteeitddttdduhedt
+    gfefkeffnecuffhomhgrihhnpehophgvnhhgrhhouhhprdhorhhgnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepiigrtghksehofihlfhholhhi
+    ohdrohhrghdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpth
+    htoheprghlgieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepuggrlhhirghssehlihgstgdrohhrghdprhgtph
+    htthhopehlihgstgdqrghlphhhrgesshhouhhrtggvfigrrhgvrdhorhhgpdhrtghpthht
+    ohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtoheplhhinhhugidqrghpihesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhinhgtvghnthesvhhinhgtud
+    ejrdhnvghtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhu
+    kh
+X-ME-Proxy: <xmx:BLZvaWY6KDOvdpyNiyHobPUIh5r-lxMWfKzw9vkHXpNtjcaOJu1iHg>
+    <xmx:BLZvaWxZvpL8_T-4NEHDHZVVXhLkPTqNtIyoPoCVMpVbIP5rs4DBNw>
+    <xmx:BLZvaYSS9W8sK7AfiEH3IY8d-5W_N8E4-p7__4AXfU2nuDYUEDsq9w>
+    <xmx:BLZvaTJjompQDStO2YC36OA0dp7SXDTMz-JAfBxMHPwKOsAHDPv_QQ>
+    <xmx:BbZvaaQAkjhAFYAcHC3i5LaxK3N2Cjh_cRrY3h0DmfDsS0PCP7lBnI-W>
+Feedback-ID: i876146a2:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7683BC4006E; Tue, 20 Jan 2026 12:06:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-uapi-sockaddr-v2-3-63c319111cf6@linutronix.de>
-References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
-In-Reply-To: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
-To: Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
- Geliang Tang <geliang@kernel.org>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
- linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev, 
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
- libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, 
- Adhemerval Zanella <adhemerval.zanella@linaro.org>, 
- Rich Felker <dalias@libc.org>, klibc@zytor.com, 
- Florian Weimer <fweimer@redhat.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=4542;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=NL2NiPJiVOXGlDSPX/IXGVFv3gZqRodtnl63WyHlrT8=;
- b=eZBfbm8KV848zvW+Ku4Kfcq+zHdcVueYyOFWcMEHikDcFpOV2a627C4aKg6x8k5ZhHbg+N5yr
- +2ISIHCy3/1CwGRF/P2J+p4PIl3ac4MZGzF0g/1GdroJVysJyzTzpnF
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
-X-Spamd-Result: default: False [-0.46 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-ThreadId: ANFeMez8yEXZ
+Date: Tue, 20 Jan 2026 12:05:52 -0500
+From: "Zack Weinberg" <zack@owlfolio.org>
+To: "Rich Felker" <dalias@libc.org>
+Cc: "Alejandro Colomar" <alx@kernel.org>,
+ "Vincent Lefevre" <vincent@vinc17.net>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, "GNU libc development" <libc-alpha@sourceware.org>
+Message-Id: <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+In-Reply-To: <20250524022416.GB6263@brightrain.aerifal.cx>
+References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
+ <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
+ <20250516130547.GV1509@brightrain.aerifal.cx>
+ <20250516143957.GB5388@qaa.vinc17.org>
+ <20250517133251.GY1509@brightrain.aerifal.cx>
+ <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
+ <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+ <20250524022416.GB6263@brightrain.aerifal.cx>
+Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from POSIX.1-2024
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.95 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	R_DKIM_ALLOW(-0.20)[owlfolio.org:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5661-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	DMARC_POLICY_ALLOW(0.00)[owlfolio.org,quarantine];
+	TAGGED_FROM(0.00)[bounces-5682-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[41];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[owlfolio.org:+,messagingengine.com:+];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linutronix.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	FROM_NEQ_ENVFROM(0.00)[zack@owlfolio.org,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
-X-Rspamd-Queue-Id: 3706751103
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,owlfolio.org:dkim,app.fastmail.com:mid,opengroup.org:url]
+X-Rspamd-Queue-Id: 28EEB4ADF9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Interleaving inclusions of UAPI headers and libc headers is problematic.
-Both sets of headers define conflicting symbols. To enable their
-coexistence a compatibility-mechanism is in place.
+> On Fri, May 23, 2025 at 02:10:57PM -0400, Zack Weinberg wrote:
+>>     close() always succeeds.  That is, after it returns, _fd_ has
+>>     always been disconnected from the open file it formerly referred
+>>     to, and its number can be recycled to refer to some other file.
+>>     Furthermore, if _fd_ was the last reference to the underlying
+>>     open file description, the resources associated with the open file
+>>     description will always have been scheduled to be released.
+...
+>>     EINPROGRESS
+>>     EINTR
+>>            There are no delayed errors to report, but the kernel is
+>>            still doing some clean-up work in the background.  This
+>>            situation should be treated the same as if close() had
+>>            returned zero.  Do not retry the close(), and do not report
+>>            an error to the user.
+>
+> Since this behavior for EINTR is non-conforming (and even prior to the
+> POSIX 2024 update, it was contrary to the general semantics for EINTR,
+> that no non-ignoreable side-effects have taken place), it should be
+> noted that it's Linux/glibc-specific.
 
-An upcoming change will define 'struct sockaddr' from linux/socket.h.
-However sys/socket.h from libc does not yet handle this case and a
-symbol conflict will arise.
+I am prepared to take your word for it that POSIX says this is
+non-conforming, but in that case, POSIX is wrong, and I will not be
+convinced otherwise by any argument.  Operations that release a
+resource must always succeed.
 
-Move the inclusion of all UAPI headers after the inclusion of the glibc
-ones, so the compatibility mechanism from the UAPI headers is used.
+Now, the abstract correct behavior is secondary to the fact that we
+know there are both systems where close should not be retried after
+EINTR (Linux) and systems where the fd is still open after EINTR
+(HP-UX).  But it is my position that *portable code* should assume the
+Linux behavior, because that is the safest option.  If you assume the
+HP-UX behavior on a machine that implements the Linux behavior, you
+might close some unrelated file out from under yourself (probably but
+not necessarily a different thread).  If you assume the Linux behavior
+on a machine that implements the HP-UX behavior, you have leaked a
+file descriptor; the worst things that can do are much less severe.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- samples/bpf/xdp_adjust_tail_user.c |  6 ++++--
- samples/bpf/xdp_fwd_user.c         |  7 ++++---
- samples/bpf/xdp_router_ipv4_user.c |  6 +++---
- samples/bpf/xdp_sample_user.c      | 15 ++++++++-------
- samples/bpf/xdp_tx_iptunnel_user.c |  4 ++--
- 5 files changed, 21 insertions(+), 17 deletions(-)
+The only way to get it right all the time is to have a big long list
+of #ifdefs for every Unix under the sun, and we don't even have the
+data we would need to write that list.
 
-diff --git a/samples/bpf/xdp_adjust_tail_user.c b/samples/bpf/xdp_adjust_tail_user.c
-index e9426bd65420..32d00405debc 100644
---- a/samples/bpf/xdp_adjust_tail_user.c
-+++ b/samples/bpf/xdp_adjust_tail_user.c
-@@ -5,8 +5,6 @@
-  * modify it under the terms of version 2 of the GNU General Public
-  * License as published by the Free Software Foundation.
-  */
--#include <linux/bpf.h>
--#include <linux/if_link.h>
- #include <assert.h>
- #include <errno.h>
- #include <signal.h>
-@@ -18,9 +16,13 @@
- #include <netinet/ether.h>
- #include <unistd.h>
- #include <time.h>
-+
- #include <bpf/bpf.h>
- #include <bpf/libbpf.h>
- 
-+#include <linux/bpf.h>
-+#include <linux/if_link.h>
-+
- #define STATS_INTERVAL_S 2U
- #define MAX_PCKT_SIZE 600
- 
-diff --git a/samples/bpf/xdp_fwd_user.c b/samples/bpf/xdp_fwd_user.c
-index 193b3b79b31f..ca55f3eac12a 100644
---- a/samples/bpf/xdp_fwd_user.c
-+++ b/samples/bpf/xdp_fwd_user.c
-@@ -11,9 +11,6 @@
-  * General Public License for more details.
-  */
- 
--#include <linux/bpf.h>
--#include <linux/if_link.h>
--#include <linux/limits.h>
- #include <net/if.h>
- #include <errno.h>
- #include <stdio.h>
-@@ -27,6 +24,10 @@
- #include <bpf/libbpf.h>
- #include <bpf/bpf.h>
- 
-+#include <linux/bpf.h>
-+#include <linux/if_link.h>
-+#include <linux/limits.h>
-+
- static __u32 xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST;
- 
- static int do_attach(int idx, int prog_fd, int map_fd, const char *name)
-diff --git a/samples/bpf/xdp_router_ipv4_user.c b/samples/bpf/xdp_router_ipv4_user.c
-index 266fdd0b025d..2abc7d294251 100644
---- a/samples/bpf/xdp_router_ipv4_user.c
-+++ b/samples/bpf/xdp_router_ipv4_user.c
-@@ -1,9 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /* Copyright (C) 2017 Cavium, Inc.
-  */
--#include <linux/bpf.h>
--#include <linux/netlink.h>
--#include <linux/rtnetlink.h>
- #include <assert.h>
- #include <errno.h>
- #include <signal.h>
-@@ -25,6 +22,9 @@
- #include <libgen.h>
- #include <getopt.h>
- #include <pthread.h>
-+#include <linux/bpf.h>
-+#include <linux/netlink.h>
-+#include <linux/rtnetlink.h>
- #include "xdp_sample_user.h"
- #include "xdp_router_ipv4.skel.h"
- 
-diff --git a/samples/bpf/xdp_sample_user.c b/samples/bpf/xdp_sample_user.c
-index 158682852162..d9aec2bd372c 100644
---- a/samples/bpf/xdp_sample_user.c
-+++ b/samples/bpf/xdp_sample_user.c
-@@ -7,13 +7,6 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <getopt.h>
--#include <linux/ethtool.h>
--#include <linux/hashtable.h>
--#include <linux/if_link.h>
--#include <linux/jhash.h>
--#include <linux/limits.h>
--#include <linux/list.h>
--#include <linux/sockios.h>
- #include <locale.h>
- #include <math.h>
- #include <net/if.h>
-@@ -32,6 +25,14 @@
- #include <time.h>
- #include <unistd.h>
- 
-+#include <linux/ethtool.h>
-+#include <linux/hashtable.h>
-+#include <linux/if_link.h>
-+#include <linux/jhash.h>
-+#include <linux/limits.h>
-+#include <linux/list.h>
-+#include <linux/sockios.h>
-+
- #include "bpf_util.h"
- #include "xdp_sample_user.h"
- 
-diff --git a/samples/bpf/xdp_tx_iptunnel_user.c b/samples/bpf/xdp_tx_iptunnel_user.c
-index 7e4b2f7108a6..e9503036d0a0 100644
---- a/samples/bpf/xdp_tx_iptunnel_user.c
-+++ b/samples/bpf/xdp_tx_iptunnel_user.c
-@@ -1,8 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /* Copyright (c) 2016 Facebook
-  */
--#include <linux/bpf.h>
--#include <linux/if_link.h>
- #include <assert.h>
- #include <errno.h>
- #include <signal.h>
-@@ -16,6 +14,8 @@
- #include <time.h>
- #include <bpf/libbpf.h>
- #include <bpf/bpf.h>
-+#include <linux/bpf.h>
-+#include <linux/if_link.h>
- #include "bpf_util.h"
- #include "xdp_tx_iptunnel_common.h"
- 
+> While I agree with all of this, I think the tone is way too
+> proscriptive. The man pages are to document the behaviors, not tell
+> people how to program.
 
--- 
-2.52.0
+I could be persuaded to tone it down a little but in this case I think
+the man page's job *is* to tell people how to program.  We know lots of
+existing code has gotten the fine details of close() wrong and we are
+trying to document how to do it right.
 
+> Aside: the reason EINTR *has to* be specified this way is that pthread
+> cancellation is aligned with EINTR. If EINTR were defined to have
+> closed the fd, then acting on cancellation during close would also
+> have closed the fd, but the cancellation handler would have no way to
+> distinguish this, leading to a situation where you're forced to either
+> leak fds or introduce a double-close vuln.
+
+The correct way to address this would be to make close() not be a
+cancellation point.
+
+> It sounds like you are intentionally omitting that POSIX says the
+> opposite of what you want it to, and treating the standard behavior
+> as a historical HP-UX quirk/bug. This is polemic, not the sort of
+> documentation that belongs in a man page.
+
+To be clear, when I wrote all this I thought the POSIX.1-2024 change
+did in fact make the semantics be that close() closes the descriptor
+no matter what it returns.
+
+However, I insist that the correct behavior is in fact for close to
+close the descriptor no matter what it returns, and to the extent
+POSIX says anything else, POSIX is wrong.  Again, you cannot change
+my mind about this.
+
+N.B. I have skimmed the current text of
+https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html
+and it appears to me that the committee more or less agrees with me,
+but wishes to avoid declaring HP-UX (and any other systems with the
+same behavior) nonconformant.  So instead of just saying the fd is
+closed no matter what, they've invented a new variant on close that
+they have more scope to modify the behavior of, and they're nudging
+implementations to not return EINTR from (posix_)close at all.
+
+I don't think we (authors of this particular set of manpages) need to
+care about the Austin Group's reluctance to declare existing legacy
+systems nonconformant.
+
+> An outline of what I'd like to see instead:
+>
+> - Clear explanation of why double-close is a serious bug that must
+>   always be avoided. (I think we all agree on this.)
+>
+> - Statement that the historical Linux/glibc behavior and current POSIX
+>   requirement differ, without language that tries to paint the POSIX
+>   behavior as a HP-UX bug/quirk. Possibly citing real sources/history
+>   of the issue (Austin Group tracker items 529, 614; maybe others).
+>
+> - Consequence of just assuming the Linux behavior (fd leaks on
+>   conforming systems).
+>
+> - Consequences of assuming the POSIX behavior (double-close vulns on
+>   GNU/Linux, maybe others).
+>
+> - Survey of methods for avoiding the problem (ways to preclude EINTR,
+>   possibly ways to infer behavior, etc).
+
+This outline seems more or less reasonable to me but, if it's me
+writing the text, I _will_ characterize what POSIX currently says
+about EINTR returns from close() as a bug in POSIX.  As far as I'm
+concerned, that is a fact, not polemic.
+
+I have found that arguing with you in particular, Rich, is generally
+not worth the effort.  Therefore, unless you reply and _accept_ that
+the final version of the close manpage will say that POSIX is buggy,
+I am not going to write another version of this text, nor will I be
+drawn into further debate.
+
+zw
 
