@@ -1,178 +1,157 @@
-Return-Path: <linux-api+bounces-5684-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5685-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKSJJ//mb2lhUQAAu9opvQ
-	(envelope-from <linux-api+bounces-5684-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:35:11 +0100
+	id gPXKN8Prb2m+UQAAu9opvQ
+	(envelope-from <linux-api+bounces-5685-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:55:31 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720034B623
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:35:07 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADADE4BD1B
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 21:55:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0E862806454
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 18:40:09 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 009358C2D10
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 18:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29E1348445;
-	Tue, 20 Jan 2026 18:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF1F46AF25;
+	Tue, 20 Jan 2026 18:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b3sQn2KZ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="MZanTnHa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA22530C35C
-	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 18:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B1A451052;
+	Tue, 20 Jan 2026 18:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768934404; cv=none; b=d0RrFPsXEkJrxgqpTjLTbciMvWAK6tto9dRWn5zH+s79of3t7CxWmoGbnnM2TM5EYA9bR++wtwXmE2IqwLuVMLd4WVSVOVGEyZokA3Z8w0LwRJMAg9ITt13svYzjyZ3xiC0fI/Bt6V/5CDZQcNMExDQwX0Xc13zfYzKmqTgBUaM=
+	t=1768935051; cv=none; b=GgC6SFqh3zQyINtJHc18nYJx+6D7O35GaRWT+rnJpAhW/0G3lwodmYGJKpQNp6hS1BirahJhnKu1k+7M3VpWjWdgCHTill0/Xi1BXxwlfNEtYVTpUbooOysrIplOHeeGKhNCh+Qg86HXK2oJ9g85Gr0mYwFEoeRTQL1k/0zrXzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768934404; c=relaxed/simple;
-	bh=Zza830QDX7/YH0isvrNuprKo3OcbbOJ78ALBKZafhTU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MlY0gkSyB8Wq1cdN+cQzfojW23zzCls5hybxJgPr2936tN21CeN8Mb08zJH8fj2AoCagXoOW5O9YbxASeZrADwP70fOBOgfbUQJrf7fmQTl5JOk9nCr8d/a2M1Te3zGGeParlU40TUIhP4zdJat7mNmuwFVVML+LhG4gg9+NHa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b3sQn2KZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768934401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=THjQFFSV3DJfvlnHS0Up529R6QYEj32SFVau+c8Z0ts=;
-	b=b3sQn2KZJm4c1nu3V+A8JEnyWWfw2LgFhPQalQ+BnHlTmAoPk0YiDnxT0V5+96OVErqlfY
-	tuNuo+kHvxRbGBpJ+2W0hgCGHyvfsG4gohacTq/I8pIxG3egq/zObLf8+gmmqb0UF63EGX
-	WC1kCR5FHrxNBiiHf5Pjn8ggIvlAskM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-362-nV3Res_uPBqUvVJ875JxXw-1; Tue,
- 20 Jan 2026 13:39:58 -0500
-X-MC-Unique: nV3Res_uPBqUvVJ875JxXw-1
-X-Mimecast-MFC-AGG-ID: nV3Res_uPBqUvVJ875JxXw_1768934396
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C1B3A18005B0;
-	Tue, 20 Jan 2026 18:39:55 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.41])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9BA631800577;
-	Tue, 20 Jan 2026 18:39:51 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Rich Felker <dalias@libc.org>
-Cc: Zack Weinberg <zack@owlfolio.org>,  Alejandro Colomar <alx@kernel.org>,
-  Vincent Lefevre <vincent@vinc17.net>,  Jan Kara <jack@suse.cz>,
-  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  GNU libc development
- <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-In-Reply-To: <20260120174659.GE6263@brightrain.aerifal.cx> (Rich Felker's
-	message of "Tue, 20 Jan 2026 12:46:59 -0500")
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
-	<efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
-	<20250516130547.GV1509@brightrain.aerifal.cx>
-	<20250516143957.GB5388@qaa.vinc17.org>
-	<20250517133251.GY1509@brightrain.aerifal.cx>
-	<5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
-	<8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
-	<20250524022416.GB6263@brightrain.aerifal.cx>
-	<1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
-	<20260120174659.GE6263@brightrain.aerifal.cx>
-Date: Tue, 20 Jan 2026 19:39:48 +0100
-Message-ID: <lhubjio5dsb.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1768935051; c=relaxed/simple;
+	bh=etk7Sf1GNmHQHnzXx5rTjYzq4dzsBjv3mI/c+sRBXSk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sgRDQnP03FCGtvjgFTWXSsf8uEudmY4sXBwGCctX5TPuH4db7CmeGrb51woiCscC1b2PLP5Hh+WxQqZk/+bJaKX2VHpmczpp4cqPXR4aYK3mfTelwz2aY+F8TilQoDGtZ8am/RQYCFc2YnPBN6mNQ1vNAxpQFLSqMEJLYG4iy3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=fail (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=MZanTnHa reason="signature verification failed"; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [IPV6:2601:646:8081:9483:12c5:bc8e:d949:3497] ([IPv6:2601:646:8081:9483:12c5:bc8e:d949:3497])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60KIoOQO3840577
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 20 Jan 2026 10:50:26 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60KIoOQO3840577
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025122301; t=1768935028;
+	bh=cwVFuDcMyEE2Oup/uCTxTEyXGhJgrINko83dAbUNoVg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MZanTnHaiUvzI2INFEL+c8Wlo2J99eSiz/ckHUyjfc1FrI6dQBVgoA9X4Vm08r6eW
+	 ecFIQ8c5bhXgqrdRsIGaqVXDZFZ89kVlX04o4id7spo6xniTZgeFKF1mphZQvI6VNN
+	 NDNWOXD/Arcr7ckX55vlNv+tk4DB3IpZ3J0E/k8MX/r19wTXAWCbJwH8WryMb4mBTP
+	 5mi4FLbyAa1Us+rqqFEJIE2KtTccaXjYpjkPYOFFAEG2vLMzKBsWHOCTuL8KxwGB1P
+	 l+szT73FYzq/GK+fxdzleGdEx+eQQo+X5tGrxtCHCI8OsZwSHH7hObATjovTdQARAz
+	 FqgtvFzDUeIsg==
+Message-ID: <0fc5b4ef-c468-416f-a065-f64989d75378@zytor.com>
+Date: Tue, 20 Jan 2026 10:50:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Spamd-Result: default: False [-1.46 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [klibc] [PATCH net-next] net: uapi: Provide an UAPI definition of
+ 'struct sockaddr'
+To: Arnd Bergmann <arnd@arndb.de>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+        Eric Dumazet <edumazet@google.com>,
+        Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Willem de Bruijn <willemb@google.com>, libc-alpha@sourceware.org,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+        Rich Felker <dalias@libc.org>
+Cc: Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, klibc@zytor.com
+References: <20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de>
+ <934ca004-0aef-49a4-a4f1-3d39a2e71864@app.fastmail.com>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <934ca004-0aef-49a4-a4f1-3d39a2e71864@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	R_DKIM_REJECT(1.00)[zytor.com:s=2025122301];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[zytor.com : No valid SPF,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_POLICY_ALLOW(0.00)[redhat.com,quarantine];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5684-lists,linux-api=lfdr.de];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_FROM(0.00)[bounces-5685-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[zytor.com:-];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 720034B623
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hpa@zytor.com,linux-api@vger.kernel.org];
+	TAGGED_RCPT(0.00)[linux-api];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[zytor.com:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: ADADE4BD1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-* Rich Felker:
+On 2026-01-05 05:50, Arnd Bergmann wrote:
+> 
+> This looks like the right approach to me. I have previously
+> tried to introduce a 'struct __kernel_sockaddr' structure and
+> use that in uapi headers in place of the libc sockaddr, but
+> that seemed worse in the end, and introduce the same problems
+> as using the existing __kernel_sockaddr_storage.
+> 
 
-> On Tue, Jan 20, 2026 at 12:05:52PM -0500, Zack Weinberg wrote:
->> > On Fri, May 23, 2025 at 02:10:57PM -0400, Zack Weinberg wrote:
->> >>     close() always succeeds.  That is, after it returns, _fd_ has
->> >>     always been disconnected from the open file it formerly referred
->> >>     to, and its number can be recycled to refer to some other file.
->> >>     Furthermore, if _fd_ was the last reference to the underlying
->> >>     open file description, the resources associated with the open file
->> >>     description will always have been scheduled to be released.
->> ...
->> >>     EINPROGRESS
->> >>     EINTR
->> >>            There are no delayed errors to report, but the kernel is
->> >>            still doing some clean-up work in the background.  This
->> >>            situation should be treated the same as if close() had
->> >>            returned zero.  Do not retry the close(), and do not report
->> >>            an error to the user.
->> >
->> > Since this behavior for EINTR is non-conforming (and even prior to the
->> > POSIX 2024 update, it was contrary to the general semantics for EINTR,
->> > that no non-ignoreable side-effects have taken place), it should be
->> > noted that it's Linux/glibc-specific.
->> 
->> I am prepared to take your word for it that POSIX says this is
->> non-conforming, but in that case, POSIX is wrong, and I will not be
->> convinced otherwise by any argument.  Operations that release a
->> resource must always succeed.
->
-> There are two conflicting requirements here:
->
-> 1. Operations that release a resource must always succeed.
-> 2. Failure with EINTR must not not have side effects.
->
-> The right conclusion is that operations that release resources must
-> not be able to fail with EINTR. And that's how POSIX should have
-> resolved the situation -- by getting rid of support for the silly
-> legacy synchronous-tape-drive-rewinding behavior of close on some
-> systems, and requiring close to succeed immediately with no waiting
-> for anything.
+You say "the same problems". It's not clear to me what that means.
 
-What about SO_LINGER?  Isn't this relevant in context?
+Based on my own libc experience, hacking both a minimal (klibc) and a
+maximal (glibc) libc, there are a *lot* of advantages to having
+__kernel_* definitions available, *regardless* of if they are exported
+into the libc namespace at all.
 
-As far as I know, there is no other way besides SO_LINGER to get
-notification if the packet buffers are actually gone.  If you don't use
-it, memory can pile up in the kernel without the application's
-knowledge.
+Specifically:
 
-Thanks,
-Florian
+1. When calling explicit kernel interfaces, like ioctl(), it is the
+   kernel interfaces, not the libc interfaces, that needs to be
+   used. However, the rest of the application may need to include the
+   libc headers.
 
+2. The libc *implementation* may need to have both the kernel and the
+   libc interfaces available.
+
+In the case of struct sockaddr et al, it probably matters less,
+because it isn't practical for them to be different for other
+reasons, but it has been a real problem for things like termios.
+
+On the flipside, for things where the kernel interfaces are inherently
+necessary, we really want the libc authors to be able to use the uapi
+headers. However, they have to be concerned about things like
+namespace restrictions.
+
+So I have a very, very strong vote for using and even expanding the
+use of __kernel_* in the uapi headers. In fact, it would even be nice
+to have a variant of "make headers_install" that automatically
+transmogrifies symbols; if it isn't doable with simple pattern
+matching then perhaps using coccinelle.
+
+Allowing the libc authors to modify those transmogrification rules
+would definitely be better than having various kinds of header guards.
+
+	-hpa
 
