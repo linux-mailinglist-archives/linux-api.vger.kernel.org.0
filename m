@@ -1,218 +1,188 @@
-Return-Path: <linux-api+bounces-5657-lists+linux-api=lfdr.de@vger.kernel.org>
-X-Original-To: lists+linux-api@lfdr.de
+Return-Path: <linux-api+bounces-5658-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017B7D3BAC7
-	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 23:21:36 +0100 (CET)
-Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 767E03004E0E
-	for <lists+linux-api@lfdr.de>; Mon, 19 Jan 2026 22:21:35 +0000 (UTC)
+Received: from mail.lfdr.de
+	by lfdr with LMTP
+	id aAoaGRCob2ndEgAAu9opvQ
+	(envelope-from <linux-api+bounces-5658-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:06:40 +0100
+X-Original-To: lists+linux-api@lfdr.de
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC753470EB
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:06:39 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C7487942D9E
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:19:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB302FCBE3;
-	Mon, 19 Jan 2026 22:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A354043DA46;
+	Tue, 20 Jan 2026 14:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCtiQ0SO"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NoSWA8KH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NItJhtZf"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031EA2638BA;
-	Mon, 19 Jan 2026 22:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8475F43CECD;
+	Tue, 20 Jan 2026 14:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768861294; cv=none; b=ZhFZ/vU9u5IlgtnbP1bBcNe5luOaBT+dNv0IGcyYP+I228HGYTfbRraldfEWVXcRA2qfG+PAaOYhW+Jbgs8aaBEMFo8IJRL0jFtx4v0unPnKjjaRQl/8qvsepddyB+Cm83UK8dadNsJox9BlgbgtJXjeoHaHZO3gkQMp5vvHi/g=
+	t=1768918243; cv=none; b=MwusQKw5SE9SR+3+ZsVAoKg+Ia196+uFLU7J5pfpT3J4IC46J/NFV4zKw9IB5/hLlokioiw0LrklwLazmDwE4fkz+yRtvkip7vVQoQcF+wSrvz/zfuSyyZirEQCA1Ze/SFFrzNdqZTlzVVV1EeN0tHCix2ihULUNmxeusynxRso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768861294; c=relaxed/simple;
-	bh=v0zoQJ9VTDdjgWvqt467kSWjX13CHw9aV9sv+B4D3bU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kwKXvoypoVArODXoiG7mJERZAuq92gAPFtyldsMdJoXxmJ7u57ckMxUCPFHFAu8vWL9DVljiqmGCw2YwwCq5c8qa7qxx/tRG9NVmlBep3unPpYYTBg3/kq5uW9m9jkEMZK/m5M8qHn4/5XNsp38lX8z/mlP+daHtgP7W2FveCWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCtiQ0SO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49405C116C6;
-	Mon, 19 Jan 2026 22:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768861293;
-	bh=v0zoQJ9VTDdjgWvqt467kSWjX13CHw9aV9sv+B4D3bU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jCtiQ0SObaka+k8So8DIS7FWE83ocgRcxvuaE9osVhAK995qX+cN7txShRYE1Zpoo
-	 Zzob+wLm+pPiLr3u113HVtmlKdvUtvEUA/dayLG+HXmpE6rfzlEz4Taii6NLj7PpAy
-	 guvG/q6rHcoTdWWuAa+cL+f7LcRgIOFGziJ0cGUHap/CFfMCMa75sifGIgIEXB0EVE
-	 Ovodgdln7wlsHxaudGibF993rq9DPjyFJb1gFJk8j1ppx5cokmT8egss+Ec/Uol65G
-	 yBX5ot3lQKQvvv87uMBew3mLFPU6KBgted8lQH9vUBr0No5y74iF1JGc6aIH1UT5dN
-	 Bpq7PkiZt+S0g==
-Message-ID: <acb859e1684122e1a73f30115f2389d2c9897251.camel@kernel.org>
-Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
-From: Jeff Layton <jlayton@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>
-Cc: brauner@kernel.org, amir73il@gmail.com, cyphar@cyphar.com, jack@suse.cz,
- 	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
- viro@zeniv.linux.org.uk,  Lennart Poettering <mzxreary@0pointer.de>, David
- Howells <dhowells@redhat.com>, Zhang Yunkai <zhang.yunkai@zte.com.cn>, 
-	cgel.zte@gmail.com, Menglong Dong <menglong8.dong@gmail.com>, 
-	linux-kernel@vger.kernel.org, initramfs@vger.kernel.org, 
-	containers@lists.linux.dev, linux-api@vger.kernel.org, news@phoronix.com, 
-	lwn@lwn.net, Jonathan Corbet <corbet@lwn.net>, Rob Landley
- <rob@landley.net>, 	emily@redcoat.dev, Christoph Hellwig <hch@lst.de>
-Date: Mon, 19 Jan 2026 17:21:30 -0500
-In-Reply-To: <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
-References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
-	 <20260119171101.3215697-1-safinaskar@gmail.com>
-	 <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1768918243; c=relaxed/simple;
+	bh=Ahm6F+EOjc6R8Q0l33MFSfJ04zvpzbPYSaGnxm24BWE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R+FGMOZ6ZOdZbc5vZEcyCtGSTJXfJZYUsV7kj6obD/xY12mBSCN9QoKQwVtJtJ8RfPGhqb81aLjUkW/ll7AZjw16N1j13jUwsVf9CrBwb87B2EgILEMmGbF754tsaVfNbVH8vAPUuq6Rtji+iFlurI/csTj0qTW5ZCamYBu55Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NoSWA8KH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NItJhtZf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768918239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nw3GMmv6rsxzJhfQEt7gKqAEVYquIJkLViAuhkQckP0=;
+	b=NoSWA8KHAOW34ej89I6r4P9qqfRGTSrpRdLYpSX2TU/YKte6uFQbzKvdinPA0lisvYESRi
+	HYR3dbyIkym4yrwD6NuHSOFvoIRarqOstQ0TP56+/FTOn0uUTAZnuzzVzPi/0GoNDWQ88d
+	GlGpOIj51tOdACdwx6SwPz+vAN3Pgg5Z+Wm/5Ly4DbiMrVsQfo/kZ8DQ3XH2ap2jNNODle
+	ES+cM/ucSiFmYheJ92FprCtTYAW3fNxZv9iWB3FSG21peOu2k5+LOEXRiiGBNOKFoT6SFT
+	fjRfM7aEWKIcHL7Nkspjl4yIVkCDKs85aMN92Q3Dl7GWp7BAFekFEzpwlwgi/g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768918239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nw3GMmv6rsxzJhfQEt7gKqAEVYquIJkLViAuhkQckP0=;
+	b=NItJhtZfv+tx5epeA2xKfozfbOxxbY0+Lwh+VC3Sf/nVsyjCAfZ/h/i5gbhoRCCWad3fkz
+	//HYvaUB6h2f5DAg==
+Subject: [PATCH net-next v2 0/4] net: uapi: Provide an UAPI definition of
+ 'struct sockaddr'
+Date: Tue, 20 Jan 2026 15:10:30 +0100
+Message-Id: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANaMb2kC/12NQQ6CMBBFr0Jm7Zh2tBBdeQ/DotBBJpqWtIVgC
+ He3Yeny5eW/v0HiKJzgXm0QeZEkwRegUwX9aP2LUVxhIEVGExHOdhJMoX9b5yL2g1bc1HRt6AZ
+ lM0UeZD16T/Cc0fOaoS1mlJRD/B5Hiz58adZKK/PXXDRq7JraXGxnNVnz+Iifcwxe1rNjaPd9/
+ wFO2SCEuAAAAA==
+X-Change-ID: 20251222-uapi-sockaddr-cf10e7624729
+To: Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+ linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev, 
+ linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+ libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, 
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>, 
+ Rich Felker <dalias@libc.org>, klibc@zytor.com, 
+ Florian Weimer <fweimer@redhat.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=2292;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=Ahm6F+EOjc6R8Q0l33MFSfJ04zvpzbPYSaGnxm24BWE=;
+ b=5X22So3PfA/S7ayTw8eLh1EFtj1DE0Tv6sUsSL2/wnoVi2BXpK944Df4Iu5TWZmKG+GLpv7YI
+ jzfIuR+GpMBDIJ9kfKmasfJ9A3NvmYTn3p3DyGhQAXO3d2FHCDLTleb
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-Spamd-Result: default: False [-0.46 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5658-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[41];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
+X-Rspamd-Queue-Id: BC753470EB
+X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
 
-On Mon, 2026-01-19 at 11:05 -0800, Andy Lutomirski wrote:
-> On Mon, Jan 19, 2026 at 10:56=E2=80=AFAM Askar Safin <safinaskar@gmail.co=
-m> wrote:
-> >=20
-> > Christian Brauner <brauner@kernel.org>:
-> > > Extend open_tree() with a new OPEN_TREE_NAMESPACE flag. Similar to
-> > > OPEN_TREE_CLONE only the indicated mount tree is copied. Instead of
-> > > returning a file descriptor referring to that mount tree
-> > > OPEN_TREE_NAMESPACE will cause open_tree() to return a file descripto=
-r
-> > > to a new mount namespace. In that new mount namespace the copied moun=
-t
-> > > tree has been mounted on top of a copy of the real rootfs.
-> >=20
-> > I want to point at security benefits of this.
-> >=20
-> > [[ TL;DR: [1] and [2] are very big changes to how mount namespaces work=
-.
-> > I like them, and I think they should get wider exposure. ]]
-> >=20
-> > If this patchset ([1]) and [2] both land (they are both in "next" now a=
-nd
-> > likely will be submitted to mainline soon) and "nullfs_rootfs" is passe=
-d on
-> > command line, then mount namespace created by open_tree(OPEN_TREE_NAMES=
-PACE) will
-> > usually contain exactly 2 mounts: nullfs and whatever was passed to
-> > open_tree(OPEN_TREE_NAMESPACE).
-> >=20
-> > This means that even if attacker somehow is able to unmount its root an=
-d
-> > get access to underlying mounts, then the only underlying thing they wi=
-ll
-> > get is nullfs.
-> >=20
-> > Also this means that other mounts are not only hidden in new namespace,=
- they
-> > are fully absent. This prevents attacks discussed here: [3], [4].
-> >=20
-> > Also this means that (assuming we have both [1] and [2] and "nullfs_roo=
-tfs"
-> > is passed), there is no anymore hidden writable mount shared by all con=
-tainers,
-> > potentially available to attackers. This is concern raised in [5]:
-> >=20
-> > > You want rootfs to be a NULLFS instead of ramfs. You don't seem to wa=
-nt it to
-> > > actually _be_ a filesystem. Even with your "fix", containers could co=
-mmunicate
-> > > with each _other_ through it if it becomes accessible. If a container=
- can get
-> > > access to an empty initramfs and write into it, it can ask/answer the=
- question
-> > > "Are there any other containers on this machine running stux24" and t=
-hen coordinate.
->=20
-> I think this new OPEN_TREE_NAMESPACE is nifty, but I don't think the
-> path that gives it sensible behavior should be conditional like this.
-> Either make it *always* mount on top of nullfs (regardless of boot
-> options) or find some way to have it actually be the root.  I assume
-> the latter is challenging for some reason.
->=20
+Various UAPI headers reference 'struct sockaddr'. Currently the
+definition of this struct is pulled in from the libc header
+sys/socket.h. This is problematic as it introduces a dependency
+on a full userspace toolchain.
 
-I think that's the plan. I suggested the same to Christian last week,
-and he was amenable to removing the option and just always doing a
-nullfs_rootfs mount.
+Add a definition of 'struct sockaddr' to the UAPI headers.
+Before that, reorder some problematic header inclusions in the selftests.
 
-We think that older runtimes should still "just work" with this scheme.
-Out of an abundance of caution, we _might_ want a command-line option
-to make it go back to old way, in case we find some userland stuff that
-doesn't like this for some reason, but hopefully we won't even need
-that.
---=20
-Jeff Layton <jlayton@kernel.org>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v2:
+- Fix compilation failures in BPF samples and selftests
+- Link to v1: https://lore.kernel.org/r/20260105-uapi-sockaddr-v1-1-b7653aba12a5@linutronix.de
+
+---
+Thomas Weißschuh (4):
+      selftests: net: Move some UAPI header inclusions after libc ones
+      selftests/landlock: Move some UAPI header inclusions after libc ones
+      samples/bpf: Move some UAPI header inclusions after libc ones
+      net: uapi: Provide an UAPI definition of 'struct sockaddr'
+
+ include/linux/socket.h                             | 10 ----------
+ include/uapi/linux/if.h                            |  4 ----
+ include/uapi/linux/libc-compat.h                   | 12 ++++++++++++
+ include/uapi/linux/socket.h                        | 14 ++++++++++++++
+ samples/bpf/xdp_adjust_tail_user.c                 |  6 ++++--
+ samples/bpf/xdp_fwd_user.c                         |  7 ++++---
+ samples/bpf/xdp_router_ipv4_user.c                 |  6 +++---
+ samples/bpf/xdp_sample_user.c                      | 15 ++++++++-------
+ samples/bpf/xdp_tx_iptunnel_user.c                 |  4 ++--
+ tools/testing/selftests/landlock/audit.h           |  7 ++++---
+ tools/testing/selftests/net/af_unix/diag_uid.c     |  9 +++++----
+ tools/testing/selftests/net/busy_poller.c          |  3 ++-
+ tools/testing/selftests/net/mptcp/mptcp_diag.c     | 11 ++++++-----
+ tools/testing/selftests/net/nettest.c              |  4 ++--
+ tools/testing/selftests/net/tcp_ao/icmps-discard.c |  6 +++---
+ tools/testing/selftests/net/tcp_ao/lib/netlink.c   |  9 +++++----
+ tools/testing/selftests/net/tun.c                  |  5 +++--
+ 17 files changed, 77 insertions(+), 55 deletions(-)
+---
+base-commit: 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+change-id: 20251222-uapi-sockaddr-cf10e7624729
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
 
