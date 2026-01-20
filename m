@@ -1,66 +1,66 @@
-Return-Path: <linux-api+bounces-5660-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5659-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFB/GS1icGkVXwAAu9opvQ
-	(envelope-from <linux-api+bounces-5660-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 06:20:45 +0100
+	id aBzWDqP2cGmgbAAAu9opvQ
+	(envelope-from <linux-api+bounces-5659-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 16:54:11 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1945170B
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 06:20:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FE15980E
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 16:54:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7EA9A7018B5
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:19:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4838794308E
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47CCE44CF25;
-	Tue, 20 Jan 2026 14:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F6C43E9CA;
+	Tue, 20 Jan 2026 14:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rtlQ7SdG";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QDVif8ks"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o65XwdB9";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DQr8iziB"
 X-Original-To: linux-api@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28D639E6D5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61A43CEF2;
 	Tue, 20 Jan 2026 14:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918244; cv=none; b=bmiKENZ+csedBIR54RWw5frnTqJ9zSifYSbcwYnMkrFyVXxJy6avqf7zurp2Y8YSBIshrLvXbOQiK8IVR/RRA9ZZOV8gENq6hVoS/Qzt0gWWJ5I9HJ4tG3bCIxhUDXP0wprNwojtc6c3HpWyrinrjEHI+ZC7JpKUjKZmo+Okv4o=
+	t=1768918243; cv=none; b=TwZdg5gcWZ7dmZvb9PQNzX2vcouiifr4vCavuky4rhG/E4tk7KcZWvV4LFnKYt1Vxfanw2D0zzg4p2SgXdAhELI3PpK1r3PVpXXII1edgG+SlXPFe0CcA7PmW0gkTmvC8A1z/c8jzrrTBFqKjzvx3GIA4dxV26T4EwPi+W3XO7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918244; c=relaxed/simple;
-	bh=ZqrmLjkMijbcJc3IQS7wKin/D1t2uoZP1sLY/xgFZdI=;
+	s=arc-20240116; t=1768918243; c=relaxed/simple;
+	bh=gEyQT5Kcy9TJYGJ474UFnWhLZFO3ndb9iMUj0fZR+P0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eZxjNdWciwL0ICfC+c9uVm9YtOliNhr6j/KywUV2g8pQM+FOqdKmSyZdHDNJSoqR3mOFV3XnMNdZz32/TD3uw11kUv0pSCrSSCEQXU+cPqxop5msJfcCda2hJFuMS73rEcsAfjj+3zVAG915RH2vNMcvGzOYKIFeT7/WjHa9460=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rtlQ7SdG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QDVif8ks; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=Xlt2yczCWbi91g8iT29njGEPyo2FNqNPFSFKNrhC/pKOkfiruxxw7/llfwrznt7K8MFrBOv39vvjE1QOoCKOs5RkU8QuTtZrhXa8LaB98uBrYTwtk4B1XpbBWpySERhV/ic5WZpr6Ua3R9pfaZ3i30pJYs2Of6HrYuD1UIF6PFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o65XwdB9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DQr8iziB; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768918239;
+	s=2020; t=1768918240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qWWbJ6p/llOOq5uee8jczRuLvKm3RcJ6H6cwpERIvT8=;
-	b=rtlQ7SdGTkp2BTbujdjmEMG4e8L4Y54KOJneDOwznalZgT0PCYNs3Y7xdC4GP1s42jFqvs
-	OYVawGSSlmqmXaIvnte9k+7J1aO6Qc47KMMsNqYUKbHgxQy4q1vr/1B+opOMeHb13i+/Cf
-	57oGOwhSZP2sR5+qi6Hgy2dsGiAEvuERgBSDCO7W+Ar0fGc6BNFyE+ouDiRNAx5LGInA8U
-	jBl9fC39QCqOOM2R8VcWrmIjz0j+XlXhpttFqtZXNU47Dvj7WLfTsYSpjvZpCml4rWwxE7
-	CTwlIaeVPVDGIfl05o6I1wzXGuzcXRh19tkbc4sQ4pL5yeFeZXsY8dbo0dJTAA==
+	bh=aaabGWtTucbZ8WjnJZ8jyHDns+gX0JvT/KU/uRiSp04=;
+	b=o65XwdB9ZsuKO6X8SlMdGBWHV1er2KvM1zGyZ933WAAci29EnYDG1WDWVuH2jNRH32Re9T
+	KU74HSp6R5wpyg1u4QNPRA360B9F54yXRotiEf1W3r4yzwU3CwNbKeqmMXMp7K1f4cA9nJ
+	ov4BZJnvK7MDcS3MHbeXfOrxU4eCVtcbEl0Olz2lb18frkcnpYrMO2SJBSIRJYy0Y6YWAM
+	b0obIzZN7nNA5d/rZU51OlzogHwEBhLFTujSrJtpPjxDsoG2W+mfwNd/hAnJYot6m+LHZP
+	q43a/2ZcMgfVIvWeqP5T1YzGh4MvoTDOWOUwL4FsrOSgv/10CAOUAE6Rd1E2Mw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768918239;
+	s=2020e; t=1768918240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qWWbJ6p/llOOq5uee8jczRuLvKm3RcJ6H6cwpERIvT8=;
-	b=QDVif8kseiztc2+rY9NVDDg7G+ZgDVwdgyTTLRKXpOMyi8AOJaTvACt3+qnfEDXcNeaEU6
-	k8z+R2493jKfd/CQ==
-Date: Tue, 20 Jan 2026 15:10:31 +0100
-Subject: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
+	bh=aaabGWtTucbZ8WjnJZ8jyHDns+gX0JvT/KU/uRiSp04=;
+	b=DQr8iziBzPVx6w6Qd1ifMB+zNRKVJIcikpI/fhVtclnM2b47YnrFGAlzPBgRY/hbavkmlV
+	94DIdcN9Fc7i0vAg==
+Date: Tue, 20 Jan 2026 15:10:32 +0100
+Subject: [PATCH net-next v2 2/4] selftests/landlock: Move some UAPI header
  inclusions after libc ones
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
+Message-Id: <20260120-uapi-sockaddr-v2-2-63c319111cf6@linutronix.de>
 References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
 In-Reply-To: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
 To: Eric Dumazet <edumazet@google.com>, 
@@ -99,27 +99,28 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Rich Felker <dalias@libc.org>, klibc@zytor.com, 
  Florian Weimer <fweimer@redhat.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=6177;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=1356;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=ZqrmLjkMijbcJc3IQS7wKin/D1t2uoZP1sLY/xgFZdI=;
- b=ckR5DvB2GszhHGd1qq5KB7GFMoHcqBtMFjspRoVG+3U1BvA4ONTzZ+DkdODqiPl1YQjsYLnrJ
- xEOvtkyVbdVB683EKZ0pv2XTMRcvDWNfqC1o0UKdWbg5B2QzJsgEYxc
+ bh=gEyQT5Kcy9TJYGJ474UFnWhLZFO3ndb9iMUj0fZR+P0=;
+ b=vsXslEDMsuoiJY6VjPUQt3pMJ6PFOs4k30AXxu/bclwWz3MLbiSvMXmg37uv3pUcdncGpAGpm
+ KLXGLl8k+XFDkstK9st5ouee/sbd/CM4+SAhGjnjJrFeZfhsM418+zy
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
-X-Spamd-Result: default: False [-0.46 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DATE_IN_PAST(1.00)[25];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
 	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5660-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5659-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
 	RCPT_COUNT_TWELVE(0.00)[41];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
@@ -130,11 +131,11 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[linutronix.de:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	TAGGED_RCPT(0.00)[linux-api];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,linutronix.de:dkim,linutronix.de:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,arista.com:email]
-X-Rspamd-Queue-Id: 0F1945170B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
+X-Rspamd-Queue-Id: B5FE15980E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -146,187 +147,39 @@ An upcoming change will define 'struct sockaddr' from linux/socket.h.
 However sys/socket.h from libc does not yet handle this case and a
 symbol conflict will arise.
 
-Furthermore libc-compat.h evaluates the state of the libc
-inclusions only once, at the point it is included first. If another
-problematic header from libc is included later, symbol conflicts arise.
-This will trigger other duplicate definitions when linux/libc-compat.h
-is added to linux/socket.h
-
-Move the inclusion of UAPI headers after the inclusion of the glibc
-ones, so the libc-compat.h continues to work correctly.
+Move the inclusion of all UAPI headers after the inclusion of the glibc
+ones, so the compatibility mechanism from the UAPI headers is used.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- tools/testing/selftests/net/af_unix/diag_uid.c     |  9 +++++----
- tools/testing/selftests/net/busy_poller.c          |  3 ++-
- tools/testing/selftests/net/mptcp/mptcp_diag.c     | 11 ++++++-----
- tools/testing/selftests/net/nettest.c              |  4 ++--
- tools/testing/selftests/net/tcp_ao/icmps-discard.c |  6 +++---
- tools/testing/selftests/net/tcp_ao/lib/netlink.c   |  9 +++++----
- tools/testing/selftests/net/tun.c                  |  5 +++--
- 7 files changed, 26 insertions(+), 21 deletions(-)
+ tools/testing/selftests/landlock/audit.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/net/af_unix/diag_uid.c b/tools/testing/selftests/net/af_unix/diag_uid.c
-index da7d50cedee6..05456a205325 100644
---- a/tools/testing/selftests/net/af_unix/diag_uid.c
-+++ b/tools/testing/selftests/net/af_unix/diag_uid.c
-@@ -5,15 +5,16 @@
- #include <sched.h>
+diff --git a/tools/testing/selftests/landlock/audit.h b/tools/testing/selftests/landlock/audit.h
+index 44eb433e9666..c12b16c690dc 100644
+--- a/tools/testing/selftests/landlock/audit.h
++++ b/tools/testing/selftests/landlock/audit.h
+@@ -7,9 +7,6 @@
  
- #include <unistd.h>
--#include <linux/netlink.h>
--#include <linux/rtnetlink.h>
--#include <linux/sock_diag.h>
--#include <linux/unix_diag.h>
- #include <sys/socket.h>
- #include <sys/stat.h>
- #include <sys/types.h>
- #include <sys/un.h>
- 
-+#include <linux/netlink.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/sock_diag.h>
-+#include <linux/unix_diag.h>
-+
- #include "kselftest_harness.h"
- 
- FIXTURE(diag_uid)
-diff --git a/tools/testing/selftests/net/busy_poller.c b/tools/testing/selftests/net/busy_poller.c
-index 3a81f9c94795..34bd8d28808a 100644
---- a/tools/testing/selftests/net/busy_poller.c
-+++ b/tools/testing/selftests/net/busy_poller.c
-@@ -9,7 +9,6 @@
- #include <stdio.h>
- #include <string.h>
- #include <unistd.h>
--#include <ynl.h>
- 
- #include <arpa/inet.h>
- #include <netinet/in.h>
-@@ -19,6 +18,8 @@
- #include <sys/socket.h>
- #include <sys/types.h>
- 
-+#include <ynl.h>
-+
- #include <linux/genetlink.h>
- #include <linux/netlink.h>
- 
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_diag.c b/tools/testing/selftests/net/mptcp/mptcp_diag.c
-index 8e0b1b8d84b6..af25ebfd2915 100644
---- a/tools/testing/selftests/net/mptcp/mptcp_diag.c
-+++ b/tools/testing/selftests/net/mptcp/mptcp_diag.c
-@@ -1,11 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright (c) 2025, Kylin Software */
- 
--#include <linux/sock_diag.h>
--#include <linux/rtnetlink.h>
--#include <linux/inet_diag.h>
--#include <linux/netlink.h>
--#include <linux/compiler.h>
- #include <sys/socket.h>
- #include <netinet/in.h>
- #include <linux/tcp.h>
-@@ -17,6 +12,12 @@
+ #define _GNU_SOURCE
  #include <errno.h>
- #include <stdio.h>
- 
-+#include <linux/sock_diag.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/inet_diag.h>
-+#include <linux/netlink.h>
-+#include <linux/compiler.h>
-+
- #ifndef IPPROTO_MPTCP
- #define IPPROTO_MPTCP 262
- #endif
-diff --git a/tools/testing/selftests/net/nettest.c b/tools/testing/selftests/net/nettest.c
-index 1f5227f3d64d..71430403b50b 100644
---- a/tools/testing/selftests/net/nettest.c
-+++ b/tools/testing/selftests/net/nettest.c
-@@ -10,8 +10,6 @@
- #include <sys/ioctl.h>
- #include <sys/socket.h>
- #include <sys/wait.h>
--#include <linux/tcp.h>
--#include <linux/udp.h>
- #include <arpa/inet.h>
- #include <net/if.h>
- #include <netinet/in.h>
-@@ -30,6 +28,8 @@
- #include <errno.h>
- #include <getopt.h>
- 
-+#include <linux/tcp.h>
-+#include <linux/udp.h>
- #include <linux/xfrm.h>
- #include <linux/ipsec.h>
- #include <linux/pfkeyv2.h>
-diff --git a/tools/testing/selftests/net/tcp_ao/icmps-discard.c b/tools/testing/selftests/net/tcp_ao/icmps-discard.c
-index 85c1a1e958c6..451ba89914c9 100644
---- a/tools/testing/selftests/net/tcp_ao/icmps-discard.c
-+++ b/tools/testing/selftests/net/tcp_ao/icmps-discard.c
-@@ -16,12 +16,12 @@
-  * Author: Dmitry Safonov <dima@arista.com>
-  */
- #include <inttypes.h>
--#include <linux/icmp.h>
--#include <linux/icmpv6.h>
--#include <linux/ipv6.h>
- #include <netinet/in.h>
- #include <netinet/ip.h>
- #include <sys/socket.h>
-+#include <linux/icmp.h>
-+#include <linux/icmpv6.h>
-+#include <linux/ipv6.h>
- #include "aolib.h"
- #include "../../../../include/linux/compiler.h"
- 
-diff --git a/tools/testing/selftests/net/tcp_ao/lib/netlink.c b/tools/testing/selftests/net/tcp_ao/lib/netlink.c
-index 7f108493a29a..69a05820782a 100644
---- a/tools/testing/selftests/net/tcp_ao/lib/netlink.c
-+++ b/tools/testing/selftests/net/tcp_ao/lib/netlink.c
-@@ -1,14 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Original from tools/testing/selftests/net/ipsec.c */
+-#include <linux/audit.h>
+-#include <linux/limits.h>
 -#include <linux/netlink.h>
--#include <linux/random.h>
--#include <linux/rtnetlink.h>
--#include <linux/veth.h>
- #include <net/if.h>
+ #include <regex.h>
+ #include <stdbool.h>
  #include <stdint.h>
- #include <string.h>
- #include <sys/socket.h>
- 
-+#include <linux/netlink.h>
-+#include <linux/random.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/veth.h>
-+
- #include "aolib.h"
- 
- #define MAX_PAYLOAD		2048
-diff --git a/tools/testing/selftests/net/tun.c b/tools/testing/selftests/net/tun.c
-index 0efc67b0357a..e6e4c52d538e 100644
---- a/tools/testing/selftests/net/tun.c
-+++ b/tools/testing/selftests/net/tun.c
-@@ -8,12 +8,13 @@
- #include <stdlib.h>
- #include <string.h>
+@@ -20,6 +17,10 @@
+ #include <sys/time.h>
  #include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/socket.h>
+ 
++#include <linux/audit.h>
++#include <linux/limits.h>
++#include <linux/netlink.h>
 +
- #include <linux/if.h>
- #include <linux/if_tun.h>
- #include <linux/netlink.h>
- #include <linux/rtnetlink.h>
--#include <sys/ioctl.h>
--#include <sys/socket.h>
+ #include "kselftest.h"
  
- #include "kselftest_harness.h"
- 
+ #ifndef ARRAY_SIZE
 
 -- 
 2.52.0
