@@ -1,224 +1,334 @@
-Return-Path: <linux-api+bounces-5683-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5660-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GBC7AyPDb2lsMQAAu9opvQ
-	(envelope-from <linux-api+bounces-5683-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 19:02:11 +0100
+	id MFB/GS1icGkVXwAAu9opvQ
+	(envelope-from <linux-api+bounces-5660-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 06:20:45 +0100
 X-Original-To: lists+linux-api@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7C049015
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 19:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1945170B
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 06:20:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2D17662BF50
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:47:22 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7EA9A7018B5
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42F0543CEC2;
-	Tue, 20 Jan 2026 17:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47CCE44CF25;
+	Tue, 20 Jan 2026 14:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rtlQ7SdG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QDVif8ks"
 X-Original-To: linux-api@vger.kernel.org
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5350436376
-	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 17:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28D639E6D5;
+	Tue, 20 Jan 2026 14:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768931224; cv=none; b=e7aXxVstZpZSKKEsFDN+iVtiy18gwuPlB+xNHgYIrbqswNa0GWSpbltRhO1XmH/zUzwHUg9wzbLVaGYGNuuW/gRa4MVo8eBs31Cmst+etA2yJShNTW5FfT5CbBzK+oSAHdWfvpqV3jGT+ISCt4TwueTkdUO87sexo/bo5VRAHdM=
+	t=1768918244; cv=none; b=bmiKENZ+csedBIR54RWw5frnTqJ9zSifYSbcwYnMkrFyVXxJy6avqf7zurp2Y8YSBIshrLvXbOQiK8IVR/RRA9ZZOV8gENq6hVoS/Qzt0gWWJ5I9HJ4tG3bCIxhUDXP0wprNwojtc6c3HpWyrinrjEHI+ZC7JpKUjKZmo+Okv4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768931224; c=relaxed/simple;
-	bh=j7r7bBh+TNMwmcYRtzec30Sn1pdEm08wClZ+gl3HPDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=heTKDyDxpjFaCW1U+OSd4hUZUrWNZ7eYnDc3+hvY8Nbm2cOIfk9YbunrCTgguh0XpET8L4ZS3LCy3YEd9gTqzELlCKnCMthw5RqZ36ltU6mGlxTFGwcNZgktDvDH3AIKWMDZryvj49/CQUbRR0j7Bs6BVCCUSsLlGqM75jIRerU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=aerifal.cx; arc=none smtp.client-ip=104.156.224.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
-Date: Tue, 20 Jan 2026 12:46:59 -0500
-From: Rich Felker <dalias@libc.org>
-To: Zack Weinberg <zack@owlfolio.org>
-Cc: Alejandro Colomar <alx@kernel.org>,
-	Vincent Lefevre <vincent@vinc17.net>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <20260120174659.GE6263@brightrain.aerifal.cx>
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
- <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
- <20250516130547.GV1509@brightrain.aerifal.cx>
- <20250516143957.GB5388@qaa.vinc17.org>
- <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <20250524022416.GB6263@brightrain.aerifal.cx>
- <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+	s=arc-20240116; t=1768918244; c=relaxed/simple;
+	bh=ZqrmLjkMijbcJc3IQS7wKin/D1t2uoZP1sLY/xgFZdI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eZxjNdWciwL0ICfC+c9uVm9YtOliNhr6j/KywUV2g8pQM+FOqdKmSyZdHDNJSoqR3mOFV3XnMNdZz32/TD3uw11kUv0pSCrSSCEQXU+cPqxop5msJfcCda2hJFuMS73rEcsAfjj+3zVAG915RH2vNMcvGzOYKIFeT7/WjHa9460=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rtlQ7SdG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QDVif8ks; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768918239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qWWbJ6p/llOOq5uee8jczRuLvKm3RcJ6H6cwpERIvT8=;
+	b=rtlQ7SdGTkp2BTbujdjmEMG4e8L4Y54KOJneDOwznalZgT0PCYNs3Y7xdC4GP1s42jFqvs
+	OYVawGSSlmqmXaIvnte9k+7J1aO6Qc47KMMsNqYUKbHgxQy4q1vr/1B+opOMeHb13i+/Cf
+	57oGOwhSZP2sR5+qi6Hgy2dsGiAEvuERgBSDCO7W+Ar0fGc6BNFyE+ouDiRNAx5LGInA8U
+	jBl9fC39QCqOOM2R8VcWrmIjz0j+XlXhpttFqtZXNU47Dvj7WLfTsYSpjvZpCml4rWwxE7
+	CTwlIaeVPVDGIfl05o6I1wzXGuzcXRh19tkbc4sQ4pL5yeFeZXsY8dbo0dJTAA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768918239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qWWbJ6p/llOOq5uee8jczRuLvKm3RcJ6H6cwpERIvT8=;
+	b=QDVif8kseiztc2+rY9NVDDg7G+ZgDVwdgyTTLRKXpOMyi8AOJaTvACt3+qnfEDXcNeaEU6
+	k8z+R2493jKfd/CQ==
+Date: Tue, 20 Jan 2026 15:10:31 +0100
+Subject: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
+ inclusions after libc ones
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-X-Spamd-Result: default: False [-1.26 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
+References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
+In-Reply-To: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
+To: Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+ linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev, 
+ linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+ libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, 
+ Adhemerval Zanella <adhemerval.zanella@linaro.org>, 
+ Rich Felker <dalias@libc.org>, klibc@zytor.com, 
+ Florian Weimer <fweimer@redhat.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=6177;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=ZqrmLjkMijbcJc3IQS7wKin/D1t2uoZP1sLY/xgFZdI=;
+ b=ckR5DvB2GszhHGd1qq5KB7GFMoHcqBtMFjspRoVG+3U1BvA4ONTzZ+DkdODqiPl1YQjsYLnrJ
+ xEOvtkyVbdVB683EKZ0pv2XTMRcvDWNfqC1o0UKdWbg5B2QzJsgEYxc
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-Spamd-Result: default: False [-0.46 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5660-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[41];
 	MIME_TRACE(0.00)[0:+];
-	R_DKIM_NA(0.00)[];
-	DMARC_NA(0.00)[libc.org];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dalias@libc.org,linux-api@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5683-lists,linux-api=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,brightrain.aerifal.cx:mid]
-X-Rspamd-Queue-Id: 9E7C049015
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,linutronix.de:dkim,linutronix.de:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,arista.com:email]
+X-Rspamd-Queue-Id: 0F1945170B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 12:05:52PM -0500, Zack Weinberg wrote:
-> > On Fri, May 23, 2025 at 02:10:57PM -0400, Zack Weinberg wrote:
-> >>     close() always succeeds.  That is, after it returns, _fd_ has
-> >>     always been disconnected from the open file it formerly referred
-> >>     to, and its number can be recycled to refer to some other file.
-> >>     Furthermore, if _fd_ was the last reference to the underlying
-> >>     open file description, the resources associated with the open file
-> >>     description will always have been scheduled to be released.
-> ...
-> >>     EINPROGRESS
-> >>     EINTR
-> >>            There are no delayed errors to report, but the kernel is
-> >>            still doing some clean-up work in the background.  This
-> >>            situation should be treated the same as if close() had
-> >>            returned zero.  Do not retry the close(), and do not report
-> >>            an error to the user.
-> >
-> > Since this behavior for EINTR is non-conforming (and even prior to the
-> > POSIX 2024 update, it was contrary to the general semantics for EINTR,
-> > that no non-ignoreable side-effects have taken place), it should be
-> > noted that it's Linux/glibc-specific.
-> 
-> I am prepared to take your word for it that POSIX says this is
-> non-conforming, but in that case, POSIX is wrong, and I will not be
-> convinced otherwise by any argument.  Operations that release a
-> resource must always succeed.
+Interleaving inclusions of UAPI headers and libc headers is problematic.
+Both sets of headers define conflicting symbols. To enable their
+coexistence a compatibility-mechanism is in place.
 
-There are two conflicting requirements here:
+An upcoming change will define 'struct sockaddr' from linux/socket.h.
+However sys/socket.h from libc does not yet handle this case and a
+symbol conflict will arise.
 
-1. Operations that release a resource must always succeed.
-2. Failure with EINTR must not not have side effects.
+Furthermore libc-compat.h evaluates the state of the libc
+inclusions only once, at the point it is included first. If another
+problematic header from libc is included later, symbol conflicts arise.
+This will trigger other duplicate definitions when linux/libc-compat.h
+is added to linux/socket.h
 
-The right conclusion is that operations that release resources must
-not be able to fail with EINTR. And that's how POSIX should have
-resolved the situation -- by getting rid of support for the silly
-legacy synchronous-tape-drive-rewinding behavior of close on some
-systems, and requiring close to succeed immediately with no waiting
-for anything. But abandoning requirement 2 is not an option,
-especially in light of the relationship between EINTR and thread
-cancellation in regards to contract about side effects.
+Move the inclusion of UAPI headers after the inclusion of the glibc
+ones, so the libc-compat.h continues to work correctly.
 
-It's perfectly reasonable for implementations (as musl does, and as I
-think glibc either does or intends to do) to just go all the way and
-satisfy both 1 and 2 by having close translate the kernel EINTR into
-0.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ tools/testing/selftests/net/af_unix/diag_uid.c     |  9 +++++----
+ tools/testing/selftests/net/busy_poller.c          |  3 ++-
+ tools/testing/selftests/net/mptcp/mptcp_diag.c     | 11 ++++++-----
+ tools/testing/selftests/net/nettest.c              |  4 ++--
+ tools/testing/selftests/net/tcp_ao/icmps-discard.c |  6 +++---
+ tools/testing/selftests/net/tcp_ao/lib/netlink.c   |  9 +++++----
+ tools/testing/selftests/net/tun.c                  |  5 +++--
+ 7 files changed, 26 insertions(+), 21 deletions(-)
 
-> Now, the abstract correct behavior is secondary to the fact that we
-> know there are both systems where close should not be retried after
-> EINTR (Linux) and systems where the fd is still open after EINTR
-> (HP-UX).  But it is my position that *portable code* should assume the
-> Linux behavior, because that is the safest option.  If you assume the
-> HP-UX behavior on a machine that implements the Linux behavior, you
-> might close some unrelated file out from under yourself (probably but
-> not necessarily a different thread).  If you assume the Linux behavior
-> on a machine that implements the HP-UX behavior, you have leaked a
-> file descriptor; the worst things that can do are much less severe.
+diff --git a/tools/testing/selftests/net/af_unix/diag_uid.c b/tools/testing/selftests/net/af_unix/diag_uid.c
+index da7d50cedee6..05456a205325 100644
+--- a/tools/testing/selftests/net/af_unix/diag_uid.c
++++ b/tools/testing/selftests/net/af_unix/diag_uid.c
+@@ -5,15 +5,16 @@
+ #include <sched.h>
+ 
+ #include <unistd.h>
+-#include <linux/netlink.h>
+-#include <linux/rtnetlink.h>
+-#include <linux/sock_diag.h>
+-#include <linux/unix_diag.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
+ 
++#include <linux/netlink.h>
++#include <linux/rtnetlink.h>
++#include <linux/sock_diag.h>
++#include <linux/unix_diag.h>
++
+ #include "kselftest_harness.h"
+ 
+ FIXTURE(diag_uid)
+diff --git a/tools/testing/selftests/net/busy_poller.c b/tools/testing/selftests/net/busy_poller.c
+index 3a81f9c94795..34bd8d28808a 100644
+--- a/tools/testing/selftests/net/busy_poller.c
++++ b/tools/testing/selftests/net/busy_poller.c
+@@ -9,7 +9,6 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <unistd.h>
+-#include <ynl.h>
+ 
+ #include <arpa/inet.h>
+ #include <netinet/in.h>
+@@ -19,6 +18,8 @@
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ 
++#include <ynl.h>
++
+ #include <linux/genetlink.h>
+ #include <linux/netlink.h>
+ 
+diff --git a/tools/testing/selftests/net/mptcp/mptcp_diag.c b/tools/testing/selftests/net/mptcp/mptcp_diag.c
+index 8e0b1b8d84b6..af25ebfd2915 100644
+--- a/tools/testing/selftests/net/mptcp/mptcp_diag.c
++++ b/tools/testing/selftests/net/mptcp/mptcp_diag.c
+@@ -1,11 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Copyright (c) 2025, Kylin Software */
+ 
+-#include <linux/sock_diag.h>
+-#include <linux/rtnetlink.h>
+-#include <linux/inet_diag.h>
+-#include <linux/netlink.h>
+-#include <linux/compiler.h>
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <linux/tcp.h>
+@@ -17,6 +12,12 @@
+ #include <errno.h>
+ #include <stdio.h>
+ 
++#include <linux/sock_diag.h>
++#include <linux/rtnetlink.h>
++#include <linux/inet_diag.h>
++#include <linux/netlink.h>
++#include <linux/compiler.h>
++
+ #ifndef IPPROTO_MPTCP
+ #define IPPROTO_MPTCP 262
+ #endif
+diff --git a/tools/testing/selftests/net/nettest.c b/tools/testing/selftests/net/nettest.c
+index 1f5227f3d64d..71430403b50b 100644
+--- a/tools/testing/selftests/net/nettest.c
++++ b/tools/testing/selftests/net/nettest.c
+@@ -10,8 +10,6 @@
+ #include <sys/ioctl.h>
+ #include <sys/socket.h>
+ #include <sys/wait.h>
+-#include <linux/tcp.h>
+-#include <linux/udp.h>
+ #include <arpa/inet.h>
+ #include <net/if.h>
+ #include <netinet/in.h>
+@@ -30,6 +28,8 @@
+ #include <errno.h>
+ #include <getopt.h>
+ 
++#include <linux/tcp.h>
++#include <linux/udp.h>
+ #include <linux/xfrm.h>
+ #include <linux/ipsec.h>
+ #include <linux/pfkeyv2.h>
+diff --git a/tools/testing/selftests/net/tcp_ao/icmps-discard.c b/tools/testing/selftests/net/tcp_ao/icmps-discard.c
+index 85c1a1e958c6..451ba89914c9 100644
+--- a/tools/testing/selftests/net/tcp_ao/icmps-discard.c
++++ b/tools/testing/selftests/net/tcp_ao/icmps-discard.c
+@@ -16,12 +16,12 @@
+  * Author: Dmitry Safonov <dima@arista.com>
+  */
+ #include <inttypes.h>
+-#include <linux/icmp.h>
+-#include <linux/icmpv6.h>
+-#include <linux/ipv6.h>
+ #include <netinet/in.h>
+ #include <netinet/ip.h>
+ #include <sys/socket.h>
++#include <linux/icmp.h>
++#include <linux/icmpv6.h>
++#include <linux/ipv6.h>
+ #include "aolib.h"
+ #include "../../../../include/linux/compiler.h"
+ 
+diff --git a/tools/testing/selftests/net/tcp_ao/lib/netlink.c b/tools/testing/selftests/net/tcp_ao/lib/netlink.c
+index 7f108493a29a..69a05820782a 100644
+--- a/tools/testing/selftests/net/tcp_ao/lib/netlink.c
++++ b/tools/testing/selftests/net/tcp_ao/lib/netlink.c
+@@ -1,14 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Original from tools/testing/selftests/net/ipsec.c */
+-#include <linux/netlink.h>
+-#include <linux/random.h>
+-#include <linux/rtnetlink.h>
+-#include <linux/veth.h>
+ #include <net/if.h>
+ #include <stdint.h>
+ #include <string.h>
+ #include <sys/socket.h>
+ 
++#include <linux/netlink.h>
++#include <linux/random.h>
++#include <linux/rtnetlink.h>
++#include <linux/veth.h>
++
+ #include "aolib.h"
+ 
+ #define MAX_PAYLOAD		2048
+diff --git a/tools/testing/selftests/net/tun.c b/tools/testing/selftests/net/tun.c
+index 0efc67b0357a..e6e4c52d538e 100644
+--- a/tools/testing/selftests/net/tun.c
++++ b/tools/testing/selftests/net/tun.c
+@@ -8,12 +8,13 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
++#include <sys/ioctl.h>
++#include <sys/socket.h>
++
+ #include <linux/if.h>
+ #include <linux/if_tun.h>
+ #include <linux/netlink.h>
+ #include <linux/rtnetlink.h>
+-#include <sys/ioctl.h>
+-#include <sys/socket.h>
+ 
+ #include "kselftest_harness.h"
+ 
 
-Unfortunately, regardless of what happens, code portable to old
-systems needs to avoid getting in the situation to begin with. By
-either not installing interrupting signal handlers or blocking EINTR
-around close.
+-- 
+2.52.0
 
-> The only way to get it right all the time is to have a big long list
-> of #ifdefs for every Unix under the sun, and we don't even have the
-> data we would need to write that list.
-> 
-> > While I agree with all of this, I think the tone is way too
-> > proscriptive. The man pages are to document the behaviors, not tell
-> > people how to program.
-> 
-> I could be persuaded to tone it down a little but in this case I think
-> the man page's job *is* to tell people how to program.  We know lots of
-> existing code has gotten the fine details of close() wrong and we are
-> trying to document how to do it right.
-
-No, the job of the man pages absolutely is not "to tell people how to
-program". It's to document behaviors. They are not a programming
-tutorial. They are not polemic diatribes. They are unbiased statements
-of facts. Facts of what the standards say and what implementations do,
-that equip programmers with the knowledge they need to make their own
-informed decisions, rather than blindly following what someone who
-thinks they know better told them to do.
-
-> > Aside: the reason EINTR *has to* be specified this way is that pthread
-> > cancellation is aligned with EINTR. If EINTR were defined to have
-> > closed the fd, then acting on cancellation during close would also
-> > have closed the fd, but the cancellation handler would have no way to
-> > distinguish this, leading to a situation where you're forced to either
-> > leak fds or introduce a double-close vuln.
-> 
-> The correct way to address this would be to make close() not be a
-> cancellation point.
-
-This would also be a desirable change, one I would support if other
-implementors are on-board with pushing for it.
-
-> > An outline of what I'd like to see instead:
-> >
-> > - Clear explanation of why double-close is a serious bug that must
-> >   always be avoided. (I think we all agree on this.)
-> >
-> > - Statement that the historical Linux/glibc behavior and current POSIX
-> >   requirement differ, without language that tries to paint the POSIX
-> >   behavior as a HP-UX bug/quirk. Possibly citing real sources/history
-> >   of the issue (Austin Group tracker items 529, 614; maybe others).
-> >
-> > - Consequence of just assuming the Linux behavior (fd leaks on
-> >   conforming systems).
-> >
-> > - Consequences of assuming the POSIX behavior (double-close vulns on
-> >   GNU/Linux, maybe others).
-> >
-> > - Survey of methods for avoiding the problem (ways to preclude EINTR,
-> >   possibly ways to infer behavior, etc).
-> 
-> This outline seems more or less reasonable to me but, if it's me
-> writing the text, I _will_ characterize what POSIX currently says
-> about EINTR returns from close() as a bug in POSIX.  As far as I'm
-> concerned, that is a fact, not polemic.
-> 
-> I have found that arguing with you in particular, Rich, is generally
-> not worth the effort.  Therefore, unless you reply and _accept_ that
-> the final version of the close manpage will say that POSIX is buggy,
-> I am not going to write another version of this text, nor will I be
-> drawn into further debate.
-
-I will not accept that because it's a gross violation of the
-responsibility of document writing.
-
-Rich
 
