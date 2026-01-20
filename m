@@ -1,40 +1,40 @@
-Return-Path: <linux-api+bounces-5659-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5661-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBzWDqP2cGmgbAAAu9opvQ
-	(envelope-from <linux-api+bounces-5659-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 16:54:11 +0100
+	id aEi2IDdXcGlvXQAAu9opvQ
+	(envelope-from <linux-api+bounces-5661-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 05:33:59 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FE15980E
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 16:54:10 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3706751103
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jan 2026 05:33:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4838794308E
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:19:45 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0912170B54C
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F6C43E9CA;
-	Tue, 20 Jan 2026 14:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C1D44CF50;
+	Tue, 20 Jan 2026 14:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o65XwdB9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DQr8iziB"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QVf5JIqw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RJuRitW1"
 X-Original-To: linux-api@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61A43CEF2;
-	Tue, 20 Jan 2026 14:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA82500940;
+	Tue, 20 Jan 2026 14:10:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918243; cv=none; b=TwZdg5gcWZ7dmZvb9PQNzX2vcouiifr4vCavuky4rhG/E4tk7KcZWvV4LFnKYt1Vxfanw2D0zzg4p2SgXdAhELI3PpK1r3PVpXXII1edgG+SlXPFe0CcA7PmW0gkTmvC8A1z/c8jzrrTBFqKjzvx3GIA4dxV26T4EwPi+W3XO7k=
+	t=1768918244; cv=none; b=FdvIoOgpHbdp57WsOJXCO//4rFWALMecvrYmpUj/GyVr3HBqMfwVSgpQ8wMcsBncuWqn490LLXIxa4t2kFvrQwY+VRMNg6YjprL+HF4ZDooG14hAD9x/Jgg7D+uQR8Gjw8APQE1tqUlxtQpNpBEU6IQV9qeJzDv8aD3edjSJQ8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918243; c=relaxed/simple;
-	bh=gEyQT5Kcy9TJYGJ474UFnWhLZFO3ndb9iMUj0fZR+P0=;
+	s=arc-20240116; t=1768918244; c=relaxed/simple;
+	bh=NL2NiPJiVOXGlDSPX/IXGVFv3gZqRodtnl63WyHlrT8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xlt2yczCWbi91g8iT29njGEPyo2FNqNPFSFKNrhC/pKOkfiruxxw7/llfwrznt7K8MFrBOv39vvjE1QOoCKOs5RkU8QuTtZrhXa8LaB98uBrYTwtk4B1XpbBWpySERhV/ic5WZpr6Ua3R9pfaZ3i30pJYs2Of6HrYuD1UIF6PFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o65XwdB9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DQr8iziB; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=Xrm++7RxC0Em3RiWpH6rlu+9a9eX8ihfykwiaKmuG77ONR1fI4CZoZyVJYKqKlH7gtI5TWw6pNUQBOks4I+JgKkCWeuDKJykLXHp8KH7VAWvCi+zXDY0MQcAC8gYEnWR0+qD1d1K8VLzaRxkM4c/cVeAryGrsrgZQ1CJVz9SCYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QVf5JIqw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RJuRitW1; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
@@ -44,23 +44,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aaabGWtTucbZ8WjnJZ8jyHDns+gX0JvT/KU/uRiSp04=;
-	b=o65XwdB9ZsuKO6X8SlMdGBWHV1er2KvM1zGyZ933WAAci29EnYDG1WDWVuH2jNRH32Re9T
-	KU74HSp6R5wpyg1u4QNPRA360B9F54yXRotiEf1W3r4yzwU3CwNbKeqmMXMp7K1f4cA9nJ
-	ov4BZJnvK7MDcS3MHbeXfOrxU4eCVtcbEl0Olz2lb18frkcnpYrMO2SJBSIRJYy0Y6YWAM
-	b0obIzZN7nNA5d/rZU51OlzogHwEBhLFTujSrJtpPjxDsoG2W+mfwNd/hAnJYot6m+LHZP
-	q43a/2ZcMgfVIvWeqP5T1YzGh4MvoTDOWOUwL4FsrOSgv/10CAOUAE6Rd1E2Mw==
+	bh=Nu42fbo/KTwWbTEJNSfohypBk88voIUWzFlL0jg8Asc=;
+	b=QVf5JIqwol6mD0wSHtGINS/EN7+SG1TaEysglbq9pi9jkITL/Re6B8r9X9x+lyNMsRqpr+
+	8XrMkTgdTEMUkLM7sG25qiqfsjXPXILaLxUPkLqs52GkMbuftElrt8h5Drpp8hcFEbZXPG
+	/l0Ip8WnVMNiGYJW7keA34hVfcfLNEU/+kvuEEhZY8PIGxociJ7gyB7cQDJUbrn9MoK+LX
+	uLuDbu849BBC73+/qR2YZyQtxWhx1C1CbOcSbukm0RFVtcDlZ2SDYlZ0kbhUQhjE+B1rEJ
+	+8UInYr5n8/ESscYa9Cd16etJGdVkxKTNhXenTkKtKmmdrQWx9ps+uluO9a0gw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1768918240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aaabGWtTucbZ8WjnJZ8jyHDns+gX0JvT/KU/uRiSp04=;
-	b=DQr8iziBzPVx6w6Qd1ifMB+zNRKVJIcikpI/fhVtclnM2b47YnrFGAlzPBgRY/hbavkmlV
-	94DIdcN9Fc7i0vAg==
-Date: Tue, 20 Jan 2026 15:10:32 +0100
-Subject: [PATCH net-next v2 2/4] selftests/landlock: Move some UAPI header
+	bh=Nu42fbo/KTwWbTEJNSfohypBk88voIUWzFlL0jg8Asc=;
+	b=RJuRitW17NsGCwZrxdyALTxa2Sop4NEm7M4/2D1lY0J5eoYWa1sEGUUHeaCOAJEb0w0nD3
+	s37/9rX4lucFajCQ==
+Date: Tue, 20 Jan 2026 15:10:33 +0100
+Subject: [PATCH net-next v2 3/4] samples/bpf: Move some UAPI header
  inclusions after libc ones
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-uapi-sockaddr-v2-2-63c319111cf6@linutronix.de>
+Message-Id: <20260120-uapi-sockaddr-v2-3-63c319111cf6@linutronix.de>
 References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
 In-Reply-To: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
 To: Eric Dumazet <edumazet@google.com>, 
@@ -99,28 +99,27 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Rich Felker <dalias@libc.org>, klibc@zytor.com, 
  Florian Weimer <fweimer@redhat.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=1356;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=4542;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=gEyQT5Kcy9TJYGJ474UFnWhLZFO3ndb9iMUj0fZR+P0=;
- b=vsXslEDMsuoiJY6VjPUQt3pMJ6PFOs4k30AXxu/bclwWz3MLbiSvMXmg37uv3pUcdncGpAGpm
- KLXGLl8k+XFDkstK9st5ouee/sbd/CM4+SAhGjnjJrFeZfhsM418+zy
+ bh=NL2NiPJiVOXGlDSPX/IXGVFv3gZqRodtnl63WyHlrT8=;
+ b=eZBfbm8KV848zvW+Ku4Kfcq+zHdcVueYyOFWcMEHikDcFpOV2a627C4aKg6x8k5ZhHbg+N5yr
+ +2ISIHCy3/1CwGRF/P2J+p4PIl3ac4MZGzF0g/1GdroJVysJyzTzpnF
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
-X-Spamd-Result: default: False [0.54 / 15.00];
+X-Spamd-Result: default: False [-0.46 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DATE_IN_PAST(1.00)[25];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
 	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5661-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5659-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCPT_COUNT_TWELVE(0.00)[41];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
@@ -131,11 +130,11 @@ X-Spamd-Result: default: False [0.54 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[linutronix.de:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
 	TAGGED_RCPT(0.00)[linux-api];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
-X-Rspamd-Queue-Id: B5FE15980E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
+X-Rspamd-Queue-Id: 3706751103
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -152,34 +151,144 @@ ones, so the compatibility mechanism from the UAPI headers is used.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- tools/testing/selftests/landlock/audit.h | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ samples/bpf/xdp_adjust_tail_user.c |  6 ++++--
+ samples/bpf/xdp_fwd_user.c         |  7 ++++---
+ samples/bpf/xdp_router_ipv4_user.c |  6 +++---
+ samples/bpf/xdp_sample_user.c      | 15 ++++++++-------
+ samples/bpf/xdp_tx_iptunnel_user.c |  4 ++--
+ 5 files changed, 21 insertions(+), 17 deletions(-)
 
-diff --git a/tools/testing/selftests/landlock/audit.h b/tools/testing/selftests/landlock/audit.h
-index 44eb433e9666..c12b16c690dc 100644
---- a/tools/testing/selftests/landlock/audit.h
-+++ b/tools/testing/selftests/landlock/audit.h
-@@ -7,9 +7,6 @@
- 
- #define _GNU_SOURCE
+diff --git a/samples/bpf/xdp_adjust_tail_user.c b/samples/bpf/xdp_adjust_tail_user.c
+index e9426bd65420..32d00405debc 100644
+--- a/samples/bpf/xdp_adjust_tail_user.c
++++ b/samples/bpf/xdp_adjust_tail_user.c
+@@ -5,8 +5,6 @@
+  * modify it under the terms of version 2 of the GNU General Public
+  * License as published by the Free Software Foundation.
+  */
+-#include <linux/bpf.h>
+-#include <linux/if_link.h>
+ #include <assert.h>
  #include <errno.h>
--#include <linux/audit.h>
+ #include <signal.h>
+@@ -18,9 +16,13 @@
+ #include <netinet/ether.h>
+ #include <unistd.h>
+ #include <time.h>
++
+ #include <bpf/bpf.h>
+ #include <bpf/libbpf.h>
+ 
++#include <linux/bpf.h>
++#include <linux/if_link.h>
++
+ #define STATS_INTERVAL_S 2U
+ #define MAX_PCKT_SIZE 600
+ 
+diff --git a/samples/bpf/xdp_fwd_user.c b/samples/bpf/xdp_fwd_user.c
+index 193b3b79b31f..ca55f3eac12a 100644
+--- a/samples/bpf/xdp_fwd_user.c
++++ b/samples/bpf/xdp_fwd_user.c
+@@ -11,9 +11,6 @@
+  * General Public License for more details.
+  */
+ 
+-#include <linux/bpf.h>
+-#include <linux/if_link.h>
 -#include <linux/limits.h>
+ #include <net/if.h>
+ #include <errno.h>
+ #include <stdio.h>
+@@ -27,6 +24,10 @@
+ #include <bpf/libbpf.h>
+ #include <bpf/bpf.h>
+ 
++#include <linux/bpf.h>
++#include <linux/if_link.h>
++#include <linux/limits.h>
++
+ static __u32 xdp_flags = XDP_FLAGS_UPDATE_IF_NOEXIST;
+ 
+ static int do_attach(int idx, int prog_fd, int map_fd, const char *name)
+diff --git a/samples/bpf/xdp_router_ipv4_user.c b/samples/bpf/xdp_router_ipv4_user.c
+index 266fdd0b025d..2abc7d294251 100644
+--- a/samples/bpf/xdp_router_ipv4_user.c
++++ b/samples/bpf/xdp_router_ipv4_user.c
+@@ -1,9 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /* Copyright (C) 2017 Cavium, Inc.
+  */
+-#include <linux/bpf.h>
 -#include <linux/netlink.h>
- #include <regex.h>
- #include <stdbool.h>
- #include <stdint.h>
-@@ -20,6 +17,10 @@
- #include <sys/time.h>
+-#include <linux/rtnetlink.h>
+ #include <assert.h>
+ #include <errno.h>
+ #include <signal.h>
+@@ -25,6 +22,9 @@
+ #include <libgen.h>
+ #include <getopt.h>
+ #include <pthread.h>
++#include <linux/bpf.h>
++#include <linux/netlink.h>
++#include <linux/rtnetlink.h>
+ #include "xdp_sample_user.h"
+ #include "xdp_router_ipv4.skel.h"
+ 
+diff --git a/samples/bpf/xdp_sample_user.c b/samples/bpf/xdp_sample_user.c
+index 158682852162..d9aec2bd372c 100644
+--- a/samples/bpf/xdp_sample_user.c
++++ b/samples/bpf/xdp_sample_user.c
+@@ -7,13 +7,6 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <getopt.h>
+-#include <linux/ethtool.h>
+-#include <linux/hashtable.h>
+-#include <linux/if_link.h>
+-#include <linux/jhash.h>
+-#include <linux/limits.h>
+-#include <linux/list.h>
+-#include <linux/sockios.h>
+ #include <locale.h>
+ #include <math.h>
+ #include <net/if.h>
+@@ -32,6 +25,14 @@
+ #include <time.h>
  #include <unistd.h>
  
-+#include <linux/audit.h>
++#include <linux/ethtool.h>
++#include <linux/hashtable.h>
++#include <linux/if_link.h>
++#include <linux/jhash.h>
 +#include <linux/limits.h>
-+#include <linux/netlink.h>
++#include <linux/list.h>
++#include <linux/sockios.h>
 +
- #include "kselftest.h"
+ #include "bpf_util.h"
+ #include "xdp_sample_user.h"
  
- #ifndef ARRAY_SIZE
+diff --git a/samples/bpf/xdp_tx_iptunnel_user.c b/samples/bpf/xdp_tx_iptunnel_user.c
+index 7e4b2f7108a6..e9503036d0a0 100644
+--- a/samples/bpf/xdp_tx_iptunnel_user.c
++++ b/samples/bpf/xdp_tx_iptunnel_user.c
+@@ -1,8 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /* Copyright (c) 2016 Facebook
+  */
+-#include <linux/bpf.h>
+-#include <linux/if_link.h>
+ #include <assert.h>
+ #include <errno.h>
+ #include <signal.h>
+@@ -16,6 +14,8 @@
+ #include <time.h>
+ #include <bpf/libbpf.h>
+ #include <bpf/bpf.h>
++#include <linux/bpf.h>
++#include <linux/if_link.h>
+ #include "bpf_util.h"
+ #include "xdp_tx_iptunnel_common.h"
+ 
 
 -- 
 2.52.0
