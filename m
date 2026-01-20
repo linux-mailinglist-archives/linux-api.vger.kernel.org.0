@@ -1,264 +1,243 @@
-Return-Path: <linux-api+bounces-5662-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5664-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GB9JIPylb2kfEgAAu9opvQ
-	(envelope-from <linux-api+bounces-5662-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 16:57:48 +0100
+	id eIhuE2Kpb2kZEwAAu9opvQ
+	(envelope-from <linux-api+bounces-5664-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:12:18 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F7B46E11
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 16:57:47 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D28472A4
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 17:12:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1A1BF940AB1
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 14:20:53 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D745A7E1EFA
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jan 2026 15:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6A944D024;
-	Tue, 20 Jan 2026 14:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E5743043D5;
+	Tue, 20 Jan 2026 15:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="u9VUZEQv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bCMEs+2v"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ww3RiTlQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171D8429819;
-	Tue, 20 Jan 2026 14:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F453002B6
+	for <linux-api@vger.kernel.org>; Tue, 20 Jan 2026 15:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918245; cv=none; b=VgzZbo8ARduLlw5NZ5ICCSvVg97RGr/F4Sr62xejXwkDjNJSR7wd90HeliI01ciTv+G1e3IoEyf2+c4p3LuZPOyIyN62xYt21QsJbi3DvBIF9df9kmGqaSvU9ubB1LWJpQ4dtTEsk/BQ2KUadRCdHQvEi/wgsRpUpMhZLIDNwAs=
+	t=1768922325; cv=none; b=cSZLkHnXYqfXQT0AKxi6Iq74EIqBNOv+g+leVeewAKthnihTx1Cx+JT+GcVmnZ9NODJMgGvPum5dXlfyvlnj+ADXtX2nJuXU9rI4QGZ2FQSGQxXncSyYY1VlSAiP9t7A319eIBWSApQc606C/G2RrID5TCiLy2ahxsK9gQOy2qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918245; c=relaxed/simple;
-	bh=0gJHssghFK1RP90RiI7zuAI2Lb2IlxOeNNJyTLHYHUk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WGBiEV3OXarkvN6MidWjt3Vgs7Qn6PInulQ5i5Uk6cyUwpZ2y6smBBPcwjRk23kY9i1590+AcrRMOHpq+t4ZShDqQMZhnICfdVP0wz87+aHyCzhnZqlVexAexP5zBherAEFiz9DJc75k9HDinxSwYX/oWt9qeNVqZgCbf5sstys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=u9VUZEQv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bCMEs+2v; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768918241;
+	s=arc-20240116; t=1768922325; c=relaxed/simple;
+	bh=Fs/XoHgca5cqZLI1uwAfyhEca42Vnpc0eyMm/sgc1Qk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+uWFNG7AQuaD37IjTXHlOWyg/c//fyhqYys/04Rq3q1D/3cKWKDiI6mLMnqRsmxB0QI1pDoKCW2wqiieGTRzCE76hD0U2IAfDZ/gmTFJb0xKtm3iSyNx+D6ZctgOPH40AYfPlY4ip6BwTQVgNPw/mU0YIBoU0FwcLgriChUEWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ww3RiTlQ; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768922308;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eOQ8GS3W1MRmodMZgFABkywgFvGKyZPfH1LFL9LoMGY=;
-	b=u9VUZEQvWoxHjLBauY8z7HF1TLbuASKHVU93cqLptNcuHLrklRwLfzT96BGKyCwEhnqwLD
-	1ZMX/t8cShhT5EtRl90vpDEW3zSszuDu9SS+IGQxTaid54xyPdRLXjLhXKXnfoVy7zNps4
-	UutIKbGn7oBe7iBRWgJhbxyp2+kRRhx8c+GmV9BPNsWYOdONd1/fDg0usC1OKEejawa+7u
-	7nMQlCflqh1qJaAs144JmX61u23sFBcl+f2xF9ad3PRtsyLVtvzi7T+vZuWC1qPxluQ8+8
-	RHEFgpi41jpUbU1BL8pr8O80cRkvtBeolCykT/0mn99+fRhinykiD9iPgPeN/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768918241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eOQ8GS3W1MRmodMZgFABkywgFvGKyZPfH1LFL9LoMGY=;
-	b=bCMEs+2vw0GkQWixlwb7IbDDFfOdljaTfGnEqezEY+kbXmb6O17EBN8n+ne5vDNAvKdX3e
-	ug6xk5IBRC7RNMAA==
-Date: Tue, 20 Jan 2026 15:10:34 +0100
-Subject: [PATCH net-next v2 4/4] net: uapi: Provide an UAPI definition of
- 'struct sockaddr'
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OyQTg1OCRLfYkgozQtEIjB+jGIPP2J9ck5TqS/RphtU=;
+	b=Ww3RiTlQ04eaUaMQn0MIMsIlfAhS9REqLm0bAPmOhPKce4vKKwz9srpWpeu8fym+5wEC5J
+	vYF4orBtX9z4J35c2SYLuedokX3ihsifgo12VAn60QO2Z98aX5Sd9xP6/vfsN5X+hYgc7z
+	Rc/IYf12XqSCnLCOCaWH0VvRNmmYLzM=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Tao Chen <chen.dylane@linux.dev>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [PATCH bpf-next v6 0/9] bpf: Extend BPF syscall with common attributes support
+Date: Tue, 20 Jan 2026 23:15:07 +0800
+Message-ID: <20260120151516.39607-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-uapi-sockaddr-v2-4-63c319111cf6@linutronix.de>
-References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
-In-Reply-To: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
-To: Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
- Geliang Tang <geliang@kernel.org>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
- linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev, 
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
- libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, 
- Adhemerval Zanella <adhemerval.zanella@linaro.org>, 
- Rich Felker <dalias@libc.org>, klibc@zytor.com, 
- Florian Weimer <fweimer@redhat.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768918237; l=3848;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=0gJHssghFK1RP90RiI7zuAI2Lb2IlxOeNNJyTLHYHUk=;
- b=Y77GKxsdWINbT9W4Kz+9AEDonn7gqGaLn3W9iGuqEOx5FCQ40NeQXBIqjtdlLcussEkSDha7x
- jGi3PaNWeKJBIq6QM1Pw24wmuBRULo1gD0tfU5AR7dmZpMH2ugb7SDS
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
-X-Spamd-Result: default: False [-0.46 / 15.00];
+X-Migadu-Flow: FLOW_OUT
+X-Spamd-Result: default: False [1.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5662-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[41];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_POLICY_ALLOW(0.00)[linutronix.de,none];
+	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-5664-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linutronix.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[linux.dev,none];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
 	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid]
-X-Rspamd-Queue-Id: E6F7B46E11
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: D6D28472A4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Various UAPI headers reference 'struct sockaddr'. Currently the
-definition of this struct is pulled in from the libc header
-sys/socket.h. This is problematic as it introduces a dependency
-on a full userspace toolchain.
+This patch series builds upon the discussion in
+"[PATCH bpf-next v4 0/4] bpf: Improve error reporting for freplace attachment failure" [1].
 
-Instead expose a custom but compatible definition of 'struct sockaddr'
-in the UAPI headers. It is guarded by the libc compatibility
-infrastructure to avoid potential conflicts.
+This patch series introduces support for *common attributes* in the BPF
+syscall, providing a unified mechanism for passing shared metadata across
+all BPF commands.
 
-The compatibility symbol won't be supported by glibc right away,
-but right now __UAPI_DEF_IF_IFNAMSIZ is not supported either,
-so including the libc headers before the UAPI headers is broken anyways.
+The initial set of common attributes includes:
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- include/linux/socket.h           | 10 ----------
- include/uapi/linux/if.h          |  4 ----
- include/uapi/linux/libc-compat.h | 12 ++++++++++++
- include/uapi/linux/socket.h      | 14 ++++++++++++++
- 4 files changed, 26 insertions(+), 14 deletions(-)
+1. 'log_buf': User-provided buffer for storing log output.
+2. 'log_size': Size of the provided log buffer.
+3. 'log_level': Verbosity level for logging.
+4. 'log_true_size': The size of log reported by kernel.
 
-diff --git a/include/linux/socket.h b/include/linux/socket.h
-index ec715ad4bf25..8363d4e0a044 100644
---- a/include/linux/socket.h
-+++ b/include/linux/socket.h
-@@ -28,16 +28,6 @@ extern void socket_seq_show(struct seq_file *seq);
- 
- typedef __kernel_sa_family_t	sa_family_t;
- 
--/*
-- *	1003.1g requires sa_family_t and that sa_data is char.
-- */
--
--/* Deprecated for in-kernel use. Use struct sockaddr_unsized instead. */
--struct sockaddr {
--	sa_family_t	sa_family;	/* address family, AF_xxx	*/
--	char		sa_data[14];	/* 14 bytes of protocol address	*/
--};
--
- /**
-  * struct sockaddr_unsized - Unspecified size sockaddr for callbacks
-  * @sa_family: Address family (AF_UNIX, AF_INET, AF_INET6, etc.)
-diff --git a/include/uapi/linux/if.h b/include/uapi/linux/if.h
-index 797ba2c1562a..a4bc54196a07 100644
---- a/include/uapi/linux/if.h
-+++ b/include/uapi/linux/if.h
-@@ -25,10 +25,6 @@
- #include <linux/socket.h>		/* for "struct sockaddr" et al	*/
- #include <linux/compiler.h>		/* for "__user" et al           */
- 
--#ifndef __KERNEL__
--#include <sys/socket.h>			/* for struct sockaddr.		*/
--#endif
--
- #if __UAPI_DEF_IF_IFNAMSIZ
- #define	IFNAMSIZ	16
- #endif /* __UAPI_DEF_IF_IFNAMSIZ */
-diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
-index 0eca95ccb41e..13a06ce4e825 100644
---- a/include/uapi/linux/libc-compat.h
-+++ b/include/uapi/linux/libc-compat.h
-@@ -140,6 +140,13 @@
- 
- #endif /* _NETINET_IN_H */
- 
-+/* Definitions for socket.h */
-+#if defined(_SYS_SOCKET_H)
-+#define __UAPI_DEF_SOCKADDR		0
-+#else
-+#define __UAPI_DEF_SOCKADDR		1
-+#endif
-+
- /* Definitions for xattr.h */
- #if defined(_SYS_XATTR_H)
- #define __UAPI_DEF_XATTR		0
-@@ -221,6 +228,11 @@
- #define __UAPI_DEF_IP6_MTUINFO		1
- #endif
- 
-+/* Definitions for socket.h */
-+#ifndef __UAPI_DEF_SOCKADDR
-+#define __UAPI_DEF_SOCKADDR		1
-+#endif
-+
- /* Definitions for xattr.h */
- #ifndef __UAPI_DEF_XATTR
- #define __UAPI_DEF_XATTR		1
-diff --git a/include/uapi/linux/socket.h b/include/uapi/linux/socket.h
-index d3fcd3b5ec53..35d7d5f4b1a8 100644
---- a/include/uapi/linux/socket.h
-+++ b/include/uapi/linux/socket.h
-@@ -2,6 +2,8 @@
- #ifndef _UAPI_LINUX_SOCKET_H
- #define _UAPI_LINUX_SOCKET_H
- 
-+#include <linux/libc-compat.h>          /* for compatibility with glibc */
-+
- /*
-  * Desired design of maximum size and alignment (see RFC2553)
-  */
-@@ -26,6 +28,18 @@ struct __kernel_sockaddr_storage {
- 	};
- };
- 
-+/*
-+ *	1003.1g requires sa_family_t and that sa_data is char.
-+ */
-+
-+/* Deprecated for in-kernel use. Use struct sockaddr_unsized instead. */
-+#if __UAPI_DEF_SOCKADDR
-+struct sockaddr {
-+	__kernel_sa_family_t	sa_family;	/* address family, AF_xxx	*/
-+	char			sa_data[14];	/* 14 bytes of protocol address	*/
-+};
-+#endif /* __UAPI_DEF_SOCKADDR */
-+
- #define SOCK_SNDBUF_LOCK	1
- #define SOCK_RCVBUF_LOCK	2
- 
+With this extension, the BPF syscall will be able to return meaningful
+error messages (e.g., failures of creating map), improving debuggability
+and user experience.
 
--- 
+Links:
+[1] https://lore.kernel.org/bpf/20250224153352.64689-1-leon.hwang@linux.dev/
+
+Changes:
+v5 -> v6:
+* Address comments from Andrii:
+  * Update some variables' name.
+  * Drop unnecessary 'close(fd)' in libbpf.
+  * Rename FEAT_EXTENDED_SYSCALL to FEAT_BPF_SYSCALL_COMMON_ATTRS with
+    updated description in libbpf.
+  * Use EINVAL instead of EUSERS, as EUSERS is not used in bpf yet.
+  * Rename struct bpf_syscall_common_attr_opts to bpf_log_opts in libbpf.
+  * Add 'OPTS_SET(log_opts, log_true_size, 0);' in libbpf's 'bpf_map_create()'.
+* v5: https://lore.kernel.org/bpf/20260112145616.44195-1-leon.hwang@linux.dev/
+
+v4 -> v5:
+* Rework reporting 'log_true_size' for prog_load, btf_load, and map_create
+  (per Alexei).
+* v4: https://lore.kernel.org/bpf/20260106172018.57757-1-leon.hwang@linux.dev/
+
+RFC v3 -> v4:
+* Drop RFC.
+* Address comments from Andrii:
+  * Add parentheses in 'sys_bpf_ext()'.
+  * Avoid creating new fd in 'probe_sys_bpf_ext()'.
+  * Add a new struct to wrap log fields in libbpf.
+* Address comments from Alexei:
+  * Do not skip writing to user space when log_true_size is zero.
+  * Do not use 'bool' arguments.
+  * Drop the adding WARN_ON_ONCE()'s.
+* v3: https://lore.kernel.org/bpf/20251002154841.99348-1-leon.hwang@linux.dev/
+
+RFC v2 -> RFC v3:
+* Rename probe_sys_bpf_extended to probe_sys_bpf_ext.
+* Refactor reporting 'log_true_size' for prog_load.
+* Refactor reporting 'btf_log_true_size' for btf_load.
+* Add warnings for internal bugs in map_create.
+* Check log_true_size in test cases.
+* Address comment from Alexei:
+  * Change kvzalloc/kvfree to kzalloc/kfree.
+* Address comments from Andrii:
+  * Move BPF_COMMON_ATTRS to 'enum bpf_cmd' alongside brief comment.
+  * Add bpf_check_uarg_tail_zero() for extra checks.
+  * Rename sys_bpf_extended to sys_bpf_ext.
+  * Rename sys_bpf_fd_extended to sys_bpf_ext_fd.
+  * Probe the new feature using NULL and -EFAULT.
+  * Move probe_sys_bpf_ext to libbpf_internal.h and drop LIBBPF_API.
+  * Return -EUSERS when log attrs are conflict between bpf_attr and
+    bpf_common_attr.
+  * Avoid touching bpf_vlog_init().
+  * Update the reason messages in map_create.
+  * Finalize the log using __cleanup().
+  * Report log size to users.
+  * Change type of log_buf from '__u64' to 'const char *' and cast type
+    using ptr_to_u64() in bpf_map_create().
+  * Do not return -EOPNOTSUPP when kernel doesn't support this feature
+    in bpf_map_create().
+  * Add log_level support for map creation for consistency.
+* Address comment from Eduard:
+  * Use common_attrs->log_level instead of BPF_LOG_FIXED.
+* v2: https://lore.kernel.org/bpf/20250911163328.93490-1-leon.hwang@linux.dev/
+
+RFC v1 -> RFC v2:
+* Fix build error reported by test bot.
+* Address comments from Alexei:
+  * Drop new uapi for freplace.
+  * Add common attributes support for prog_load and btf_load.
+  * Add common attributes support for map_create.
+* v1: https://lore.kernel.org/bpf/20250728142346.95681-1-leon.hwang@linux.dev/
+
+Leon Hwang (9):
+  bpf: Extend BPF syscall with common attributes support
+  libbpf: Add support for extended bpf syscall
+  bpf: Refactor reporting log_true_size for prog_load
+  bpf: Add syscall common attributes support for prog_load
+  bpf: Refactor reporting btf_log_true_size for btf_load
+  bpf: Add syscall common attributes support for btf_load
+  bpf: Add syscall common attributes support for map_create
+  libbpf: Add common attr support for map_create
+  selftests/bpf: Add tests to verify map create failure log
+
+ include/linux/bpf.h                           |  19 +-
+ include/linux/bpf_verifier.h                  |  17 ++
+ include/linux/btf.h                           |   3 +-
+ include/linux/syscalls.h                      |   3 +-
+ include/uapi/linux/bpf.h                      |   8 +
+ kernel/bpf/btf.c                              |  32 +---
+ kernel/bpf/log.c                              | 103 +++++++++++
+ kernel/bpf/syscall.c                          | 122 ++++++++++---
+ kernel/bpf/verifier.c                         |  19 +-
+ tools/include/uapi/linux/bpf.h                |   8 +
+ tools/lib/bpf/bpf.c                           |  48 ++++-
+ tools/lib/bpf/bpf.h                           |  17 +-
+ tools/lib/bpf/features.c                      |   8 +
+ tools/lib/bpf/libbpf_internal.h               |   3 +
+ .../selftests/bpf/prog_tests/map_init.c       | 168 ++++++++++++++++++
+ 15 files changed, 517 insertions(+), 61 deletions(-)
+
+--
 2.52.0
 
 
