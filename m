@@ -1,260 +1,186 @@
-Return-Path: <linux-api+bounces-5740-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5741-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iK4pItFuc2mnvgAAu9opvQ
-	(envelope-from <linux-api+bounces-5740-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 13:51:29 +0100
+	id +MMRLUaAc2ncwwAAu9opvQ
+	(envelope-from <linux-api+bounces-5741-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 15:05:58 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B6C7600E
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 13:51:28 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BF376A54
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 15:05:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 96CFD302D135
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 12:51:27 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BEAA43009E2F
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 14:05:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E5D29E116;
-	Fri, 23 Jan 2026 12:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75458318EF6;
+	Fri, 23 Jan 2026 14:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fpTdwRbq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bDOzmcRj";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fpTdwRbq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bDOzmcRj"
+	dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b="q2gkz5Dc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yoBmesHV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44412749DC
-	for <linux-api@vger.kernel.org>; Fri, 23 Jan 2026 12:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29C2F25F5;
+	Fri, 23 Jan 2026 14:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769172686; cv=none; b=nDtC8l5F6lXaABHJ4kmT7bwe6blqrqN40uvUwzCLq6nN/atML+UmznHhtHQA+iKFfSIsRO6OpyJRJzku1RWcBi9lFfctuvR3FKkbmZJEr3DiOhfr8V3hQPCmdOPt/hCAY5zNu5J4etXKyFgiH66SOL0Ka6DpUXoYamMQo+bwzrY=
+	t=1769177132; cv=none; b=teyGkw1RdGNZVHVo2qjGwP25Vv5ORdRnmHkwm2zxRr/PXQSw9bNRrazWxchdv+4Ne+23hbUG0J22jiyaQy4WtKx4eBJWhIxpAUI7LJOJ/c11Z18XYMY2sQSvBQUenJkW3wdoexkw48xs/asC6h3HtGDw63lHE+WWPztrVgHFJZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769172686; c=relaxed/simple;
-	bh=YxiBAp1aybQ3KpokstzIHj4mGvi6GVfk/cR7VmFjLEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OTpHLqT7hPJBXNi08gBJktCIcr8n3Ju6/GeUDf42L0xjtqDbHGkUX7/ERSkSskAl1DiLA6HOPLMGCKDMk7wfisDMXlQ7W5wJnRAfEVN0ubWDCiwR4L2N0ZCIqExoeVI/nnh47N4SjlNxGBfauSOf45ZTxvAFjbbYAyVKFUdQFXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fpTdwRbq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bDOzmcRj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fpTdwRbq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bDOzmcRj; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 91FF85BCD3;
-	Fri, 23 Jan 2026 12:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769172682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
-	b=fpTdwRbqvOQna99fTNRXOFSn568clx9HGjKoKu2cyLdfnlPD0WU2lwZwX+0v7MCeeah1ly
-	bzVrdOkBEPZs8/jIDx9Ap0CrTyPOIkFuqxy1wwwXbe+eLGL3jrvEzhacFuSTpIe4p0TUDv
-	DUtOFiqfwdauAgDuMsl7MliiZWxyskg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769172682;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
-	b=bDOzmcRjS5FFeWvpRPxz/W3ac1luOvr6dDzoMzVRMPwJ5yXVC+7S1h8/TKBczsWfb6Okl9
-	FpGN8I7pQBixKSAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fpTdwRbq;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=bDOzmcRj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769172682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
-	b=fpTdwRbqvOQna99fTNRXOFSn568clx9HGjKoKu2cyLdfnlPD0WU2lwZwX+0v7MCeeah1ly
-	bzVrdOkBEPZs8/jIDx9Ap0CrTyPOIkFuqxy1wwwXbe+eLGL3jrvEzhacFuSTpIe4p0TUDv
-	DUtOFiqfwdauAgDuMsl7MliiZWxyskg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769172682;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
-	b=bDOzmcRjS5FFeWvpRPxz/W3ac1luOvr6dDzoMzVRMPwJ5yXVC+7S1h8/TKBczsWfb6Okl9
-	FpGN8I7pQBixKSAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CC22136AA;
-	Fri, 23 Jan 2026 12:51:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PHu6Espuc2lHRQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 23 Jan 2026 12:51:22 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0F5E4A0A1B; Fri, 23 Jan 2026 13:51:22 +0100 (CET)
-Date: Fri, 23 Jan 2026 13:51:22 +0100
-From: Jan Kara <jack@suse.cz>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
-	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
-	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
-	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v7 01/16] fs: Add case sensitivity flags to file_kattr
-Message-ID: <3drnol5zeenodg22c26yswnsk3pzn4csnwdbkgmicfmk4rrpkk@neidpou4eqgb>
-References: <20260122160311.1117669-1-cel@kernel.org>
- <20260122160311.1117669-2-cel@kernel.org>
+	s=arc-20240116; t=1769177132; c=relaxed/simple;
+	bh=OQTaSMcIAF6bWQVY1JH9xFAwvj0Vzr+7o82NCYOHOMo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=IlKqi4K1U6dylsbB33qKrhTBBWP2iUeQhxghq3kR4yqvDnUnVcfNz+dFSxT90OxTPO0Q0OH7dXfg6MpY5+HQxr6LVVMX+qk/4LZjozyvYk0w5PNrQ3mOm0QNtB4r/X7nOVeJFkAxnR/5X+P6O9c1akNThDOeaQoAG04ck9PoZww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org; spf=pass smtp.mailfrom=owlfolio.org; dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b=q2gkz5Dc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yoBmesHV; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=owlfolio.org
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2CB5B14000F9;
+	Fri, 23 Jan 2026 09:05:29 -0500 (EST)
+Received: from phl-imap-14 ([10.202.2.87])
+  by phl-compute-01.internal (MEProxy); Fri, 23 Jan 2026 09:05:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owlfolio.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1769177129;
+	 x=1769263529; bh=pk4oWxexOPz3HPbfz++uzPI9ag55319aFMsCTEBhc5U=; b=
+	q2gkz5DcSxCbSeOjN5g0sbSKnVvw+CX36k/p62NVNI+5h0B5gX8vd5wZ4sghUaWz
+	VtKgKy2w5VAj0tJlitRH5QLRMbGqUni0Yyw7TUBlUrThfzKdjwzJufIKbbNX0RAR
+	y/krEe6f/qc2Q2kvjkOllVa55xivN85txXJ8nzzAgYwzbIzHzbcdXAFvJgQ498Et
+	9JrB9QwUAC9Jday1UFYY/iWFBnNiMnxfY+as7AITLLKvgN48fUZLgrZvcY5a7jNr
+	2Mls3VPwtAxIy2IH/NqZkvHv349uVBbQVPUaMWVCmgdz5ELbJrolRYTbFg9DbXJk
+	kYBeaTBm+1vGYpl0Opayhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769177129; x=
+	1769263529; bh=pk4oWxexOPz3HPbfz++uzPI9ag55319aFMsCTEBhc5U=; b=y
+	oBmesHVBwPU7gcdupKiDZND4UYtTsHcNacV7KKEKEkpthLB/jDQPFnn648NPXDEP
+	CnhN0VbxONWY1/k8871CH7LqD9nvg5OGV6kIsnKFvWU7VDz/DNJGj8zI3yEuVTJV
+	5CwSglIOLJTlLc290LZqhSORD/Sx5eVXA165U1wTRw2l8BmPftXcwIHxjkNsReyd
+	GK6C0hH/4uTlUM4kQdQZHVIdaoWJqPWRn6xk5qrbE42rIwtuHNgewvNt46V4W0gQ
+	pSm5p4docfYLyTMQJ499b3XpsuyWsfjXw58OCNeU3Mvaa28ot95xLcDNS3fv+hMR
+	y7vVn7Kemz3ojt5JlAoFQ==
+X-ME-Sender: <xms:KIBzaWqdDXfuMEEUBW2V8ADWnSoHSxvVj18PLXrHh2NgaxUue4zIrA>
+    <xme:KIBzafcVgNE9IT8ciDM2KdZb17jbTnffLdFwCp_8V-DECuwpoazrqqVxz8BPxrC2D
+    798s33feAbI-QKD5FreyoWn1OT0ZTiYiC5WqVppNyMKxdwCGhfwlTqu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeelvdefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfkggrtghk
+    ucghvghinhgsvghrghdfuceoiigrtghksehofihlfhholhhiohdrohhrgheqnecuggftrf
+    grthhtvghrnhepffffleeihfekfeetheeiieelueffleegvdejgffhhffhheehgfethfeg
+    jeduueehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epiigrtghksehofihlfhholhhiohdrohhrghdpnhgspghrtghpthhtohepledpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtoheprghlgieskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrlhhirghs
+    sehlihgstgdrohhrghdprhgtphhtthhopehlihgstgdqrghlphhhrgesshhouhhrtggvfi
+    grrhgvrdhorhhgpdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtohep
+    lhhinhhugidqrghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    vhhinhgtvghnthesvhhinhgtudejrdhnvghtpdhrtghpthhtohepvhhirhhoseiivghnih
+    hvrdhlihhnuhigrdhorhhgrdhukh
+X-ME-Proxy: <xmx:KIBzaSI7MKRfwSPzWuIvZru1sztCVWb2QCpWNUrCqtbYJrpMAlsNRw>
+    <xmx:KIBzadO6dm10MSlaRDDV4pklt47xIlHVFlr1HScr979E18UMTCglpQ>
+    <xmx:KIBzadX1CNiBZtLldvxJdVWZaCDh7ONfS8Y45_5XwOQjrpu8sVwknw>
+    <xmx:KIBzaTmBDDj5AOHE23EQmEXMAmRpZv2A_jT__3QC9BMX1RSSXeNrTw>
+    <xmx:KYBzacb75xHFEE542UKSAmpoH-DO3nrA_Tcpgm0gukapnHhZS_4fqUfE>
+Feedback-ID: i876146a2:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 874E1C4006E; Fri, 23 Jan 2026 09:05:28 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260122160311.1117669-2-cel@kernel.org>
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-ThreadId: ANFeMez8yEXZ
+Date: Fri, 23 Jan 2026 09:05:08 -0500
+From: "Zack Weinberg" <zack@owlfolio.org>
+To: "Alejandro Colomar" <alx@kernel.org>
+Cc: "Vincent Lefevre" <vincent@vinc17.net>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Rich Felker" <dalias@libc.org>,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ "GNU libc development" <libc-alpha@sourceware.org>
+Message-Id: <29f34ba2-a059-4d7b-891b-d2e8c4ed7754@app.fastmail.com>
+In-Reply-To: <aXLGdWGTrYo1s6v7@devuan>
+References: <20250516143957.GB5388@qaa.vinc17.org>
+ <20250517133251.GY1509@brightrain.aerifal.cx>
+ <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
+ <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+ <20250524022416.GB6263@brightrain.aerifal.cx>
+ <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+ <20260120174659.GE6263@brightrain.aerifal.cx> <aW_jz7nucPBjhu0C@devuan>
+ <aW_olRn5s1lbbjdH@devuan>
+ <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
+ <aXLGdWGTrYo1s6v7@devuan>
+Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from POSIX.1-2024
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[owlfolio.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[owlfolio.org:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5740-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oracle.com:email,suse.cz:dkim,suse.com:email];
-	DMARC_NA(0.00)[suse.cz];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
-	RCPT_COUNT_TWELVE(0.00)[33];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5741-lists,linux-api=lfdr.de];
+	DKIM_TRACE(0.00)[owlfolio.org:+,messagingengine.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.988];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zack@owlfolio.org,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: D9B6C7600E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,app.fastmail.com:mid,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 84BF376A54
 X-Rspamd-Action: no action
 
-On Thu 22-01-26 11:02:56, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Enable upper layers such as NFSD to retrieve case sensitivity
-> information from file systems by adding FS_XFLAG_CASEFOLD and
-> FS_XFLAG_CASENONPRESERVING flags.
-> 
-> Filesystems report case-insensitive or case-nonpreserving behavior
-> by setting these flags directly in fa->fsx_xflags. The default
-> (flags unset) indicates POSIX semantics: case-sensitive and
-> case-preserving. These flags are read-only; userspace cannot set
-> them via ioctl.
-> 
-> Remove struct file_kattr initialization from fileattr_fill_xflags()
-> and fileattr_fill_flags(). Callers at ioctl/syscall entry points
-> zero-initialize the struct themselves, which allows them to pass
-> hints (flags_valid, fsx_valid) to the filesystem's ->fileattr_get()
-> callback via the fa argument. Filesystem handlers that invoke these
-> fill functions can now set flags directly in fa->fsx_xflags before
-> calling them, without the fill functions zeroing those values.
-> 
-> Case sensitivity information is exported to userspace via the
-> fa_xflags field in the FS_IOC_FSGETXATTR ioctl and file_getattr()
-> system call.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+On Thu, Jan 22, 2026, at 8:02 PM, Alejandro Colomar wrote:
+> On Thu, Jan 22, 2026 at 07:33:58PM -0500, Zack Weinberg wrote:
+> [...]
+>
+>> (Alejandro, do you have a preference between -man
+>> and -mdoc markup?)
+>
+> Strong preference for man(7).
 
-This scheme looks good. But AFAICT declared 'fa' needs to be zeroed-out
-also in file_getattr()? Otherwise the patch looks good to me.
+OK.
 
-								Honza
+>>               close(),=E2=80=9D below.
+>
+> Punctuation like commas should go outside of the quotes (yes, I know
+> some styles do that, but we don't).
 
-> @@ -323,7 +319,7 @@ int ioctl_setflags(struct file *file, unsigned int __user *argp)
->  {
->  	struct mnt_idmap *idmap = file_mnt_idmap(file);
->  	struct dentry *dentry = file->f_path.dentry;
-> -	struct file_kattr fa;
-> +	struct file_kattr fa = {};
->  	unsigned int flags;
->  	int err;
->  
-> @@ -355,7 +351,7 @@ int ioctl_fssetxattr(struct file *file, void __user *argp)
->  {
->  	struct mnt_idmap *idmap = file_mnt_idmap(file);
->  	struct dentry *dentry = file->f_path.dentry;
-> -	struct file_kattr fa;
-> +	struct file_kattr fa = {};
->  	int err;
->  
->  	err = copy_fsxattr_from_user(&fa, argp);
-> @@ -434,7 +430,7 @@ SYSCALL_DEFINE5(file_setattr, int, dfd, const char __user *, filename,
->  	struct filename *name __free(putname) = NULL;
->  	unsigned int lookup_flags = 0;
->  	struct file_attr fattr;
-> -	struct file_kattr fa;
-> +	struct file_kattr fa = {};
->  	int error;
->  
->  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
-> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-> index 59eaad774371..f0417c4d1fca 100644
-> --- a/fs/xfs/xfs_ioctl.c
-> +++ b/fs/xfs/xfs_ioctl.c
-> @@ -496,7 +496,7 @@ xfs_ioc_fsgetxattra(
->  	xfs_inode_t		*ip,
->  	void			__user *arg)
->  {
-> -	struct file_kattr	fa;
-> +	struct file_kattr	fa = {};
->  
->  	xfs_ilock(ip, XFS_ILOCK_SHARED);
->  	xfs_fill_fsxattr(ip, XFS_ATTR_FORK, &fa);
-> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-> index f89dcfad3f8f..709de829659f 100644
-> --- a/include/linux/fileattr.h
-> +++ b/include/linux/fileattr.h
-> @@ -16,7 +16,8 @@
->  
->  /* Read-only inode flags */
->  #define FS_XFLAG_RDONLY_MASK \
-> -	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR)
-> +	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR | \
-> +	 FS_XFLAG_CASEFOLD | FS_XFLAG_CASENONPRESERVING)
->  
->  /* Flags to indicate valid value of fsx_ fields */
->  #define FS_XFLAG_VALUES_MASK \
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 66ca526cf786..919148beaa8c 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -253,6 +253,8 @@ struct file_attr {
->  #define FS_XFLAG_FILESTREAM	0x00004000	/* use filestream allocator */
->  #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
->  #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
-> +#define FS_XFLAG_CASEFOLD	0x00020000	/* case-insensitive lookups */
-> +#define FS_XFLAG_CASENONPRESERVING 0x00040000	/* case not preserved */
->  #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
->  
->  /* the read-only stuff doesn't really belong here, but any other place is
-> -- 
-> 2.52.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Will correct.
+
+>> HISTORY
+>>        The close() system call was present in Unix V7.
+>
+> That would be simply stated as:
+>
+> 	V7.
+
+Looking at other really old system calls (fork(), open(), read(), _exit(=
+), link()),
+they all say "SVr4, 4.3BSD, POSIX.1-2001" and that's what this one said =
+too,
+before I changed it.  I think I'll put it back the way it was.
+
+zw
 
