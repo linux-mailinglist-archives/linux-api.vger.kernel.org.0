@@ -1,183 +1,260 @@
-Return-Path: <linux-api+bounces-5739-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5740-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eC5UBadMc2lDugAAu9opvQ
-	(envelope-from <linux-api+bounces-5739-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 11:25:43 +0100
+	id iK4pItFuc2mnvgAAu9opvQ
+	(envelope-from <linux-api+bounces-5740-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 13:51:29 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61992744B2
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 11:25:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B6C7600E
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 13:51:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A62F9300E71D
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 10:23:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 96CFD302D135
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 12:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C186379984;
-	Fri, 23 Jan 2026 10:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E5D29E116;
+	Fri, 23 Jan 2026 12:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owIHmuiN"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fpTdwRbq";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bDOzmcRj";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fpTdwRbq";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bDOzmcRj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C5E21ABBB;
-	Fri, 23 Jan 2026 10:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44412749DC
+	for <linux-api@vger.kernel.org>; Fri, 23 Jan 2026 12:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769163835; cv=none; b=j0EtrwddiQlTQOqcxIgCCYxFUPrAK6B/EPoe346laqwm92k8nEmt00lm7V4Ubidl1yzu85LDpMdcZ/RC6gBTa/7gTKlWLa4SMHv8DEPrSOK+mR1uHu04V6HdEid4AV+scQYRsjwGb/vXUibz7ye4cygdMw3Ttuf3SOItYBvwlEA=
+	t=1769172686; cv=none; b=nDtC8l5F6lXaABHJ4kmT7bwe6blqrqN40uvUwzCLq6nN/atML+UmznHhtHQA+iKFfSIsRO6OpyJRJzku1RWcBi9lFfctuvR3FKkbmZJEr3DiOhfr8V3hQPCmdOPt/hCAY5zNu5J4etXKyFgiH66SOL0Ka6DpUXoYamMQo+bwzrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769163835; c=relaxed/simple;
-	bh=EHGi/yi88nJIt6UKAkgHIRx0Y1AOzHWxXOM0POlmDbs=;
+	s=arc-20240116; t=1769172686; c=relaxed/simple;
+	bh=YxiBAp1aybQ3KpokstzIHj4mGvi6GVfk/cR7VmFjLEQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stHDXiLBseEI3ehLZ++3jgAY2GVSSUQgIpTD4wIvsdXtuDVsuqW/KnelrmDY/C/VchNDs6MNYyUC4wgX36OIov5B1JVWvs+10j/e0pqj85dFngJ94L1Dx8SgQEKmgTy0csXmgxG5RdU6YrzALexqEMf56ZBrqIOc69MGEjo+50U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owIHmuiN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34EB9C4CEF1;
-	Fri, 23 Jan 2026 10:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769163834;
-	bh=EHGi/yi88nJIt6UKAkgHIRx0Y1AOzHWxXOM0POlmDbs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=owIHmuiNnJn6LHl8oiUqHygfDSa6bV+gCvGGfscFbDPXXJnamr7kc99F49u7dqnTB
-	 mz2ieEOLcIEm+2lb+SWg5ZY9WmpZ2zvFsmpfwEj09P+14gdzhL7pSaB/XiSY2uhUHr
-	 zeAxux5Rm39+ruHliYMWB0Jb0qNo88k/0TtiD3kzIKdcYWKq/V9/KeDM4UszDznIdd
-	 w1Zcaq/AacA3FEpb+lEVD0Fj67fFb5BvGIqlLo9C4lWNHQT4NqaK3Qa2WEM3ObijYp
-	 WAxdIlthpVFMvzMYM02H+m0Y4+seYt3AfjKGFfo7Vakx/QhhAlUHvxArCBfABl1omB
-	 9gbhSP4tNawFg==
-Date: Fri, 23 Jan 2026 11:23:46 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Jeff Layton <jlayton@kernel.org>, Askar Safin <safinaskar@gmail.com>, 
-	amir73il@gmail.com, cyphar@cyphar.com, jack@suse.cz, josef@toxicpanda.com, 
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	Lennart Poettering <mzxreary@0pointer.de>, David Howells <dhowells@redhat.com>, 
-	Yunkai Zhang <zhang.yunkai@zte.com.cn>, cgel.zte@gmail.com, Menglong Dong <menglong8.dong@gmail.com>, 
-	linux-kernel@vger.kernel.org, initramfs@vger.kernel.org, containers@lists.linux.dev, 
-	linux-api@vger.kernel.org, news@phoronix.com, lwn@lwn.net, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Landley <rob@landley.net>, emily@redcoat.dev, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
-Message-ID: <20260123-autofrei-einspannen-7e65a6100e6e@brauner>
-References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
- <20260119171101.3215697-1-safinaskar@gmail.com>
- <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
- <acb859e1684122e1a73f30115f2389d2c9897251.camel@kernel.org>
- <CALCETrUZC+sdfpVqqjeC_pqmd+-W84Rq7ron8Vx9MaSSohhJ2g@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OTpHLqT7hPJBXNi08gBJktCIcr8n3Ju6/GeUDf42L0xjtqDbHGkUX7/ERSkSskAl1DiLA6HOPLMGCKDMk7wfisDMXlQ7W5wJnRAfEVN0ubWDCiwR4L2N0ZCIqExoeVI/nnh47N4SjlNxGBfauSOf45ZTxvAFjbbYAyVKFUdQFXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fpTdwRbq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bDOzmcRj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fpTdwRbq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bDOzmcRj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 91FF85BCD3;
+	Fri, 23 Jan 2026 12:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769172682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
+	b=fpTdwRbqvOQna99fTNRXOFSn568clx9HGjKoKu2cyLdfnlPD0WU2lwZwX+0v7MCeeah1ly
+	bzVrdOkBEPZs8/jIDx9Ap0CrTyPOIkFuqxy1wwwXbe+eLGL3jrvEzhacFuSTpIe4p0TUDv
+	DUtOFiqfwdauAgDuMsl7MliiZWxyskg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769172682;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
+	b=bDOzmcRjS5FFeWvpRPxz/W3ac1luOvr6dDzoMzVRMPwJ5yXVC+7S1h8/TKBczsWfb6Okl9
+	FpGN8I7pQBixKSAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fpTdwRbq;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=bDOzmcRj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769172682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
+	b=fpTdwRbqvOQna99fTNRXOFSn568clx9HGjKoKu2cyLdfnlPD0WU2lwZwX+0v7MCeeah1ly
+	bzVrdOkBEPZs8/jIDx9Ap0CrTyPOIkFuqxy1wwwXbe+eLGL3jrvEzhacFuSTpIe4p0TUDv
+	DUtOFiqfwdauAgDuMsl7MliiZWxyskg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769172682;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1QBsGPkrJit1kf9T7yuiKHKiU/20fvt+4sxaGfiykE8=;
+	b=bDOzmcRjS5FFeWvpRPxz/W3ac1luOvr6dDzoMzVRMPwJ5yXVC+7S1h8/TKBczsWfb6Okl9
+	FpGN8I7pQBixKSAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CC22136AA;
+	Fri, 23 Jan 2026 12:51:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PHu6Espuc2lHRQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 23 Jan 2026 12:51:22 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0F5E4A0A1B; Fri, 23 Jan 2026 13:51:22 +0100 (CET)
+Date: Fri, 23 Jan 2026 13:51:22 +0100
+From: Jan Kara <jack@suse.cz>
+To: Chuck Lever <cel@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
+	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
+	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v7 01/16] fs: Add case sensitivity flags to file_kattr
+Message-ID: <3drnol5zeenodg22c26yswnsk3pzn4csnwdbkgmicfmk4rrpkk@neidpou4eqgb>
+References: <20260122160311.1117669-1-cel@kernel.org>
+ <20260122160311.1117669-2-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrUZC+sdfpVqqjeC_pqmd+-W84Rq7ron8Vx9MaSSohhJ2g@mail.gmail.com>
+In-Reply-To: <20260122160311.1117669-2-cel@kernel.org>
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5740-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5739-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oracle.com:email,suse.cz:dkim,suse.com:email];
+	DMARC_NA(0.00)[suse.cz];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,cyphar.com,suse.cz,toxicpanda.com,vger.kernel.org,zeniv.linux.org.uk,0pointer.de,redhat.com,zte.com.cn,lists.linux.dev,phoronix.com,lwn.net,landley.net,redcoat.dev,lst.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.cz:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 61992744B2
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.988];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: D9B6C7600E
 X-Rspamd-Action: no action
 
-On Wed, Jan 21, 2026 at 10:00:19AM -0800, Andy Lutomirski wrote:
-> > On Jan 19, 2026, at 2:21 PM, Jeff Layton <jlayton@kernel.org> wrote:
-> >
-> > ﻿On Mon, 2026-01-19 at 11:05 -0800, Andy Lutomirski wrote:
-> >>> On Mon, Jan 19, 2026 at 10:56 AM Askar Safin <safinaskar@gmail.com> wrote:
-> >>>
-> >>> Christian Brauner <brauner@kernel.org>:
-> >>>> Extend open_tree() with a new OPEN_TREE_NAMESPACE flag. Similar to
-> >>>> OPEN_TREE_CLONE only the indicated mount tree is copied. Instead of
-> >>>> returning a file descriptor referring to that mount tree
-> >>>> OPEN_TREE_NAMESPACE will cause open_tree() to return a file descriptor
-> >>>> to a new mount namespace. In that new mount namespace the copied mount
-> >>>> tree has been mounted on top of a copy of the real rootfs.
-> >>>
-> >>> I want to point at security benefits of this.
-> >>>
-> >>> [[ TL;DR: [1] and [2] are very big changes to how mount namespaces work.
-> >>> I like them, and I think they should get wider exposure. ]]
-> >>>
-> >>> If this patchset ([1]) and [2] both land (they are both in "next" now and
-> >>> likely will be submitted to mainline soon) and "nullfs_rootfs" is passed on
-> >>> command line, then mount namespace created by open_tree(OPEN_TREE_NAMESPACE) will
-> >>> usually contain exactly 2 mounts: nullfs and whatever was passed to
-> >>> open_tree(OPEN_TREE_NAMESPACE).
-> >>>
-> >>> This means that even if attacker somehow is able to unmount its root and
-> >>> get access to underlying mounts, then the only underlying thing they will
-> >>> get is nullfs.
-> >>>
-> >>> Also this means that other mounts are not only hidden in new namespace, they
-> >>> are fully absent. This prevents attacks discussed here: [3], [4].
-> >>>
-> >>> Also this means that (assuming we have both [1] and [2] and "nullfs_rootfs"
-> >>> is passed), there is no anymore hidden writable mount shared by all containers,
-> >>> potentially available to attackers. This is concern raised in [5]:
-> >>>
-> >>>> You want rootfs to be a NULLFS instead of ramfs. You don't seem to want it to
-> >>>> actually _be_ a filesystem. Even with your "fix", containers could communicate
-> >>>> with each _other_ through it if it becomes accessible. If a container can get
-> >>>> access to an empty initramfs and write into it, it can ask/answer the question
-> >>>> "Are there any other containers on this machine running stux24" and then coordinate.
-> >>
-> >> I think this new OPEN_TREE_NAMESPACE is nifty, but I don't think the
-> >> path that gives it sensible behavior should be conditional like this.
-> >> Either make it *always* mount on top of nullfs (regardless of boot
-> >> options) or find some way to have it actually be the root.  I assume
-> >> the latter is challenging for some reason.
-> >>
-> >
-> > I think that's the plan. I suggested the same to Christian last week,
-> > and he was amenable to removing the option and just always doing a
-> > nullfs_rootfs mount.
-> >
-> > We think that older runtimes should still "just work" with this scheme.
-> > Out of an abundance of caution, we _might_ want a command-line option
-> > to make it go back to old way, in case we find some userland stuff that
-> > doesn't like this for some reason, but hopefully we won't even need
-> > that.
+On Thu 22-01-26 11:02:56, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> What I mean is: even if for some reason the kernel is running in a
-> mode where the *initial* rootfs is a real fs, I think it would be nice
-> for OPEN_TREE_NAMESPACE to use nullfs.
+> Enable upper layers such as NFSD to retrieve case sensitivity
+> information from file systems by adding FS_XFLAG_CASEFOLD and
+> FS_XFLAG_CASENONPRESERVING flags.
+> 
+> Filesystems report case-insensitive or case-nonpreserving behavior
+> by setting these flags directly in fa->fsx_xflags. The default
+> (flags unset) indicates POSIX semantics: case-sensitive and
+> case-preserving. These flags are read-only; userspace cannot set
+> them via ioctl.
+> 
+> Remove struct file_kattr initialization from fileattr_fill_xflags()
+> and fileattr_fill_flags(). Callers at ioctl/syscall entry points
+> zero-initialize the struct themselves, which allows them to pass
+> hints (flags_valid, fsx_valid) to the filesystem's ->fileattr_get()
+> callback via the fa argument. Filesystem handlers that invoke these
+> fill functions can now set flags directly in fa->fsx_xflags before
+> calling them, without the fill functions zeroing those values.
+> 
+> Case sensitivity information is exported to userspace via the
+> fa_xflags field in the FS_IOC_FSGETXATTR ioctl and file_getattr()
+> system call.
+> 
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 
-The current patchset makes nullfs unconditional. As each mount
-namespaces creates a new copy of the namespace root of the namespace it
-was created from all mount namespace have nullfs as namespace root.
-So every OPEN_TREE_NAMESPACE/FSMOUNT_NAMESPACE will be mounted on top of
-nullfs as we always take the namespace root. If we have to make nullfs
-conditional then yes, we could still do that - althoug it would be ugly
-in various ways.
+This scheme looks good. But AFAICT declared 'fa' needs to be zeroed-out
+also in file_getattr()? Otherwise the patch looks good to me.
 
-I would love to keep nullfs unconditional because it means I can wipe a
-whole class of MNT_LOCKED nonsense from the face of the earth
-afterwards.
+								Honza
+
+> @@ -323,7 +319,7 @@ int ioctl_setflags(struct file *file, unsigned int __user *argp)
+>  {
+>  	struct mnt_idmap *idmap = file_mnt_idmap(file);
+>  	struct dentry *dentry = file->f_path.dentry;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	unsigned int flags;
+>  	int err;
+>  
+> @@ -355,7 +351,7 @@ int ioctl_fssetxattr(struct file *file, void __user *argp)
+>  {
+>  	struct mnt_idmap *idmap = file_mnt_idmap(file);
+>  	struct dentry *dentry = file->f_path.dentry;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	int err;
+>  
+>  	err = copy_fsxattr_from_user(&fa, argp);
+> @@ -434,7 +430,7 @@ SYSCALL_DEFINE5(file_setattr, int, dfd, const char __user *, filename,
+>  	struct filename *name __free(putname) = NULL;
+>  	unsigned int lookup_flags = 0;
+>  	struct file_attr fattr;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	int error;
+>  
+>  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> index 59eaad774371..f0417c4d1fca 100644
+> --- a/fs/xfs/xfs_ioctl.c
+> +++ b/fs/xfs/xfs_ioctl.c
+> @@ -496,7 +496,7 @@ xfs_ioc_fsgetxattra(
+>  	xfs_inode_t		*ip,
+>  	void			__user *arg)
+>  {
+> -	struct file_kattr	fa;
+> +	struct file_kattr	fa = {};
+>  
+>  	xfs_ilock(ip, XFS_ILOCK_SHARED);
+>  	xfs_fill_fsxattr(ip, XFS_ATTR_FORK, &fa);
+> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
+> index f89dcfad3f8f..709de829659f 100644
+> --- a/include/linux/fileattr.h
+> +++ b/include/linux/fileattr.h
+> @@ -16,7 +16,8 @@
+>  
+>  /* Read-only inode flags */
+>  #define FS_XFLAG_RDONLY_MASK \
+> -	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR)
+> +	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR | \
+> +	 FS_XFLAG_CASEFOLD | FS_XFLAG_CASENONPRESERVING)
+>  
+>  /* Flags to indicate valid value of fsx_ fields */
+>  #define FS_XFLAG_VALUES_MASK \
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 66ca526cf786..919148beaa8c 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -253,6 +253,8 @@ struct file_attr {
+>  #define FS_XFLAG_FILESTREAM	0x00004000	/* use filestream allocator */
+>  #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
+>  #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
+> +#define FS_XFLAG_CASEFOLD	0x00020000	/* case-insensitive lookups */
+> +#define FS_XFLAG_CASENONPRESERVING 0x00040000	/* case not preserved */
+>  #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
+>  
+>  /* the read-only stuff doesn't really belong here, but any other place is
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
