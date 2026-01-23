@@ -1,208 +1,198 @@
-Return-Path: <linux-api+bounces-5742-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5743-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +NTREDqJc2krxAAAu9opvQ
-	(envelope-from <linux-api+bounces-5742-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 15:44:10 +0100
+	id SDr6BbSYc2lgxQAAu9opvQ
+	(envelope-from <linux-api+bounces-5743-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 16:50:12 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D835677362
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 15:44:09 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31F777FA1
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 16:50:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4165F3008D59
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 14:44:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0B2343006094
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jan 2026 15:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE623242BD;
-	Fri, 23 Jan 2026 14:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830982C0278;
+	Fri, 23 Jan 2026 15:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PvV3w0XC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oe08t/o/"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC7B31ED81;
-	Fri, 23 Jan 2026 14:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F90928751D;
+	Fri, 23 Jan 2026 15:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769179446; cv=none; b=TWKOcht8hcTqEu9irerxk7Oysk3EmgWMyTiTZiYBoiec/XTai4wnfjT8KjIIb8fSmugf6iD7oZ9jMjiiBrsOOKXv1MbEKh+zoj3C6ZwaoGdVQ6O4b4C4OsEALnY3u3EEr4YFyJI0MrpqqZYcOKjaq/ZT1Mr3CVDhueEouDQ2EG8=
+	t=1769183405; cv=none; b=TTF6JMw8Xwxw+K9iaTE2pmeSWotJeh/7v9a+nLsykETjm12C3cRxxfoqsjH9G8WQwHQt+/lhZJrkTKa4NyOnaYIsGh89Kwne79pntg+6JrkjqOfll8GMUAR0y5nsKq8gCUQP7+9KmDrb0dzyxmEJ1unPNRhi6mevuMTQyrYb5lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769179446; c=relaxed/simple;
-	bh=7aA2iBPGz7CS9W7yUpn5vca1/gwxNZxQ3K5P4SwSt2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkJ1ZfL8IkkdV4U3jZnRAN3whcHHcLxwKaKPviLTaatY/UnH0VZ1M8d2WWoiir0u4hIJ45yH5oPWlY8TUXGMACxr4+g6E4kyjtchfqWjy5h1ApaxCOeuG9kfuHwn2ZJBxyvYDJ5T8egQHJsUrUgui4/SHs7Nrf06zly5sDZ1Kaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PvV3w0XC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04669C4CEF1;
-	Fri, 23 Jan 2026 14:44:03 +0000 (UTC)
+	s=arc-20240116; t=1769183405; c=relaxed/simple;
+	bh=kDP9Yb3CbfggR8X+hWoqLQMPd20AumtY0Il/c8TNaKY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Ca5jGWz6WrM5WBETKs7kcZMzz61dcfgoVHSB+FzHoUIdSgO1ykeqPJWDHUMJ9b599WARaZ4zF+cqW5o2K8xwiMVpzitOvujaQj3ZkeAXVcGhiumnRtAFZXo5thOis2Yg0xPVqJUlploC4fgliKCYF5WGrH8wW+xQxS4hx9xyypM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oe08t/o/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 268FAC4CEF1;
+	Fri, 23 Jan 2026 15:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769179445;
-	bh=7aA2iBPGz7CS9W7yUpn5vca1/gwxNZxQ3K5P4SwSt2g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PvV3w0XCz4ShVQ08BcQnHCMzFGh6Rjspu0j4W9Jq/OKU71NhrNXjXHHf/DOFNHU35
-	 Nz+x/yHu0GrtZglOZaCGzbboqlmTHOHLapWqxwuDktcWIQeHm9Ov2MDiH8fMDph0GR
-	 4p53wQNRYGpigr7siz8xQAvL5mO5Xih8WouD8H/h1yTAMKU39LulAw7qZbMCgzqJiG
-	 B6waj5aTUOIy2V9Ee0rDn2rjX6ESzZqRD2yd7gUtkR8M1viabmM8LcwSiYRYvTp6nE
-	 idrG3D6h5oirpghYcCYKMNaNyrGub8DVkIVWN4AnDaRmjbitWoOfi3vAsXa5ynTsZj
-	 aPgAVV2lspYXA==
-Date: Fri, 23 Jan 2026 15:44:01 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Zack Weinberg <zack@owlfolio.org>, 
-	Vincent Lefevre <vincent@vinc17.net>, Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Rich Felker <dalias@libc.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <aXOIujSspUpEw1Fk@devuan>
-References: <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <20250524022416.GB6263@brightrain.aerifal.cx>
- <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
- <20260120174659.GE6263@brightrain.aerifal.cx>
- <aW_jz7nucPBjhu0C@devuan>
- <aW_olRn5s1lbbjdH@devuan>
- <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
- <aXLGdWGTrYo1s6v7@devuan>
- <20260123013859.GI3183987@ZenIV>
+	s=k20201202; t=1769183405;
+	bh=kDP9Yb3CbfggR8X+hWoqLQMPd20AumtY0Il/c8TNaKY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=Oe08t/o/2NDsUrMKUH1M6DPGJM2ZN7cDoW08+cOE4juSlAGvrXORrSwCclCZw2aDV
+	 ZkVTKgFOWWiO1/7UD1FizCrSF5aPkbMt0Xz4yP7v5wFhzCq1Ehfu3cawiSSiJn4aFe
+	 tMl2S1/Ku9JhhGFB7uQXeL5ZqG6ZVdbkqwNvLCmPFT6cK/SRjDjHv08QbhhTdsOSlg
+	 YMufXMi1X8phtUbamkl5WfuMZM1sjX7V2NmsZD7t/TCp+rOJJNc02MHDzBzX/GOr5L
+	 jR8J1YHTCxnnSmEGS1fVMkvtoFxQA5PdCm3odBjzpdLrYydUjdPpPGZlr8mqEYL1Up
+	 hVo8FmzWqbd9w==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0A23CF40068;
+	Fri, 23 Jan 2026 10:50:03 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 23 Jan 2026 10:50:03 -0500
+X-ME-Sender: <xms:qphzaYMIDusB_Xk8Iw4J_qqx-jkUaULhjU_4qBqzWqUpKgNdpST7Cg>
+    <xme:qphzaZwl8v4sf68uioXcKj_hJesszvmBEUsFWRFNXVrVwnqNhC5YZvqLhTM2T-XL_
+    29Ydjf5oRad8fHsuBJog-RE6knXPauD3N-ITfWRSm2Ph-WFBMqAALk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeelgeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepfeefpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehsvghnohiihhgrthhskhihsegthhhrohhmihhumhdrohhrghdprhgtphhtth
+    hopegrughilhhgvghrrdhkvghrnhgvlhesughilhhgvghrrdgtrgdprhgtphhtthhopehs
+    lhgrvhgrseguuhgsvgihkhhordgtohhmpdhrtghpthhtoheprhhonhhnihgvshgrhhhlsg
+    gvrhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    gtvghmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegthhgroheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepughjfihonhhgsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:qphzaSbprTumlZMvqgi-fN0ySmTrpZ1Sy0mhtQX_uK9_de-fQjcsIQ>
+    <xmx:qphzacPOrC9HHyrIfATDQn96t02Xea-4bAtCO00lX8l1ixs2IPp1Qg>
+    <xmx:qphzaV7RqCEgahzQH87IyqIo3vInECWRwzjRgOBG54mM8UGQ7ppphw>
+    <xmx:qphzaXdkpZ-ujvs4OTjQ3zL-M4ps1358Ma37t8lfmfNwKytySSzPTw>
+    <xmx:q5hzaR40E4HhwCPyJxnEpYdnMVQu5gKh2EFfpqDTxHOkz4PYOS4LUXhO>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D0B1A780075; Fri, 23 Jan 2026 10:50:02 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3qtp3e4oftcqpoam"
-Content-Disposition: inline
-In-Reply-To: <20260123013859.GI3183987@ZenIV>
+X-ThreadId: AX_vFn8fWldV
+Date: Fri, 23 Jan 2026 10:49:38 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ almaz.alexandrovich@paragon-software.com,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, glaubitz@physik.fu-berlin.de,
+ frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
+ adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
+ "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
+ senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>
+Message-Id: <95aa2a65-e1e8-44ef-a62a-e3190a11cb32@app.fastmail.com>
+In-Reply-To: <20260123002904.GM5945@frogsfrogsfrogs>
+References: <20260122160311.1117669-1-cel@kernel.org>
+ <20260122160311.1117669-8-cel@kernel.org>
+ <20260123002904.GM5945@frogsfrogsfrogs>
+Subject: Re: [PATCH v7 07/16] ext4: Report case sensitivity in fileattr_get
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5742-lists,linux-api=lfdr.de];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-5743-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alx@kernel.org,linux-api@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,app.fastmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.995];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D835677362
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: F31F777FA1
 X-Rspamd-Action: no action
 
 
---3qtp3e4oftcqpoam
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Zack Weinberg <zack@owlfolio.org>, 
-	Vincent Lefevre <vincent@vinc17.net>, Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Rich Felker <dalias@libc.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <aXOIujSspUpEw1Fk@devuan>
-References: <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <20250524022416.GB6263@brightrain.aerifal.cx>
- <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
- <20260120174659.GE6263@brightrain.aerifal.cx>
- <aW_jz7nucPBjhu0C@devuan>
- <aW_olRn5s1lbbjdH@devuan>
- <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
- <aXLGdWGTrYo1s6v7@devuan>
- <20260123013859.GI3183987@ZenIV>
-MIME-Version: 1.0
-In-Reply-To: <20260123013859.GI3183987@ZenIV>
 
-Hi Al,
+On Thu, Jan 22, 2026, at 7:29 PM, Darrick J. Wong wrote:
+> On Thu, Jan 22, 2026 at 11:03:02AM -0500, Chuck Lever wrote:
+>> From: Chuck Lever <chuck.lever@oracle.com>
+>> 
+>> Report ext4's case sensitivity behavior via the FS_XFLAG_CASEFOLD
+>> flag. ext4 always preserves case at rest.
+>> 
+>> Case sensitivity is a per-directory setting in ext4. If the queried
+>> inode is a casefolded directory, report case-insensitive; otherwise
+>> report case-sensitive (standard POSIX behavior).
+>> 
+>> Reviewed-by: Jan Kara <jack@suse.cz>
+>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>> ---
+>>  fs/ext4/ioctl.c | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>> 
+>> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
+>> index 7ce0fc40aec2..462da7aadc80 100644
+>> --- a/fs/ext4/ioctl.c
+>> +++ b/fs/ext4/ioctl.c
+>> @@ -996,6 +996,13 @@ int ext4_fileattr_get(struct dentry *dentry, struct file_kattr *fa)
+>>  	if (ext4_has_feature_project(inode->i_sb))
+>>  		fa->fsx_projid = from_kprojid(&init_user_ns, ei->i_projid);
+>>  
+>> +	/*
+>> +	 * Case folding is a directory attribute in ext4. Set FS_XFLAG_CASEFOLD
+>> +	 * for directories with the casefold attribute; all other inodes use
+>> +	 * standard case-sensitive semantics.
+>> +	 */
+>> +	if (IS_CASEFOLDED(inode))
+>> +		fa->fsx_xflags |= FS_XFLAG_CASEFOLD;
+>
+> Curious.  Shouldn't the VFS set FS_XFLAG_CASEFOLD if the VFS casefolding
+> flag is set?
+>
+> OTOH, there are more filesystems that apparently support casefolding
+> (given the size of this patchset) than actually set S_CASEFOLD.  I think
+> I'm ignorant of something here...
 
-On Fri, Jan 23, 2026 at 01:38:59AM +0000, Al Viro wrote:
-> On Fri, Jan 23, 2026 at 02:02:53AM +0100, Alejandro Colomar wrote:
-> > > HISTORY
-> > >        The close() system call was present in Unix V7.
-> >=20
-> > That would be simply stated as:
-> >=20
-> > 	V7.
-> >=20
-> > We could also document the first POSIX standard, as not all Unix APIs
-> > were standardized at the same time.  Thus:
-> >=20
-> > 	V7, POSIX.1-1988.
-> >=20
-> > Thanks!
->=20
-> 11/3/71							 SYS CLOSE (II)
-> NAME		close -- close a file
-> SYNOPSIS	(file descriptor in r0)
-> 		sys	close		/ close =3D 6.
-> DESCRIPTION	Given a file descriptor such as returned from an open or
-> 		creat call, close closes the associated file. A close of
-> 		all files is automatic on exit, but since processes are
-> 		limited to 10 simultaneously open files, close is
-> 		necessary to programs which deal with many files.
-> FILES
-> SEE ALSO	creat, open
-> DIAGNOSTICS	The error bit (c=E2=80=94bit) is set for an unknown file
-> 		descriptor.
-> BUGS
-> OWNER		ken, dmr
->=20
-> That's V1 manual.  In V3 we already get EBADF on unopened descriptor;
-> in _all_ cases there close(N) ends up with descriptor N not opened.
-
-Thanks!  Then it should actually be
-
-	V1, POSIX.1-1988.
-
-Let's not document the history change from V3, as those details are
-better documented as part of the V3 manual and reading the sources.
+I'm not clear if there's a review action needed. Help?
 
 
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---3qtp3e4oftcqpoam
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlziTEACgkQ64mZXMKQ
-wqkd9A//Qc5qH0/jH1XaCWuZ+6ydFHdwOswvivsa4M41c4y5qQZxrmV4La72BC/b
-dPdYsqNGA+PkQK/3pR5a1jlXGhrg4mXqoXkqI8EQkaszUqPXMyKOirMn90gJR4xT
-Xy4u35vSXUhdlrMWOf1h//P6LGKAMPFCPh1Dm1/uvSYNVY97boBZfGFU13/aChD3
-mZOTOHybW1apxNgRFjevSBZ5t04CXTU+CcGmXQQdwwZE8lYi5bIosEIkWKefoDQR
-yfv1E5lG1ETLlEPqZ76rayiFkmSq1abXJOk2uoYUOxV+7yDDkke2furjlXyFrpag
-FdbjVWxVb9bvNpEF9gqc5QDTac14ESEKWYABon1MVOidVRAXG7/Sy2xa32tZ0tDi
-VPbXPrbk30baUFJKY8yRG3ND90PDBh1BUe5on1o8Db9Zgect1/sZP9gv+w20Su8p
-vvc8gY6z5Nf+rKcV/Cou99rjgFGAnLV2b7BeqKCOG1em+/wr8KuTK5ZnUsaSJ/xx
-BCqPzsDB/5GtFy7Ov+kyEG+/iOcuzVvMhhxUM3EJs3uTQ8IiK41iEMnMrt+4Awn/
-IookzT0oQhOs1sCSuboXFcpfUQICQmAR41S39NXLB56yNytb4mja2plYEfEGjC/L
-18I0G+ydb17JD0DgDLe8Y0UawrMeG3u9/PqGS9og/00b/MfbJFU=
-=gbeJ
------END PGP SIGNATURE-----
-
---3qtp3e4oftcqpoam--
+-- 
+Chuck Lever
 
