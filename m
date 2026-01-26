@@ -1,231 +1,205 @@
-Return-Path: <linux-api+bounces-5767-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5768-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YN1jHU+vd2n2kAEAu9opvQ
-	(envelope-from <linux-api+bounces-5767-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 19:15:43 +0100
+	id wKXDHKbzd2npmgEAu9opvQ
+	(envelope-from <linux-api+bounces-5768-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jan 2026 00:07:18 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C50C8C017
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 19:15:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E307C8E263
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jan 2026 00:07:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id ECA35300E440
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 18:14:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 709113013A8D
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 23:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F9334D937;
-	Mon, 26 Jan 2026 18:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9355030DD08;
+	Mon, 26 Jan 2026 23:07:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVgoIJgT"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b="Bc7EmbAT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta157.mxroute.com (mail-108-mta157.mxroute.com [136.175.108.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FB234D910;
-	Mon, 26 Jan 2026 18:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24DE30C62C
+	for <linux-api@vger.kernel.org>; Mon, 26 Jan 2026 23:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769451246; cv=none; b=ED8BaevKStI7OGKlrrw8+ovt7RT9DaiESycXWFqZry9stBFpD8ePuVLD1g4RFO+otFIikkfiQKjKt+isgbQgwUh7bTJFvoeIOg09a0M/mw8vAttk6NdHM1dxFwtfhh/ZmiAPRRIDLQ3SAvQgzQC9WFZ6OjAMYZejH3MABIxjafU=
+	t=1769468835; cv=none; b=rULgAfvfPDJDUwI/Tc1QgoUE74V9X0taUF9KdHtGYLZs+I988GLHrDUkqgYGwWhO792DgvwAjM8cQWGBoa4w0Drh8z5g+at1yhoCls/G1jB64ZyN/DrZdE+F2t88HY/zLeNStiRx8zZ0Y5iwP2jtKitLq3X9cMeyDTiWJjvBkqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769451246; c=relaxed/simple;
-	bh=jhr9a6cgDBi4L/Y/fqNnkSWD4mZrTD0Td1Kjc0FE7d4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bXin7mABzqZwt6gsvO80zr9Wdd0f2kJoPUUE2h6N8CtsnVVQ3JW+7rQcOPbdMriM4SgwuBUhEXn2Z0+o02liFkFTwnVpKMV6nhUtRkDmHIhut488uVLGo0Y4xlxqDLo/AYlBcK0lGChXCNDqldiUgHXvV1Z4e5PTFXeMODGTNao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVgoIJgT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E27C116C6;
-	Mon, 26 Jan 2026 18:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769451245;
-	bh=jhr9a6cgDBi4L/Y/fqNnkSWD4mZrTD0Td1Kjc0FE7d4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nVgoIJgTaMtZXe7vJx91AIult5bczODnhPAwNvlhgpWv9/zxDR9iqiytQ/4FLN947
-	 pwwrkH5t65DpbcC2Ndjsc3y8aLEOhS0YcPTP/zE9t8jPah+veeX4QBoyt1kmvAWrY+
-	 zRwMXcdzKZtNmnovqWUmBKzDbk9OAYTgK+9DolDd9fVf3ecNbeyx+YBmZX/4TxAWSB
-	 wqRZlkumamMI/9hdPN88aJwNDn2vHU20e79cjnY/MZArxLERLAkk/9E4ucbO4XBing
-	 XS9aPsA9kPCFc1v/sOkFQgZ7s+hN5AxNLT2q9/XSNFJhI7WnNpPfb4LEcMYEAXUTHV
-	 2++X9k5uMy7nA==
-Message-ID: <4e673f7f-c49c-46b0-85b4-bae6e4efcb3a@kernel.org>
-Date: Mon, 26 Jan 2026 19:13:50 +0100
+	s=arc-20240116; t=1769468835; c=relaxed/simple;
+	bh=I97+kPJZrplTlhPViklyYGiaFAMUQCRKVKgoZx1sKHE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=NCUHsT8iOcmWnLVN8nEBynb838nqFMeqasSGOKgZgxFKJQ7IiBLEZ7Ai8frIEjx1kFnvTtQR2BqXSAwlpSJpXVrir6B0CjyQzyfxToPBSUthUMftyVYPkzKIXM2g7l+H0Hpg2/KXsDhaeWjIIdXUrL087qA1SG5/ZIfw7OvVRgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=trevorgross.com; dkim=pass (2048-bit key) header.d=trevorgross.com header.i=@trevorgross.com header.b=Bc7EmbAT; arc=none smtp.client-ip=136.175.108.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trevorgross.com
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta157.mxroute.com (ZoneMTA) with ESMTPSA id 19bfc8af1540009140.009
+ for <linux-api@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Mon, 26 Jan 2026 23:02:02 +0000
+X-Zone-Loop: 2375ffd1e442af89005581b11f855236b02a7d805b45
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=trevorgross.com; s=x; h=In-Reply-To:References:To:From:Subject:Cc:
+	Message-Id:Date:Content-Type:Content-Transfer-Encoding:Mime-Version:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=xKpYJ6JV/CTy0LhvXkMAAAGjNZETCU24btXVUOAYG/s=; b=Bc7EmbATIjrlm3rpnqiczH27rp
+	p+GKPz/h305u71p0vaDTK3wIct/FidOMjGZd+qd5oUTBo76zUhcK5AHDfq5OWuDrlFS7oAP2x79SR
+	UOlGI153hNQrJaBQM6LvMyyTuvyziZEntAcERFWL4kbH5TDrPo6kZYhmBKo0BZTnDMjdqQPeWs8/4
+	lLb86iNg3wxUy5jLTGyS48NJupCF71c6ItXzyJ6vTcilTN0odWD66LDB1/OAP244oHdsqMVS6xH8S
+	ACFnAhsKzAPEpQCcJJXGZb0Pvx1mShkmGCrh5XPRf2HKwAtmyWxtqaXzKpkWTJEo7AUGbNnyvSYdM
+	1Hq6acRQ==;
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
- inclusions after libc ones
-Content-Language: en-GB, fr-BE
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>,
- Rich Felker <dalias@libc.org>, klibc@zytor.com,
- Florian Weimer <fweimer@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Willem de Bruijn <willemb@google.com>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
-References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
- <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 26 Jan 2026 17:01:59 -0600
+Message-Id: <DFYW8O4499ZS.2L1ABA5T5XFF2@umich.edu>
+Cc: "Zack Weinberg" <zack@owlfolio.org>, "Rich Felker" <dalias@libc.org>,
+ "Alejandro Colomar" <alx@kernel.org>, "Vincent Lefevre"
+ <vincent@vinc17.net>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, "GNU libc development"
+ <libc-alpha@sourceware.org>
+Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
+ POSIX.1-2024
+From: "Trevor Gross" <tmgross@umich.edu>
+To: "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>, "The
+ 8472" <kernel@infinite-source.de>
+References: <20260120174659.GE6263@brightrain.aerifal.cx>
+ <aW_jz7nucPBjhu0C@devuan> <aW_olRn5s1lbbjdH@devuan>
+ <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
+ <0f60995f-370f-4c2d-aaa6-731716657f9d@infinite-source.de>
+ <20260124213934.GI6263@brightrain.aerifal.cx>
+ <7654b75b-6697-4aad-93fc-29fa9b734bdb@infinite-source.de>
+ <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
+ <whaocgx6bopndbpag2wazn2ko4skxl4pe6owbavj3wblxjps4s@ntdfvzwggxv3>
+ <c59361e4-ad50-4cdf-888e-3d9a4aa6f69b@infinite-source.de>
+ <pt7hcmgnzwveyzxdfpxtrmz2bt5tki5wosu3kkboil7bjrolyr@hd4ctkpzzqzi>
+ <72100ec4b1ec0e77623bfdb927746dddc77ed116.camel@kernel.org>
+In-Reply-To: <72100ec4b1ec0e77623bfdb927746dddc77ed116.camel@kernel.org>
+X-Authenticated-Id: tg@trevorgross.com
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.14 / 15.00];
+	R_DKIM_REJECT(1.00)[trevorgross.com:s=x];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[umich.edu : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,lists.linux.dev,sourceware.org,redhat.com,linaro.org,libc.org,zytor.com,google.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev];
-	TAGGED_FROM(0.00)[bounces-5767-lists,linux-api=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matttbe@kernel.org,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-5768-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DKIM_TRACE(0.00)[trevorgross.com:-];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tmgross@umich.edu,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9C50C8C017
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,umich.edu:mid]
+X-Rspamd-Queue-Id: E307C8E263
 X-Rspamd-Action: no action
 
-Hi Thomas,
+On Mon Jan 26, 2026 at 10:43 AM CST, Jeff Layton wrote:
+> On Mon, 2026-01-26 at 16:56 +0100, Jan Kara wrote:
+>> On Mon 26-01-26 14:53:12, The 8472 wrote:
+>> > On 26/01/2026 13:15, Jan Kara wrote:
+>> > > On Sun 25-01-26 10:37:01, Zack Weinberg wrote:
+>> > > > On Sat, Jan 24, 2026, at 4:57 PM, The 8472 wrote:
+>> > > > > >       [QUERY: Do delayed errors ever happen in any of these si=
+tuations?
+>> > > > > >=20
+>> > > > > >          - The fd is not the last reference to the open file d=
+escription
+>> > > > > >=20
+>> > > > > >          - The OFD was opened with O_RDONLY
+>> > > > > >=20
+>> > > > > >          - The OFD was opened with O_RDWR but has never actual=
+ly
+>> > > > > >            been written to
+>> > > > > >=20
+>> > > > > >          - No data has been written to the OFD since the last =
+call to
+>> > > > > >            fsync() for that OFD
+>> > > > > >=20
+>> > > > > >          - No data has been written to the OFD since the last =
+call to
+>> > > > > >            fdatasync() for that OFD
+>> > > > > >=20
+>> > > > > >          If we can give some guidance about when people don=E2=
+=80=99t need to
+>> > > > > >          worry about delayed errors, it would be helpful.]
+>> > > >=20
+>> > > > In particular, I really hope delayed errors *aren=E2=80=99t* ever =
+reported
+>> > > > when you close a file descriptor that *isn=E2=80=99t* the last ref=
+erence
+>> > > > to its open file description, because the thread-safe way to close
+>> > > > stdout without losing write errors[2] depends on that not happenin=
+g.
+>> > >=20
+>> > > So I've checked and in Linux ->flush callback for the file is called
+>> > > whenever you close a file descriptor (regardless whether there are o=
+ther
+>> > > file descriptors pointing to the same file description) so it's upto
+>> > > filesystem implementation what it decides to do and which error it w=
+ill
+>> > > return... Checking the implementations e.g. FUSE and NFS *will* retu=
+rn
+>> > > delayed writeback errors on *first* descriptor close even if there a=
+re
+>> > > other still open descriptors for the description AFAICS.
+>
+> ...and I really wish they _didn't_.
+>
+> Reporting a writeback error on close is not particularly useful. Most
+> filesystems don't require you to write back all data on a close(). A
+> successful close() on those just means that no error has happened yet.
+>
+> Any application that cares about writeback errors needs to fsync(),
+> full stop.
 
-On 20/01/2026 15:10, Thomas Weißschuh wrote:
-> Interleaving inclusions of UAPI headers and libc headers is problematic.
-> Both sets of headers define conflicting symbols. To enable their
-> coexistence a compatibility-mechanism is in place.
-> 
-> An upcoming change will define 'struct sockaddr' from linux/socket.h.
-> However sys/socket.h from libc does not yet handle this case and a
-> symbol conflict will arise.
-> 
-> Furthermore libc-compat.h evaluates the state of the libc
-> inclusions only once, at the point it is included first. If another
-> problematic header from libc is included later, symbol conflicts arise.
-> This will trigger other duplicate definitions when linux/libc-compat.h
-> is added to linux/socket.h
-> 
-> Move the inclusion of UAPI headers after the inclusion of the glibc
-> ones, so the libc-compat.h continues to work correctly.
+Is there a good middle ground solution here?
 
-Thank you for looking at this!
+It seems reasonable that an application may want to have different
+handling for errors expected during normal operation, such as temporary
+network failure with NFS, compared to more catastrophic things like
+failure to write to disk. The reason cited around [1] for avoiding fsync
+is that it comes with a cost that, for many applications, may not be
+worth it unless you are dealing with NFS.
 
-Here is my (late, sorry) review for the modifications related to MPTCP:
-> diff --git a/tools/testing/selftests/net/mptcp/mptcp_diag.c b/tools/testing/selftests/net/mptcp/mptcp_diag.c
-> index 8e0b1b8d84b6..af25ebfd2915 100644
-> --- a/tools/testing/selftests/net/mptcp/mptcp_diag.c
-> +++ b/tools/testing/selftests/net/mptcp/mptcp_diag.c
-> @@ -1,11 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright (c) 2025, Kylin Software */
->  
-> -#include <linux/sock_diag.h>
-> -#include <linux/rtnetlink.h>
-> -#include <linux/inet_diag.h>
-> -#include <linux/netlink.h>
-> -#include <linux/compiler.h>
->  #include <sys/socket.h>
->  #include <netinet/in.h>
->  #include <linux/tcp.h>
+I was wondering if it could be worth a new fnctl that provides this kind
+of "best effort" error checking behavior without having the strict
+requirements of fsync. In effect, to report the errors that you might
+currently get at close() before actually calling close() and losing the
+fd.
 
-There is a remaining one (linux/tcp.h) here that you might want to move
-below too.
+Alternatively, it would be interesting to have a deferred fsync() that
+schedules a nonblocking sync event that can be polled for completion/
+errors, with flags to indicate immediate sync or allow automatic syncing
+as needed. But there is probably a better alternative to this
+complexity.
 
-> @@ -17,6 +12,12 @@
->  #include <errno.h>
->  #include <stdio.h>
->  
-> +#include <linux/sock_diag.h>
-> +#include <linux/rtnetlink.h>
-> +#include <linux/inet_diag.h>
-> +#include <linux/netlink.h>
-> +#include <linux/compiler.h>
+- Trevor
 
-Note that I just noticed this is the only file from this directory where
-the "includes" are not sorted by type and alphabetical order, see
-pm_nl_ctl.c as an example. A bit of a detail, but if you plan to send a
-v2, do you mind doing that too here while at it, please?
-
-If not, I can look at that later, but better to avoid doing that in
-parallel.
-
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
-
+[1]: https://github.com/rust-lang/libs-team/issues/705
 
