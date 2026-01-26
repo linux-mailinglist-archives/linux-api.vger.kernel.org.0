@@ -1,221 +1,143 @@
-Return-Path: <linux-api+bounces-5751-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5752-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QOPFNK3LdmltWgEAu9opvQ
-	(envelope-from <linux-api+bounces-5751-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 03:04:29 +0100
+	id aPpvGT4rd2nacwEAu9opvQ
+	(envelope-from <linux-api+bounces-5752-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 09:52:14 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753048364D
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 03:04:29 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F335859D6
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 09:52:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3305630038FA
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 02:04:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A754A300335A
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 08:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD43015CD7E;
-	Mon, 26 Jan 2026 02:04:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516C829E109;
+	Mon, 26 Jan 2026 08:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aG+yVF1i"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XZrntRLA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FF31AC44D
-	for <linux-api@vger.kernel.org>; Mon, 26 Jan 2026 02:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C961130214D
+	for <linux-api@vger.kernel.org>; Mon, 26 Jan 2026 08:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769393067; cv=none; b=Hs8LRdSRDusUHMR/nYa/raXLizGX38TJsSHHMfSS/ECbYymalT1W0WFrzGJOMAX8oRbMK2VnpMlP3z7HMHU3inBVy9x4/b2JnE8jVuI+L+fUZ5wsI2/VX/OxEEbxJgQiTsFT1DpgDnQhs7hHsU6j+BF+X2/LzF/SHY5dAf37I4c=
+	t=1769417532; cv=none; b=YOEo/e5xO9+AuqDyX/zWpeG9SeKXzD7KhSFyxRgF1OR+lTWbXp0Bp1ebTIXFxk8DevmoCAj0KdSdVz6EabBoSMLr9ETeivNXgiPcU56Ik2rPoLkSjx1+hFXyRSDeaX11Sspg4TqtHo0XIasI5UwicqJixlQjQCeXpQxEdFIZNYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769393067; c=relaxed/simple;
-	bh=Qho4rFAhh+NNqe9GgWpu1b9P3YLzTlEjhXB2mMkvjIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dB/zcB8jZlpI5TEXO7S3SRu3hPFQpzJjBK18uC3+6w/tXWCbkvKuNf8JHh63pv6rFyRYpQoLPPGRhoAPdlgiDe2PNQ8gj3nqfvPi+GXRJH9Cu7acZyvY98dArVq5C1Zn8Zm6GOhbVWT04au6ynSKhhUTgUrx3vuQ+LqUChonKgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aG+yVF1i; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <541db2c8-7a96-4cc3-835e-b0eac64d4e3e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769393053;
+	s=arc-20240116; t=1769417532; c=relaxed/simple;
+	bh=VuF13fDDkjsDdQB0FK1glz3rdsLnhvFj2Qao2aEyreo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jcI0pr+8x7cuuHzYBM68Km/VsvWAcs5Dhvz/QwZnpzjU6jRtWdZt8MjkdHFulLlUMdZJkUI8Ofn+4tngmA/FWbBxhPtEU1zTqUYoahmAJY6pBHAqw+D2KMCkzAV1mGkca4jPXobp7DWSCvf6iZbxgfFhgaWChpiJnFyyJ8GfZcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XZrntRLA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769417529;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YU2NlokWChX+w+wYFtB0VNNjx1y0MJTSqOSPtiMrZJc=;
-	b=aG+yVF1iuAkfFXb5QrSJdMFLtW8l+pRkmAMZl5JX5LKO+N9E3qDxLqUg7xTYdEwZZ7B8yc
-	gEJ3tsqciT1taB9oDsHk5PJvxedvZVnF9PwLtRRepoc5ThIVM8DBuXXjN3lH3MOc8D78uS
-	JTWZky/knscIsOLdIbMRc4I6UyfcA/g=
-Date: Mon, 26 Jan 2026 10:03:54 +0800
+	bh=YzWG8mhXvLiSMnrLWOTgHghebUSlEnmkpDMK2MCkjTI=;
+	b=XZrntRLAD3xf+RkRu6BjBOjAUTXdsfxrbTkXS6TXvqcU13RjHUd6BEVVv8yKoyjTTV849/
+	A74STSgPqpznc5Facs5XYzo6fwODwIjV7VkKa10KLbn5GBJG/C0ojvSazuy2wtZXEPQy3v
+	k4zt7ORHDp7fGtV+S8JYQ1dFQuPBYwo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-45-7XI-tJViPxmtoAD9SgSCrw-1; Mon,
+ 26 Jan 2026 03:52:04 -0500
+X-MC-Unique: 7XI-tJViPxmtoAD9SgSCrw-1
+X-Mimecast-MFC-AGG-ID: 7XI-tJViPxmtoAD9SgSCrw_1769417523
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 143001944A84;
+	Mon, 26 Jan 2026 08:52:02 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.45.225.129])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 431D519560B4;
+	Mon, 26 Jan 2026 08:51:57 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: "Zack Weinberg" <zack@owlfolio.org>
+Cc: "The 8472" <kernel@infinite-source.de>,  "Rich Felker"
+ <dalias@libc.org>,  "Alejandro Colomar" <alx@kernel.org>,  "Vincent
+ Lefevre" <vincent@vinc17.net>,  "Jan Kara" <jack@suse.cz>,  "Alexander
+ Viro" <viro@zeniv.linux.org.uk>,  "Christian Brauner"
+ <brauner@kernel.org>,  linux-fsdevel@vger.kernel.org,
+  linux-api@vger.kernel.org,  "GNU libc development"
+ <libc-alpha@sourceware.org>
+Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
+ POSIX.1-2024
+In-Reply-To: <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com> (Zack
+	Weinberg's message of "Sun, 25 Jan 2026 10:37:01 -0500")
+References: <20250517133251.GY1509@brightrain.aerifal.cx>
+	<5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
+	<8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
+	<20250524022416.GB6263@brightrain.aerifal.cx>
+	<1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+	<20260120174659.GE6263@brightrain.aerifal.cx>
+	<aW_jz7nucPBjhu0C@devuan> <aW_olRn5s1lbbjdH@devuan>
+	<1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
+	<0f60995f-370f-4c2d-aaa6-731716657f9d@infinite-source.de>
+	<20260124213934.GI6263@brightrain.aerifal.cx>
+	<7654b75b-6697-4aad-93fc-29fa9b734bdb@infinite-source.de>
+	<de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
+Date: Mon, 26 Jan 2026 09:51:55 +0100
+Message-ID: <lhu8qdkpxhw.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v7 2/9] libbpf: Add support for extended bpf
- syscall
-Content-Language: en-US
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- bpf <bpf@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>,
- Seth Forshee <sforshee@kernel.org>, Yuichiro Tsuji <yuichtsu@amazon.com>,
- Andrey Albershteyn <aalbersh@redhat.com>,
- Willem de Bruijn <willemb@google.com>, Jason Xing
- <kerneljasonxing@gmail.com>, Tao Chen <chen.dylane@linux.dev>,
- Mykyta Yatsenko <yatsenko@meta.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Anton Protopopov <a.s.protopopov@gmail.com>, Amery Hung
- <ameryhung@gmail.com>, Rong Tao <rongtao@cestc.cn>,
- LKML <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- kernel-patches-bot@fb.com
-References: <20260123032445.125259-1-leon.hwang@linux.dev>
- <20260123032445.125259-3-leon.hwang@linux.dev>
- <CAADnVQJLz+nMHCZXUgy2MOxwFczEHNbG8ZUgfZeUY4yXFUKcNw@mail.gmail.com>
- <a0ce1dab-7d7e-4b04-a033-4f0611090d34@linux.dev>
- <CAADnVQ+HJkOikzE3KPhOkd1KNugs7=1dZKY1mfog-ez8noyrDA@mail.gmail.com>
- <419976da-f296-4418-8dfe-8ad50a9f8cb5@linux.dev>
- <CAEf4BzYhhf7Jd6DDr2XVf=3gKeMMmrkWW9Sr49QxuW6QudSKig@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CAEf4BzYhhf7Jd6DDr2XVf=3gKeMMmrkWW9Sr49QxuW6QudSKig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5751-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[32];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,iogearbox.net,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,fb.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,linux.dev:dkim,linux.dev:mid]
-X-Rspamd-Queue-Id: 753048364D
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5752-lists,linux-api=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+]
+X-Rspamd-Queue-Id: 1F335859D6
 X-Rspamd-Action: no action
 
+* Zack Weinberg:
 
+> In particular, I really hope delayed errors *aren=E2=80=99t* ever reported
+> when you close a file descriptor that *isn=E2=80=99t* the last reference
+> to its open file description, because the thread-safe way to close
+> stdout without losing write errors[2] depends on that not happening.
 
-On 24/1/26 02:52, Andrii Nakryiko wrote:
-> On Thu, Jan 22, 2026 at 8:19 PM Leon Hwang <leon.hwang@linux.dev> wrote:
->>
->>
->>
->> On 23/1/26 12:12, Alexei Starovoitov wrote:
->>> On Thu, Jan 22, 2026 at 8:07 PM Leon Hwang <leon.hwang@linux.dev> wrote:
->>>>
->>>>
->>>>
->>>> On 23/1/26 11:55, Alexei Starovoitov wrote:
->>>>> On Thu, Jan 22, 2026 at 7:25 PM Leon Hwang <leon.hwang@linux.dev> wrote:
->>>>>>
->>>>>>
->>>>>> +static int probe_bpf_syscall_common_attrs(int token_fd)
->>>>>> +{
->>>>>> +       int ret;
->>>>>> +
->>>>>> +       ret = probe_sys_bpf_ext();
->>>>>> +       return ret > 0;
->>>>>> +}
->>>>>
->>>>> When you look at the above, what thoughts come to mind?
->>>>>
->>>>> ... and please don't use ai for answers.
->>>>
->>>> My initial thought was whether probe_fd() is needed here to handle and
->>>> close a returned fd, since the return value of probe_sys_bpf_ext() isn’t
->>>> obvious from the call site.
-> 
-> Have you looked at how probes are called (in feat_supported()?) They
-> all follow the same contract: > 0 (normally just 1) means feature is
-> supported, 0 means feature is not supported, and <0 means something
-> went wrong. Libbpf will log an error and will assume feature is not
-> supported.
-> 
+> [2] https://stackoverflow.com/a/50865617 (third code block)
 
-I’ve looked at feat_supported().
-
-Even though I was aware of the probe contract, I should have thought it
-through more carefully in the context of feat_supported() and
-probe_sys_bpf_ext(). With that in mind, your suggestion makes sense now.
-
-> probe_sys_bpf_ext() should either follow that convention or drop the
-> probe_ prefix altogether to avoid confusion. And then
-> probe_bpf_syscall_common_attrs() is necessary only as a wrapper around
-> probe_sys_bpf_ext() to ignore mandatory (but unused) token_fd argument
-> (so to make it "pluggable" into feat_supported() framework).
-> 
-> So, just make probe_sys_bpf_ext() follow probe contract as described,
-> and then just:
-> 
-> static int probe_bpf_syscall_common_attr(int token_fd)
-> {
->     return probe_sys_bpf_ext();
-> }
-> 
-
-I’ll make probe_sys_bpf_ext() follow the standard probe convention, and
-keep probe_bpf_syscall_common_attrs() as a thin wrapper to ignore the
-mandatory (but unused) token_fd argument, so it plugs cleanly into
-feat_supported() framework.
-
-> Alternatively, just make probe_sys_bpf_ext() take token_fd (but ignore
-> it), and just use probe_sys_bpf_ext() directly for feat_supported().
-> 
-> 
-> probe_fd() is not suitable here because it's for a common case when we
-> expect syscall to succeed and create fd, in which case that successful
-> fd represents successful feature detection. This is not the case here,
-> so probe_fd() is not what you should use.
-> 
-
-Agreed as well that probe_fd() is not suitable here, since this probe is
-not expected to return a successful FD.
-
-Thanks for the detailed explanation.
+Are you sure about that?  It means that errors are never reported if a
+shell script redirects standard output over multiple commands.
 
 Thanks,
-Leon
-
->>>
->>> Fair enough, but then collapse it into one helper if FD is a concern.
->>> My question was about stylistic/taste preferences.
->>
->> Understood, thanks for the clarification.
->>
->> I’ll rework it with the stylistic preference in mind.
->>
->> Thanks,
->> Leon
->>
+Florian
 
 
