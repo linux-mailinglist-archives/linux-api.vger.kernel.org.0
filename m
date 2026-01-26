@@ -1,93 +1,119 @@
-Return-Path: <linux-api+bounces-5752-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5753-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPpvGT4rd2nacwEAu9opvQ
-	(envelope-from <linux-api+bounces-5752-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 09:52:14 +0100
+	id OMi6HOlad2maeQEAu9opvQ
+	(envelope-from <linux-api+bounces-5753-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 13:15:37 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F335859D6
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 09:52:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6BF8814D
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 13:15:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A754A300335A
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 08:52:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C193330138AB
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jan 2026 12:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516C829E109;
-	Mon, 26 Jan 2026 08:52:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B95334695;
+	Mon, 26 Jan 2026 12:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XZrntRLA"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yBBGKNNR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wNXMOnVN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yBBGKNNR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wNXMOnVN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C961130214D
-	for <linux-api@vger.kernel.org>; Mon, 26 Jan 2026 08:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6113314BF92
+	for <linux-api@vger.kernel.org>; Mon, 26 Jan 2026 12:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769417532; cv=none; b=YOEo/e5xO9+AuqDyX/zWpeG9SeKXzD7KhSFyxRgF1OR+lTWbXp0Bp1ebTIXFxk8DevmoCAj0KdSdVz6EabBoSMLr9ETeivNXgiPcU56Ik2rPoLkSjx1+hFXyRSDeaX11Sspg4TqtHo0XIasI5UwicqJixlQjQCeXpQxEdFIZNYc=
+	t=1769429734; cv=none; b=lvQOM7BxItvC3Uq3AIIEinF0P3UgwF+r+GhxV78R/IRWBrJ0fiKef8W9NPkdB9VXwAdwvhDkC8JlZPtFbqJua4JowLJ0PwPAELoXHENUQNzg/3laV23q8zCT49Gmj1MoAvL+B/tQmD+9UofU8reFkEcp5MCOikOfe6JfrzVdbk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769417532; c=relaxed/simple;
-	bh=VuF13fDDkjsDdQB0FK1glz3rdsLnhvFj2Qao2aEyreo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jcI0pr+8x7cuuHzYBM68Km/VsvWAcs5Dhvz/QwZnpzjU6jRtWdZt8MjkdHFulLlUMdZJkUI8Ofn+4tngmA/FWbBxhPtEU1zTqUYoahmAJY6pBHAqw+D2KMCkzAV1mGkca4jPXobp7DWSCvf6iZbxgfFhgaWChpiJnFyyJ8GfZcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XZrntRLA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769417529;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	s=arc-20240116; t=1769429734; c=relaxed/simple;
+	bh=dvZd4e0ueOssZNRTtW/IvgYLTWVo3RlTNLOSXlG+RVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2XLb5/UAqjyFnNiLIwOOiEJ4oLoUE3SjWxhLkeIws4ts1BQvssmsKmGS1OtzIVCArPmkm9ufgN9PxL7FFkDlNmr/9u+EJaDm1k1lBlkkohWAjRLfL86eVo0ytLI5QZwJEKYUauLYjFF2rNOfASKer421cjC/omaN31unUvuSBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yBBGKNNR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wNXMOnVN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yBBGKNNR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wNXMOnVN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B25105BCC9;
+	Mon, 26 Jan 2026 12:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769429730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YzWG8mhXvLiSMnrLWOTgHghebUSlEnmkpDMK2MCkjTI=;
-	b=XZrntRLAD3xf+RkRu6BjBOjAUTXdsfxrbTkXS6TXvqcU13RjHUd6BEVVv8yKoyjTTV849/
-	A74STSgPqpznc5Facs5XYzo6fwODwIjV7VkKa10KLbn5GBJG/C0ojvSazuy2wtZXEPQy3v
-	k4zt7ORHDp7fGtV+S8JYQ1dFQuPBYwo=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-45-7XI-tJViPxmtoAD9SgSCrw-1; Mon,
- 26 Jan 2026 03:52:04 -0500
-X-MC-Unique: 7XI-tJViPxmtoAD9SgSCrw-1
-X-Mimecast-MFC-AGG-ID: 7XI-tJViPxmtoAD9SgSCrw_1769417523
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	bh=1LYEoH3r0CsvPjqDVHLvMc0dFHOwWIp8k/GYhOMEFBA=;
+	b=yBBGKNNRNC82vKVeF4t2GGXWOM41ykvTclkgFEB+iycfGYdUhmL4YbXHk04QpiGsNZwyvr
+	2awIIczzjSMWh2yycPWRukLrN5GdZrp2PH753WMVqlhqBU46gGWgru1Nfzi5dmWgyiu6z4
+	PuLqSqFgNBZxVZ0hYTf5189OKBiBS3M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769429730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1LYEoH3r0CsvPjqDVHLvMc0dFHOwWIp8k/GYhOMEFBA=;
+	b=wNXMOnVNJJjunHMRDiSRBLncb0kh+3tYHqZXMTLLNoD0IRqQlp35Qv0+e6H5p3JCQg06hY
+	Mc8kVxou0CMzG2BA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769429730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1LYEoH3r0CsvPjqDVHLvMc0dFHOwWIp8k/GYhOMEFBA=;
+	b=yBBGKNNRNC82vKVeF4t2GGXWOM41ykvTclkgFEB+iycfGYdUhmL4YbXHk04QpiGsNZwyvr
+	2awIIczzjSMWh2yycPWRukLrN5GdZrp2PH753WMVqlhqBU46gGWgru1Nfzi5dmWgyiu6z4
+	PuLqSqFgNBZxVZ0hYTf5189OKBiBS3M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769429730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1LYEoH3r0CsvPjqDVHLvMc0dFHOwWIp8k/GYhOMEFBA=;
+	b=wNXMOnVNJJjunHMRDiSRBLncb0kh+3tYHqZXMTLLNoD0IRqQlp35Qv0+e6H5p3JCQg06hY
+	Mc8kVxou0CMzG2BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 143001944A84;
-	Mon, 26 Jan 2026 08:52:02 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.45.225.129])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 431D519560B4;
-	Mon, 26 Jan 2026 08:51:57 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: "Zack Weinberg" <zack@owlfolio.org>
-Cc: "The 8472" <kernel@infinite-source.de>,  "Rich Felker"
- <dalias@libc.org>,  "Alejandro Colomar" <alx@kernel.org>,  "Vincent
- Lefevre" <vincent@vinc17.net>,  "Jan Kara" <jack@suse.cz>,  "Alexander
- Viro" <viro@zeniv.linux.org.uk>,  "Christian Brauner"
- <brauner@kernel.org>,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  "GNU libc development"
- <libc-alpha@sourceware.org>
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98DCC139F0;
+	Mon, 26 Jan 2026 12:15:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id S4tMJeJad2mABQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Jan 2026 12:15:30 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 39D8FA0A4F; Mon, 26 Jan 2026 13:15:30 +0100 (CET)
+Date: Mon, 26 Jan 2026 13:15:30 +0100
+From: Jan Kara <jack@suse.cz>
+To: Zack Weinberg <zack@owlfolio.org>
+Cc: The 8472 <kernel@infinite-source.de>, Rich Felker <dalias@libc.org>, 
+	Alejandro Colomar <alx@kernel.org>, Vincent Lefevre <vincent@vinc17.net>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	GNU libc development <libc-alpha@sourceware.org>
 Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
  POSIX.1-2024
-In-Reply-To: <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com> (Zack
-	Weinberg's message of "Sun, 25 Jan 2026 10:37:01 -0500")
-References: <20250517133251.GY1509@brightrain.aerifal.cx>
-	<5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
-	<8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
-	<20250524022416.GB6263@brightrain.aerifal.cx>
-	<1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
-	<20260120174659.GE6263@brightrain.aerifal.cx>
-	<aW_jz7nucPBjhu0C@devuan> <aW_olRn5s1lbbjdH@devuan>
-	<1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
-	<0f60995f-370f-4c2d-aaa6-731716657f9d@infinite-source.de>
-	<20260124213934.GI6263@brightrain.aerifal.cx>
-	<7654b75b-6697-4aad-93fc-29fa9b734bdb@infinite-source.de>
-	<de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
-Date: Mon, 26 Jan 2026 09:51:55 +0100
-Message-ID: <lhu8qdkpxhw.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Message-ID: <whaocgx6bopndbpag2wazn2ko4skxl4pe6owbavj3wblxjps4s@ntdfvzwggxv3>
+References: <20250524022416.GB6263@brightrain.aerifal.cx>
+ <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
+ <20260120174659.GE6263@brightrain.aerifal.cx>
+ <aW_jz7nucPBjhu0C@devuan>
+ <aW_olRn5s1lbbjdH@devuan>
+ <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
+ <0f60995f-370f-4c2d-aaa6-731716657f9d@infinite-source.de>
+ <20260124213934.GI6263@brightrain.aerifal.cx>
+ <7654b75b-6697-4aad-93fc-29fa9b734bdb@infinite-source.de>
+ <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -95,49 +121,158 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-5753-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[suse.cz];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,suse.cz:dkim];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-api];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5752-lists,linux-api=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+]
-X-Rspamd-Queue-Id: 1F335859D6
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: CB6BF8814D
 X-Rspamd-Action: no action
 
-* Zack Weinberg:
-
-> In particular, I really hope delayed errors *aren=E2=80=99t* ever reported
-> when you close a file descriptor that *isn=E2=80=99t* the last reference
+On Sun 25-01-26 10:37:01, Zack Weinberg wrote:
+> On Sat, Jan 24, 2026, at 4:57 PM, The 8472 wrote:
+> >>     Delayed errors reported by close()
+> >>
+> >>         In a variety of situations, most notably when writing to a file
+> >>         that is hosted on a network file server, write(2) operations may
+> >>         “optimistically” return successfully as soon as the write has
+> >>         been queued for processing.
+> >>
+> >>         close(2) waits for confirmation that *most* of the processing
+> >>         for previous writes to a file has been completed, and reports
+> >>         any errors that the earlier write() calls *would have* reported,
+> >>         if they hadn’t returned optimistically.  Especially, close()
+> >>         will report “disk full” (ENOSPC) and “disk quota exceeded”
+> >>         (EDQUOT) errors that write() didn’t wait for.
+> >
+> > The Rust standard library team is also interested in this topic, there
+> > is lively discussion[1] whether it makes sense to surface errors from
+> > close at all. Our current default is to ignore them.
+> > It is my understanding that errors may not have happened yet at
+> > the time of close due to delayed writeback or additional descriptors
+> > pointing to the description, e.g. in a forked child, and thus
+> > close() is not a reliable mechanism for error detection and
+> > fsync() is the only available option.
+> >
+> > [1] https://github.com/rust-lang/libs-team/issues/705
+> 
+> This is something I care about a lot as well, but I currently don’t
+> have an *opinion*.  To form an informed opinion, I need the answers
+> to these questions:
+> 
+> >>      [QUERY: Do delayed errors ever happen in any of these situations?
+> >>
+> >>         - The fd is not the last reference to the open file description
+> >>
+> >>         - The OFD was opened with O_RDONLY
+> >>
+> >>         - The OFD was opened with O_RDWR but has never actually
+> >>           been written to
+> >>
+> >>         - No data has been written to the OFD since the last call to
+> >>           fsync() for that OFD
+> >>
+> >>         - No data has been written to the OFD since the last call to
+> >>           fdatasync() for that OFD
+> >>
+> >>         If we can give some guidance about when people don’t need to
+> >>         worry about delayed errors, it would be helpful.]
+> 
+> In particular, I really hope delayed errors *aren’t* ever reported
+> when you close a file descriptor that *isn’t* the last reference
 > to its open file description, because the thread-safe way to close
 > stdout without losing write errors[2] depends on that not happening.
 
-> [2] https://stackoverflow.com/a/50865617 (third code block)
+So I've checked and in Linux ->flush callback for the file is called
+whenever you close a file descriptor (regardless whether there are other
+file descriptors pointing to the same file description) so it's upto
+filesystem implementation what it decides to do and which error it will
+return... Checking the implementations e.g. FUSE and NFS *will* return
+delayed writeback errors on *first* descriptor close even if there are
+other still open descriptors for the description AFAICS.
 
-Are you sure about that?  It means that errors are never reported if a
-shell script redirects standard output over multiple commands.
+> And whether the Rust stdlib can legitimately say “leaving aside the
+> additional cost of calling fsync(), you do not *need* the error return
+> from close() because you can call fsync() first,” depends on whether
+> it’s actually true that you *won’t* ever get a delayed error from
+> close() if you called fsync() first and didn’t do any more output in
+> between (assume the fd has no duplicates here).  I would not be
+> surprised at all if those FUSE guys insisted on their right to make
+> 
+>     char msg[] = "soon I will be invincible\n";
+>     int fd = open("/test-fuse-fs/test.txt", O_WRONLY, 0666);
+>     write(fd, msg, sizeof(msg) - 1);
+>     fsync(fd);
+>     close(fd);
+> 
+> return an error *only* from the close, not the write or the fsync.
 
-Thanks,
-Florian
+So fsync(2) must make sure data is persistently stored and return error if
+it was not. Thus as a VFS person I'd consider it a filesystem bug if an
+error preveting reading data later was not returned from fsync(2). OTOH
+that doesn't necessarily mean that later close doesn't return an error -
+e.g. FUSE does communicate with the server on close that can fail and
+error can be returned.
 
+With this in mind let me now try to answer your remaining questions:
+
+> >>         - The OFD was opened with O_RDONLY
+
+If the filesystem supports atime, close can in principle report that atime
+update failed. 
+
+> >>         - The OFD was opened with O_RDWR but has never actually
+> >>           been written to
+
+The same as above but with inode mtime updates.
+
+> >>         - No data has been written to the OFD since the last call to
+> >>           fsync() for that OFD
+
+No writeback errors should happen in this case. As I wrote above I'd
+consider this a filesystem bug.
+
+> >>
+> >>         - No data has been written to the OFD since the last call to
+> >>           fdatasync() for that OFD
+
+Errors can happen because some inode metadata (in practice probably only
+inode time stamps) may still need to be written out.
+
+So in the cases described above (except for fsync()) you may get delayed
+errors on close. But since in all those cases no data is lost, I don't
+think 99.9% of applications care at all...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
