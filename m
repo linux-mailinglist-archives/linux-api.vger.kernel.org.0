@@ -1,163 +1,260 @@
-Return-Path: <linux-api+bounces-5784-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5786-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sCRWBwU7fmkOWgIAu9opvQ
-	(envelope-from <linux-api+bounces-5784-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 31 Jan 2026 18:25:25 +0100
+	id +DeNOKu3gGl3AgMAu9opvQ
+	(envelope-from <linux-api+bounces-5786-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 02 Feb 2026 15:41:47 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5175AC32EF
-	for <lists+linux-api@lfdr.de>; Sat, 31 Jan 2026 18:25:24 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F72CD7D5
+	for <lists+linux-api@lfdr.de>; Mon, 02 Feb 2026 15:41:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 477513019936
-	for <lists+linux-api@lfdr.de>; Sat, 31 Jan 2026 17:25:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 69013300D4E7
+	for <lists+linux-api@lfdr.de>; Mon,  2 Feb 2026 14:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE1E34CFB8;
-	Sat, 31 Jan 2026 17:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E614736EA8E;
+	Mon,  2 Feb 2026 14:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyOpOqHt"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hVf4bAAP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68842E54D1;
-	Sat, 31 Jan 2026 17:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74ABF36997F
+	for <linux-api@vger.kernel.org>; Mon,  2 Feb 2026 14:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769880320; cv=none; b=sJOCOtxy7Fbts6voOSu6ckPujJMpdgqF0WfLykqmrYJXSNUj/MvxuRrPVbEcT/FCMmOryUrfz7nENiLKmH9PAHRqiLuCwvt6aqug0dun5jAXRj0bEGyerbr/AVAZYTAptVtKC6w30JxIFQ0uf7/uq+ESbqOwlV7ps73QGqf3OV4=
+	t=1770043290; cv=none; b=fqyp3xrIWIzD4lW6AK8ajMYkK8hYFN1uwxs+dFlos6ZWNSsRjOGlINo9vqKZ/GwbYWeZGuWKsFgQ5wjH7Zpb5jCDyzbtWLmU0kYg8+fW/gPEufZIr2qzrvLl8SU+TZ+B4pY0ja1omq2F9xD6+bm2EzPeUon5ol9hBnHQMwOgi9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769880320; c=relaxed/simple;
-	bh=VdrhpYX/xqvIWPFWCfZ0baQLFsfzzI9f0fA4hBvpNCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O3+W8ZWliBSrEUXOZpR89v6xUst4VY2A1ITCEEqDnpOCE2Nmmk4C7sSdpwSCoKwPDW1hPAQxzIrrY8L1YT46TtH9bi4xnvcFBJ9ZvuoqtL/nGdpls5UGzyhwB7kTS+PjzqBlzAF1Iq6TOgbWjW68lJgscsN9H2w3o79A+3ySkzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lyOpOqHt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D040DC4CEF1;
-	Sat, 31 Jan 2026 17:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769880320;
-	bh=VdrhpYX/xqvIWPFWCfZ0baQLFsfzzI9f0fA4hBvpNCU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lyOpOqHtctSBTT3RWfweLWjBSm8lFZdjvHAYZ8acBPsXKdsjhFaUI1HvBiJ+8esQx
-	 iZs9nM9nCkE7C41cwpNx07jcYh/Px++kGNvfXvuhwX+wcMLQRj3Vei2r7mL3A7gRAP
-	 7sPp2rRkruTZ74GGD8uXtl4d+ahRcbGFQ3JQro/P40AzkNF4VJ+T3MekVszUbRbz/N
-	 9XI2GGu2IoULhGPWnwnHmv6sxDJ79guFXCEv4zSwUe1AySyAk8Hu6XAtx17nkNtu9E
-	 3KTO/1xg6dk0qlgHyjCXxlSWgJg9zXp0c8PygCMTcs2k7jy8vycYji3w1BL7uj3OQQ
-	 vxGVswCFi595w==
-Date: Sat, 31 Jan 2026 09:25:17 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
-Cc: Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn
- <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, Simon Horman
- <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, Matthieu Baerts
- <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, Geliang Tang
- <geliang@kernel.org>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?=
- <mic@digikod.net>, =?UTF-8?B?R8O8bnRoZXI=?= Noack <gnoack@google.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP Singh
- <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, Adhemerval
- Zanella <adhemerval.zanella@linaro.org>, Rich Felker <dalias@libc.org>,
- klibc@zytor.com, Florian Weimer <fweimer@redhat.com>
-Subject: Re: [PATCH net-next v2 0/4] net: uapi: Provide an UAPI definition
- of 'struct sockaddr'
-Message-ID: <20260131092517.6639d84c@kernel.org>
-In-Reply-To: <3c46fc49-b41b-44a2-b42a-669cc7e6bb02@linutronix.de>
-References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
-	<20260121192729.2095aa25@kernel.org>
-	<20260130112309-28f2645b-e756-4173-96da-cf5c59191520@linutronix.de>
-	<20260130081741.425a92e0@kernel.org>
-	<3c46fc49-b41b-44a2-b42a-669cc7e6bb02@linutronix.de>
+	s=arc-20240116; t=1770043290; c=relaxed/simple;
+	bh=z3rx/jabtg9ZjYZCaLoUAL261UbpmRt6sfWTLpeuLbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=torrCz5/HhZ5VqatiWD6E2h+2Yy+4cUARxEL06iOxVWNdW8cqozxhD2JLxJe8gwqT+nJlCjT3StMVWPuFdHCUAL666HDuU6xiqMlW+rEuOLZGE2ZkhgHDCky6zpaS+hZ5Hj7TKPAXLKvXtz1UCazxgn2XFhB+Y+y7770wqES3G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hVf4bAAP; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770043275;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IQ2vObq+NaydxwU+/lMrowqMpvWKRek5w2I4imqOgDE=;
+	b=hVf4bAAPiZwHAoV0hq0QBmfyOkR9I/Q+iImhAuKG0CdRrrh4k2fHS/0YyWrRc8Yk+1Vwu8
+	1oMMk7kDuo7BLU98FBP/MTqjYWdRdX3e7blh7voXWmpsymj2xRLxp5MJ5m/DpAlZ5vLy3F
+	rG0FX0T3nPZPhYcG0ItpwFp8oVsuyrA=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Tao Chen <chen.dylane@linux.dev>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [PATCH bpf-next v9 0/9] bpf: Extend BPF syscall with common attributes support
+Date: Mon,  2 Feb 2026 22:40:37 +0800
+Message-ID: <20260202144046.30651-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5784-lists,linux-api=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	TAGGED_FROM(0.00)[bounces-5786-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev,vger.kernel.org,arndb.de,lists.linux.dev,sourceware.org,linaro.org,libc.org,zytor.com];
-	RCPT_COUNT_TWELVE(0.00)[40];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5175AC32EF
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux.dev:mid,linux.dev:dkim]
+X-Rspamd-Queue-Id: 85F72CD7D5
 X-Rspamd-Action: no action
 
-On Sat, 31 Jan 2026 11:26:32 +0100 Thomas Wei=C3=9Fschuh wrote:
-> Jan 30, 2026 17:17:46 Jakub Kicinski <kuba@kernel.org>:
->=20
-> > On Fri, 30 Jan 2026 11:34:15 +0100 Thomas Wei=C3=9Fschuh wrote: =20
-> >> Some of them get broken by the new 'struct sockaddr', but some others =
-are
-> >> already broken just by the new transitive inclusion of libc-compat.h.
-> >> So any header starting to use the compatibility machinery may trigger =
-breakage
-> >> in code including UAPI headers before libc header, even for completely=
- new type
-> >> definitions which themselves would not conflict with libc. =20
-> >
-> > Let's split the uAPI header changes from any selftest changes.
-> > If you're saying the the selftests no longer build after the uAPI
-> > header changes then of course we can't apply the patches. =20
->=20
-> Yes, the selftests don't build anymore after the uAPI changes.
->=20
-> "can't apply" as in
-> * "can't apply separately"
-> * "are unacceptable in general"
+This patch series builds upon the discussion in
+"[PATCH bpf-next v4 0/4] bpf: Improve error reporting for freplace attachment failure" [1].
 
-this one
+This patch series introduces support for *common attributes* in the BPF
+syscall, providing a unified mechanism for passing shared metadata across
+all BPF commands.
 
-> * "are too late for this cycle"
-> ?
->=20
-> None of this is urgent.
-> We can do the selftests in one cycle and the uAPI in another one.
-> Feel free to pick up the patches as you see fit.
-> (The mptcp changes already go through their tree, so need to be dropped h=
-ere)
-> I can also resubmit the patches differently if preferred.
+The initial set of common attributes includes:
 
-The selftests are just a canary in the coalmine. If we break a bunch of
-selftests chances are we'll also break compilation of real applications
-for people. Subjective, but I don't see a sufficient upside here to do
-that.
+1. 'log_buf': User-provided buffer for storing log output.
+2. 'log_size': Size of the provided log buffer.
+3. 'log_level': Verbosity level for logging.
+4. 'log_true_size': The size of log reported by kernel.
 
-FWIW the typelimits change broke compilation of ethtool, we'll see if
-anyone "outside kernel community itself" complains.
+With this extension, the BPF syscall will be able to return meaningful
+error messages (e.g., failures of creating map), improving debuggability
+and user experience.
+
+Links:
+[1] https://lore.kernel.org/bpf/20250224153352.64689-1-leon.hwang@linux.dev/
+
+Changes:
+v8 -> v9:
+* Rework reporting 'log_true_size' for prog_load, btf_load, and map_create to
+  simplify struct bpf_log_attr (per Alexei).
+* v8: https://lore.kernel.org/bpf/20260126151409.52072-1-leon.hwang@linux.dev/
+
+v7 -> v8:
+* Return 0 when fd < 0 and errno != EFAULT in probe_sys_bpf_ext(), then simplify
+  probe_bpf_syscall_common_attrs() (per Alexei and Andrii).
+* v7: https://lore.kernel.org/bpf/20260123032445.125259-1-leon.hwang@linux.dev/
+
+v6 -> v7:
+* Return -errno when fd < 0 and errno != EFAULT in probe_sys_bpf_ext().
+* Convert return value of probe_sys_bpf_ext() to bool in
+  probe_bpf_syscall_common_attrs().
+* Address comments from Andrii:
+  * Drop the comment, and handle fd >= 0 case explicitly in
+    probe_sys_bpf_ext().
+  * Return an error when fd >= 0 in probe_sys_bpf_ext().
+* v6: https://lore.kernel.org/bpf/20260120152424.40766-1-leon.hwang@linux.dev/
+
+v5 -> v6:
+* Address comments from Andrii:
+  * Update some variables' name.
+  * Drop unnecessary 'close(fd)' in libbpf.
+  * Rename FEAT_EXTENDED_SYSCALL to FEAT_BPF_SYSCALL_COMMON_ATTRS with
+    updated description in libbpf.
+  * Use EINVAL instead of EUSERS, as EUSERS is not used in bpf yet.
+  * Rename struct bpf_syscall_common_attr_opts to bpf_log_opts in libbpf.
+  * Add 'OPTS_SET(log_opts, log_true_size, 0);' in libbpf's 'bpf_map_create()'.
+* v5: https://lore.kernel.org/bpf/20260112145616.44195-1-leon.hwang@linux.dev/
+
+v4 -> v5:
+* Rework reporting 'log_true_size' for prog_load, btf_load, and map_create
+  (per Alexei).
+* v4: https://lore.kernel.org/bpf/20260106172018.57757-1-leon.hwang@linux.dev/
+
+RFC v3 -> v4:
+* Drop RFC.
+* Address comments from Andrii:
+  * Add parentheses in 'sys_bpf_ext()'.
+  * Avoid creating new fd in 'probe_sys_bpf_ext()'.
+  * Add a new struct to wrap log fields in libbpf.
+* Address comments from Alexei:
+  * Do not skip writing to user space when log_true_size is zero.
+  * Do not use 'bool' arguments.
+  * Drop the adding WARN_ON_ONCE()'s.
+* v3: https://lore.kernel.org/bpf/20251002154841.99348-1-leon.hwang@linux.dev/
+
+RFC v2 -> RFC v3:
+* Rename probe_sys_bpf_extended to probe_sys_bpf_ext.
+* Refactor reporting 'log_true_size' for prog_load.
+* Refactor reporting 'btf_log_true_size' for btf_load.
+* Add warnings for internal bugs in map_create.
+* Check log_true_size in test cases.
+* Address comment from Alexei:
+  * Change kvzalloc/kvfree to kzalloc/kfree.
+* Address comments from Andrii:
+  * Move BPF_COMMON_ATTRS to 'enum bpf_cmd' alongside brief comment.
+  * Add bpf_check_uarg_tail_zero() for extra checks.
+  * Rename sys_bpf_extended to sys_bpf_ext.
+  * Rename sys_bpf_fd_extended to sys_bpf_ext_fd.
+  * Probe the new feature using NULL and -EFAULT.
+  * Move probe_sys_bpf_ext to libbpf_internal.h and drop LIBBPF_API.
+  * Return -EUSERS when log attrs are conflict between bpf_attr and
+    bpf_common_attr.
+  * Avoid touching bpf_vlog_init().
+  * Update the reason messages in map_create.
+  * Finalize the log using __cleanup().
+  * Report log size to users.
+  * Change type of log_buf from '__u64' to 'const char *' and cast type
+    using ptr_to_u64() in bpf_map_create().
+  * Do not return -EOPNOTSUPP when kernel doesn't support this feature
+    in bpf_map_create().
+  * Add log_level support for map creation for consistency.
+* Address comment from Eduard:
+  * Use common_attrs->log_level instead of BPF_LOG_FIXED.
+* v2: https://lore.kernel.org/bpf/20250911163328.93490-1-leon.hwang@linux.dev/
+
+RFC v1 -> RFC v2:
+* Fix build error reported by test bot.
+* Address comments from Alexei:
+  * Drop new uapi for freplace.
+  * Add common attributes support for prog_load and btf_load.
+  * Add common attributes support for map_create.
+* v1: https://lore.kernel.org/bpf/20250728142346.95681-1-leon.hwang@linux.dev/
+
+Leon Hwang (9):
+  bpf: Extend BPF syscall with common attributes support
+  libbpf: Add support for extended bpf syscall
+  bpf: Refactor reporting log_true_size for prog_load
+  bpf: Add syscall common attributes support for prog_load
+  bpf: Refactor reporting btf_log_true_size for btf_load
+  bpf: Add syscall common attributes support for btf_load
+  bpf: Add syscall common attributes support for map_create
+  libbpf: Add syscall common attributes support for map_create
+  selftests/bpf: Add tests to verify map create failure log
+
+ include/linux/bpf.h                           |   4 +-
+ include/linux/bpf_verifier.h                  |  17 ++
+ include/linux/btf.h                           |   3 +-
+ include/linux/syscalls.h                      |   3 +-
+ include/uapi/linux/bpf.h                      |   8 +
+ kernel/bpf/btf.c                              |  26 +--
+ kernel/bpf/log.c                              | 101 +++++++++++
+ kernel/bpf/syscall.c                          | 107 ++++++++---
+ kernel/bpf/verifier.c                         |  13 +-
+ tools/include/uapi/linux/bpf.h                |   8 +
+ tools/lib/bpf/bpf.c                           |  52 +++++-
+ tools/lib/bpf/bpf.h                           |  17 +-
+ tools/lib/bpf/features.c                      |   8 +
+ tools/lib/bpf/libbpf_internal.h               |   3 +
+ .../selftests/bpf/prog_tests/map_init.c       | 168 ++++++++++++++++++
+ 15 files changed, 483 insertions(+), 55 deletions(-)
+
+--
+2.52.0
 
