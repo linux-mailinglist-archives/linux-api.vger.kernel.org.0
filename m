@@ -1,313 +1,177 @@
-Return-Path: <linux-api+bounces-5794-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5795-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GYZD565gGl3AgMAu9opvQ
-	(envelope-from <linux-api+bounces-5794-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 02 Feb 2026 15:50:06 +0100
+	id 6GKpOEPfgWmDLQMAu9opvQ
+	(envelope-from <linux-api+bounces-5795-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 03 Feb 2026 12:42:59 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB190CD9BA
-	for <lists+linux-api@lfdr.de>; Mon, 02 Feb 2026 15:50:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBBBD88D0
+	for <lists+linux-api@lfdr.de>; Tue, 03 Feb 2026 12:42:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2B8C43160A14
-	for <lists+linux-api@lfdr.de>; Mon,  2 Feb 2026 14:43:27 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2F85B3007AF0
+	for <lists+linux-api@lfdr.de>; Tue,  3 Feb 2026 11:42:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E7F371041;
-	Mon,  2 Feb 2026 14:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F3BC3382C8;
+	Tue,  3 Feb 2026 11:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Q19T/4cF"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Is5q8smq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kzcip55z"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E8C36B05C
-	for <linux-api@vger.kernel.org>; Mon,  2 Feb 2026 14:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDC232F75B;
+	Tue,  3 Feb 2026 11:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770043404; cv=none; b=qjWt/ADqHjOa0op+oaKXg4Z9/+8vD1xuWXg5tA3mlzze5/nJwQ31qX6FzzSTkZLQtxT3bkAC1gdbFViDY4tvdmeKFSXvZGYaq0wY48w/sPZDUiBnoj2ChBvgUQh0YgUhnCLZFzm/6DteNJ++hQ+3cf60MT7NNTWyPbt1/fOrMzk=
+	t=1770118947; cv=none; b=u+3w7mj0eD+/qD9qvco0Nb3t5c/Hing72O/vImV8t0TjCWohVtzkjLwhujsyJV0YxvPAIY4gkrEHPZ9iTbSBtntuxyFrCE3DMZRI20Io+GmOlN6sblznsB12Ei4tGha4sVobEod5NG2O83qx+TXWLMJRQLflkJD3ntpUgPNp/IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770043404; c=relaxed/simple;
-	bh=lRMaXBCmuroYEA8EMWnl7dKsDl+uPc5spkCIVT8MdKg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hnQRLOI+LQ+kpkyC0Jsp/Ng+KGOftBi1pqj88LyfTO0FIZJDnxgjGGyT6vGq+vL4dYpxL3auoVNPuoMNRMWASyg80h0DCwlpUuO32GwMEDWtdWL02AoR5tFSBzrHPaXoRCQl5AM99RdFF4dctDy6hIbcagAaqAm6O3qNZvaSih8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Q19T/4cF; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770043398;
+	s=arc-20240116; t=1770118947; c=relaxed/simple;
+	bh=f/4jPZjlH43hVd7djQf+N42+eV6nxJtc05EPg7iYKfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d9xh8asrCGIzfjpQdYFzhSMPSOYu0DGaaGqMMSxIg3m36oZcpL8CghP0gj0QhmQogS3/8Qy3XlCwHDWTl+rx93hoBxZwAHAEKATgdlEtAq3JaUT7rEIX3OrgW5XsFkaUXh2ehhXzkn7Ybr3TWfS32NyUvrbelTFjToxcKlVOsqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Is5q8smq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kzcip55z; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 3 Feb 2026 12:42:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770118943;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bTUbEhqHJLhG8hIlAVdEqIlik/ffHI3gpe+iOi5xJpk=;
-	b=Q19T/4cFOzGDk104lhoD2ZvwEjMMFR7mtWwVZ79gJzct0Lf1uZnr4spX90vYn2CyDEx+xy
-	W4t6bj2/CVAJC3BPefMEJWjQwzjds1XPbAAVaQ3B2qS6+MJ1Qp/8SZE0s8iQdcI9XAOCCD
-	RE7aa2vn8WVUxC9pOOnstgGn+8ceHmk=
-From: Leon Hwang <leon.hwang@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Seth Forshee <sforshee@kernel.org>,
-	Yuichiro Tsuji <yuichtsu@amazon.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Leon Hwang <leon.hwang@linux.dev>,
-	Willem de Bruijn <willemb@google.com>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Tao Chen <chen.dylane@linux.dev>,
-	Mykyta Yatsenko <yatsenko@meta.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Anton Protopopov <a.s.protopopov@gmail.com>,
-	Amery Hung <ameryhung@gmail.com>,
-	Rong Tao <rongtao@cestc.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-patches-bot@fb.com
-Subject: [PATCH bpf-next v9 9/9] selftests/bpf: Add tests to verify map create failure log
-Date: Mon,  2 Feb 2026 22:40:46 +0800
-Message-ID: <20260202144046.30651-10-leon.hwang@linux.dev>
-In-Reply-To: <20260202144046.30651-1-leon.hwang@linux.dev>
-References: <20260202144046.30651-1-leon.hwang@linux.dev>
+	bh=Okjru8snA57GtyYjXxOgEFvqQ11nIpWc1KWAif9Vb94=;
+	b=Is5q8smq+1zCbNi8BcIT2F9JYkNoW4I2f6h3IsAC9+TAHZAJA+ptGoNxcksmNb9TJO7ASM
+	GrBNDpYopQXBfgTY5M6dWw4bCJMOtSruU2w8tp2eZKjimAA7Ubd1/OALNQQKUG+MLkwnUd
+	QRxbn1zb/g1zvxcC0GPrJcXHA9tPI/baTjQBdtonqWrDpkipE2wNvACjNoyebH1Ydp8s50
+	A946N23gdg226yVCStxech6jmC/7kbE9izKiwBmJX4vSz09YNs35yZeWZTuvY25R9TIzTe
+	p6tIfDELXJ+D1UMNJYD9v/kqx9EK1ZaQ5UlQiuNoexqlLkUa4DGFCiYIuHFNLQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770118943;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Okjru8snA57GtyYjXxOgEFvqQ11nIpWc1KWAif9Vb94=;
+	b=kzcip55zJZvPYHswIjpDmmP5Hv1N0sjB+RQRB7cIM929AaKZ+VGOUSayo7E5Sl+KS/jTXA
+	BYV4WQ5EQ7zRpvCA==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+	Geliang Tang <geliang@kernel.org>, =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-kselftest@vger.kernel.org, 
+	mptcp@lists.linux.dev, linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+	libc-alpha@sourceware.org, Carlos O'Donell <carlos@redhat.com>, 
+	Adhemerval Zanella <adhemerval.zanella@linaro.org>, Rich Felker <dalias@libc.org>, klibc@zytor.com, 
+	Florian Weimer <fweimer@redhat.com>
+Subject: Re: [PATCH net-next v2 0/4] net: uapi: Provide an UAPI definition of
+ 'struct sockaddr'
+Message-ID: <20260203122715-eeb304f9-4b42-4fc6-a527-658182a92ba5@linutronix.de>
+References: <20260120-uapi-sockaddr-v2-0-63c319111cf6@linutronix.de>
+ <20260121192729.2095aa25@kernel.org>
+ <20260130112309-28f2645b-e756-4173-96da-cf5c59191520@linutronix.de>
+ <20260130081741.425a92e0@kernel.org>
+ <3c46fc49-b41b-44a2-b42a-669cc7e6bb02@linutronix.de>
+ <20260131092517.6639d84c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260131092517.6639d84c@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	TAGGED_FROM(0.00)[bounces-5794-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5795-lists,linux-api=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,redhat.com,davemloft.net,kernel.org,digikod.net,iogearbox.net,gmail.com,fomichev.me,linux.dev,vger.kernel.org,arndb.de,lists.linux.dev,sourceware.org,linaro.org,libc.org,zytor.com];
+	RCPT_COUNT_TWELVE(0.00)[40];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.dev:email,linux.dev:dkim,linux.dev:mid]
-X-Rspamd-Queue-Id: BB190CD9BA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0DBBBD88D0
 X-Rspamd-Action: no action
 
-Add tests to verify that the kernel reports the expected error messages
-when map creation fails.
+On Sat, Jan 31, 2026 at 09:25:17AM -0800, Jakub Kicinski wrote:
+> On Sat, 31 Jan 2026 11:26:32 +0100 Thomas Weißschuh wrote:
+> > Jan 30, 2026 17:17:46 Jakub Kicinski <kuba@kernel.org>:
+> > 
+> > > On Fri, 30 Jan 2026 11:34:15 +0100 Thomas Weißschuh wrote:  
+> > >> Some of them get broken by the new 'struct sockaddr', but some others are
+> > >> already broken just by the new transitive inclusion of libc-compat.h.
+> > >> So any header starting to use the compatibility machinery may trigger breakage
+> > >> in code including UAPI headers before libc header, even for completely new type
+> > >> definitions which themselves would not conflict with libc.  
+> > >
+> > > Let's split the uAPI header changes from any selftest changes.
+> > > If you're saying the the selftests no longer build after the uAPI
+> > > header changes then of course we can't apply the patches.  
+> > 
+> > Yes, the selftests don't build anymore after the uAPI changes.
+> > 
+> > "can't apply" as in
+> > * "can't apply separately"
+> > * "are unacceptable in general"
+> 
+> this one
+> 
+> > * "are too late for this cycle"
+> > ?
+> > 
+> > None of this is urgent.
+> > We can do the selftests in one cycle and the uAPI in another one.
+> > Feel free to pick up the patches as you see fit.
+> > (The mptcp changes already go through their tree, so need to be dropped here)
+> > I can also resubmit the patches differently if preferred.
+> 
+> The selftests are just a canary in the coalmine. If we break a bunch of
+> selftests chances are we'll also break compilation of real applications
+> for people. Subjective, but I don't see a sufficient upside here to do
+> that.
 
-Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
----
- .../selftests/bpf/prog_tests/map_init.c       | 168 ++++++++++++++++++
- 1 file changed, 168 insertions(+)
+Okay. We'll have around this inconsistency then.
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/map_init.c b/tools/testing/selftests/bpf/prog_tests/map_init.c
-index 14a31109dd0e..89e6daf2fcfd 100644
---- a/tools/testing/selftests/bpf/prog_tests/map_init.c
-+++ b/tools/testing/selftests/bpf/prog_tests/map_init.c
-@@ -212,3 +212,171 @@ void test_map_init(void)
- 	if (test__start_subtest("pcpu_lru_map_init"))
- 		test_pcpu_lru_map_init();
- }
-+
-+#define BPF_LOG_FIXED	8
-+
-+static void test_map_create(enum bpf_map_type map_type, const char *map_name,
-+			    struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	const int key_size = 4, value_size = 4, max_entries = 1;
-+	char log_buf[128];
-+	int fd;
-+	LIBBPF_OPTS(bpf_log_opts, log_opts);
-+
-+	log_buf[0] = '\0';
-+	log_opts.log_buf = log_buf;
-+	log_opts.log_size = sizeof(log_buf);
-+	log_opts.log_level = BPF_LOG_FIXED;
-+	opts->log_opts = &log_opts;
-+	fd = bpf_map_create(map_type, map_name, key_size, value_size, max_entries, opts);
-+	if (!ASSERT_LT(fd, 0, "bpf_map_create")) {
-+		close(fd);
-+		return;
-+	}
-+
-+	ASSERT_STREQ(log_buf, exp_msg, "log_buf");
-+	ASSERT_EQ(log_opts.log_true_size, strlen(exp_msg) + 1, "log_true_size");
-+}
-+
-+static void test_map_create_array(struct bpf_map_create_opts *opts, const char *exp_msg)
-+{
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test_map_create", opts, exp_msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_struct_ops(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id can only be used with struct_ops maps.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_vmlinux_value_type_id_kv_type_id(void)
-+{
-+	const char *msg = "btf_vmlinux_value_type_id is mutually exclusive with btf_key_type_id and btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_vmlinux_value_type_id = 1,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create(BPF_MAP_TYPE_STRUCT_OPS, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_value_type_id(void)
-+{
-+	const char *msg = "Invalid btf_value_type_id.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_key_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_extra(void)
-+{
-+	const char *msg = "Invalid map_extra.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_extra = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_numa_node(void)
-+{
-+	const char *msg = "Invalid numa_node.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_NUMA_NODE,
-+		    .numa_node = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_type(void)
-+{
-+	const char *msg = "Invalid map_type.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(__MAX_BPF_MAP_TYPE, "test_map_create", &opts, msg);
-+}
-+
-+static void test_invalid_token_fd(void)
-+{
-+	const char *msg = "Invalid map_token_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .map_flags = BPF_F_TOKEN_FD,
-+		    .token_fd = 0xFF,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_invalid_map_name(void)
-+{
-+	const char *msg = "Invalid map_name.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts);
-+
-+	test_map_create(BPF_MAP_TYPE_ARRAY, "test-!@#", &opts, msg);
-+}
-+
-+static void test_invalid_btf_fd(void)
-+{
-+	const char *msg = "Invalid btf_fd.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .btf_fd = -1,
-+		    .btf_key_type_id = 1,
-+		    .btf_value_type_id = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_excl_prog_hash_size_1(void)
-+{
-+	const char *msg = "Invalid excl_prog_hash_size.\n";
-+	const char *hash = "DEADCODE";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .excl_prog_hash = hash,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+static void test_excl_prog_hash_size_2(void)
-+{
-+	const char *msg = "Invalid excl_prog_hash_size.\n";
-+	LIBBPF_OPTS(bpf_map_create_opts, opts,
-+		    .excl_prog_hash_size = 1,
-+	);
-+
-+	test_map_create_array(&opts, msg);
-+}
-+
-+void test_map_create_failure(void)
-+{
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_struct_ops"))
-+		test_invalid_vmlinux_value_type_id_struct_ops();
-+	if (test__start_subtest("invalid_vmlinux_value_type_id_kv_type_id"))
-+		test_invalid_vmlinux_value_type_id_kv_type_id();
-+	if (test__start_subtest("invalid_value_type_id"))
-+		test_invalid_value_type_id();
-+	if (test__start_subtest("invalid_map_extra"))
-+		test_invalid_map_extra();
-+	if (test__start_subtest("invalid_numa_node"))
-+		test_invalid_numa_node();
-+	if (test__start_subtest("invalid_map_type"))
-+		test_invalid_map_type();
-+	if (test__start_subtest("invalid_token_fd"))
-+		test_invalid_token_fd();
-+	if (test__start_subtest("invalid_map_name"))
-+		test_invalid_map_name();
-+	if (test__start_subtest("invalid_btf_fd"))
-+		test_invalid_btf_fd();
-+	if (test__start_subtest("invalid_excl_prog_hash_size_1"))
-+		test_excl_prog_hash_size_1();
-+	if (test__start_subtest("invalid_excl_prog_hash_size_2"))
-+		test_excl_prog_hash_size_2();
-+}
--- 
-2.52.0
+> FWIW the typelimits change broke compilation of ethtool, we'll see if
+> anyone "outside kernel community itself" complains.
 
+Can you point me to that breakage? I was unable to find it.
+
+
+Thomas
 
