@@ -1,264 +1,338 @@
-Return-Path: <linux-api+bounces-5808-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5809-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIXkLZFkhGkh2wMAu9opvQ
-	(envelope-from <linux-api+bounces-5808-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 05 Feb 2026 10:36:17 +0100
+	id sMmPLTQXhWl48QMAu9opvQ
+	(envelope-from <linux-api+bounces-5809-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 05 Feb 2026 23:18:28 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E36F0DF9
-	for <lists+linux-api@lfdr.de>; Thu, 05 Feb 2026 10:36:17 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFDAF804E
+	for <lists+linux-api@lfdr.de>; Thu, 05 Feb 2026 23:18:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 07FBB3008238
-	for <lists+linux-api@lfdr.de>; Thu,  5 Feb 2026 09:34:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BA4FB3025A7F
+	for <lists+linux-api@lfdr.de>; Thu,  5 Feb 2026 22:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B4DB399013;
-	Thu,  5 Feb 2026 09:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A57C12F28E3;
+	Thu,  5 Feb 2026 22:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BfME6CXX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="paFpYUP5";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BfME6CXX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="paFpYUP5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BGnRuN1x"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C162939280E
-	for <linux-api@vger.kernel.org>; Thu,  5 Feb 2026 09:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770284062; cv=none; b=MGBkx1ldTJ2cJNZ+yg5PLJ2frWBPrZRcojYXfZn72aT4XLKLEkrMMuFtt647Yo2Arfnt3mmFgZWYOtY20BKuRCM++mad+lTtb3X5Nm/IDJ6Qjjo9SXODyaqNcmJ7iOxyVT49d9rmHkEWji/uDvVHx9IaA5zPDEFu+O3EW2ntDHg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770284062; c=relaxed/simple;
-	bh=QTaoBSokYmxJnJuWu9PDFHpiTqvfzjc0kDzkTBOFRyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbI2xFIjtPsjBi961dR4k0+103q1DI9ZZDD6PB1fGGqVbKakc2nD6NBIJPAhCKzPmwVbBMHSu8/FIEaPcV7AFQeO7bNsaAKMc5QnPr40xnyauFi4iRRFLomkxwAM4xqNL4A5Mx+DoQrlcsnqkQWHATdDMFZ1476kAZvbvll8pgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BfME6CXX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=paFpYUP5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BfME6CXX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=paFpYUP5; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 027323E781;
-	Thu,  5 Feb 2026 09:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770284060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xO9x/6tLF2RcY0bTenK0aeS6bPxO41BHI96qRcw4P50=;
-	b=BfME6CXXVri7hlMyfPN6EjbLzA+bj8dwLx01zhm48sG/3V914QEnQ/nlpypjtoA7iCLpDR
-	LjnmDyVH/HqLC068OgZQL58yzIo80xB4zCXPs3l7RmB+3qvsPld6RVMJDEKvJotmQfWGEq
-	UCzP60skyGyR0lirpzuAzGCAtk9+XzA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770284060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xO9x/6tLF2RcY0bTenK0aeS6bPxO41BHI96qRcw4P50=;
-	b=paFpYUP5inZ1miQnyDlvbLcFTJ7RiD8q2+WKNku6XEjP2uv4HWj2QIwtutol+z03Lpz2bf
-	x9HLnMamfSCZvkBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=BfME6CXX;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=paFpYUP5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770284060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xO9x/6tLF2RcY0bTenK0aeS6bPxO41BHI96qRcw4P50=;
-	b=BfME6CXXVri7hlMyfPN6EjbLzA+bj8dwLx01zhm48sG/3V914QEnQ/nlpypjtoA7iCLpDR
-	LjnmDyVH/HqLC068OgZQL58yzIo80xB4zCXPs3l7RmB+3qvsPld6RVMJDEKvJotmQfWGEq
-	UCzP60skyGyR0lirpzuAzGCAtk9+XzA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770284060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xO9x/6tLF2RcY0bTenK0aeS6bPxO41BHI96qRcw4P50=;
-	b=paFpYUP5inZ1miQnyDlvbLcFTJ7RiD8q2+WKNku6XEjP2uv4HWj2QIwtutol+z03Lpz2bf
-	x9HLnMamfSCZvkBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD06B3EA63;
-	Thu,  5 Feb 2026 09:34:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OWvtNRtkhGmMWwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Feb 2026 09:34:19 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9943EA09D8; Thu,  5 Feb 2026 10:34:19 +0100 (CET)
-Date: Thu, 5 Feb 2026 10:34:19 +0100
-From: Jan Kara <jack@suse.cz>
-To: Zack Weinberg <zack@owlfolio.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Jan Kara <jack@suse.cz>, The 8472 <kernel@infinite-source.de>, 
-	Rich Felker <dalias@libc.org>, Alejandro Colomar <alx@kernel.org>, 
-	Vincent Lefevre <vincent@vinc17.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <oyavezfglq7rp7pz6rbftzgi22zgdgtdsqglpsdmyqcbes5umy@y3n4hdtwncb6>
-References: <20260124213934.GI6263@brightrain.aerifal.cx>
- <7654b75b-6697-4aad-93fc-29fa9b734bdb@infinite-source.de>
- <de07d292-99d8-44e8-b7d6-c491ac5fe5be@app.fastmail.com>
- <whaocgx6bopndbpag2wazn2ko4skxl4pe6owbavj3wblxjps4s@ntdfvzwggxv3>
- <c59361e4-ad50-4cdf-888e-3d9a4aa6f69b@infinite-source.de>
- <pt7hcmgnzwveyzxdfpxtrmz2bt5tki5wosu3kkboil7bjrolyr@hd4ctkpzzqzi>
- <72100ec4b1ec0e77623bfdb927746dddc77ed116.camel@kernel.org>
- <DFYW8O4499ZS.2L1ABA5T5XFF2@umich.edu>
- <2d6276fca349357f56733268681424b0de5179f7.camel@kernel.org>
- <037a7546-cbbf-4c00-bebd-57cee38785e1@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7162D2FFF8D
+	for <linux-api@vger.kernel.org>; Thu,  5 Feb 2026 22:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770329898; cv=pass; b=XVZi/BF/nozCl/J9pYp4bYHsf3VXNYKfNe5G70S9g3zDl78xCg/t9MazXFGj0FnwgK1FST2gJbgi2Vp0TKY3m4jkwGmBrCIDbEL5bsttKhk3zyTJx4kHaIEAwMVnBqCe2R0eYes6qBP2Zce7yq0BD2hn+MP/GtKNWj55NuR4ZVw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770329898; c=relaxed/simple;
+	bh=vLtqOXlkmpDp8649uQXAFwpec++fglZ9xjz1AMQBNq0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lmzNyMW7C8Wu+9iEGCTE6hl+w6Qjfd/h6H1re1Z3aKw709lpDmKrtFtYnrk43+vyHpmUY9xqd7I2AkLXDDJCZWQ3Ye9BUfWGzjlTbg3FEM91/yuZsaXkfW4iDBCpFnbcIhutBjdJjOXQBrVxME1yBRVWGmbtDkEIlMiWEFYM/0s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BGnRuN1x; arc=pass smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-354a2d107bfso30519a91.0
+        for <linux-api@vger.kernel.org>; Thu, 05 Feb 2026 14:18:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770329898; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TdvvT2e2+tCvzhboAfms5FtENOm7rKwUAWddvm2eWIdGdV5YTR0NfFb8pNEGHf9GUN
+         M2xsZ+DveBmGpPwxJldaQ8MPm9uPmNF4Ygb9EcQw6RHIS92nhXQMr+lUX/Bd1hTkyG6X
+         uoySC0FtlSqzu5aaERdYCEN1AzPdXnVjhfxkDcda0lHTTiI1kzPcLuCQpTA+dQj/K2fS
+         0yCD+CeugX1FBPLF0vDnrzVKJ/phTUTwBKdbLbKzQcJSmm9SnOUzX93eBBKd/4q6QOYu
+         c8RUbY9wVJJQsFdO86iLbT6hFExxti8F67NmMzvMsLX7h0CNIFXYsfq5xlFjcG6xjsEU
+         UdVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cchYFu5XNpUxtrsOKugy/nLBzyYeneYwWP7P7Z/OFic=;
+        fh=S5YyApTeKwvUHRrOstP7NJJy9QKwCyokhu2h+8Wt8oM=;
+        b=dPtAoz9L4NDgvrOUS9hAWtpvMrHsr3tcnJl/fxXupG2/RdxR5oawPhtN5hI70C4JhR
+         Xva+tmKtngoaDMGo+bDdy8WKw+Lduf5eAFI506/EGX74O1qt7XG08KepTA53d4z+HSNw
+         teV/0f5GEWrNDEs6bk0/Q1BozV8xnyeVHhp2lKZv2VoFfbm2YTfKV9YaMtdltCjqD9Wb
+         e42wzTpnFqztmbFnQB7YYBfXvwNuMx/IXFpibZwspz8dk9RAW5CreWu2GEp9Ev0BPv8B
+         ZB3iEpegaWNfsyC8gECmjtQ4lw3Qxt0WU/B/3xlyE70/rLDG+IlX/L3aKDV7v+4hI2mP
+         LJbg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770329898; x=1770934698; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cchYFu5XNpUxtrsOKugy/nLBzyYeneYwWP7P7Z/OFic=;
+        b=BGnRuN1xm224yBwoxJ3XKVwxoAhqF2aIhi/2MPkVwX6Z43Qsnv1MSm3uPm3QdsPQvv
+         ddYLDTLDdR80ta9BGrAvwK0g77wrj+4dVI8deyySuJbvEIgfFJtyqCuWFC6wnmzQUjbY
+         KFRYzc4UyKo6xohOULVB/33hllZn26j8uzKPSdLTCJseXmBjrDFiLwWzAnWpey71FcFb
+         SxF3n6woZDclOAdUoedg1xXRxxf3ds28mxd+L7s7wcg+Mu/gFMFLQgsKNASj06HnDwdK
+         lhNeuDC/49efp6fdFp59AkFSeDDqWEVsu57OTLCdJxL8N2ZPhcrXDhmNTyH5PrE65XHw
+         v59A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770329898; x=1770934698;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cchYFu5XNpUxtrsOKugy/nLBzyYeneYwWP7P7Z/OFic=;
+        b=Y0tFMl2TqWTiBJmaUVcBXCs4eYRd9WoameYNHnjFd/PuIP9/f8TKuVZm6rsF+tO6KH
+         8zTXkqXnyR0EkzJRvG3jmJ7m1LPMg1vsz78ChNIt+fknti05St1l85JX40Z8VSdCKxSM
+         ppV44oFM2as2ckVkbuIV+vceGBvbVeOJbpwiEiem/qwf00QeEA8xebQXhNVW84qKRbwO
+         CKgazbGBZ5q5bmmxaA1Jw1LDN4uAYQIEGiB/R9e0MaHbA9plX2FuIiOO0xYrtQ/8X6+L
+         F0RJo4LEtFp7teSiYlkbcEDyEcQdd0kbb798dP9Zk20EMNCbZtg++X7TQ2KuhohEVJJ6
+         sKHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5bGR/S1ngvxnRTNa9mlvVxWxRYU4aDPFw2VjR/CwujZt92UhwaDq0jj1xkryU4MZGtN5Hh+IHHIQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7tGt+5UYdiZGQUUnTF7a1dpw+ElnNcEoBM6xMRWBsCm2kxwY6
+	FBudwqTeF0BzLon0uH0t+JrZFFmz7voSlKuIt8A3qAcg5aFm5P8+gnMx0R4AOdqYeKm27Piki2V
+	jzG051CSrACQrnzuGdNgF23c0DV6NlBA=
+X-Gm-Gg: AZuq6aKIcgPtL/6Lw+/hc8V74IYd4SVgL2mwxRZBOe/RRYEZCJghk9UXh8KLyCG9F92
+	/vZZgwodtz1jgd6Se40Q283qhGLnM0mtI3+LFh3RSK8DWDMSHI024qI5zijvw3Rps2ZX0y2nrkB
+	lyYzEVXJo17mUAvzVonbopdZuG+6EJZOlGJAHXqs2r9qvcE0XljUZbKnnveT2fFn957GQNL3nUQ
+	gtspruDfo2EcMpxUI47HWA9ltmQ3g9HzLplRtuW1VzrHnRJrtpY51W+md3PKApLca6HLI30ul9G
+	+fHJoNcnfds=
+X-Received: by 2002:a17:90b:6c3:b0:354:7c90:8c6 with SMTP id
+ 98e67ed59e1d1-354b3e4503dmr359395a91.25.1770329897674; Thu, 05 Feb 2026
+ 14:18:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <037a7546-cbbf-4c00-bebd-57cee38785e1@app.fastmail.com>
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spam-Flag: NO
+References: <20260202144046.30651-1-leon.hwang@linux.dev> <20260202144046.30651-5-leon.hwang@linux.dev>
+ <CAEf4Bza-PM9ExqJS=Q_oj7Cqc5dvmbN_Zv9-4UnJNtsZU28FoQ@mail.gmail.com> <a31b7f19-a22a-44ab-8ecd-9df9dead9c3d@linux.dev>
+In-Reply-To: <a31b7f19-a22a-44ab-8ecd-9df9dead9c3d@linux.dev>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Thu, 5 Feb 2026 14:18:05 -0800
+X-Gm-Features: AZwV_QhcaugW1hKMYmi69h669dkiCWPGiiQzGYvFIpSUB_4402UB2ZyoHNuy4Kg
+Message-ID: <CAEf4BzZWawrE+mXaPNPAT8zcz0Qy+5QYA6r4JzEVw7UAcUH-uA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 4/9] bpf: Add syscall common attributes
+ support for prog_load
+To: Leon Hwang <leon.hwang@linux.dev>
+Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Seth Forshee <sforshee@kernel.org>, Yuichiro Tsuji <yuichtsu@amazon.com>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, Willem de Bruijn <willemb@google.com>, 
+	Jason Xing <kerneljasonxing@gmail.com>, Tao Chen <chen.dylane@linux.dev>, 
+	Mykyta Yatsenko <yatsenko@meta.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Anton Protopopov <a.s.protopopov@gmail.com>, Amery Hung <ameryhung@gmail.com>, 
+	Rong Tao <rongtao@cestc.cn>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,suse.cz:dkim];
-	DMARC_NA(0.00)[suse.cz];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5808-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-5809-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,fb.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 14E36F0DF9
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriinakryiko@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.dev:email]
+X-Rspamd-Queue-Id: 6EFDAF804E
 X-Rspamd-Action: no action
 
-I've noticed we didn't reply to one question here:
+On Wed, Feb 4, 2026 at 7:42=E2=80=AFPM Leon Hwang <leon.hwang@linux.dev> wr=
+ote:
+>
+>
+>
+> On 5/2/26 03:48, Andrii Nakryiko wrote:
+> > On Mon, Feb 2, 2026 at 6:42=E2=80=AFAM Leon Hwang <leon.hwang@linux.dev=
+> wrote:
+> >>
+> >> BPF_PROG_LOAD can now provide log parameters through both union bpf_at=
+tr
+> >> and struct bpf_common_attr. Define clear conflict and precedence rules=
+:
+> >>
+> >> - if both are provided and log_buf/log_size/log_level match, use them;
+> >> - if only one side provides a log buffer, use that one;
+> >> - if both provide log buffers but differ, return -EINVAL.
+> >>
+> >> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
+> >> ---
+> >>  include/linux/bpf_verifier.h |  3 ++-
+> >>  kernel/bpf/log.c             | 24 ++++++++++++++++++++++--
+> >>  kernel/bpf/syscall.c         |  3 ++-
+> >>  3 files changed, 26 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier=
+.h
+> >> index c805b85b6f7a..0d106fddbbc5 100644
+> >> --- a/include/linux/bpf_verifier.h
+> >> +++ b/include/linux/bpf_verifier.h
+> >> @@ -638,7 +638,8 @@ struct bpf_log_attr {
+> >>  };
+> >>
+> >>  int bpf_prog_load_log_attr_init(struct bpf_log_attr *attr_log, union =
+bpf_attr *attr,
+> >> -                               bpfptr_t uattr, u32 size);
+> >> +                               bpfptr_t uattr, u32 size, struct bpf_c=
+ommon_attr *attr_common,
+> >> +                               bpfptr_t uattr_common, u32 size_common=
+);
+> >>  int bpf_log_attr_finalize(struct bpf_log_attr *attr, struct bpf_verif=
+ier_log *log);
+> >>
+> >>  #define BPF_MAX_SUBPROGS 256
+> >> diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
+> >> index ff579fcba36f..345005ba98dd 100644
+> >> --- a/kernel/bpf/log.c
+> >> +++ b/kernel/bpf/log.c
+> >> @@ -873,10 +873,30 @@ static void bpf_log_attr_init(struct bpf_log_att=
+r *attr_log, int offsetof_true_s
+> >>         attr_log->uattr =3D uattr;
+> >>  }
+> >>
+> >> +static bool bpf_log_attrs_diff(struct bpf_common_attr *common, u64 lo=
+g_buf, u32 log_size,
+> >> +                              u32 log_level)
+> >> +{
+> >> +       return log_buf && common->log_buf && (log_buf !=3D common->log=
+_buf ||
+> >> +                                             log_size !=3D common->lo=
+g_size ||
+> >> +                                             log_level !=3D common->l=
+og_level);
+> >
+> > let's validate (unless we do this somewhere else) that if log_buf is
+> > set, then log_size and log_level (? not sure, maybe zero is fine) are
+> > set, or all three are not set. Same for common->log* fields...
+> >
+>
+> Ack.
+>
+> Will validate 'log_buf && log_size && log_level' first.
+>
+> >
+> >> +}
+> >> +
+> >>  int bpf_prog_load_log_attr_init(struct bpf_log_attr *attr_log, union =
+bpf_attr *attr,
+> >> -                               bpfptr_t uattr, u32 size)
+> >> +                               bpfptr_t uattr, u32 size, struct bpf_c=
+ommon_attr *attr_common,
+> >> +                               bpfptr_t uattr_common, u32 size_common=
+)
+> >>  {
+> >> -       bpf_log_attr_init(attr_log, offsetof(union bpf_attr, log_true_=
+size), uattr, size);
+> >> +       if (bpf_log_attrs_diff(attr_common, attr->log_buf, attr->log_s=
+ize, attr->log_level))
+> >> +               return -EINVAL;
+> >> +
+> >> +       if (!attr->log_buf && attr_common->log_buf) {
+> >> +               attr->log_buf =3D attr_common->log_buf;
+> >> +               attr->log_size =3D attr_common->log_size;
+> >> +               attr->log_level =3D attr_common->log_level;
+> >
+> > why are we setting this? Do we still have code that can access
+> > attr->log_buf even though we pass attr_log everywhere? If yes, should
+> > we still have that "split brain" code?
+> >
+>
+> 'attr->log_buf' is accessed only in bpf_check().
 
-On Wed 28-01-26 11:58:07, Zack Weinberg wrote:
-> On Mon, Jan 26, 2026, at 7:49 PM, Jeff Layton wrote:
-> > Checking the implementations e.g. FUSE and NFS *will* return delayed
-> > writeback errors on *first* descriptor close even if there are other
-> > still open descriptors for the description AFAICS.
-> ...
-> > fsync(2) must make sure data is persistently stored and return error if
-> > it was not. Thus as a VFS person I'd consider it a filesystem bug if an
-> > error preveting reading data later was not returned from fsync(2). OTOH
-> > that doesn't necessarily mean that later close doesn't return an error -
-> > e.g. FUSE does communicate with the server on close that can fail and
-> > error can be returned.
-> >
-> > With this in mind let me now try to answer your remaining questions:
-> >
-> >> >>         - The OFD was opened with O_RDONLY
-> >
-> > If the filesystem supports atime, close can in principle report that atime
-> > update failed.
-> >
-> >> >>         - The OFD was opened with O_RDWR but has never actually
-> >> >>           been written to
-> >
-> > The same as above but with inode mtime updates.
-> >
-> >> >>         - No data has been written to the OFD since the last call to
-> >> >>           fsync() for that OFD
-> >
-> > No writeback errors should happen in this case. As I wrote above I'd
-> > consider this a filesystem bug.
-> >
-> >> >>
-> >> >>         - No data has been written to the OFD since the last call to
-> >> >>           fdatasync() for that OFD
-> >
-> > Errors can happen because some inode metadata (in practice probably only
-> > inode time stamps) may still need to be written out.
-> >
-> > So in the cases described above (except for fsync()) you may get delayed
-> > errors on close. But since in all those cases no data is lost, I don't
-> > think 99.9% of applications care at all...
-> 
-> ... regrettably I think this does mean the close(3) manpage still needs
-> to tell people to watch out for errors, and should probably say that
-> errors _can_ happen even if the file wasn’t written to, but are much
-> less likely to be important in that case.
-> 
-> And my “how to close stdout in a thread-safe manner” sample code is
-> wrong, because I was wrong to think that the error reporting only
-> happened on the _final_ close, when the OFD is destroyed.
-> 
-> ... What happens if the close is implicit in a dup2() operation? Here’s
-> that erroneous “how to close stdout” fragment, with comments
-> indicating what I thought could and could not fail at the time I wrote
-> it:
-> 
->     // These allocate new fds, which can always fail, e.g. because
->     // the program already has too many files open.
->     int new_stdout = open("/dev/null", O_WRONLY);
->     if (new_stdout == -1) perror_exit("/dev/null");
->     int old_stdout = dup(1);
->     if (old_stdout == -1) perror_exit("dup(1)");
-> 
->     flockfile(stdout);
->     if (fflush(stdout)) perror_exit("stdout: write error");
->     dup2(new_stdout, 1); // cannot fail, atomically replaces fd 1
->     funlockfile(stdout);
-> 
->     // this close may receive delayed write errors from previous writes
->     // to stdout
->     if (close(old_stdout)) perror_exit("stdout: write error");
-> 
->     // this close cannot fail, because it only drops an alternative
->     // reference to the open file description now installed as fd 1
->     close(new_stdout);
-> 
-> Note in particular that the first close _operation_ on fd 1 is in
-> consequence of dup2(new_stdout, 1).  The dup2() manpage specifically
-> says “the close is performed silently (i.e. any errors during the
-> close are not reported by dup()” but, if stdout points to a file on
-> an NFS mount, are those errors _lost_, or will they actually be
-> reported by the subsequent close(old_stdout)?
+bpf_check should be changed then, see below
 
-It is simply lost (the error is propagated from the filesystem to VFS which
-just ignores it).
+>
+> > If we don't have this assignment, then I think we don't need to have
+> > bpf_prog_load-specific and btf_load-specific log_attr_init() helpers.
+> > They can be unified into generic log_attr_init, where for
+> > bpf_prog_load you'll pass offsetof(log_true_size) +
+> > attr->log_{buf,size,level}, and for btf_load you'll pass different
+> > offset of and btf-specific attr->btf_log*
+> >
+> > This helper will just be making decision whether to use common_attr's
+> > log fields or passed directly command-specific ones.
+> >
+> > Or what am I missing?
+> >
+>
+> If the log attributes differ, where should the effective
+> log_* values be stored?
+>
+> Should they live in struct bpf_common_attr, or should we extend
+> struct bpf_log_attr to carry them?
+>
+> Note that in v8, Alexei suggested struct bpf_log_attr only needs
+>   u32 offsetof_true_size;
+>   bpfptr_t uattr;
+>
+> so I=E2=80=99d like to clarify the intended direction here. Once that=E2=
+=80=99s clear, a
+> single generic log_attr_init() should be sufficient to handle this.
+>
 
-> Incidentally, the dup2() manpage has a very similar example in its
-> NOTES section, also presuming that close only reports errors on the
-> _final_ close, not when it “merely” drops reference >=2 to an OFD.
-> 
-> (I’m starting to think we need dup3(old, new, O_SWAP_FDS).  Or is that
-> already a thing somehow?)
+The intended direction is to have log buf/size/level in one place
+(after attr and common_attr validations), so we keep internal logic
+simple. Let's put all of that and log_true_size **pointer** (we don't
+have to much with offsetof, just calculate user addr for
+log_true_size, which just might be NULL) into bpf_log_attrs and teach
+all code to look and work *only* with that struct, ignoring anything
+log related from attr.
 
-I don't think a functionality like this currently exists.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Thanks,
+> Leon
+>
+> >
+> >> +               bpf_log_attr_init(attr_log, offsetof(struct bpf_common=
+_attr, log_true_size),
+> >> +                                 uattr_common, size_common);
+> >> +       } else {
+> >> +               bpf_log_attr_init(attr_log, offsetof(union bpf_attr, l=
+og_true_size), uattr, size);
+> >> +       }
+> >>         return 0;
+> >>  }
+> >>
+> >> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> >> index e81199361241..7125ea445c6c 100644
+> >> --- a/kernel/bpf/syscall.c
+> >> +++ b/kernel/bpf/syscall.c
+> >> @@ -6232,7 +6232,8 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t =
+uattr, unsigned int size,
+> >>                 err =3D map_freeze(&attr);
+> >>                 break;
+> >>         case BPF_PROG_LOAD:
+> >> -               err =3D bpf_prog_load_log_attr_init(&attr_log, &attr, =
+uattr, size);
+> >> +               err =3D bpf_prog_load_log_attr_init(&attr_log, &attr, =
+uattr, size, &attr_common,
+> >> +                                                 uattr_common, size_c=
+ommon);
+> >>                 err =3D err ?: bpf_prog_load(&attr, uattr, &attr_log);
+> >>                 break;
+> >>         case BPF_OBJ_PIN:
+> >> --
+> >> 2.52.0
+> >>
+>
 
