@@ -1,157 +1,158 @@
-Return-Path: <linux-api+bounces-5815-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5816-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNJQFA07iWlD4wQAu9opvQ
-	(envelope-from <linux-api+bounces-5815-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 09 Feb 2026 02:40:29 +0100
+	id jaKqFTw8iWmu4wQAu9opvQ
+	(envelope-from <linux-api+bounces-5816-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 09 Feb 2026 02:45:32 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EA510AE52
-	for <lists+linux-api@lfdr.de>; Mon, 09 Feb 2026 02:40:27 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A03D10AE66
+	for <lists+linux-api@lfdr.de>; Mon, 09 Feb 2026 02:45:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 79A463005E98
-	for <lists+linux-api@lfdr.de>; Mon,  9 Feb 2026 01:40:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E96193001A41
+	for <lists+linux-api@lfdr.de>; Mon,  9 Feb 2026 01:45:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E0E2550AF;
-	Mon,  9 Feb 2026 01:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FCD418DB0D;
+	Mon,  9 Feb 2026 01:45:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MVEk/q+i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jd9rEslU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24461EFF9B;
-	Mon,  9 Feb 2026 01:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770601215; cv=none; b=OXSfO4Hd6PkHgMqvLEOYaGhgyv7zg0j3Q0V0sYb0JopAfBwwJU4DASmvjLDegZNxN9s47iM1drO6Q4LYFa5SN94kW6vVtvBtm+Kzp0HernKrXlCPE/jWviq8qbjWhtrM9Oz5x4hTOAh2I9jGwqURQ+dPwcUY9MsTzF5DgJ31x3A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770601215; c=relaxed/simple;
-	bh=ZCDCn8SzGXnz4OAk97MRsEwi/XQXxsYu3zaHCrd7caU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=NAtwXzlNg0CgCMnJ/xRXUslj81X6G/x1qMtwxYZbzGpmSm1esVJgvoBuTjeVeN+zjE/EqTgooaq8U0HvXFlMx79DJbwF+kCictWD/HHvl1Ptk35Px6HpfVsYDp6AsJszDnilQ9AZ+zRFf1U0p8dowxlY+KFbrOztLu5BL99jnrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MVEk/q+i; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=gv1/kHk9MVQnaU6hiwI8xePfzAgEcUWDCs7ofJqfB58=; b=MVEk/q+i1pUUw/xuXfDf72HalD
-	q3EPXCrxxuU93hS8W4rOYYpxCI28qud6KWYlgVBkOIrnsUp3p7MLUJF9iVB6YnDax1vvxPLAAUK78
-	la/0ndM/q4NoGss3MqQDVpQQ9NlSWTImJfHh8YxYz3Y+qFsvzXWmLdmGaGTKV6wFzPm6ldIGEG9V9
-	78QPh0AjbAthZRFSkuOE4bnX2EfRQKy+1qOARNUePUws/0EbxxixXOJntGDiX3VHwZJXFwFmuefdA
-	bPzpsVXkpE4Qx3ZJIDMHJzCNeFLPFmgMyW7MMMpbqAoJWMvXJ/1daGxPnlIV2EqSkmEJlGaBgPJvy
-	uqJzeVGQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpGFw-0000000EewZ-3flq;
-	Mon, 09 Feb 2026 01:40:04 +0000
-Message-ID: <017a28fe-6c0e-48ec-8b1b-10e0d3b0a04e@infradead.org>
-Date: Sun, 8 Feb 2026 17:40:03 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D3842A80
+	for <linux-api@vger.kernel.org>; Mon,  9 Feb 2026 01:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770601527; cv=pass; b=uKB/bQ/ca06wLVPL7JNWut2CLueu8ntGcqy15Dgchun1L23Jo0PbekcgREgvw5NMvJGeYY+GNfCgKXRnaVu4CNh9aLc1d0d9XpxABGteYojsygEXxb12mlJlJI8OeczWW8DiupDCGduhXXIYo5iwVJQ8JEpElXcfeWSrAtYCsRc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770601527; c=relaxed/simple;
+	bh=MS5zmnFRe+061TRkfzkniEZhajw9BVKNtmxCHscKhUI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZSrDfUNaadPlzl3B2dnH2vSNL9P0soJhfuSFKCRWnqqTe2ikwsQcjm1a0DfDaxiAtCmUUqAWqVYXmsIykFXG2EUTZYs2iBcIy38wTn79kmTfbyeqvo2zKScpR9GIpsMHg5QbGhl6KroTPWiZk5/CCyrt9JXT8nU4485Y7+SKfTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jd9rEslU; arc=pass smtp.client-ip=209.85.219.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-895341058b1so36565786d6.3
+        for <linux-api@vger.kernel.org>; Sun, 08 Feb 2026 17:45:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770601526; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Y0vZPFaIOuhwYvIhlNBRky+UFvLp/yMUDm2Jo5Rgsmxn4+Igo1cltof/+wo2T151h/
+         Q5q/ncJkM4IIZzqX3/QkNoS94IJ+DMus8Ok6qB+W3075JtuWP3XvwvguH+Xg74vIjup9
+         /1/l9qkNTuFUygIK3a5JvkGwh5OHH/Xe1A6Qp970gf9N6PLtuRVzZ/H+8tWNohrw8Mpj
+         QCOpsp+vLLMmA/r9Ck8N2rWqp6YUmrdCUXf8I0RyV3mznNwSlznjILhVUPaBwpeB9a+m
+         b4a0x4Kt4XekvGhrW/A0kwmc+u8S02gnE7h2JkvRV1pKpenijBr/gbeV220d0mirBKYa
+         veFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MS5zmnFRe+061TRkfzkniEZhajw9BVKNtmxCHscKhUI=;
+        fh=0ye2eq/dtZ1Qp6jLeAXS4jV2eZK0neq08x6C9uAL0YE=;
+        b=W5CQ2DFZIFlGeflUOjzSQ9Q75Ydq2OaQ0VYYAQBs2mHkcK2HO0ScXVsaB3ykUh5iT7
+         sfcmcYXGLJi9CMWGEx/MiPnBItlZ2K+zqHjKIW8eLNZNUkPkA6/dQqinqmTx6I2dXsdE
+         wPbl9tPt1rPWt62i26Uw07XoARhrVXgOgpHzGwjEHA8L8e1lkJhqjq6tEQ8cq7of9ma3
+         rY2IB0a/U5U6O8eLgAVz0SXxw+6D6RDQJnj455QCkP/LS3VZDEZ0wipBkznXfrqoexdT
+         E07P6x25uok0VfoyU1XyvRt41ElvDiuI79EykdIXFTnvvjqc+/JntVNtRQUBaZP/ivT7
+         JTCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770601526; x=1771206326; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MS5zmnFRe+061TRkfzkniEZhajw9BVKNtmxCHscKhUI=;
+        b=jd9rEslUynmfMc1DajTf+AgCAyBGNcEvCm+DijBeqJR6EqIzNxZBiz9Yfk6Gd7QD47
+         +IEQTGQZILJb2OZ+FVkyQChMAN6EzXc0n+8FfUO+5im0Mwx6Gw2amFGwGCn8VlFvQdvf
+         szWcR9ALYI/lf7hlQr73/llwH3NNrv/M671L/PFlg6dHNZs6XzUpQsY2eerwGAs2zp+h
+         Pk4jvPgjad/jkmCuknDCoBTZ3qAH4Wub29fTSS3ynquiagMuGpkqSn6b4jHppa5TiXrK
+         C4586OQiFf/pSOLsWO5zAC3yijgWK5GkyWs9jrwCwWMmhA9vU7TB/jInmggXjsEfFvJv
+         1CdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770601526; x=1771206326;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MS5zmnFRe+061TRkfzkniEZhajw9BVKNtmxCHscKhUI=;
+        b=jU6Vb434SVa9Elg62DYRzkceDAi+0NDaV6JCLaHTuOsNfn3RNQCQZcyJFXksp6U8lj
+         Rn4dHv/IteIXhqoM4UbXwWMxIC7rT1uh0JAgW1vigbGGdVcMZK/iyxvuClrL0Sag5/O4
+         WXGZNhbHQ/hhHWJeHgGEGNlg2W3fOH91F3oxiXwpRD4vr7qL8qUi/h4KUHAzkZxmnPnn
+         BUlPpZxcaL7QFgXm4IyFtjdIN38t3gM/eCNncnpENdxYuSo+fZkLZNllcnsTyRQ2K3Dv
+         WsgXH45tE/75C5rmx5iDNuVXJeoQOZZidLTjkEM52cs6gl2oD8fpgPHen0w2O1yVoWJ3
+         w/Ng==
+X-Gm-Message-State: AOJu0YwIp/kZyY5M0BEOoVJV05pVtVI/rTwk6f9xLNspFPfEMg4G6JK2
+	qxTPdfQBXFUTkpF2C5tJ4I9GnShhcR+itgfGBtWnKLVRpIu581Y0t5mbrVycoSJrjiZobPuETFj
+	qlWjyEc8gJ9l3YXKF493rPi4FyDS/qZ0=
+X-Gm-Gg: AZuq6aJgpjxD14vnnI8gQAWBTpYYxgb6g3/zCU+RTv8lELEEE8DujKnYpBeGAF9xrHQ
+	EcK+KmPf4WnxPkNGr5v2CtwaCCKf6GVMe/loytLcijHAsJ8IbdWWVYz+XXpH1nfNo9y5euMM+o+
+	Qt4pCj+iyJrXI/6m3IJuuFFhi/OOo7+tb79TuJyZbtI1NeM8bgKSLhoNwvqN5W+lpQRqKhPBJj1
+	SB3nSqeXI9I9DAVFbjOKa+QVcUHb4X3GqWglbISgQG5OX7/ok61Q4Li0sISo4hJCNebkFlZmv4P
+	COOhSum7sGAOWt4p38dKJJKBc8ziyy02wUA0JcQHacCOfKcp5afFMo3mz+96HSAW2lC3
+X-Received: by 2002:a05:6214:d46:b0:88a:2707:58e1 with SMTP id
+ 6a1803df08f44-8953c7e49a3mr145879386d6.20.1770601526345; Sun, 08 Feb 2026
+ 17:45:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arch: m68k: remove incomplete, unusable Apollo hardware
- support
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-api@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-m68k@lists.linux-m68k.org
-References: <20260209013041.37536-1-enelsonmoore@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260209013041.37536-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260209013041.37536-1-enelsonmoore@gmail.com> <017a28fe-6c0e-48ec-8b1b-10e0d3b0a04e@infradead.org>
+In-Reply-To: <017a28fe-6c0e-48ec-8b1b-10e0d3b0a04e@infradead.org>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Sun, 8 Feb 2026 17:45:15 -0800
+X-Gm-Features: AZwV_QjcUPyrEBqSJ5p-7XFq-EUqJYyOszX2WADnCTdXFOE-v-jyClIPieD5e2E
+Message-ID: <CADkSEUhoj2Hfix3SsW4LJqYxrN294CT449MLVtjpE9t2okAk+A@mail.gmail.com>
+Subject: Re: [PATCH] arch: m68k: remove incomplete, unusable Apollo hardware support
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-api@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	linux-m68k@lists.linux-m68k.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5816-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5815-lists,linux-api=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,linux-m68k.org,lists.linux-m68k.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,infradead.org:mid,infradead.org:dkim]
-X-Rspamd-Queue-Id: 70EA510AE52
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,infradead.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7A03D10AE66
 X-Rspamd-Action: no action
 
-Hi--
+Hi, Randy,
 
-On 2/8/26 5:30 PM, Ethan Nelson-Moore wrote:
-> The m68k architecture contains very incomplete support for running on
-> Apollo Domain hardware. There are only timer, console, and framebuffer
-> drivers, and no storage or network drivers, so there is no way to
-> practically use it. It is not even capable of rebooting by itself (see
-> dn_dummy_reset() in arch/m68k/apollo/config.c).
-> 
-> arch/m68k/apollo has only received tree-wide changes and fixes by
-> inspection in the entire Git history (since Linux 2.6.12-rc2), so there
-> is clearly no interest in completing support for Apollo hardware.
-> Remove it to reduce future maintenance workload.
-> 
-> There are no uses of the removed <asm/bootinfo-apollo.h> UAPI header or
-> the constants removed from the <asm/bootinfo.h> UAPI header on GitHub
-> or Debian Code Search.
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> ---
->  arch/m68k/Kbuild                             |   1 -
->  arch/m68k/Kconfig.devices                    |   4 +-
->  arch/m68k/Kconfig.machine                    |   8 -
->  arch/m68k/apollo/Makefile                    |   6 -
->  arch/m68k/apollo/apollo.h                    |   4 -
->  arch/m68k/apollo/config.c                    | 240 --------
->  arch/m68k/apollo/dn_ints.c                   |  50 --
->  arch/m68k/configs/apollo_defconfig           | 595 -------------------
->  arch/m68k/configs/multi_defconfig            |   1 -
->  arch/m68k/include/asm/apollohw.h             |  90 ---
->  arch/m68k/include/asm/config.h               |   2 -
->  arch/m68k/include/asm/irq.h                  |   2 -
->  arch/m68k/include/asm/setup.h                |  32 +-
->  arch/m68k/include/uapi/asm/bootinfo-apollo.h |  29 -
->  arch/m68k/include/uapi/asm/bootinfo.h        |   5 +-
->  arch/m68k/kernel/head.S                      |  70 +--
->  arch/m68k/kernel/setup_mm.c                  |   9 -
->  drivers/video/fbdev/Kconfig                  |   8 -
->  drivers/video/fbdev/Makefile                 |   1 -
->  drivers/video/fbdev/dnfb.c                   | 307 ----------
->  20 files changed, 19 insertions(+), 1445 deletions(-)
->  delete mode 100644 arch/m68k/apollo/Makefile
->  delete mode 100644 arch/m68k/apollo/apollo.h
->  delete mode 100644 arch/m68k/apollo/config.c
->  delete mode 100644 arch/m68k/apollo/dn_ints.c
->  delete mode 100644 arch/m68k/configs/apollo_defconfig
->  delete mode 100644 arch/m68k/include/asm/apollohw.h
->  delete mode 100644 arch/m68k/include/uapi/asm/bootinfo-apollo.h
->  delete mode 100644 drivers/video/fbdev/dnfb.c
+On Sun, Feb 8, 2026 at 5:40=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+> There is an M68K maintainer who should be Cc-ed on this patch.
+> (now done)
 
-There is an M68K maintainer who should be Cc-ed on this patch.
-(now done)
+I already did this in my first email - this email does not have anyone
+CC'd because it is just sent to linux-api because I forgot to do so
+initially.
+The original email with linux-m68k and maintainers included is here:
+https://lore.kernel.org/all/20260209005212.32370-1-enelsonmoore@gmail.com/
 
--- 
-~Randy
-
+Ethan
 
