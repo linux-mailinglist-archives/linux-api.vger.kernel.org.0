@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-5823-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5824-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIXtMmOcjGmPrgAAu9opvQ
-	(envelope-from <linux-api+bounces-5823-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:12:35 +0100
+	id sCo1NtOcjGmPrgAAu9opvQ
+	(envelope-from <linux-api+bounces-5824-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:14:27 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC6912579F
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:12:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F374125827
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:14:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B07683004422
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 15:12:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3DD763013D48
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 15:12:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9055F2BE658;
-	Wed, 11 Feb 2026 15:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F01C2BDC28;
+	Wed, 11 Feb 2026 15:12:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iHdioILK"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MpX+4uPN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5F33B2A0
-	for <linux-api@vger.kernel.org>; Wed, 11 Feb 2026 15:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EC42857FC
+	for <linux-api@vger.kernel.org>; Wed, 11 Feb 2026 15:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770822748; cv=none; b=d4J6nDoCNCPMdl6MReBACDFmcZ7gNOq67Gl/qOPZAuzulcLsedGFl+Wg6uFcmsDhRrP4v2bKIuHRXP/9mikfA4UT3Wlu5CQdg5BVRexFLXsXkPLztuYR/vJimlSDfnD8/31NEMfiHYJkXWRfVOZ/IGSP+fIbZ//fSeQ1UVMItHk=
+	t=1770822777; cv=none; b=kyDdl2KGqfK3uklCzNTpSuxbDZGjjU3kMGqCpCEbG/GeNni/Y5iCcSaylF8CKUB6JNb8sqbqak7juMqSRL9HiWQWI8btheLfjilSCJBOI4YrxSsEYP7KYW3TTeVfryuuXDSdS2xQ9Ng4qCkEQ9660EPKFCA9hWWqLOJFd1UHQGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770822748; c=relaxed/simple;
-	bh=+rpFprJBjV+nkGhaF+kJyg6eUDCUKexcnfBuSKsRM0U=;
+	s=arc-20240116; t=1770822777; c=relaxed/simple;
+	bh=4q69c1QODaiGNIKBTKpOsT0bunegxacYWzADmmMlE4I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m3iHCSeqHMzrCwSlBJTlsEKltFnfBJiTAjD/B/Kj6oYcrX5diDpXvC73NO+GIyANoyQaA/QdcFuSDLoNgT7H7c21oU4Kf1xEkifjYIjyf8aiUfcfIMpXP0vglqGHPFTRj0fGYKgsyKn82tT2FTg0NCydydtimuPHblXbL8AN5d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iHdioILK; arc=none smtp.client-ip=95.215.58.188
+	 MIME-Version; b=PlNHnCYloUdRDDeZCLeGi2H6ilXhZ5iLYI5hLEPw7z9/UpVSYE63W012bpxGj6D5Scxk/pav8xhlGV7ngv9o+omgbfIu/+3F/LouDTgs6Ciii5sCGADvXCstushvvKuM9hgXQw8rLfaK25YqLmxsku3wmOOaXMWKIOJ2kqEQTbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MpX+4uPN; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770822745;
+	t=1770822772;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z226B2XpSmq8CSurWwANapKEljmLoPyyQ4nyb6ASTzE=;
-	b=iHdioILK1HvA9Fot4URphSKWZhlO9EF/LAxEVnhmYlBq0Y4oaNWyzfT6rbvLshwwevd0SW
-	0bk4DVdNx0HoQU00FkkPYgHz4jJJ4rjBohscXxhFKzfYsJHWCS+HOnjeoieo89ryZKLVom
-	k2hP7BUaBAmILIhEikcfUDI5BOqqyWs=
+	bh=jF9AjMmQRvmg5AzqdDMlHG4wUpC0zw/dT5UcgyQ97JE=;
+	b=MpX+4uPN9/82M272Q7uYWbu90IrJ0DfzHSiNux9HPl5FRrGInIzWafI8YVMasqCIa1EuKC
+	RYwLASpFHUyhNsCMCbVWC66kSyhkFSa0CGMzZTgr7zXQA04Ia5ZlOCKaJ2H/RwVVhpmxbT
+	rwfW9ahjvXJBemd/WW3IcCni9K4vH/g=
 From: Leon Hwang <leon.hwang@linux.dev>
 To: bpf@vger.kernel.org
 Cc: Alexei Starovoitov <ast@kernel.org>,
@@ -77,9 +77,9 @@ Cc: Alexei Starovoitov <ast@kernel.org>,
 	linux-api@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	kernel-patches-bot@fb.com
-Subject: [PATCH bpf-next v10 2/8] libbpf: Add support for extended bpf syscall
-Date: Wed, 11 Feb 2026 23:11:09 +0800
-Message-ID: <20260211151115.78013-3-leon.hwang@linux.dev>
+Subject: [PATCH bpf-next v10 3/8] bpf: Refactor reporting log_true_size for prog_load
+Date: Wed, 11 Feb 2026 23:11:10 +0800
+Message-ID: <20260211151115.78013-4-leon.hwang@linux.dev>
 In-Reply-To: <20260211151115.78013-1-leon.hwang@linux.dev>
 References: <20260211151115.78013-1-leon.hwang@linux.dev>
 Precedence: bulk
@@ -98,7 +98,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -107,7 +107,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5823-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5824-lists,linux-api=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
 	DKIM_TRACE(0.00)[linux.dev:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -115,123 +115,198 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,linux.dev:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EAC6912579F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:mid,linux.dev:dkim,linux.dev:email]
+X-Rspamd-Queue-Id: 5F374125827
 X-Rspamd-Action: no action
 
-To support the extended BPF syscall introduced in the previous commit,
-introduce the following internal APIs:
+The next commit will add support for reporting logs via extended common
+attributes, including 'log_true_size'.
 
-* 'sys_bpf_ext()'
-* 'sys_bpf_ext_fd()'
-  They wrap the raw 'syscall()' interface to support passing extended
-  attributes.
-* 'probe_sys_bpf_ext()'
-  Check whether current kernel supports the BPF syscall common attributes.
+To prepare for that, refactor the 'log_true_size' reporting logic by
+introducing a new struct bpf_log_attr to encapsulate log-related behavior:
 
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
+ * bpf_log_attr_init(): initialize log fields, which will support
+   extended common attributes in the next commit.
+ * bpf_log_attr_finalize(): handle log finalization and write back
+   'log_true_size' to userspace.
+
 Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
 ---
- tools/lib/bpf/bpf.c             | 36 +++++++++++++++++++++++++++++++++
- tools/lib/bpf/features.c        |  8 ++++++++
- tools/lib/bpf/libbpf_internal.h |  3 +++
- 3 files changed, 47 insertions(+)
+ include/linux/bpf.h          |  4 +++-
+ include/linux/bpf_verifier.h | 11 +++++++++++
+ kernel/bpf/log.c             | 25 +++++++++++++++++++++++++
+ kernel/bpf/syscall.c         | 13 ++++++++++---
+ kernel/bpf/verifier.c        | 17 ++++-------------
+ 5 files changed, 53 insertions(+), 17 deletions(-)
 
-diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
-index 5846de364209..9d8740761b7a 100644
---- a/tools/lib/bpf/bpf.c
-+++ b/tools/lib/bpf/bpf.c
-@@ -69,6 +69,42 @@ static inline __u64 ptr_to_u64(const void *ptr)
- 	return (__u64) (unsigned long) ptr;
+diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+index cd9b96434904..d4dbcc7ad156 100644
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@ -2913,7 +2913,9 @@ int bpf_check_uarg_tail_zero(bpfptr_t uaddr, size_t expected_size,
+ 			     size_t actual_size);
+ 
+ /* verify correctness of eBPF program */
+-int bpf_check(struct bpf_prog **fp, union bpf_attr *attr, bpfptr_t uattr, u32 uattr_size);
++struct bpf_log_attr;
++int bpf_check(struct bpf_prog **fp, union bpf_attr *attr, bpfptr_t uattr,
++	      struct bpf_log_attr *attr_log);
+ 
+ #ifndef CONFIG_BPF_JIT_ALWAYS_ON
+ void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth);
+diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
+index ef8e45a362d9..dbd9bdb955b3 100644
+--- a/include/linux/bpf_verifier.h
++++ b/include/linux/bpf_verifier.h
+@@ -635,6 +635,17 @@ static inline bool bpf_verifier_log_needed(const struct bpf_verifier_log *log)
+ 	return log && log->level;
  }
  
-+static inline int sys_bpf_ext(enum bpf_cmd cmd, union bpf_attr *attr,
-+			      unsigned int size,
-+			      struct bpf_common_attr *attr_common,
-+			      unsigned int size_common)
++struct bpf_log_attr {
++	char __user *log_buf;
++	u32 log_size;
++	u32 log_level;
++	u32 __user *log_true_size;
++};
++
++int bpf_log_attr_init(struct bpf_log_attr *log, u64 log_buf, u32 log_size, u32 log_level,
++		      u32 __user *log_true_size);
++int bpf_log_attr_finalize(struct bpf_log_attr *attr, struct bpf_verifier_log *log);
++
+ #define BPF_MAX_SUBPROGS 256
+ 
+ struct bpf_subprog_arg_info {
+diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
+index a0c3b35de2ce..e31747b84fe2 100644
+--- a/kernel/bpf/log.c
++++ b/kernel/bpf/log.c
+@@ -863,3 +863,28 @@ void print_insn_state(struct bpf_verifier_env *env, const struct bpf_verifier_st
+ 	}
+ 	print_verifier_state(env, vstate, frameno, false);
+ }
++
++int bpf_log_attr_init(struct bpf_log_attr *log, u64 log_buf, u32 log_size, u32 log_level,
++		      u32 __user *log_true_size)
 +{
-+	cmd = attr_common ? (cmd | BPF_COMMON_ATTRS) : (cmd & ~BPF_COMMON_ATTRS);
-+	return syscall(__NR_bpf, cmd, attr, size, attr_common, size_common);
++	memset(log, 0, sizeof(*log));
++	log->log_buf = u64_to_user_ptr(log_buf);
++	log->log_size = log_size;
++	log->log_level = log_level;
++	log->log_true_size = log_true_size;
++	return 0;
 +}
 +
-+static inline int sys_bpf_ext_fd(enum bpf_cmd cmd, union bpf_attr *attr,
-+				 unsigned int size,
-+				 struct bpf_common_attr *attr_common,
-+				 unsigned int size_common)
++int bpf_log_attr_finalize(struct bpf_log_attr *attr, struct bpf_verifier_log *log)
 +{
-+	int fd;
++	u32 log_true_size;
++	int err;
 +
-+	fd = sys_bpf_ext(cmd, attr, size, attr_common, size_common);
-+	return ensure_good_fd(fd);
++	err = bpf_vlog_finalize(log, &log_true_size);
++
++	if (attr->log_true_size && copy_to_user(attr->log_true_size, &log_true_size,
++						sizeof(log_true_size)))
++		return -EFAULT;
++
++	return err;
 +}
-+
-+int probe_sys_bpf_ext(void)
-+{
-+	const size_t attr_sz = offsetofend(union bpf_attr, prog_token_fd);
-+	union bpf_attr attr;
-+	int fd;
-+
-+	memset(&attr, 0, attr_sz);
-+	fd = syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &attr, attr_sz, NULL,
-+		     sizeof(struct bpf_common_attr));
-+	if (fd >= 0) {
-+		close(fd);
-+		return -EINVAL;
-+	}
-+	return errno == EFAULT ? 1 : 0;
-+}
-+
- static inline int sys_bpf(enum bpf_cmd cmd, union bpf_attr *attr,
- 			  unsigned int size)
+diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+index 0e231c0b1d04..e86674811996 100644
+--- a/kernel/bpf/syscall.c
++++ b/kernel/bpf/syscall.c
+@@ -2867,7 +2867,7 @@ static int bpf_prog_mark_insn_arrays_ready(struct bpf_prog *prog)
+ /* last field in 'union bpf_attr' used by this command */
+ #define BPF_PROG_LOAD_LAST_FIELD keyring_id
+ 
+-static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr, u32 uattr_size)
++static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr, struct bpf_log_attr *attr_log)
  {
-diff --git a/tools/lib/bpf/features.c b/tools/lib/bpf/features.c
-index b842b83e2480..e0d646a9e233 100644
---- a/tools/lib/bpf/features.c
-+++ b/tools/lib/bpf/features.c
-@@ -506,6 +506,11 @@ static int probe_kern_arg_ctx_tag(int token_fd)
- 	return probe_fd(prog_fd);
+ 	enum bpf_prog_type type = attr->prog_type;
+ 	struct bpf_prog *prog, *dst_prog = NULL;
+@@ -3085,7 +3085,7 @@ static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr, u32 uattr_size)
+ 		goto free_prog_sec;
+ 
+ 	/* run eBPF verifier */
+-	err = bpf_check(&prog, attr, uattr, uattr_size);
++	err = bpf_check(&prog, attr, uattr, attr_log);
+ 	if (err < 0)
+ 		goto free_used_maps;
+ 
+@@ -6189,7 +6189,10 @@ static int prog_assoc_struct_ops(union bpf_attr *attr)
+ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
+ 		     bpfptr_t uattr_common, unsigned int size_common)
+ {
++	bool from_user = !bpfptr_is_kernel(uattr);
+ 	struct bpf_common_attr attr_common;
++	u32 __user *log_true_size = NULL;
++	struct bpf_log_attr attr_log;
+ 	union bpf_attr attr;
+ 	int err;
+ 
+@@ -6241,7 +6244,11 @@ static int __sys_bpf(enum bpf_cmd cmd, bpfptr_t uattr, unsigned int size,
+ 		err = map_freeze(&attr);
+ 		break;
+ 	case BPF_PROG_LOAD:
+-		err = bpf_prog_load(&attr, uattr, size);
++		if (from_user && size >= offsetofend(union bpf_attr, log_true_size))
++			log_true_size = uattr.user + offsetof(union bpf_attr, log_true_size);
++		err = bpf_log_attr_init(&attr_log, attr.log_buf, attr.log_size, attr.log_level,
++					log_true_size);
++		err = err ?: bpf_prog_load(&attr, uattr, &attr_log);
+ 		break;
+ 	case BPF_OBJ_PIN:
+ 		err = bpf_obj_pin(&attr);
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index edf5342b982f..f1447b1878fd 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -25840,12 +25840,12 @@ static int compute_scc(struct bpf_verifier_env *env)
+ 	return err;
  }
  
-+static int probe_bpf_syscall_common_attrs(int token_fd)
-+{
-+	return probe_sys_bpf_ext();
-+}
-+
- typedef int (*feature_probe_fn)(int /* token_fd */);
+-int bpf_check(struct bpf_prog **prog, union bpf_attr *attr, bpfptr_t uattr, __u32 uattr_size)
++int bpf_check(struct bpf_prog **prog, union bpf_attr *attr, bpfptr_t uattr,
++	      struct bpf_log_attr *attr_log)
+ {
+ 	u64 start_time = ktime_get_ns();
+ 	struct bpf_verifier_env *env;
+ 	int i, len, ret = -EINVAL, err;
+-	u32 log_true_size;
+ 	bool is_priv;
  
- static struct kern_feature_cache feature_cache;
-@@ -581,6 +586,9 @@ static struct kern_feature_desc {
- 	[FEAT_BTF_QMARK_DATASEC] = {
- 		"BTF DATASEC names starting from '?'", probe_kern_btf_qmark_datasec,
- 	},
-+	[FEAT_BPF_SYSCALL_COMMON_ATTRS] = {
-+		"BPF syscall common attributes support", probe_bpf_syscall_common_attrs,
-+	},
- };
+ 	BTF_TYPE_EMIT(enum bpf_features);
+@@ -25892,9 +25892,7 @@ int bpf_check(struct bpf_prog **prog, union bpf_attr *attr, bpfptr_t uattr, __u3
+ 	/* user could have requested verbose verifier output
+ 	 * and supplied buffer to store the verification trace
+ 	 */
+-	ret = bpf_vlog_init(&env->log, attr->log_level,
+-			    (char __user *) (unsigned long) attr->log_buf,
+-			    attr->log_size);
++	ret = bpf_vlog_init(&env->log, attr_log->log_level, attr_log->log_buf, attr_log->log_size);
+ 	if (ret)
+ 		goto err_unlock;
  
- bool feat_supported(struct kern_feature_cache *cache, enum kern_feature_id feat_id)
-diff --git a/tools/lib/bpf/libbpf_internal.h b/tools/lib/bpf/libbpf_internal.h
-index fc59b21b51b5..aa16be869c4f 100644
---- a/tools/lib/bpf/libbpf_internal.h
-+++ b/tools/lib/bpf/libbpf_internal.h
-@@ -392,6 +392,8 @@ enum kern_feature_id {
- 	FEAT_ARG_CTX_TAG,
- 	/* Kernel supports '?' at the front of datasec names */
- 	FEAT_BTF_QMARK_DATASEC,
-+	/* Kernel supports BPF syscall common attributes */
-+	FEAT_BPF_SYSCALL_COMMON_ATTRS,
- 	__FEAT_CNT,
- };
+@@ -26044,17 +26042,10 @@ int bpf_check(struct bpf_prog **prog, union bpf_attr *attr, bpfptr_t uattr, __u3
+ 	env->prog->aux->verified_insns = env->insn_processed;
  
-@@ -757,4 +759,5 @@ int probe_fd(int fd);
- #define SHA256_DWORD_SIZE SHA256_DIGEST_LENGTH / sizeof(__u64)
+ 	/* preserve original error even if log finalization is successful */
+-	err = bpf_vlog_finalize(&env->log, &log_true_size);
++	err = bpf_log_attr_finalize(attr_log, &env->log);
+ 	if (err)
+ 		ret = err;
  
- void libbpf_sha256(const void *data, size_t len, __u8 out[SHA256_DIGEST_LENGTH]);
-+int probe_sys_bpf_ext(void);
- #endif /* __LIBBPF_LIBBPF_INTERNAL_H */
+-	if (uattr_size >= offsetofend(union bpf_attr, log_true_size) &&
+-	    copy_to_bpfptr_offset(uattr, offsetof(union bpf_attr, log_true_size),
+-				  &log_true_size, sizeof(log_true_size))) {
+-		ret = -EFAULT;
+-		goto err_release_maps;
+-	}
+-
+ 	if (ret)
+ 		goto err_release_maps;
+ 
 -- 
 2.52.0
 
