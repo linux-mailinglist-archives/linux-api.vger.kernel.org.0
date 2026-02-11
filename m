@@ -1,112 +1,274 @@
-Return-Path: <linux-api+bounces-5820-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5821-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLrZF68SjGkXgAAAu9opvQ
-	(envelope-from <linux-api+bounces-5820-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 06:25:03 +0100
+	id MLrrC1GcjGmPrgAAu9opvQ
+	(envelope-from <linux-api+bounces-5821-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:12:17 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA27D12156A
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 06:25:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 876C612577F
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 16:12:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6496830AF04C
-	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 05:18:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B63203013258
+	for <lists+linux-api@lfdr.de>; Wed, 11 Feb 2026 15:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AB334EF06;
-	Wed, 11 Feb 2026 05:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFDD5298CD7;
+	Wed, 11 Feb 2026 15:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTzOtXD6"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="whcz8Td1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF14234D926;
-	Wed, 11 Feb 2026 05:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C405224AF7
+	for <linux-api@vger.kernel.org>; Wed, 11 Feb 2026 15:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770787104; cv=none; b=NNT4U+ISk96wtnIk6Cyug7ZDNROQHwJQSeSRnPf50FM31B7yi6HvU7vTYZo/29H+vicTaxvWX+RnTbvceGtxfqPQ+8O4roP+jbii9Xe7zcu5jLD3BGVMDlXj8awPd1kh7BqBoRuHb5GPIIQB/KO9aYUrMIvouefkJqjgvAFdc2g=
+	t=1770822733; cv=none; b=ixXFSnhhXR2DmOi+mEG7jqYATBWEcNzCXyToTe6g4j0s+dDC6Dy4K+ZTX6KRoosPurtzT3sE9zByzunlA+UOZnTBFSo4hR4+CPD4e3OmVQ+8f88DpV/XuK3eI/mNDZn4zK4oYKcqMyqduRKnFCrSam1vsMEVLS6fPEC1f3ULQIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770787104; c=relaxed/simple;
-	bh=Pskl427gWPDagJF7z85JNfrUYZz4g083sn0tWVlxPQI=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=p5ZJ1T75fL/7/HENZdh5nGf4rQBNr15E4qwUmbCahKEB05WV+feBVWjpFGrLIRNTGHS1JekP1aeC//KNLMt03Ez6xnopC4w6Q879LjSrleMyaT1Nad7QWAQW/Tq2zhZJMXRxnb8FeIevk5K3pJLQFrNrN6k6B3JYBihTs+Pbm+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTzOtXD6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E82C4CEF7;
-	Wed, 11 Feb 2026 05:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770787104;
-	bh=Pskl427gWPDagJF7z85JNfrUYZz4g083sn0tWVlxPQI=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=UTzOtXD6WASz5wZb3BsYEMklCB18KIVgf+X7kROybeOB+gbI27sghzY4kBn6Ke2hb
-	 +ravEBg8rrdIkke892VD3HiAd7Z7szft44jzGcl5s6rIQm8hOR/mZ9xCCe62c4IUCO
-	 8+vf/OBZChDBZKREZvJg1LCWfhbO8B8DayZtVGLArnbEYTik1fNH0Ey3L+UQlvrItT
-	 RnQDVZkzms/xFx3KxJafB/rY2bF6/rsALcjGhl6q9M4ugLOujCHc28ANOAuVNwyEYd
-	 SkaocTFRpPCT+UF6qJBc182Z9rsfaWXMKtv8+QIKh85+23OCAvt+6o4ID4DEjXY5bh
-	 tblYjtyYjYTJA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 0B24B380AA50;
-	Wed, 11 Feb 2026 05:18:21 +0000 (UTC)
-Subject: Re: [GIT PULL] asm-generic header updates for 7.0
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <836fc2ce-751f-4eb0-bdb4-f43f83401b89@app.fastmail.com>
-References: <836fc2ce-751f-4eb0-bdb4-f43f83401b89@app.fastmail.com>
-X-PR-Tracked-List-Id: <linux-arch.vger.kernel.org>
-X-PR-Tracked-Message-Id: <836fc2ce-751f-4eb0-bdb4-f43f83401b89@app.fastmail.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/asm-generic-7.0
-X-PR-Tracked-Commit-Id: adbbd9714f8058730f93c8df5c5bf1679456424b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2b398c05625a158e24da00887bbba284e9dab0b0
-Message-Id: <177078709955.18664.17571306693160215494.pr-tracker-bot@kernel.org>
-Date: Wed, 11 Feb 2026 05:18:19 +0000
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux-Arch <linux-arch@vger.kernel.org>, linux-api@vger.kernel.org, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+	s=arc-20240116; t=1770822733; c=relaxed/simple;
+	bh=67qwVq5ULsKu/M0wW4+5NY2mPkH+V4oSdLoPwlXWw1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mtq4iMdB9G/m+RGm1HpFlf2wi+bVrBg8cNcrZRULXrL20+syQTZ/DdHkR8ayp6E8wxudoBtvFd1FPk505er48QACDtQvujIln/+njNMWzIaZ7Z74tPf/fRn+hgh9n4yHboN0pPlDaW5FYb+QR/tzaEU+/mtGAriwl4sz7VAz45A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=whcz8Td1; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770822719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nnTMAxFAxcOBp4KtWyRFMVTHNvpbJ209/s71toTMntE=;
+	b=whcz8Td14J/auITkJHeKHzxsr3GJOYWCJmh0NPXgIdMgtlRhPGWTO9qjU14bu3hU1x5BYN
+	ELXVhvt3l1Le1V87DXXbQJF9SFJyNHwpPfLveR2CkjrPJSCimBvWV0rMMpduN11ioPYN8h
+	NUL+W9ZZZd2xl5ck2mI/bmcLXICTntM=
+From: Leon Hwang <leon.hwang@linux.dev>
+To: bpf@vger.kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Seth Forshee <sforshee@kernel.org>,
+	Yuichiro Tsuji <yuichtsu@amazon.com>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Leon Hwang <leon.hwang@linux.dev>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Tao Chen <chen.dylane@linux.dev>,
+	Mykyta Yatsenko <yatsenko@meta.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Anton Protopopov <a.s.protopopov@gmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-patches-bot@fb.com
+Subject: [PATCH bpf-next v10 0/8] bpf: Extend BPF syscall with common attributes support
+Date: Wed, 11 Feb 2026 23:11:07 +0800
+Message-ID: <20260211151115.78013-1-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5820-lists,linux-api=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_NO_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5821-lists,linux-api=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CA27D12156A
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 876C612577F
 X-Rspamd-Action: no action
 
-The pull request you sent on Tue, 10 Feb 2026 18:02:40 +0100:
+This patch series builds upon the discussion in
+"[PATCH bpf-next v4 0/4] bpf: Improve error reporting for freplace attachment failure" [1].
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/asm-generic-7.0
+This patch series introduces support for *common attributes* in the BPF
+syscall, providing a unified mechanism for passing shared metadata across
+all BPF commands, and uses it for BPF_PROG_LOAD, BPF_BTF_LOAD, and
+BPF_MAP_CREATE.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2b398c05625a158e24da00887bbba284e9dab0b0
+The initial set of common attributes includes:
 
-Thank you!
+1. 'log_buf': User-provided buffer for storing log output.
+2. 'log_size': Size of the provided log buffer.
+3. 'log_level': Verbosity level for logging.
+4. 'log_true_size': Actual log size reported by kernel.
+
+With this extension, the BPF syscall will be able to return meaningful
+error messages (e.g., failures of creating map), improving debuggability
+and user experience.
+
+Links:
+[1] https://lore.kernel.org/bpf/20250224153352.64689-1-leon.hwang@linux.dev/
+
+Changes:
+v9 -> v10:
+* Collect Acked-by from Andrii, thanks.
+* Address comments from Andrii:
+  * Drop log NULL check in bpf_log_attr_finalize().
+  * Return -EFAULT early in bpf_log_attr_finalize().
+  * Validate whether log_buf, log_size, and log_level are set.
+  * Keep log_buf, log_size, log_level, and user-pointer log_true_size in struct
+    bpf_log_attr.
+  * Make prog_load and btf_load work with the new struct bpf_log_attr.
+  * Add comment to log_true_size of struct bpf_log_opts in libbpf.
+* Address comment from Alexei:
+  * Avoid using BPF_LOG_FIXED as log_level in tests.
+* v9: https://lore.kernel.org/bpf/20260202144046.30651-1-leon.hwang@linux.dev/
+
+v8 -> v9:
+* Rework reporting 'log_true_size' for prog_load, btf_load, and map_create to
+  simplify struct bpf_log_attr (per Alexei).
+* v8: https://lore.kernel.org/bpf/20260126151409.52072-1-leon.hwang@linux.dev/
+
+v7 -> v8:
+* Return 0 when fd < 0 and errno != EFAULT in probe_sys_bpf_ext(), then simplify
+  probe_bpf_syscall_common_attrs() (per Alexei and Andrii).
+* v7: https://lore.kernel.org/bpf/20260123032445.125259-1-leon.hwang@linux.dev/
+
+v6 -> v7:
+* Return -errno when fd < 0 and errno != EFAULT in probe_sys_bpf_ext().
+* Convert return value of probe_sys_bpf_ext() to bool in
+  probe_bpf_syscall_common_attrs().
+* Address comments from Andrii:
+  * Drop the comment, and handle fd >= 0 case explicitly in
+    probe_sys_bpf_ext().
+  * Return an error when fd >= 0 in probe_sys_bpf_ext().
+* v6: https://lore.kernel.org/bpf/20260120152424.40766-1-leon.hwang@linux.dev/
+
+v5 -> v6:
+* Address comments from Andrii:
+  * Update some variables' name.
+  * Drop unnecessary 'close(fd)' in libbpf.
+  * Rename FEAT_EXTENDED_SYSCALL to FEAT_BPF_SYSCALL_COMMON_ATTRS with
+    updated description in libbpf.
+  * Use EINVAL instead of EUSERS, as EUSERS is not used in bpf yet.
+  * Rename struct bpf_syscall_common_attr_opts to bpf_log_opts in libbpf.
+  * Add 'OPTS_SET(log_opts, log_true_size, 0);' in libbpf's 'bpf_map_create()'.
+* v5: https://lore.kernel.org/bpf/20260112145616.44195-1-leon.hwang@linux.dev/
+
+v4 -> v5:
+* Rework reporting 'log_true_size' for prog_load, btf_load, and map_create
+  (per Alexei).
+* v4: https://lore.kernel.org/bpf/20260106172018.57757-1-leon.hwang@linux.dev/
+
+RFC v3 -> v4:
+* Drop RFC.
+* Address comments from Andrii:
+  * Add parentheses in 'sys_bpf_ext()'.
+  * Avoid creating new fd in 'probe_sys_bpf_ext()'.
+  * Add a new struct to wrap log fields in libbpf.
+* Address comments from Alexei:
+  * Do not skip writing to user space when log_true_size is zero.
+  * Do not use 'bool' arguments.
+  * Drop the adding WARN_ON_ONCE()'s.
+* v3: https://lore.kernel.org/bpf/20251002154841.99348-1-leon.hwang@linux.dev/
+
+RFC v2 -> RFC v3:
+* Rename probe_sys_bpf_extended to probe_sys_bpf_ext.
+* Refactor reporting 'log_true_size' for prog_load.
+* Refactor reporting 'btf_log_true_size' for btf_load.
+* Add warnings for internal bugs in map_create.
+* Check log_true_size in test cases.
+* Address comment from Alexei:
+  * Change kvzalloc/kvfree to kzalloc/kfree.
+* Address comments from Andrii:
+  * Move BPF_COMMON_ATTRS to 'enum bpf_cmd' alongside brief comment.
+  * Add bpf_check_uarg_tail_zero() for extra checks.
+  * Rename sys_bpf_extended to sys_bpf_ext.
+  * Rename sys_bpf_fd_extended to sys_bpf_ext_fd.
+  * Probe the new feature using NULL and -EFAULT.
+  * Move probe_sys_bpf_ext to libbpf_internal.h and drop LIBBPF_API.
+  * Return -EUSERS when log attrs are conflict between bpf_attr and
+    bpf_common_attr.
+  * Avoid touching bpf_vlog_init().
+  * Update the reason messages in map_create.
+  * Finalize the log using __cleanup().
+  * Report log size to users.
+  * Change type of log_buf from '__u64' to 'const char *' and cast type
+    using ptr_to_u64() in bpf_map_create().
+  * Do not return -EOPNOTSUPP when kernel doesn't support this feature
+    in bpf_map_create().
+  * Add log_level support for map creation for consistency.
+* Address comment from Eduard:
+  * Use common_attrs->log_level instead of BPF_LOG_FIXED.
+* v2: https://lore.kernel.org/bpf/20250911163328.93490-1-leon.hwang@linux.dev/
+
+RFC v1 -> RFC v2:
+* Fix build error reported by test bot.
+* Address comments from Alexei:
+  * Drop new uapi for freplace.
+  * Add common attributes support for prog_load and btf_load.
+  * Add common attributes support for map_create.
+* v1: https://lore.kernel.org/bpf/20250728142346.95681-1-leon.hwang@linux.dev/
+
+Leon Hwang (8):
+  bpf: Extend BPF syscall with common attributes support
+  libbpf: Add support for extended bpf syscall
+  bpf: Refactor reporting log_true_size for prog_load
+  bpf: Add syscall common attributes support for prog_load
+  bpf: Add syscall common attributes support for btf_load
+  bpf: Add syscall common attributes support for map_create
+  libbpf: Add syscall common attributes support for map_create
+  selftests/bpf: Add tests to verify map create failure log
+
+ include/linux/bpf.h                           |   4 +-
+ include/linux/bpf_verifier.h                  |  15 ++
+ include/linux/btf.h                           |   3 +-
+ include/linux/syscalls.h                      |   3 +-
+ include/uapi/linux/bpf.h                      |   8 +
+ kernel/bpf/btf.c                              |  30 +---
+ kernel/bpf/log.c                              |  84 +++++++++
+ kernel/bpf/syscall.c                          | 114 +++++++++---
+ kernel/bpf/verifier.c                         |  17 +-
+ tools/include/uapi/linux/bpf.h                |   8 +
+ tools/lib/bpf/bpf.c                           |  52 +++++-
+ tools/lib/bpf/bpf.h                           |  17 +-
+ tools/lib/bpf/features.c                      |   8 +
+ tools/lib/bpf/libbpf_internal.h               |   3 +
+ .../selftests/bpf/prog_tests/map_init.c       | 166 ++++++++++++++++++
+ 15 files changed, 471 insertions(+), 61 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.52.0
+
 
