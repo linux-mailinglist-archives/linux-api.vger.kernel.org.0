@@ -1,140 +1,162 @@
-Return-Path: <linux-api+bounces-5865-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5867-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEDgNRahl2nc3AIAu9opvQ
-	(envelope-from <linux-api+bounces-5865-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 20 Feb 2026 00:47:34 +0100
+	id 4AP+BMTDmGl/LwMAu9opvQ
+	(envelope-from <linux-api+bounces-5867-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 20 Feb 2026 21:27:48 +0100
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B909163A97
-	for <lists+linux-api@lfdr.de>; Fri, 20 Feb 2026 00:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D4D16AA05
+	for <lists+linux-api@lfdr.de>; Fri, 20 Feb 2026 21:27:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C951A30E56A6
-	for <lists+linux-api@lfdr.de>; Thu, 19 Feb 2026 23:43:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 55E5B301B908
+	for <lists+linux-api@lfdr.de>; Fri, 20 Feb 2026 20:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7807232B99E;
-	Thu, 19 Feb 2026 23:43:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AFC62FF154;
+	Fri, 20 Feb 2026 20:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfQcgfQX"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eM5dpppF"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E19326D6B
-	for <linux-api@vger.kernel.org>; Thu, 19 Feb 2026 23:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2852FD1C5;
+	Fri, 20 Feb 2026 20:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771544580; cv=none; b=dRMJmVQAwpre/Cidq/AI85BL0wHs+J0WTgLOaENFNCFpZk0snpjohinCvm3Jk0N30b7+E+m0lQ0GXNXzs3xqvAH1SE0h6YNqLltYwzIRljOPmJErEOYG4nfmFhbn9UtUNDZuRxU/XdM+AoPojwIPyo55rSp5Bhr90R0mzm+9x5c=
+	t=1771619263; cv=none; b=bexwAEGfOkzZ6le9/RLGXQSCLYeoTinwMsSf4hhgJ8CLIZIVruFpfcg1sVhKHfg84RSO2lolF2cvnUNPgVPsMCUoBHj2+crELn6Og++MwU6i4xEIKGa0se2aHGwzz1IzL9M3ajv6EfSmGSJu5xL2BZ+4YowbCN+RcHv7ka2EQ9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771544580; c=relaxed/simple;
-	bh=quE5sGl3Uk/gMNmwDYmHMacZa/Zg+chR5zy0mjgEh1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JgkkghBPAqc8GJ6Ug4kvpHIBW+7DH7IyWnJSbeWoOysD9eCk2EvOKXsoG8iuLhBUb+CQHXd2xKMtelA9Rd5CLa/h8Wo4AiYwdRFXHVexKUttvZ65i01EBVAxIfFtKF7IVmPm/neM2ihPqSRqm81y9El9H2+O1LGdpGVNGw66CYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UfQcgfQX; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-483a233819aso10176825e9.3
-        for <linux-api@vger.kernel.org>; Thu, 19 Feb 2026 15:42:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771544577; x=1772149377; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VTF1k698GVo28+ckOqecetXyS8IP9ymt5tN+tdpIOiA=;
-        b=UfQcgfQXQy+pYZ6LXrr9RBMeLnuzdqzm13XEFaa5QkNWUZcmJ241fUUe8Cqas9iInE
-         Rx/OLeqATRTaT9UFghx2R2YUrh60VeM9q1gBCqVQKa9U+Jxprjj4tj6sov/A/DnjhP2J
-         zOS1DfxoNfNg3j2OOVvKMCb/Xzyz+LhmQsyNb0TNhUEkus4xluqIIQIX6Eua36gAiYmd
-         LLD6KyKE/dY94xjs0z4jy+o9yXlTGvuVI1SBZGDoisBPmF04N9gUlhqeHisj33IaXNIi
-         gLSVGbUIGlvaAYq3drOD5i99jhPZhetE15bWfy/5E5cl730+9fQFX2m5YUnv8bs5qdcm
-         rA4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771544577; x=1772149377;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VTF1k698GVo28+ckOqecetXyS8IP9ymt5tN+tdpIOiA=;
-        b=bJA+Wo5QbfoNv6n3kKR+AtXuZ+H5uG0xnACIi0s71H3ctTEmoD0nJSh1jyThmdBdhD
-         PphmBEs6dslzWzE3K8xPvaktUjVFqsGnS05TkBlzAsPNrrKtyFCFjRExFI27zBDH020u
-         RcYBbT0foaE9K1kcN2ShYUPrjCURIAnUSr02xAQZ+g0QPsyXRiz+OsDOFGvzlT+f0/R5
-         SRb5+StIX3XDwkmUMUMpVq1LWgnRNwM7e25vg6fTvtaRgVGSYDigHS2GdrncgmA1K3MH
-         yrKkQMbQ6OZUhu3QhDRuc0VXFC1BmOVx7T/qSIXT+XJvqC2nlpvSGnTQWQsW+NeSgveh
-         sSEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1hmhaaZmSCs0yZwI6PF4VLGVxudkgA5bUe5nEaubQx+XnfppUnyltF0iY/6hu0nLGJtPLI634ptg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPEYGx5FdiE1TAZUDc9es1McaQCbU3mefCvNI16G2PhtJOzbg0
-	XmpjaT3LjSDSrGtuRBiBq/EMqRTrtVL6H8i6J0002A5HyghNArOm0RXP
-X-Gm-Gg: AZuq6aKJ/PzSd8x+cWC4g997E/WFGicq6PY2BP3eDoHgryiveKKzDzoKra4K2f1y5iM
-	1EBspS0BaF6JQq7XlSLVSr+byf6tSsIVDHgWWLDkji0/vFTQpghTTgwlTrJnCWeUMQkbRyJKD/L
-	GSD3n2T4v4wbGIt5EfGpB6fWP01U/yRLecBtZ5IBqgaks5q7Y0OWfbTaSbj1e99QQN/cB63WYP6
-	aj7mHs43at0AW/MZzjrahLU/P0amHYxlqyD5GG/YNLJHW15a/xAGLlZBoiMxc83qoX8gVoSb9dw
-	fkKB30eGS3EvbUeA3eBE8z+TwpQLodx+tSSq26vQzLWcELjZ36HKcOnaZMzImMnnUkL6mT0TSWf
-	F3fzREU7qHcgXtxx089aC7Jxjpruxhj7EhN4rUjCOElXzoRAYG60WUpBikqZHZLlbBsn8P5j/wb
-	AvwywHiw1A5TTr7igLgiA=
-X-Received: by 2002:a05:600c:4e54:b0:480:4a90:1af2 with SMTP id 5b1f17b1804b1-4839c002d65mr111614985e9.35.1771544577127;
-        Thu, 19 Feb 2026 15:42:57 -0800 (PST)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483a31c048bsm35793735e9.7.2026.02.19.15.42.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 15:42:56 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: rob@landley.net
-Cc: containers@lists.linux.dev,
-	initramfs@vger.kernel.org,
+	s=arc-20240116; t=1771619263; c=relaxed/simple;
+	bh=un9uTO1kN/FX/Pulk7o9UNEKszgFzdpeJnURAgqmc54=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CMGHzJJD19IZMKm440zGOcQNl7sD2jceIGqxWFJXe1Kor6gq1HOluAE6dCuzmnoBhWwAYR2x/aIb6PgI+MOYjrkFEzoiFkBaBt6YJ17lEXxKs2J/sjqvefawJywWALMtWBWb+HtyLOvG3461NTD6wvvrz3+kbHH3K8vgvb+dCt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eM5dpppF; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=3PWDYWt29z/mB21074sPdwQLXpdZUJgh9IqW4IVswuo=; b=eM5dpppFoOLjQIk58qE/h3PTi7
+	cc+6ymyfrugVXqyp27YXZ3oAJcYZlzrQw7yLNEXtPuzUKwdatPEtWJ268Mrbpw9wL73kLZ6d11fwu
+	ZGskJm5hgUClj0TRPHTSC4fIGFgE/IUQxZXIsOA1A6BlUlO8mAy1dpMPBZxflaZywjHw1faJhdfqn
+	MhIp38OEpR9zpdGK3zxeV3L2knj76jJAYjRNH0nROxX1Xe/b2FG6Nw7zCyRYmgQnS1MMWFUAUSDUf
+	1BC0VZC040G6lA7labGf3FkMlrcHe+ZXYtXHUklhjjz1tU7Kyi3ttF6DE1szrm9RwNKTJipfmYR4g
+	ke2IfQQQ==;
+Received: from [187.57.77.133] (helo=computador)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vtX5D-0036Zi-Dk; Fri, 20 Feb 2026 21:26:39 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Carlos O'Donell <carlos@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Florian Weimer <fweimer@redhat.com>,
+	Rich Felker <dalias@aerifal.cx>,
+	Torvald Riegel <triegel@redhat.com>,
+	Darren Hart <dvhart@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>
+Cc: kernel-dev@igalia.com,
 	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
-Date: Fri, 20 Feb 2026 02:42:49 +0300
-Message-ID: <20260219234249.3757808-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <6375f293-709c-41b8-a23d-12010baa3cae@landley.net>
-References: <6375f293-709c-41b8-a23d-12010baa3cae@landley.net>
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [RFC PATCH 0/2] futex: how to solve the robust_list race condition?
+Date: Fri, 20 Feb 2026 17:26:18 -0300
+Message-ID: <20260220202620.139584-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.64 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-5865-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5867-lists,linux-api=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.984];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 3B909163A97
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sourceware.org:url,igalia.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lpc.events:url]
+X-Rspamd-Queue-Id: 77D4D16AA05
 X-Rspamd-Action: no action
 
-Rob Landley <rob@landley.net>:
-> Also, could you guys make CONFIG_DEVTMPFS_MOUNT work with initramfs?
+During LPC 2025, I presented a session about creating a new syscall for
+robust_list[0][1]. However, most of the session discussion wasn't much related
+to the new syscall itself, but much more related to an old bug that exists in
+the current robust_list mechanism.
 
-I did something similar:
-https://lore.kernel.org/initramfs/20260219210312.3468980-1-safinaskar@gmail.com/T/#u
+Since at least 2012, there's an open bug reporting a race condition, as
+Carlos O'Donell pointed out:
 
-Does this solve your problem?
+  "File corruption race condition in robust mutex unlocking"
+  https://sourceware.org/bugzilla/show_bug.cgi?id=14485
+
+To help understand the bug, I've created a reproducer (patch 1/2) and a
+companion kernel hack (patch 2/2) that helps to make the race condition
+more likely. When the bug happens, the reproducer shows a message
+comparing the original memory with the corrupted one:
+
+  "Memory was corrupted by the kernel: 8001fe8d8001fe8d vs 8001fe8dc0000000"
+
+I'm not sure yet what would be the appropriated approach to fix it, so I
+decided to reach the community before moving forward in some direction.
+One suggestion from Peter[2] resolves around serializing the mmap() and the
+robust list exit path, which might cause overheads for the common case,
+where list_op_pending is empty.
+
+However, giving that there's a new interface being prepared, this could
+also give the opportunity to rethink how list_op_pending works, and get
+rid of the race condition by design.
+
+Feedback is very much welcome.
+
+Thanks!
+	André
+
+[0] https://lore.kernel.org/lkml/20251122-tonyk-robust_futex-v6-0-05fea005a0fd@igalia.com/
+[1] https://lpc.events/event/19/contributions/2108/
+[2] https://lore.kernel.org/lkml/20241219171344.GA26279@noisy.programming.kicks-ass.net/
+
+André Almeida (2):
+  futex: Create reproducer for robust_list race condition
+  futex: Add debug delays
+
+ kernel/futex/core.c |  10 +++
+ robust_bug.c        | 178 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 188 insertions(+)
+ create mode 100644 robust_bug.c
 
 -- 
-Askar Safin
+2.53.0
+
 
