@@ -1,162 +1,140 @@
-Return-Path: <linux-api+bounces-5875-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5876-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGQaAiZenGkUFQQAu9opvQ
-	(envelope-from <linux-api+bounces-5875-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 23 Feb 2026 15:03:18 +0100
+	id WC16AEaKnWnBQQQAu9opvQ
+	(envelope-from <linux-api+bounces-5876-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 24 Feb 2026 12:23:50 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A306177A65
-	for <lists+linux-api@lfdr.de>; Mon, 23 Feb 2026 15:03:17 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9854618629F
+	for <lists+linux-api@lfdr.de>; Tue, 24 Feb 2026 12:23:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5D3CB3023698
-	for <lists+linux-api@lfdr.de>; Mon, 23 Feb 2026 14:03:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CE265303DDC9
+	for <lists+linux-api@lfdr.de>; Tue, 24 Feb 2026 11:23:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667242773F0;
-	Mon, 23 Feb 2026 14:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970DC37C106;
+	Tue, 24 Feb 2026 11:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B/exbsJa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E44248F47
-	for <linux-api@vger.kernel.org>; Mon, 23 Feb 2026 14:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3607A37C0E6
+	for <linux-api@vger.kernel.org>; Tue, 24 Feb 2026 11:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771855392; cv=none; b=CXflgQNdkJ1bX0Mig+glwziRvgCxXQDYHCSwVcnZ7y4P8rrurtOa04GbaEHulmlqHw2fQ2846wiRclGAoAGr7kcM/IebAsV8607gn5qjrLyg3+gHq9F/xcx5V2CCFGK1Q4ooxvRQv20iHPIOmT+umtdYeQeHIozG4towL+g7k5s=
+	t=1771932227; cv=none; b=Mbf3fsNYyOLVNbNn9uW1FXP+6fT4LrAhk8n2VnZo+ZyVjh4KfuX/T9oNvtj9DTK/nwOIjh7WNUYKp8tfKliDBWG/3c01J6AJR6q/vuMOi1pBDl1kEeCMUWB/b66Hfn97j7wVOT1xUEhifM8fubeITkBRdyy8Y5kNW/+i01iDaXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771855392; c=relaxed/simple;
-	bh=b9EosaxnEFn0mRUvbhuomrMOjqt6GWtJDuAhe9M61rM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oiV48bhwgIeXmBWFsd4H4oxsCSXmGcemveh9n7pXSk0Sp4SS6X/EySlrjk2O4kmRtLcHijoxaa+mwphpTUpBcMKCYoyhs9Asj2a2w1M44fewtyxfR4l3otAAehZoEEktLmfCK1dI//EOs7TuNP3/7qvJcmLHs/Ro7reAXHh3g54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aerifal.cx; spf=pass smtp.mailfrom=aerifal.cx; arc=none smtp.client-ip=104.156.224.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aerifal.cx
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aerifal.cx
-Date: Mon, 23 Feb 2026 08:47:51 -0500
-From: Rich Felker <dalias@aerifal.cx>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Florian Weimer <fweimer@redhat.com>,
-	=?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
-	Carlos O'Donell <carlos@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Torvald Riegel <triegel@redhat.com>,
-	Darren Hart <dvhart@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>, kernel-dev@igalia.com,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	libc-alpha <libc-alpha@sourceware.org>
-Subject: Re: [RFC PATCH 0/2] futex: how to solve the robust_list race
- condition?
-Message-ID: <20260223134751.GN6263@brightrain.aerifal.cx>
-References: <20260220202620.139584-1-andrealmeid@igalia.com>
- <0d334517-63ee-46c9-884d-6c2ae8388b87@efficios.com>
- <67be0aa1-2241-43ef-aa01-a89ced26c8f6@efficios.com>
- <a1e24288-6ffc-438d-8a2a-d152134c9555@efficios.com>
- <lhusearzp8o.fsf@oldenburg.str.redhat.com>
- <87003e32-eae2-41c8-8b83-2530f084b3c7@efficios.com>
+	s=arc-20240116; t=1771932227; c=relaxed/simple;
+	bh=pqbpubc3SgE/vzzLlA+7qoAjLDjHD6vu1AUhctqdf+8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lsZhqn4S5TL1ytxyFsSFnFEVvp7OpXKO60dPfEgnQQ5N71O/eDrXo7sgrIVY/4D0GN6w7DPB7BS/CtW44r+641Msf7ZX7a1jnDsLLj61i49WhAl08icwqdOFa/Spl3n4D2TC16EF4CZqCtlw//0wV9ozZQJP9LZr/rgqyA2RnOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B/exbsJa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771932225;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mfGKnBQ3ObbG8Yw8OpNOKHf6B/V3WX+Q13hI/DT1Aho=;
+	b=B/exbsJaSjGU6wyCMCF1gOMFp7JUuupwnSMvTm1onFPC9+qhxY2e2tiITkdV0QzDxwc9Vm
+	+qIA5e+qNVglUGx2RoxWIS2Jn1XiizE2lt9qwZbRrpLUlx1dqL1NoJuRcWzIrWVzGSlg0V
+	300OXZW6BeQ51DPE9sk8411YuEUQ5qU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-679-3rrS1RrGM3C4xJUdb9WXPg-1; Tue,
+ 24 Feb 2026 06:23:41 -0500
+X-MC-Unique: 3rrS1RrGM3C4xJUdb9WXPg-1
+X-Mimecast-MFC-AGG-ID: 3rrS1RrGM3C4xJUdb9WXPg_1771932219
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BC961956059;
+	Tue, 24 Feb 2026 11:23:39 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.45.226.43])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CDA511800666;
+	Tue, 24 Feb 2026 11:23:35 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,  Jeff Layton <jlayton@kernel.org>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,  Amir Goldstein
+ <amir73il@gmail.com>,  Josef Bacik <josef@toxicpanda.com>,  Jan Kara
+ <jack@suse.cz>,  Aleksa Sarai <cyphar@cyphar.com>,
+ linux-api@vger.kernel.org, rudi@heitbaum.com
+Subject: Re: [PATCH 1/2] mount: add OPEN_TREE_NAMESPACE
+In-Reply-To: <20251229-work-empty-namespace-v1-1-bfb24c7b061f@kernel.org>
+	(Christian Brauner's message of "Mon, 29 Dec 2025 14:03:24 +0100")
+References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
+	<20251229-work-empty-namespace-v1-1-bfb24c7b061f@kernel.org>
+Date: Tue, 24 Feb 2026 12:23:33 +0100
+Message-ID: <lhuecmaz8p6.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87003e32-eae2-41c8-8b83-2530f084b3c7@efficios.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.46 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[aerifal.cx];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,zeniv.linux.org.uk,gmail.com,toxicpanda.com,suse.cz,cyphar.com,heitbaum.com];
+	TAGGED_FROM(0.00)[bounces-5876-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5875-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	URIBL_MULTI_FAIL(0.00)[man7.org:server fail,sto.lore.kernel.org:server fail,brightrain.aerifal.cx:server fail];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dalias@aerifal.cx,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.970];
-	TAGGED_RCPT(0.00)[linux-api];
-	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	PRECEDENCE_BULK(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7A306177A65
+X-Rspamd-Queue-Id: 9854618629F
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 08:37:13AM -0500, Mathieu Desnoyers wrote:
-> On 2026-02-23 06:13, Florian Weimer wrote:
-> > * Mathieu Desnoyers:
-> > 
-> > > Trying to find a backward compatible way to solve this may be tricky.
-> > > Here is one possible approach I have in mind: Introduce a new syscall,
-> > > e.g. sys_cleanup_robust_list(void *addr)
-> > > 
-> > > This system call would be invoked on pthread_mutex_destroy(3) of
-> > > robust mutexes, and do the following:
-> > > 
-> > > - Calculate the offset of @addr within its mapping,
-> > > - Iterate on all processes which map the backing store which contain
-> > >    the lock address @addr.
-> > >    - Iterate on each thread sibling within each of those processes,
-> > >      - If the thread has a robust list, and its list_op_pending points
-> > >        to the same offset within the backing store mapping, clear the
-> > >        list_op_pending pointer.
-> > > 
-> > > The overhead would be added specifically to pthread_mutex_destroy(3),
-> > > and only for robust mutexes.
-> > 
-> > Would we have to do this for pthread_mutex_destroy only, or also for
-> > pthread_join?  It is defined to exit a thread with mutexes still locked,
-> > and the pthread_join call could mean that the application can determine
-> > by its own logic that the backing store can be deallocated.
-> Let me try to wrap my head around this scenario.
-> 
-> AFAIU, the https://man7.org/linux/man-pages/man3/pthread_join.3.html
-> NOTES section states the following for pthread_join(3):
-> 
->        After a successful call to pthread_join(), the caller is
->        guaranteed that the target thread has terminated.  The caller may
->        then choose to do any clean-up that is required after termination
->        of the thread (e.g., freeing memory or other resources that were
->        allocated to the target thread).
-> 
-> What is the behavior when a thread exits with a mutex locked ? I would
-> expect that this mutex stays locked
+* Christian Brauner:
 
-For a robust mutex, if the owning thread exits, the mutex enters
-EOWNERDEAD state.
+> diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+> index 5d3f8c9e3a62..acbc22241c9c 100644
+> --- a/include/uapi/linux/mount.h
+> +++ b/include/uapi/linux/mount.h
+> @@ -61,7 +61,8 @@
+>  /*
+>   * open_tree() flags.
+>   */
+> -#define OPEN_TREE_CLONE		1		/* Clone the target tree and attach the clone */
+> +#define OPEN_TREE_CLONE		(1 << 0)	/* Clone the target tree and attach the clone */
 
-Otherwise, per POSIX the mutex just remains permanently locked and
-undestroyable. glibc does not actually implement this for recursive or
-errorchecking mutexes, as the tid might get reused and then the new
-thread that got the same tid will now behave as if it were the owner
-(e.g. it's allowed to take further recursive locks or observe itself
-as the owner via EDEADLK). In musl we implement this by putting all
-recursive and errorchecking mutexes on a robust list to reassign an
-unmatchable tid to them at pthread_exit time.
+This change causes pointless -Werror=undef errors in projects that have
+settled on the old definition.
 
-> and the pthread_join(3) caller gets
-> to release that mutex and eventually calls pthread_mutex_destroy(3) if
-> the application logic allows it.
+Reported here:
 
-No other thread can release the mutex that was left locked unless it
-was robust and it goes via the EOWNERDEAD/recovery process. Nor can
-you legally call pthread_mutex_destroy on a mutex that's still owned.
+  Bug 33921 - Building with Linux-7.0-rc1 errors on OPEN_TREE_CLONE
+  <https://sourceware.org/bugzilla/show_bug.cgi?id=33921>
 
-Rich
+Thanks,
+Florian
+
 
