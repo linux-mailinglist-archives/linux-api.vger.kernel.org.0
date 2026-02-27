@@ -1,110 +1,113 @@
-Return-Path: <linux-api+bounces-5880-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5881-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KMVhFXU0oGnyggQAu9opvQ
-	(envelope-from <linux-api+bounces-5880-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 26 Feb 2026 12:54:29 +0100
+	id oBTXHkyBoWkUtgQAu9opvQ
+	(envelope-from <linux-api+bounces-5881-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 12:34:36 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C9F1A563D
-	for <lists+linux-api@lfdr.de>; Thu, 26 Feb 2026 12:54:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D51791B6A08
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 12:34:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B68FF300D173
-	for <lists+linux-api@lfdr.de>; Thu, 26 Feb 2026 11:54:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 95D4C302453E
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 11:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE08D37AA72;
-	Thu, 26 Feb 2026 11:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB34C3A1E62;
+	Fri, 27 Feb 2026 11:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hAVMQWMa";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZDAoyZI8";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qIs99Uwl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2ELRmH1S"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yzNBLfXK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OLWU5ivG";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yzNBLfXK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OLWU5ivG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B04364058
-	for <linux-api@vger.kernel.org>; Thu, 26 Feb 2026 11:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCD536D4FD
+	for <linux-api@vger.kernel.org>; Fri, 27 Feb 2026 11:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772106866; cv=none; b=h1zTdr7tQNvE+8YLEcprANii4oJA5hcC+nAgdHDLOykldtq248L/xugOivyf9wRfyef2WJkMToJyQy2bxpo+2RPm1Tfp6ltA8bE/hBs7iLylHHo8GmriKDVn+XhKE2EA5jj5dnvcjKkiQ3O7vosNJmE1hIfFxdJ7Kox1txz+r4A=
+	t=1772192073; cv=none; b=kqjNtE68Dv4Zw+q8t+NQCznWxFTSzcHq8lPIPiMfESNPqYPLNS6AtVlBtOHk40KMyAbbHroF78ZoQq/xcGEgCIgVur2dSCaVReZ+g/Q74HbHqxVFidEZUJUM7+t8/MGydhbRSwhMCVz0sm17SGS9DR7/vCGxCvvKyJ3QKl6qurc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772106866; c=relaxed/simple;
-	bh=mkEfYemzIR+QHhtRKvdwkAcl9n+fPDGKeENTRyZ0xek=;
+	s=arc-20240116; t=1772192073; c=relaxed/simple;
+	bh=/DYKZzwiZf7JORlpCwaYSZ4w+lIYmVegY+urJY1I7Zc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y8r0IA8TEv9O+Ahb6JM7KME/zh9yXl5G9KqEyUzM+tyzR9jtCHwWiZ0hEkj5RFgizc8gD6bfWZT5tVejo5TztUwtMQ5eXAjT0LUJZwx6wNhsfWpBwGgO1fnjHtXNJmt/Jp0cfaZcDbC3nyyhnvWGS4RI3zV2xCl399vvAqdNNBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hAVMQWMa; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZDAoyZI8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qIs99Uwl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2ELRmH1S; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wn2Hp+jtQ+a+/cwsWX9k6+lcVxz2GKLm4KbowQF22bPZMV6D9xQywzv5hpIxIUu1H4l14S244WFXct+QWuUkcq/Dsep3bc4VUshCc7Y7VE9VxAT2JRFlmWpTB12eM8ymDS0S4QAZTaQ6CvSUdIJX7TnB3sJ47SV8Q0keH/WDRLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yzNBLfXK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OLWU5ivG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yzNBLfXK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OLWU5ivG; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C24854D21F;
-	Thu, 26 Feb 2026 11:54:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F4115BDF8;
+	Fri, 27 Feb 2026 11:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772106864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772192070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5bBznvZoKbp3YHpDSYOeq/RTIHqXZ4OqLndlPT5A0E=;
-	b=hAVMQWMaxU/MN/uMA1vA53yu0R38Td+beuAqGhy4hRZIVgz5VOsN32pL0CMNAUHQ7xUmTI
-	6jZmB/yDp3mQOH73R9ksa596ueqwkNLcrUgn7IK3xTkCY383KEEMCgB685W9a/YC1JlNzh
-	qxfojwnou2tJCE/JPaFMdZNPFQNyNEw=
+	bh=IcwzK4XVgXogdPbxbbJoSTt0FD2Bb9QBnrGjayGfvZM=;
+	b=yzNBLfXK+tYE0mTr6cv5Xc9DRb7sKV/48FxOb3BL6L8gr8/SztQ86e+i75x3i5JU8MIHq+
+	Foif2ZfZ2YMDSp0zDP2cwq7GeXar2rH++IeEMIG0IG8EA6XFWp9OniiFoNgqCvn7ZiREVl
+	Gr+DUjT3EwrVCHZGW2sYQOAf/MFKpOk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772106864;
+	s=susede2_ed25519; t=1772192070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5bBznvZoKbp3YHpDSYOeq/RTIHqXZ4OqLndlPT5A0E=;
-	b=ZDAoyZI8C4hu8IXioAa/i/Zw8xctdqk2OTu39Nw1pKYW7r104iC5Pf4NA1xx7ETmiT+xgx
-	AYxjiUU2slpin8DA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qIs99Uwl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=2ELRmH1S
+	bh=IcwzK4XVgXogdPbxbbJoSTt0FD2Bb9QBnrGjayGfvZM=;
+	b=OLWU5ivGNUJ4qes+LLrsYb/10z52jI6sC6kltAiVjL01EcSLqvWRQMHNYmXIpO1KtmsG6u
+	ntaoFB5s3+I+wpCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yzNBLfXK;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OLWU5ivG
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772106863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772192070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5bBznvZoKbp3YHpDSYOeq/RTIHqXZ4OqLndlPT5A0E=;
-	b=qIs99UwlRW2BlP+Vwv+l3XflhEh8w1hRizSwIEvxNyaoTcnez1ceoivwAWTPTJbp2jnI+g
-	s25bxm/Wiq+M0vGHOngCtufCEANBslFVpOnXWur4yIs0Ks/lr82R62TVbv4K5CbGvc5XZF
-	UlQc8oMF3ihXAB3EuYi6zZJ+kvMhMp8=
+	bh=IcwzK4XVgXogdPbxbbJoSTt0FD2Bb9QBnrGjayGfvZM=;
+	b=yzNBLfXK+tYE0mTr6cv5Xc9DRb7sKV/48FxOb3BL6L8gr8/SztQ86e+i75x3i5JU8MIHq+
+	Foif2ZfZ2YMDSp0zDP2cwq7GeXar2rH++IeEMIG0IG8EA6XFWp9OniiFoNgqCvn7ZiREVl
+	Gr+DUjT3EwrVCHZGW2sYQOAf/MFKpOk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772106863;
+	s=susede2_ed25519; t=1772192070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5bBznvZoKbp3YHpDSYOeq/RTIHqXZ4OqLndlPT5A0E=;
-	b=2ELRmH1SmgBvGR+QHJVLdwnHOd8iBLL6l9zCBAwkbadswFTGDEkX0rn5S7toG2J2z5w6I8
-	/ioR5NNG+fnCOwAg==
+	bh=IcwzK4XVgXogdPbxbbJoSTt0FD2Bb9QBnrGjayGfvZM=;
+	b=OLWU5ivGNUJ4qes+LLrsYb/10z52jI6sC6kltAiVjL01EcSLqvWRQMHNYmXIpO1KtmsG6u
+	ntaoFB5s3+I+wpCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B918A3EA62;
-	Thu, 26 Feb 2026 11:54:23 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 834BF3EA69;
+	Fri, 27 Feb 2026 11:34:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sAYkLW80oGmScwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Feb 2026 11:54:23 +0000
+	id CsECIEaBoWmkLwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 27 Feb 2026 11:34:30 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7FCFBA0A27; Thu, 26 Feb 2026 12:54:23 +0100 (CET)
-Date: Thu, 26 Feb 2026 12:54:23 +0100
+	id 40858A06D4; Fri, 27 Feb 2026 12:34:30 +0100 (CET)
+Date: Fri, 27 Feb 2026 12:34:30 +0100
 From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Florian Weimer <fweimer@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Amir Goldstein <amir73il@gmail.com>, Josef Bacik <josef@toxicpanda.com>, Jan Kara <jack@suse.cz>, 
-	Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org, rudi@heitbaum.com
-Subject: Re: [PATCH 1/2] mount: add OPEN_TREE_NAMESPACE
-Message-ID: <2cy27sadqeldndtkkf47z5bgf6w7yhsg7sp3saz35wu6x65p5b@ul75lea7q4vv>
-References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
- <20251229-work-empty-namespace-v1-1-bfb24c7b061f@kernel.org>
- <lhuecmaz8p6.fsf@oldenburg.str.redhat.com>
- <20260224-erbitten-kaufleute-6f14e3072c5d@brauner>
- <lhuv7fmxo8y.fsf@oldenburg.str.redhat.com>
- <20260224-kandidat-wohltat-ae8fb7a57738@brauner>
+To: Chuck Lever <cel@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
+	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
+	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
+	Chuck Lever <chuck.lever@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v8 01/17] fs: Move file_kattr initialization to callers
+Message-ID: <ih3mvucoroudud5l4pndgjxbxfxgcizu2mpli4fhkbnxwufrlm@cyoqgtmvlvpq>
+References: <20260217214741.1928576-1-cel@kernel.org>
+ <20260217214741.1928576-2-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -113,7 +116,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260224-kandidat-wohltat-ae8fb7a57738@brauner>
+In-Reply-To: <20260217214741.1928576-2-cel@kernel.org>
 X-Spam-Flag: NO
 X-Spam-Score: -4.01
 X-Spam-Level: 
@@ -122,71 +125,154 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[redhat.com,vger.kernel.org,kernel.org,zeniv.linux.org.uk,gmail.com,toxicpanda.com,suse.cz,cyphar.com,heitbaum.com];
-	TAGGED_FROM(0.00)[bounces-5880-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5881-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,suse.cz:dkim,suse.com:email,sourceware.org:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,oracle.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	DMARC_NA(0.00)[suse.cz];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: B9C9F1A563D
+X-Rspamd-Queue-Id: D51791B6A08
 X-Rspamd-Action: no action
 
-On Tue 24-02-26 15:33:13, Christian Brauner wrote:
-> On Tue, Feb 24, 2026 at 02:30:37PM +0100, Florian Weimer wrote:
-> > * Christian Brauner:
-> > 
-> > > On Tue, Feb 24, 2026 at 12:23:33PM +0100, Florian Weimer wrote:
-> > >> * Christian Brauner:
-> > >> 
-> > >> > diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-> > >> > index 5d3f8c9e3a62..acbc22241c9c 100644
-> > >> > --- a/include/uapi/linux/mount.h
-> > >> > +++ b/include/uapi/linux/mount.h
-> > >> > @@ -61,7 +61,8 @@
-> > >> >  /*
-> > >> >   * open_tree() flags.
-> > >> >   */
-> > >> > -#define OPEN_TREE_CLONE		1		/* Clone the target tree and attach the clone */
-> > >> > +#define OPEN_TREE_CLONE		(1 << 0)	/* Clone the target tree and attach the clone */
-> > >> 
-> > >> This change causes pointless -Werror=undef errors in projects that have
-> > >> settled on the old definition.
-> > >> 
-> > >> Reported here:
-> > >> 
-> > >>   Bug 33921 - Building with Linux-7.0-rc1 errors on OPEN_TREE_CLONE
-> > >>   <https://sourceware.org/bugzilla/show_bug.cgi?id=33921>
-> > >
-> > > Send a patch to change it back, please.
-> > > Otherwise it might take a few days until I get around to it.
-> > 
-> > Rudi, could you post a patch?
+On Tue 17-02-26 16:47:25, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> I'm a bit confused though and not super happy that you're basically
-> asking us to be so constrained that we aren't even allowed to change 1
-> to 1 - just syntactically different.
+> fileattr_fill_xflags() and fileattr_fill_flags() zero the entire
+> file_kattr struct before populating select fields. This behavior
+> prevents callers from setting flags in fa->fsx_xflags before
+> calling these helpers; the zeroing clears any pre-set values.
+> 
+> As Darrick Wong observed, when a function named "fill_xflags"
+> modifies more than just xflags, filesystems must understand
+> implementation details beyond the function's apparent scope. When
+> initialization occurs at entry points, helper functions need not
+> duplicate that zeroing.
+> 
+> Move struct file_kattr zero-initialization from the fill functions
+> to their callers. Entry points such as ioctl_setflags(),
+> ioctl_fssetxattr(), and the file_getattr/file_setattr syscalls
+> now perform aggregate initialization directly. The fill functions
+> retain their field-setting logic but no longer clear the struct.
+> 
+> This change enables subsequent patches where filesystem
+> ->fileattr_get() handlers can set case-sensitivity flags
+> (FS_XFLAG_CASEFOLD, FS_XFLAG_CASENONPRESERVING) in fa->fsx_xflags
+> before calling the fill functions.
+> 
+> Suggested-by: Darrick J. Wong <djwong@kernel.org>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 
-Agreed, this looks more like a tooling bug than anything else...
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+>  fs/file_attr.c     | 14 +++++---------
+>  fs/xfs/xfs_ioctl.c |  2 +-
+>  2 files changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 6d2a298a786d..42aa511111a0 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -15,12 +15,10 @@
+>   * @fa:		fileattr pointer
+>   * @xflags:	FS_XFLAG_* flags
+>   *
+> - * Set ->fsx_xflags, ->fsx_valid and ->flags (translated xflags).  All
+> - * other fields are zeroed.
+> + * Set ->fsx_xflags, ->fsx_valid and ->flags (translated xflags).
+>   */
+>  void fileattr_fill_xflags(struct file_kattr *fa, u32 xflags)
+>  {
+> -	memset(fa, 0, sizeof(*fa));
+>  	fa->fsx_valid = true;
+>  	fa->fsx_xflags = xflags;
+>  	if (fa->fsx_xflags & FS_XFLAG_IMMUTABLE)
+> @@ -48,11 +46,9 @@ EXPORT_SYMBOL(fileattr_fill_xflags);
+>   * @flags:	FS_*_FL flags
+>   *
+>   * Set ->flags, ->flags_valid and ->fsx_xflags (translated flags).
+> - * All other fields are zeroed.
+>   */
+>  void fileattr_fill_flags(struct file_kattr *fa, u32 flags)
+>  {
+> -	memset(fa, 0, sizeof(*fa));
+>  	fa->flags_valid = true;
+>  	fa->flags = flags;
+>  	if (fa->flags & FS_SYNC_FL)
+> @@ -325,7 +321,7 @@ int ioctl_setflags(struct file *file, unsigned int __user *argp)
+>  {
+>  	struct mnt_idmap *idmap = file_mnt_idmap(file);
+>  	struct dentry *dentry = file->f_path.dentry;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	unsigned int flags;
+>  	int err;
+>  
+> @@ -357,7 +353,7 @@ int ioctl_fssetxattr(struct file *file, void __user *argp)
+>  {
+>  	struct mnt_idmap *idmap = file_mnt_idmap(file);
+>  	struct dentry *dentry = file->f_path.dentry;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	int err;
+>  
+>  	err = copy_fsxattr_from_user(&fa, argp);
+> @@ -378,7 +374,7 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
+>  	struct path filepath __free(path_put) = {};
+>  	unsigned int lookup_flags = 0;
+>  	struct file_attr fattr;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	int error;
+>  
+>  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+> @@ -431,7 +427,7 @@ SYSCALL_DEFINE5(file_setattr, int, dfd, const char __user *, filename,
+>  	struct path filepath __free(path_put) = {};
+>  	unsigned int lookup_flags = 0;
+>  	struct file_attr fattr;
+> -	struct file_kattr fa;
+> +	struct file_kattr fa = {};
+>  	int error;
+>  
+>  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> index 4eeda4d4e3ab..369555275140 100644
+> --- a/fs/xfs/xfs_ioctl.c
+> +++ b/fs/xfs/xfs_ioctl.c
+> @@ -498,7 +498,7 @@ xfs_ioc_fsgetxattra(
+>  	xfs_inode_t		*ip,
+>  	void			__user *arg)
+>  {
+> -	struct file_kattr	fa;
+> +	struct file_kattr	fa = {};
+>  
+>  	xfs_ilock(ip, XFS_ILOCK_SHARED);
+>  	xfs_fill_fsxattr(ip, XFS_ATTR_FORK, &fa);
+> -- 
+> 2.53.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
