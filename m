@@ -1,67 +1,71 @@
-Return-Path: <linux-api+bounces-5885-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5886-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qEejK5rtoWlDxQQAu9opvQ
-	(envelope-from <linux-api+bounces-5885-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 20:16:42 +0100
+	id KEqiGMj3oWnzxwQAu9opvQ
+	(envelope-from <linux-api+bounces-5886-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 21:00:08 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DADC1BC915
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 20:16:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69121BD288
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 21:00:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1A78F303C863
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 19:16:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 97975300B98D
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 20:00:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD393859CB;
-	Fri, 27 Feb 2026 19:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A113E9F95;
+	Fri, 27 Feb 2026 20:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="OY4MjKHV"
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="RAAHFyAn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from YQZPR01CU011.outbound.protection.outlook.com (mail-canadaeastazon11020086.outbound.protection.outlook.com [52.101.191.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD4D239E7E;
-	Fri, 27 Feb 2026 19:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772219800; cv=none; b=ITEWh2LjYA3vElhIrpZc5XkghqscOcMgOGIJxY6zVP+8poBHN6dFGFTrmvPZT9XAI+ExTG1Fp5MRQ3iPgsHmczBodMvyfB1bVWpyKM8YeKBxNUf90Bm1h//dhVLzIZRYigzsI/MXtqud7WKYvwY/HXOv7YJqOL7HYRzyTGEli24=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772219800; c=relaxed/simple;
-	bh=daP7VedXjrOgI5+8lvvS95ywsxFoS3f3PbWc2edX+Uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N6nLxUo23qegFXMsgocfMeWNB1TfdZP3NBSQpjscS6ktJgWN6shs0IqlgW7LGXgfjRVRROkUeRsv/HxeKMsGjNQ40xGM6e+fLlVOrCl95tLM9k7ccvpTApNwvs4FDG7gbI7Hx0ROwXomjy+pm5e0DBNLgAJmmpV2NpiH5I6JAt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=OY4MjKHV; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=7wda5wBgqdEnKdcSow2bj2kMbFP34eBRCmg/fPTPwpI=; b=OY4MjKHVilQ+NDR7Y68h+hSkWB
-	rMsD86Ex91yCQeqGjVXQFK/zlsR0umtCqCNfAiJUli2Mz4J2F9xM/QZp3BH+4Ndk2FOuEhV9/FVrf
-	Z62VTkjtPsRWa28saOq8C8+/xgPjXoYRUngM5LctrX30XaFG1wPK9WyzkDRj5pMD6Ur5iEWLEUff2
-	FHjAxT0QAe8oUnIs9ZRULBogv5pGrk9f/6D0C/6j4caaWxuxY12qrjsx1Nd/ZLQpEMAhpUJ+MBXS1
-	jmLJ6ibe7wb7mjBS/FDT8NdRsnknlNm0Q3DlarSg3gw11TONsjLqyaF+hFjJeFgGe6qj1WP9zfr7F
-	D+treAeQ==;
-Received: from [177.172.125.177] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vw3KB-006eav-My; Fri, 27 Feb 2026 20:16:31 +0100
-Message-ID: <ed918547-1406-4ae6-8a94-4e03712a4923@igalia.com>
-Date: Fri, 27 Feb 2026 16:16:23 -0300
-Precedence: bulk
-X-Mailing-List: linux-api@vger.kernel.org
-List-Id: <linux-api.vger.kernel.org>
-List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833173A1A2D;
+	Fri, 27 Feb 2026 20:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.191.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772222402; cv=fail; b=CADnH8j+YGj3szXKx8Ksp+owl3L9gUWCwP96JaD/RWZYXrzRfB8wPf6C9yYundZU61LhzmmN/EsCeL9+njTbIB8gRLKzu+zfM6ukL/4UABP+uu0/nk8Jk9iiHpne+SKz5s1w+PDo06RReETCegHMB8hrT6eT1KQEmYyuZnaAN6U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772222402; c=relaxed/simple;
+	bh=3rYWW8W4x/LYdLvQOB55l3dLsKMiTTyyZOf6swQOwhg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pjkULzeYnZDxs6vB3KlCnwmTXNVtB04uOzaR3KAX686ImCXjGQkVsz0KL2Dcc3RLTFgjeGG8IBIBBQtMQsEWxJJ41IfkyR2Pacjgafz8UsOeplCz9wxX/cXQBSj1O//xw9WUqOPRbiMr0IBU83N40lqqm1o73VIzQGkcV8PAWiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=RAAHFyAn; arc=fail smtp.client-ip=52.101.191.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k85k7OiC1q+9VVUPw8JN/64YTGqvtq0q/3ieElBypku5ESX6aOAoImCC+n+yevy+JlZTLohdSI7LmQTI7SNVVVmXpcC9bdg5OQU5hA6zVK3OF6RgGAxJgjyd8f4JX/9xnsn7g4lokFsjJhkQcCOTvNRI3kzgKg/CGMfUtd22on/fmjh9KB317k82yW+juxuviYFhvxGOU8+S4PPjyD6Tp2tVdZN5f96o72NAtB/K/FxMx2Fnl13gGvOBSventpP7zn7z2VjVOSIC+8Pcez+ZqaLqtvWOhreJul+pcxGe7xLd4wutm+ocXtotbXfE3TqDtQ9yh5xpSJWlehG2AvqiDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9IntPXcPFmhqCD1e9cD3m/Eile5mNnWJG2QJmD9Ke74=;
+ b=qPUZ4nk/qVRVHL1nL7a8JM2qbBUVm2nm4A12IOJy+MiKx22rTB9Ilz9JMYARWqX+PXH38xgZTX6BbRwEnFr7FXnUkZ1hPrWl7ED2bXLwnKW50899dPzNDbIorMA6cY8ZGdavqJ45mBH408QQ8mhlz89BSGNdjW70Ra/VXT2LKUXg2evny3r4YSIQasD6U7/Nlfn3vYPBsJKVXfDwyzGAfcJZWq2IfxHPiVQ+jaWbYKfq+WwLmlMI4PwwDf/SvV1fIvEWVojRDeciw5wetGoBjpdszC//gXeY5r8lssKBVJHVRb5mHVDCt/CAA7syS2H21Pm+QOLYsPx3D3R9+evlpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9IntPXcPFmhqCD1e9cD3m/Eile5mNnWJG2QJmD9Ke74=;
+ b=RAAHFyAnJRwxLlyAUpK/eBxbeLgIe/5zYupI6UtZCPGA9JuWXmPNUjNIKJFhOq882++4VIG4i31AJcKNF3MCWO6GEBT18u6S9AvOohQdL41SWH9/MhZqAU9Ct5knyMb9YyCW2O9aL0omaQlfNsWA4dJ7xxHJmPE7QAbTFVBUFqNtH/mMJDYA5H9nrNdenEL5CQqtTrSLF9cpEbeB1tmT/uSfg8yeU5/LW1VS2c98+8I2+MZfuU1WO8u+DjG0Z6V1OuYtPgQMmKQhmxX12TDZP3duGs5dvKhSS5voF0REHKmkTabxc4XRyRvJUlTNJSUhjDjdr0W9S5UjKopIuxLIBg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+ by YQXPR01MB5559.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:2f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Fri, 27 Feb
+ 2026 19:59:57 +0000
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1%3]) with mapi id 15.20.9654.015; Fri, 27 Feb 2026
+ 19:59:57 +0000
+Message-ID: <bd7a8dd3-8dee-4886-abe6-bdda25fe4a0d@efficios.com>
+Date: Fri, 27 Feb 2026 14:59:54 -0500
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 0/2] futex: how to solve the robust_list race
  condition?
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
 Cc: kernel-dev@igalia.com, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
  linux-api@vger.kernel.org, Darren Hart <dvhart@infradead.org>,
  Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
@@ -76,207 +80,169 @@ References: <20260220202620.139584-1-andrealmeid@igalia.com>
  <0d334517-63ee-46c9-884d-6c2ae8388b87@efficios.com>
  <67be0aa1-2241-43ef-aa01-a89ced26c8f6@efficios.com>
  <a1e24288-6ffc-438d-8a2a-d152134c9555@efficios.com>
+ <ed918547-1406-4ae6-8a94-4e03712a4923@igalia.com>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <a1e24288-6ffc-438d-8a2a-d152134c9555@efficios.com>
+In-Reply-To: <ed918547-1406-4ae6-8a94-4e03712a4923@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0263.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10f::15) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:be::5)
+Precedence: bulk
+X-Mailing-List: linux-api@vger.kernel.org
+List-Id: <linux-api.vger.kernel.org>
+List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQXPR01MB5559:EE_
+X-MS-Office365-Filtering-Correlation-Id: e458fa89-04f7-4dcb-c873-08de763ac809
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	eFlCqBFmlZ8547zevEL4cPGnT3/KFk3X4FEgne7apQoTXnRcpPbuBxQo6FMT0zYzL6aHrtPJAfIS8d1usMGLI3Z66xs7kvvkDmsTlkVgPixxWDiCFe/hbj99oCsWcNPK1kMrTmBM826LoFSuu/KMPf0h/FOHyygvRlvcl3E+6c8LSVZx2cvVEXhOa3G0tzGLbyu9yN2KCrtbF2mcbkQhRopjV65M2fR9B5IZ7jn5sUyAOM2I9m++ARFDMZCdOsGlHtHUHtwPNXlVYZTqhGPaIEMBRnGB0hG7N4Egr1b57ppQvp3jnmfqAeiTaCwVIphCYXKg32kpsRdtj1qIy6XAM61UaxfjIG4LI4x1OB+0371fd7D1G/0OVN8dpbiIVoLYI4wXV6rCTTzks2zZSpSvS0ZbzIlFbaQ8dYLWx8M1dxOpzk8aHYdZyFaxH9zSPQ2cxfd8/GpH42nG3MBrDbU2XnZVv8WEdVqbN873B4+GitHDfK2zRkVp7TO2BOXy0w/syTXxRzZMBA4D/du+NnkBMXS1JDOj2hY8EbMrVUWR7n23Jx3uegPn2ROjBOPj3aZsI2B10ksJnZe0xioLz9+s4vgW1Lg3D15DGsy53D6cGu0GiJXHf0teHGm2TFg5XDZ/JAI8Ab/U8SmUNQ9b3NLUgqnpYGLD0tioWeAo2+IAdY8OiFv72JZwG0HGoJIiKvQw
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TXVJVC9IRWpldHFzclJ1NGtCdysrTUdkVDIwQU9leWQ2SDg5WTlvdkt6L2h1?=
+ =?utf-8?B?enl2U2RxZHdoMWtESXN2M0E5TkZEbGQ0eGFPTmVFZy9mR0oxR0ExT0RuamxY?=
+ =?utf-8?B?VTA0c0g2bXlVSEVFdERwTGs5Mmx5cWFwaHN0c3hZa3M1b1NDMHBhQ0R4NjBW?=
+ =?utf-8?B?cysyajN3R1I1S1NCc3VDTzMySUJ5MjgyY1hNWFBuRWZYSW1RTFRHdGxRcTdB?=
+ =?utf-8?B?eDk3RkhPMVFSRmRsTHBhelFXK2FQUmlaZW40YVJ5L3lxUy9xVGZDaDZrNjRH?=
+ =?utf-8?B?OHFXd0ZwY3FBalQwYlBNbDFmSVlLZHFzbnYyd2xZWSttMWM0MG00eHV3S3Mr?=
+ =?utf-8?B?R0hxVlcvOVNGdTI1bGpNM2NXeHhtTXNieW1CZHYrU2ppb1RXTy9UckJlMWV6?=
+ =?utf-8?B?anJnVThuOEtjdEtyeUEvNzZLTk43Z1pGVytEMVBuRzJobXB5MWROcnl6c2Fr?=
+ =?utf-8?B?N0YzQzRTYWZTNFBUNzJkVVpaR2UvNlJNRXV5cFdUTXFMVUNUZ1BNbUlRVHRv?=
+ =?utf-8?B?YXE1dmhzUSt0ajhuRTFBUWp0LzMxOXJVWmFtREVzUXZmQzkzL2RIYlJ6d3NG?=
+ =?utf-8?B?a2pxWXp3dUZaYkdQaWFaM3dsZUVzTzYyTGg4M3lwaXFSaTdjTUxWVExaWVJO?=
+ =?utf-8?B?dDJzZUJSVHR6MHNGd205c1JlN1RiZXplTXk4ODlzVll1ZGh6RFNOOEswaFBB?=
+ =?utf-8?B?akNVK1pyK2twSDNwQ21SSHZwNWpLd3FibkZPSy81clU2Y3YraUY5bXIzWDNQ?=
+ =?utf-8?B?OGlvZW5SclF0bExybXo1R0RUQ0xoRGhNdFVSUVJEMUx5YndFQmF6SnJrdmQy?=
+ =?utf-8?B?cEE5M2hnMkZ2Y1l0QXBXYzhZZlc3Qm80Q09VMEN5OTJCbTdtaUp6R05hMDBB?=
+ =?utf-8?B?RGllQTRVZjVWYnRkMWtIU1pYQW5UcGNiTFVTaUVrbndUcVROenovODl3Zkdl?=
+ =?utf-8?B?dXZXcFFZaWgyakdRNGpYKzVXb3doNS8vMXROdnF3d3RsaHZlNFk4SVg2WWp6?=
+ =?utf-8?B?U0REWWF1QXJ1MFVRVXhZbG9MR0hyR0ZTY2R5aWhSOUVRbW5wVldTSjZlUUxX?=
+ =?utf-8?B?SldPdDFIWUYyRkxEaVFyM1I4aXBNRlBUbjVmM2kvY3dpT1BSNWlybTN1c2dZ?=
+ =?utf-8?B?TGtwbHpGdHlHUWQvZzBaYnRlbVlpYVhsaXQxQWd1Rkg5Q2Fqb01Qa2JQdDcw?=
+ =?utf-8?B?QUR1bHlkRzVRaHpKL29UODlGNnVLalIrWWduQWlVNnRUTDJMTnVLdVBLTGlX?=
+ =?utf-8?B?MkFvbHBiVnozajBvdjhCU3pWQUZmR3M1a3l1WWJuZ0JycDhSZ1lybWVIa1dl?=
+ =?utf-8?B?NWZTMDJHUlJSNCtBY2Z5OVQ4WWxkVExCNjZNL0FNWnBMWjIvZ1p1aTBJVmxv?=
+ =?utf-8?B?V2M3Q2o2OHBzdjZFdnJNbExoWjcxeW5MQmJTcTdnQXpxaVJWMmNkdVZEZ3ha?=
+ =?utf-8?B?NXBmbk5WZkFIZjQyL1p2OXhqSjZRTzFTaUlHV09IdWVieVU2YUhwTDJsbERJ?=
+ =?utf-8?B?ZmQwbCtSaDFzUGxiSlRYUTMrT0lVNXZkZFNpNWpPdWFLelZYRHlJMiszVDJ5?=
+ =?utf-8?B?V1FjNHJCb3AwSmI2YktoV1BWb1dPZ0trSDFRMklDNDZDVFBpL2xhUCtSazlp?=
+ =?utf-8?B?ZkRJV1FxMXR4cG1sbEdpNStVUktkSHo2aXJSUWJFcUs4eGw1K1I2OFpPK0N0?=
+ =?utf-8?B?Mmt0c2Ric2d0czZtbGZXcWhvc3hSdDBRMURnTUJ1YnBzS1ZZUGp4RmtDb1BU?=
+ =?utf-8?B?aGg1VUNheXpwcWpRUWwvcHFlckhFcHlMQlZ6R2J1ejZsZlMrWWxURmJoRnA4?=
+ =?utf-8?B?VzRWRHRnS1NvTlg2T0M4Y0t5aWZJamxkTjM5QldUaWVuMkY0a08yY3Nzb3pa?=
+ =?utf-8?B?SWdXY1NueVdRczg2VStqN04zZm5yWkg0WVhEQTBNRmowNWVpOGV4TFYzQlpr?=
+ =?utf-8?B?cHg0eDdlQWcwb1FOMzZqSjQxVDZjbFZzZWtNQmRJOHJKNitOQURTRFR1TTUr?=
+ =?utf-8?B?MjhQcnhJWDd6Y3AwL2t6ay9HVkZya05ueWJ0blVGc0pQMHlXV004Q0d0dG84?=
+ =?utf-8?B?N1F6U2padUZydmMxeXdabngyek9KWmYxN01DM1ZnTlFlclNLd2pNS3lid21M?=
+ =?utf-8?B?RG1CTUdCU2ltcDRiNkorTkxZNDR0dEhhTnc3Q2hlUVhkSVFhRmtuUUhVR3Fi?=
+ =?utf-8?B?alV0VHNESnN2ZVcrbjFtTzRvVkZKRDRrVTZWYzY5UnFlQUF1Q1dkT0RpaldS?=
+ =?utf-8?B?VEFDbS9XV2JFMXhnclVEQXJyR2pGbVlWUVBqeFhvemI1d2RINDZDRENYMUxM?=
+ =?utf-8?B?bGFHckw5QkNpUHI2czJlQlk1dTBYMW4rYytQUDVMamFJZWZNTGVVWUIzYzRP?=
+ =?utf-8?Q?O+/P/ZwmlFopb1Bs=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e458fa89-04f7-4dcb-c873-08de763ac809
+X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 19:59:57.0896
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jjpIBJXQMfJvnl4QMfSyBYTjMe8rVWCt1XTP8bMDeEENn3yI0on4YtocPXRO1a9AoET0806uABsFGOVUVX/6qSYejRTnGi9bGrVco35YW2o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB5559
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.64 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUBJECT_ENDS_QUESTION(1.00)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[efficios.com,none];
+	R_DKIM_ALLOW(-0.20)[efficios.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5885-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	DKIM_TRACE(0.00)[igalia.com:-];
+	TAGGED_FROM(0.00)[bounces-5886-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[efficios.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,igalia.com:mid,sourceware.org:url]
-X-Rspamd-Queue-Id: 2DADC1BC915
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mathieu.desnoyers@efficios.com,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-api];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,efficios.com:mid,efficios.com:url,efficios.com:dkim]
+X-Rspamd-Queue-Id: E69121BD288
 X-Rspamd-Action: no action
 
-Hi Mathieu,
-
-Em 20/02/2026 20:17, Mathieu Desnoyers escreveu:
-> On 2026-02-20 17:41, Mathieu Desnoyers wrote:
->> On 2026-02-20 16:42, Mathieu Desnoyers wrote:
->>> +CC libc-alpha.
->>>
->>> On 2026-02-20 15:26, André Almeida wrote:
->>>> During LPC 2025, I presented a session about creating a new syscall for
->>>> robust_list[0][1]. However, most of the session discussion wasn't 
->>>> much related
->>>> to the new syscall itself, but much more related to an old bug that 
->>>> exists in
->>>> the current robust_list mechanism.
->>>>
->>>> Since at least 2012, there's an open bug reporting a race condition, as
->>>> Carlos O'Donell pointed out:
->>>>
->>>>    "File corruption race condition in robust mutex unlocking"
->>>>    https://sourceware.org/bugzilla/show_bug.cgi?id=14485
->>>>
->>>> To help understand the bug, I've created a reproducer (patch 1/2) and a
->>>> companion kernel hack (patch 2/2) that helps to make the race condition
->>>> more likely. When the bug happens, the reproducer shows a message
->>>> comparing the original memory with the corrupted one:
->>>>
->>>>    "Memory was corrupted by the kernel: 8001fe8d8001fe8d vs 
->>>> 8001fe8dc0000000"
->>>>
->>>> I'm not sure yet what would be the appropriated approach to fix it, 
->>>> so I
->>>> decided to reach the community before moving forward in some direction.
->>>> One suggestion from Peter[2] resolves around serializing the mmap() 
->>>> and the
->>>> robust list exit path, which might cause overheads for the common case,
->>>> where list_op_pending is empty.
->>>>
->>>> However, giving that there's a new interface being prepared, this could
->>>> also give the opportunity to rethink how list_op_pending works, and get
->>>> rid of the race condition by design.
->>>>
->>>> Feedback is very much welcome.
->>>
->>> Looking at this bug, one thing I'm starting to consider is that it
->>> appears to be an issue inherent to lack of synchronization between
->>> pthread_mutex_destroy(3) and the per-thread list_op_pending fields
->>> and not so much a kernel issue.
->>>
->>> Here is why I think the issue is purely userspace:
->>>
->>> Let's suppose we have a shared memory area across Processes 1 and 
->>> Process 2,
->>> which internally have its own custom memory allocator in userspace to
->>> allocate/free space within that shared memory.
->>>
->>> Process 1, Thread A stumbles through the scenario highlighted by this 
->>> bug, and
->>> basically gets preempted at this FIXME in libc 
->>> __pthread_mutex_unlock_full():
->>>
->>>        if (__glibc_unlikely ((atomic_exchange_release (&mutex- 
->>>  >__data.__lock, 0)
->>>                               & FUTEX_WAITERS) != 0))
->>>          futex_wake ((unsigned int *) &mutex->__data.__lock, 1, 
->>> private);
->>>
->>>        /* We must clear op_pending after we release the mutex.
->>>           FIXME However, this violates the mutex destruction 
->>> requirements
->>>           because another thread could acquire the mutex, destroy it, 
->>> and
->>>           reuse the memory for something else; then, if this thread 
->>> crashes,
->>>           and the memory happens to have a value equal to the TID, 
->>> the kernel
->>>           will believe it is still related to the mutex (which has been
->>>           destroyed already) and will modify some other random 
->>> object.  */
->>>        __asm ("" ::: "memory");
->>>        THREAD_SETMEM (THREAD_SELF, robust_head.list_op_pending, NULL);
->>>
->>> Then Process 1, Thread B runs, grabs the lock, releases it, and based on
->>> program state it knows it can pthread_mutex_destroy() this lock, free 
->>> its
->>> associated memory through the custom shared memory allocator, and 
->>> allocate
->>> it for other purposes. Then we get to the point where Process 1 is
->>> killed, and where the robust futex kernel code corrupts data in shared
->>> memory because of the dangling list_op_pending pointer.
->>>
->>> That shared memory data is still observable by Process B, which will 
->>> get a
->>> corrupted state.
->>>
->>> Notice how this all happens without any munmap(2)/mmap(2) in the 
->>> sequence ?
->>> This is why I think this is purely a userspace issue rather than an 
->>> issue
->>> we can solve by adding extra synchronization in the kernel.
->>>
->>> The one point we have in that sequence where I think we can add 
->>> synchronization
->>> is pthread_mutex_destroy(3) in libc. One possible "big hammer" 
->>> solution would be
->>> to make pthread_mutex_destroy iterate on all other threads 
->>> list_op_pending
->>> and busy-wait if it finds that the mutex address is in use. It would 
->>> of course
->>> only have to do that for robust futexes.
->>>
->>> If that big hammer solution is not fast enough for many-threaded use- 
->>> cases,
->>> then we can think of other approaches such as adding a reference counter
->>> in the mutex structure, or introducing hazard pointers in userspace 
->>> to reduce
->>> synchronization iteration from nr_threads to nr_cpus (or even down to 
->>> max
->>> rseq mm_cid).
+On 2026-02-27 14:16, André Almeida wrote:
+[...]
+>> Trying to find a backward compatible way to solve this may be tricky.
+>> Here is one possible approach I have in mind: Introduce a new syscall,
+>> e.g. sys_cleanup_robust_list(void *addr)
 >>
->> To make matters even worse, the pthread_mutex_destroy(3) and reallocation
->> could happen from Process 2 rather than Process 1. So iterating on a
->> threads from Process 1 is not sufficient. We'd need to synchronize
->> pthread_mutex_destroy on something within the mutex structure which is
->> observable from all processes using the lock, for instance a reference 
->> count.
-> Trying to find a backward compatible way to solve this may be tricky.
-> Here is one possible approach I have in mind: Introduce a new syscall,
-> e.g. sys_cleanup_robust_list(void *addr)
+>> This system call would be invoked on pthread_mutex_destroy(3) of
+>> robust mutexes, and do the following:
+>>
+>> - Calculate the offset of @addr within its mapping,
+>> - Iterate on all processes which map the backing store which contain
+>>    the lock address @addr.
+>>    - Iterate on each thread sibling within each of those processes,
+>>      - If the thread has a robust list, and its list_op_pending points
+>>        to the same offset within the backing store mapping, clear the
+>>        list_op_pending pointer.
+>>
+>> The overhead would be added specifically to pthread_mutex_destroy(3),
+>> and only for robust mutexes.
+>>
+>> Thoughts ?
+>>
+[...]
 > 
-> This system call would be invoked on pthread_mutex_destroy(3) of
-> robust mutexes, and do the following:
-> 
-> - Calculate the offset of @addr within its mapping,
-> - Iterate on all processes which map the backing store which contain
->    the lock address @addr.
->    - Iterate on each thread sibling within each of those processes,
->      - If the thread has a robust list, and its list_op_pending points
->        to the same offset within the backing store mapping, clear the
->        list_op_pending pointer.
-> 
-> The overhead would be added specifically to pthread_mutex_destroy(3),
-> and only for robust mutexes.
-> 
-> Thoughts ?
-> 
+> About the system call, we would call sys_cleanup_robust_list() before 
+> freeing/unmapping the robust mutex. To guarantee that we check every 
+> process that shares the memory region, would we need to check *every* 
+> single process? I don't think there's a way find a way to find such maps 
+> without checking them all.
 
-Right, your explanation makes sense to me. I think the only difference 
-between alloc/free and map/munmap is that ""freeing" memory does not 
-actually return it to the operating system for other applications to 
-use"[1], so I don't know if this custom allocator is violating some 
-memory rules.
+We should be able to do it with just an iteration on the struct address_space
+reverse mapping (list of vma which map the shared mapping).
 
-About the system call, we would call sys_cleanup_robust_list() before 
-freeing/unmapping the robust mutex. To guarantee that we check every 
-process that shares the memory region, would we need to check *every* 
-single process? I don't think there's a way find a way to find such maps 
-without checking them all.
+AFAIU we'd want to get the struct address_space associated with the
+__user pointer, then, while holding i_mmap_lock_read(mapping), iterate
+on its reverse mapping (i_mmap field) with vma_interval_tree_foreach. We
+can get each mm_struct through vma->vm_mm.
 
-I'm trying to explore the idea about the reference counter. Would the 
-mummap() be blocked till the refcount goes to zero or something like 
-that? I've also tried to find more examples of a memory region that's 
-shared between one or more process and the kernel at the same time to 
-get some inspiration, but it seems robust_list is a quite unique design 
-on its own regarding this memory sharing problem.
+We'd want to do most of this in a kthread and use other mm_struct through
+use_mm().
 
-[1] https://sourceware.org/glibc/wiki/MallocInternals
+For each mm_struct, we go through the owner field to get the thread
+group leader, and iterate on all thread siblings (for_each_thread).
 
+For each of those threads, we'd want to clear the list_op_pending
+if it matches the offset of @addr within the mapping. I suspect we'd
+want to clear that userspace pointer with a futex_atomic_cmpxchg_inatomic
+which only clears the pointer if the old value match the one we expect.
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
