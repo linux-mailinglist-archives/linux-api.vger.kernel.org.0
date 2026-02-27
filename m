@@ -1,283 +1,159 @@
-Return-Path: <linux-api+bounces-5883-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5884-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBvZEXGDoWkUtgQAu9opvQ
-	(envelope-from <linux-api+bounces-5883-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 12:43:45 +0100
+	id MJo4B7ftoWlDxQQAu9opvQ
+	(envelope-from <linux-api+bounces-5884-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 20:17:11 +0100
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADC71B6B76
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 12:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728FD1BC935
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 20:17:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7B508302AE1E
-	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 11:42:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2929030692D4
+	for <lists+linux-api@lfdr.de>; Fri, 27 Feb 2026 19:16:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AFF3EFD1A;
-	Fri, 27 Feb 2026 11:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B15E3859CB;
+	Fri, 27 Feb 2026 19:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cSjyoIKI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="elIMZTPm";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cSjyoIKI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="elIMZTPm"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="etL++Tem"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138923ED127
-	for <linux-api@vger.kernel.org>; Fri, 27 Feb 2026 11:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE2A2EBB99;
+	Fri, 27 Feb 2026 19:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772192519; cv=none; b=u+oVao5UpngoDX3gw5uNvl3iAVZTaSxqCE9Ta02s2m67RgUUxIaPipOuQdq3PEHMeHnALAKsXcXKL2RHzJEaUQaEQp79M2ppjOqIz5Iot1iiQe4MC8tM1ADeV40H0pf0/jgohFo0UrFHC3+PldVffDqqOsUF86N3gUFLo/EBetA=
+	t=1772219764; cv=none; b=pLI9iu3/c3/jZJC1Scl1V4aQV4Kf9pZc0F8OepetrO6cka49lxfkxe4MadPrmL4ZxWAXrmsYcWhAgN1P9CMVkzIo3jqM3eo2pfA4aVj61w6fS3uQYB8Hjl0edq0/TZVTwMC2Cy7rsEuqv5hxkDlMO6TJuj5evJHIs5YCiv5EYQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772192519; c=relaxed/simple;
-	bh=LbrigWaHvmkMXMNudVpLJL8UB+jaWE2b0Ata+HOOfgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BvfPqatrjCRIAHo4cy4qDpkOxOSCyuU7RC8w8P7j54wNWHn2Lme01Z+cmHNe9J1Ug2lWc7X3pKrJKYKZhKfZXIOtNLAnpC4hcR8hVuf30wN6m5A1I4pcWZrOzla0nCfaHZ4WhBvRLLNxYEveFDs5GTJek5RMcw7PZYzX98gvX3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cSjyoIKI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=elIMZTPm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cSjyoIKI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=elIMZTPm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6206C5BDF8;
-	Fri, 27 Feb 2026 11:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772192515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qG12wiRKgOO8u6RwbR07pPBNuzGPcHJrzObmSnVBirc=;
-	b=cSjyoIKIty/awpt3O32urHzlZlUQu2NaAOCW3XksWm06aD8kLLEbgmOTr5URu6RiHklbOV
-	wz8Y6pd1irWDENggWsYsFyP2uZCrCML9OYgv5zcZFBrQC5o9kAf9ZWABGYuSN93xShGila
-	XXe3DT7f14Wjq1L9DW+TX1hcWY9QPBY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772192515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qG12wiRKgOO8u6RwbR07pPBNuzGPcHJrzObmSnVBirc=;
-	b=elIMZTPm3jz519UETh+ceoCo6aCdtsSYUoDF6WEAj6aLwLnTy/GO7sekbaWUo80Br4+FkE
-	Fqb1EIr3jYh3qBDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772192515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qG12wiRKgOO8u6RwbR07pPBNuzGPcHJrzObmSnVBirc=;
-	b=cSjyoIKIty/awpt3O32urHzlZlUQu2NaAOCW3XksWm06aD8kLLEbgmOTr5URu6RiHklbOV
-	wz8Y6pd1irWDENggWsYsFyP2uZCrCML9OYgv5zcZFBrQC5o9kAf9ZWABGYuSN93xShGila
-	XXe3DT7f14Wjq1L9DW+TX1hcWY9QPBY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772192515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qG12wiRKgOO8u6RwbR07pPBNuzGPcHJrzObmSnVBirc=;
-	b=elIMZTPm3jz519UETh+ceoCo6aCdtsSYUoDF6WEAj6aLwLnTy/GO7sekbaWUo80Br4+FkE
-	Fqb1EIr3jYh3qBDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 480063EA69;
-	Fri, 27 Feb 2026 11:41:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FE2REQODoWmSNwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 27 Feb 2026 11:41:55 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0D67EA06D4; Fri, 27 Feb 2026 12:41:55 +0100 (CET)
-Date: Fri, 27 Feb 2026 12:41:55 +0100
-From: Jan Kara <jack@suse.cz>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
-	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
-	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
-	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v8 03/17] fat: Implement fileattr_get for case sensitivity
-Message-ID: <ua7rmlnvbfiadpxeynekbabwqebhcop3rhaxji7s3mgnwzhhtd@frz77j6wm2eg>
-References: <20260217214741.1928576-1-cel@kernel.org>
- <20260217214741.1928576-4-cel@kernel.org>
+	s=arc-20240116; t=1772219764; c=relaxed/simple;
+	bh=1c2xHMfAsbb086sCkiX9ZYBxF5DPDk731lam2Gj6nKY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=alhvg3kT/Lj3TXLMNVYQsa3Q5BqTO6c4WZmN4KsK0zHMdbmUePuB1YGcpmfsU6UIHjWNNFO+k27KyytuGfvPvgWppGz6icyBVuz7tAuhi0FmHG+VjU+EoAbzpaELlWP4nET+LXkNeDthjwBkyY15DGzZ1ztekOTnBEZ08D0iYLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=etL++Tem; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=fdsDvGh3gSL+GLLtJVpYBZijFWZYFV5EbhITDkY14FM=; b=etL++TembeEunHcgrX+NXU9DB5
+	LNNz/0lz5KZdJCU0lnCBAF0/NqIbpG4p64aTNafURZGm3gGqveqwUkCA7zsCJfb2Gjk8hJYbdhSzM
+	qbjP0f4N4c4gsCE0a8pyc98rfhU0PrG08Yz7Je1aHsjZK/LVZzutI3Q9ZtYcGsyhUrKgBWmJxskNJ
+	w9hEEC4vUdt/92eyKiobB3bqcK/g8yzZbAm93gCsKvIUB5GD/uMQDaYhyXyeJIpJxiJJZCLzngTqJ
+	KmFwwWkp7+9SwM5rd4ZJudY7uzPqH5kEGx83mrUTWnIYGaSBhE0NrhSPiCP5V1tTtcgCD1iK0SAyZ
+	jCXL6aOQ==;
+Received: from [177.172.125.177] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vw3J6-006eZk-0T; Fri, 27 Feb 2026 20:15:24 +0100
+Message-ID: <1f0b5684-3146-424e-87e6-7a5994415f7e@igalia.com>
+Date: Fri, 27 Feb 2026 16:15:13 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260217214741.1928576-4-cel@kernel.org>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] futex: how to solve the robust_list race
+ condition?
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Carlos O'Donell <carlos@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Florian Weimer <fweimer@redhat.com>,
+ Rich Felker <dalias@aerifal.cx>, Torvald Riegel <triegel@redhat.com>,
+ Darren Hart <dvhart@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, kernel-dev@igalia.com,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko <mhocko@suse.com>
+References: <20260220202620.139584-1-andrealmeid@igalia.com>
+ <sn6isqtjcgzix4iwifcg6fy2lq3klfdykezyodzbt7fz7urhcs@dc5sxuzypdoc>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <sn6isqtjcgzix4iwifcg6fy2lq3klfdykezyodzbt7fz7urhcs@dc5sxuzypdoc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [0.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5883-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5884-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oracle.com:email,suse.cz:email,suse.cz:dkim,suse.com:email];
-	DMARC_NA(0.00)[suse.cz];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
-	RCPT_COUNT_TWELVE(0.00)[33];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 9ADC71B6B76
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sourceware.org:url,igalia.com:mid,igalia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 728FD1BC935
 X-Rspamd-Action: no action
 
-On Tue 17-02-26 16:47:27, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Report FAT's case sensitivity behavior via the FS_XFLAG_CASEFOLD
-> and FS_XFLAG_CASENONPRESERVING flags. FAT filesystems are
-> case-insensitive by default.
-> 
-> MSDOS supports a 'nocase' mount option that enables case-sensitive
-> behavior; check this option when reporting case sensitivity.
-> 
-> VFAT long filename entries preserve case; without VFAT, only
-> uppercased 8.3 short names are stored. MSDOS with 'nocase' also
-> preserves case since the name-formatting code skips upcasing when
-> 'nocase' is set. Check both options when reporting case preservation.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Hi Liam,
 
-Looks good to me from general POV. It would be good to get confirmation
-from FAT maintainer you've got all the corner cases of FAT configuration
-right :) Anyway, feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/fat/fat.h         |  3 +++
->  fs/fat/file.c        | 22 ++++++++++++++++++++++
->  fs/fat/namei_msdos.c |  1 +
->  fs/fat/namei_vfat.c  |  1 +
->  4 files changed, 27 insertions(+)
+Em 20/02/2026 17:51, Liam R. Howlett escreveu:
+> +Cc Suren, Lorenzo, and Michal
 > 
-> diff --git a/fs/fat/fat.h b/fs/fat/fat.h
-> index 0d269dba897b..c5bcd1063f9c 100644
-> --- a/fs/fat/fat.h
-> +++ b/fs/fat/fat.h
-> @@ -10,6 +10,8 @@
->  #include <linux/fs_context.h>
->  #include <linux/fs_parser.h>
->  
-> +struct file_kattr;
-> +
->  /*
->   * vfat shortname flags
->   */
-> @@ -407,6 +409,7 @@ extern void fat_truncate_blocks(struct inode *inode, loff_t offset);
->  extern int fat_getattr(struct mnt_idmap *idmap,
->  		       const struct path *path, struct kstat *stat,
->  		       u32 request_mask, unsigned int flags);
-> +int fat_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
->  extern int fat_file_fsync(struct file *file, loff_t start, loff_t end,
->  			  int datasync);
->  
-> diff --git a/fs/fat/file.c b/fs/fat/file.c
-> index 124d9c5431c8..6823269a8604 100644
-> --- a/fs/fat/file.c
-> +++ b/fs/fat/file.c
-> @@ -17,6 +17,7 @@
->  #include <linux/fsnotify.h>
->  #include <linux/security.h>
->  #include <linux/falloc.h>
-> +#include <linux/fileattr.h>
->  #include "fat.h"
->  
->  static long fat_fallocate(struct file *file, int mode,
-> @@ -396,6 +397,26 @@ void fat_truncate_blocks(struct inode *inode, loff_t offset)
->  	fat_flush_inodes(inode->i_sb, inode, NULL);
->  }
->  
-> +int fat_fileattr_get(struct dentry *dentry, struct file_kattr *fa)
-> +{
-> +	struct msdos_sb_info *sbi = MSDOS_SB(dentry->d_sb);
-> +
-> +	/*
-> +	 * FAT filesystems are case-insensitive by default. MSDOS
-> +	 * supports a 'nocase' mount option for case-sensitive behavior.
-> +	 *
-> +	 * VFAT long filename entries preserve case. Without VFAT, only
-> +	 * uppercased 8.3 short names are stored. MSDOS with 'nocase'
-> +	 * also preserves case.
-> +	 */
-> +	if (!sbi->options.nocase)
-> +		fa->fsx_xflags |= FS_XFLAG_CASEFOLD;
-> +	if (!sbi->options.isvfat && !sbi->options.nocase)
-> +		fa->fsx_xflags |= FS_XFLAG_CASENONPRESERVING;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(fat_fileattr_get);
-> +
->  int fat_getattr(struct mnt_idmap *idmap, const struct path *path,
->  		struct kstat *stat, u32 request_mask, unsigned int flags)
->  {
-> @@ -573,5 +594,6 @@ EXPORT_SYMBOL_GPL(fat_setattr);
->  const struct inode_operations fat_file_inode_operations = {
->  	.setattr	= fat_setattr,
->  	.getattr	= fat_getattr,
-> +	.fileattr_get	= fat_fileattr_get,
->  	.update_time	= fat_update_time,
->  };
-> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
-> index 048c103b506a..4a3db08e51c0 100644
-> --- a/fs/fat/namei_msdos.c
-> +++ b/fs/fat/namei_msdos.c
-> @@ -642,6 +642,7 @@ static const struct inode_operations msdos_dir_inode_operations = {
->  	.rename		= msdos_rename,
->  	.setattr	= fat_setattr,
->  	.getattr	= fat_getattr,
-> +	.fileattr_get	= fat_fileattr_get,
->  	.update_time	= fat_update_time,
->  };
->  
-> diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-> index 2acfe3123a72..18f4c316aa05 100644
-> --- a/fs/fat/namei_vfat.c
-> +++ b/fs/fat/namei_vfat.c
-> @@ -1185,6 +1185,7 @@ static const struct inode_operations vfat_dir_inode_operations = {
->  	.rename		= vfat_rename2,
->  	.setattr	= fat_setattr,
->  	.getattr	= fat_getattr,
-> +	.fileattr_get	= fat_fileattr_get,
->  	.update_time	= fat_update_time,
->  };
->  
-> -- 
-> 2.53.0
+> * André Almeida <andrealmeid@igalia.com> [260220 15:27]:
+>> During LPC 2025, I presented a session about creating a new syscall for
+>> robust_list[0][1]. However, most of the session discussion wasn't much related
+>> to the new syscall itself, but much more related to an old bug that exists in
+>> the current robust_list mechanism.
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Ah, sorry for hijacking the session, that was not my intention, but this
+> needs to be addressed before we propagate the issue into the next
+> iteration.
+> 
+
+No problem! I believe that this reflects the fact that the race 
+condition is the main concern about this new interface, and that we 
+should focus our discussion around this.
+
+>>
+>> Since at least 2012, there's an open bug reporting a race condition, as
+>> Carlos O'Donell pointed out:
+>>
+>>    "File corruption race condition in robust mutex unlocking"
+>>    https://sourceware.org/bugzilla/show_bug.cgi?id=14485
+>>
+
+[...]
+
+> 
+> There was a delay added to the oom reaper for these tasks [1] by commit
+> e4a38402c36e ("oom_kill.c: futex: delay the OOM reaper to allow time for
+> proper futex cleanup")
+> 
+> We did discuss marking the vmas as needing to be skipped by the oom
+> manager, but no clear path forward was clear.  It's also not clear if
+> that's the only area where such a problem exists.
+> 
+> [1].  https://lore.kernel.org/all/20220414144042.677008-1-npache@redhat.com/T/#u
+> 
+
+So how would you detect which vmas should be skipped? And this won't fix 
+the issue when the memory is unmapped right, just for the OOM case?
+
 
