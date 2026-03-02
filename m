@@ -1,90 +1,82 @@
-Return-Path: <linux-api+bounces-5889-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5890-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDxZIEM9pWm36gUAu9opvQ
-	(envelope-from <linux-api+bounces-5889-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 02 Mar 2026 08:33:23 +0100
+	id MFo9Ad5kpWmx+wUAu9opvQ
+	(envelope-from <linux-api+bounces-5890-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 02 Mar 2026 11:22:22 +0100
 X-Original-To: lists+linux-api@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E176D1D3FB7
-	for <lists+linux-api@lfdr.de>; Mon, 02 Mar 2026 08:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713BE1D65F4
+	for <lists+linux-api@lfdr.de>; Mon, 02 Mar 2026 11:22:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6BB563013865
-	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2026 07:31:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8644D30A1622
+	for <lists+linux-api@lfdr.de>; Mon,  2 Mar 2026 10:16:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EF0A383C61;
-	Mon,  2 Mar 2026 07:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358D33A0E88;
+	Mon,  2 Mar 2026 10:15:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WcNz45+C"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BWz/wJq1"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4B377031
-	for <linux-api@vger.kernel.org>; Mon,  2 Mar 2026 07:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCB9396D2F
+	for <linux-api@vger.kernel.org>; Mon,  2 Mar 2026 10:15:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772436705; cv=none; b=E6yff6c/De59LIT1If4oLPJMH2olF3RJRiOfjwz33TmTIac2JeZDfJQ0J8MOT9uNemKSIr/ABkZjJHqi/qANC9eN4P2ZH+2Ucq25Jo0AdNmGk9MRSygscqeFBf3tPozis/h8WVgiEeZfsnnCQ3wFO8lbe0OK7u5NVYPK3cyYX+E=
+	t=1772446554; cv=none; b=kO47aEK76I+0oWzisUu+zfldHOWcFsCqFIyn3NJnq3gjeL3QWjy3yxxSq3sHdyp6fL29c2ds2STe8lic/ke+sZYw9v3l3zugFZYSwULH1DZO3oXCPYOHxE/SRwQw9N9fOQ94+e9ONTsS1oi3fUWoXdQFvkM7V9RK2zvFmioD7TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772436705; c=relaxed/simple;
-	bh=XOIblyUY+naLJJGY0zT6QLnh9tXIuMGdvNV4ZdV35Sc=;
+	s=arc-20240116; t=1772446554; c=relaxed/simple;
+	bh=I7ttot40u9IpsWOSgKrSBYUTZtG6k/1UaMnoq/5aYcs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MAS6H1HCScDeCA0d+ET3Cf+ybsMRvJthgwKUlLEpEWtOB+aRQfy4uh4f4j3r5+wTkeJpkWnbYnVAHcey917BWlDbsN8UNqmuP+yGttc/t5kjZEZ1iMLxKCXeBdv421JtCsyMMIGkog/JnQzD/DlxqkdfBL2RiiX1kl30ZpfAcoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WcNz45+C; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version:Content-Type; b=JpPM3CeX3qr+vqjsyEaQVNWIDQk9mAZeUd2C6Q5RqxEME3zaUkroxG6cctfQhAuINbZv/ECv+HXXHUv2LYa5tFz7sdIeAxAzp3iOX4S8ujpK1ByB6f/pAdSSaWOSypXEW3ie/+vIfAoxIfBZD+JAsyoi8fqUF+PCpBHos8/+zA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BWz/wJq1; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772436703;
+	s=mimecast20190719; t=1772446550;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/2wTkJjwuYIbXyYb8D2J2N4b7CfFVskYwBA2k1/L4eQ=;
-	b=WcNz45+CG4TglikNvnexWeLlmWd4Fgl6I3WlrWKdAtOz15E4oDLAUr4C466oGtQZbBsXXg
-	HgI7HXM+FNMbzs1a3FvRE8/Vit5h3XUlY95fwHB+aL/DZGbpliNEKJAGn2Ln37GRvpEk7p
-	1Z0VHaow+I+71HHmdRSkxu7W7PWCjxI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=0Nt9u/V9Fc/ykFf+eRLO4mIzzqQz1u88ZtONS7n3Oag=;
+	b=BWz/wJq1wbg8xYefll/7XwIQLNwor9HqQvEUdHDjHFtNMhUj7OFElOO79Nlwyjy9yhdZ4+
+	cf1fuMO6EF4G+tJ0DXM9cJSybTz8Es9yFL9T24jBtFdzRWO3ksoTcaLEq+hrCu2OmZImoM
+	eNpNl5hCtEtE/RS274GJboN5J7G8HzI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-451-eGML8WRiM8-J2d48TsPXdA-1; Mon,
- 02 Mar 2026 02:31:39 -0500
-X-MC-Unique: eGML8WRiM8-J2d48TsPXdA-1
-X-Mimecast-MFC-AGG-ID: eGML8WRiM8-J2d48TsPXdA_1772436697
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-435-RsymwK4INuedX1EllCx00A-1; Mon,
+ 02 Mar 2026 05:15:45 -0500
+X-MC-Unique: RsymwK4INuedX1EllCx00A-1
+X-Mimecast-MFC-AGG-ID: RsymwK4INuedX1EllCx00A_1772446543
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5478F18004BB;
-	Mon,  2 Mar 2026 07:31:35 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4BFE61956056;
+	Mon,  2 Mar 2026 10:15:43 +0000 (UTC)
 Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.151])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 243EA30001B9;
-	Mon,  2 Mar 2026 07:31:26 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07E6930001B9;
+	Mon,  2 Mar 2026 10:15:39 +0000 (UTC)
 From: Florian Weimer <fweimer@redhat.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
-  kernel-dev@igalia.com,  "Liam R
- . Howlett" <Liam.Howlett@oracle.com>,  linux-api@vger.kernel.org,  Darren
- Hart <dvhart@infradead.org>,  Thomas Gleixner <tglx@kernel.org>,  Ingo
- Molnar <mingo@redhat.com>,  Peter Zijlstra <peterz@infradead.org>,
-  Torvald Riegel <triegel@redhat.com>,  Davidlohr Bueso
- <dave@stgolabs.net>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Rich
- Felker <dalias@aerifal.cx>,  Carlos O'Donell <carlos@redhat.com>,  Michal
- Hocko <mhocko@suse.com>,  linux-kernel@vger.kernel.org,  libc-alpha@sourceware.org
- <libc-alpha@sourceware.org>,  Arnd Bergmann <arnd@arndb.de>,  Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [RFC PATCH 0/2] futex: how to solve the robust_list race
- condition?
-In-Reply-To: <694424f4-20d1-4473-8955-859acbad466f@efficios.com> (Mathieu
-	Desnoyers's message of "Sun, 1 Mar 2026 10:49:15 -0500")
-References: <20260220202620.139584-1-andrealmeid@igalia.com>
-	<0d334517-63ee-46c9-884d-6c2ae8388b87@efficios.com>
-	<67be0aa1-2241-43ef-aa01-a89ced26c8f6@efficios.com>
-	<a1e24288-6ffc-438d-8a2a-d152134c9555@efficios.com>
-	<ed918547-1406-4ae6-8a94-4e03712a4923@igalia.com>
-	<bd7a8dd3-8dee-4886-abe6-bdda25fe4a0d@efficios.com>
-	<694424f4-20d1-4473-8955-859acbad466f@efficios.com>
-Date: Mon, 02 Mar 2026 08:31:24 +0100
-Message-ID: <lhufr6ihelv.fsf@oldenburg.str.redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,  Jeff Layton <jlayton@kernel.org>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,  Amir Goldstein
+ <amir73il@gmail.com>,  Josef Bacik <josef@toxicpanda.com>,  Jan Kara
+ <jack@suse.cz>,  Aleksa Sarai <cyphar@cyphar.com>,
+  linux-api@vger.kernel.org,  rudi@heitbaum.com
+Subject: Re: [PATCH 1/2] mount: add OPEN_TREE_NAMESPACE
+In-Reply-To: <20260224-kandidat-wohltat-ae8fb7a57738@brauner> (Christian
+	Brauner's message of "Tue, 24 Feb 2026 15:33:13 +0100")
+References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
+	<20251229-work-empty-namespace-v1-1-bfb24c7b061f@kernel.org>
+	<lhuecmaz8p6.fsf@oldenburg.str.redhat.com>
+	<20260224-erbitten-kaufleute-6f14e3072c5d@brauner>
+	<lhuv7fmxo8y.fsf@oldenburg.str.redhat.com>
+	<20260224-kandidat-wohltat-ae8fb7a57738@brauner>
+Date: Mon, 02 Mar 2026 11:15:37 +0100
+Message-ID: <lhuqzq2fsfq.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -95,8 +87,7 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
@@ -105,40 +96,69 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-5889-lists,linux-api=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,zeniv.linux.org.uk,gmail.com,toxicpanda.com,suse.cz,cyphar.com,heitbaum.com];
+	TAGGED_FROM(0.00)[bounces-5890-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E176D1D3FB7
+	TAGGED_RCPT(0.00)[linux-api];
+	PRECEDENCE_BULK(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sourceware.org:url,oldenburg.str.redhat.com:mid]
+X-Rspamd-Queue-Id: 713BE1D65F4
 X-Rspamd-Action: no action
 
-* Mathieu Desnoyers:
+* Christian Brauner:
 
-> Of course, we'd have to implement the whole transaction in assembler
-> for each architecture.
+> On Tue, Feb 24, 2026 at 02:30:37PM +0100, Florian Weimer wrote:
+>> * Christian Brauner:
+>> 
+>> > On Tue, Feb 24, 2026 at 12:23:33PM +0100, Florian Weimer wrote:
+>> >> * Christian Brauner:
+>> >> 
+>> >> > diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+>> >> > index 5d3f8c9e3a62..acbc22241c9c 100644
+>> >> > --- a/include/uapi/linux/mount.h
+>> >> > +++ b/include/uapi/linux/mount.h
+>> >> > @@ -61,7 +61,8 @@
+>> >> >  /*
+>> >> >   * open_tree() flags.
+>> >> >   */
+>> >> > -#define OPEN_TREE_CLONE		1		/* Clone the target tree and attach the clone */
+>> >> > +#define OPEN_TREE_CLONE		(1 << 0)	/* Clone the target tree and attach the clone */
+>> >> 
+>> >> This change causes pointless -Werror=undef errors in projects that have
+>> >> settled on the old definition.
+>> >> 
+>> >> Reported here:
+>> >> 
+>> >>   Bug 33921 - Building with Linux-7.0-rc1 errors on OPEN_TREE_CLONE
+>> >>   <https://sourceware.org/bugzilla/show_bug.cgi?id=33921>
+>> >
+>> > Send a patch to change it back, please.
+>> > Otherwise it might take a few days until I get around to it.
+>> 
+>> Rudi, could you post a patch?
+>
+> I'm a bit confused though and not super happy that you're basically
+> asking us to be so constrained that we aren't even allowed to change 1
+> to 1 - just syntactically different.
 
-Could this be hidden ina vDSO call?  It would have to receive a pointer
-to the rseq area in addition to other arguments that identify the unlock
-operation to be performed.  The advantage is that the kernel would now
-the addresses involved, so a single rseq flag should be sufficient.  It
-could also vary the LL/SC sequence based on architecture capabilities.
+I'm not happy about it, either.  But it has happened before, for the
+RENAME_* constants I believe.
 
-The question is whether we can model the unlock operation so that it's
-sufficiently generic.
+We are already including <linux/mount.h> from <sys/mount.h>, so we can
+work around this reliably on the glibc side, regardless of header
+inclusion order.
 
 Thanks,
 Florian
