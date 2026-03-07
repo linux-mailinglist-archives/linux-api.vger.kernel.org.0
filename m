@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-5907-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5908-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOSpCXQxrGkemwEAu9opvQ
-	(envelope-from <linux-api+bounces-5907-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:08:52 +0100
+	id 4AWAEoExrGn2mgEAu9opvQ
+	(envelope-from <linux-api+bounces-5908-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:09:05 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB1D22C0F5
-	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:08:51 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E8F22C115
+	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:09:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 46552301E9A1
-	for <lists+linux-api@lfdr.de>; Sat,  7 Mar 2026 14:08:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1D34330151FB
+	for <lists+linux-api@lfdr.de>; Sat,  7 Mar 2026 14:09:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219562DF156;
-	Sat,  7 Mar 2026 14:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 627E32E1C6B;
+	Sat,  7 Mar 2026 14:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WyUET1vB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wb4wDDw+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C362DA77F
-	for <linux-api@vger.kernel.org>; Sat,  7 Mar 2026 14:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D62C2DF13B
+	for <linux-api@vger.kernel.org>; Sat,  7 Mar 2026 14:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772892524; cv=none; b=a4XgnO7AeAyipGOhB7K4AU0pZR+VUwSbbvb9f3Kdn8wm8okm+lfDIUYB9y97PktanlYov3jLtKkjzgqMPINnjtFu2RpTz7Ga8gOBtxPZmH9X+5vM725VMc/+f4QycKNWb6ZyD4MPkjouz4gjnu/580qHWmJyAlH2jknajFwz/eI=
+	t=1772892540; cv=none; b=bf6lJhF0ZvxV54Vr2TY1MmUV4TnnEau55Holw0XGjOOz9vO2dPyLYCOAXGfSrexpVOI9ejAePc75Sz/SVK48kbucfc9CD9z+kHih8PFI5kCvXn9dxRiw9EiSozFxeM0nW99J5CDD5spxt3cEvmdGM0tjXodsZzAzATab95mplU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772892524; c=relaxed/simple;
-	bh=Q9dm8LTnk+DFIEJAAB7tpFWixf8EizWYmak8EK7I1tg=;
+	s=arc-20240116; t=1772892540; c=relaxed/simple;
+	bh=EKC+gjybz5QCo3/A2SoLkAdJ9dHzP8glwvLLU31BmCA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DESjpAxHLuf4rTZN/57tCnLo5LBnawYVEHs2Pp+vKTZ2Xo0exmJSS3P8SMpeY4eDDKbY3CXPs9TOaLBHH13aNRfGjAncjSYBbMJSUf/LF+Zg2Ak7Pl8PGHaPWMFZlP4YmPJSUa7+imHXE8y7eutPKfgpr5JwHWLx+/5vahOvEec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WyUET1vB; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=F+Gq394CNx+fqYDWW3Mx8ztrpVostCRLEnrv+lfk0A4kKIOdP/MX9ImT4dryjP/Gxsl5tsZsooPlHDXm+irfpbnbP91wb0+OT8D92uzTtRNxhKhMnq7W98rTZgkchwpCx6ihRdhWLBBmYK0aesfaUJEc3cYk8k9abk9C7FSLQzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wb4wDDw+; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-829865a8471so2913958b3a.3
-        for <linux-api@vger.kernel.org>; Sat, 07 Mar 2026 06:08:42 -0800 (PST)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8299f1ca894so992357b3a.2
+        for <linux-api@vger.kernel.org>; Sat, 07 Mar 2026 06:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772892522; x=1773497322; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772892538; x=1773497338; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q4HfR25bhfBsIe8RbNyIL8PstGgybd8nsB9r91rb4k4=;
-        b=WyUET1vBFRbcwnM6O+g4qVx+Y3X8hs8yEO8XLxOATCDMFPD3E7aqYRG7yPmMI/DhRm
-         wXC8k4D0hx6sE1gEAB3Ke9quwbR1R8885wbx+1sNGdE/RyaUR4VivxPegnACoMBt2L6J
-         Ooupbr5SvS7eBZDnwcmf37bgCke0RSZt6yWeWX5d22CUjrv9EMDPxqho8ngBAhOwQox9
-         QjdtoPCN9MMrPufX1Cf64q81Tz4uT6O5R7L+eBvC5MFN3ySxr0MVu79Hc89nhN91tia+
-         UkH0cLlVvBgDFBfB2TZ3MrWhxbCdrPuQOabPsUtNnO5o05Jg10U5kqlHGEl00Z+p6Ila
-         78jQ==
+        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
+        b=Wb4wDDw+bHkQ4QFzd7CHYDyzuX9Cl9DuRHEoFHcFXRQBaG189KJfreVVIKpg0El3ca
+         Yuse00bqCOE7lUV8ol5l8BttdYmXWtdgfInJa2s4lr7KWXKlPikHYp9gToDd23z/uFPX
+         U+TjbjA09cEMI7QhrOSNztXQQVqWppg93HTKILs6u4qdZ5V720HMM9ubv/3AkShDxd9+
+         HRuqnQAn4xWwYR1PHOJdWmJCGECsOSGBGhYLHsia68y4sZd5DPJY4F2d+2aJsGGMLRsr
+         F0HGQMF39Ct7hJv9fyZjDVmFUDKFQybmZJkVqkcXWPKPr5N6RY0roySeVDzrZld+y9WG
+         fo4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772892522; x=1773497322;
+        d=1e100.net; s=20230601; t=1772892538; x=1773497338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Q4HfR25bhfBsIe8RbNyIL8PstGgybd8nsB9r91rb4k4=;
-        b=UZYcBBVWDqHiZQBBZnklTgOjPCHvGMyc4VvLUjuVXKOfVQE1bIFO1CC+KFnD4XELbZ
-         Ppxc2NpuBriNoE9tdCEMtbv67LSacCQ462CIZj1ammZ5eHc8eRlo7/xru8WURmLdp+CP
-         5i+Fz6Hwan1M6BjXeTVBDNEBV9BsrBSuLIU9eYag9BD8Q8Qm2mQiJNkEWUEDsvvwlYPd
-         SHNKZv2X18mOqOhE2C5Qh24XQiYkhr4H8TC5qerxWLXu1cDo0LOmb7Kl4vCRQAtufST5
-         t/YFL5SNrgMze/hlhsDmVnGzsWuHPnU/PHE29WCuWxEC13DEp9kE+kp6YwJLjsymWcCj
-         8okg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzuzliLKSaWXqo9xCm7Z2VAA4ySziWlrB70BqHOD1RDxt8j7DY+MsXZEMVV0o6hwQVk3s9fFoWbA8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyokI8ZO8uqCfmQymYDPELxcItVjluDO2ACBbfZmkodIP9QdCQ+
-	bE2AP4OE15dvJgcDwd4EOZcCuLl7ujV4/sDi9au1GG2Mnhxdw0nluOoA
-X-Gm-Gg: ATEYQzy/k46B+2h0Y/GfFViOsNn45PIl61FiUbiEicmMlVfx6XBA5g+qNN88PrrLIiy
-	F37KVwAtl2wcdUcsMk/5tp9BmQbux39VZT3c3ei/24xRQqcnWBvwkULcE+snLLYjlIfr6oe6Ka9
-	m9deNPtqz/onzouagRSGrJOh27H095+b3zipIwu1hZ/swPlvKNZN2db51R/yWWxUpXrqA8SGsKN
-	Gc2ErAflHAjWcquVJ5TDcWMcIrQjSxhkWyKnwQU1cEmGMqquMcGmHM4BWkLP/vK1eiapZbElyRE
-	kKKL8i2lxKlmB6WmiEpeaFwQga0CdiVzORKZquXUZ54/1JpOOBPVJp0HyurtDrxM2kL6Mf30mLX
-	eSJ78Woc+P37a5PEGjfrhDtztCK6LwL15nXi/E2+5chzhrxuXORZH3sMi/GBqPcwK9IlI5Hj4+j
-	MUFdubxHIiGvyY75WscJq54uNmaanc9RqnULk6KIMtW+NzbNsRxFsji1Y=
-X-Received: by 2002:a05:6a00:7586:b0:827:2a07:231d with SMTP id d2e1a72fcca58-829a2dbaa39mr4250553b3a.17.1772892522295;
-        Sat, 07 Mar 2026 06:08:42 -0800 (PST)
+        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
+        b=g+37KKqcI7ygXR7Dz2LDqrFWVkifyDUv+LxQN6r9aBVFVCof5Gcjd6aL5o18j4eVgC
+         2hfUxpGyiPQ46RuMuat4CdQX2/BHXlbz8slWfWWEPH/1oV5dWBejUGqWYWOje1qYyvXc
+         Iz2L8ux15sgy0uJaQGzJN3h3bzl8nAbFVySEoErKdiPw0LEaJlHlj5QRBoElOTQK1ttS
+         y9ijATC6whvKVUyQDmMev8wLmeHmCko78cJesGHXhk/bg1hVTJGxHM/htgRLALGbgvt+
+         5/wsX3GF+UZ4LEALiwVQunRuzAvzGcOX1uyN37CCfuZg2AIDSRqyq4D/6Tu3MdEiyLe6
+         VFGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmYP8YaruCo73yjgr8Kn4v0Lt6jj0iP2NWzUoI1nXo7XAdPEW2zI2ZFinTkg/QGuKtDsFGskX9VkM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMeWyqIgIwabeX2hpnynGBi8MmV23TW1qnjXyhG4bNOpXq5UmR
+	Hgq/FQ8yoyFjhDAras0NvhYjAccHrsllvkRwemrYQIKkYThKn4hwbjjq
+X-Gm-Gg: ATEYQzx+QbhYJq98SYjJWP8wsKqInOi7XhrnymH2UbkgZgzTIzHJZMS0ljtVLuUhe2D
+	O27o36a2Uznwc8uCJcqyD8hj4/67lN8DLBMrkOlFOBAuQDNd7mNWZZV5Y7J74wrnXnikZlawwvY
+	nqQgQ2hvbeg1iqMu85AkpVrMpCG9QIXNaNNgq7kuM4mo/g9EeU+TVar7mu6YaGEPrsBP4cF6hZf
+	5nDZH3TO1dF53MGU2m8oopskY8V4LcfQb1JqrofXcVgV1WjPysJfjZBap1nC34iRija4MZXd2/j
+	JpaJNJnnNAcdkjh6W3XwmwT+imSWxWKtKLEdIeIb4zxRXUEF90O5K6jX86PW0Eltj3Qpzf6E/4U
+	XvjRoEVaEoEhlTEk6IPZmWHHHAD5l05qqycuiUArvjcn9Ob3YprepQg2MFE2U64wZVxbFs6wu4D
+	c4H53OLwHz4giFqGs8MRjXhC8U2urbdZinUM4TNqZPBrXWukz/a88L7sA=
+X-Received: by 2002:a05:6a21:700c:b0:366:14ac:e20a with SMTP id adf61e73a8af0-398591082a4mr5640721637.72.1772892538431;
+        Sat, 07 Mar 2026 06:08:58 -0800 (PST)
 Received: from toolbx ([103.103.35.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48ddd18sm4747313b3a.56.2026.03.07.06.08.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48ddd18sm4747313b3a.56.2026.03.07.06.08.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 06:08:42 -0800 (PST)
+        Sat, 07 Mar 2026 06:08:58 -0800 (PST)
 From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -119,9 +119,9 @@ Cc: linux-kernel@vger.kernel.org,
 	shuah@kernel.org,
 	miklos@szeredi.hu,
 	hansg@kernel.org
-Subject: [PATCH v5 3/4] sparc/fcntl.h: convert O_* flag macros from hex to octal
-Date: Sat,  7 Mar 2026 20:06:45 +0600
-Message-ID: <20260307140726.70219-4-dorjoychy111@gmail.com>
+Subject: [PATCH v5 4/4] mips/fcntl.h: convert O_* flag macros from hex to octal
+Date: Sat,  7 Mar 2026 20:06:46 +0600
+Message-ID: <20260307140726.70219-5-dorjoychy111@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260307140726.70219-1-dorjoychy111@gmail.com>
 References: <20260307140726.70219-1-dorjoychy111@gmail.com>
@@ -132,7 +132,7 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: CDB1D22C0F5
+X-Rspamd-Queue-Id: 06E8F22C115
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -141,7 +141,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -150,20 +150,20 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,HansenPartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5907-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5908-lists,linux-api=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dorjoychy111@gmail.com,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.993];
+	NEURAL_HAM(-0.00)[-0.992];
 	TO_DN_NONE(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
 Following the convention in include/uapi/asm-generic/fcntl.h and other
@@ -171,68 +171,50 @@ architecture specific arch/*/include/uapi/asm/fcntl.h files.
 
 Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
 ---
- arch/sparc/include/uapi/asm/fcntl.h | 36 ++++++++++++++---------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ arch/mips/include/uapi/asm/fcntl.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/arch/sparc/include/uapi/asm/fcntl.h b/arch/sparc/include/uapi/asm/fcntl.h
-index bb6e9fa94bc9..33ce58ec57f6 100644
---- a/arch/sparc/include/uapi/asm/fcntl.h
-+++ b/arch/sparc/include/uapi/asm/fcntl.h
-@@ -2,23 +2,23 @@
- #ifndef _SPARC_FCNTL_H
- #define _SPARC_FCNTL_H
+diff --git a/arch/mips/include/uapi/asm/fcntl.h b/arch/mips/include/uapi/asm/fcntl.h
+index 0369a38e3d4f..6aa3f49df17e 100644
+--- a/arch/mips/include/uapi/asm/fcntl.h
++++ b/arch/mips/include/uapi/asm/fcntl.h
+@@ -11,15 +11,15 @@
+ 
+ #include <asm/sgidefs.h>
  
 -#define O_APPEND	0x0008
--#define FASYNC		0x0040	/* fcntl, for BSD compatibility */
--#define O_CREAT		0x0200	/* not fcntl */
--#define O_TRUNC		0x0400	/* not fcntl */
--#define O_EXCL		0x0800	/* not fcntl */
--#define O_DSYNC		0x2000	/* used to be O_SYNC, see below */
--#define O_NONBLOCK	0x4000
-+#define O_APPEND	0000000010
-+#define FASYNC		0000000100	/* fcntl, for BSD compatibility */
-+#define O_CREAT		0000001000	/* not fcntl */
-+#define O_TRUNC		0000002000	/* not fcntl */
-+#define O_EXCL		0000004000	/* not fcntl */
-+#define O_DSYNC		0000020000	/* used to be O_SYNC, see below */
-+#define O_NONBLOCK	0000040000
- #if defined(__sparc__) && defined(__arch64__)
--#define O_NDELAY	0x0004
-+#define O_NDELAY	0000000004
- #else
--#define O_NDELAY	(0x0004 | O_NONBLOCK)
-+#define O_NDELAY	(0000000004 | O_NONBLOCK)
- #endif
--#define O_NOCTTY	0x8000	/* not fcntl */
--#define O_LARGEFILE	0x40000
--#define O_DIRECT        0x100000 /* direct disk access hint */
--#define O_NOATIME	0x200000
--#define O_CLOEXEC	0x400000
-+#define O_NOCTTY	0000100000	/* not fcntl */
-+#define O_LARGEFILE	0001000000
-+#define O_DIRECT        0004000000 /* direct disk access hint */
-+#define O_NOATIME	0010000000
-+#define O_CLOEXEC	0020000000
+-#define O_DSYNC		0x0010	/* used to be O_SYNC, see below */
+-#define O_NONBLOCK	0x0080
+-#define O_CREAT		0x0100	/* not fcntl */
+-#define O_TRUNC		0x0200	/* not fcntl */
+-#define O_EXCL		0x0400	/* not fcntl */
+-#define O_NOCTTY	0x0800	/* not fcntl */
+-#define FASYNC		0x1000	/* fcntl, for BSD compatibility */
+-#define O_LARGEFILE	0x2000	/* allow large file opens */
++#define O_APPEND	0000010
++#define O_DSYNC		0000020	/* used to be O_SYNC, see below */
++#define O_NONBLOCK	0000200
++#define O_CREAT		0000400	/* not fcntl */
++#define O_TRUNC		0001000	/* not fcntl */
++#define O_EXCL		0002000	/* not fcntl */
++#define O_NOCTTY	0004000	/* not fcntl */
++#define FASYNC		0010000	/* fcntl, for BSD compatibility */
++#define O_LARGEFILE	0020000	/* allow large file opens */
  /*
   * Before Linux 2.6.33 only O_DSYNC semantics were implemented, but using
   * the O_SYNC flag.  We continue to use the existing numerical value
-@@ -32,12 +32,12 @@
+@@ -33,9 +33,9 @@
   *
   * Note: __O_SYNC must never be used directly.
   */
--#define __O_SYNC	0x800000
-+#define __O_SYNC	0040000000
+-#define __O_SYNC	0x4000
++#define __O_SYNC	0040000
  #define O_SYNC		(__O_SYNC|O_DSYNC)
+-#define O_DIRECT	0x8000	/* direct disk access hint */
++#define O_DIRECT	0100000	/* direct disk access hint */
  
--#define O_PATH		0x1000000
--#define __O_TMPFILE	0x2000000
--#define OPENAT2_REGULAR	0x4000000
-+#define O_PATH		0100000000
-+#define __O_TMPFILE	0200000000
-+#define OPENAT2_REGULAR	0400000000
- 
- #define F_GETOWN	5	/*  for sockets. */
- #define F_SETOWN	6	/*  for sockets. */
+ #define F_GETLK		14
+ #define F_SETLK		6
 -- 
 2.53.0
 
