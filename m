@@ -1,221 +1,201 @@
-Return-Path: <linux-api+bounces-5908-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5909-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AWAEoExrGn2mgEAu9opvQ
-	(envelope-from <linux-api+bounces-5908-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:09:05 +0100
+	id iJzaBel0rGlCpwEAu9opvQ
+	(envelope-from <linux-api+bounces-5909-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 19:56:41 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E8F22C115
-	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 15:09:04 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFE422D4A4
+	for <lists+linux-api@lfdr.de>; Sat, 07 Mar 2026 19:56:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1D34330151FB
-	for <lists+linux-api@lfdr.de>; Sat,  7 Mar 2026 14:09:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BC8523008CAB
+	for <lists+linux-api@lfdr.de>; Sat,  7 Mar 2026 18:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 627E32E1C6B;
-	Sat,  7 Mar 2026 14:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EA4F39150B;
+	Sat,  7 Mar 2026 18:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wb4wDDw+"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="UERqbxJK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D62C2DF13B
-	for <linux-api@vger.kernel.org>; Sat,  7 Mar 2026 14:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772892540; cv=none; b=bf6lJhF0ZvxV54Vr2TY1MmUV4TnnEau55Holw0XGjOOz9vO2dPyLYCOAXGfSrexpVOI9ejAePc75Sz/SVK48kbucfc9CD9z+kHih8PFI5kCvXn9dxRiw9EiSozFxeM0nW99J5CDD5spxt3cEvmdGM0tjXodsZzAzATab95mplU0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772892540; c=relaxed/simple;
-	bh=EKC+gjybz5QCo3/A2SoLkAdJ9dHzP8glwvLLU31BmCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F+Gq394CNx+fqYDWW3Mx8ztrpVostCRLEnrv+lfk0A4kKIOdP/MX9ImT4dryjP/Gxsl5tsZsooPlHDXm+irfpbnbP91wb0+OT8D92uzTtRNxhKhMnq7W98rTZgkchwpCx6ihRdhWLBBmYK0aesfaUJEc3cYk8k9abk9C7FSLQzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wb4wDDw+; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8299f1ca894so992357b3a.2
-        for <linux-api@vger.kernel.org>; Sat, 07 Mar 2026 06:08:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B746B292B44
+	for <linux-api@vger.kernel.org>; Sat,  7 Mar 2026 18:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772909795; cv=pass; b=iuCE61FEVcElT1Oj/+PlHqP4xQCZPcoDtJmjYoc9/GsNTS83Ui/5TO0rD/u6zMaDm4QZfO+mlyQsoZg9l/StExNV7/ctjblsWhK+S9ITQYND/OBLtdYurqCddqG57Lj9b1PJOcJ9I2W3GvNHlqr+LaRkDzjZNi11QKOwYwzQ9J4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772909795; c=relaxed/simple;
+	bh=ipPnoEwRKGay/Kqh3e72TxDAS0WvWm5QHtGzwkgIhmk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CKfRkZXV6oS/+Uy8RjTrxUpHNCJZGe43UU6yOBVRZWuZhWl8yzi4IjoCqeEnQqK7Rjrcxwt1rR/R6WjwFp3GIgMOarOyvzlyz+KF0vxI9CpD0AT+pveqgshJxduD6jobE0Lcp8ws+T91GJKoI650NoP9T124pR1Zm9K2Lx4S0qk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=UERqbxJK; arc=pass smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a12c19affeso3643725e87.1
+        for <linux-api@vger.kernel.org>; Sat, 07 Mar 2026 10:56:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772909792; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B6JtAOyK3x8huoSF89lIA+rbR3debAyRBAMSMp/Bbgp9ENmaLcH/sFd/Y+yxkBBGeG
+         5I3OI9br6bgTy89p6cIYZPCoUOw8mIFQ7oaozMQ0tMeC0xWK4Nu3yAjWe/2XPWb5oLVl
+         782g13+0C+nhj5A/686R+eiwpEqk5QbeK5JZ99HUlthivtv0A9MKo6n1B+B6Msx/j6K/
+         G3ceD+jgTIK0tPmu3yJsqJ420Vb+soZI0mmHDW7JfWyMnOC7QeD2n70IBz8uPwlEnXdK
+         sN6QFOaVQcs+YYaq8OXHEYOuNdAU1p+3k1MS1jXe3j50bGmc1dXhfsaw6xLPOXOmmYhg
+         E7dA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pxUV6l0cXcVJnfGWc1SwZOsz+kJgjCkHV5Xd2O+xjBY=;
+        fh=IHomm6jAeH+lUGJKD3PnvKsBwB2oLfwAmH0AqbGStrM=;
+        b=kRbkEm4RIq2yi5fJ90oItkAIEiZhPVZOBK6U/YMZyLUbbHaBKJtZHCOnGcByI9BHl/
+         GRzpL/J+3JhQuoL3/lEsuTRKKnGzcla3SZN/wExf0iq19hola1PO6tjhiswO5urgW6mb
+         HEjMPjjR0Azkf9Tc3UA0l/cvD6amtPgKtMc9Tr65jeUfVYWiWZKfoLb3Xppd7SdilouX
+         64eBml3p2fD5q6hnNKf0fCry4DMPm3xLQLM3YbLfiLurRAOvOQUMMPi4W0j3ZTUOnDL3
+         NuUWYl+bmUsnXo80X9pnal4XrX7URZDGnkupoxmXC2F38xg7qhre0TDnGHzbaYaVsDez
+         LsFg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772892538; x=1773497338; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1772909792; x=1773514592; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
-        b=Wb4wDDw+bHkQ4QFzd7CHYDyzuX9Cl9DuRHEoFHcFXRQBaG189KJfreVVIKpg0El3ca
-         Yuse00bqCOE7lUV8ol5l8BttdYmXWtdgfInJa2s4lr7KWXKlPikHYp9gToDd23z/uFPX
-         U+TjbjA09cEMI7QhrOSNztXQQVqWppg93HTKILs6u4qdZ5V720HMM9ubv/3AkShDxd9+
-         HRuqnQAn4xWwYR1PHOJdWmJCGECsOSGBGhYLHsia68y4sZd5DPJY4F2d+2aJsGGMLRsr
-         F0HGQMF39Ct7hJv9fyZjDVmFUDKFQybmZJkVqkcXWPKPr5N6RY0roySeVDzrZld+y9WG
-         fo4w==
+        bh=pxUV6l0cXcVJnfGWc1SwZOsz+kJgjCkHV5Xd2O+xjBY=;
+        b=UERqbxJKZngkPO2K4yr5YwAFzKHDjj8r0w4oJuzjCO0kMIqLOi33dFigOAK5fZJwBg
+         t3vBGotLKf2C2GyPcVqTqi/0bMqWfMRpqQ5rii8Lnt1DIjrG4hklubdBbb0zBjvmrxfm
+         0ACUWOD8gJuwgtD1IRPU5MEQjhc5r6adr2y3vMIGiLtTdq4ZL/+TuRATJssUP64XLQ8k
+         697wEJo9Gi1YFv8vDxzYYf+i++1UCLQBSHd5HunMVb0RrP2RWyiZRuwnSv/rA/6wMP/v
+         6PdybPK88LnePRQ5doBRC2ZH8V1L7CaJDdTOdndxaW4gM9uvjOm57BKxPOmZpQyF5BOo
+         dHkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772892538; x=1773497338;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1772909792; x=1773514592;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=cE+gTqS6Acm3OjdFoCwcpAog50aFpqNiNU85af164dY=;
-        b=g+37KKqcI7ygXR7Dz2LDqrFWVkifyDUv+LxQN6r9aBVFVCof5Gcjd6aL5o18j4eVgC
-         2hfUxpGyiPQ46RuMuat4CdQX2/BHXlbz8slWfWWEPH/1oV5dWBejUGqWYWOje1qYyvXc
-         Iz2L8ux15sgy0uJaQGzJN3h3bzl8nAbFVySEoErKdiPw0LEaJlHlj5QRBoElOTQK1ttS
-         y9ijATC6whvKVUyQDmMev8wLmeHmCko78cJesGHXhk/bg1hVTJGxHM/htgRLALGbgvt+
-         5/wsX3GF+UZ4LEALiwVQunRuzAvzGcOX1uyN37CCfuZg2AIDSRqyq4D/6Tu3MdEiyLe6
-         VFGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmYP8YaruCo73yjgr8Kn4v0Lt6jj0iP2NWzUoI1nXo7XAdPEW2zI2ZFinTkg/QGuKtDsFGskX9VkM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMeWyqIgIwabeX2hpnynGBi8MmV23TW1qnjXyhG4bNOpXq5UmR
-	Hgq/FQ8yoyFjhDAras0NvhYjAccHrsllvkRwemrYQIKkYThKn4hwbjjq
-X-Gm-Gg: ATEYQzx+QbhYJq98SYjJWP8wsKqInOi7XhrnymH2UbkgZgzTIzHJZMS0ljtVLuUhe2D
-	O27o36a2Uznwc8uCJcqyD8hj4/67lN8DLBMrkOlFOBAuQDNd7mNWZZV5Y7J74wrnXnikZlawwvY
-	nqQgQ2hvbeg1iqMu85AkpVrMpCG9QIXNaNNgq7kuM4mo/g9EeU+TVar7mu6YaGEPrsBP4cF6hZf
-	5nDZH3TO1dF53MGU2m8oopskY8V4LcfQb1JqrofXcVgV1WjPysJfjZBap1nC34iRija4MZXd2/j
-	JpaJNJnnNAcdkjh6W3XwmwT+imSWxWKtKLEdIeIb4zxRXUEF90O5K6jX86PW0Eltj3Qpzf6E/4U
-	XvjRoEVaEoEhlTEk6IPZmWHHHAD5l05qqycuiUArvjcn9Ob3YprepQg2MFE2U64wZVxbFs6wu4D
-	c4H53OLwHz4giFqGs8MRjXhC8U2urbdZinUM4TNqZPBrXWukz/a88L7sA=
-X-Received: by 2002:a05:6a21:700c:b0:366:14ac:e20a with SMTP id adf61e73a8af0-398591082a4mr5640721637.72.1772892538431;
-        Sat, 07 Mar 2026 06:08:58 -0800 (PST)
-Received: from toolbx ([103.103.35.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48ddd18sm4747313b3a.56.2026.03.07.06.08.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 06:08:58 -0800 (PST)
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de,
-	adilger@dilger.ca,
-	mjguzik@gmail.com,
-	smfrench@gmail.com,
-	richard.henderson@linaro.org,
-	mattst88@gmail.com,
-	linmag7@gmail.com,
-	tsbogend@alpha.franken.de,
-	James.Bottomley@HansenPartnership.com,
-	deller@gmx.de,
-	davem@davemloft.net,
-	andreas@gaisler.com,
-	idryomov@gmail.com,
-	amarkuze@redhat.com,
-	slava@dubeyko.com,
-	agruenba@redhat.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	sfrench@samba.org,
-	pc@manguebit.org,
-	ronniesahlberg@gmail.com,
-	sprasad@microsoft.com,
-	tom@talpey.com,
-	bharathsm@microsoft.com,
-	shuah@kernel.org,
-	miklos@szeredi.hu,
-	hansg@kernel.org
-Subject: [PATCH v5 4/4] mips/fcntl.h: convert O_* flag macros from hex to octal
-Date: Sat,  7 Mar 2026 20:06:46 +0600
-Message-ID: <20260307140726.70219-5-dorjoychy111@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260307140726.70219-1-dorjoychy111@gmail.com>
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+        bh=pxUV6l0cXcVJnfGWc1SwZOsz+kJgjCkHV5Xd2O+xjBY=;
+        b=kncvNfzF0JlRjX6pfhG7Q6RzV/0ytCMuOu4pNdNrvrUnS1SYVQBTxL0wWS4xo8CazZ
+         Tb8ZIgcMp5qAcL2IDWMiYuVa40a2/6koDUqn4uTA9fjQty579Bp/jIF5qpAk2CgxWr4e
+         nAc0bBmpBScFridCB5N8ifAcOONvtAAWIrb0FG/ZSah7PJ/Oyr52bMIhnqDEWDVpA9jW
+         ZgkxBbY3Z/BiFjldBcclGSzkuLj8QBC1lRmwXcyh/8dN3BB4B5scEiYw+MnEH57Dc0hs
+         C8nqn6COGaC9Zh8f7x4DSJ0NlhArmko8emqUqwS+bsLFQIz2oDDKL7yl/KkGm9C20wND
+         EAVg==
+X-Forwarded-Encrypted: i=1; AJvYcCV24sgE66B4JNpm6Gm3uCNy2l8Yd8LjLsVz3MuvG89ONBSdISZHrelS21P4pbzxYvFRlW9dsCP3d0w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDxeNXg7zC64t7+yBZAhOZtaWfsUyoTDRpQeW5f+32jefSBy+u
+	l19HGUfBFGtpfmR520cfgifjULgKN+iqPpqBy3UMBoXzvmHe0Ach+zstPXYPJ5SjBU1IYE5Dwbx
+	ExuI7b5zYW9Lz5jp/tYnhkJVKdSvS2u4kXNBipVoO
+X-Gm-Gg: ATEYQzyQ9caz2heu8jUYtYJ2kL6+8qymf8wEUbI8Pyw2jIcQGl8Vm7O4u/+WshN1Rk+
+	Cl894PDYf2hqVkZ7zjsYiJaE4BxQpakkdG1urigueeCtz2sU8zu8jB/B8f9A+ACcpiWINhzTFc5
+	h0jC5XJxjfRvQjp4LceaXz18/YyFTayyerdNiOu6Ie32Sn1gjE9Y+/3SsYa3tsE3Z4T/GqcLXWN
+	2N5SG1mJazVepPIMg0330EJuIKaxlKYf/DvsfnD8KNSrt1hisYdnoIpveyqsGbZH5ge98KEg4z6
+	gF2wv7zR
+X-Received: by 2002:ac2:5694:0:b0:5a1:1de6:bc66 with SMTP id
+ 2adb3069b0e04-5a13c93d9e3mr2016793e87.18.1772909791880; Sat, 07 Mar 2026
+ 10:56:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 06E8F22C115
+References: <20260307140726.70219-1-dorjoychy111@gmail.com> <20260307140726.70219-2-dorjoychy111@gmail.com>
+In-Reply-To: <20260307140726.70219-2-dorjoychy111@gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sat, 7 Mar 2026 10:56:19 -0800
+X-Gm-Features: AaiRm51B7g_JMhlZIdflpWCsx5DmxAmpibsspywnWIGz_sEa1ctulidKDYlHz5s
+Message-ID: <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com, 
+	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, 
+	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com, 
+	linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, 
+	andreas@gaisler.com, idryomov@gmail.com, amarkuze@redhat.com, 
+	slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org, anna@kernel.org, 
+	sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 0FFE422D4A4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[amacapital-net.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,HansenPartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
+	DMARC_NA(0.00)[amacapital.net];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5908-lists,linux-api=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dorjoychy111@gmail.com,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-5909-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.992];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[amacapital-net.20230601.gappssmtp.com:+];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.988];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Following the convention in include/uapi/asm-generic/fcntl.h and other
-architecture specific arch/*/include/uapi/asm/fcntl.h files.
+On Sat, Mar 7, 2026 at 6:09=E2=80=AFAM Dorjoy Chowdhury <dorjoychy111@gmail=
+.com> wrote:
+>
+> This flag indicates the path should be opened if it's a regular file.
+> This is useful to write secure programs that want to avoid being
+> tricked into opening device nodes with special semantics while thinking
+> they operate on regular files. This is a requested feature from the
+> uapi-group[1].
+>
 
-Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
----
- arch/mips/include/uapi/asm/fcntl.h | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+I think this needs a lot more clarification as to what "regular"
+means.  If it's literally
 
-diff --git a/arch/mips/include/uapi/asm/fcntl.h b/arch/mips/include/uapi/asm/fcntl.h
-index 0369a38e3d4f..6aa3f49df17e 100644
---- a/arch/mips/include/uapi/asm/fcntl.h
-+++ b/arch/mips/include/uapi/asm/fcntl.h
-@@ -11,15 +11,15 @@
- 
- #include <asm/sgidefs.h>
- 
--#define O_APPEND	0x0008
--#define O_DSYNC		0x0010	/* used to be O_SYNC, see below */
--#define O_NONBLOCK	0x0080
--#define O_CREAT		0x0100	/* not fcntl */
--#define O_TRUNC		0x0200	/* not fcntl */
--#define O_EXCL		0x0400	/* not fcntl */
--#define O_NOCTTY	0x0800	/* not fcntl */
--#define FASYNC		0x1000	/* fcntl, for BSD compatibility */
--#define O_LARGEFILE	0x2000	/* allow large file opens */
-+#define O_APPEND	0000010
-+#define O_DSYNC		0000020	/* used to be O_SYNC, see below */
-+#define O_NONBLOCK	0000200
-+#define O_CREAT		0000400	/* not fcntl */
-+#define O_TRUNC		0001000	/* not fcntl */
-+#define O_EXCL		0002000	/* not fcntl */
-+#define O_NOCTTY	0004000	/* not fcntl */
-+#define FASYNC		0010000	/* fcntl, for BSD compatibility */
-+#define O_LARGEFILE	0020000	/* allow large file opens */
- /*
-  * Before Linux 2.6.33 only O_DSYNC semantics were implemented, but using
-  * the O_SYNC flag.  We continue to use the existing numerical value
-@@ -33,9 +33,9 @@
-  *
-  * Note: __O_SYNC must never be used directly.
-  */
--#define __O_SYNC	0x4000
-+#define __O_SYNC	0040000
- #define O_SYNC		(__O_SYNC|O_DSYNC)
--#define O_DIRECT	0x8000	/* direct disk access hint */
-+#define O_DIRECT	0100000	/* direct disk access hint */
- 
- #define F_GETLK		14
- #define F_SETLK		6
--- 
-2.53.0
+> A corresponding error code EFTYPE has been introduced. For example, if
+> openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
+> param, it will return -EFTYPE. EFTYPE is already used in BSD systems
+> like FreeBSD, macOS.
 
+I think this needs more clarification as to what "regular" means,
+since S_IFREG may not be sufficient.  The UAPI group page says:
+
+Use-Case: this would be very useful to write secure programs that want
+to avoid being tricked into opening device nodes with special
+semantics while thinking they operate on regular files. This is
+particularly relevant as many device nodes (or even FIFOs) come with
+blocking I/O (or even blocking open()!) by default, which is not
+expected from regular files backed by =E2=80=9Cfast=E2=80=9D disk I/O. Cons=
+ider
+implementation of a naive web browser which is pointed to
+file://dev/zero, not expecting an endless amount of data to read.
+
+What about procfs?  What about sysfs?  What about /proc/self/fd/17
+where that fd is a memfd?  What about files backed by non-"fast" disk
+I/O like something on a flaky USB stick or a network mount or FUSE?
+
+Are we concerned about blocking open?  (open blocks as a matter of
+course.)  Are we concerned about open having strange side effects?
+Are we concerned about write having strange side effects?  Are we
+concerned about cases where opening the file as root results in
+elevated privilege beyond merely gaining the ability to write to that
+specific path on an ordinary filesystem?
+
+--Andy
 
