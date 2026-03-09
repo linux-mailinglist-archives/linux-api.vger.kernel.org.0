@@ -1,234 +1,153 @@
-Return-Path: <linux-api+bounces-5916-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5917-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oK9yLvj7rmnZKgIAu9opvQ
-	(envelope-from <linux-api+bounces-5916-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:57:28 +0100
+	id wAhuMnIGr2knLwIAu9opvQ
+	(envelope-from <linux-api+bounces-5917-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 18:42:10 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0623D30B
-	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:57:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C70C23DC49
+	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 18:42:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F03B130AA048
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2026 16:50:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5CDC23042B47
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2026 17:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A6493D522B;
-	Mon,  9 Mar 2026 16:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F3E3CB2E1;
+	Mon,  9 Mar 2026 17:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="J+Xuet5h"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JWMCrCRI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF8A3C2790
-	for <linux-api@vger.kernel.org>; Mon,  9 Mar 2026 16:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773075034; cv=pass; b=KPArlaszmjXHtuehcgcWcTHa3+LqD/7YXg4sd3TbKEqGaXW8ezuVIQZbxMgnK5oOSIaXgaRTkvf7AFDJ6N/wZ9azwfO00I2OKMky8C8C8DAaj6yNyVN+kFsHfeDMsHfdcrVFK1DmErxlEcaivyhWEjQPJyZB0+ONHjvR5y8kcMY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773075034; c=relaxed/simple;
-	bh=dElGlCWfTDUCaV3zjXVrwEshlrdMTwzM4Mn069fiLm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Peu//1p6xu3KctojSddy9Iu7xTmegeglWqHR/aF6PYWD1ndUhLSBnYvvcx7cGSizgG5X6o0VXL4/UXX8xK65vtyxmG4AcbaGNCWzCazZP+LpnD82baIR332Be2s+hEsPkgcvJItslGHAgUYnof10VmxewvlgvWpI/zJDWidQ8Ik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=J+Xuet5h; arc=pass smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a140efd2d5so3014823e87.2
-        for <linux-api@vger.kernel.org>; Mon, 09 Mar 2026 09:50:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773075031; cv=none;
-        d=google.com; s=arc-20240605;
-        b=T5esZ4KRNUqNWuXeUAIA5ysTPEGYsGMh9cyZFq+S8H9tCKUBEDqfZy2FRHiUdpSHyh
-         QxMcguGpbUr7HlRuvpdSsZB8HumJI8PuBpPRstH8fzhKkT3rW9xgxX2J7sKWqV6h2DJm
-         g0patLF1obNHszyEfNbmiNt3+0DEWEwyRer1sygONh1xXWfcOvcIKBEFfAUl7Ri2ZkEY
-         OA3Ito68a+kCXStkjrXiIKKRZP7UlPiO7xIYjAX9O/4MJ2zrPVywa1C9/xhN0cLVFlfC
-         L9EoHTLgnD62fusXhAl1UTjzXpy4s5asEAtOt02lEXuaF1/EJwrR06pQRk2JH+Lv/P6c
-         Q6OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1qXi97N/dEOi9sir8d8Z87lcT7PElOkZiITQbx2fwCc=;
-        fh=2J+sTXp1AR9WhX81UwQEqK4IoowaQ6dpxrHjuuX3EAM=;
-        b=RpvD1ikLfMiMYmqARWEBlYOUL7Q6+CKuCViNlmgMUaeV/ruE5qWIHPwz7fcBSCYJIw
-         w48VCVC5sv4XhWznYs/C31KOV6usr6DDy4Ln9OOyYI20oMZmC57CqSN6pGkEusZLFRTH
-         Z9DMiHmaUYfKaSKFUeng9OPFS3eJYuN+zH3orzvOVHL0OY2GNFJmUBU1FL7xLTii9GI0
-         L9t1fTu6FGUk+daVK4Wuwv8/GCq8/XrRVuaJkgq0h54oQN/UPjoPzz7w88+B1rPzqAYi
-         my6ZW7ojLtP+7ZPDuBJRZLZ/nGiQS8sGp9SpjOkkSjZyzIsjN0VW+yTWIthxrtUBdL/l
-         lRjQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1773075031; x=1773679831; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1qXi97N/dEOi9sir8d8Z87lcT7PElOkZiITQbx2fwCc=;
-        b=J+Xuet5hbFlie89tCjUFjzDwucKsd4NfrnrH1IlxidGOt/z+KgeLuYLA/G1tJg9YeP
-         C1CoxioVNedpRpnH3i2g1e9rvaDLyL/wWFxrMS/dadrG87skwpJ9ll0VXP5/mb7t/tVB
-         3nTver45s6YBmiBWLR4SANFDP+bIXXTcsmJ6clYmeEH7meYralZNdoAd1IxF7O6aIkco
-         lCWgnoV4P4ikTR0XyXY+GmybQCrbR7LB3OkC8+7VNevH+4CSTtWk0BvwVojn5VB4UwmR
-         IhgPtrXLc4SezqZQwBlfIP/+nK2z8AMiJCr0cknaXTC3MvGuBMz8TIpTguJCHWhMt/xS
-         SObA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773075031; x=1773679831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1qXi97N/dEOi9sir8d8Z87lcT7PElOkZiITQbx2fwCc=;
-        b=pQ5UWQI0rMwI7pZkKIFTJet4ERVxCA5zLm5D+YE2Ozf8sEn6n1DTdIQC5Hxqe6OhAM
-         KsiaA3wt0Zy/bme3FCg/0CfHHeweRTZ4ncgM2Dz+h4bfc5/PoYlwAu6WhkmCxFUC6Uor
-         Or8f5BlHYWhqG2y18DthoCtJwnqVtvF0WE6gEPMweGN8slYHMRwPzW8EMWmEvlsGlJYU
-         /edfKyE28txRmcnXs7W/oYGKv5Izv22HVjKxx1gaiOr3rndHzD4Ue6y00VcsIjz9xwxH
-         Z1lTWwEEqzTJqlnCLU4EZzuhv8aprpt4K7/ye3WzYzXq6jM//E6bdkPiOeSOszgsJsln
-         jsqw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Bjjrt4K8VZD0XIolCz5KuJbPqU/MpUuJwAAfdxT5iRiq0ctySdV1ujK7exWZtC3UCDcK8r6tIQ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK6Betu0i6a3RSjBz2A5g+eEwxZZdWrKjuEo52r47p5TBIFi71
-	S+u/m8NtN/GgIub75l0TfeVIZBOvegl+xdaIoso0/XdJOrDXU+zguZU96LT0+CCDL4NDBPMdQ5z
-	ILwV056N0cPOyEsnV72nhUpA0KaR0k4woCmAFS9UQ
-X-Gm-Gg: ATEYQzxFOu9GjELnOyFUtrI2VV1Uz5u31TW74BGr7B+3Qv8W7Dn7JPC7jvKaX/w9K8/
-	eVrYCouaPhX6i/4ml4pgP2ppvkuMfgnd3Bh7TLaoNfDdHc3ttYVPW1l9M+P1n6srE46A4LEcZdY
-	+uRKZ7K7T4eMcuxKz09OxDGfb5yX9bPriWrFCVKGGpgm5Q8Hc4E7Ms26uWjOCVecSVUEdH2G84e
-	EJ19oCnJElLB6+THSgexfGDVWlCBpfUDHmqz8C0yX1CYK90BpRTlix0IbBIVWNqYRm4+xeqz5bG
-	bfIEMBwhKsZANZg=
-X-Received: by 2002:a05:6512:33c9:b0:5a1:3d7f:8fbb with SMTP id
- 2adb3069b0e04-5a13d7f930amr3518616e87.2.1773075030208; Mon, 09 Mar 2026
- 09:50:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8D02F0C6A
+	for <linux-api@vger.kernel.org>; Mon,  9 Mar 2026 17:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773078021; cv=none; b=nIBlxYSNRvk2ryosT0+3anGS+8GW5Vxm5/GlhL8ddV3QsTnsciRxBT49F2JFPoJFG1VwWwcygRsuxzmS1FIN/23GzMIjVHJr8QpjBFt+AipKRS+i4WpshbI7j7mLnANNtcRik+yv8CWsCAiV4ZQ4L4ZPtvySFGHm65k0qr8kI9o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773078021; c=relaxed/simple;
+	bh=FZ7Lq8ACISHxdW+hw4p+51ywraEmx5kXn6b2dCqb0pA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kD7zOFSgT05Wbnma9+UkO/1ivSu2aPc8Hx/41mol2pt4UBUQq0K9bHdPX5SWZrfPTM4kRIFHkQlREiHEKCamP2cxGTaoIEQ1eLwxA9PKTLy8x49KSdJoVqHPYaPYJ1cOb1lXbC/5owTmsKkRfLstmSwUvuRWcALbh51vdctkM/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JWMCrCRI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773078019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OGA6374tPmO2blxe8CmQQ/3g/hvizaM5owV5IRa8o78=;
+	b=JWMCrCRIYF5mVeNTYroVNvb0BJuM9x4mOFkpU0R66sFUwNlKxM47pZ4UGLLPYpsIuTGUvM
+	r1JvIcawzlOcFHxvVXnyOGOaoKOyoT3wveIm7ro/+Ucq5OLRHLynhkPblHFhBzi3pFit1z
+	1iXQPWQ6j7swmITaKE1eX+IIxXLT3GE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-SeSodcbfN0qfZMZbKtY2IA-1; Mon,
+ 09 Mar 2026 13:40:14 -0400
+X-MC-Unique: SeSodcbfN0qfZMZbKtY2IA-1
+X-Mimecast-MFC-AGG-ID: SeSodcbfN0qfZMZbKtY2IA_1773078008
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C0E351956095;
+	Mon,  9 Mar 2026 17:40:06 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.2.16.175])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6997918001FE;
+	Mon,  9 Mar 2026 17:39:55 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christian Brauner <brauner@kernel.org>,  Jeff Layton
+ <jlayton@kernel.org>,  Dorjoy Chowdhury <dorjoychy111@gmail.com>,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-api@vger.kernel.org,  ceph-devel@vger.kernel.org,
+  gfs2@lists.linux.dev,  linux-nfs@vger.kernel.org,
+  linux-cifs@vger.kernel.org,  v9fs@lists.linux.dev,
+  linux-kselftest@vger.kernel.org,  viro@zeniv.linux.org.uk,  jack@suse.cz,
+  chuck.lever@oracle.com,  alex.aring@gmail.com,  arnd@arndb.de,
+  adilger@dilger.ca,  mjguzik@gmail.com,  smfrench@gmail.com,
+  richard.henderson@linaro.org,  mattst88@gmail.com,  linmag7@gmail.com,
+  tsbogend@alpha.franken.de,  James.Bottomley@hansenpartnership.com,
+  deller@gmx.de,  davem@davemloft.net,  andreas@gaisler.com,
+  idryomov@gmail.com,  amarkuze@redhat.com,  slava@dubeyko.com,
+  agruenba@redhat.com,  trondmy@kernel.org,  anna@kernel.org,
+  sfrench@samba.org,  pc@manguebit.org,  ronniesahlberg@gmail.com,
+  sprasad@microsoft.com,  tom@talpey.com,  bharathsm@microsoft.com,
+  shuah@kernel.org,  miklos@szeredi.hu,  hansg@kernel.org
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+In-Reply-To: <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
+	(Andy Lutomirski's message of "Mon, 9 Mar 2026 09:50:18 -0700")
+References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+	<20260307140726.70219-2-dorjoychy111@gmail.com>
+	<CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
+	<801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
+	<CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
+	<20260309-umsturz-herfallen-067eb2df7ec2@brauner>
+	<CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
+Date: Mon, 09 Mar 2026 18:39:53 +0100
+Message-ID: <lhusea8hpg6.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
- <20260307140726.70219-2-dorjoychy111@gmail.com> <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
- <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
- <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com> <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
-In-Reply-To: <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 9 Mar 2026 09:50:18 -0700
-X-Gm-Features: AaiRm50Rb5608a_d1ziKt7e3a5xZPZu4oB7F4zw8iu_Gm1KsPQukeeL-PdrpHz4
-Message-ID: <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
-	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
-	hansg@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 3BF0623D30B
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Rspamd-Queue-Id: 6C70C23DC49
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[amacapital-net.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[amacapital.net];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5916-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[43];
+	RCPT_COUNT_TWELVE(0.00)[44];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-5917-lists,linux-api=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amacapital-net.20230601.gappssmtp.com:+];
-	NEURAL_HAM(-0.00)[-0.990];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,oldenburg.str.redhat.com:mid]
 X-Rspamd-Action: no action
 
-On Mon, Mar 9, 2026 at 1:58=E2=80=AFAM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> On Sun, Mar 08, 2026 at 10:10:05AM -0700, Andy Lutomirski wrote:
-> > On Sun, Mar 8, 2026 at 4:40=E2=80=AFAM Jeff Layton <jlayton@kernel.org>=
- wrote:
-> > >
-> > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
-> > > > On Sat, Mar 7, 2026 at 6:09=E2=80=AFAM Dorjoy Chowdhury <dorjoychy1=
-11@gmail.com> wrote:
-> > > > >
-> > > > > This flag indicates the path should be opened if it's a regular f=
-ile.
-> > > > > This is useful to write secure programs that want to avoid being
-> > > > > tricked into opening device nodes with special semantics while th=
-inking
-> > > > > they operate on regular files. This is a requested feature from t=
-he
-> > > > > uapi-group[1].
-> > > > >
-> > > >
-> > > > I think this needs a lot more clarification as to what "regular"
-> > > > means.  If it's literally
-> > > >
-> > > > > A corresponding error code EFTYPE has been introduced. For exampl=
-e, if
-> > > > > openat2 is called on path /dev/null with OPENAT2_REGULAR in the f=
-lag
-> > > > > param, it will return -EFTYPE. EFTYPE is already used in BSD syst=
-ems
-> > > > > like FreeBSD, macOS.
-> > > >
-> > > > I think this needs more clarification as to what "regular" means,
-> > > > since S_IFREG may not be sufficient.  The UAPI group page says:
-> > > >
-> > > > Use-Case: this would be very useful to write secure programs that w=
-ant
-> > > > to avoid being tricked into opening device nodes with special
-> > > > semantics while thinking they operate on regular files. This is
-> > > > particularly relevant as many device nodes (or even FIFOs) come wit=
-h
-> > > > blocking I/O (or even blocking open()!) by default, which is not
-> > > > expected from regular files backed by =E2=80=9Cfast=E2=80=9D disk I=
-/O. Consider
-> > > > implementation of a naive web browser which is pointed to
-> > > > file://dev/zero, not expecting an endless amount of data to read.
-> > > >
-> > > > What about procfs?  What about sysfs?  What about /proc/self/fd/17
-> > > > where that fd is a memfd?  What about files backed by non-"fast" di=
-sk
-> > > > I/O like something on a flaky USB stick or a network mount or FUSE?
-> > > >
-> > > > Are we concerned about blocking open?  (open blocks as a matter of
-> > > > course.)  Are we concerned about open having strange side effects?
-> > > > Are we concerned about write having strange side effects?  Are we
-> > > > concerned about cases where opening the file as root results in
-> > > > elevated privilege beyond merely gaining the ability to write to th=
-at
-> > > > specific path on an ordinary filesystem?
->
-> I think this is opening up a barrage of question that I'm not sure are
-> all that useful. The ability to only open regular file isn't intended to
-> defend against hung FUSE or NFS servers or other random Linux
-> special-sauce murder-suicide file descriptor traps. For a lot of those
-> we have O_PATH which can easily function with the new extension. A lot
-> of the other special-sauce files (most anonymous inode fds) cannot even
-> be reopened via e.g., /proc.
+* Andy Lutomirski:
 
-On the flip side, /proc itself can certainly be opened.  Should
-O_REGULAR be able to open the more magical /proc and /sys files?  Are
-there any that are problematic?
+> On the flip side, /proc itself can certainly be opened.  Should
+> O_REGULAR be able to open the more magical /proc and /sys files?  Are
+> there any that are problematic?
 
---Andy
+It seems reading from /proc/kmsg is destructive.  The file doesn't have
+an end, either.  It's more like a character device.  Apparently,
+/sys/kernel/tracing/trace_pipe is similar in that regard.  Maybe that's
+sufficient reason for blocking access?  Although the side effect does
+not happen on open.
+
+The other issue is the incorrect size reporting in stat, which affects
+most (all?) files under /proc and /sys.  Userspace has already to around
+that, though.
+
+Thanks,
+Florian
+
 
