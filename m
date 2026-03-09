@@ -1,127 +1,161 @@
-Return-Path: <linux-api+bounces-5914-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5915-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sNgfIJ/yrmnZKgIAu9opvQ
-	(envelope-from <linux-api+bounces-5914-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:17:35 +0100
+	id +DsGAhb5rmnZKgIAu9opvQ
+	(envelope-from <linux-api+bounces-5915-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:45:10 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0526023C93F
-	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:17:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7723423CF26
+	for <lists+linux-api@lfdr.de>; Mon, 09 Mar 2026 17:45:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6A7753007B8A
-	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2026 16:17:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CDCA4303EA9F
+	for <lists+linux-api@lfdr.de>; Mon,  9 Mar 2026 16:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690563D3013;
-	Mon,  9 Mar 2026 16:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05B5D2D3ED1;
+	Mon,  9 Mar 2026 16:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nGZzrxo7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZEI9R5ba"
 X-Original-To: linux-api@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3323B7B7C;
-	Mon,  9 Mar 2026 16:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D646519F13F;
+	Mon,  9 Mar 2026 16:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773073053; cv=none; b=BtGT+644BIJ/dNDN5R0MMUo+UDllsPCQdNxFV9uvoxDFBQ6g4QmuA62JMG7DZq7giL96QbnuULXM6gHlT8PEvWXWATZeC58k+51TauNP6fLHp9F62Wv4KwT5vr8mz9HkuPKDW02xlwEThPZ3Ca3ed3xKxPb+N2AHuUPWTxw6p3w=
+	t=1773074006; cv=none; b=LtOXYXaYRQov8VXK6eK1QWvX0Tc9CDAVEsxFFX5yz5LBsn38s8CSLqdRL222xsp+Cl5aDNFyYZS/r5GACr7QOwJznT5pambCn3IUkoxBwsHRxlxpECRMQQVWUENnBtJ/7bM1PmPYMzJeAlBytTG/OR/5c1SI36QLJM8ga4Aw/i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773073053; c=relaxed/simple;
-	bh=UD0dm+OloczYr1ek1MUFdc3Us4Kx5Rl5ZAUrOon9nzM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oiBGzOY6NjpIuxCtKfVrWQESKpxFOPECqXyKlUwk143l3396sLJaqvcjreOWNw9z690rcpNSyQLQ+L1pczLyPWms3IKRujiJ+8q7yKdgflwWBwwjyNRfbOM+0SRTaENzaDwDsvg4soA8cJ3UqeSYYYc/onFhsO3E27/0X0Ewtyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nGZzrxo7; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 89D2540429
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773073051; bh=T9zkIHLV7xrYDf350oGtXbmqwAFtsvJ1iVEnCrbfp4M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nGZzrxo7I84z8s+QcErmdbvT01e61IguJUf+4btWOjDP7YqjAaR4p+l+K4zdIu+F1
-	 oOxb/lRSBgwyUhoX6R44SeS6rxrg4nlQ+VupgTm+r9gvz8gXatCDIa1kLvEt+nyyI+
-	 0LeCVLXET5TlxNpZBZ5OK5ERGGwUfOoWUXduOV7hYaPseqLGlY85NJ4ef3soBVCRg9
-	 CRgg42kOeJjkFcanMcmHTKzjqE/iWUXKFkrzss2yHOXcbXAaXp9cG6H3biyoET1Bf7
-	 HwpuCCevWa4TVyPK1ztg8En06SWKv7wpM6Gk/N7BbY44lL+XffgnlcE2yJc86nHqF7
-	 yLde68mUltFsg==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 89D2540429;
-	Mon,  9 Mar 2026 16:17:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>, Peter Zijlstra
- <peterz@infradead.org>
-Cc: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
- linux-api@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Shashank Balaji
- <shashank.mahadasyam@sony.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] sched/deadline: document new sched_getattr() feature
- for retrieving current parameters for DEADLINE tasks
-In-Reply-To: <20260304102843.1373905-2-tommaso.cucinotta@santannapisa.it>
-References: <20260303104215.1324243-1-tommaso.cucinotta@santannapisa.it>
- <20260304102843.1373905-1-tommaso.cucinotta@santannapisa.it>
- <20260304102843.1373905-2-tommaso.cucinotta@santannapisa.it>
-Date: Mon, 09 Mar 2026 10:17:30 -0600
-Message-ID: <87ikb5vuxx.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1773074006; c=relaxed/simple;
+	bh=ygz6b1Si4VW69qQpKSJN76zIHZPw5r/aGibbXVcJ0ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Owp8mBHGLlYzvYrqVhltxRDxSG+s9hn8mHBdWaxAVzpNtE0UyETAD/ACN+R+dCRcKSqEsGHrhmxOGkLHiAX0w59l6L5fYxn2RA8CAUGP455YP5L6STUb2N+WzGGlbsrYh/lNGeiCcq4SmIxub1l7KQhnU3MK+qqBoXm/SmY8Lg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZEI9R5ba; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76FFAC4CEF7;
+	Mon,  9 Mar 2026 16:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773074006;
+	bh=ygz6b1Si4VW69qQpKSJN76zIHZPw5r/aGibbXVcJ0ug=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZEI9R5baFTuQ8CvPelSiLav4gZr37b4r8k2cdfp2pSEnJMZ0Mya+T3mIXFvAjbvGX
+	 uWDaCDScpWVuTHT656QVMxqkYk5Ac2dMX7MDAwsl1mQQna+9PSwmuOdYDsMjo9F3TV
+	 xS2mOtDOwxI9PAE+TRBVnKGxek/OFN+kzhN1UTRfoCI2Fk90nYnNls4p5yp/QcQTvg
+	 KGC0ufOQF/yTeTGoYqcLtD67dIFNtfwQrY+2bq17q+3sFhLYMhyTFCft3d8z5ek8qc
+	 gAFSwJB0YUUbbvWjml95YRwvYkhrGMcvFP5z8dzdeMyU0/KnUjYxFX2uQF4xQ7mamh
+	 aPgpFyP/Du6ug==
+Date: Mon, 9 Mar 2026 09:33:25 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: brauner@kernel.org, hch@lst.de, jack@suse.cz, cem@kernel.org,
+	kbusch@kernel.org, axboe@kernel.dk, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, gost.dev@samsung.com,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] fs: add generic write-stream management ioctl
+Message-ID: <20260309163325.GE6033@frogsfrogsfrogs>
+References: <20260309052944.156054-1-joshi.k@samsung.com>
+ <CGME20260309053427epcas5p23419afbe49e4e35526388601e162ee94@epcas5p2.samsung.com>
+ <20260309052944.156054-2-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 0526023C93F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309052944.156054-2-joshi.k@samsung.com>
+X-Rspamd-Queue-Id: 7723423CF26
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[lwn.net,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[lwn.net:s=20201203];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5914-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,infradead.org];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[lwn.net:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[corbet@lwn.net,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-5915-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.942];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[djwong@kernel.org,linux-api@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[trenco.lwn.net:mid,lwn.net:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,santannapisa.it:email]
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Tommaso Cucinotta <tommaso.cucinotta@gmail.com> writes:
+[cc linux-api because this is certainly an API definition]
 
-> Document in Documentation/sched/sched-deadline.rst the new capability of
-> sched_getattr() to retrieve, for DEADLINE tasks, the runtime left and absolute
-> deadline (setting the flags syscall parameter to 1), in addition to the static
-> parameters (obtained with flags=0).
->
-> Signed-off-by: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
-> Acked-by: Juri Lelli <juri.lelli@redhat.com>
+On Mon, Mar 09, 2026 at 10:59:40AM +0530, Kanchan Joshi wrote:
+> Wire up the userspace interface for write stream management via a new
+> vfs ioctl 'FS_IOC_WRITE_STEAM'.
+> Application communictes the intended operation using the 'op_flags'
+> field of the passed 'struct fs_write_stream'.
+> Valid flags are:
+> FS_WRITE_STREAM_OP_GET_MAX: Returns the number of available streams.
+> FS_WRITE_STREAM_OP_SET: Assign a specific stream value to the file.
+> FS_WRITE_STREAM_OP_GET: Query what stream value is set on the file.
+> 
+> Application should query the available streams by using
+> FS_WRITE_STREAM_OP_GET_MAX first.
+> If returned value is N, valid stream values for the file are 0 to N.
+> Stream value 0 implies that no stream is set on the file.
+> Setting a larger value than available streams is rejected.
+> 
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 > ---
->  Documentation/scheduler/sched-deadline.rst | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+>  include/uapi/linux/fs.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 70b2b661f42c..4d0805b52949 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -338,6 +338,18 @@ struct file_attr {
+>  /* Get logical block metadata capability details */
+>  #define FS_IOC_GETLBMD_CAP		_IOWR(0x15, 2, struct logical_block_metadata_cap)
+>  
+> +struct fs_write_stream {
+> +	__u32		op_flags;	/* IN: operation flags */
+> +	__u32		stream_id;	/* IN/OUT:  stream value to assign/guery */
+> +	__u32		max_streams;	/* OUT: max streams values supported */
+> +	__u32		rsvd;
+> +};
 
-Applied, thanks.
+This isn't an very cohesive interface -- GET_MAX probably only needs
+op_flags and max_streams, right?  And GET/SET only use op_flags and
+stream_id, right?
 
-jon
+> +#define FS_WRITE_STREAM_OP_GET_MAX		(1 << 0)
+> +#define FS_WRITE_STREAM_OP_GET			(1 << 1)
+> +#define FS_WRITE_STREAM_OP_SET			(1 << 2)
+> +
+> +#define FS_IOC_WRITE_STREAM		_IOWR('f', 43, struct fs_write_stream)
+
+EXT4_IOC_CHECKPOINT already took 'f' / 43.  I /think/ there's no problem
+because its argument is a u32 and ioctl definitions incorporate the
+lower bits of of the argument size but you might want to be careful
+anyway.
+
+--D
+
+>  /*
+>   * Inode flags (FS_IOC_GETFLAGS / FS_IOC_SETFLAGS)
+>   *
+> -- 
+> 2.25.1
+> 
+> 
 
