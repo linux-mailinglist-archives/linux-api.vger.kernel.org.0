@@ -1,195 +1,209 @@
-Return-Path: <linux-api+bounces-5921-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5922-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cL+hH2z0sGlcpAIAu9opvQ
-	(envelope-from <linux-api+bounces-5921-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 05:49:48 +0100
+	id iIISLuEgsWmOqwIAu9opvQ
+	(envelope-from <linux-api+bounces-5922-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 08:59:29 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E0225C09A
-	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 05:49:47 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC0625E4FB
+	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 08:59:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6694630F7F82
-	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 04:49:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 093363004602
+	for <lists+linux-api@lfdr.de>; Wed, 11 Mar 2026 07:59:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5EE0269CE6;
-	Wed, 11 Mar 2026 04:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5823B6C1B;
+	Wed, 11 Mar 2026 07:56:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="hwtIRhho"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ep5ux/fP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FA223ABA8;
-	Wed, 11 Mar 2026 04:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE7F3B27E4
+	for <linux-api@vger.kernel.org>; Wed, 11 Mar 2026 07:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773204585; cv=none; b=Zjvp2nLWcqKfs/TX/WDM94OYyswW+FDj4cxp4/vFk+l/mOD0QXilnpBLWPvsm9f5+wnxk3IjyTUouCa4rTL7x9oZINiOrH3Ewbc4iloftFsLx4wiInwOdzH8e9K2z/ZqCjEzyG81VONOKLZvZ9T7qnDX/Yu7+VJ2wnqSHbaArHs=
+	t=1773215791; cv=none; b=AqtuH6rR/f3xDB4nZXXoxadH0I9VNgKdMxozfuqj+yoO40sZrncAYcUjKHxoRuc0TPIwcEmYvEiFXoNN1Oofakz1IkSD4rR0JJJ/QqRMwmkIJZngnEIwiHTBhXrIwskcX7/TSlJ8ioPRRsiOimmxVeeIXnSjVOjhAcHv+6NkVB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773204585; c=relaxed/simple;
-	bh=luNAMKvhT3g6lZj4Bklpxcu5kotaBTWCH9qLtXuXCaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QnwmYe85pn1HNnu89H9Fvq69Nc4LF9OQB8X87MS2x6qMbT0D4ctI+qm5Kx+EceOLDdSvJQIijM9mnR0LOvHdlUUJNoUzPfinNFr2w5K7ql9svynUBtTCGVawvhagAwj4bfNPV9WHdmOtCMWntU/9vHABiwBdgdh9rk92aK7vxiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=hwtIRhho; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fVyvy3TbVz9v75;
-	Wed, 11 Mar 2026 05:49:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1773204574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jack6TdkHfubMZXj3t4BiSmX904hWsygllpLop+Gf9w=;
-	b=hwtIRhhoCxc2ZsNuUo0Icnvj7zQltMiaNclezRSyqc87wTc0wXe2NWtPTDDRE127dJXFTa
-	MCvirHZh8IiINxf7jg7PTdJYtUuDmCcpUYG4NR+HXoSIAKzshND6dvUCboZ1QPiY129i0p
-	vP6W/4Z8xKyvmGsmG0UVmuLtY8spR7CmaMu1rm8oyBUDj2N297M9U3vbYSmSuEgII2ps6v
-	EoQvRCIKwWGE9t+rxwSll9E6aSdYeE3eYYrNzVXpC0e5YOEIKqsC4w1Amkj3lkkGAd7FSr
-	N7xilzshuVk4hvo9TfDCZ4V5CdbP7DPW1inKdPlaPKLeY7uYE4a9QY7VVtwUug==
-Date: Wed, 11 Mar 2026 13:48:47 +0900
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	Jeff Layton <jlayton@kernel.org>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, 
-	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
-	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
-	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-Message-ID: <2026-03-11-regular-sore-census-shops-DqYcUT@cyphar.com>
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
- <20260307140726.70219-2-dorjoychy111@gmail.com>
- <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
- <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
- <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
- <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
+	s=arc-20240116; t=1773215791; c=relaxed/simple;
+	bh=FDmpie23sScGP+OdflWzKGb+2xENXEuu2nCfUaQR7H8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UqbF6pKK/9i19fYeKWgndQ7aOIhXqt9cG8hnQtr8+n85DmjIOtVES8xnndXJA1CPUVlTCc8HdXSgovTVjEWrQMoW2syZG6XZMoajq9+Ljot5SFLOp7/gB2HOEwvZaOmT1imj23F7guGGPGe8RvssXyd6hRryCgPaZjrUkZzwrkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ep5ux/fP; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4171ff4cb2cso1991652fac.1
+        for <linux-api@vger.kernel.org>; Wed, 11 Mar 2026 00:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773215787; x=1773820587; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRAOu3vndgNWWBgUC2jVEJ5hsRD9mDPq+B8T4vBDYFI=;
+        b=Ep5ux/fPJChFYDWKlpLfuOO1GEiWepqX5YSftIEKjejsYgGZEgeFdk7VC2EWhb8sjw
+         yZnAWSme2lhdMgJGZLPGlkWY87JyXHwKw4yrx4cKfk23r8vUdUGfRNsGcr3wepcvvpnX
+         +ZBiNo36lnBHhItUD6h+wVdvz4jzLaBKAlOq1ct3IXYo96QCzlMTTcFLlSNkm0Gy/73m
+         dbxk/35kkRGr+emMCJkLKVbfK+YxTXvDUZ1LCaE3Y2UvyHgKdd2b9BZSFfc8E3U8nK5s
+         GoY5MNQo7LXXV+p5HCmzioTWpk5jhKPwayapprzlHQmD1/h79E7bvS/tQtw1ERPogvQg
+         3hUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773215787; x=1773820587;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DRAOu3vndgNWWBgUC2jVEJ5hsRD9mDPq+B8T4vBDYFI=;
+        b=u6xhAiS96Uy834q4/9A8CQ+TEKDdrGLfKmR4KZO/dIW6oUT0Lnt0XOtg9+h5N6Rm8Z
+         e3hE4dRzxXtR1/ShPpLtc4hUAbwJQQPRifOMyvG4aCjD+Y2GJEWzVVuTcWO+rQvhwjKw
+         d24ovrIfMg8EIqPFQRg0TkONYpCxv62AjbX0WcU/sVBMK9jhJHatVOIZGgKBbvPySZWE
+         RrbtnT3i4vaoTjXO8CwB/hpL+ao8mLH3KnEC7TDSuSEHQGCeutY0SAagfzB6npK/EOc9
+         bYBxmDjtL8Jp/D7oe7EJNZqrq/912CcPxXID4O5b2IoGFYld/liE/ZvX1SGKJIGwA3aP
+         Ra0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUdvHyC9rrxkwsm8VNmcQnYtBKmPh5SyIVrf0W70kL8V2IHct6ZsecZ7AatqT6dXsnZlTsXh4Kd1mc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrG9WP4rT/NE0U9v4lsLzDtzcv1B5/eccE4MfUtdrc4mNjHlab
+	+YEyrKPk0z/XfYxqGJvGdP6dFlMLpfOk9wTYQWd5Nv25Ljx/Zb9iOKRD
+X-Gm-Gg: ATEYQzyuL7us3nyODxwmOVkA0NIzMijvUu9jBwZEafmqBo7DScSk1/VazkKRhCIizW5
+	xU6w5aNKrKAp28r0rp1DigASGkEon4eWrTUW/gq+1SdgE93jvsLJ1a1vDNLMIodKLUzGfZxs6VW
+	Ur6iUMFRyOzTfEOsDB7LXE573hBjxMMUG3M7NbmUxwlIUnNKC25gfTeZE3HNNu2R+og88kirORF
+	FoJb/0vsW9M98We0GdURcUEEeadq/FrLUX08l9HQIXphuHgoh+tSBYbN5zQEqVaPS6HBjFZfcu/
+	7G15Twm6naJK0nzvDc8VtNkLkcWf8F7rpACIwgP3AEKo0cV7ZQkKIquyWFicrs3KQXE9F0hJJ7p
+	EvcNK9K4JCI5fvrvsF2LGOKm44ZgzMVoVFc2fYRHnMzktZxg69rV7SDMqiCtCqbtPPzY04FsOZN
+	9MbifKhmABCzXGE+MZc66uK1DR1NaBrwTgjaaffZ7+IK9vzohX7Gppxf9/M6WLXvpaX9gVEnYdF
+	17RSychnVjL/mJCFcpK86iUhQjHY7TVJXC2b5U5XKod3bof
+X-Received: by 2002:a05:6871:8a5:b0:409:6862:aba5 with SMTP id 586e51a60fabf-4177ca9e65dmr1127232fac.25.1773215786910;
+        Wed, 11 Mar 2026 00:56:26 -0700 (PDT)
+Received: from localhost.localdomain (108-212-132-20.lightspeed.irvnca.sbcglobal.net. [108.212.132.20])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e6ae0e3sm1568938fac.16.2026.03.11.00.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 00:56:25 -0700 (PDT)
+From: Wesley Atwell <atwellwea@gmail.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	ncardwell@google.com,
+	dsahern@kernel.org,
+	matttbe@kernel.org,
+	martineau@kernel.org,
+	netdev@vger.kernel.org,
+	mptcp@lists.linux.dev
+Cc: kuniyu@google.com,
+	horms@kernel.org,
+	geliang@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	0x7f454c46@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	atwellwea@gmail.com
+Subject: [PATCH net 0/7] tcp: preserve advertised rwnd accounting across receive-memory decisions
+Date: Wed, 11 Mar 2026 01:55:53 -0600
+Message-Id: <20260311075600.948413-1-atwellwea@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bywgq3w2vtdgrqnx"
-Content-Disposition: inline
-In-Reply-To: <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
-X-Rspamd-Queue-Id: D5E0225C09A
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9BC0625E4FB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[cyphar.com,reject];
-	R_DKIM_ALLOW(-0.20)[cyphar.com:s=MBO0001];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5921-lists,linux-api=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-5922-lists,linux-api=lfdr.de];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,lwn.net,linuxfoundation.org,goodmis.org,efficios.com,gmail.com,vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[amacapital.net,kernel.org,gmail.com,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
-	RCPT_COUNT_TWELVE(0.00)[44];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FROM_NEQ_ENVFROM(0.00)[atwellwea@gmail.com,linux-api@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cyphar@cyphar.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[cyphar.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-api];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cyphar.com:dkim,cyphar.com:url,cyphar.com:mid]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
+This series keeps sender-visible TCP receive-window accounting tied to the
+scaling basis that was in force when the window was advertised.
 
---bywgq3w2vtdgrqnx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-MIME-Version: 1.0
+Problem
+-------
 
-On 2026-03-09, Christian Brauner <brauner@kernel.org> wrote:
-> > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
-> > > > I think this needs more clarification as to what "regular" means,
-> > > > since S_IFREG may not be sufficient.  The UAPI group page says:
-> > > >
-> > > > Use-Case: this would be very useful to write secure programs that w=
-ant
-> > > > to avoid being tricked into opening device nodes with special
-> > > > semantics while thinking they operate on regular files. This is
-> > > > particularly relevant as many device nodes (or even FIFOs) come with
-> > > > blocking I/O (or even blocking open()!) by default, which is not
-> > > > expected from regular files backed by =E2=80=9Cfast=E2=80=9D disk I=
-/O. Consider
-> > > > implementation of a naive web browser which is pointed to
-> > > > file://dev/zero, not expecting an endless amount of data to read.
-> > > >
-> > > > What about procfs?  What about sysfs?  What about /proc/self/fd/17
-> > > > where that fd is a memfd?  What about files backed by non-"fast" di=
-sk
-> > > > I/O like something on a flaky USB stick or a network mount or FUSE?
-> > > >
-> > > > Are we concerned about blocking open?  (open blocks as a matter of
-> > > > course.)  Are we concerned about open having strange side effects?
-> > > > Are we concerned about write having strange side effects?  Are we
-> > > > concerned about cases where opening the file as root results in
-> > > > elevated privilege beyond merely gaining the ability to write to th=
-at
-> > > > specific path on an ordinary filesystem?
->=20
-> I think this is opening up a barrage of question that I'm not sure are
-> all that useful. The ability to only open regular file isn't intended to
-> defend against hung FUSE or NFS servers or other random Linux
-> special-sauce murder-suicide file descriptor traps. For a lot of those
-> we have O_PATH which can easily function with the new extension. A lot
-> of the other special-sauce files (most anonymous inode fds) cannot even
-> be reopened via e.g., /proc.
+`tp->rcv_wnd` is an advertised promise to the sender, but later
+receive-memory admission and clamping could reconstruct that promise
+through the mutable live `scaling_ratio`. After ratio drift, the stack
+could retain or advertise a receive window that no longer matched the
+local hard rmem budget.
 
-Indeed, I see OPENAT2_REGULAR as a way of optimising the tedious checks
-that userspace does using O_PATH+/proc/self/fd/$n re-opening when
-dealing with regular files.
+Fix
+---
 
-For the problem of stuck NFS handles and so on, an idea I've had on my
-backlog for a long time was RESOLVE_NO_REMOTE that would block those
-kinds of things. IMHO it doesn't make sense to block those things with
-an O_* flag because (especially in the NFS example) directory components
-can also cause the syscall to block indefinitely and so RESOLVE_* flags
-make more sense for this anyway. But in my mind this is a separate
-problem to OPENAT2_REGULAR.
+- store the advertise-time scaling basis alongside `tp->rcv_wnd`
+- refresh that pair at the TCP and MPTCP receive-window write sites
+- consume the snapshot in receive-memory admission, clamping, and the
+  scaled-window quantization path
+- preserve the snapshot across `TCP_REPAIR_WINDOW` restore when userspace
+  provides it, and fall back safely when legacy userspace cannot
+- expose the accounting in tracepoints and cover the ABI/runtime contract
+  in selftests
 
---=20
-Aleksa Sarai
-https://www.cyphar.com/
+Series layout
+-------------
 
---bywgq3w2vtdgrqnx
-Content-Type: application/pgp-signature; name="signature.asc"
+1. track the receive-window snapshot state and helpers
+2. refresh the snapshot when TCP advertises or initializes windows
+3. use the snapshot in receive-memory admission and clamping
+4. extend `TCP_REPAIR_WINDOW` for exact restore plus legacy compatibility
+5. refresh the TCP shadow window snapshot in MPTCP
+6. expose rmem/backlog state in `rcvbuf_grow` tracepoints
+7. cover legacy and extended repair-window layouts in selftests
 
------BEGIN PGP SIGNATURE-----
+Testing
+-------
 
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCabD0LxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8NhAD+MfneuLAodU+abMZdkBr7
-4vpiPGD5MeVFeZmtEvqdIWkBAJeNjed85hr2GgmqbPaY2CpOcPAXut4kYqaCB9lM
-lHcK
-=vDl9
------END PGP SIGNATURE-----
+- `git diff --check origin/main..HEAD`
+- `scripts/checkpatch.pl --strict --show-types` on patches 1-7
+- `make -j8 headers`
+- `make -j8 net/ipv4/tcp_input.o net/ipv4/tcp_output.o net/ipv4/tcp_minisocks.o net/ipv4/tcp.o`
+- `make -j8 C=1 CF='-D__CHECK_ENDIAN__' W=1 net/ipv4/tcp_input.o net/ipv4/tcp_output.o net/ipv4/tcp_minisocks.o net/ipv4/tcp.o`
+- `make SPHINXDIRS='networking/net_cachelines' htmldocs`
+- `make -j8 vmlinux bzImage modules`
+- `make -C tools/testing/selftests/net/tcp_ao -j8`
+- `make -C tools/testing/selftests/net/mptcp -j8`
+- `packetdrill --dry_run` for `tcp_rcv_toobig.pkt` and
+  `tcp_rcv_toobig_default.pkt`
+- `virtme-run` guest pass for both packetdrill tests
+- feature-enabled guest pass for `restore_ipv4`, `self-connect_ipv4`, and
+  `mptcp_sockopt.sh`
 
---bywgq3w2vtdgrqnx--
+Thanks,
+Wesley
+
+---
+base-commit: 908c344d5cfa0ee6efb3226d22ea661e078ebfa0
+-- 
+2.43.0
+
 
