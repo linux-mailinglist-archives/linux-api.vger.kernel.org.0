@@ -1,227 +1,155 @@
-Return-Path: <linux-api+bounces-5936-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5937-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yJ9PFteJsml4NQAAu9opvQ
-	(envelope-from <linux-api+bounces-5936-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 10:39:35 +0100
+	id UEM4FqLBsmmvPAAAu9opvQ
+	(envelope-from <linux-api+bounces-5937-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 14:37:38 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C011926FB70
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 10:39:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1339272B7C
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 14:37:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B6CE3087FFF
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 09:38:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 68FE130870F6
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 13:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612263BA23A;
-	Thu, 12 Mar 2026 09:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AD4D375F88;
+	Thu, 12 Mar 2026 13:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="nEv3gFay"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="gnU7sgX+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA553B9DA5;
-	Thu, 12 Mar 2026 09:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6FC287247;
+	Thu, 12 Mar 2026 13:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773308298; cv=none; b=mYQ2MGCKJdaZsC3w9o14Jc63vPbjv66YGXOOgswutDFt2XM7bP8xG7P/Gcu+g4YsjYzQ92E28MBhOQ4PKcl7bb0rMV0zEqe17652F7nANTZVXUOT1MFr8PtIkPmq0N78QQvE5T535r5Bb5bxOopb5r+5yNxK+ix7DYHyHLJrpCk=
+	t=1773322654; cv=none; b=M5nOrS9EMvN78pM6bMLKVnnJYRLWJ2RRYxxO0lV74taxWmTI9vqlotNaGiz7MxPZgTMG/HCM0D7JGWa6eqKlHKfUo+NipGUht/JUEZFcKd3ZNgl8YwNHw9wMjQekwPZzCvm8K0yXbhhnFgAIZ9qBmygNvU0KnNllPwtIIPM4Fss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773308298; c=relaxed/simple;
-	bh=yFvK4TL7xsQGtUZ3aYppmkhAkjRmfVgtLz+/kUGSF4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CoTDjW+2b/6M+rLWtnoBASnq/C+QZInu9NhP/L7NamTOriDy0Bre16+Nhui4zTqJ1RopJkYeKmmbuidc+FsAUMyl2FxYQ/KVqNT5ApVLbzHm7XkGek6r765DToEWGwK3plP0PShagDFtS1JlRF5ZwoB3dF5QkpW44Yhc5LCdnTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=nEv3gFay; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fWjGL4f51z9tQg;
-	Thu, 12 Mar 2026 10:38:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1773308282;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T4nPgKWUxbLSsXAZ7xnpvCJoD9xpuvM/yonZzi7ZuXE=;
-	b=nEv3gFayAZ9w4Dp1cWiq1UcmZbr+AVxZWSDwTVJzyq2a7dTgA8EWt3TPcSPeAw3jej6OXW
-	Pcy6WVyRafrQdwLnMhWua8km15WTIsPP2Egxk8ctZ2kwiHp04CE+ci72MIAnUbB2X3uFr2
-	m9TbgCaTUcnFmJKSHe98mj5hqI3Qzay9DRe0Umfx2oh7eNC/jG4i1DJ1cS6QrP9wELYs37
-	/9UaaXlTa5JuDMVGuxNl72vYPCySNn0PNn4gl11j4ufYX2X3WGume6qmtDEr6kyiwR0x9C
-	cxiPW6KyqQRJuzfkOfZeC+MVhuRec3d3eJIEUNq8AGc2z7YeAIhaADmP9uHRBQ==
-Date: Thu, 12 Mar 2026 18:37:10 +0900
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, 
-	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
-	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
-	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-Message-ID: <2026-03-12-naughty-cyan-tower-bats-CiRzU7@cyphar.com>
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
- <20260307140726.70219-2-dorjoychy111@gmail.com>
- <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
- <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
- <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
- <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
- <2026-03-11-regular-sore-census-shops-DqYcUT@cyphar.com>
- <CALCETrVMF3VBr0cuEYOg-M_u+hX77Jfdujv3ZMtLGCzHgOcsGA@mail.gmail.com>
+	s=arc-20240116; t=1773322654; c=relaxed/simple;
+	bh=W/3UFYIepCKQNDtRw7KGgna9mxPbYPPxgbvCola4FIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LZc+404MZT+BYc9Jv3W/v7l9qY1Z4+t2DrbipLcV1U7qOp69WgB3xZifrO1fqtQEgYQUeqP9zpaJsRwXCcHXCrx4EPkm1Rgqh4UHTMsAyg0ly+23rMXTFdVRqA/w1TwPyaz/88Dqbeq4EnHpbFfjolAl0Hu+uwy2g/OYcKXYcRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=gnU7sgX+; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=QW/VJ5bXYT9+L2/lKaOGraKsrdVJllj+7+KwPHSB56E=; b=gnU7sgX+CMrostikPINY0eG1gJ
+	1INgJK04QTFcfB+uuFS65uojx5gsaWzxDqUsVGH6HoW6Bmo80/ibIeQkM+/TEKJPWaS4/C+DmTJBy
+	G7X9rsvnCMzF5+vtVrppljX9rChENuA2U/PLh7eAvnLiiERCYHBhNY7p/J/e7jFyjtZeJEKAVmhh6
+	/cqrmexhExqw7tU5zwexHc5Zn18uTVPzVRw30bWymZ1Og8C+URG0ldcfcxqTzccGYtYnxck0vTeP/
+	3yO5kRao7etThNNakXD7FBIPN1z/SCipmkfGYECayw8A4PGqQrdcxh+py8/Ar771CLL4lOfMSzMqz
+	B96Wh6lw==;
+Received: from [187.57.51.179] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1w0gDe-00EWDd-6d; Thu, 12 Mar 2026 14:36:54 +0100
+Message-ID: <a4ce33c5-af38-4f50-9358-056950a67b43@igalia.com>
+Date: Thu, 12 Mar 2026 10:36:47 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="i7hwymh2jbrl5osk"
-Content-Disposition: inline
-In-Reply-To: <CALCETrVMF3VBr0cuEYOg-M_u+hX77Jfdujv3ZMtLGCzHgOcsGA@mail.gmail.com>
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [RFC PATCH 1/2] futex: Create reproducer for robust_list race
+ condition
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Carlos O'Donell <carlos@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Florian Weimer <fweimer@redhat.com>,
+ Rich Felker <dalias@aerifal.cx>, Torvald Riegel <triegel@redhat.com>,
+ Darren Hart <dvhart@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, kernel-dev@igalia.com,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260220202620.139584-1-andrealmeid@igalia.com>
+ <20260220202620.139584-2-andrealmeid@igalia.com>
+ <20260312090445.4Zabebfp@linutronix.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20260312090445.4Zabebfp@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[cyphar.com,reject];
-	R_DKIM_ALLOW(-0.20)[cyphar.com:s=MBO0001];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5936-lists,linux-api=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
-	RCPT_COUNT_TWELVE(0.00)[44];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-5937-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cyphar@cyphar.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[cyphar.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-api];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amacapital.net:email]
-X-Rspamd-Queue-Id: C011926FB70
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.428];
+	TAGGED_RCPT(0.00)[linux-api];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B1339272B7C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Em 12/03/2026 06:04, Sebastian Andrzej Siewior escreveu:
+> On 2026-02-20 17:26:19 [-0300], André Almeida wrote:
+>> --- /dev/null
+>> +++ b/robust_bug.c
+> …
+>> +	new->value = ((uint64_t) value << 32) + value;
+>> +
+>> +	/* Create a backup of the current value */
+>> +	original_val = new->value;
+> 
+> Now that I finally got it and I might have understood the issue.
+> 
+> You exit before unlocking the futex. You free this block and this new
+> memory (address) is the same as the old one. Your corruption comes from
+> the fact that the old content is the same as the new content.
+> 
+> If the thread does unlock in userland (or kernel) but the lock remains
+> on the robust_list while it gets killed then the kernel will attempt to
+> unlock the lock. But this requires that the futex value matches the
+> value.
+> So if it is unlocked (0x0) or used again then nothing happens. Unless
+> the new memory gets the same value assigned as the pid value by
+> accident. Then it gets changed…
+> 
+> If the unlock did not happen and is still owned by the thread, that is
+> killed, then the "fixup" here is the right thing to do. The memory
+> should not be free()ed because the lock was still owned by the thread.
+> The misunderstanding here might be "once the thread is gone, the lock is
+> free we can throw away the memory". At the very least, it was a locked
+> mutex and I think pthread_mutex_destroy() would complain here.
+> 
+> So is the issue here that the "new" value is the same as the "old" value
+> and the robust-death-handle part in the kernel does its job? Or did I
+> over simplify something?
+> Let me continue with the thread…
+> 
 
---i7hwymh2jbrl5osk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-MIME-Version: 1.0
+Yes, this is exactly what I understood as well.
 
-On 2026-03-11, Andy Lutomirski <luto@amacapital.net> wrote:
-> On Tue, Mar 10, 2026 at 9:49=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> =
-wrote:
-> >
-> > On 2026-03-09, Christian Brauner <brauner@kernel.org> wrote:
-> > > > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
-> > > > > > I think this needs more clarification as to what "regular" mean=
-s,
-> > > > > > since S_IFREG may not be sufficient.  The UAPI group page says:
-> > > > > >
-> > > > > > Use-Case: this would be very useful to write secure programs th=
-at want
-> > > > > > to avoid being tricked into opening device nodes with special
-> > > > > > semantics while thinking they operate on regular files. This is
-> > > > > > particularly relevant as many device nodes (or even FIFOs) come=
- with
-> > > > > > blocking I/O (or even blocking open()!) by default, which is not
-> > > > > > expected from regular files backed by =E2=80=9Cfast=E2=80=9D di=
-sk I/O. Consider
-> > > > > > implementation of a naive web browser which is pointed to
-> > > > > > file://dev/zero, not expecting an endless amount of data to rea=
-d.
-> > > > > >
-> > > > > > What about procfs?  What about sysfs?  What about /proc/self/fd=
-/17
-> > > > > > where that fd is a memfd?  What about files backed by non-"fast=
-" disk
-> > > > > > I/O like something on a flaky USB stick or a network mount or F=
-USE?
-> > > > > >
-> > > > > > Are we concerned about blocking open?  (open blocks as a matter=
- of
-> > > > > > course.)  Are we concerned about open having strange side effec=
-ts?
-> > > > > > Are we concerned about write having strange side effects?  Are =
-we
-> > > > > > concerned about cases where opening the file as root results in
-> > > > > > elevated privilege beyond merely gaining the ability to write t=
-o that
-> > > > > > specific path on an ordinary filesystem?
-> > >
-> > > I think this is opening up a barrage of question that I'm not sure are
-> > > all that useful. The ability to only open regular file isn't intended=
- to
-> > > defend against hung FUSE or NFS servers or other random Linux
-> > > special-sauce murder-suicide file descriptor traps. For a lot of those
-> > > we have O_PATH which can easily function with the new extension. A lot
-> > > of the other special-sauce files (most anonymous inode fds) cannot ev=
-en
-> > > be reopened via e.g., /proc.
-> >
-> > Indeed, I see OPENAT2_REGULAR as a way of optimising the tedious checks
-> > that userspace does using O_PATH+/proc/self/fd/$n re-opening when
-> > dealing with regular files.
->=20
-> Can you give a brief decription or a link to what these checks are and
-> what problem they solve?
-
-There are a few variations, but in this particular case they are just
-doing fstat() and then checking whether the file is a regular file
-(i.e., S_IFREG) or not.
-
-A container rootfs can contain arbitrary files (because container images
-are just tar archives, usually with no restrictions on inodes -- a fair
-few container runtimes assume that the devices cgroup is sufficient to
-protect against the container overwriting your rootfs). The S_IFREG
-check avoids an administrative process from being tricked into opening a
-block device or an endlessly-streaming FIFO -- if you also use
-RESOLVE_NO_XDEV you can also make sure that you don't land on procfs or
-sysfs by accident.
-
-I will say that in a previous version of this patchset I said that I
-would prefer this be done with an allow-bitmask of S_IFMT rather than a
-single O_REGULAR toggle -- this would allow for usecases such as "only
-open a regular file or directory" (inode_type_can_chattr() from systemd
-is a practical example of this kind of usage) or "anything except for
-block/char devices", but the definition of S_IFBLK (S_IFCHR|S_IFDIR)
-makes this a little too ugly. :/
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---i7hwymh2jbrl5osk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCabKJRRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+vawEA1WxGEhn5Rc+wid/VGVxs
-yznMgHiA2Xe1m0YMiUy78u4BAJfditiWc61238EqwnDAWlH4X0xzDBvmXWOUuex3
-vw0K
-=3QVZ
------END PGP SIGNATURE-----
-
---i7hwymh2jbrl5osk--
+User thread A releases the lock, but exits before setting op_pending = 
+NULL. Thread B can free the lock after using it, and by chance needs to 
+use the same value as the PID in the same memory. Then thread A do the 
+robust list handle inside the kernel and the corruption happens.
 
