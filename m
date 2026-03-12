@@ -1,155 +1,176 @@
-Return-Path: <linux-api+bounces-5937-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5938-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEM4FqLBsmmvPAAAu9opvQ
-	(envelope-from <linux-api+bounces-5937-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 14:37:38 +0100
+	id +EDjH7Ups2ksSwAAu9opvQ
+	(envelope-from <linux-api+bounces-5938-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 22:01:41 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1339272B7C
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 14:37:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274A6279AFD
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 22:01:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68FE130870F6
-	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 13:37:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 92E44304C0B5
+	for <lists+linux-api@lfdr.de>; Thu, 12 Mar 2026 21:01:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AD4D375F88;
-	Thu, 12 Mar 2026 13:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BD0B1DDC28;
+	Thu, 12 Mar 2026 21:01:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="gnU7sgX+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YY71qaVz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6FC287247;
-	Thu, 12 Mar 2026 13:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C67A2D7804
+	for <linux-api@vger.kernel.org>; Thu, 12 Mar 2026 21:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773322654; cv=none; b=M5nOrS9EMvN78pM6bMLKVnnJYRLWJ2RRYxxO0lV74taxWmTI9vqlotNaGiz7MxPZgTMG/HCM0D7JGWa6eqKlHKfUo+NipGUht/JUEZFcKd3ZNgl8YwNHw9wMjQekwPZzCvm8K0yXbhhnFgAIZ9qBmygNvU0KnNllPwtIIPM4Fss=
+	t=1773349291; cv=none; b=b1hm5cd928yFd1ApkHtg4qsiIk2dp4w3P/x6ybFkjKvlrDNXEGAvaDyG+iOKK+v6CEAL3TPDMMBmFuaeOQZl+d6J/eOSMxiey1hHzN58min0aE7vN41fMLHXSk4YjgwuLDe8hnfk4hRb32VTQJhQ2AnwKE/H4C0WyLGnSLfHjxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773322654; c=relaxed/simple;
-	bh=W/3UFYIepCKQNDtRw7KGgna9mxPbYPPxgbvCola4FIQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LZc+404MZT+BYc9Jv3W/v7l9qY1Z4+t2DrbipLcV1U7qOp69WgB3xZifrO1fqtQEgYQUeqP9zpaJsRwXCcHXCrx4EPkm1Rgqh4UHTMsAyg0ly+23rMXTFdVRqA/w1TwPyaz/88Dqbeq4EnHpbFfjolAl0Hu+uwy2g/OYcKXYcRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=gnU7sgX+; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=QW/VJ5bXYT9+L2/lKaOGraKsrdVJllj+7+KwPHSB56E=; b=gnU7sgX+CMrostikPINY0eG1gJ
-	1INgJK04QTFcfB+uuFS65uojx5gsaWzxDqUsVGH6HoW6Bmo80/ibIeQkM+/TEKJPWaS4/C+DmTJBy
-	G7X9rsvnCMzF5+vtVrppljX9rChENuA2U/PLh7eAvnLiiERCYHBhNY7p/J/e7jFyjtZeJEKAVmhh6
-	/cqrmexhExqw7tU5zwexHc5Zn18uTVPzVRw30bWymZ1Og8C+URG0ldcfcxqTzccGYtYnxck0vTeP/
-	3yO5kRao7etThNNakXD7FBIPN1z/SCipmkfGYECayw8A4PGqQrdcxh+py8/Ar771CLL4lOfMSzMqz
-	B96Wh6lw==;
-Received: from [187.57.51.179] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1w0gDe-00EWDd-6d; Thu, 12 Mar 2026 14:36:54 +0100
-Message-ID: <a4ce33c5-af38-4f50-9358-056950a67b43@igalia.com>
-Date: Thu, 12 Mar 2026 10:36:47 -0300
+	s=arc-20240116; t=1773349291; c=relaxed/simple;
+	bh=2m0TEEdToE0XfmBlxsTZbLjAe5WXrhF8lZof/Tgjw3A=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=X9iUSCio6dOlxcFC3qFJz5l13PLOu8r+TitqRYpemEzaVS+yShcp9LU4iAPrn9MZdvy5pwscAT91pjTlzdVBWTKwcVre6hVU4rFLt0ODmClCPQgZaMYQLbcLP/o/coIfI7DOyCIazX03aZK15EELJl1WtD0vAHY8s3e/MFLhbiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YY71qaVz; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b8a3f2bcso1154003f8f.3
+        for <linux-api@vger.kernel.org>; Thu, 12 Mar 2026 14:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773349287; x=1773954087; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2m0TEEdToE0XfmBlxsTZbLjAe5WXrhF8lZof/Tgjw3A=;
+        b=YY71qaVz1Ikyg9nyE+j1p1xLFMUF5CX40C8Bf188Ai9o06NH1OgjglwAuHI2HJ+eKH
+         cgUQTg3UCGPWHn6Ym13OoQSfrw6T7X63TKLmYHMTloW0BiwVdvJSLQhjbUck9lxUyLP7
+         UFUSwjwQR0xVM3cBqtNYHTi4p+B7wIqArdCNnVzmSMpyEDPebMK97BMSK4yN5rNyIXbr
+         b0RRaJ37cFRjXohQwk5c1VxZ7NkLH5Eof1Edhs0Yz8Q7nKZvLg5BYLRw36mwE0qmJjyJ
+         +ZOP37kdvywkqMehhmOdS1qVkJ86cNcRoIQ0ueVoKfPalsjn0Ui353RAKySLh0JWg+h5
+         LiZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773349287; x=1773954087;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2m0TEEdToE0XfmBlxsTZbLjAe5WXrhF8lZof/Tgjw3A=;
+        b=NY4YaHzU1nh2od7qQ7x59Vf61Nvgx7oBLvI4rsPhLMICbTAI2j5B0NmS8M4bAchHXk
+         mWiMTCjqQOHRq60JK9GrH8sztlgn33g6zuI/ij/sf9aC9gPfnqkp9ZIhcaZ/Ya7NHFf7
+         /Z7tRZQTYMxQbTYXfbjZgle7RB//OhzNUlGeTBdvITGfVnfEsuKcnvpYx/ojSGwHPaNe
+         wl6h/HG0tU6x3/wyknMYVaCzXHo9nUErm5mTd3311YJRBByo9njDKx7c7BLK1s/K8hn9
+         4QO6ppvVaGpo12gILEIDxbGvvYAwcoif92s5n8FhW8eTfvG2hsGvJ5esGno60jDRzDB3
+         sAiA==
+X-Gm-Message-State: AOJu0YyM771mWxv4llrbDps1mFkwuio1WcDacB0NlGz2hAEkoFD2MgyQ
+	8uXpGm/7UrfNpvu08xCwoM2mKyVVGEjkbTWNkfCi+nqBaCI9SUTQoMJRRheci2S+3RpdeQ==
+X-Gm-Gg: ATEYQzwL0EMmgVEM4WaSGZ1WfdPa3IXJzN/tZR/5cUhOye+7JYin9CvlHMcXOFjraSG
+	tZVKNappqIyL6ly4UD4dEVPBSLWllxau55eODW2H3bT/jl/qivUSdaJsSFSWRdgHK9vIl0k6yKT
+	H63ShffSsjMGrT5RdRPAp9PK2bstV01t/Sf3QwWXISuB6nr3NFexDPDtFOln2UL/sCZnT1Db5F7
+	lVFlYlDc1p8uyRnwwz+TsHB6/Bun2NB5xtO/Nudivu5zYHETQwhWR1WtfkVgNXidD2J1eInLxIx
+	nODrC8PfbhRmfUOwLs0pcSpq/QCDuoyCdyWNWQakPkP9V0CE+iaDQUKvodyan/Afx8FAV7pMjom
+	BvRRYtkeClyDdgFH2nOXeoXk6I55LTgtW5dOoZVf3I5QUGQJ3vzGv/tOHO08VVGPzsFu2Q6WwaE
+	p7R7gfgIPQhc6ASiMbJ51QlbcKNnoWwSbnhRMK5bSh0aaYZ1ZPRfb3xVC9Wv9/NJpcLUPKZ/c+3
+	lG+X3qZ9vAzYwoCQXA=
+X-Received: by 2002:a05:6000:220e:b0:439:b541:a088 with SMTP id ffacd0b85a97d-43a04dc8654mr1897210f8f.54.1773349287324;
+        Thu, 12 Mar 2026 14:01:27 -0700 (PDT)
+Received: from [192.168.1.14] (mm-214-205-122-178.mgts.dynamic.pppoe.byfly.by. [178.122.205.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe22f3a4sm11813928f8f.38.2026.03.12.14.01.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2026 14:01:26 -0700 (PDT)
+Message-ID: <660c10e6-f8b5-46e2-a424-e3e052992b3a@gmail.com>
+Date: Fri, 13 Mar 2026 00:01:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC PATCH 1/2] futex: Create reproducer for robust_list race
- condition
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Carlos O'Donell <carlos@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Florian Weimer <fweimer@redhat.com>,
- Rich Felker <dalias@aerifal.cx>, Torvald Riegel <triegel@redhat.com>,
- Darren Hart <dvhart@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Arnd Bergmann <arnd@arndb.de>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, kernel-dev@igalia.com,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260220202620.139584-1-andrealmeid@igalia.com>
- <20260220202620.139584-2-andrealmeid@igalia.com>
- <20260312090445.4Zabebfp@linutronix.de>
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20260312090445.4Zabebfp@linutronix.de>
+From: Roman Bakshansky <bakshansky.lists@gmail.com>
+Subject: [RFC] Modernizing Linux authentication logs (lastlog, btmp, utmp,
+ wtmp) with SQLite
+To: linux-api@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, audit@vger.kernel.org,
+ libc-alpha@sourceware.org
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.36 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5937-lists,linux-api=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5938-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.428];
-	TAGGED_RCPT(0.00)[linux-api];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bakshanskylists@gmail.com,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	TAGGED_RCPT(0.00)[linux-api];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B1339272B7C
+X-Rspamd-Queue-Id: 274A6279AFD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Em 12/03/2026 06:04, Sebastian Andrzej Siewior escreveu:
-> On 2026-02-20 17:26:19 [-0300], André Almeida wrote:
->> --- /dev/null
->> +++ b/robust_bug.c
-> …
->> +	new->value = ((uint64_t) value << 32) + value;
->> +
->> +	/* Create a backup of the current value */
->> +	original_val = new->value;
-> 
-> Now that I finally got it and I might have understood the issue.
-> 
-> You exit before unlocking the futex. You free this block and this new
-> memory (address) is the same as the old one. Your corruption comes from
-> the fact that the old content is the same as the new content.
-> 
-> If the thread does unlock in userland (or kernel) but the lock remains
-> on the robust_list while it gets killed then the kernel will attempt to
-> unlock the lock. But this requires that the futex value matches the
-> value.
-> So if it is unlocked (0x0) or used again then nothing happens. Unless
-> the new memory gets the same value assigned as the pid value by
-> accident. Then it gets changed…
-> 
-> If the unlock did not happen and is still owned by the thread, that is
-> killed, then the "fixup" here is the right thing to do. The memory
-> should not be free()ed because the lock was still owned by the thread.
-> The misunderstanding here might be "once the thread is gone, the lock is
-> free we can throw away the memory". At the very least, it was a locked
-> mutex and I think pthread_mutex_destroy() would complain here.
-> 
-> So is the issue here that the "new" value is the same as the "old" value
-> and the robust-death-handle part in the kernel does its job? Or did I
-> over simplify something?
-> Let me continue with the thread…
-> 
+Hi all,
 
-Yes, this is exactly what I understood as well.
+I'd like to share a draft RFC proposing a complete overhaul of the legacy
+binary logs used for authentication auditing in Linux: lastlog, btmp, utmp,
+and wtmp.
 
-User thread A releases the lock, but exits before setting op_pending = 
-NULL. Thread B can free the lock after using it, and by chance needs to 
-use the same value as the PID in the same memory. Then thread A do the 
-robust list handle inside the kernel and the corruption happens.
+These files, designed decades ago, are running into fundamental limitations:
+
+- Y2038 problem - they use 32-bit timestamps (time_t in lastlog,
+   tv_sec in utmpx). Even on 64-bit systems the fields remain 32-bit
+   due to ABI constraints, so all Linux systems are affected.
+- No extensibility - any new field (e.g., container ID, service name,
+   source IP) requires changing fixed structures, breaking all existing
+   tools that read them.
+- Poor query performance - tools like last, lastb, who have to
+   scan whole files linearly; with millions of records this becomes
+   painfully slow.
+- No atomicity - partial writes during a crash can corrupt logs.
+- Concurrency bottlenecks - multiple writers (sshd, login, etc.)
+   contend for the same file with coarse locking.
+
+To address this once and for all, the RFC proposes replacing these logs
+with dedicated shared libraries that use SQLite as the storage backend:
+
+- liblastlog2 - last login time
+- libbtmp2    - failed login attempts
+- libutmp2    - current sessions
+- libwtmp2    - login/logout history
+
+SQLite brings:
+- 64-bit time -> Y2038 solved forever.
+- Indexes -> O(log N) queries instead of full scans.
+- Extensible schema -> new fields can be added without breaking old tools.
+- ACID and WAL mode -> atomic writes and concurrent access.
+- Portability - runs on any Linux system, no systemd dependency.
+
+The full RFC, including preliminary database schemas and API drafts,
+is available in the discussion repository:
+
+     https://github.com/bakshansky/linux-auth-logs
+
+I'm looking for feedback on the overall direction, the proposed
+interfaces, and the open questions listed in the document (e.g.,
+library naming, database location, fallback options for embedded
+systems). Please use GitHub Issues for comments, or reply to this
+thread - I'll monitor both.
+
+Thanks for your time and input!
+
 
