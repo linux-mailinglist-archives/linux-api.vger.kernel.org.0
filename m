@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-5956-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5957-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WNHzCiEztGn4igAAu9opvQ
-	(envelope-from <linux-api+bounces-5956-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:54:09 +0100
+	id yAc5ENUztGn4igAAu9opvQ
+	(envelope-from <linux-api+bounces-5957-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:57:09 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A517286660
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:54:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBFD286739
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:57:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD05130D86BF
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:49:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2BDA73065706
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:52:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3017435F19F;
-	Fri, 13 Mar 2026 15:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEFA035F613;
+	Fri, 13 Mar 2026 15:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1Li2zfiB"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XqOmm3A0"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F00735F183;
-	Fri, 13 Mar 2026 15:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8972235E94B;
+	Fri, 13 Mar 2026 15:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773416973; cv=none; b=NPlMougPw2a6tTlocKg8EHdE3aJQH2vHgLRX1QKYSttpMXhoF6gHTZp4xF5xiRKTxdywzUMFKMmQ842RNtqCrDYxERmCuwL1rowT/cBjFgDUVxq0XvPKzvOEhutskTZNPbWi5kNCS/FsMNhOKYEsElKRrugOVBYhz5qa4pE7nns=
+	t=1773417155; cv=none; b=u7NHl7NVuGNHFkWufwo3U8eA4qW7f8LcgFgfrLI52jsw8JAQfxHuCXbL8QJOEh1nY/pFPaeQJ72d36rfi8Z/A65DO0bfAkQLA1tORSMczy6RdE9yG/9qrLHTkx7Z99VP3MT0kNC+D80x828l9Y1RbCR12wNSxgj7mvNPH892WuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773416973; c=relaxed/simple;
-	bh=y+DTNVJV9nqWfR3Hajp0ic/eCXFjLQRn7oaLbm1czrs=;
+	s=arc-20240116; t=1773417155; c=relaxed/simple;
+	bh=cLD4UeOXJEUjkMvUeEZ9aUKn0n85Sd7Thbn1qGBM0uo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XBx4EBuvEi55WKUJWZjlhYE3tog8PdAROhNN+CRX15wWAp24IpCWj20yhuJHNWtteysd6HN1YtJDbHawMb6PvVVObcyCsKyeLW7I3hRy33romty2Fecorr0XfkuZ7Y2t+HEeM7FIgMl8xfqODFwjTZFnhB+QzEUeF6Ftv20wMIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1Li2zfiB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D6B3C19421;
-	Fri, 13 Mar 2026 15:49:32 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4iGlZLhYkIV7tjDL2IRxRJRh++h7GciVJqF9W/ZXX/CDPuCleA2RpqKPptCYSAJePVtKwcZ08IoD6U18bcuH/JnK3xC09U/llpZEYOmZwhciD01+Q1zqGUOtIBl6DYZxvUAZh470Mi/vzwdIvAdgzG8t1wQd9PQAPRnb9ZUxRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XqOmm3A0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA18C19425;
+	Fri, 13 Mar 2026 15:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773416973;
-	bh=y+DTNVJV9nqWfR3Hajp0ic/eCXFjLQRn7oaLbm1czrs=;
+	s=korg; t=1773417155;
+	bh=cLD4UeOXJEUjkMvUeEZ9aUKn0n85Sd7Thbn1qGBM0uo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1Li2zfiBdoFhZSpi/L3Ur+Us+a4u3Vl0xXJC4vp3dN81VQkqN7CKhwpqB00eyI4ZP
-	 MGTNbEu+QFag8iw1CLOnC+hZSnTFVJn4FRO8VtmGuNkaxzM9p3x7DGgkAWdDlit27A
-	 9Y+0FCeFViFWmXcsFrwvWJpvujIycM4yGbFiriu8=
-Date: Fri, 13 Mar 2026 16:49:28 +0100
+	b=XqOmm3A0UZs9o+49rm7NCPNLl6y2BgofzBQ/MVdHloql3+txX9ZVv6nIClHxFk7D0
+	 NxcnY6lKcEMxCqba0hVKiM+eb5ldNI4tGaTnjM5MliA8h9J3pZ6UQkctN7+z79HObz
+	 E3+AUjS96c53npC+NNUFW0NFVEnBwWvYXdq7mx7I=
+Date: Fri, 13 Mar 2026 16:52:30 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -66,7 +66,7 @@ Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Subject: Re: [PATCH 6/9] kernel/api: add API specification for sys_close
-Message-ID: <2026031348-deceiving-calculate-0017@gregkh>
+Message-ID: <2026031321-steadfast-fang-ba42@gregkh>
 References: <20260313150928.2637368-1-sashal@kernel.org>
  <20260313150928.2637368-7-sashal@kernel.org>
 Precedence: bulk
@@ -85,12 +85,12 @@ X-Spamd-Result: default: False [3.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5956-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5957-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -104,22 +104,37 @@ X-Spamd-Result: default: False [3.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[linuxfoundation.org:+];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7A517286660
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9FBFD286739
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On Fri, Mar 13, 2026 at 11:09:16AM -0400, Sasha Levin wrote:
-> + *   Calling close() on a file descriptor while another thread is using it
-> + *   (e.g., in a blocking read() or write()) has implementation-defined
-> + *   behavior. On Linux, the blocked operation continues on the underlying
-> + *   file and may complete even after close() returns.
+> + * notes: This syscall has subtle non-POSIX semantics: the fd is ALWAYS closed
+> + *   regardless of the return value. POSIX specifies that on EINTR, the state
+> + *   of the fd is unspecified, but Linux always closes it. HP-UX requires
+> + *   retrying close() on EINTR, but doing so on Linux may close an unrelated
+> + *   fd that was reassigned by another thread. For portable code, the safest
+> + *   approach is to check for errors but never retry close().
 
-I'm guessing this came from the man pages?  This is Linux, so we are the
-"implementation" here :)
+We don't care about HP-UX :)
+
+> + *   Error codes from the flush callback (EIO, ENOSPC, EDQUOT) indicate that
+> + *   previously written data may have been lost. These errors are particularly
+> + *   common on NFS where write errors are often deferred to close time.
+
+What flush callback?
+
+
+> + *
+> + *   The driver's release() callback errors are explicitly ignored by the
+> + *   kernel, so device driver cleanup errors are not propagated to userspace.
+
+What "The driver" here?  release() callbacks aren't really relevant
+here.
 
 thanks,
 
