@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-5958-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5959-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNRxMwI7tGk4jQAAu9opvQ
-	(envelope-from <linux-api+bounces-5958-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 17:27:46 +0100
+	id sEpsJZE+tGnZjgAAu9opvQ
+	(envelope-from <linux-api+bounces-5959-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 17:42:57 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E67286FFA
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 17:27:46 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC50A2874D1
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 17:42:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7F039301062D
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:27:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B7EE7300692E
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 16:42:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48883612EE;
-	Fri, 13 Mar 2026 16:27:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 724F93C4576;
+	Fri, 13 Mar 2026 16:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5ys7i1O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uslgCbXS"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC613019A6;
-	Fri, 13 Mar 2026 16:27:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5093C6A58;
+	Fri, 13 Mar 2026 16:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773419254; cv=none; b=lgC/OH9YrVxY6l4kEHIlsjYOdMT/kKp5buRr6/RuVOxqQSGL97oNXFuKcYGm54NQm3Z8RFwdqutUQOSztmMnXhHHURGjO21qVmkm4jRfq0yG/wnvM+roJBeYN/W32Pi6by4a0udtS/bXIMtArVuxIiQ6XkLMEFDzLRki1AsV75A=
+	t=1773420170; cv=none; b=Spq9zIrtY4Dflnwik612AJEVq/ioopRBkfLKNy3b3xXUQwUemhe8xwqE8jr89zOAmfPq179rF+ixDLI5tY40kB6XBis6cs8LCkwiql7SRUzwuEw7bg9MPRxqLRfzKayIpRttX3ughlVNALaXGMIFMFCtopbFpedY55lj0z7ftuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773419254; c=relaxed/simple;
-	bh=/eJtS8h0mKw/fLWieWSxlYbg5ksWap1zDbR7F4gZ0Bk=;
+	s=arc-20240116; t=1773420170; c=relaxed/simple;
+	bh=mOMRfWZSfcHpPwf4Ag5513CQUKEpRHtLy20Sld+Kv/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXg9wbU8h2lAhbV2qBl7rpN8CD/6gFh+gIS8t4hWRXVh2K2C5yvG8I99rzHmqmaJ9ndK90EL6Qn/HZiCqRSrINDHJDAYuaKoB26CEeiC38erp9DbHbFUsnRGJmhQUBlWCiSE4FX8AWvcuhTz5OHFG03kuWVvoz1x76bnDBsLfRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5ys7i1O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B561C19421;
-	Fri, 13 Mar 2026 16:27:34 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jrqbFfFw3u3A/i6J/KDzQTL+1jEKQZlSBI926El1BZxqISM+lLf0eqoF3KU9DhWGUlPqp7aQLZ7es8o/DxPgMFN9N106pficL6Ko+E5bYLZuYNkbi2YAPtt9J8ccW/cTTpnImhUMch6Z8QM0tVTi4Qs/WclpGEhbtKaGfzvPCVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uslgCbXS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A654C19421;
+	Fri, 13 Mar 2026 16:42:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773419254;
-	bh=/eJtS8h0mKw/fLWieWSxlYbg5ksWap1zDbR7F4gZ0Bk=;
+	s=k20201202; t=1773420169;
+	bh=mOMRfWZSfcHpPwf4Ag5513CQUKEpRHtLy20Sld+Kv/M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g5ys7i1O4Oyyqudvfshayx5x83ZBrEEd0hPy5o7hcH9EDWSkBdxYYZhK0r1GGyM5G
-	 syCsC3eq1DUtsRKhNj21oAjko603bAQ8oYUQSwVNYXJYnpkqJrZrzL+Qr9e/x3BaDJ
-	 M37e6xzk+OxV1qR3jc4v11SJY98DLwi/oLO/z/dp5RHapEBh2nFHW1mxc2t1ayskjP
-	 OgjJTag8HwIxlnqHx55zKZEE15NKqEvjn2la7wrAn7lMgyKNFTLEAaJPUj811LesBL
-	 GRHk15xq6KF2kJ/9MYge7WEDYF85dN+2wkTaIg/SiwbDVxI2Mij/HaLc6uTCfqkcto
-	 kSe137WPVc22w==
-Date: Fri, 13 Mar 2026 12:27:32 -0400
+	b=uslgCbXSWlzcoh5Pzs7r+w6oVsO+vyT3U4f/2HUficc91TwkuDFpfVRv0yyT4FCw7
+	 Bs4kfp1acZcs8pBHh0zq8RjhBf4eipAl9h0DhruYAGukhmLwPKNuypPqdLbRqS414B
+	 8HlmUu7whGV6r4xiGbwG3e7qx24vIArR+qFnHLqZ6kWBcABaK+WFiVoQ7DF5vaHZrK
+	 1TUCRhIZplQCv3bh4QxRZarp891Y0+n8d0w2+lZMHQEZONB7vtHTc2pN0S7QEnVMom
+	 2I6SEtC4qpXdAb78OSmHe1LQl7lzvzczr9DF6prhZu77Rk7YygPH2mg0hpioQ0K+x6
+	 95rys0lRapmGg==
+Date: Fri, 13 Mar 2026 12:42:48 -0400
 From: Sasha Levin <sashal@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -68,12 +68,11 @@ Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <abQ69FmtBqXX6Irz@laps>
+Subject: Re: [PATCH 5/9] kernel/api: add API specification for sys_open
+Message-ID: <abQ-iIylzpuqlRv3@laps>
 References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-4-sashal@kernel.org>
- <2026031301-duplicate-finalist-b7a5@gregkh>
+ <20260313150928.2637368-6-sashal@kernel.org>
+ <2026031343-raft-panhandle-0a21@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -82,18 +81,18 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <2026031301-duplicate-finalist-b7a5@gregkh>
+In-Reply-To: <2026031343-raft-panhandle-0a21@gregkh>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-5958-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5959-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -108,97 +107,33 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 73E67286FFA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CC50A2874D1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 13, 2026 at 04:32:23PM +0100, Greg Kroah-Hartman wrote:
->On Fri, Mar 13, 2026 at 11:09:13AM -0400, Sasha Levin wrote:
->> Add a debugfs interface to expose kernel API specifications at runtime.
->> This allows tools and users to query the complete API specifications
->> through the debugfs filesystem.
->>
->> The interface provides:
->> - /sys/kernel/debug/kapi/list - lists all available API specifications
->> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
->>
->> Each specification file includes:
->> - Function name, version, and descriptions
->> - Execution context requirements and flags
->> - Parameter details with types, flags, and constraints
->> - Return value specifications and success conditions
->> - Error codes with descriptions and conditions
->> - Locking requirements and constraints
->> - Signal handling specifications
->> - Examples, notes, and deprecation status
->>
->> This enables runtime introspection of kernel APIs for documentation
->> tools, static analyzers, and debugging purposes.
->>
+On Fri, Mar 13, 2026 at 04:33:57PM +0100, Greg Kroah-Hartman wrote:
+>On Fri, Mar 13, 2026 at 11:09:15AM -0400, Sasha Levin wrote:
 >> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  Documentation/dev-tools/kernel-api-spec.rst |  88 ++--
 >
->You are removing stuff from the file you created earlier in this patch
->series, is that ok?
+>No changelog?
 
-Sorry, just a rebasing artifact from shuffling patches around. I'll fix it.
+I'll add something to all patches.
 
->> --- /dev/null
->> +++ b/kernel/api/kapi_debugfs.c
->> @@ -0,0 +1,503 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Kernel API specification debugfs interface
->> + *
->> + * This provides a debugfs interface to expose kernel API specifications
->> + * at runtime, allowing tools and users to query the complete API specs.
->> + */
+>> + * since-version: 1.0
 >
->No copyright line?  :)
+>I think since older versions :)
 
-I'll add one.
+Right. I guess that in my mind 1.0 was the first official "release". I'll
+update it to 0.01.
 
->And this is, a totally and crazy interface with debugfs, I love it!
+>Anyway, very nice documentation, will be good to have this as part of
+>the kerneldocs no matter what the result of this patch series is.
 
-Thanks :)
-
->Two minor minor nits:
->
->> +static int __init kapi_debugfs_init(void)
->> +{
->> +	struct kernel_api_spec *spec;
->> +	struct dentry *spec_dir;
->> +
->> +	/* Create main directory */
->> +	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
->> +
->> +	/* Create list file */
->> +	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
->> +
->> +	/* Create specs subdirectory */
->> +	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
->> +
->> +	/* Create a file for each API spec */
->> +	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
->> +		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
->> +	}
->
->No need for { }
-
-ack
-
->> +
->> +	pr_info("Kernel API debugfs interface initialized\n");
->
->When code is working properly, it should be quiet, no need for this as
->initializing this can not fail.
-
-ack
+Thanks!
 
 -- 
 Thanks,
