@@ -1,199 +1,257 @@
-Return-Path: <linux-api+bounces-5940-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5941-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4ADLF8QatGlLhQAAu9opvQ
-	(envelope-from <linux-api+bounces-5940-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:10:12 +0100
+	id qERHMJAftGnahgAAu9opvQ
+	(envelope-from <linux-api+bounces-5941-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:30:40 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D745F28499E
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:10:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C59285031
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 15:30:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B257431A9831
-	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 13:59:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D0A18301C3E8
+	for <lists+linux-api@lfdr.de>; Fri, 13 Mar 2026 14:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A3F38D010;
-	Fri, 13 Mar 2026 13:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CF0839A06D;
+	Fri, 13 Mar 2026 14:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FhtvxNdH"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="h8HoT/+A";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fdfUmA/T"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF404264614
-	for <linux-api@vger.kernel.org>; Fri, 13 Mar 2026 13:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3236C0C6;
+	Fri, 13 Mar 2026 14:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773410359; cv=none; b=q32bMWtOZLevjjU4LBWhQ76V4UQuy4qfQkgETYX7XplWWMbDQ1OUqGIrCIhqVXLo6yTd+kRT3fbA9WERLRNyWSOmn7nlBrmJfwLPY7vgmh4uWZ5ls1G4pjJi33XOnLCBrWIIijFcb3+FHgEqCVPkta7BGWvrsKCLQUqcljQCv6o=
+	t=1773411856; cv=none; b=QwSVKOBLBaCtLLWMcPTmRbyAo05cyJpyfOFdZ9qCnvM7++ca8RIpBXMmlvJAWG00yNrPWXYUOI2vfvI+hDuAS3tzq4ihDkUzaV4JRjtLyhXNWiSpDYUBBIzUGiZnDjy72Ik8hnVsWCdNSC0bk1LgATglCZAlFTMMI5L3nDghmYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773410359; c=relaxed/simple;
-	bh=G/2GudsY16WgckOKKpfCxUlxP4/qeV6zEYS3Nvez+uk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CM4/VcaHlpO/VGTZrKuZpExmzxOJ7JXWBrDGezy7+94A+lIEn4lV0WS0iPoMbaIjSkkgDtWVXidZbWk6wNki+B94HoA/SksL4fm6eAXpXZctCP/P3GYHDNFJp9fw6/MSJPv9m2rKzKzgi4PsyeJ1Kzk1rof3VctJoc5u2rm8FXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FhtvxNdH; arc=none smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-127380532eeso2490202c88.1
-        for <linux-api@vger.kernel.org>; Fri, 13 Mar 2026 06:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773410357; x=1774015157; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jkQxYDJ/fqj9oY7QWpa/xMQehKB5EfjV0laBIMwYETk=;
-        b=FhtvxNdHdQQUMoluj48dS4qncQ8Ga937qqCYBIH3lR5C4u4neBazdQy2RX3gnQn4fd
-         uihMazCPWX95obOgk4XWsCCQriE/71MokVt5aafuXhejlg8z5sbcP2x+kTCV5akrxpFL
-         c55tKc5AKqxw5CMnsHJx+QmB78GjD41MulAOMFs4tsZLwOI8U8Ibh4qV1AdBaoOjTt46
-         5hiAtRQzsSNXuay2ABZibkID0u5+UBgubBE9nlyvye7bTksiorIIXTlWJpvlRtp5jvlw
-         W9seW8CNb1iQKiU5UqXjiFcszriZIT07JXuH4jaeSFc30+9td7/+23fJ8MMY7Edhnt9z
-         5OjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773410357; x=1774015157;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jkQxYDJ/fqj9oY7QWpa/xMQehKB5EfjV0laBIMwYETk=;
-        b=OqBiZbx8VS2+7zT6HVgxJneooYOgHJc6znupm0zXo5OrwCDX08YHevHldtidFSCjMX
-         P8o2P17FLsCfZBWiCYl1jIAtSLI4nl3GL/lqSp93UjMu95VL8VY1ZWH+8Tcy9jImaV4h
-         ap/fh0uG4O8MqyvEE47ePAzeBI7jUkrigO7BUK5pfCFavs8un81D5mt52LS+kDiLEFy3
-         gOuoM6j55q2AAfoZpFnSb3EXbFOAcPzUAGtjcM4UhwYOKoPR8RMWfgV2iCsIcJFt/3uL
-         oegLB1jwOlfRgzzwpFvz3cTmt3IsyKhlbEY0WePqiDN+6Fpnxni8oXlNv8XXxR9J+ANl
-         8ing==
-X-Forwarded-Encrypted: i=1; AJvYcCWYfMZJ5Q2YQrgx2LljnJcrfmDX8jAH4kzUZrzp9P/WI/99yKAuKlkZNXnHhFQKPyDEw2vTASnBllI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzW3tFmagHXUOxNowuxjYGCayW4qUMyFHK2JG9yVgWkWQZsiFJ
-	UuuKtRA06Wi+eoDP+aD2P0F/v3TgByhCBSP7AxJSxq0PK9JFOmqJ5bQBxyOjDYO6y88=
-X-Gm-Gg: ATEYQzxJ2NPGAwek1/HVnHWpx1PHEsg/QyWU0KrlVleJbP7rACp6IeP6eGj9CJKG8jQ
-	7g7J1ieHjZJuVBIY3bfchQn9h4u7s1r0e/+Bqhk1mQMYghsafE9Dtxjwoz18DPpECbYC1LKGp4z
-	VaJk1bfELKiEDR6LdyAEkUGMYda/b+tyUFK53SzqqYF51Sn1Gfg4ItVTQbZkvD8pDdEWyttxe4a
-	fb62YvYR1/4quMFkY1KoO0pJCdyDEgMWymFGiLlcxeIzaVXHacxvUtnKZhMp/wU4fZ9UFtyxX6g
-	kT7gjurJkE+zNY0FvY1smvt1n1zOo3VaSiec3EhUNwZeDlPYWaQPPz0weIcNi2EEr/C0/QtYV9W
-	d3ReWkTAgGUf6tUQsVf94Nix9GXK5aUO7SlRCzsGT2FHuqrx18xSxgLsEOJzwZ8PRi8fPtzSFVQ
-	iqLZ9l81mDZE1ZnIC49CV4aJso9HjaIQrG/EVT7eQj8xhME3qp3l7KueIP4tYDScbKrUl1oPWhN
-	2eEOri9Fg5FNUWYV+5yLvwGr+TIbjo=
-X-Received: by 2002:a05:7022:6283:b0:122:153:d161 with SMTP id a92af1059eb24-128f3d7b662mr1856388c88.17.1773410356653;
-        Fri, 13 Mar 2026 06:59:16 -0700 (PDT)
-Received: from ?IPV6:2804:1b3:a7c0:49c8:a562:e69:d236:fd56? ([2804:1b3:a7c0:49c8:a562:e69:d236:fd56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f63baa3dsm2417528c88.15.2026.03.13.06.59.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2026 06:59:15 -0700 (PDT)
-Message-ID: <2d5de14a-17d2-4d08-992e-cbc5d430e231@linaro.org>
-Date: Fri, 13 Mar 2026 10:59:11 -0300
+	s=arc-20240116; t=1773411856; c=relaxed/simple;
+	bh=etaSoMUQgmERrLvv1mmnLYahdrrDeIWdGGvXt0LAVHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnrskrLGAoiw0Rx1kbReNk9beMVLkcJTKJP4nNNEMx+6siZviH36LUp207qBFmEdKxFHPcNKmoTOupmxZ13JkQ4ABkLz2PM/V6d5IkT3l4wuEdKrwa+POE2OACzth78YKrsX0xxLYPq6NitcAMOYg+t7q5goTZQF+Rp6Jr7cKUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=h8HoT/+A; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fdfUmA/T; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Fri, 13 Mar 2026 15:24:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773411852;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CxBbyKHOZ/3WfKU+JXvCeC5L+J7e0qC13VHoXIr/qkE=;
+	b=h8HoT/+A4ybTCEuhk2Y3CWXhcErfz45yoCMZQoKLC/skGveq2ZZmNoixjTRYUG69Myi/gC
+	NNoIcFPsqF6bsGbBRbHaDAAuwvx5C5IkS/CJBjMy9HAUEx1dm84YXtVkr5oOF0K46cpaTr
+	L7vQuLeDUh1U0d7jDbj5Uf3cZ0k8eFHECy+Ac1rIoimrFMh3g5wcs95aPb8+kOf2kaaG4Y
+	MRA5LzQ1UYPLFp6et530IfY2ivjoU51Kx5Xb4rPxWHxbAw0uZ7ouON6BoQVKTpG8Mcd5FG
+	Gb6AwHNvNlWYpjLipVNM70xymJN1HaX7rnRM8L65rFm+JeDAunN+JQJOvOjddw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773411852;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CxBbyKHOZ/3WfKU+JXvCeC5L+J7e0qC13VHoXIr/qkE=;
+	b=fdfUmA/TF2aVQHAFaz7p1xL+IKfpbUOVA3qBv0TfaE/Ya4Oy/UQrUOHVvyqmICbN3qmzg3
+	VvXMTbYueHwnceCQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
+	linux-kernel@vger.kernel.org, Carlos O'Donell <carlos@redhat.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, 
+	Florian Weimer <fweimer@redhat.com>, Rich Felker <dalias@aerifal.cx>, 
+	Torvald Riegel <triegel@redhat.com>, Darren Hart <dvhart@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH v4] futex: Introduce __vdso_robust_futex_unlock and
+ __vdso_robust_pi_futex_try_unlock
+Message-ID: <20260313150111-64c38feb-825d-433e-9c71-f4f109b8cbfb@linutronix.de>
+References: <20260313133903.2202079-1-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] Modernizing Linux authentication logs (lastlog, btmp, utmp,
- wtmp) with SQLite
-To: Roman Bakshansky <bakshansky.lists@gmail.com>, linux-api@vger.kernel.org,
- Thorsten Kukuk <kukuk@suse.com>
-Cc: linux-kernel@vger.kernel.org, audit@vger.kernel.org,
- libc-alpha@sourceware.org
-References: <660c10e6-f8b5-46e2-a424-e3e052992b3a@gmail.com>
-Content-Language: en-US
-From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Organization: Linaro
-In-Reply-To: <660c10e6-f8b5-46e2-a424-e3e052992b3a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313133903.2202079-1-mathieu.desnoyers@efficios.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5940-lists,linux-api=lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,suse.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-5941-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adhemerval.zanella@linaro.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-api];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid,thkukuk.de:url,sourceware.org:url]
-X-Rspamd-Queue-Id: D745F28499E
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url,linutronix.de:dkim,linutronix.de:mid,efficios.com:email]
+X-Rspamd-Queue-Id: 27C59285031
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Mathieu,
 
+some small remarks around the vDSO code.
 
-On 12/03/26 18:01, Roman Bakshansky wrote:
-> Hi all,
-> 
-> I'd like to share a draft RFC proposing a complete overhaul of the legacy
-> binary logs used for authentication auditing in Linux: lastlog, btmp, utmp,
-> and wtmp.
-> 
-> These files, designed decades ago, are running into fundamental limitations:
-> 
-> - Y2038 problem - they use 32-bit timestamps (time_t in lastlog,
->   tv_sec in utmpx). Even on 64-bit systems the fields remain 32-bit
->   due to ABI constraints, so all Linux systems are affected.
-> - No extensibility - any new field (e.g., container ID, service name,
->   source IP) requires changing fixed structures, breaking all existing
->   tools that read them.
-> - Poor query performance - tools like last, lastb, who have to
->   scan whole files linearly; with millions of records this becomes
->   painfully slow.
-> - No atomicity - partial writes during a crash can corrupt logs.
-> - Concurrency bottlenecks - multiple writers (sshd, login, etc.)
->   contend for the same file with coarse locking.
-> 
-> To address this once and for all, the RFC proposes replacing these logs
-> with dedicated shared libraries that use SQLite as the storage backend:
-> 
-> - liblastlog2 - last login time
-> - libbtmp2    - failed login attempts
-> - libutmp2    - current sessions
-> - libwtmp2    - login/logout history
-> 
-> SQLite brings:
-> - 64-bit time -> Y2038 solved forever.
-> - Indexes -> O(log N) queries instead of full scans.
-> - Extensible schema -> new fields can be added without breaking old tools.
-> - ACID and WAL mode -> atomic writes and concurrent access.
-> - Portability - runs on any Linux system, no systemd dependency.
-> 
-> The full RFC, including preliminary database schemas and API drafts,
-> is available in the discussion repository:
-> 
->     https://github.com/bakshansky/linux-auth-logs
-> 
-> I'm looking for feedback on the overall direction, the proposed
-> interfaces, and the open questions listed in the document (e.g.,
-> library naming, database location, fallback options for embedded
-> systems). Please use GitHub Issues for comments, or reply to this
-> thread - I'll monitor both.
-> 
-> Thanks for your time and input!
+On Fri, Mar 13, 2026 at 09:39:03AM -0400, Mathieu Desnoyers wrote:
 
-From the glibc standpoint my plan is just to make the accounting database
-function no-op [1] (I hopefully to get this in the next 2.44 release).
+(...)
 
-And I think Thorsten Kukuk already adapted most of the usages in current
-distros [2][3] using similar strategy, along with a better systemd
-integration.  I am not sure if/when distros are incorporating his work.
+> The approach taken to fix this is to introduce two vDSO and extend the
+> x86 vDSO exception table to track the relevant ip ranges: one for non-PI
+> robust futexes, and one for PI robust futexes.
 
-[1] https://patchwork.sourceware.org/project/glibc/list/?series=37271
-[2] https://www.thkukuk.de/blog/Y2038_glibc_lastlog_64bit/
-[3] https://www.thkukuk.de/blog/Y2038_glibc_utmp_64bit/
+One of the central points behind the vDSO so far was that it is only a
+performance optimization. It is never required for correctness.
+What are applications supposed to do when the vDSO is disabled?
 
+(...)
+
+> diff --git a/arch/x86/entry/vdso/common/vfutex.c b/arch/x86/entry/vdso/common/vfutex.c
+> new file mode 100644
+> index 000000000000..336095b04952
+> --- /dev/null
+> +++ b/arch/x86/entry/vdso/common/vfutex.c
+> @@ -0,0 +1,90 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2026 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> + */
+> +#include <linux/types.h>
+> +#include <linux/futex.h>
+
+This should be uapi/linux/futex.h. Headers from the linux/ namespace should
+not be used in vDSO code. The definitions from them may end up being wrong
+in the compat vDSO. Either use uapi/ or vdso/ headers. (linux/types.h is a bit
+of an exception for historic reasons, it could be replaced by uapi/linux/types.h)
+
+> +#include <vdso/futex.h>
+> +#include "extable.h"
+
+> +
+> +#ifdef CONFIG_X86_64
+
+This only works because of the ugly hacks in fake_32bit_build.h.
+Testing for '#ifdef __x86_64__' is simpler and nicer to read.
+
+> +# define ASM_PTR_BIT_SET	"btsq "
+> +# define ASM_PTR_SET		"movq "
+> +#else
+> +# define ASM_PTR_BIT_SET	"btsl "
+> +# define ASM_PTR_SET		"movl "
+> +#endif
+> +
+> +u32 __vdso_robust_futex_unlock(u32 *uaddr, struct robust_list_head *robust_list_head)
+> +{
+> +	u32 val = 0;
+> +
+> +	/*
+> +	 * Within the ip range identified by the futex exception table,
+> +	 * the register "eax" contains the value loaded by xchg. This is
+> +	 * expected by futex_vdso_exception() to check whether waiters
+> +	 * need to be woken up. This register state is transferred to
+> +	 * bit 1 (NEED_ACTION) of *op_pending_addr before the ip range
+> +	 * ends.
+> +	 */
+> +	asm volatile (
+> +		_ASM_VDSO_EXTABLE_FUTEX_HANDLE(1f, 3f)
+> +		/* Exchange uaddr (store-release). */
+> +		"xchg %[uaddr], %[val]\n\t"
+> +		"1:\n\t"
+> +		/* Test if FUTEX_WAITERS (0x80000000) is set. */
+> +		"test %[val], %[val]\n\t"
+> +		"js 2f\n\t"
+> +		/* Clear *op_pending_addr if there are no waiters. */
+> +		ASM_PTR_SET "$0, %[op_pending_addr]\n\t"
+> +		"jmp 3f\n\t"
+> +		"2:\n\t"
+> +		/* Set bit 1 (NEED_ACTION) in *op_pending_addr. */
+> +		ASM_PTR_BIT_SET "$1, %[op_pending_addr]\n\t"
+> +		"3:\n\t"
+> +		: [val] "+a" (val),
+> +		  [uaddr] "+m" (*uaddr)
+> +		: [op_pending_addr] "m" (robust_list_head->list_op_pending)
+> +		: "memory"
+> +	);
+> +	return val;
+> +}
+> +
+> +u32 robust_futex_unlock(u32 *, struct robust_list_head *)
+> +	__attribute__((weak, alias("__vdso_robust_futex_unlock")));
+
+__weak and __alias() as per checkpatch.pl.
+
+The entries in the linkerscripts are missing.
+
+(...)
+
+> --- /dev/null
+> +++ b/include/vdso/futex.h
+> @@ -0,0 +1,72 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2026 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> + */
+> +
+> +#ifndef _VDSO_FUTEX_H
+> +#define _VDSO_FUTEX_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/futex.h>
+
+Same remarks about the linux/ namespace as before.
+
+> +/**
+> + * __vdso_robust_futex_unlock - Architecture-specific vDSO implementation of robust futex unlock.
+> + * @uaddr:		Lock address (points to a 32-bit unsigned integer type).
+> + * @robust_list_head:	The thread-specific robust list that has been registered with set_robust_list.
+> + *
+> + * This vDSO unlocks the robust futex by exchanging the content of
+> + * *@uaddr with 0 with a store-release semantic. If the futex has
+> + * waiters, it sets bit 1 of *@robust_list_head->list_op_pending, else
+> + * it clears *@robust_list_head->list_op_pending. Those operations are
+> + * within a code region known by the kernel, making them safe with
+> + * respect to asynchronous program termination either from thread
+> + * context or from a nested signal handler.
+> + *
+> + * Returns:	The old value present at *@uaddr.
+> + *
+> + * Expected use of this vDSO:
+> + *
+> + * robust_list_head is the thread-specific robust list that has been
+> + * registered with set_robust_list.
+> + *
+> + * if ((__vdso_robust_futex_unlock((u32 *) &mutex->__data.__lock, robust_list_head)
+> + *     & FUTEX_WAITERS) != 0)
+> + *         futex_wake((u32 *) &mutex->__data.__lock, 1, private);
+> + * WRITE_ONCE(robust_list_head->list_op_pending, 0);
+> + */
+> +extern u32 __vdso_robust_futex_unlock(u32 *uaddr, struct robust_list_head *robust_list_head);
+
+Drop the extern.
+
+(...)
+
+> +#endif /* _VDSO_FUTEX_H */
+
+(...)
 
