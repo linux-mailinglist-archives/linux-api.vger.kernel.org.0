@@ -1,82 +1,82 @@
-Return-Path: <linux-api+bounces-5978-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5979-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cH43LwvCtWkV4wAAu9opvQ
-	(envelope-from <linux-api+bounces-5978-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 21:16:11 +0100
+	id gBIFMYbCtWkV4wAAu9opvQ
+	(envelope-from <linux-api+bounces-5979-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 21:18:14 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F5328EC6C
-	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 21:16:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F56B28ED36
+	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 21:18:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 46751301DD60
-	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 20:15:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D335A30338AB
+	for <lists+linux-api@lfdr.de>; Sat, 14 Mar 2026 20:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3451A9FAF;
-	Sat, 14 Mar 2026 20:15:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9957438E107;
+	Sat, 14 Mar 2026 20:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j22CojKk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xp3QQrdv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E038424A
-	for <linux-api@vger.kernel.org>; Sat, 14 Mar 2026 20:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D2138D687
+	for <linux-api@vger.kernel.org>; Sat, 14 Mar 2026 20:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773519303; cv=none; b=aoLC17d+SJ6YQotYunDaa0R7wVbsubd+mjgLbOmsQIM/l8/a5VoVaDVGQs0stqGQSoUL868OG3sWH9z7rLJZZT3zx0207/gDpakWTutsfWvV0vyYp8bRy2/ic8xDuqbMhufmR5Xmp5QnF2lyYp6kPeNU+mDJ8lXO1W53OJCSt6s=
+	t=1773519306; cv=none; b=NSR1UYPSeoa76xNGl7526nsnKXMOvUBdCKp92QGHjAbfo7oolsKAXwBms400ldFFz5v/IoDUzbC/qQNlytKC5gKbYA3K/qHVMIO5FB2jEkKGdb3L8tWpvMx3Iyxk31bMoEQ/IMQ6ubZeugxF1fIrUtlBqYAAAW3Px6W85SxeH48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773519303; c=relaxed/simple;
-	bh=h2w84+E53fjjORSXCTmZqDRXCz4rcg4b0xrFtcD8+/M=;
+	s=arc-20240116; t=1773519306; c=relaxed/simple;
+	bh=c3aw5VIxdZS2azxJsUSqQU6JjwbrB5pvPMaxk94MujQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c2F+0I2qOt92MbNaBCRXCjPjFEZDBvzKZsvpKkJdVgDhAjD3ebRHcTjia8H08FQAhhgeWlDDwoSFbQp2rDXyBsvd1vyBnhmX4A41vzQeR8gMDehJ+0wJIb+Jcf37HXtvI/HDWzLnUyFXfiYzEzhDRYRn7LafIOfyDw8vahI0XJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j22CojKk; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version; b=uoHGXjQmJkkok+gii+f6yaS/ZaaqI1B1FXN1JwhVljpt54g1YdSzxl4dVf4ayJYD2WKbarLJKPKmVXxxSdEDDA3K/ZmYBNpc4zgwOKkF4kaJfN0jcF9rEnjunCAoCtdJi/z4pkWiUP4F/Gf4vtqKmm6J+nfnYdylgmC23Tsk7+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xp3QQrdv; arc=none smtp.client-ip=209.85.161.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d738fe814cso2747037a34.3
-        for <linux-api@vger.kernel.org>; Sat, 14 Mar 2026 13:15:00 -0700 (PDT)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-67bc8bc0e22so1838361eaf.2
+        for <linux-api@vger.kernel.org>; Sat, 14 Mar 2026 13:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773519299; x=1774124099; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773519301; x=1774124101; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WzFkYp6vQFMuSQL+rwhcnHsZCs8WUPXFTJK3qolPQ8w=;
-        b=j22CojKkEk6Mn7enjb9ZrHV/qZKDrIz7Ab5gl+dFN5t603IivBcmEEiXFBm2QYuVGO
-         8iDuus6MssUDPbWToyM+W/hyS9baRxmjKXa0e/zugPPqL0gFfeAMAVVg3FHUqmasigcN
-         c7qMT+DWO1AD6SKPf2L+9qYXBPZPeB1pTsZ44NwkSPMuNFkhX9ObfCFNiE2aXlsGhnxE
-         8umR5D5aBEyFP4Mui4hd93/gagS+VIh6glSM9eY/H9x4uHg5zlTJ5xGyXYf5yx7xkE9u
-         Mtnx43sU7YHMr8OqaGr+/1uxO18vrcra64+zNO3nAsmxpIWzLGqDJ8RvyZuLhrznj0QH
-         ja6Q==
+        bh=9mcgGvP3OSrXTj+URf09ITzfMzhOZtxhsq3uE0kGGg8=;
+        b=Xp3QQrdvjmE5Dv5ZuPfKQDqyYNWg6ewdO7X3OeTQvvSmAUFywZgGekvbf+DcPYUaf/
+         NuYDBgh3YFfcWPLQaXizGCloHAL/wKsTOJyqnHK8znNgDnrUbqbAhF8YavedJ3ZvCAPB
+         wdRtDp3jUTXZwbScfylaZtY0hgTNaEfVras+DJYthIVZVxEQYgHMdfjohWKDHuXjV0tk
+         PctKLopwLuDk062tZfLlcEvMeRnzGUGTtL3hEXO7QwHnZoodk25JkWxr0a0bVHt6y1fY
+         6CuhKlh8Nl+RZoxDXIgQKqCQpJoEncggJz4TBBJB5nkkRh8iKpFSC4t1Fo0LYoluNAMT
+         R+9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773519299; x=1774124099;
+        d=1e100.net; s=20251104; t=1773519301; x=1774124101;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WzFkYp6vQFMuSQL+rwhcnHsZCs8WUPXFTJK3qolPQ8w=;
-        b=ptPl57JCcyha7nauO29AXIb4QAdaTplmLP8gQQEYZHUVWVvfJBWwlrDqPPB2RMjS1n
-         Ry6AB/b2dce4SIaAdmi7IY01qOK3JVUdjfWGRrdOcW5xJ/u9boQK4V6qizWJcxALhjYh
-         H5AbkIcTu0YvZCQWbQ/BAPVAw8OL0VdQS7902e2PV4mztM3z72VtgYU2afzVuXpgWETU
-         tHgdzkG8gUFs+VLH50znvMK3LqvQwjIe6RA7pZt5GebLt2OpZ4KyoSTZgSn4LJQ+vDok
-         dG1QWxqdi8gnnbyYNQ9oaOMhzaVBJVausQfQtkB+vVfF+j8zebxcmldBthc7uEG3EtHm
-         w63w==
-X-Forwarded-Encrypted: i=1; AJvYcCUoV0fiZ1midPRThQwV1MyMouhXXrX6qaHmnaEIppDkPA0vycMljNlV4ScrTHRXoeFzF4D6yT0hgh8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLbgtixH1KFVr3ccRkzH+PkRJRjKwmECv7GMeT3zW0JzzOcNXx
-	Qjk/Yzwq8dc/CyO8a4IlM9WIjGjXOXfAl8oJyAS7p48q5oL5AZfQHXLh
-X-Gm-Gg: ATEYQzzzYgkl6N//iKpc1QXuNaxb484kmb5geDopBZPT0aeYpovWlF9hFDoXifVSNVH
-	UM86WDMmYMVpMtlkpLZ/J7toz/+tYYMCGLYS5yJcgBO0l6PgwbTiRHrZ0I+9SzRUtkMgTNF/7f7
-	SAqGd+kQMzDL20qn4c99uVsFnKaIfemZC5L1ilyzO6rqbmqHU1933aDDG+FjG7ebEjCvTVys/tZ
-	APCp9L8z257lIgA5aKM1SiOiFbS9CnUFQQ1WIYRPAIWtGiLCu5wAU/s0KnqaOONCJeRi1aMdseo
-	4qrRNPYH1LCngO5dFgEfNOvOvpsqsMSYuv1jNLbwCVg55RSISfWuxkJju+CZOwz08DZ10DKNdS0
-	RiIGLcsbOBuAzQfFM+/gll33oOdI2ULybnmm0nR8ox0CdcEdFIU4Qu+REAeIqjSgoh8lDtkHvTm
-	91CCBHNYOqOGcT2UHBvue45dJ1g9GZvhabcBJtLWQvyjZ17l8SpEXaYQpf4Phw1h8hIDViqrtJv
-	x5aF4Nl3pwvhaVafOT2qhDDREVhELuBhqhXECDa
-X-Received: by 2002:a05:6820:616:b0:67b:aca0:3d96 with SMTP id 006d021491bc7-67bdaa7db03mr5100287eaf.65.1773519299237;
-        Sat, 14 Mar 2026 13:14:59 -0700 (PDT)
+        bh=9mcgGvP3OSrXTj+URf09ITzfMzhOZtxhsq3uE0kGGg8=;
+        b=HrQe2lsWsNDOowZbAg6Tf4/Vm42hXNb6Ssf2zVYpCuWZ8JksjdHo2FhKAkVoLG3sRi
+         ou7taBgVwDqK0g6nPjZe9jmoqhzooCgJ1zeBOzWYKHfU+SpGkU+ritYwo6793v2T2xoF
+         5NQL1IwJOzGpVSoIVsmfbs4EF6p/Pw4LUhh8bo3Y6GLe1GV1GKxpMW4fVBrQKPtBxVrZ
+         3ms0YiNk/3fK+XJiLzGWWFeYFC+79+h6Qoaq/s04us/4kb50qZzG9V3yn7A+NDKCoaK9
+         oQxB6kfy59YHzq+XohPFGqoWOXkUxgjacq3M3VMZNKMt69FNKUCT4SdR089BQbeB0QO8
+         Ldxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgvimP64OBPnsayjBg/GkoQrz7u8SLAhOaVD7XeTVGmHOvNekvuECBRuoHpOO8idB7sGhO6klQQsQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+VdEkLGQEzPpFSCd2Y/0ibCP7jdfrcQfeK109ywyCJh8eu+KM
+	pRItwMIX1V/6cghzdxFzjGWa8i2OwY+eWC2a9CVUhhycLrcYE94h6uTy
+X-Gm-Gg: ATEYQzzlb3Cc4zpIa11nhIPNh5LWay8oIdwC17UIPXcpHJ3sLo1VfGIOsnwCZKdDI/W
+	kI18+Rj2cBAqnbDRFiqNh557MKaz/gS6vWU5Xdpv4f9k1ir9W8/TSb/1bEHPHFc01RjdEUQ3OqH
+	GS9UnjHheNiY82XFUnoQ8JgLQ0U7w2EzPDtFyA283ZK5YoXviKo4dMkGxaAp7cJetUn3G6UDgB+
+	SBJv00aXmwCsVKeCmKtid14MK4ZRdoqDTENl/wejQ0SLlLUWzfxI+jC3JXUKNypzDTawy8h4wqa
+	PkX9xRQ2emdQ5GcnQGVjfHOHMVQbATrPsnAQH3UO2BjGcBExsbP58tHYcz2UQum+rkvm2D6wHo6
+	H1/qEliEwq32E+KwHk9aBe1KuPkHB0FnHPOXeon7X/giXpwi+PtIHtT2xoyer783dmq2YVOjDxD
+	ZIpV7I3fj31y368ebvq+7rvFioqskGeSUQX5Vx4OZhahw0sdvu03g8YAsTQnrNpB/LLbgtko/nt
+	T93G7a+/GRDYC6qd1csCxHi4nno9QhKaBRXEG1h1mFF+tFhlU0=
+X-Received: by 2002:a05:6820:290d:b0:678:f8f3:d6dd with SMTP id 006d021491bc7-67bda98e367mr4712493eaf.8.1773519300803;
+        Sat, 14 Mar 2026 13:15:00 -0700 (PDT)
 Received: from Atwell-Laptop.. (108-212-132-20.lightspeed.irvnca.sbcglobal.net. [108.212.132.20])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e5e8185sm11914165fac.12.2026.03.14.13.14.57
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e5e8185sm11914165fac.12.2026.03.14.13.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 13:14:58 -0700 (PDT)
+        Sat, 14 Mar 2026 13:15:00 -0700 (PDT)
 From: atwellwea@gmail.com
 To: netdev@vger.kernel.org,
 	davem@davemloft.net,
@@ -105,9 +105,9 @@ Cc: linux-kernel@vger.kernel.org,
 	mhiramat@kernel.org,
 	mathieu.desnoyers@efficios.com,
 	0x7f454c46@gmail.com
-Subject: [PATCH net-next v2 11/14] selftests: tcp_ao: cover legacy, v1, and retracted repair windows
-Date: Sat, 14 Mar 2026 14:13:45 -0600
-Message-ID: <20260314201348.1786972-12-atwellwea@gmail.com>
+Subject: [PATCH net-next v2 12/14] tun/selftests: add RX truesize injection for TCP window tests
+Date: Sat, 14 Mar 2026 14:13:46 -0600
+Message-ID: <20260314201348.1786972-13-atwellwea@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260314201348.1786972-1-atwellwea@gmail.com>
 References: <20260314201348.1786972-1-atwellwea@gmail.com>
@@ -124,7 +124,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -132,7 +132,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,kernel.org,google.com,lunn.ch,gmail.com,redhat.com,linuxfoundation.org,lwn.net,goodmis.org,efficios.com];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5978-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5979-lists,linux-api=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[27];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[gmail.com:+];
@@ -145,457 +145,839 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api,netdev];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A4F5328EC6C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7F56B28ED36
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Wesley Atwell <atwellwea@gmail.com>
 
-Extend the tcp_ao repair selftests to exercise the legacy, v1, and
-current TCP_REPAIR_WINDOW layouts, plus a synthesized retracted-window
-image that preserves a larger historical right edge.
+Add a test-only TUN ioctl that inflates RX skb->truesize, plus the
+packetdrill-side helper needed to drive that ioctl through packetdrill's
+own TUN queue file descriptor.
 
-These tests validate both the append-only ABI contract and the restore-
-time rebuilding of any snapshot state older userspace could not save.
+Use that plumbing to cover the receive-window regressions where
+scaling_ratio drifts after advertisement, alongside the baseline too-big
+packetdrill cases that exercise the same sender-visible rwnd accounting
+from the non-injected path.
 
 Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
 ---
- .../testing/selftests/net/tcp_ao/lib/aolib.h  |  83 +++++++-
- .../testing/selftests/net/tcp_ao/lib/repair.c |  18 +-
- .../selftests/net/tcp_ao/self-connect.c       | 201 +++++++++++++++++-
- 3 files changed, 279 insertions(+), 23 deletions(-)
+ drivers/net/tun.c                             |  65 ++++++++
+ include/uapi/linux/if_tun.h                   |   4 +
+ .../tcp_rcv_neg_window_truesize.pkt           | 143 ++++++++++++++++++
+ .../net/packetdrill/tcp_rcv_toobig.pkt        |  35 +++++
+ .../packetdrill/tcp_rcv_toobig_default.pkt    |  97 ++++++++++++
+ .../tcp_rcv_toobig_default_truesize.pkt       | 118 +++++++++++++++
+ .../tcp_rcv_wnd_shrink_allowed_truesize.pkt   |  49 ++++++
+ tools/testing/selftests/net/tun.c             | 140 ++++++++++++++++-
+ 8 files changed, 650 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window_truesize.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default_truesize.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_allowed_truesize.pkt
 
-diff --git a/tools/testing/selftests/net/tcp_ao/lib/aolib.h b/tools/testing/selftests/net/tcp_ao/lib/aolib.h
-index ebb2899c12fe..ef08db831457 100644
---- a/tools/testing/selftests/net/tcp_ao/lib/aolib.h
-+++ b/tools/testing/selftests/net/tcp_ao/lib/aolib.h
-@@ -13,6 +13,7 @@
- #include <linux/snmp.h>
- #include <linux/tcp.h>
- #include <netinet/in.h>
-+#include <stddef.h>
- #include <stdarg.h>
- #include <stdbool.h>
- #include <stdlib.h>
-@@ -671,17 +672,55 @@ struct tcp_sock_state {
- 	int timestamp;
- };
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index c492fda6fc15..2cef62cebe88 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -53,6 +53,7 @@
+ #include <linux/if_ether.h>
+ #include <linux/if_tun.h>
+ #include <linux/if_vlan.h>
++#include <linux/overflow.h>
+ #include <linux/crc32.h>
+ #include <linux/math.h>
+ #include <linux/nsproxy.h>
+@@ -85,8 +86,13 @@
  
--extern void __test_sock_checkpoint(int sk, struct tcp_sock_state *state,
--				   void *addr, size_t addr_size);
-+/* Legacy userspace stops before the snapshot field and therefore exercises
-+ * the kernel's unknown-snapshot fallback path.
-+ */
-+static inline socklen_t test_tcp_repair_window_legacy_size(void)
-+{
-+	return offsetof(struct tcp_repair_window, rcv_wnd_scaling_ratio);
-+}
-+
-+static inline socklen_t test_tcp_repair_window_v1_size(void)
-+{
-+	return offsetof(struct tcp_repair_window, rcv_mwnd_seq);
-+}
-+
-+static inline socklen_t test_tcp_repair_window_exact_size(void)
-+{
-+	return sizeof(struct tcp_repair_window);
-+}
-+
-+void __test_sock_checkpoint_opt(int sk, struct tcp_sock_state *state,
-+				socklen_t trw_len,
-+				void *addr, size_t addr_size);
- static inline void test_sock_checkpoint(int sk, struct tcp_sock_state *state,
- 					sockaddr_af *saddr)
- {
--	__test_sock_checkpoint(sk, state, saddr, sizeof(*saddr));
-+	__test_sock_checkpoint_opt(sk, state, test_tcp_repair_window_exact_size(),
-+				   saddr, sizeof(*saddr));
-+}
-+
-+static inline void test_sock_checkpoint_legacy(int sk,
-+					       struct tcp_sock_state *state,
-+					       sockaddr_af *saddr)
-+{
-+	__test_sock_checkpoint_opt(sk, state, test_tcp_repair_window_legacy_size(),
-+				   saddr, sizeof(*saddr));
-+}
-+
-+static inline void test_sock_checkpoint_v1(int sk,
-+					   struct tcp_sock_state *state,
-+					   sockaddr_af *saddr)
-+{
-+	__test_sock_checkpoint_opt(sk, state, test_tcp_repair_window_v1_size(),
-+				   saddr, sizeof(*saddr));
- }
- extern void test_ao_checkpoint(int sk, struct tcp_ao_repair *state);
--extern void __test_sock_restore(int sk, const char *device,
--				struct tcp_sock_state *state,
--				void *saddr, void *daddr, size_t addr_size);
-+void __test_sock_restore_opt(int sk, const char *device,
-+			     struct tcp_sock_state *state,
-+			     socklen_t trw_len,
-+			     void *saddr, void *daddr,
-+			     size_t addr_size);
- static inline void test_sock_restore(int sk, struct tcp_sock_state *state,
- 				     sockaddr_af *saddr,
- 				     const union tcp_addr daddr,
-@@ -690,7 +729,37 @@ static inline void test_sock_restore(int sk, struct tcp_sock_state *state,
- 	sockaddr_af addr;
+ #include "tun_vnet.h"
  
- 	tcp_addr_to_sockaddr_in(&addr, &daddr, htons(dport));
--	__test_sock_restore(sk, veth_name, state, saddr, &addr, sizeof(addr));
-+	__test_sock_restore_opt(sk, veth_name, state,
-+				test_tcp_repair_window_exact_size(),
-+				saddr, &addr, sizeof(addr));
-+}
++struct tun_file;
 +
-+static inline void test_sock_restore_legacy(int sk,
-+					    struct tcp_sock_state *state,
-+					    sockaddr_af *saddr,
-+					    const union tcp_addr daddr,
-+					    unsigned int dport)
-+{
-+	sockaddr_af addr;
++#define TUNSETTRUESIZE_OLD _IOW('T', 228, unsigned int)
 +
-+	tcp_addr_to_sockaddr_in(&addr, &daddr, htons(dport));
-+	__test_sock_restore_opt(sk, veth_name, state,
-+				test_tcp_repair_window_legacy_size(),
-+				saddr, &addr, sizeof(addr));
-+}
-+
-+static inline void test_sock_restore_v1(int sk,
-+					struct tcp_sock_state *state,
-+					sockaddr_af *saddr,
-+					const union tcp_addr daddr,
-+					unsigned int dport)
-+{
-+	sockaddr_af addr;
-+
-+	tcp_addr_to_sockaddr_in(&addr, &daddr, htons(dport));
-+	__test_sock_restore_opt(sk, veth_name, state,
-+				test_tcp_repair_window_v1_size(),
-+				saddr, &addr, sizeof(addr));
- }
- extern void test_ao_restore(int sk, struct tcp_ao_repair *state);
- extern void test_sock_state_free(struct tcp_sock_state *state);
-diff --git a/tools/testing/selftests/net/tcp_ao/lib/repair.c b/tools/testing/selftests/net/tcp_ao/lib/repair.c
-index 9893b3ba69f5..befbd0f72db5 100644
---- a/tools/testing/selftests/net/tcp_ao/lib/repair.c
-+++ b/tools/testing/selftests/net/tcp_ao/lib/repair.c
-@@ -66,8 +66,9 @@ static void test_sock_checkpoint_queue(int sk, int queue, int qlen,
- 		test_error("recv(%d): %d", qlen, ret);
- }
+ static void tun_default_link_ksettings(struct net_device *dev,
+ 				       struct ethtool_link_ksettings *cmd);
++static void tun_rx_update_truesize(struct tun_file *tfile, struct sk_buff *skb);
  
--void __test_sock_checkpoint(int sk, struct tcp_sock_state *state,
--			    void *addr, size_t addr_size)
-+void __test_sock_checkpoint_opt(int sk, struct tcp_sock_state *state,
-+				socklen_t trw_len,
-+				void *addr, size_t addr_size)
- {
- 	socklen_t len = sizeof(state->info);
- 	int ret;
-@@ -82,9 +83,9 @@ void __test_sock_checkpoint(int sk, struct tcp_sock_state *state,
- 	if (getsockname(sk, addr, &len) || len != addr_size)
- 		test_error("getsockname(): %d", (int)len);
+ #define TUN_RX_PAD (NET_IP_ALIGN + NET_SKB_PAD)
  
--	len = sizeof(state->trw);
-+	len = trw_len;
- 	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &state->trw, &len);
--	if (ret || len != sizeof(state->trw))
-+	if (ret || len != trw_len)
- 		test_error("getsockopt(TCP_REPAIR_WINDOW): %d", (int)len);
- 
- 	if (ioctl(sk, SIOCOUTQ, &state->outq_len))
-@@ -160,9 +161,10 @@ static void test_sock_restore_queue(int sk, int queue, void *buf, int len)
- 	} while (len > 0);
- }
- 
--void __test_sock_restore(int sk, const char *device,
--			 struct tcp_sock_state *state,
--			 void *saddr, void *daddr, size_t addr_size)
-+void __test_sock_restore_opt(int sk, const char *device,
-+			     struct tcp_sock_state *state,
-+			     socklen_t trw_len,
-+			     void *saddr, void *daddr, size_t addr_size)
- {
- 	struct tcp_repair_opt opts[4];
- 	unsigned int opt_nr = 0;
-@@ -215,7 +217,7 @@ void __test_sock_restore(int sk, const char *device,
+@@ -138,6 +144,7 @@ struct tun_file {
+ 		u16 queue_index;
+ 		unsigned int ifindex;
+ 	};
++	u32 rx_extra_truesize;
+ 	struct napi_struct napi;
+ 	bool napi_enabled;
+ 	bool napi_frags_enabled;
+@@ -1817,6 +1824,7 @@ static ssize_t tun_get_user(struct tun_struct *tun, struct tun_file *tfile,
+ 		goto free_skb;
  	}
- 	test_sock_restore_queue(sk, TCP_RECV_QUEUE, state->in.buf, state->inq_len);
- 	test_sock_restore_queue(sk, TCP_SEND_QUEUE, state->out.buf, state->outq_len);
--	if (setsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &state->trw, sizeof(state->trw)))
-+	if (setsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &state->trw, trw_len))
- 		test_error("setsockopt(TCP_REPAIR_WINDOW)");
+ 
++	tun_rx_update_truesize(tfile, skb);
+ 	switch (tun->flags & TUN_TYPE_MASK) {
+ 	case IFF_TUN:
+ 		if (tun->flags & IFF_NO_PI) {
+@@ -2373,6 +2381,25 @@ static void tun_put_page(struct tun_page *tpage)
+ 		__page_frag_cache_drain(tpage->page, tpage->count);
  }
  
-diff --git a/tools/testing/selftests/net/tcp_ao/self-connect.c b/tools/testing/selftests/net/tcp_ao/self-connect.c
-index 2c73bea698a6..a7c0f2edd351 100644
---- a/tools/testing/selftests/net/tcp_ao/self-connect.c
-+++ b/tools/testing/selftests/net/tcp_ao/self-connect.c
-@@ -4,6 +4,14 @@
- #include "aolib.h"
- 
- static union tcp_addr local_addr;
-+static bool checked_repair_window_lens;
-+
-+enum repair_window_mode {
-+	REPAIR_WINDOW_CURRENT,
-+	REPAIR_WINDOW_LEGACY,
-+	REPAIR_WINDOW_V1,
-+	REPAIR_WINDOW_RETRACTED,
-+};
- 
- static void __setup_lo_intf(const char *lo_intf,
- 			    const char *addr_str, uint8_t prefix)
-@@ -30,8 +38,157 @@ static void setup_lo_intf(const char *lo_intf)
- #endif
- }
- 
-+/* The repair ABI accepts the legacy, v1, and current layouts. */
-+static void test_repair_window_len_contract(int sk)
++/* Tests can inflate skb->truesize on ingress to exercise receive-memory
++ * accounting against a scaling_ratio that drifts after a window was
++ * advertised. The knob is per queue file, defaults to zero, and only changes
++ * behavior when explicitly enabled through the TUN fd.
++ */
++static void tun_rx_update_truesize(struct tun_file *tfile, struct sk_buff *skb)
 +{
-+	struct tcp_repair_window trw = {};
-+	socklen_t len = test_tcp_repair_window_exact_size();
-+	socklen_t v1_len = test_tcp_repair_window_v1_size();
-+	socklen_t bad_len = test_tcp_repair_window_legacy_size() + 1;
-+	int ret;
++	u32 extra = READ_ONCE(tfile->rx_extra_truesize);
++	unsigned int truesize;
 +
-+	if (checked_repair_window_lens)
++	if (!extra)
 +		return;
 +
-+	checked_repair_window_lens = true;
++	if (check_add_overflow(skb->truesize, extra, &truesize))
++		truesize = UINT_MAX;
 +
-+	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, &len);
-+	if (ret || len != test_tcp_repair_window_exact_size())
-+		test_error("getsockopt(TCP_REPAIR_WINDOW): %d", (int)len);
-+
-+	len = v1_len;
-+	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, &len);
-+	if (ret || len != v1_len)
-+		test_fail("repair-window get accepts v1 len");
-+	else
-+		test_ok("repair-window get accepts v1 len");
-+
-+	len = bad_len;
-+	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, &len);
-+	if (ret == 0 || errno != EINVAL)
-+		test_fail("repair-window get rejects invalid len");
-+	else
-+		test_ok("repair-window get rejects invalid len");
-+
-+	ret = setsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, bad_len);
-+	if (ret == 0 || errno != EINVAL)
-+		test_fail("repair-window set rejects invalid len");
-+	else
-+		test_ok("repair-window set rejects invalid len");
-+
-+	ret = setsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, v1_len + 1);
-+	if (ret == 0 || errno != EINVAL)
-+		test_fail("repair-window set rejects invalid v1+1 len");
-+	else
-+		test_ok("repair-window set rejects invalid v1+1 len");
++	skb->truesize = truesize;
 +}
 +
-+static void test_retracted_repair_window_state(int sk,
-+					       struct tcp_sock_state *img)
-+{
-+	struct tcp_repair_window trw = {};
-+	socklen_t len = sizeof(trw);
-+	int ret;
+ static int tun_xdp_one(struct tun_struct *tun,
+ 		       struct tun_file *tfile,
+ 		       struct xdp_buff *xdp, int *flush,
+@@ -2459,6 +2486,7 @@ static int tun_xdp_one(struct tun_struct *tun,
+ 		goto out;
+ 	}
+ 
++	tun_rx_update_truesize(tfile, skb);
+ 	skb->protocol = eth_type_trans(skb, tun->dev);
+ 	skb_reset_network_header(skb);
+ 	skb_probe_transport_header(skb);
+@@ -3045,6 +3073,7 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+ 	struct tun_struct *tun;
+ 	void __user* argp = (void __user*)arg;
+ 	unsigned int carrier;
++	unsigned int extra_truesize;
+ 	struct ifreq ifr;
+ 	kuid_t owner;
+ 	kgid_t group;
+@@ -3309,6 +3338,40 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+ 		ret = tun_net_change_carrier(tun->dev, (bool)carrier);
+ 		break;
+ 
++	/* Support both the legacy pointer-payload form and the scalar form
++	 * used by the selftest helper when injecting truesize from
++	 * packetdrill shell commands.
++	 */
++	case TUNSETTRUESIZE:
++	case TUNSETTRUESIZE_OLD:
++		ret = -EPERM;
++		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++			goto unlock;
 +
-+	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, &len);
-+	if (ret || len != sizeof(trw))
-+		test_error("getsockopt(TCP_REPAIR_WINDOW): %d", (int)len);
++		if (cmd == TUNSETTRUESIZE_OLD) {
++			ret = -EFAULT;
++			if (copy_from_user(&extra_truesize, argp,
++					   sizeof(extra_truesize))) {
++				ret = -EINVAL;
++				if (arg > U32_MAX)
++					goto unlock;
 +
-+	if (trw.rcv_mwnd_seq != img->trw.rcv_mwnd_seq ||
-+	    trw.rcv_mwnd_scaling_ratio != img->trw.rcv_mwnd_scaling_ratio ||
-+	    trw.rcv_wnd != img->trw.rcv_wnd ||
-+	    trw.rcv_wup != img->trw.rcv_wup ||
-+	    trw.rcv_wnd_scaling_ratio != img->trw.rcv_wnd_scaling_ratio)
-+		test_fail("repair-window restore preserves retracted state");
-+	else
-+		test_ok("repair-window restore preserves retracted state");
-+}
++				extra_truesize = arg;
++			}
++		} else {
++			ret = -EINVAL;
++			if (arg > U32_MAX)
++				goto unlock;
 +
-+static void test_v1_repair_window_state(int sk, struct tcp_sock_state *img)
-+{
-+	struct tcp_repair_window trw = {};
-+	socklen_t len = sizeof(trw);
-+	__u32 max_right = img->trw.rcv_wup + img->trw.rcv_wnd;
-+	int ret;
++			extra_truesize = arg;
++		}
 +
-+	ret = getsockopt(sk, SOL_TCP, TCP_REPAIR_WINDOW, &trw, &len);
-+	if (ret || len != sizeof(trw))
-+		test_error("getsockopt(TCP_REPAIR_WINDOW): %d", (int)len);
++		WRITE_ONCE(tfile->rx_extra_truesize, extra_truesize);
++		netif_info(tun, drv, tun->dev,
++			   "rx extra truesize set to %u\n", extra_truesize);
++		ret = 0;
++		break;
 +
-+	if (trw.rcv_mwnd_seq != max_right ||
-+	    trw.rcv_mwnd_scaling_ratio != img->trw.rcv_wnd_scaling_ratio ||
-+	    trw.rcv_wnd != img->trw.rcv_wnd ||
-+	    trw.rcv_wup != img->trw.rcv_wup ||
-+	    trw.rcv_wnd_scaling_ratio != img->trw.rcv_wnd_scaling_ratio)
-+		test_fail("repair-window v1 restore rebuilds max-window state");
-+	else
-+		test_ok("repair-window v1 restore rebuilds max-window state");
-+}
-+
-+/* Synthesize a repair image whose live rwnd was retracted after a larger
-+ * right edge had already been advertised, so restore testing can validate
-+ * snapshot preservation without depending on the live receive path.
+ 	case TUNGETDEVNETNS:
+ 		ret = -EPERM;
+ 		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
+@@ -3348,6 +3411,7 @@ static long tun_chr_compat_ioctl(struct file *file,
+ 	case TUNGETSNDBUF:
+ 	case TUNSETSNDBUF:
+ 	case SIOCGIFHWADDR:
++	case TUNSETTRUESIZE_OLD:
+ 	case SIOCSIFHWADDR:
+ 		arg = (unsigned long)compat_ptr(arg);
+ 		break;
+@@ -3408,6 +3472,7 @@ static int tun_chr_open(struct inode *inode, struct file * file)
+ 	RCU_INIT_POINTER(tfile->tun, NULL);
+ 	tfile->flags = 0;
+ 	tfile->ifindex = 0;
++	tfile->rx_extra_truesize = 0;
+ 
+ 	init_waitqueue_head(&tfile->socket.wq.wait);
+ 
+diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
+index 79d53c7a1ebd..4be63efe6540 100644
+--- a/include/uapi/linux/if_tun.h
++++ b/include/uapi/linux/if_tun.h
+@@ -61,6 +61,10 @@
+ #define TUNSETFILTEREBPF _IOR('T', 225, int)
+ #define TUNSETCARRIER _IOW('T', 226, int)
+ #define TUNGETDEVNETNS _IO('T', 227)
++/* Test-only: add scalar bytes to skb->truesize on RX after TUN allocates
++ * an skb.
 + */
-+static bool make_retracted_repair_window_state(struct tcp_sock_state *img)
++#define TUNSETTRUESIZE _IO('T', 228)
+ 
+ /* TUNSETIFF ifr flags */
+ #define IFF_TUN		0x0001
+diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window_truesize.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window_truesize.pkt
+new file mode 100644
+index 000000000000..1c5550fff509
+--- /dev/null
++++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window_truesize.pkt
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0
++// Run the negative-window / max-advertised-window regression with inflated
++// TUN skb->truesize so scaling_ratio drifts throughout the flow. The sequence
++// checks and drop counters should remain identical to the uninflated case.
++
++--mss=1000
++
++`./defaults.sh`
++
++    0 `nstat -n`
++
++// Establish a connection.
++   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [1000000], 4) = 0
++   +0 bind(3, ..., ...) = 0
++   +0 listen(3, 1) = 0
++
++   +0 < S 0:0(0) win 32792 <mss 1000,nop,nop,sackOK,nop,wscale 7>
++   +0 > S. 0:0(0) ack 1 win 65535 <mss 1460,nop,nop,sackOK,nop,wscale 4>
++   +0 < . 1:1(0) ack 1 win 257
++
++   +0 accept(3, ..., ...) = 4
++
++// Put 1040000 bytes into the receive buffer.
++   +0 < P. 1:65001(65000) ack 1 win 257
++    * > .  1:1(0) ack 65001
++   +0 < P. 65001:130001(65000) ack 1 win 257
++    * > .  1:1(0) ack 130001
++   +0 < P. 130001:195001(65000) ack 1 win 257
++    * > .  1:1(0) ack 195001
++   +0 < P. 195001:260001(65000) ack 1 win 257
++    * > .  1:1(0) ack 260001
++   +0 < P. 260001:325001(65000) ack 1 win 257
++    * > .  1:1(0) ack 325001
++   +0 < P. 325001:390001(65000) ack 1 win 257
++    * > .  1:1(0) ack 390001
++   +0 < P. 390001:455001(65000) ack 1 win 257
++    * > .  1:1(0) ack 455001
++   +0 < P. 455001:520001(65000) ack 1 win 257
++    * > .  1:1(0) ack 520001
++   +0 < P. 520001:585001(65000) ack 1 win 257
++    * > .  1:1(0) ack 585001
++   +0 < P. 585001:650001(65000) ack 1 win 257
++    * > .  1:1(0) ack 650001
++   +0 < P. 650001:715001(65000) ack 1 win 257
++    * > .  1:1(0) ack 715001
++   +0 < P. 715001:780001(65000) ack 1 win 257
++    * > .  1:1(0) ack 780001
++   +0 < P. 780001:845001(65000) ack 1 win 257
++    * > .  1:1(0) ack 845001
++   +0 < P. 845001:910001(65000) ack 1 win 257
++    * > .  1:1(0) ack 910001
++   +0 < P. 910001:975001(65000) ack 1 win 257
++    * > .  1:1(0) ack 975001
++   +0 < P. 975001:1040001(65000) ack 1 win 257
++    * > .  1:1(0) ack 1040001
++
++// Start inflating future TUN skbs only after the baseline sender-visible
++// window has been established, so the negative-window checks below exercise
++// ratio drift without changing the initial max advertised window.
++   +0 `../tun --set-rx-truesize tun0 65536`
++
++// Trigger an extreme memory squeeze by shrinking SO_RCVBUF.
++   +0 setsockopt(4, SOL_SOCKET, SO_RCVBUF, [16000], 4) = 0
++
++   +0 < P. 1040001:1105001(65000) ack 1 win 257
++    * > .  1:1(0) ack 1040001 win 0
++// Check LINUX_MIB_TCPRCVQDROP has been incremented.
++   +0 `nstat -s | grep TcpExtTCPRcvQDrop | grep -q " 1 "`
++
++// RWIN == 0: rcv_wup = 1040001, rcv_wnd = 0, rcv_mwnd_seq > 1105001.
++
++// Accept pure ack with seq in max adv. window.
++   +0 write(4, ..., 1000) = 1000
++   +0 > P. 1:1001(1000) ack 1040001 win 0
++   +0 < .  1105001:1105001(0) ack 1001 win 257
++
++// In order segment, in max adv. window -> drop (SKB_DROP_REASON_TCP_ZEROWINDOW).
++   +0 < P. 1040001:1041001(1000) ack 1001 win 257
++   +0 > .  1001:1001(0) ack 1040001 win 0
++// Ooo partial segment, in max adv. window -> drop (SKB_DROP_REASON_TCP_ZEROWINDOW).
++   +0 < P. 1039001:1041001(2000) ack 1001 win 257
++   +0 > .  1001:1001(0) ack 1040001 win 0 <nop,nop,sack 1039001:1040001>
++// Check LINUX_MIB_TCPZEROWINDOWDROP has been incremented twice.
++   +0 `nstat -s | grep TcpExtTCPZeroWindowDrop | grep -q " 2 "`
++
++// Ooo segment, in max adv. window -> drop (SKB_DROP_REASON_TCP_OVERWINDOW).
++   +0 < P. 1105001:1106001(1000) ack 1001 win 257
++   +0 > .  1001:1001(0) ack 1040001 win 0
++// Ooo segment, beyond max adv. window -> drop (SKB_DROP_REASON_TCP_INVALID_SEQUENCE).
++   +0 < P. 2000001:2001001(1000) ack 1001 win 257
++   +0 > .  1001:1001(0) ack 1040001 win 0
++// Check LINUX_MIB_BEYOND_WINDOW has been incremented twice.
++   +0 `nstat -s | grep TcpExtBeyondWindow | grep -q " 2 "`
++
++// Read all data.
++   +0 read(4, ..., 2000000) = 1040000
++    * > .  1001:1001(0) ack 1040001
++
++// RWIN > 0: rcv_wup = 1040001, 0 < rcv_wnd < 32000, rcv_mwnd_seq > 1105001.
++
++// Accept pure ack with seq in max adv. window, beyond adv. window.
++   +0 write(4, ..., 1000) = 1000
++   +0 > P.  1001:2001(1000) ack 1040001
++   +0 < . 1105001:1105001(0) ack 2001 win 257
++
++// In order segment, in max adv. window, in adv. window -> accept.
++   +0 < P. 1040001:1041001(1000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1041001
++
++// Ooo partial segment, in adv. window -> accept.
++   +0 < P. 1040001:1042001(2000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1042001 <nop,nop,sack 1040001:1041001>
++
++// Ooo segment, in max adv. window, beyond adv. window -> drop.
++   +0 < P. 1105001:1106001(1000) ack 2001 win 257
++   +0 > .  2001:2001(0) ack 1042001
++// Ooo segment, beyond max adv. window, beyond adv. window -> drop.
++   +0 < P. 2000001:2001001(1000) ack 2001 win 257
++   +0 > .  2001:2001(0) ack 1042001
++// Check LINUX_MIB_BEYOND_WINDOW has been incremented twice more.
++   +0 `nstat -s | grep TcpExtBeyondWindow | grep -q " 4 "`
++
++// We are allowed to go beyond the window and buffer with one packet.
++   +0 < P. 1042001:1062001(20000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1062001
++   +0 < P. 1062001:1082001(20000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1082001 win 0
++
++// But not more: in-order segment, in max adv. window -> drop.
++   +0 < P. 1082001:1083001(1000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1082001
++// Check LINUX_MIB_TCPZEROWINDOWDROP has been incremented again.
++   +0 `nstat -s | grep TcpExtTCPZeroWindowDrop | grep -q " 3 "`
++
++// Another ratio drop must not change the final zero-window decision.
++   +0 `../tun --set-rx-truesize tun0 131072`
++
++   +0 < P. 1082001:1083001(1000) ack 2001 win 257
++    * > .  2001:2001(0) ack 1082001
++// Check LINUX_MIB_TCPZEROWINDOWDROP has been incremented once more.
++   +0 `nstat -s | grep TcpExtTCPZeroWindowDrop | grep -q " 4 "`
+diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig.pkt
+new file mode 100644
+index 000000000000..837ba3633752
+--- /dev/null
++++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig.pkt
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0
++
++--mss=1000
++
++`./defaults.sh`
++
++    0 `nstat -n`
++
++// Establish a connection.
++   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) = 0
++   +0 bind(3, ..., ...) = 0
++   +0 listen(3, 1) = 0
++
++   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
++   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
++  +.1 < . 1:1(0) ack 1 win 257
++
++   +0 accept(3, ..., ...) = 4
++
++   +0 < P. 1:20001(20000) ack 1 win 257
++ +.04 > .  1:1(0) ack 20001 win 18000
++
++   +0 setsockopt(4, SOL_SOCKET, SO_RCVBUF, [12000], 4) = 0
++   +0 < P. 20001:80001(60000) ack 1 win 257
++   +0 > .  1:1(0) ack 20001 win 18000
++
++   +0 read(4, ..., 20000) = 20000
++
++// A too big packet is accepted if the receive queue is empty, but the
++// stronger admission path must not zero the receive buffer while doing so.
++   +0 < P. 20001:80001(60000) ack 1 win 257
++    * > .  1:1(0) ack 80001 win 0
++   +0 %{ assert SK_MEMINFO_RCVBUF > 0, SK_MEMINFO_RCVBUF }%
+diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default.pkt
+new file mode 100644
+index 000000000000..b2e4950e0b83
+--- /dev/null
++++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default.pkt
+@@ -0,0 +1,97 @@
++// SPDX-License-Identifier: GPL-2.0
++
++--mss=1000
++
++`./defaults.sh
++sysctl -q net.ipv4.tcp_moderate_rcvbuf=0`
++
++// Establish a connection on the default receive buffer. Leave a large skb in
++// the queue, then deliver another one which still fits the remaining rwnd.
++// We should grow sk_rcvbuf to honor the already-advertised window instead of
++// dropping the packet.
++   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++   +0 bind(3, ..., ...) = 0
++   +0 listen(3, 1) = 0
++
++   +0 < S 0:0(0) win 65535 <mss 1000,nop,nop,sackOK,nop,wscale 7>
++   +0 > S. 0:0(0) ack 1 <...>
++  +.1 < . 1:1(0) ack 1 win 257
++
++   +0 accept(3, ..., ...) = 4
++
++// Exchange enough data to get past the completely fresh-socket case while
++// still keeping the receive buffer at its 128kB default.
++   +0 < P. 1:65001(65000) ack 1 win 257
++   * > .  1:1(0) ack 65001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 65001:130001(65000) ack 1 win 257
++   * > .  1:1(0) ack 130001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 130001:195001(65000) ack 1 win 257
++   * > .  1:1(0) ack 195001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 195001:260001(65000) ack 1 win 257
++   * > .  1:1(0) ack 260001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 260001:325001(65000) ack 1 win 257
++   * > .  1:1(0) ack 325001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 325001:390001(65000) ack 1 win 257
++   * > .  1:1(0) ack 390001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 390001:455001(65000) ack 1 win 257
++   * > .  1:1(0) ack 455001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 455001:520001(65000) ack 1 win 257
++   * > .  1:1(0) ack 520001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 520001:585001(65000) ack 1 win 257
++   * > .  1:1(0) ack 585001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 585001:650001(65000) ack 1 win 257
++   * > .  1:1(0) ack 650001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 650001:715001(65000) ack 1 win 257
++   * > .  1:1(0) ack 715001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 715001:780001(65000) ack 1 win 257
++   * > .  1:1(0) ack 780001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 780001:845001(65000) ack 1 win 257
++   * > .  1:1(0) ack 845001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 845001:910001(65000) ack 1 win 257
++   * > .  1:1(0) ack 910001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 910001:975001(65000) ack 1 win 257
++   * > .  1:1(0) ack 975001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 975001:1040001(65000) ack 1 win 257
++   * > .  1:1(0) ack 1040001
++   +0 read(4, ..., 65000) = 65000
++
++// Leave about 60kB queued, then accept another large skb which still fits
++// the rwnd we already exposed to the peer. The regression is the drop; the
++// exact sk_rcvbuf growth path is an implementation detail.
++   +0 < P. 1040001:1102001(62000) ack 1 win 257
++   * > .  1:1(0) ack 1102001
++
++   +0 < P. 1102001:1167001(65000) ack 1 win 257
++   * > .  1:1(0) ack 1167001
++   +0 read(4, ..., 127000) = 127000
+diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default_truesize.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default_truesize.pkt
+new file mode 100644
+index 000000000000..c2ebe11d75f7
+--- /dev/null
++++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default_truesize.pkt
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: GPL-2.0
++
++--mss=1000
++
++`./defaults.sh
++sysctl -q net.ipv4.tcp_moderate_rcvbuf=0`
++
++// Establish a connection on the default receive buffer. The warmup traffic
++// keeps the socket in the normal data path without changing its default
++// sk_rcvbuf. Then inflate skb->truesize on future TUN RX packets so the live
++// scaling_ratio drops after we already exposed a larger rwnd to the peer.
++// The follow-up packet should still be admitted, and tcp_clamp_window() should
++// grow sk_rcvbuf to honor the sender-visible window instead of dropping data.
++   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++   +0 bind(3, ..., ...) = 0
++   +0 listen(3, 1) = 0
++
++   +0 < S 0:0(0) win 65535 <mss 1000,nop,nop,sackOK,nop,wscale 7>
++   +0 > S. 0:0(0) ack 1 <...>
++  +.1 < . 1:1(0) ack 1 win 257
++
++   +0 accept(3, ..., ...) = 4
++
++// Exchange enough data to get past the completely fresh-socket case while
++// still keeping the receive buffer at its initial default.
++   +0 < P. 1:65001(65000) ack 1 win 257
++   * > .  1:1(0) ack 65001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 65001:130001(65000) ack 1 win 257
++   * > .  1:1(0) ack 130001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 130001:195001(65000) ack 1 win 257
++   * > .  1:1(0) ack 195001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 195001:260001(65000) ack 1 win 257
++   * > .  1:1(0) ack 260001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 260001:325001(65000) ack 1 win 257
++   * > .  1:1(0) ack 325001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 325001:390001(65000) ack 1 win 257
++   * > .  1:1(0) ack 390001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 390001:455001(65000) ack 1 win 257
++   * > .  1:1(0) ack 455001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 455001:520001(65000) ack 1 win 257
++   * > .  1:1(0) ack 520001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 520001:585001(65000) ack 1 win 257
++   * > .  1:1(0) ack 585001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 585001:650001(65000) ack 1 win 257
++   * > .  1:1(0) ack 650001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 650001:715001(65000) ack 1 win 257
++   * > .  1:1(0) ack 715001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 715001:780001(65000) ack 1 win 257
++   * > .  1:1(0) ack 780001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 780001:845001(65000) ack 1 win 257
++   * > .  1:1(0) ack 845001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 845001:910001(65000) ack 1 win 257
++   * > .  1:1(0) ack 910001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 910001:975001(65000) ack 1 win 257
++   * > .  1:1(0) ack 975001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 < P. 975001:1040001(65000) ack 1 win 257
++   * > .  1:1(0) ack 1040001
++   +0 read(4, ..., 65000) = 65000
++
++   +0 %{ base_rcvbuf = SK_MEMINFO_RCVBUF }%
++
++// Leave about 60kB queued, then make future TUN skbs look more expensive in
++// two steps. Both inflated skbs still fit the already-advertised window and
++// must be admitted, and sk_rcvbuf should keep growing as the live
++// scaling_ratio drops further.
++   +0 < P. 1040001:1102001(62000) ack 1 win 257
++   * > .  1:1(0) ack 1102001
++
++   +0 `../tun --set-rx-truesize tun0 4096`
++
++   +0 < P. 1102001:1167001(65000) ack 1 win 257
++   * > .  1:1(0) ack 1167001
++   +0 %{ assert SK_MEMINFO_RCVBUF > base_rcvbuf, (base_rcvbuf, SK_MEMINFO_RCVBUF) }%
++   +0 %{ small_rcvbuf = SK_MEMINFO_RCVBUF }%
++
++   +0 < P. 1167001:1229001(62000) ack 1 win 257
++   * > .  1:1(0) ack 1229001
++
++   +0 `../tun --set-rx-truesize tun0 65536`
++
++   +0 < P. 1229001:1294001(65000) ack 1 win 257
++   * > .  1:1(0) ack 1294001
++   +0 %{ assert SK_MEMINFO_RCVBUF > small_rcvbuf, (base_rcvbuf, small_rcvbuf, SK_MEMINFO_RCVBUF) }%
++
++   +0 < P. 1294001:1356001(62000) ack 1 win 257
++   * > .  1:1(0) ack 1356001
++   +0 read(4, ..., 254000) = 254000
+diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_allowed_truesize.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_allowed_truesize.pkt
+new file mode 100644
+index 000000000000..08da5fddaa12
+--- /dev/null
++++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_allowed_truesize.pkt
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-2.0
++
++--mss=1000
++
++`./defaults.sh
++sysctl -q net.ipv4.tcp_shrink_window=1
++sysctl -q net.ipv4.tcp_rmem="4096 32768 $((32*1024*1024))"`
++
++   0 `nstat -n`
++
++// Establish a connection. After the first payload we know the peer has seen a
++// scaled receive window reaching sequence 25361. Inflate later TUN skbs in two
++// steps so the live scaling_ratio drops more than once, then verify that:
++//   1) a segment one byte beyond the max advertised window is still dropped,
++//   2) a segment exactly using the previously advertised max window is still
++//      accepted even though the current live ratio no longer matches that
++//      original advertisement basis.
++  +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++  +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++  +0 bind(3, ..., ...) = 0
++  +0 listen(3, 1) = 0
++
++  +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
++  +0 > S. 0:0(0) ack 1 <mss 1460,nop,wscale 10>
++  +0 < . 1:1(0) ack 1 win 257
++
++  +0 accept(3, ..., ...) = 4
++
++  +0 < P. 1:10001(10000) ack 1 win 257
++   * > .  1:1(0) ack 10001 win 15
++
++// Max window seq advertised here is 10001 + 15*1024 = 25361.
++  +0 `../tun --set-rx-truesize tun0 4096`
++
++  +0 < P. 10001:11024(1023) ack 1 win 257
++   * > .  1:1(0) ack 11024
++
++  +0 `../tun --set-rx-truesize tun0 65536`
++
++// Segment beyond the max window stays invalid even after ratio drift.
++  +0 < P. 11024:25362(14338) ack 1 win 257
++   * > .  1:1(0) ack 11024
++
++// Segment exactly using the max window must still be accepted.
++  +0 < P. 11024:25361(14337) ack 1 win 257
++   * > .  1:1(0) ack 25361
++
++// Check LINUX_MIB_BEYOND_WINDOW has been incremented once.
++  +0 `nstat | grep TcpExtBeyondWindow | grep -q " 1 "`
+diff --git a/tools/testing/selftests/net/tun.c b/tools/testing/selftests/net/tun.c
+index cf106a49b55e..473992b3784d 100644
+--- a/tools/testing/selftests/net/tun.c
++++ b/tools/testing/selftests/net/tun.c
+@@ -2,14 +2,17 @@
+ 
+ #define _GNU_SOURCE
+ 
++#include <dirent.h>
+ #include <errno.h>
+ #include <fcntl.h>
++#include <limits.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
+ #include <linux/if_tun.h>
+ #include <sys/ioctl.h>
++#include <sys/syscall.h>
+ #include <sys/socket.h>
+ 
+ #include "kselftest_harness.h"
+@@ -174,6 +177,135 @@ static int tun_delete(char *dev)
+ 	return ip_link_del(dev);
+ }
+ 
++static bool is_numeric_name(const char *name)
 +{
-+	__u32 gran = 1U << img->info.tcpi_rcv_wscale;
-+	__u32 max_right;
-+	__u32 shrink;
++	for (; *name; name++) {
++		if (*name < '0' || *name > '9')
++			return false;
++	}
 +
-+	if (!(img->info.tcpi_options & TCPI_OPT_WSCALE))
-+		return false;
-+
-+	max_right = img->trw.rcv_wup + img->trw.rcv_wnd;
-+	shrink = img->trw.rcv_wnd / 4;
-+	if (shrink < gran)
-+		shrink = gran;
-+	if (shrink >= img->trw.rcv_wnd)
-+		shrink = img->trw.rcv_wnd >> 1;
-+	if (shrink == 0 || shrink >= img->trw.rcv_wnd)
-+		return false;
-+
-+	img->trw.rcv_wnd -= shrink;
-+	img->trw.rcv_mwnd_seq = max_right;
-+	img->trw.rcv_mwnd_scaling_ratio = img->trw.rcv_wnd_scaling_ratio;
 +	return true;
 +}
 +
-+static socklen_t repair_window_len(enum repair_window_mode mode)
++static int packetdrill_dup_fd(int pidfd, const char *fd_name)
 +{
-+	switch (mode) {
-+	case REPAIR_WINDOW_LEGACY:
-+		return test_tcp_repair_window_legacy_size();
-+	case REPAIR_WINDOW_V1:
-+		return test_tcp_repair_window_v1_size();
-+	case REPAIR_WINDOW_CURRENT:
-+	case REPAIR_WINDOW_RETRACTED:
-+		return test_tcp_repair_window_exact_size();
++	char *end;
++	unsigned long tmp;
++
++	errno = 0;
++	tmp = strtoul(fd_name, &end, 10);
++	if (errno || *end || tmp > INT_MAX) {
++		errno = EINVAL;
++		return -1;
 +	}
 +
-+	return test_tcp_repair_window_exact_size();
++	return syscall(SYS_pidfd_getfd, pidfd, (int)tmp, 0);
 +}
 +
-+static void test_sock_checkpoint_mode(enum repair_window_mode mode, int sk,
-+				      struct tcp_sock_state *img,
-+				      sockaddr_af *addr)
++static int open_packetdrill_tunfd(pid_t pid, const char *ifname)
 +{
-+	switch (mode) {
-+	case REPAIR_WINDOW_LEGACY:
-+		test_sock_checkpoint_legacy(sk, img, addr);
-+		break;
-+	case REPAIR_WINDOW_V1:
-+		test_sock_checkpoint_v1(sk, img, addr);
-+		break;
-+	case REPAIR_WINDOW_CURRENT:
-+	case REPAIR_WINDOW_RETRACTED:
-+		test_sock_checkpoint(sk, img, addr);
-+		break;
++	char fd_dir[PATH_MAX];
++	struct dirent *dent;
++	struct ifreq ifr = {};
++	int pidfd;
++	int saved_errno = ENOENT;
++	DIR *dir;
++
++	snprintf(fd_dir, sizeof(fd_dir), "/proc/%ld/fd", (long)pid);
++
++	pidfd = syscall(SYS_pidfd_open, pid, 0);
++	if (pidfd < 0)
++		return -1;
++
++	dir = opendir(fd_dir);
++	if (!dir) {
++		close(pidfd);
++		return -1;
 +	}
++
++	while ((dent = readdir(dir))) {
++		int fd;
++
++		if (!is_numeric_name(dent->d_name))
++			continue;
++
++		/* Reopen via pidfd_getfd() so we duplicate packetdrill's attached
++		 * queue file, instead of opening a fresh /dev/net/tun instance.
++		 */
++		fd = packetdrill_dup_fd(pidfd, dent->d_name);
++		if (fd < 0) {
++			saved_errno = errno;
++			continue;
++		}
++
++		memset(&ifr, 0, sizeof(ifr));
++		if (!ioctl(fd, TUNGETIFF, &ifr) &&
++		    !strncmp(ifr.ifr_name, ifname, IFNAMSIZ)) {
++			close(pidfd);
++			closedir(dir);
++			return fd;
++		}
++
++		if (errno)
++			saved_errno = errno;
++		close(fd);
++	}
++
++	close(pidfd);
++	closedir(dir);
++	errno = saved_errno;
++	return -1;
 +}
 +
- static void tcp_self_connect(const char *tst, unsigned int port,
--			     bool different_keyids, bool check_restore)
-+			     bool different_keyids, bool check_restore,
-+			     enum repair_window_mode repair_window_mode)
- {
- 	struct tcp_counters before, after;
- 	uint64_t before_aogood, after_aogood;
-@@ -109,7 +266,16 @@ static void tcp_self_connect(const char *tst, unsigned int port,
- 	}
- 
- 	test_enable_repair(sk);
--	test_sock_checkpoint(sk, &img, &addr);
-+	test_repair_window_len_contract(sk);
-+	test_sock_checkpoint_mode(repair_window_mode, sk, &img, &addr);
-+	if (repair_window_mode == REPAIR_WINDOW_RETRACTED &&
-+	    !make_retracted_repair_window_state(&img)) {
-+		test_sock_state_free(&img);
-+		netstat_free(ns_before);
-+		close(sk);
-+		test_skip("%s: no scaled repair window to retract", tst);
-+		return;
++/* Packetdrill owns the TUN queue fd, so drive the test ioctl through that
++ * exact file descriptor found under /proc/$PACKETDRILL_PID/fd.
++ */
++static int packetdrill_set_rx_truesize(const char *ifname, const char *value)
++{
++	char *packetdrill_pid, *end;
++	unsigned long long tmp;
++	unsigned int extra;
++	pid_t pid;
++	int fd;
++
++	packetdrill_pid = getenv("PACKETDRILL_PID");
++	if (!packetdrill_pid || !*packetdrill_pid) {
++		fprintf(stderr, "PACKETDRILL_PID is not set\n");
++		return 1;
 +	}
- #ifdef IPV6_TEST
- 	addr.sin6_port = htons(port + 1);
- #else
-@@ -123,7 +289,9 @@ static void tcp_self_connect(const char *tst, unsigned int port,
- 		test_error("socket()");
- 
- 	test_enable_repair(sk);
--	__test_sock_restore(sk, "lo", &img, &addr, &addr, sizeof(addr));
-+	__test_sock_restore_opt(sk, "lo", &img,
-+				repair_window_len(repair_window_mode),
-+				&addr, &addr, sizeof(addr));
- 	if (different_keyids) {
- 		if (test_add_repaired_key(sk, DEFAULT_TEST_PASSWORD, 0,
- 					  local_addr, -1, 7, 5))
-@@ -137,6 +305,10 @@ static void tcp_self_connect(const char *tst, unsigned int port,
- 			test_error("setsockopt(TCP_AO_ADD_KEY)");
- 	}
- 	test_ao_restore(sk, &ao_img);
-+	if (repair_window_mode == REPAIR_WINDOW_V1)
-+		test_v1_repair_window_state(sk, &img);
-+	if (repair_window_mode == REPAIR_WINDOW_RETRACTED)
-+		test_retracted_repair_window_state(sk, &img);
- 	test_disable_repair(sk);
- 	test_sock_state_free(&img);
- 	if (test_client_verify(sk, 100, nr_packets)) {
-@@ -165,20 +337,33 @@ static void *client_fn(void *arg)
- 
- 	setup_lo_intf("lo");
- 
--	tcp_self_connect("self-connect(same keyids)", port++, false, false);
-+	tcp_self_connect("self-connect(same keyids)", port++, false, false,
-+			 REPAIR_WINDOW_CURRENT);
- 
- 	/* expecting rnext to change based on the first segment RNext != Current */
- 	trace_ao_event_expect(TCP_AO_RNEXT_REQUEST, local_addr, local_addr,
- 			      port, port, 0, -1, -1, -1, -1, -1, 7, 5, -1);
--	tcp_self_connect("self-connect(different keyids)", port++, true, false);
--	tcp_self_connect("self-connect(restore)", port, false, true);
-+	tcp_self_connect("self-connect(different keyids)", port++, true, false,
-+			 REPAIR_WINDOW_CURRENT);
-+	tcp_self_connect("self-connect(restore)", port, false, true,
-+			 REPAIR_WINDOW_CURRENT);
-+	port += 2; /* restore test restores over different port */
-+	tcp_self_connect("self-connect(restore, legacy repair window)", port,
-+			 false, true, REPAIR_WINDOW_LEGACY);
-+	port += 2; /* restore test restores over different port */
-+	tcp_self_connect("self-connect(restore, v1 repair window)", port,
-+			 false, true, REPAIR_WINDOW_V1);
-+	port += 2; /* restore test restores over different port */
-+	tcp_self_connect("self-connect(restore, retracted repair window)", port,
-+			 false, true, REPAIR_WINDOW_RETRACTED);
- 	port += 2; /* restore test restores over different port */
- 	trace_ao_event_expect(TCP_AO_RNEXT_REQUEST, local_addr, local_addr,
- 			      port, port, 0, -1, -1, -1, -1, -1, 7, 5, -1);
- 	/* intentionally on restore they are added to the socket in different order */
- 	trace_ao_event_expect(TCP_AO_RNEXT_REQUEST, local_addr, local_addr,
- 			      port + 1, port + 1, 0, -1, -1, -1, -1, -1, 5, 7, -1);
--	tcp_self_connect("self-connect(restore, different keyids)", port, true, true);
-+	tcp_self_connect("self-connect(restore, different keyids)",
-+			 port, true, true, REPAIR_WINDOW_CURRENT);
- 	port += 2; /* restore test restores over different port */
- 
- 	return NULL;
-@@ -186,6 +371,6 @@ static void *client_fn(void *arg)
- 
- int main(int argc, char *argv[])
++
++	errno = 0;
++	tmp = strtoull(packetdrill_pid, &end, 10);
++	if (errno || *end || !tmp || tmp > INT_MAX) {
++		fprintf(stderr, "invalid PACKETDRILL_PID: %s\n", packetdrill_pid);
++		return 1;
++	}
++	pid = (pid_t)tmp;
++
++	errno = 0;
++	tmp = strtoull(value, &end, 0);
++	if (errno || *end || tmp > UINT_MAX) {
++		fprintf(stderr, "invalid truesize value: %s\n", value);
++		return 1;
++	}
++	extra = (unsigned int)tmp;
++
++	fd = open_packetdrill_tunfd(pid, ifname);
++	if (fd < 0) {
++		perror("open_packetdrill_tunfd");
++		return 1;
++	}
++
++	if (ioctl(fd, TUNSETTRUESIZE, (unsigned long)extra)) {
++		perror("ioctl(TUNSETTRUESIZE)");
++		close(fd);
++		return 1;
++	}
++
++	close(fd);
++	return 0;
++}
++
+ static int tun_open(char *dev, const int flags, const int hdrlen,
+ 		    const int features, const unsigned char *mac_addr)
  {
--	test_init(5, client_fn, NULL);
-+	test_init(14, client_fn, NULL);
- 	return 0;
- }
+@@ -985,4 +1117,10 @@ XFAIL_ADD(tun_vnet_udptnl, 6in4_over_maxbytes, recv_gso_packet);
+ XFAIL_ADD(tun_vnet_udptnl, 4in6_over_maxbytes, recv_gso_packet);
+ XFAIL_ADD(tun_vnet_udptnl, 6in6_over_maxbytes, recv_gso_packet);
+ 
+-TEST_HARNESS_MAIN
++int main(int argc, char **argv)
++{
++	if (argc == 4 && !strcmp(argv[1], "--set-rx-truesize"))
++		return packetdrill_set_rx_truesize(argv[2], argv[3]);
++
++	return test_harness_run(argc, argv);
++}
 -- 
 2.43.0
 
