@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-5984-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5985-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +NduFigJtmlq8gAAu9opvQ
-	(envelope-from <linux-api+bounces-5984-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 02:19:36 +0100
+	id sHimIVkJtmlq8gAAu9opvQ
+	(envelope-from <linux-api+bounces-5985-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 02:20:25 +0100
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3A128FBC6
-	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 02:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272CB28FBF1
+	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 02:20:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3F0C1306B17D
-	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 01:18:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 68E8C305CA91
+	for <lists+linux-api@lfdr.de>; Sun, 15 Mar 2026 01:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE821A3164;
-	Sun, 15 Mar 2026 01:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA8A202F65;
+	Sun, 15 Mar 2026 01:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hN8a5zxe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfJmdOBo"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DDF78F2F;
-	Sun, 15 Mar 2026 01:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D1C1D435F;
+	Sun, 15 Mar 2026 01:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773537522; cv=none; b=Lgi8oCYxriMDl8GpH480icHAbN7gIonCpCxPWS03+q7hVAipkD4DGRGuACqDN8jFvGE08K0pgSKbeA/+aHrHuKW/b3JLYqygEm1cV2hxHYg6TF/exOE/5ncUBigV/coXVx5l2PkTtcmPPFEPt4FQI7akxgCWSTDHxHAEw0ok+xo=
+	t=1773537597; cv=none; b=RMkwhjm0ubSuBYYJDDKeMza3I+Uxz1ad77rJqbM4V3y6nLQLVcV5KySJ99yP84jBntquRWGu4WGkn8CRkhpInOCanQGMRpq0x6mmfEybwNCVFTlNl6HkVI5JUIQ/zhNGr6bOTSj8zdpp24MFbFpPqK7gPqHUj5VLTgGK0VpZLzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773537522; c=relaxed/simple;
-	bh=S61dtpSSOz1j7UBL9WOGbhg8/KLi+VusQ9w+iWvVfq8=;
+	s=arc-20240116; t=1773537597; c=relaxed/simple;
+	bh=h0DG2xaeR8KdeW9n8FazcNV9h5yIblTYtboeu3f9tlM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uPRzVoHTkAT9YeIXBI1Ua/TfXKM4uGILWkqaYlgSRg7jiafGnW0YkrtRo6mCk29dw1pcZGOKma+6XS1tttLfZMkDT4UciTo3NbL+N5ogmuf1LGxUAgcn0LaLgRFBWSwvsoGfeq1mxNElpWtE6JGCJZMRbPUV20bi8EkVxxLa+qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hN8a5zxe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9DB2C116C6;
-	Sun, 15 Mar 2026 01:18:40 +0000 (UTC)
+	 MIME-Version:Content-Type; b=gQlugDw8sSK0mUD8emiEr7H7vUrCqjiqaRJCHQ+zFB9QVkL3eQ8XIYHFpQx31BbQGLG7CP8LZKIeT+EL33vfW5Yy6xd4+P+RvLwasg5QrXuwDpOvRSRiB4haBXzWTQLGaiCO1SnVWyLvj+Y+OP9DBUOM3WqdN62BVk+Pxn02H1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfJmdOBo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA66C116C6;
+	Sun, 15 Mar 2026 01:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773537521;
-	bh=S61dtpSSOz1j7UBL9WOGbhg8/KLi+VusQ9w+iWvVfq8=;
+	s=k20201202; t=1773537596;
+	bh=h0DG2xaeR8KdeW9n8FazcNV9h5yIblTYtboeu3f9tlM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hN8a5zxeiGnPtXvCrk+ZIRABC+lRAoqIxqtPkYxxyeUppQ6n+KQZSCzomj/7WQB66
-	 tRmI+QvSY0GSiu+/nlUASGg0yftAg7TfOpNWhVqeR0svn/+5OviHxgELO6vSBhDsw1
-	 6wVh8wkxuRhxCgU7AgnNAE8vb6i4tkzci8+kMohWTczMLZ7RJNCuGmobEBpLWV+aZg
-	 j/g6SCzS55m5Uwf1EGXB1VU4iZk/U/k3XFzuNFyBGF7doJf4bMreeX6AJbxYdMpgPp
-	 nvW2QpxLNrpwVz4B/cXmPLUfYiCLccyKPrhNaXiefo7I0cbL3zctS6I6SNVCe4XBX4
-	 t9XZUmZ1jRIlw==
-Date: Sat, 14 Mar 2026 18:18:39 -0700
+	b=ZfJmdOBoJAmvtPI7jXoLWF8KeSOFXjuAnu64PxZdyM2ezxmUQq+hen21t42T72mcy
+	 ovIkIrHtiE7TkJ7TBdMIFIlLjhrOkk86aKhn+P+5ZdukxSgx1W0OmbWr+SITCf0t+k
+	 Gmbyav+GO4ERrXUXeNsvKOLz3sSawKdRIspI9djl5VJ3Mj8CH9dJrWYW+SeldsDskf
+	 eXrIXnHzd4PuM8swOogh5J9u3ZuuYkSDwfDp93R8xKSA8iJoDcYiW5LB9CyeHdDlYx
+	 Wa1+NsuGbtF5DjyU9GaEU5ofdQAfkOOQw0V4s5DvD/N3dvg/too+j8WHNls0lP7Mg/
+	 e3J6fhaNfdwDw==
+Date: Sat, 14 Mar 2026 18:19:54 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: atwellwea@gmail.com
 Cc: netdev@vger.kernel.org, davem@davemloft.net, pabeni@redhat.com,
@@ -57,12 +57,11 @@ Cc: netdev@vger.kernel.org, davem@davemloft.net, pabeni@redhat.com,
  matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
  rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
  0x7f454c46@gmail.com
-Subject: Re: [PATCH net-next v2 12/14] tun/selftests: add RX truesize
- injection for TCP window tests
-Message-ID: <20260314181839.1c3da7c3@kernel.org>
-In-Reply-To: <20260314201348.1786972-13-atwellwea@gmail.com>
+Subject: Re: [PATCH net-next v2 00/14] tcp: preserve receive-window
+ accounting across ratio drift
+Message-ID: <20260314181954.390bf6bc@kernel.org>
+In-Reply-To: <20260314201348.1786972-1-atwellwea@gmail.com>
 References: <20260314201348.1786972-1-atwellwea@gmail.com>
-	<20260314201348.1786972-13-atwellwea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -81,7 +80,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,davemloft.net,redhat.com,google.com,lists.linux.dev,kernel.org,lunn.ch,gmail.com,linuxfoundation.org,lwn.net,goodmis.org,efficios.com];
-	TAGGED_FROM(0.00)[bounces-5984-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-5985-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -100,32 +99,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AC3A128FBC6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 272CB28FBF1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, 14 Mar 2026 14:13:46 -0600 atwellwea@gmail.com wrote:
-> Add a test-only TUN ioctl that inflates RX skb->truesize, plus the
-> packetdrill-side helper needed to drive that ioctl through packetdrill's
-> own TUN queue file descriptor.
-> 
-> Use that plumbing to cover the receive-window regressions where
-> scaling_ratio drifts after advertisement, alongside the baseline too-big
-> packetdrill cases that exercise the same sender-visible rwnd accounting
-> from the non-injected path.
+On Sat, 14 Mar 2026 14:13:34 -0600 atwellwea@gmail.com wrote:
+> This series keeps sender-visible TCP receive-window accounting tied to the
+> scaling basis that was in force when the window was advertised, even if
+> later receive-side truesize inflation lowers scaling_ratio or the live
+> receive window retracts below the largest right edge already exposed to the
+> sender.
 
-You missed adding the tun program to the Makefile.
-
-  tcp-rcv-neg-window-truesize-pkt                                               
-  tcp-rcv-toobig-default-truesize-pkt                                           
-  tcp-rcv-wnd-shrink-allowed-truesize-pkt                                       
-                                                                               
-Fail with:                                                            
-
-  sh: line 1: ../tun: No such file or directory                                 
-  tcp_rcv_*_truesize.pkt:*: error executing `../tun --set-rx-truesize tun0 6553\
-6` command: non-zero status 127        
-
-https://netdev.bots.linux.dev/contest.html?pw-n=0&branch=net-next-2026-03-15--00-00&pw-n=0&pass=0
+Please wait until at least Monday before reposting this.
+LLM-pocalypse is hitting us hard
 
