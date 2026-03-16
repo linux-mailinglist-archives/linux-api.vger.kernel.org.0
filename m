@@ -1,177 +1,146 @@
-Return-Path: <linux-api+bounces-5998-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5999-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHsWDAJGuGmLbAEAu9opvQ
-	(envelope-from <linux-api+bounces-5998-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 19:03:46 +0100
+	id qFbxKPmKuGmJfgEAu9opvQ
+	(envelope-from <linux-api+bounces-5999-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 23:58:01 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3469129EBDA
-	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 19:03:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4FE2A1C54
+	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 23:58:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 80AF53017014
-	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 18:03:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BF05C300A631
+	for <lists+linux-api@lfdr.de>; Mon, 16 Mar 2026 22:57:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 596D433CEB0;
-	Mon, 16 Mar 2026 18:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2453377EA5;
+	Mon, 16 Mar 2026 22:57:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O07WQe4D"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYytfHIU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163EC33557B
-	for <linux-api@vger.kernel.org>; Mon, 16 Mar 2026 18:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773684215; cv=pass; b=VSA8hmlfTr5EeOleUMfRPPUXfHGFbDUgUUf5xeq+ZQQcO0czQndt37uO5ANsfrcKdg0zLmM98Q2ND7HbTpDU/3SpUCExKn6i9xeWY8D73Hyymgw/bBsPH+P1awfP4ByuwyCx3sJjQdyHYNWojj0mICEaYQV6WxzD1XSh6EU9/RQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773684215; c=relaxed/simple;
-	bh=KNzIzyFdGwoJAVx7hy0kRK+gY5zPmTyPzd0Wd0WQTas=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SJHV0UvQfQy1bC6y+RVF0QTzBO+7H1OM2JQmiJIIcdHGG/MlInkIGaBJE6iorVaNohUyfiTbFB14wL1Y+t2TmXA8Z+9BF7KRf4AYR0kK6cvytf/rFy92oe5oXxflEZTGunQPdV0n2GdHq4neM9BgCnuBZZaWRXOWtp44kAWgzUQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O07WQe4D; arc=pass smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-12776bebe9fso233562c88.1
-        for <linux-api@vger.kernel.org>; Mon, 16 Mar 2026 11:03:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773684213; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FF9CqIeMvD0DgypH287n87y9ZFIkblPNXGjvLuK+VtVbuAfTjirAn6HjtCCNE+CPBe
-         m36nFkYZjtQDvtT3rk9L66+fKpDt8IdafKVr3dOZGodHmEciPfWzE09twp1U6Md3Mubo
-         w3a2zESxJS6HEng+rKJICTGSBKRUPQmq4Eu6SrqybzSh/DtwY/VzKEEa0h0rXO2ebRTB
-         gR4pm/anTBx630J+7yYNU5HH6U/AJk+fwWEiz+rBr1JBZHIdAX/wc/8CMiXCC2n31+4l
-         kDxyeBAptqDP2oTzojfMX3HL6im3zh8+pJPH1Rs/hB7GnWpmq2KDPCfDW9Wmi87adBfF
-         bWBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KNzIzyFdGwoJAVx7hy0kRK+gY5zPmTyPzd0Wd0WQTas=;
-        fh=AI+S9w71Y5h4am4vpe+m27qMWHlN4wTb4I03yfVxLUk=;
-        b=b6dmbJrDtQbX/1gfnDVN63aJCPID7pGZmtNh85xmGcBlo75SikYiX47FNvumZui5Cd
-         IX6RJRikoN5VtMUkC3Fds4fXDFHAS8JWAcFvBu7vhsVUB+h0Y2xonYXxAvToOsJgpBT8
-         4iwLv3fw/s7hPMjLd+rbufgDaDGWkkx+FkymsWt+zYlMxPU9Fybo6ktvoarhxoGfbrfA
-         VWXNiTeaHCvE+jgKdMp+t6VlYkto6A0XKZgFxesH7o4lyT2ScHxc9wS7UNk5OnJg7aFf
-         WZI9oNCePnhupNhV+BG+4bySITcjFeu7L0dqgR3Kq2mjYVMt6XQe0a/7VAe6Y3cpvwlA
-         bA+A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773684213; x=1774289013; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KNzIzyFdGwoJAVx7hy0kRK+gY5zPmTyPzd0Wd0WQTas=;
-        b=O07WQe4DY8rR2TalssFliMhJMUanx8+Nj7/aoptmrFfrw6TU5RopcWFn1u2FSG5wj6
-         WJdIdUVc/Jz6eCnjmFHsBrDLej9HM6xxU5LSAYT7wY1Nr5J1bsnTeGfQSWq0kfBKqxrp
-         XvwlEB7du/N87ct4LCBjpa9pnRhybUocVzNtb6uI5T8kJQanDtMKVR8UhHxsl/SADP5T
-         mzxmC+H2Cv7X9Hwrvl0HMDq4KajhQK3qoZVZ+9UoKOeh3YY8ehoAS3oRIrSqQ7/gFLMW
-         2kRGTnGFAmkfbrRP7PH1q65ynTPsQ0glkjdQYpyB7zlLTEroJput4cJbSf77Ec7xTZ/n
-         vr9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773684213; x=1774289013;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KNzIzyFdGwoJAVx7hy0kRK+gY5zPmTyPzd0Wd0WQTas=;
-        b=nPikICLAnlwKh0zybeA/g6RLZeOdSuwMTTZDIRgFUS7UXuEHrfWkdUhcXvs7sFTVEr
-         fjxfkWlhDupnPeSH+ey3T1H1VMJQ2zOW/ysSMh/qSNdyg5BmU5WTjEWNihypvLpbMw8f
-         m+AeF5jcNW15DNoxJP2ScZBoZzYyFnCC8vyqEicLgQT7xZwW3GgloZlqDwCftIFIzl6D
-         MULCP4pDhPRkKGzcqbISKu+HPdBxEVcHbwuShq0Wiv06h+YO4Nfd82Ywg963S5i9TBu3
-         29dqnOv4HzoKUAYUX28KPy6wRMJpPrGXHkA4UYNN35HJnX621OvWUl0Pg0i3bg60sa76
-         7tfg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/ImM2i+Zyp0r4jVjTmTPKHXsv8tdYLK8YkKQN3OBYO0dWeXzqvHDSbk2H/qdxhSHXNv6htUaAesw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywej1II2E7zBSqteOEnbwK19y80fS6sg2waGuGMn+rUs/FyOwAN
-	Bf9cML+6xVugWTMoVBs5TM/snMjezVsAC4C3yXfP8om9qj29OhYlkC/YEDwn3XP3mk43kyvj9v7
-	7Jlg66+hbPBkvcomxGpGyruVEUrXtRoo=
-X-Gm-Gg: ATEYQzxe6nufLidL8Y0LckCrOKV2rAHa30EWfMWUg03bGLJOXR2bHtQhI1j27uMscZV
-	gzUr/FR96T9zEzUK/cRBscj/3ZIDaCNr2RMQTujkUrmtvMqDJcyXFs4jNAF+UX8FrbP5ozeRe01
-	hyjEqkTbspS6o3GegszQdIFTctyMWbjHJqdpb8bahhLgi+Eh+GEzE9NpkjBx7rweUCt7DijkLsi
-	jy0nG3kBgSMsGzgng0J0U0fOQGGw+Ao6/46Tb/1EDlz7ba1uYRB6PBFIp4xIuczV3SXec9GQD57
-	/ghNSSUcfY2uQVRRSfzuu1gWF7F0b6MytlmwZFWA
-X-Received: by 2002:a05:7022:e1d:b0:128:d786:8aca with SMTP id
- a92af1059eb24-128f3c6b032mr6448350c88.0.1773684213034; Mon, 16 Mar 2026
- 11:03:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8FA35028C;
+	Mon, 16 Mar 2026 22:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773701878; cv=none; b=AjUNFH2jvGq8l3EzeX4JN+2Ffh2gMxrj46EKp7Il2z8ZAhMFG+EIh4S0p3DORtu7+hMh0rrU5P8qij1c51JyYO/7CRTCYzXuCeBkcKduO36LoIlqroT2voapv7XoStZaLu2/Qwj86FkXnGsbBQgDisUYX2j+OgvbPYbGkONb1Oc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773701878; c=relaxed/simple;
+	bh=mEnlDtD+uMXBaY3t2IfkmLKFopSN2YDt1ilz6+WKW4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vu7xdIW5UxGQMMrJ5XOdy27SluBTkn49II5s8nY7NNTlOJ8Dru7UVX0sPPy9La+DlsEEHByA6rCZtAzGsRMn697SSIRvM8q2zxtN/MLCAXgEBHXlN7K8T7JhT7HkMIBWGk3hdINK/E3XNteVgHo2bhQjenwT9ssO2qxooowO2fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYytfHIU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B5CC19421;
+	Mon, 16 Mar 2026 22:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773701878;
+	bh=mEnlDtD+uMXBaY3t2IfkmLKFopSN2YDt1ilz6+WKW4U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dYytfHIUOzat5FH4iDWFKQ+0LqEBB/CopaYZWcxqPfMn6TDVJ5aH2m7e7b6i2uI+G
+	 njfJqsJHJEfJczHdFp+9mf+HI3bQ1IsCULV7Za2wDaYAEj9Fo0kh8Pi7OuDertqPRS
+	 Rl0/jJqSngDaNVj6stP+jWC41xXtSehkjltX63SMWOlUwrzAnPwCmSA2iV+L1CjHhA
+	 LnNsPapvzaV6qITwziVvpn7+IND6I895QjO8R0ZPpEt5pxkemP75Fgna1R/Tbpw178
+	 fu0AaoYy8JiT2wSC0G1wnhYdgF9IahedQfdKYUX95VoEM5I5nt2m650V/+QJ3gT5aZ
+	 kaEqPojDY5xFA==
+Date: Mon, 16 Mar 2026 15:57:56 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: syzkaller <syzkaller@googlegroups.com>, Sasha Levin <sashal@kernel.org>,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
+ <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
+ David Laight <david.laight.linux@gmail.com>, Askar Safin
+ <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
+ Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260316155756.25b985f5@kernel.org>
+In-Reply-To: <CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260314111822.63a2ba4a@kernel.org>
+	<CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260314201348.1786972-1-atwellwea@gmail.com> <b042de90-79e3-4976-9bbe-b6df3266caea@redhat.com>
- <CAN=sVvyNpkyok_bt8eQSmqc4f7g7QoZBUmRmNRLoFz1HasEzMA@mail.gmail.com> <e93ce797-4153-4e6e-89b6-3839a0b8bca2@redhat.com>
-In-Reply-To: <e93ce797-4153-4e6e-89b6-3839a0b8bca2@redhat.com>
-From: Wesley Atwell <atwellwea@gmail.com>
-Date: Mon, 16 Mar 2026 12:03:21 -0600
-X-Gm-Features: AaiRm50ReSwavo1j1ssacOUbWxtcgznlHmGlPHkMg2HYVcwTt0DGLUUEq90y36c
-Message-ID: <CAN=sVvx8jNC-OAMkv19Wv13jTpV5_wVEabwUCjPLMwTvS4czow@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 00/14] tcp: preserve receive-window accounting
- across ratio drift
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
-	edumazet@google.com, ncardwell@google.com, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	mptcp@lists.linux.dev, dsahern@kernel.org, horms@kernel.org, 
-	kuniyu@google.com, andrew+netdev@lunn.ch, willemdebruijn.kernel@gmail.com, 
-	jasowang@redhat.com, skhan@linuxfoundation.org, corbet@lwn.net, 
-	matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org, 
-	rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	0x7f454c46@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-5999-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-5998-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FREEMAIL_CC(0.00)[vger.kernel.org,davemloft.net,kernel.org,google.com,lists.linux.dev,lunn.ch,gmail.com,redhat.com,linuxfoundation.org,lwn.net,goodmis.org,efficios.com];
+	FREEMAIL_CC(0.00)[googlegroups.com,kernel.org,vger.kernel.org,linuxfoundation.org,lwn.net,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[atwellwea@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-api,netdev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3469129EBDA
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,raw.githubusercontent.com:url]
+X-Rspamd-Queue-Id: 0C4FE2A1C54
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Paolo,
+On Mon, 16 Mar 2026 08:05:53 +0100 Dmitry Vyukov wrote:
+> On Sat, 14 Mar 2026 at 19:18, Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
+> > > This enables static analysis tools to verify userspace API usage at compile
+> > > time, test generation based on formal specifications, consistent error handling
+> > > validation, automated documentation generation, and formal verification of
+> > > kernel interfaces.  
+> >
+> > Could you give some examples? We have machine readable descriptions for
+> > Netlink interfaces, we approached syzbot folks and they did not really
+> > seem to care for those.  
+> 
+> I think our reasoning wrt syzkaller was that not all interfaces in all
+> relevant kernels are described with netlink yml descriptions, so we
+> need to continue using the extraction of interfaces from the source
+> code. And if we have that code, then using yml as an additional data
+> source only adds code/complexity. Additionally, we may extract some
+> extra constraints/info from code that are not present in yml.
+> 
+> Realistically system call descriptions may have the same problem for
+> us at this point, since we extract lots of info from the source code
+> already:
+> https://raw.githubusercontent.com/google/syzkaller/refs/heads/master/sys/linux/auto.txt
 
-The link I meant is the netdev regression discussion that led to:
+yup! we haven't tried to make the yml spec super useful to syzbot 
+to be fair. I'm just flagging that example because in our case we
+quickly went from "this will obviously be useful to syzbot" to
+"although we could, it may not be super practical"
 
-026dfef287c0 ("tcp: give up on stronger sk_rcvbuf checks (for now)")
+> (and LLMs obviously can allow us to extract more)
 
-The report/discussion thread is here:
-
-https://lore.kernel.org/20260225122355.585fd57b@kernel.org
-
-The revert posting itself is here:
-
-https://patch.msgid.link/20260227003359.2391017-1-kuba@kernel.org
-
-I should not have implied that there was a separate prior
-regression report beyond that thread.
-
-Thanks for the note on formatting. I will keep follow-ups in plaintext
-and avoid top-posting.
-
-Thanks,
-Wesley
+Didn't even think of that. LLMs should make short work of this sort of
+extraction of information from source code..
 
