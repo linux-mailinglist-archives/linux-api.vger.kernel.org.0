@@ -1,96 +1,58 @@
-Return-Path: <linux-api+bounces-6028-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6029-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALjhBrUXwWn5QQQAu9opvQ
-	(envelope-from <linux-api+bounces-6028-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 11:36:37 +0100
+	id QC/MI9AXwWm5QgQAu9opvQ
+	(envelope-from <linux-api+bounces-6029-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 11:37:04 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529B92F037D
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 11:36:36 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B8F2F046C
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 11:37:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 12A533001F9E
-	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 10:29:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1C20306EE27
+	for <lists+linux-api@lfdr.de>; Mon, 23 Mar 2026 10:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CF138AC9C;
-	Mon, 23 Mar 2026 10:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lpONrdMy";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="FJJXGn4w";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zKbNlz/j";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wBA7ZXfc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7982B339705;
+	Mon, 23 Mar 2026 10:31:09 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE2537BE66
-	for <linux-api@vger.kernel.org>; Mon, 23 Mar 2026 10:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB20138AC96
+	for <linux-api@vger.kernel.org>; Mon, 23 Mar 2026 10:31:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261744; cv=none; b=ccd3jPpGofLBKudLNMRnOmmSVsmM9qxjXhHtPOR6W1iLTa3g5Cq4eg3QtpPfz37yAxojET4XzeDKFkaVpV5Ach//7iZCy01mvWxXHV2Bo42/V50Bx7vNPNkatUsdatR/6UcJF23epHq3P67FrRbdCQ+M4OtOzU2Cwph/QCNSlQY=
+	t=1774261869; cv=none; b=KdK64sZ/6OkUS0EpMgzEgIZlddK1a79LkvbyIPWf+y1GXEqN//f+AE5/FeDnSNRXSR5ADHAJuc9BeVbU2X27punGgugQq8bDoq/ULeTPhvVzHtzN2dwPum1P9Xf9pu8PBiVgTM0KWODeDmCHUeg2wrg6UGWHJinRkds9I5hwV48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261744; c=relaxed/simple;
-	bh=kg7WeEM1R2O9sFRY2GL0Me5mE8px56wXeelYmZ/CIzI=;
+	s=arc-20240116; t=1774261869; c=relaxed/simple;
+	bh=nFdS1FHOzRATFSUtgN2rvWgpvz9y0bdFEBR0nJqmdHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KCvfdhclwRWAddYz7a7NFN1v0l3DTmFZ8aA2Kr1zQn4RgB6xrT6uYsNcQHmipvca5t7ez+fMs8V9DOhYNj868n+B889QVnzGi4GCPYbwrkEuOa3U8UQ+BFsTpIacMa/2T1HAJbRvIm6BO2uCojxbpkn7n6I61I9Cg4hk4vAfgfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lpONrdMy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=FJJXGn4w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zKbNlz/j; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wBA7ZXfc; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=qGtydmJYojbxclgRxvBuh849fmH0116LNdYI9SkVLibRHeOgoybaNRKeQNHzlC/rd4R/Xzcjm2Jaa08+/p+Q3WYUp1ZnQnKA8GqRuLvDx26rVFDYQAVqdF2nb812twKxkrH1DQs84i9FM5bm2c/91l2cD9I+Lqy6KxzTDhy9alg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 421645BDC8;
-	Mon, 23 Mar 2026 10:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774261741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Ab1W5iDfJ5ZhI+KleEyBGCm8hMtIT7U/8ivEBr2rmg=;
-	b=lpONrdMyQqW/R8+PKsRCthVwMwzNBq0RFoEGUDoladnMqzPdKfhiuB5QEYRGHFXsoqZbvX
-	t5UREbiTDzejJVl5hepGOtE14DerQXoIlpksctRWAKCjKAqhUlLRaCqZHyXpizWn727r89
-	+ctnvO7HDGmHbMNoD3oDF7eDOd7iO1E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774261741;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Ab1W5iDfJ5ZhI+KleEyBGCm8hMtIT7U/8ivEBr2rmg=;
-	b=FJJXGn4wtBLaGaEBPArhMiYcy5645dhR2+Zssii/2y20lGOHIceoY1P+OJxsRJ7yCBEQX/
-	MjrZpGILZ/Iv4YCA==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F8845BDB4;
+	Mon, 23 Mar 2026 10:31:06 +0000 (UTC)
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="zKbNlz/j";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=wBA7ZXfc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774261740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Ab1W5iDfJ5ZhI+KleEyBGCm8hMtIT7U/8ivEBr2rmg=;
-	b=zKbNlz/jq0hoa1hKAraTGS755e9ZPFHqqoJEQKYHCNRzLU5h9CdZbMrBHvg88k9UJIIdkQ
-	JFhEuWzEaNN1FR/575NeCdfGRQAQL26W3pQ2FgCtHKlGkyyQ8EZ/jsODANadEdrObJYZRq
-	lAYt4//pu/HeGemwLk0iftltMfgEzuE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774261740;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Ab1W5iDfJ5ZhI+KleEyBGCm8hMtIT7U/8ivEBr2rmg=;
-	b=wBA7ZXfcM52/N2RW1VdFyUDx3NUsGkGwfXzalxvRw7P1fPmUrDin9nkJFhInK1OnZOTmov
-	P2q8k7ZNlZUniuAw==
+	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38D9B4381A;
-	Mon, 23 Mar 2026 10:29:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65C044381A;
+	Mon, 23 Mar 2026 10:31:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Bj7dDewVwWlaIQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 10:29:00 +0000
+	id j7rTGGoWwWnAIwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 10:31:06 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EDAD2A0B2E; Mon, 23 Mar 2026 11:28:59 +0100 (CET)
-Date: Mon, 23 Mar 2026 11:28:59 +0100
+	id 2EBF2A0B2E; Mon, 23 Mar 2026 11:31:06 +0100 (CET)
+Date: Mon, 23 Mar 2026 11:31:06 +0100
 From: Jan Kara <jack@suse.cz>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -98,10 +60,10 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
 	linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	linux-api@vger.kernel.org
-Subject: Re: [PATCH 2/3] fs: pass on FTRUNCATE_* flags to do_truncate
-Message-ID: <xyngoavkugrr3iib3se7pkd4h72tu6iwhmr37ro63qnytlr7s7@g6mspo2kgwzp>
+Subject: Re: [PATCH 3/3] fs: remove do_sys_truncate
+Message-ID: <yggi6tpu3uptzwe4an55ufkqgrrxkhu6e3sftlmgmny74c5w2m@4hapz3ee6kqv>
 References: <20260323070205.2939118-1-hch@lst.de>
- <20260323070205.2939118-3-hch@lst.de>
+ <20260323070205.2939118-4-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -110,44 +72,50 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323070205.2939118-3-hch@lst.de>
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+In-Reply-To: <20260323070205.2939118-4-hch@lst.de>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Score: -4.00
 X-Spam-Level: 
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-6029-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,suse.cz:dkim,suse.cz:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,suse.com:email];
+	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[suse.cz];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6028-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 529B92F037D
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,lst.de:email]
+X-Rspamd-Queue-Id: 23B8F2F046C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon 23-03-26 08:01:45, Christoph Hellwig wrote:
-> Pass the flags one level down to replace the somewhat confusing small
-> argument, and clean up do_truncate as a result.
+On Mon 23-03-26 08:01:46, Christoph Hellwig wrote:
+> do_sys_truncate ist only used to implement ksys_truncate and the native
+> truncate syscalls.  Merge do_sys_truncate into ksys_truncate and return
+> int from it as it only returns 0 or negative errnos.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
@@ -157,84 +125,69 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
+
 > ---
->  fs/internal.h       |  2 +-
->  fs/open.c           | 22 ++++++++++------------
->  io_uring/truncate.c |  2 +-
->  3 files changed, 12 insertions(+), 14 deletions(-)
+>  fs/open.c                | 8 ++++----
+>  include/linux/syscalls.h | 8 +-------
+>  2 files changed, 5 insertions(+), 11 deletions(-)
 > 
-> diff --git a/fs/internal.h b/fs/internal.h
-> index 2663823e273a..52e4c354e7a4 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -198,7 +198,7 @@ extern struct open_how build_open_how(int flags, umode_t mode);
->  extern int build_open_flags(const struct open_how *how, struct open_flags *op);
->  struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
->  
-> -int do_ftruncate(struct file *file, loff_t length, int small);
-> +int do_ftruncate(struct file *file, loff_t length, unsigned int flags);
->  int chmod_common(const struct path *path, umode_t mode);
->  int do_fchownat(int dfd, const char __user *filename, uid_t user, gid_t group,
->  		int flag);
 > diff --git a/fs/open.c b/fs/open.c
-> index 412d0d6fbaa7..181c1597e73c 100644
+> index 181c1597e73c..681d405bc61e 100644
 > --- a/fs/open.c
 > +++ b/fs/open.c
-> @@ -161,23 +161,21 @@ COMPAT_SYSCALL_DEFINE2(truncate, const char __user *, path, compat_off_t, length
+> @@ -126,7 +126,7 @@ int vfs_truncate(const struct path *path, loff_t length)
+>  }
+>  EXPORT_SYMBOL_GPL(vfs_truncate);
+>  
+> -int do_sys_truncate(const char __user *pathname, loff_t length)
+> +int ksys_truncate(const char __user *pathname, loff_t length)
+>  {
+>  	unsigned int lookup_flags = LOOKUP_FOLLOW;
+>  	struct path path;
+> @@ -151,13 +151,13 @@ int do_sys_truncate(const char __user *pathname, loff_t length)
+>  
+>  SYSCALL_DEFINE2(truncate, const char __user *, path, long, length)
+>  {
+> -	return do_sys_truncate(path, length);
+> +	return ksys_truncate(path, length);
+>  }
+>  
+>  #ifdef CONFIG_COMPAT
+>  COMPAT_SYSCALL_DEFINE2(truncate, const char __user *, path, compat_off_t, length)
+>  {
+> -	return do_sys_truncate(path, length);
+> +	return ksys_truncate(path, length);
 >  }
 >  #endif
 >  
-> -int do_ftruncate(struct file *file, loff_t length, int small)
-> +int do_ftruncate(struct file *file, loff_t length, unsigned int flags)
+> @@ -222,7 +222,7 @@ COMPAT_SYSCALL_DEFINE2(ftruncate, unsigned int, fd, compat_off_t, length)
+>  #if BITS_PER_LONG == 32
+>  SYSCALL_DEFINE2(truncate64, const char __user *, path, loff_t, length)
 >  {
-> -	struct inode *inode;
-> -	struct dentry *dentry;
-> +	struct dentry *dentry = file->f_path.dentry;
-> +	struct inode *inode = dentry->d_inode;
->  	int error;
->  
-> -	/* explicitly opened as large or we are on 64-bit box */
-> -	if (file->f_flags & O_LARGEFILE)
-> -		small = 0;
-> -
-> -	dentry = file->f_path.dentry;
-> -	inode = dentry->d_inode;
->  	if (!S_ISREG(inode->i_mode) || !(file->f_mode & FMODE_WRITE))
->  		return -EINVAL;
->  
-> -	/* Cannot ftruncate over 2^31 bytes without large file support */
-> -	if (small && length > MAX_NON_LFS)
-> +	/*
-> +	 * Cannot ftruncate over 2^31 bytes without large file support, either
-> +	 * through opening with O_LARGEFILE or by using ftruncate64().
-> +	 */
-> +	if (length > MAX_NON_LFS &&
-> +	    !(file->f_flags & O_LARGEFILE) && !(flags & FTRUNCATE_LFS))
->  		return -EINVAL;
->  
->  	/* Check IS_APPEND on real upper inode */
-> @@ -205,7 +203,7 @@ int ksys_ftruncate(unsigned int fd, loff_t length, unsigned int flags)
->  	if (fd_empty(f))
->  		return -EBADF;
->  
-> -	return do_ftruncate(fd_file(f), length, !(flags & FTRUNCATE_LFS));
-> +	return do_ftruncate(fd_file(f), length, flags);
+> -	return do_sys_truncate(path, length);
+> +	return ksys_truncate(path, length);
 >  }
 >  
->  SYSCALL_DEFINE2(ftruncate, unsigned int, fd, off_t, length)
-> diff --git a/io_uring/truncate.c b/io_uring/truncate.c
-> index 487baf23b44e..c88d8bd8d20e 100644
-> --- a/io_uring/truncate.c
-> +++ b/io_uring/truncate.c
-> @@ -41,7 +41,7 @@ int io_ftruncate(struct io_kiocb *req, unsigned int issue_flags)
+>  SYSCALL_DEFINE2(ftruncate64, unsigned int, fd, loff_t, length)
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 8787b3511c86..f5639d5ac331 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1285,13 +1285,7 @@ static inline long ksys_lchown(const char __user *filename, uid_t user,
 >  
->  	WARN_ON_ONCE(issue_flags & IO_URING_F_NONBLOCK);
+>  #define FTRUNCATE_LFS	(1u << 0)	/* allow truncating > 32-bit */
+>  int ksys_ftruncate(unsigned int fd, loff_t length, unsigned int flags);
+> -
+> -int do_sys_truncate(const char __user *pathname, loff_t length);
+> -
+> -static inline long ksys_truncate(const char __user *pathname, loff_t length)
+> -{
+> -	return do_sys_truncate(pathname, length);
+> -}
+> +int ksys_truncate(const char __user *pathname, loff_t length);
 >  
-> -	ret = do_ftruncate(req->file, ft->len, 1);
-> +	ret = do_ftruncate(req->file, ft->len, 0);
->  
->  	io_req_set_res(req, ret, 0);
->  	return IOU_COMPLETE;
+>  static inline unsigned int ksys_personality(unsigned int personality)
+>  {
 > -- 
 > 2.47.3
 > 
