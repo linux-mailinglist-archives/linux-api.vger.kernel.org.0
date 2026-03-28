@@ -1,376 +1,251 @@
-Return-Path: <linux-api+bounces-6037-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6038-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLG7ORYfx2k9TQUAu9opvQ
-	(envelope-from <linux-api+bounces-6037-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 01:21:42 +0100
+	id gKjiCKUOyGl+ggUAu9opvQ
+	(envelope-from <linux-api+bounces-6038-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 18:23:49 +0100
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9287534CAAC
-	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 01:21:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B40DB34F472
+	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 18:23:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EFDDB301E986
-	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 00:21:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0FD763029798
+	for <lists+linux-api@lfdr.de>; Sat, 28 Mar 2026 17:23:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC9411A9F86;
-	Sat, 28 Mar 2026 00:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1037E3A3E97;
+	Sat, 28 Mar 2026 17:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NWwyjB3U"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="he2Tc3id"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3507B1A680A
-	for <linux-api@vger.kernel.org>; Sat, 28 Mar 2026 00:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774657300; cv=pass; b=BQ02diItQRskMgUgifJEhBuInL+LvxH7UnVQy/ivvpE7xzYUIgsAChP4h297g1ihPcagb3EXqycaEEpU2vcGA+x+pVvYB2Kf6IPOvVZ2LnL0Fi21XpeGQ71aAwznP1DH0MTvbbtpuy+LZZxbZ3pi+8ZrFSfTFsnd33rhZPlq1wU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774657300; c=relaxed/simple;
-	bh=vV5WV0HLSYcQy+A0cA2Js7gosI1iQQ3g9tIu/GBiDJ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GViNcXns0vJEighjuiTNArkHnXck3MnNqtk6AAFAMwIv/c7FPneGyyUuZ/vCmBgq0+Ayn29mHpXg9zfFpskyhHHqKCIirwMfeIJ1iiBZ8RX+wpFj3QuWOYa2dplL3d758ek5pxBKKMRoqPZKiZ8OIl3y36Tyy+W5o+LuFWLVqkg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NWwyjB3U; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5091ed02c54so131801cf.1
-        for <linux-api@vger.kernel.org>; Fri, 27 Mar 2026 17:21:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774657298; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BQ7/eE5wqhysmXICabVUL2hAG4yCKCyVvUOq2mCrXbmliY58V74Ejh5GW4xTAYvPbk
-         UsPvsd1Ztltin+uB4sRocogZwEak5e+oRbxxro7XWJmiP1we0WPeEI8yAxvXFhKvZEu6
-         uNB1BOoOLvH18VTiDo3SoZV2UZb0smLF9xAUY8x5/9rZe9cswzW5vF2cXJmq5p8YJSdp
-         z1El4eFs4fcCeB2CB/XYTv94TRBjItrrkNUAPP5UCbx/0RnXEkkK+mV7tMUCN0YlJJXA
-         H1mIRZDX1ISMYQXtK/rlo1Q8jDic9s9maPvmfpHSvG3OMt51KwDShcS2Km+3rmui9N7C
-         Qbpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
-        fh=ZoLgjnRawAVhTT2/ukmLYeNtWGyqUE5d0D4w+3CGwmk=;
-        b=GnWWUyIfKJoLfAnMfon2UhrDbUgAeXmpTNo4lYqb6FCb1ZrE7sG9szsciqYcL3QYvG
-         awA+LPxf58TLmo2GiNf/0ZrClJeRt3ORlm/VhHBTrroJNnCNkLYQwsPBuZEI41xaiD7t
-         5DSbsWrcCjrgFNDmyfCElhrEFp1UxjUV8FBDmhnIr7MgGTswpoZMlA8Aq5NF49UdS98G
-         8WY+i9wjnm3w8mmBF9HEu5ozx9e/ZZD2yvVpqEU0fcq253/JuTN08Qc5czdYWFqN0GM6
-         ZgxM6Yh3+UkW5ppHUWiZlTnewSoLOE7SgET/mPg5e0dbtk7aTmyJp9TsWS7QBsKJxTNt
-         PR5g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8521E34D4CC
+	for <linux-api@vger.kernel.org>; Sat, 28 Mar 2026 17:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774718622; cv=none; b=KylDlUFU36juCbmD4eTvK5zSv3G8MVAO+3HJqiRitRv9CiUpGjQpjGDLVWebMWhBrPdKU6Td4cdWLcPZFB+YCu9xshz9L8hHK9O9CuRrFxNxj4JjiVQnypTJFpek92vthN7M3RJuK2mOYEy+Wvpp4HbPxJT/UdOXYV2ln8VWZog=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774718622; c=relaxed/simple;
+	bh=WbXqvQhn4qwD4XjOM1f/RolmfvXydvP/QpIVZ5/s984=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uQmXL9gWQ/dhqFlvS+w40dRC6gVNdlqMg3Q6l1KC5EEwerNrgwcY/IPds+FsjYp4QMv9dsiN/hbyfn+eHYSOyNXeRvzDZiwSPpRaBTDpKAEfDIw3ejdvQRC0bB3okfhw5mx9UONEgt1MUtoYG1yKy1EHZaLyiR+nXn7tYwQ0OCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=he2Tc3id; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35a1f549e7eso1855651a91.0
+        for <linux-api@vger.kernel.org>; Sat, 28 Mar 2026 10:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774657298; x=1775262098; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
-        b=NWwyjB3UfYeV7edM9egaGo7HgyNb/papUg2FICs1v4K996gpTD631K0ks6qsaoXnip
-         1XKQQJ7XugBoN95nibA/VOYFXsMd3m4sKD4h1xEZvIC0fu0Qs7EUEEK3acAHPb/YHZjQ
-         /vezt11v8Yd4wBQbDge8sJnNth4jo6/11rp9oU4Y5O+NoSVeb+KK1toc+/l89T8MgVYA
-         P5919sChlIVa+LVoCmJEZ5seas/+vMXbyI2hn19fS8hbdtjjRUkCVuP36pH4EeovELpp
-         b+xCsFrvJifzzlU4o/BJ7o0pV1wQ0rUGZ4pR56ewhBNJVLD7RLEBIRJ+y4owp5dNDYXJ
-         qNmQ==
+        d=gmail.com; s=20251104; t=1774718621; x=1775323421; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BNS/xpL/hsal7ModqBYJCvXhQFGlskOPOCno4hyw7aY=;
+        b=he2Tc3id36N/dNrImAB0FtQFWApWtJHTjZ72YR26i8lE+n/7H96TCzG9qYvHmqk+2e
+         uhIK/YFXplWVcKkPvGinoa+vojsICJPfJOCo90pDQcWKUw0bcf9YMhWHaGc6t3aDXzaz
+         J0ZN74GIXjZxZ1cHytdCxoivIZe9H2+5LHik+R0ySUgsb7V81/k2KYAcaoJxglkogLHt
+         itgBsuq/w5xhyhloX2BJw9loZpXt2izQxnRHpMpCU28qK6a3lsRUy1qiplwSVk2WBqXf
+         i+gHVslEVJre6VrlGsJP/g1RxCmDbsoFkhecX6fevPzYq0iINcrs9faBGCP9baFUrKFp
+         WCFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774657298; x=1775262098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=K9bPtEBHXKpRO9CjXfaCqUQKt7R+Gz6rl79/OVT+YNo=;
-        b=Z7f/HJCsyzcJfXLd+tqCOhDO0dsm1Pmw/kCmQXJu5XuO3czu5pjGAi/7ZTTsLn6hAY
-         1jhToPzzcVar8c4h1KCysHkA0tBQMfhvwj0Tb/UWuEDK7+Hf7xhq+n9dAuHZLK6v1ax6
-         YnhWjllobjZMQGl820aG0+HEK6pAn8g/hVwRVZYGxtMa4VfM3YAoXHEjCfsvM1LYmOM2
-         HkauKc+V301ptu2+WhPAOjTUkYtXw0vCj9P9icmxyYWnnpiv9rb5XQ2HT51TmnIHN60a
-         b6jNjp65L+W5rl/7bMWEm2h3I+w9BRt5jhejkg5hEWg2bQxdZuMysLfVnA6LJtEjOt87
-         Dnmg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9V3sv+zmUGL7TL0TQ5/TRTYDFfmlsZpFacnlqVQmDRkoZbplKP7N73gTVcRmZYqY/2s0FfJ09UmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRDL/MdjyxJ3xdVADbHq/V/u9jlmqtj0HBTTVMaN8Byk7DRSDf
-	fTsS3jOxIYizPMml24rcSZ++gPWqb3fWwo9q9oSdZYsRdGHaGxPSGo5SCRQ1OPjr1EcoqX3XMuY
-	D8F5rIc8ADoCX9IPZN4H0UJZtKEe05YoCSP/fAAog
-X-Gm-Gg: ATEYQzy89gzR/iqLrfzAmYFsLzH/uBA+ZyKOVtLucUuRpOhtfh+hL3zdiYr4qVH33sX
-	KTmFrSIIW1QZH8J/4g3FC1PEdQ72GkH/IFq3gFdv9+Ec5NhsbtMD5DSTr/JojGdLIenitNqBt2z
-	YFrhd5xp+Yg6sbvUBZnBvPj4VPbxtoh7+EvqtFOGZ48+ol509iqei28Rc/+4ZDN5F5cFUwxomiD
-	XD/0qK7Mdpm8ie0my4YaLBE9EZ1uchNc36Q6Fef5/pE4+BH3IpMGGwvU6cDyocE5cDtcugzeADr
-	nPcp0U7YzimT+cpULA==
-X-Received: by 2002:a05:622a:4c8e:b0:509:14f0:bff2 with SMTP id
- d75a77b69052e-50bb27f62edmr6416861cf.12.1774657297623; Fri, 27 Mar 2026
- 17:21:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774718621; x=1775323421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BNS/xpL/hsal7ModqBYJCvXhQFGlskOPOCno4hyw7aY=;
+        b=QvvYFTlCaD2xcz+pUREl5/2Yul5Bo3jfVBPVkiX2COoJlhPlhMk6KYkyeXFXp81Jzn
+         6dduiyTuYCoUVigGy1VngpbvaDXrnnrvf24MP9wgzMS2Hob7t/EPWCO18j2ZFzLbzQMN
+         O3Oz+Er5/N9bHnnrp5Zav0Z2J8vyTkrgfvte9p5mSvSPuEV1uLelE9DK02CIls+MsliM
+         MDhCT0JythD+o3F5LdU1NU5zh6Yivwa6IEtrUBo4PBTVk7W2cROF76MqICCQi1gzAbtJ
+         CNL2nvk3/2ha+PFj+s1NmudfzLQ2gFSmBMwuaOTEocR+NcHjTO5rrGQUnCvuKwDyOxQz
+         jGeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSFhybgjh89UuT+RTPoXAm7BvA7osm7AWtIYaZLq5iHhYkd2JY89vfZeSo16OW3+Za4uc8ISoFOTk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHYJE2m2oH53cydoFS4lfA88WnO9L5WyqnCBONcqO1bZAob7tR
+	SgMzXNPnD944gCgzat1FEJYQd/Tz6DYJFD0A47koCUyzpm3U3eEwEkR9
+X-Gm-Gg: ATEYQzxe6GIfF4EOjBwCIQvvBWunf6x2HMn8Qc40B7ruOpCeJt3CSGXFF/yX2+sQL4z
+	+H/bi8wdVo9NoG3vGSWlnKf6N6H277OIMfns8cXgEz+zprRzWfQk9bgreI5hhXeCJDBj8unPzWi
+	6BnZMSr2bLQrHanbaMOWD0vwV/q7ZO6LN9nOZcZ5evXAlqlcVCef59EBN0Mk4/lohVvOk0UJI8q
+	EO/e1DSCeNs+8b8utxmU7CHlcXIDmDwdnU993cgpoWySqYqGBiVrr/pFhbKSK5bxqEEzinQDIvc
+	KsX5DcXPMBYyKco9S0EpD/W2/qhoZjcWHH7kRgsIsLLx0Yclx3c/dh1Jty9ReXUl1eZIYP2NEFV
+	elpBjfrsS5md1Sy7npsN6FhThghjG8odHC3kyoRe+kLZ2kTQnzZBXqD5fereYLUedRkZpaqK4nH
+	IC8lTfmwBG0ZQonZqpqRLb84+4OiX/8M/xoVqcBpvy0ErXwfcOuiMVyWY=
+X-Received: by 2002:a17:90b:2744:b0:35b:e690:c5ad with SMTP id 98e67ed59e1d1-35c30094a5amr6635171a91.25.1774718620730;
+        Sat, 28 Mar 2026 10:23:40 -0700 (PDT)
+Received: from toolbx ([103.103.35.11])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22a5570esm10513773a91.3.2026.03.28.10.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 10:23:40 -0700 (PDT)
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	alex.aring@gmail.com,
+	arnd@arndb.de,
+	adilger@dilger.ca,
+	mjguzik@gmail.com,
+	smfrench@gmail.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	idryomov@gmail.com,
+	amarkuze@redhat.com,
+	slava@dubeyko.com,
+	agruenba@redhat.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	sfrench@samba.org,
+	pc@manguebit.org,
+	ronniesahlberg@gmail.com,
+	sprasad@microsoft.com,
+	tom@talpey.com,
+	bharathsm@microsoft.com,
+	shuah@kernel.org,
+	miklos@szeredi.hu,
+	hansg@kernel.org
+Subject: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
+Date: Sat, 28 Mar 2026 23:22:21 +0600
+Message-ID: <20260328172314.45807-1-dorjoychy111@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260323175340.3361311-1-avagin@google.com> <20260323175340.3361311-2-avagin@google.com>
- <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com> <acJnOB-rlyt-3jU4@willie-the-truck>
- <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com> <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
-In-Reply-To: <acarA3sGKY4Acozw@J2N7QTR9R3.cambridge.arm.com>
-From: Andrei Vagin <avagin@google.com>
-Date: Fri, 27 Mar 2026 17:21:26 -0700
-X-Gm-Features: AQROBzAZx6vusK91xtphbHO0OyQ8WklBK8fprRQAhCkwYE-GzsBGKaet5s4vnp4
-Message-ID: <CAEWA0a7AZiuy1F+0LDxtEtJpdu=zA-RKhPb1wcDMpy2tSMFO5g@mail.gmail.com>
-Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Cyrill Gorcunov <gorcunov@gmail.com>, Mike Rapoport <rppt@kernel.org>, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, criu@lists.linux.dev, 
-	Catalin Marinas <catalin.marinas@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	Chen Ridong <chenridong@huawei.com>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Koutny <mkoutny@suse.com>, 
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>, 
-	Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6037-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,samsung.com,gmail.com,mihalicyn.com,vger.kernel.org,kvack.org,lists.linux.dev,arm.com,lists.infradead.org,huawei.com,xmission.com,oracle.com,suse.com,futurfusion.io];
-	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[42];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,HansenPartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6038-lists,linux-api=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dorjoychy111@gmail.com,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[avagin@google.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,arm.com:email]
-X-Rspamd-Queue-Id: 9287534CAAC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B40DB34F472
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 27, 2026 at 9:06=E2=80=AFAM Mark Rutland <mark.rutland@arm.com>=
- wrote:
->
-> On Tue, Mar 24, 2026 at 03:19:49PM -0700, Andrei Vagin wrote:
-> > Hi Mark and Will,
-> >
-> > Thanks for the feedback. Please read the inline comments.
-> >
-> > On Tue, Mar 24, 2026 at 3:28=E2=80=AFAM Will Deacon <will@kernel.org> w=
-rote:
-> > >
-> > > On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
-> > > > On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
-> > > > > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP=
-,
-> > > > > AT_HWCAP2, etc.) from a parent process when they have been modifi=
-ed via
-> > > > > prctl.
-> > > > >
-> > > > > To support C/R operations (snapshots, live migration) in heteroge=
-neous
-> > > > > clusters, we must ensure that processes utilize CPU features avai=
-lable
-> > > > > on all potential target nodes. To solve this, we need to advertis=
-e a
-> > > > > common feature set across the cluster.
-> > > > >
-> > > > > This patch adds a new mm flag MMF_USER_HWCAP, which is set when t=
-he
-> > > > > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV)=
-.  When
-> > > > > execve() is called, if the current process has MMF_USER_HWCAP set=
-, the
-> > > > > HWCAP values are extracted from the current auxiliary vector and =
-stored
-> > > > > in the linux_binprm structure. These values are then used to popu=
-late
-> > > > > the auxiliary vector of the new process, effectively inheriting t=
-he
-> > > > > hardware capabilities.
-> > > > >
-> > > > > The inherited HWCAPs are masked with the hardware capabilities su=
-pported
-> > > > > by the current kernel to ensure that we don't report more feature=
-s than
-> > > > > actually supported. This is important to avoid unexpected behavio=
-r,
-> > > > > especially for processes with additional privileges.
-> > > >
-> > > > At a high level, I don't think that's going to be sufficient:
-> > > >
-> > > > * On an architecture with other userspace accessible feature
-> > > >   identification mechanism registers (e.g. ID registers), userspace
-> > > >   might read those. So you might need to hide stuff there too, and
-> > > >   that's going to require architecture-specific interfaces to manag=
-e.
-> > > >
-> > > >   It's possible that some code checks HWCAPs and others check ID
-> > > >   registers, and mismatch between the two could be problematic.
-> > > >
-> > > > * If the HWCAPs can be inherited by a more privileged task, then a
-> > > >   malicious user could use this to hide security features (e.g. sha=
-dow
-> > > >   stack or pointer authentication on arm64), and make it easier to
-> > > >   attack that task. While not a direct attack, it would undermine t=
-hose
-> > > >   features.
-> >
-> > I agree with Mark that only a privileged process have to be able to mas=
-k
-> > certain hardware features. Currently, PR_SET_MM_AUXV is guarded by
-> > CAP_SYS_RESOURCE, but PR_SET_MM_MAP allows changing the auxiliary vecto=
-r
-> > without specific capabilities. This is definitely the issue. To address
-> > this, I think we can consider to introduce a new prctl command to enabl=
-e
-> > HWCAP inheritance explicitly.
-> >
-> > > Yeah, this looks like a non-starter to me on arm64. Even if it was
-> > > extended to apply the same treatment to the idregs, many of the hwcap
-> > > features can't actually be disabled by the kernel and so you still ru=
-n
-> > > the risk of a task that probes for the presence of a feature using
-> > > something like a SIGILL handler or, perhaps more likely, assumes that
-> > > the presence of one hwcap implies the presence of another. And then
-> > > there are the applications that just base everything off the MIDR...
-> >
-> > The goal of this mechanism is not to provide strict architectural
-> > enforcement or to trap the use of hardware features; rather, it is to
-> > provide a consistent discovery interface for applications. I chose the
-> > HWCAP vector because it mirrors the existing behavior of running an
-> > older kernel on newer hardware: while ID registers might report a
-> > feature as physically present, the HWCAPs will omit it if the kernel
-> > lacks support.
->
-> On arm64, the view of the ID registers that userspace gets *only*
-> exposes features that the kernel knows about, as userspace reads of
-> those registers are trapped+emulated by the kernel. On arm64 it's
-> not true to say that something appears in those but not the HWCAPs.
->
-> I understand that might be different on other architectures, and so
-> maybe this approach is sufficient on other architectures, but it is not
-> sufficient on arm64.
->
-> > Applications are generally expected to treat HWCAPs as
-> > the source of truth for which features are safe to use, even if the
-> > underlying hardware is technically capable of more.
->
-> I'm fairly certain that there are arm64 applications (and libraries)
-> which check only the ID register values, and not the HWCAPs.
->
-> Architecturally, there are features which are detected via other
-> mechanisms (e.g. CHKFEAT), for which HWCAPs are also irrelevant. Even if
-> that happens to be ok today, there are almost certainly future uses that
-> will not be compatible with the scheme you propose.
->
-> I don't think we can say "applications must check the HWCAPs", when we
-> know that applications and libraries legitimately don't always do that.
->
-> > Another significant advantage of using HWCAPs is that many
-> > applications already rely on them for feature detection. This interface
-> > allows these applications to work correctly "out-of-the-box" in a
-> > migrated environment without requiring any userspace modifications.  I
-> > understand that some apps may use other detection methods; however, the=
-re
-> > it no gurantee that these applications will work correctly after
-> > migration to another machine.
->
-> I think the existince of applications that detect features by other
-> (legitimate!) means implies that there's no guarantee that this feature
-> is useful and will remain useful going forwards.
->
-> For example, what do you plan to do if an application or library starts
-> doing something legitimate that causes it to become incompatible with
-> this scheme?
->
-> I don't want to be in a position where userspace is asked to steer clear
-> of legitimate mechanisms, or where architecture code suddently has to
-> pick up a lot of complexity to make this work.
->
-> > > There's also kvm, which provides a roundabout way to query some featu=
-res
-> > > of the underlying hardware.
-> > >
-> > > You're probably better off using/extending the idreg overrides we hav=
-e
-> > > in arch/arm64/kernel/pi/idreg-override.c so that you can make your
-> > > cluster of heterogeneous machines look alike.
-> >
-> > IIRC, idreg-override/cpuid-masking usually works for an entire machine.
-> > We actually need to have a mechanism that will work on a per-container
-> > basis. Workloads inside one cluster can have different
-> > migration/snapshot requirements. Some are pinned to a specific node,
-> > others are never migrated, while others need to be migratable across a
-> > cluster or even between clusters. We need a mechanism that can be
-> > tunable on a per-container/per-process basis.
->
-> I think that's theoretically possible, BUT it will require substantially
-> more complexity, to address the issues that Will and I have mentioned. I
-> don't think people are very happy to pick up that complexity.
->
-> There are many other aspects that are going to be problematic for
-> heterogeneous migration. Even if you hide the HWCAP for a stateful
-> feature (e.g. SME), it might appear in one machine's signal frames (and
-> be mandatory there), but might not appear in anothers, and so migration
-> might not work either way. Likewise, that state can appear via ptrace.
+Hi,
 
-Hi Mark,
+I came upon this "Ability to only open regular files" uapi feature suggestion
+from https://uapi-group.org/kernel-features/#ability-to-only-open-regular-files
+and thought it would be something I could do as a first patch and get to
+know the kernel code a bit better.
 
-I understand all these points and they are valid. However, as I
-mentioned, we are not trying to introduce a mechanism that will strictly
-enforce feature sets for every container. While we would like to have
-that functionality, as you and will mentioned, it would require
-substantially more complexity to address, and maintainers would unlikely
-to pick up that complexity. Even masking ID registers on a per-container
-basis would introduce extra complexity that could make architecture
-maintainers unhappy. There were a few attempts to introduce container
-CPUID masking on x86_64 in the past.
+The following filesystems have been tested by building and booting the kernel
+x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REGULAR that
+regular files can be successfully opened and non-regular files (directory, fifo etc)
+return -EFTYPE.
+- btrfs
+- NFS (loopback)
+- SMB (loopback)
 
-In CRIU, we are not aiming to handle every possible workload. Our goal
-is to target workloads where developers are ready to cooperate and
-willing to make adjustments to be C/R compatible. The goal here is to
-provide developers with clear instructions on what they can do to ensure
-their applications are C/R compatible. When I say "workloads", I mean
-this in a broad sense. A container might pack a set of tools with
-different runtimes (Go, Java, libc-based). All these runtimes should
-detect only allowed features.
+Changes in v6:
+- OPENAT2_REGULAR stripped from file->f_flags in do_dentry_open so that it doesn't leak in fcntl(fd, F_GETFL)
+- BUILD_BUG_ON updated to use VALID_OPENAT2_FLAGS instead of VALID_OPEN_FLAGS in build_open_flags and in fcntl_init
+- v5 is at: https://lore.kernel.org/linux-fsdevel/20260307140726.70219-1-dorjoychy111@gmail.com/T/
 
-Returning to the subject of this patchset: this series extends the role
-of hwcaps. With this change, we would establish that hwcaps is the
-"source of truth" for which features an application can safely use. Any
-other features available on the current CPU would not be guaranteed to
-remain available after migration to another machine.
+Changes in v5:
+- EFTYPE is already used in BSDs mentioned in commit message
+- consistently return -EFTYPE in all filesystems
+- v4 is at: https://lore.kernel.org/linux-fsdevel/20260221145915.81749-1-dorjoychy111@gmail.com/T/
 
-After this discussion, I found that the current version missed one major
-thing: there should be a signal indicating that hwcaps must be used for
-feature detection. Since we will need to integrate this interface into
-libc, Go, and other runtimes, they definitely should not rely just on
-hwcaps by default, especially in the early stages. This can be solved
-via the prctl command.  Libraries like libc would call
-prctl(PR_USER_HWCAP_ENABLED). If this returns true, the runtime knows
-that only the features explicitly listed in hwcaps should be used.
+Changes in v4:
+- changed O_REGULAR to OPENAT2_REGULAR
+- OPENAT2_REGULAR does not affect O_PATH
+- atomic_open codepaths updated to work properly for OPENAT2_REGULAR
+- commit message includes the uapi-group URL
+- v3 is at: https://lore.kernel.org/linux-fsdevel/20260127180109.66691-1-dorjoychy111@gmail.com/T/
 
-You are right, the controlled feature set will be limited to features
-the kernel knows about. And yes, we would need to report CPU features in
-hwcaps even if the kernel isn't directly involved in handling them.
-Honestly, I am not certain if this is the "right" interface for that,
-and I would be happy to consider other ideas. I understand that these
-hwcaps will not work right out of the box, but we need a way to solve
-this problem. Having a centralized API for CPU/kernel feature detection
-seems like the right direction.
+Changes in v3:
+- included motivation about O_REGULAR flag in commit message e.g., programs not wanting to be tricked into opening device nodes
+- fixed commit message wrongly referencing ENOTREGULAR instead of ENOTREG
+- fixed the O_REGULAR flag in arch/parisc/include/uapi/asm/fcntl.h from 060000000 to 0100000000
+- added 2 commits converting arch/{mips,sparc}/include/uapi/asm/fcntl.h O_* macros from hex to octal
+- v2 is at: https://lore.kernel.org/linux-fsdevel/20260126154156.55723-1-dorjoychy111@gmail.com/T/
 
-As for signal frame size and extended states like SVE/SME, we aware
-about this problem.  However, it is partly mitigated by the fact that if
-an application does not use some features, those states are not placed
-in the signal frame. In the future, when we construct/reload a signal
-frame, we could look at a process feature set for a process and generate
-a frame according to those features...
+Changes in v2:
+- rename ENOTREGULAR to ENOTREG
+- define ENOTREG in uapi/asm-generic/errno.h (instead of errno-base.h) and in arch/*/include/uapi/asm/errno.h files
+- override O_REGULAR in arch/{alpha,sparc,parisc}/include/uapi/asm/fcntl.h due to clash with include/uapi/asm-generic/fcntl.h
+- I have kept the kselftest but now that O_REGULAR and ENOTREG can have different value on different architectures I am not sure if it's right
+- v1 is at: https://lore.kernel.org/linux-fsdevel/20260125141518.59493-1-dorjoychy111@gmail.com/T/
 
-Thanks,
-Andrei
+Thanks.
+
+Regards,
+Dorjoy
+
+Dorjoy Chowdhury (4):
+  openat2: new OPENAT2_REGULAR flag support
+  kselftest/openat2: test for OPENAT2_REGULAR flag
+  sparc/fcntl.h: convert O_* flag macros from hex to octal
+  mips/fcntl.h: convert O_* flag macros from hex to octal
+
+ arch/alpha/include/uapi/asm/errno.h           |  2 +
+ arch/alpha/include/uapi/asm/fcntl.h           |  1 +
+ arch/mips/include/uapi/asm/errno.h            |  2 +
+ arch/mips/include/uapi/asm/fcntl.h            | 22 +++++------
+ arch/parisc/include/uapi/asm/errno.h          |  2 +
+ arch/parisc/include/uapi/asm/fcntl.h          |  1 +
+ arch/sparc/include/uapi/asm/errno.h           |  2 +
+ arch/sparc/include/uapi/asm/fcntl.h           | 35 +++++++++---------
+ fs/ceph/file.c                                |  4 ++
+ fs/fcntl.c                                    |  4 +-
+ fs/gfs2/inode.c                               |  6 +++
+ fs/namei.c                                    |  4 ++
+ fs/nfs/dir.c                                  |  4 ++
+ fs/open.c                                     |  8 ++--
+ fs/smb/client/dir.c                           | 14 ++++++-
+ include/linux/fcntl.h                         |  2 +
+ include/uapi/asm-generic/errno.h              |  2 +
+ include/uapi/asm-generic/fcntl.h              |  4 ++
+ tools/arch/alpha/include/uapi/asm/errno.h     |  2 +
+ tools/arch/mips/include/uapi/asm/errno.h      |  2 +
+ tools/arch/parisc/include/uapi/asm/errno.h    |  2 +
+ tools/arch/sparc/include/uapi/asm/errno.h     |  2 +
+ tools/include/uapi/asm-generic/errno.h        |  2 +
+ .../testing/selftests/openat2/openat2_test.c  | 37 ++++++++++++++++++-
+ 24 files changed, 131 insertions(+), 35 deletions(-)
+
+-- 
+2.53.0
+
 
