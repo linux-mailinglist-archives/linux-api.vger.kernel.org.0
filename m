@@ -1,62 +1,62 @@
-Return-Path: <linux-api+bounces-6083-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6084-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PhkEX2k22ldEgkAu9opvQ
-	(envelope-from <linux-api+bounces-6083-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:13 +0200
+	id KGIhGJyk22ldEgkAu9opvQ
+	(envelope-from <linux-api+bounces-6084-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:44 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5B03E4140
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:12 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678A23E4176
+	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4D0563004F1B
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 13:56:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2D9C4300620F
+	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 13:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89EDD2FD681;
-	Sun, 12 Apr 2026 13:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B8230F540;
+	Sun, 12 Apr 2026 13:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="WGAo5L2N"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iPB7TpxD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB1F2F549F
-	for <linux-api@vger.kernel.org>; Sun, 12 Apr 2026 13:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F1D30EF68
+	for <linux-api@vger.kernel.org>; Sun, 12 Apr 2026 13:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776002165; cv=none; b=hqaNRF+/q7iLHep6BS4uZoJKa5dkmw0y5EbTLBREhrHuqNi1xBkx+zzILoJf6nhLz3ISlTyo0piEhVDJWfcx17B+6Pv1wIa2OJjgTGhghEgxNyuS/BIxkDcvSjHuAgwe4tMX8d8saU95eElX5y7uKcoE5HNoMg6+peiqVQFQwN0=
+	t=1776002171; cv=none; b=Vjd0Jv6D7AsebCy5sHOgac5v8brrk2WSMzOxF7CJromz/GaqCauQyJY/S2nNhSLKyEK3h7CNEwzwfTm85H3GodK6H7y/HG3qx9OjRtd+Qug1tkMncvZUfXgpS31YszIanfOpHCN7bq0ihNJMk8Sw6ileTeu1tQJfEK/vFfKc3lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776002165; c=relaxed/simple;
-	bh=HA3cp/fK8r6wIrZOIwq8J/sQ0rt5XJP/8kmJozHMB68=;
+	s=arc-20240116; t=1776002171; c=relaxed/simple;
+	bh=l637JqBP885E0vHJ0i8snxCumNNbzRwHwozNuNIKUn8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bdOe4gVHZuI1Fet/Dfm+NJaUKvkIfFpxbn6x6/8uLGBtqSfTimfaVGlS2GdzZrFQv3AhUonEbMPQgy4hwrW1kKUcxIFAZNneKAlQMRF+CzZR+iJh8YNCAmViYTMrGZrCU9Jyz99KLeQEbPVx2/OC4bcxsKwogl4BpYsWxA0FWLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=WGAo5L2N; arc=none smtp.client-ip=195.121.94.167
+	 MIME-Version; b=t6FrHs1t0C1G5UfWs/J/XeZpUGN+4xz8Lb7wFxaBxaLtsfquTSkmJip6/oHn2ElJJocomnyYBkKlCyiDI19nWmiTRBa+wrPr7N1032afB04f+bLZcRdZVbfsoJS7aQ1caaJe7zufr6LDoI9Y469Cq8GY3bmH/ou/+nqoPtku+Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=iPB7TpxD; arc=none smtp.client-ip=195.121.94.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 2f87c6cd-3677-11f1-969c-005056abbe64
+X-KPN-MessageId: 327ba1b9-3677-11f1-b185-005056abad63
 Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 2f87c6cd-3677-11f1-969c-005056abbe64;
-	Sun, 12 Apr 2026 15:54:55 +0200 (CEST)
+	id 327ba1b9-3677-11f1-b185-005056abad63;
+	Sun, 12 Apr 2026 15:55:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=7bDjgNj+zMTzKDlAca9h5TpEEGIaCs8P4OrewU9NHJo=;
-	b=WGAo5L2N/XiESjR3v1I+3YA8QludQx49GMae7F/ufSL04f8KczxRUWHByqWyPng6xFmW+xGQRZACn
-	 ZQUCY0ZQOBULlETGcoeQ53gbUgTbExgtE7rkAY9L8BLEqz3Vg89F/e+e1qseP2RqgFpsXMAtNQiJ79
-	 PCfanhs9MbAaj3dye8obF6ePYzQuG1doNl2w98cbzEscvW2MNmoAhE0CV7upTM9D26hpMdOYT6Dfra
-	 J2zfvCo5E8vS+HxY/7OS/BQBrbZpdwr0uw/Du9wsX2Edo/sdjl2Dy9gLJaY38lm9sVWPCLvjG+rpVF
-	 Zo65N7u7e+l3/msF889lkZ8qyfAXhJQ==
-X-KPN-MID: 33|nss8aZGJpXdReaZkUd70hJO9JSWv25nY8ZSboxeaYQJtyJR3GJMHyo1J2IOOTQf
- Rhk4r8tBYsg3p80Wk8UUdn/wlF1srQ4YOF+E+LlvfT9Q=
+	bh=5gvFaaq6B7M0xCNBpS1nvaP3wWXLqpCrPac4g4LlB4k=;
+	b=iPB7TpxDhDFtkgPPnD2XEWlqzX0qJHACvYbMaoQuqU8aNSMVCRD6P0F59sslm8IhKl/BvX0jR0leh
+	 9YTdd9I5Ht8ChGu8SpSQ1GzdXGrgxORwHljAjB5ZkZbWZZuBxXN+AtWLtQmD1HHW2pvIYbfIvKgm4l
+	 YkBl3ScJSHnyrZtnolKKzHt75n7Yg2GZ7oiypyzkoGK8tUhI5Yoo0ETxQd0p/HN4LtlBQm2DliumLz
+	 yI8PcOWbQEqF5Wf8inK0bz4Tt5KnKIcX1j/vbiEsfUjkXblJOu0vA7/iOg3Ced8roYA7+4P6JG+2cg
+	 uKZdzrcS2BjKXchC0f0s0F//Um4DdZQ==
+X-KPN-MID: 33|dYE8HLHPTgvqykGVvdAKeg5uO9EyrKxQ/H3dddIYqJv7RBNoINcf5QfWuW6V5DJ
+ MJanI0EXnnALDE0pSgHyrV9bMmcXJXGpCbYHvGVBmDfQ=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|SUUJ0h/FlK7C91OW+lILLbqmA3c778tV2oPR5+HsCaSqdePeLZl9bsElYDZcfkn
- ohmtO57h9aj0a/l8/rU11WQ==
+X-CMASSUN: 33|8AcZBqmKEp7Eizv1oLy8R1DxIkPqGUjGebq+ov2JfG4NcCWjgVjShv8CxJFvAN7
+ 4evOnfLa3up9+sUuxS8iLog==
 Received: from daedalus.home (unknown [178.230.185.145])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 2f2139df-3677-11f1-8011-005056ab7447;
-	Sun, 12 Apr 2026 15:54:55 +0200 (CEST)
+	id 320dac09-3677-11f1-8011-005056ab7447;
+	Sun, 12 Apr 2026 15:55:00 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Andy Lutomirski <luto@kernel.org>,
 	Thomas Gleixner <tglx@kernel.org>,
@@ -84,9 +84,9 @@ Cc: "H . Peter Anvin" <hpa@zytor.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-api@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an O_DIRECTORY fd
-Date: Sun, 12 Apr 2026 15:54:33 +0200
-Message-ID: <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+Subject: [RFC PATCH v2 2/2] selftest: add tests for mkdirat2()
+Date: Sun, 12 Apr 2026 15:54:34 +0200
+Message-ID: <20260412135434.3095416-3-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
 References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
@@ -103,18 +103,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
 	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_FROM(0.00)[xs4all.nl];
 	FREEMAIL_CC(0.00)[zytor.com,suse.cz,infradead.org,redhat.com,kernel.org,xs4all.nl,linutronix.de,efficios.com,cyphar.com,linuxfoundation.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-6083-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6084-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
@@ -125,158 +125,27 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[xs4all.nl:dkim,xs4all.nl:email,xs4all.nl:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DA5B03E4140
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,xs4all.nl:dkim,xs4all.nl:email,xs4all.nl:mid]
+X-Rspamd-Queue-Id: 678A23E4176
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently there is no way to race-freely create and open a directory.
-For regular files we have open(O_CREAT) for creating a new file inode,
-and returning a pinning fd to it. The lack of such functionality for
-directories means that when populating a directory tree there's always
-a race involved: the inodes first need to be created, and then opened
-to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-but in the time window between the creation and the opening they might
-be replaced by something else.
-
-Addressing this race without proper APIs is possible (by immediately
-fstat()ing what was opened, to verify that it has the right inode type),
-but difficult to get right. Hence, mkdirat2() that creates a directory
-and returns an O_DIRECTORY fd is useful.
-
-This feature idea (and description) is taken from the UAPI group:
-https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+Add some tests for the new mkdirat2() syscall to test compliance and
+to showcase its behaviour.
 
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- arch/x86/entry/syscalls/syscall_64.tbl |  1 +
- fs/internal.h                          |  2 ++
- fs/namei.c                             | 44 +++++++++++++++++++++++---
- include/linux/syscalls.h               |  2 ++
- include/uapi/asm-generic/unistd.h      |  5 ++-
- scripts/syscall.tbl                    |  1 +
- 6 files changed, 50 insertions(+), 5 deletions(-)
+ tools/include/uapi/asm-generic/unistd.h       |   5 +-
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   4 +-
+ .../selftests/filesystems/mkdirat_fd_test.c   | 143 ++++++++++++++++++
+ 4 files changed, 150 insertions(+), 3 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/mkdirat_fd_test.c
 
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 524155d655da..e200ca2067a4 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -396,6 +396,7 @@
- 469	common	file_setattr		sys_file_setattr
- 470	common	listns			sys_listns
- 471	common	rseq_slice_yield	sys_rseq_slice_yield
-+472	common	mkdirat2		sys_mkdirat2
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/fs/internal.h b/fs/internal.h
-index cbc384a1aa09..c6a79afadacf 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -59,6 +59,8 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link);
- int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
- 		 struct filename *newname, unsigned int flags);
- int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
-+struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
-+		unsigned int flags, bool open);
- int filename_mknodat(int dfd, struct filename *name, umode_t mode, unsigned int dev);
- int filename_symlinkat(struct filename *from, int newdfd, struct filename *to);
- int filename_linkat(int olddfd, struct filename *old, int newdfd,
-diff --git a/fs/namei.c b/fs/namei.c
-index a880454a6415..6451e96dc225 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -5255,18 +5255,36 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- }
- EXPORT_SYMBOL(vfs_mkdir);
- 
--int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
-+static int mkdirat_lookup_flags(unsigned int flags)
-+{
-+	int lookup_flags = LOOKUP_DIRECTORY;
-+
-+	if (!(flags & AT_SYMLINK_NOFOLLOW))
-+		lookup_flags |= LOOKUP_FOLLOW;
-+	if (!(flags & AT_NO_AUTOMOUNT))
-+		lookup_flags |= LOOKUP_AUTOMOUNT;
-+
-+	return lookup_flags;
-+}
-+
-+int filename_mkdirat(int dfd, struct filename *name, umode_t mode) {
-+	return PTR_ERR_OR_ZERO(do_file_mkdirat(dfd, name, mode, 0, false));
-+}
-+
-+struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
-+		unsigned int flags, bool open)
- {
- 	struct dentry *dentry;
- 	struct path path;
- 	int error;
--	unsigned int lookup_flags = LOOKUP_DIRECTORY;
-+	struct file *filp = NULL;
-+	unsigned int lookup_flags = mkdirat_lookup_flags(flags);
- 	struct delegated_inode delegated_inode = { };
- 
- retry:
- 	dentry = filename_create(dfd, name, &path, lookup_flags);
- 	if (IS_ERR(dentry))
--		return PTR_ERR(dentry);
-+		return ERR_CAST(dentry);
- 
- 	error = security_path_mkdir(&path, dentry,
- 			mode_strip_umask(path.dentry->d_inode, mode));
-@@ -5276,6 +5294,10 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
- 		if (IS_ERR(dentry))
- 			error = PTR_ERR(dentry);
- 	}
-+	if (open && !error && !is_delegated(&delegated_inode)) {
-+		const struct path new_path = { .mnt = path.mnt, .dentry = dentry };
-+		filp = dentry_open(&new_path, O_DIRECTORY, current_cred());
-+	}
- 	end_creating_path(&path, dentry);
- 	if (is_delegated(&delegated_inode)) {
- 		error = break_deleg_wait(&delegated_inode);
-@@ -5286,7 +5308,21 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
- 		lookup_flags |= LOOKUP_REVAL;
- 		goto retry;
- 	}
--	return error;
-+	if (error)
-+		return ERR_PTR(error);
-+	return filp;
-+}
-+
-+#define VALID_MKDIRAT2_FLAGS (AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT)
-+
-+SYSCALL_DEFINE4(mkdirat2, int, dfd, const char __user *, pathname, umode_t, mode,
-+		unsigned int, flags)
-+{
-+	CLASS(filename, name)(pathname);
-+	if (flags & ~VALID_MKDIRAT2_FLAGS)
-+		return -EINVAL;
-+
-+	return FD_ADD(O_CLOEXEC, do_file_mkdirat(dfd, name, mode, flags, true));
- }
- 
- SYSCALL_DEFINE3(mkdirat, int, dfd, const char __user *, pathname, umode_t, mode)
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 02bd6ddb6278..b3b4ae26dbdd 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -999,6 +999,8 @@ asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx __user *
- asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx __user *ctx,
- 				      u32 size, u32 flags);
- asmlinkage long sys_lsm_list_modules(u64 __user *ids, u32 __user *size, u32 flags);
-+asmlinkage long sys_mkdirat2(int dfd, const char __user *pathname, umode_t mode,
-+				     unsigned int flags)
- 
- /*
-  * Architecture-specific system calls
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
 index a627acc8fb5f..6efc21779b62 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
 @@ -863,8 +863,11 @@ __SYSCALL(__NR_listns, sys_listns)
  #define __NR_rseq_slice_yield 471
  __SYSCALL(__NR_rseq_slice_yield, sys_rseq_slice_yield)
@@ -290,15 +159,178 @@ index a627acc8fb5f..6efc21779b62 100644
  
  /*
   * 32 bit systems traditionally used different
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index 7a42b32b6577..9d86f29762ae 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -412,3 +412,4 @@
- 469	common	file_setattr			sys_file_setattr
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
-+472	common	mkdirat2			sys_mkdirat2
+diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
+index 64ac0dfa46b7..84e2175d171f 100644
+--- a/tools/testing/selftests/filesystems/.gitignore
++++ b/tools/testing/selftests/filesystems/.gitignore
+@@ -5,3 +5,4 @@ fclog
+ file_stressor
+ anon_inode_test
+ kernfs_test
++mkdirat_fd_test
+diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
+index 85427d7f19b9..7357769db57a 100644
+--- a/tools/testing/selftests/filesystems/Makefile
++++ b/tools/testing/selftests/filesystems/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-CFLAGS += $(KHDR_INCLUDES)
+-TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog
++CFLAGS += $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
++TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog mkdirat_fd_test
+ TEST_GEN_PROGS_EXTENDED := dnotify_test
+ 
+ include ../lib.mk
+diff --git a/tools/testing/selftests/filesystems/mkdirat_fd_test.c b/tools/testing/selftests/filesystems/mkdirat_fd_test.c
+new file mode 100644
+index 000000000000..a02c0223d63b
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/mkdirat_fd_test.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <sys/stat.h>
++
++#include <asm-generic/unistd.h>
++
++#include "kselftest_harness.h"
++
++#ifndef VALID_MKDIRAT2_FLAGS
++#define VALID_MKDIRAT2_FLAGS (AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT)
++#endif
++
++#define mkdirat2_checked_flags(dfd, pathname, flags) ({		\
++	struct stat __st;					\
++	int __fd = sys_mkdirat2(dfd, pathname, S_IRWXU, flags);	\
++	ASSERT_GE(__fd, 0);					\
++	EXPECT_EQ(fstat(__fd, &__st), 0);			\
++	EXPECT_TRUE(S_ISDIR(__st.st_mode));			\
++	__fd;							\
++})
++
++#define mkdirat2_checked(dfd, pathname) \
++	mkdirat2_checked_flags(dfd, pathname, 0)
++
++
++static inline int sys_mkdirat2(int dfd, const char *pathname, mode_t mode,
++				 unsigned int flags)
++{
++	return syscall(__NR_mkdirat2, dfd, pathname, mode, flags);
++}
++
++FIXTURE(mkdirat2) {
++	char dirpath[PATH_MAX];
++	int dfd;
++};
++
++FIXTURE_SETUP(mkdirat2)
++{
++	snprintf(self->dirpath, sizeof(self->dirpath),
++		 "/tmp/mkdirat2_test.%d", getpid());
++	ASSERT_EQ(mkdir(self->dirpath, S_IRWXU), 0);
++
++	self->dfd = open(self->dirpath, O_DIRECTORY);
++	ASSERT_GE(self->dfd, 0);
++}
++
++FIXTURE_TEARDOWN(mkdirat2)
++{
++	close(self->dfd);
++	rmdir(self->dirpath);
++}
++
++/* Does mkdirat2 return a fd at all */
++TEST_F(mkdirat2, returns_fd)
++{
++	int fd = mkdirat2_checked(self->dfd, "newdir");
++	EXPECT_EQ(close(fd), 0)
++	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
++}
++
++/* The fd must refer to the directory that was just created. */
++TEST_F(mkdirat2, fd_is_created_dir)
++{
++	int fd;
++	struct stat st_via_fd, st_via_path;
++	char path[PATH_MAX];
++
++	fd = mkdirat2_checked(self->dfd, "checkdir");
++
++	ASSERT_EQ(fstat(fd, &st_via_fd), 0);
++
++	snprintf(path, sizeof(path), "%s/checkdir", self->dirpath);
++	ASSERT_EQ(stat(path, &st_via_path), 0);
++
++	EXPECT_EQ(st_via_fd.st_ino, st_via_path.st_ino);
++	EXPECT_EQ(st_via_fd.st_dev, st_via_path.st_dev);
++
++	EXPECT_EQ(close(fd), 0)
++	EXPECT_EQ(rmdir(path), 0);
++}
++
++
++/* Missing parent component must fail with ENOENT. */
++TEST_F(mkdirat2, enoent_missing_parent)
++{
++	EXPECT_EQ(sys_mkdirat2(self->dfd, "nonexistent/child", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++/* An invalid dfd must fail with EBADF. */
++TEST_F(mkdirat2, ebadf)
++{
++	EXPECT_EQ(sys_mkdirat2(-42, "badfdir", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, EBADF);
++}
++
++/* A dfd that points to a file (not a directory) must fail with ENOTDIR. */
++TEST_F(mkdirat2, enotdir_dfd)
++{
++	int file_fd;
++
++	file_fd = openat(self->dfd, "file",
++			 O_CREAT | O_WRONLY, S_IRWXU);
++	ASSERT_GE(file_fd, 0);
++
++	EXPECT_EQ(sys_mkdirat2(file_fd, "subdir", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, ENOTDIR);
++
++	EXPECT_EQ(close(file_fd), 0);
++	EXPECT_EQ(unlinkat(self->dfd, "file", 0), 0);
++}
++
++/*
++ * The returned fd must be usable as a dfd for further *at() calls.
++ */
++TEST_F(mkdirat2, fd_usable_as_dfd)
++{
++	int parent_fd, child_fd;
++
++	parent_fd = mkdirat2_checked(self->dfd, "parent");
++	child_fd = mkdirat2_checked(parent_fd, "child");
++
++	EXPECT_EQ(close(child_fd), 0);
++	EXPECT_EQ(close(parent_fd), 0);
++
++	char path[PATH_MAX];
++	snprintf(path, sizeof(path), "%s/parent/child", self->dirpath);
++	EXPECT_EQ(rmdir(path), 0);
++	snprintf(path, sizeof(path), "%s/parent", self->dirpath);
++	EXPECT_EQ(rmdir(path), 0);
++}
++
++/* Unknown flags must be rejected with EINVAL. */
++TEST_F(mkdirat2, einval_unknown_flags)
++{
++	EXPECT_EQ(sys_mkdirat2(self->dfd, "flagsdir", S_IRWXU, ~VALID_MKDIRAT2_FLAGS ), -1);
++	EXPECT_EQ(errno, EINVAL);
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.53.0
 
