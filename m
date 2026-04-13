@@ -1,337 +1,204 @@
-Return-Path: <linux-api+bounces-6084-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6085-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KGIhGJyk22ldEgkAu9opvQ
-	(envelope-from <linux-api+bounces-6084-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:44 +0200
+	id yBeCNMQh3WndaAkAu9opvQ
+	(envelope-from <linux-api+bounces-6085-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 13 Apr 2026 19:03:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678A23E4176
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 15:56:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D17C3F094F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Apr 2026 19:03:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2D9C4300620F
-	for <lists+linux-api@lfdr.de>; Sun, 12 Apr 2026 13:56:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6E02232A4CA9
+	for <lists+linux-api@lfdr.de>; Mon, 13 Apr 2026 16:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B8230F540;
-	Sun, 12 Apr 2026 13:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2716F30C359;
+	Mon, 13 Apr 2026 16:29:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iPB7TpxD"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ExRQOkBb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BpqK7xTI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F1D30EF68
-	for <linux-api@vger.kernel.org>; Sun, 12 Apr 2026 13:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC06F22A7F0;
+	Mon, 13 Apr 2026 16:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776002171; cv=none; b=Vjd0Jv6D7AsebCy5sHOgac5v8brrk2WSMzOxF7CJromz/GaqCauQyJY/S2nNhSLKyEK3h7CNEwzwfTm85H3GodK6H7y/HG3qx9OjRtd+Qug1tkMncvZUfXgpS31YszIanfOpHCN7bq0ihNJMk8Sw6ileTeu1tQJfEK/vFfKc3lQ=
+	t=1776097741; cv=none; b=gLbQWdnsjuzaWE+M1Xu042n6GUZvAoIZ2Z+4aSDamz8VxcBABCYw+FF6P7eLIlDFK0JkKre48ZEiGMDR8T8BFddSmd1MgmFoMey1QdBvKFqHsNmw+MyCU9UIn+Vtts1rit718u5QXL8k09+c2FH1dwvprW69Nmpo4CM5BPZ2UCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776002171; c=relaxed/simple;
-	bh=l637JqBP885E0vHJ0i8snxCumNNbzRwHwozNuNIKUn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t6FrHs1t0C1G5UfWs/J/XeZpUGN+4xz8Lb7wFxaBxaLtsfquTSkmJip6/oHn2ElJJocomnyYBkKlCyiDI19nWmiTRBa+wrPr7N1032afB04f+bLZcRdZVbfsoJS7aQ1caaJe7zufr6LDoI9Y469Cq8GY3bmH/ou/+nqoPtku+Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=iPB7TpxD; arc=none smtp.client-ip=195.121.94.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 327ba1b9-3677-11f1-b185-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 327ba1b9-3677-11f1-b185-005056abad63;
-	Sun, 12 Apr 2026 15:55:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=5gvFaaq6B7M0xCNBpS1nvaP3wWXLqpCrPac4g4LlB4k=;
-	b=iPB7TpxDhDFtkgPPnD2XEWlqzX0qJHACvYbMaoQuqU8aNSMVCRD6P0F59sslm8IhKl/BvX0jR0leh
-	 9YTdd9I5Ht8ChGu8SpSQ1GzdXGrgxORwHljAjB5ZkZbWZZuBxXN+AtWLtQmD1HHW2pvIYbfIvKgm4l
-	 YkBl3ScJSHnyrZtnolKKzHt75n7Yg2GZ7oiypyzkoGK8tUhI5Yoo0ETxQd0p/HN4LtlBQm2DliumLz
-	 yI8PcOWbQEqF5Wf8inK0bz4Tt5KnKIcX1j/vbiEsfUjkXblJOu0vA7/iOg3Ced8roYA7+4P6JG+2cg
-	 uKZdzrcS2BjKXchC0f0s0F//Um4DdZQ==
-X-KPN-MID: 33|dYE8HLHPTgvqykGVvdAKeg5uO9EyrKxQ/H3dddIYqJv7RBNoINcf5QfWuW6V5DJ
- MJanI0EXnnALDE0pSgHyrV9bMmcXJXGpCbYHvGVBmDfQ=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|8AcZBqmKEp7Eizv1oLy8R1DxIkPqGUjGebq+ov2JfG4NcCWjgVjShv8CxJFvAN7
- 4evOnfLa3up9+sUuxS8iLog==
-Received: from daedalus.home (unknown [178.230.185.145])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 320dac09-3677-11f1-8011-005056ab7447;
-	Sun, 12 Apr 2026 15:55:00 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: "H . Peter Anvin" <hpa@zytor.com>,
-	Jan Kara <jack@suse.cz>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Jiri Olsa <jolsa@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	cmirabil@redhat.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [RFC PATCH v2 2/2] selftest: add tests for mkdirat2()
-Date: Sun, 12 Apr 2026 15:54:34 +0200
-Message-ID: <20260412135434.3095416-3-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+	s=arc-20240116; t=1776097741; c=relaxed/simple;
+	bh=PVKamwkfddjR39hTxmNcwgxaZYnKt5TbuFH/SCbcO1s=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=JKLfS25k1dPgmeWWtCS3oso+WTvl/BnsidE6Da5AVCpy+vTttDbku4D2pBD3+noyzTRaksHn9Q6pCzBfAfGnfUEQr/mMuwBo7P1hjs6W41sNRHdnGzGQjiqKJWOntJ/yecR1myVldKW4UiSJH0C7Um8UA/tYOn38zisJjXOR/M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ExRQOkBb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BpqK7xTI; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1EEC07A019D;
+	Mon, 13 Apr 2026 12:28:59 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 13 Apr 2026 12:28:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776097738;
+	 x=1776184138; bh=hZvAzDUZRm1lvdyJwjEImSU1sVV/PiwjPJrSbJaVvQE=; b=
+	ExRQOkBbgb7ionSCcHduvUnoj81LTjJK0loHLklze1ALqvPDSupFk8uRbRt8iF1y
+	Lwkca3A6PlH9WjEBme7CT3RhIJcNFCuNM1PH58WGgabagpCv02ghMLbwvRhsSxSH
+	CoVqFGTBS5CTWtggOFwJb79AtoAMX5zocDWV27FSRWS2lfn2KLpXCAvrKcUW9bkF
+	x7DbtHBGYznSkVwWHNvZvAj1LbKvfRy9hDBgacAtj2lEt1uW902Y6NUbofLJ4Lc3
+	qYwPkvLOnrJnd8uJZOTW3vIEZxzjsAZWXh0+0ha1wi48Hv6dDaW3f66AW+I7V9Z3
+	/GVF8YZ4vkbyCdzKVs3JFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776097738; x=
+	1776184138; bh=hZvAzDUZRm1lvdyJwjEImSU1sVV/PiwjPJrSbJaVvQE=; b=B
+	pqK7xTISDwOtOII1asYgzsyGTc0KS381lvET4S95kNJ30DPy/wZYK6xb4xG82bPc
+	B+DerUzeZO7dJZZAVzGTz3rZQzmutxKpuvN9XUua+ktbJTAygjgGY4jagtpFEAkK
+	rLbbgTpQBfynqtPm1M99SJn4UmV6ZjcSq82jyGLZ1xqiCXWZOFACkf5/OB2eaarz
+	LVTsCqAPLdUeJOMf1y2XtDwWYWSC17i0NDJz5MTqazegLaBworPRDNBYjkZh+B7y
+	+2pKYTTVJBQ8QiVDeF1+ax9GbJgI5NGfABS5BohIB/2AZpndKfPKhN9/0rpI5L7D
+	1vOnUFnOrJ2mgT7rCM3pA==
+X-ME-Sender: <xms:yhndaYM2fyMqYTJ9siACXiHkQuwrfT4aDOP4ma4gqdw3bCZRKYgzrQ>
+    <xme:yhndaZy7dh5TWDjzw_3PdMlaRwhZaTdDjUHQkicj5Cjn2yFdsj6xaUaGPhB-W-PDK
+    MhKLAsAjLOikGDO_6zOY6eMotMmaQCpSswdoU0X-iLgMi1c-psBpks>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefkeejudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepsghhvghlghgrrghssehgohhoghhlvgdrtghomhdprhgtphhtthhope
+    gurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhifihhltgiihihnshhkihes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhr
+    tghpthhtohepfigvnhiihhgrohhlihgrohesrhhutgdrvgguuhdrtghnpdhrtghpthhtoh
+    eplhhinhhugidqrghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhptghisehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:yhndabw7-De2BdlTCxKenAwbNU0Ms-sxEuz7BvbVeqeduz1GZdCe3g>
+    <xmx:yhndafIpkepXf8ckQC_agoe6W2biWzDkLWl4YUv0Jmkv8rZ4EMH5Bg>
+    <xmx:yhndaSVjYaLMQRWHmStn4f84HimgqBQwGVKYfXJxC323lAGOc_tDpw>
+    <xmx:yhndaabf19tMZbbnaLh100TX4pfYhLmtLmKl2tHPLl1XRUIdGzrWPg>
+    <xmx:yhndaW-uSW1N8kJzIdGZi3U2SQ_iyyy0DEuh_1pRJuudbB2ktNJyt6qK>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 16ACC700065; Mon, 13 Apr 2026 12:28:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-ThreadId: AFykKnSdOGcF
+Date: Mon, 13 Apr 2026 18:28:36 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Wenzhao Liao" <wenzhaoliao@ruc.edu.cn>, rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ bhelgaas@google.com,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Message-Id: <68053fb8-3305-43e0-897e-6cc4e48e2362@app.fastmail.com>
+In-Reply-To: <20260406165120.166928-2-wenzhaoliao@ruc.edu.cn>
+References: <cover.1775456181.git.wenzhaoliao@ruc.edu.cn>
+ <20260406165120.166928-1-wenzhaoliao@ruc.edu.cn>
+ <20260406165120.166928-2-wenzhaoliao@ruc.edu.cn>
+Subject: Re: [RFC PATCH v3 1/6] uapi: add goldfish_address_space userspace ABI header
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
-	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[xs4all.nl];
-	FREEMAIL_CC(0.00)[zytor.com,suse.cz,infradead.org,redhat.com,kernel.org,xs4all.nl,linutronix.de,efficios.com,cyphar.com,linuxfoundation.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-6084-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-6085-lists,linux-api=lfdr.de];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[xs4all.nl:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-api];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,xs4all.nl:dkim,xs4all.nl:email,xs4all.nl:mid]
-X-Rspamd-Queue-Id: 678A23E4176
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-api];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,arndb.de:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,app.fastmail.com:mid]
+X-Rspamd-Queue-Id: 2D17C3F094F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add some tests for the new mkdirat2() syscall to test compliance and
-to showcase its behaviour.
+On Mon, Apr 6, 2026, at 18:51, Wenzhao Liao wrote:
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- tools/include/uapi/asm-generic/unistd.h       |   5 +-
- .../testing/selftests/filesystems/.gitignore  |   1 +
- tools/testing/selftests/filesystems/Makefile  |   4 +-
- .../selftests/filesystems/mkdirat_fd_test.c   | 143 ++++++++++++++++++
- 4 files changed, 150 insertions(+), 3 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/mkdirat_fd_test.c
+> +struct goldfish_address_space_allocate_block {
+> +	__u64 size;
+> +	__u64 offset;
+> +	__u64 phys_addr;
+> +};
+> +
+> +struct goldfish_address_space_ping {
+> +	__u64 offset;
+> +	__u64 size;
+> +	__u64 metadata;
+> +	__u32 version;
+> +	__u32 wait_fd;
+> +	__u32 wait_flags;
+> +	__u32 direction;
+> +};
+> +
+> +struct goldfish_address_space_claim_shared {
+> +	__u64 offset;
+> +	__u64 size;
+> +};
 
-diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-index a627acc8fb5f..6efc21779b62 100644
---- a/tools/include/uapi/asm-generic/unistd.h
-+++ b/tools/include/uapi/asm-generic/unistd.h
-@@ -863,8 +863,11 @@ __SYSCALL(__NR_listns, sys_listns)
- #define __NR_rseq_slice_yield 471
- __SYSCALL(__NR_rseq_slice_yield, sys_rseq_slice_yield)
- 
-+#define __NR_mkdirat2 472
-+__SYSCALL(__NR_mkdirat2, sys_mkdirat2)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 472
-+#define __NR_syscalls 473
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
-index 64ac0dfa46b7..84e2175d171f 100644
---- a/tools/testing/selftests/filesystems/.gitignore
-+++ b/tools/testing/selftests/filesystems/.gitignore
-@@ -5,3 +5,4 @@ fclog
- file_stressor
- anon_inode_test
- kernfs_test
-+mkdirat_fd_test
-diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-index 85427d7f19b9..7357769db57a 100644
---- a/tools/testing/selftests/filesystems/Makefile
-+++ b/tools/testing/selftests/filesystems/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--CFLAGS += $(KHDR_INCLUDES)
--TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog
-+CFLAGS += $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
-+TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog mkdirat_fd_test
- TEST_GEN_PROGS_EXTENDED := dnotify_test
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/filesystems/mkdirat_fd_test.c b/tools/testing/selftests/filesystems/mkdirat_fd_test.c
-new file mode 100644
-index 000000000000..a02c0223d63b
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/mkdirat_fd_test.c
-@@ -0,0 +1,143 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <sys/stat.h>
-+
-+#include <asm-generic/unistd.h>
-+
-+#include "kselftest_harness.h"
-+
-+#ifndef VALID_MKDIRAT2_FLAGS
-+#define VALID_MKDIRAT2_FLAGS (AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT)
-+#endif
-+
-+#define mkdirat2_checked_flags(dfd, pathname, flags) ({		\
-+	struct stat __st;					\
-+	int __fd = sys_mkdirat2(dfd, pathname, S_IRWXU, flags);	\
-+	ASSERT_GE(__fd, 0);					\
-+	EXPECT_EQ(fstat(__fd, &__st), 0);			\
-+	EXPECT_TRUE(S_ISDIR(__st.st_mode));			\
-+	__fd;							\
-+})
-+
-+#define mkdirat2_checked(dfd, pathname) \
-+	mkdirat2_checked_flags(dfd, pathname, 0)
-+
-+
-+static inline int sys_mkdirat2(int dfd, const char *pathname, mode_t mode,
-+				 unsigned int flags)
-+{
-+	return syscall(__NR_mkdirat2, dfd, pathname, mode, flags);
-+}
-+
-+FIXTURE(mkdirat2) {
-+	char dirpath[PATH_MAX];
-+	int dfd;
-+};
-+
-+FIXTURE_SETUP(mkdirat2)
-+{
-+	snprintf(self->dirpath, sizeof(self->dirpath),
-+		 "/tmp/mkdirat2_test.%d", getpid());
-+	ASSERT_EQ(mkdir(self->dirpath, S_IRWXU), 0);
-+
-+	self->dfd = open(self->dirpath, O_DIRECTORY);
-+	ASSERT_GE(self->dfd, 0);
-+}
-+
-+FIXTURE_TEARDOWN(mkdirat2)
-+{
-+	close(self->dfd);
-+	rmdir(self->dirpath);
-+}
-+
-+/* Does mkdirat2 return a fd at all */
-+TEST_F(mkdirat2, returns_fd)
-+{
-+	int fd = mkdirat2_checked(self->dfd, "newdir");
-+	EXPECT_EQ(close(fd), 0)
-+	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
-+}
-+
-+/* The fd must refer to the directory that was just created. */
-+TEST_F(mkdirat2, fd_is_created_dir)
-+{
-+	int fd;
-+	struct stat st_via_fd, st_via_path;
-+	char path[PATH_MAX];
-+
-+	fd = mkdirat2_checked(self->dfd, "checkdir");
-+
-+	ASSERT_EQ(fstat(fd, &st_via_fd), 0);
-+
-+	snprintf(path, sizeof(path), "%s/checkdir", self->dirpath);
-+	ASSERT_EQ(stat(path, &st_via_path), 0);
-+
-+	EXPECT_EQ(st_via_fd.st_ino, st_via_path.st_ino);
-+	EXPECT_EQ(st_via_fd.st_dev, st_via_path.st_dev);
-+
-+	EXPECT_EQ(close(fd), 0)
-+	EXPECT_EQ(rmdir(path), 0);
-+}
-+
-+
-+/* Missing parent component must fail with ENOENT. */
-+TEST_F(mkdirat2, enoent_missing_parent)
-+{
-+	EXPECT_EQ(sys_mkdirat2(self->dfd, "nonexistent/child", S_IRWXU, 0), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+}
-+
-+/* An invalid dfd must fail with EBADF. */
-+TEST_F(mkdirat2, ebadf)
-+{
-+	EXPECT_EQ(sys_mkdirat2(-42, "badfdir", S_IRWXU, 0), -1);
-+	EXPECT_EQ(errno, EBADF);
-+}
-+
-+/* A dfd that points to a file (not a directory) must fail with ENOTDIR. */
-+TEST_F(mkdirat2, enotdir_dfd)
-+{
-+	int file_fd;
-+
-+	file_fd = openat(self->dfd, "file",
-+			 O_CREAT | O_WRONLY, S_IRWXU);
-+	ASSERT_GE(file_fd, 0);
-+
-+	EXPECT_EQ(sys_mkdirat2(file_fd, "subdir", S_IRWXU, 0), -1);
-+	EXPECT_EQ(errno, ENOTDIR);
-+
-+	EXPECT_EQ(close(file_fd), 0);
-+	EXPECT_EQ(unlinkat(self->dfd, "file", 0), 0);
-+}
-+
-+/*
-+ * The returned fd must be usable as a dfd for further *at() calls.
-+ */
-+TEST_F(mkdirat2, fd_usable_as_dfd)
-+{
-+	int parent_fd, child_fd;
-+
-+	parent_fd = mkdirat2_checked(self->dfd, "parent");
-+	child_fd = mkdirat2_checked(parent_fd, "child");
-+
-+	EXPECT_EQ(close(child_fd), 0);
-+	EXPECT_EQ(close(parent_fd), 0);
-+
-+	char path[PATH_MAX];
-+	snprintf(path, sizeof(path), "%s/parent/child", self->dirpath);
-+	EXPECT_EQ(rmdir(path), 0);
-+	snprintf(path, sizeof(path), "%s/parent", self->dirpath);
-+	EXPECT_EQ(rmdir(path), 0);
-+}
-+
-+/* Unknown flags must be rejected with EINVAL. */
-+TEST_F(mkdirat2, einval_unknown_flags)
-+{
-+	EXPECT_EQ(sys_mkdirat2(self->dfd, "flagsdir", S_IRWXU, ~VALID_MKDIRAT2_FLAGS ), -1);
-+	EXPECT_EQ(errno, EINVAL);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.53.0
+All these ioctl structures are well-formed in the sense that they
+are portable across architectures and won't leak kernel data
+through implicit padding.
 
+Two of the members are a bit worrying, but that may just
+be my own understanding:
+
+- the 'phys_addr' member sounds like it refers to a physical
+  memory location in the CPU address space, which in general
+  should not be visible to user space, as that tends to
+  expose security problems if users with access to the
+  device can use this to access data they should not.
+
+- the 'version' field may refer to the version of the ioctl
+  command, which is similarly discouraged since it is
+  harder to deal with than just coming up with new ioctl
+  command codes. If this refers to the version of the
+  remote side, this is probably fine.
+
+> +#define GOLDFISH_ADDRESS_SPACE_IOCTL_MAGIC 'G'
+> +
+> +#define GOLDFISH_ADDRESS_SPACE_IOCTL_OP(OP, T) \
+> +	_IOWR(GOLDFISH_ADDRESS_SPACE_IOCTL_MAGIC, OP, T)
+
+I think it would be better to remove this intermediate macro, since
+it prevents easy scraping of ioctl command codes from looking
+at the source file with regular expressions.
+
+It is also unusual that all commands are both reading
+and writing the data. Please check if you can make some
+of them read-only or write-only.
+
+     Arnd
 
