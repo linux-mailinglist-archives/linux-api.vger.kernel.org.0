@@ -1,492 +1,414 @@
-Return-Path: <linux-api+bounces-6087-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6088-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2EVPJAl73mkHEwAAu9opvQ
-	(envelope-from <linux-api+bounces-6087-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2026 19:36:09 +0200
+	id kLf+BP+/32lOYgAAu9opvQ
+	(envelope-from <linux-api+bounces-6088-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2026 18:42:39 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CA13FD20B
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2026 19:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1BA406758
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2026 18:42:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0FF543016935
-	for <lists+linux-api@lfdr.de>; Tue, 14 Apr 2026 17:34:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 10220300B9E6
+	for <lists+linux-api@lfdr.de>; Wed, 15 Apr 2026 16:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89AB43F0752;
-	Tue, 14 Apr 2026 17:34:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94E233E3DA5;
+	Wed, 15 Apr 2026 16:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmhMGulV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1wV/5MU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952063EF673
-	for <linux-api@vger.kernel.org>; Tue, 14 Apr 2026 17:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776188046; cv=pass; b=I+7FLnub7ymfQSebQ+xjjIpRoe6OcPnC3azodvEkvcOIENUb5HwG42rVr3xskjzqbs92hxcBX5B1wXJEO8ScZIGN7zR4R9tvlnFfP1h0NUzl98xBO580+YwFL0Rx6FLA7443j4LJ5M8XbSXDqkYfLU8LrTFBHRfyN0Etdlb4ghE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776188046; c=relaxed/simple;
-	bh=aqzzp+0vLBh3YuoQvULxfP8uzdG3c/fQ3+lDAhEwwZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FvLK9TxrXshGMbpDcr0J+EUMzBh1GraCspbwTG3sA6bTeOplc8ZLdkuZTRbViDa5AVGWE5Q4hUl1V1fEaNIETyxShNBnmTDE9nSPOpgJHYvBtVlINhtGyJrCt4v7bQiIQ5M02QzJTDavyscmHqJNUNYlS+ivC7S2qsixKEnAu2k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HmhMGulV; arc=pass smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-953ac1602f8so3369191241.1
-        for <linux-api@vger.kernel.org>; Tue, 14 Apr 2026 10:34:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776188043; cv=none;
-        d=google.com; s=arc-20240605;
-        b=G7gV9wQ22FZ1OSqN2efma4Je2qqcgdzOTcr6AKApFFPBo+MowW3BVokrq82kqohS4c
-         YnnoclCQ2LvEW76+LbtDaRPI1eAIQkZT79Tnh/cJlfo6BD4Kz0OBC9jiEd/bY0/AMXs+
-         PZZccRegUqtpgJvLic18KfaiOAv15+GuCNneYgPOXg5MP6ZMAfrqTBlbm0/Fg3wVBJfE
-         KieWhG2Jt9TfQtgQ3VQVB2NFTmDltDCV+a4xDmOldE/zJWrWJrquzOn3LgWFxTUXCpdu
-         JlaBcVbSRNPr5dYDsrWZfBiHOkWCQPblsm8T1tGT3Z2s5bKadFbrU0cFdC1SCdumTTQB
-         vOPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wipA6JR7QuvB/7F2g+7cyOg5TyFlmr55ecUXy0B0Xes=;
-        fh=fCbVj51/pGguG2NoCqnPTwDekvqZBVUpVlLUWYddvN8=;
-        b=EshPPjX27JPswiGzXBZfSDTWW0/v9u/XsWXecSIQNPOps+EUnRWALJ/PoSoUiP8sdB
-         exu7ub7B/RhHu0Fo50qH4MEcnAWOuavKVF0g7OUd81ZpntnZb0aScEgrIcp5DIQNZkY2
-         Vw6bVcy2ahibSHFAZWQwauA3HG3ktHkEv7tG8rcXdNzTpTkM/NptZJUkc8HdOSnCK8vp
-         jP2LXsfKfXms7Ctzd1w66T/3Ts9Bb/9UkbxJtbWQ8NjM/WvIfh6Tqd1Hwm0DlZEjXacV
-         wsBfzzGvvjVFzlFixGhR7LbB+VTHLe9I5rZOdPlgsvU+QBtvfMPwTtRqTvWpCcA4f4Ib
-         Uj0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776188043; x=1776792843; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wipA6JR7QuvB/7F2g+7cyOg5TyFlmr55ecUXy0B0Xes=;
-        b=HmhMGulVy4+zzoB/0Vl8b5CFWmlart+LxmChw4zosyEqgLK/L/cZhhTbXAEq+B6NEf
-         xBEV0/Q9m7fSygrXiYkCTBgDARwVDDYjJ86dBMxOycWrnKA2AaFTVcD2CZ/REMuNmh2S
-         zoXYNRMm9FqjRdDXP+O2Evxu2Z+kjaViiqZPtASJDtfpK0zUCxYWMXAGFaKIHQ7p58CL
-         MZ1A6acXBJTiZmoBQLDiOeyZkM8VzcKqPObQA91WQczWxS8HcqmVy5euXABV30DHD73J
-         3IQwzT/Tfy6wboMlpfQD5ymndrrq+ktTLfjYyifuF+B4JWjl9xq+r8IDUw/nhUZxhZLd
-         QNTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776188043; x=1776792843;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wipA6JR7QuvB/7F2g+7cyOg5TyFlmr55ecUXy0B0Xes=;
-        b=XcNVKbNzXPvCBjV68dUWP0JY/wNFEXB3VNSKyh6DJ/Q0RuXvwjpFYRkhImo8RPRjxH
-         W+cJNOk2GVfLOX6a8HfHhRW9EFk3hM7wllFG3opp4VUzTWG+m3+oPbq6vzC5pO4NSb8L
-         I+nXwIYpy5Ik5o+LHrTCm+R5VASeGfGjOaQyS9fhmWPYfg8Qv5ay4cJV4LVlHKO6YTws
-         RAGsyIriWPBdfJzBaLg90T5C18TixirlPwEaErZkfKDiOWtI7lKBDQ37dzMQmbYeLjCe
-         XFtHPUh8x9wXFt5JQMXxA+QFwJjibPhiK90LABS3k1blDquCB2qJPb7d8EFLjbhsr/2D
-         TZ7w==
-X-Forwarded-Encrypted: i=1; AFNElJ81oZ3v1Fc5Wgvp+nQyaRhGSQ33MENvXTfpEmXlAACtnUrCAsAQ9kKCvKCSIV1Pbp5YW6ezklr/m30=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSju9ylyjwSSA7H5FbWDp8CLSmVpyfpNvNtdg7ak05Le9JmuWK
-	DnGkGcFkl+vRxGJc3DrgdAPCZ3frrbspUsadlIxn94017lMG/z+vQT5H59tQf2XQW150vRUTXjk
-	aCEmDZsXN/pxEyn1uF1hnVoITbYBNLsQ=
-X-Gm-Gg: AeBDietLu4Arrdd+8xqnmN4rEP+AI553yjGlZzAzU0FrLl8qS+Pbq0JLZdpCP50YSSV
-	GCAwNJz8EbpIDiYAjZh/lFawOaFtRrpcaydeh5bMqfC8nRQ+wKuAJWsq6cIuapuMUiqNE/PZQf3
-	3ArxAAdPSNR12E0SHXwqU6haixrhdAig+SR9gavtIIVq3viNGkix3Q0iNGmDmGHOWlOgmcOCaiN
-	tw48AbXSe3wSwW8iAbnS1K+JJ57+OEkOeCOaxWfVtig6t37hwp/4NO6GHVyYk7r76ain6r2GhXr
-	cgUfPw7790EwUoAYzSjUK9s4+5T+Ahh5w8oBPYG5tA==
-X-Received: by 2002:a05:6102:c8f:b0:5fd:eacf:27df with SMTP id
- ada2fe7eead31-60a0aae09b1mr6274707137.10.1776188043491; Tue, 14 Apr 2026
- 10:34:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E119146588;
+	Wed, 15 Apr 2026 16:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776271287; cv=none; b=B5AOc1h+L1pohpQDQHYmIQq0I0pX/Vj8pbHu2rOWNIJiml/DfcFkykXSSA08bHybFrZjfLoukBSz9fOQbJXCg4jk+hZgCa9q/qr1rAUVlIdvi5cKQWYiHZ+/J7yewskyNvevnwLqJtPlJzLkbe+ilm45AN46l9bVXiARnCBrFoo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776271287; c=relaxed/simple;
+	bh=8PyWfhf5jKxbPEaTkHRaJjhCm+jjT1zRa1WHAxHshc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mc31pfGyclUlZiRmbte8tomlS7BDbahS0ROMaztms1bpebsa4T+St1SQ600Ptqqn54VKA0CWjr82PPuGqGmSKdEyyba4R74f4Joz/Ie+BE7eepG19vCKD7OXeBY+ZEPHF5fG6afL5skVfKg+HU8avn+dUOh/ymxXOthfFIeMdgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1wV/5MU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42CDC19424;
+	Wed, 15 Apr 2026 16:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776271287;
+	bh=8PyWfhf5jKxbPEaTkHRaJjhCm+jjT1zRa1WHAxHshc4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l1wV/5MUv1b+uh7ToOiyIK5avt4BRTacFCJAI3ur2q7BKWYoZC+e3BTFSfIb2y6tW
+	 GTzHjhZ9LHHQFYgOBp8Y8bpsH3kSxYpwbHCqNFIzt5DSGGTYhKNYzyygNj4mXSS4bX
+	 ON6J4QUsg9pO+CZWNNZtkjr8VDDXA2kcP9cik4wPUUnAl/GI6JrZ4lQVoTF0lM8aWc
+	 hAPTFZBi8GWwShaColJM7zd7wlwyH/UoeDGF2DydvbftjjdAYphJz1ZkJCjGnpUy3J
+	 KpxzP3NbROtd8ZxtGgJE6EbTISHhuTlC171X4Jndnvm/rZstIiv0zcQEfH63RPssDb
+	 mTMfEvi1RTH1Q==
+Date: Wed, 15 Apr 2026 16:41:25 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc: Akilesh Kailash <akailash@google.com>
+Subject: Re: [PATCH v2] f2fs: another way to set large folio by remembering
+ inode number
+Message-ID: <ad-_tZJ4r8zQyGes@google.com>
+References: <20260409134538.3692605-1-jaegeuk@kernel.org>
+ <adhPZxtbZxgU-37v@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260328172314.45807-2-dorjoychy111@gmail.com> <e526fbdb450a593b575355c1c9ae21f286427275.camel@kernel.org>
- <CAFfO_h75dF2s83VNtUaNuRmto1NVVcxo7kN6eAtNtN3ME8mPiQ@mail.gmail.com>
- <4385168f2147efb8131d5fe4209e88d2d15a60bf.camel@kernel.org>
- <CAFfO_h4dhsXji=+FjO9EikX0_oUUDkWe8tC1F7u4WqhNAjRB=g@mail.gmail.com>
- <ce36e877adf7a639bc4e61090d148c06fed63bf7.camel@kernel.org> <CAFfO_h5FOTv-VMbh2Dmwkp04BFxQu192gsvFLohDFXAWPccRNA@mail.gmail.com>
-In-Reply-To: <CAFfO_h5FOTv-VMbh2Dmwkp04BFxQu192gsvFLohDFXAWPccRNA@mail.gmail.com>
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Date: Tue, 14 Apr 2026 23:33:52 +0600
-X-Gm-Features: AQROBzAPq6lrkXdB5aGpvZdh9ex-ri9hhZLo6oK5cSe7bhKl-nNcQlGucluVdVQ
-Message-ID: <CAFfO_h5hZ00XAOY1Gen+HGLDNSWGz2PH_H-0YspOkuaRT1ULsA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-To: linux-fsdevel@vger.kernel.org, brauner@kernel.org
-Cc: Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
-	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
-	hansg@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adhPZxtbZxgU-37v@google.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6087-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6088-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dorjoychy111@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-api];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: E1CA13FD20B
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jaegeuk@kernel.org,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6A1BA406758
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Apr 6, 2026 at 9:30=E2=80=AFPM Dorjoy Chowdhury <dorjoychy111@gmail=
-.com> wrote:
->
-> On Mon, Apr 6, 2026 at 5:27=E2=80=AFAM Jeff Layton <jlayton@kernel.org> w=
-rote:
-> >
-> > On Sat, 2026-04-04 at 21:17 +0600, Dorjoy Chowdhury wrote:
-> > > On Thu, Apr 2, 2026 at 1:02=E2=80=AFAM Jeff Layton <jlayton@kernel.or=
-g> wrote:
-> > > >
-> > > > On Mon, 2026-03-30 at 21:07 +0600, Dorjoy Chowdhury wrote:
-> > > > > On Mon, Mar 30, 2026 at 5:49=E2=80=AFPM Jeff Layton <jlayton@kern=
-el.org> wrote:
-> > > > > >
-> > > > > > On Sat, 2026-03-28 at 23:22 +0600, Dorjoy Chowdhury wrote:
-> > > > > > > This flag indicates the path should be opened if it's a regul=
-ar file.
-> > > > > > > This is useful to write secure programs that want to avoid be=
-ing
-> > > > > > > tricked into opening device nodes with special semantics whil=
-e thinking
-> > > > > > > they operate on regular files. This is a requested feature fr=
-om the
-> > > > > > > uapi-group[1].
-> > > > > > >
-> > > > > > > A corresponding error code EFTYPE has been introduced. For ex=
-ample, if
-> > > > > > > openat2 is called on path /dev/null with OPENAT2_REGULAR in t=
-he flag
-> > > > > > > param, it will return -EFTYPE. EFTYPE is already used in BSD =
-systems
-> > > > > > > like FreeBSD, macOS.
-> > > > > > >
-> > > > > > > When used in combination with O_CREAT, either the regular fil=
-e is
-> > > > > > > created, or if the path already exists, it is opened if it's =
-a regular
-> > > > > > > file. Otherwise, -EFTYPE is returned.
-> > > > > > >
-> > > > > > > When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is=
- returned
-> > > > > > > as it doesn't make sense to open a path that is both a direct=
-ory and a
-> > > > > > > regular file.
-> > > > > > >
-> > > > > > > [1]: https://uapi-group.org/kernel-features/#ability-to-only-=
-open-regular-files
-> > > > > > >
-> > > > > > > Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-> > > > > > > ---
-> > > > > > >  arch/alpha/include/uapi/asm/errno.h        |  2 ++
-> > > > > > >  arch/alpha/include/uapi/asm/fcntl.h        |  1 +
-> > > > > > >  arch/mips/include/uapi/asm/errno.h         |  2 ++
-> > > > > > >  arch/parisc/include/uapi/asm/errno.h       |  2 ++
-> > > > > > >  arch/parisc/include/uapi/asm/fcntl.h       |  1 +
-> > > > > > >  arch/sparc/include/uapi/asm/errno.h        |  2 ++
-> > > > > > >  arch/sparc/include/uapi/asm/fcntl.h        |  1 +
-> > > > > > >  fs/ceph/file.c                             |  4 ++++
-> > > > > > >  fs/fcntl.c                                 |  4 ++--
-> > > > > > >  fs/gfs2/inode.c                            |  6 ++++++
-> > > > > > >  fs/namei.c                                 |  4 ++++
-> > > > > > >  fs/nfs/dir.c                               |  4 ++++
-> > > > > > >  fs/open.c                                  |  8 +++++---
-> > > > > > >  fs/smb/client/dir.c                        | 14 ++++++++++++=
-+-
-> > > > > > >  include/linux/fcntl.h                      |  2 ++
-> > > > > > >  include/uapi/asm-generic/errno.h           |  2 ++
-> > > > > > >  include/uapi/asm-generic/fcntl.h           |  4 ++++
-> > > > > > >  tools/arch/alpha/include/uapi/asm/errno.h  |  2 ++
-> > > > > > >  tools/arch/mips/include/uapi/asm/errno.h   |  2 ++
-> > > > > > >  tools/arch/parisc/include/uapi/asm/errno.h |  2 ++
-> > > > > > >  tools/arch/sparc/include/uapi/asm/errno.h  |  2 ++
-> > > > > > >  tools/include/uapi/asm-generic/errno.h     |  2 ++
-> > > > > > >  22 files changed, 67 insertions(+), 6 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/arch/alpha/include/uapi/asm/errno.h b/arch/alpha=
-/include/uapi/asm/errno.h
-> > > > > > > index 6791f6508632..1a99f38813c7 100644
-> > > > > > > --- a/arch/alpha/include/uapi/asm/errno.h
-> > > > > > > +++ b/arch/alpha/include/uapi/asm/errno.h
-> > > > > > > @@ -127,4 +127,6 @@
-> > > > > > >
-> > > > > > >  #define EHWPOISON    139     /* Memory page has hardware err=
-or */
-> > > > > > >
-> > > > > > > +#define EFTYPE               140     /* Wrong file type for =
-the intended operation */
-> > > > > > > +
-> > > > > > >  #endif
-> > > > > > > diff --git a/arch/alpha/include/uapi/asm/fcntl.h b/arch/alpha=
-/include/uapi/asm/fcntl.h
-> > > > > > > index 50bdc8e8a271..fe488bf7c18e 100644
-> > > > > > > --- a/arch/alpha/include/uapi/asm/fcntl.h
-> > > > > > > +++ b/arch/alpha/include/uapi/asm/fcntl.h
-> > > > > > > @@ -34,6 +34,7 @@
-> > > > > > >
-> > > > > > >  #define O_PATH               040000000
-> > > > > > >  #define __O_TMPFILE  0100000000
-> > > > > > > +#define OPENAT2_REGULAR      0200000000
-> > > > > > >
-> > > > > > >  #define F_GETLK              7
-> > > > > > >  #define F_SETLK              8
-> > > > > > > diff --git a/arch/mips/include/uapi/asm/errno.h b/arch/mips/i=
-nclude/uapi/asm/errno.h
-> > > > > > > index c01ed91b1ef4..1835a50b69ce 100644
-> > > > > > > --- a/arch/mips/include/uapi/asm/errno.h
-> > > > > > > +++ b/arch/mips/include/uapi/asm/errno.h
-> > > > > > > @@ -126,6 +126,8 @@
-> > > > > > >
-> > > > > > >  #define EHWPOISON    168     /* Memory page has hardware err=
-or */
-> > > > > > >
-> > > > > > > +#define EFTYPE               169     /* Wrong file type for =
-the intended operation */
-> > > > > > > +
-> > > > > > >  #define EDQUOT               1133    /* Quota exceeded */
-> > > > > > >
-> > > > > > >
-> > > > > > > diff --git a/arch/parisc/include/uapi/asm/errno.h b/arch/pari=
-sc/include/uapi/asm/errno.h
-> > > > > > > index 8cbc07c1903e..93194fbb0a80 100644
-> > > > > > > --- a/arch/parisc/include/uapi/asm/errno.h
-> > > > > > > +++ b/arch/parisc/include/uapi/asm/errno.h
-> > > > > > > @@ -124,4 +124,6 @@
-> > > > > > >
-> > > > > > >  #define EHWPOISON    257     /* Memory page has hardware err=
-or */
-> > > > > > >
-> > > > > > > +#define EFTYPE               258     /* Wrong file type for =
-the intended operation */
-> > > > > > > +
-> > > > > > >  #endif
-> > > > > > > diff --git a/arch/parisc/include/uapi/asm/fcntl.h b/arch/pari=
-sc/include/uapi/asm/fcntl.h
-> > > > > > > index 03dee816cb13..d46812f2f0f4 100644
-> > > > > > > --- a/arch/parisc/include/uapi/asm/fcntl.h
-> > > > > > > +++ b/arch/parisc/include/uapi/asm/fcntl.h
-> > > > > > > @@ -19,6 +19,7 @@
-> > > > > > >
-> > > > > > >  #define O_PATH               020000000
-> > > > > > >  #define __O_TMPFILE  040000000
-> > > > > > > +#define OPENAT2_REGULAR      0100000000
-> > > > > > >
-> > > > > > >  #define F_GETLK64    8
-> > > > > > >  #define F_SETLK64    9
-> > > > > > > diff --git a/arch/sparc/include/uapi/asm/errno.h b/arch/sparc=
-/include/uapi/asm/errno.h
-> > > > > > > index 4a41e7835fd5..71940ec9130b 100644
-> > > > > > > --- a/arch/sparc/include/uapi/asm/errno.h
-> > > > > > > +++ b/arch/sparc/include/uapi/asm/errno.h
-> > > > > > > @@ -117,4 +117,6 @@
-> > > > > > >
-> > > > > > >  #define EHWPOISON    135     /* Memory page has hardware err=
-or */
-> > > > > > >
-> > > > > > > +#define EFTYPE               136     /* Wrong file type for =
-the intended operation */
-> > > > > > > +
-> > > > > > >  #endif
-> > > > > > > diff --git a/arch/sparc/include/uapi/asm/fcntl.h b/arch/sparc=
-/include/uapi/asm/fcntl.h
-> > > > > > > index 67dae75e5274..bb6e9fa94bc9 100644
-> > > > > > > --- a/arch/sparc/include/uapi/asm/fcntl.h
-> > > > > > > +++ b/arch/sparc/include/uapi/asm/fcntl.h
-> > > > > > > @@ -37,6 +37,7 @@
-> > > > > > >
-> > > > > > >  #define O_PATH               0x1000000
-> > > > > > >  #define __O_TMPFILE  0x2000000
-> > > > > > > +#define OPENAT2_REGULAR      0x4000000
-> > > > > > >
-> > > > > > >  #define F_GETOWN     5       /*  for sockets. */
-> > > > > > >  #define F_SETOWN     6       /*  for sockets. */
-> > > > > > > diff --git a/fs/ceph/file.c b/fs/ceph/file.c
-> > > > > > > index 66bbf6d517a9..6d8d4c7765e6 100644
-> > > > > > > --- a/fs/ceph/file.c
-> > > > > > > +++ b/fs/ceph/file.c
-> > > > > > > @@ -977,6 +977,10 @@ int ceph_atomic_open(struct inode *dir, =
-struct dentry *dentry,
-> > > > > > >                       ceph_init_inode_acls(newino, &as_ctx);
-> > > > > > >                       file->f_mode |=3D FMODE_CREATED;
-> > > > > > >               }
-> > > > > > > +             if ((flags & OPENAT2_REGULAR) && !d_is_reg(dent=
-ry)) {
-> > > > > > > +                     err =3D -EFTYPE;
-> > > > > > > +                     goto out_req;
-> > > > > > > +             }
-> > > > > >
-> > > > > > ^^^
-> > > > > > This doesn't look quite right. Here's a larger chunk of the cod=
-e:
-> > > > > >
-> > > > > > -------------------------8<--------------------------
-> > > > > >         if (d_in_lookup(dentry)) {
-> > > > > >                 dn =3D ceph_finish_lookup(req, dentry, err);
-> > > > > >                 if (IS_ERR(dn))
-> > > > > >                         err =3D PTR_ERR(dn);
-> > > > > >         } else {
-> > > > > >                 /* we were given a hashed negative dentry */
-> > > > > >                 dn =3D NULL;
-> > > > > >         }
-> > > > > >         if (err)
-> > > > > >                 goto out_req;
-> > > > > >         if (dn || d_really_is_negative(dentry) || d_is_symlink(=
-dentry)) {
-> > > > > >                 /* make vfs retry on splice, ENOENT, or symlink=
- */
-> > > > > >                 doutc(cl, "finish_no_open on dn %p\n", dn);
-> > > > > >                 err =3D finish_no_open(file, dn);
-> > > > > >         } else {
-> > > > > >                 if (IS_ENCRYPTED(dir) &&
-> > > > > >                     !fscrypt_has_permitted_context(dir, d_inode=
-(dentry))) {
-> > > > > >                         pr_warn_client(cl,
-> > > > > >                                 "Inconsistent encryption contex=
-t (parent %llx:%llx child %llx:%llx)\n",
-> > > > > >                                 ceph_vinop(dir), ceph_vinop(d_i=
-node(dentry)));
-> > > > > >                         goto out_req;
-> > > > > >                 }
-> > > > > >
-> > > > > >                 doutc(cl, "finish_open on dn %p\n", dn);
-> > > > > >                 if (req->r_op =3D=3D CEPH_MDS_OP_CREATE && req-=
->r_reply_info.has_create_ino) {
-> > > > > >                         struct inode *newino =3D d_inode(dentry=
-);
-> > > > > >
-> > > > > >                         cache_file_layout(dir, newino);
-> > > > > >                         ceph_init_inode_acls(newino, &as_ctx);
-> > > > > >                         file->f_mode |=3D FMODE_CREATED;
-> > > > > >                 }
-> > > > > >                 err =3D finish_open(file, dentry, ceph_open);
-> > > > > >         }
-> > > > > > -------------------------8<--------------------------
-> > > > > >
-> > > > > > It looks like this won't handle it correctly if the pathwalk te=
-rminates
-> > > > > > on a symlink (re: d_is_symlink() case). You should either set u=
-p a test
-> > > > > > ceph cluster on your own, or reach out to the ceph community an=
-d ask
-> > > > > > them to test this.
-> > > > > >
-> > > > >
-> > > > > Thanks for reviewing. The d_is_symlink() case seems to be calling
-> > > > > finish_no_open so shouldn't this be okay?
-> > > > >
-> > > >
-> > > > My mistake -- you're correct. I keep forgetting that finish_no_open=
-()
-> > > > will handle this case regardless of what else happens.
-> > > >
-> > > > > > >               err =3D finish_open(file, dentry, ceph_open);
-> > > > > > >       }
-> > > > > > >  out_req:
-> > > > > > > diff --git a/fs/fcntl.c b/fs/fcntl.c
-> > > > > > > index beab8080badf..240bb511557a 100644
-> > > > > > > --- a/fs/fcntl.c
-> > > > > > > +++ b/fs/fcntl.c
-> > > > > > > @@ -1169,9 +1169,9 @@ static int __init fcntl_init(void)
-> > > > > > >        * Exceptions: O_NONBLOCK is a two bit define on parisc=
-; O_NDELAY
-> > > > > > >        * is defined as O_NONBLOCK on some platforms and not o=
-n others.
-> > > > > > >        */
-> > > > > > > -     BUILD_BUG_ON(20 - 1 /* for O_RDONLY being 0 */ !=3D
-> > > > > > > +     BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=3D
-> > > > > > >               HWEIGHT32(
-> > > > > > > -                     (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_ND=
-ELAY)) |
-> > > > > > > +                     (VALID_OPENAT2_FLAGS & ~(O_NONBLOCK | O=
-_NDELAY)) |
-> > > > > > >                       __FMODE_EXEC));
-> > > > > > >
-> > > > > > >       fasync_cache =3D kmem_cache_create("fasync_cache",
-> > > > > > > diff --git a/fs/gfs2/inode.c b/fs/gfs2/inode.c
-> > > > > > > index 8344040ecaf7..4604e2e8a9cc 100644
-> > > > > > > --- a/fs/gfs2/inode.c
-> > > > > > > +++ b/fs/gfs2/inode.c
-> > > > > > > @@ -738,6 +738,12 @@ static int gfs2_create_inode(struct inod=
-e *dir, struct dentry *dentry,
-> > > > > > >       inode =3D gfs2_dir_search(dir, &dentry->d_name, !S_ISRE=
-G(mode) || excl);
-> > > > > > >       error =3D PTR_ERR(inode);
-> > > > > > >       if (!IS_ERR(inode)) {
-> > > > > > > +             if (file && (file->f_flags & OPENAT2_REGULAR) &=
-& !S_ISREG(inode->i_mode)) {
-> > > > > >
-> > > > > > Isn't OPENAT2_REGULAR getting masked off in ->f_flags now?
-> > > > > >
-> > > > > Yes, I thought the masking off was happening after this codepath =
-got
-> > > > > executed. Maybe it's better anyway to pass another flags param to=
- this
-> > > > > function and forward the flags from the gfs2_atomic_open function=
- and
-> > > > > in other call sites pass 0 ? What do you think?
-> > > > >
-> > > >
-> > > > Also my mistake. That happens in do_dentry_open() which happens in
-> > > > finish_open(), so you should be OK here.
-> > > >
-> > > > Reviewed-by: Jeff Layton <jlayton@kernel.org>
-> > >
-> > > Thanks for patiently reviewing this! I am planning on sending patches
-> > > for man-pages and looking into some xfs-tests for this. But I am not
-> > > sure if this patch series will get more reviews from others or if it
-> > > will be picked up in the vfs branch?
-> > >
-> >
-> > This is a change to rather core VFS infrastructure so yes, you should
-> > expect some more review. Assuming no major issues are found, then yes,
-> > this should eventually get picked up by the VFS maintainers.
-> >
-> > Cheers,
-> > --
-> > Jeff Layton <jlayton@kernel.org>
->
-> Ping....
-> This patch series got a "Reviewed-by" from Jeff Layton but it probably
-> requires more reviews from other maintainers/reviewers as well. So
-> requesting for review on this patch series. Thanks!
->
+By the way, is it worth to add some generic apis such as
+1) reclaim a specifc inode object when closing the last file
+2) add another fadvise hint for large folio
 
-Ping...
-Requesting for review on this patch series please.
-
-Regards,
-Dorjoy
+On 04/10, Jaegeuk Kim wrote:
+> enum {
+>        F2FS_XATTR_FADV_LARGEFOLIO,
+> };
+> 
+> unsigned int value = BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> 
+> 1. setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
+>  -> register the inode number for large folio
+> 2. chmod(0400, file)
+>  -> make Read-Only
+> 3. fsync() && close() && open(READ)
+>  -> f2fs_iget() with large folio
+> 4. open(WRITE), mkwrite on mmap, chmod(WRITE)
+>  -> return error
+> 5. close() and open()
+>  -> goto #3
+> 6. unlink
+>  -> deregister the inode number
+> 
+> Suggested-by: Akilesh Kailash <akailash@google.com>
+> Signed-off-by: Jaegeuk Kim <jaegeuk@kernel.org>
+> ---
+>  
+>   Log from v1:
+>    - add a condition in f2fs_drop_inode
+>    - add Doc
+> 
+>  Documentation/filesystems/f2fs.rst | 41 ++++++++++++++++++++++++++----
+>  fs/f2fs/checkpoint.c               |  2 +-
+>  fs/f2fs/data.c                     |  2 +-
+>  fs/f2fs/f2fs.h                     |  1 +
+>  fs/f2fs/file.c                     | 11 ++++++--
+>  fs/f2fs/inode.c                    | 19 +++++++++++---
+>  fs/f2fs/super.c                    |  7 +++++
+>  fs/f2fs/xattr.c                    | 35 ++++++++++++++++++++++++-
+>  fs/f2fs/xattr.h                    |  6 +++++
+>  9 files changed, 111 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+> index 7e4031631286..de899d0d3088 100644
+> --- a/Documentation/filesystems/f2fs.rst
+> +++ b/Documentation/filesystems/f2fs.rst
+> @@ -1044,11 +1044,14 @@ page allocation for significant performance gains. To minimize code complexity,
+>  this support is currently excluded from the write path, which requires handling
+>  complex optimizations such as compression and block allocation modes.
+>  
+> -This optional feature is triggered only when a file's immutable bit is set.
+> -Consequently, F2FS will return EOPNOTSUPP if a user attempts to open a cached
+> -file with write permissions, even immediately after clearing the bit. Write
+> -access is only restored once the cached inode is dropped. The usage flow is
+> -demonstrated below:
+> +This optional feature is triggered by two mechanisms: the file's immutable bit
+> +or a specific xattr flag. In both cases, F2FS ensures data integrity by
+> +restricting the file to a read-only state while large folios are active.
+> +
+> +1. Immutable Bit Approach:
+> +Triggered when the FS_IMMUTABLE_FL is set. This is a strict enforcement
+> +where the file cannot be modified at all until the bit is cleared and
+> +the cached inode is dropped.
+>  
+>  .. code-block::
+>  
+> @@ -1078,3 +1081,31 @@ demonstrated below:
+>     Written 4096 bytes with pattern = zero, total_time = 29 us, max_latency = 28 us
+>  
+>     # rm /data/testfile_read_seq
+> +
+> +2. XATTR fadvise Approach:
+> +A more flexible registration via extended attributes.
+> +
+> +.. code-block::
+> +
+> +    enum {
+> +        F2FS_XATTR_FADV_LARGEFOLIO,
+> +    };
+> +    unsigned int value = BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> +
+> +    /* Registers the inode number for large folio support in the subsystem.*/
+> +    # setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
+> +
+> +    /* The file must be made Read-Only to transition into the large folio path. */
+> +    # fchmod(0400, fd)
+> +
+> +    /* clean up dirty inode state. */
+> +    # fsync(fd)
+> +
+> +    /* Drop the inode cache.
+> +    # close(fd)
+> +
+> +    /* f2fs_iget() instantiates the inode with large folio support.*/
+> +    # open()
+> +
+> +    /* Returns -EOPNOTSUPP or error to protect the large folio cache.*/
+> +    # open(WRITE), mkwrite on mmap, or chmod(WRITE)
+> diff --git a/fs/f2fs/checkpoint.c b/fs/f2fs/checkpoint.c
+> index 01e1ba77263e..fdd62ddc3ed6 100644
+> --- a/fs/f2fs/checkpoint.c
+> +++ b/fs/f2fs/checkpoint.c
+> @@ -778,7 +778,7 @@ void f2fs_remove_ino_entry(struct f2fs_sb_info *sbi, nid_t ino, int type)
+>  	__remove_ino_entry(sbi, ino, type);
+>  }
+>  
+> -/* mode should be APPEND_INO, UPDATE_INO or TRANS_DIR_INO */
+> +/* mode should be APPEND_INO, UPDATE_INO, LARGE_FOLIO_IO, or TRANS_DIR_INO */
+>  bool f2fs_exist_written_data(struct f2fs_sb_info *sbi, nid_t ino, int mode)
+>  {
+>  	struct inode_management *im = &sbi->im[mode];
+> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+> index 965d4e6443c6..5e46230398d7 100644
+> --- a/fs/f2fs/data.c
+> +++ b/fs/f2fs/data.c
+> @@ -2494,7 +2494,7 @@ static int f2fs_read_data_large_folio(struct inode *inode,
+>  	int ret = 0;
+>  	bool folio_in_bio;
+>  
+> -	if (!IS_IMMUTABLE(inode) || f2fs_compressed_file(inode)) {
+> +	if (f2fs_compressed_file(inode)) {
+>  		if (folio)
+>  			folio_unlock(folio);
+>  		return -EOPNOTSUPP;
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index e40b6b2784ee..02bc6eb96a59 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -381,6 +381,7 @@ enum {
+>  /* for the list of ino */
+>  enum {
+>  	ORPHAN_INO,		/* for orphan ino list */
+> +	LARGE_FOLIO_INO,	/* for large folio case */
+>  	APPEND_INO,		/* for append ino list */
+>  	UPDATE_INO,		/* for update ino list */
+>  	TRANS_DIR_INO,		/* for transactions dir ino list */
+> diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+> index c0220cd7b332..64ba900410fc 100644
+> --- a/fs/f2fs/file.c
+> +++ b/fs/f2fs/file.c
+> @@ -2068,9 +2068,16 @@ static long f2fs_fallocate(struct file *file, int mode,
+>  
+>  static int f2fs_release_file(struct inode *inode, struct file *filp)
+>  {
+> -	if (atomic_dec_and_test(&F2FS_I(inode)->open_count))
+> +	if (atomic_dec_and_test(&F2FS_I(inode)->open_count)) {
+>  		f2fs_remove_donate_inode(inode);
+> -
+> +		/*
+> +		 * In order to get large folio as soon as possible, let's drop
+> +		 * inode cache asap. See also f2fs_drop_inode.
+> +		 */
+> +		if (f2fs_exist_written_data(F2FS_I_SB(inode),
+> +					    inode->i_ino, LARGE_FOLIO_INO))
+> +                       d_drop(filp->f_path.dentry);
+> +	}
+>  	/*
+>  	 * f2fs_release_file is called at every close calls. So we should
+>  	 * not drop any inmemory pages by close called by other process.
+> diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
+> index 89240be8cc59..e100bc5a378c 100644
+> --- a/fs/f2fs/inode.c
+> +++ b/fs/f2fs/inode.c
+> @@ -565,6 +565,20 @@ static bool is_meta_ino(struct f2fs_sb_info *sbi, unsigned int ino)
+>  		ino == F2FS_COMPRESS_INO(sbi);
+>  }
+>  
+> +static void f2fs_mapping_set_large_folio(struct inode *inode)
+> +{
+> +	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+> +
+> +	if (f2fs_compressed_file(inode))
+> +		return;
+> +	if (f2fs_quota_file(sbi, inode->i_ino))
+> +		return;
+> +	if (IS_IMMUTABLE(inode) ||
+> +	    (f2fs_exist_written_data(sbi, inode->i_ino, LARGE_FOLIO_INO) &&
+> +	     !(inode->i_mode & S_IWUGO)))
+> +	    mapping_set_folio_min_order(inode->i_mapping, 0);
+> +}
+> +
+>  struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
+>  {
+>  	struct f2fs_sb_info *sbi = F2FS_SB(sb);
+> @@ -620,9 +634,7 @@ struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
+>  		inode->i_op = &f2fs_file_inode_operations;
+>  		inode->i_fop = &f2fs_file_operations;
+>  		inode->i_mapping->a_ops = &f2fs_dblock_aops;
+> -		if (IS_IMMUTABLE(inode) && !f2fs_compressed_file(inode) &&
+> -		    !f2fs_quota_file(sbi, inode->i_ino))
+> -			mapping_set_folio_min_order(inode->i_mapping, 0);
+> +		f2fs_mapping_set_large_folio(inode);
+>  	} else if (S_ISDIR(inode->i_mode)) {
+>  		inode->i_op = &f2fs_dir_inode_operations;
+>  		inode->i_fop = &f2fs_dir_operations;
+> @@ -895,6 +907,7 @@ void f2fs_evict_inode(struct inode *inode)
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, APPEND_INO);
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, UPDATE_INO);
+>  	f2fs_remove_ino_entry(sbi, inode->i_ino, FLUSH_INO);
+> +	f2fs_remove_ino_entry(sbi, inode->i_ino, LARGE_FOLIO_INO);
+>  
+>  	if (!is_sbi_flag_set(sbi, SBI_IS_FREEZING)) {
+>  		sb_start_intwrite(inode->i_sb);
+> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+> index ccf806b676f5..11d1e0c99ac1 100644
+> --- a/fs/f2fs/super.c
+> +++ b/fs/f2fs/super.c
+> @@ -1844,6 +1844,13 @@ static int f2fs_drop_inode(struct inode *inode)
+>  			return 1;
+>  		}
+>  	}
+> +	/*
+> +	 * In order to get large folio as soon as possible, let's drop
+> +	 * inode cache asap. See also f2fs_release_file.
+> +	 */
+> +	if (f2fs_exist_written_data(sbi, inode->i_ino, LARGE_FOLIO_INO) &&
+> +	    !is_inode_flag_set(inode, FI_DIRTY_INODE))
+> +		return 1;
+>  
+>  	/*
+>  	 * This is to avoid a deadlock condition like below.
+> diff --git a/fs/f2fs/xattr.c b/fs/f2fs/xattr.c
+> index 941dc62a6d6f..0c0e44c2dcdd 100644
+> --- a/fs/f2fs/xattr.c
+> +++ b/fs/f2fs/xattr.c
+> @@ -44,6 +44,16 @@ static void xattr_free(struct f2fs_sb_info *sbi, void *xattr_addr,
+>  		kfree(xattr_addr);
+>  }
+>  
+> +static int f2fs_xattr_fadvise_get(struct inode *inode, void *buffer)
+> +{
+> +	if (!buffer)
+> +		goto out;
+> +	if (mapping_large_folio_support(inode->i_mapping))
+> +		*((unsigned int *)buffer) |= BIT(F2FS_XATTR_FADV_LARGEFOLIO);
+> +out:
+> +	return sizeof(unsigned int);
+> +}
+> +
+>  static int f2fs_xattr_generic_get(const struct xattr_handler *handler,
+>  		struct dentry *unused, struct inode *inode,
+>  		const char *name, void *buffer, size_t size)
+> @@ -61,10 +71,29 @@ static int f2fs_xattr_generic_get(const struct xattr_handler *handler,
+>  	default:
+>  		return -EINVAL;
+>  	}
+> +	if (handler->flags == F2FS_XATTR_INDEX_USER &&
+> +	    !strcmp(name, "fadvise"))
+> +		return f2fs_xattr_fadvise_get(inode, buffer);
+> +
+>  	return f2fs_getxattr(inode, handler->flags, name,
+>  			     buffer, size, NULL);
+>  }
+>  
+> +static int f2fs_xattr_fadvise_set(struct inode *inode, const void *value)
+> +{
+> +	unsigned int new_fadvise;
+> +
+> +	new_fadvise = *(unsigned int *)value;
+> +
+> +	if (new_fadvise & BIT(F2FS_XATTR_FADV_LARGEFOLIO))
+> +		f2fs_add_ino_entry(F2FS_I_SB(inode),
+> +				inode->i_ino, LARGE_FOLIO_INO);
+> +	else
+> +		f2fs_remove_ino_entry(F2FS_I_SB(inode),
+> +				inode->i_ino, LARGE_FOLIO_INO);
+> +	return 0;
+> +}
+> +
+>  static int f2fs_xattr_generic_set(const struct xattr_handler *handler,
+>  		struct mnt_idmap *idmap,
+>  		struct dentry *unused, struct inode *inode,
+> @@ -84,6 +113,10 @@ static int f2fs_xattr_generic_set(const struct xattr_handler *handler,
+>  	default:
+>  		return -EINVAL;
+>  	}
+> +	if (handler->flags == F2FS_XATTR_INDEX_USER &&
+> +	    !strcmp(name, "fadvise"))
+> +		return f2fs_xattr_fadvise_set(inode, value);
+> +
+>  	return f2fs_setxattr(inode, handler->flags, name,
+>  					value, size, NULL, flags);
+>  }
+> @@ -842,4 +875,4 @@ int __init f2fs_init_xattr_cache(void)
+>  void f2fs_destroy_xattr_cache(void)
+>  {
+>  	kmem_cache_destroy(inline_xattr_slab);
+> -}
+> \ No newline at end of file
+> +}
+> diff --git a/fs/f2fs/xattr.h b/fs/f2fs/xattr.h
+> index bce3d93e4755..455f460d014e 100644
+> --- a/fs/f2fs/xattr.h
+> +++ b/fs/f2fs/xattr.h
+> @@ -24,6 +24,7 @@
+>  #define F2FS_XATTR_REFCOUNT_MAX         1024
+>  
+>  /* Name indexes */
+> +#define F2FS_USER_FADVISE_NAME			"user.fadvise"
+>  #define F2FS_SYSTEM_ADVISE_NAME			"system.advise"
+>  #define F2FS_XATTR_INDEX_USER			1
+>  #define F2FS_XATTR_INDEX_POSIX_ACL_ACCESS	2
+> @@ -39,6 +40,11 @@
+>  #define F2FS_XATTR_NAME_ENCRYPTION_CONTEXT	"c"
+>  #define F2FS_XATTR_NAME_VERITY			"v"
+>  
+> +/* used for F2FS_USER_FADVISE_NAME */
+> +enum {
+> +	F2FS_XATTR_FADV_LARGEFOLIO,
+> +};
+> +
+>  struct f2fs_xattr_header {
+>  	__le32  h_magic;        /* magic number for identification */
+>  	__le32  h_refcount;     /* reference count */
+> -- 
+> 2.53.0.1213.gd9a14994de-goog
+> 
 
