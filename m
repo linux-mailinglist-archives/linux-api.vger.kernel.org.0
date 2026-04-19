@@ -1,194 +1,201 @@
-Return-Path: <linux-api+bounces-6108-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6109-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oNbsI0/o4WlgzwAAu9opvQ
-	(envelope-from <linux-api+bounces-6108-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2026 09:59:11 +0200
+	id sK+BN4iD5GmzWAEAu9opvQ
+	(envelope-from <linux-api+bounces-6109-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 09:26:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ED84184D9
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2026 09:59:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D82423506
+	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 09:26:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 91EB43035365
-	for <lists+linux-api@lfdr.de>; Fri, 17 Apr 2026 07:59:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DDD04301BA55
+	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 07:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00F7363C5A;
-	Fri, 17 Apr 2026 07:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADD731AA8F;
+	Sun, 19 Apr 2026 07:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="wPO++JDk"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Jj40MzyD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC2135DA52;
-	Fri, 17 Apr 2026 07:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4032C227B8E;
+	Sun, 19 Apr 2026 07:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776412734; cv=none; b=jUPam5nRIj6j9P0oXaH7SUYgkiR6VTqbRRr+/K6FXMTbs2aCAVq2Dc6Dy4PosR5OhsBpu++gsk4VXBQsqY+GnFxxsabhX15eHO8IOGbZMitnFcFsrbpR8b4kJZyasCQtW1OApgWKfnwpPkOmgKPjD8Bjqv2A7ygSqbnpUGop+NU=
+	t=1776583450; cv=none; b=gifiQ7Wpcl0vrWGoLT5nl6ymyuoeSXRwUS7hieWeStBqh1PujKObJkqXkKrgXK5WkpIe3FnFnVsBYT/9tdyrIMiAoH7233bkFA7xEoB9cg5oj2GMsyLs3BbShlFBgJb4mGgTKtJn7mPNSwtgNEkShBeFptaqpVrJvd0OEnLfzlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776412734; c=relaxed/simple;
-	bh=+A3VbckpOauq+yf7Ht+j7a+htmE685QM/RkahOX/pPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QddcRU5gbG8J7OocRDNe/Nq45yRIuCnAr8HBZeaHe62KVVWYDrfhDn3EJxbhirE20uXQdERi4hnj0of4Gaf7woExxZhcYSJfqKFbWOqk+5egA5vJ1jtTpnmfeZVl/jsqyMOKADzS6YBjplKlKl4TdML1Qtd80+9JNakmJ/uxuQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=wPO++JDk; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fxnM43MYJz9vGr;
-	Fri, 17 Apr 2026 09:58:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1776412720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+A3VbckpOauq+yf7Ht+j7a+htmE685QM/RkahOX/pPc=;
-	b=wPO++JDkumEjlJT6NVA2Zuozsgd6C/RaFOUA4n59AC65YNHm6jFsN4af7bkrm2Qt6LI9ax
-	NUTNB1PTeboTZ8sJvJPlbDjZUaaoE1eOiK7kbmmWkyD8om8mu8LoX70mh3XYD1yXqV9srF
-	L4a6du7QZPATHJhVZLVGgdBvXzoMGrgPCvt8DV+TNyRhUrsSDWhOKTKZVScuytQMcHU8G4
-	afypCdndFrIMNPG78c4/p6J553TUDIViN6/0/GkDjyJy/Pmu6ZcM07uswNad0l6S1mNb7O
-	rphOmEmrluFzWmwASk6n0rq2ZdxcwysatTB5s89TCPa/+kZWjueb6jEEHAgXHA==
-Date: Fri, 17 Apr 2026 17:58:07 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>, brauner@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com, 
-	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, 
-	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com, 
-	linmag7@gmail.com, tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org, 
-	anna@kernel.org, sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
-	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org, 
-	miklos@szeredi.hu, hansg@kernel.org
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-Message-ID: <2026-04-17-boiled-crisp-fiddles-router-N2oV0E@cyphar.com>
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260328172314.45807-2-dorjoychy111@gmail.com>
- <aeDpIgfDaIKEaBcL@lt-jori.localdomain>
- <CAFfO_h6pkyX=uN5uoXda6toTtT6KsahfBNBLom9i21HdZ7JOmQ@mail.gmail.com>
- <2026-04-16-upstate-capable-deacon-petals-0l25lH@cyphar.com>
- <2059025134.378522.1776375762839@kpc.webmail.kpnmail.nl>
+	s=arc-20240116; t=1776583450; c=relaxed/simple;
+	bh=fq1Pg2w7pa6VKPX5wza+N0sP6JsbH3BNSuK2KD6xzec=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E624bVWg4e439fORvYwmwXQcRHHgvWOfjn8L6VSuNQCU2Ymly0FfICxipvZ7NnY4kvLjs/ldbZbyr9e42QFeSbCkC23Xc2CUWBzGHW6HKFnZpUDNnjsG8DU/NTZ+GBrAzXYGgfkBHavYm49xSm6neSJ0417ZPohEck07e4yFCnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Jj40MzyD; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=1m
+	5ei45ZrcRKXLlMsprg/W/kkD0W4qlNlGa8sGc33rg=; b=Jj40MzyDnMLp7VexHL
+	CPWQOhz3EUfZDkaTiLdylT1xTsMPDSArXqTsHs3MLLCyEhf/dC3a7SZy4fEjpLik
+	yfnp+GrScEqdqosbj2I6z0yvVmjbD4tkMlSgClnNcLeiVpze85yPJqG8QwNpF/af
+	eYorU+xJZ85+36yAMG/++guGA=
+Received: from ubuntu.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wCXAmn2guRpNR8kAg--.64304S2;
+	Sun, 19 Apr 2026 15:23:35 +0800 (CST)
+From: chenheyun <chen_heyun@163.com>
+To: rafael@kernel.org,
+	pavel@ucw.cz
+Cc: linux-pm@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chenheyun <chen_heyun@163.com>
+Subject: [PATCH] [PATCH] PM: docs: Add comprehensive wakeup_count documentation
+Date: Sun, 19 Apr 2026 00:23:30 -0700
+Message-Id: <20260419072330.101419-1-chen_heyun@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="whhi6iyos3qbufli"
-Content-Disposition: inline
-In-Reply-To: <2059025134.378522.1776375762839@kpc.webmail.kpnmail.nl>
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCXAmn2guRpNR8kAg--.64304S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF4rCrWUuFWDWr1Utw4ktFb_yoWrJF1kp3
+	sxKrySq3W8Ary5CFn3KF18JryfZw109F43CF1kCw10yrn8Zr90yr43KF1rtFZ0krWxAayY
+	qF12g34UZ3W2ka7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRHlkcUUUUU=
+X-CM-SenderInfo: xfkh0spkh130i6rwjhhfrp/xtbC8Rdxt2nkgveF-QAA3g
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[cyphar.com,reject];
-	R_DKIM_ALLOW(-0.20)[cyphar.com:s=MBO0001];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6108-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[44];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,oracle.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[163.com];
+	TAGGED_FROM(0.00)[bounces-6109-lists,linux-api=lfdr.de];
+	DKIM_TRACE(0.00)[163.com:+];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cyphar@cyphar.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[cyphar.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[chen_heyun@163.com,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,163.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,xs4all.nl:email]
-X-Rspamd-Queue-Id: 56ED84184D9
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 38D82423506
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+The current Documentation/power/wakeup-count.rst is empty and lacks
+description of the race-free suspend mechanism, sysfs ABI semantics,
+blocking behavior, and standard userspace usage.
 
---whhi6iyos3qbufli
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 1/4] openat2: new OPENAT2_REGULAR flag support
-MIME-Version: 1.0
+Add complete documentation for /sys/power/wakeup_count, including
+overview, interface semantics, usage example, and related interfaces.
 
-On 2026-04-16, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
->=20
-> > Op 16-04-2026 17:15 CEST schreef Aleksa Sarai <cyphar@cyphar.com>:
-> >=20
-> >=20
-> > Oh, I didn't notice that this wasn't mentioned here, we had a separate
-> > discussion about it in a thread with Jori and I must've assumed we
-> > discussed it in both. (My brain is also really not wired up to read
-> > large octal values easily.)
-> >=20
-> > While it is hard to add new O_* flags (hence OPENAT2_REGULAR), it's not
-> > /impossible/ (Jori has a patch for OPENAT2_EMPTY_PATH that is safe to
-> > add to O_* flags because of some fun historical coincidences).
->=20
-> But it would change userspace, at least in theory, right? If anyone for
-> some reason decided to set whatever the bit will be for O_EMPTYPATH
-> in a call to openat(), and pass an empty string, relying on this to fail,
-> that will no longer be the case. But that is just really silly. Or are you
-> hinting on something else?
+Also update Documentation/power/index.rst to include the new document.
 
-Yes, such a program would break, but it is a fairly safe bet that no
-such program actually exists in the wild. There is a limit to "never
-break userspace" -- it actually needs to break a real userspace program
-for it to matter.
+Signed-off-by: chenheyun <chen_heyun@163.com>
+---
+ Documentation/power/index.rst        |  1 +
+ Documentation/power/wakeup-count.rst | 63 ++++++++++++++++++++++++++++
+ 2 files changed, 64 insertions(+)
+ create mode 100644 Documentation/power/wakeup-count.rst
 
-Even then there are limits -- in theory someone could write a program
-that would error out if any new flag is added to any syscall that
-returns -EINVAL for invalid flags (in fact, we have selftests for
-openat2(2) that would break because we test the error path) but it
-wouldn't make sense to not add features to any syscall because such a
-program could theoretically exist.
+diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
+index b4581e4ae785..901268049d7c 100644
+--- a/Documentation/power/index.rst
++++ b/Documentation/power/index.rst
+@@ -27,6 +27,7 @@ Power Management
+     swsusp
+     video
+     tricks
++    wakeup-count
+ 
+     userland-swsusp
+ 
+diff --git a/Documentation/power/wakeup-count.rst b/Documentation/power/wakeup-count.rst
+new file mode 100644
+index 000000000000..5f3a1ca654ce
+--- /dev/null
++++ b/Documentation/power/wakeup-count.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. Copyright (C) 2025 The Linux Foundation
++
++The wakeup_count mechanism for race-free suspend
++================================================
++
++Overview
++--------
++
++The ``/sys/power/wakeup_count`` sysfs interface provides a stable userspace
++mechanism to perform race-free system suspend transitions. It eliminates the
++well-known race condition between suspend permission check and actual system
++suspend entry.
++
++Userspace may use it in a standard three-step sequence:
++
++1. Read the current global wakeup event counter. The read operation blocks
++   until all ongoing wakeup event processing is finished, returning a stable value.
++2. Perform necessary suspend preparation steps in userspace.
++3. Write the previously-read counter value back to the interface.
++   The write operation will only succeed if no new wakeup events have occurred
++   since the read.
++
++Only after a successful write may userspace safely trigger system suspend.
++
++Interface semantics
++-------------------
++
++``/sys/power/wakeup_count``
++
++**Read**
++    Returns the global monotonically-increasing wakeup event counter.
++    This call blocks until there are no wakeup events under active processing
++    inside the kernel. If interrupted by a signal, it returns -EINTR.
++
++**Write**
++    Accepts the counter value obtained from a prior read.
++    The write succeeds only if the kernel's current counter exactly matches
++    the written value. Mismatch indicates new wakeup events arrived during
++    userspace preparation, and suspend must be aborted.
++
++Standard userspace usage example
++--------------------------------
++
++.. code-block:: shell
++
++    count=$(cat /sys/power/wakeup_count)
++    do_suspend_preparation
++    echo "$count" > /sys/power/wakeup_count && echo mem > /sys/power/state
++
++Blocking behavior
++-----------------
++
++The blocking read ensures that userspace never observes an inconsistent state
++where wakeup events are still being handled within the kernel. This stability
++is the core guarantee of the interface.
++
++Related kernel interfaces
++-------------------------
++
++- ``/sys/power/state``: System suspend state control interface.
++- ``/sys/kernel/debug/wakeup_sources``: Per-device wakeup source statistics.
++- ``Documentation/power/wakeup-events.rst``: General wakeup event framework.
+\ No newline at end of file
+-- 
+2.25.1
 
-We change uAPI all the time, the trick is doing it so that userspace
-doesn't notice.
-
-For O_EMPTYPATH the logic is that programs that pass regular paths would
-work the same way as they do now (i.e., LOOKUP_EMPTY semantics) and
-programs that used to pass "" would previously get ENOENT -- it seems
-quite unlikely anyone would depend on this for anything (they could
-check if the string was empty themselves, after all) and it seems
-astronomically unlikely that that they would pass garbage *and* depend
-on it for anything.
-
-(It is a little funky that open("", O_EMPTYPATH) would give you an fd to
-"." but that makes more sense than the alternatives so let's just keep
-it consistent.)
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---whhi6iyos3qbufli
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaeHoDxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG89LAEAr08pO6m6Ib2HnJibULb/
-Rv4N2OOwlZeozJWh0YfxRXEA/2cqcMReUPBPAOSMYEzEGgQ/wpeH+YPOtfdsUCTX
-gk8P
-=Hooz
------END PGP SIGNATURE-----
-
---whhi6iyos3qbufli--
 
