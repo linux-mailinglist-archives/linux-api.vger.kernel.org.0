@@ -1,201 +1,153 @@
-Return-Path: <linux-api+bounces-6109-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6110-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sK+BN4iD5GmzWAEAu9opvQ
-	(envelope-from <linux-api+bounces-6109-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 09:26:00 +0200
+	id oDK5N2Qt5mliswEAu9opvQ
+	(envelope-from <linux-api+bounces-6110-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2026 15:43:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D82423506
-	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 09:26:00 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 999D342C2BA
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2026 15:43:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DDD04301BA55
-	for <lists+linux-api@lfdr.de>; Sun, 19 Apr 2026 07:24:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B82E530EF686
+	for <lists+linux-api@lfdr.de>; Mon, 20 Apr 2026 13:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADD731AA8F;
-	Sun, 19 Apr 2026 07:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761543A3832;
+	Mon, 20 Apr 2026 13:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Jj40MzyD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhpJLaE/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4032C227B8E;
-	Sun, 19 Apr 2026 07:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516313A3810;
+	Mon, 20 Apr 2026 13:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776583450; cv=none; b=gifiQ7Wpcl0vrWGoLT5nl6ymyuoeSXRwUS7hieWeStBqh1PujKObJkqXkKrgXK5WkpIe3FnFnVsBYT/9tdyrIMiAoH7233bkFA7xEoB9cg5oj2GMsyLs3BbShlFBgJb4mGgTKtJn7mPNSwtgNEkShBeFptaqpVrJvd0OEnLfzlY=
+	t=1776691227; cv=none; b=NyG28+6LOXzj1uRNIYKpImFIWfmXVyrsAbcqLsugoY/Bso4GHy1B9ZvUm1HWhRPWthsQPs4seatHvYW+ux4DlKogFviIGEyoGmR8sX448TBVf4//QN7BGeQ+pPMlygYFIsoiomcxXKYYoN0dNBQOFuqeTtLXxFSh7d85pZO9jpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776583450; c=relaxed/simple;
-	bh=fq1Pg2w7pa6VKPX5wza+N0sP6JsbH3BNSuK2KD6xzec=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E624bVWg4e439fORvYwmwXQcRHHgvWOfjn8L6VSuNQCU2Ymly0FfICxipvZ7NnY4kvLjs/ldbZbyr9e42QFeSbCkC23Xc2CUWBzGHW6HKFnZpUDNnjsG8DU/NTZ+GBrAzXYGgfkBHavYm49xSm6neSJ0417ZPohEck07e4yFCnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Jj40MzyD; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=1m
-	5ei45ZrcRKXLlMsprg/W/kkD0W4qlNlGa8sGc33rg=; b=Jj40MzyDnMLp7VexHL
-	CPWQOhz3EUfZDkaTiLdylT1xTsMPDSArXqTsHs3MLLCyEhf/dC3a7SZy4fEjpLik
-	yfnp+GrScEqdqosbj2I6z0yvVmjbD4tkMlSgClnNcLeiVpze85yPJqG8QwNpF/af
-	eYorU+xJZ85+36yAMG/++guGA=
-Received: from ubuntu.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wCXAmn2guRpNR8kAg--.64304S2;
-	Sun, 19 Apr 2026 15:23:35 +0800 (CST)
-From: chenheyun <chen_heyun@163.com>
-To: rafael@kernel.org,
-	pavel@ucw.cz
-Cc: linux-pm@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenheyun <chen_heyun@163.com>
-Subject: [PATCH] [PATCH] PM: docs: Add comprehensive wakeup_count documentation
-Date: Sun, 19 Apr 2026 00:23:30 -0700
-Message-Id: <20260419072330.101419-1-chen_heyun@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1776691227; c=relaxed/simple;
+	bh=kRWmMUrKQhCcXsNj5gvf2DeCpyxg39zc5I1mOBXFzBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WXDy0vtPSoCtdVkI++1zn26J3u9Ot7Piw3dMmFUftAaLWFlsm/a1Nkj7QXI5jti/Vd8xV3Jw4gA3/HOLvV2N3Y6iV9InNBmGOeRNBslJzBbI0smzhmsHC9t6LMnbiLfIeVF7Cf7ZQJt41hPg1bpPs0jc+G83YRAmtwu5/zoG340=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhpJLaE/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B117C2BCB4;
+	Mon, 20 Apr 2026 13:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776691227;
+	bh=kRWmMUrKQhCcXsNj5gvf2DeCpyxg39zc5I1mOBXFzBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KhpJLaE/kYJkAk598rwPEJ5O6S/vqTqpLxnnHSXxnk9Cri0j4gy7bMyYG8F49O2va
+	 Bxeixi62jf25y9uRkCSdmpa5jTioC3fHCxLWCsLN/Kg02M6dwhf2+Xaa37H9OQ5AQF
+	 FCOQ+xLc8bBprPWT5Q4yrBIK049tr5JtOJFv7g3IeVYYHrT26LMeOCG760Uh6qt0vD
+	 jMPBv1LODhtZwfMICOgq5W2jtc5kdps7YgYVfTMghk/iM5u5/5jr7SNliMR1qc1Ruh
+	 O/s7NJvHFQxaCz8IgjwEfGrGKjbY5d3kJtS3KQF+2YL2aIiMLBnWiZBaJEBZ8Zzfs3
+	 bK5BJuuS2b4QQ==
+Date: Mon, 20 Apr 2026 15:20:14 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org, 
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, 
+	mjguzik@gmail.com, smfrench@gmail.com, richard.henderson@linaro.org, 
+	mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
+Message-ID: <20260420-laufen-einzeln-4cf4bb364a5d@brauner>
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260416-abgraben-seeweg-a44ce660957f@brauner>
+ <CAFfO_h5mORm0OuK-d4thzBWWySmyvLSVeVa7phZc4Df-8D=1Cg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCXAmn2guRpNR8kAg--.64304S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuF4rCrWUuFWDWr1Utw4ktFb_yoWrJF1kp3
-	sxKrySq3W8Ary5CFn3KF18JryfZw109F43CF1kCw10yrn8Zr90yr43KF1rtFZ0krWxAayY
-	qF12g34UZ3W2ka7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRHlkcUUUUU=
-X-CM-SenderInfo: xfkh0spkh130i6rwjhhfrp/xtbC8Rdxt2nkgveF-QAA3g
-X-Spamd-Result: default: False [-0.66 / 15.00];
+In-Reply-To: <CAFfO_h5mORm0OuK-d4thzBWWySmyvLSVeVa7phZc4Df-8D=1Cg@mail.gmail.com>
+X-Spamd-Result: default: False [3.84 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-6110-lists,linux-api=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[42];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[163.com];
-	TAGGED_FROM(0.00)[bounces-6109-lists,linux-api=lfdr.de];
-	DKIM_TRACE(0.00)[163.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chen_heyun@163.com,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,163.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-api];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 38D82423506
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,zeniv.linux.org.uk,suse.cz,kernel.org,oracle.com,gmail.com,arndb.de,dilger.ca,linaro.org,alpha.franken.de,hansenpartnership.com,gmx.de,davemloft.net,gaisler.com,redhat.com,dubeyko.com,samba.org,manguebit.org,microsoft.com,talpey.com,szeredi.hu];
+	TAGGED_RCPT(0.00)[linux-api];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[uapi-group.org:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 999D342C2BA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The current Documentation/power/wakeup-count.rst is empty and lacks
-description of the race-free suspend mechanism, sysfs ABI semantics,
-blocking behavior, and standard userspace usage.
+On Thu, Apr 16, 2026 at 09:22:03PM +0600, Dorjoy Chowdhury wrote:
+> On Thu, Apr 16, 2026 at 7:07 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Sat, 28 Mar 2026 23:22:21 +0600, Dorjoy Chowdhury wrote:
+> > > I came upon this "Ability to only open regular files" uapi feature suggestion
+> > > from https://uapi-group.org/kernel-features/#ability-to-only-open-regular-files
+> > > and thought it would be something I could do as a first patch and get to
+> > > know the kernel code a bit better.
+> > >
+> > > The following filesystems have been tested by building and booting the kernel
+> > > x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REGULAR that
+> > > regular files can be successfully opened and non-regular files (directory, fifo etc)
+> > > return -EFTYPE.
+> > > - btrfs
+> > > - NFS (loopback)
+> > > - SMB (loopback)
+> > >
+> > > [...]
+> >
+> > - I've added an explanation why OPENAT2_REGULAR is only needed for some
+> >   ->atomic_open() implementers but not others. What I don't like is that
+> >   we need all that custom handling in there but it's managable.
+> >
+> > - I dropped the topmost style conversions. They really don't belong
+> >   there and if we switch to something better we should use (1 << <nr>).
+> >
+> > - I split the EFTYPE errno introduction into a separate patch.
+> >
+> > ---
+> 
+> Thanks for fixing up and picking this one up!
+> 
+> >
+> > Applied to the vfs-7.2.openat.regular branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.2.openat.regular branch should appear in linux-next soon.
+> >
+> 
+> I don't see a vfs-7.2.openat.regular branch in vfs/vfs.git tree in
+> git.kernel.org.  Maybe this hasn't been pushed yet?
 
-Add complete documentation for /sys/power/wakeup_count, including
-overview, interface semantics, usage example, and related interfaces.
-
-Also update Documentation/power/index.rst to include the new document.
-
-Signed-off-by: chenheyun <chen_heyun@163.com>
----
- Documentation/power/index.rst        |  1 +
- Documentation/power/wakeup-count.rst | 63 ++++++++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 Documentation/power/wakeup-count.rst
-
-diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
-index b4581e4ae785..901268049d7c 100644
---- a/Documentation/power/index.rst
-+++ b/Documentation/power/index.rst
-@@ -27,6 +27,7 @@ Power Management
-     swsusp
-     video
-     tricks
-+    wakeup-count
- 
-     userland-swsusp
- 
-diff --git a/Documentation/power/wakeup-count.rst b/Documentation/power/wakeup-count.rst
-new file mode 100644
-index 000000000000..5f3a1ca654ce
---- /dev/null
-+++ b/Documentation/power/wakeup-count.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright (C) 2025 The Linux Foundation
-+
-+The wakeup_count mechanism for race-free suspend
-+================================================
-+
-+Overview
-+--------
-+
-+The ``/sys/power/wakeup_count`` sysfs interface provides a stable userspace
-+mechanism to perform race-free system suspend transitions. It eliminates the
-+well-known race condition between suspend permission check and actual system
-+suspend entry.
-+
-+Userspace may use it in a standard three-step sequence:
-+
-+1. Read the current global wakeup event counter. The read operation blocks
-+   until all ongoing wakeup event processing is finished, returning a stable value.
-+2. Perform necessary suspend preparation steps in userspace.
-+3. Write the previously-read counter value back to the interface.
-+   The write operation will only succeed if no new wakeup events have occurred
-+   since the read.
-+
-+Only after a successful write may userspace safely trigger system suspend.
-+
-+Interface semantics
-+-------------------
-+
-+``/sys/power/wakeup_count``
-+
-+**Read**
-+    Returns the global monotonically-increasing wakeup event counter.
-+    This call blocks until there are no wakeup events under active processing
-+    inside the kernel. If interrupted by a signal, it returns -EINTR.
-+
-+**Write**
-+    Accepts the counter value obtained from a prior read.
-+    The write succeeds only if the kernel's current counter exactly matches
-+    the written value. Mismatch indicates new wakeup events arrived during
-+    userspace preparation, and suspend must be aborted.
-+
-+Standard userspace usage example
-+--------------------------------
-+
-+.. code-block:: shell
-+
-+    count=$(cat /sys/power/wakeup_count)
-+    do_suspend_preparation
-+    echo "$count" > /sys/power/wakeup_count && echo mem > /sys/power/state
-+
-+Blocking behavior
-+-----------------
-+
-+The blocking read ensures that userspace never observes an inconsistent state
-+where wakeup events are still being handled within the kernel. This stability
-+is the core guarantee of the interface.
-+
-+Related kernel interfaces
-+-------------------------
-+
-+- ``/sys/power/state``: System suspend state control interface.
-+- ``/sys/kernel/debug/wakeup_sources``: Per-device wakeup source statistics.
-+- ``Documentation/power/wakeup-events.rst``: General wakeup event framework.
-\ No newline at end of file
--- 
-2.25.1
-
+Nothing will get pushed prior to -rc1 which is due this Sunday.
 
