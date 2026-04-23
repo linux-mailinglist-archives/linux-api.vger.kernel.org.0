@@ -1,180 +1,192 @@
-Return-Path: <linux-api+bounces-6145-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6146-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIXeG5F36WkBagIAu9opvQ
-	(envelope-from <linux-api+bounces-6145-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 03:36:17 +0200
+	id 6HVABzgI6mk/rQIAu9opvQ
+	(envelope-from <linux-api+bounces-6146-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 13:53:28 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3280E44C21E
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 03:36:17 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A4D45182C
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 13:53:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DAC623029A4E
-	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 01:36:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5523C3012BFA
+	for <lists+linux-api@lfdr.de>; Thu, 23 Apr 2026 11:53:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BF8356A38;
-	Thu, 23 Apr 2026 01:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2DBE3EAC72;
+	Thu, 23 Apr 2026 11:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uLB/V9Vx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6p905u8"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA4E1D9A54;
-	Thu, 23 Apr 2026 01:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B0B3E9F8C;
+	Thu, 23 Apr 2026 11:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776908170; cv=none; b=kH8qpT1Q7Gkv75g+oQFDnEoFUyJBjjEblGmmg1qPMgEzQtOXf2DLyxpKN6Oq5uiNCRtYsqwyYIinOO+v7qvnbcixJs0bKvumnDuGFHCSVtVcbkp1DxmYAoMP2bjZatVCmZ/soFXZrHy4ivqgRt8f2SVZJBn6f33D/onva9+IIdk=
+	t=1776945202; cv=none; b=RVg4D6gVlKzxEU5SqvGjCIynreygk98gykV7WR/RsBwjd8xD1DJeAzrEoQe175ljCphi7mEXlnDQxxYHR+pGmdTqJrCuGvLpUTS4BzzTI3RGpqEDs3lahb8Vf+E4OEDod5cRt8Gneae2Zpl+o9XfMF4UMYrKpbKiaPouj6bQoYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776908170; c=relaxed/simple;
-	bh=fisfLRUPF2gQeK8/tjab1CMLN7z38y0h7QBe3fR1FGk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=IslLa3IA2x4kekBBeAd5TWe1lf8V6phrT3vdCfJ64ocvRO+/H1xgyBNtU+RUMDJFln7KHrdZ4lJAKrEFMbZix6S+ItmCOpKQ5pf79oAdR5is9ruKtLSPjovRFj/QigbPJQAdmC9w2XdYup7wENRZgXJUJyfNfPVwxvSZekpF2DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uLB/V9Vx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E0EEC2BCB4;
-	Thu, 23 Apr 2026 01:36:09 +0000 (UTC)
+	s=arc-20240116; t=1776945202; c=relaxed/simple;
+	bh=cHE9hrag1OMIex+WXfpjDqBpsMmIUcQJHMPd4Y7yd1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YkH0lrMQ/TNGycozH0QwASwP/85ogKDrj9EEWkdgogtKkbHY5eqSOKbT5+HS1806WbjDXGOlhMXYt2Yx3bA8S8n5iXDAaDEkKv+AKd7vKmtB7YIMfa7H6CjE19asJvkVdyCqbiTqzQEstj2hkFfzB9O5rM1Xh6ZsRhOaVtsdMP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6p905u8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20254C2BCB5;
+	Thu, 23 Apr 2026 11:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776908170;
-	bh=fisfLRUPF2gQeK8/tjab1CMLN7z38y0h7QBe3fR1FGk=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=uLB/V9Vxth7g4vShFYvcL/mCTim0wfkAAkzRXOhJ3wDvANYCoRIde/8hvh+dG2QJF
-	 /jGC5YH+IR1TrhTJMzoW/ahCEIQqaIvTvOPOVyLT70ckze0ciCzKkRw9Ey6At5urbo
-	 OAy3FEXO7SjoCK+NI2hD22Uy6THb29cgHttSndmUTWS8jiMA17j06gmzCo/Nl+ikAq
-	 5rmJQKSDoXL0ZQ2hE/NnPbmXVr13Fg0WP7qJx/b11Odz6Jt4+TmF0qBMY7YVJk9X+w
-	 gqJHVlktyUP9gP84U0fdhV8hz9D1VlQczWS/xG/9G35iAySWuSucdKbee96dDB+uzs
-	 /XI/Yu8+CoQTw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5F59AF4006A;
-	Wed, 22 Apr 2026 21:36:08 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 22 Apr 2026 21:36:08 -0400
-X-ME-Sender: <xms:iHfpaeo4VthmNtZ5zqVLjiXC2cn8tWHGEMdzLK0PkfHerQzKuwGL8w>
-    <xme:iHfpaXdLH9MSdgJtkPwHUqYJVv1n_uNz8FaJj5-5PuPzSv6NNKdKbBoPzaTwYk9Lb
-    c1xxpWMr8HwIBjxxcs-GZB4qopZ4Kv9XLZdh_pdji3Ur2a-_bOMJJc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiheekgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    epgffhgeeutdeiieevuefgvedtjeefudekvefggefguefgtefgledtteeuleelleetnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopeeffedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepshgvnhhoiihhrghtshhkhiestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoh
-    eprgguihhlghgvrhdrkhgvrhhnvghlseguihhlghgvrhdrtggrpdhrtghpthhtohepshhl
-    rghvrgesughusggvhihkohdrtghomhdprhgtphhtthhopehrohhnnhhivghsrghhlhgsvg
-    hrghesghhmrghilhdrtghomhdprhgtphhtthhopehsmhhfrhgvnhgthhesghhmrghilhdr
-    tghomhdprhgtphhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsg
-    hrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheptghhrghosehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:iHfpaR735JLTmlXf6PZaw09JvM2INK1_wFF6Sofysyc5cHAzrptIUA>
-    <xmx:iHfpaR3Ct_L9JXA3_3D08tOGJwAeJitT7nP5_Yj2u3ZipmZ8_WhTyA>
-    <xmx:iHfpacp_YaFAr7nSWwX0ZxI4Obx-0-j3X9gZ32hL5RJuIURnLf2EVg>
-    <xmx:iHfpaXVoO2mIU-wKylIYQImIQNtl2kj4f7yCmO3vyFuPWUpTFhRI7w>
-    <xmx:iHfpaRcA71LEAscdJdF6cGc-t3Q_4jPF-jb1PwNWd4SjcOeP35Uy-bpw>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2894B780070; Wed, 22 Apr 2026 21:36:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1776945202;
+	bh=cHE9hrag1OMIex+WXfpjDqBpsMmIUcQJHMPd4Y7yd1s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R6p905u8w5riLWLBL7tRdD5S09cDEbJnPwWB5RVXAG2eZ8l9DVcz9BdD1snxlZ2Zl
+	 DQHKLZweSXptmoepemPcv3MQMKXrko/qLSf8d9gekZ9FC9npj1Rl5+g83VEnO+lLev
+	 xBFP7nCswuXz722eHK8fJ8BLo5Gk/F0+fuLGkDdxYxjQkDltUnC+j+R3mwxhrUbqzi
+	 NJO+IaFgHoRmOtUENV0fUO142ajvIUPYaRG9OYAFDVcHCovlg6DI0cyER+NKMDRgNh
+	 vxODO9xb+7N3kQKZvCTki45OQYoSORg/oovwJEvPkMCBEsAvK4tl5B50itIMRurf/p
+	 QTWH9qc+XS8KQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org,
+	sj1557.seo@samsung.com,
+	yuezhang.mo@sony.com,
+	almaz.alexandrovich@paragon-software.com,
+	slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	cem@kernel.org,
+	sfrench@samba.org,
+	pc@manguebit.org,
+	ronniesahlberg@gmail.com,
+	sprasad@microsoft.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	jaegeuk@kernel.org,
+	chao@kernel.org,
+	hansg@kernel.org,
+	senozhatsky@chromium.org,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v9 00/17] Exposing case folding behavior
+Date: Thu, 23 Apr 2026 13:52:39 +0200
+Message-ID: <20260423-notorisch-marmorieren-3b1376711a8f@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260422-case-sensitivity-v9-0-be023cc070e2@oracle.com>
+References: <20260422-case-sensitivity-v9-0-be023cc070e2@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 22 Apr 2026 21:35:47 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Steve French" <smfrench@gmail.com>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net,
- "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>,
- almaz.alexandrovich@paragon-software.com,
- "Viacheslav Dubeyko" <slava@dubeyko.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
- adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
- "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
- "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
- senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>
-Message-Id: <c41111fd-2473-4fdd-8e1e-285b9e24e631@app.fastmail.com>
-In-Reply-To: 
- <CAH2r5muvUVY8FD6ZM+ARecM8evjejB15n0Ea9Z=GGn=i5aKFNA@mail.gmail.com>
-References: <20260422-case-sensitivity-v9-0-be023cc070e2@oracle.com>
- <20260422-case-sensitivity-v9-10-be023cc070e2@oracle.com>
- <CAH2r5muvUVY8FD6ZM+ARecM8evjejB15n0Ea9Z=GGn=i5aKFNA@mail.gmail.com>
-Subject: Re: [PATCH v9 10/17] cifs: Implement fileattr_get for case sensitivity
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.15 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3216; i=brauner@kernel.org; h=from:subject:message-id; bh=cHE9hrag1OMIex+WXfpjDqBpsMmIUcQJHMPd4Y7yd1s=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS+4pDrrGXLlji/IJ4rYraNoNkSc4YNzkphLnvaDBjuH ZDgN+7oKGVhEONikBVTZHFoNwmXW85TsdkoUwNmDisTyBAGLk4BmIiFB8M/i54I8d9+l7+JLPRe ZprEUqdyJzW9MtJsd1YHj5vI9ksXGH6zpfMemLRMIbdowdo3hucvvTqjdGrTptvGfolrD63muVD ACAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [2.34 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6145-lists,linux-api=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com];
-	RCPT_COUNT_TWELVE(0.00)[33];
+	TAGGED_FROM(0.00)[bounces-6146-lists,linux-api=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,app.fastmail.com:mid];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3280E44C21E
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B1A4D45182C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Wed, 22 Apr 2026 19:29:54 -0400, Chuck Lever wrote:
+> Following on from
+> 
+> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+> 
+> I'm attempting to implement enough support in the Linux VFS to
+> enable file services like NFSD and ksmbd (and user space
+> equivalents) to provide the actual status of case folding support
+> in local file systems. The default behavior for local file systems
+> not explicitly supported in this series is to reflect the usual
+> POSIX behaviors:
+> 
+> [...]
 
-On Wed, Apr 22, 2026, at 8:59 PM, Steve French wrote:
-> Acked-by: Steve French <stfrench@microsoft.com>
->
-> Do you know which xfstests this would enable?  IIRC a few of them
-> depend on the fs supporting fileattr_get
+Applied to the vfs-7.2.casefold branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.casefold branch should appear in linux-next soon.
 
-Thanks for the Ack.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-I checked the current xfstests tree and couldn=E2=80=99t find a test tha=
-t flips
-from notrun to run on cifs just from adding ->fileattr_get. generic/556
-is the existing case-folding test, but _has_casefold_kernel_support in
-common/casefold hard-codes ext4/f2fs/tmpfs. Enabling it on cifs would
-need a new mechanism in common/casefold plus a mount-option-driven
-variant (the cifs reporting keys off nocase, not a per-inode flag), so
-that's a separate piece of work.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-The practical effect on the existing suite is that fsstress's getattr_f
-now returns success instead of ENOTTY on cifs, which quiets some noise
-but doesn't gate any test. To actually exercise the new FS_XFLAG_CASEFOLD
-reporting I think a new test (or a generalization of generic/556) would
-have to be written.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: master
 
---=20
-Chuck Lever
+[01/17] fs: Move file_kattr initialization to callers
+        https://git.kernel.org/vfs/vfs/c/a46401c7dc2f
+[02/17] fs: Add case sensitivity flags to file_kattr
+        https://git.kernel.org/vfs/vfs/c/1dd697879cf2
+[03/17] fat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/2b124bb86cdb
+[04/17] exfat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/9b8b66549c8e
+[05/17] ntfs3: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/7d0fbb53b0c2
+[06/17] hfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/024b4a69abaf
+[07/17] hfsplus: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/22a319bfe8b8
+[08/17] ext4: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/75fd84cb0922
+[09/17] xfs: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/29323822bece
+[10/17] cifs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/4444c82e69a6
+[11/17] nfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/6f3f50885bd9
+[12/17] f2fs: Add case sensitivity reporting to fileattr_get
+        https://git.kernel.org/vfs/vfs/c/e8d671306a8f
+[13/17] vboxsf: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/f5e334b94179
+[14/17] isofs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/764609f76826
+[15/17] nfsd: Report export case-folding via NFSv3 PATHCONF
+        https://git.kernel.org/vfs/vfs/c/06726ac88bb5
+[16/17] nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
+        https://git.kernel.org/vfs/vfs/c/d129f0419eb3
+[17/17] ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
+        https://git.kernel.org/vfs/vfs/c/8179d08606e8
 
