@@ -1,179 +1,229 @@
-Return-Path: <linux-api+bounces-6199-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6200-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eKGzLZpl72keBAEAu9opvQ
-	(envelope-from <linux-api+bounces-6199-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:33:14 +0200
+	id WDt9DdVl72kIBAEAu9opvQ
+	(envelope-from <linux-api+bounces-6200-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:34:13 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E7D4737BF
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:33:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A20473808
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:34:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6E489302CD05
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 13:29:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8DC74308C902
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 13:30:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3746A3C7E1E;
-	Mon, 27 Apr 2026 13:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B9313CBE95;
+	Mon, 27 Apr 2026 13:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LsxWE69h"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bJ9xnzF7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ep8BtrKE";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bJ9xnzF7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ep8BtrKE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9441B3C942B
-	for <linux-api@vger.kernel.org>; Mon, 27 Apr 2026 13:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046525A321
+	for <linux-api@vger.kernel.org>; Mon, 27 Apr 2026 13:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296586; cv=none; b=PowpuvmGt9h0UP+ML5eqyW+uDbboBnYF4SlgSY9xSDKRUTphyxTAr+zCMiSes7sy8jNb4dpeSBtEZPsSXLu4zhW+T9z3r8UfYF90jG7IqmJKKiR2E9q7ttbdJScBPqos3qivnrAfGFb/X71ewgE7VDy9GGps6+R38BR1kgWik2Q=
+	t=1777296615; cv=none; b=KAoW2LjA7xmpPgcWXjEfP8DI6JWwcU9SI77fRPlEH8e2PhFEsT/62Q1XuiRfLxfcuvUviDlaF5b+9j8Ub0ihH2nKpQVJgsA/mtsGqbiQv+YyHHdtTTwzBCGvLo4/d8+TLQhaHqnsHQEV9aJSY3Tf1McSO0+QSRO1r9+ZhwWBEJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296586; c=relaxed/simple;
-	bh=72Vj0K0ahYjiIGlZw+3HO4C99x6D7GIrI8KmI+R3XqY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Bd8K0JwcLyyQx+4qVE24ei9MbbSoF11ksNvJEF6BbuLai1Cc0HeOEDuZngmKYzD6BSArPEmDVFqEyBygjNeNgqz3EmaKgktEfbhTLxIcFZH6u1+TqRA19aJ62GAgRnFTn8RKnuw3kZHTYNGuK8NIy7waJabcADKi9SztUKH9JCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LsxWE69h; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777296582;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IiAO0uEG/jiG1zpDR09OVtbsVYFleUsY0hDNg9xxJe8=;
-	b=LsxWE69hg60OUPg5/sClAh9jdwEYLh+BG09uNrrIT/AQ7u9Qk4OXroNtkww0b8mBmbVhQX
-	FGrtHWuODl2R573pKJivqWLQTqJQnHDwGeOniQCOLFI633ovyIt7dMnLkW2mUpqbsZKSGv
-	2Zr42QxCcRRZU7fm6zVGk/qaqfZsjXU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-jkM-qN4wNLOUE0SH86uuDQ-1; Mon,
- 27 Apr 2026 09:29:37 -0400
-X-MC-Unique: jkM-qN4wNLOUE0SH86uuDQ-1
-X-Mimecast-MFC-AGG-ID: jkM-qN4wNLOUE0SH86uuDQ_1777296575
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	s=arc-20240116; t=1777296615; c=relaxed/simple;
+	bh=QTkhm7BQUqulEPhN8RoVyJshMSLIopwnBFEPuRLWIFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueDsmfuQ8Snf6Dcp5Gyf3a7cwo+4/0g3qRvEx10Gza6Ky9QtQY72JmETt5IoiropdKfFgokaDscLFtvsdZ+UAlNlEqwFXNMCea5SR4+7nRX8mauas3FpqUtB7L6PYLDoif8f9q5muRuAYG2x74ma4IsNarAuAQHRfTkVYM56s90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bJ9xnzF7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ep8BtrKE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bJ9xnzF7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ep8BtrKE; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1FB4718001D6;
-	Mon, 27 Apr 2026 13:29:35 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.48.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 10E0B195608E;
-	Mon, 27 Apr 2026 13:29:32 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>,  linux-man@vger.kernel.org,
-  brauner@kernel.org,  jlayton@kernel.org,  libc-alpha@sourceware.org,
-  linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] man/man3/errno.3: Document EFTYPE error code
-In-Reply-To: <ae9gDtEo6OxHTYBt@devuan> (Alejandro Colomar's message of "Mon,
-	27 Apr 2026 15:13:07 +0200")
-References: <20260426111707.36541-1-dorjoychy111@gmail.com>
-	<20260426111707.36541-2-dorjoychy111@gmail.com>
-	<ae4K_5f1g3zgSNkC@devuan> <lhu5x5c4rpl.fsf@oldenburg.str.redhat.com>
-	<ae9gDtEo6OxHTYBt@devuan>
-Date: Mon, 27 Apr 2026 15:29:30 +0200
-Message-ID: <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BEFDB5BCD4;
+	Mon, 27 Apr 2026 13:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777296611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ywgzgcft+C+lUn4KhFHszkfD7fjPVqcPL/BmeMIkrC4=;
+	b=bJ9xnzF7xFxi6EJ0ITevdtIXeNBmmMmr3PezUqGew7pkrtcg93SGCxFES36b9gWD+oNRcW
+	BWLMQySbIWGkNDz8vqtjgM3m/gaaRPjwmjsx4BgkJfjBdOE5JyBeb9aQmQYl+mIjSR8GRI
+	4qBPQavM+yjDmyktcL8JNDZOhWh06Ws=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777296611;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ywgzgcft+C+lUn4KhFHszkfD7fjPVqcPL/BmeMIkrC4=;
+	b=ep8BtrKEMutZlURd5W8fPA3/5kuf8iMOihx2Ckvd0Wbuo1uAF9/Uc3lcMZO6v9FAiOT/8c
+	6DWuEKuDWRIn0hDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bJ9xnzF7;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ep8BtrKE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777296611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ywgzgcft+C+lUn4KhFHszkfD7fjPVqcPL/BmeMIkrC4=;
+	b=bJ9xnzF7xFxi6EJ0ITevdtIXeNBmmMmr3PezUqGew7pkrtcg93SGCxFES36b9gWD+oNRcW
+	BWLMQySbIWGkNDz8vqtjgM3m/gaaRPjwmjsx4BgkJfjBdOE5JyBeb9aQmQYl+mIjSR8GRI
+	4qBPQavM+yjDmyktcL8JNDZOhWh06Ws=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777296611;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ywgzgcft+C+lUn4KhFHszkfD7fjPVqcPL/BmeMIkrC4=;
+	b=ep8BtrKEMutZlURd5W8fPA3/5kuf8iMOihx2Ckvd0Wbuo1uAF9/Uc3lcMZO6v9FAiOT/8c
+	6DWuEKuDWRIn0hDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B247A593B0;
+	Mon, 27 Apr 2026 13:30:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Y5eAK+Nk72nAWAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 27 Apr 2026 13:30:11 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7582DA0B3C; Mon, 27 Apr 2026 15:30:11 +0200 (CEST)
+Date: Mon, 27 Apr 2026 15:30:11 +0200
+From: Jan Kara <jack@suse.cz>
+To: Lionel Cons <lionelcons1972@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Chuck Lever <cel@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
+	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, 
+	jaegeuk@kernel.org, chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
+	Chuck Lever <chuck.lever@oracle.com>, Roland Mainz <roland.mainz@nrubsig.org>
+Subject: Re: [PATCH v11 12/15] isofs: Implement fileattr_get for case
+ sensitivity
+Message-ID: <lxbpvsj3b6jvl2tmcxgto4aqsi6necmmha3ldby3k4bnmyxltm@mii3s6vjmanq>
+References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
+ <20260424-case-sensitivity-v11-12-de5619beddaf@oracle.com>
+ <isfgwmd5hxjfn7dj7p54yzlhumx2hrkt3zw7fscs2ywm57g3hu@co27drpx24lq>
+ <CAPJSo4WmRu_64TxBsaimWOqz3VAU0TZ1H-_hw36HSqzQULm39w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Rspamd-Queue-Id: 30E7D4737BF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPJSo4WmRu_64TxBsaimWOqz3VAU0TZ1H-_hw36HSqzQULm39w@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D2A20473808
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,sourceware.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6199-lists,linux-api=lfdr.de];
-	DKIM_TRACE(0.00)[redhat.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[archive.org:url,nrubsig.org:email,suse.cz:dkim,suse.cz:email,suse.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oracle.com:email];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-6200-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	DMARC_NA(0.00)[suse.cz];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,zeniv.linux.org.uk,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oldenburg.str.redhat.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
 
-* Alejandro Colomar:
+On Mon 27-04-26 14:02:00, Lionel Cons wrote:
+> On Mon, 27 Apr 2026 at 12:47, Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Fri 24-04-26 21:53:14, Chuck Lever wrote:
+> > > From: Chuck Lever <chuck.lever@oracle.com>
+> > >
+> > > Upper layers such as NFSD need a way to query whether a
+> > > filesystem handles filenames in a case-sensitive manner so
+> > > they can provide correct semantics to remote clients. Without
+> > > this information, NFS exports of ISO 9660 filesystems cannot
+> > > advertise their filename case behavior.
+> > >
+> > > Implement isofs_fileattr_get() to report ISO 9660 case handling
+> > > behavior via the FS_XFLAG_CASEFOLD flag. The 'check=r' (relaxed)
+> > > mount option enables case-insensitive lookups, and this setting
+> > > determines the value reported. By default, Joliet extensions
+> > > operate in relaxed mode while plain ISO 9660 uses strict
+> > > (case-sensitive) mode. All ISO 9660 variants are case-preserving,
+> > > meaning filenames are stored exactly as they appear on the disc.
+> > >
+> > > Case handling is a superblock-wide property, so the callback
+> > > must report the same value for every inode type. Regular files
+> > > previously had no inode_operations; introduce
+> > > isofs_file_inode_operations to carry the callback. Symlinks
+> > > previously shared page_symlink_inode_operations; introduce
+> > > isofs_symlink_inode_operations, which wires page_get_link
+> > > alongside the callback, so that fileattr queries on a symlink
+> > > reach the isofs implementation instead of returning
+> > > -ENOIOCTLCMD. The flag is set in both fa->fsx_xflags and
+> > > fa->flags so FS_IOC_FSGETXATTR and FS_IOC_GETFLAGS agree.
+> > >
+> > > Reviewed-by: Jan Kara <jack@suse.cz>
+> > > Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
+> > > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> >
+> > ...
+> >
+> > > @@ -281,6 +293,18 @@ const struct file_operations isofs_dir_operations =
+> > >  const struct inode_operations isofs_dir_inode_operations =
+> > >  {
+> > >       .lookup = isofs_lookup,
+> > > +     .fileattr_get = isofs_fileattr_get,
+> > > +};
+> > > +
+> > > +const struct inode_operations isofs_file_inode_operations =
+> > > +{
+> > > +     .fileattr_get = isofs_fileattr_get,
+> > > +};
+> > > +
+> > > +const struct inode_operations isofs_symlink_inode_operations =
+> > > +{
+> > > +     .get_link = page_get_link,
+> > > +     .fileattr_get = isofs_fileattr_get,
+> > >  };
+> >
+> > Hum, I thought casefolding is a directory attribute. At least I don't see
+> > a big point in reporting it for regular files or symlinks (and then why not
+> > report it for device nodes or named pipes?). So why did you decide for this
+> > change?
+> 
+> Where do you see this being a per-directory attribute in
+> https://web.archive.org/web/20170404043745/http://www.ymi.com/ymi/sites/default/files/pdf/Rockridge.pdf
 
-> Hi Florian,
->
-> On 2026-04-27T12:34:30+0200, Florian Weimer wrote:
->> * Alejandro Colomar:
->>=20
->> > [CC +=3D libc-alpha]
->> >
->> > Hi Dorjoy,
->> >
->> > On 2026-04-26T17:14:25+0600, Dorjoy Chowdhury wrote:
->> >> Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
->> >
->> > Thanks!
->> >
->> > 	Reviewed-by: Alejandro Colomar <alx@kernel.org>
->> >
->> > I will wait until glibc adds this error code to their <errno.h> before
->> > applying the patch.  This means either you should write and send a pat=
-ch
->> > to glibc (if so, please CC me), or you should ask them to add it
->> > themselves (if you're not comfortable writing glibc code).
->>=20
->> I'm not sure where this is coming from.
->
-> Here's a link to the thread:
-> <https://lore.kernel.org/linux-man/20260426111707.36541-1-dorjoychy111@gm=
-ail.com/T/>
->
->> POSIX says EFTYPE was rejected
->> in favor of ENOTTY.
->
-> Could you please share a link to that?
->
-> Anyway, I guess ENOTTY would be inappropriate in this case.  Although
-> maybe a better error code could be devised; I don't know.  This is why
-> I wanted glibc involved in this discussion before this arrives to a
-> Linux release.  Thanks for the quick feedback!
+I wasn't refering to Rockridge standard but rather to the general way how
+VFS tracks (and reports) casefolding.
 
-It's in the Rationale for System Interfaces:
-
-=E2=80=9C
-[EFTYPE]
-    This error code was proposed in earlier proposals as "Inappropriate
-    operation for file type", meaning that the operation requested is
-    not appropriate for the file specified in the function call. This
-    code was proposed, although the same idea was covered by [ENOTTY],
-    because the connotations of the name would be misleading. It was
-    pointed out that the fcntl() function uses the error code [EINVAL]
-    for this notion, and hence all instances of [EFTYPE] were changed to
-    this code.
-=E2=80=9D
-
-I replied on linux-fsdevel, too.
-
-(It would be nice to submit patches introducing new error codes to
-linux-api with a subject mentioning the error code.)
-
-Thanks,
-Florian
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
