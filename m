@@ -1,208 +1,225 @@
-Return-Path: <linux-api+bounces-6201-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6202-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QKN3J2dl72keBAEAu9opvQ
-	(envelope-from <linux-api+bounces-6201-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:32:23 +0200
+	id UE9YOh1m72kIBAEAu9opvQ
+	(envelope-from <linux-api+bounces-6202-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:35:25 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4DA473798
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:32:22 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F1F473854
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 15:35:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 766E4300C34C
-	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 13:30:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AB598302A2E3
+	for <lists+linux-api@lfdr.de>; Mon, 27 Apr 2026 13:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE8E33CB2CC;
-	Mon, 27 Apr 2026 13:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629E736B061;
+	Mon, 27 Apr 2026 13:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dftlO/sj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zz0iQxaC"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84353128BE;
-	Mon, 27 Apr 2026 13:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F67A3128BE;
+	Mon, 27 Apr 2026 13:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296650; cv=none; b=Je2QXGnl89dNKBBEcpzkD/LVOTeZovPiwIm6ZEoy8IPaN7u1iWwGNcr9MFalCtbpe2KJ4yry7qYTFi3NuoSAbBtiPYIs1XERflrESmpq0fVwJ7JTZzJsTC1CR65L5jjEOtmF82aHO/Jj5UY6pFKjMZKQQnDW/x4qvy2GIySRoWk=
+	t=1777296800; cv=none; b=mpvX5kktfgtH1RyEPPRgSU6NeO/4L0qCtlf/Lx8CuI5DkMUeeSFNSpXzLGRYV42CXX9GmcCa7SVfJlzNhy+fNEaFRXiXV0VBUPYvb+e6edSHaxQkxo+VrCb3/9VcQI4mfex5DKw7rk2KPnrXOJcR+v/3i2H+RDJ4KymGJQbgo2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296650; c=relaxed/simple;
-	bh=03W80pIWVWG5o5UNqlq/tIYlCj2935WYMgLISQY0J+8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=N6eDpWJJulN9+EDqMmahanGMixPJx4rkkszwDgYS0kNInGzq0MXOuabzAMRkCdSWE0cq5RDH+PnW14LBjEzn7u3L/VMEJ5DFnfAazLqgo4hrufHVAVhDFvo0q4oeHJRSGPsZ9+IR/Lk8HcUaa9X0eiu3L2IAZ/BrYAwImkWLOHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dftlO/sj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D24C4AF0B;
-	Mon, 27 Apr 2026 13:30:49 +0000 (UTC)
+	s=arc-20240116; t=1777296800; c=relaxed/simple;
+	bh=EatXnfSeNpf8F10Q2zH1PP/CJsJ/acTrqGU0iRSe30U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M4s20BQJ2IaQZCZi8vnuPM+voCU/q7yjGCh5UW7XNlZGJHtXT5xx81UV8QULiKxiZfQmnr9dOOGbGY2jeraXiOGmlvaC6ezuQdSQrdANIkHBhgZiKKTHJME2cZC5nWWJR2ZdhHpwLxfeXDUwcIWkvSmWAvhVPWtH6XO3jHSJgxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zz0iQxaC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A701C19425;
+	Mon, 27 Apr 2026 13:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777296650;
-	bh=03W80pIWVWG5o5UNqlq/tIYlCj2935WYMgLISQY0J+8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=dftlO/sjUHBB53HxpiOwjQgvxQcH8Rgr8BHjy7bklMjOKGP7VMwxXvGjvnK1gKH+A
-	 LCk7hHw8jf4QO2+QOlmPqEeShr/kz0sS6XQMYA6CJWOMBgesi237U/30L5SeFDcNI5
-	 oWB3cDtyaPSn3SJoAnA6ZdIw9aiXO9mmsQiPpa0yKEtm/b14BqT57tbJp+bq46drAL
-	 HW+G7p92gxsC3dBsKspT5giWs0SQiYJah+3K+5iDI+CEvpbAhQj3PAsE9rNxFLjpqu
-	 9TzkhGWVW8Y/0CK67qqsocBgivvhr+ZzMehuGclPVpISyplfqwiYMdhJ3qVaMf79ow
-	 hXfbIlCBlJqJQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9EBB8F40084;
-	Mon, 27 Apr 2026 09:30:48 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 27 Apr 2026 09:30:48 -0400
-X-ME-Sender: <xms:CGXvadxt2wdw8um2C_FldexfTHG2a_BWlEE_4pL26QlgkVGgm4NRMA>
-    <xme:CGXvaYFCgGeuXImAgatV2cE6NaxoQVjNdbYwyNeC-YTWY-ekLAbECqhdDMD_DoiMW
-    k9m6sM-kYg4B-PgwN3zVDTCj_E27-H6xIVwsOv_OueAFQGZerzcY7Cs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeekudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    eptdeljeehtefhleeghfejgfetieethedugfeiveffgeekjeekvedvleeigedvueejnecu
-    ffhomhgrihhnpehsrghshhhikhhordguvghvnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
-    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
-    peefhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgvnhhoiihhrghtshhkhi
-    estghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheprgguihhlghgvrhdrkhgvrhhnvghl
-    seguihhlghgvrhdrtggrpdhrtghpthhtohepshhlrghvrgesughusggvhihkohdrtghomh
-    dprhgtphhtthhopehrohhnnhhivghsrghhlhgsvghrghesghhmrghilhdrtghomhdprhgt
-    phhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheptghhrghosehkvghrnhgvlhdrohhrghdprhgtphhtthhopegujhifohhngh
-    eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:CGXvaX8tBzgQztb9zSDQ76htesdgV6Vy50k_XUzdXlbMrKViYGRcLA>
-    <xmx:CGXvafGXQX9GnYmK00efpJNIia8RGnt5no7ofoofBc6aBUMO76caGA>
-    <xmx:CGXvaeY9TVr2qcEQtevQDZAOM3PhZ60kvZ80aZyDv7XZa90PsBnYrQ>
-    <xmx:CGXvabNG889hC2q-Vkkt-bdWC3vUWvYgKi3-o-BGPCmTHb-y9t0Ysg>
-    <xmx:CGXvaXzXxohsjC-OhEuqud4KdFLo8XT-e-9JXsvOgnCcjmbNJS4e-DFk>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6D33F780070; Mon, 27 Apr 2026 09:30:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1777296800;
+	bh=EatXnfSeNpf8F10Q2zH1PP/CJsJ/acTrqGU0iRSe30U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zz0iQxaChR0ZDa8HQvkaznVCl98SB+ZFLhIGGDtqyVm9wpvL3SWBvgxtXKot+JZ41
+	 C5ImhNSW3dat8+D3b4aGC2XvE43sqn0ejkcIRWvytAV1kKi48OsHF6NU/i5vdZOq9V
+	 oj/mJ6t+T3nOYRnIA73rc457162xYe1uw4JnZjHD1lozVyK7XFVYin3BU04WljSVnd
+	 QVwR9fVsBXuNbm5pq8avjznJhIxIzOCIf80TQ19sdDu1yeLZy1E0+mV6eHIQcBNoIc
+	 gKfaxUXuCQ0TEXo3ATMdWBt+lzn5JwgwuXXQiYpNtA6NWd0nZ29/9pJjiOllGrHFO3
+	 qtXsjv6ztVl/w==
+Date: Mon, 27 Apr 2026 15:33:16 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-man@vger.kernel.org, 
+	brauner@kernel.org, jlayton@kernel.org, libc-alpha@sourceware.org, 
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] man/man3/errno.3: Document EFTYPE error code
+Message-ID: <ae9lMz0SRR-sn1Uz@devuan>
+References: <20260426111707.36541-1-dorjoychy111@gmail.com>
+ <20260426111707.36541-2-dorjoychy111@gmail.com>
+ <ae4K_5f1g3zgSNkC@devuan>
+ <lhu5x5c4rpl.fsf@oldenburg.str.redhat.com>
+ <ae9gDtEo6OxHTYBt@devuan>
+ <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ASNSHzdsFZdw
-Date: Mon, 27 Apr 2026 09:30:28 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jan Kara" <jack@suse.cz>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>,
- almaz.alexandrovich@paragon-software.com,
- "Viacheslav Dubeyko" <slava@dubeyko.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
- adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
- "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
- "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
- senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
- "Darrick J. Wong" <djwong@kernel.org>,
- "Roland Mainz" <roland.mainz@nrubsig.org>,
- "Steve French" <stfrench@microsoft.com>
-Message-Id: <af3f7518-7501-4c25-9bbc-a8fc8cdb4e29@app.fastmail.com>
-In-Reply-To: 
- <yc7ygk6w6zvf46arzzvmxnuoqjrni2dtlhmywaivzmvfxnilf3@xv7tthtrowns>
-References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
- <yc7ygk6w6zvf46arzzvmxnuoqjrni2dtlhmywaivzmvfxnilf3@xv7tthtrowns>
-Subject: Re: [PATCH v11 00/15] Exposing case folding behavior
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: AB4DA473798
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nq47nb2abmlhtukb"
+Content-Disposition: inline
+In-Reply-To: <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com>
+X-Rspamd-Queue-Id: 51F1F473854
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_FROM(0.00)[bounces-6201-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[35];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,sourceware.org];
+	TAGGED_FROM(0.00)[bounces-6202-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[app.fastmail.com:mid,sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alx@kernel.org,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,alejandro-colomar.es:url]
 
 
-On Mon, Apr 27, 2026, at 6:55 AM, Jan Kara wrote:
-> On Fri 24-04-26 21:53:02, Chuck Lever wrote:
->> Changes since v10:
->> - cifs: Source case-handling flags from the server's cached
->>   FS_ATTRIBUTE_INFORMATION reply instead of the nocase mount
->>   option, with a nocase fallback when the reply is absent
->> - Address findings from sashiko(gemini-3) and gpt-5.5:
->>   - nfs: Skip pathconf case bits on NFSv4 (set via FATTR4_CASE_*
->>     instead)
->>   - xfs: Hide FS_CASEFOLD_FL from the legacy flags view so
->>     chattr round-trips do not hit the setflags whitelist
->>   - ext4, f2fs: Drop redundant fileattr_get patches; the
->>     FS_CASEFOLD_FL translation in fileattr_fill_flags() already
->>     reports FS_XFLAG_CASEFOLD for casefolded directories
->
-> Err, how is this supposed to work? I wasn't able to find any code
-> transforming S_CASEFOLDED inode flag into FS_CASEFOLD_FL on fileattr_get
-> path. Sure, fileattr_fill_flags() takes care of setting FS_XFLAG_CASEFOLD
-> once FS_CASEFOLD_FL is set. What am I missing?
+--nq47nb2abmlhtukb
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-man@vger.kernel.org, 
+	brauner@kernel.org, jlayton@kernel.org, libc-alpha@sourceware.org, 
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] man/man3/errno.3: Document EFTYPE error code
+Message-ID: <ae9lMz0SRR-sn1Uz@devuan>
+References: <20260426111707.36541-1-dorjoychy111@gmail.com>
+ <20260426111707.36541-2-dorjoychy111@gmail.com>
+ <ae4K_5f1g3zgSNkC@devuan>
+ <lhu5x5c4rpl.fsf@oldenburg.str.redhat.com>
+ <ae9gDtEo6OxHTYBt@devuan>
+ <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <lhuv7dcy1j9.fsf@oldenburg.str.redhat.com>
 
-Agreed, that is a little surprising.
+Hi Florian,
 
-The path does not go through S_CASEFOLD.  Both filesystems
-report FS_CASEFOLD_FL straight from their on-disk flag word.
+On 2026-04-27T15:29:30+0200, Florian Weimer wrote:
+> * Alejandro Colomar:
+>=20
+> > Hi Florian,
+> >
+> > On 2026-04-27T12:34:30+0200, Florian Weimer wrote:
+> >> * Alejandro Colomar:
+> >>=20
+> >> > [CC +=3D libc-alpha]
+> >> >
+> >> > Hi Dorjoy,
+> >> >
+> >> > On 2026-04-26T17:14:25+0600, Dorjoy Chowdhury wrote:
+> >> >> Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+> >> >
+> >> > Thanks!
+> >> >
+> >> > 	Reviewed-by: Alejandro Colomar <alx@kernel.org>
+> >> >
+> >> > I will wait until glibc adds this error code to their <errno.h> befo=
+re
+> >> > applying the patch.  This means either you should write and send a p=
+atch
+> >> > to glibc (if so, please CC me), or you should ask them to add it
+> >> > themselves (if you're not comfortable writing glibc code).
+> >>=20
+> >> I'm not sure where this is coming from.
+> >
+> > Here's a link to the thread:
+> > <https://lore.kernel.org/linux-man/20260426111707.36541-1-dorjoychy111@=
+gmail.com/T/>
+> >
+> >> POSIX says EFTYPE was rejected
+> >> in favor of ENOTTY.
+> >
+> > Could you please share a link to that?
+> >
+> > Anyway, I guess ENOTTY would be inappropriate in this case.  Although
+> > maybe a better error code could be devised; I don't know.  This is why
+> > I wanted glibc involved in this discussion before this arrives to a
+> > Linux release.  Thanks for the quick feedback!
+>=20
+> It's in the Rationale for System Interfaces:
+>=20
+> =E2=80=9C
+> [EFTYPE]
+>     This error code was proposed in earlier proposals as "Inappropriate
+>     operation for file type", meaning that the operation requested is
+>     not appropriate for the file specified in the function call. This
+>     code was proposed, although the same idea was covered by [ENOTTY],
+>     because the connotations of the name would be misleading. It was
+>     pointed out that the fcntl() function uses the error code [EINVAL]
+>     for this notion, and hence all instances of [EFTYPE] were changed to
+>     this code.
+> =E2=80=9D
+>=20
+> I replied on linux-fsdevel, too.
 
-For ext4, EXT4_CASEFOLD_FL is 0x40000000, the same bit value
-as FS_CASEFOLD_FL, and it is included in EXT4_FL_USER_VISIBLE.
-ext4_iget() loads it into ei->i_flags directly from
-raw_inode->i_flags (fs/ext4/inode.c:5358). ext4_fileattr_get()
-then masks with EXT4_FL_USER_VISIBLE and hands the result to
-fileattr_fill_flags(), which translates FS_CASEFOLD_FL into
-FS_XFLAG_CASEFOLD on the way out.
+Thanks!
 
-For f2fs, f2fs_fileattr_get() runs fi->i_flags through
-f2fs_iflags_to_fsflags(), whose mapping table has an explicit
-{ F2FS_CASEFOLD_FL, FS_CASEFOLD_FL } entry (fs/f2fs/file.c:2205).
-F2FS_GETTABLE_FS_FL includes FS_CASEFOLD_FL, so
-fileattr_fill_flags() again lights up FS_XFLAG_CASEFOLD.
+>=20
+> (It would be nice to submit patches introducing new error codes to
+> linux-api with a subject mentioning the error code.)
 
-S_CASEFOLD is a separate VFS-level cache that
-ext4_set_inode_flags() and f2fs's equivalent set at iget
-time; nothing on the fileattr_get path consults it.
+Thanks!  I'll remember this advice for when receiving patches that add
+error codes.
 
-For reference, the original observation about the manual
-assignment being redundant came from sashiko's review of v10:
+>=20
+> Thanks,
+> Florian
 
-  https://sashiko.dev/#/patchset/20260423-case-sensitivity-v10-0-c385d674a6cf%40oracle.com?part=8                                             
-  https://sashiko.dev/#/patchset/20260423-case-sensitivity-v10-0-c385d674a6cf%40oracle.com?part=12  
+Cheers,
+Alex
 
+--=20
+<https://www.alejandro-colomar.es>
 
--- 
-Chuck Lever
+--nq47nb2abmlhtukb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmnvZZsACgkQ64mZXMKQ
+wqndBg/9EyC4MEfnePrW42V+4l/1WcRCwcEdXdGM9wh01n91yUWquDUTfaIwFU/s
+e5bj8HvJ97yDgnLWCw7JV99+xPcqTcS96QqhLiTRjmW5/FOGsTUACQrpTWVpJ87l
+p4LLMmorrODrNHU5dDIDGZ3uuVaHOOjb8m1dZ4wMvE9yBamyiqn8Yp4WWWav4yML
+Ca9cuOPHosjSB8x9SrQuvzlFmjGlDpdYsrU1bNzVLdKN9D1rZH2etU/Q3NUIu/NO
+zqPRGv7uwqenA2TKmL2GxVMjffdpgSKRCLVt/oDLmVl7+h6KS4wvkFNRzOhE+mfU
+QMgF8WH0eEvVPZ0OWmMAAjTtxPSSUalU2mBofTBbJDhUjlNF4qVBTTxd5VNcsjPq
+IrwD9e2m4JRby+FAvu4nqkPT0iPIzfuewoDvr4WDeyO4omQcVb4iRVtGzrED7/JQ
+ORcwKbp/pkVW84aoY/evtY1AOKXfaiRlijGU0JqY/g6NAHbb/OWrc9D9XaOifW90
+Qtwxoscxj6U5fFAZl2Hxb3CmUik92+YvC6rAzzLsTLsZIy80TlxETb34EIrgR3td
+beLV9WyEiHchtYC+W8m1DnoFhePbSDMb2XfDmChxxpzY+ae4SAjkO6yav0nE8lvy
+TswZ9/T61Eb7Azccqxpewu9nSXoMn/00ZjIDbjdtmKZSwbzI/TY=
+=4KlR
+-----END PGP SIGNATURE-----
+
+--nq47nb2abmlhtukb--
 
