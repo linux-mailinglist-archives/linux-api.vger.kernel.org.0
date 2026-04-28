@@ -1,211 +1,179 @@
-Return-Path: <linux-api+bounces-6213-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6214-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKrMBU1b8GlJSQEAu9opvQ
-	(envelope-from <linux-api+bounces-6213-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 09:01:33 +0200
+	id ML//C0548GlgTwEAu9opvQ
+	(envelope-from <linux-api+bounces-6214-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 11:05:18 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539D447E63C
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 09:01:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB49A480DD1
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 11:05:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B00A930059A9
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 07:01:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E6F4D30371D2
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 08:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A27372B5E;
-	Tue, 28 Apr 2026 07:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85BF3DA5B6;
+	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckcZvxvt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7Q94D6b"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1F370D44;
-	Tue, 28 Apr 2026 07:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0D3D9DDE;
+	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777359688; cv=none; b=C0VRepABoW86BA+BmY9WjbKoAcSDHaKhLZmBMkGOHBgfeLQXhmofu7ZaqxkKgBxCfknTzV+M+gawaEQxlDrS1M95hGLmW15t+f5EfpHHjPhtkbilN7rCim1tB46g7Q3KLY9oX5EykX+9UHc1smQ/9g9l9jfN0FqNDvYgXVAOyGw=
+	t=1777366526; cv=none; b=OwYtnFC0XJLTPG7l/axj7+9E9GrP/oB0zML3isM9jHtypHhIZCoE7gJBL+dCaV/bvY/Gs0N3LZnNJrFb9dYCMn/DfONglqxl7Vml4EMzhjgiZ0L0QtFkCpRZ7at+GWjXzf33PPSQg/jMmL0Oc9FVDHI1yr5FiT26R4kvJMEbBOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777359688; c=relaxed/simple;
-	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=meqAueDksAvkljjMJvZkXWyO1dwXOAUQCvZwT5Kdk7gSZhBBCun3d7PACI20hS0aNOG35bBAekBSYtBRYxfaso7ujDBmHhzmEQ++veF+LN2CjuvDjVUF2bcxaUzFeFrc9j4bEJ1lRN+k4mNxEWN+aaydgY8/IbfQZ9d2MVBeNe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckcZvxvt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9D6C2BCAF;
-	Tue, 28 Apr 2026 07:01:23 +0000 (UTC)
+	s=arc-20240116; t=1777366526; c=relaxed/simple;
+	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDRU+yfF+NBkwT+BCh3AMc9TuyUfGcfQzmLkmnANdg6cRzEUxwLsG66M+3X2RYd50fp+pTGmO6tvkpjpDs/ic2ibt3Lvfzxw39XquJS6sNt7vMrm79NV0C8aqnhT4wcDDzezkmp0Go5iARrwtAsRXb7LAs0zWdSGngi5307WYk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7Q94D6b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74246C2BCB5;
+	Tue, 28 Apr 2026 08:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777359688;
-	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ckcZvxvtp+m0nlGQxDKN6G0mPK+76DduEJLsVPKl0X9ixhhro+jgwuv5nsdMN7m3k
-	 DNlbVNc7Nk3buRDa6kbJ3Hz5/NEYJjRo1866QT4cXLTbqaXXLRbGYarCJJ7MEMnrEp
-	 00ziu6yzQ9LrIkyGyMwVvPa80PhK5d2eQpUztbajJwLs2S8ugAWMri4O9a3CeDhX6+
-	 rA7GLDCqa9f6w0rIQSdBEEGPQiBYKLx9bvyTe+FuW8dxYKmxYp68lGpKTOHQyIc3st
-	 rAnplVrjEiZXtC21RW4MuhQaJNwiKpdSHEpckrIxzZSyjN6IOYnITDaNBcvR/CeKv3
-	 KNLJ/CJhNK/vQ==
-Message-ID: <086f5ae7e60bae7942831ee4c9915683c4ccc46f.camel@kernel.org>
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
- an O_DIRECTORY fd
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, Jori Koolstra
- <jkoolstra@xs4all.nl>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, 	x86@kernel.org, Alexander Viro
- <viro@zeniv.linux.org.uk>, Arnd Bergmann	 <arnd@arndb.de>, "H . Peter
- Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,  Peter Zijlstra
- <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, Masami
- Hiramatsu	 <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Thomas
- =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Aleksa Sarai	
- <cyphar@cyphar.com>, cmirabil@redhat.com, Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org
-Date: Tue, 28 Apr 2026 08:01:22 +0100
-In-Reply-To: <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
+	s=k20201202; t=1777366526;
+	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n7Q94D6bcmzAY7l3bw7ZxQq1YiLwkR9zbSrwN/XaH3a3+/rgFcPETePHwPfC/K3Nx
+	 ObDjANW77xQ5wVR0FiYdt27AIiOVVVBBM/g8AiQxUx3EERJUub+whwBRLdb8eaC0QX
+	 1CQfDvM1eEliP1Hu7wsBK+SsRmhzDNPKpLo0CHYT9Ei9zdDrVvLVXYG45P0VlLHVQE
+	 8HN5YqRi1cXOki0HS7C3pvLF7RIe1YmbKWGnJ7eSPLHwc+9+d/cwkxjiUEhYEAc3cj
+	 UXUwVR6KcbWc1DNiyZsE9veE6+n40xUvfGKusx6iPjwhA7xsNUVy2jWY23GVzSYWIi
+	 1Uxxb8PBY4FEA==
+Date: Tue, 28 Apr 2026 10:55:17 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260428-zoodirektor-latten-e412db97141d@brauner>
 References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
-		 <20260412135434.3095416-2-jkoolstra@xs4all.nl>
-		 <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-	 <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
+ <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
+ <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 539D447E63C
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+X-Rspamd-Queue-Id: CB49A480DD1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [2.34 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6213-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6214-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,redhat.com,alien8.de,linux.intel.com,zeniv.linux.org.uk,arndb.de,zytor.com,suse.cz,infradead.org,linutronix.de,efficios.com,cyphar.com,linuxfoundation.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,linux-api@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-On Tue, 2026-04-28 at 07:39 +0100, Jeff Layton wrote:
-> On Mon, 2026-04-27 at 17:48 +0200, Christian Brauner wrote:
-> >=20
-> >=20
-> > And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
-> > O_DIRECTORY?
-> >=20
->=20
-> No, it can't. OPEN calls only work on regular files. This is why
-> O_DIRECTORY works on NFS. If we end up issuing an OPEN against a
-> directory, it'll fail, which is what we want in that situation.
+On Mon, Apr 27, 2026 at 06:30:42PM +0200, Mateusz Guzik wrote:
+> On Mon, Apr 27, 2026 at 5:14 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > > Things proceed to handle_truncate:
+> > >       int error = get_write_access(inode);
+> > >       if (error)
+> > >               return error;
+> > >
+> > >       error = security_file_truncate(filp);
+> > >       if (!error) {
+> > >               error = do_truncate(idmap, path->dentry, 0,
+> > >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
+> > >                                   filp);
+> > >       }
+> > >
+> > > I'm going to ignore the LSM situation and do_truncate failure modes in this one.
+> > >
+> > > AFAICS nothing prevents the same user from racing against file creation to
+> > > execve it, which starts with exe_file_deny_write_access. Should the
+> > > other thread win the race, get_write_access will fail and the WARN_ON
+> > > splat will be generated. That is definitely a problem.
+> >
+> > That can't happen:
+> >
+> > static inline int get_write_access(struct inode *inode)
+> > {
+> >         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ETXTBSY;
+> > }
+> >
+> > and the check is:
+> >
+> > error = handle_truncate(idmap, file);
+> > if (unlikely(error > 0)) {
+> >
+> > This was a catch all for broken LSM hook or ->open() instance.
+> >
+> 
+> So with this prog:
+> #include <fcntl.h>
+> 
+> int main(void)
+> {
+>     open("test", O_TRUNC);
+> }
+> 
+> I verified writecount is 0 on entry to handle_truncate like so:
+> 
+> bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
+> file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] = count();
+> }'
+> 
+> @[a.out, 1]: 1
+> 
+> i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
+> 
+> but then what prevents the following race:
+> 
+> CPU0                    CPU1
+> open("test")            execve("test")
+>   handle_truncate         do_open_execat
+>                             exe_file_deny_write_access # should
+> succeed as count is 0?
+>   get_write_access # should fail as the count is now -1?
 
-To be clear, we could make that work by sending a second RPC:
-
-    PUTFH+OPEN+....   (OPEN fails with NFS4ERR_ISDIR)
-
-...and then send:
-
-    PUTFH+CREATE...
-
-...for a directory (which is how mkdir works in v4). If the calls race
-with something else being created in its place, we could just open it
-if it's a directory, or fail.
---=20
-Jeff Layton <jlayton@kernel.org>
+I'm not arguing that get_write_access() cannot fail. I'm arguing that it
+cannot hit that WARN_ON() as you said above because get_write_access()
+returns either 0 or -ETXTBUSY.
 
