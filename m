@@ -1,179 +1,252 @@
-Return-Path: <linux-api+bounces-6214-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6215-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ML//C0548GlgTwEAu9opvQ
-	(envelope-from <linux-api+bounces-6214-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 11:05:18 +0200
+	id yCpNJBnC8GloYQEAu9opvQ
+	(envelope-from <linux-api+bounces-6215-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 16:20:09 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB49A480DD1
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 11:05:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06341486CCE
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 16:20:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E6F4D30371D2
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 08:57:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0C0013066BC8
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 13:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85BF3DA5B6;
-	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F01CA43E4B5;
+	Tue, 28 Apr 2026 13:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7Q94D6b"
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="1AP2b7xa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0D3D9DDE;
-	Tue, 28 Apr 2026 08:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C5443E9DC;
+	Tue, 28 Apr 2026 13:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777366526; cv=none; b=OwYtnFC0XJLTPG7l/axj7+9E9GrP/oB0zML3isM9jHtypHhIZCoE7gJBL+dCaV/bvY/Gs0N3LZnNJrFb9dYCMn/DfONglqxl7Vml4EMzhjgiZ0L0QtFkCpRZ7at+GWjXzf33PPSQg/jMmL0Oc9FVDHI1yr5FiT26R4kvJMEbBOc=
+	t=1777383582; cv=none; b=UOLfRiKXK55uy0s+NzYrOOLSgUpMMEX3mnEkmJZAA0m16EIrkuqtMSnzXd/C4wDqcULG/7UcrWHgCL0J5LJJKrSn2RTXQu1fYwQkx2nHznV3MPIWc2oVXGpqiApsg2gXgX7x4un45c4eA9DBWTXSkTM+qHZ7SqNBRvh99j44pxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777366526; c=relaxed/simple;
-	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NDRU+yfF+NBkwT+BCh3AMc9TuyUfGcfQzmLkmnANdg6cRzEUxwLsG66M+3X2RYd50fp+pTGmO6tvkpjpDs/ic2ibt3Lvfzxw39XquJS6sNt7vMrm79NV0C8aqnhT4wcDDzezkmp0Go5iARrwtAsRXb7LAs0zWdSGngi5307WYk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7Q94D6b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74246C2BCB5;
-	Tue, 28 Apr 2026 08:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777366526;
-	bh=yNHjOgj0lHYbRohpDEFZC+8Hn3fGX3Sp9ArYLyuvzj4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n7Q94D6bcmzAY7l3bw7ZxQq1YiLwkR9zbSrwN/XaH3a3+/rgFcPETePHwPfC/K3Nx
-	 ObDjANW77xQ5wVR0FiYdt27AIiOVVVBBM/g8AiQxUx3EERJUub+whwBRLdb8eaC0QX
-	 1CQfDvM1eEliP1Hu7wsBK+SsRmhzDNPKpLo0CHYT9Ei9zdDrVvLVXYG45P0VlLHVQE
-	 8HN5YqRi1cXOki0HS7C3pvLF7RIe1YmbKWGnJ7eSPLHwc+9+d/cwkxjiUEhYEAc3cj
-	 UXUwVR6KcbWc1DNiyZsE9veE6+n40xUvfGKusx6iPjwhA7xsNUVy2jWY23GVzSYWIi
-	 1Uxxb8PBY4FEA==
-Date: Tue, 28 Apr 2026 10:55:17 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-Message-ID: <20260428-zoodirektor-latten-e412db97141d@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
- <20260427-rudel-gipsabdruck-a7884db4ecea@brauner>
- <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+	s=arc-20240116; t=1777383582; c=relaxed/simple;
+	bh=hDU4MUttEW0KnaBnd6LnHoXpOyYwAYDMSJIVtmGnHQw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hy1N+p4wyT/OoQOZBbDdnXjKsMMRPwQcpRVePJ9wIHJwFyrcgjqND5jU9OiYfEBpy5FTFkExY0kgRChJ6JriOutLFYKPqj0idiunl3FXQso8+eBpci/7q14aeueItWBNcpdKgExHH0X2YYXLwjrS60PwOSHCEBCH/1P8uzJJpzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=1AP2b7xa; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=0W7zglKDGqVRDVGfglSXHf2K1q0kLDe+N944NUpFjqc=; b=1AP2b7xa7UQxNPrsH4I1yXjjL+
+	+jV4ZLG+WTy61CmOx1RtkDmFJyMnV2Eqv2Tv92xgEVYTFU6iBzZioPi8EZ8B4d7a3jxB38v2xuoUg
+	KTXqoNApDciL99qi2A+eWMmc196c53fwbEk2lEKlO/3/Vdf9rI0NtVO65B2TYffe38Z9iBsYrVIzq
+	o5ipCwd1usxu+Tco47qOWyjInQr5ncSvZJOK4AdMRQqFqU1M0s10ZRkcApOtsCZEFG6mvEXNyxBVm
+	qsszHaD3szmXz/qA+c5LUVfQgTIk9me2js68eDEqv4p3a5OWBrHGSVi5ZYg9jWYJFYcAE9fp7Afv3
+	4oAkPmABy7QzPYJwIMD37GaCKk/G5EhHwGZjdbEKo2vXckleKht6co4AAeedVvpIkuIE+r4MK+zXP
+	qHQWL8T7SfPVS7oLTTuWkj7knxbB9AK5RFg29j8WFtR83yGrSbhm1H7JisC+OI5PFSMEfGQdKAHZB
+	9BDZHSqbjvxfFGC7tkhOft5R;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1wHies-00000004jms-0tbT;
+	Tue, 28 Apr 2026 13:39:26 +0000
+Message-ID: <b97874a9-9fef-4f7c-8505-cc23e4b45355@samba.org>
+Date: Tue, 28 Apr 2026 15:39:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
-X-Rspamd-Queue-Id: CB49A480DD1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+To: Christian Brauner <brauner@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
+ "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrey Albershteyn <aalbersh@redhat.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 06341486CCE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[samba.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[samba.org:s=42];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6214-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6215-lists,linux-api=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,redhat.com,alien8.de,linux.intel.com,zeniv.linux.org.uk,arndb.de,zytor.com,suse.cz,infradead.org,linutronix.de,efficios.com,cyphar.com,linuxfoundation.org,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[metze@samba.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[samba.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,xs4all.nl:email,samba.org:dkim,samba.org:mid]
 
-On Mon, Apr 27, 2026 at 06:30:42PM +0200, Mateusz Guzik wrote:
-> On Mon, Apr 27, 2026 at 5:14 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > > Things proceed to handle_truncate:
-> > >       int error = get_write_access(inode);
-> > >       if (error)
-> > >               return error;
-> > >
-> > >       error = security_file_truncate(filp);
-> > >       if (!error) {
-> > >               error = do_truncate(idmap, path->dentry, 0,
-> > >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
-> > >                                   filp);
-> > >       }
-> > >
-> > > I'm going to ignore the LSM situation and do_truncate failure modes in this one.
-> > >
-> > > AFAICS nothing prevents the same user from racing against file creation to
-> > > execve it, which starts with exe_file_deny_write_access. Should the
-> > > other thread win the race, get_write_access will fail and the WARN_ON
-> > > splat will be generated. That is definitely a problem.
-> >
-> > That can't happen:
-> >
-> > static inline int get_write_access(struct inode *inode)
-> > {
-> >         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 : -ETXTBSY;
-> > }
-> >
-> > and the check is:
-> >
-> > error = handle_truncate(idmap, file);
-> > if (unlikely(error > 0)) {
-> >
-> > This was a catch all for broken LSM hook or ->open() instance.
-> >
+Am 27.04.26 um 17:48 schrieb Christian Brauner:
+> On Sun, Apr 12, 2026 at 03:54:33PM +0200, Jori Koolstra wrote:
+>> Currently there is no way to race-freely create and open a directory.
+>> For regular files we have open(O_CREAT) for creating a new file inode,
+>> and returning a pinning fd to it. The lack of such functionality for
+>> directories means that when populating a directory tree there's always
+>> a race involved: the inodes first need to be created, and then opened
+>> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+>> but in the time window between the creation and the opening they might
+>> be replaced by something else.
+>>
+>> Addressing this race without proper APIs is possible (by immediately
+>> fstat()ing what was opened, to verify that it has the right inode type),
+>> but difficult to get right. Hence, mkdirat2() that creates a directory
+>> and returns an O_DIRECTORY fd is useful.
+>>
+>> This feature idea (and description) is taken from the UAPI group:
+>> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
+>>
+>> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+>> ---
+>>   arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+>>   fs/internal.h                          |  2 ++
+>>   fs/namei.c                             | 44 +++++++++++++++++++++++---
+>>   include/linux/syscalls.h               |  2 ++
+>>   include/uapi/asm-generic/unistd.h      |  5 ++-
+>>   scripts/syscall.tbl                    |  1 +
+>>   6 files changed, 50 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+>> index 524155d655da..e200ca2067a4 100644
+>> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+>> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+>> @@ -396,6 +396,7 @@
+>>   469	common	file_setattr		sys_file_setattr
+>>   470	common	listns			sys_listns
+>>   471	common	rseq_slice_yield	sys_rseq_slice_yield
+>> +472	common	mkdirat2		sys_mkdirat2
+>>   
+>>   #
+>>   # Due to a historical design error, certain syscalls are numbered differently
+>> diff --git a/fs/internal.h b/fs/internal.h
+>> index cbc384a1aa09..c6a79afadacf 100644
+>> --- a/fs/internal.h
+>> +++ b/fs/internal.h
+>> @@ -59,6 +59,8 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link);
+>>   int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
+>>   		 struct filename *newname, unsigned int flags);
+>>   int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
+>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
+>> +		unsigned int flags, bool open);
+>>   int filename_mknodat(int dfd, struct filename *name, umode_t mode, unsigned int dev);
+>>   int filename_symlinkat(struct filename *from, int newdfd, struct filename *to);
+>>   int filename_linkat(int olddfd, struct filename *old, int newdfd,
+>> diff --git a/fs/namei.c b/fs/namei.c
+>> index a880454a6415..6451e96dc225 100644
+>> --- a/fs/namei.c
+>> +++ b/fs/namei.c
+>> @@ -5255,18 +5255,36 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>>   }
+>>   EXPORT_SYMBOL(vfs_mkdir);
+>>   
+>> -int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+>> +static int mkdirat_lookup_flags(unsigned int flags)
+>> +{
+>> +	int lookup_flags = LOOKUP_DIRECTORY;
+>> +
+>> +	if (!(flags & AT_SYMLINK_NOFOLLOW))
+>> +		lookup_flags |= LOOKUP_FOLLOW;
+>> +	if (!(flags & AT_NO_AUTOMOUNT))
+>> +		lookup_flags |= LOOKUP_AUTOMOUNT;
+>> +
+>> +	return lookup_flags;
+>> +}
+>> +
+>> +int filename_mkdirat(int dfd, struct filename *name, umode_t mode) {
+>> +	return PTR_ERR_OR_ZERO(do_file_mkdirat(dfd, name, mode, 0, false));
+>> +}
+>> +
+>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
+>> +		unsigned int flags, bool open)
+>>   {
+>>   	struct dentry *dentry;
+>>   	struct path path;
+>>   	int error;
+>> -	unsigned int lookup_flags = LOOKUP_DIRECTORY;
+>> +	struct file *filp = NULL;
+>> +	unsigned int lookup_flags = mkdirat_lookup_flags(flags);
+>>   	struct delegated_inode delegated_inode = { };
+>>   
+>>   retry:
+>>   	dentry = filename_create(dfd, name, &path, lookup_flags);
+>>   	if (IS_ERR(dentry))
+>> -		return PTR_ERR(dentry);
+>> +		return ERR_CAST(dentry);
+>>   
+>>   	error = security_path_mkdir(&path, dentry,
+>>   			mode_strip_umask(path.dentry->d_inode, mode));
+>> @@ -5276,6 +5294,10 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
+>>   		if (IS_ERR(dentry))
+>>   			error = PTR_ERR(dentry);
+>>   	}
+>> +	if (open && !error && !is_delegated(&delegated_inode)) {
+>> +		const struct path new_path = { .mnt = path.mnt, .dentry = dentry };
+>> +		filp = dentry_open(&new_path, O_DIRECTORY, current_cred());
+>> +	}
 > 
-> So with this prog:
-> #include <fcntl.h>
+> So definitely a patchset worthing doing but this will be hairy. And
+> Mateusz is right. As written this doesn't work. The canonical pattern
+> how e.g., dentry_open() does it is to preallocate the file.
 > 
-> int main(void)
-> {
->     open("test", O_TRUNC);
-> }
+> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> work. I remember that I had a vague comment about this in [1] a few
+> years ago (cf. [1]). It might even be less hairy to get that one right
+> as all the thinking for O_CREAT is already there.
 > 
-> I verified writecount is 0 on entry to handle_truncate like so:
+> What was the rationale for mkdirat2() instead of threading this through
+> openat()/openat2() with O_CREAT?
 > 
-> bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
-> file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] = count();
-> }'
-> 
-> @[a.out, 1]: 1
-> 
-> i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
-> 
-> but then what prevents the following race:
-> 
-> CPU0                    CPU1
-> open("test")            execve("test")
->   handle_truncate         do_open_execat
->                             exe_file_deny_write_access # should
-> succeed as count is 0?
->   get_write_access # should fail as the count is now -1?
+> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> O_DIRECTORY?
 
-I'm not arguing that get_write_access() cannot fail. I'm arguing that it
-cannot hit that WARN_ON() as you said above because get_write_access()
-returns either 0 or -ETXTBUSY.
+If it helps the SMB2/3 protocol only has a single SMB2 Create operation
+that uses FILE_CREATE+FILE_NON_DIRECTORY_FILE or FILE_CREATE+FILE_DIRECTORY_FILE.
+
+Given all the openat() ignores unknown flags or combinations, maybe this
+should be openat2 only and even a new flag (at the for the userspace interface).
+or do_sys_open() will reject it for open and openat.
+
+While we're there an O_TMPDIR would also be wonderful to have.
+Currently samba works around it by using a hidden directory name, invisible
+for SMB clients, but nfs and local users see it.
+
+metze
 
