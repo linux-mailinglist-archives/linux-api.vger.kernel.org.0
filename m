@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-6212-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6213-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kAimGzdW8GkNSAEAu9opvQ
-	(envelope-from <linux-api+bounces-6212-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 08:39:51 +0200
+	id OKrMBU1b8GlJSQEAu9opvQ
+	(envelope-from <linux-api+bounces-6213-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 09:01:33 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EA747E244
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 08:39:50 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 539D447E63C
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 09:01:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 95BC0300C34B
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 06:39:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B00A930059A9
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 07:01:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36AC34E763;
-	Tue, 28 Apr 2026 06:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A27372B5E;
+	Tue, 28 Apr 2026 07:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZvCnJBm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckcZvxvt"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE54034DB6D;
-	Tue, 28 Apr 2026 06:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1F370D44;
+	Tue, 28 Apr 2026 07:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777358384; cv=none; b=X6XbHbNQGasEbZS1qO/NqAiXGAssCnEdjWCP9QDAiJ/YcEfTTptgow2+rEUnd76jyme3/xh2yBx21udhJoXvi1sxNm2FYHxIuqUXfcR2ow0EE0cPN+u2YetOpUp+iQsKLCNSt2jehtqTDFMdTmIceyAzBORXJcXw37E8CpShz28=
+	t=1777359688; cv=none; b=C0VRepABoW86BA+BmY9WjbKoAcSDHaKhLZmBMkGOHBgfeLQXhmofu7ZaqxkKgBxCfknTzV+M+gawaEQxlDrS1M95hGLmW15t+f5EfpHHjPhtkbilN7rCim1tB46g7Q3KLY9oX5EykX+9UHc1smQ/9g9l9jfN0FqNDvYgXVAOyGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777358384; c=relaxed/simple;
-	bh=jNUPzob7+m4KvwWpGyWZw7oXk/QNM4EHlhJQFuoUGKw=;
+	s=arc-20240116; t=1777359688; c=relaxed/simple;
+	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MHrW3zYKtd+6dlv+2wckG4B/XXL/QU8V5CZP/VOm4urFQJtpH1SRWccrJTvJV2KHM9nmxI45Ae1Hmd03OlZ5oIEZ7nOyXiKuGcwfHVEXn+DzO05yt/HCwVx5dgMkuUbP2UHSbdTVgDrpCFSs4RNAFnfrh5q9rMHTl652+oprQdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZvCnJBm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD9FC2BCAF;
-	Tue, 28 Apr 2026 06:39:38 +0000 (UTC)
+	 Content-Type:MIME-Version; b=meqAueDksAvkljjMJvZkXWyO1dwXOAUQCvZwT5Kdk7gSZhBBCun3d7PACI20hS0aNOG35bBAekBSYtBRYxfaso7ujDBmHhzmEQ++veF+LN2CjuvDjVUF2bcxaUzFeFrc9j4bEJ1lRN+k4mNxEWN+aaydgY8/IbfQZ9d2MVBeNe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckcZvxvt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9D6C2BCAF;
+	Tue, 28 Apr 2026 07:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777358384;
-	bh=jNUPzob7+m4KvwWpGyWZw7oXk/QNM4EHlhJQFuoUGKw=;
+	s=k20201202; t=1777359688;
+	bh=Q+fnLr4bTuGEEXUIfbiQXXTjnYu9s+P4pBU0HyJ5CM0=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ZZvCnJBmj3IE/cCr6xlnUNDW47CnYOJtUnRcilad3zC1nZsqWelu//SPrq17Fa7IF
-	 HX8dzuM+a6NfMYdOKnU7uc5/yHgb6rX4wSNW6LvLMvXW59aB1cFnE2gArMgpT7/w4D
-	 fYz2WnhvEohK/cAks0kZlTXG8ChqJoRTrK0QvQbdlWl9dLZsl7zWvF+utaLFU4hnTq
-	 oiWCqijForzMcHuN+jLwLpv5WAs3/q++ff2TKiY8IdoROeRr4uVnwjBalC8RRar9I7
-	 py7o9DiM38R1IgOnVOz7oXe8CjUAhjhBn/iAXzOwVqD5Nu+hi6kpfCNIjV1WJtyprB
-	 lAY0UISf0BR8w==
-Message-ID: <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
+	b=ckcZvxvtp+m0nlGQxDKN6G0mPK+76DduEJLsVPKl0X9ixhhro+jgwuv5nsdMN7m3k
+	 DNlbVNc7Nk3buRDa6kbJ3Hz5/NEYJjRo1866QT4cXLTbqaXXLRbGYarCJJ7MEMnrEp
+	 00ziu6yzQ9LrIkyGyMwVvPa80PhK5d2eQpUztbajJwLs2S8ugAWMri4O9a3CeDhX6+
+	 rA7GLDCqa9f6w0rIQSdBEEGPQiBYKLx9bvyTe+FuW8dxYKmxYp68lGpKTOHQyIc3st
+	 rAnplVrjEiZXtC21RW4MuhQaJNwiKpdSHEpckrIxzZSyjN6IOYnITDaNBcvR/CeKv3
+	 KNLJ/CJhNK/vQ==
+Message-ID: <086f5ae7e60bae7942831ee4c9915683c4ccc46f.camel@kernel.org>
 Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
  an O_DIRECTORY fd
 From: Jeff Layton <jlayton@kernel.org>
@@ -63,11 +63,12 @@ Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
  <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
 	linux-arch@vger.kernel.org
-Date: Tue, 28 Apr 2026 07:39:37 +0100
-In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Date: Tue, 28 Apr 2026 08:01:22 +0100
+In-Reply-To: <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
 References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
-	 <20260412135434.3095416-2-jkoolstra@xs4all.nl>
-	 <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+		 <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+		 <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+	 <0028f90b0d06cdfcf6b306941fdc3dcbe6c6ab0d.camel@kernel.org>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -151,13 +152,13 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: B5EA747E244
+X-Rspamd-Queue-Id: 539D447E63C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -166,11 +167,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6212-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6213-lists,linux-api=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -180,18 +181,31 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-On Mon, 2026-04-27 at 17:48 +0200, Christian Brauner wrote:
+On Tue, 2026-04-28 at 07:39 +0100, Jeff Layton wrote:
+> On Mon, 2026-04-27 at 17:48 +0200, Christian Brauner wrote:
+> >=20
+> >=20
+> > And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> > O_DIRECTORY?
+> >=20
 >=20
->=20
-> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
-> O_DIRECTORY?
->=20
+> No, it can't. OPEN calls only work on regular files. This is why
+> O_DIRECTORY works on NFS. If we end up issuing an OPEN against a
+> directory, it'll fail, which is what we want in that situation.
 
-No, it can't. OPEN calls only work on regular files. This is why
-O_DIRECTORY works on NFS. If we end up issuing an OPEN against a
-directory, it'll fail, which is what we want in that situation.
+To be clear, we could make that work by sending a second RPC:
+
+    PUTFH+OPEN+....   (OPEN fails with NFS4ERR_ISDIR)
+
+...and then send:
+
+    PUTFH+CREATE...
+
+...for a directory (which is how mkdir works in v4). If the calls race
+with something else being created in its place, we could just open it
+if it's a directory, or fail.
 --=20
 Jeff Layton <jlayton@kernel.org>
 
