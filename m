@@ -1,246 +1,245 @@
-Return-Path: <linux-api+bounces-6217-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6218-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oHXDMInF8GkqYgEAu9opvQ
-	(envelope-from <linux-api+bounces-6217-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 16:34:49 +0200
+	id wNdQEnnZ8GkLaQEAu9opvQ
+	(envelope-from <linux-api+bounces-6218-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 17:59:53 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20996487121
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 16:34:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F34D488628
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 17:59:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 16DBA31D8D82
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 14:20:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A97D230C51E8
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 14:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D723F9F39;
-	Tue, 28 Apr 2026 14:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A54F3B9DBA;
+	Tue, 28 Apr 2026 14:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="0Y61hjQs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D08mcnP5"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC10A44B680;
-	Tue, 28 Apr 2026 14:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777386005; cv=none; b=cqglollJEUP/cnXgZVTeKAoUSzNW1+/xT/5epX8zAV1IEi0VRdgGD4/QbgccIYhCvhXItVitDbHVyhw+z9Hj5CCqnmoY/hKucPDYgZZQiA1vjrb0KF4ZQKj4YD+y3srwkn0R7aQ6aw9LWHAJxY/pXBTkuS6ukLMtmDGuVt5qzgI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777386005; c=relaxed/simple;
-	bh=SrEd0BRQfbGqvIciEiYaXwu8ftPz9sbLbRRLn9whx1k=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=lCZ9UIvlTilAnbbzSXm6rCqeuLkd/0uX4AUPHsJOlYikS9rT7anv5Udw6K+0OJ+7JKa1ORuZE6P0Yx2Egs0qWq4xV/yNCzG3PtRSDC/LTXxFgJsw/zDWKmmBOsb1khE7MhAxBtTGIAGDZvYASFYsM/EtdyrNh8c7zLyRU8Akd7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=0Y61hjQs; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wTKkt0JG2TSDuyJt59M5h4HPfYQ2FVZq0uwIo2DWt1s=; b=0Y61hjQsORq1k5ML5LJLAbm3gu
-	D+IAU6K3oEOnYC7cF5wsYh2LuxVFWhqDtf9ICqWD6JLri86thfp/K2B4Em24DfXfImLBDmeKNAULS
-	FIzUmxePrVWHIIpwFmzIkQjd2YEHdoQq4TRAB+MfsxDn5xFL9dqt6asq/hnQqYIPaRT27tR2P5wM2
-	8hwkICykOZgGE5AyxSoY9R1pahX7Bj/b/9xEI+ju1SEqKmu9G9QcenpX+xadO+JWUNiPR29cizTfH
-	+CYQsLWrqUWytwTKXf4rpI0b9fiHo0Dza05MJTidfBgbAPBxvbJH60GQILMTtnNDJP5Yyp6GZIF1p
-	/dq6UUyg==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1wHj0e-000000003AB-37qd;
-	Tue, 28 Apr 2026 11:01:56 -0300
-Message-ID: <1ace01b0fe22a13795cdb045dce6429b@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: Stefan Metzmacher <metze@samba.org>, Christian Brauner
- <brauner@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton
- <jlayton@kernel.org>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro
- <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, "H . Peter
- Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Peter Zijlstra
- <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, Masami
- Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Thomas
- =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu
- Desnoyers
- <mathieu.desnoyers@efficios.com>, Aleksa Sarai <cyphar@cyphar.com>,
- cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
- an O_DIRECTORY fd
-In-Reply-To: <b97874a9-9fef-4f7c-8505-cc23e4b45355@samba.org>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
- <b97874a9-9fef-4f7c-8505-cc23e4b45355@samba.org>
-Date: Tue, 28 Apr 2026 11:01:56 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3597337C904
+	for <linux-api@vger.kernel.org>; Tue, 28 Apr 2026 14:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777387164; cv=pass; b=kJhLKHAI7fPQZ4SU3eSjGgDJTKvH0MwYn/Jzrg7EgFTo6pYo9L7Nr20hIer7y9nQeHG6JUxkURdjNsWcoYG4/t9kO8xhJgnfXRCiufZc6KW91uN5Am8NDBghGg/mX/pgIb0N2/1cIkhH8OtYbL22Sd+ZSs0Y3yBdgRiwAbdBRkQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777387164; c=relaxed/simple;
+	bh=o5yp/O/UpJT2rk9hPW1wx6A8M3OZah1AeYGoao4WXUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qpniL5tE7HDrNBqhjATJ4vzwr06TGlHtLjWigwYkAQ3xhGCIBXuxCJYANOFgL4Oa2Djb23gWR2iHheWD+w4r3kVJbIH7kHr6qmZLUlzlzyr6oWHYp+9sPoc4DTlwoInq0zs1kXoVFtQpWDTQLno3mAQJvma1P98zOpodG2Abwts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D08mcnP5; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so14238856a12.0
+        for <linux-api@vger.kernel.org>; Tue, 28 Apr 2026 07:39:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777387160; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Lvkwm5DY0pHaQURuGxWFasAd3tp/P7z6fKuL6nJBKYRhrENWeWkY0HGdV9+YeGkEPh
+         smOgAqZdoRCNaTHONhqQD+KPRn2vtrI+vT3aPdQDXqYayarVjDUQNHpgsWVo5vf4En97
+         KxblvD3ul+Y5jvGIOIxZVlP8DKRuGnmsnlZZethOoloHem54YHT1TPcG+zX5nWO32nbO
+         e2lp9uWvwXlKnLgf3jo/bmsyF+rUILPxlmU9vM/ZIm1/vy9io90rM3mKlkR2iaGDEh+w
+         juxPbbWbq+CbhACd2VVr21Exh1OEhL9Ymx1wERFZ5dKAfjUqN2TdXehSfPBdWUjtSi48
+         dSDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PN1B9vhJycrgbEH0DOyhYXb0qxN2cniV/ZcL9J2GD5k=;
+        fh=B75IQUSzA9cVGl7fmUKPlnk85YbCVukTNKkuWkWKk0E=;
+        b=eBtjhyKVuVhGktS/WBX53ptILHNoDEOn0JO+gG+DUJ7OZ8YSDQqyd31iq01P3pFYEn
+         Yap+diQTSo5y4Jf62JMDuA6I5lxQEPAPHX8u8USz3LgP6vQZ9VQ0K6XQOfqD85xI96EU
+         4OyXbgPSIKGeYbK5vY3on4+qYAmfQ6t1Y/RtptlVp+x+owqxr+YomPpmzIiNI+yOQm12
+         AHc7Klrx90/l5WELZlfJdAGA9+6Ylhuo5G1JZCzKL+2DYRZYJbGTD3l/XjsRA3Vgu8ZS
+         62k2MaUtjFpLIzb+tW45eEXoEzAUFWwXVirKHmWmYVvLV8ePQELRfTuE7KXBHSPvjx/s
+         LFgg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777387160; x=1777991960; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PN1B9vhJycrgbEH0DOyhYXb0qxN2cniV/ZcL9J2GD5k=;
+        b=D08mcnP5szl+13rSRXOE9LH8Qc4jOlJdFOrsL3d5rSmnIWRl2EQMMdhsnQ0VzTI/p3
+         z4PFNZ5PWDzow9X4xtOVmJ7h8xY0taALshxRAZgUAXxUnrPyzwznZnbvd4s6vw1ZMM6b
+         RPW49w0al36ig6M48MBi5BStjBbzdVz7aZgP68JqJLlhU9A5sfGD94dDZQ16MYRL3CKV
+         95i3ALKLBMRxxh6+2mNY5OVwSQJM21tiKp8PbiGWcwtHYZFekNFUYDVwlMVtnBTsYye3
+         8C5raITCLyi1C17H3EmKSreZP8jOcMvv55fRU1wY4BkTUxCjWwFtpyEZr7Xky/75i36C
+         ZUrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777387160; x=1777991960;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PN1B9vhJycrgbEH0DOyhYXb0qxN2cniV/ZcL9J2GD5k=;
+        b=dAineUwMTa+1d2aFF5R+eXN2YClZxiQOFL6CQGljq16sKfE4cTDZI4GpgNXcxbiCmq
+         eZlrBPd/JM7wrzIF030n9x4bh38JkrdMJGIBgNx1wVnpTNS2WMG6F+EBLDaRzKFYFS/x
+         /UDC+rNZiPoiPu0Z3yalFD50Yul9RAtjSmJKGCkXfFDTpudyepD6e1RTUNGdCBd6+3tX
+         LYYb87qj7/iBRqog4DJVagev2uZDpZkWqjOSQqgAaQtSTa0jbxMfV2aUg4vc+EAuY0bx
+         VTy/hna5zQrSVrE4m9nPw02ah+u++ZhurZYLa2bZ8Lo4SCv9SYosEviANkTL9waO54Hl
+         xTwA==
+X-Forwarded-Encrypted: i=1; AFNElJ85+UoP93QYGh2wkG9agFB+wzHggLaMvrDKrGbx4V/O86JnNhOGtMqYM9vIZWUgfz2/QNXF2HueEgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrBBMOAkShX0czUEex9ksKHAY6kIK5o6tGhnpw22UTW4cac+tv
+	STXGvyM2QXlkKNHnn4vqBqjsrbLgQTht1AgZzF9GnsIF1SD/5XraspczsI7voJoLtK9AE1PSzLz
+	EL0r75RGoKbSykdrCClcqEB4tAPySIrQ=
+X-Gm-Gg: AeBDievYh/NjizGPBPrNxaEc/SKJV//zpM41anYjTxLm4zaHI56v0f0lNkFpfUZVEN7
+	NgGNayHTD8D0daU0Br0stZqSgN3yhPzLEMJRgvYcYAnBPlnea2S4fg1GNKtKVx+RMpDGL82n+wa
+	NRx98f8GLTH97K7m2kkUCfB2soF+j6iP0rlq0fUy21uFltWvK5yILoODJH5EOt+iuxtTn/hjfGc
+	y21hnBAfpDUChGaZ7pSJR6HeNEX/p/HkQhoJsWsNpv9XtUsvxr/Tiu9qdVF2R7BhBYKlPQWkVqI
+	22rzmtN6tVB8QrxymdEE7ohbJJdsaf6GyjhNDh1T80PgXrJHU7bAUNlKXhIG
+X-Received: by 2002:a05:6402:501c:b0:672:bc73:a124 with SMTP id
+ 4fb4d7f45d1cf-679bb092fdbmr1761172a12.24.1777387159785; Tue, 28 Apr 2026
+ 07:39:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 20996487121
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl> <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <5xexygc3rvvlir4smdfn7gndwjgbuijqfummwwumivsnosijux@ygqs3iqxmovh>
+ <20260427-rudel-gipsabdruck-a7884db4ecea@brauner> <CAGudoHFLSHhDZoC6maLsn234dMQVnG4ZbpKXoVrueGujArNF-A@mail.gmail.com>
+ <20260428-zoodirektor-latten-e412db97141d@brauner>
+In-Reply-To: <20260428-zoodirektor-latten-e412db97141d@brauner>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Tue, 28 Apr 2026 16:39:06 +0200
+X-Gm-Features: AVHnY4Ja3pLpw7UMkXw0oBF-9fgYduWvYEChf9BQ65RTEdqUwZXM4GrqcMzSxBY
+Message-ID: <CAGudoHHMG2Arne=B1XnJmSesfUH4se5eEQ2Lsc0FRmCxr3AECw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jeff Layton <jlayton@kernel.org>, 
+	Aleksa Sarai <cyphar@cyphar.com>, cmirabil@redhat.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 8F34D488628
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[manguebit.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[manguebit.org:s=dkim];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6218-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6217-lists,linux-api=lfdr.de];
-	FREEMAIL_TO(0.00)[samba.org,kernel.org,xs4all.nl];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,redhat.com,alien8.de,linux.intel.com,zeniv.linux.org.uk,arndb.de,zytor.com,suse.cz,infradead.org,linutronix.de,efficios.com,cyphar.com,linuxfoundation.org,vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[manguebit.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pc@manguebit.org,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mjguzik@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samba.org:email,manguebit.org:dkim,manguebit.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,xs4all.nl:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
 
-Stefan Metzmacher <metze@samba.org> writes:
-
-> Am 27.04.26 um 17:48 schrieb Christian Brauner:
->> On Sun, Apr 12, 2026 at 03:54:33PM +0200, Jori Koolstra wrote:
->>> Currently there is no way to race-freely create and open a directory.
->>> For regular files we have open(O_CREAT) for creating a new file inode,
->>> and returning a pinning fd to it. The lack of such functionality for
->>> directories means that when populating a directory tree there's always
->>> a race involved: the inodes first need to be created, and then opened
->>> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
->>> but in the time window between the creation and the opening they might
->>> be replaced by something else.
->>>
->>> Addressing this race without proper APIs is possible (by immediately
->>> fstat()ing what was opened, to verify that it has the right inode type),
->>> but difficult to get right. Hence, mkdirat2() that creates a directory
->>> and returns an O_DIRECTORY fd is useful.
->>>
->>> This feature idea (and description) is taken from the UAPI group:
->>> https://github.com/uapi-group/kernel-features?tab=readme-ov-file#race-free-creation-and-opening-of-non-file-inodes
->>>
->>> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
->>> ---
->>>   arch/x86/entry/syscalls/syscall_64.tbl |  1 +
->>>   fs/internal.h                          |  2 ++
->>>   fs/namei.c                             | 44 +++++++++++++++++++++++---
->>>   include/linux/syscalls.h               |  2 ++
->>>   include/uapi/asm-generic/unistd.h      |  5 ++-
->>>   scripts/syscall.tbl                    |  1 +
->>>   6 files changed, 50 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
->>> index 524155d655da..e200ca2067a4 100644
->>> --- a/arch/x86/entry/syscalls/syscall_64.tbl
->>> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
->>> @@ -396,6 +396,7 @@
->>>   469	common	file_setattr		sys_file_setattr
->>>   470	common	listns			sys_listns
->>>   471	common	rseq_slice_yield	sys_rseq_slice_yield
->>> +472	common	mkdirat2		sys_mkdirat2
->>>   
->>>   #
->>>   # Due to a historical design error, certain syscalls are numbered differently
->>> diff --git a/fs/internal.h b/fs/internal.h
->>> index cbc384a1aa09..c6a79afadacf 100644
->>> --- a/fs/internal.h
->>> +++ b/fs/internal.h
->>> @@ -59,6 +59,8 @@ int may_linkat(struct mnt_idmap *idmap, const struct path *link);
->>>   int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
->>>   		 struct filename *newname, unsigned int flags);
->>>   int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
->>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
->>> +		unsigned int flags, bool open);
->>>   int filename_mknodat(int dfd, struct filename *name, umode_t mode, unsigned int dev);
->>>   int filename_symlinkat(struct filename *from, int newdfd, struct filename *to);
->>>   int filename_linkat(int olddfd, struct filename *old, int newdfd,
->>> diff --git a/fs/namei.c b/fs/namei.c
->>> index a880454a6415..6451e96dc225 100644
->>> --- a/fs/namei.c
->>> +++ b/fs/namei.c
->>> @@ -5255,18 +5255,36 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
->>>   }
->>>   EXPORT_SYMBOL(vfs_mkdir);
->>>   
->>> -int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
->>> +static int mkdirat_lookup_flags(unsigned int flags)
->>> +{
->>> +	int lookup_flags = LOOKUP_DIRECTORY;
->>> +
->>> +	if (!(flags & AT_SYMLINK_NOFOLLOW))
->>> +		lookup_flags |= LOOKUP_FOLLOW;
->>> +	if (!(flags & AT_NO_AUTOMOUNT))
->>> +		lookup_flags |= LOOKUP_AUTOMOUNT;
->>> +
->>> +	return lookup_flags;
->>> +}
->>> +
->>> +int filename_mkdirat(int dfd, struct filename *name, umode_t mode) {
->>> +	return PTR_ERR_OR_ZERO(do_file_mkdirat(dfd, name, mode, 0, false));
->>> +}
->>> +
->>> +struct file *do_file_mkdirat(int dfd, struct filename *name, umode_t mode,
->>> +		unsigned int flags, bool open)
->>>   {
->>>   	struct dentry *dentry;
->>>   	struct path path;
->>>   	int error;
->>> -	unsigned int lookup_flags = LOOKUP_DIRECTORY;
->>> +	struct file *filp = NULL;
->>> +	unsigned int lookup_flags = mkdirat_lookup_flags(flags);
->>>   	struct delegated_inode delegated_inode = { };
->>>   
->>>   retry:
->>>   	dentry = filename_create(dfd, name, &path, lookup_flags);
->>>   	if (IS_ERR(dentry))
->>> -		return PTR_ERR(dentry);
->>> +		return ERR_CAST(dentry);
->>>   
->>>   	error = security_path_mkdir(&path, dentry,
->>>   			mode_strip_umask(path.dentry->d_inode, mode));
->>> @@ -5276,6 +5294,10 @@ int filename_mkdirat(int dfd, struct filename *name, umode_t mode)
->>>   		if (IS_ERR(dentry))
->>>   			error = PTR_ERR(dentry);
->>>   	}
->>> +	if (open && !error && !is_delegated(&delegated_inode)) {
->>> +		const struct path new_path = { .mnt = path.mnt, .dentry = dentry };
->>> +		filp = dentry_open(&new_path, O_DIRECTORY, current_cred());
->>> +	}
->> 
->> So definitely a patchset worthing doing but this will be hairy. And
->> Mateusz is right. As written this doesn't work. The canonical pattern
->> how e.g., dentry_open() does it is to preallocate the file.
->> 
->> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
->> work. I remember that I had a vague comment about this in [1] a few
->> years ago (cf. [1]). It might even be less hairy to get that one right
->> as all the thinking for O_CREAT is already there.
->> 
->> What was the rationale for mkdirat2() instead of threading this through
->> openat()/openat2() with O_CREAT?
->> 
->> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
->> O_DIRECTORY?
+On Tue, Apr 28, 2026 at 10:55=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
 >
-> If it helps the SMB2/3 protocol only has a single SMB2 Create operation
-> that uses FILE_CREATE+FILE_NON_DIRECTORY_FILE or FILE_CREATE+FILE_DIRECTORY_FILE.
+> On Mon, Apr 27, 2026 at 06:30:42PM +0200, Mateusz Guzik wrote:
+> > On Mon, Apr 27, 2026 at 5:14=E2=80=AFPM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > >
+> > > > Things proceed to handle_truncate:
+> > > >       int error =3D get_write_access(inode);
+> > > >       if (error)
+> > > >               return error;
+> > > >
+> > > >       error =3D security_file_truncate(filp);
+> > > >       if (!error) {
+> > > >               error =3D do_truncate(idmap, path->dentry, 0,
+> > > >                                   ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
+> > > >                                   filp);
+> > > >       }
+> > > >
+> > > > I'm going to ignore the LSM situation and do_truncate failure modes=
+ in this one.
+> > > >
+> > > > AFAICS nothing prevents the same user from racing against file crea=
+tion to
+> > > > execve it, which starts with exe_file_deny_write_access. Should the
+> > > > other thread win the race, get_write_access will fail and the WARN_=
+ON
+> > > > splat will be generated. That is definitely a problem.
+> > >
+> > > That can't happen:
+> > >
+> > > static inline int get_write_access(struct inode *inode)
+> > > {
+> > >         return atomic_inc_unless_negative(&inode->i_writecount) ? 0 :=
+ -ETXTBSY;
+> > > }
+> > >
+> > > and the check is:
+> > >
+> > > error =3D handle_truncate(idmap, file);
+> > > if (unlikely(error > 0)) {
+> > >
+> > > This was a catch all for broken LSM hook or ->open() instance.
+> > >
+> >
+> > So with this prog:
+> > #include <fcntl.h>
+> >
+> > int main(void)
+> > {
+> >     open("test", O_TRUNC);
+> > }
+> >
+> > I verified writecount is 0 on entry to handle_truncate like so:
+> >
+> > bpftrace -e 'kprobe:security_file_truncate { @[comm, (int64)((struct
+> > file *)arg0)->f_path.dentry->d_inode->i_writecount.counter] =3D count()=
+;
+> > }'
+> >
+> > @[a.out, 1]: 1
+> >
+> > i.e., get_write_access in handle_truncate transitioned the count 0 -> 1
+> >
+> > but then what prevents the following race:
+> >
+> > CPU0                    CPU1
+> > open("test")            execve("test")
+> >   handle_truncate         do_open_execat
+> >                             exe_file_deny_write_access # should
+> > succeed as count is 0?
+> >   get_write_access # should fail as the count is now -1?
+>
+> I'm not arguing that get_write_access() cannot fail. I'm arguing that it
+> cannot hit that WARN_ON() as you said above because get_write_access()
+> returns either 0 or -ETXTBUSY.
 
-Yes.  However cifs.ko will handle atomic open of regular files only.
+ops, right:
+  4681         =E2=94=82       error =3D handle_truncate(idmap, file);
+  4682         if (unlikely(error > 0)) {
+  4683                 WARN_ON(1);
+  4684                 error =3D -EINVAL;
+  4685         }
 
-IIRC, NFS also doesn't handle atomic opens of directories either.  Jeff
-could confirm that.
+I mentally had it warn on any error.
 
