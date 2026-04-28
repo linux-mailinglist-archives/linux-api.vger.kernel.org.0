@@ -1,173 +1,218 @@
-Return-Path: <linux-api+bounces-6210-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6211-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALasASkK8GkiNgEAu9opvQ
-	(envelope-from <linux-api+bounces-6210-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 03:15:21 +0200
+	id 2OcELE8O8GnTNgEAu9opvQ
+	(envelope-from <linux-api+bounces-6211-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 03:33:03 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E2947C58E
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 03:15:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB4147C68A
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 03:33:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 288E6303663E
-	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 01:15:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D22E2303A248
+	for <lists+linux-api@lfdr.de>; Tue, 28 Apr 2026 01:32:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78F72D0625;
-	Tue, 28 Apr 2026 01:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3A524728F;
+	Tue, 28 Apr 2026 01:32:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="oO6Zaq8U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOhfDvzD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72F12BEFED;
-	Tue, 28 Apr 2026 01:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228611FDA61;
+	Tue, 28 Apr 2026 01:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777338910; cv=none; b=VKDxaHLKe9AV0i2ZrbwcSV5a5XNKnYaT1NvBhicsIyyiBMM7zm5TAzEAoMPKMkztVSvo2VPESQRxYCRRKqPdheqACXDOjwWL19V/jsYq8WhbYiT2jHn5WREnohCemjFDMPaVDgJjaEwXr7/GOHGTZwvIr9n3cgVrvefYlJtKGng=
+	t=1777339946; cv=none; b=mXbaMEbJSXUOyX3ZIl0igT5+DXrIZ2/War7ajcoT6KzgBUY4GhpWzBkdwt692lOll1emEFzrE/mL9/0k3DgGTJXGKG9Eh2BDDwkspSX/lKIE5N64GX4miirElAWzTFAUB6ItC6HBovsdRhkgpughLCMwGYiu4TMhYqPYMcXjhT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777338910; c=relaxed/simple;
-	bh=LzUB/ZD604itqaxy/8+N5zkZTGwBL7cXXLe2cPQxQFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2mxJM8ux73u2MzhpH+evoF686LJH9G8CMYbrsw9Ph449fmPeR6XP+HTjPi1egJInJDZolNuYTytV+fv+cAyw8fy/RZzQwFDHFttZxxyzN9uUUkcxkUJnPg81gWrMrYN1/oJMrfs5+yuX1jYYCfi0QVwPQ76+w/eW8sri8pm7/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=oO6Zaq8U; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4g4MtH5QbTz9t5q;
-	Tue, 28 Apr 2026 03:15:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1777338903;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WGPMR8dNcHE5pPzgJKMfmwy/Nz6ESEu5+NAcbwXAYZ4=;
-	b=oO6Zaq8UGDP1hgu8xebfat/qL3xZPidqWDxAE70HKf54Kfe4sIqnrvr8odQHGH5FNayP4f
-	QwMW7v472RogSNwjwVdWTbIXJ/knsHvOT4OLLfZhW0ogs9thnWU2tbGWo8vDHl6We69y7l
-	bH6vRiK1y/s+flwXTUaq266iCS7gthRToROEpu65INbDjqNWP+F2ZKJ/vco9hKMjIEJqJx
-	MoJrYF7HXFG+sI+51+OAFpW1S54cd2seTLg4wNLqBrCfe/5osEYi7U93CRCIX/oKOhE/Rz
-	Dw9sozIhurcnmk5jhXfU068F/t546MGKstbweL/feIcIguixv2GIpvhObeXc4w==
-Date: Tue, 28 Apr 2026 11:14:47 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-Message-ID: <2026-04-28-demur-blocky-boon-prizes-kUj5bz@cyphar.com>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+	s=arc-20240116; t=1777339946; c=relaxed/simple;
+	bh=wHz+5U7YZ1YUh8S3O/ePJZetSOyRqZDheoo8PdaQubw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=N2jpiuN9jPABaedwxyU7PmstflMduKRDTmshwNjcUJ2ZPyjg5EPE2bz1k5nDcnlc3plx33Iymgo2Ly3/qibxjcknLJ52QVAzBtZlqTkk5XO7qClWlFl9VxHVHkPbk37mp9BgrQvv6qpZYYEhAD7gp125gSwqd/pxmhY+8RThD6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOhfDvzD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26348C4AF09;
+	Tue, 28 Apr 2026 01:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777339946;
+	bh=wHz+5U7YZ1YUh8S3O/ePJZetSOyRqZDheoo8PdaQubw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=TOhfDvzDaluU/j7Kds/kem7583xdqoHSELQ2x559IB9y0NQQNXIyzGBe6Fqbj/oYL
+	 HDM4jXg3bM9cjeEpaA6UdmNgruCW0rC5TyBRUOno+ir17RijO8NOgZqdoGNXn7XgIT
+	 EdF6NZGZUZgLwy74Fuq0NNuvvlu+7UwuiRf7BFCJxWEqwH0d15FUxo9qcUscCUFGNc
+	 BxRVwKIgWZ0PBiiG0NR9CjyM58Mb8CgM5Pj5NpqM0ptb7OY+g2TosBdIJpj7xTYFjv
+	 57pFveojlFHAesXaWck2CXVYspyIEIQiLPiM41p2XnkyOFZoB0mLHGNy9v7h0INder
+	 MX09Rw2Na6AMQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0EEA6F4006D;
+	Mon, 27 Apr 2026 21:32:24 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 27 Apr 2026 21:32:24 -0400
+X-ME-Sender: <xms:Jw7waTdxAlNGjpqkcmYs-AuhVm8o6a2ys9cH7oPKakERIjM35CzggQ>
+    <xme:Jw7waUByBHZtpz_cO4UMWr0VoT7wNaP3SOQWx1_VsC9VZI3f0qKIOJlPWIqNFK_qx
+    eTGs3Us4qmDCHQRAYK3eICv5OzGaEwL7XdPlGXhSJQN84a8D--lFa4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdektddvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    eptdduhfeuteeileehtdegledvhfdvieefveelleeludelfeetvdfhteetjeetffdvnecu
+    ffhomhgrihhnpehsrghshhhikhhordguvghvnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
+    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
+    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
+    peefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgvnhhoiihhrghtshhkhi
+    estghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheprgguihhlghgvrhdrkhgvrhhnvghl
+    seguihhlghgvrhdrtggrpdhrtghpthhtohepshhlrghvrgesughusggvhihkohdrtghomh
+    dprhgtphhtthhopehrohhnnhhivghsrghhlhgsvghrghesghhmrghilhdrtghomhdprhgt
+    phhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheptghhrghosehkvghrnhgvlhdrohhrghdprhgtphhtthhopegujhifohhngh
+    eskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:Jw7waQ4Xow-t11J593OXzv-Gwl0Byd6MFv6z4UpYTD9UNKvdBWnqag>
+    <xmx:KA7waYbam4XDlg9sbJKf1HWcmAANgKgDVgaJ3EUUVdDrsHM_F7ioEA>
+    <xmx:KA7waSoQNfBCkKag9VRPAnKAGom1WVXc4rDrBOYssIOmltGlTsaAYg>
+    <xmx:KA7wafIyNoQwaeh8KjYI0_7YlZVPbx8Hm9QpSej1pjj1LmcPjLYiZA>
+    <xmx:KA7wadZV4ms4hY1uafi9BlfHPsflm006PYfpHyB8gesdt20AVsIDU3u9>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D0C61780075; Mon, 27 Apr 2026 21:32:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="owgh52ziss34ktt4"
-Content-Disposition: inline
-In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-X-Rspamd-Queue-Id: A1E2947C58E
+Date: Mon, 27 Apr 2026 21:32:03 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ almaz.alexandrovich@paragon-software.com,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
+ adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
+ "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
+ senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Roland Mainz" <roland.mainz@nrubsig.org>
+Message-Id: <3fd6dcbf-ece6-459e-b114-1d8b95035acf@app.fastmail.com>
+In-Reply-To: <20260427155636.GC7751@frogsfrogsfrogs>
+References: <20260424-case-sensitivity-v11-0-de5619beddaf@oracle.com>
+ <20260424-case-sensitivity-v11-8-de5619beddaf@oracle.com>
+ <20260427155636.GC7751@frogsfrogsfrogs>
+Subject: Re: [PATCH v11 08/15] xfs: Report case sensitivity in fileattr_get
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 1AB4147C68A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-4.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[cyphar.com,reject];
-	R_DKIM_ALLOW(-0.20)[cyphar.com:s=MBO0001];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-6211-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[34];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6210-lists,linux-api=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,redhat.com,alien8.de,linux.intel.com,zeniv.linux.org.uk,arndb.de,zytor.com,suse.cz,infradead.org,linutronix.de,efficios.com,linuxfoundation.org,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,app.fastmail.com:mid,nrubsig.org:email,sashiko.dev:url];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cyphar@cyphar.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[cyphar.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cyphar.com:url,cyphar.com:dkim,cyphar.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_COUNT_SEVEN(0.00)[7]
 
 
---owgh52ziss34ktt4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-MIME-Version: 1.0
 
-On 2026-04-27, Christian Brauner <brauner@kernel.org> wrote:
-> On Sun, Apr 12, 2026 at 03:54:33PM +0200, Jori Koolstra wrote:
-> > +	if (open && !error && !is_delegated(&delegated_inode)) {
-> > +		const struct path new_path =3D { .mnt =3D path.mnt, .dentry =3D dent=
-ry };
-> > +		filp =3D dentry_open(&new_path, O_DIRECTORY, current_cred());
-> > +	}
->=20
-> So definitely a patchset worthing doing but this will be hairy. And
-> Mateusz is right. As written this doesn't work. The canonical pattern
-> how e.g., dentry_open() does it is to preallocate the file.
->=20
-> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
-> work. I remember that I had a vague comment about this in [1] a few
-> years ago (cf. [1]). It might even be less hairy to get that one right
-> as all the thinking for O_CREAT is already there.
+On Mon, Apr 27, 2026, at 11:56 AM, Darrick J. Wong wrote:
+> On Fri, Apr 24, 2026 at 09:53:10PM -0400, Chuck Lever wrote:
+>> From: Chuck Lever <chuck.lever@oracle.com>
+>>=20
+>> Upper layers such as NFSD need to query whether a filesystem
+>> is case-sensitive. Add FS_XFLAG_CASEFOLD to xfs_ip2xflags()
+>> when the filesystem is formatted with the ASCIICI feature
+>> flag. This serves both FS_IOC_FSGETXATTR (via xfs_fill_fsxattr() in
+>> xfs_fileattr_get()) and XFS_IOC_BULKSTAT (which populates bs_xflags
+>> directly from xfs_ip2xflags()), so bulkstat consumers and per-inode
+>> queries see a consistent view of the filesystem's case-folding
+>> behavior.
+>>=20
+>> XFS always preserves case. XFS is case-sensitive by default, but
+>> supports ASCII case-insensitive lookups when formatted with the
+>> ASCIICI feature flag.
+>>=20
+>> Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
+>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>> ---
 
-That would be my preference, as it would also allow us to use RESOLVE_*
-flags nicely.
+> I don't understand this at all.  Yes, FS_XFLAG_CASEFOLD is readonly,
+> but how does clearing FS_CASEFOLD_FL from the fileattr_get output
+> (without clearing XFLAG_CASEFOLD!) solve anything?  This makes the
+> reported output inconsistent between fsgetxattr and getflags -- one
+> reports case folding, the other reports no casefolding.
 
-> What was the rationale for mkdirat2() instead of threading this through
-> openat()/openat2() with O_CREAT?
+The masking is a misplaced reaction to a sashiko review on the
+v9 predecessor of this patch [1], which pointed out that v9 set
+FS_XFLAG_CASEFOLD in fa->fsx_xflags after xfs_fill_fsxattr() had
+already synced fa->flags, leaving the two views inconsistent in
+the other direction, and that bulkstat would miss the flag for
+the same reason. Moving the injection into xfs_ip2xflags() fixed
+both gaps -- but it also surfaced FS_CASEFOLD_FL on the legacy
+view, so chattr's RMW through FS_IOC_SETFLAGS hits the EOPNOTSUPP
+gate at the top of xfs_fileattr_set(). Hiding it from getflags
+was the wrong place to address that.
 
-Mateusz said that he didn't like the idea of having more branches in
-the open() paths, I think that ship has long since sailed tbh.
+> If you want to avoid fileattr_set returning EINVAL when setting
+> attributes due to the casefold flag, then don't you want to check
+> the flag state vs. xfs_has_asciici() in the *fileattr_set* path?
 
-> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
-> O_DIRECTORY?
->=20
-> [1]: 43b450632676 ("open: return EINVAL for O_DIRECTORY | O_CREAT")
+Yep. For v12 I=E2=80=99ll drop the fa->flags mask and add FS_CASEFOLD_FL
+to the allowlist in xfs_fileattr_set(), gated on xfs_has_asciici(mp).
+xfs_flags2diflags() already has no clause for CASEFOLD, so the
+FSSETXATTR path silently no-ops it the same way it does for
+FS_XFLAG_HASATTR, and FS_XFLAG_CASEFOLD is in FS_XFLAG_RDONLY_MASK
+so FSSETXATTR strips it centrally. Both views then agree, and a
+chattr round-trip is accepted as a no-op.
+
+The hfsplus patch in this series carries the same pattern --
+FS_XFLAG_CASEFOLD is set after fileattr_fill_flags() so that
+FS_CASEFOLD_FL stays out of fa->flags and dodges the EOPNOTSUPP
+gate in hfsplus_fileattr_set(). I will fix it the same way.
+
+Thanks for the catch!
+
+[1] https://sashiko.dev/#/patchset/20260422-case-sensitivity-v9-0-be023c=
+c070e2@oracle.com?part=3D9
+
 
 --=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---owgh52ziss34ktt4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCafAKBxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+g4wEAmkPRdHEqyElIHqgSA6IY
-SJNzwTqfXfzPput10NF0VZ4BAJYj8f4QruB+vzgL8MYcgJH1Ah+uJB1qlpY8CdWw
-vFAM
-=X9pH
------END PGP SIGNATURE-----
-
---owgh52ziss34ktt4--
+Chuck Lever
 
