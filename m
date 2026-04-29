@@ -1,206 +1,143 @@
-Return-Path: <linux-api+bounces-6234-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6235-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wMKAFYtJ8mnNpQEAu9opvQ
-	(envelope-from <linux-api+bounces-6234-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 20:10:19 +0200
+	id 6Gw+EoV/8mnarwEAu9opvQ
+	(envelope-from <linux-api+bounces-6235-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 00:00:37 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41777498BF8
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 20:10:19 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0860449AC48
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 00:00:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2C2AA301E678
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 18:09:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C4C5F3019CA9
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 22:00:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06078423A79;
-	Wed, 29 Apr 2026 18:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cp7aPOO+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BDA9340281;
+	Wed, 29 Apr 2026 22:00:17 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A3E41C2EB;
-	Wed, 29 Apr 2026 18:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A1F26A0D5;
+	Wed, 29 Apr 2026 22:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777486085; cv=none; b=KApq0nTEca1lTOwFZXLlcSIdpHRu9R3ZK3ADdiY5wGr31D+QwYzeaLmeEOO4JFI+ZfB6GQej/fGnUvCsngdjFMBVZWZ50+q2X3J/LDNTH9PuAjoIpi26kNYoUmU4zO6LphmkZmpsdPQRJhg2prqr1se3cBCqL8OKSIHye3SlRyQ=
+	t=1777500017; cv=none; b=TkXSbGTEP3Q96Eem73vwl8DHpgNmrDUJJCIq0al6DYbT/hmhsBm/S7wM6XUBeAppMYVsNBlYM0GFKsqoC+iM2WZ9AjuoyHGXMk0BpStIB5kuMUbpEXBsj1EAogr5+fm683NetL128jBeDYZUJSlKlNCMLOxpZFazaYynVvNiNv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777486085; c=relaxed/simple;
-	bh=qee/kCsMg8C4eRFPxmiZaknm+clMPDWXLjgwoKgpYx8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CZU6k68QIom8f1cBvpNYfUA0ggxk3qxZxhPOYLH+Ph+B4RlPBSF+UMlcW4qd1luSjTMc9wwGrJbYVHVlDn8HEpmnh7s/cvtdSWI/OCcK++0XWlpn0pInknkk+xd+FH+wUIIisjuq4uwr3X4fFwreBEpTcu7o+MXkWtSaUKzQmjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cp7aPOO+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2BCC19425;
-	Wed, 29 Apr 2026 18:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777486085;
-	bh=qee/kCsMg8C4eRFPxmiZaknm+clMPDWXLjgwoKgpYx8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cp7aPOO+0dpAl5comMlMldcJa1APBJg4dyIBsWMJ2dtOrQbwWwziadV1HHKwrhyO2
-	 EKu4+yuEtoA6jUBez4Y0IWm7LnpjZ7KIQ0cKbWX4NFBhaQoo8h8ksY6WyypcBJIiWf
-	 YVKLHIwg3nRuxX0c7vGmZp0keEDeDDm30aZiICMEh6w5Ltf7b9eGdLSsN7GUeHd2RO
-	 KG8J5iHDbC2xwSoCytBzBwqRmnDRaD72VrktoFD4aXdoNzEgYb39fr+hiUjydoGqNK
-	 eZvAfEO7UeiBTmVpcpqsgS3jMPggCeKbV1zsEWMalElaMbD0tnnbSQkclFiQ1gT2dT
-	 +Oqta2nmBEIpg==
-From: Chuck Lever <cel@kernel.org>
-Date: Wed, 29 Apr 2026 14:07:26 -0400
-Subject: [PATCH v12 15/15] ksmbd: Report filesystem case sensitivity via
- FS_ATTRIBUTE_INFORMATION
+	s=arc-20240116; t=1777500017; c=relaxed/simple;
+	bh=Q+hGRNt4Qu8Kg28XQ4VG6Co93Cs9xCHkhw8gVF9vba8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ijO6EVkaXfDm4eWzVyAbBhx8hz2A2E7j37JeETC94bIXLQPEH6yHeiQOgnbvVdiaRiXkM9x2jqjdaKsBJky+8+L5ZDhB58F605IgYZa+7CLHGDcs33MxQj2XFqbUlP5gYBdyHkVcnGS18+SAm8yJbH9QcW0sYI/Igp6FDCmDM5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id A21F41D459;
+	Wed, 29 Apr 2026 22:00:08 +0000 (UTC)
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id nLFlEmh/8mm4swUA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Wed, 29 Apr 2026 22:00:08 +0000
+Message-ID: <3d3d6e22-b8a7-4f32-8046-697e45ec6c04@dev.snart.me>
+Date: Thu, 30 Apr 2026 07:00:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-case-sensitivity-v12-15-8057123bebe0@oracle.com>
-References: <20260429-case-sensitivity-v12-0-8057123bebe0@oracle.com>
-In-Reply-To: <20260429-case-sensitivity-v12-0-8057123bebe0@oracle.com>
-To: Al Viro <viro@zeniv.linux.org.uk>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 04/15] exfat: Implement fileattr_get for case
+ sensitivity
+To: Chuck Lever <cel@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp, 
- linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
- almaz.alexandrovich@paragon-software.com, slava@dubeyko.com, 
- glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, 
- adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, 
- pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com, 
- trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org, 
- hansg@kernel.org, senozhatsky@chromium.org, 
- Chuck Lever <chuck.lever@oracle.com>, 
- Roland Mainz <roland.mainz@nrubsig.org>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2812;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=3j19l6mVyr/XReBrhpdSBMPAL80WouHe9sT+TihiyQM=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp8kjdM8DNWFfItbp41H9vWWe4sjWWzOyQ+8ADF
- lrE33haaFeJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCafJI3QAKCRAzarMzb2Z/
- l6qCD/49AW4062WfbZHsVpGZySPK2wkZN4kfzlroTWbJi5jHIlMQIwp5bYVt4lATNx2xi3HKgCa
- yItm/0qjXDMJPU9Fn94bdyvedMVogpUZIY/ZRViPTT9ruiASIFp9YTJaUFH3gm+q6lKMGGueSfn
- Z8EN2By/rS44QT2tQtZeRQg+zuoeN0qOLicrbGM8Ug4pCtBZ8RgpvTKfaLyrnDSp4V386qjxeSF
- m6/1X0kKy/gtY/4vezUg9HU0vMFe/Z8hWm7GM3FiUBaQtO3NkImZILcblBqflbk1iwbr7Qyj/ZN
- GolZ7i6mSX43sZPXu2qZvJcXrsjI2l1ZrjkAcd2TiNhxk01B8C29+OkVaZDoYfOFPJ7cem1CUkD
- yF4wuNlaIqyfQ7wUC2gDXnZx464eKD6yuPpBqLgQh5Shi11DAwcJh+bESsAO0t8+6/KX8qiwJ+D
- FmGWua4a6ZHifxfcGv//3z8Lqg/FuYL/G/tSGUlJR3ucsFKGHFkl58j6LSSMV6/nXs5C/WsGKGX
- BXuIrC5tVEveeTCH07Efv3p8TfnjaJqw+kQMv4dnuhYU1F4RwUb/4o3W2yBHobxSWo9aYMfSm/7
- xCr9iOFnAKJYKyohvVvXxada0v9urbMpe8ELrwuwZW6XK/aKH29m1vV2wOnVmP/IH9CA5qJVTgt
- LYV9F6XEAovyiZQ==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
-X-Rspamd-Queue-Id: 41777498BF8
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp,
+ linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+ almaz.alexandrovich@paragon-software.com, slava@dubeyko.com,
+ glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu,
+ adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org,
+ pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+ trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org,
+ hansg@kernel.org, senozhatsky@chromium.org,
+ Chuck Lever <chuck.lever@oracle.com>, Roland Mainz <roland.mainz@nrubsig.org>
+References: <20260429-case-sensitivity-v12-0-8057123bebe0@oracle.com>
+ <20260429-case-sensitivity-v12-4-8057123bebe0@oracle.com>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <20260429-case-sensitivity-v12-4-8057123bebe0@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 0860449AC48
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[dev.snart.me : SPF not aligned (relaxed), No valid DKIM,reject];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6234-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,kernel.org,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6235-lists,linux-api=lfdr.de];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,kernel.org,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dxdt@dev.snart.me,linux-api@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-0.458];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nrubsig.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,oracle.com:mid,oracle.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oracle.com:email]
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On 4/30/26 03:07, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+>
+> Report exFAT's case sensitivity behavior via the FS_XFLAG_CASEFOLD
+> flag. exFAT is always case-insensitive (using an upcase table for
+> comparison) and always preserves case at rest.
+Not necessarily "always".
 
-FS_ATTRIBUTE_INFORMATION responses have always reported
-FILE_CASE_SENSITIVE_SEARCH and FILE_CASE_PRESERVED_NAMES
-unconditionally. Case-insensitive filesystems like exFAT, and
-casefolded directories on ext4 or f2fs, have no way to signal
-their actual semantics to SMB clients.
+Link: https://github.com/exfatprogs/exfatprogs/issues/313
 
-Now that filesystems expose case behavior through ->fileattr_get,
-query it via vfs_fileattr_get() and translate the FS_XFLAG_CASEFOLD
-and FS_XFLAG_CASENONPRESERVING flags into the corresponding SMB
-attributes. Filesystems without ->fileattr_get continue reporting
-default POSIX behavior (case-sensitive, case-preserving).
+The specs(SD spec part 2 and MS spec) leave it up to the formatter
+implementation on how the volume should behave. The observed behaviour
+is that it is quite flexible: you can pretty much use any artitrary
+up-case table to make an exFAT volume behave completely different and
+major implementations including Linux and Windows kernel honour the
+table no matter what. So exFAT is not so "binary"(folding vs. not
+folding) when it comes to case folding behaviour.
 
-SMB's FS_ATTRIBUTE_INFORMATION reports per-share attributes from
-the share root, not per-file. Shares mixing casefold and
-non-casefold directories report the root directory's behavior.
+NTFS also has a similar up-case table feature. Although it's usually
+unused, if an up-case table exists in the volume, the implementation
+probably has to honour it(although this is not written down in any spec,
+this should be the expectation).
 
-Acked-by: Namjae Jeon <linkinjeon@kernel.org>
-Reviewed-by: Roland Mainz <roland.mainz@nrubsig.org>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- fs/smb/server/smb2pdu.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+At the end of the day, it wouldn't matter much because no sane formatter
+would produce a volume with some weird version up-case table. But if
+that attribute plays a important role in some system that has some level
+of impact, I suggest considering another attribute, say "unknown" or "it
+depends".
 
-diff --git a/fs/smb/server/smb2pdu.c b/fs/smb/server/smb2pdu.c
-index ee32e61b6d3c..cf0bc453a036 100644
---- a/fs/smb/server/smb2pdu.c
-+++ b/fs/smb/server/smb2pdu.c
-@@ -14,6 +14,7 @@
- #include <linux/falloc.h>
- #include <linux/mount.h>
- #include <linux/filelock.h>
-+#include <linux/fileattr.h>
- 
- #include "glob.h"
- #include "smbfsctl.h"
-@@ -5541,16 +5542,33 @@ static int smb2_get_info_filesystem(struct ksmbd_work *work,
- 	case FS_ATTRIBUTE_INFORMATION:
- 	{
- 		FILE_SYSTEM_ATTRIBUTE_INFO *info;
-+		struct file_kattr fa = {};
- 		size_t sz;
-+		u32 attrs;
-+		int err;
- 
- 		info = (FILE_SYSTEM_ATTRIBUTE_INFO *)rsp->Buffer;
--		info->Attributes = cpu_to_le32(FILE_SUPPORTS_OBJECT_IDS |
--					       FILE_PERSISTENT_ACLS |
--					       FILE_UNICODE_ON_DISK |
--					       FILE_CASE_PRESERVED_NAMES |
--					       FILE_CASE_SENSITIVE_SEARCH |
--					       FILE_SUPPORTS_BLOCK_REFCOUNTING);
-+		attrs = FILE_SUPPORTS_OBJECT_IDS |
-+			FILE_PERSISTENT_ACLS |
-+			FILE_UNICODE_ON_DISK |
-+			FILE_SUPPORTS_BLOCK_REFCOUNTING;
- 
-+		err = vfs_fileattr_get(path.dentry, &fa);
-+		/*
-+		 * -EINVAL, -EOPNOTSUPP: ntfs-3g and other FUSE
-+		 * filesystems that lack FS_IOC_FSGETXATTR support.
-+		 */
-+		if (err && err != -ENOIOCTLCMD && err != -ENOTTY &&
-+		    err != -EINVAL && err != -EOPNOTSUPP) {
-+			path_put(&path);
-+			return err;
-+		}
-+		if (!(fa.fsx_xflags & FS_XFLAG_CASEFOLD))
-+			attrs |= FILE_CASE_SENSITIVE_SEARCH;
-+		if (!(fa.fsx_xflags & FS_XFLAG_CASENONPRESERVING))
-+			attrs |= FILE_CASE_PRESERVED_NAMES;
-+
-+		info->Attributes = cpu_to_le32(attrs);
- 		info->Attributes |= cpu_to_le32(server_conf.share_fake_fscaps);
- 
- 		if (test_share_config_flag(work->tcon->share_conf,
-
--- 
-2.53.0
-
+Davo
 
