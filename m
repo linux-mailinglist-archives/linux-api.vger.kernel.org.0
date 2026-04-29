@@ -1,143 +1,159 @@
-Return-Path: <linux-api+bounces-6235-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6236-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Gw+EoV/8mnarwEAu9opvQ
-	(envelope-from <linux-api+bounces-6235-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 00:00:37 +0200
+	id 8CWiEC2b8mm8swEAu9opvQ
+	(envelope-from <linux-api+bounces-6236-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 01:58:37 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0860449AC48
-	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 00:00:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A94A49B6FE
+	for <lists+linux-api@lfdr.de>; Thu, 30 Apr 2026 01:58:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C4C5F3019CA9
-	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 22:00:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0FC5A300620B
+	for <lists+linux-api@lfdr.de>; Wed, 29 Apr 2026 23:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BDA9340281;
-	Wed, 29 Apr 2026 22:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E11643AE709;
+	Wed, 29 Apr 2026 23:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wzv+s/Hh"
 X-Original-To: linux-api@vger.kernel.org
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A1F26A0D5;
-	Wed, 29 Apr 2026 22:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9903A8727;
+	Wed, 29 Apr 2026 23:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777500017; cv=none; b=TkXSbGTEP3Q96Eem73vwl8DHpgNmrDUJJCIq0al6DYbT/hmhsBm/S7wM6XUBeAppMYVsNBlYM0GFKsqoC+iM2WZ9AjuoyHGXMk0BpStIB5kuMUbpEXBsj1EAogr5+fm683NetL128jBeDYZUJSlKlNCMLOxpZFazaYynVvNiNv4=
+	t=1777507111; cv=none; b=iptcgwN6N35YmmQXmuUGPGxS18PnJU/5PDgtS4BCchGBW3Fnrx5jxKfB4y5MMYTnUIDl31vwIqHvUjXzqPhLh9VI4BuecmpOKvMBOsyrMreu3Zaolugl1xUK9508PGJOb3tdOxzYwHPVr0dndpWwoBYVUBxYxZTIiWngN6izFls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777500017; c=relaxed/simple;
-	bh=Q+hGRNt4Qu8Kg28XQ4VG6Co93Cs9xCHkhw8gVF9vba8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ijO6EVkaXfDm4eWzVyAbBhx8hz2A2E7j37JeETC94bIXLQPEH6yHeiQOgnbvVdiaRiXkM9x2jqjdaKsBJky+8+L5ZDhB58F605IgYZa+7CLHGDcs33MxQj2XFqbUlP5gYBdyHkVcnGS18+SAm8yJbH9QcW0sYI/Igp6FDCmDM5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id A21F41D459;
-	Wed, 29 Apr 2026 22:00:08 +0000 (UTC)
-Received: from [192.168.1.18] ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id nLFlEmh/8mm4swUA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Wed, 29 Apr 2026 22:00:08 +0000
-Message-ID: <3d3d6e22-b8a7-4f32-8046-697e45ec6c04@dev.snart.me>
-Date: Thu, 30 Apr 2026 07:00:04 +0900
+	s=arc-20240116; t=1777507111; c=relaxed/simple;
+	bh=Pu4fVYnH7q5npdPgyoceDoc1BZOuu6ZywYbkG9peCbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+VpsLLW1s5NDK7WTNJ+xEP6MUpvqMoNXVG/pCq9HBZX+6w0TcDVmRPUhGyeDSIEh5mIq/jHcLg8jYlGSiKad63oKQhwAf2Vg+RwTzEbV7Jl7DfwpoYC452ygcjXhTXwN/Lf2j/bGCGP2EXwZCXJuzejIu2Z4tdArgde1LJicDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wzv+s/Hh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777507110; x=1809043110;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pu4fVYnH7q5npdPgyoceDoc1BZOuu6ZywYbkG9peCbQ=;
+  b=Wzv+s/HhqakWw4ZlUtPXurmBcFI6VOFGT4Enn0QOu+VsarsrSwxHSJQ6
+   MVwJK+3z5bND29nkws8UJ/pFIBsuUt18q06LsHWyqAErIJkA5t7kWCdNt
+   dMJGir37VDRXpR3MqmJGBFmM4/o3VPHwFRXpC1NEKuE0L6b4Qv5oCDYmp
+   qrUcf/+VA9CBSfqZwNqzbEPRxV5TG2X2I4EVsrkziuX1Y5cUAbrb4ZPz9
+   P7mrLjGg5JkCwCodJswnpJBDsIa2CyH6x5nVfrBCClq2DdWFTMFqeW7uM
+   jIm2raAhBr7EjfxZPohyBrLwLzYd6KAK025YLPyu89ZaF7cPU3g1hDvfV
+   A==;
+X-CSE-ConnectionGUID: EH+LSCz5QsWZXumZebKJhA==
+X-CSE-MsgGUID: Mz1unzksRquDTSMTDks/Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78554394"
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="78554394"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 16:58:29 -0700
+X-CSE-ConnectionGUID: 7tW+9+ojQaCMSzeyuRirng==
+X-CSE-MsgGUID: bbpw/1a4SSin7IcUrK1bTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="234301597"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2026 16:58:27 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIEnQ-000000004eL-2Zik;
+	Wed, 29 Apr 2026 23:58:24 +0000
+Date: Thu, 30 Apr 2026 01:58:17 +0200
+From: kernel test robot <lkp@intel.com>
+To: chenheyun <chen_heyun@163.com>, rafael@kernel.org, pavel@ucw.cz
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chenheyun <chen_heyun@163.com>
+Subject: Re: [PATCH] [PATCH] PM: docs: Add comprehensive wakeup_count
+ documentation
+Message-ID: <202604300146.7zqFMAu9-lkp@intel.com>
+References: <20260419072330.101419-1-chen_heyun@163.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 04/15] exfat: Implement fileattr_get for case
- sensitivity
-To: Chuck Lever <cel@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp,
- linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
- almaz.alexandrovich@paragon-software.com, slava@dubeyko.com,
- glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu,
- adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org,
- pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
- trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org,
- hansg@kernel.org, senozhatsky@chromium.org,
- Chuck Lever <chuck.lever@oracle.com>, Roland Mainz <roland.mainz@nrubsig.org>
-References: <20260429-case-sensitivity-v12-0-8057123bebe0@oracle.com>
- <20260429-case-sensitivity-v12-4-8057123bebe0@oracle.com>
-From: David Timber <dxdt@dev.snart.me>
-Content-Language: en-US, ko
-Autocrypt: addr=dxdt@dev.snart.me; keydata=
- xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
- IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
- X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
- sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
- 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
- EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
- VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
- Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <20260429-case-sensitivity-v12-4-8057123bebe0@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 0860449AC48
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260419072330.101419-1-chen_heyun@163.com>
+X-Rspamd-Queue-Id: 2A94A49B6FE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.54 / 15.00];
-	DMARC_POLICY_REJECT(2.00)[dev.snart.me : SPF not aligned (relaxed), No valid DKIM,reject];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6235-lists,linux-api=lfdr.de];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,kernel.org,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,163.com];
+	TAGGED_FROM(0.00)[bounces-6236-lists,linux-api=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[163.com,kernel.org,ucw.cz];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dxdt@dev.snart.me,linux-api@vger.kernel.org];
-	NEURAL_HAM(-0.00)[-0.458];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oracle.com:email]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-api];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,01.org:url]
 
-On 4/30/26 03:07, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->
-> Report exFAT's case sensitivity behavior via the FS_XFLAG_CASEFOLD
-> flag. exFAT is always case-insensitive (using an upcase table for
-> comparison) and always preserves case at rest.
-Not necessarily "always".
+Hi chenheyun,
 
-Link: https://github.com/exfatprogs/exfatprogs/issues/313
+kernel test robot noticed the following build warnings:
 
-The specs(SD spec part 2 and MS spec) leave it up to the formatter
-implementation on how the volume should behave. The observed behaviour
-is that it is quite flexible: you can pretty much use any artitrary
-up-case table to make an exFAT volume behave completely different and
-major implementations including Linux and Windows kernel honour the
-table no matter what. So exFAT is not so "binary"(folding vs. not
-folding) when it comes to case folding behaviour.
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-NTFS also has a similar up-case table feature. Although it's usually
-unused, if an up-case table exists in the volume, the implementation
-probably has to honour it(although this is not written down in any spec,
-this should be the expectation).
+url:    https://github.com/intel-lab-lkp/linux/commits/chenheyun/PM-docs-Add-comprehensive-wakeup_count-documentation/20260420-160506
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260419072330.101419-1-chen_heyun%40163.com
+patch subject: [PATCH] [PATCH] PM: docs: Add comprehensive wakeup_count documentation
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260430/202604300146.7zqFMAu9-lkp@intel.com/reproduce)
 
-At the end of the day, it wouldn't matter much because no sane formatter
-would produce a volume with some weird version up-case table. But if
-that attribute plays a important role in some system that has some level
-of impact, I suggest considering another attribute, say "unknown" or "it
-depends".
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300146.7zqFMAu9-lkp@intel.com/
 
-Davo
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+>> Warning: Documentation/power/wakeup-count.rst references a file that doesn't exist: Documentation/power/wakeup-events.rst
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
