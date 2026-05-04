@@ -1,173 +1,155 @@
-Return-Path: <linux-api+bounces-6261-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6262-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8GxGDM/a+GnG2QIAu9opvQ
-	(envelope-from <linux-api+bounces-6261-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 04 May 2026 19:43:43 +0200
+	id uCh5LfTa+Gn02QIAu9opvQ
+	(envelope-from <linux-api+bounces-6262-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 04 May 2026 19:44:20 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23A04C20D3
-	for <lists+linux-api@lfdr.de>; Mon, 04 May 2026 19:43:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3734C214B
+	for <lists+linux-api@lfdr.de>; Mon, 04 May 2026 19:44:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A8C7730485C7
-	for <lists+linux-api@lfdr.de>; Mon,  4 May 2026 17:41:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8F5943054FE0
+	for <lists+linux-api@lfdr.de>; Mon,  4 May 2026 17:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2226D3E4C79;
-	Mon,  4 May 2026 17:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3103E4C7A;
+	Mon,  4 May 2026 17:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CB+mEt8T"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ja8k4e+h"
 X-Original-To: linux-api@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AF23E51CF
-	for <linux-api@vger.kernel.org>; Mon,  4 May 2026 17:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0FD11862;
+	Mon,  4 May 2026 17:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777916487; cv=none; b=ot23Zol/SWWnLldYEhY64kJioR/d/ykDFuXAZBUwvV76LyfSxWM/wiT+he3GwCbMvkxrOCcjbvdUmCWNXN9K2XjowqxefgNLTGGHYVhg4ACmOFmyidxvUbBLEObFZHJbEGD9hkfwTlFNrUaJLJQ1086Ius4ty8qhx17QzSnUf3M=
+	t=1777916501; cv=none; b=WqeiqAFw/M16lS+ACZBYIqsLNP7ef0F2G6CFDQjDcEBrTEalmhLOzOPtZeAzWTd00PXV6pK793hn0kRnOESGSctRtDnevRHpzrIEHlA5TK/VM/tpkcUMyDeOfJ/5sF54jUHwL1w4FQbxVCJ6kppl4RllT2gnQe2dVIKGJl857m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777916487; c=relaxed/simple;
-	bh=T0R5oShVL9DF3ukvuDQvHdiJ/o761Zq2ZpTk4m6QFrk=;
+	s=arc-20240116; t=1777916501; c=relaxed/simple;
+	bh=Dju5V9WI247b+gw5Gxnh3v0/NH6IZ1jQn/OQVxY+c9I=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Je7AzZKAfM572MgXhCHFKFUbFQskhStN0Ws66l2BKlBCUz79Hci2o/nkaR+kExOZTY58caq+bx+bYH5BPnqcF2MN79gPT7ZSARGxzOw34qfCHuCno/wyejgESy2U54D6VQzvXZ+xLEuUL143OJammCzfa99kG+wbLM1ieJfR2NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CB+mEt8T; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 73717a2e-47e0-11f1-afe2-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 73717a2e-47e0-11f1-afe2-005056994fde;
-	Mon, 04 May 2026 19:41:16 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 737004dc-47e0-11f1-b5d2-0050569981f5;
-	Mon, 04 May 2026 19:41:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=/ynlSJMPqfbLbvNL5NiC19w0yuRUPJanIcitny5Df/k=;
-	b=CB+mEt8TzQPKGnImhTF/Z45zxKFff35iw/zJIb3j/KcCWlLFR98nriDkqkfTa6jXE5NJhnvhewuAb
-	 svtZWQ1xTZxJYSOQ2AyWCFwIW6oWL+OSu/Z8QLdFzqBjbT/lQO03nP1mdcUeAErJZwh6qZHc5iLgGr
-	 vxFYxewIt44MFyKFPn39aq9Fq2Xu6p7EYbK9eKt7q7ZONpTH41quoEvtle+jsY57MhD3G1HKR9JBNH
-	 sQMcE6DgpPVEjqUichoBVh/lVzlpWt2CiVSVO26cXFfme84PRDUJcvs/udsSTEwOxF5Hw2TON+6plC
-	 RJ6RryiyRFe39IWv+5HGq7FKVnLS8kA==
-X-KPN-MID: 33|e8+pJRKQ8FkoXtJ35182rskBIUFWw22eXeogVVaBP4Y05ToouxOgAdQ5OKftghR
- jJ2S1gl2g6z9te9fOQDNDTPA3Tpe2Q0A4b4r2g/zZXrU=
-X-CMASSUN: 33|y/an9B+ieBBE4jHK2/83KwCXvNNIRvQvpy2tOTvDShVYrIUK/U3DNJVYp9s4+Hv
- U93T5IKjerCciXNHV3gyQPw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 73638eac-47e0-11f1-b8d7-005056995d6c;
-	Mon, 04 May 2026 19:41:15 +0200 (CEST)
-Date: Mon, 4 May 2026 19:41:15 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>,
-	Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Thomas Weißschuh <thomas.weissschuh@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Message-ID: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
- an O_DIRECTORY fd
+	 MIME-Version:Content-Type:Content-Disposition; b=hb2xIhb1fQQCtnFZadeSUKeBFClwN+rsRtW6hqcPHbqFJ9n5fYsRODrwLpYcYBYmy+R+opK2oY3H+PO+Om7YJAGjQvDnxgboYJnMnB+dSgO5HReg7D4Gbaxc3Qj/HXhcou5GHSXkt1wsS8x7xhju9uCJOygPK7lfQok2e7O4TBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ja8k4e+h; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C871A20B7169;
+	Mon,  4 May 2026 10:41:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C871A20B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777916497;
+	bh=f+1Y5EUYXPSxAF/znLYyDNUbOTcdHMnI7MLeAMmAaPE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=ja8k4e+hHrAMRcxYCgXNUexidzSdZliw2fZEgTBHaD77ph7Q84MPBiJJSYnlZLhsM
+	 NilPwYVgfkoU+81wpXZsJPiTNAD6mDZv3RDJ2F3/gHwk1wUSS5kkdR7BZAwHaPOx6T
+	 u/WHCHHu4a+cU/x2an1SFDUm5fq6j0ldEjijM5xM=
+Date: Mon, 4 May 2026 13:41:37 -0400
+From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
+To: Jon Kohler <jon@nutanix.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, 
+ "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
+ <linux-crypto@vger.kernel.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
+ <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
+ <linux-api@vger.kernel.org>, 
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
+ <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
+ <netdev@vger.kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Message-ID: <0D4B157F-AEDE-4470-BDBE-E6467CA19089@getmailspring.com>
+In-Reply-To: <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
+References: <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+X-Mailer: Mailspring
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Rspamd-Queue-Id: A23A04C20D3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-Rspamd-Queue-Id: 2C3734C214B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.95 / 15.00];
+	CC_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
-	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linux.microsoft.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linux.microsoft.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	HAS_X_PRIO_THREE(0.00)[3];
-	TAGGED_FROM(0.00)[bounces-6261-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[xs4all.nl];
-	DKIM_TRACE(0.00)[xs4all.nl:+];
-	MISSING_XM_UA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6262-lists,linux-api=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jeffbarnes@linux.microsoft.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.microsoft.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,xs4all.nl:dkim]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nutanix.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,getmailspring.com:mid,linux.microsoft.com:dkim]
 
 
-> Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
+
+On May 4 2026, at 10:39 am, Jon Kohler <jon=40nutanix.com> wrote:
+
+> =20
+> Quick passing observation
+> I noticed that when attempting to completely disable these Crypto APIs,=
+
+> I was experiencing boot failures with fips=3D1 enabled systems.
+> =20
+> Using 6.18-based kernel with an el9-based user space, I see the
+> following hang in the early boot console from dracut-pre-pivot:
+>  Check integrity of kernel
+>  libkcapi - Error: A=46=5FALG: socket syscall failed (errno: -97)
+>  Allocation of hmac(sha512) cipher failed (-97)
+
+One thing that for certain that would cause this panic is the sha512hmac
+binary that does the fips integrity check. On many distros this check is
+called, for example by dracut among others, during initramfs to check
+the integrity of the kernel before any crypto is used. On failure, the
+kernel won't finish boot.
+
+sha512hmac is a binary shipped with kcapitools. It uses libkcapi.
+
+sha512hmac -> libkcapi -> A=46=5FALG.
+
+Is there a planned replacement for this integrity check=3F I don't know o=
+f
+anybody doing this for =46IPS yet, but is there a case where IMA / EVM
+could be a workaround=3F
+
+Regards,
+Jeff
+
+> =20
+> I haven't looked at every elX version, but at least in el9 and el10,
+> they use libkcapi-hmaccalc to provide sha512hmac, which dracut =5B1=5D
+> uses to calculate the HMAC value in do=5Ffips().
+> =20
+> Digging further, I was only able to disable RNG and AEAD APIs, but
+> not HASH and SKCIPHER APIs when =46IPS was in the picture with el9++.
+> =20
+> I=E2=80=99m not sure how other distros do the same, but this could be p=
+roblematic
+> elsehwere if other distros went down the libkcapi route.
+> =20
+> =5B1=5D https://github.com/dracutdevs/dracut/blob/059/modules.d/01fips/=
+fips.sh=23L167
+> =20
 > 
-> So definitely a patchset worthing doing but this will be hairy. And
-> Mateusz is right. As written this doesn't work. The canonical pattern
-> how e.g., dentry_open() does it is to preallocate the file.
-> 
-
-Is this because of Mateusz point that we should fail as soon as possible
-to prevent any fs changes from taking effect?
-
-But like Mateusz points out, this is not really happening for open() with
-O_CREAT either. So is there any policy for what we do and do not tolerate?
-(although I agree we should definitely preallocate the file; thanks for
-pointing that pattern out).
-
-> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
-> work. I remember that I had a vague comment about this in [1] a few
-> years ago (cf. [1]). It might even be less hairy to get that one right
-> as all the thinking for O_CREAT is already there.
-> 
-> What was the rationale for mkdirat2() instead of threading this through
-> openat()/openat2() with O_CREAT?
-> 
-
-Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
-that this is intuitive and you mentioned POSIX allows for it.
-
-But a more general issue, that also applies to this mkdirat2 patch,
-is Linus' objection in that same thread.[1] However, the use-case of
-the UAPI request is different. Still, do we have any concrete examples
-of programs that need to do such permissions/ownership/labels
-/timestamps/acls/xattrs changes concurrently with another process
-that has delete and create permissions in the same folder, and that
-currently relies on the fstat() workaround?
-
-> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
-> O_DIRECTORY?
-> 
-> [1]: 43b450632676 ("open: return EINVAL for O_DIRECTORY | O_CREAT")
-
-
-[1]: https://lore.kernel.org/lkml/CAHk-=wgLimhZ8px+BxTvkonBGHr9oFcjrk4tmE2-_mmd3vBGdg@mail.gmail.com/
 
