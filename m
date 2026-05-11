@@ -1,175 +1,232 @@
-Return-Path: <linux-api+bounces-6309-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6310-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KLv+CRUDAmrknAEAu9opvQ
-	(envelope-from <linux-api+bounces-6309-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:25:57 +0200
+	id uLptJMYKAmqknQEAu9opvQ
+	(envelope-from <linux-api+bounces-6310-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:58:46 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C408C512138
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:25:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E0C512D55
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:58:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 84980328625B
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 16:19:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7AE1A3033CC5
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 16:53:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DD8C426ECF;
-	Mon, 11 May 2026 16:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2DC043C074;
+	Mon, 11 May 2026 16:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VY8h9US4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljDLeVW/"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0E82F8E81;
-	Mon, 11 May 2026 16:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6723D4108
+	for <linux-api@vger.kernel.org>; Mon, 11 May 2026 16:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516376; cv=none; b=lfN44dWhauj/xFydF4Ojy7z9SUrkedj2YJcMQe4dXbPsT/W3qDyG6HGKNjo40Vnmqwo8TDZ/a52WpzeugXjxG83xODaE8RO9OIH+nXuMwwGYGvrnCSXGY1sK9xtq7ZhHD2c5L1eoe5F+9cbA+zy8WsRIjawFHTywzeVdsIcZVOc=
+	t=1778518402; cv=none; b=KVOYvFDq24HPyBSN5JMi7hAfP8X48f7PBgIpeQdd0zy4D/3dvSiS+FrGgbRVbjD32eFThEltJRlOcwKYZgs0Mvuz/Ji7aAQ5jAZxwjjjpp1ZjTgwVRpVWH+PJGDZ1adSwsibqc4bGhQQWK7KQ7hdvHgfiJQK/RXKCUb/gRUPMiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516376; c=relaxed/simple;
-	bh=yXbDOKa2927Kfjg50SfPrrhYmV94+W8G5c6jvkIvWAE=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=c/RqZO0+4i3wRIA7jgDij2eXzpPkAm6X/U4oex7Wa5GviL0x9eOXBN/AR5WlmeaTt9otNP30IlNL5RSVrMqqvd6LKOpJB3ZML0yWDJL1+YMOwWPpCw+CmHsrKahpVO9aGkYRYCiPhMru8o8qRw2Jq1wTHYxvcZkKzFwf/Jelxm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VY8h9US4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C4BEC2BCB0;
-	Mon, 11 May 2026 16:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778516376;
-	bh=yXbDOKa2927Kfjg50SfPrrhYmV94+W8G5c6jvkIvWAE=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=VY8h9US4MbmUYBa7eIcdEMpxauFNHN5FS4u0+yKBKrOJkpm0Jvk+1ibcqdJeDTeZj
-	 lC6oaImUlbw7qYEIuQXQOWpWwNYriZvD748zjsaI33CgVf30SFRRF/twQ8auICaPog
-	 NqKuxgEwizoxxaBQGSAi2H8n4Y502AZzbDqdqg/+XP4zAGGau9ByhfD0tuiLWvnamH
-	 uCdw3YfllNGX8D6shrvpWk7yrbvgvdBx0Be3hnq+Crv37A+8DhHO6xMDXxeLaC9mO1
-	 DjFhLIYbYWgxVexQrRJ5e0V+nU9Gpz4NaCHpc7kn39b9c4fTDbZMwujxRtBvZOTpeK
-	 2psO7jbPr/uuQ==
-Content-Type: multipart/mixed; boundary="===============2939612789620637439=="
+	s=arc-20240116; t=1778518402; c=relaxed/simple;
+	bh=NDr89ZHqjMmSAUjSSYDe/cY3Eiu1jte8P7RxS6azPjU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=W0Wk2zUCGM6m3b4zm0U2DqG6QZ6vHVVxCvkWjFrylfpLLzYC9UMinAh8J/Iqct/NidyCyMpYvLueGGWxJ556Dr7UERcyELXlLCIeyt+iysGHh7IfqVrNrqeVIkYCLXS8gwgAIH9/zx1QeHvOqFvsvGTEvV1y/TdzETboJecTb5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljDLeVW/; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-694891f8f62so2417322eaf.2
+        for <linux-api@vger.kernel.org>; Mon, 11 May 2026 09:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778518400; x=1779123200; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JavA89CInqrRT0axMkoFaX73nwP/5TwmJupoBxqRvFM=;
+        b=ljDLeVW/UM0cgDttn8g3cTL06JrkMAr9PVMUHZx9PVOpYUxTGeS/Mi3jvg38dkJy45
+         H+HsLHXM+MLVLybFkrw1EqYr53HcoUa3OEI9KsIbEeLB9EYzRGEuxMVzrTWaOGPVK6wu
+         e69zT8HiyPrO1q6kPTejnZJ8gWq4SXVZeAvEoZCZbNsfMu2gC934/RPGwvaW2OjcREpC
+         lOf1sujSjWYhwHEwz2JgzV1TeHIhCpCWUrFN2c8YljUpQtn8ABDCCut1FBnKr2i5SNTH
+         +BnZuRBFDTtkFx876Q9gAMSHmjPi8YU+/IhwbMehVPyFsGOcLT0vRSIARBvS6MXqmWYZ
+         oiLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778518400; x=1779123200;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JavA89CInqrRT0axMkoFaX73nwP/5TwmJupoBxqRvFM=;
+        b=F6hS9Doc5hYeBnOoQtp9tlofjQEmCcT4UL+FPnCBA9FZ1zQhYZY22d+jn4orZC4Tzr
+         8vbHq/LC5TKeer4v+RcfFcCtswEnz3DIX/XEsmTA+6VVDscaBkqZ68B/35l3XiQbmNDf
+         tT5MdzsnOBR2sp1IiPGpgsQJGzd1ini8o9NZLCn2WW03dnTnLhDWG2gGUIgfYeEDkSgP
+         YWmHjwejHHSFfWS7TdcGt7flv4jLSSa2b4jLR+RgpSjj15xwQ+A1eC98mPCB9DjIO/GQ
+         MJ/bwOeUiPtqQ+PYW4JZ+DqjFhSE0wlFW2E9IL8zv9Y5Y2wF6/w0uZ26Rr6QNUC9lAzW
+         VKmg==
+X-Forwarded-Encrypted: i=1; AFNElJ/jDg4MSNwpVpGjbbUL1o3NqdUasx805jqaZf8si4xzmUt0YSW68FxZ96eYOqR8WuN4t7HTnhkVelg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywM3tuqHZVp6VdHPCeK+6z47aO+koHz5oeW9s/+WwEQjyricDL
+	LMr7TFvv5V/9/BtpkKWWDaz8X4CGEEn+PlmtWLbowQ7SZBSH2spEYPdn
+X-Gm-Gg: Acq92OFHI46ZkeyGTtMwW+1p15mh5R5519WAymNcTLZLVdw3WuVG3jo2sKHHGA4HuaJ
+	Rs1ngfn3uU48/sJ5hmrqzR7OUOrpYdKz9KyZnVEvzD0XOCmgtN2bNSJM/tl1h6OXnRuXDTWI//C
+	A/zdu1myDwQY4n+vQobCDcanxkJO3fxjeRikc2SR7JoKGpu1e4A9MjgVli1W034m9/Ldk1i2aID
+	CSzoVK4yAmHhe/zeWDhNtVKxwAnmY3ofH/o79Z5iNvs+o3C2vNen1wl1EFNxufQXhA097ZPycin
+	Va05Vw+KX7j4+Kk5RcEAUQYEDoNKZbZigleblvlL364yNu+Ir6/pGqtoLXR7Y9zuE8z9YAE9j+2
+	Bu1CLwbTUyjdsXhQpvhbsywsZrdC0Nb38RHGEThnU9aX7ZjH3/CNKfTyQA6mQ/5X3JQ8bsCm3o2
+	SdwNJvk/x3OHK7WgmdR2/0MGHTK2t0z4G/T6Q8faS86ekjAZ76b4L1Af7TCsl20piMEwGCfZTbG
+	gPZiQuAhZQA2QhH/HglgUHSONK/Kia92jOBY6k=
+X-Received: by 2002:a05:6820:986:b0:694:8b08:b916 with SMTP id 006d021491bc7-69b25c88aecmr8116691eaf.35.1778518399975;
+        Mon, 11 May 2026 09:53:19 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:49::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c75d08sm6137740eaf.4.2026.05.11.09.53.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 09:53:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Message-Id: <810f123d14450d09d147d90dea25ddf5091e636542fcc5729d0594bfbd622757@mail.kernel.org>
-In-Reply-To: <20260511152817.89191-2-leon.hwang@linux.dev>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 May 2026 09:53:17 -0700
+Message-Id: <DIG05KI4QZ2H.3JE4OWSK6KC29@gmail.com>
+Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <john.fastabend@gmail.com>,
+ <andrii@kernel.org>, <martin.lau@linux.dev>, <eddyz87@gmail.com>,
+ <song@kernel.org>, <yonghong.song@linux.dev>, <kpsingh@kernel.org>,
+ <sdf@fomichev.me>, <haoluo@google.com>, <jolsa@kernel.org>,
+ <shuah@kernel.org>, <brauner@kernel.org>, <sforshee@kernel.org>,
+ <yuichtsu@amazon.com>, <aalbersh@redhat.com>, <willemb@google.com>,
+ <kerneljasonxing@gmail.com>, <chen.dylane@linux.dev>, <yatsenko@meta.com>,
+ <memxor@gmail.com>, <a.s.protopopov@gmail.com>, <ameryhung@gmail.com>,
+ <rongtao@cestc.cn>, <linux-kernel@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <kernel-patches-bot@fb.com>, <martin.lau@kernel.org>, <clm@meta.com>,
+ <ihor.solodrai@linux.dev>
+Subject: Re: [PATCH bpf-next v13 1/8] bpf: Extend BPF syscall with common
+ attributes support
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: <bot+bpf-ci@kernel.org>, <leon.hwang@linux.dev>, <bpf@vger.kernel.org>
+X-Mailer: aerc
 References: <20260511152817.89191-2-leon.hwang@linux.dev>
-Subject: Re: [PATCH bpf-next v13 1/8] bpf: Extend BPF syscall with common attributes support
-From: bot+bpf-ci@kernel.org
-To: leon.hwang@linux.dev,bpf@vger.kernel.org
-Cc: ast@kernel.org,daniel@iogearbox.net,john.fastabend@gmail.com,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,brauner@kernel.org,sforshee@kernel.org,yuichtsu@amazon.com,aalbersh@redhat.com,leon.hwang@linux.dev,willemb@google.com,kerneljasonxing@gmail.com,chen.dylane@linux.dev,yatsenko@meta.com,memxor@gmail.com,a.s.protopopov@gmail.com,ameryhung@gmail.com,rongtao@cestc.cn,linux-kernel@vger.kernel.org,linux-api@vger.kernel.org,linux-kselftest@vger.kernel.org,kernel-patches-bot@fb.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Mon, 11 May 2026 16:19:33 +0000 (UTC)
-X-Rspamd-Queue-Id: C408C512138
+ <810f123d14450d09d147d90dea25ddf5091e636542fcc5729d0594bfbd622757@mail.kernel.org>
+In-Reply-To: <810f123d14450d09d147d90dea25ddf5091e636542fcc5729d0594bfbd622757@mail.kernel.org>
+X-Rspamd-Queue-Id: 54E0C512D55
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.15 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	CTYPE_MIXED_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
-	FROM_NEQ_ENVFROM(0.00)[bot@kernel.org,linux-api@vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-6309-lists,linux-api=lfdr.de,bpf-ci];
-	MIME_TRACE(0.00)[0:+,1:+];
+	TAGGED_FROM(0.00)[bounces-6310-lists,linux-api=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_NO_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexeistarovoitov@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api,bpf-ci];
+	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
---===============2939612789620637439==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index f5639d5ac331..50055ab73649 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -936,7 +936,8 @@ asmlinkage long sys_seccomp(unsigned int op, unsigned int flags,
->  asmlinkage long sys_getrandom(char __user *buf, size_t count,
->  			      unsigned int flags);
->  asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned int flags);
-> -asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned int size);
-> +asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned int size,
-> +			struct bpf_common_attr __user *attr_common, unsigned int size_common);
->  asmlinkage long sys_execveat(int dfd, const char __user *filename,
->  			const char __user *const __user *argv,
->  			const char __user *const __user *envp, int flags);
-
-[ ... ]
-
-> diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/bpf.h
-> index 677be9a47347..16ff0968fc21 100644
-> --- a/tools/include/uapi/linux/bpf.h
-> +++ b/tools/include/uapi/linux/bpf.h
-> @@ -994,6 +994,7 @@ enum bpf_cmd {
->  	BPF_PROG_STREAM_READ_BY_FD,
->  	BPF_PROG_ASSOC_STRUCT_OPS,
->  	__MAX_BPF_CMD,
-> +	BPF_COMMON_ATTRS = 1 << 16, /* Indicate carrying syscall common attrs. */
->  };
-
-[ ... ]
-
-> @@ -1500,6 +1501,13 @@ struct bpf_stack_build_id {
->  	};
->  };
+On Mon May 11, 2026 at 9:19 AM PDT, bot+bpf-ci wrote:
+>> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+>> index f5639d5ac331..50055ab73649 100644
+>> --- a/include/linux/syscalls.h
+>> +++ b/include/linux/syscalls.h
+>> @@ -936,7 +936,8 @@ asmlinkage long sys_seccomp(unsigned int op, unsigne=
+d int flags,
+>>  asmlinkage long sys_getrandom(char __user *buf, size_t count,
+>>  			      unsigned int flags);
+>>  asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned=
+ int flags);
+>> -asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned =
+int size);
+>> +asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned =
+int size,
+>> +			struct bpf_common_attr __user *attr_common, unsigned int size_common=
+);
+>>  asmlinkage long sys_execveat(int dfd, const char __user *filename,
+>>  			const char __user *const __user *argv,
+>>  			const char __user *const __user *envp, int flags);
 >
-> +struct bpf_common_attr {
-> +	__u64 log_buf;
-> +	__u32 log_size;
-> +	__u32 log_level;
-> +	__u32 log_true_size;
-> +};
-> +
+> [ ... ]
+>
+>> diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/b=
+pf.h
+>> index 677be9a47347..16ff0968fc21 100644
+>> --- a/tools/include/uapi/linux/bpf.h
+>> +++ b/tools/include/uapi/linux/bpf.h
+>> @@ -994,6 +994,7 @@ enum bpf_cmd {
+>>  	BPF_PROG_STREAM_READ_BY_FD,
+>>  	BPF_PROG_ASSOC_STRUCT_OPS,
+>>  	__MAX_BPF_CMD,
+>> +	BPF_COMMON_ATTRS =3D 1 << 16, /* Indicate carrying syscall common attr=
+s. */
+>>  };
+>
+> [ ... ]
+>
+>> @@ -1500,6 +1501,13 @@ struct bpf_stack_build_id {
+>>  	};
+>>  };
+>>
+>> +struct bpf_common_attr {
+>> +	__u64 log_buf;
+>> +	__u32 log_size;
+>> +	__u32 log_level;
+>> +	__u32 log_true_size;
+>> +};
+>> +
+>
+> Should log_buf use __aligned_u64 instead of plain __u64?
+>
+> Looking at other pointer-bearing fields in the BPF UAPI, they consistentl=
+y
+> use __aligned_u64. For example, the existing BPF_PROG_LOAD log_buf in uni=
+on
+> bpf_attr is declared as:
+>
+>     __aligned_u64 log_buf;  /* user supplied buffer */
+>
+> The __aligned_u64 attribute forces 8-byte alignment on all architectures,
+> including 32-bit systems where native unsigned long long alignment is onl=
+y
+> 4 bytes. Without this attribute, struct bpf_common_attr will have differe=
+nt
+> layouts between 32-bit and 64-bit ABIs:
+>
+> - 32-bit: 20 bytes, 4-byte aligned
+> - 64-bit: 24 bytes (4 bytes of tail padding), 8-byte aligned
+>
+> While the current __sys_bpf() implementation with bpf_check_uarg_tail_zer=
+o()
+> and min_t() capped copying handles this gracefully, deviating from the
+> established BPF UAPI convention could create problems for future extensio=
+ns.
+> If another __u64 field is added later, the inter-field offsets would dive=
+rge
+> between ABIs.
+>
+> Would it be better to use __aligned_u64 log_buf to match union bpf_attr a=
+nd
+> preserve identical struct layouts across 32/64-bit ABIs?
 
-Should log_buf use __aligned_u64 instead of plain __u64?
+bot has a point.
 
-Looking at other pointer-bearing fields in the BPF UAPI, they consistently
-use __aligned_u64. For example, the existing BPF_PROG_LOAD log_buf in union
-bpf_attr is declared as:
-
-    __aligned_u64 log_buf;  /* user supplied buffer */
-
-The __aligned_u64 attribute forces 8-byte alignment on all architectures,
-including 32-bit systems where native unsigned long long alignment is only
-4 bytes. Without this attribute, struct bpf_common_attr will have different
-layouts between 32-bit and 64-bit ABIs:
-
-- 32-bit: 20 bytes, 4-byte aligned
-- 64-bit: 24 bytes (4 bytes of tail padding), 8-byte aligned
-
-While the current __sys_bpf() implementation with bpf_check_uarg_tail_zero()
-and min_t() capped copying handles this gracefully, deviating from the
-established BPF UAPI convention could create problems for future extensions.
-If another __u64 field is added later, the inter-field offsets would diverge
-between ABIs.
-
-Would it be better to use __aligned_u64 log_buf to match union bpf_attr and
-preserve identical struct layouts across 32/64-bit ABIs?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25680759838
---===============2939612789620637439==--
+pw-bot: cr
 
