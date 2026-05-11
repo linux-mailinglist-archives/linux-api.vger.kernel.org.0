@@ -1,172 +1,186 @@
-Return-Path: <linux-api+bounces-6292-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6293-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4IxIIorJAGrLMgEAu9opvQ
-	(envelope-from <linux-api+bounces-6292-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 10 May 2026 20:08:10 +0200
+	id 6Gm+HBnGAWqSjgEAu9opvQ
+	(envelope-from <linux-api+bounces-6293-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 14:05:45 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0075058CA
-	for <lists+linux-api@lfdr.de>; Sun, 10 May 2026 20:08:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C876950D4E1
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 14:05:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A950300E271
-	for <lists+linux-api@lfdr.de>; Sun, 10 May 2026 18:07:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D923830053EB
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 12:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 442B72F6184;
-	Sun, 10 May 2026 18:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15A1378839;
+	Mon, 11 May 2026 12:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="xd2nxrE2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tyouepRy"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24FC17B50A
-	for <linux-api@vger.kernel.org>; Sun, 10 May 2026 18:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778436434; cv=pass; b=Xxl6QXsiMS6NoQVcsKyv4zc6+4bdTxZwfdiyz+X2wb2l51sKuOYe/7N+LYuxigxxqNlwiz8JAa8dHYiuSl910NiMyg/1MzD/KaVNY+IlrydmYSZnzvzUEWQw72bdFVR6a/5/WqglTUv/GRl0ecyD2UyPe1f4IIm4PYhfQ5HpHb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778436434; c=relaxed/simple;
-	bh=B/9PkITJMR854+53j7XQJ2o4B0fxddCNlnNjJN0jwA8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hz7SKUEk7SyFgXaotuw0LlwP+30W9ip5zgb4ZpUhUhKAsM7yRWsfctspPvkaEY9BxNKntJuRWYQwldxwlr5MME87Wg6FarRWE1YS4M8o+Fuq+DZHH2FszQTJHYMCtpIz+VV5+5+lviKBvBtkbvdQaYh4MMEClM0HtYc+9bXZi5s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=xd2nxrE2; arc=pass smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a74ac8b40aso3228546e87.1
-        for <linux-api@vger.kernel.org>; Sun, 10 May 2026 11:07:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778436431; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cmjHfT6aaA8T3l8qUAFbrlNDqexc2BRAPWk+dVXiBLmm/AyiaAqXReLNHxYVVj3Li8
-         t9GK77NEdXELcqbFJOG0xNTvyr6qNYpHwrMHfDq3w058DKZU3WRd1ZITWFw1HxQQm9H0
-         7T5tENr4NXRXaZfHQFrv/qIJSBXtU7qPyWQoaJRiCHTjsYz03lhPnd2OaB/pMDPNyVw5
-         hKiQWPZxGghMOEpZ6uIAsY46s9s4si83Yw3OMu43ByEpBa9qcmMp91pZkqTXxUN/xAhu
-         4yAxj9mtHvSrCNJs1K7AQQBTr9j6WGysRyKGBblxHeWS2EYX+jYR99HqB/ZZQtzUFkJf
-         Iubg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        fh=eFa5wkiuRbPVERjDAKrNG2Ie1xwZ6UOoKFzG+Oggsio=;
-        b=es57ZHgk0/QhgY/+ANOrz1qDBoRQVuiDKJWPR91Ef9tMqZrNp+mk5hNMoTFArWNgRG
-         d1UrT4RUUcuq1kUQbFUZKW1ihBggsGJm9eOK8DMp53SsaqAAkU75P+NskrZqhzL90ff+
-         9/37TKlIt2u/H0mXM/SrNh11xJq3qqiFClX6jt9kUb22iCQcbPViqb9PwAsekMnDA638
-         uRzCJE7l01U7b5E7IE3kTjW7QU7BssaMphl+ti6Vdp06B9AOAZbYcIQ7hZz/AyCw+F8Y
-         n5i9Mo/n0AAv0gIKw30W1mW9322KNH+7s5xRzp5ca4E4D9gPDp5yVLLmT4tiJaig2wMK
-         AG6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1778436431; x=1779041231; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        b=xd2nxrE2rwAT9XPROHji45Y7YpK9Lj8wqqYVwjTqgaMJz/T1a0pi3r14co3QbcC+DB
-         1/4Y3nhJBc0pDjz4bJ5G0wRQXnFdGh+e1UV32hu9+18QbspbZI9ZtapjgRmcIkYmN8/A
-         s5i2sZWZaL/7qTGe3cYymFLJtdPu27BfAb9pRJ/kW1s6bvKOSKkPnyd2ENQyI/E2Uxos
-         Kb5P+sJVgC8pCMhXtMlV3JppbqSy+KqJa5FFCmFTcYHk9ic8b4HcwLQRQ4JPzTHCVfbx
-         i+GCaAWpzUEjVYQU5DwBa3Lb8upX9MEia51MmdOlPKXUUobvN8LcCMrj957XJu6cRCp8
-         TXyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778436431; x=1779041231;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        b=bArC9tMtX6/Fog3LJ9Rzrh9d/8RbF3z5HtlFLZDpeqRWQDWhwiWjrS28nEivzBxuQz
-         FZCJVPQK8nT5Rkn7wHBCLAJy54UCrJLxeQ+CYeC9pPPOeE7TzHK6eLDkLmjPPElRzAfz
-         61w6scoUjBCITPeBrax18WNBf2ukJbC8vYmaGgIoHuDw0IMMCbxOPZIcGeMLmBlA+Xc9
-         yTcoGkMiuEGkd3RHEBbmdf3765kOKfKywmpbhDFDtC8Fl8Hs9q9lsVd3+vvRc4IGS7a0
-         l8kUBCLG1pHqamXD3hTiXfbm9+EH8BQM/mGYCMn92DOEsUXVjNSvDbKu1Es06gMoYvId
-         gEiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/tBctyfiOzjEGpoSP5ZfAsGYm/m57rtgR4iFA/YMhRTuroS5OPUJ3vnIJjz5Ueq7Rgr4jX3v9NZ1A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyycKGWC1nCsLqhX1svpXnJ5muaN9iC5Aebr31sg9ukwnSagzRi
-	GCem6JJgG/+DpVjr2rn0jEg+esPy8nL0KAJDu1Jn9FWnr1IyH3rW0QWwykwwpA3rYIp1xn76moB
-	eUlvk7XgSZHZDugLA58vNvBZyPoledusOPmiCy6qt
-X-Gm-Gg: Acq92OGy7WX5OxhW1ud/MHNascAzPtTOu7rRmX6whov6K37+f9kd6aAh8W9Hl/gVRNS
-	YQfew70aMmvMEYa3yvu5Tpx7oGzWfjGOuGH1BqF6DzjtYB72NMNYzLWjOSlYXq/Iw3MzLIFJM/h
-	IKTmkC3kwMjTNfJCRlIi91BzzlZe7tjtZ1OG+i2kXLf+SPIhY5q/EqCuWYIiUSpgSAJCQzTE4Eb
-	3MVZ+QaBV7vT8dlYReJ1R0ZJ2U7M/WYtNra0F83t/Ib7H5CVHV72NHAi0tunswtkVh//EcoV1l0
-	qaOgb7TzpVvcYzY=
-X-Received: by 2002:a05:6512:3e14:b0:5a7:4699:d851 with SMTP id
- 2adb3069b0e04-5a8b6c9c530mr1787120e87.7.1778436430400; Sun, 10 May 2026
- 11:07:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC372244665;
+	Mon, 11 May 2026 12:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778500853; cv=none; b=aYffw8ZR4uL1AvJKduzC7bHD4N6qC9MicxwqQnGlkTCdifq93XtwwjiT986Tk97EsU5XB48vvojPJZySXk0rmkDYkftMr7KeNeQtarbUUMPRbq+VJWolSIh02/yJgyKZlGMGH0cjQuCAsDHCCC4SPp1W+RAK1kFbbKHk+h7LlFQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778500853; c=relaxed/simple;
+	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R+3I+apUGLbOFFOvdhW48527xKMJNDAYALR//alEPB/CLOxY2qVcbFq4/fPDNobt5gSfcjqq3yysfHTabLDc8uNN/LWBNuQzgnnDODAA+GOhAoey4QweMW6Hbh1Jy6CZeZQlT610j/TXh+NUy2fEgBVjC3RCvzN8VrBGHeBoupg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tyouepRy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3437FC2BCB0;
+	Mon, 11 May 2026 12:00:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778500853;
+	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tyouepRyY8HBIVvAd0PpMtwm1T95c3wn+3rDWYuYhAlgKdCfyK/YT6SOSrppIcQyi
+	 l/1Oas2xv9LIlPZvZk6tzj6g6Und3idvH7qruSMQwBtZWke9K+EiRr5wC7glA95u39
+	 PEdgC06gDcljZaHoUK5yz7KHcAUsknmndSKBgLT6iuYx6KjoLKkO70/JT1wrejnNW7
+	 OQ/596rNlKiPsLm3RF0emnpAquDRoPNXlWd6NQS+LvzeE4oEHoRFbpUU+vMGId+ScS
+	 wO33z9MZn13e2xqhfsiGmV4Tj1gg2oyyQ2UqO/CwHzHrEJjGSgCnvOe93dNEnjVD2b
+	 IzN8YZgJb6gCg==
+Date: Mon, 11 May 2026 14:00:35 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+ <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
- <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com> <0b8bba44-f6bb-4d69-b9d4-5787c276d41a@inspirated.com>
- <20260510163204.GA2279@sol>
-In-Reply-To: <20260510163204.GA2279@sol>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Sun, 10 May 2026 11:06:57 -0700
-X-Gm-Features: AVHnY4Ksn57e9ZSnowz7i8VDuqmEeyTqf3rUkaTOYFnl29-9oyrpMeTvEmcHBgg
-Message-ID: <CALCETrVLsFyo71Jk7pZ+VDSR+cX-tu_mD+RdpDe-q1sVw4wisg@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Kamran Khan <kz@inspirated.com>, Jeff Barnes <jeffbarnes@linux.microsoft.com>, 
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: DC0075058CA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
+X-Rspamd-Queue-Id: C876950D4E1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [2.34 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[amacapital.net];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6292-lists,linux-api=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[xs4all.nl];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6293-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amacapital-net.20251104.gappssmtp.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Sun, May 10, 2026 at 9:33=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> =
-wrote:
+On Mon, May 04, 2026 at 07:41:15PM +0200, Jori Koolstra wrote:
+> 
+> > Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
+> > 
+> > So definitely a patchset worthing doing but this will be hairy. And
+> > Mateusz is right. As written this doesn't work. The canonical pattern
+> > how e.g., dentry_open() does it is to preallocate the file.
+> > 
+> 
+> Is this because of Mateusz point that we should fail as soon as possible
+> to prevent any fs changes from taking effect?
+> 
+> But like Mateusz points out, this is not really happening for open() with
+> O_CREAT either. So is there any policy for what we do and do not tolerate?
+> (although I agree we should definitely preallocate the file; thanks for
+> pointing that pattern out).
 
-> In any case, any hypothetical security benefit provided by AF_ALG would
-> have to be *very high* to outweigh the continuous stream of
-> vulnerabilities in it.  I understand that people using AF_ALG might not
-> be familiar with that continuous stream of vulnerabilities, but it would
-> be worth spending some time researching what has been going on.
+Your version can fail in a lot more cases than O_CREAT because the file
+is allocated last which is just not acceptable.
 
+And a misbehaving LSM that ends up preventing opening a created file is
+really not our concern. The system can behave in all non-standard ways
+with mandatory access control.
 
-It would not be completely crazy to have a simple, straightforward
-interface by which user code could ask the kernel to do a
-cryptographic operation.  Think:
+The other concern that was brought up in some version is truncate but I
+really don't understand what that is supposed to be about. O_TRUNC and
+O_CREAT raally don't get in the way of each other in the way people
+think they would.
 
-int compute_keyed_hash(int key_fd, const void *data, size_t len);
+Just look at the FMODE_CREATED case. If that's raised on do_open() then
+O_TRUNC is ignored for very obvious reasons.
 
-where key_fd encodes both the key and the hash type (HMAC-SHA256 or
-whatever), and there is a very, very small menu of hashes to choose
-from.
+The only reason where O_TRUNC with O_CREAT matters is if the file did
+already exist which also implies O_EXCL isn't raised. In that case this
+ends up as a regular truncate request and then it is possible to hit the
+handle_truncate() codepath. And there it really doesn't matter. A
+concurrent exec or truncate that prevents you from O_CREAT | O_TRUNC
+seems perfectly benign if you didn't actually create the file in the
+first place. The O_TRUNC would only be honored if we did end up creating
+the file. If someone else raised us in doing their own truncate or is
+attempting an exe then we should most certainly not get to truncate over
+them. Failing is the right thing to do here.
 
-But this is not really obviously worth the hassle.  And AF_ALG is
-definitely not the right interface.
+> 
+> > I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> > work. I remember that I had a vague comment about this in [1] a few
+> > years ago (cf. [1]). It might even be less hairy to get that one right
+> > as all the thinking for O_CREAT is already there.
+> > 
+> > What was the rationale for mkdirat2() instead of threading this through
+> > openat()/openat2() with O_CREAT?
+> > 
+> 
+> Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
+> that this is intuitive and you mentioned POSIX allows for it.
+> 
+> But a more general issue, that also applies to this mkdirat2 patch,
+> is Linus' objection in that same thread.[1] However, the use-case of
+
+mkdirat2() is objectively the worse api. It forces userspace to use a
+separate system call without any reason whatsoever. If you can to
+O_CREAT you should also be able to to O_DIRECTORY in the same system
+call. If we support O_DIRECTORY | O_CREAT we get all the lookup
+restriction niceties RESOLVE_* for free. Plus, it is supportable both in
+openat() and openat2() because I made that combo return an errno.
+
+UAPI design often is a nasty mix of performance (context switches),
+separation of concerns and privileges, tastefulness, and compromises you
+never thought or wanted to make.
+
+I think here it is pretty clear that O_DIRECTORY | O_CREAT is the right
+thing to do. Instead of restructuring a bunch of codepaths so it can be
+plumbed through to the filesystems we just reuse the existing codepaths
+that give us the right context for free.
+
+And during LSFMM the VFS maintains all agreed to proceed with
+O_DIRECTORY | O_CREAT.
 
