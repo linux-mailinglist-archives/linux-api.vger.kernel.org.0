@@ -1,186 +1,185 @@
-Return-Path: <linux-api+bounces-6293-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6294-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Gm+HBnGAWqSjgEAu9opvQ
-	(envelope-from <linux-api+bounces-6293-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 14:05:45 +0200
+	id WIAlOZHkAWoEmAEAu9opvQ
+	(envelope-from <linux-api+bounces-6294-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 16:15:45 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C876950D4E1
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 14:05:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BD850FDFE
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 16:15:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D923830053EB
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 12:00:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EE5C230173BC
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 14:02:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15A1378839;
-	Mon, 11 May 2026 12:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC213FA5CC;
+	Mon, 11 May 2026 14:02:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tyouepRy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="foKLY5sK"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC372244665;
-	Mon, 11 May 2026 12:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97E13F7896;
+	Mon, 11 May 2026 14:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500853; cv=none; b=aYffw8ZR4uL1AvJKduzC7bHD4N6qC9MicxwqQnGlkTCdifq93XtwwjiT986Tk97EsU5XB48vvojPJZySXk0rmkDYkftMr7KeNeQtarbUUMPRbq+VJWolSIh02/yJgyKZlGMGH0cjQuCAsDHCCC4SPp1W+RAK1kFbbKHk+h7LlFQ=
+	t=1778508171; cv=none; b=aiKjwl/cX/mv0TuS+oAcJD5sqgN1InEEBWhR4UESh1YbT7BphbrN3JXilS5WoNzhYxq4k2uf4GCWok1dOlRW4EA8g0KCeS136mE5mzcbxX+QGgaiBWDgkQYdut7OquYb9AAWx8LQxKC2lsW18aY5lkjOvGbDbbPH+sW9SYXBKvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500853; c=relaxed/simple;
-	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+3I+apUGLbOFFOvdhW48527xKMJNDAYALR//alEPB/CLOxY2qVcbFq4/fPDNobt5gSfcjqq3yysfHTabLDc8uNN/LWBNuQzgnnDODAA+GOhAoey4QweMW6Hbh1Jy6CZeZQlT610j/TXh+NUy2fEgBVjC3RCvzN8VrBGHeBoupg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tyouepRy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3437FC2BCB0;
-	Mon, 11 May 2026 12:00:38 +0000 (UTC)
+	s=arc-20240116; t=1778508171; c=relaxed/simple;
+	bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f9dmdrNQarRVn/vqoEq/zZV7yONM2GvxSR9SxQiT1Vaon2ba8VcQAxQXCZY133UYY3UFLhY8Qrh10uispJlTsOMyJWqi00/CnaOWK0ivde2iQCIs5YBMoAoocgkPBVTv+vOzhAfJNGeDlBprSlsJvXwjwCW9f8IZllFdArwPm+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=foKLY5sK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A9CC2BCB0;
+	Mon, 11 May 2026 14:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500853;
-	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tyouepRyY8HBIVvAd0PpMtwm1T95c3wn+3rDWYuYhAlgKdCfyK/YT6SOSrppIcQyi
-	 l/1Oas2xv9LIlPZvZk6tzj6g6Und3idvH7qruSMQwBtZWke9K+EiRr5wC7glA95u39
-	 PEdgC06gDcljZaHoUK5yz7KHcAUsknmndSKBgLT6iuYx6KjoLKkO70/JT1wrejnNW7
-	 OQ/596rNlKiPsLm3RF0emnpAquDRoPNXlWd6NQS+LvzeE4oEHoRFbpUU+vMGId+ScS
-	 wO33z9MZn13e2xqhfsiGmV4Tj1gg2oyyQ2UqO/CwHzHrEJjGSgCnvOe93dNEnjVD2b
-	 IzN8YZgJb6gCg==
-Date: Mon, 11 May 2026 14:00:35 +0200
+	s=k20201202; t=1778508171;
+	bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=foKLY5sKZ8pQXRuGHvimXnKVPDHujO7i9DUihew18ywt0UUkKvpcWEQ+GENjB0qNO
+	 NgxndUmM3WbrU08K5mm4wnFTJzeITiV9PHxDxNnq613Oo6dgzvUTfJ4/75GXQsn15r
+	 NJlH33gFSvNWgiZUBBYLjmXsJCL/6Obf0osLgh9dqAWq2pC9UmW+zvU5SZ3p1gFd4H
+	 9NTj/zHhF5SO3FGYLW42EKJjAe385+WS/DGrVUPgWh3nDkDhNJFaBUjjA4e2Hgsvor
+	 uPWR9IEwYD3MjdS9lV9YT2EinL9WsEwAuTWPBfysgN3ObitBAk5eEIS1jm4hwLXEn6
+	 xgJjFWUK5GBCA==
 From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-Message-ID: <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
- <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org,
+	sj1557.seo@samsung.com,
+	yuezhang.mo@sony.com,
+	almaz.alexandrovich@paragon-software.com,
+	slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	cem@kernel.org,
+	sfrench@samba.org,
+	pc@manguebit.org,
+	ronniesahlberg@gmail.com,
+	sprasad@microsoft.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	jaegeuk@kernel.org,
+	chao@kernel.org,
+	hansg@kernel.org,
+	senozhatsky@chromium.org,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Roland Mainz <roland.mainz@nrubsig.org>,
+	Steve French <stfrench@microsoft.com>
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+Date: Mon, 11 May 2026 16:02:31 +0200
+Message-ID: <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+C: Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
-X-Rspamd-Queue-Id: C876950D4E1
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2738; i=brauner@kernel.org; h=from:subject:message-id; bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQxPmzoE7cS0pi4htne4BtrZubeg2uf/OBf+WBFQOp93 w71crk5HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMp2cbIMEfiXshT9YRVMeHy 0dt39r6+sDHh9aLmwo1tk7ifh+3OYWNk+HUvYr/S77VKu596N6437xR9oNG88+uX37/zSzhErP7 +YAYA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E6BD850FDFE
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.34 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6293-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6294-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,nrubsig.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-api];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, May 04, 2026 at 07:41:15PM +0200, Jori Koolstra wrote:
+On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+> Christian, let's lock this one in. I will post subsequent changes
+> as delta patches.
 > 
-> > Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
-> > 
-> > So definitely a patchset worthing doing but this will be hairy. And
-> > Mateusz is right. As written this doesn't work. The canonical pattern
-> > how e.g., dentry_open() does it is to preallocate the file.
-> > 
+> Following on from:
 > 
-> Is this because of Mateusz point that we should fail as soon as possible
-> to prevent any fs changes from taking effect?
+> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
 > 
-> But like Mateusz points out, this is not really happening for open() with
-> O_CREAT either. So is there any policy for what we do and do not tolerate?
-> (although I agree we should definitely preallocate the file; thanks for
-> pointing that pattern out).
+> [...]
 
-Your version can fail in a lot more cases than O_CREAT because the file
-is allocated last which is just not acceptable.
+Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
 
-And a misbehaving LSM that ends up preventing opening a created file is
-really not our concern. The system can behave in all non-standard ways
-with mandatory access control.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-The other concern that was brought up in some version is truncate but I
-really don't understand what that is supposed to be about. O_TRUNC and
-O_CREAT raally don't get in the way of each other in the way people
-think they would.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Just look at the FMODE_CREATED case. If that's raised on do_open() then
-O_TRUNC is ignored for very obvious reasons.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-The only reason where O_TRUNC with O_CREAT matters is if the file did
-already exist which also implies O_EXCL isn't raised. In that case this
-ends up as a regular truncate request and then it is possible to hit the
-handle_truncate() codepath. And there it really doesn't matter. A
-concurrent exec or truncate that prevents you from O_CREAT | O_TRUNC
-seems perfectly benign if you didn't actually create the file in the
-first place. The O_TRUNC would only be honored if we did end up creating
-the file. If someone else raised us in doing their own truncate or is
-attempting an exe then we should most certainly not get to truncate over
-them. Failing is the right thing to do here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.exportfs
 
-> 
-> > I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
-> > work. I remember that I had a vague comment about this in [1] a few
-> > years ago (cf. [1]). It might even be less hairy to get that one right
-> > as all the thinking for O_CREAT is already there.
-> > 
-> > What was the rationale for mkdirat2() instead of threading this through
-> > openat()/openat2() with O_CREAT?
-> > 
-> 
-> Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
-> that this is intuitive and you mentioned POSIX allows for it.
-> 
-> But a more general issue, that also applies to this mkdirat2 patch,
-> is Linus' objection in that same thread.[1] However, the use-case of
-
-mkdirat2() is objectively the worse api. It forces userspace to use a
-separate system call without any reason whatsoever. If you can to
-O_CREAT you should also be able to to O_DIRECTORY in the same system
-call. If we support O_DIRECTORY | O_CREAT we get all the lookup
-restriction niceties RESOLVE_* for free. Plus, it is supportable both in
-openat() and openat2() because I made that combo return an errno.
-
-UAPI design often is a nasty mix of performance (context switches),
-separation of concerns and privileges, tastefulness, and compromises you
-never thought or wanted to make.
-
-I think here it is pretty clear that O_DIRECTORY | O_CREAT is the right
-thing to do. Instead of restructuring a bunch of codepaths so it can be
-plumbed through to the filesystems we just reuse the existing codepaths
-that give us the right context for free.
-
-And during LSFMM the VFS maintains all agreed to proceed with
-O_DIRECTORY | O_CREAT.
+[01/15] fs: Move file_kattr initialization to callers
+        https://git.kernel.org/vfs/vfs/c/9d3942fa6a55
+[02/15] fs: Add case sensitivity flags to file_kattr
+        https://git.kernel.org/vfs/vfs/c/72504a889e52
+[03/15] fat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/d0d06cfce960
+[04/15] exfat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/64a4f2090cb2
+[05/15] ntfs3: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/5fff53318cbf
+[06/15] hfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/1b25c01375e0
+[07/15] hfsplus: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/b9e976dd58ff
+[08/15] xfs: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/30617d630d2f
+[09/15] cifs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/0f372b05c80c
+[10/15] nfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/3ca9954cdc04
+[11/15] vboxsf: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/0f5f23d411ac
+[12/15] isofs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/d56f6094035c
+[13/15] nfsd: Report export case-folding via NFSv3 PATHCONF
+        https://git.kernel.org/vfs/vfs/c/5ca2c8f14428
+[14/15] nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
+        https://git.kernel.org/vfs/vfs/c/62c9555937ca
+[15/15] ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
+        https://git.kernel.org/vfs/vfs/c/35188379f010
 
