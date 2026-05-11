@@ -1,82 +1,82 @@
-Return-Path: <linux-api+bounces-6310-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6311-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uLptJMYKAmqknQEAu9opvQ
-	(envelope-from <linux-api+bounces-6310-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:58:46 +0200
+	id oCsjKsMXAmoVnwEAu9opvQ
+	(envelope-from <linux-api+bounces-6311-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 19:54:11 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E0C512D55
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 18:58:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0B0513E0A
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 19:54:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7AE1A3033CC5
-	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 16:53:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B7D0E3154D74
+	for <lists+linux-api@lfdr.de>; Mon, 11 May 2026 17:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2DC043C074;
-	Mon, 11 May 2026 16:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DBC43E9CB;
+	Mon, 11 May 2026 17:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljDLeVW/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="an9J+f36"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6723D4108
-	for <linux-api@vger.kernel.org>; Mon, 11 May 2026 16:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDE5438FF1
+	for <linux-api@vger.kernel.org>; Mon, 11 May 2026 17:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778518402; cv=none; b=KVOYvFDq24HPyBSN5JMi7hAfP8X48f7PBgIpeQdd0zy4D/3dvSiS+FrGgbRVbjD32eFThEltJRlOcwKYZgs0Mvuz/Ji7aAQ5jAZxwjjjpp1ZjTgwVRpVWH+PJGDZ1adSwsibqc4bGhQQWK7KQ7hdvHgfiJQK/RXKCUb/gRUPMiU=
+	t=1778519240; cv=none; b=aHFx4+P6XyuySXHc3OrECiFeCCDVNqQoLIa/YBYVwd7X4q1k5TtQ4hsV+3P5FGQpk8XdnnE3J6Aksz3sOESfnkI5Cm6QoJPZ1t2kU9qtUGGnZzDx2liHwwjdmMTjTPAPLBUldS383ysflhol68K3N5hHXbGSVUdUxPvJc6diBN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778518402; c=relaxed/simple;
-	bh=NDr89ZHqjMmSAUjSSYDe/cY3Eiu1jte8P7RxS6azPjU=;
+	s=arc-20240116; t=1778519240; c=relaxed/simple;
+	bh=ttyzlAsQV2LCBXMCefThV0JUVjJzRehzxN0uxmPQx3k=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=W0Wk2zUCGM6m3b4zm0U2DqG6QZ6vHVVxCvkWjFrylfpLLzYC9UMinAh8J/Iqct/NidyCyMpYvLueGGWxJ556Dr7UERcyELXlLCIeyt+iysGHh7IfqVrNrqeVIkYCLXS8gwgAIH9/zx1QeHvOqFvsvGTEvV1y/TdzETboJecTb5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljDLeVW/; arc=none smtp.client-ip=209.85.161.42
+	 References:In-Reply-To; b=mldctw5e2YycF0Q0OjwO5qixBPb9Uy1QNbJjwJ0XI5pvdaRh3MYk9cYpKs735UCdBiPbgtivspBdPQzTIdxrwT6K0DD+HcdU6arw0Tr6T1xo5yrFSMkouLeGchABOf73svFlC/PTh4MR/yltsD8bzYQ4eUMdgsdZDqS5lSvtKHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=an9J+f36; arc=none smtp.client-ip=209.85.160.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-694891f8f62so2417322eaf.2
-        for <linux-api@vger.kernel.org>; Mon, 11 May 2026 09:53:21 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-42fdab683a9so3427807fac.1
+        for <linux-api@vger.kernel.org>; Mon, 11 May 2026 10:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778518400; x=1779123200; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778519238; x=1779124038; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JavA89CInqrRT0axMkoFaX73nwP/5TwmJupoBxqRvFM=;
-        b=ljDLeVW/UM0cgDttn8g3cTL06JrkMAr9PVMUHZx9PVOpYUxTGeS/Mi3jvg38dkJy45
-         H+HsLHXM+MLVLybFkrw1EqYr53HcoUa3OEI9KsIbEeLB9EYzRGEuxMVzrTWaOGPVK6wu
-         e69zT8HiyPrO1q6kPTejnZJ8gWq4SXVZeAvEoZCZbNsfMu2gC934/RPGwvaW2OjcREpC
-         lOf1sujSjWYhwHEwz2JgzV1TeHIhCpCWUrFN2c8YljUpQtn8ABDCCut1FBnKr2i5SNTH
-         +BnZuRBFDTtkFx876Q9gAMSHmjPi8YU+/IhwbMehVPyFsGOcLT0vRSIARBvS6MXqmWYZ
-         oiLA==
+        bh=JuqFpulg8Nqo7DOFhcbTfsrDVhgNxZLwGvrCkArInQA=;
+        b=an9J+f36HD8PwfYW0Ir4GuH815hrAhaeL6N8MUZKQiDRqK1vWyenuvvAXwPim0PZUX
+         PBGKfNzNNBuaByPVVsAgiKV2Iuyh2GBFweD7xiIjZwYf0d9KyrYHlS6J57w5vYXDTx6+
+         12z/Y/6KYr1LbyL10cW94Qgn+XfnavmdAZEk+dmJRwZPmRoK/IkqLPNsiRi63hGkahEU
+         H+iG9SUlhESH4uWHmtiJxuFSygMP2N+Sa4u0Xb7M3MnmpDcaeGqrm7LvvMtgX25rv43J
+         F/uJARN3hjZVeQV2R6cVawNxlerQ1J0qfGDXX5cyqN39vNnuDC7taPrEiKmMuEkFcOS3
+         /5QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778518400; x=1779123200;
+        d=1e100.net; s=20251104; t=1778519238; x=1779124038;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JavA89CInqrRT0axMkoFaX73nwP/5TwmJupoBxqRvFM=;
-        b=F6hS9Doc5hYeBnOoQtp9tlofjQEmCcT4UL+FPnCBA9FZ1zQhYZY22d+jn4orZC4Tzr
-         8vbHq/LC5TKeer4v+RcfFcCtswEnz3DIX/XEsmTA+6VVDscaBkqZ68B/35l3XiQbmNDf
-         tT5MdzsnOBR2sp1IiPGpgsQJGzd1ini8o9NZLCn2WW03dnTnLhDWG2gGUIgfYeEDkSgP
-         YWmHjwejHHSFfWS7TdcGt7flv4jLSSa2b4jLR+RgpSjj15xwQ+A1eC98mPCB9DjIO/GQ
-         MJ/bwOeUiPtqQ+PYW4JZ+DqjFhSE0wlFW2E9IL8zv9Y5Y2wF6/w0uZ26Rr6QNUC9lAzW
-         VKmg==
-X-Forwarded-Encrypted: i=1; AFNElJ/jDg4MSNwpVpGjbbUL1o3NqdUasx805jqaZf8si4xzmUt0YSW68FxZ96eYOqR8WuN4t7HTnhkVelg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywM3tuqHZVp6VdHPCeK+6z47aO+koHz5oeW9s/+WwEQjyricDL
-	LMr7TFvv5V/9/BtpkKWWDaz8X4CGEEn+PlmtWLbowQ7SZBSH2spEYPdn
-X-Gm-Gg: Acq92OFHI46ZkeyGTtMwW+1p15mh5R5519WAymNcTLZLVdw3WuVG3jo2sKHHGA4HuaJ
-	Rs1ngfn3uU48/sJ5hmrqzR7OUOrpYdKz9KyZnVEvzD0XOCmgtN2bNSJM/tl1h6OXnRuXDTWI//C
-	A/zdu1myDwQY4n+vQobCDcanxkJO3fxjeRikc2SR7JoKGpu1e4A9MjgVli1W034m9/Ldk1i2aID
-	CSzoVK4yAmHhe/zeWDhNtVKxwAnmY3ofH/o79Z5iNvs+o3C2vNen1wl1EFNxufQXhA097ZPycin
-	Va05Vw+KX7j4+Kk5RcEAUQYEDoNKZbZigleblvlL364yNu+Ir6/pGqtoLXR7Y9zuE8z9YAE9j+2
-	Bu1CLwbTUyjdsXhQpvhbsywsZrdC0Nb38RHGEThnU9aX7ZjH3/CNKfTyQA6mQ/5X3JQ8bsCm3o2
-	SdwNJvk/x3OHK7WgmdR2/0MGHTK2t0z4G/T6Q8faS86ekjAZ76b4L1Af7TCsl20piMEwGCfZTbG
-	gPZiQuAhZQA2QhH/HglgUHSONK/Kia92jOBY6k=
-X-Received: by 2002:a05:6820:986:b0:694:8b08:b916 with SMTP id 006d021491bc7-69b25c88aecmr8116691eaf.35.1778518399975;
-        Mon, 11 May 2026 09:53:19 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:49::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c75d08sm6137740eaf.4.2026.05.11.09.53.18
+        bh=JuqFpulg8Nqo7DOFhcbTfsrDVhgNxZLwGvrCkArInQA=;
+        b=ZplxvFsbMmqMdl7+KZuTAWuHUmF9EaMcnFJYKPCL2vlWnXaDUq8EanelGntTCUkEnW
+         NW2GxNUl37pT2i75yerO5CaLtTbWaxUkccU19/ozDcjjHzrMYS57yT2ulwTwxLfFzzAt
+         sVmnZ/PdeLaOf34YHFaGbfxUz6hN5i69rfgQu5MjLT2gEikHbdpksR1PCsnV970wqfOQ
+         P/Fb93Yoosoc980rn1YdSm1lmHHl0QJt32w+u7F238YnHlLy+hHVBHmkqsPod1ZoNWGU
+         oryP0FfPhVHOTiqTIN4jt8l5SSZbOpRG2W/Ws9bzXyJS2wcX3wwrB8YMN1QEazUCmFSu
+         6wMA==
+X-Forwarded-Encrypted: i=1; AFNElJ9AOLSHToxkkjs+pl6DS1prYBx5nuDtR8uu/I5MZ4S9NTQg5ftyIZQZgAwnv1hY9yM1tSwpicOJiiw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoT1Kj22RUiCj7PEZhK+bTzM9YzxoXmfa4oecpZ7CZ7drUrUha
+	cnbTAJ7dTkCj4MNeS2SK+engqAQh7PfkaGJj5T88JPX+wDmNeT6gvD+x
+X-Gm-Gg: Acq92OGoQhk+tPoTEWuUeMVZLWJsrhlH2HrTajY3qt4YjPdrng7yuMzOGU/Y+ivi+lo
+	42G/4EI3hv+GM0Rhb1bOsH3KrjmFj8FMqnfW6jWMGDikwSFkEvogIwbDE88okPYkvlJZVWjKEiK
+	bhy7Hnq5tZ9hcT3gSphObq7CiXacUplJIZroUdktC5VvJN7S669Wg9n7HQ2GAIT+3sNbj71MO45
+	1dhJVnHh8zZAR6jikPnvRD4LPmtrrzqsMw3cSlsblrH2sgTq2PtlR0QZmRGoQp2IXhhAPvCiyaH
+	96JSL6yVHeihs1jH21CDG/TrLoaJS2SqNPg3mfBifIRpF12qgcf2U5dlND5F7GJWNgCQbRl3v+e
+	52hDKUrcATa2+43ndGnsPb7ULSfUhaecc46KS0z1TmGs1Vi0alkmyrOFB5Re1n67wYODkGFl07E
+	ApPBVDW3xmHaaJRi7Z4ACBMrlS2+8gcjLtT11GAMV7wx53tqIwIsBEQYBO27hg3JDZ3/o0QMk+g
+	anhn82TuQuBWSNp1CJB4e7mpHA=
+X-Received: by 2002:a05:6870:5119:b0:433:ffeb:4525 with SMTP id 586e51a60fabf-434f66bae6emr15403715fac.26.1778519237637;
+        Mon, 11 May 2026 10:07:17 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:4::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43557109b7dsm9702493fac.5.2026.05.11.10.07.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 09:53:19 -0700 (PDT)
+        Mon, 11 May 2026 10:07:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -85,8 +85,8 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 11 May 2026 09:53:17 -0700
-Message-Id: <DIG05KI4QZ2H.3JE4OWSK6KC29@gmail.com>
+Date: Mon, 11 May 2026 10:07:15 -0700
+Message-Id: <DIG0G9IFXF42.3O4K6XV8RGQBG@gmail.com>
 Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <john.fastabend@gmail.com>,
  <andrii@kernel.org>, <martin.lau@linux.dev>, <eddyz87@gmail.com>,
  <song@kernel.org>, <yonghong.song@linux.dev>, <kpsingh@kernel.org>,
@@ -99,28 +99,28 @@ Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <john.fastabend@gmail.com>,
  <linux-api@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
  <kernel-patches-bot@fb.com>, <martin.lau@kernel.org>, <clm@meta.com>,
  <ihor.solodrai@linux.dev>
-Subject: Re: [PATCH bpf-next v13 1/8] bpf: Extend BPF syscall with common
- attributes support
+Subject: Re: [PATCH bpf-next v13 6/8] bpf: Add syscall common attributes
+ support for map_create
 From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
 To: <bot+bpf-ci@kernel.org>, <leon.hwang@linux.dev>, <bpf@vger.kernel.org>
 X-Mailer: aerc
-References: <20260511152817.89191-2-leon.hwang@linux.dev>
- <810f123d14450d09d147d90dea25ddf5091e636542fcc5729d0594bfbd622757@mail.kernel.org>
-In-Reply-To: <810f123d14450d09d147d90dea25ddf5091e636542fcc5729d0594bfbd622757@mail.kernel.org>
-X-Rspamd-Queue-Id: 54E0C512D55
+References: <20260511152817.89191-7-leon.hwang@linux.dev>
+ <fad54bcc2f9363f61cda44680e7189ad7a510d81dc52f444a4c30a3fcd37df1d@mail.kernel.org>
+In-Reply-To: <fad54bcc2f9363f61cda44680e7189ad7a510d81dc52f444a4c30a3fcd37df1d@mail.kernel.org>
+X-Rspamd-Queue-Id: 5A0B0513E0A
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.15 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6310-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6311-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[35];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
@@ -128,7 +128,7 @@ X-Spamd-Result: default: False [-0.15 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TO_DN_NONE(0.00)[];
@@ -140,93 +140,100 @@ X-Spamd-Result: default: False [-0.15 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 On Mon May 11, 2026 at 9:19 AM PDT, bot+bpf-ci wrote:
->> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
->> index f5639d5ac331..50055ab73649 100644
->> --- a/include/linux/syscalls.h
->> +++ b/include/linux/syscalls.h
->> @@ -936,7 +936,8 @@ asmlinkage long sys_seccomp(unsigned int op, unsigne=
-d int flags,
->>  asmlinkage long sys_getrandom(char __user *buf, size_t count,
->>  			      unsigned int flags);
->>  asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned=
- int flags);
->> -asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned =
-int size);
->> +asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned =
-int size,
->> +			struct bpf_common_attr __user *attr_common, unsigned int size_common=
-);
->>  asmlinkage long sys_execveat(int dfd, const char __user *filename,
->>  			const char __user *const __user *argv,
->>  			const char __user *const __user *envp, int flags);
+>> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
+>> index 8433430dedb7..c15a4c26a43b 100644
+>> --- a/include/linux/bpf_verifier.h
+>> +++ b/include/linux/bpf_verifier.h
 >
 > [ ... ]
 >
->> diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/b=
-pf.h
->> index 677be9a47347..16ff0968fc21 100644
->> --- a/tools/include/uapi/linux/bpf.h
->> +++ b/tools/include/uapi/linux/bpf.h
->> @@ -994,6 +994,7 @@ enum bpf_cmd {
->>  	BPF_PROG_STREAM_READ_BY_FD,
->>  	BPF_PROG_ASSOC_STRUCT_OPS,
->>  	__MAX_BPF_CMD,
->> +	BPF_COMMON_ATTRS =3D 1 << 16, /* Indicate carrying syscall common attr=
-s. */
->>  };
+>> diff --git a/kernel/bpf/log.c b/kernel/bpf/log.c
+>> index fd12ad5a0338..62fe6ed18374 100644
+>> --- a/kernel/bpf/log.c
+>> +++ b/kernel/bpf/log.c
 >
 > [ ... ]
 >
->> @@ -1500,6 +1501,13 @@ struct bpf_stack_build_id {
->>  	};
->>  };
+>> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+>> index 2fa05ba8f161..54b43e16848a 100644
+>> --- a/kernel/bpf/syscall.c
+>> +++ b/kernel/bpf/syscall.c
+>
+> [ ... ]
+>
+>> @@ -1611,6 +1632,31 @@ static int map_create(union bpf_attr *attr, bpfpt=
+r_t uattr)
+>>  	return err;
+>>  }
 >>
->> +struct bpf_common_attr {
->> +	__u64 log_buf;
->> +	__u32 log_size;
->> +	__u32 log_level;
->> +	__u32 log_true_size;
->> +};
+>> +static int map_create(union bpf_attr *attr, bpfptr_t uattr, struct bpf_=
+common_attr *attr_common,
+>> +		      bpfptr_t uattr_common, u32 size_common)
+>> +{
+>> +	struct bpf_verifier_log *log;
+>> +	struct bpf_log_attr attr_log;
+>> +	int err, ret;
 >> +
+>> +	log =3D bpf_log_attr_create_vlog(&attr_log, attr_common, uattr_common,=
+ size_common);
+>> +	if (IS_ERR(log))
+>> +		return PTR_ERR(log);
+>> +
+>> +	err =3D __map_create(attr, uattr, log);
+>> +
+>> +	ret =3D bpf_log_attr_finalize(&attr_log, log);
+>> +	if (ret) {
+>> +		if (err >=3D 0)
+>> +			close_fd(err);
+>> +		err =3D ret;
 >
-> Should log_buf use __aligned_u64 instead of plain __u64?
->
-> Looking at other pointer-bearing fields in the BPF UAPI, they consistentl=
-y
-> use __aligned_u64. For example, the existing BPF_PROG_LOAD log_buf in uni=
+> When bpf_log_attr_finalize() returns an error (say -ENOSPC for log buffer
+> truncation or -EFAULT for copy_to_user failure) after __map_create() alre=
+ady
+> returned a negative error (for example -EINVAL from CHECK_ATTR or -EPERM =
+from
+> security checks), does it make sense to overwrite the original map creati=
 on
-> bpf_attr is declared as:
+> error with the log finalization error?
 >
->     __aligned_u64 log_buf;  /* user supplied buffer */
+> The result is that userspace receives -ENOSPC or -EFAULT instead of the
+> actual reason the map creation failed. A user with an undersized log buff=
+er
+> might retry with a larger buffer expecting success, when the real issue i=
+s
+> that the map creation itself was rejected for a different reason.
 >
-> The __aligned_u64 attribute forces 8-byte alignment on all architectures,
-> including 32-bit systems where native unsigned long long alignment is onl=
-y
-> 4 bytes. Without this attribute, struct bpf_common_attr will have differe=
-nt
-> layouts between 32-bit and 64-bit ABIs:
->
-> - 32-bit: 20 bytes, 4-byte aligned
-> - 64-bit: 24 bytes (4 bytes of tail padding), 8-byte aligned
->
-> While the current __sys_bpf() implementation with bpf_check_uarg_tail_zer=
-o()
-> and min_t() capped copying handles this gracefully, deviating from the
-> established BPF UAPI convention could create problems for future extensio=
-ns.
-> If another __u64 field is added later, the inter-field offsets would dive=
-rge
-> between ABIs.
->
-> Would it be better to use __aligned_u64 log_buf to match union bpf_attr a=
-nd
-> preserve identical struct layouts across 32/64-bit ABIs?
+> Looking at bpf_check() in kernel/bpf/verifier.c (around the verifier log
+> finalization), it uses similar logic with 'err =3D ret;' reassignment. Ho=
+wever,
+> that doesn't appear to have the preserve-original-error comment that woul=
+d
+> clarify the intended behavior for this scenario.
 
-bot has a point.
+I guess sinle line comment wouldn't hurt.
 
-pw-bot: cr
+>
+>> +	}
+>> +
+>> +free:
+>
+> Does anything use this free: label? The only exit path before it is the e=
+arly
+> return for IS_ERR(log), which correctly returns directly since log is an =
+error
+> pointer and doesn't need cleanup. There doesn't seem to be any 'goto free=
+;'
+> statement in the function.
+>
+> With -Wunused-label enabled by default in the kernel build (part of -Wall=
+),
+> this will generate a compiler warning. When building with -Werror (common=
+ in
+> CI configurations and allmodconfig builds), this would break the build.
+
+good point. pls fix.
 
