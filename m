@@ -1,150 +1,203 @@
-Return-Path: <linux-api+bounces-6327-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6328-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALf8BcSEA2ot6wEAu9opvQ
-	(envelope-from <linux-api+bounces-6327-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 21:51:32 +0200
+	id OJSTHUSZA2p27wEAu9opvQ
+	(envelope-from <linux-api+bounces-6328-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 23:19:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A188528D79
-	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 21:51:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E388A52A2B2
+	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 23:18:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 32E7A3049943
-	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 19:51:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D719F302429B
+	for <lists+linux-api@lfdr.de>; Tue, 12 May 2026 21:18:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206C8357CE3;
-	Tue, 12 May 2026 19:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7couW5c"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1667A3750BE;
+	Tue, 12 May 2026 21:18:58 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F153025B085;
-	Tue, 12 May 2026 19:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7979C2857EE
+	for <linux-api@vger.kernel.org>; Tue, 12 May 2026 21:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778615471; cv=none; b=NwK4gywGp+ELwNbBpayNq50ZjM0tJb3ic386FdeXaA+Ni+WO8DQxu24l/jxcGPcuR3x4HQP0Lh/ijdHFbnFJZthZfhClz5JiI+D0+1NfVSK6AnHSrE0qPhIOrZ+oSjnQrt6XFu8aziNmav0pJ4dF+rhsh8nNxCv0ZUoI6591wqA=
+	t=1778620737; cv=none; b=eQ7ReBjvrQo7Fd0vjSoPO/hMy3sQD2zfCFVWAFFjMMtb0+2gSdtHdKJejRiod7x3G1VbWVzqo43/JohtD0VFuSWlYQMOqAf4uUhhlzQrm6riu4x925OaukN79ieA0pORINe8fP0e7IJh0MyCYhv9yViYR8SEKVydtx4vs5zYuLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778615471; c=relaxed/simple;
-	bh=b1KoHPaKFuGQ4klYDDLOw5CHCxr9eqLnjpUbFtjJ5Vg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=rFOcEsXm60V0re/8c25EV3sh+Ly9qkIp+yvSvEuhn7L9qFW52Kvm9aJ/544OWb69oaw5W0Tr9PwJd6NMh+lKVexhhLhsEPW+fN7R3HZ3OsnYox4tAdAjZJv3tv5icEKf2yTmTuLxhwNkpB75Kt0VVtxRfygxL37sAaNqkq0LG8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7couW5c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD1FC2BCB0;
-	Tue, 12 May 2026 19:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778615470;
-	bh=b1KoHPaKFuGQ4klYDDLOw5CHCxr9eqLnjpUbFtjJ5Vg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=N7couW5cLLd1JIz5/38P6NjHACO6RntSN6Yq/eApAe8yYJfLFN7EAJ9sTW+v4hBHE
-	 E/rAR/fdQeL8twrXSRWW4WYaMTLxKqZTNPTD/13JTJKfxKIWacjN9Eznq55vCeYnF3
-	 wM4+9XXvrStxyakPDohej6BnLW84eagxP2aSocyePDPYG3mlRSGKhds1S3Lp6Q0p4O
-	 z/pFFoS61KRJ87lXwt/B5tKW5K9WEXsgTubzQ1A8JMs7U5O1zEFBJm2Y6jMy2Ix2e2
-	 9q8XifxZYAordJr4Q+nqpi06VXRlCCVHNxHSrVhgGNXeD85JIDQIUGzH3MkLWfRIoH
-	 xG2hI9FeqQvkA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02D563811A59;
-	Tue, 12 May 2026 19:50:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1778620737; c=relaxed/simple;
+	bh=ZF+m+ZjVtnGgRZxs8fykE/7UK37XkDux4yfRZUGOw5Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EoQR3iJ+3T8gg+6Fiz0Qow22mn/bKi593aeem1/Ph29SC/5IWY6dKQKSJuiGNnbtZqOzEGro6HfDo43QFT63CVoEjuVwCqjFPTDRqE+z+atPI0qZPthYr5mdnp3IyjcOeU8DPC3vdou57QMMJ8Uqqv5+tU0smRw1f1txfw4jbPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.win; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.win
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bd373f83042so92687366b.1
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2026 14:18:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778620735; x=1779225535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ULDGSLAty8SEh/aPzQ3wMjjybANkPqfntQTcejrtbks=;
+        b=sQDsvOnvdRSFq6pUL6ev7skWZUu1eUBiRgfSPDWZGOL7urZtV1Nk0QLs2cXSK3Tw6w
+         y9H0P3N6L094rLwS+rQq/RCeXm6WmPi9GDjJrtILImvC0ujWYHKUyGKd/cT5bavzmubs
+         rwY3K6aQkpzJK1v17uidC9bP7Mu9ECOZSvtvflmSQYgEdre4FaDUuJ7XVG9p/3WPvKto
+         3nGpN5djsv389Nnv1Ur2Lto/Eo14EEB9C62aOP0ueKpvEhctgJ7Jb+6yHt5DAXHD1Zf7
+         XzNw6mVMORBk4el5CRp7LefBIOcjY8cLe4FuyKq5L7RwUJKJorlDQ5hNFmiOcT6jcgfp
+         X2tA==
+X-Forwarded-Encrypted: i=1; AFNElJ8VgGltd8/ygjx8LdnKGX+K3WiNIoq2Zf9jBfBYNQoOvcFx7x0Rwp9XBAjQLyyQr4FNrmKL9P90QTQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyieqUF094N6ajtXvdSKGabAuiW4GoMOXnrnn+AgAD4A1VSLi6R
+	x0UoHiTgDMfvUZAcu+8QUnIfQBlwP9UGznw+Oy5N4mThW6X+xRiJ/5yblkhdxA+mH3M=
+X-Gm-Gg: Acq92OGxuei4cM2X3rZHNlVNuw23nxkgxQVsCxOREwJWTJV8KIFgx9alGA6XgeBSq29
+	7oOmGOEhSo9hMQsTtGEoTZfUFFJ/hQ13PThRyPGlEewATTiAjGz607qgUfcboUnTCgvMPOxcTD+
+	iY6l7blzwmiCfu68iXoJDKwtW2YCsovhNglry8woy6Aricex5PvR8V8PVHwhswBCvGrTvvUFFn9
+	ONJfWdXCCLLOYGhgOSUftRiqzPQGlAox9iBen+aJFftV1sRTmYXwCMQ3Rs/UoV6pjfuToP5/XEA
+	sk8RPhgL76ZKcllBDWxj/Ubjobbj5n96Ff+hpKt52XLoKlnLe2ixrfB6p4s3nfZEmdBnxAVTJxI
+	NUYzD42Tk95eXgcuutKLE+dzfGKmThufYIF6oxvrxw4NeyKQXgLWU29WovLEEOOjdO7DOJ8cApn
+	krZXL0z+d+Dc6puGog/dCCYNc5vQxLGv9jQemFx6fhuWCfuCU3aS4kQw==
+X-Received: by 2002:a17:907:3ccb:b0:bbd:ceba:97b6 with SMTP id a640c23a62f3a-bd3bc7df480mr27373166b.0.1778620734365;
+        Tue, 12 May 2026 14:18:54 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcfc09a8e07sm376496766b.49.2026.05.12.14.18.53
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 14:18:53 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ba545100a13so1031385466b.2
+        for <linux-api@vger.kernel.org>; Tue, 12 May 2026 14:18:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8GbhB7AM7PTx1QRnt11/ZxOiYsqbfCxOgSRH6VKmU42mWX6RGgmM+kGrddWPVNh4Cf82HqEFRmM+w=@vger.kernel.org
+X-Received: by 2002:a17:907:80a:b0:bd1:e36f:1ad7 with SMTP id
+ a640c23a62f3a-bd3bf484689mr27989066b.9.1778620733204; Tue, 12 May 2026
+ 14:18:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v14 0/8] bpf: Extend BPF syscall with common
- attributes support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177861541680.3056308.7326619347008693525.git-patchwork-notify@kernel.org>
-Date: Tue, 12 May 2026 19:50:16 +0000
-References: <20260512153157.28382-1-leon.hwang@linux.dev>
-In-Reply-To: <20260512153157.28382-1-leon.hwang@linux.dev>
-To: Leon Hwang <leon.hwang@linux.dev>
-Cc: bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
- john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
- eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
- kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
- shuah@kernel.org, brauner@kernel.org, sforshee@kernel.org,
- yuichtsu@amazon.com, aalbersh@redhat.com, willemb@google.com,
- kerneljasonxing@gmail.com, chen.dylane@linux.dev, yatsenko@meta.com,
- memxor@gmail.com, a.s.protopopov@gmail.com, ameryhung@gmail.com,
- rongtao@cestc.cn, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kernel-patches-bot@fb.com
-X-Rspamd-Queue-Id: 7A188528D79
+References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
+ <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com> <0b8bba44-f6bb-4d69-b9d4-5787c276d41a@inspirated.com>
+ <20260510163204.GA2279@sol> <3bfcf406-fdde-4303-9bd6-0d8d21ddba37@linux.win> <20260511213829.GA316710@google.com>
+In-Reply-To: <20260511213829.GA316710@google.com>
+From: Ignat Korchagin <ignat@linux.win>
+Date: Tue, 12 May 2026 22:18:42 +0100
+X-Gmail-Original-Message-ID: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+X-Gm-Features: AVHnY4IXFsTsREC72LukcHqvk6gC-iS5eeOIEbsMsX37ajVDHN0xSqZ-iDLXxGU
+Message-ID: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Kamran Khan <kz@inspirated.com>, Jeff Barnes <jeffbarnes@linux.microsoft.com>, 
+	Andy Lutomirski <luto@amacapital.net>, 
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: E388A52A2B2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6327-lists,linux-api=lfdr.de,netdevbpf];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,fb.com];
-	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-api@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_NO_DN(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6328-lists,linux-api=lfdr.de];
+	DMARC_NA(0.00)[linux.win];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ignat@linux.win,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hello:
+On Mon, May 11, 2026 at 10:38=E2=80=AFPM Eric Biggers <ebiggers@kernel.org>=
+ wrote:
+>
+> On Mon, May 11, 2026 at 10:03:21PM +0100, Ignat Korchagin wrote:
+> > I don't think fully discounting hardware offloading is beneficial here.=
+ HW
+> > accelerators will be produced and without a common interface vendors wo=
+uld
+> > start implementing their own "bespoke" drivers with bespoke userspace
+> > interfaces (we already had such proposals), which in turn may introduce=
+ more
+> > attack surface. Yes, AF_ALG needs substantial improvement, but at least=
+ it
+> > can be a standardisation point.
+>
+> That isn't the best way to accelerate symmetric crypto anymore though,
+> if it ever was.  This has been known for a long time.
+>
+> > > In any case, any hypothetical security benefit provided by AF_ALG wou=
+ld
+> > > have to be *very high* to outweigh the continuous stream of
+> > > vulnerabilities in it.  I understand that people using AF_ALG might n=
+ot
+> > > be familiar with that continuous stream of vulnerabilities, but it wo=
+uld
+> >
+> >
+> > Is it actually that much compared to other features/subsystems, like eB=
+PF or
+> > user namespaces? But we don't rush to deprecate those - instead trying =
+to
+> > harden them and come up with better design.
+>
+> There are plenty of other kernel features with a large attack surface,
+> of course.  But they tend to be much more useful than AF_ALG.  It's all
+> about weighing benefits vs. risks.
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+If divide number of CVEs in such systems on imaginary units of
+usefulness, I think the ratio is similar.
 
-On Tue, 12 May 2026 23:31:49 +0800 you wrote:
-> This patch series builds upon the discussion in
-> "[PATCH bpf-next v4 0/4] bpf: Improve error reporting for freplace attachment failure" [1].
-> 
-> This patch series introduces support for *common attributes* in the BPF
-> syscall, providing a unified mechanism for passing shared metadata across
-> all BPF commands, initially used by BPF_PROG_LOAD, BPF_BTF_LOAD, and
-> BPF_MAP_CREATE.
-> 
-> [...]
+> When we get the point where a large number of Linux users *had* to
+> disable AF_ALG as an emergency vulnerability response, and at the same
+> time their systems weren't even using AF_ALG so nothing even broke and
+> they could have just done that to begin with, I think we get a very
 
-Here is the summary with links:
-  - [bpf-next,v14,1/8] bpf: Extend BPF syscall with common attributes support
-    https://git.kernel.org/bpf/bpf-next/c/f28771c0691b
-  - [bpf-next,v14,2/8] libbpf: Add support for extended BPF syscall
-    https://git.kernel.org/bpf/bpf-next/c/b1bff4080942
-  - [bpf-next,v14,3/8] bpf: Refactor reporting log_true_size for prog_load
-    https://git.kernel.org/bpf/bpf-next/c/503c039ffeca
-  - [bpf-next,v14,4/8] bpf: Add syscall common attributes support for prog_load
-    https://git.kernel.org/bpf/bpf-next/c/ac89d33fdd81
-  - [bpf-next,v14,5/8] bpf: Add syscall common attributes support for btf_load
-    https://git.kernel.org/bpf/bpf-next/c/ceeb7eda94a3
-  - [bpf-next,v14,6/8] bpf: Add syscall common attributes support for map_create
-    https://git.kernel.org/bpf/bpf-next/c/49f9b2b2a18c
-  - [bpf-next,v14,7/8] libbpf: Add syscall common attributes support for map_create
-    https://git.kernel.org/bpf/bpf-next/c/702259006f93
-  - [bpf-next,v14,8/8] selftests/bpf: Add tests to verify map create failure log
-    https://git.kernel.org/bpf/bpf-next/c/f675483cac1d
+Well, there were: cryptsetup, RHEL fips check, so there are some...
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> clear idea of which side is heavier for AF_ALG in the real world.
 
+Same thing could be said for unprivileged user namespaces - distros
+even put a custom sysctl to restrict it and no-one noticed.
 
+> The main relevance of AF_ALG to the Linux community is that it allows
+> their systems to be exploited.
+
+To be clear I'm not arguing for the current AF_ALG implementation. I
+agree, the splice zero-copy is... suboptimal (to be soft) and is
+actually not-so-zero copy. But I think it was just added before we had
+more modern approaches like io_uring (have their own can of worms, but
+hey - people adopt it fast).
+
+But I advocate for the usefulness of the concept itself - kernel/OS
+providing crypto services to userspace. As mentioned in other threads,
+other operating systems have it and Linux lags behind. There are use
+cases: common interface for HW accelerators, embedded systems, which
+don't have the space to bring a userspace lib etc. Even non-technical:
+there are environments that just don't want to rely on third-party
+userspace libraries like OpenSSL purely for licensing reasons. And I
+agree, that it is hard to do it right, but we can piggy-back on other
+subsystems (such as io_uring mentioned or other ideas).
+
+> - Eric
+>
+
+Ignat
 
