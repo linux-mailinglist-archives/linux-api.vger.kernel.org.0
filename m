@@ -1,179 +1,209 @@
-Return-Path: <linux-api+bounces-6329-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6330-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJIwG8TdA2qA/gEAu9opvQ
-	(envelope-from <linux-api+bounces-6329-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 04:11:16 +0200
+	id YM4COGyYBGpiLwIAu9opvQ
+	(envelope-from <linux-api+bounces-6330-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 17:27:40 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151AB52C270
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 04:11:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F3B536119
+	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 17:27:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E465301D33B
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 02:11:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CCBAE32C9F03
+	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 14:29:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FBC6385516;
-	Wed, 13 May 2026 02:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15F56421899;
+	Wed, 13 May 2026 14:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qITTtdRC"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NuHA1dvN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E865A37FF5F
-	for <linux-api@vger.kernel.org>; Wed, 13 May 2026 02:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA66B27FB2E;
+	Wed, 13 May 2026 14:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778638271; cv=none; b=i1Yr2O1qgktQwvxP+RlV2byBPyLqryKonjMdnvlVyf3eTrJsCK1NgQ+p5HvtsVGc2SdY8+K5Q87sPdYEgpxrS7Vh5MBFx/74XGAcGIuKQIPqX+CRN6pkeqXukidR6MwCOWl1h9eh2ZxZBzCkHVhFJS1As1Z3I4zz+NLhET0cWVo=
+	t=1778682592; cv=none; b=pUgNH4SkAng8gE6j0ojlpxQ3Y0adGXMV226D1OYmDs10pT4KM22B0/yBozYohnTNpv24a5OzV0VWr3f4FnfaWbbAjSdmY7xSnPmgfB1fQKvwIX+kaMPn37aiF30JUUD5dTKgctCy7D/9VDbof4+NXQ++ngzTGPkUuhKcG+xYYUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778638271; c=relaxed/simple;
-	bh=aKdC+ll5LUjELuwn0biEITF+mfUo1RIVcG962JSBIRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JWWDfaHsmEDKswF0xeMB6BRKUh7yhgBRM4+6R5b7iGTDSmep2Z3fq1Z1LY0M+JqINmIfyZHNSK2NjaqNUMBYR2q4qB8S6jwZ5MsQw175HjUJaGNWyfQjtsNbOYt/0LcpGt3cJ57l5ji6KJ91j8+JnH9E/UJEaFbmG1DqxTWBnwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qITTtdRC; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <ce0ad562-2da9-452d-bd54-bf98ea858eda@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778638256;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VwYvBJrozbXYTsAqhyFYjrLi+BBFGmN36kt8esNvc24=;
-	b=qITTtdRCN1UzrIKnUpaKyEYOKJX9tFb8+1X0lqJ9AwLaI6uY9Q8P8H3lNzkTY25wpuEYCv
-	9oZQ9OZ/HAh5ZFKIJJ9NcFC8wFet/FXPzffTEL5g1w7yhjMDjCoZ0To1wYn5E7SmLm4UyR
-	om6ctVIa5cWtVUcLiQihznVfKz3YPyg=
-Date: Wed, 13 May 2026 10:10:06 +0800
+	s=arc-20240116; t=1778682592; c=relaxed/simple;
+	bh=Q2HJgZxARD1A17cdhd0ukskQlCZlw3cCWkjA/E7sjHs=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Disposition; b=HW9nrBqRY1aJuq6R6CQ2Uv6LXfZrF/Oq12evddRj5/jHX9VKnrrpXH/LXaTUSs+KWRij1GPXDZBq8/QPV3i+xj7DPLMmjBmqBYGvREE018IkHCoJosMlFwJJVPqhCwXHSatwyn+N/3lgweM6maAEdFaCU9JvUzJC7HKsU/ME0IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NuHA1dvN; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CA1E220B7167;
+	Wed, 13 May 2026 07:29:45 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA1E220B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778682587;
+	bh=eZUWYylCZ6/qLuaWw0TNaPlDo9Vps8c+zZrYEZIahBI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=NuHA1dvNsJW6xH4Usgxh7/uhFA6MBaY2RPcQJKvrC11Vr2cEKeAWOaRfxbnUR6UFB
+	 oiBmXSLXNdiNcWXGKcvbHKFQpA1okMHlruWzycMXJMU40BncG0GrjZSQjwF1Yq9/bf
+	 piOc9Fnm3JSaKCImUERP723aMBRnMkarncJ+c4lM=
+Date: Wed, 13 May 2026 10:29:46 -0400
+From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
+To: Ignat Korchagin <ignat@linux.win>
+Cc: Eric Biggers <ebiggers@kernel.org>, Kamran Khan <kz@inspirated.com>, 
+ Andy Lutomirski <luto@amacapital.net>, 
+ "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
+ <linux-crypto@vger.kernel.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
+ <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
+ <linux-api@vger.kernel.org>, 
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
+ <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
+ <netdev@vger.kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Message-ID: <C4F28324-E357-483B-B5BF-DA2D00A4D272@getmailspring.com>
+In-Reply-To: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+References: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+X-Mailer: Mailspring
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v14 2/8] libbpf: Add support for extended BPF
- syscall
-Content-Language: en-US
-To: bot+bpf-ci@kernel.org, bpf@vger.kernel.org
-Cc: ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
- andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, brauner@kernel.org,
- sforshee@kernel.org, yuichtsu@amazon.com, aalbersh@redhat.com,
- willemb@google.com, kerneljasonxing@gmail.com, chen.dylane@linux.dev,
- yatsenko@meta.com, memxor@gmail.com, a.s.protopopov@gmail.com,
- ameryhung@gmail.com, rongtao@cestc.cn, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kernel-patches-bot@fb.com, martin.lau@kernel.org, clm@meta.com,
- ihor.solodrai@linux.dev
-References: <20260512153157.28382-3-leon.hwang@linux.dev>
- <44819125e8a416353eb3e314e7804d2c762ea87331f98f1396eaa8b86421d950@mail.kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <44819125e8a416353eb3e314e7804d2c762ea87331f98f1396eaa8b86421d950@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: 151AB52C270
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-Rspamd-Queue-Id: 32F3B536119
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.95 / 15.00];
+	CC_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[linux.microsoft.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linux.microsoft.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,linux.dev,fomichev.me,google.com,amazon.com,redhat.com,meta.com,cestc.cn,vger.kernel.org,fb.com];
-	TAGGED_FROM(0.00)[bounces-6329-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6330-lists,linux-api=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon.hwang@linux.dev,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-api,bpf-ci];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jeffbarnes@linux.microsoft.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.microsoft.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.microsoft.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,getmailspring.com:mid,linux.win:email]
 X-Rspamd-Action: no action
 
-On 13/5/26 00:23, bot+bpf-ci@kernel.org wrote:
->> diff --git a/tools/lib/bpf/bpf.c b/tools/lib/bpf/bpf.c
->> index 5846de364209..9d8740761b7a 100644
->> --- a/tools/lib/bpf/bpf.c
->> +++ b/tools/lib/bpf/bpf.c
-> 
-> [ ... ]
-> 
->> +int probe_sys_bpf_ext(void)
->> +{
->> +	const size_t attr_sz = offsetofend(union bpf_attr, prog_token_fd);
->> +	union bpf_attr attr;
->> +	int fd;
->> +
->> +	memset(&attr, 0, attr_sz);
->> +	fd = syscall(__NR_bpf, BPF_PROG_LOAD | BPF_COMMON_ATTRS, &attr, attr_sz, NULL,
->> +		     sizeof(struct bpf_common_attr));
->> +	if (fd >= 0) {
->> +		close(fd);
->> +		return -EINVAL;
->                         ^^^^^^
-> 
-> Should probe_sys_bpf_ext() return 1 instead of -EINVAL when fd >= 0?
-> 
-> The probe function detects kernel support for extended BPF syscall
-> attributes by calling the BPF syscall with the BPF_COMMON_ATTRS flag
-> and a NULL pointer for common attributes.
-> 
-> The expected outcomes are:
-> - New kernel with support: errno=EFAULT (can't copy from NULL) -> return 1
-> - Old kernel without support: errno!=EFAULT (invalid command) -> return 0
-> 
-> If the syscall succeeds (fd >= 0), that definitively proves the kernel
-> accepts the extended syscall format and supports BPF_COMMON_ATTRS. The
-> function should return 1 (supported) rather than -EINVAL (error).
-> 
-> Returning -EINVAL causes feat_supported() in features.c to print a
-> warning "Detection of kernel BPF syscall common attributes support
-> support failed: Invalid argument" and mark the feature as MISSING,
-> incorrectly reporting that the kernel doesn't support the feature when
-> the successful syscall proves it does.
-> 
 
-Should not return 1.
 
-This return was discussed in v5 and v6.
+On May 12 2026, at 5:18 pm, Ignat Korchagin <ignat=40linux.win> wrote:
 
-Cite Andrii's review in v5:
+> On Mon, May 11, 2026 at 10:38=E2=80=AFPM Eric Biggers <ebiggers=40kerne=
+l.org> wrote:
+>> =20
+>> On Mon, May 11, 2026 at 10:03:21PM +0100, Ignat Korchagin wrote:
+>> > I don't think fully discounting hardware offloading is beneficial
+>> here. HW
+>> > accelerators will be produced and without a common interface
+>> vendors would
+>> > start implementing their own =22bespoke=22 drivers with bespoke user=
+space
+>> > interfaces (we already had such proposals), which in turn may
+>> introduce more
+>> > attack surface. Yes, A=46=5FALG needs substantial improvement, but a=
+t
+>> least it
+>> > can be a standardisation point.
+>> =20
+>> That isn't the best way to accelerate symmetric crypto anymore though,=
 
-But fd should really not be >= 0, and if it is -- it's some problem,
-so I'd return an error in that case to keep us aware, which is why I'm
-saying I'd just return inside if (fd >= 0) { }
+>> if it ever was.  This has been known for a long time.
+>> =20
+>> > > In any case, any hypothetical security benefit provided by A=46=5F=
+ALG would
+>> > > have to be *very high* to outweigh the continuous stream of
+>> > > vulnerabilities in it.  I understand that people using A=46=5FALG
+>> might not
+>> > > be familiar with that continuous stream of vulnerabilities, but
+>> it would
+>> >
+>> >
+>> > Is it actually that much compared to other features/subsystems,
+>> like eBP=46 or
+>> > user namespaces=3F But we don't rush to deprecate those - instead
+>> trying to
+>> > harden them and come up with better design.
+>> =20
+>> There are plenty of other kernel features with a large attack surface,=
 
-Thanks,
-Leon
+>> of course.  But they tend to be much more useful than A=46=5FALG.  It'=
+s all
+>> about weighing benefits vs. risks.
+> =20
+> If divide number of CVEs in such systems on imaginary units of
+> usefulness, I think the ratio is similar.
+> =20
+>> When we get the point where a large number of Linux users *had* to
+>> disable A=46=5FALG as an emergency vulnerability response, and at the =
+same
+>> time their systems weren't even using A=46=5FALG so nothing even broke=
+ and
+>> they could have just done that to begin with, I think we get a very
+> =20
+> Well, there were: cryptsetup, RHEL fips check, so there are some...
 
->> +	}
->> +	return errno == EFAULT ? 1 : 0;
->> +}
-> 
-> [ ... ]
-> 
-> 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25745661172
+cryptsetup does not have a hard dependency on A=46=5FALG.
+It is a potential consumer via A=46=5FALG.
 
+A=46=5FALG provides a broad, hard-to-control interface
+cryptsetup (and similar tools) are not blockers
+
+A=46=5FALG removal does not necessarily break cryptsetup usage. Removal d=
+oes
+improve =46IPS boundary clarity.
+
+
+> =20
+>> clear idea of which side is heavier for A=46=5FALG in the real world.
+> =20
+> Same thing could be said for unprivileged user namespaces - distros
+> even put a custom sysctl to restrict it and no-one noticed.
+> =20
+>> The main relevance of A=46=5FALG to the Linux community is that it all=
+ows
+>> their systems to be exploited.
+> =20
+> To be clear I'm not arguing for the current A=46=5FALG implementation. =
+I
+> agree, the splice zero-copy is... suboptimal (to be soft) and is
+> actually not-so-zero copy. But I think it was just added before we had
+> more modern approaches like io=5Furing (have their own can of worms, bu=
+t
+> hey - people adopt it fast).
+> =20
+> But I advocate for the usefulness of the concept itself - kernel/OS
+> providing crypto services to userspace. As mentioned in other threads,
+> other operating systems have it and Linux lags behind. There are use
+> cases: common interface for HW accelerators, embedded systems, which
+> don't have the space to bring a userspace lib etc. Even non-technical:
+> there are environments that just don't want to rely on third-party
+> userspace libraries like OpenSSL purely for licensing reasons. And I
+> agree, that it is hard to do it right, but we can piggy-back on other
+> subsystems (such as io=5Furing mentioned or other ideas).
+> =20
+>> - Eric
+>> =20
+> =20
+> Ignat
+> =20
+Jeff
 
