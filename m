@@ -1,67 +1,67 @@
-Return-Path: <linux-api+bounces-6331-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6332-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ANmJM6/7BmrtqQIAu9opvQ
-	(envelope-from <linux-api+bounces-6331-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 12:55:43 +0200
+	id uDanHkEBB2qVqgIAu9opvQ
+	(envelope-from <linux-api+bounces-6332-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 13:19:29 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E1354DD4B
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 12:55:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DD754E487
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 13:19:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D8C831F5C75
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 10:28:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81332311376E
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 10:55:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90063D1AB0;
-	Fri, 15 May 2026 10:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B5B46AF20;
+	Fri, 15 May 2026 10:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="BrKZCENd"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="W8jygT0V"
 X-Original-To: linux-api@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087A73CF04C
-	for <linux-api@vger.kernel.org>; Fri, 15 May 2026 10:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC446AECD
+	for <linux-api@vger.kernel.org>; Fri, 15 May 2026 10:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778840920; cv=none; b=X6jPvLNMzWcYMirZCD5lIXdCr4mwP6wAoXl1lNVPDnz7hH1IInwuyTQXwls4TtWiAvs235WT0bhAoI+VmJiAq99anew1tjzlUCLs4MAEx/y0q7UBxeV7ylnf8snNgkEXRWBoyeYAbnVwyCQjDn/thFRlTraQyokcROjNjefj07U=
+	t=1778842532; cv=none; b=CR/Xy9uu75m26O64LLNi/4vR8QkjqDGs2eKVcLANwyDq+DIUoLZFr1180MrpRmPqzMiXYfcnMnHxZbux7sJPcqAkSB8W9D/+TdWH1hHDFE5VydghDdwfWoQl91MdWtRelbG51R7Z4qInm6XbSMjRCB5lhjkZJZ6glvt2wGjgmTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778840920; c=relaxed/simple;
-	bh=c1fZt+EhMaze7Xfv6jg9YLHTIZyZz3e+ZzgOB76j/zg=;
+	s=arc-20240116; t=1778842532; c=relaxed/simple;
+	bh=RDSYGP4AvpjXQLhaeYGRAjuyHmsib3J+SU/ffwyYekE=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=NTxEGjlzv1G1gfXPfubxfIdnkYzpJiNFOBR+tedTLKH8DxnvNFyDTVi93xnwUXPeMumit2Z6cIdaLqSIfWEca5yyu+Y8TtYnem8evzITE5oWVyYSUvycjhBrFynZpA9onmX9JAD9ZTbi+tQrTGQoNBFd38PrlW1xQrbpflrfL4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=BrKZCENd; arc=none smtp.client-ip=195.121.94.185
+	 MIME-Version:Content-Type; b=I+mjD6zjmlVX9E/0noKm50CTklVZS7fq7c8b6MBM8QEHVp4GlYxhxJ5pUZM+38gONJF/a/oFxEdIqCBJ+botKFZ6U7p7bOAwDhEdivPqyh91YS0r9DzgqLVVxx1yZnqPkFV1BHWMFUIC4a8z2ey41cN0p1lIGaht5wNEJe0SwTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=W8jygT0V; arc=none smtp.client-ip=195.121.94.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: ac30a75c-5048-11f1-8ff5-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+X-KPN-MessageId: 92c2aca4-504c-11f1-89eb-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id ac30a75c-5048-11f1-8ff5-005056999439;
-	Fri, 15 May 2026 12:27:28 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	id 92c2aca4-504c-11f1-89eb-00505699b430;
+	Fri, 15 May 2026 12:55:23 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
 	by mta.kpnmail.nl (Halon) with ESMTP
-	id ac2d0699-5048-11f1-83d9-00505699891e;
-	Fri, 15 May 2026 12:27:28 +0200 (CEST)
+	id 92c27477-504c-11f1-b5d3-0050569981f5;
+	Fri, 15 May 2026 12:55:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=o+g3oIspZbQxd4700CmXmbRknUGWU2/T9rWbT6maPsU=;
-	b=BrKZCENdur7yuFODlIfAa8ogi0Hi1f20puRaGYymT8J/K7cHTgJH0tJG4FBH4o0AA6yWHjfhdqzuH
-	 6tNdJCWnwpIfHHG+5drLbA2fp8F7kTMFmrRDTUn7qiwIRIxYyg3qBaRu5meZgMhA9OiSG0lCdC7bwl
-	 xfZBbJiWVtPkgJfTY+es2asORWKmDiMS1zUHcYccxClnvWsYqOeFgqxRgMYCI/EAbfNq20uLfAGcqK
-	 sCE4t1vrD1Y+5jDdZXTB+4bdpyTAdO/p5ZsDr5u/8vH4yRUsbczHWh2QCBCmqk87uLrf4s2G/sI1RM
-	 KkXcJRuQ/mKEWxTkruV7XP5Niyvg+AA==
-X-KPN-MID: 33|n7vdFBOu3qaOaFYpGwBVO23jTXHQGyzA2ld9/dY8vyt+nZ0VZlhfMH50V1m/wgv
- p/zkXPO9528LxOx9CJHxJ4J010gYAOgZ27KYuIh57s34=
-X-CMASSUN: 33|9Yh2PtNWWkBqhq1nMV5YM2PHOEAM+WUkKvQkhhqaMqRaz2jZNBD11g0Y3PDgFJ5
- iZeCGLx6fDeudO0tuJZ3XyQ==
+	bh=/JOazQEzkSHnQFRbJg08Gb3iIdpZS7p0zK2LrD+/fNA=;
+	b=W8jygT0VOGQJhPIywrwIqg7mg6qC5wOIGHs7CORljSPLlJL/RSVNN37JEJfwmG5kyVQEY3m9d/eLO
+	 JdqdsWwj0jwKTdJNcwNjaEdUVJ0+ajsI6a+7gNjFHlwr8ztVkZ2fpaEZbJmduoX5qjOdvLTBqzn/C3
+	 BsL0TB8Vb2s3YFzyRm2WhHzXyMnOXNhRv/By5gEBgzANbWcpatFor9rRoK8xvKrboVzhJnX+GTpdbi
+	 uCy4/OOT3UYTuyBmlJZEXvcXbShY6EG6UNXbIbvWty0sEHvVjiEA2ILr/si6Xom+x04eLlMvYs4Jya
+	 egBPmBirmx8ew9pvFVngpeMhVTFlFFA==
+X-KPN-MID: 33|Qu6aNKuJOy6/p6obf5ryyPtMMwCNlZSo4nk9tfQC5ZZV1+IOrG2CxhgCwRD3crQ
+ yNvNe0kGglxQNXuOEL7+DMu86etwnmxQ+ihyHh8puBTQ=
+X-CMASSUN: 33|stHwS2isPr0foVCBjTVHWPUkcENvGSlQZIklcPtZIela4wT+O2X/LzrmvBCHlhq
+ PglwiqUYKvdeYH/ZgEhGByg==
 X-KPN-VerifiedSender: Yes
 Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
 	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id ac24601a-5048-11f1-94b1-00505699eff2;
-	Fri, 15 May 2026 12:27:28 +0200 (CEST)
-Date: Fri, 15 May 2026 12:27:28 +0200 (CEST)
+	id 92b54fc8-504c-11f1-b8d7-005056995d6c;
+	Fri, 15 May 2026 12:55:23 +0200 (CEST)
+Date: Fri, 15 May 2026 12:55:23 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>,
@@ -79,7 +79,7 @@ Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Message-ID: <1107708899.1358192.1778840848108@kpc.webmail.kpnmail.nl>
+Message-ID: <1805140959.1362290.1778842523425@kpc.webmail.kpnmail.nl>
 In-Reply-To: <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
 References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
  <20260412135434.3095416-2-jkoolstra@xs4all.nl>
@@ -98,26 +98,27 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Priority: 3
 Importance: Normal
-X-Rspamd-Queue-Id: 32E1354DD4B
+X-Rspamd-Queue-Id: F1DD754E487
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
 	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6331-lists,linux-api=lfdr.de];
-	HAS_X_PRIO_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_X_PRIO_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-6332-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[xs4all.nl];
 	DKIM_TRACE(0.00)[xs4all.nl:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
@@ -125,10 +126,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	FREEMAIL_FROM(0.00)[xs4all.nl];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,xs4all.nl:dkim,kpc.webmail.kpnmail.nl:mid]
 X-Rspamd-Action: no action
 
+Sorry for the double email, this keyboard is so finicky, I really need to fix it.
 
 > Op 11-05-2026 14:00 CEST schreef Christian Brauner <brauner@kernel.org>:
 > 
@@ -143,21 +145,51 @@ I don't disagree. I know that some of the UAPI feature requests are not fully
 flashed out, but at least it gives a basis to get the discussion going.
 
 In fact I already have a O_DIRECTORY | O_CREAT patch that at least passes
-some initial tests. However, I need to sit on it a little bit to think whether
+the initial tests. However, I need to sit on it a little bit to think whether
 I am not leaving something out. Also, I understand why vfs_create() wasn't used
 in the O_CREAT path, for instance because you cannot just make use of may_create_dentry()
-there. But now that we are going
+there. But now that we are going to string another path through lookup_open() it
+would be great if we could reuse some of the logic from vfs_create() and vfs_mkdir().
+
+Perhaps we could move may_create_dentry() out of the vfs_* calls and let the caller
+take care of that. Then again, this is the pattern for all those calls. You could also
+just accept some redundancies with may_o_create(), or have something like
+static vfs_mkdir/create_common() functions.
+
+There are also some minor things. If i_op->mkdir is missing this is an EPERM, but with
+i_op->create it is EACCESS (and suggesting ENOSYS). Should this not be a consistent error
+code? I also wonder whether there is a nicer way to handle error being returned from
+vfs_mkdir et al. If I am reading
+
+	if (!error) {
+		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
+				   dentry, mode, &delegated_inode);
+		if (IS_ERR(dentry))
+			error = PTR_ERR(dentry);
+	}
+	end_creating_path(&path, dentry);
+
+it feels like there is a missing return inside the if (IS_ERR(dentry)) block, and I
+have to go several function deep to see that end_creating_path correctly deals with
+error values being passed instead of a dentry. Then again, probably not worth the
+churn...
 
 > 
 > UAPI design often is a nasty mix of performance (context switches),
 > separation of concerns and privileges, tastefulness, and compromises you
 > never thought or wanted to make.
 > 
-> I think here it is pretty clear that O_DIRECTORY | O_CREAT is the right
-> thing to do. Instead of restructuring a bunch of codepaths so it can be
-> plumbed through to the filesystems we just reuse the existing codepaths
-> that give us the right context for free.
+
+Yes, thanks for suggestion this back at FOSDEM. It is quite fun, and lots
+to learn :)
+
 > 
 > And during LSFMM the VFS maintains all agreed to proceed with
 > O_DIRECTORY | O_CREAT.
+
+Ah good, I didn't know that. I haven't build up the street cred to attend,
+maybe next time :)
+
+Thanks,
+Jori.
 
