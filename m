@@ -1,209 +1,163 @@
-Return-Path: <linux-api+bounces-6330-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6331-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YM4COGyYBGpiLwIAu9opvQ
-	(envelope-from <linux-api+bounces-6330-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 17:27:40 +0200
+	id ANmJM6/7BmrtqQIAu9opvQ
+	(envelope-from <linux-api+bounces-6331-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 12:55:43 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F3B536119
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 17:27:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E1354DD4B
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 12:55:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CCBAE32C9F03
-	for <lists+linux-api@lfdr.de>; Wed, 13 May 2026 14:29:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8D8C831F5C75
+	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 10:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15F56421899;
-	Wed, 13 May 2026 14:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90063D1AB0;
+	Fri, 15 May 2026 10:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NuHA1dvN"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="BrKZCENd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA66B27FB2E;
-	Wed, 13 May 2026 14:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087A73CF04C
+	for <linux-api@vger.kernel.org>; Fri, 15 May 2026 10:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778682592; cv=none; b=pUgNH4SkAng8gE6j0ojlpxQ3Y0adGXMV226D1OYmDs10pT4KM22B0/yBozYohnTNpv24a5OzV0VWr3f4FnfaWbbAjSdmY7xSnPmgfB1fQKvwIX+kaMPn37aiF30JUUD5dTKgctCy7D/9VDbof4+NXQ++ngzTGPkUuhKcG+xYYUA=
+	t=1778840920; cv=none; b=X6jPvLNMzWcYMirZCD5lIXdCr4mwP6wAoXl1lNVPDnz7hH1IInwuyTQXwls4TtWiAvs235WT0bhAoI+VmJiAq99anew1tjzlUCLs4MAEx/y0q7UBxeV7ylnf8snNgkEXRWBoyeYAbnVwyCQjDn/thFRlTraQyokcROjNjefj07U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778682592; c=relaxed/simple;
-	bh=Q2HJgZxARD1A17cdhd0ukskQlCZlw3cCWkjA/E7sjHs=;
+	s=arc-20240116; t=1778840920; c=relaxed/simple;
+	bh=c1fZt+EhMaze7Xfv6jg9YLHTIZyZz3e+ZzgOB76j/zg=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Disposition; b=HW9nrBqRY1aJuq6R6CQ2Uv6LXfZrF/Oq12evddRj5/jHX9VKnrrpXH/LXaTUSs+KWRij1GPXDZBq8/QPV3i+xj7DPLMmjBmqBYGvREE018IkHCoJosMlFwJJVPqhCwXHSatwyn+N/3lgweM6maAEdFaCU9JvUzJC7HKsU/ME0IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NuHA1dvN; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CA1E220B7167;
-	Wed, 13 May 2026 07:29:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA1E220B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778682587;
-	bh=eZUWYylCZ6/qLuaWw0TNaPlDo9Vps8c+zZrYEZIahBI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=NuHA1dvNsJW6xH4Usgxh7/uhFA6MBaY2RPcQJKvrC11Vr2cEKeAWOaRfxbnUR6UFB
-	 oiBmXSLXNdiNcWXGKcvbHKFQpA1okMHlruWzycMXJMU40BncG0GrjZSQjwF1Yq9/bf
-	 piOc9Fnm3JSaKCImUERP723aMBRnMkarncJ+c4lM=
-Date: Wed, 13 May 2026 10:29:46 -0400
-From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
-To: Ignat Korchagin <ignat@linux.win>
-Cc: Eric Biggers <ebiggers@kernel.org>, Kamran Khan <kz@inspirated.com>, 
- Andy Lutomirski <luto@amacapital.net>, 
- "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
- <linux-crypto@vger.kernel.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
- <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
- <linux-api@vger.kernel.org>, 
- "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
- <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
- <netdev@vger.kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Message-ID: <C4F28324-E357-483B-B5BF-DA2D00A4D272@getmailspring.com>
-In-Reply-To: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
-References: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-X-Mailer: Mailspring
+	 MIME-Version:Content-Type; b=NTxEGjlzv1G1gfXPfubxfIdnkYzpJiNFOBR+tedTLKH8DxnvNFyDTVi93xnwUXPeMumit2Z6cIdaLqSIfWEca5yyu+Y8TtYnem8evzITE5oWVyYSUvycjhBrFynZpA9onmX9JAD9ZTbi+tQrTGQoNBFd38PrlW1xQrbpflrfL4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=BrKZCENd; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+X-KPN-MessageId: ac30a75c-5048-11f1-8ff5-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id ac30a75c-5048-11f1-8ff5-005056999439;
+	Fri, 15 May 2026 12:27:28 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id ac2d0699-5048-11f1-83d9-00505699891e;
+	Fri, 15 May 2026 12:27:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=o+g3oIspZbQxd4700CmXmbRknUGWU2/T9rWbT6maPsU=;
+	b=BrKZCENdur7yuFODlIfAa8ogi0Hi1f20puRaGYymT8J/K7cHTgJH0tJG4FBH4o0AA6yWHjfhdqzuH
+	 6tNdJCWnwpIfHHG+5drLbA2fp8F7kTMFmrRDTUn7qiwIRIxYyg3qBaRu5meZgMhA9OiSG0lCdC7bwl
+	 xfZBbJiWVtPkgJfTY+es2asORWKmDiMS1zUHcYccxClnvWsYqOeFgqxRgMYCI/EAbfNq20uLfAGcqK
+	 sCE4t1vrD1Y+5jDdZXTB+4bdpyTAdO/p5ZsDr5u/8vH4yRUsbczHWh2QCBCmqk87uLrf4s2G/sI1RM
+	 KkXcJRuQ/mKEWxTkruV7XP5Niyvg+AA==
+X-KPN-MID: 33|n7vdFBOu3qaOaFYpGwBVO23jTXHQGyzA2ld9/dY8vyt+nZ0VZlhfMH50V1m/wgv
+ p/zkXPO9528LxOx9CJHxJ4J010gYAOgZ27KYuIh57s34=
+X-CMASSUN: 33|9Yh2PtNWWkBqhq1nMV5YM2PHOEAM+WUkKvQkhhqaMqRaz2jZNBD11g0Y3PDgFJ5
+ iZeCGLx6fDeudO0tuJZ3XyQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id ac24601a-5048-11f1-94b1-00505699eff2;
+	Fri, 15 May 2026 12:27:28 +0200 (CEST)
+Date: Fri, 15 May 2026 12:27:28 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>,
+	Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Thomas Weißschuh <thomas.weissschuh@linutronix.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Message-ID: <1107708899.1358192.1778840848108@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+ <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
+ <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
+ an O_DIRECTORY fd
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-Rspamd-Queue-Id: 32F3B536119
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Rspamd-Queue-Id: 32E1354DD4B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.95 / 15.00];
-	CC_EXCESS_QP(1.20)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.microsoft.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux.microsoft.com:s=default];
+	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
+	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6330-lists,linux-api=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6331-lists,linux-api=lfdr.de];
+	HAS_X_PRIO_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[xs4all.nl:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jeffbarnes@linux.microsoft.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.microsoft.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.microsoft.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,getmailspring.com:mid,linux.win:email]
+	FREEMAIL_FROM(0.00)[xs4all.nl];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
 
+> Op 11-05-2026 14:00 CEST schreef Christian Brauner <brauner@kernel.org>:
+> 
+> mkdirat2() is objectively the worse api. It forces userspace to use a
+> separate system call without any reason whatsoever. If you can to
+> O_CREAT you should also be able to to O_DIRECTORY in the same system
+> call. If we support O_DIRECTORY | O_CREAT we get all the lookup
+> restriction niceties RESOLVE_* for free. Plus, it is supportable both in
+> openat() and openat2() because I made that combo return an errno.
 
-On May 12 2026, at 5:18 pm, Ignat Korchagin <ignat=40linux.win> wrote:
+I don't disagree. I know that some of the UAPI feature requests are not fully
+flashed out, but at least it gives a basis to get the discussion going.
 
-> On Mon, May 11, 2026 at 10:38=E2=80=AFPM Eric Biggers <ebiggers=40kerne=
-l.org> wrote:
->> =20
->> On Mon, May 11, 2026 at 10:03:21PM +0100, Ignat Korchagin wrote:
->> > I don't think fully discounting hardware offloading is beneficial
->> here. HW
->> > accelerators will be produced and without a common interface
->> vendors would
->> > start implementing their own =22bespoke=22 drivers with bespoke user=
-space
->> > interfaces (we already had such proposals), which in turn may
->> introduce more
->> > attack surface. Yes, A=46=5FALG needs substantial improvement, but a=
-t
->> least it
->> > can be a standardisation point.
->> =20
->> That isn't the best way to accelerate symmetric crypto anymore though,=
+In fact I already have a O_DIRECTORY | O_CREAT patch that at least passes
+some initial tests. However, I need to sit on it a little bit to think whether
+I am not leaving something out. Also, I understand why vfs_create() wasn't used
+in the O_CREAT path, for instance because you cannot just make use of may_create_dentry()
+there. But now that we are going
 
->> if it ever was.  This has been known for a long time.
->> =20
->> > > In any case, any hypothetical security benefit provided by A=46=5F=
-ALG would
->> > > have to be *very high* to outweigh the continuous stream of
->> > > vulnerabilities in it.  I understand that people using A=46=5FALG
->> might not
->> > > be familiar with that continuous stream of vulnerabilities, but
->> it would
->> >
->> >
->> > Is it actually that much compared to other features/subsystems,
->> like eBP=46 or
->> > user namespaces=3F But we don't rush to deprecate those - instead
->> trying to
->> > harden them and come up with better design.
->> =20
->> There are plenty of other kernel features with a large attack surface,=
-
->> of course.  But they tend to be much more useful than A=46=5FALG.  It'=
-s all
->> about weighing benefits vs. risks.
-> =20
-> If divide number of CVEs in such systems on imaginary units of
-> usefulness, I think the ratio is similar.
-> =20
->> When we get the point where a large number of Linux users *had* to
->> disable A=46=5FALG as an emergency vulnerability response, and at the =
-same
->> time their systems weren't even using A=46=5FALG so nothing even broke=
- and
->> they could have just done that to begin with, I think we get a very
-> =20
-> Well, there were: cryptsetup, RHEL fips check, so there are some...
-
-cryptsetup does not have a hard dependency on A=46=5FALG.
-It is a potential consumer via A=46=5FALG.
-
-A=46=5FALG provides a broad, hard-to-control interface
-cryptsetup (and similar tools) are not blockers
-
-A=46=5FALG removal does not necessarily break cryptsetup usage. Removal d=
-oes
-improve =46IPS boundary clarity.
-
-
-> =20
->> clear idea of which side is heavier for A=46=5FALG in the real world.
-> =20
-> Same thing could be said for unprivileged user namespaces - distros
-> even put a custom sysctl to restrict it and no-one noticed.
-> =20
->> The main relevance of A=46=5FALG to the Linux community is that it all=
-ows
->> their systems to be exploited.
-> =20
-> To be clear I'm not arguing for the current A=46=5FALG implementation. =
-I
-> agree, the splice zero-copy is... suboptimal (to be soft) and is
-> actually not-so-zero copy. But I think it was just added before we had
-> more modern approaches like io=5Furing (have their own can of worms, bu=
-t
-> hey - people adopt it fast).
-> =20
-> But I advocate for the usefulness of the concept itself - kernel/OS
-> providing crypto services to userspace. As mentioned in other threads,
-> other operating systems have it and Linux lags behind. There are use
-> cases: common interface for HW accelerators, embedded systems, which
-> don't have the space to bring a userspace lib etc. Even non-technical:
-> there are environments that just don't want to rely on third-party
-> userspace libraries like OpenSSL purely for licensing reasons. And I
-> agree, that it is hard to do it right, but we can piggy-back on other
-> subsystems (such as io=5Furing mentioned or other ideas).
-> =20
->> - Eric
->> =20
-> =20
-> Ignat
-> =20
-Jeff
+> 
+> UAPI design often is a nasty mix of performance (context switches),
+> separation of concerns and privileges, tastefulness, and compromises you
+> never thought or wanted to make.
+> 
+> I think here it is pretty clear that O_DIRECTORY | O_CREAT is the right
+> thing to do. Instead of restructuring a bunch of codepaths so it can be
+> plumbed through to the filesystems we just reuse the existing codepaths
+> that give us the right context for free.
+> 
+> And during LSFMM the VFS maintains all agreed to proceed with
+> O_DIRECTORY | O_CREAT.
 
