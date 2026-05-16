@@ -1,184 +1,180 @@
-Return-Path: <linux-api+bounces-6333-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6334-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mCr0OWImB2oEsQIAu9opvQ
-	(envelope-from <linux-api+bounces-6333-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 15:57:54 +0200
+	id AGgoLiESCGqUXwMAu9opvQ
+	(envelope-from <linux-api+bounces-6334-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 16 May 2026 08:43:45 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6186A550DE6
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 15:57:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF6D55A818
+	for <lists+linux-api@lfdr.de>; Sat, 16 May 2026 08:43:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9889230A6D28
-	for <lists+linux-api@lfdr.de>; Fri, 15 May 2026 13:49:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2C27E301411E
+	for <lists+linux-api@lfdr.de>; Sat, 16 May 2026 06:43:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB238481679;
-	Fri, 15 May 2026 13:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4049235B633;
+	Sat, 16 May 2026 06:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdJQ8sq7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lte6xRJp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C812D3A69;
-	Fri, 15 May 2026 13:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778852964; cv=none; b=QgY5FEcCxNioqyE0M0s5ui+4m2Ml+GMnIPED7i1ro6lhcr+NXz9ufvmegXR9753k4AEjrivnSwFUKfbvaQoztPQCrWYDCPngPT49pt9g/LE78EeIh6GEMxaSL7hJdqh/19Q/20mj2lxAgIHVKpalOTkErxeaSKBURXSrJMnm51I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778852964; c=relaxed/simple;
-	bh=pb3y79JMZ+zLBzi+Ay6epkzmseeGxqZrGGdMhUWxek0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pmTA6K021DJm/ZPZOaNnTj57Wm+28PR3y23OggfhKyDyx5uLaZqCDEtEnbbTAckG3Bgs8PEzpH0W3Vhm0rtuJZNHBXdoqRUtDMQC7KAyMvS2BQW+SI2JEi9+T1xwG0eZmeY6amC13SJ93hdLfqt+v9es7N5w0MXLAhC7q/Bqh6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdJQ8sq7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCD1C2BCB0;
-	Fri, 15 May 2026 13:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778852964;
-	bh=pb3y79JMZ+zLBzi+Ay6epkzmseeGxqZrGGdMhUWxek0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cdJQ8sq787lsZtodQ0VynA8X+LgZLDs4wO321slIiPTss4PW2xhgZTImJCRhanM++
-	 4/UcHmSS7/06bT9aExQfbXMvYRk0vxeAU+V8E1lNKURgO8Z0RrNiqTH/3NQA+jRkAf
-	 v4pErRIrsQywq9JIjpV1RQR3HQ0JegYVAn3NrUEzPCyo3Fn8ktZa5HeII78BgpNExC
-	 zB8fp5frszRl2RO9rU8Fh7FUtfWjq0VjNNnwMpJlTWtY87RH5YpXc7gJpEpCBur2C3
-	 a/BtbG4u02GSygAzavAIedgIDlqHVW2OjdqYKN9AdkOPYofFJ2pxiWt+bouLCfmrtw
-	 YD9QGgxldmXDg==
-Date: Fri, 15 May 2026 15:49:15 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
- O_DIRECTORY fd
-Message-ID: <20260515-gezeugt-noten-465fda1e9df9@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
- <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
- <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
- <1805140959.1362290.1778842523425@kpc.webmail.kpnmail.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02942FFDF8
+	for <linux-api@vger.kernel.org>; Sat, 16 May 2026 06:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778913821; cv=pass; b=HKzNRoQHH5pn9mXNQiaO6hFtpsgCTpLumqEsyvxeNPzxGdctUdAlog43RC+a6aXxWLJ9ZQr3/Nuc/5MDrv4sGSEDT2SjAgd4wB1ttaTuzdgtVXg1cY4M/10hXpi35af0fijUPAL/Aa6wlwEBiwArZCK5SOvXP2RnnQC/BiyGyFg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778913821; c=relaxed/simple;
+	bh=BOu7AkGfzBlU/bzal5lpBXqw/o4zx+y8OCCvr0FI1sY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z1arXFUwPUjb9kRyZYFqhLrYJcTkWqOjfPVXwVuJCHl/+dNSaVEzZ2EhinddvbJCt1QaFUbF9pjORyniIoC8sB3ZKNXeIffO+RmDQ2YaAavSSAbggS9nVyAuUUDDaCqOMvpP0tybf39tZK1XDXGmqNr6vPnqrXDEyLQRwKIQYIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lte6xRJp; arc=pass smtp.client-ip=209.85.167.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-47c6f914617so307766b6e.1
+        for <linux-api@vger.kernel.org>; Fri, 15 May 2026 23:43:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778913819; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K+tQ6qGbc+9bZQXuw8nOFdHBhMg22iwi3zZZU3zKlldVK4/iTpta6hysK/Ye3zNw2c
+         q1+1uNeF6ZOLr8uA4CMhveQaAshX5YVVuUt1e1rFeUg91GC/D6uxPeRHpEADDdBXmR1H
+         jcMroIF0Cz3cqnX7UIrubQjS9ue9c14POYk4bJC1vEj+3Smp1zHGhvIys4IFwBGY6+iX
+         yQnJrlnX8OXn+1PjPA/uvfLl3jgqmD9oEwAGbW1NR2q8V8HUpFHG+Lv3LW2jIMmDplJF
+         jkNb34a4gMcX0cW3GNeJfPhalq/MsuNmmgEG5qNMLXjVXnzH/h+ceMfryWYH6F+WDBqU
+         6p2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        fh=aESv80qIMb+1uTsybhzn3Rn8bt5XpVgQlUxuWMNuNYA=;
+        b=flZHsWYMPQkQUv5xyr6LRfQXMlAWPgamnVem8jwVIKCiT5RVQ0peRd6I6OasBCFYSC
+         gIabczBlAUTq6eRX4gaf7zzIGZuetszlpm7bOXst4LQaWUokxPpj36jIcBPWB2MB7wKM
+         8V/TD5n7IaeEeX/GmcR4hL7VM8qo5JerFG1Wuokjq/xmJP7S1nA4x9Qoi0fwwFoPCxV3
+         1e6m1Re02Gr8oo+rlPTyTXZVtzyb/tamsiIVzBTkWb4YtD21S9XhAWo+9d6AfiZItXW8
+         3Li2Hnok1Q7wFy+/xV2VOa8e59neA6ic3s45xGCfxvI7Rij9Y9fkm/IRDjEfS1i3czv2
+         MFrw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778913819; x=1779518619; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        b=lte6xRJplRGmp/PSskcPRMRcmRHxp/3AN6A1XynLI6uXZlluhAn8u2h7mZQg7APZLK
+         oAbu6jVFzk3P9a62b4PsoqoTNSJkE7FzjLFpOPv5Z+lsxgwuhtlVTrcbfv9MbnmVX5Py
+         k/kzYjGMlhm8+gRGJfuzaDpFjgrS5WI83cFpH15WHsjn/iy/5C/Ve0iDz9Octg/QEDrA
+         DhdqK6z9WrgQK213b5HL2plz3FNcI+orhuzLw1gTevyVgHFRj7CbGxDhPlje1LF0RZp7
+         KU79gd97VCPt1LjtMq72jZt/AsJhd9asWIZ2PtbrgPLo+/sBoYkMDD8j7+KHYkro1zzO
+         kN5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778913819; x=1779518619;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        b=n0bFNgpzMWCr6etPRCmn2B2zCavKzvKsT+fzK4TxzK1QFHh2vy7VfpWS+3CvokFZ2R
+         I8bjASVeeGsQQutGbW9S5yK8mtgxrzUSWJDVJjNb4Uvd1HUHXu3Mn+7gmfYEGhbIr2nH
+         7l0UHho9SbWhPEprw4Rwuf3wOG27edm+ibayrEigsjLInkvREcSOAaqISPr5q8+vYjaB
+         H7MdgeWXoTjkW7ZyNkClHCFdgCoUG2vtc2SyQtLBLUQN0a+SL/L4qu65YagR6fO7+e/z
+         uf2Ic5JcKJWgw+BNipXP86VXLQ+Vruzbpirg5uEeJ9IpDDkWIYdERtRExBAgPOroVK38
+         p3Bg==
+X-Forwarded-Encrypted: i=1; AFNElJ976w8SPh/lujarg42ZNhVfMVu7EoGHmTB2p0rYgDQ3rek4aYHUyCoZSRfkLmoS4z7JynWnIBFHils=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0dusrD+00dfXKi0lFKqpLx4TW4s6lq8SOgnLDNE47d/WU+EVN
+	+kZnhdWelqfj9yFgavUraG42bLr8sF8uX0ih8x76n9rTT/FSyeOyaS+3ZXBqwXfStAKEoWvfaEa
+	ZDAHICBjg9YewIYhCSb4FIUmDUDOjLEs=
+X-Gm-Gg: Acq92OE814MCmBNJRoTh218oZZmS9PS7qbqEcWqDwcWID5X574jRxajImpo1QTYrlcX
+	dEUjn/CNkKZzBnkK8BXBllu/nQZcgyYhNRy8uTiRSCDKrI3iqiDuf/vLKNBaUfSQhdUje68I1HZ
+	CtTJw+KvS51uef4QzNI7TmyiYvgC5dDEwJfgVPIO6+qnKiqsAia5cQCZESvN5lD72V1rGVZFydU
+	pseuFjw6Vwg3XWwP1jv4VusOUkyuOchwk8XBzKGwTTJllVELSDBTaerfcCz1buekTlyDyi4tZA6
+	vkW/xw/4vCHCFOJYmw==
+X-Received: by 2002:a54:4e88:0:b0:46c:e542:cc3e with SMTP id
+ 5614622812f47-482e55e65a9mr3386045b6e.6.1778913818672; Fri, 15 May 2026
+ 23:43:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1805140959.1362290.1778842523425@kpc.webmail.kpnmail.nl>
-X-Rspamd-Queue-Id: 6186A550DE6
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com> <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+In-Reply-To: <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+From: Cedric Blancher <cedric.blancher@gmail.com>
+Date: Sat, 16 May 2026 08:43:00 +0200
+X-Gm-Features: AVHnY4LulXSgBXmlt-XknhPT4FGQR5_lEWwUy9GN7jO6BYSv7kvOdT0vcpcWCyI
+Message-ID: <CALXu0UdsurG-ayuYViqs0HXOfgyDw8gpNC+f=5y59cuuSPUbBA@mail.gmail.com>
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+To: Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	tytso@mit.edu, adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, 
+	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com, 
+	trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org, 
+	hansg@kernel.org, senozhatsky@chromium.org, 
+	"Darrick J. Wong" <djwong@kernel.org>, Roland Mainz <roland.mainz@nrubsig.org>, 
+	Steve French <stfrench@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 1AF6D55A818
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6334-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[xs4all.nl];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6333-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[oracle.com,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,kernel.org,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,nrubsig.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[34];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[cedricblancher@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Fri, May 15, 2026 at 12:55:23PM +0200, Jori Koolstra wrote:
-> Sorry for the double email, this keyboard is so finicky, I really need to fix it.
-> 
-> > Op 11-05-2026 14:00 CEST schreef Christian Brauner <brauner@kernel.org>:
-> > 
-> > mkdirat2() is objectively the worse api. It forces userspace to use a
-> > separate system call without any reason whatsoever. If you can to
-> > O_CREAT you should also be able to to O_DIRECTORY in the same system
-> > call. If we support O_DIRECTORY | O_CREAT we get all the lookup
-> > restriction niceties RESOLVE_* for free. Plus, it is supportable both in
-> > openat() and openat2() because I made that combo return an errno.
-> 
-> I don't disagree. I know that some of the UAPI feature requests are not fully
-> flashed out, but at least it gives a basis to get the discussion going.
-> 
-> In fact I already have a O_DIRECTORY | O_CREAT patch that at least passes
-> the initial tests. However, I need to sit on it a little bit to think whether
-> I am not leaving something out. Also, I understand why vfs_create() wasn't used
-> in the O_CREAT path, for instance because you cannot just make use of may_create_dentry()
-> there. But now that we are going to string another path through lookup_open() it
-> would be great if we could reuse some of the logic from vfs_create() and vfs_mkdir().
-> 
-> Perhaps we could move may_create_dentry() out of the vfs_* calls and let the caller
-> take care of that. Then again, this is the pattern for all those calls. You could also
-> just accept some redundancies with may_o_create(), or have something like
-> static vfs_mkdir/create_common() functions.
-> 
-> There are also some minor things. If i_op->mkdir is missing this is an EPERM, but with
-> i_op->create it is EACCESS (and suggesting ENOSYS). Should this not be a consistent error
+On Mon, 11 May 2026 at 16:11, Christian Brauner <brauner@kernel.org> wrote:
+>
+> On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+> > Christian, let's lock this one in. I will post subsequent changes
+> > as delta patches.
+> >
+> > Following on from:
+> >
+> > https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+> >
+> > [...]
+>
+> Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+> Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
 
-ENOSYS is worse because it would indicate to userspace that the whole
-system call they're using isn't available. So we can't ever use that.
+@Chuck Lever Thank you!
 
-This is probably just historical baggage. EACCES is especially wrong
-because userspace would expect that particular error code to stem from
-an LSM.
+Does that mean the support for case-insensitive filesystems will work
+with Linux 7.2?
 
-In both cases the correct error code would be EOPNOTSUPP and we should
-aim to be very consistent in such cases and only reserve this for
-missing support for a specific functionality.
-
-I would be very surprised if userspace depended on EACCES being returned
-though. So I would say let's try and see whether we can correct this and
-return EOPNOTSUPP. The amount of filesystems that have no ->create
-should be dwarved by those that do.
-
-> code? I also wonder whether there is a nicer way to handle error being returned from
-> vfs_mkdir et al. If I am reading
-> 
-> 	if (!error) {
-> 		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
-> 				   dentry, mode, &delegated_inode);
-> 		if (IS_ERR(dentry))
-> 			error = PTR_ERR(dentry);
-> 	}
-> 	end_creating_path(&path, dentry);
-> 
-> it feels like there is a missing return inside the if (IS_ERR(dentry)) block, and I
-> have to go several function deep to see that end_creating_path correctly deals with
-> error values being passed instead of a dentry. Then again, probably not worth the
-> churn...
-
-Not without it being a major clarity win at least.
-
-> > UAPI design often is a nasty mix of performance (context switches),
-> > separation of concerns and privileges, tastefulness, and compromises you
-> > never thought or wanted to make.
-> > 
-> 
-> Yes, thanks for suggestion this back at FOSDEM. It is quite fun, and lots
-> to learn :)
-
-Thanks for working on this. It's helpful.
+Ced
+-- 
+Cedric Blancher <cedric.blancher@gmail.com>
+[https://plus.google.com/u/0/+CedricBlancher/]
+Institute Pasteur
 
