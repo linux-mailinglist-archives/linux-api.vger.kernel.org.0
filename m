@@ -1,183 +1,142 @@
-Return-Path: <linux-api+bounces-6348-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6349-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0AM6Lsw+C2pQFAUAu9opvQ
-	(envelope-from <linux-api+bounces-6348-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:31:08 +0200
+	id QJzKCORLC2o7FQUAu9opvQ
+	(envelope-from <linux-api+bounces-6349-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 19:27:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D10F570F18
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:31:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 772B15719A6
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 19:26:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BACF8300CB2E
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 16:22:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9DC373039832
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 17:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF18135F5F7;
-	Mon, 18 May 2026 16:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5864371868;
+	Mon, 18 May 2026 17:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="sDzmeIi8"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Xc+6F+s1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-24427.protonmail.ch (mail-24427.protonmail.ch [109.224.244.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BDF265621
-	for <linux-api@vger.kernel.org>; Mon, 18 May 2026 16:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779121377; cv=pass; b=IQfvJZ18va8eTQXkZu7+JwlG4ckE7XrnqkYOdd8z8tRXws0JwuTW3kK5GPOEVpT3FdQ1L3WZ/eFnPZk8wA2AZWImKu7AJ4U9kMNEgnWPNEM9kmFK2RiDCcSwcTJuYWbkSBwaq1Hpe6izdGhDbEIwWRR0WGoSNV61rvRNxPj/Kgo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779121377; c=relaxed/simple;
-	bh=XTFNVsqBQzn+UexOBPiyxjDehU0C6sH67ZUr5pWq79U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=McWCgfuxuudL9633e1DWQurSAoHxUNArPy6uE1K4QSUtiPfDROKEzQGFqCnyPJ9FFeF8d7pwDVXa5L8nLl/zjSe5ym8MRCtxap9qDMOUBSgw92pRr1NTM1Tzru8hhtK301ehaoKf9YtPX/jHv15c5aTfpceZP++KeK1lrIAonlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=sDzmeIi8; arc=pass smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a40502e63bso2731791e87.0
-        for <linux-api@vger.kernel.org>; Mon, 18 May 2026 09:22:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779121374; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fXP5QR764x+DclLUA+jN3uCSXuNVegvSx4zCZyKLSzucmyNI6JsGsLIYOqI0WYGGJz
-         llUs8cvYkDggGzxHFjaK+adRDz7LyVHerqfICutkKw8k/0DFfPmV9jOMDxkzVHazUXSX
-         dX++2I3qX76WWvDokSa4y7LuZyhsAoVokKo1nXwUTE66Mfssr9c4CJHtrfFXR9sVjWwY
-         z9R/h9kWISlaVjCkk3RTObj3bGcq794i62knmj7sS+H0NVJygH2ntds46nJzlzSKnMev
-         jFUfOPBoyH3N6KqCvTV/MuIptRyMjrrrX2Wkd6rrotHDh9SnmHs1Em7Ae/Vjc5deArEr
-         55Ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        fh=F2RyuIcTtKWKHAZTrH+Uba/FEW4liRDKkI9PCLfEuYg=;
-        b=YLN02wjvf84Ax0juuwDuQVStHJio6jOOsNU20wD4D80jFCFzPL1I/5BvhNlKIUU8nf
-         4tSgUj+gcsuBOGxJjVpx7yZfiIlflSftfjL9gGISepZp9/4Jqdt3P3TlTe4PuANGhwXs
-         MeLkv5RWlAq5kWBQ1FgqVE1t/iFgCC1vRt5geMVUuDr9kbnZF5vOc+v3T1/LPePu+P6b
-         cQBDpurXmP1UczBGvprFtSSQMbJSSjxlOLDP1ziixLB2+SCTDGBtypdToi++yBXdTcs9
-         PhA6sUHEDuhdPW/86nrJacN4DbHgOK/T7tktxb61qXIAMDFWwrDM/vAFjTZJjvv0TdYY
-         oe2g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1779121374; x=1779726174; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        b=sDzmeIi86sejOQvOoxvX4DWMLk3RAsUAuuCOsTHhu1w08vWk2Y1buzve/Nxd/EaOpX
-         RQlGqsceYvjNqtC2SUoc396Y/EnJUmezIyWvEoSFpBk7a23Jf/hBVDB88mb1ChJf2r0X
-         OEft0J+QmQ70qyR2bH6J8vL63B8KyYOTD6XZKJzL4eDxnOMRI9xP0E57cNx2evjRKTRQ
-         TjbxfaXdei73OBPGe40uaTLvVP5ddWvT5cQc/hZLQvJG9rBED9mFYB2GZoAO8KxmOuwd
-         TE1bMb7cOltQ+tUu9kTVNG7ciUrE74SZKrLR4jhiXTh9Z6oJzZX8sgp3+thJkMsJgSP+
-         HV+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779121374; x=1779726174;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        b=SDqEd6FhT0XONJgvudbaTztFqB4GVKtWVCc+97XMkGROXKCwaV6u6XcGR5pO9GPSLY
-         wxNzCwrTKYxPv5KihU+oH7a4il/90D6J7CFRLL/Iah6zV7TYIA8cVt8Vp6+HfdCAXGkw
-         OLubrf0NNR1Sm0QX8KE8kobZwXCjtW9qU9Ta7dUc9nxD0yIqacBgL6GLTvpCF9jjYWnk
-         +wfjOVs3OnbFsEEmBoapOdB+A70aLlBGQqMO718BM8lreQycHCF3z3lsIP/WrCv0/xOL
-         ZhxeLKBY243lro5wWGL5FBK7434vEKoDoInmLvftC9Qb8vlkALdd5XP1LKEptVZc7Hgg
-         WddA==
-X-Forwarded-Encrypted: i=1; AFNElJ9lBEHf65O6inwrWiHyYifjRhCLWjq581fh0lcMdMUabD2L8VrXMvZ0JV5RzHprDkpVqQyGLxWZZdk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx84g2la177HOXVzIqA1gY2HIt58IR8MSp3EtFkQ7s+1CknA8H9
-	fY7goWUsx+VbSsvNA29zlF++Yso5dUuYPoxGNjKIqi8QZAofmB3nII/a3J5fPnkCC8h3MeQ7AfH
-	QytrYB4dcEkXzLw2OZEvo4R6GpHzlQA0xLtNNS/nz
-X-Gm-Gg: Acq92OG+1xBtwHCQ8mybIaY2gwNC7NQGkZhMCyl8s8j2qHv/gMGELeBzHqoX/om+5Uq
-	h2gBDf+/6qTLtRCCK6MQQs80OTqg7n/OS6QzVIEXPfsRvM8XFFbfbrc7jJb3ORZsWccarX9J4Ti
-	HhnNAdeUXoyDxOV2o1Q4HTElxwloZWaiJ4Cx+vXdc4LxtyQyIYr8XLfSyJ27zBi0Sqyp6pTcQiV
-	MhxVVj+CIIRepDmFRCEBmo/KuS1yckSIIIfzBUzKJ4CDksNwlrU2Xmc5kYvlt2cllQN2ESb7zqV
-	xmlMFlj/KOMWZp8=
-X-Received: by 2002:a05:6512:401e:b0:5a4:74e:5f75 with SMTP id
- 2adb3069b0e04-5aa0e60b1bfmr4415283e87.1.1779121373933; Mon, 18 May 2026
- 09:22:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E07384233;
+	Mon, 18 May 2026 17:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.27
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779124960; cv=none; b=byXdd/bJBz91lrevoLACiAACTUS0BvIqVe4ibqXEDhHGGG80o+i3UsVyTOy2G9DnPsIOefRjeS3IzaCtJHMWV6kRvnaxYVApPTdPBejD1AuWUBoWSFynrDOLnDJK5lldk9RbtQaAFj2p+VRlZw4HFBl/PUHZgU6Gvr37Jn9dWYk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779124960; c=relaxed/simple;
+	bh=ydSYadrnu3kkyI9l0uX2fBnLI/6W+uQ1/XQAiBbql2c=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NWzjWlb5fGkXllmNNGW1G+GF9Aw3Pc7HuiLB6igmXNiBWIE4wzxgk0zsSvvRdcBsoYub5LIsgc56jPoauCb+7tC69FnAV7/3OoFoMAPZan5GhuD7RZf8gAzkuXTgeFyk6Cc/09DDkqeQz6RMs5iV76/SrCO1bS84n2csE+oAC0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Xc+6F+s1; arc=none smtp.client-ip=109.224.244.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1779124950; x=1779384150;
+	bh=FM09ImBdxC4h9uzOVnYMi6mtxoZ+gmJ6q8797szrN1Q=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Xc+6F+s1yKgD7dFHQJorESPPveKTx7jisk7/LTb9aHuw3cyGc9ZzJfXdnxbPpAC43
+	 duMKvGrbucFqVmXMg1ISwFB+VcecWdp291RZVnyd55S4NbS0zHIuZ8cR+RGr8fz1ec
+	 3+bkpdH4B7tYI2RV6WFW1FHDGTcxRUzF/+1vAKT52mxu6e0vCbZalcNHAan9lEZ4Ja
+	 HxQAEL3HtBWVHrBCaY0Rq1XUqlhYltjuexL9nDR3xy3488PEGX6C+BkdBmlKOqmC2h
+	 g4k5ZLmd+e5+9NuIN1nSkaci+no+U+651fo3Qyjy/ZveZTCAjYXUpkv7dObtELlKbd
+	 rNqdj7VybKjAQ==
+Date: Mon, 18 May 2026 17:22:24 +0000
+To: "luto@amacapital.net" <luto@amacapital.net>
+From: Cyber_black <Cyberblackk@proton.me>
+Cc: "hch@infradead.org" <hch@infradead.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "tytso@mit.edu" <tytso@mit.edu>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "djwong@kernel.org" <djwong@kernel.org>, "mark@fasheh.com" <mark@fasheh.com>, "moybs027@gmail.com" <moybs027@gmail.com>
+Subject: [5][RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP exposes identical data unprivileged
+Message-ID: <-nQmUF-iBsNFQ1Iz2j_cVui7DxnmpAO7z3X7qH8Xzpr7CYXE8j5x5YeFQ39U1wcMFNuVnuxu1pJf7ooiwJYK8ZFJDpjEtifFaBuWNJIi0ak=@proton.me>
+Feedback-ID: 117998405:user:proton
+X-Pm-Message-ID: b0252c05f510b23cddc2c8e4c94e9647a953e05c
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
- <agqevS--YYBVW2Oz@infradead.org> <20260518162048.GC9531@frogsfrogsfrogs>
-In-Reply-To: <20260518162048.GC9531@frogsfrogsfrogs>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 18 May 2026 09:22:42 -0700
-X-Gm-Features: AVHnY4LPlnFdM4Ytr497DHglr7id-JLbay6wfSP_dcQx5-R5dh4Wh_ZPGa6qlGc
-Message-ID: <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com>
-Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Cyber_black <Cyberblackk@proton.me>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Mark Fasheh <mark@fasheh.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[proton.me,quarantine];
+	R_DKIM_ALLOW(-0.20)[proton.me:s=protonmail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,vger.kernel.org,mit.edu,kernel.org,fasheh.com,gmail.com];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[amacapital.net];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6348-lists,linux-api=lfdr.de];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-api];
+	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-6349-lists,linux-api=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,amacapital-net.20251104.gappssmtp.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 5D10F570F18
+	DKIM_TRACE(0.00)[proton.me:+];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Cyberblackk@proton.me,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,proton.me:mid,proton.me:dkim]
+X-Rspamd-Queue-Id: 772B15719A6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, May 18, 2026 at 9:21=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Sun, May 17, 2026 at 10:08:13PM -0700, Christoph Hellwig wrote:
-> > On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
-> > > Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
-> > > This restores the intended restriction, at the cost of breaking
-> > > unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
-> > > This option is a larger ABI impact and likely undesirable.
-> > >
-> > > The preferred fix is Option A, since FIEMAP has been available
-> > > unprivileged since 2008 with no reported security issues, and read
-> > > access to physical block layout is already implicitly available
-> > > through open() permission on the file.
-> >
-> > No, FIEMAP really should not be available unprivileged.  So I think B i=
-s
-> > the right thing.  Can you send a proper patch with a proper signoff?
->
-> For anyone who might be relying on FIEMAP output to find sparse regions
-> -- don't.  FIEMAP is a lowlevel fs debugging interface; it won't tell
-> you about dirty pagecache backed by unwritten disk space.  cp was burned
-> by that a decade and a half ago.
->
+Thank you for raising this important question, Andy. I've been following th=
+e discussion as a "listening guest" and I have a thought.
 
-The only way that I'm personally aware of to determine whether ranges
-in two files are reflinked to each other (and the only efficient way
-to find identical blocks to, say, archive a large directory without
-reading all the contents) is FIEMAP.  I wrote some code to do this
-awhile back (not in production use).  Yes, I realize that it might
-have issues with dirty page cache.
+My idea is this: Instead of forcing FIEMAP to become a root-only interface =
+(breaking existing tools), or leaving it as-is (with information disclosure=
+), what if we design a new, restricted API that is not privileged but also =
+not unprivileged in the traditional sense?
 
-Is there some other way to do this?  Could an API be added that
-efficiently answers the actual question without revealing information
-that shouldn't be revealed?
+Concretely:
 
---Andy
+1.  The API would be callable by any user, but it would not expose physical=
+ block addresses.
+   =20
+2.  It would answer higher-level questions that tools actually need, such a=
+s:
+   =20
+    -   "Are these two file ranges reflinked (shared)?" (for deduplication)
+       =20
+    -   "Is this file range sparse (holes)?" (without leaking physical loca=
+tions)
+       =20
+    -   "What is the allocation status (delayed, unwritten, etc.)?"
+       =20
+3.  The kernel would maintain a capability or permission that is not root-e=
+quivalent (e.g., a new `CAP_BLOCK_MAP_QUERY`), but the API would not requir=
+e full `CAP_SYS_RAWIO`.
+   =20
+
+This way:
+
+-   Tools like `filefrag`, `cp`, and deduplication utilities can work witho=
+ut root.
+   =20
+-   Physical block addresses remain hidden from unprivileged users, closing=
+ the information leak.
+   =20
+-   We avoid forcing users to run these tools as root, which would open up =
+far more serious risks (e.g., kernel panic, accidental corruption).
+   =20
+
+In short: we don't need to choose between "unprivileged leak" and "root-onl=
+y". We can design a purpose=E2=80=91limited API that answers only the neces=
+sary questions, with the minimum privilege required.
+
+Would this be acceptable? I'd be happy to help draft a more detailed propos=
+al or prototype.
+
+This idea was developed together with my friend playerofficial19 (moybs027@=
+gmail.com) through discussion. We hope it's helpful.
 
