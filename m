@@ -1,149 +1,183 @@
-Return-Path: <linux-api+bounces-6347-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6348-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKDBBwI9C2oJFAUAu9opvQ
-	(envelope-from <linux-api+bounces-6347-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:23:30 +0200
+	id 0AM6Lsw+C2pQFAUAu9opvQ
+	(envelope-from <linux-api+bounces-6348-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:31:08 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1DB570CFA
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:23:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D10F570F18
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 18:31:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B2C313037F73
-	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 16:22:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BACF8300CB2E
+	for <lists+linux-api@lfdr.de>; Mon, 18 May 2026 16:22:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179BF4508F8;
-	Mon, 18 May 2026 16:22:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF18135F5F7;
+	Mon, 18 May 2026 16:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="L1ij12X2"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="sDzmeIi8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B87371CE0;
-	Mon, 18 May 2026 16:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779121324; cv=none; b=scAV015z8YWTnd9VdNYSWZ099XUdoVKEYYnM1bA0awZSCVWXSXcHwwaGK7d6ySPSEoMye3bGKoz8Zb20ixp+Xplf6Dl1Y84MZHpaQq67k6NGH6Cn3tIwAXN8KGmJYRquLTMO4e0SDldLSbJ+Vi0sq92scs01GNqlgpctlN3JQ8w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779121324; c=relaxed/simple;
-	bh=6B7N8auHOgw8oG8MoDIYMzpDJJJ50aDQh56EXJx4gf0=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=a2bIjUuBj9oYQ3SCmibZvfdzujK3i2CUFIrR+xxBje7GWsEyy4o+QajeTkdb/YD7R1svoXqKiB5eOwh6nO2XNfj737DP6gC6InzjOzhEf3VARcKeV99srCoBVZHt4Psq7KntqRRzAcR6ikv3Uv5q0/s6ZJNL4cOUeRZASn99qB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=L1ij12X2; arc=none smtp.client-ip=185.70.43.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1779121307; x=1779380507;
-	bh=6B7N8auHOgw8oG8MoDIYMzpDJJJ50aDQh56EXJx4gf0=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=L1ij12X2bQ8nORGru4rDTfYAUtXaNHBgl9vQd9TPyDkLga1bWhk6luLeG4w/h0IJR
-	 IxXjaVCTyQL/b3KjFnuFOH4OjgwReqf4YvnrEOMGq9iTJuQ2Uu46y0PX75sFdLR84/
-	 f2MfrOOw7Z2kYiGwjaY9W/UcA+TeP/b9Uzdsacq3OkEt7HvVOLoEKvW9XBasm8vlB2
-	 dLtoZNqZ5LUCmVnHoWlKHBX+mkjqVKrfddstI3tL7Q0lrXzvNKoVD5UFWH3AHmL0J3
-	 rqgIUXLaRhjaVvOvv5E2AP4dbsV9zk4yK7tHSp1WGYDwNW++lOQGkzBgS9On0fvKNP
-	 /BRicHcUYNctw==
-Date: Mon, 18 May 2026 16:21:43 +0000
-To: "hch@infradead.org" <hch@infradead.org>
-From: Cyber_black <Cyberblackk@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "tytso@mit.edu" <tytso@mit.edu>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: =?utf-8?Q?[2]Yaz=C4=B1=C5=9Fmada_2_ileti_var[RFC]_fs/ioctl.c:_FIBMAP_requires_CAP=5FSYS=5FRAWIO_while_FIEMAP_exposes_identical_data_unprivileged?=
-Message-ID: <BnwW4YBSPGE6fRUXHIRW57SZU2ReivrVEjnddmzdfHYTxBwNq2PcJbE-YeBAH-2OkdQDU7K1j2HLbVXeD65V8ARaEPe29jtbl97qQKkIITw=@proton.me>
-Feedback-ID: 117998405:user:proton
-X-Pm-Message-ID: 2391698aee24597cbf389f0a74d801233434d22b
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BDF265621
+	for <linux-api@vger.kernel.org>; Mon, 18 May 2026 16:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779121377; cv=pass; b=IQfvJZ18va8eTQXkZu7+JwlG4ckE7XrnqkYOdd8z8tRXws0JwuTW3kK5GPOEVpT3FdQ1L3WZ/eFnPZk8wA2AZWImKu7AJ4U9kMNEgnWPNEM9kmFK2RiDCcSwcTJuYWbkSBwaq1Hpe6izdGhDbEIwWRR0WGoSNV61rvRNxPj/Kgo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779121377; c=relaxed/simple;
+	bh=XTFNVsqBQzn+UexOBPiyxjDehU0C6sH67ZUr5pWq79U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=McWCgfuxuudL9633e1DWQurSAoHxUNArPy6uE1K4QSUtiPfDROKEzQGFqCnyPJ9FFeF8d7pwDVXa5L8nLl/zjSe5ym8MRCtxap9qDMOUBSgw92pRr1NTM1Tzru8hhtK301ehaoKf9YtPX/jHv15c5aTfpceZP++KeK1lrIAonlQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=sDzmeIi8; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a40502e63bso2731791e87.0
+        for <linux-api@vger.kernel.org>; Mon, 18 May 2026 09:22:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779121374; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fXP5QR764x+DclLUA+jN3uCSXuNVegvSx4zCZyKLSzucmyNI6JsGsLIYOqI0WYGGJz
+         llUs8cvYkDggGzxHFjaK+adRDz7LyVHerqfICutkKw8k/0DFfPmV9jOMDxkzVHazUXSX
+         dX++2I3qX76WWvDokSa4y7LuZyhsAoVokKo1nXwUTE66Mfssr9c4CJHtrfFXR9sVjWwY
+         z9R/h9kWISlaVjCkk3RTObj3bGcq794i62knmj7sS+H0NVJygH2ntds46nJzlzSKnMev
+         jFUfOPBoyH3N6KqCvTV/MuIptRyMjrrrX2Wkd6rrotHDh9SnmHs1Em7Ae/Vjc5deArEr
+         55Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
+        fh=F2RyuIcTtKWKHAZTrH+Uba/FEW4liRDKkI9PCLfEuYg=;
+        b=YLN02wjvf84Ax0juuwDuQVStHJio6jOOsNU20wD4D80jFCFzPL1I/5BvhNlKIUU8nf
+         4tSgUj+gcsuBOGxJjVpx7yZfiIlflSftfjL9gGISepZp9/4Jqdt3P3TlTe4PuANGhwXs
+         MeLkv5RWlAq5kWBQ1FgqVE1t/iFgCC1vRt5geMVUuDr9kbnZF5vOc+v3T1/LPePu+P6b
+         cQBDpurXmP1UczBGvprFtSSQMbJSSjxlOLDP1ziixLB2+SCTDGBtypdToi++yBXdTcs9
+         PhA6sUHEDuhdPW/86nrJacN4DbHgOK/T7tktxb61qXIAMDFWwrDM/vAFjTZJjvv0TdYY
+         oe2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1779121374; x=1779726174; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
+        b=sDzmeIi86sejOQvOoxvX4DWMLk3RAsUAuuCOsTHhu1w08vWk2Y1buzve/Nxd/EaOpX
+         RQlGqsceYvjNqtC2SUoc396Y/EnJUmezIyWvEoSFpBk7a23Jf/hBVDB88mb1ChJf2r0X
+         OEft0J+QmQ70qyR2bH6J8vL63B8KyYOTD6XZKJzL4eDxnOMRI9xP0E57cNx2evjRKTRQ
+         TjbxfaXdei73OBPGe40uaTLvVP5ddWvT5cQc/hZLQvJG9rBED9mFYB2GZoAO8KxmOuwd
+         TE1bMb7cOltQ+tUu9kTVNG7ciUrE74SZKrLR4jhiXTh9Z6oJzZX8sgp3+thJkMsJgSP+
+         HV+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779121374; x=1779726174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
+        b=SDqEd6FhT0XONJgvudbaTztFqB4GVKtWVCc+97XMkGROXKCwaV6u6XcGR5pO9GPSLY
+         wxNzCwrTKYxPv5KihU+oH7a4il/90D6J7CFRLL/Iah6zV7TYIA8cVt8Vp6+HfdCAXGkw
+         OLubrf0NNR1Sm0QX8KE8kobZwXCjtW9qU9Ta7dUc9nxD0yIqacBgL6GLTvpCF9jjYWnk
+         +wfjOVs3OnbFsEEmBoapOdB+A70aLlBGQqMO718BM8lreQycHCF3z3lsIP/WrCv0/xOL
+         ZhxeLKBY243lro5wWGL5FBK7434vEKoDoInmLvftC9Qb8vlkALdd5XP1LKEptVZc7Hgg
+         WddA==
+X-Forwarded-Encrypted: i=1; AFNElJ9lBEHf65O6inwrWiHyYifjRhCLWjq581fh0lcMdMUabD2L8VrXMvZ0JV5RzHprDkpVqQyGLxWZZdk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx84g2la177HOXVzIqA1gY2HIt58IR8MSp3EtFkQ7s+1CknA8H9
+	fY7goWUsx+VbSsvNA29zlF++Yso5dUuYPoxGNjKIqi8QZAofmB3nII/a3J5fPnkCC8h3MeQ7AfH
+	QytrYB4dcEkXzLw2OZEvo4R6GpHzlQA0xLtNNS/nz
+X-Gm-Gg: Acq92OG+1xBtwHCQ8mybIaY2gwNC7NQGkZhMCyl8s8j2qHv/gMGELeBzHqoX/om+5Uq
+	h2gBDf+/6qTLtRCCK6MQQs80OTqg7n/OS6QzVIEXPfsRvM8XFFbfbrc7jJb3ORZsWccarX9J4Ti
+	HhnNAdeUXoyDxOV2o1Q4HTElxwloZWaiJ4Cx+vXdc4LxtyQyIYr8XLfSyJ27zBi0Sqyp6pTcQiV
+	MhxVVj+CIIRepDmFRCEBmo/KuS1yckSIIIfzBUzKJ4CDksNwlrU2Xmc5kYvlt2cllQN2ESb7zqV
+	xmlMFlj/KOMWZp8=
+X-Received: by 2002:a05:6512:401e:b0:5a4:74e:5f75 with SMTP id
+ 2adb3069b0e04-5aa0e60b1bfmr4415283e87.1.1779121373933; Mon, 18 May 2026
+ 09:22:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="b1=_hb8YhQAwhZCXIU9G8xbQEjyLoqOllM25eS5t9Lwjmw"
-X-Spamd-Result: default: False [-0.53 / 15.00];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MIXED_CHARSET(0.53)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[proton.me,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[proton.me:s=protonmail];
+References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
+ <agqevS--YYBVW2Oz@infradead.org> <20260518162048.GC9531@frogsfrogsfrogs>
+In-Reply-To: <20260518162048.GC9531@frogsfrogsfrogs>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Mon, 18 May 2026 09:22:42 -0700
+X-Gm-Features: AVHnY4LPlnFdM4Ytr497DHglr7id-JLbay6wfSP_dcQx5-R5dh4Wh_ZPGa6qlGc
+Message-ID: <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com>
+Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
+ exposes identical data unprivileged
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Cyber_black <Cyberblackk@proton.me>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Mark Fasheh <mark@fasheh.com>, 
+	"Theodore Ts'o" <tytso@mit.edu>, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6347-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[proton.me:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Cyberblackk@proton.me,linux-api@vger.kernel.org];
-	HAS_ATTACHMENT(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[amacapital.net];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6348-lists,linux-api=lfdr.de];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,proton.me:email,proton.me:mid,proton.me:dkim]
-X-Rspamd-Queue-Id: 8C1DB570CFA
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,amacapital-net.20251104.gappssmtp.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 5D10F570F18
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
---b1=_hb8YhQAwhZCXIU9G8xbQEjyLoqOllM25eS5t9Lwjmw
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, May 18, 2026 at 9:21=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
+ wrote:
+>
+> On Sun, May 17, 2026 at 10:08:13PM -0700, Christoph Hellwig wrote:
+> > On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
+> > > Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
+> > > This restores the intended restriction, at the cost of breaking
+> > > unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
+> > > This option is a larger ABI impact and likely undesirable.
+> > >
+> > > The preferred fix is Option A, since FIEMAP has been available
+> > > unprivileged since 2008 with no reported security issues, and read
+> > > access to physical block layout is already implicitly available
+> > > through open() permission on the file.
+> >
+> > No, FIEMAP really should not be available unprivileged.  So I think B i=
+s
+> > the right thing.  Can you send a proper patch with a proper signoff?
+>
+> For anyone who might be relying on FIEMAP output to find sparse regions
+> -- don't.  FIEMAP is a lowlevel fs debugging interface; it won't tell
+> you about dirty pagecache backed by unwritten disk space.  cp was burned
+> by that a decade and a half ago.
+>
 
-On Fri, May 15, 2026 at 05:36:45PM +0000, Maintainer wrote:> No, FIEMAP rea=
-lly should not be available unprivileged. So I think B is
-> the right thing. Can you send a proper patch with a proper signoff?
+The only way that I'm personally aware of to determine whether ranges
+in two files are reflinked to each other (and the only efficient way
+to find identical blocks to, say, archive a large directory without
+reading all the contents) is FIEMAP.  I wrote some code to do this
+awhile back (not in production use).  Yes, I realize that it might
+have issues with dirty page cache.
 
-Absolutely, thanks for the guidance. You're right that Option B is the
-correct approach for consistency and security.
+Is there some other way to do this?  Could an API be added that
+efficiently answers the actual question without revealing information
+that shouldn't be revealed?
 
-I've prepared the patch below. It adds CAP_SYS_RAWIO check to
-ioctl_fiemap() to match the protection already in place for FIBMAP.
-
-The check is placed early in the function, before any filesystem-specific
-operations, following the same pattern as ioctl_fibmap().
-
-Best regards,
-
-Eneshan Erdo=C4=9Fan Karaca
-
-My github:https://github.com/Kisaca-Enes
-
-
---b1=_hb8YhQAwhZCXIU9G8xbQEjyLoqOllM25eS5t9Lwjmw
-Content-Type: text/x-patch; name=0001-fs-ioctl-add-CAP_SYS_RAWIO-check-to-FS_IOC_FIEMAP.patch
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=0001-fs-ioctl-add-CAP_SYS_RAWIO-check-to-FS_IOC_FIEMAP.patch
-
-RnJvbTogQ3liZXJfYmxhY2sgPEN5YmVyYmxhY2trQHByb3Rvbi5tZT4KRGF0ZTogRnJpLCAxNiBN
-YXkgMjAyNiAxMjowMDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGZzL2lvY3RsOiBhZGQgQ0FQ
-X1NZU19SQVdJTyBjaGVjayB0byBGU19JT0NfRklFTUFQCgpGU19JT0NfRklFTUFQIGV4cG9zZXMg
-cGh5c2ljYWwgYmxvY2sgYWRkcmVzc2VzIG9mIGZpbGVzIHRvIHVucHJpdmlsZWdlZAp1c2Vycywg
-d2hpY2ggaXMgdGhlIHNhbWUgcHJpdmlsZWdlZCBpbmZvcm1hdGlvbiB0aGF0IEZJQk1BUCBwcm90
-ZWN0cyB3aXRoCkNBUF9TWVNfUkFXSU8gY2FwYWJpbGl0eSBjaGVjay4KCkZvciBjb25zaXN0ZW5j
-eSBpbiB0aGUgVkZTIHByaXZpbGVnZSBtb2RlbCBhbmQgdG8gcHJldmVudCBpbmZvcm1hdGlvbgpk
-aXNjbG9zdXJlIG9mIHBoeXNpY2FsIGRpc2sgbGF5b3V0LCBhZGQgdGhlIHNhbWUgY2FwYWJpbGl0
-eSBjaGVjayB0bwppb2N0bF9maWVtYXAoKSB0aGF0IGFscmVhZHkgZXhpc3RzIGluIGlvY3RsX2Zp
-Ym1hcCgpLgoKRklFTUFQIGhhcyBiZWVuIGF2YWlsYWJsZSB1bnByaXZpbGVnZWQgc2luY2UgMjAw
-OCwgYnV0IGFzIG5vdGVkIGJ5IHRoZQptYWludGFpbmVycywgdGhpcyB3YXMgYW4gdW5pbnRlbmRl
-ZCBleHBvc3VyZSB0aGF0IHNob3VsZCBiZSBjb3JyZWN0ZWQuCgpTaWduZWQtb2ZmLWJ5OiBDeWJl
-cl9ibGFjayA8Q3liZXJibGFja2tAcHJvdG9uLm1lPgotLS0KIGZzL2lvY3RsLmMgfCAzICsrKwog
-MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2ZzL2lvY3RsLmMg
-Yi9mcy9pb2N0bC5jCmluZGV4IDEyMzQ1Njc4OTBhYi4uYWJjZGVmMTIzNDU2NyAxMDA2NDQKLS0t
-IGEvZnMvaW9jdGwuYworKysgYi9mcy9pb2N0bC5jCkBAIC0xOTksNiArMTk5LDkgQEAgc3RhdGlj
-IGludCBpb2N0bF9maWVtYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCBmaWVtYXAgX191c2Vy
-ICp1ZmllbWFwKQogCXN0cnVjdCBmaWVtYXBfZXh0ZW50X2luZm8gZmllaW5mbyA9IHsgMCwgfTsK
-IAlzdHJ1Y3QgaW5vZGUgKmlub2RlID0gZmlsZV9pbm9kZShmaWxwKTsKIAlpbnQgZXJyb3I7CisK
-KwlpZiAoIWNhcGFibGUoQ0FQX1NZU19SQVdJTykpCisJCXJldHVybiAtRVBFUk07CiAKIAlpZiAo
-IWlub2RlLT5pX29wLT5maWVtYXApCiAJCXJldHVybiAtRU9QTk9UU1VQUDsKLS0gCjIuNDAuMAo=
-
---b1=_hb8YhQAwhZCXIU9G8xbQEjyLoqOllM25eS5t9Lwjmw--
-
+--Andy
 
