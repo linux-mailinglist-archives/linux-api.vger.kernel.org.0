@@ -1,186 +1,281 @@
-Return-Path: <linux-api+bounces-6357-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6358-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0OyDCkCUDGp1jAUAu9opvQ
-	(envelope-from <linux-api+bounces-6357-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 18:48:00 +0200
+	id YM37Epi/DGqJlgUAu9opvQ
+	(envelope-from <linux-api+bounces-6358-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 21:52:56 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC365829A1
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 18:47:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A245A58459C
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 21:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A4A6E3029EA3
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 16:47:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E880300BC84
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 19:47:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359E548C8DC;
-	Tue, 19 May 2026 16:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE4B2BDC1C;
+	Tue, 19 May 2026 19:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qCDj36xB"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="TQqxe7kz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04D730B51D
-	for <linux-api@vger.kernel.org>; Tue, 19 May 2026 16:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779209277; cv=pass; b=UImkvPknEiEZVnsyaghVgAF7mv5nzEwD0CVH02llrkDJjxdrap7xgA2s0vVg1F7lyrJxnEqW0VzD0NS9e+i6R/tB+pxyl0CKiA1PsrGFH3blhrLtxivpnEZFHSyEHwiI0N+zDZ/wNV66mOvVETcynRLAImhDzVwyR3yjHJAN+ZU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779209277; c=relaxed/simple;
-	bh=ViKPE/zs4gsJozSFsoDM9rzZ64VredtJAzBJtyzJDD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MJyiLPC7xbGlC40k4ca29zz3awDSYyq4dK8XgzHKtI0zNOCfqWePmHWVRHZ6/wZbfMPbhFNHpkzFiZYArORMmZl/uaY0BNjyKso3q8yr1btyTbE7xYJyPFzqJOz2zvWkwH4GdOLjFqztvijoxxgjITH13dYFLU1daGZYqpJEMtg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qCDj36xB; arc=pass smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12c8d0945b3so97c88.0
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2026 09:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779209275; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LvF41iCoCkZ2UHtsjEzIgzULxPkiA1+EjM0W5M8vKZR/APW9EZBwN4xuI1bh+en7+j
-         LmkEkBVCRhKrZkmhTmyagLAL/+L6v1XOGUVAOgoxrIH+AQwgoDeWaI2bYGwAakssNdrP
-         lwS+GzEorr3NAT5aH+JF8RggMsEg6m3KHgrrCDl4K6rkhOLprNslo7ki4WX4rye74MQ2
-         2Vaot9gyrzboeBi58a1Ffx8++pZ6kxD53s3Og0WiU3WN1c67Pv4DrdEcxrCW8oXFbyP4
-         /lmpl6Z5z60u6MTgial9dqg/Wdl6oO9IAUqSEzPekuxDIsDiZM228xh2xFtrWr0qxJbn
-         xC6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ViKPE/zs4gsJozSFsoDM9rzZ64VredtJAzBJtyzJDD8=;
-        fh=7xslzfr2T5yUQYPBBmKHifQkfiHmMNGbCQDCvz15h2M=;
-        b=XuN9o0x6JFA8a6sNjeai2NQq5rYxp7vjbKW08no+rpCmrKKRZeMRrg3bSKoVVCmQQE
-         xXQMBzHFcfR0W2dtTDqm9vhYPnVjiOJvsCnG1cpZNRunXhF5c15WZPITcxwfwtG9rKrv
-         CgeD6+GV1M2eM296r23HGs5yF3I63ocHWkoMAv75RI6+24D9YRuOsAm0mcIOGt78V1/f
-         mhCmoCT+IA9tVg85ZtG6bToSHTEyZtqPv0UjzMMSYQ6y6YDWqK4CDRMK4jphr9FewJ8W
-         y8QZnTp8f0JX9Q5aOhY14wxQywqfPV3CmujPKhoX3y7vrp9D+VSGSXiibdUFkzUsIpZz
-         kDNg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779209275; x=1779814075; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ViKPE/zs4gsJozSFsoDM9rzZ64VredtJAzBJtyzJDD8=;
-        b=qCDj36xB+gWsx5I++4gl23aTy/IsknfkUlDdViRQo5wucJqQ8XdghhD+kLpe7INyJX
-         D5hDNw4zhXmqyvnDQ+SLTsfjy3d+aAzPtHK4Hf/yZvzw4vcTdOfCgbx45BElKmR12hfX
-         pu5c2HaqaT73C2IpAxqMFMcZNTBN0dPwrTcBUBQ9H3m6bZt6mx/YJhlrLDFNw5Cvbfji
-         jvAUMXhEKAap1D9lrGHZsUO74k7gq02nBUlPXXnPBlgSayaJKDgXw3EWOzWfApAElNs6
-         BfzZRPCYgAd0MgV4u2ao7+QnmxOz2O+5xUIt6DXaGaTbjbG45iFgS0OcpDl/H5i84vQ9
-         f0/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779209275; x=1779814075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ViKPE/zs4gsJozSFsoDM9rzZ64VredtJAzBJtyzJDD8=;
-        b=XwcxAkXIvpoUnigEhhrYBh0wcJ+OjDq7WmVqhDedKtZa3QpkV5Nb4xHZJ/va4H8vZG
-         cLGrZX1dppCr5yt4Q0eFV+VUTvEfCTnkRuEUBemRPBu6mbAK1vq88MWIx7C3SEx7sD5a
-         1LqjmU6ICGyVEIkBYw3bX9qiHMGZ/F0aus33VfKCVfuAz1Klwa2IVRA+dz3qW6xTcHEg
-         89wm4qn0cd6XRILloe+gi1M0VhV6sPOve9IAoXXi8oYZGv2gpRgs1/ev2ufrxCZ312tl
-         ZARHa2H3TlYR4DYAWvC/3DJv4ZJHFYX+GeqAkeg6HHpmv4k+RSg2jNXJ6Hw1MsXwTtCO
-         dbGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9nE1ybxQLoo6tfdnAiizRCKG108/hcKrQ1B2+ig8JYigqXPi0cOjVyzV1RxNBGxaOQXUt2xIzA3UQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzogHFX7XTtkJSt/dbfT++PnHIS+q1qacCpHxob040F7RW1QWnY
-	+OEJ0jlIEVQoWIOIRakIHcqiRpj+XamHh70kc8eLiIQguNXlS6PZ4PrhA3MBI2J7j0AuSbOOIml
-	iqZm5WpPVl2me8xHKjBcD7LK4wB8JtXZKFgGNn/sV
-X-Gm-Gg: Acq92OGeu+GcxxWl2u4ZoYX5eIxot5fjx6/OrjO8gIw+ADIqODFpm/UkRtzx3EYgjOy
-	UAd5ZPNYphUsKcNMW9eUWKUKhyQJXOGyw6aCRwvnju47/zq5zudzAzukHcyMeEluEo8W8P6mExH
-	qMVUazz8WuQvVmVVimZKCL2bU+8tHDGB0jr1qva7hmOb2IFqzjKm4J8y74os80l0/OWwKvhS3jX
-	hC5rylVdZ/8VZDBczc1kuMZmL6INUUSWukf2mj97tt03b/lFvbw9V/yt7HZ6IL9lW0YCnHR63KI
-	fD97fuucWB5xinzeTypKTmk/kiEoBQc0ddZJvsg+awbWweDI
-X-Received: by 2002:a05:7022:41a3:b0:12c:2ed4:6314 with SMTP id
- a92af1059eb24-13557dcef85mr326451c88.1.1779209273823; Tue, 19 May 2026
- 09:47:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8DD21D5B0;
+	Tue, 19 May 2026 19:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779220063; cv=none; b=Sl53cDKnUjDAt/ZyqsMdpDI6LqUUmN1v+487ie0578qDrRk/O1zkTNVBo24gUjh0DXeXA46vgeREpY1CbJ+iBwuxSGNPargKFLg+Zov/ZLkDWeGPXVhPLxkUdAF3MlkvtZby3xGyScW4RdoEbj7bpIpgxzz5ajRj7FXHjXuncFo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779220063; c=relaxed/simple;
+	bh=i33o9ezfdH2ITEIPc3x/F45yGlLSi23k912tIvNLUI8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qsIyNweMIiWmfQwDKlPXIleuwPrCc/Xemh1iAa6CzjfRxOcFHURrjEcXqRy2CD7wbhwdHwPBck7HXmX85LMySZ7z2HVN0XlRjMGDbWfjO87SButOmPFstQXnihGXxi9db1RAqDl5HWcf+Nto21UEZ4PbZjZaIRpE2NY9rmQ2Dao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=TQqxe7kz; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=rulbKwFB5t9+i4HSuYZTS79H6o4XLdanavcWBockdOs=; b=TQqxe7kzHq2AhEgd84M7ojJSag
+	MNdlPvAL9a0Ab/tQwxBDtwX3c8xKGXRSsJnfv/AAylGGujR1wYKNiS0eF/Rj7590vLfiUJ9367bL1
+	8FEKZLng2C+QWHn5rW6wZFcSeI66yytrlW+6qHbrpBaa9rXaFt1NUOO69OyDSbUqLQrY9bAIFY/Mw
+	iqVpsZpF2JFCy2s1GjAPoVFDKQbMHrUWDBlYfUhJwHlWf2B5K5fQRhn1XxOsdVbgzdIIxBZPM1ox3
+	cnbxvhYG5NqedMmbGp0zROfn2NkJ4lkC95Z8ORImcQMp0MM3ZyGtIFLR2fp4fRfdFXV0HOCXe6Tnp
+	wjlyaeaQ==;
+Received: from [179.193.2.40] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wPQPJ-003Mu7-PV; Tue, 19 May 2026 21:47:14 +0200
+Message-ID: <471b5b42-974c-441a-9afb-13e1baba5c44@igalia.com>
+Date: Tue, 19 May 2026 16:47:05 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <F78521DA-08DC-424E-BBE1-231BC900CEE0@gmail.com>
-In-Reply-To: <F78521DA-08DC-424E-BBE1-231BC900CEE0@gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 19 May 2026 18:47:15 +0200
-X-Gm-Features: AVHnY4LvG4Du5d39_T67NOwKnozMptM-y7xFRUTkKn7VXkYMQfWRo6DTkXiA7Lg
-Message-ID: <CAG48ez0KsuR5z4RDgxWPUoS8e_MJzF74RgFDJayohG48A_N0PQ@mail.gmail.com>
-Subject: Re: [RFC] TID v2.0: kernel module for cache-line zeroization against
- Flush+Reload (CLFLUSHOPT + LFENCE + REP STOSQ)
-To: Ahmed Hassan <ahmaaaaadbntaaaaa@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, kernel-hardening@lists.openwall.com, 
-	linux-crypto@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] string: Introduce strtostr() for safe and performance
+ string copies
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Christian Brauner
+ <brauner@kernel.org>, Kees Cook <kees@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, willy@infradead.org,
+ mathieu.desnoyers@efficios.com,
+ Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org,
+ Yafang Shao <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com,
+ arnaldo.melo@gmail.com, Petr Mladek <pmladek@suse.com>,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, linux-mm@kvack.org,
+ linux-api@vger.kernel.org
+References: <20260517-tonyk-long_name-v1-0-3c282eaa91e2@igalia.com>
+ <20260517-tonyk-long_name-v1-3-3c282eaa91e2@igalia.com>
+ <20260517223419.3262de7c@pumpkin>
+ <d4d6cf61-568e-478e-88d6-01b769d7eded@igalia.com>
+ <20260518193843.7bde8d53@pumpkin>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20260518193843.7bde8d53@pumpkin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [1.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6358-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-6357-lists,linux-api=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jannh@google.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FREEMAIL_CC(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,linux-foundation.org,gmail.com,suse.com,vger.kernel.org,igalia.com,kvack.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: BCC365829A1
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[godbolt.org:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: A245A58459C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, May 18, 2026 at 11:47=E2=80=AFPM Ahmed Hassan
-<ahmaaaaadbntaaaaa@gmail.com> wrote:
->
-> Hi kernel developers,
->
-> I am sharing TID (The Instant Destroyer) v2.0, a Linux kernel module
-> written in C that addresses a specific gap in existing security
-> libraries: none of them (libsodium, OpenSSL, glibc memzero_explicit)
-> flush CPU cache lines after memory zeroization.
->
->
-> =3D=3D Problem =3D=3D
->
-> Standard zeroization functions (explicit_bzero, sodium_memzero,
-> OPENSSL_cleanse) prevent the compiler from eliding the wipe, but do
-> not evict CPU cache lines (L1/L2/L3). This leaves residual key
-> material measurable via Flush+Reload (Yarom & Falkner, 2014) after
-> data use ends.
+Em 18/05/2026 15:38, David Laight escreveu:
+> On Mon, 18 May 2026 11:36:49 -0300
+> André Almeida <andrealmeid@igalia.com> wrote:
+> 
+>> Hi David, thanks for the feedback!
+>>
+>> Em 17/05/2026 18:34, David Laight escreveu:
+>>> On Sun, 17 May 2026 15:36:13 -0300
+>>> André Almeida <andrealmeid@igalia.com> wrote:
+>>>    
+>>>> Some parts of the kernel uses memcpy() instead of strscpy() because they
+>>>> are performance sensitive and doesn't care about the return value of
+>>>> strscpy(). One such common case is to copy current->comm to a different
+>>>> buffer.
+>>>>
+>>>> As the command name is guaranteed to be NUL-terminated in the range of
+>>>> TASK_COMM_LEN, this is safe enough and doesn't create unterminated
+>>>> strings. However, in order to expand the size of current->comm, this
+>>>> expectation will be broken and those memcpy() could create such strings
+>>>> without trailing NUL byte.
+>>>>
+>>>> In order to support a fast and safe string copy, create strtostr(), to copy
+>>>> a NUL-terminated string to a new string buffer. If the destination buffer
+>>>> is bigger than the source, no pad is applied, but the string is
+>>>> NUL-terminated. If the destination buffer is smaller, the string is
+>>>> truncated. The last byte of the destination is always set to NUL for safety.
+>>>>
+>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>>>> ---
+>> [...]>> +/**
+>>>> + * strtostr - Copy NUL-terminanted string to NUL-terminate string
+>>>> + *
+>>>> + * @dest: Pointer of destination string
+>>>> + * @src: Pointer to NUL-terminates string
+>>>> + *
+>>>> + * This is a replacement for strcpy() where the caller doesn't care about the
+>>>> + * return value and if the string is going to be truncated, albeit it needs
+>>>> + * to mark sure that it will be NUL-terminated. Intended for performance
+>>>> + * sensitive cases, such as tracing.
+>>>
+>>> If you care about performance, and the destination isn't smaller (especially
+>>> if the sizes are the same) then just use memcpy().
+>>>      
+>>
+>> The problem is that as I'm expanding current->comm, the source buffer
+>> might be bigger than destination, and when we truncate the string, it
+>> won't have the termination NUL byte. So we need an extra dest[len-1] =
+>> \0 after the memcpy.
+> 
+> It depends on other access to the destination.
+> If it might be being concurrently read it is vital that it is always
+> terminated.
+> So you can't even temporarily have a non-zero byte at the end.
+> 
 
-The thing you're talking about isn't really related to the
-Flush+Reload side channel attack, right? You're just talking about
-flushing cache lines.
+I don't think this is the case here, as far as I can tell all the 
+callers of strtostr will wait the end of the copy before using it.
 
-In what threat model would this be an issue? Normally, the goal of
-memory zeroing is to ensure that sensitive data is wiped before an
-attacker has a chance to physically pull out the RAM from a machine
-and plug it into another device that can reveal RAM contents, or
-before an attacker gains physical control of a locked device and can
-connect malicious peripherals to it, or such.
+>>
+>>>> + *
+>>>> + * If the destination is bigger than the source, no padding happens. It it's
+>>>> + * smaller the strings gets truncated.
+>>>> + *
+>>>> + * Both arguments needs to be arrays with lengths discoverable by the compiler.
+>>>> + */
+>>>> +#define strtostr(dest, src)	do {					\
+>>>> +	const size_t _dest_len = __must_be_cstr(dest) +			\
+>>>> +				 ARRAY_SIZE(dest);			\
+>>>> +	const size_t _src_len = __must_be_cstr(src) +			\
+>>>> +				__builtin_object_size(src, 1);		\
+>>>> +									\
+>>>> +	BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||		\
+>>>> +		     _dest_len == (size_t)-1);				\
+>>>> +	memcpy(dest, src, strnlen(src, min(_src_len, _dest_len)));	\
+>>>> +	dest[_dest_len - 1] = '\0';						\
+>>>> +} while (0)
+>>>
+>>> That doesn't work (for all sorts of reasons).
+>>> _dest_len can be the size of a pointer - no array check.
+>>> You need to use __is_array() and sizeof () for both dest and src.
+>>> You might have meant to check that _src_len is constant, not _dest_len.
+>>> You must not leave the destination unterminated.
+>>>
+>>> __builtin_object_size(x->y,1) is also entirely useless!
+>>> If you have a pointer to a structure that ends in an array then the
+>>> object size of that array is SIZE_MAX (as if the array continues past
+>>> the end of the structure).
+>>> See https://godbolt.org/z/csenjfvxe (which I happened to prepare earlier today).
+>>>
+>>> __builtin_object_size(x->y,0) also seems to always return SIZE_MAX.
+>>> You do get a sane answer for (x->y,3) on recent clang - but nowhere else.
+>>>    
+>>
+>> Oops, you are right, thanks for pointing that out. This is how it would
+>> look like checking that both args are arrays and using sizeof to get
+>> their length, if it sounds good I can apply for the v2:
+>>
+>> #define strtostr(dest, src)	do {				\
+>> 	const size_t _dest_len = __must_be_array(dest) +	\
+>> 				 sizeof(dest);			\
+>> 	const size_t _src_len = __must_be_array(src) +		\
+>> 				sizeof(src);			\
+>> 								\
+>> 	BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||	\
+>> 		     _dest_len == (size_t)-1);			\
+> 
+> That test can never fail.
+> 
+>> 	memcpy(dest, src, min(_src_len, _dest_len)));		\
+>> 	dest[_dest_len - 1] = '\0';				\
+> 
+> You are expending 'dest' twice.
+> Where it (p++)->array then the two values would be different and the final
+> value of 'p' incorrect.
+> Much better to assign both pointers to local variables.
+> Here you can use their required types to get type checking (I wouldn't bother
+> about the extra checks that _must_be_cstr() does).
+> 
 
-So for this to be an actual security problem, the device would have to
-keep running in a sufficiently high power state that data caches are
-not discarded, and at the same time not perform enough memory accesses
-to cause this memory to be discarded...
+Also, all those memcpy() that I replaced had explicitly the dest size. I 
+think I could reuse it for strtostr() to simplify a bit things, what do 
+you think?
 
-Assuming that this is an actual problem, why are you using a kernel
-module for this? At least on x86, CLFLUSH is unprivileged, so crypto
-libraries should be able to just use that directly. (There is the
-caveat of what happens when the kernel migrates pages or kills a
-process, but that's a larger problem.)
+> I'd also create function that is explicitly for copying process names.
+> (Or replace the one that is already there - saves a lot of churn.)
+> then you know (and can check) the sizes are the expected ones.
+> 
+
+I don't have strong feeling about get_task_comm(), but Linus said that 
+"I'd rather aim to get rid of get_task_comm() entirely"[1] so for me 
+it's fine to get a new function for that.
+
+[1] 
+https://lore.kernel.org/all/CAHk-=wi5c=_-FBGo_88CowJd_F-Gi6Ud9d=TALm65ReN7YjrMw@mail.gmail.com/
+
+> It might even be worth making the #define (needed to get the array sizes)
+> call out to different functions for the different cases.
+> 
+> Thinks more...
+> On 64bit the 16 byte copy can be 'load; store; load; mask; store' provided
+> the buffer is aligned (copying u64 on 32bit will work the same).
+> But that requires that all the buffers be aligned.
+> So you'd need to check _Alignof(dest) >= _Alignof(u64) as well.
+> (Probably with a fallback to get things to compile.)
+> 
+> Whether that is best for the longer 64 byte copy is anybodies guess.
+> 
+> I also suspect it would be best to zero fill when copying a 16 byte
+> name into a 64 byte buffer.
+> (If you zero fill first then you can just copy 16 bytes over.)
+> 
+> -- David
+> 
+>> } while (0)
+>>
+>>
+>>> -- David
+>>>
+>>>    
+>>
+> 
+
 
