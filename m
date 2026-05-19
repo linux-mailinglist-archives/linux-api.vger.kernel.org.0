@@ -1,234 +1,195 @@
-Return-Path: <linux-api+bounces-6361-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6362-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kCsDD3vNDGrAlwUAu9opvQ
-	(envelope-from <linux-api+bounces-6361-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 22:52:11 +0200
+	id 2LlVBFDZDGrhoQUAu9opvQ
+	(envelope-from <linux-api+bounces-6362-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 23:42:40 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90BD584E0F
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 22:52:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68550585435
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 23:42:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3CEBF304BD17
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 20:52:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1E2313014BCB
+	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 21:42:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37E6F3B38BB;
-	Tue, 19 May 2026 20:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12B5A3EBF03;
+	Tue, 19 May 2026 21:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="Nwm8Bjdp"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cBBOp9lP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876C83BB670
-	for <linux-api@vger.kernel.org>; Tue, 19 May 2026 20:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723D23B52F4
+	for <linux-api@vger.kernel.org>; Tue, 19 May 2026 21:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779223929; cv=pass; b=SK0vw+qaT+6GIW6xesVZ818ykqJfIj0ZiAi3Rx641dk852XJ7XJBxIS6yp61VPFFlauM6Sev8lHLpHio+LqbE+5W6tLP8VSh1fbPHdbqXxRyMhhmDrggjoyzzyNxSB5ljKJjgNOaBW6ZtL9rffEJlorQZfWWOantUKX/Q02q6EU=
+	t=1779226957; cv=pass; b=rhCfYnxmOab1lVaKnOL2ozDNVuiadhE56Ym9Z7P8iKv1DVfA/a5m+D5RbqE4q2VBXkj7BE/ev52ZluP3zHXqyNSMLEl3tuUpPtTdhF6xiOWAoIAiUcI8elkqTTFlUFe5pK58z83m4ntzr8KEIa7j75647d9yFFHdiYPSF9Qycgs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779223929; c=relaxed/simple;
-	bh=yc0dQk+734JZ/guiyL5ZplibEbSlVTH5WIewmxvfM8A=;
+	s=arc-20240116; t=1779226957; c=relaxed/simple;
+	bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IrpToKrwLBhusUvnKjxoiOc+a1cZAtJNPbF7LzEbMMGRw0qqCQdOjvz/dKOIkY2qcuCmloZTb74KcoXv50xr4J8eDRKoJnM/DJ/xNnkvNNH7QYsMyDAnF3HzeFd0Os1QVpkIUCFVFylEuTNvkjEJwyl8OxrxFTDu4UrQiZvPP10=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=Nwm8Bjdp; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a8ee4b703fso3959592e87.0
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2026 13:52:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779223926; cv=none;
+	 To:Cc:Content-Type; b=uuFOtf6bFbZ/1BxZpZO3f9PL3IDpUvSM7enV4S5zDfkpakJEIh/pvaGq6YpfjsDfb76TjxO2BhJLOJ0G+lSHJNm/haL5bp3BvC5ouLTkqWZlg3Supeil6ELucgiZhb3dmuQLnCxq7ikorHdQuVXVd39GB7N4foP2H+EaweX/Gy4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cBBOp9lP; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso302a12.1
+        for <linux-api@vger.kernel.org>; Tue, 19 May 2026 14:42:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779226954; cv=none;
         d=google.com; s=arc-20240605;
-        b=LD57Ce7TDDqKBk2lzLUyF+TkBwM+z+W+acx+NUwsfb7mvxL3y+pf3Fe48OimU2eBJY
-         tQU4f+Ix+IOb3B4WUyGT3LkQb5v2Xv1LGiZ2vhJFOG/HtDjnUYl8Z9vvn2tCwp0Wmhi2
-         /TnXmUzTxze6Qhc6jzpEOHQidw4SnzFMiCi8nIefbRQDFnG4AsOqbAMm5/kUV5aFmLTS
-         XbxjISeN8G1Bu4SVp3wh1L2mlGpbzJBHAboi/mfHuyt2zuIMQKCm2c0Dh+bJuJL7BCbJ
-         uNyLpOIRNshpAIIgwULgWb9u0guc1niI8pguS8bB4MP9qY8VxIxNTKQlIVHo1nf5eZWY
-         uMLA==
+        b=CwrNE8tGnkwFia4j4hmNvNCmDIzjbLsr3P6Z/6ojw6g9ap6Ytir3jwnvWAAkCcnwCt
+         bgDki2IElA0EIAG5eCrsF5R6nxDFl4RGpqxNvhDl3WKkZWVDQuJfLFAY/qtr4GxkCQ/K
+         QADsmA6dNxiVS8JMdVfRtiVKkt+mRRqeP5foCZJFi+OdWAR6a2ZmBeBXVIwxSM86PkWV
+         nqBoIZya7R6Uloj46tsCdEvVUyVCN/rL4qpnZjGkm5XIbwoOK1mjqGhV8/0Gkwq0lWct
+         BUdKrmX0UpgxU52DePInu3LGOfrbIA56uMYx9s6LzkzH/ZUxDWGpZFlGoi0Adkb5e7uc
+         Putg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ij0xdcuLSgQ3aowYuDZpEYrT+iRvJ+RmX9eaZmmPv6w=;
-        fh=eCHptD7zvLuRj1tq/2wqCn5XmSc9xgwh2FysMv0xAx4=;
-        b=gFZJICX9N+VVXUI36EIo4cnEnRgoaSA3lZjabKDI7es4O3p17opqDkPSVwgxMPqxK9
-         evuL8UHc4ZBVlQtNvlvCMCVoT7H1xbcMb3HTZY7ika904fcwnrv6vitzWF2I5mWfpt55
-         6VPipuEHx2J6xHaHbGQTlsUQL1bGp0twbzqSlQCiE1yx/NpQj8XooFIuUD+cnidXDD1Z
-         gqKJa4nVTAnbTyRZnlLuIVV06xAijje2LdG3cWQ5v8lBZ0sl0Jq23vFGfIxwCMUvQodH
-         vxUUWpLwUUgoNpjrBk55gqBEmCPo8Fr+/cxtWcOEk+GXqI6d3PrEx6KvPdkQUGcEcK53
-         BwSA==;
+        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
+        fh=nhJQt+DNRWnre77sUJ9Lhnp2HvS94IqNum873yuKm40=;
+        b=DayvpdXUqpeKiq+c/hs0wWnTaRtqIWTc/288ZRdF6TitYNxni3yuOoGO/3v2sSvqlO
+         I4CbBf6hqgKl7y5yL9rimNFUSTLzqFoA8dlz5n/UnAQuyur8cOM6h7U6qu8EcCDtbpff
+         6keXBnXErLw7sIrxMuTCLQFCA/GFtaZVf7QDEin/H5h87jG9ydZBK6ABd8b6aQ2tLW2D
+         gbzWRanmxgJp/OrusFpG4VRb9LlW4FTUD0EXTRKijJahH5s+PIoUdWaWBLzVPf/MLYlf
+         ZJnkWS3BmPnl1NFm951MDoC1L7kzyE5cMokpZh04aSHEFN56IoTu4vML1VFMyQeSE0gp
+         C5TA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1779223926; x=1779828726; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1779226954; x=1779831754; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ij0xdcuLSgQ3aowYuDZpEYrT+iRvJ+RmX9eaZmmPv6w=;
-        b=Nwm8BjdpMzDHul6LS60KpJKBisL4tcUb/E1ynDBAMWt7sE493fnyYlS3HN3jSz+nX0
-         f31CkVEzr4IGl+0D6BcROQxy1Msw/Q7jBhzEXiOWvpAE++W7SPOIYgg6ALtdI5fWAhfp
-         NExzjKxc39kZvg51iOTH0tZi0RQbTQAJLH8M9RsqukFiyb/tx/rgc0TrfTvcXAZHXO31
-         rCgMK2F5ceA3niOOxrKL4gWtLB0hB1Lfzfkvv5XXsjga9M67nmOHkySECMX889zbxyKE
-         9Zfopof5CPfpR9H1GajFzmmetog/9KU7WqpNfYXkoaXWxmx7ddNyhxyR1DSUCnNhUG8U
-         ILOg==
+        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
+        b=cBBOp9lPxsBqzp5DiVVxXZDcRjTE3euWHcLy8b7vbCVmNAJKacI97hsJ3Vh0KDFaXt
+         NXU/Zw17XqHcSHLDvSXAwaJJyllAMtOnzA54IEMDi5toSkc1FhEXHqZzqiln7NYZ4wvW
+         lfDw4ZrKlWmzFMu6D/n8ftMX8TONAUMPAsEN31ppZN2D373vE0vjsNy/4phHOsAWuYNI
+         nF/qzfTTzsfvL29YjAa8hB1+SvxRY6O7eKRjW3auOF834Bo2J3b1uCxJC4HpkvPM5oIs
+         V7wciD7Ct1uavsVVCtQKUXyo51LalxiQasEvoLneaUrOkZFwJnRtJwnYl4KuZY4B5BFn
+         MUcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779223926; x=1779828726;
+        d=1e100.net; s=20251104; t=1779226954; x=1779831754;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ij0xdcuLSgQ3aowYuDZpEYrT+iRvJ+RmX9eaZmmPv6w=;
-        b=WmNpaiS7U40Rt5AcT6HsAOS2CAKINSYUYbBi2ge8a56bH598/e44RuksHArstYwNEO
-         svX+/XE9FrFkO7qwACLxkytK8IC05gASIiQesvaX7DuOjz4CJjtnoCHoupSW+ZEnlyZZ
-         0+ql10UGHA76SI2lcQ1YmZJlZpTO8uYkLxIPIRaHUWv/S8Vmf4ohJEwEL4cZ743ldp/f
-         /cJNd/e0tKuQUMBvURpmG9+PQYUIMLDllbJAEd4wRIm9wegB3Fy7I4XpqgkQPaFt2Sst
-         Fa8p4HvS6pE8YsmZtzN0a2KOxEVURU8k3DMX496ylqYU2luTFcbdgu/7XKZ6p5iZ89AX
-         ShAA==
-X-Forwarded-Encrypted: i=1; AFNElJ/vSlqZyvWP0tDRmTwHbvUno2AdQR4nYYPCrIRrq6atHD4K0EMrX5zR6HvhtaH2DG2wczlJ1WappRg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfC+jqsN+ErcvYPnMvqnquuOBBla5aTUsgI7upbr3zNahRX9Tg
-	GYKgkFlgee7WcGuX/NZsT+E9MCNPyXJN7jj2mVjEucR3cbi314EpMb/saARwpRA/QFL0KbPUFg8
-	92NX7NtxjWEKAIQdqQ2Q9KDO01gN6kRaoQ3sxP/nn
-X-Gm-Gg: Acq92OG6ISxFF/+ju9ZpfPs0+/5E0JRHACBNLpmSBtaqsLwBGDlguKmxMxTOijVXpe4
-	sErzKS4H5kJ93VWEZL4Q0hvIvsWOa689/+UTKw0K/8gG2Tk691cjJI979UiANQp4cCnMLz/NoG7
-	p8Gu1zBDxMtNN+tiawttmJPLWDvsxr8HO7tWL8daL4gydtgutdfxL+sumo9G/qjgt1F58i+pI9L
-	nE/Q4+XhiVSkDz2B5hA5k+4IPPxX7RqZngyDmKprKYbDDy4sUzixwuz+IVM6zDdah5TiSwq41ge
-	5PsLHSR8EvJp2IYuaFXoZgnnjA==
-X-Received: by 2002:a05:6512:6d1:b0:5a8:52e0:7bc5 with SMTP id
- 2adb3069b0e04-5aa0e7450cdmr6553274e87.27.1779223925489; Tue, 19 May 2026
- 13:52:05 -0700 (PDT)
+        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
+        b=CulhMZ2z6wzZAbjwkHRU1jc93jktUW5OhfLJUmMugDpJNo1ZFfrRiiqqlS/HUtvDbi
+         +/edvt5rNvUOjB23eFWUEEjPtugYuM98AfRbqUzUnLmaudKyrXufV4CzGzW750dUDWCb
+         YMlcUinoCkXlZzy3D2z/rgydc5CedlmPpGv3p8Bq647ximCUVZm/+r5iTM2Rj2Fu+wOC
+         0cbJMLdrBeamiMVZHXt/jPMW1CfNupqpZgFnD2F+YvhSi5Ck8KfdxP3jDI73eGwLwAM8
+         TeR7ZzmKcEw2bZeOsIBgwKyOjWIOnJp34bbXvSMIsZ14tI6H+CtM53ZaDMK9Wi3Ks7Ck
+         M4Kw==
+X-Forwarded-Encrypted: i=1; AFNElJ/og9fnfMtkJSoxgTNhyC/B6TJMJFZq2ZpQooc1Kt7vIJKFl8QUQ+5meaKy0uLL4gzwvFC8g0LtEhk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/YL965ucsDagp4KIN4lInMQktKVdeVrn2PPt7nE/AyFn/x8we
+	hkpd0rUaSjKE78UlYCEgVenCLQxsu/VxYt7j0obAHdFZ5a9GnQJMSCdhJw/VNoXpEYU+Ba9uj4c
+	WipCCMqWAO+748GjX0ngZU2n93A3Hbh9n2Tx3NWGM
+X-Gm-Gg: Acq92OHEDlj7XDNJoPEHd6CUo6lBUK2awf0nNNid17+oustqZ8iMJgxRxovs2QpF4y2
+	ce/NkOzxXt3MljTwY2xzubFfyypWymnUHo08cYmgVVNVSM6bFObZHC9qUxW1Kwd7NLkY8Awm2FP
+	BonkHPQhL5mXHqJd5naQ1UVuCYKoAeUAKmN+5VpC/wIBgy2Lo0xDbMnawDqokLpWIHOV8iwR1E0
+	QK4COxVAii4I0bxVFoJHlb80IyR1VoSD00yboPkKtxwyFBwb7WrkRb7FbkVTvtt37HiylDf4zC2
+	gKDBEXrCZs9yakiPr7paMDxA1KccstJOFx0RdxuPC/wAaQs=
+X-Received: by 2002:a05:6402:20c6:20b0:678:a5c3:4d12 with SMTP id
+ 4fb4d7f45d1cf-684985e277fmr173995a12.3.1779226953632; Tue, 19 May 2026
+ 14:42:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
- <agqevS--YYBVW2Oz@infradead.org> <20260518162048.GC9531@frogsfrogsfrogs>
- <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com> <20260519033126.GD9531@frogsfrogsfrogs>
-In-Reply-To: <20260519033126.GD9531@frogsfrogsfrogs>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Tue, 19 May 2026 13:51:53 -0700
-X-Gm-Features: AVHnY4K1ndQwPwy1fKsG8m_UaFGF1PGZ35IpcHSt6y2mDSPDMZHvPLuBjSgucKA
-Message-ID: <CALCETrXWuMJstpkDhV4eKTwbRhQAQ0RZTkkFN=+oXrkiShgx1A@mail.gmail.com>
-Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Cyber_black <Cyberblackk@proton.me>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Mark Fasheh <mark@fasheh.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, linux-api@vger.kernel.org
+References: <F78521DA-08DC-424E-BBE1-231BC900CEE0@gmail.com>
+ <CAG48ez0KsuR5z4RDgxWPUoS8e_MJzF74RgFDJayohG48A_N0PQ@mail.gmail.com> <CAAmtCfMHqdWbYh-Hc5sGbOhXSM-aCA9G0-s64G8FTM+rGEV5RA@mail.gmail.com>
+In-Reply-To: <CAAmtCfMHqdWbYh-Hc5sGbOhXSM-aCA9G0-s64G8FTM+rGEV5RA@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 19 May 2026 23:41:56 +0200
+X-Gm-Features: AVHnY4KelXMX0Ox3UHP6DtmSDnRxPxmxV49wSNMKd-K67wpQhqz9skVmJZNDODo
+Message-ID: <CAG48ez3u1OCx+zCWEs-_gowDmQ=KLbXO2xZ83LCZ1o1gxRT3Ww@mail.gmail.com>
+Subject: Re: [RFC] TID v2.0: kernel module for cache-line zeroization against
+ Flush+Reload (CLFLUSHOPT + LFENCE + REP STOSQ)
+To: Ahmad Hasan <ahmaaaaadbntaaaaa@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, kernel-hardening@lists.openwall.com, 
+	linux-crypto@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6362-lists,linux-api=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[amacapital.net];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6361-lists,linux-api=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[google.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[jannh@google.com,linux-api@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: C90BD584E0F
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 68550585435
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, May 18, 2026 at 8:31=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
+On Tue, May 19, 2026 at 11:31=E2=80=AFPM Ahmad Hasan
+<ahmaaaaadbntaaaaa@gmail.com> wrote:
+> Thank you for your questions. I'll address each one:
 >
-> On Mon, May 18, 2026 at 09:22:42AM -0700, Andy Lutomirski wrote:
-> > On Mon, May 18, 2026 at 9:21=E2=80=AFAM Darrick J. Wong <djwong@kernel.=
-org> wrote:
-> > >
-> > > On Sun, May 17, 2026 at 10:08:13PM -0700, Christoph Hellwig wrote:
-> > > > On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
-> > > > > Option B) Add a capability check to ioctl_fiemap() to match FIBMA=
-P.
-> > > > > This restores the intended restriction, at the cost of breaking
-> > > > > unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefra=
-g).
-> > > > > This option is a larger ABI impact and likely undesirable.
-> > > > >
-> > > > > The preferred fix is Option A, since FIEMAP has been available
-> > > > > unprivileged since 2008 with no reported security issues, and rea=
-d
-> > > > > access to physical block layout is already implicitly available
-> > > > > through open() permission on the file.
-> > > >
-> > > > No, FIEMAP really should not be available unprivileged.  So I think=
- B is
-> > > > the right thing.  Can you send a proper patch with a proper signoff=
-?
-> > >
-> > > For anyone who might be relying on FIEMAP output to find sparse regio=
-ns
-> > > -- don't.  FIEMAP is a lowlevel fs debugging interface; it won't tell
-> > > you about dirty pagecache backed by unwritten disk space.  cp was bur=
-ned
-> > > by that a decade and a half ago.
-> > >
-> >
-> > The only way that I'm personally aware of to determine whether ranges
-> > in two files are reflinked to each other (and the only efficient way
-> > to find identical blocks to, say, archive a large directory without
-> > reading all the contents) is FIEMAP.  I wrote some code to do this
-> > awhile back (not in production use).  Yes, I realize that it might
-> > have issues with dirty page cache.
-> >
-> > Is there some other way to do this?  Could an API be added that
-> > efficiently answers the actual question without revealing information
-> > that shouldn't be revealed?
+> =3D=3D 1. Threat Model =3D=3D
 >
-> Well, yes, we *could* make yet another ioctl, but we could also just run
-> fe_physical through a one-way u64 hash function and set
-> FIEMAP_EXTENT_UNKNOWN if (say) you don't have CAP_SYS_RAWIO or
-> something.  Then your comparison function might still work... maybe?
+> The target scenario is a same-machine attacker
+> in multi-tenant/cloud environments where two
+> processes share physical L3 cache.
 >
-> OTOH nobody really wants Linus roaring at them, so we might all just do
-> absolutely nothing.
+> Example: a cryptographic service and a malicious
+> process running on the same host. The attacker
+> uses Flush+Reload to measure cache access timing
+> after every encryption operation =E2=80=94 no physical
+> access required.
 >
-> Also note that FIEMAP still doesn't report devices, so you're still
-> playing with fire on multi-device reflink-aware filesystems like XFS.
+> This is documented with real measurements:
+> - Without TID: 78 cycles (Cache HIT =E2=80=94 key pattern visible)
+> - With TID v2.0: 286 cycles (Cache MISS =E2=80=94 attack defeated)
+
+So you're assuming that the cryptographic code leaks secrets through a
+cache-based side channel? That would be a vulnerability in the crypto
+code.
+
+> =3D=3D 2. Why Kernel Module and not userspace? =3D=3D
 >
+> You are correct that CLFLUSHOPT does not require
+> Ring 0. However, userspace execution can be
+> interrupted by a Context Switch, which expands
+> the timing window from 372ns to 36,640ns =E2=80=94
+> making the attack significantly easier.
 
-A hash would be fine for me.
+Why does it matter how many hundreds of nanoseconds it takes to wipe
+the data from memory? You can also have a context switch directly
+before you enter your cache-wiping syscall, or in the middle of a
+crypto operation.
 
-But really a nicer interface would translate logical ranges in a file
-to some range identifier, where:
+> =3D=3D 3. Why not add this directly to libraries? =3D=3D
+>
+> No major security library implements CLFLUSHOPT
+> after wiping =E2=80=94 not OpenSSL, not libsodium, not
+> glibc, not memzero_explicit. This gap has existed
+> since Flush+Reload was published in 2014.
 
-- It would be consistent with page cache.  So holes are only reported
-if the current logical contents is a hole.
-- It would return reliably different identifiers for ranges that do
-not have identical contents.
-- It would usually return the same identifier for ranges that are
-known to the FS to have identical contents.
-- It would not return the same identifier for files on different
-backing devices that just happen to be backed by the same offset
-within their respective backing devices.
-- It would not necessarily return values that are consistent across a
-remount.  But maybe some kind of mount id would be around to at least
-detect this happening.
-
-Fun bonus points: if the range is dirty in page cache, tell me, and if
-it's not dirty, then, on supporting filesystems, return a value that
-will *change* if someone writes to the file and it get undirtied
-again.  IOW it would be nice to be able to use this to efficiently
-scan through a file and see what extents may have been modified since
-the last scan.  But this would be complex.
-
-I couldn't care less about the actual location of a file.
-
-Anyway, this is a bit of a pie-in-the-sky thought.
+I don't think that's a gap, because the standard approach to
+mitigating cache-based side channels such as FLUSH+RELOAD is to not
+access memory at secret-dependent indices in the first place.
 
