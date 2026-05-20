@@ -1,307 +1,253 @@
-Return-Path: <linux-api+bounces-6363-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6364-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJHGKNWFDWo8ygUAu9opvQ
-	(envelope-from <linux-api+bounces-6363-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 11:58:45 +0200
+	id ALu0A2XLDWqq3QUAu9opvQ
+	(envelope-from <linux-api+bounces-6364-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 16:55:33 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD07C58B377
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 11:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A87E590435
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 16:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 771A1300148B
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 09:53:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1492A327456B
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 14:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C81DE3D170E;
-	Wed, 20 May 2026 09:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F183F3EF0DD;
+	Wed, 20 May 2026 14:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FkbLfZpU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fb6/y6W7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BE93D16F9
-	for <linux-api@vger.kernel.org>; Wed, 20 May 2026 09:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE72E3E2ACD;
+	Wed, 20 May 2026 14:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779270820; cv=none; b=q47bAMxuxGJz/zhtIkjS1dHj11ZTy2gJ1GXEVEnKLgVTYi0xGDufuD++NqzUdyJk8kcHJ9VWTa+VeY+piu9HgC0x6J8P58Wb5J/rqXrQuFdxNjYZnmsVVNAu3JAataq3kGu7v5IAHnCpm81ChsCHB2me6dkz2z65XhYUtxhoxpc=
+	t=1779287520; cv=none; b=K7GI/hiUKrizoOVL5hTPQc+KhByV/xLOYiAHyepxpJu+x42PZ6To/iyv2TqIR1OOCVcVwASO20btiU7xzqAYyhZfR2hUASDgOfQCH+UZdRS0NhYdozosQKbb6OJi5sPTDABHuGM6hzOdQ2Vj+QLu7ElFjZjU7E+n6OfxBUZ72os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779270820; c=relaxed/simple;
-	bh=puwkhZDm861AvWUlAH9JiXA9DMy67Y7J2D2J6BRnHbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JJCXbxa/wePQstO77lTYNrSCq7g15tb+eoslFQAMSoE+GWIkirLIOhGz1qPEOcJt6k0ajbma76rWzwVVjeWFTrutCEJW+TI3JoZwyq/EByKesN6yTcC9gsUuCKYj7+Vmo+//xbI0hGrFlWV7kwol9yP+b5JE8Esd+tIhnxY58nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FkbLfZpU; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-44e1ebb3122so2735278f8f.2
-        for <linux-api@vger.kernel.org>; Wed, 20 May 2026 02:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779270817; x=1779875617; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3ebYrN+Cy1jpS7On8dq1CN3DpE7snkr/MnVsVyf9e2g=;
-        b=FkbLfZpU4o+Lc7k1qcE4HifYzNABddpp2vwKjN+tsbfhFEuFe/osJHvYRPMlp5ICQ5
-         6b8ac03ZsUBd1yQ17b0KzsOU03Niz3jDyHuCTcvpMHk6tzWAGH7kdY/JaaSUMt/PqIWG
-         0jOX3ARaMh3YpnB/CTX7nZAF43EXtPhYSe+WpshbB/Y4o//xVymBssuRrBzNiN2t+6zb
-         672v4PkKo1WdnPqY/SdaFMV8KRvhnLi8pS1jULooFwWqaXzOHWv/z1MMsxa8fIUjrFvl
-         mBDUBUu09PnQ+e/CdBOQtMmtfuvoVKvDje7LRBR3nI9MA9f2wvWbp3NPrQaXxrP+3f5g
-         4/+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779270817; x=1779875617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3ebYrN+Cy1jpS7On8dq1CN3DpE7snkr/MnVsVyf9e2g=;
-        b=BA/1kPjROHydaoXld66qVQ4fpy4xNSs/dvnkKVNkCCjLnaLznxYia+SsRbI9vqSwwb
-         sUV7UuU5jULtU89w9xXWu6RYEhG/iTdrUReWJJHNJ/YFQLg9NEqOy1oBlYZf81GNTfzl
-         7S1TPmjkmdjIlYk0qZKpGjc0qdTfL/CWkWlyJEJ3iXOLtpjiBMQ1XmntzNN1hJfCIy/n
-         MriT7rlSMA/vyqpYPhQQQIh2u3KFo98L8BxJvNPYH5DpohsoQyx1GGXiAzdesqH23KD4
-         r64onUrNfayyuCN9atvvfF9tIFF2tWyJkxMh9iaOKfU10HWe8i198POf4KT2wnd6TTa8
-         2cTA==
-X-Forwarded-Encrypted: i=1; AFNElJ8iwe7MaBoSx/H/XvGNVYxhrBu+TLklKKd5Ll2W3p9+Rp5T6bN95xMD8vjlcB7Lz/3sbO8S3EJZuOo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC5vgBm5yQNaj1FTAstpTbfu1m66vyaksuOwv+RUsfxBF5AULf
-	YYxTahBCW6gNdbDU+VWye49JquSbDUQmnY/2x+Bs18xjtVlyUIoQXD7S
-X-Gm-Gg: Acq92OEBfBHI5IfOPl+YucmxGm+tesYfNzoY19NPcF7/Vf0JobQLuN9yJUzACIdRw9S
-	xCDk4ECQCDsi9TepJWLvNi9NIY3gpC2xvUOgZIgaXsdp8iDbxlaR4PlS7hmBuqLJSzFnoC601K5
-	MeOvOIAetPXh+wwOiPtoWNQ0onGjKgC0z0LfxAs8HS6H1p9i320XG14R4HkD+1addOGxHSvg2/o
-	HWwrjfXCymywLQSw6qkuwVrp5ANrWaXj05+3IrCuXw00Vf7dNyeqJRDdDeu9HFCmDFV/oKGpSQg
-	V3eEtNCzqIMAxHZHLy5lpByuT7z2ATa6RjY8ozQqvEFvp8OtMhla/h3SUfcYkBRpnKmSVa87aju
-	NvRL8spMRaSQhKaOv7HKRE60g8RKMyZJnonkxg83XA+ECml70Ucfs9we+gh9dEpK++q73uTuX7F
-	UvsejjH1FZRy2h87Z+eIW8xclqVoQxraCyrcNA1zMlWKEBwQ9QN84TgrGu899lN6NoHNaTFt9bh
-	nc=
-X-Received: by 2002:a05:6000:186c:b0:44a:aa3c:5927 with SMTP id ffacd0b85a97d-45e5c5957b9mr38170692f8f.29.1779270817325;
-        Wed, 20 May 2026 02:53:37 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe0fecsm48645755f8f.26.2026.05.20.02.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 02:53:36 -0700 (PDT)
-Date: Wed, 20 May 2026 10:53:35 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Christian Brauner
- <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Shuah Khan
- <shuah@kernel.org>, willy@infradead.org, mathieu.desnoyers@efficios.com,
- Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org,
- Yafang Shao <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com,
- arnaldo.melo@gmail.com, Petr Mladek <pmladek@suse.com>,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, linux-mm@kvack.org,
- linux-api@vger.kernel.org
-Subject: Re: [PATCH 3/6] string: Introduce strtostr() for safe and
- performance string copies
-Message-ID: <20260520105335.1970fc23@pumpkin>
-In-Reply-To: <471b5b42-974c-441a-9afb-13e1baba5c44@igalia.com>
-References: <20260517-tonyk-long_name-v1-0-3c282eaa91e2@igalia.com>
-	<20260517-tonyk-long_name-v1-3-3c282eaa91e2@igalia.com>
-	<20260517223419.3262de7c@pumpkin>
-	<d4d6cf61-568e-478e-88d6-01b769d7eded@igalia.com>
-	<20260518193843.7bde8d53@pumpkin>
-	<471b5b42-974c-441a-9afb-13e1baba5c44@igalia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1779287520; c=relaxed/simple;
+	bh=aJ/HkvCIlSs8z3YWz3Z5JfGNPHb7A0Vul9cplEZ5KYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMGCiaS3iTSAcYnBuAGt6SPx++sZNSfX3EeZu9l8dKx57ImZY8PNoPy2e4MNGCHxUMefkxJlf4ZwRJkDXcEcU7R6zdum3toeo9Te9SseWcPdERwQJ6TOqDTe1ONqofdKb588f3zmasUHxg4ySBC/ezJXxzMiL4uK8YPDUUPX/pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fb6/y6W7; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D88A1F000E9;
+	Wed, 20 May 2026 14:31:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779287517;
+	bh=ErGeZjBujVCDw+tIBUMwUQ/ieYQ/G25L4GkC/HRjWR4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fb6/y6W7lesYX2qA6apxZkVCqPfIDWJwHW4IQCUYQoqCwwQp2u+HD+p96akML/v+d
+	 ap87OQCkBjPD35ZPv9tGs7SXT+Gi4Wa3a8bGQmbGS+K0VIkGeLtrV3NlOp/piFWl0j
+	 SCMCaNsPnYQOlhhUIpuJT0rxK5Fb2RI+2D2xagucuWnA8JrHVtt5FfQHatQdyNoK+/
+	 b9AS4i2AnFW5nIO5pb97yWFhHte23l3vVJkALXzb4LTrmhXeBmcSgODW6B4/Di4Aa9
+	 ObG/IxvN8M3QSNC2sg8H7DKBGjVWq0SjDJujUgDqqiBVu60vMsZYOrKwjGDMceaY25
+	 yEFnwgaJHmGdA==
+Date: Wed, 20 May 2026 15:31:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	almaz.alexandrovich@paragon-software.com, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu,
+	adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org,
+	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+	trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org,
+	chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Roland Mainz <roland.mainz@nrubsig.org>
+Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case
+ sensitivity
+Message-ID: <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EE3WBxe127Z9kpbN"
+Content-Disposition: inline
+In-Reply-To: <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
+X-Cookie: There's no time like the pleasant.
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6363-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6364-lists,linux-api=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,linux-foundation.org,gmail.com,suse.com,vger.kernel.org,igalia.com,kvack.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-api];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:email]
-X-Rspamd-Queue-Id: BD07C58B377
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,oracle.com:email,gitlab.freedesktop.org:url,sirena.org.uk:url,sirena.org.uk:mid]
+X-Rspamd-Queue-Id: 5A87E590435
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 19 May 2026 16:47:05 -0300
-Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
 
-> Em 18/05/2026 15:38, David Laight escreveu:
-> > On Mon, 18 May 2026 11:36:49 -0300
-> > Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
-> >  =20
-> >> Hi David, thanks for the feedback!
-> >>
-> >> Em 17/05/2026 18:34, David Laight escreveu: =20
-> >>> On Sun, 17 May 2026 15:36:13 -0300
-> >>> Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
-> >>>     =20
-> >>>> Some parts of the kernel uses memcpy() instead of strscpy() because =
-they
-> >>>> are performance sensitive and doesn't care about the return value of
-> >>>> strscpy(). One such common case is to copy current->comm to a differ=
-ent
-> >>>> buffer.
-> >>>>
-> >>>> As the command name is guaranteed to be NUL-terminated in the range =
-of
-> >>>> TASK_COMM_LEN, this is safe enough and doesn't create unterminated
-> >>>> strings. However, in order to expand the size of current->comm, this
-> >>>> expectation will be broken and those memcpy() could create such stri=
-ngs
-> >>>> without trailing NUL byte.
-> >>>>
-> >>>> In order to support a fast and safe string copy, create strtostr(), =
-to copy
-> >>>> a NUL-terminated string to a new string buffer. If the destination b=
-uffer
-> >>>> is bigger than the source, no pad is applied, but the string is
-> >>>> NUL-terminated. If the destination buffer is smaller, the string is
-> >>>> truncated. The last byte of the destination is always set to NUL for=
- safety.
-> >>>>
-> >>>> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> >>>> ---
-> >> [...]>> +/**
-> >>>> + * strtostr - Copy NUL-terminanted string to NUL-terminate string
-> >>>> + *
-> >>>> + * @dest: Pointer of destination string
-> >>>> + * @src: Pointer to NUL-terminates string
-> >>>> + *
-> >>>> + * This is a replacement for strcpy() where the caller doesn't care=
- about the
-> >>>> + * return value and if the string is going to be truncated, albeit =
-it needs
-> >>>> + * to mark sure that it will be NUL-terminated. Intended for perfor=
-mance
-> >>>> + * sensitive cases, such as tracing. =20
-> >>>
-> >>> If you care about performance, and the destination isn't smaller (esp=
-ecially
-> >>> if the sizes are the same) then just use memcpy().
-> >>>       =20
-> >>
-> >> The problem is that as I'm expanding current->comm, the source buffer
-> >> might be bigger than destination, and when we truncate the string, it
-> >> won't have the termination NUL byte. So we need an extra dest[len-1] =
-=3D
-> >> \0 after the memcpy. =20
-> >=20
-> > It depends on other access to the destination.
-> > If it might be being concurrently read it is vital that it is always
-> > terminated.
-> > So you can't even temporarily have a non-zero byte at the end.
-> >  =20
+--EE3WBxe127Z9kpbN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 07, 2026 at 04:52:56AM -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 >=20
-> I don't think this is the case here, as far as I can tell all the=20
-> callers of strtostr will wait the end of the copy before using it.
-
-It's not the callers, it is other threads.
-The comm[] string in the process structure can be read write it is being
-updated.
-It doesn't matter if the reader gets a mix of the old and new strings,
-but it must see the terminating '\0'.
-
-...
-> > I'd also create function that is explicitly for copying process names.
-> > (Or replace the one that is already there - saves a lot of churn.)
-> > then you know (and can check) the sizes are the expected ones.
-> >  =20
+> Report FAT's case sensitivity behavior via the FS_XFLAG_CASEFOLD
+> and FS_XFLAG_CASENONPRESERVING flags. FAT filesystems are
+> case-insensitive by default.
 >=20
-> I don't have strong feeling about get_task_comm(), but Linus said that=20
-> "I'd rather aim to get rid of get_task_comm() entirely"[1] so for me=20
-> it's fine to get a new function for that.
+> MSDOS supports a 'nocase' mount option that enables case-sensitive
+> behavior; check this option when reporting case sensitivity.
 >=20
-> [1]=20
-> https://lore.kernel.org/all/CAHk-=3Dwi5c=3D_-FBGo_88CowJd_F-Gi6Ud9d=3DTAL=
-m65ReN7YjrMw@mail.gmail.com/
->=20
+> VFAT long filename entries preserve case; without VFAT, only
+> uppercased 8.3 short names are stored. MSDOS with 'nocase' also
+> preserves case since the name-formatting code skips upcasing when
+> 'nocase' is set. Check both options when reporting case preservation.
 
-You could probably justify a rewritten get_task_comm() without all the bagg=
-age.
+I'm seeing a regression in -next with the LTP statx04 test which bisects
+to this commit:
 
-It might end up being a wrapper for strscpy_pad() or some other (to be writ=
-ten
-function).
-Maybe the body gets get extracted out later for other uses...
+tst_tmpdir.c:316: TINFO: Using /tmp/LTP_sta8hUyB4 as tmpdir (tmpfs filesyst=
+em)
+tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
+tst_test.c:2047: TINFO: LTP version: 20260130
+tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc4-next-20260520 #1 SMP PREEM=
+PT @1779279361 aarch64
 
-The advantage of a wrapper is that you can change the implementation
-without having to change all the call sites.
+=2E..
 
-Another (untested) wrapper:
-#define copy_task_com(dst, src) do { \
-	size_t _dst_len =3D sizeof(dst) + __must_be_array(dst); \
-	size_t _src_len =3D sizeof(src); \
-	const char *src =3D _src; \
-	char *_dst =3D dst; \
-\
-	if (__is_array(src) && _src_len <=3D _dst_len) { \
-		memcpy(_dst, _src, _src_len) \
-	}else if (_Alignof(dst) < _Alignof(u64) || _Alignof(src) < _Alignof(u64) |=
-| \
-			!__is_array(src) || _dst_len !=3D 16 || _src_len < 16) { \
-		strscpy_pad(_dst, _src, _dst_len); \
-	} else { \
-		((u64 *)_dst)[0] =3D ((u64 *)src)[0]; \
-		((u64 *)_dst)[1] =3D ((u64 *)src)[1] & ~le64toh(0xff); \
-	} \
-} while (0);
+tst_test.c:1985: TINFO: =3D=3D=3D Testing on vfat =3D=3D=3D
+tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts=3D'' extra opt=
+s=3D''
+tst_test.c:1302: TINFO: Mounting /dev/loop0 to /tmp/LTP_sta8hUyB4/mntpoint =
+fstyp=3Dvfat flags=3D0
+statx04.c:121: TFAIL: STATX_ATTR_COMPRESSED not supported
+statx04.c:121: TFAIL: STATX_ATTR_APPEND not supported
+statx04.c:121: TFAIL: STATX_ATTR_IMMUTABLE not supported
+statx04.c:121: TFAIL: STATX_ATTR_NODUMP not supported
 
-Although (annoyingly) neither _Alignof() nor alignof() gives the value you =
-want.
-I don't think you can fix the alignment of a structure member.
+Full log:
 
--- David
+   https://lava.sirena.org.uk/scheduler/job/2778994#L6373
 
+bisect log, with links to intermediate test results:
 
-> > It might even be worth making the #define (needed to get the array size=
-s)
-> > call out to different functions for the different cases.
-> >=20
-> > Thinks more...
-> > On 64bit the 16 byte copy can be 'load; store; load; mask; store' provi=
-ded
-> > the buffer is aligned (copying u64 on 32bit will work the same).
-> > But that requires that all the buffers be aligned.
-> > So you'd need to check _Alignof(dest) >=3D _Alignof(u64) as well.
-> > (Probably with a fallback to get things to compile.)
-> >=20
-> > Whether that is best for the longer 64 byte copy is anybodies guess.
-> >=20
-> > I also suspect it would be best to zero fill when copying a 16 byte
-> > name into a 64 byte buffer.
-> > (If you zero fill first then you can just copy 16 bytes over.)
-> >=20
-> > -- David
-> >  =20
-> >> } while (0)
-> >>
-> >> =20
-> >>> -- David
-> >>>
-> >>>     =20
-> >> =20
-> >  =20
->=20
->=20
+# bad: [687da68900cd1a46549f7d9430c7d40346cb86a0] Add linux-next specific f=
+iles for 20260520
+# good: [2b248ec57f3dcb99f2ce423b72eb3b77553e90a0] Merge branch 'for-linux-=
+next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+# good: [1c9631527427d35668eeb7236803cc4b18f950a8] Merge branch 'vfs-7.2.pr=
+ocfs' into vfs.all
+# good: [3035e4454142327ec5faee2ff57ab7cb1e9fc712] fs: Add case sensitivity=
+ flags to file_kattr
+git bisect start '687da68900cd1a46549f7d9430c7d40346cb86a0' '2b248ec57f3dcb=
+99f2ce423b72eb3b77553e90a0' '1c9631527427d35668eeb7236803cc4b18f950a8' '303=
+5e4454142327ec5faee2ff57ab7cb1e9fc712'
+# test job: [1c9631527427d35668eeb7236803cc4b18f950a8] https://lava.sirena.=
+org.uk/scheduler/job/2774081
+# test job: [3035e4454142327ec5faee2ff57ab7cb1e9fc712] https://lava.sirena.=
+org.uk/scheduler/job/2774556
+# test job: [687da68900cd1a46549f7d9430c7d40346cb86a0] https://lava.sirena.=
+org.uk/scheduler/job/2778994
+# bad: [687da68900cd1a46549f7d9430c7d40346cb86a0] Add linux-next specific f=
+iles for 20260520
+git bisect bad 687da68900cd1a46549f7d9430c7d40346cb86a0
+# test job: [8d97e7babd9a9ff8b5be4e4105d24ad3514044ff] https://lava.sirena.=
+org.uk/scheduler/job/2774206
+# bad: [8d97e7babd9a9ff8b5be4e4105d24ad3514044ff] Merge branch 'vfs-7.2.cas=
+efold' into vfs.all
+git bisect bad 8d97e7babd9a9ff8b5be4e4105d24ad3514044ff
+# test job: [f9eba293ae7ca289e587985f94d84a390949ea31] https://lava.sirena.=
+org.uk/scheduler/job/2773899
+# bad: [f9eba293ae7ca289e587985f94d84a390949ea31] Merge branch 'kernel-7.2.=
+misc' into vfs.all
+git bisect bad f9eba293ae7ca289e587985f94d84a390949ea31
+# test job: [eeb7b37b9700f0dbb3e6fe7b9e910b466ac190dd] https://lava.sirena.=
+org.uk/scheduler/job/2774402
+# bad: [eeb7b37b9700f0dbb3e6fe7b9e910b466ac190dd] ntfs3: Implement fileattr=
+_get for case sensitivity
+git bisect bad eeb7b37b9700f0dbb3e6fe7b9e910b466ac190dd
+# test job: [c92db2ca726fe61a66580d30ecff8c192a791935] https://lava.sirena.=
+org.uk/scheduler/job/2774955
+# bad: [c92db2ca726fe61a66580d30ecff8c192a791935] fat: Implement fileattr_g=
+et for case sensitivity
+git bisect bad c92db2ca726fe61a66580d30ecff8c192a791935
+# first bad commit: [c92db2ca726fe61a66580d30ecff8c192a791935] fat: Impleme=
+nt fileattr_get for case sensitivity
+# test job: [b6fe046c30236e37e3f8c500cf5b1297c317c5ee] https://lava.sirena.=
+org.uk/scheduler/job/2776383
+# bad: [b6fe046c30236e37e3f8c500cf5b1297c317c5ee] hfs: Implement fileattr_g=
+et for case sensitivity
+git bisect bad b6fe046c30236e37e3f8c500cf5b1297c317c5ee
+# test job: [27e0b573dd4aa927670fbfd84732e569fde72078] https://lava.sirena.=
+org.uk/scheduler/job/2774607
+# bad: [27e0b573dd4aa927670fbfd84732e569fde72078] exfat: Implement fileattr=
+_get for case sensitivity
+git bisect bad 27e0b573dd4aa927670fbfd84732e569fde72078
+# test job: [ef14aa143f1dd8adcba6c9277c3bbed2fe0969b4] https://lava.sirena.=
+org.uk/scheduler/job/2774344
+# bad: [ef14aa143f1dd8adcba6c9277c3bbed2fe0969b4] vboxsf: Implement fileatt=
+r_get for case sensitivity
+git bisect bad ef14aa143f1dd8adcba6c9277c3bbed2fe0969b4
+# test job: [b6fe046c30236e37e3f8c500cf5b1297c317c5ee] https://lava.sirena.=
+org.uk/scheduler/job/2776383
+# bad: [b6fe046c30236e37e3f8c500cf5b1297c317c5ee] hfs: Implement fileattr_g=
+et for case sensitivity
+git bisect bad b6fe046c30236e37e3f8c500cf5b1297c317c5ee
+# test job: [27e0b573dd4aa927670fbfd84732e569fde72078] https://lava.sirena.=
+org.uk/scheduler/job/2774607
+# bad: [27e0b573dd4aa927670fbfd84732e569fde72078] exfat: Implement fileattr=
+_get for case sensitivity
+git bisect bad 27e0b573dd4aa927670fbfd84732e569fde72078
+# test job: [c92db2ca726fe61a66580d30ecff8c192a791935] https://lava.sirena.=
+org.uk/scheduler/job/2774955
+# bad: [c92db2ca726fe61a66580d30ecff8c192a791935] fat: Implement fileattr_g=
+et for case sensitivity
+git bisect bad c92db2ca726fe61a66580d30ecff8c192a791935
+# first bad commit: [c92db2ca726fe61a66580d30ecff8c192a791935] fat: Impleme=
+nt fileattr_get for case sensitivity
 
+--EE3WBxe127Z9kpbN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNxdMACgkQJNaLcl1U
+h9AR/gf+PBemUL4ODlI4Hfs3EledyCUDFVjnqUwLIFBkxy8s3uvAc7gM+MU52I8G
+Xuldrsvs3M0XV6Zmn8D6UsctYcsfsCNIOut25z7stoiQ/hv5UJlpOuogkdIAS0yp
+yzWi3zCVnFCbFRGKk67Ep5TDAdUyg62Qx+g8/1uzsg7UbWNIGaRO1OBw8Ea/xlJE
+7BHE60VBroQ4GdwGXSVoXzxYwZeKjXqUi3cTxkVWWvSZI7ncyZofjPRii2Wb6sqN
+w6Msvqsvok/CVV9yLbrV4sj27+K+bbPJ79KrOfePpj25RNwSnWBPcEfpLsgtoHCU
+UHg4hene6OTPk57+fNNXVpWKwHBuZw==
+=9Yxi
+-----END PGP SIGNATURE-----
+
+--EE3WBxe127Z9kpbN--
 
