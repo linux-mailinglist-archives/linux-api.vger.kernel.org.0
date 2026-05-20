@@ -1,189 +1,204 @@
-Return-Path: <linux-api+bounces-6366-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6367-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mAolEAvWDWrW3wUAu9opvQ
-	(envelope-from <linux-api+bounces-6366-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 17:40:59 +0200
+	id AN4iCcbTDWrA3wUAu9opvQ
+	(envelope-from <linux-api+bounces-6367-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 17:31:18 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E0591167
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 17:40:58 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DC7590E8E
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 17:31:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C313B30EF3CE
-	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 14:57:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CE8BA3224561
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 15:14:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8BCB3F0A98;
-	Wed, 20 May 2026 14:54:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BCA3F1AD8;
+	Wed, 20 May 2026 15:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7BUquWM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDcrDxgL"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B433EEAFC;
-	Wed, 20 May 2026 14:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E0E3F1AB2;
+	Wed, 20 May 2026 15:13:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288869; cv=none; b=DJF/yK+KwfC5m70AKXmeow85hMCdI2Ch4BNw5zhAHLLZSnWIEkvB9VeSPgJqAqcQ7UNvAZdQbKNOzengmaAHpVxF8MydFw+30c2Zs8DuUsMyR2YoOrNf0Jek92ZfVO2Kw7cKFFXBTgPDeOXq5NDVbg5f7IjGcrzxF70xBoVkdRk=
+	t=1779289994; cv=none; b=OjmbEoayyf2MN/uBdryxTLjynk8fb/temhYIs8R/iZ+SpdZcvHRZ+af3T+bbmG0MHMmKD3fzSaKR1AdQY204ENBtVRde7uWBCVKpODeL8o6emakwc9TLUWwpvP4eg5KsRr0xrVFYjFLCcJ/K2sfLRvbRN/mhyrLe+EHmXDAIrSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288869; c=relaxed/simple;
-	bh=0WleoVsSF6DIQ4jURo//cebjzvzH0LIBjYk+UIV2ExU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NrE5zFNBDNNCnh8/w5H2XgwlcXfs0MSlIqdeqFnPacWtU37MjPciA96U/SUaWUHCxoLSf3tEw/9DSsVGa7kp0AyKtiWXqgQCyEbyCF5rlkw7lwtmMe286XZqi/F72oYA+DyP333M2rpl8yYBI6+mkOqXYtxO4BKrRvRzV2HXWXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7BUquWM; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB7C1F000E9;
-	Wed, 20 May 2026 14:54:22 +0000 (UTC)
+	s=arc-20240116; t=1779289994; c=relaxed/simple;
+	bh=3I5bJDpziI90OiiRYA9ZyJO0ozA3nkV+qtWlUumpJz0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bkjPgzGWNwGPJJv59vVF6LsMtRViG3m5uz1O8gxxV2+yhfElJWWFIwcW88LuDpl61k2CK0n/vlULByzPy4S06nRATUSNgYzsFg4OVlk7sSvP6ruF6iZLJIAjTebQO0IqEYMDOdeptGzBCKO9Pk4Axxivw8DME2LS3KTU2xHf7pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDcrDxgL; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4FB1F00894;
+	Wed, 20 May 2026 15:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779288868;
-	bh=EF/z1JMTovCoIkUK08MjfWLNJEF3oJnTiZ8s4BwI6WM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i7BUquWM+GzT5Loj4HImvGnslZN5O8M76hxF3P2O8VdMkBcjjYYsc9lxCiB32ChOY
-	 QTiXALcqjDaCzvkzU/TWUOt3ohN9IsADHPmSsfwrWoFYzew+zdoaogT9fcWPNJ4J0t
-	 eQG2BymH3ar4vNyD7Gc10sgJd3MCnoDXgE9K+EwvALN9IJ4NfcMR6P51pVJKqWJfTi
-	 YhUBFq7+6R6pmhANAI984Nq0GT5/gNr7d7kwojANpWIRN+qBGa9+lXENqEColGqqpe
-	 SG9mMiVgXdhV4lrnhixs3HZXMU4xqXQjnPs9tBfxcYfBLdfakIuU4msHVIp3V5N/mI
-	 ZIxBIGAwC8SUw==
-Date: Wed, 20 May 2026 15:54:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	almaz.alexandrovich@paragon-software.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	frank.li@vivo.com, Theodore Tso <tytso@mit.edu>,
-	adilger.kernel@dilger.ca, Carlos Maiolino <cem@kernel.org>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	senozhatsky@chromium.org, Chuck Lever <chuck.lever@oracle.com>,
-	Roland Mainz <roland.mainz@nrubsig.org>
-Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case
- sensitivity
-Message-ID: <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
-References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
- <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
- <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
- <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
+	s=k20260515; t=1779289993;
+	bh=8dqhKrp9QxPmbHdOhtinaRS5mItxrPIhA1DLRkJPMuw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=bDcrDxgLBXqFd7oQ0wZU622SnF/gVCHQtBI0GrLMzkntsFVzv52Agrt4HYg93JO7A
+	 ZRtgunV6IZDaK3zNaRtWQAfTHpld/8PkX2dKFnPtNP0fto38nrZzC3OBRp2yoyX4lt
+	 pdxubsyu3DFOIEl6f6uUAYV+5pMxBJXxw1b9PCHnBREQtbZQjDysNanhWnNIT3v0W6
+	 LBY0asiOPMnAaC3I5Bm5u2q7q1ZaBbA3QHBUiQGm47FzbfQrzdd8khWWPigXOoPxdW
+	 kwNjXUqUVfGG+L0Wz+G9dz3/LSru4bFBxQBQjPEEdB4cTbPpoo5ZkXNPDVQAn3YdSH
+	 LDkDpyrlXc0jQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id B4FCDF4007F;
+	Wed, 20 May 2026 11:13:11 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 20 May 2026 11:13:11 -0400
+X-ME-Sender: <xms:h88NanPZoAh6fJjERdRUPNJd7ginhDUpVvORLEtlIC_A8ozAhyCpFQ>
+    <xme:h88Nasy7bDtAU5vDFUlrjierZTX9I8ObWJN3rLJrTM7gqlgzW5xwL2g0JP9qabEKX
+    t7dDK5dS8m65gV5RY5e9uQhs3cCsXLyvhlu7YbrM_qObXjl8lEY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeegleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepfeegpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehsvghnohiihhgrthhskhihsegthhhrohhmihhumhdrohhrghdprhgtphhtth
+    hopegrughilhhgvghrrdhkvghrnhgvlhesughilhhgvghrrdgtrgdprhgtphhtthhopehs
+    lhgrvhgrseguuhgsvgihkhhordgtohhmpdhrtghpthhtoheprhhonhhnihgvshgrhhhlsg
+    gvrhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    gsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtvghmsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegthhgroheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:h88NakEks2rfD9OalS8ngqxS5q8fCYyxdhjAoTCi9Vc61b5QWwMZQA>
+    <xmx:h88NajoeLr4Pi6ussVLVJN2t71CEoSYKC8sec503wHX9CcpLAx8DVQ>
+    <xmx:h88NakJwz4NpVTdqRErBae-kslldix6kZFVhiV6VR5i8YzddCZZ-cA>
+    <xmx:h88Naja5ApYgknkBh5zV-M4CtPMIi2SvPkUorF9SPDyxLjrWu5ne_A>
+    <xmx:h88Nag71tyG97Kc5muYomSB72JP-pdJnkr01SeEceG5QQqDJlzWdPW56>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 83D25780070; Wed, 20 May 2026 11:13:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pU7PWqZY3LH4C5oJ"
-Content-Disposition: inline
-In-Reply-To: <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
-X-Cookie: Natural laws have no pity.
-X-Spamd-Result: default: False [-4.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-ThreadId: AuvJ25pICu_N
+Date: Wed, 20 May 2026 11:12:51 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ almaz.alexandrovich@paragon-software.com,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
+ adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
+ "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
+ senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Roland Mainz" <roland.mainz@nrubsig.org>
+Message-Id: <8b750b3f-4d73-41f3-84fb-6e387fd24168@app.fastmail.com>
+In-Reply-To: <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
+ <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
+ <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
+ <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
+Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case sensitivity
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
-	TAGGED_FROM(0.00)[bounces-6366-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-6367-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[34];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,lists.sourceforge.net,mail.parknet.co.jp,samsung.com,sony.com,paragon-software.com,dubeyko.com,physik.fu-berlin.de,vivo.com,mit.edu,dilger.ca,samba.org,manguebit.org,gmail.com,microsoft.com,chromium.org,oracle.com,nrubsig.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cel@kernel.org,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 4A6E0591167
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 51DC7590E8E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---pU7PWqZY3LH4C5oJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 20, 2026 at 10:39:16AM -0400, Chuck Lever wrote:
-> On Wed, May 20, 2026, at 10:31 AM, Mark Brown wrote:
-> > On Thu, May 07, 2026 at 04:52:56AM -0400, Chuck Lever wrote:
+On Wed, May 20, 2026, at 10:54 AM, Mark Brown wrote:
+> On Wed, May 20, 2026 at 10:39:16AM -0400, Chuck Lever wrote:
+>> On Wed, May 20, 2026, at 10:31 AM, Mark Brown wrote:
+>> > On Thu, May 07, 2026 at 04:52:56AM -0400, Chuck Lever wrote:
+>
+>> > I'm seeing a regression in -next with the LTP statx04 test which bisects
+>> > to this commit:
+>
+>> > tst_tmpdir.c:316: TINFO: Using /tmp/LTP_sta8hUyB4 as tmpdir (tmpfs 
+>> > filesystem)
+>> > tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
+>> > tst_test.c:2047: TINFO: LTP version: 20260130
+>> > tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc4-next-20260520 #1 SMP 
+>> > PREEMPT @1779279361 aarch64
+>
+>> > ...
+>
+>> > tst_test.c:1985: TINFO: === Testing on vfat ===
+>> > tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts='' extra 
+>> > opts=''
+>> > tst_test.c:1302: TINFO: Mounting /dev/loop0 to 
+>> > /tmp/LTP_sta8hUyB4/mntpoint fstyp=vfat flags=0
+>> > statx04.c:121: TFAIL: STATX_ATTR_COMPRESSED not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_APPEND not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_IMMUTABLE not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_NODUMP not supported
+>
+>> At first blush, that does not seem like a plausible bisect
+>> result. This commit shouldn't affect the behavior of tmpfs
+>> in any way.
+>
+> It's not testing tmpfs (well, it does but that passed), as the log above
+> shows it is making a vfat filesystem on a loop device backed by a file
+> that happens to be in a tmpfs and then testing that.  There's a bunch of
+> filesystems covered in this manner:
+>
+> tst_test.c:1985: TINFO: === Testing on ext2 ===
+> tst_test.c:1985: TINFO: === Testing on ext3 ===
+> tst_test.c:1985: TINFO: === Testing on ext4 ===
+> tst_test.c:1985: TINFO: === Testing on btrfs ===
+> tst_test.c:1985: TINFO: === Testing on vfat ===
+> tst_test.c:1985: TINFO: === Testing on tmpfs ===
 
-> > I'm seeing a regression in -next with the LTP statx04 test which bisects
-> > to this commit:
+OK. Is vfat the only failure in LTP statx04 ?
 
-> > tst_tmpdir.c:316: TINFO: Using /tmp/LTP_sta8hUyB4 as tmpdir (tmpfs=20
-> > filesystem)
-> > tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
-> > tst_test.c:2047: TINFO: LTP version: 20260130
-> > tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc4-next-20260520 #1 SMP=
-=20
-> > PREEMPT @1779279361 aarch64
-
-> > ...
-
-> > tst_test.c:1985: TINFO: =3D=3D=3D Testing on vfat =3D=3D=3D
-> > tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts=3D'' extra=
-=20
-> > opts=3D''
-> > tst_test.c:1302: TINFO: Mounting /dev/loop0 to=20
-> > /tmp/LTP_sta8hUyB4/mntpoint fstyp=3Dvfat flags=3D0
-> > statx04.c:121: TFAIL: STATX_ATTR_COMPRESSED not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_APPEND not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_IMMUTABLE not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_NODUMP not supported
-
-> At first blush, that does not seem like a plausible bisect
-> result. This commit shouldn't affect the behavior of tmpfs
-> in any way.
-
-It's not testing tmpfs (well, it does but that passed), as the log above
-shows it is making a vfat filesystem on a loop device backed by a file
-that happens to be in a tmpfs and then testing that.  There's a bunch of
-filesystems covered in this manner:
-
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext2 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext3 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext4 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on btrfs =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on vfat =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on tmpfs =3D=3D=3D
-
---pU7PWqZY3LH4C5oJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNyxoACgkQJNaLcl1U
-h9Bf5Af+J1m8FmGWQ4pg6JZgINs95lrmSIR+IAB+cWXhFfdVSNEDGOAuLHfZv+MG
-SaPG/eW8tXyaC89iw3nCRtUSa8YdsvqtsHSfSjaMKADpqQWTNJXPDhuDUEVdnpHv
-uSomYh27BJ3pHYuyjntZzSmA1ivMxF7WlODibQ4x+I51sFeOdBzk12V52swZUEpI
-fFKR5JU6/v/dswn9lBdjXZ16wA+O1xgaEPJrsVA+KqNWwMawWAFloGsFbr7KNQIX
-M87fQWJHn7S4o29asvaYlNpPIFdhYA3n9xKJln1PCGEDzBv1ICL6pHWifp4XRRlt
-MTWwdW7SI6ptcJI5ML0CRUOPLAwWSA==
-=dGWS
------END PGP SIGNATURE-----
-
---pU7PWqZY3LH4C5oJ--
+-- 
+Chuck Lever
 
