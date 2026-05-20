@@ -1,195 +1,307 @@
-Return-Path: <linux-api+bounces-6362-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6363-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2LlVBFDZDGrhoQUAu9opvQ
-	(envelope-from <linux-api+bounces-6362-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 23:42:40 +0200
+	id cJHGKNWFDWo8ygUAu9opvQ
+	(envelope-from <linux-api+bounces-6363-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 11:58:45 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68550585435
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 23:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD07C58B377
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 11:58:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1E2313014BCB
-	for <lists+linux-api@lfdr.de>; Tue, 19 May 2026 21:42:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 771A1300148B
+	for <lists+linux-api@lfdr.de>; Wed, 20 May 2026 09:53:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12B5A3EBF03;
-	Tue, 19 May 2026 21:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C81DE3D170E;
+	Wed, 20 May 2026 09:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cBBOp9lP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FkbLfZpU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723D23B52F4
-	for <linux-api@vger.kernel.org>; Tue, 19 May 2026 21:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779226957; cv=pass; b=rhCfYnxmOab1lVaKnOL2ozDNVuiadhE56Ym9Z7P8iKv1DVfA/a5m+D5RbqE4q2VBXkj7BE/ev52ZluP3zHXqyNSMLEl3tuUpPtTdhF6xiOWAoIAiUcI8elkqTTFlUFe5pK58z83m4ntzr8KEIa7j75647d9yFFHdiYPSF9Qycgs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779226957; c=relaxed/simple;
-	bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uuFOtf6bFbZ/1BxZpZO3f9PL3IDpUvSM7enV4S5zDfkpakJEIh/pvaGq6YpfjsDfb76TjxO2BhJLOJ0G+lSHJNm/haL5bp3BvC5ouLTkqWZlg3Supeil6ELucgiZhb3dmuQLnCxq7ikorHdQuVXVd39GB7N4foP2H+EaweX/Gy4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cBBOp9lP; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso302a12.1
-        for <linux-api@vger.kernel.org>; Tue, 19 May 2026 14:42:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779226954; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CwrNE8tGnkwFia4j4hmNvNCmDIzjbLsr3P6Z/6ojw6g9ap6Ytir3jwnvWAAkCcnwCt
-         bgDki2IElA0EIAG5eCrsF5R6nxDFl4RGpqxNvhDl3WKkZWVDQuJfLFAY/qtr4GxkCQ/K
-         QADsmA6dNxiVS8JMdVfRtiVKkt+mRRqeP5foCZJFi+OdWAR6a2ZmBeBXVIwxSM86PkWV
-         nqBoIZya7R6Uloj46tsCdEvVUyVCN/rL4qpnZjGkm5XIbwoOK1mjqGhV8/0Gkwq0lWct
-         BUdKrmX0UpgxU52DePInu3LGOfrbIA56uMYx9s6LzkzH/ZUxDWGpZFlGoi0Adkb5e7uc
-         Putg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
-        fh=nhJQt+DNRWnre77sUJ9Lhnp2HvS94IqNum873yuKm40=;
-        b=DayvpdXUqpeKiq+c/hs0wWnTaRtqIWTc/288ZRdF6TitYNxni3yuOoGO/3v2sSvqlO
-         I4CbBf6hqgKl7y5yL9rimNFUSTLzqFoA8dlz5n/UnAQuyur8cOM6h7U6qu8EcCDtbpff
-         6keXBnXErLw7sIrxMuTCLQFCA/GFtaZVf7QDEin/H5h87jG9ydZBK6ABd8b6aQ2tLW2D
-         gbzWRanmxgJp/OrusFpG4VRb9LlW4FTUD0EXTRKijJahH5s+PIoUdWaWBLzVPf/MLYlf
-         ZJnkWS3BmPnl1NFm951MDoC1L7kzyE5cMokpZh04aSHEFN56IoTu4vML1VFMyQeSE0gp
-         C5TA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BE93D16F9
+	for <linux-api@vger.kernel.org>; Wed, 20 May 2026 09:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779270820; cv=none; b=q47bAMxuxGJz/zhtIkjS1dHj11ZTy2gJ1GXEVEnKLgVTYi0xGDufuD++NqzUdyJk8kcHJ9VWTa+VeY+piu9HgC0x6J8P58Wb5J/rqXrQuFdxNjYZnmsVVNAu3JAataq3kGu7v5IAHnCpm81ChsCHB2me6dkz2z65XhYUtxhoxpc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779270820; c=relaxed/simple;
+	bh=puwkhZDm861AvWUlAH9JiXA9DMy67Y7J2D2J6BRnHbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JJCXbxa/wePQstO77lTYNrSCq7g15tb+eoslFQAMSoE+GWIkirLIOhGz1qPEOcJt6k0ajbma76rWzwVVjeWFTrutCEJW+TI3JoZwyq/EByKesN6yTcC9gsUuCKYj7+Vmo+//xbI0hGrFlWV7kwol9yP+b5JE8Esd+tIhnxY58nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FkbLfZpU; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-44e1ebb3122so2735278f8f.2
+        for <linux-api@vger.kernel.org>; Wed, 20 May 2026 02:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779226954; x=1779831754; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779270817; x=1779875617; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
-        b=cBBOp9lPxsBqzp5DiVVxXZDcRjTE3euWHcLy8b7vbCVmNAJKacI97hsJ3Vh0KDFaXt
-         NXU/Zw17XqHcSHLDvSXAwaJJyllAMtOnzA54IEMDi5toSkc1FhEXHqZzqiln7NYZ4wvW
-         lfDw4ZrKlWmzFMu6D/n8ftMX8TONAUMPAsEN31ppZN2D373vE0vjsNy/4phHOsAWuYNI
-         nF/qzfTTzsfvL29YjAa8hB1+SvxRY6O7eKRjW3auOF834Bo2J3b1uCxJC4HpkvPM5oIs
-         V7wciD7Ct1uavsVVCtQKUXyo51LalxiQasEvoLneaUrOkZFwJnRtJwnYl4KuZY4B5BFn
-         MUcw==
+        bh=3ebYrN+Cy1jpS7On8dq1CN3DpE7snkr/MnVsVyf9e2g=;
+        b=FkbLfZpU4o+Lc7k1qcE4HifYzNABddpp2vwKjN+tsbfhFEuFe/osJHvYRPMlp5ICQ5
+         6b8ac03ZsUBd1yQ17b0KzsOU03Niz3jDyHuCTcvpMHk6tzWAGH7kdY/JaaSUMt/PqIWG
+         0jOX3ARaMh3YpnB/CTX7nZAF43EXtPhYSe+WpshbB/Y4o//xVymBssuRrBzNiN2t+6zb
+         672v4PkKo1WdnPqY/SdaFMV8KRvhnLi8pS1jULooFwWqaXzOHWv/z1MMsxa8fIUjrFvl
+         mBDUBUu09PnQ+e/CdBOQtMmtfuvoVKvDje7LRBR3nI9MA9f2wvWbp3NPrQaXxrP+3f5g
+         4/+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779226954; x=1779831754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1779270817; x=1779875617;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=agpQDPE0e0tDa6PFtfyC+WslCRjLfXBgwgqDsBVIG9k=;
-        b=CulhMZ2z6wzZAbjwkHRU1jc93jktUW5OhfLJUmMugDpJNo1ZFfrRiiqqlS/HUtvDbi
-         +/edvt5rNvUOjB23eFWUEEjPtugYuM98AfRbqUzUnLmaudKyrXufV4CzGzW750dUDWCb
-         YMlcUinoCkXlZzy3D2z/rgydc5CedlmPpGv3p8Bq647ximCUVZm/+r5iTM2Rj2Fu+wOC
-         0cbJMLdrBeamiMVZHXt/jPMW1CfNupqpZgFnD2F+YvhSi5Ck8KfdxP3jDI73eGwLwAM8
-         TeR7ZzmKcEw2bZeOsIBgwKyOjWIOnJp34bbXvSMIsZ14tI6H+CtM53ZaDMK9Wi3Ks7Ck
-         M4Kw==
-X-Forwarded-Encrypted: i=1; AFNElJ/og9fnfMtkJSoxgTNhyC/B6TJMJFZq2ZpQooc1Kt7vIJKFl8QUQ+5meaKy0uLL4gzwvFC8g0LtEhk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/YL965ucsDagp4KIN4lInMQktKVdeVrn2PPt7nE/AyFn/x8we
-	hkpd0rUaSjKE78UlYCEgVenCLQxsu/VxYt7j0obAHdFZ5a9GnQJMSCdhJw/VNoXpEYU+Ba9uj4c
-	WipCCMqWAO+748GjX0ngZU2n93A3Hbh9n2Tx3NWGM
-X-Gm-Gg: Acq92OHEDlj7XDNJoPEHd6CUo6lBUK2awf0nNNid17+oustqZ8iMJgxRxovs2QpF4y2
-	ce/NkOzxXt3MljTwY2xzubFfyypWymnUHo08cYmgVVNVSM6bFObZHC9qUxW1Kwd7NLkY8Awm2FP
-	BonkHPQhL5mXHqJd5naQ1UVuCYKoAeUAKmN+5VpC/wIBgy2Lo0xDbMnawDqokLpWIHOV8iwR1E0
-	QK4COxVAii4I0bxVFoJHlb80IyR1VoSD00yboPkKtxwyFBwb7WrkRb7FbkVTvtt37HiylDf4zC2
-	gKDBEXrCZs9yakiPr7paMDxA1KccstJOFx0RdxuPC/wAaQs=
-X-Received: by 2002:a05:6402:20c6:20b0:678:a5c3:4d12 with SMTP id
- 4fb4d7f45d1cf-684985e277fmr173995a12.3.1779226953632; Tue, 19 May 2026
- 14:42:33 -0700 (PDT)
+        bh=3ebYrN+Cy1jpS7On8dq1CN3DpE7snkr/MnVsVyf9e2g=;
+        b=BA/1kPjROHydaoXld66qVQ4fpy4xNSs/dvnkKVNkCCjLnaLznxYia+SsRbI9vqSwwb
+         sUV7UuU5jULtU89w9xXWu6RYEhG/iTdrUReWJJHNJ/YFQLg9NEqOy1oBlYZf81GNTfzl
+         7S1TPmjkmdjIlYk0qZKpGjc0qdTfL/CWkWlyJEJ3iXOLtpjiBMQ1XmntzNN1hJfCIy/n
+         MriT7rlSMA/vyqpYPhQQQIh2u3KFo98L8BxJvNPYH5DpohsoQyx1GGXiAzdesqH23KD4
+         r64onUrNfayyuCN9atvvfF9tIFF2tWyJkxMh9iaOKfU10HWe8i198POf4KT2wnd6TTa8
+         2cTA==
+X-Forwarded-Encrypted: i=1; AFNElJ8iwe7MaBoSx/H/XvGNVYxhrBu+TLklKKd5Ll2W3p9+Rp5T6bN95xMD8vjlcB7Lz/3sbO8S3EJZuOo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC5vgBm5yQNaj1FTAstpTbfu1m66vyaksuOwv+RUsfxBF5AULf
+	YYxTahBCW6gNdbDU+VWye49JquSbDUQmnY/2x+Bs18xjtVlyUIoQXD7S
+X-Gm-Gg: Acq92OEBfBHI5IfOPl+YucmxGm+tesYfNzoY19NPcF7/Vf0JobQLuN9yJUzACIdRw9S
+	xCDk4ECQCDsi9TepJWLvNi9NIY3gpC2xvUOgZIgaXsdp8iDbxlaR4PlS7hmBuqLJSzFnoC601K5
+	MeOvOIAetPXh+wwOiPtoWNQ0onGjKgC0z0LfxAs8HS6H1p9i320XG14R4HkD+1addOGxHSvg2/o
+	HWwrjfXCymywLQSw6qkuwVrp5ANrWaXj05+3IrCuXw00Vf7dNyeqJRDdDeu9HFCmDFV/oKGpSQg
+	V3eEtNCzqIMAxHZHLy5lpByuT7z2ATa6RjY8ozQqvEFvp8OtMhla/h3SUfcYkBRpnKmSVa87aju
+	NvRL8spMRaSQhKaOv7HKRE60g8RKMyZJnonkxg83XA+ECml70Ucfs9we+gh9dEpK++q73uTuX7F
+	UvsejjH1FZRy2h87Z+eIW8xclqVoQxraCyrcNA1zMlWKEBwQ9QN84TgrGu899lN6NoHNaTFt9bh
+	nc=
+X-Received: by 2002:a05:6000:186c:b0:44a:aa3c:5927 with SMTP id ffacd0b85a97d-45e5c5957b9mr38170692f8f.29.1779270817325;
+        Wed, 20 May 2026 02:53:37 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe0fecsm48645755f8f.26.2026.05.20.02.53.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 02:53:36 -0700 (PDT)
+Date: Wed, 20 May 2026 10:53:35 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Christian Brauner
+ <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Shuah Khan
+ <shuah@kernel.org>, willy@infradead.org, mathieu.desnoyers@efficios.com,
+ Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org,
+ Yafang Shao <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com,
+ arnaldo.melo@gmail.com, Petr Mladek <pmladek@suse.com>,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, linux-mm@kvack.org,
+ linux-api@vger.kernel.org
+Subject: Re: [PATCH 3/6] string: Introduce strtostr() for safe and
+ performance string copies
+Message-ID: <20260520105335.1970fc23@pumpkin>
+In-Reply-To: <471b5b42-974c-441a-9afb-13e1baba5c44@igalia.com>
+References: <20260517-tonyk-long_name-v1-0-3c282eaa91e2@igalia.com>
+	<20260517-tonyk-long_name-v1-3-3c282eaa91e2@igalia.com>
+	<20260517223419.3262de7c@pumpkin>
+	<d4d6cf61-568e-478e-88d6-01b769d7eded@igalia.com>
+	<20260518193843.7bde8d53@pumpkin>
+	<471b5b42-974c-441a-9afb-13e1baba5c44@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <F78521DA-08DC-424E-BBE1-231BC900CEE0@gmail.com>
- <CAG48ez0KsuR5z4RDgxWPUoS8e_MJzF74RgFDJayohG48A_N0PQ@mail.gmail.com> <CAAmtCfMHqdWbYh-Hc5sGbOhXSM-aCA9G0-s64G8FTM+rGEV5RA@mail.gmail.com>
-In-Reply-To: <CAAmtCfMHqdWbYh-Hc5sGbOhXSM-aCA9G0-s64G8FTM+rGEV5RA@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 19 May 2026 23:41:56 +0200
-X-Gm-Features: AVHnY4KelXMX0Ox3UHP6DtmSDnRxPxmxV49wSNMKd-K67wpQhqz9skVmJZNDODo
-Message-ID: <CAG48ez3u1OCx+zCWEs-_gowDmQ=KLbXO2xZ83LCZ1o1gxRT3Ww@mail.gmail.com>
-Subject: Re: [RFC] TID v2.0: kernel module for cache-line zeroization against
- Flush+Reload (CLFLUSHOPT + LFENCE + REP STOSQ)
-To: Ahmad Hasan <ahmaaaaadbntaaaaa@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, kernel-hardening@lists.openwall.com, 
-	linux-crypto@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6362-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6363-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[google.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jannh@google.com,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,linux-foundation.org,gmail.com,suse.com,vger.kernel.org,igalia.com,kvack.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 68550585435
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:email]
+X-Rspamd-Queue-Id: BD07C58B377
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 19, 2026 at 11:31=E2=80=AFPM Ahmad Hasan
-<ahmaaaaadbntaaaaa@gmail.com> wrote:
-> Thank you for your questions. I'll address each one:
->
-> =3D=3D 1. Threat Model =3D=3D
->
-> The target scenario is a same-machine attacker
-> in multi-tenant/cloud environments where two
-> processes share physical L3 cache.
->
-> Example: a cryptographic service and a malicious
-> process running on the same host. The attacker
-> uses Flush+Reload to measure cache access timing
-> after every encryption operation =E2=80=94 no physical
-> access required.
->
-> This is documented with real measurements:
-> - Without TID: 78 cycles (Cache HIT =E2=80=94 key pattern visible)
-> - With TID v2.0: 286 cycles (Cache MISS =E2=80=94 attack defeated)
+On Tue, 19 May 2026 16:47:05 -0300
+Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
 
-So you're assuming that the cryptographic code leaks secrets through a
-cache-based side channel? That would be a vulnerability in the crypto
-code.
+> Em 18/05/2026 15:38, David Laight escreveu:
+> > On Mon, 18 May 2026 11:36:49 -0300
+> > Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
+> >  =20
+> >> Hi David, thanks for the feedback!
+> >>
+> >> Em 17/05/2026 18:34, David Laight escreveu: =20
+> >>> On Sun, 17 May 2026 15:36:13 -0300
+> >>> Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
+> >>>     =20
+> >>>> Some parts of the kernel uses memcpy() instead of strscpy() because =
+they
+> >>>> are performance sensitive and doesn't care about the return value of
+> >>>> strscpy(). One such common case is to copy current->comm to a differ=
+ent
+> >>>> buffer.
+> >>>>
+> >>>> As the command name is guaranteed to be NUL-terminated in the range =
+of
+> >>>> TASK_COMM_LEN, this is safe enough and doesn't create unterminated
+> >>>> strings. However, in order to expand the size of current->comm, this
+> >>>> expectation will be broken and those memcpy() could create such stri=
+ngs
+> >>>> without trailing NUL byte.
+> >>>>
+> >>>> In order to support a fast and safe string copy, create strtostr(), =
+to copy
+> >>>> a NUL-terminated string to a new string buffer. If the destination b=
+uffer
+> >>>> is bigger than the source, no pad is applied, but the string is
+> >>>> NUL-terminated. If the destination buffer is smaller, the string is
+> >>>> truncated. The last byte of the destination is always set to NUL for=
+ safety.
+> >>>>
+> >>>> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> >>>> ---
+> >> [...]>> +/**
+> >>>> + * strtostr - Copy NUL-terminanted string to NUL-terminate string
+> >>>> + *
+> >>>> + * @dest: Pointer of destination string
+> >>>> + * @src: Pointer to NUL-terminates string
+> >>>> + *
+> >>>> + * This is a replacement for strcpy() where the caller doesn't care=
+ about the
+> >>>> + * return value and if the string is going to be truncated, albeit =
+it needs
+> >>>> + * to mark sure that it will be NUL-terminated. Intended for perfor=
+mance
+> >>>> + * sensitive cases, such as tracing. =20
+> >>>
+> >>> If you care about performance, and the destination isn't smaller (esp=
+ecially
+> >>> if the sizes are the same) then just use memcpy().
+> >>>       =20
+> >>
+> >> The problem is that as I'm expanding current->comm, the source buffer
+> >> might be bigger than destination, and when we truncate the string, it
+> >> won't have the termination NUL byte. So we need an extra dest[len-1] =
+=3D
+> >> \0 after the memcpy. =20
+> >=20
+> > It depends on other access to the destination.
+> > If it might be being concurrently read it is vital that it is always
+> > terminated.
+> > So you can't even temporarily have a non-zero byte at the end.
+> >  =20
+>=20
+> I don't think this is the case here, as far as I can tell all the=20
+> callers of strtostr will wait the end of the copy before using it.
 
-> =3D=3D 2. Why Kernel Module and not userspace? =3D=3D
->
-> You are correct that CLFLUSHOPT does not require
-> Ring 0. However, userspace execution can be
-> interrupted by a Context Switch, which expands
-> the timing window from 372ns to 36,640ns =E2=80=94
-> making the attack significantly easier.
+It's not the callers, it is other threads.
+The comm[] string in the process structure can be read write it is being
+updated.
+It doesn't matter if the reader gets a mix of the old and new strings,
+but it must see the terminating '\0'.
 
-Why does it matter how many hundreds of nanoseconds it takes to wipe
-the data from memory? You can also have a context switch directly
-before you enter your cache-wiping syscall, or in the middle of a
-crypto operation.
+...
+> > I'd also create function that is explicitly for copying process names.
+> > (Or replace the one that is already there - saves a lot of churn.)
+> > then you know (and can check) the sizes are the expected ones.
+> >  =20
+>=20
+> I don't have strong feeling about get_task_comm(), but Linus said that=20
+> "I'd rather aim to get rid of get_task_comm() entirely"[1] so for me=20
+> it's fine to get a new function for that.
+>=20
+> [1]=20
+> https://lore.kernel.org/all/CAHk-=3Dwi5c=3D_-FBGo_88CowJd_F-Gi6Ud9d=3DTAL=
+m65ReN7YjrMw@mail.gmail.com/
+>=20
 
-> =3D=3D 3. Why not add this directly to libraries? =3D=3D
->
-> No major security library implements CLFLUSHOPT
-> after wiping =E2=80=94 not OpenSSL, not libsodium, not
-> glibc, not memzero_explicit. This gap has existed
-> since Flush+Reload was published in 2014.
+You could probably justify a rewritten get_task_comm() without all the bagg=
+age.
 
-I don't think that's a gap, because the standard approach to
-mitigating cache-based side channels such as FLUSH+RELOAD is to not
-access memory at secret-dependent indices in the first place.
+It might end up being a wrapper for strscpy_pad() or some other (to be writ=
+ten
+function).
+Maybe the body gets get extracted out later for other uses...
+
+The advantage of a wrapper is that you can change the implementation
+without having to change all the call sites.
+
+Another (untested) wrapper:
+#define copy_task_com(dst, src) do { \
+	size_t _dst_len =3D sizeof(dst) + __must_be_array(dst); \
+	size_t _src_len =3D sizeof(src); \
+	const char *src =3D _src; \
+	char *_dst =3D dst; \
+\
+	if (__is_array(src) && _src_len <=3D _dst_len) { \
+		memcpy(_dst, _src, _src_len) \
+	}else if (_Alignof(dst) < _Alignof(u64) || _Alignof(src) < _Alignof(u64) |=
+| \
+			!__is_array(src) || _dst_len !=3D 16 || _src_len < 16) { \
+		strscpy_pad(_dst, _src, _dst_len); \
+	} else { \
+		((u64 *)_dst)[0] =3D ((u64 *)src)[0]; \
+		((u64 *)_dst)[1] =3D ((u64 *)src)[1] & ~le64toh(0xff); \
+	} \
+} while (0);
+
+Although (annoyingly) neither _Alignof() nor alignof() gives the value you =
+want.
+I don't think you can fix the alignment of a structure member.
+
+-- David
+
+
+> > It might even be worth making the #define (needed to get the array size=
+s)
+> > call out to different functions for the different cases.
+> >=20
+> > Thinks more...
+> > On 64bit the 16 byte copy can be 'load; store; load; mask; store' provi=
+ded
+> > the buffer is aligned (copying u64 on 32bit will work the same).
+> > But that requires that all the buffers be aligned.
+> > So you'd need to check _Alignof(dest) >=3D _Alignof(u64) as well.
+> > (Probably with a fallback to get things to compile.)
+> >=20
+> > Whether that is best for the longer 64 byte copy is anybodies guess.
+> >=20
+> > I also suspect it would be best to zero fill when copying a 16 byte
+> > name into a 64 byte buffer.
+> > (If you zero fill first then you can just copy 16 bytes over.)
+> >=20
+> > -- David
+> >  =20
+> >> } while (0)
+> >>
+> >> =20
+> >>> -- David
+> >>>
+> >>>     =20
+> >> =20
+> >  =20
+>=20
+>=20
+
 
