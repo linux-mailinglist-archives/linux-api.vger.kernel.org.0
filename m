@@ -1,64 +1,61 @@
-Return-Path: <linux-api+bounces-6376-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6377-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFwkIVBOD2r7IwYAu9opvQ
-	(envelope-from <linux-api+bounces-6376-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 21 May 2026 20:26:24 +0200
+	id SH9hJ2LOD2paPwYAu9opvQ
+	(envelope-from <linux-api+bounces-6377-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 05:32:50 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6665AB084
-	for <lists+linux-api@lfdr.de>; Thu, 21 May 2026 20:26:23 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AE85AE5A3
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 05:32:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A030E30B8352
-	for <lists+linux-api@lfdr.de>; Thu, 21 May 2026 17:42:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1AD32300B50F
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 03:32:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B0F36A036;
-	Thu, 21 May 2026 17:42:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB22280331;
+	Fri, 22 May 2026 03:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ejOrg5mg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XU/IlB9S"
 X-Original-To: linux-api@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3F341754;
-	Thu, 21 May 2026 17:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF50D1F8723;
+	Fri, 22 May 2026 03:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779385329; cv=none; b=fQQ/p6Xe453EXrIeYCorz2RGw/oLtIiTBGnRQ/G4gnKVheBiRhLv/Hi+woqmw49sSi4RYE0QiHQU5bgl7QfRcfampZsm2TNhB184LRxt2GX9/J8olR9/Arumy8UBw6t8OUyiqnkRLexz/osWgLHYA4HOOSjyZ/LxCba29i1985U=
+	t=1779420762; cv=none; b=Ah+Y/Q40ZhF/g0exSVzKUM3+qLvMW6obM466R5mYZbwxywlTHgIOgy9LNzJeZhp+RqGUWeV1pqOTRn7LAbEETMtnxUqrFCCB1wRxXJyYjwcJia8lFHuV2H+5ehwSAFBPAV19MGmDzulKeEnI4/3L66Us1P5zUnr5JzdQ26cvcH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779385329; c=relaxed/simple;
-	bh=zWWj0ezxd6HL6BF4TGyQfRHRwqJz5spsOU9FeDBseqk=;
+	s=arc-20240116; t=1779420762; c=relaxed/simple;
+	bh=aTe607YLL2D2+izBI4lOWSP0MU1tNfq+EHSoE0D1GOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZ6IAuiIMxv+6mq2gePos35ENA2wcUT4RtHmKEy8FpP6jINIKOe+1jrA11ukOfYDSJgU+h283ylRMpfRetY3g/aBNAM5IziiiDwkTFT00hS0maOuM4PShce/bF7DCCwEChPm1if7NHrUjVF10eAHe9q8jHndzdOHmenbUwVcztc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ejOrg5mg; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=mocVZk7k0i4LfDz16F/hYo5gMZPJrjHL7ge9GFVHtqI=; b=ejOrg5mgxSsn7RT/IqWLJYzFmy
-	NjacPOHPPk39x+u3OOyZlw/ZOZDCW0fQ5+j7kEh4ns0cWOZDIgh2/xgyxFhO42LNiJuYqfWu14Qyq
-	INqflfS2Q5C56RXca4CONSNgXzpsQvC40q9brHTV6cOwrRANsEllx6AZK4PQKsjB7PlcIhsF5CpqN
-	QhpXfxqg147N4BeXy5Bv0k94qY/07fYp+a8FjqSGRQh7dVRzAyyXuO3zAztmvK6mhXUPh9EOTJgTP
-	fnUKz1TMjfkyI6WIwVEHZ5v3AqVavAwv4Eq7ga7uPWwJfxGJoWW6Y1JZanIeGHyZdizhe1S6ukMYn
-	C1VY/WxA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ7PH-00000008pYv-3GzO;
-	Thu, 21 May 2026 17:42:04 +0000
-Date: Thu, 21 May 2026 18:42:03 +0100
-From: Matthew Wilcox <willy@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=scImTC/Y7PdNH0MFMMFzNCseEjHzVDYUrvotq2nXoh0Re6L0LivLXW7iYjmDaEUrHNcFUBsDfpkI245i3Ktu8wThoghTMNUumfruygj+ZNOHVzl9VRvMROfRtGhSgsqZXqUKsdAGHNlj9HKpB8rw1LwE4OTI/DG58t4hBXGFbW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XU/IlB9S; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240291F000E9;
+	Fri, 22 May 2026 03:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779420761;
+	bh=CGFAvI18BKBe3vm3c5WorkCHjUcjWwmCPrmYoSAlc2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XU/IlB9SH9nlFWYU/EiIad/OZNWTJfz8uzGq441tNsdlZHlxAhPQwtA2NOjDRpp9S
+	 jsCQvoPHpW/b2EqxF4z9HctvBw2zcUUMvy0PL79CW7tF6sSr9KaxQilTtBvSpuNzqm
+	 LQb87xxVBr99WUX4SXHuRN9DK8q+KFJ//Sw7qV26y3Fn9lfiqnc2QNNAuAppqwkISa
+	 IzKvOiT+uSEDGkJ0H1/ydXDs9FselwOycC80O8y436kSj8vTfb/9oUcRB5YSJcxjNT
+	 MqyLv9+oWkNXUQUAOs44eSNwTfA+PX8Cm5Fx7teBgjoWyybo8QhspPJkMRersifqVP
+	 doyNr89pmQCpQ==
+Date: Fri, 22 May 2026 03:32:39 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
 To: Theodore Tso <tytso@mit.edu>
-Cc: Christoph Hellwig <hch@infradead.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
+Cc: Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
 	Akilesh Kailash <akailash@google.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-api@vger.kernel.org, Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v2] f2fs: another way to set large folio by remembering
- inode number
-Message-ID: <ag9D6_7dttbDGHZ6@casper.infradead.org>
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+Message-ID: <ag_OVwPF49LSZ7rz@google.com>
 References: <20260409134538.3692605-1-jaegeuk@kernel.org>
  <adhPZxtbZxgU-37v@google.com>
  <ad30g9xMs9wNJhFb@infradead.org>
@@ -72,40 +69,53 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20260521155748.GA79343@macsyma-wired.lan>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6376-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6377-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[infradead.org:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[willy@infradead.org,linux-api@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[jaegeuk@kernel.org,linux-api@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,infradead.org:dkim]
-X-Rspamd-Queue-Id: AB6665AB084
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: A8AE85AE5A3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, May 21, 2026 at 11:57:48AM -0400, Theodore Tso wrote:
+On 05/21, Theodore Tso wrote:
+> On Thu, May 21, 2026 at 01:51:08AM -0700, Christoph Hellwig wrote:
+> > > You haven't sent a proposal.  This is a reply to a reply to a reply of a
+> > > patch.  There's no justification for why f2fs is so special that it
+> > > needs this.  What the hell is going on?  You know this is not the way to
+> > > get code merged into Linux.
+> > 
+> > None of this got properly answers, and this broken interface now landed
+> > in linux-next. IT is offloading a user.* xattr which is free-form
+> > user data with semantics that are weird to say it very nicely.
+> > 
+> > All this was done against the advice in the mailing list discussion.
+> 
 > So let me get this straight.  This is a magic xattr interface which is
 > not even persisted in the file system, but instead sets a 32-bit
 > bitmask in the struct inode which disappears once the inode gets
@@ -116,8 +126,36 @@ On Thu, May 21, 2026 at 11:57:48AM -0400, Theodore Tso wrote:
 > a broken interface, so why didn't you just use an ioctl to set this
 > magic f2fs-specific flag?
 
-I mean, yes, this API is horrendous.  But it's just another example of
-f2fs thinking it's somehow special and not just enabling large folios
-like other filesystems do.  This hurts everyone, not just people who use
-f2fs.
+I went this route because Android heavily restricts ioctl() permissions
+and we needed broader access for this to work within the framework. It’s
+definitely a pragmatic choice just to get it running in production.
+
+If ioctl() is a right way for upstream, I'm happy to change this patch. By
+the way, I really don't understand why all the messages are so offensive,
+even without trying to understand the problem or guiding right directions.
+
+> 
+> > I think at some point we just need to stop taking f2fs updates likes
+> > this.
+> 
+> Well, that's ultiamtely up to Linus.  I'll say that if I were Linus
+> (and I'm glad I'm not :-), and I saw this in a pull request, I'd
+> reject it out of hand.  But whether it's worth making a huge fuss and
+> asking escalating this mess to Linus, we probably should get a bit
+> more community consensus before taking such a drastic step.
+
+Could I also raise a quick concern regarding the phrasing/wording used
+in the communications?
+
+> 
+> Christian, since you're one of the VFS maintaienrs, what's your
+> opinion about escalating this to Linus?
+> 
+> 					- Ted
+> 
+> 
+> _______________________________________________
+> Linux-f2fs-devel mailing list
+> Linux-f2fs-devel@lists.sourceforge.net
+> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
 
