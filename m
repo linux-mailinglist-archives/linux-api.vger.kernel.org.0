@@ -1,62 +1,67 @@
-Return-Path: <linux-api+bounces-6384-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6385-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +B/NLuFmEGoKXAYAu9opvQ
-	(envelope-from <linux-api+bounces-6384-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 16:23:29 +0200
+	id +NWSF+BlEGoKXAYAu9opvQ
+	(envelope-from <linux-api+bounces-6385-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 16:19:12 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF155B6122
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 16:23:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C696E5B605D
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 16:19:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 61D6A30477E8
-	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 14:05:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BBC67302515F
+	for <lists+linux-api@lfdr.de>; Fri, 22 May 2026 14:11:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D49D413247;
-	Fri, 22 May 2026 14:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D32C317169;
+	Fri, 22 May 2026 14:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxNBYUYp"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="lpmCqZgx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366C441C313;
-	Fri, 22 May 2026 14:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD31041C319
+	for <linux-api@vger.kernel.org>; Fri, 22 May 2026 14:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779458710; cv=none; b=BHwNaqUrv3zpEG0+dChKO/GCZeE24Az1uWFZpArHq4LDOyXbipc/xiZVOv0yEul3nHwlW35Fyhl601JrifunO1H/HOkAzsP0vhs+Atriv1pzmQEPCTtRX1zJ0fSHU3BJuldWZfz/hnHBzPEsBr655nVjUhY6FT5bcwwxO/Xs8qg=
+	t=1779459115; cv=none; b=JrD0PRIcZyGORs3DqgdLZWErdapKsqX7Ed9G4AUWOAfxWDXEn1IBhAUxjRdq7kdKkKLAIYc1Ohy8+90uR5IrkO0v7ZLWBCK6j2HoRhqZ/ozlsU+IZvRIkUHH394p7usfB+ubKtRDbx/plzE8FNJoEDuBtnMe0wKffkIoexG0QEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779458710; c=relaxed/simple;
-	bh=2UZjwiT2X1cW7AhTepmwlyEVOZvzDO0GFHHZ7F3hu2k=;
+	s=arc-20240116; t=1779459115; c=relaxed/simple;
+	bh=Z1KFUy7yFmT8phE2o51kuK/KVyikMTp1njUQtH61aiQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zp7LQzxyXcvBWxx8f7fZ26XMoIMFbsTCcFgvfv0yvxOoS1jzvwh/lqaGvDXLpFs5/AsqTn5Iym+B4el+0OS0Fs1YBytl6Y7diudd0z1+tZiKBGpH+TD5N1oQ/QgiTcs1zYRwV9Sq/vkKA7KQ6qzLfp0yRDI8qcFZ6jLRNg/+Hxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxNBYUYp; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 490CD1F000E9;
-	Fri, 22 May 2026 14:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779458701;
-	bh=6Ie8d2ZAmeBfN3v2/FX4Pbrv/H8u5AdvngzMgJa2Mf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mxNBYUYpnAWw8vEEAYBoOy4sKcHYDEtI47yZ4w+/tWMhgmVlXSO42ghF4ocDrA/Aa
-	 qEOD7hdtIQYl+6j50auuLdIOl4bUcsbtT55PmICGuXR7SyMh2ebncRH9j18harNy5s
-	 qlg/hCMCHbwEcgsALFwbKABqFNiMuxZd3EMh9xh0gVby+C5KXSKR84QkV32rnI8LT2
-	 0bJ3nVYCp8E/zU5w0An8h/WG1g338+A/m44oNUI74RvF777xYt+qVpBF6hWgaauV0t
-	 7bt0Lz1+iQNY/540jiITxZLdfliZjCalbs6kr6IUzf0TtDKSgYbup6xFpsqphGMUf0
-	 SoRh5hhyPT4Fw==
-Date: Fri, 22 May 2026 14:04:59 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Theodore Tso <tytso@mit.edu>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Akilesh Kailash <akailash@google.com>,
-	Christian Brauner <christian@brauner.io>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JfkTjpHGHrHZna1/b0HzhC5c+D26bdIXwkl9D7kq2++umulOs4MkmF4cCV4xng7FZjEUITaG1UfIo/IF8zTbe/9dbHVrghDW3J7bOF3yrqyI4e0Kec+aJ9weLttPkcpJi2u1x9ck+34sAa8fcxLPz7O3PE/WLcnEkBHS1JK21Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=lpmCqZgx; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from macsyma.thunk.org (pool-173-48-115-85.bstnma.fios.verizon.net [173.48.115.85])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64MEBFMM009434
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 May 2026 10:11:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1779459078; bh=mHoK9Kgu4Ukogk/OuX5oJ2mC+IXl+XVKkhhR9Ymm7QI=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=lpmCqZgxMgz6LXGThL+FgpU/gHZm2q7cb9GG7Hmbw1HF0AaE+gTLZhx9dJOwJ0nAa
+	 2x/e4DVdk6Mue88+of/m4/ffVBkjFqZKlQf1pjyNfEHE3qjYAT5bb4AA+yS6hK29dF
+	 tpcNUTkTnuKZKnGb2yNXM1Xpq2G56JRBZFxvMjxungbdw4ZnXHfC9aHoYGP1zgzpe9
+	 rCykZkCrU7T2G0hk7TF/PTaBZd6uVu1liAacXiKKP6Mtbrh5RAchLbF0HPslHhm0PS
+	 hlvO2wQHeMa+U19lqVyv1mhCKetcXnea+xjcMVpqrI/U8nWD/W6aAO3aYuPE2RV/Mq
+	 Mp2pkRBJcpAFA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 38EDE69D5323; Fri, 22 May 2026 10:11:15 -0400 (EDT)
+Date: Fri, 22 May 2026 10:11:15 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, Akilesh Kailash <akailash@google.com>,
+        Christian Brauner <christian@brauner.io>
 Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
  remembering inode number
-Message-ID: <ahBii6bk0KbK_NHV@google.com>
+Message-ID: <20260522141115.GA8258@macsyma-wired.lan>
 References: <20260409134538.3692605-1-jaegeuk@kernel.org>
  <adhPZxtbZxgU-37v@google.com>
  <ad30g9xMs9wNJhFb@infradead.org>
@@ -64,84 +69,118 @@ References: <20260409134538.3692605-1-jaegeuk@kernel.org>
  <ad_HwhzlNPUEKQi6@casper.infradead.org>
  <ag7HfNryTmQ-bVIS@infradead.org>
  <20260521155748.GA79343@macsyma-wired.lan>
- <ag9D6_7dttbDGHZ6@casper.infradead.org>
- <ag_UsW_OrlXD9dWX@google.com>
- <ahBSXyOi9b1jxNkX@casper.infradead.org>
+ <ag_OVwPF49LSZ7rz@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ahBSXyOi9b1jxNkX@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ag_OVwPF49LSZ7rz@google.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[mit.edu,none];
+	R_DKIM_ALLOW(-0.20)[mit.edu:s=outgoing];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-6384-lists,linux-api=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jaegeuk@kernel.org,linux-api@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0BF155B6122
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tytso@mit.edu,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6385-lists,linux-api=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[mit.edu:+]
+X-Rspamd-Queue-Id: C696E5B605D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 05/22, Matthew Wilcox wrote:
-> On Fri, May 22, 2026 at 03:59:45AM +0000, Jaegeuk Kim wrote:
-> > On 05/21, Matthew Wilcox wrote:
-> > > On Thu, May 21, 2026 at 11:57:48AM -0400, Theodore Tso wrote:
-> > > > So let me get this straight.  This is a magic xattr interface which is
-> > > > not even persisted in the file system, but instead sets a 32-bit
-> > > > bitmask in the struct inode which disappears once the inode gets
-> > > > flushed from the inode stack.  And it uses a generic xattr name,
-> > > > "user.fadvise".
-> > > > 
-> > > > There's no way in *hell* any other file system is likely to adopt such
-> > > > a broken interface, so why didn't you just use an ioctl to set this
-> > > > magic f2fs-specific flag?
-> > > 
-> > > I mean, yes, this API is horrendous.  But it's just another example of
-> > > f2fs thinking it's somehow special and not just enabling large folios
-> > > like other filesystems do.  This hurts everyone, not just people who use
-> > > f2fs.
-> > 
-> > >From the production viewpoint, I raised a concern on setting large folio by
-> > default, since that exhausts lots of high-order pages, which were needed for
-> > essential system services and critical apps.
+On Fri, May 22, 2026 at 03:32:39AM +0000, Jaegeuk Kim wrote:
+> I went this route because Android heavily restricts ioctl() permissions
+> and we needed broader access for this to work within the framework. It’s
+> definitely a pragmatic choice just to get it running in production.
 > 
-> Random fears or actual data?
+> If ioctl() is a right way for upstream, I'm happy to change this patch. By
+> the way, I really don't understand why all the messages are so offensive,
+> even without trying to understand the problem or guiding right directions.
 
-This was a quick buddyinfo right after booting the device.
+The reason why some people were getting annoyed was because as a Linux
+file system maintainer, there was an assumption that you would
+understand that extended attributes --- especially in the user.*
+namespace --- have an intended use case of storing a user-chosen small
+piece of metadata that would be stored in the file system.
 
-Before:
-Node 0, zone   Normal  22684  42284  28704  16901   9515   4566   1854    673    181     36    758
+Hijacking user.fadvise such that it no longer persistent stores an
+extended attribute for one specific file system --- such that if a
+hypothetical user application might decide to store a piece of
+application data in the extended attribute named "fadvise" would do
+something completely different on a single mainline file system is in
+such poor taste that I would have *hoped* that any Linux file system
+maintainer would know that this a Really Bad Thing, such that if
+someone in your development community suggested such an idea, you
+would reject it.
 
-After disabling EROFS large folio:
-Node 0, zone   Normal   8486   4732   2175   1161    697    272     82     19      3      1    856
+And then, when people complained that it was a bad idea, and you
+decided to put in the f2fs branch, such that it would show up in
+linux-next, and there was no way for other file system developers to
+object (short of appealing to Linus) --- well, that's basically you
+taking advantage of your file system maintainer privileges.  And this
+is why I started proposing whether we needed to appeal this to Linus
+so he could make the call to reject something that the community had
+already told you was in terrible, terrible taste.
 
-> 
-> 
-> _______________________________________________
-> Linux-f2fs-devel mailing list
-> Linux-f2fs-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
+As far as trying to understand why you were doing this --- I have to
+turn that question around.  Why didn't *you* explain why you needed to
+do this thing?  I went through the e-mail history, and I couldn't find
+an explanation of why you decided to do this thing.  
+
+Perhaps we need to add an explanation the Documentation directory
+explaining what the intended use of the extended attribute case, and
+perhaps referencing past cases were people tried to use this to bypass
+the linux-api review process (f2fs's user.fadvise is not the first
+time someone has tried to do this) thing), so that automated review
+bots like Sashiko can explain why it's in such terrible taste to patch
+authors, perhaps we need to do this.  Up until now, I think the
+assumption is that file system maintainers would know something this
+self-evident, and if not, if it was pointed out, they wouldn't try to
+force such an ill-advised interface to Linus.
+
+						- Ted
+
+P.S.  As an exmaple of how I hanlded a somewhat similar scenario in
+the past, my employer's cluster file system needed
+FALLOC_FL_NO_HIDE_STALE to save $$$$ in TCO storage costs.  But the
+concern was this would be an attractive nuisance for enterprise distro
+users, who would see the massive performance increase, not realize
+that this would leak stale data, which could result in user PII being
+exposed, thus making life hard for Enterprise Linux's reputation.
+(This wasn't an issue at $WORK because we enrypt all data at rest, and
+the cluster file system daemon was a privileged server who (a) knew
+what it was doing, and (b) only it would have access to set
+FALLOC_FL_NO_HIDE_STALE.)
+
+I disclosed *why* $WORK needed such a thing (it made a huge difference
+to storage TCO costss for Google's Cluster Filesystem), and after
+discussion and negotiation, we came to a compromise which involved my
+keeping the (very small) patch out of tree, but reserving the code
+point upstream to avoid future bitfield collisions.  They key here was
+that I *knew* it was controversial, and I understood what problems it
+might cause in the rest of the ecosystem.  That's part of the job of a
+maintainer, and it's also why a company might want to hire a
+maintainer.  They can represent the needs of multiple stakeholders ---
+the upstream community, upstream users and the greater Linux
+ecosystem, as well as their employer.
 
