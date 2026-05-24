@@ -1,58 +1,58 @@
-Return-Path: <linux-api+bounces-6389-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6388-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gCzZBlJ+E2ppCAcAu9opvQ
-	(envelope-from <linux-api+bounces-6389-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 00:40:18 +0200
+	id MAauL0N+E2ppCAcAu9opvQ
+	(envelope-from <linux-api+bounces-6388-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 00:40:03 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD785C4A32
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 00:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9BC5C4A1C
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 00:40:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3AECE300CE59
-	for <lists+linux-api@lfdr.de>; Sun, 24 May 2026 22:39:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 959ED300875B
+	for <lists+linux-api@lfdr.de>; Sun, 24 May 2026 22:39:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA38E37C925;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D03A37BE9B;
 	Sun, 24 May 2026 22:39:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eQAQTleM"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="P3ky81wA"
 X-Original-To: linux-api@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC74637BE73;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6AD37B3E1;
 	Sun, 24 May 2026 22:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779662396; cv=none; b=Ew9ZuGq4u6F/H58wDR6oNV4jSVnEDTVGV/ZtMkWSmMzJlMWiXXOek/8oClR1wn54YhX9wNijhd60ppZcguVV2MaDhVYfiB2L6nZpFXHBu6Jn3W/Jywc+31D7ziimbBioTUfce4hGpTrsrdqb02c8DSn2zYNJ+iGq+5mx+yWk/Fo=
+	t=1779662395; cv=none; b=r3iCeejNNDUsTw3Zpm8G/BB2CCy+kNARbecQUwEsrkADflOJ9HnyuQaJ5Y2GIQyN08gWBuSHO5H2u9tXZXNnfeBAZ9MPlur27VbIxmx4OiJ6//ImnGbx6mOG7foxx6phz0GRE1HjuNiIR32ns81H4xSBK10eSkhAQDTJ5lqgDMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779662396; c=relaxed/simple;
-	bh=3lrg9rvP7zYl3kIdqyp1J4oZEA575oIRBt0zgSBcrh4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qXYbTydC3XyQ4GNpluLP9JwoQPCXnhUqBNnxhP1QimDkByM6bGqta5hHX3d4RvOa83dg3ecp5sFgXR5LrWsgw1s1UTiMfxU9tWlcx75cUahGR2r7miFaecdLebaJdSBu2sMLWoqcj1KYJQ9kBAmzrG0LJeQIYbMZQlmq2otN/4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eQAQTleM; arc=none smtp.client-ip=213.97.179.56
+	s=arc-20240116; t=1779662395; c=relaxed/simple;
+	bh=IzfWb3FIR60iFfSyvP7+1f4VtR+EYtoEKOgTcB72TyY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tKZPu1iSY+soWc5rzQbJFChUDjQJXFL8MJeDdaDi/G8WLw7XQHO1TBmdVFhaK9sheZ8sLgUNBKYeZWt7G5LEFD3xVBRzaOeHRBpnf9kX29/PqdikIpG2FZu2k3cHm8+UUGethS7OVSnu/6hNCimFVkxzpbO0anejsVH+vr7cjds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=P3ky81wA; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=rPAf6r/sNcWrx/pEdoeLsIcJ1f8m+6kcb2x0t2HuoY0=; b=eQAQTleMH6UrDBeNfNOi2Iq//Y
-	mT9lqrYfVuiI2w5yYT/9aUVVcWRuVb7NOr9J40vvVJIFJqt2f2QT40YJxoe7XbXEUJQ4OhvnuQpNu
-	+LBw6uRuCluv0sXKoeudqPub3P2t4X11l7LknndvYFCHgvx0mCXbDgtLee9gw81YFCUDa8kX7A3AM
-	HhzOmQ21JZESzS6E723s5msv9lB2FKa7zxh/Rq350d+zPPHwdA2a8G3ux4AdB6+plzRgh1IJDldz6
-	qwnvq4LeklbLWKk7NmMg289m9MDcxtR4Vo8E+BBf221SQPFhoLfxbLoINfkVoPJrmkq5v8rPVynel
-	MOeKS3qg==;
+	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=jA0jwO8NqAbbwvetC+CA7ZxVTwLGbB+JAjjbDxxkNIo=; b=P3ky81wAo8B7O3cTVu6wf0JyN/
+	l9o27mQ36tO2akMmIg2Mhz4ZKJUhDmhqwJLqKmCWGStSyWyFQ8+10Xs3AGWq9o9hTRts5TUdlAdKP
+	hU+KO4zsujgCtvOec9f6qORXLS5CKXC/z0FtMT6nkWjpCNJ4+DJDdVOFZuM1xEcWRF5hp7lSI15T5
+	Qxl/xixT0sqRASw3k6YibT7iFCKhqcgcYvomH64N7D+Wsf3oJ9egz5rcg7TnydONr8j8T3wbc2teq
+	XenIlSa451Pi6jKJkdwVVDodTB2aUlJF1dhvDEAuIWmj1pyxaYL39f0/5rEc2UCkT3Dcd96A5qU5Q
+	tBYlCn3g==;
 Received: from [179.118.191.12] (helo=[192.168.15.100])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wRHTx-007fJn-1s; Mon, 25 May 2026 00:39:41 +0200
+	id 1wRHU2-007fJn-B6; Mon, 25 May 2026 00:39:46 +0200
 From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v2 0/6] sched: Add support for long task name
-Date: Sun, 24 May 2026 19:38:50 -0300
-Message-Id: <20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com>
+Date: Sun, 24 May 2026 19:38:51 -0300
+Subject: [PATCH v2 1/6] sched: Update get_task_comm() comment
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -61,11 +61,9 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNyw6CMBBFf4XM2pq2PBRX/ochZqgDjEJrWiQSw
- r8LGFcuT3LuuRME8kwBTtEEngYO7OwCeheBadDWJPi2MGipM5mqTPTOjg/ROltfLXYkyryKkxS
- plImCZfX0VPF7K16KL4dXeSfTr5nVaDj0zo/b5aBW71c//NUHJaSIjT5qQswV6TPX2DLujeugm
- Of5AxRifqTBAAAA
-X-Change-ID: 20260516-tonyk-long_name-b9f345aeb041
+Message-Id: <20260524-tonyk-long_name-v2-1-332f6bd041c4@igalia.com>
+References: <20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com>
+In-Reply-To: <20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com>
 To: Peter Zijlstra <peterz@infradead.org>, 
  Juri Lelli <juri.lelli@redhat.com>, 
  Vincent Guittot <vincent.guittot@linaro.org>, 
@@ -89,7 +87,7 @@ X-Spamd-Result: default: False [1.14 / 15.00];
 	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6389-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6388-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,gmail.com,linux-foundation.org,suse.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -99,127 +97,45 @@ X-Spamd-Result: default: False [1.14 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.758];
-	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-0.494];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 6DD785C4A32
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 1B9BC5C4A1C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-* Use case
+Since commit 3a3f61ce5e0b ("exec: Make sure task->comm is always
+NUL-terminated"), __set_task_comm() no longer uses strscpy_pad(). Update
+the stale comment accordingly.
 
-When debugging and tracing complex programs with hundreds of threads, 16
-long thread names are not enough anymore. cmd_line can show a lot of
-characters, but it's not affected by pthread_setname_np() or
-prctl(PR_SET_NAME), so let's give the same love kthreads got with commit
-6b59808bfe48 ("workqueue: Show the latest workqueue name in 
-/proc/PID/{comm,stat,status}"). This work creates a new
-PR_{SET,GET}_EXT_NAME that supports 64 byte long names.
-
-* Patchset
-
-Patch 1 is just a minor comment update.
-
-Patch 2 and 3 do some prep work in order to avoid buffer overflows around
-the kernel, now that current->comm is bigger. It also make sure that if
-the destination buffer is smaller than TASK_COMM_EXT_LEN, it will
-be NUL-terminated.
-
-Patch 4 sets current->comm length to TASK_COMM_EXT_LEN and take care of
-making sure that current userspace APIs gets only TASK_COMM_LEN.
-
-Patch 5 creates new prctl() to set and get all the TASK_COMM_EXT_LEN bytes.
-
-Patch 6 adapts the existing selftest for this new interface.
-
-* Testing
-
-selftests/prctl/set-process-name.c survives this patchset, and it was extended
-to the new interface. Care was taken to make sure the old interfaces still
-return 16 bytes, to avoid buffer overflow.
-
-This patchset also survived some basic trace-cmd tests, but any advise or
-how to stress even more all those string copies is very welcomed.
-
-* Changes
-
-Since v1:
- - Replace new strtostr() with strscpy()
- - Don't replace memcpy in tools/
- - Link to v1: https://patch.msgid.link/20260517-tonyk-long_name-v1-0-3c282eaa91e2@igalia.com
-
-Since Bhupesh's v8:
- - Truncate userspace return to 16 bytes for old interfaces (PR_GET_NAME,
-   /proc/PID/comm/)
- - Replace __cstr_array_copy() with new strtostr()
- - Add new interface prctl(PR_{SET,GET}_EXT_NAME)
- - Adapt selftest to this patchset
- - https://lore.kernel.org/lkml/20250821102152.323367-1-bhupesh@igalia.com/
-
+Co-developed-by: Bhupesh <bhupesh@igalia.com>
+Signed-off-by: Bhupesh <bhupesh@igalia.com>
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
-André Almeida (6):
-      sched: Update get_task_comm() comment
-      treewide: Get rid of get_task_comm()
-      treewide: Replace memcpy(..., current->comm) with strscpy()
-      sched: Extend task command name to 64 bytes
-      prctl: Add support for long user thread names
-      selftests: prctl: Add test for long thread names
+ include/linux/sched.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/connector/cn_proc.c                        |  2 +-
- drivers/dma-buf/sw_sync.c                          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c   |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  4 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  2 +-
- drivers/gpu/drm/lima/lima_ctx.c                    |  2 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c            |  2 +-
- drivers/gpu/drm/panthor/panthor_gem.c              |  2 +-
- drivers/gpu/drm/panthor/panthor_sched.c            |  2 +-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  2 +-
- drivers/hwtracing/stm/core.c                       |  2 +-
- drivers/tty/tty_audit.c                            |  2 +-
- fs/binfmt_elf.c                                    |  2 +-
- fs/binfmt_elf_fdpic.c                              |  2 +-
- fs/proc/array.c                                    |  2 +-
- include/linux/coredump.h                           |  2 +-
- include/linux/sched.h                              | 24 ++-------------
- include/linux/tracepoint.h                         |  4 +--
- include/trace/events/block.h                       | 10 +++---
- include/trace/events/coredump.h                    |  2 +-
- include/trace/events/f2fs.h                        |  4 +--
- include/trace/events/oom.h                         |  2 +-
- include/trace/events/osnoise.h                     |  2 +-
- include/trace/events/sched.h                       | 10 +++---
- include/trace/events/signal.h                      |  2 +-
- include/trace/events/task.h                        |  4 +--
- include/uapi/linux/prctl.h                         |  3 ++
- kernel/audit.c                                     |  6 ++--
- kernel/auditsc.c                                   |  6 ++--
- kernel/printk/nbcon.c                              |  2 +-
- kernel/printk/printk.c                             |  4 +--
- kernel/sys.c                                       | 23 +++++++++++---
- net/bluetooth/hci_sock.c                           |  2 +-
- net/netfilter/nf_tables_api.c                      |  4 ++-
- security/integrity/integrity_audit.c               |  3 +-
- security/ipe/audit.c                               |  3 +-
- security/landlock/domain.c                         |  2 +-
- security/lsm_audit.c                               |  7 +++--
- tools/testing/selftests/prctl/set-process-name.c   | 36 ++++++++++++++++++++++
- 42 files changed, 124 insertions(+), 81 deletions(-)
----
-base-commit: 5d6919055dec134de3c40167a490f33c74c12581
-change-id: 20260516-tonyk-long_name-b9f345aeb041
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 368c7b4d7cb5..60d004a49a27 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2005,7 +2005,7 @@ extern void __set_task_comm(struct task_struct *tsk, const char *from, bool exec
+  *   User space can randomly change their names anyway, so locking for readers
+  *   doesn't make sense. For writers, locking is probably necessary, as a race
+  *   condition could lead to long-term mixed results.
+- *   The strscpy_pad() in __set_task_comm() can ensure that the task comm is
++ *   The logic inside __set_task_comm() ensures that the task comm is
+  *   always NUL-terminated and zero-padded. Therefore the race condition between
+  *   reader and writer is not an issue.
+  *
 
-Best regards,
---  
-André Almeida <andrealmeid@igalia.com>
+-- 
+2.54.0
 
 
