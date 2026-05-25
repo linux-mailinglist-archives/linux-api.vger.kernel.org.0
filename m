@@ -1,130 +1,151 @@
-Return-Path: <linux-api+bounces-6398-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6399-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eO+OMQfgE2qzGwcAu9opvQ
-	(envelope-from <linux-api+bounces-6398-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 07:37:11 +0200
+	id QA8UC4UCFGquIQcAu9opvQ
+	(envelope-from <linux-api+bounces-6399-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 10:04:21 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EBF5C5F46
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 07:37:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CDD5C7688
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 10:04:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 18D60300A537
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 05:37:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ABC733001FBB
+	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 08:04:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7BD340A47;
-	Mon, 25 May 2026 05:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59B6A3D811F;
+	Mon, 25 May 2026 08:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mI7+58UN"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FW65Xy4+"
 X-Original-To: linux-api@vger.kernel.org
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7271AC44D;
-	Mon, 25 May 2026 05:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9735639A05E;
+	Mon, 25 May 2026 08:04:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779687428; cv=none; b=c99XjiBtF9kXo7DlyEOxewEH2A0csj6o3LIy9xZkcvbfA3LmU6WuwU1/zkw2DB30OCtFr0hiB1psPlCNmnlLeciYM7Fvd2rw1/Q/2trMIRVJ3TFj11ZIKXw71tUpXTTkU/Ds/qVISIlqB6oG7CN2Ujvx43P2I9o+8PGOOb/mSaA=
+	t=1779696254; cv=none; b=M9ecfzriVRwS9SNQJdB8NFZQDKvfr3Kf0BiF0tzbaA7QN3+oqkMSgmW+3QjNooO4dT/GEZakLASrdCNUJslhGjLk7AJIDo9n37jR4XfYqUC8gzJW8PRcYsm790hwB+M4WrgZOCxHQismEXtf+Pe8tAfRIjG53fFr8OgMUljcQiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779687428; c=relaxed/simple;
-	bh=aSUk+GkfuNtV5doxYAl/uvzB5aZCrVlMtp/gV8VEcc0=;
+	s=arc-20240116; t=1779696254; c=relaxed/simple;
+	bh=73vrApxNrpCy4XDyoCbJ2fXnIkf1Vpko4vO94TZdns8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I90zeiJYWgAOFwp4TXYvu0ym4Warra1cJ5RW6TBumt2cewEGTkcNhkF8CVo1cAIvZ9WxE09Q/MbZfddhNAQttxeV/8UsJhoznUWOqyhDt+F6LC30sJCKXxawWiyW0sk6zC7g7711iR81/FkKA/VCTST78khY4rHXgNbyVz6pjRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mI7+58UN; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=cN1VoO4DQwfUfX/j5vZksq7ZjpfjonYFabSeppCKF92dt54ypmEvY37essWO1xFAd6UPdwoDYG/cfvofO86LVn/xFRQVYY9RpVCudkk80A/UbVdlIwtXWKTJaVeEusSfFrsjE7o9CpZgw4+k4nCylYAYP9LO+i04LYQ3qTSjJXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FW65Xy4+; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=bPlnrUAngQhntq0icVQxK0A5R6EP/y6CGfxUmuJ8Roc=; b=mI7+58UNZvQ1rHO+UR+G3zOxD7
-	/8Q4dyZKxJcdSNb/R47cH8reyDTtiHoTo+ZY1PEHKP1sCy7wV2KEhwd8MNm/M9D7VXNwHZoztfouo
-	ellPDj7sZaVnwIcwtuRKY+kRVN9tGtX3CfEZ+71st7D3jw6OwcdGneEEFEF9XNvEvTxVz0XU8F5v6
-	aKLKYaDQcv0dpz+Vxwj0TvKoeLyqOXxQt3Fs7io8F6fnGJKSnqnfrBDTuM9Bjn1mwkQsNTWDDnfhD
-	qxzwqs5H2TVfEJQkzZA/O6FF3yMLeD+t3A5pcA1FIZEHbDav7HM47fbADf9+YeeWA6EZTFKtS8mej
-	OhB0Hp4w==;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=GfaKXox8b6tZQOz6rQuRsRCazGocmiCFA5bwNHls9ME=; b=FW65Xy4+/qqB/Y4d5VUshtof0n
+	B1qpRzV3dT6ABeoVvQLisbxpMvMaLmHHgGUuotvM13Oq8y+yYLeQUSVwda+11TXZK3v0fokYftvXJ
+	cyWpf4mLpjcN7aUkfNHq+sYYEb/nm/olSXmzzlszTr6RS+YrGR5SbSFBiuylLbHU2l7PiwKaxINv9
+	zqxKyu3Wj4flIUFqFwr3fZR9CFduLqMY65OMTt+ohC5o+j4imP0wqxfk44LoJSsz7r+/EsHjXAsCV
+	JIjPnzXn4055g+A/20FRnLo3CteESpuvFsQL6/iYeYE3DODc1ZSpv4PLAZGgxPgQc3C1wwAp+US+/
+	R7/FwfoA==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRNzu-0000000GKn6-0I3f;
-	Mon, 25 May 2026 05:37:06 +0000
-Date: Sun, 24 May 2026 22:37:06 -0700
+	id 1wRQHt-0000000GaTu-1YS9;
+	Mon, 25 May 2026 08:03:49 +0000
+Date: Mon, 25 May 2026 01:03:49 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@infradead.org>,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Akilesh Kailash <akailash@google.com>,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ahPgAog1c6SltcQS@infradead.org>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com>
- <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
+To: demiobenour@gmail.com
+Cc: Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+	netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/3] net: Remove support for AIO on sockets
+Message-ID: <ahQCZQNoyO8GQt3H@infradead.org>
+References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
+ <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ag_OVwPF49LSZ7rz@google.com>
+In-Reply-To: <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6398-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6399-lists,linux-api=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[hch@infradead.org,linux-api@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[infradead.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,infradead.org:mid,infradead.org:dkim]
-X-Rspamd-Queue-Id: 36EBF5C5F46
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,infradead.org:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 70CDD5C7688
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 22, 2026 at 03:32:39AM +0000, Jaegeuk Kim wrote:
-> I went this route because Android heavily restricts ioctl() permissions
-> and we needed broader access for this to work within the framework. It’s
-> definitely a pragmatic choice just to get it running in production.
+On Sat, May 23, 2026 at 03:43:02PM -0400, Demi Marie Obenour via B4 Relay wrote:
+> From: Demi Marie Obenour <demiobenour@gmail.com>
+> 
+> The only user of msg->msg_iocb was AF_ALG, but that's deprecated.
+> It can be removed entirely at the cost of only supporting synchronous
+> operations.  This doesn't break userspace, which will silently block
+> (for a bounded amount of time) in io_submit instead of operating
+> asynchronously.
+> 
+> This also makes struct msghdr smaller, helping every other caller of
+> sendmsg().
 
-That is not a good reason.
+So we just had a discussion at LLC about how networking needs to support
+AIO better for zero copy.
 
-> If ioctl() is a right way for upstream, I'm happy to change this patch. By
-> the way, I really don't understand why all the messages are so offensive,
-> even without trying to understand the problem or guiding right directions.
+The current TCP zerocopy implementation provides completion notification
+through the socket error code, which is freaking weird and doesn't
+integrate well with either io_uring or in-kernel callers.
 
-The right way is to:
+So we really want to pass the iocb down into networking and have it
+call ki_complete on completion, with something higher up in the stack
+adding that to the error queue for the legacy user interface.
 
- 1) Talk to the relevant subsystems (MM and fsdevel), and if it affects
-    userspace that linux-api list and actually explain your use case.
- 2) And then actually listen to feedback.  f2fs just keeps piling these
-    ABI hacks on without any review, and it is causing real problems.
+Now I'm not sure if we wouldn't be better off passing that iocb
+explicitly instead of in a weird hidden way, but this seemed like
+a good place to bring this up.
 
 
