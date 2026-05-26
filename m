@@ -1,136 +1,128 @@
-Return-Path: <linux-api+bounces-6413-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6414-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UG5MDujHFWqMbAcAu9opvQ
-	(envelope-from <linux-api+bounces-6413-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:18:48 +0200
+	id iHt7EuDQFWrwcQcAu9opvQ
+	(envelope-from <linux-api+bounces-6414-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:57:04 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11195D9895
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:18:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A22FE5DA331
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:57:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6A8C130036DF
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 16:15:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B0ED531046B8
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 16:30:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7042A3A2549;
-	Tue, 26 May 2026 16:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="AwiokLBm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 886E63BD62C;
+	Tue, 26 May 2026 16:30:41 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8013AF643;
-	Tue, 26 May 2026 16:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41203B38AB;
+	Tue, 26 May 2026 16:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779812103; cv=none; b=odPmSGHXgl+kEscvHlNU5Qzi8V/X6LSyKpC0rUAofa22HP7FiFzkysQl13e1KsgG+mPf3ZOpjywzQBC0ffiflfbLvfKRCoMkHtWoH0bZzvsYTt211vsZ2wauD0qLEwF/Pxcess9FuOPSh8tFtRPaThedAIzpQUq1wO44SzG4uZk=
+	t=1779813041; cv=none; b=iKuvNV+jFF4tPXfYqOnpMGDpTJ3Fd/A/tJm+Yg//JWT2Ba5BJ99fr58cS6L6Z5s3/12YO03NKSYrvJNx9ovLSqr4BpcnWjRyyR0skeRqc/n1T4Q/rb522G7ucBJ7VZMPDgg3kFcoAOThQgu0ocRx1hyvfLwo4l++NeM7DLoBLxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779812103; c=relaxed/simple;
-	bh=WPbX4Pya39Go2QYFfMt8pFd9wdKpwRyohHZi0oibzRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VrvdHvoGHwAHbqqt8d964A5211YzGJxu6o9AuVhhPyBOPzx2ZqKwAwP79vr9VRDEuIQL9G9YHQFpjn/n9ykWc9Ut+Fk0580ky4OmadZzFCLuq1XWiAKlqteioYaumV60D1ulYqQnlyuL2OhjKI4knTerzSbu2Dz93kQ360mSuNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=AwiokLBm; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gPyWn3BVxz1XM6JN;
-	Tue, 26 May 2026 16:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1779812096; x=1782404097; bh=Anhq5FjNw5ss6qMVPZ01kvuQ
-	c5NdyWfGRn2xYsjiF0E=; b=AwiokLBmkPXRDvxv4gU5Q8BxVUMZRQTyw3y+Qzdh
-	Z784kR81SRXa82sIkwXcsNyi3LSlK1dqku6rTPoMoPVmLytdqkrK3Yk8LKaof1z5
-	IUvPNNPc/Q6S7kOjZkbSrACPm7bjIjgzu1IxxbKBQSlK4tuv38BU7fvs8dD3euDA
-	Tw4fggBiI1+wbtfQf2lxAk1Mu/LOduAx3pQdID/Ykhu4h1DH/J12zN1DDyjiiSdq
-	XX0cpwgKDWTwyPidFJSdYB7dm+oZ0m3I2dTqtBYofc2bGINuwLNf+Ojxd6k3KQ2K
-	xZpeQClWswqs2VOXACuw4RtpJCE1iU/Qha8dSaZmA5A3hg==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id zKWCJmXtLFCk; Tue, 26 May 2026 16:14:56 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gPyWd3bBJz1XM5jn;
-	Tue, 26 May 2026 16:14:53 +0000 (UTC)
-Message-ID: <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
-Date: Tue, 26 May 2026 09:14:52 -0700
+	s=arc-20240116; t=1779813041; c=relaxed/simple;
+	bh=4RHUPrOhy8Rckt9kmEsawMj3CTJh4VdgYBT2gsMHQC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aq1Lofxsn9KD65nuWXSShGIYxZH5Xrk2kbVpmE3KlzXMVu/FFTRzo/05qRdDHfMvgzEjwnT9tE4BIr0bAo68HeVn6FPo914OXR2nBiCZ7SlUUI77yuGlX9bam5nBpCu8fen4U4Ovtnztm182xiPTlzpsMyaZhU9RVCjU/nfzkJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf05.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id C20E31C033A;
+	Tue, 26 May 2026 16:30:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id 5CC3320010;
+	Tue, 26 May 2026 16:30:31 +0000 (UTC)
+Date: Tue, 26 May 2026 12:31:03 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, Peter Zijlstra
+ <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Christian Brauner <brauner@kernel.org>, Kees
+ Cook <kees@kernel.org>, Shuah Khan <shuah@kernel.org>, willy@infradead.org,
+ mathieu.desnoyers@efficios.com, Linus Torvalds
+ <torvalds@linux-foundation.org>, akpm@linux-foundation.org, Yafang Shao
+ <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com, arnaldo.melo@gmail.com,
+ Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, linux-mm@kvack.org, linux-api@vger.kernel.org,
+ Bhupesh <bhupesh@igalia.com>
+Subject: Re: [PATCH v2 4/6] sched: Extend task command name to 64 bytes
+Message-ID: <20260526123103.4facbaed@gandalf.local.home>
+In-Reply-To: <20260525114241.4b6f3050@pumpkin>
+References: <20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com>
+	<20260524-tonyk-long_name-v2-4-332f6bd041c4@igalia.com>
+	<20260525114107.7fa5b4c1@pumpkin>
+	<20260525114241.4b6f3050@pumpkin>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-To: Theodore Tso <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>,
- linux-f2fs-devel@lists.sourceforge.net, Christoph Hellwig
- <hch@infradead.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Akilesh Kailash <akailash@google.com>,
- Christian Brauner <christian@brauner.io>
-References: <ad30g9xMs9wNJhFb@infradead.org> <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org> <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan> <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan> <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan> <ahTzHyHBL8t0iNBR@google.com>
- <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Stat-Signature: 4oyjjqmuesmiumwmpy1rnjhsc49eyn1n
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+SfqA0tIqUxOUmzDMPGsY2Bynwi9HM1FA=
+X-HE-Tag: 1779813031-406674
+X-HE-Meta: U2FsdGVkX19+DgaPTwc4z7iRVXUSZOqrVEfAtGYSvV7OnTDacZ1Hw/MUPKcmm575Hv6x6ldX6k779vnxNpGWZI83exoqPnaDvD3uiHdZGrm7O5Kn8tyfMud8UFNzBiy7OmfhPALhmcYjVcad5UeM/aK2bFkxfct7yhyONa0bUJwJQYnXpiEhTGrDK4+ottHoOwIGmxDD9djJ4vguO4i/d9n6iTmTLNIPSiyaJZcjqepQIJDHLt8k5S3jRqxtjKvWU+LHRBTYm/VmDYxSfyjZj3V/j8+bRbPwmMHzhEo8tM5IGa6nnWPigAFfptTCc/yad9e10ugVvl7w7SVjyWGNoeMVvvQ9cdK+
+X-Spamd-Result: default: False [0.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[acm.org:+];
-	TAGGED_FROM(0.00)[bounces-6413-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6414-lists,linux-api=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[igalia.com,infradead.org,redhat.com,linaro.org,kernel.org,efficios.com,linux-foundation.org,gmail.com,suse.com,vger.kernel.org,kvack.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-api@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.924];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,acm.org:mid,acm.org:dkim]
-X-Rspamd-Queue-Id: B11195D9895
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gandalf.local.home:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: A22FE5DA331
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/26/26 6:42 AM, Theodore Tso wrote:
-> It seems... surprising that the additional I/O operations are actually
-> throttloing UFS device bandwidth by 2x (4GB/s vs 2GB/s).  Have you dug
-> into why this is happening, and whether there is anything that can be
-> optimized below the file system?
-The layers below the filesystem (block, SCSI, UFS) is what I'm
-responsible for in the Pixel team and I can assure you that these are
-highly optimized.
+On Mon, 25 May 2026 11:42:41 +0100
+David Laight <david.laight.linux@gmail.com> wrote:
 
-Since the transfer size used in Jaegeuk's tests is much larger than 4
-KiB, how many CPU cycles are used per IO by the layers below the
-filesystem is not limiting the transfer bandwidth.
+> > >  	error = security_task_prctl(option, arg2, arg3, arg4, arg5);
+> > > @@ -2601,16 +2601,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+> > >  			error = -EINVAL;
+> > >  		break;
+> > >  	case PR_SET_NAME:
+> > > -		comm[sizeof(me->comm) - 1] = 0;
+> > > +		comm[TASK_COMM_LEN - 1] = 0;
+> > >  		if (strncpy_from_user(comm, (char __user *)arg2,
+> > > -				      sizeof(me->comm) - 1) < 0)
+> > > +				      TASK_COMM_LEN - 1) < 0)    
+> > 
+> > Nak - you can't do that.
+> > You are reading data that the application doesn't expect you to read.  
+> 
+> Or have I got confused over the names...
 
-Bart.
+You may have gotten confused by names, as sizeof(me->comm) is the same as
+TASK_COMM_LEN. Basically, the above doesn't change anything.
+
+-- Steve
 
