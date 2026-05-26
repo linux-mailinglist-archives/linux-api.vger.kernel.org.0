@@ -1,259 +1,268 @@
-Return-Path: <linux-api+bounces-6402-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6403-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MK+bKicoFGrfKAcAu9opvQ
-	(envelope-from <linux-api+bounces-6402-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 12:44:55 +0200
+	id qNl5JyXzFGrnRgcAu9opvQ
+	(envelope-from <linux-api+bounces-6403-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 03:11:01 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003FA5C9555
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 12:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FEE5CF64A
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 03:11:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BECEB301778B
-	for <lists+linux-api@lfdr.de>; Mon, 25 May 2026 10:42:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 920743017C16
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 01:10:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 827A236493F;
-	Mon, 25 May 2026 10:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BDB227B340;
+	Tue, 26 May 2026 01:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JDLESzdv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Enn6fEbc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B6C364032
-	for <linux-api@vger.kernel.org>; Mon, 25 May 2026 10:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC39CA45;
+	Tue, 26 May 2026 01:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779705768; cv=none; b=PGTM2kxZNXK8GeZJnZ+JYLOMoeDHmL9thzPKTHtN4/FKWk8yG0Fps6pRftkTbT5gokt7vX/moc8YZcGTYagXcgJ0GrGAesX8SwgVVnx3ne9uTZJHSV2sHI3N62Ldxj8XOLqElQT5kcMwmoTSgAbsPvA6n4QB6PtV0dEsTm2ELgM=
+	t=1779757859; cv=none; b=Tqd4slJm5U+ARb4QeHyGUYLHL6UBE51C38Jws6+O4rdsxzre72mRueMw7mldWn//gbYEuOEieFhMtRHMB7HjzKvPWWgOWc+k5BoacYy8OB4g/aAoiuhDm+Bv64dSA1X95a8D1ap+YxgIu9iEiSjMShsJjd49wUf2d9wft0EcmwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779705768; c=relaxed/simple;
-	bh=ku8y9vd3yPYRGF0AX/sLztGjsUzSXbH5w1d1bDEIIRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hyQEVIQpWh6VvW3Y7+cKPbHfr88f9R//IWt6JDXnwm+v1dj6dyBb2rGQimJctRKGCsxXzZvtwd7mFl7v3U/bj9bBVquBrMZdEcJZ6S+hvnKyHFnEGQdGDB26VitRCKy6yaetsvoyQtehcbsSriVP+yQGETlS3NFRzn9FNBl3p+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JDLESzdv; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49056b9f04aso21390095e9.0
-        for <linux-api@vger.kernel.org>; Mon, 25 May 2026 03:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779705764; x=1780310564; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zc9LvU3e/f54K4oHyIoq4+XKoWb/QRX1RMbSGSqgSQI=;
-        b=JDLESzdvRDYf7bUq6zSAU/TVaNUhe7IAydptxUaYlhVWaW/rgco8FQY5tmBN5lGxsq
-         FOwyHfjvS+SHrHJqo2/Ti8m8vb+3yd0hXq/YDerliGbmjhG16kn9fliWAjW5jGKbg7E0
-         o1BBuLCtiEFmB/M3QvNu4dS0g+SgYiSdxTH6SoOuxzRsW++2aJjpCxwPZo50YqZmzzKV
-         FkPZyarbcQ61WhO8MDatDBfuBft1BpXjL52RrtzhN2ME6FXPjPJ7ulc63mL5dj58n8NX
-         UBKptAHBdp8KDuzbiH4VLxJHEUtxMVZIFagGsJhn7FbNQ27qdpdiG2Ov9sIZwmKrMVhv
-         yxUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779705764; x=1780310564;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zc9LvU3e/f54K4oHyIoq4+XKoWb/QRX1RMbSGSqgSQI=;
-        b=CZB2c00HIWVKtz47UcGihg83oSVSZR1cl5KYThH0BDiEWzuf2NkEagYLPNw51MxFfH
-         Rsgg6ApsjRojx1uMMxLS1qR4FwARWaPt6KwJThzQSCjnnN4DER6DLDpbgLAPmNssCQ8F
-         ZJ2lHUwUcKaxbVRpVZSqbM0+OQ/HQxENInTLk9Vt/uzLDG9lexrCVTt/nUu41oIFwPtn
-         qKxvRMFr+UMxYJz/9ZFfJa0lz4sBDkn4A0UxGdszOps2K16XPy1Arz7dMT84eXlezS+1
-         9SVCymwyUAe1Ob6LUZd6iGcxhhP9PFOrRKPlnsUvBviqc9Y8ipQo70oUl8BO7NpV4kUf
-         XjiA==
-X-Forwarded-Encrypted: i=1; AFNElJ+1NaZGSr5lcKrRWPCpUuUWnx7JyEg3+27Va80H832TRr6oAWmQ/YM/r0+wmTr6okUFzktRcKfgqDA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOia/LEAkd3EKZegRWxDGIJ8XLmMIUAdKlry7LAAJ8Qd2bVV3E
-	ioJkfxJjRC6Nv+LzFxH/e/G+unXITfFjSsBdo4Eg71Ya/dtnQoWyPkYA
-X-Gm-Gg: Acq92OEiUcwBpqUSR+Fkp4ec32R1jUk/RNfKRSvcO488Z1gYWviNLhbiAKa3DrTJviH
-	2AEWj/G7Y2aDSWfBvcISXPmSrEBX+Jz99oew3PuHP9MPjEsQUOIuXZ8uDMMkq1q2ztGCnLQ6s+I
-	Nn/Ke3Yw9SX7Kqw4blW29AI+XYehJGqZNX/zjr21ISS6udkuyl/d0FZWbK2yOaBeO6fOPf86tEV
-	Dg8Z/JW737FIXrfDDq0FVIP8y0dqMq/sfXQA9AN1TO3oHL5RachpTZ5CKzR5Ld+bjiNu3gAJtKg
-	NyBPENB0YydfiktjFyMnaJPx7D5U5ATqgBGYOGeWAOvPwpvfsRy2Svmv2AbpUcmArqXBfvue3fd
-	xH8+kPc9/ePMbNknVdhfGFLZEesgssfvqj5kVBxT16yeJTf9lJrtaOH01MtyBoCp8YtGNFD68ri
-	FZ5HllKZs9GLj4LGmLKVjU8507k/jWDOQbv+9rxHNeoDZX87inQpRFqeZ1DBi4vBAxrLCBHkzHD
-	gM=
-X-Received: by 2002:a05:600c:45ce:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-4905cd8d33emr89808645e9.15.1779705763319;
-        Mon, 25 May 2026 03:42:43 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49049973b71sm67696445e9.29.2026.05.25.03.42.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 03:42:42 -0700 (PDT)
-Date: Mon, 25 May 2026 11:42:41 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Christian Brauner
- <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Shuah Khan
- <shuah@kernel.org>, willy@infradead.org, mathieu.desnoyers@efficios.com,
- Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org,
- Yafang Shao <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com,
- arnaldo.melo@gmail.com, Petr Mladek <pmladek@suse.com>,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, linux-mm@kvack.org,
- linux-api@vger.kernel.org, Bhupesh <bhupesh@igalia.com>
-Subject: Re: [PATCH v2 4/6] sched: Extend task command name to 64 bytes
-Message-ID: <20260525114241.4b6f3050@pumpkin>
-In-Reply-To: <20260525114107.7fa5b4c1@pumpkin>
-References: <20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com>
-	<20260524-tonyk-long_name-v2-4-332f6bd041c4@igalia.com>
-	<20260525114107.7fa5b4c1@pumpkin>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1779757859; c=relaxed/simple;
+	bh=bX3HfcCiRm5ydvk/6O5+cH+kc+UaBg0ucCYCYzesGsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIpRuwBRZmdw1IiEeejyxDdGPoLkI+6/kS1D8W0cJi6y17P0sqxgcioxHnqV+uI8hQfH6oGFf5zX/Cs1fuguTNs7NsWLrndVq3o8b3t2i+Hr+YfxmSBzvNybEQwXmld6q6Fp6UPa2a8uaUgQIKU14fsSk1+NayuT8U8YBr1z3E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Enn6fEbc; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 419911F000E9;
+	Tue, 26 May 2026 01:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779757857;
+	bh=8KtudcOxSvos7Bvf3DlHhV6S99t3w2rpbU5P7FcY4Jw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Enn6fEbcSDYSLXXU9tuWmlYyKtLN+m2e8UwpPc1rsxAkE97pNhQWlXAlduixrrUvG
+	 3ZC+aOj9ajbuiWwQCPTKTYKGniF3t9Ave/L2cdwzGXNAGPNpdD9OuUTjXfbFF9lTKv
+	 g37n63c+EP4zjliQGNiT3PRs6vQCBQ8ZR4SHrEgM3L4SPqOwqqUZEU7SVdV/gs8lgw
+	 bE9hlCwY1arV6U2meLFVbJfTJ2d4rnP/iSWG0X+KiBKesXuisLqvA+kO4I24PKTDaz
+	 eGSh4pdemHuXq0YDzI24c5MWF/tl6dUHgpSvJwhk7riCVLSAQiN73YrX/1JQFmbdhN
+	 9FrMkNaCjY2GA==
+Date: Tue, 26 May 2026 01:10:55 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Theodore Tso <tytso@mit.edu>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	Akilesh Kailash <akailash@google.com>,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+Message-ID: <ahTzHyHBL8t0iNBR@google.com>
+References: <adhPZxtbZxgU-37v@google.com>
+ <ad30g9xMs9wNJhFb@infradead.org>
+ <ad_AVHe7RMnGrGTb@google.com>
+ <ad_HwhzlNPUEKQi6@casper.infradead.org>
+ <ag7HfNryTmQ-bVIS@infradead.org>
+ <20260521155748.GA79343@macsyma-wired.lan>
+ <ag_OVwPF49LSZ7rz@google.com>
+ <20260522141115.GA8258@macsyma-wired.lan>
+ <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260522224108.GA18663@macsyma-wired.lan>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6402-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6403-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,linux-foundation.org,gmail.com,suse.com,vger.kernel.org,igalia.com,kvack.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 003FA5C9555
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jaegeuk@kernel.org,linux-api@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-api];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: E3FEE5CF64A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, 25 May 2026 11:41:07 +0100
-David Laight <david.laight.linux@gmail.com> wrote:
+On 05/22, Theodore Tso wrote:
+> On Fri, May 22, 2026 at 05:08:41PM +0000, Jaegeuk Kim wrote:
+> > 
+> > Thank you for the explanation. It seems I made a wrong assumption on the
+> > usage of "user." prefix where each filesystem can support in different
+> > ways.
+> 
+> The "user." prefix is used by all userspace applications that wish to
+> store extended attributes.  For example, user.mime_type,
+> user.xdg.origin_url, user.charset, user.appache_handler, etc
+> 
+> For more information, see:
+> 
+>     https://www.freedesktop.org/wiki/CommonExtendedAttribute
+>     https://wiki.archlinux.org/title/Extended_attributes
+> 
+> I certainly assumed this was common knowledge across all file system
+> maintainers, but this was apparently not true in your case.  I don't
+> know how this could be the case given that f2fs implements extended
+> attributes, and I would have thought you would have known that when
+> testing that feature.
+> 
+> > I shared some motivation when replying to Darrick's feedback [1], but yes,
+> > it was not enough for all heads-up. The problem started that some speicific
+> > application needs as many high-order pages as possible mostly for reads. So,
+> > I thought we can turn on large folio on the specific files per hints. One way
+> > for the hints was using immutable bit, but it turned out it's very hard to
+> > manage disabling the bit whenever deleting the files. Along with limited
+> > ioctl() and requiring inode eviction to manage large folio activation, I had
+> > to implement this path.
+> > 
+> > [1] https://lore.kernel.org/lkml/aeA5C8byIpXWla7f@google.com/
+> 
+> Actually, you still haven't explained your use case, at least, not
+> well enough for me to understand what you are trying to do.
+> 
+> So an application wants a particular file to use as many high-order
+> pages as possible.  Why?  What sort of guarantees do you need to
+> provide?  What happens if they can't be provided?  What happens if a
+> possibly malicious, or at least gready, application uses this
+> interface to grab a lot of high-order pages?
+> 
+> >From your patch:
+> 
+> 1. setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
+>  -> register the inode number for large folio
+> 2. chmod(0400, file)
+>  -> make Read-Only
+> 3. open()
+>  -> f2fs_iget() with large folio
+> 4. open(WRITE), mkwrite on mmap, chmod(WRITE)
+>  -> return error
+> 5. iput() and open()
+>  -> goto #3
+> 6. unlink
+>  -> deregister the inode number
+> 
+> Why should making the file read-only matter?  And when you say
+> "derigster the inode number", why should this be related to deleting
+> the inode?
+> 
+> This is an interface which seems to be very specific to your use case.
+> What if those requirements change over time?  What if you want pull in
+> a file without making it be read-only?  And what if you want to
+> release the large-order pages without deleting the file?
 
-> On Sun, 24 May 2026 19:38:54 -0300
-> Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
->=20
-> > Command name has been restrict to only 16 bytes, which is too limiting,
-> > specially when debugging and tracing complex software with thousands of
-> > threads and the need to differentiate them.
-> >=20
-> > Just as it was done with kthreads in commit 6b59808bfe48 ("workqueue:
-> > Show the latest workqueue name in /proc/PID/{comm,stat,status}"), suppo=
-rt
-> > long names for userspace threads as well.
-> >=20
-> > To avoid buffer overflows, cap all existing userspace APIs to
-> > TASK_COMM_LEN, and leave the full extended name for a new interface.
-> >=20
-> > Co-developed-by: Bhupesh <bhupesh@igalia.com>
-> > Signed-off-by: Bhupesh <bhupesh@igalia.com>
-> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> > ---
-> >  fs/proc/array.c       |  2 +-
-> >  include/linux/sched.h |  3 ++-
-> >  kernel/sys.c          | 10 +++++-----
-> >  3 files changed, 8 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/fs/proc/array.c b/fs/proc/array.c
-> > index c8c3fbd9bfa9..312371eddc7f 100644
-> > --- a/fs/proc/array.c
-> > +++ b/fs/proc/array.c
-> > @@ -110,7 +110,7 @@ void proc_task_name(struct seq_file *m, struct task=
-_struct *p, bool escape)
-> >  	else if (p->flags & PF_KTHREAD)
-> >  		get_kthread_comm(tcomm, sizeof(tcomm), p);
-> >  	else
-> > -		strscpy_pad(tcomm, p->comm);
-> > +		strscpy_pad(tcomm, p->comm, TASK_COMM_LEN);
-> > =20
-> >  	if (escape)
-> >  		seq_escape_str(m, tcomm, ESCAPE_SPACE | ESCAPE_SPECIAL, "\n\\");
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index b6de742b1155..f7fd2b7d131d 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -323,6 +323,7 @@ struct user_event_mm;
-> >   */
-> >  enum {
-> >  	TASK_COMM_LEN =3D 16,
-> > +	TASK_COMM_EXT_LEN =3D 64,
-> >  };
-> > =20
-> >  extern void sched_tick(void);
-> > @@ -1167,7 +1168,7 @@ struct task_struct {
-> >  	 * - set it with set_task_comm() to ensure it is always
-> >  	 *   NUL-terminated and zero-padded
-> >  	 */
-> > -	char				comm[TASK_COMM_LEN];
-> > +	char				comm[TASK_COMM_EXT_LEN];
-> > =20
-> >  	struct nameidata		*nameidata;
-> > =20
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index 1d5152d2395e..76d77218ab19 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -2535,7 +2535,7 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long=
-, arg2, unsigned long, arg3,
-> >  		unsigned long, arg4, unsigned long, arg5)
-> >  {
-> >  	struct task_struct *me =3D current;
-> > -	unsigned char comm[sizeof(me->comm)];
-> > +	unsigned char comm[TASK_COMM_LEN];
-> >  	long error;
-> > =20
-> >  	error =3D security_task_prctl(option, arg2, arg3, arg4, arg5);
-> > @@ -2601,16 +2601,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned lo=
-ng, arg2, unsigned long, arg3,
-> >  			error =3D -EINVAL;
-> >  		break;
-> >  	case PR_SET_NAME:
-> > -		comm[sizeof(me->comm) - 1] =3D 0;
-> > +		comm[TASK_COMM_LEN - 1] =3D 0;
-> >  		if (strncpy_from_user(comm, (char __user *)arg2,
-> > -				      sizeof(me->comm) - 1) < 0)
-> > +				      TASK_COMM_LEN - 1) < 0) =20
->=20
-> Nak - you can't do that.
-> You are reading data that the application doesn't expect you to read.
+Let me try to write more details, helped with Gemini.
 
-Or have I got confused over the names...
+Background
+----------
+The primary use case is accelerating AI model loading, which demands
+exceptionally high sequential read speeds. In our benchmarks on embedded
+systems:
+ - Using high-order page allocations allows the system to saturate the
+   Universal Flash Storage (UFS) bandwidth, reaching 4 GB/s even at
+   medium-to-low CPU frequencies.
+ - In contrast, standard small folios cap performance at 2 GB/s.
 
--- David
+The performance doubling stems directly from reducing CPU cycle overhead during
+memory allocation.
 
->=20
-> >  			return -EFAULT;
-> >  		set_task_comm(me, comm);
-> >  		proc_comm_connector(me);
-> >  		break;
-> >  	case PR_GET_NAME:
-> > -		strscpy_pad(comm, me->comm);
-> > -		if (copy_to_user((char __user *)arg2, comm, sizeof(comm)))
-> > +		strscpy_pad(comm, me->comm, TASK_COMM_LEN);
-> > +		if (copy_to_user((char __user *)arg2, comm, TASK_COMM_LEN)) =20
->=20
-> Double-nak - you are writing beyond the end of the applications buffer.
->=20
-> You can't change the user memory that the syscalls access.
->=20
-> You can support the longer name for read/write of /proc/self/comm.
->=20
-> -- David
->=20
-> >  			return -EFAULT;
-> >  		break;
-> >  	case PR_GET_ENDIAN:
-> >  =20
->=20
+Problem Statement
+-----------------
+High-order pages become heavily fragmented and scarce shortly after device boot.
+We cannot afford to deplete these limited resources on default filesystem
+operations using large folios. Instead, we need a mechanism to strictly
+prioritize and reserve high-order allocations for specific, critical
+payloads—specifically, large AI model files.
 
+Design Principles
+-----------------
+ - Best-Effort Allocation: The system guarantees no fixed number of
+ high-order pages. Allocation falls back gracefully from Order-10 down to
+ Order-0 based on current memory availability.
+
+ - Standard Page Cache Lifecycle: No custom or rigid memory management is
+ introduced. These folios remain fully under the control of the Memory
+ Management (MM) subsystem and can be reclaimed via the Least Recently
+ Used (LRU) mechanism at any time.
+
+ - Read-Only Optimization: To minimize code complexity (e.g., handling
+ writeback, compression, and concurrency), this high-order allocation mechanism
+ is strictly restricted to read-only files. The vast majority of performance
+ gains are derived from read operations.
+
+Questions
+---------
+Q: Why does an application require a specific file to utilize as many high-order
+pages as possible?
+A: It significantly boosts sequential read bandwidth in resource-constrained
+ embedded systems by reducing the CPU overhead associated with page allocation
+ during high-throughput I/O.
+
+Q: What sort of guarantees does this mechanism need to provide?
+A: No hard guarantees are provided. The filesystem provides a best-effort
+ mechanism to attempt high-order page allocations for flagged inodes while the
+ filesystem is mounted.
+
+Q: What is the fallback behavior if high-order pages cannot be allocated?
+A: The system treats the configuration as a performance hint. If high-order
+ pages are unavailable, it seamlessly falls back to standard small folios.
+ Functional behavior remains entirely unchanged.
+
+Q: Why is restricting the implementation to read-only files necessary?
+A: Limiting the scope to read-only files bypasses the architectural complexities
+ of managing writes, dirtying pages, and compression in large folios, while
+ still capturing the core performance benefits of high-speed sequential reads.
+
+Q: What mitigations prevent a malicious or greedy application from abusing this
+ interface to monopolize high-order pages?
+A: The interface acts purely as a hint to the allocation path. Because it falls
+ back to small folios when memory is tight, it poses no greater systemic risk
+ than existing large-folio implementations used by other filesystems. Standard
+ MM eviction and LRU paths remain fully active.
+
+Q: Why is deregistering the inode number linked to inode deletion?
+A: We need the high-order allocation hint to persist even if the inode is
+ temporarily evicted from the VFS cache. To achieve this, we maintain a tracking
+ list of hinted inode numbers. When a file is permanently deleted, its hint
+ becomes obsolete, requiring us to deregister it from the list to prevent memory
+ leaks or identifier reuse conflicts.
+
+Q: How can an application release these large-order pages without deleting the
+ file?
+A: Pages allocated via this mechanism receive no special status in the page
+ cache. They are managed by standard LRU logic and can be explicitly released by
+ the user at any time using existing system calls, such as
+ posix_fadvise(..., POSIX_FADV_DONTNEED).
+
+Q: This interface seems highly tailored to a specific use case. What happens if
+ these requirements evolve over time?
+A: Massive AI model loading is a long-term architectural paradigm. Providing a
+ targeted VFS/filesystem hint to optimize read bandwidth for specific large
+ datasets is a highly practical, repeatable pattern that addresses a systemic
+ bottleneck in embedded AI deployments.
+
+> 
+> 						- Ted
 
