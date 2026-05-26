@@ -1,85 +1,66 @@
-Return-Path: <linux-api+bounces-6412-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6413-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iG8kL+/EFWqxawcAu9opvQ
-	(envelope-from <linux-api+bounces-6412-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:06:07 +0200
+	id UG5MDujHFWqMbAcAu9opvQ
+	(envelope-from <linux-api+bounces-6413-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:18:48 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2935D94A3
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:06:06 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B11195D9895
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 18:18:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CC5CC30360BB
-	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 15:58:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6A8C130036DF
+	for <lists+linux-api@lfdr.de>; Tue, 26 May 2026 16:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706AB39182A;
-	Tue, 26 May 2026 15:58:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7042A3A2549;
+	Tue, 26 May 2026 16:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="OaEzKCoY"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="AwiokLBm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC0B38E119
-	for <linux-api@vger.kernel.org>; Tue, 26 May 2026 15:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8013AF643;
+	Tue, 26 May 2026 16:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779811115; cv=none; b=AY3tmT8F2G88FQzX+2wLNn/Dx/gpCfk/WdCGl43nMDxRHwKiYIZ71B8oG/E0GpXHtcAiBrScllf6JgmOywm2NWjU7BsnGVzhsRQcNpIEoa5tFb2gfjErpZyW9ZiDrpo74ZlZu4bMp8NwGKoBwpCnQKWE2Ml+DkYXCrynMgpNH84=
+	t=1779812103; cv=none; b=odPmSGHXgl+kEscvHlNU5Qzi8V/X6LSyKpC0rUAofa22HP7FiFzkysQl13e1KsgG+mPf3ZOpjywzQBC0ffiflfbLvfKRCoMkHtWoH0bZzvsYTt211vsZ2wauD0qLEwF/Pxcess9FuOPSh8tFtRPaThedAIzpQUq1wO44SzG4uZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779811115; c=relaxed/simple;
-	bh=luCcXwP82NKzZTQdXDuXXpas0iy8/T2cK1g8ZZZMa+o=;
+	s=arc-20240116; t=1779812103; c=relaxed/simple;
+	bh=WPbX4Pya39Go2QYFfMt8pFd9wdKpwRyohHZi0oibzRg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Be68b45byFLbn3GXlgmYrc4fM/weIePPAy+kvNPgeQSLmSXbhM/GK6EZmXDTP6hm0zSwWWz3lZJYlWaJZsUV8N+81ZyCFNA4rHgOlr2jII/7lDyN3aEeP2gChVEfhdsnPfF5sqw2pbRRtonw0/2OMY0ofznwWqH7bHFUWlykw+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=OaEzKCoY; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-47c6f914617so5109694b6e.1
-        for <linux-api@vger.kernel.org>; Tue, 26 May 2026 08:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1779811113; x=1780415913; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DBREw0EFwsoyVbz1ezFdLWJUb0tEhym45QW/V9DqyOc=;
-        b=OaEzKCoYTjDFupGXgDqHvA60tQHvH8uhQAJf0FF3+yd8Lp09r59r6JN0ReiOo5Sg/H
-         R03Js4qy31KLSLJsCFDOMwOuWryqT8e3gV1RpxO38tDzlwDne7YJ31V+eveOUM8kd8yy
-         pvMFMygUkXBGF0/DjasxuUwyERKQXO0nFTZYOu8KPjchCzA90V3w5+XFG4NrCDxM0sOS
-         iNJsXY5R+e1Gl3paQi49m9A9fWg7n+v+xW/81ORc8TQppKvYD6psMNykD5jY6VKjwJv/
-         l7N/yyb1s2SXYcKLb0vKuTmtV4LnWCaaHg2WWM9yoILbupaZL7vzq4pzzmGjTZGJXxIy
-         WNjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779811113; x=1780415913;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DBREw0EFwsoyVbz1ezFdLWJUb0tEhym45QW/V9DqyOc=;
-        b=pfR3MYVO6y0qvT89JfTNZAhDhhns+9QIZahrHSp7kXOBm3CwUALNp2COmpovboTSnO
-         fsK2eEkgM8sDvmy+moOyzF9/DlQi5xlxm68JscEIwdXuFq0YqgTlyi+ixPespSHryI5F
-         9F6kq4cTVvSNr1HKDvDDtD1xPSU5faJRve4Cw4Yaa1hGnc7Suy+EJwLiyPyWXWEPeVx+
-         1hv3EjIEzaC3oTdv6m0z0/MFvvaeWXTxGDWuGqwA1zGQqC4XGbOLXgo7XWs9aSn5i0eb
-         eUzrhzk0bfC0Dy1dWs6UfKFLyWzQnUz6iMYXQMBcbSJPRZThiSoo+8JKW5Pycy8vTXft
-         HE7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ89qK+TGmXDCPB5hcK/3Muj5l0qnu0qCLDbSlarb9Lgsw8i116VzxS3vIFc2RGzadCKitH4GSCKh1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr/O5F/vTaftMqCeatpcPU0wJCJfUkNLmqBos5F9eOC2ZJcCke
-	R7cE24m8ejIlo2m7ghVfwifujPLcB4R8grXamZXckR3Br6vwn0S4ndhASlvx3mUynHo=
-X-Gm-Gg: Acq92OFdulV4zdPhFfxnb410E8igBF7RB4eNUWt9IsFx/M30mRUC9tKSjld9f369UI/
-	Sgc23NxUx7pbD0KJ0gSPN/qX7+Hgwj2KsKTsc9KJ1e6OwryO1uzt03IWdKP/FPRXWW7W8+qCm7K
-	j4ZMHMKk3Um2UdwYaZRGah6hrg+hh6V7cjpv5Od0BD+LAELmd2YmnKbW9S8Qv6f/cJzkuJpUjoG
-	UWzYG1yim2ao5aYRwhlogh4tyHAKgPvmYnC7qvnwCbrnvkGkpKV1wpMhKjpuI2OrJQOvoPl3F/y
-	DSvJ6FCuA55EqHNkVKLd95fPSktgSjSxA9ERWwLKXF2wnlE0ClQ9zLZihwUpTNNWcPi97hOF9QE
-	RiLIZJxMWPlMPSEyJNaannkXKOG6cKuXlI8mErJcbf3rhNbxctxZNEq3HY/txRCRvaK51pTeolD
-	zuW+C2Pmj0/QlWrsheI+fgNMFYMVXkhkEeLibCNOPg1o58GyOhbOZR4xoHAsNsWr+m88idLxU0Y
-	pcEu6LP0kFZPlpHMmg=
-X-Received: by 2002:a05:6808:1a1c:b0:479:e96e:65aa with SMTP id 5614622812f47-4854a2ab967mr10906128b6e.42.1779811112545;
-        Tue, 26 May 2026 08:58:32 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-485544e320csm6341688b6e.5.2026.05.26.08.58.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 08:58:31 -0700 (PDT)
-Message-ID: <92db3ff0-8f0b-4b61-a167-5004ffcf9025@kernel.dk>
-Date: Tue, 26 May 2026 09:58:27 -0600
+	 In-Reply-To:Content-Type; b=VrvdHvoGHwAHbqqt8d964A5211YzGJxu6o9AuVhhPyBOPzx2ZqKwAwP79vr9VRDEuIQL9G9YHQFpjn/n9ykWc9Ut+Fk0580ky4OmadZzFCLuq1XWiAKlqteioYaumV60D1ulYqQnlyuL2OhjKI4knTerzSbu2Dz93kQ360mSuNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=AwiokLBm; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gPyWn3BVxz1XM6JN;
+	Tue, 26 May 2026 16:15:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1779812096; x=1782404097; bh=Anhq5FjNw5ss6qMVPZ01kvuQ
+	c5NdyWfGRn2xYsjiF0E=; b=AwiokLBmkPXRDvxv4gU5Q8BxVUMZRQTyw3y+Qzdh
+	Z784kR81SRXa82sIkwXcsNyi3LSlK1dqku6rTPoMoPVmLytdqkrK3Yk8LKaof1z5
+	IUvPNNPc/Q6S7kOjZkbSrACPm7bjIjgzu1IxxbKBQSlK4tuv38BU7fvs8dD3euDA
+	Tw4fggBiI1+wbtfQf2lxAk1Mu/LOduAx3pQdID/Ykhu4h1DH/J12zN1DDyjiiSdq
+	XX0cpwgKDWTwyPidFJSdYB7dm+oZ0m3I2dTqtBYofc2bGINuwLNf+Ojxd6k3KQ2K
+	xZpeQClWswqs2VOXACuw4RtpJCE1iU/Qha8dSaZmA5A3hg==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id zKWCJmXtLFCk; Tue, 26 May 2026 16:14:56 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gPyWd3bBJz1XM5jn;
+	Tue, 26 May 2026 16:14:53 +0000 (UTC)
+Message-ID: <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
+Date: Tue, 26 May 2026 09:14:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -87,88 +68,69 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] net: Remove support for AIO on sockets
-To: Christoph Hellwig <hch@infradead.org>, demiobenour@gmail.com
-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Willem de Bruijn <willemb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Eric Biggers <ebiggers@google.com>,
- Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
- linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
- netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Toke_H=C3=B8iland-J=C3=B8rgensen?=
- <toke@toke.dk>, linux-api@vger.kernel.org
-References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
- <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
- <ahQCZQNoyO8GQt3H@infradead.org>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+To: Theodore Tso <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>,
+ linux-f2fs-devel@lists.sourceforge.net, Christoph Hellwig
+ <hch@infradead.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Akilesh Kailash <akailash@google.com>,
+ Christian Brauner <christian@brauner.io>
+References: <ad30g9xMs9wNJhFb@infradead.org> <ad_AVHe7RMnGrGTb@google.com>
+ <ad_HwhzlNPUEKQi6@casper.infradead.org> <ag7HfNryTmQ-bVIS@infradead.org>
+ <20260521155748.GA79343@macsyma-wired.lan> <ag_OVwPF49LSZ7rz@google.com>
+ <20260522141115.GA8258@macsyma-wired.lan> <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan> <ahTzHyHBL8t0iNBR@google.com>
+ <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ahQCZQNoyO8GQt3H@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel-dk.20251104.gappssmtp.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
+	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6412-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[acm.org:+];
+	TAGGED_FROM(0.00)[bounces-6413-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[infradead.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[kernel.dk];
-	RCPT_COUNT_TWELVE(0.00)[32];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel-dk.20251104.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-api];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel-dk.20251104.gappssmtp.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,kernel.dk:mid]
-X-Rspamd-Queue-Id: ED2935D94A3
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,acm.org:mid,acm.org:dkim]
+X-Rspamd-Queue-Id: B11195D9895
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/25/26 2:03 AM, Christoph Hellwig wrote:
-> On Sat, May 23, 2026 at 03:43:02PM -0400, Demi Marie Obenour via B4 Relay wrote:
->> From: Demi Marie Obenour <demiobenour@gmail.com>
->>
->> The only user of msg->msg_iocb was AF_ALG, but that's deprecated.
->> It can be removed entirely at the cost of only supporting synchronous
->> operations.  This doesn't break userspace, which will silently block
->> (for a bounded amount of time) in io_submit instead of operating
->> asynchronously.
->>
->> This also makes struct msghdr smaller, helping every other caller of
->> sendmsg().
-> 
-> So we just had a discussion at LLC about how networking needs to support
-> AIO better for zero copy.
-> 
-> The current TCP zerocopy implementation provides completion notification
-> through the socket error code, which is freaking weird and doesn't
-> integrate well with either io_uring or in-kernel callers.
+On 5/26/26 6:42 AM, Theodore Tso wrote:
+> It seems... surprising that the additional I/O operations are actually
+> throttloing UFS device bandwidth by 2x (4GB/s vs 2GB/s).  Have you dug
+> into why this is happening, and whether there is anything that can be
+> optimized below the file system?
+The layers below the filesystem (block, SCSI, UFS) is what I'm
+responsible for in the Pixel team and I can assure you that these are
+highly optimized.
 
-We already have that via io_uring, and without needing msg_kiocb or the
-(very) weird socket error code retrieving.
+Since the transfer size used in Jaegeuk's tests is much larger than 4
+KiB, how many CPU cycles are used per IO by the layers below the
+filesystem is not limiting the transfer bandwidth.
 
--- 
-Jens Axboe
+Bart.
 
