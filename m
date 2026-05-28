@@ -1,59 +1,59 @@
-Return-Path: <linux-api+bounces-6433-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6434-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKVdINEQGGrmbQgAu9opvQ
-	(envelope-from <linux-api+bounces-6433-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 11:54:25 +0200
+	id wAswHesQGGrmbQgAu9opvQ
+	(envelope-from <linux-api+bounces-6434-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 11:54:51 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A92F5EFFE7
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 11:54:24 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D775EFFFD
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 11:54:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E7459301363D
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 09:54:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6D74D303CD6E
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 09:54:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EEF3B38B9;
-	Thu, 28 May 2026 09:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348E83B0AF8;
+	Thu, 28 May 2026 09:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="FKKbwuBs"
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="ibP9/gpb"
 X-Original-To: linux-api@vger.kernel.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5339021A;
-	Thu, 28 May 2026 09:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C54D3B19CD;
+	Thu, 28 May 2026 09:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779962061; cv=pass; b=bx7X6ECKkaWOWEdml/4G9QdnRySfqOCwIkFOKqdzNb8qPzoAMosB1guhrJAI+wdwoZPsoHc59sksTuf33Eox2/xAGqkTewzra3rKWPU11x4F25PqCh7DolPNgONqNoDqE7p8ZKL0eNsl2W8b4eDMOgIf48nYQkVR9JlVhFYhfRg=
+	t=1779962089; cv=pass; b=nOBkKObhVYUWxnFN1rug3HCIMteF1fnj9Dwl1otGO37qjwJQyp0tHIo8tQYXYlZaPPEeBzbdVT5xnq8yf+7lHnmM6Yt+FcnWiTOEezfl48SuT06/795XYIwDEwPbZgpUPbovqHlbHo3j2nu326xQ9qyDJgykmVwn1d+BbrbxTVI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779962061; c=relaxed/simple;
-	bh=FhZzqTfOmRQA2ulX9Er1KOrTVIj/mj1vt5ktr+JES04=;
+	s=arc-20240116; t=1779962089; c=relaxed/simple;
+	bh=p8JwGfGwuQJSTehFaGTsZoPBVvd78o6xdHJNlYzgKGM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kh3F7H7P8zvGiqyLz0ZcxnNSDBL55PVsrwHMZcTdqusg/3F4ybaLFiTehGOaqIa4h1V2DAboCnlY+MRxWO9FAmjkmd36RAClkbDLyhJRAwvceTCLn1lCuUdRLgfRccJRr6aNIaICvpuEDZbgfIebg38yGkhv0pC2kfFzmVKtyl4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=FKKbwuBs; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=AtHJq7bz8wfywG0z8JQNFjmGOlDp+45ppHj93llKjSsTGb/iO88Cl12hZr9FEmL5txt1O6uwkf8u1U02k/mzuY5moX3FQRybDuzdKPINsJkxOaBjPkDHH1Kl9aRQCZnDV2/Ti/Lb66v397KTF2PBYJvw6VPj8mK4iAChRiGYEoc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=ibP9/gpb; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
-ARC-Seal: i=1; a=rsa-sha256; t=1779961994; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1779962002; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=fDeGWFaxxrrcS1qDKS05XqYcZzPAF01/g6Ak+RwWXKG6FYNj6BVMIC2k1nfJlv9eCj/s0FbAfJpHieo3i1Swx5WlwiqRPBKygY5640jds3ncz/DYai8sGCYUrmxYIFgCE3yLzx5waC19lcH9Snx1b+7P7scuC6flfGDqY7Tn7gw=
+	b=BjY+rrmWLeXJJjQO8PJHtywe0UJQ7E2pjwCx5wcNHnA4egGvITx/6i2EtDKw/2QqNijDBOqEimBC9n8mh1z5puanqcp1ql2SmS9gCg70wze3E/yaOE/v+ub7FWNQ0WbpSi79NU88eYotN8TMyyRvKJAxy3KuyMrG9rZROYEWuH8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779961994; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=uH9yEaUapIEKI2lfJ5G4DMQBlkpv8yAmGkbHJEgDnPY=; 
-	b=i70+iVLUuxtknOMvAep6Ruv5rjjsgfLk1c82C16zVQh0uezSHlhefm7AlpayC8ym7VXJTsrbLgKE5mVPBifuDHpZOxFtAUIGqP190L18NuoWkmxR5oUvtGSlH315OORF34vvoWlGUaqpDsAws5MP5zQjsKir/NjNZVEuTQ+d+iY=
+	t=1779962002; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=MC4dHb80t6/BIqcUh3zzA0OufX3r53dp1BU6A+dxByg=; 
+	b=DWGfOBX55kPaMTFI0EZNeE/PGV94CywIhXgl+CCRnmAWmdgsCpA+SHASORGhm79ZvFWpdOf9NuVZOIUf9dkHGoN6ZrYu0cc035jAag50/MWLMdB2yg13Rf3ey+sXW7HzVr87mVyVmb8hNeEtVnClLGL+QfoVZ5Mf20d21GDY/EE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=linux.beauty;
 	spf=pass  smtp.mailfrom=me@linux.beauty;
 	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779961994;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779962002;
 	s=zmail; d=linux.beauty; i=me@linux.beauty;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=uH9yEaUapIEKI2lfJ5G4DMQBlkpv8yAmGkbHJEgDnPY=;
-	b=FKKbwuBsJ5SfWsLpJFnsM7vEveFkJV6vaylgo+rqg2tpHfGqwr57fWuWpcJm7bbJ
-	qBZMhrSsxhYOglTquuejNbzWJlrPcY4tno/duHtpdTwL/pNStDGh69hDDzmS4J6rnm9
-	b621M0QFh8R5OtuzBHeDxesjLPgFqUEPx3PnfBio=
-Received: by mx.zohomail.com with SMTPS id 1779961991167186.94687791742058;
-	Thu, 28 May 2026 02:53:11 -0700 (PDT)
+	bh=MC4dHb80t6/BIqcUh3zzA0OufX3r53dp1BU6A+dxByg=;
+	b=ibP9/gpbHz+8ZyfY8Yxk0qP/vQNgBX0rzt1bGyckd4RNeJkQqw5x+v2ABym4GyET
+	SZA91nuGCe9SpX2YTxy/S6LA8HV00AM10poCIJaWS8/YHddtqYafv4m2Lfng6Nv29FI
+	XdRjwESCU5nRsJaVHk7lPHNvHbMljrXf7abRlHGo=
+Received: by mx.zohomail.com with SMTPS id 1779961999561196.25957869706974;
+	Thu, 28 May 2026 02:53:19 -0700 (PDT)
 From: Li Chen <me@linux.beauty>
 To: Christian Brauner <brauner@kernel.org>,
 	Kees Cook <kees@kernel.org>,
@@ -77,9 +77,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Li Chen <me@linux.beauty>
-Subject: [RFC PATCH v1 02/13] exec: add an internal helper for opened executables
-Date: Thu, 28 May 2026 17:52:23 +0800
-Message-ID: <20260528095235.2491226-3-me@linux.beauty>
+Subject: [RFC PATCH v1 03/13] file: expose helpers for in-kernel fd actions
+Date: Thu, 28 May 2026 17:52:24 +0800
+Message-ID: <20260528095235.2491226-4-me@linux.beauty>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
 References: <20260528095235.2491226-1-me@linux.beauty>
@@ -96,13 +96,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.beauty,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[linux.beauty:s=zmail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6433-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6434-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
@@ -115,152 +115,70 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,linux.beauty:email,linux.beauty:mid,linux.beauty:dkim]
-X-Rspamd-Queue-Id: 1A92F5EFFE7
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.beauty:email,linux.beauty:mid,linux.beauty:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 16D775EFFFD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Split alloc_bprm_file() from alloc_bprm() so internal callers can build
-a linux_binprm from an executable file that they already opened.
-Add kernel_execveat_file() for in-kernel users that need to execute an
-opened file while still using the normal execve credential, LSM, and
-binary-format path.
+Split do_close_range() from the close_range syscall wrapper and make
+ksys_dup3() available to in-kernel callers. Later spawn-template fd
+actions use these helpers instead of duplicating close and dup logic.
 
 Signed-off-by: Li Chen <me@linux.beauty>
 ---
- fs/exec.c               | 78 +++++++++++++++++++++++++++++++++++------
- include/linux/binfmts.h |  4 +++
- 2 files changed, 71 insertions(+), 11 deletions(-)
+ fs/file.c               | 11 ++++++++---
+ include/linux/fdtable.h |  2 ++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 53f7b18d2b1ea..5b91a9b208a77 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1392,16 +1392,13 @@ static void free_bprm(struct linux_binprm *bprm)
- 	kfree(bprm);
- }
- 
--static struct linux_binprm *alloc_bprm(int fd, struct filename *filename, int flags)
-+static struct linux_binprm *alloc_bprm_file(struct file *file,
-+					    struct filename *filename,
-+					    int fd, int flags)
+diff --git a/fs/file.c b/fs/file.c
+index e5c75b22e0c7c..a9f4b4e2dcd45 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -815,8 +815,7 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
+  * from @fd up to and including @max_fd are closed.
+  * Currently, errors to close a given file descriptor are ignored.
+  */
+-SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
+-		unsigned int, flags)
++int do_close_range(unsigned int fd, unsigned int max_fd, unsigned int flags)
  {
- 	struct linux_binprm *bprm;
--	struct file *file;
- 	int retval = -ENOMEM;
- 
--	file = do_open_execat(fd, filename, flags);
--	if (IS_ERR(file))
--		return ERR_CAST(file);
--
- 	bprm = kzalloc_obj(*bprm);
- 	if (!bprm) {
- 		do_close_execat(file);
-@@ -1463,6 +1460,17 @@ static struct linux_binprm *alloc_bprm(int fd, struct filename *filename, int fl
- 	return ERR_PTR(retval);
+ 	struct task_struct *me = current;
+ 	struct files_struct *cur_fds = me->files, *fds = NULL;
+@@ -867,6 +866,12 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
+ 	return 0;
  }
  
-+static struct linux_binprm *alloc_bprm(int fd, struct filename *filename, int flags)
++SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
++		unsigned int, flags)
 +{
-+	struct file *file;
-+
-+	file = do_open_execat(fd, filename, flags);
-+	if (IS_ERR(file))
-+		return ERR_CAST(file);
-+
-+	return alloc_bprm_file(file, filename, fd, flags);
++	return do_close_range(fd, max_fd, flags);
 +}
 +
- DEFINE_CLASS(bprm, struct linux_binprm *, if (!IS_ERR(_T)) free_bprm(_T),
- 	alloc_bprm(fd, name, flags), int fd, struct filename *name, int flags)
- 
-@@ -1901,6 +1909,59 @@ int kernel_execve(const char *kernel_filename,
- 	return bprm_execve(bprm);
+ /**
+  * file_close_fd - return file associated with fd
+  * @fd: file descriptor to retrieve file for
+@@ -1421,7 +1426,7 @@ int receive_fd_replace(int new_fd, struct file *file, unsigned int o_flags)
+ 	return new_fd;
  }
  
-+static inline struct user_arg_ptr native_arg(const char __user *const __user *p)
-+{
-+	return (struct user_arg_ptr){.ptr.native = p};
-+}
-+
-+static int do_execveat_file_common(struct file *file, struct filename *filename,
-+				   struct user_arg_ptr argv,
-+				   struct user_arg_ptr envp, int flags)
-+{
-+	struct linux_binprm *bprm;
-+	struct file *exec_file;
-+	int retval;
-+
-+	if (flags & ~AT_EMPTY_PATH)
-+		return -EINVAL;
-+
-+	if ((current->flags & PF_NPROC_EXCEEDED) &&
-+	    is_rlimit_overlimit(current_ucounts(), UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC)))
-+		return -EAGAIN;
-+
-+	current->flags &= ~PF_NPROC_EXCEEDED;
-+
-+	retval = exe_file_deny_write_access(file);
-+	if (retval)
-+		return retval;
-+	exec_file = get_file(file);
-+
-+	bprm = alloc_bprm_file(exec_file, filename, AT_FDCWD, flags);
-+	if (IS_ERR(bprm))
-+		return PTR_ERR(bprm);
-+
-+	retval = do_execveat_common_bprm(bprm, argv, envp);
-+	free_bprm(bprm);
-+	return retval;
-+}
-+
-+int kernel_execveat_file(struct file *file, const char *filename,
-+			 const void __user *argv,
-+			 const void __user *envp,
-+			 int flags)
-+{
-+	const char __user *const __user *user_argv;
-+	const char __user *const __user *user_envp;
-+
-+	CLASS(filename_kernel, name)(filename);
-+
-+	user_argv = (const char __user *const __user *)argv;
-+	user_envp = (const char __user *const __user *)envp;
-+
-+	return do_execveat_file_common(file, name, native_arg(user_argv),
-+				       native_arg(user_envp), flags);
-+}
-+
- void set_binfmt(struct linux_binfmt *new)
+-static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
++int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
  {
- 	struct mm_struct *mm = current->mm;
-@@ -1925,11 +1986,6 @@ void set_dumpable(struct mm_struct *mm, int value)
- 	__mm_flags_set_mask_dumpable(mm, value);
- }
+ 	int err = -EBADF;
+ 	struct file *file;
+diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+index c45306a9f0072..7f852fcc082a4 100644
+--- a/include/linux/fdtable.h
++++ b/include/linux/fdtable.h
+@@ -112,6 +112,8 @@ int iterate_fd(struct files_struct *, unsigned,
  
--static inline struct user_arg_ptr native_arg(const char __user *const __user *p)
--{
--	return (struct user_arg_ptr){.ptr.native = p};
--}
--
- SYSCALL_DEFINE3(execve,
- 		const char __user *, filename,
- 		const char __user *const __user *, argv,
-diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-index 65abd5ab8836c..c0715678c9a06 100644
---- a/include/linux/binfmts.h
-+++ b/include/linux/binfmts.h
-@@ -141,6 +141,10 @@ extern int transfer_args_to_stack(struct linux_binprm *bprm,
- 				  unsigned long *sp_location);
- extern int bprm_change_interp(const char *interp, struct linux_binprm *bprm);
- int copy_string_kernel(const char *arg, struct linux_binprm *bprm);
-+int kernel_execveat_file(struct file *file, const char *filename,
-+			 const void __user *argv,
-+			 const void __user *envp,
-+			 int flags);
- extern void set_binfmt(struct linux_binfmt *new);
- extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
+ extern int close_fd(unsigned int fd);
+ extern struct file *file_close_fd(unsigned int fd);
++int do_close_range(unsigned int fd, unsigned int max_fd, unsigned int flags);
++int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags);
+ 
+ extern struct kmem_cache *files_cachep;
  
 -- 
 2.52.0
