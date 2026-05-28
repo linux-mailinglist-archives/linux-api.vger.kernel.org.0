@@ -1,59 +1,59 @@
-Return-Path: <linux-api+bounces-6442-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6443-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8NIEKVkVGGprcwgAu9opvQ
-	(envelope-from <linux-api+bounces-6442-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 12:13:45 +0200
+	id sPy6Gt4UGGrKbggAu9opvQ
+	(envelope-from <linux-api+bounces-6443-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 12:11:42 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109EB5F05A8
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 12:13:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A998B5F0465
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 12:11:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5D0F0315F699
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 09:58:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0A6C83035660
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 09:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E0C3B2FE7;
-	Thu, 28 May 2026 09:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 710833B27DD;
+	Thu, 28 May 2026 09:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="YUJuo6pz"
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="hs9jAnFc"
 X-Original-To: linux-api@vger.kernel.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E70F3ACEF6;
-	Thu, 28 May 2026 09:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC0E38A73B;
+	Thu, 28 May 2026 09:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779962305; cv=pass; b=oQJqUPjThrddSf1N8mUl4H4mPa8RKl37cdnp6cop14zKqz//sKpCEWgnRlHX32AxvIGf8BckKYLSrNyfXN5HTD0gCpoz19b4/o7xM70SAcY8PBw3o6QYlJL/ErwASc7MKZHFbZ91rYXjTxS8N2rY5u24ZGxdIqx8S+ENwH7Lcv4=
+	t=1779962331; cv=pass; b=AspiLSh9k7OGfr1c3Tde71D6nP3CLCtzgeJeQSY473lu6W1Jx+9gkY9tjWvOR3N2RpYOF99K9Bl6I5UdOePe1/omKHOok0u19CsN/iT0FSRDytTO98W0dFCZ24h6991CPhpP5JMnoDFh4WCDRCrAF0WcAGvtv+vRvEPRdN5EPug=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779962305; c=relaxed/simple;
-	bh=TNQhlKE5ncbDbax/x2D0txr5da9b+jQxZpuKlwO+Tdg=;
+	s=arc-20240116; t=1779962331; c=relaxed/simple;
+	bh=NQuwJ0bwOiDTJ90aRko1yQGQwq034q6tsfagPPUJkvk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cq3kefsREVKzazq4+kX1BJ3wWGPw0ZI/cP+cjLJH/tXiCRHLYK+liTXO3dAGaemKU5q9ae+bF1BY+SCuy02yBKZk8RC2DEofoCPyzK+WRH9HlXSGeWKGhBHs7H44+GtofQZOe/GSEq705wIfy+tL4vWS8Nz3cqyifDkjuxMqs5w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=YUJuo6pz; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=BOq5PuWbholjPhkfLxo/VH1DUJxFEO/afUxyw63s14lMmzfEFzmZ8MmJNKlbMjHXBsgZAEq2UJ2Bl/cxPThzsVTeESbH4uDNiFbc8zQ4TvS8vz8BOCQoQXk4RELau9JzQ2k3ZxILJPbMO129CmwtX5W2zh/BvW1mgQ2ROFFMieA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=hs9jAnFc; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
-ARC-Seal: i=1; a=rsa-sha256; t=1779962067; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1779962078; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=dB9yOHSNdn+pWFMuwv0a5OAZPV6rGF6mxWBxJYpmxnEQhcE9PL2qzlDtn+HCW4P572tQZIbnSjl1UThemLDSlHOb1ox6eGvNTl2c30rdT7plQX0/sSxhEynNGE244uzmVMwUwGIUYH+I0SGH+lM+u5tpjxoWeVbb1D1BLn/sFLw=
+	b=W0w/mn2J1AYfM3IS7vZfMX0gJ8ZaymQK2XDEVIjpTpvOwgMEYhvZLwobodhV5irOmS8XeUKpxQfYjDUJIVqUB2STeoXKQYIai/08OX5v/5YaeyHDG6HdfNJMqG/CrlNQ5bbUIBEQdNIjhxZDHpU7XvDI0/CjZ7T/fG8z0cLkbxM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779962067; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=IHFIJ1vwh+H9qkGl5p1gj4xNKLC/W2D7/bdfKg3hdPk=; 
-	b=mYzWwm9UB/Ibj317Bb1PC9rRaGISOA2iVqGm0hi+RK+JmoPPQIbXazZ02brt9atvBtr7mcXQkRWqrtiUSXokiG/HC+l1oUn8LBEK9bORfoWQ6/qwCPn0NTi2lKR4hfTze889JeRBdk4JJsTnf1qTswL7XgVnizMzdl5FMmSrGSM=
+	t=1779962078; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=LBP3jruN2RkIXP5r6tCnATnUH33LnY6Ig4uYaIj36zY=; 
+	b=FnNdIqrmJXESp6ZdHOgHw7hif7sa6TuZIIpNebGnePeOrG8CiOZubbu0gMUo5fcjwkbLIJkzBWfYg54nVwE+8RvVYJRaIkFuH3cI9vrlNvR8d+FuiG9NrfchomBszf2xtYQcMNqKXRmnLL31MPkcg02cts6MI7MmtHCdyy4EstE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=linux.beauty;
 	spf=pass  smtp.mailfrom=me@linux.beauty;
 	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779962067;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779962078;
 	s=zmail; d=linux.beauty; i=me@linux.beauty;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=IHFIJ1vwh+H9qkGl5p1gj4xNKLC/W2D7/bdfKg3hdPk=;
-	b=YUJuo6pzThKZZRmNDytEoVG8XxhsJEgV2A64AF9QCP+z4KxxS9ZpHYsTi5cgWN+m
-	xbowODJ26oN67r27JDk1J0H00zzU65hURcQW+e5i88PENqjWcJCO40KgZkUszKdfKLF
-	QCRs14tqi6O2lD4jNAljNciyS8r70RPa3Ie1MejE=
-Received: by mx.zohomail.com with SMTPS id 1779962065945647.9310517427938;
-	Thu, 28 May 2026 02:54:25 -0700 (PDT)
+	bh=LBP3jruN2RkIXP5r6tCnATnUH33LnY6Ig4uYaIj36zY=;
+	b=hs9jAnFcSis+pCZhFYCvTa0bWXgdCxYbVdlMupKZJ8yIlMw7s6ao28m9iC0adpex
+	kxSyjfM4rCkyLSSGivfV3lc0J6qF85zRgXHX6GkmKKCPsUq+en4GUudCpv7v3oT21VC
+	+m4xFhBxhOqNUd9SgBpgmr2mxUcTzWwh8/8Q/fwM=
+Received: by mx.zohomail.com with SMTPS id 1779962074218341.93123023468877;
+	Thu, 28 May 2026 02:54:34 -0700 (PDT)
 From: Li Chen <me@linux.beauty>
 To: Christian Brauner <brauner@kernel.org>,
 	Kees Cook <kees@kernel.org>,
@@ -77,9 +77,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Li Chen <me@linux.beauty>
-Subject: [RFC PATCH v1 11/13] exec: let close-range actions target the max fd
-Date: Thu, 28 May 2026 17:52:32 +0800
-Message-ID: <20260528095235.2491226-12-me@linux.beauty>
+Subject: [RFC PATCH v1 12/13] syscalls: add generic spawn template entries
+Date: Thu, 28 May 2026 17:52:33 +0800
+Message-ID: <20260528095235.2491226-13-me@linux.beauty>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
 References: <20260528095235.2491226-1-me@linux.beauty>
@@ -96,13 +96,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.beauty,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[linux.beauty:s=zmail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6442-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6443-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
@@ -115,72 +115,66 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.beauty:email,linux.beauty:mid,linux.beauty:dkim]
-X-Rspamd-Queue-Id: 109EB5F05A8
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.beauty:email,linux.beauty:mid,linux.beauty:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: A998B5F0465
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Allow CLOSE_RANGE actions to pass newfd == -1 to mean the largest
-possible fd. This gives userspace a compact way to request the common
-close_range(first, ~0U, flags) pattern even though the UAPI action uses
-signed fd fields so OPEN actions can still carry AT_FDCWD.
+Add spawn_template_create() and spawn_template_spawn() to the generic
+syscall table and asm-generic UAPI numbering. This lets architectures
+using the generic table pick up the spawn-template ABI instead of
+leaving the mechanism x86-only.
 
 Signed-off-by: Li Chen <me@linux.beauty>
 ---
- Documentation/userspace-api/spawn_template.rst |  3 ++-
- fs/spawn_template.c                            | 10 +++++++---
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ arch/x86/entry/syscalls/syscall_64.tbl | 2 ++
+ include/uapi/asm-generic/unistd.h      | 7 ++++++-
+ scripts/syscall.tbl                    | 2 ++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/spawn_template.rst b/Documentation/userspace-api/spawn_template.rst
-index afe215e51db6f..be66be20d4fde 100644
---- a/Documentation/userspace-api/spawn_template.rst
-+++ b/Documentation/userspace-api/spawn_template.rst
-@@ -86,7 +86,8 @@ kind of setup that ``posix_spawn_file_actions_t`` commonly performs:
-   Open a path using ``struct open_how`` and install it at ``newfd``.
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index d6c1667e8f3b8..e9dcfc6de79bc 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -396,6 +396,8 @@
+ 469	common	file_setattr		sys_file_setattr
+ 470	common	listns			sys_listns
+ 471	common	rseq_slice_yield	sys_rseq_slice_yield
++472	64	spawn_template_create	sys_spawn_template_create
++473	64	spawn_template_spawn	sys_spawn_template_spawn
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+ # in x32 as compared to native x86_64.  These syscalls have numbers 512-547.
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index a627acc8fb5fe..8589f2b9696a7 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -863,8 +863,13 @@ __SYSCALL(__NR_listns, sys_listns)
+ #define __NR_rseq_slice_yield 471
+ __SYSCALL(__NR_rseq_slice_yield, sys_rseq_slice_yield)
  
- ``SPAWN_TEMPLATE_ACTION_CLOSE_RANGE``
--  Apply ``close_range()`` to a child fd range.
-+  Apply ``close_range()`` to a child fd range.  Passing ``newfd == -1`` means
-+  the range extends to the largest possible fd.
- 
- ``SPAWN_TEMPLATE_ACTION_SIGMASK``
-   Set the child signal mask.
-diff --git a/fs/spawn_template.c b/fs/spawn_template.c
-index 6430a6645fb57..82b833bc9865a 100644
---- a/fs/spawn_template.c
-+++ b/fs/spawn_template.c
-@@ -220,6 +220,8 @@ static int spawn_template_apply_sigdefault(const struct spawn_template_action *a
- 
- static int spawn_template_apply_action(const struct spawn_template_action *action)
- {
-+	unsigned int max_fd;
++#define __NR_spawn_template_create 472
++__SYSCALL(__NR_spawn_template_create, sys_spawn_template_create)
++#define __NR_spawn_template_spawn 473
++__SYSCALL(__NR_spawn_template_spawn, sys_spawn_template_spawn)
 +
- 	switch (action->type) {
- 	case SPAWN_TEMPLATE_ACTION_CLOSE:
- 		return close_fd(action->fd);
-@@ -251,7 +253,8 @@ static int spawn_template_apply_action(const struct spawn_template_action *actio
- 	case SPAWN_TEMPLATE_ACTION_OPEN:
- 		return spawn_template_apply_open(action);
- 	case SPAWN_TEMPLATE_ACTION_CLOSE_RANGE:
--		return do_close_range(action->fd, action->newfd, action->flags);
-+		max_fd = action->newfd == -1 ? ~0U : action->newfd;
-+		return do_close_range(action->fd, max_fd, action->flags);
- 	case SPAWN_TEMPLATE_ACTION_SIGMASK:
- 		return spawn_template_apply_sigmask(action);
- 	case SPAWN_TEMPLATE_ACTION_SIGDEFAULT:
-@@ -306,8 +309,9 @@ static int spawn_template_copy_actions(struct spawn_template_action **out_action
- 				return -EINVAL;
- 			break;
- 		case SPAWN_TEMPLATE_ACTION_CLOSE_RANGE:
--			if (actions[i].fd < 0 || actions[i].newfd < 0 ||
--			    actions[i].fd > actions[i].newfd ||
-+			if (actions[i].fd < 0 || actions[i].newfd < -1 ||
-+			    (actions[i].newfd >= 0 &&
-+			     actions[i].fd > actions[i].newfd) ||
- 			    (actions[i].flags &
- 			     ~(CLOSE_RANGE_UNSHARE | CLOSE_RANGE_CLOEXEC)) ||
- 			    actions[i].arg)
+ #undef __NR_syscalls
+-#define __NR_syscalls 472
++#define __NR_syscalls 474
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
+index 7a42b32b65776..7f8e74e866e48 100644
+--- a/scripts/syscall.tbl
++++ b/scripts/syscall.tbl
+@@ -412,3 +412,5 @@
+ 469	common	file_setattr			sys_file_setattr
+ 470	common	listns				sys_listns
+ 471	common	rseq_slice_yield		sys_rseq_slice_yield
++472	common	spawn_template_create		sys_spawn_template_create
++473	common	spawn_template_spawn		sys_spawn_template_spawn
 -- 
 2.52.0
 
