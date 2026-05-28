@@ -1,139 +1,133 @@
-Return-Path: <linux-api+bounces-6448-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6449-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MBmeBEqJGGpnkwgAu9opvQ
-	(envelope-from <linux-api+bounces-6448-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 20:28:26 +0200
+	id GB4WLBKaGGr+lQgAu9opvQ
+	(envelope-from <linux-api+bounces-6449-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 21:40:02 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F295F646D
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 20:28:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1795F73B8
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 21:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 10893300FB7B
-	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 18:27:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D632E300D865
+	for <lists+linux-api@lfdr.de>; Thu, 28 May 2026 19:36:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20E86409612;
-	Thu, 28 May 2026 18:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE3C632B128;
+	Thu, 28 May 2026 19:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="njOE3EuG"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JRYMFMMU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8B6408032
-	for <linux-api@vger.kernel.org>; Thu, 28 May 2026 18:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BFD2E7376;
+	Thu, 28 May 2026 19:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779992837; cv=none; b=ZTBr0IfdOQ6JwzxBBoLnX9f1i9wM+V0I5Xj6DFaNwu+ICHGFe5BWkVgSbM4ivtPFlNmh+9cuMTCyrlSJJwB9GjxEozQ+ytNVKmY8qO8MRlYXM4qAWjHdSOL20++SHASCbGtdX6M3RC4KBmBwJpiAOVcALy7zcDUI1e7n8dgMSSo=
+	t=1779997003; cv=none; b=QyrA8Kl3FeenFqQN6bSpN72hKrm7eDL/neWrWyue/G8POPP3pbg8cpxOaV9w6wptPmHDrqx7fEmwUe7qWzF9X2iWy09UQTODyIUznqFhGYtslMCjs0cjHyhRvijswU9n82UofauLVA+rM8jrk5Yg07FTmASc+UGip6OYld/1VZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779992837; c=relaxed/simple;
-	bh=Bi/Ekqnmt+zfvrHKtNJFwE8S0+0gM1iROurgHj5oaVA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gMaIeih1bh5e+ApGhc2PfqZ/ajDbL5s59KE8FO00QSzMWKZzwx3mZ6Whsy5E8BIjAz4dP7EtX+bKL+18nQ/18EQCq+gd60vcj8ndevp0+kwqivNYX1VJp5Ez6UK3JvB/Sc6aegKC81EcKIr2wwNIENhz71voX+UvPAyNMQKwB/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=njOE3EuG; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB3201F01562
-	for <linux-api@vger.kernel.org>; Thu, 28 May 2026 18:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779992835;
-	bh=uNFRPkLBDJywU48J/noDObDM2rNQtdyFBCATGMJKuNA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=njOE3EuG3YaY1aqLR1PQz66Ex1f3r4CiGknKOWDez1lc1exX52GKvaY34ZhZBQpI6
-	 w6fDDonhOwqCaYBRrsJaX1UOdElyDQTgs0C6qBKDH3YWDntCuxPKTPgKZhhpuUCu8r
-	 Cz+DqZOZmMkd4SP+HcVdtVNTJHO0Q8r7OMedsTNiWlrkaGv5NOg6EawmBbGaa5oUzf
-	 6kbKiuxwfxWYIbPxp97vEMg78BXlDBvLilLxB05WVYWSAyf7+BqAVvVOtTTeOCufO7
-	 L70y2sLMwZ3XpPVa2AtA2Kj+TWYv/FqY/3Gw+5I16BB6azMBZ7GL+U8CxVMU4z7mUt
-	 JX2GvXvpfvKLw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a8891febd2so17247873e87.1
-        for <linux-api@vger.kernel.org>; Thu, 28 May 2026 11:27:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9MSuWADfnHFbluZTOj1q4eSRAOtGqnxA3F4M/2t0zt5KwTARU0WI/z23q7z+gVhw0ScPsVCRJh7FU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEvlk5i0FU6uwNmhMycxmtbtit5jk2yh+BSv9I+B7sK+0Pg6Gy
-	xkk2IJ/HZ9wtvnL4JOmObXs3zfwoiD3ZlykRbFNtAHroh6CBO1ZGOgEI50yc7orNa3Ycm4IsHMU
-	rURkGd8H5a2eV2CFcWYP6KrLtZN3jNvtkpfxq9aWE
-X-Received: by 2002:a05:6512:4017:b0:5a8:87fc:2b34 with SMTP id
- 2adb3069b0e04-5aa57e2c285mr81991e87.32.1779992833237; Thu, 28 May 2026
- 11:27:13 -0700 (PDT)
+	s=arc-20240116; t=1779997003; c=relaxed/simple;
+	bh=uYi1cIkltyYzOWijhyEqtEDkhi3PAqid2t/90eHgCCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6nKi7pGk7J/K0EEvgD50f0D3Z7qgITWOSOQK3C1AZ2wsXgAAUfMWXIrQUieAhLNN2NOK+nJk/SIJq7uCtpV0RLoxi1b4/alh4cc02E1Gnm98utipxstg+4VovBwCy2WYt4gIsBV9+mkkGV/ZRObuvUXmk2S6pewqdOSHG38SqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JRYMFMMU; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=8F0pWvXpBQ9tDTtRSJ6URm6g4dHDcnjjGX6VQLGXPyU=; b=JRYMFMMUmIt+Ltyl9sQbvX97s0
+	VD5j57l9FIq6bZcWQ1EA8YYtzEb8jUOSu/8fH/b3sQlj1QaB0x44GaBPtu54kC9Av3dPePcxl3D4A
+	43FDUmdVszYklFreqEVlN0De8B1nujQTrH5y2ar8ZqhIAvN2glKhvMyMprIAhMZARkir6P/qjsSzQ
+	kaolzBR1PT40+KzPSjEVD/X9dbuyi+JafqY19ukDe1QGkC4hrzlV9jG3iwc5T+1dn+z853w+1JN+o
+	/5pkqxjkyy7sTDODIoKT/ekB1z/gUnyq3u1QWM2ZulCTjl3jenUMU9GTVLV/xfn5shjyAsEQBBx4l
+	iwYCMWxQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wSgX0-00000004mIh-1Q3T;
+	Thu, 28 May 2026 19:36:38 +0000
+Date: Thu, 28 May 2026 20:36:38 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: Theodore Tso <tytso@mit.edu>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	Akilesh Kailash <akailash@google.com>,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+Message-ID: <ahiZRpE593n4blxn@casper.infradead.org>
+References: <ad30g9xMs9wNJhFb@infradead.org>
+ <ad_AVHe7RMnGrGTb@google.com>
+ <ad_HwhzlNPUEKQi6@casper.infradead.org>
+ <ag7HfNryTmQ-bVIS@infradead.org>
+ <20260521155748.GA79343@macsyma-wired.lan>
+ <ag_OVwPF49LSZ7rz@google.com>
+ <20260522141115.GA8258@macsyma-wired.lan>
+ <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan>
+ <ahTzHyHBL8t0iNBR@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528095235.2491226-1-me@linux.beauty>
-In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 28 May 2026 11:27:00 -0700
-X-Gmail-Original-Message-ID: <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
-X-Gm-Features: AVHnY4IbWwLdSkNuWrooNBUAlyUyrWFavzF9Z8DQApcFhZZC4EFwzAXsIa5vxFY
-Message-ID: <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-To: Li Chen <me@linux.beauty>
-Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, x86@kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahTzHyHBL8t0iNBR@google.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6448-lists,linux-api=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[infradead.org:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-6449-lists,linux-api=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@kernel.org,linux-api@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-api];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[willy@infradead.org,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux.beauty:email]
-X-Rspamd-Queue-Id: 77F295F646D
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 0B1795F73B8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, May 28, 2026 at 2:55=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
->
+On Tue, May 26, 2026 at 01:10:55AM +0000, Jaegeuk Kim wrote:
+> Background
+> ----------
+> The primary use case is accelerating AI model loading, which demands
+> exceptionally high sequential read speeds. In our benchmarks on embedded
+> systems:
+>  - Using high-order page allocations allows the system to saturate the
+>    Universal Flash Storage (UFS) bandwidth, reaching 4 GB/s even at
+>    medium-to-low CPU frequencies.
+>  - In contrast, standard small folios cap performance at 2 GB/s.
+> 
+> The performance doubling stems directly from reducing CPU cycle overhead during
+> memory allocation.
 
->
-> The template pins the executable and denies writes to that file while the
-> template fd is alive,
+When you say "AI model loading", are you mmap()ing the file of weights,
+or are you calling read() to load the file into anonymous memory?
 
-Please don't.  *Maybe* detect when it gets modified and clear your cache.
-
-Or develop a generic way to open a new fd that's an immutable view
-into an existing file such that the fd retains its contents even if
-the file changes.  (Think a reflink that's not persistent and has no
-name -- you'll need some way to avoid resource exhaustion.)
-
->
-> Workload     Calls  subprocess  spawn_template  time_s       Delta
-> (workers)    calls  calls/s     calls/s         seconds
-> 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
-> 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
-> 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
-> 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
-
-This is a lot of complexity in the kernel for a teeny tiny gain.
-
-I'm with Christian -- a better spawn API would be great (and much
-faster than fork/vfork + exec), but that's a different patch.
+This matters because for the first operation, you need to allocate folios
+of PMD size in order to make best use of TLB entries.  For the second
+operation, it's more important to iterate through the file quickly,
+freeing folios behind you after you access them so they're available
+for the next batch.
 
