@@ -1,49 +1,49 @@
-Return-Path: <linux-api+bounces-6459-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6460-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WEoBAoIjGmow1wgAu9opvQ
-	(envelope-from <linux-api+bounces-6459-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 30 May 2026 01:38:42 +0200
+	id 8CMqK2oiGmow1wgAu9opvQ
+	(envelope-from <linux-api+bounces-6460-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 30 May 2026 01:34:02 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91960609DBD
-	for <lists+linux-api@lfdr.de>; Sat, 30 May 2026 01:38:40 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F938609C46
+	for <lists+linux-api@lfdr.de>; Sat, 30 May 2026 01:34:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 56B0230BD538
-	for <lists+linux-api@lfdr.de>; Fri, 29 May 2026 23:33:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4AB9B3047CA3
+	for <lists+linux-api@lfdr.de>; Fri, 29 May 2026 23:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 489D03C0A1B;
-	Fri, 29 May 2026 23:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A233CE0A4;
+	Fri, 29 May 2026 23:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgxEe0gX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuaWe6wP"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BAC3AD520;
-	Fri, 29 May 2026 23:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081463C4175;
+	Fri, 29 May 2026 23:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780097616; cv=none; b=S6I0AJxq5I13OzreztDUyqim1gv1jhvOzb19cVUMHBijQhMIo8F8iZrDn5wq3V4QDK502Ps2miaWAarpX0k6M6nM7m8rwVfUCPk8XoF4TzN4w218mc2dgMl8U9EdAUfHt06yypNqlFm7F3hbdOUf7lXVIx+IynYIWQs41+MYFvo=
+	t=1780097619; cv=none; b=JOAimEJrvb2Sn9Ie3XW/9BySQXPl3HO+v69K4joYKIM15MNN+EKEuCaB70Hy8M8tQ595+wM37OSSpsc79qcaOEiYTmtRlucoK5MTC8ujPXk/umnaTs6ybKmBo5v9anvIQx37kLO2LtpavT/BB64Nc7foVTlOZsbOcbWkfSn1Z04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780097616; c=relaxed/simple;
-	bh=BXuton25+wrRyNf6kcvAwZfC9LtOjTxpIBFNGQhiigE=;
+	s=arc-20240116; t=1780097619; c=relaxed/simple;
+	bh=2rHH9RkBPAdA1LYbLNeJGK8f6QyepHAx4OuQGgfk0Lk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qtWw5pJrKl2dsL3nV8kXRo4pB++unTodCK/48G1NrMEhtHIFyUjhSe3SYW9VO03MDLjErEdenz1TzZeAV9A2ojLoFgk2xnMf5+g29123z2mi4fm8VqiSPHMDuzq1QuLK3MvDoS5oYSfZsYR3IOPazpDkgSdirLANup7NV4H3vhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgxEe0gX; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082241F00893;
-	Fri, 29 May 2026 23:33:30 +0000 (UTC)
+	 MIME-Version; b=nXU1eTyZIRv5kQarWbDP2KjeCtJO3Emhx+0bnW+uj+xoZuUNPA3DR0KJfQcntNT5Mk4K3TocA2r3W87/1ts/K2+VpTun1SYqbxGEW02AD4hXNaGGbaPjP8kPg7jrQqHnxtVG+ZtCbcQUmxZ1v70QHPRCDrKCB8t9P8oCZ12rchM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuaWe6wP; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15EF51F00899;
+	Fri, 29 May 2026 23:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780097613;
-	bh=3CKngsHKDWiJtDMO/YQEWNXIkDdDnJnlTzZ2AENHZK0=;
+	s=k20260515; t=1780097616;
+	bh=E3u9cvFswo9c3xL9UMepXjBERlNyUcSduDWuYNWUIQo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kgxEe0gXH9saWo+Iu6DFSfLSqFV57LdMxj55kufvGFw3nw/CPjt/M7B6wHHb7/kNb
-	 77u3A7VfIZJaARkIOgaESRqhZzEuyGM7LkesvQOsgL/M9+o9XZlvztA9B+fUoHzKJZ
-	 RuW9KEgkVUvSsAgRBlQvAF/TyVg9q95U0IMkLPon+lojjd6XTvVUaTFeIgBJgiPapJ
-	 z0A48LLuim5nwnATWR4mIJ7HQogrwsfK2LsoSa/foIxbJARaJKSMi+cFMaqbxPcQQ9
-	 pnF6gSX0P8Ls4TL6Jt3tOb1w5l2AUTQgzhmleKys02AiI6zLRVYo9NWjcjcc0EU9q4
-	 8FUZBD42bgQVA==
+	b=KuaWe6wPOoM6kU+gAgsr7tlcYh8hRGSMOtAmMqIksn1nOcw5Is9XdslsVmaxBbUif
+	 wQr8obhrl4VEwz6IftZoV2tZZyNCtsrp0OJK6SCnT5Ny5p5dGoKyAGVlymn6ItewVU
+	 HXru2AVN/XG/8ldWTVUYfzbtATdVEpELLL91MqJAP3RI3U4U+MRbPt1xhHUzv55xuE
+	 hfcU4Ufd61YMPTwy/uautmgNQvujn6Y8wcKRyB7A6bDnoQrCtFc/e3UlgBqtZlnXid
+	 Mw44EDkw2fXGwUIPXIKqvpRsXyTPCb27IDK0dPkNYKju3IGbStYmTNEZ+F+v+qCIi3
+	 A4W6eV90UiG3w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -76,9 +76,9 @@ Cc: linux-doc@vger.kernel.org,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v4 06/11] kernel/api: add API specification for sys_close
-Date: Fri, 29 May 2026 19:33:05 -0400
-Message-ID: <20260529233311.1901670-7-sashal@kernel.org>
+Subject: [PATCH v4 07/11] kernel/api: add API specification for sys_read
+Date: Fri, 29 May 2026 19:33:06 -0400
+Message-ID: <20260529233311.1901670-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260529233311.1901670-1-sashal@kernel.org>
 References: <20260529233311.1901670-1-sashal@kernel.org>
@@ -96,14 +96,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de,goodmis.org,efficios.com];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[31];
-	TAGGED_FROM(0.00)[bounces-6459-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6460-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -116,278 +116,336 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 91960609DBD
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 7F938609C46
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add KAPI-annotated kerneldoc for the sys_close system call in fs/open.c.
+Add KAPI-annotated kerneldoc for the sys_read system call in
+fs/read_write.c.
 
-The specification documents the file descriptor parameter, error
-conditions, locking requirements, side effects on pending I/O, and
-the close-on-exec relationship.
+The specification documents parameter constraints (fd, user buffer,
+count), error conditions, locking requirements, signal handling
+behavior, and short read semantics.
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/open.c | 244 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 244 insertions(+)
+ fs/read_write.c | 301 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 301 insertions(+)
 
-diff --git a/fs/open.c b/fs/open.c
-index 61573d5abda00..24f6bd5e50090 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -1808,6 +1808,250 @@ EXPORT_SYMBOL(filp_close);
-  * releasing the fd. This ensures that one clone task can't release
-  * an fd while another clone is opening it.
-  */
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 50bff7edc91f3..1a5dd11a0f3ed 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -721,6 +721,307 @@ ssize_t ksys_read(unsigned int fd, char __user *buf, size_t count)
+ 	return ret;
+ }
+ 
 +/**
-+ * sys_close - Close a file descriptor
-+ * @fd: The file descriptor to close
++ * sys_read - Read data from a file descriptor
++ * @fd: File descriptor to read from
++ * @buf: User-space buffer to read data into
++ * @count: Maximum number of bytes to read
 + *
-+ * long-desc: Terminates access to an open file descriptor, releasing the file
-+ *   descriptor for reuse by subsequent open(), dup(), or similar syscalls.
++ * long-desc: Attempts to read up to count bytes from file descriptor fd into
++ *   the buffer starting at buf. For seekable files (regular files, block
++ *   devices), the read begins at the current file offset, and the file offset
++ *   is advanced by the number of bytes read. For non-seekable files (pipes,
++ *   FIFOs, sockets, character devices), the file offset is not used.
 + *
-+ *   Traditional POSIX advisory record locks held by the process on the
-+ *   associated file are released (note: POSIX locks are released when ANY fd
-+ *   for that inode is closed by the process, not just the last one). OFD locks
-+ *   and flock locks are associated with the open file description and are only
-+ *   released when the last file descriptor referring to that open file
-+ *   description is closed.
-+ *   When this is the last file descriptor
-+ *   referring to the underlying open file description, associated resources are
-+ *   freed. If the file was previously unlinked, the file itself is deleted when
-+ *   the last reference is closed.
++ *   If count is zero and fd refers to a regular file, read() may detect errors
++ *   as described below. In the absence of errors, or if read() does not check
++ *   for errors, a read() with a count of 0 returns zero and has no other effects.
 + *
-+ *   CRITICAL: The file descriptor is ALWAYS closed, even when close() returns
-+ *   an error. This differs from POSIX semantics where the state of the file
-+ *   descriptor is unspecified after EINTR. On Linux, the fd is released early
-+ *   in close() processing before flush operations that may fail. Therefore,
-+ *   retrying close() after an error return is DANGEROUS and may close an
-+ *   unrelated file descriptor that was assigned to another thread.
++ *   On success, the number of bytes read is returned (zero indicates end of
++ *   file for regular files). It is not an error if this number is smaller than
++ *   the number of bytes requested; this may happen because fewer bytes are
++ *   actually available right now (maybe because we were close to end-of-file,
++ *   or because we are reading from a pipe, socket, or terminal), or because
++ *   read() was interrupted by a signal.
 + *
-+ *   Errors returned from close() (EIO, ENOSPC, EDQUOT) indicate that the final
-+ *   flush of buffered data failed. These errors commonly occur on network
-+ *   filesystems like NFS when write errors are deferred to close time. A
-+ *   successful return from close() does NOT guarantee that data has been
-+ *   successfully written to disk; the kernel uses buffer cache to defer writes.
-+ *   To ensure data persistence, call fsync() before close().
++ *   On Linux, read() transfers at most MAX_RW_COUNT (0x7ffff000, approximately
++ *   2GB) bytes per call, regardless of whether the filesystem would allow more.
++ *   This is to avoid issues with signed arithmetic overflow on 32-bit systems.
 + *
-+ *   Note that close() does not affect the close-on-exec flag set via
-+ *   fcntl(fd, F_SETFD, FD_CLOEXEC) or O_CLOEXEC on other file descriptors.
-+ *   The close-on-exec flag only causes automatic close during exec(), not
-+ *   during explicit close() calls.
-+ *
-+ *   On close, the following cleanup operations are performed: POSIX advisory
-+ *   locks are removed, dnotify registrations are cleaned up, the file is
-+ *   flushed to storage if applicable, and the file
-+ *   reference is released. If this was the last reference, additional cleanup
-+ *   includes: fsnotify close notification, epoll cleanup, flock and lease
-+ *   removal, FASYNC cleanup, and the file structure deallocation.
++ *   POSIX allows reads that are interrupted after reading some data to either
++ *   return -1 (with errno set to EINTR) or return the number of bytes already
++ *   read. Linux follows the latter behavior: if data has been read before a
++ *   signal arrives, the call returns the bytes read rather than failing.
 + *
 + * contexts: process, sleepable
 + *
 + * param: fd
 + *   type: fd, input
 + *   constraint-type: range(0, INT_MAX)
-+ *   cdesc: Must be a valid, open file descriptor for the current process.
-+ *     The value 0, 1, or 2 (stdin, stdout, stderr) may be closed like any other
-+ *     fd, though this is unusual and may cause issues with libraries that assume
-+ *     these descriptors are valid. The parameter is unsigned int to match kernel
-+ *     file descriptor table indexing, but values exceeding INT_MAX are effectively
-+ *     invalid due to internal checks.
++ *   cdesc: Must be a valid, open file descriptor with read permission.
++ *     The file must have been opened with O_RDONLY or O_RDWR. Special values
++ *     like AT_FDCWD are not valid. File descriptors for directories return
++ *     EISDIR. Standard file descriptors 0 (stdin), 1 (stdout), 2 (stderr) are
++ *     valid if open and readable.
++ *
++ * param: buf
++ *   type: user_ptr, output
++ *   constraint-type: buffer(2)
++ *   cdesc: Must point to a valid, writable user-space memory region of at
++ *     least count bytes. The buffer is validated via access_ok() before any
++ *     read operation. NULL is invalid and will return EFAULT. The buffer may
++ *     be partially written if an error occurs mid-read. For O_DIRECT reads,
++ *     the buffer may need to be aligned to the filesystem's block size (varies
++ *     by filesystem, check via statx() with STATX_DIOALIGN).
++ *
++ * param: count
++ *   type: uint, input
++ *   constraint-type: range(0, SIZE_MAX)
++ *   cdesc: Maximum number of bytes to read. Clamped internally to
++ *     MAX_RW_COUNT (INT_MAX & PAGE_MASK, approximately 0x7ffff000 bytes) to
++ *     prevent signed overflow issues. A count of 0 returns immediately with 0
++ *     without accessing the file (but may still detect errors). Large values
++ *     are not errors but will be clamped. Cast to ssize_t must not be negative.
 + *
 + * return:
 + *   type: int
-+ *   check-type: exact
-+ *   success: 0
-+ *   desc: Returns 0 on success. On error, returns a negative error code.
-+ *     IMPORTANT: Even when an error is returned, the file descriptor is still
-+ *     closed and must not be used again. The error indicates a problem with
-+ *     the final flush operation, not that the fd remains open.
++ *   check-type: range
++ *   success: >= 0
++ *   desc: On success, returns the number of bytes read (non-negative). Zero
++ *     indicates end-of-file (EOF) for regular files, or no data available
++ *     from a device that does not block. The return value may be less than
++ *     count if fewer bytes were available (short read). Partial reads are
++ *     not errors. On error, returns a negative error code.
 + *
 + * error: EBADF, Bad file descriptor
-+ *   desc: The file descriptor fd is not a valid open file descriptor, or was
-+ *     already closed. This is the only error that indicates the fd was NOT
-+ *     closed (because it was never open to begin with). Occurs when fd is out
-+ *     of range, has no file assigned, or was already closed.
++ *   desc: fd is not a valid file descriptor, or fd was not opened for reading.
++ *     This includes file descriptors opened with O_WRONLY, O_PATH, or file
++ *     descriptors that have been closed. Also returned if the file structure
++ *     does not have FMODE_READ set.
++ *
++ * error: EFAULT, Bad address
++ *   desc: buf points outside the accessible address space. The buffer address
++ *     failed access_ok() validation. Can also occur if a fault happens during
++ *     copy_to_user() when transferring data to user space after the read
++ *     completes in kernel space.
++ *
++ * error: EINVAL, Invalid argument
++ *   desc: Returned in several cases: (1) The file descriptor refers to an
++ *     object that is not suitable for reading (no read or read_iter method).
++ *     (2) The file was opened with O_DIRECT and the buffer alignment, offset,
++ *     or count does not meet the filesystem's alignment requirements. (3) For
++ *     timerfd file descriptors, the buffer is smaller than 8 bytes. (4) The
++ *     count argument, when cast to ssize_t, is negative.
++ *
++ * error: EISDIR, Is a directory
++ *   desc: fd refers to a directory. Directories cannot be read using read();
++ *     use getdents64() instead. This error is returned by the generic_read_dir()
++ *     handler installed for directory file operations.
++ *
++ * error: EAGAIN, Resource temporarily unavailable
++ *   desc: fd refers to a file (pipe, socket, device) that is marked non-blocking
++ *     (O_NONBLOCK) and the read would block. Also returned with IOCB_NOWAIT
++ *     when data is not immediately available. Equivalent to EWOULDBLOCK.
++ *     The application should retry the read later or use select/poll/epoll.
++ *
++ * error: EWOULDBLOCK, Operation would block
++ *   desc: Alias of EAGAIN on Linux (identical errno value). POSIX permits
++ *     implementations to distinguish the two; Linux does not. Listed here
++ *     for completeness so tooling that consults the spec does not treat
++ *     EWOULDBLOCK-returning call sites as undocumented. See EAGAIN above
++ *     for the conditions that trigger it.
 + *
 + * error: EINTR, Interrupted system call
-+ *   desc: The flush operation was interrupted by a signal before completion.
-+ *     This occurs when the close-time flush operation (e.g., on NFS) performs an
-+ *     interruptible wait that receives a signal. IMPORTANT: Despite this error,
-+ *     the file descriptor IS closed and must not be used again. This error
-+ *     is generated by converting kernel-internal restart codes (ERESTARTSYS,
-+ *     ERESTARTNOINTR, ERESTARTNOHAND, ERESTART_RESTARTBLOCK) to EINTR because
-+ *     restarting the syscall would be incorrect once the fd is freed.
++ *   desc: The call was interrupted by a signal before any data was read. This
++ *     only occurs if no data has been transferred; if some data was read before
++ *     the signal, the call returns the number of bytes read. The caller should
++ *     typically restart the read.
 + *
-+ * error: EIO, I/O error
-+ *   desc: An I/O error occurred during the flush of buffered data to the
-+ *     underlying storage. This typically indicates a hardware error, network
-+ *     failure on NFS, or other storage system error. The file descriptor is
-+ *     still closed. Previously buffered write data may have been lost.
++ * error: EIO, Input/output error
++ *   desc: A low-level I/O error occurred. For regular files, this typically
++ *     indicates a hardware error on the storage device, a filesystem error,
++ *     or a network filesystem timeout. For terminals, this may indicate the
++ *     controlling terminal has been closed for a background process.
 + *
-+ * error: ENOSPC, No space left on device
-+ *   desc: There was insufficient space on the storage device to flush buffered
-+ *     writes. This is common on NFS when the server runs out of space between
-+ *     write() and close(). The file descriptor is still closed.
++ * error: EOVERFLOW, Value too large for defined data type
++ *   desc: The file position plus count would exceed LLONG_MAX. Also returned
++ *     when reading from certain files (e.g., some /proc files) where the file
++ *     position would overflow. For files without FOP_UNSIGNED_OFFSET flag,
++ *     negative file positions are not allowed.
 + *
-+ * error: EDQUOT, Disk quota exceeded
-+ *   desc: The user's disk quota was exceeded while attempting to flush buffered
-+ *     writes. Common on NFS when quota is exceeded between write() and close().
-+ *     The file descriptor is still closed.
++ * error: ENOBUFS, No buffer space available
++ *   desc: Returned when reading from pipe-based watch queues (CONFIG_WATCH_QUEUE)
++ *     when the buffer is too small to hold a complete notification, or when
++ *     reading packets from pipes with PIPE_BUF_FLAG_WHOLE set.
 + *
-+ * lock: files->file_lock
-+ *   type: spinlock
-+ *   acquired: true
-+ *   released: true
-+ *   desc: Acquired via file_close_fd() to atomically lookup and remove the fd
-+ *     from the file descriptor table. Held only during the table manipulation;
-+ *     released before flush and final cleanup operations. This ensures that
-+ *     another thread cannot allocate the same fd number while close is in
-+ *     progress.
++ * error: ERESTARTSYS, Restart system call (internal)
++ *   desc: Internal error code indicating the syscall should be restarted. This
++ *     is typically translated to EINTR if SA_RESTART is not set on the signal
++ *     handler, or the syscall is transparently restarted if SA_RESTART is set.
++ *     User space should not see this error code directly.
 + *
-+ * lock: file->f_lock
-+ *   type: spinlock
-+ *   acquired: true
-+ *   released: true
-+ *   desc: Acquired during epoll cleanup (eventpoll_release_file) and dnotify
-+ *     cleanup to safely unlink the file from monitoring structures. May also
-+ *     be acquired during lock context operations.
++ * error: EACCES, Permission denied
++ *   desc: The security subsystem (LSM such as SELinux or AppArmor) denied
++ *     the read operation via security_file_permission(). This can occur even
++ *     if the file was successfully opened, as LSM policies may enforce per-
++ *     operation checks.
 + *
-+ * lock: ep->mtx
++ * error: EPERM, Operation not permitted
++ *   desc: Returned by fanotify permission events (CONFIG_FANOTIFY_ACCESS_PERMISSIONS)
++ *     when a user-space fanotify listener denies the read operation via
++ *     fsnotify_file_area_perm().
++ *
++ * error: ENODATA, No data available
++ *   desc: Returned when reading from files backed by fscache/cachefiles
++ *     and the requested data range is not available in the cache
++ *     (e.g., beyond EOF or in an uncached region). Also returned by
++ *     some filesystem-specific read handlers (e.g., xattr reads).
++ *
++ * error: EOPNOTSUPP, Operation not supported
++ *   desc: Returned when the file descriptor does not support the read
++ *     operation, such as reading from certain special files or when the
++ *     filesystem does not implement read for this file type.
++ *
++ * lock: file->f_pos_lock
 + *   type: mutex
-+ *   acquired: true
++ *   acquired: conditional
 + *   released: true
-+ *   desc: Acquired during epoll cleanup if the file was monitored by epoll.
-+ *     Used to safely remove the file from epoll interest lists.
++ *   desc: For regular files that require atomic position updates (FMODE_ATOMIC_POS),
++ *     the f_pos_lock mutex is acquired by fdget_pos() at syscall entry and released
++ *     by fdput_pos() at syscall exit. This serializes concurrent reads that share
++ *     the same file description. Not acquired for files opened with FMODE_STREAM
++ *     (pipes, sockets) or when the file is not shared.
 + *
-+ * lock: flc_lock
-+ *   type: spinlock
-+ *   acquired: true
++ * lock: Filesystem-specific locks
++ *   type: custom
++ *   acquired: conditional
 + *   released: true
-+ *   desc: File lock context spinlock, acquired during locks_remove_file() to
-+ *     safely remove POSIX, flock, and lease locks associated with the file.
++ *   desc: The filesystem's read_iter or read method may acquire additional locks.
++ *     For regular files, this typically includes the inode's i_rwsem for certain
++ *     operations. For pipes, the pipe->mutex is acquired. For sockets, socket
++ *     lock is acquired. These are internal to the file operation and released
++ *     before return.
 + *
-+ * signal: pending_signals
++ * lock: RCU read-side
++ *   type: rcu
++ *   acquired: conditional
++ *   released: true
++ *   desc: Held transiently during file descriptor table lookup within fdget().
++ *     The RCU read lock is acquired and released internally by the fd lookup
++ *     path, not held across the entire syscall. fdput() releases the file
++ *     reference count, not the RCU lock.
++ *
++ * signal: Any signal
 + *   direction: receive
 + *   action: return
-+ *   condition: When close-time flush performs interruptible wait
-+ *   desc: If the close-time flush operation (e.g., on NFS) performs an
-+ *     interruptible wait and a signal is pending, the wait is interrupted.
-+ *     Any kernel restart codes are converted to EINTR since close cannot be
-+ *     restarted after the fd is freed.
++ *   condition: When blocked waiting for data on interruptible operations
++ *   desc: The syscall may be interrupted by signals while waiting for data to
++ *     become available (pipes, sockets, terminals) or waiting for locks. If
++ *     interrupted before any data is read, returns -EINTR or -ERESTARTSYS.
++ *     If data has already been read, returns the number of bytes read.
 + *   errno: -EINTR
 + *   timing: during
-+ *   restartable: no
++ *   restartable: yes
 + *
-+ * side-effect: resource_destroy | irreversible
-+ *   target: File descriptor table entry
-+ *   desc: The file descriptor is removed from the process's file descriptor
-+ *     table, making the fd number available for reuse by subsequent open(),
-+ *     dup(), or similar calls. This occurs BEFORE any flush or cleanup that
-+ *     might fail, making the operation irreversible regardless of return value.
-+ *   condition: Always (when fd is valid)
-+ *   reversible: no
-+ *
-+ * side-effect: lock_release
-+ *   target: POSIX advisory locks, OFD locks, flock locks
-+ *   desc: All advisory locks held on the file by this process are removed.
-+ *     POSIX locks are removed via locks_remove_posix() during filp_flush().
-+ *     All lock types (POSIX, OFD, flock) are removed via locks_remove_file()
-+ *     during __fput() when this is the last reference.
-+ *   condition: File has FMODE_OPENED and !(FMODE_PATH)
-+ *   reversible: no
-+ *
-+ * side-effect: resource_destroy
-+ *   target: File leases
-+ *   desc: Any file leases held on the file are removed during locks_remove_file()
-+ *     when this is the last reference to the open file description.
-+ *   condition: File had leases and this is the last close
++ * side-effect: file_position
++ *   target: file->f_pos
++ *   condition: For seekable files when read succeeds (returns > 0)
++ *   desc: The file offset (f_pos) is advanced by the number of bytes read.
++ *     For stream files (FMODE_STREAM such as pipes and sockets), the offset
++ *     is not used or modified. The offset update is protected by f_pos_lock
++ *     when the file is shared between threads/processes.
 + *   reversible: no
 + *
 + * side-effect: modify_state
-+ *   target: dnotify registrations
-+ *   desc: Directory notification (dnotify) registrations associated with this
-+ *     file are cleaned up via dnotify_flush(). This only applies to directories.
-+ *   condition: File is a directory with dnotify registrations
++ *   target: inode access time (atime)
++ *   condition: When read succeeds and O_NOATIME is not set
++ *   desc: Updates the file's access time (atime) via touch_atime(). The update
++ *     may be suppressed by mount options (noatime, relatime), the O_NOATIME
++ *     flag, or if the filesystem does not support atime. Relatime only updates
++ *     atime if it is older than mtime or ctime, or more than a day old.
 + *   reversible: no
 + *
 + * side-effect: modify_state
-+ *   target: epoll interest lists
-+ *   desc: If the file was being monitored by epoll instances, it is removed
-+ *     from those interest lists via eventpoll_release().
-+ *   condition: File was added to epoll instances
++ *   target: task I/O accounting
++ *   condition: Always
++ *   desc: Updates the current task's I/O accounting statistics. The rchar field
++ *     (read characters) is incremented by bytes read via add_rchar() only on
++ *     successful reads (ret > 0). The syscr field (syscall read count) is
++ *     incremented unconditionally via inc_syscr(). These statistics are visible
++ *     in /proc/[pid]/io.
 + *   reversible: no
 + *
-+ * side-effect: filesystem
-+ *   target: Buffered data
-+ *   desc: Any buffered data is flushed if applicable (e.g., on NFS). This
-+ *     attempts to write any buffered data to storage
-+ *     and may return errors (EIO, ENOSPC, EDQUOT) if the flush fails. The
-+ *     success of this flush is NOT guaranteed even with a 0 return; use
-+ *     fsync() before close() to ensure data persistence.
-+ *   condition: File was opened for writing and has buffered data
++ * side-effect: modify_state
++ *   target: fsnotify events
++ *   condition: When read returns > 0
++ *   desc: Generates an FS_ACCESS fsnotify event via fsnotify_access() allowing
++ *     inotify, fanotify, and dnotify watchers to be notified of the read. This
++ *     occurs after data transfer completes successfully.
 + *   reversible: no
 + *
-+ * side-effect: free_memory
-+ *   target: struct file and related structures
-+ *   desc: When this is the last reference to the file, the file structure is
-+ *     freed and the dentry and mount references are released.
-+ *   condition: This is the last reference to the file
-+ *   reversible: no
++ * capability: CAP_DAC_OVERRIDE
++ *   type: bypass_check
++ *   allows: Bypass discretionary access control on read permission
++ *   without: Standard DAC checks are enforced
++ *   condition: Checked at open time via inode_permission(), not during read()
 + *
-+ * side-effect: filesystem
-+ *   target: Unlinked file deletion
-+ *   desc: If the file was previously unlinked (deleted) but kept open, closing
-+ *     the last reference causes the actual file data to be removed from the
-+ *     filesystem and the inode to be freed.
-+ *   condition: File was unlinked and this is the last reference
-+ *   reversible: no
++ * capability: CAP_DAC_READ_SEARCH
++ *   type: bypass_check
++ *   allows: Bypass read permission checks on regular files
++ *   without: Must have read permission on file
++ *   condition: Checked at open time via inode_permission(), not during read()
 + *
-+ * state-trans: file_descriptor
-+ *   from: open
-+ *   to: closed/free
-+ *   condition: Valid fd passed to close
-+ *   desc: The file descriptor transitions from open (usable) to closed (invalid).
-+ *     The fd number becomes available for reuse. This transition occurs early
-+ *     in close() processing, before any operations that might fail.
++ * constraint: MAX_RW_COUNT
++ *   desc: The count parameter is silently clamped to MAX_RW_COUNT (INT_MAX &
++ *     PAGE_MASK, approximately 2GB minus one page) to prevent integer overflow
++ *     in internal calculations. This is transparent to the caller; the syscall
++ *     succeeds but reads at most MAX_RW_COUNT bytes.
++ *   expr: actual_count = min(count, MAX_RW_COUNT)
 + *
-+ * state-trans: file_reference_count
-+ *   from: n
-+ *   to: n-1 (or freed if n was 1)
-+ *   condition: Always on successful fd lookup
-+ *   desc: The file's reference count is decremented. If this was the last
-+ *     reference, the file is fully cleaned up and freed.
++ * constraint: File must be open for reading
++ *   desc: The file descriptor must have been opened with O_RDONLY or O_RDWR.
++ *     Files opened with O_WRONLY or O_PATH cannot be read and return EBADF.
++ *     The file must have both FMODE_READ and FMODE_CAN_READ flags set.
++ *   expr: (file->f_mode & FMODE_READ) && (file->f_mode & FMODE_CAN_READ)
 + *
-+ * constraint: File Descriptor Reuse Race
-+ *   desc: Because the fd is freed early in close() processing, another thread
-+ *     may receive the same fd number from a concurrent open() before close()
-+ *     returns. Applications must not retry close() after an error return, as
-+ *     this could close an unrelated file opened by another thread.
-+ *   expr: After close(fd) returns (even with error), fd is invalid
++ * examples: n = read(fd, buf, sizeof(buf));  // Basic read
++ *   n = read(STDIN_FILENO, buf, 1024);  // Read from stdin
++ *   while ((n = read(fd, buf, 4096)) > 0) { process(buf, n); }  // Read loop
++ *   if (read(fd, buf, count) == 0) { handle_eof(); }  // Check for EOF
 + *
-+ * examples: close(fd);  // Basic usage - ignore errors (common but not ideal)
-+ *   if (close(fd) == -1) perror("close");  // Log errors for debugging
-+ *   fsync(fd); close(fd);  // Ensure data persistence before closing
++ * notes: The behavior of read() varies significantly depending on the type of
++ *   file descriptor:
 + *
-+ * notes: The fd is always freed regardless of the return value. POSIX
-+ *   specifies that on EINTR the state of the fd is unspecified, but Linux
-+ *   always closes it. Retrying close() after an error may close an unrelated
-+ *   fd that was reassigned by another thread, so callers should never retry.
++ *   - Regular files: Reads from current position, advances position, returns 0
++ *     at EOF. Short reads are rare but possible near EOF or on signal.
 + *
-+ *   Error codes like EIO, ENOSPC, and EDQUOT indicate that previously buffered
-+ *   writes may have failed to reach storage. These errors are particularly
-+ *   common on NFS where write errors are often deferred to close time.
++ *   - Pipes and FIFOs: Blocking by default. Returns available data (up to count)
++ *     or blocks until data is available. Returns 0 when all writers have closed.
++ *     O_NONBLOCK returns EAGAIN when empty instead of blocking.
 + *
-+ *   Calling close() on a file descriptor while another thread is using it
-+ *   (e.g., in a blocking read() or write()) does not interrupt the blocked
-+ *   operation. The blocked operation continues on the underlying file and
-+ *   may complete even after close() returns.
++ *   - Sockets: Similar to pipes. Specific behavior depends on socket type and
++ *     protocol. MSG_* flags can be specified via recv() for more control.
++ *
++ *   - Terminals: Line-buffered in canonical mode; read returns when newline is
++ *     entered or buffer is full. Raw mode returns immediately when data available.
++ *     Special handling for signals (SIGINT on Ctrl+C, etc.).
++ *
++ *   - Device special files: Behavior is device-specific. Some devices support
++ *     seeking, others do not. Read size may be constrained by device.
++ *
++ *   Race condition: Concurrent reads from the same file description (not just
++ *   file descriptor) can race on the file position. Linux 3.14+ provides atomic
++ *   position updates for regular files via f_pos_lock, but applications should
++ *   use pread() for concurrent positioned reads.
++ *
++ *   O_DIRECT reads bypass the page cache and typically require aligned buffers
++ *   and positions. Alignment requirements are filesystem-specific; use statx()
++ *   with STATX_DIOALIGN (Linux 6.1+) to query. Unaligned O_DIRECT reads fail
++ *   with EINVAL on most filesystems.
++ *
++ *   For splice(2)-like zero-copy reads, consider using splice(), sendfile(),
++ *   or copy_file_range() instead of read() + write().
 + */
- SYSCALL_DEFINE1(close, unsigned int, fd)
+ SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
  {
- 	int retval;
+ 	return ksys_read(fd, buf, count);
 -- 
 2.53.0
 
