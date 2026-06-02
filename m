@@ -1,177 +1,205 @@
-Return-Path: <linux-api+bounces-6492-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6493-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id x21jN+7HHmo0VAAAu9opvQ
-	(envelope-from <linux-api+bounces-6492-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 02 Jun 2026 14:09:18 +0200
+	id g1OLH6EkH2pGiAAAu9opvQ
+	(envelope-from <linux-api+bounces-6493-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 02 Jun 2026 20:44:49 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FE362DDC0
-	for <lists+linux-api@lfdr.de>; Tue, 02 Jun 2026 14:09:18 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 844036312E1
+	for <lists+linux-api@lfdr.de>; Tue, 02 Jun 2026 20:44:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.beauty header.s=zmail header.b=Zlt3oNaR;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6492-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6492-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linux.beauty;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ZkPgGXeJ;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6493-lists+linux-api=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-api+bounces-6493-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 05269303A012
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jun 2026 12:08:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B951E300980D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jun 2026 18:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C76E3E073E;
-	Tue,  2 Jun 2026 12:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E643976BA;
+	Tue,  2 Jun 2026 18:44:43 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF2A3DB992;
-	Tue,  2 Jun 2026 12:07:58 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780402080; cv=pass; b=ZxRKpFL689MEwRM1y93fFlO0anmx9tan9NqO0HqrfCAIwCumlMLizf5B1Wbcl2XRVWYZqIX7Pmx3g417/tP6AO9vhGFKEaSgcTHKCLg9DawEEcccsqxp1p0/6IVLoylrOaL+/sC3KfxOPH2rg4oNhEGVHKReB0PN+XgtzykVDek=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780402080; c=relaxed/simple;
-	bh=JWIi1uV6HWE2nLc6dH198CdYDNMVn3Z0Z2egQXY7/C8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=KUidZidoXVaL1RVlcXYlDQ3Vy8r16HTRTsTHABttZGTIVhcw/K+tJKWKC5o34wsbexbEhg/vtDzMtyUCYcAYDzH5nO6DcxZ8sVOtjJk3vB08Q1WPjZWq0NzNv/N8XRBTMf0jFm6ue6KsW2fMku9jhi6D2Jm7IqWfLSI+FucK5NM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=Zlt3oNaR; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal: i=1; a=rsa-sha256; t=1780402044; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Ax36rWt1feL9QcFuFow0giDSRLuo68Ed+YUirk9L9RDYy5YcpVDvlnz+YDM5f92MgRMhVhOZQkyjDM0qb5fYftyvNVrXDy9dsNcd1+FHcDQOlBHVDmDO4OESlg4SXVguCtxbwSftXL5Ac06bmTfEN4u4M41hclFenHdAukEWlbM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1780402044; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Vk7eeniepcURlDwWgLQyxmjRbTq5rFiyu0fmscCWkm4=; 
-	b=hZcMijGfu7IeE4PygN1oZx6i45maA3Xjumto6BEFB8C9KC9Z0lClj24hK8CCx9dLqvYDZBCo6nc7+Dn1eRzMXA5yP7NylmEIJe61ow9kicins43ih4aBFbnp/fH5uoQK/8TgKgwwCij+W4H+Ip6ptlZ+PqR+GboIvnh1b2YoTik=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780402044;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Vk7eeniepcURlDwWgLQyxmjRbTq5rFiyu0fmscCWkm4=;
-	b=Zlt3oNaRQWUMWb62kC/65uEnsBoYbSOLSdu5qIGlqqsOfY0rg6uaPABoEEcjQH2L
-	MWZPJhxzl72HDznRw3AT+bR9LlTFss5C5Kz76bRbZcRLMZ5rwmRuJ7d2zZX5bmT3UDU
-	yQ42a4N+U3udh0jbwnmUpHnDrihBmpCWTDZ8yaBE=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1780402040732884.3207521738933; Tue, 2 Jun 2026 05:07:20 -0700 (PDT)
-Date: Tue, 02 Jun 2026 20:07:20 +0800
-From: Li Chen <me@linux.beauty>
-To: "Andy Lutomirski" <luto@kernel.org>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-mm" <linux-mm@kvack.org>,
-	"linux-arch" <linux-arch@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"x86" <x86@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
-	"Thomas Gleixner" <tglx@kernel.org>,
-	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-	"Dave Hansen" <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>
-Message-ID: <19e883b2f84.6134d346323880.1325813164715871999@linux.beauty>
-In-Reply-To: <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
-References: <20260528095235.2491226-1-me@linux.beauty> <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8678C3909A4;
+	Tue,  2 Jun 2026 18:44:42 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780425883; cv=none; b=T1/OP8ui6Tej0fsXje8xZUpjZiAKt3R8uebIWgW8ygSLxZDKzKhLlA3Wg55cU6lK1pmUrBJIdBxviT2VihhqpuPIVi+m7N+ycBQXArnq+oSUvrkxlTeCNkldeoKkQYgyaN6ybAMnY2g3RKVeqZk40jKQ3ByCFrYchKiUAgRK+iE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780425883; c=relaxed/simple;
+	bh=IAJgDRvTCvMXiiaxRtRemk9HFoGhIAzgZdjXk1Y3atU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ABS9ujdSL4kgrZKxQff3FWl0X4Xzq3ad+hlk/1V/NLA/uSq6Wo984EnRAXyNDaHUs6mKp6Zo2iLcoxrz6bT9ryTPM+cggLF3J0mTwHinPxttrT+ijHigmw7KQ0hJHD0dxIJR0QQCwtHmLfMp19zb/oShCKwBvKbIaNStTAuvO/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkPgGXeJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 883B11F00893;
+	Tue,  2 Jun 2026 18:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780425882;
+	bh=MLZpb/dBT6Cd/zdymSeQQn2ShIJqYaKuCdbAYTAgCEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZkPgGXeJhcybPoUrwoJsoHbVqWODRisiZEor43NouJ0EOonoHtL5ZjXT5z2iJq2OW
+	 GDChFmTvh0mNbkacQwKUaKroi/K5VuMWckc3qDOZkoGWloPBy/BiNDmIsaDfaEbVdt
+	 SJIvc7Zr/r1UimXiaMWvOVkDxmTPRqm5nQj0oHRrXQP3pz160C1TveVTP7t69+wX+y
+	 4XU2qNwckg8sNPBwiMTbYksGRjLuaZKd4WSdoPd/PXHbT4sUKt38KmcNBD0nQUxgYG
+	 yrp+jU8aG/MhN4ziuGvqzI6WZWvejPq1QXRH+RvSiAdjLWhsMCdLfqKnatMcOtteZT
+	 VzdugpvG6XUWg==
+Date: Tue, 2 Jun 2026 18:44:40 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-api@vger.kernel.org,
+	netdev@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
+	David Howells <dhowells@redhat.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260602184440.GB2503276@google.com>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV>
+ <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+ <821ed41e-5b2f-4d17-aeb2-71b0361f8e7f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <821ed41e-5b2f-4d17-aeb2-71b0361f8e7f@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.15 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[linux.beauty,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux.beauty:s=zmail];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6493-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:luto@kernel.org,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[me@linux.beauty,linux-api@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:david@kernel.org,m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ebiggers@kernel.org,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,goodmis.org,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6492-lists,linux-api=lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[me@linux.beauty,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.beauty:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ebiggers@kernel.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 76FE362DDC0
+X-Rspamd-Queue-Id: 844036312E1
 
-Hi Andy,
+On Tue, Jun 02, 2026 at 10:25:06AM +0200, David Hildenbrand (Arm) wrote:
+> On 6/2/26 02:28, Andrew Morton wrote:
+> > On Mon, 1 Jun 2026 16:04:55 -0400 Steven Rostedt <rostedt@goodmis.org> wrote:
+> > 
+> >> On Mon, 1 Jun 2026 18:33:25 +0100
+> >> Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >>
+> >>>
+> >>>
+> >>> FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> >>> Communications between the kernel and fuse server at least used to
+> >>> seriously want that, so that would be one place to look for unhappy
+> >>> userland...
+> >>>
+> >>> splice-related logics in fs/fuse/dev.c is interesting; another place
+> >>> like this is kernel/trace/, but I'm less familiar with that one.
+> >>>
+> >>> rostedt Cc'd (miklos already had been)
+> >>
+> >> Thanks for the Cc. The tracing ring buffer was specifically made to be used
+> >> by splice and the libtracefs has a lot of code to use it as well. As
+> >> reading the ring buffer literally swaps out the write portion with a blank
+> >> read portion, that portion (sub-buffer) is used to be directly fed into
+> >> splice, providing a zero-copy of the trace data from the write of the event
+> >> to going into a file.
+> >>
+> >> trace-cmd defaults to using splice to copy the tracing ring buffer directly
+> >> into files to avoid as much copying during live recordings as possible.
+> >>
+> >> Whatever changes we make, I would like to make sure there's no regressions
+> >> in performance of trace-cmd record.
+> > 
+> > Well yes, The patchset seems sensible from a quality POV.  But to make
+> > a decision we should first have a decent understanding of its downside
+> > impact.
+> 
+> I guess most (all?) of us ... dislike ... vmsplice(), so trying to remove it
+> entirely is certainly very appealing ...
+> 
+> > 
+> > I haven't seen a description of that impact in the discussion thus far.
+> > And that description is owed, please.
+> > 
+> > I assume a small number of specialized applications are using
+> > vmsplice() to great effect?  What are those applications?  What is the
+> > impact of this change?
+> 
+> 
+> I did some digging, and the kernel crypto API documents using splice/vmsplice
+> for zero-copy[1] and libkcapi [2].
+> 
+> I did not find performance numbers, how much vmsplice/splice actually gives us.
+> Playing with the kcapi-speed tool [3] (specifying --vmsplice vs. --sendmsg)
+> doesn't really reveal a big difference at least on my notebook. Not sure if the
+> parameters I specify are reasonable.
+> 
+> I don't know whether downgrading vmsplice to preadv2/pwritev2 would perform
+> significantly worse than sendmsg ... and I don't know what the default would
+> usually be (default to vmsplice or sendmsg). I might try finding some time to
+> play with it more, but I doubt it, so if anybody else has time ... :)
 
- ---- On Fri, 29 May 2026 02:27:00 +0800  Andy Lutomirski <luto@kernel.org>=
- wrote ---=20
- > On Thu, May 28, 2026 at 2:55=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
- > >
- >=20
- > >
- > > The template pins the executable and denies writes to that file while =
-the
- > > template fd is alive,
- >=20
- > Please don't.  *Maybe* detect when it gets modified and clear your cache=
-.
- >=20
- > Or develop a generic way to open a new fd that's an immutable view
- > into an existing file such that the fd retains its contents even if
- > the file changes.  (Think a reflink that's not persistent and has no
- > name -- you'll need some way to avoid resource exhaustion.)
+AF_ALG is a mistake and isn't commonly used.  Using a userspace crypto
+library is faster and is what almost everyone does anyway, as it avoids
+the syscall overhead.  There are many other issues with AF_ALG as well.
 
- I agree that deny-write is not a good long-term invalidation model. I had
- considered clear-cache-on-modify, but kept this RFC smaller.
+7.2 will mark AF_ALG as deprecated, mostly remove AF_ALG's zero-copy
+support, and remove AF_ALG's async I/O support:
 
- > >
- > > Workload     Calls  subprocess  spawn_template  time_s       Delta
- > > (workers)    calls  calls/s     calls/s         seconds
- > > 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
- > > 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
- > > 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
- > > 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
- >=20
- > This is a lot of complexity in the kernel for a teeny tiny gain.
- >=20
- > I'm with Christian -- a better spawn API would be great (and much
- > faster than fork/vfork + exec), but that's a different patch.
-=20
- Thanks, I agree. A pidfd/pidfs spawn builder looks like the much better AP=
-I shape.
+    https://lore.kernel.org/linux-crypto/20260430011544.31823-1-ebiggers@kernel.org/
+    https://lore.kernel.org/linux-crypto/20260504225328.25356-1-ebiggers@kernel.org/
+    https://lore.kernel.org/linux-crypto/20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com/
 
- The cover letter numbers were from a mixed agent-tool workload. For very s=
-hort
- single-tool runs I saw larger wins, about +14% for printf-style work.
- I should have called that out separately.
+In practice, the programs that are keeping Linux distros from disabling
+AF_ALG in their kconfig outright are just iwd, cryptsetup, and bluez.
+They use AF_ALG just because it was mistakenly thought to be easier than
+using a userspace crypto library.  They don't need maximum performance,
+nor do they use vmsplice, splice, or sendfile.
 
- I will work toward a pidfd_config-style builder next.
+There is other highly niche code out there that does implement the
+AF_ALG + vmsplice + splice thing, e.g. libkcapi.  But it's just not
+enough of a reason to keep zero-copy support, especially considering
+that AF_ALG has always been the wrong solution in the first place.  The
+fallback to copying the data is fine for this deprecated API.
 
-Regards,
-
-Li=E2=80=8B
-
+- Eric
 
