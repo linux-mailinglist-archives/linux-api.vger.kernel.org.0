@@ -1,86 +1,98 @@
-Return-Path: <linux-api+bounces-6534-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6535-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NjhzNhyRIWoiJAEAu9opvQ
-	(envelope-from <linux-api+bounces-6534-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 16:52:12 +0200
+	id d2Z1HKmhIWpYKQEAu9opvQ
+	(envelope-from <linux-api+bounces-6535-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 18:02:49 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA4A64115B
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 16:52:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40466641AB6
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 18:02:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux-foundation.org header.s=google header.b=R3eN1z2k;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6534-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6534-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=amacapital-net.20251104.gappssmtp.com header.s=20251104 header.b=Ki36pezf;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6535-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6535-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7E418307CCAC
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 14:39:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61A613041AA4
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 15:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5503347B439;
-	Thu,  4 Jun 2026 14:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A8723A9618;
+	Thu,  4 Jun 2026 15:53:31 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1B647ECC5
-	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 14:39:16 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780583958; cv=none; b=m1m8AN/7nHURTckny4FUTsJXx9rT6tHwwJUGi+Lx8iYto2bArSSMMw6AZgdUCDa1mkPM7aeYDaOYd+JVm0BIbSsIsMD2nGpPcIPibzVQVFzuTnUISTivfioHEU6ubLPoG0NdT+2KAnocVuAXKizo8nQfSjytTg8Jat1MDHpD6Sw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780583958; c=relaxed/simple;
-	bh=+HiAUq8B9doNx03/+UK5dzZU592ZQOyFYQ50hXTQNq4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724E73A3E74
+	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 15:53:29 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780588411; cv=pass; b=JPxN4rvZqjnGCgeYEqgdYgMz/Jxadxy2NyUVAq+FYKYAyosKJpPTY+ZuKidFrmTgRtpqpVIk1yqGmyZfbG1EKjhLEI0cyg0iJ/halqiJeadzjjLGlg9PsCrtutA9/6OsBp0nmW1s8rUjMDBrQ8qRPdXwVeXRh3Di9Ghdo/uIxPI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780588411; c=relaxed/simple;
+	bh=DHE3qIm1NUuqilEHDVEIKI0Gv9gNlT3AX89YAbcKkxE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xf/DKqk9JuHdYpfomW49vEpfTl0h5KSMZi8bx/M0o1KDUtDSiCalxkJtnPJ8OURT3dZq2ibCIgCYSSK8sCxFRDK7J6bhs/ipOzM8SAkgJBgSpyWzuE1VEe9VrOxM2BvOtj/f9ur+lISokVn8KfMzi8r7+uxhLdz9UwhU6/JoH9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=R3eN1z2k; arc=none smtp.client-ip=209.85.218.42
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bec3ffb95dbso128327166b.0
-        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 07:39:16 -0700 (PDT)
+	 To:Cc:Content-Type; b=ePOBgFihLf5GTixdZwIgovHAZ6dtvx8SjRTcUXwVFT+rpsPxePWvJpVZJISHRpI/H3lUG1z+qdAqkuzli3mYS3xS4p6ceTpdMpAi9BQsRQz8NUyWlnOE9bji5tXqtPfUPbFUqiy0xxkEvYc53kDGblriR6x5iEaIIf32nk25dnU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=Ki36pezf; arc=pass smtp.client-ip=209.85.208.182
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3967726bc47so8461281fa.1
+        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 08:53:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780588408; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GHlrU+08uZwT5z6OaSpI2UiWCWvEjaTIO2x0Fk2FPHMq37/UytlAOtvnz89KIOb2fE
+         lVGtkD53sm3SlLBVQ67PSu40go4iz3343LSdzXVjgDk+soHPKjOAjJzwIIHjYx2WreKP
+         3TggNDKZG+o0lDtvKgl34+hSe1LrNE3OsnPrXAGSfxyONYOFlopxqBAC4VlDdbR+u7JR
+         bRJcXzDSnXBsbdeHum/Z7gTKcR1qS1aokaSb1NDpKitf4NJyQ+uHboh1SzjcJwtgH4iv
+         AH2L0u2gRAQOQr28REp52+2FGwr3iH4T7+DWAaR8VZ7PhauWf4iRoHYXp96laBE9cfRp
+         DlPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B6H/bsprACHYwfP1VnZci/atvKi9rC7jAoAwzWHNDIk=;
+        fh=LIpSnNUqBTfdYsr8LNj1xohLzPXfdomZ0eKjB1gNO7U=;
+        b=RS0lOiJQgr7CLqEfvU54E00fs9fJh/mBsOmdBcT0Uby9VzV2+pVonhevUmi/FNZP7A
+         Q4sx3RzHMIpeKgvJvCv7QytGWwWjOr2V5h3qDO7WVRu99l4aaraWNa0NqasrBH7JaTOU
+         yvXDLbMD8G1QS//9H49HOjFQQJGD2umNYGwUoSVA8O8rfGlCa397kiY7aRJ0XiVofY4o
+         jamj4+iKye9RJQgZ/nY7NIVw0LwVTvXfh61CJOe8XpjqEYgc0opH0bYlo60ZVuzLGXa7
+         TdY87/DnsCVbw/bhCBr0c9VoRtUAQbESpmpPEbb2E0zXNILSV8YankbmBViqw4Jucicj
+         Zgtw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780583955; x=1781188755; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jHCD/usXrKJEgEC7iBTBFv6T3P+9p6Aw20cG/HazQio=;
-        b=R3eN1z2k7UviTNTtXTmms/tm421YGcPPTSlmw2GSLQRoyMsR0EKtB96190UFSI+1RA
-         ZJK6ntF40ileWLePrAMoVu+FwnNLZd6z/hAQUGwsTvrO2xP1d9ruJVcHiFRhLmxQ2Tdv
-         nebMib70cEA7Sd3g+/FNvlW3MER7KU/AVkzs8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780583955; x=1781188755;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1780588408; x=1781193208; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jHCD/usXrKJEgEC7iBTBFv6T3P+9p6Aw20cG/HazQio=;
-        b=mnDpk/hLiiSQGu9Hk3JgTJr+C0JryEVgAZld5k4tvcUT2QsSj12vxpAGfWj7k4KNuy
-         bbrOhS57W3afHkDfghOlem+SrTVp0O+fjiXz4pZevOVuUKjtMS9ARM12VaC+uptEAqnA
-         FylBy4bVD6cTLgm5qgK4ybIk8r024VwYAPWMYXebgympKYeYSiV6yZb2KMrPtZd94PwZ
-         I+iXEYd8hDMD9JCB3W0PwTri/gI3AXqABa0h4NzVp7NcbJLIzGsip0fVWuuvU0cvw05Z
-         2ZtWVJ588TRkBYseXQ8Z5XVx38/7uaNmml/Cq68lIUGwyZdWG+Ty2h9xrmdE95O5ft3S
-         upiw==
-X-Forwarded-Encrypted: i=1; AFNElJ8XySuCbZlYGyLmICMMlCPyUY0Pw+8URCdzRoUCwUyZLZ8wDGBTPNwxFAu1OVah7SwUUXGzbXJV9hE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx70Bbe8S80ASpLKAciq20Po78SK+Gttfevf5RyfFNNb3bC25Vj
-	LJrvtkSMJ5QGZaIrOgA/nYjZjkVNwG9775+ZzzDImGMTaiMcNiJ0jI/yY/NldB3flDgcTnnjB42
-	41I8tHwuqGQ==
-X-Gm-Gg: Acq92OFZbwVgFPoMmSXY2yhG3IZ+CGlR9eKIq+8E8XSF4Mq1yTND++ZKEXxfo3BzLZG
-	yXHvIEV9YH/6P6OWr7j5hhUjTpW+2HotiHEXIdsvyJ6zPFrInAO1QPdbOFRrpvm7cawo+2w4ysF
-	d1LfYJEm4q+NfXN5M+aAPB1OMBm8AJfpNWvo8SyiyvPhhC7fclrbwQm7hn4g0dGOZsU1rThLnh1
-	0QI/E60aiUvrn69IM6o8nX9mPrbvevDw7uFem/bfnzxr2ukfaX2sfsTNFOBdt1nKSk5SEVbletS
-	4IhPJh/k2/UU8EdgWtPe2IgfUFcpXCE+AqntzOPWGIJUYKyBvocGG269+dizmn7oYFG3OjQ74Xg
-	5/VehXeLSn649egkO4Dn2nD+qrax0GbPSl+1bpT2+QDu1pXwK09Cg8/dMIN3lgTGOcJAX5lDA/d
-	q1cIVVGbLr6AA/Wi1rPn73OYPnXC5bG7J/nEg2EpbB+gP+ZTZgFmMfAFVTa9ifyBaRjXHL0ZnK6
-	6d1fj6e6Bc=
-X-Received: by 2002:a17:907:28c6:b0:bd5:18e8:1ac1 with SMTP id a640c23a62f3a-bf0ac4022bdmr302664866b.5.1780583955053;
-        Thu, 04 Jun 2026 07:39:15 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0559f1ac0sm312943266b.62.2026.06.04.07.39.14
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 07:39:14 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bdb3fd39045so102370266b.3
-        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 07:39:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/BAkELIfCOs13+MgUhxlTpyMFfnrGoZl93DTzdYuBhkHbpXrU9Jz4YbqSGpagX2clQBKkZsVCN4PY=@vger.kernel.org
-X-Received: by 2002:a05:6402:43cf:b0:688:12fd:789c with SMTP id
- 4fb4d7f45d1cf-68e70412737mr4177929a12.9.1780583507075; Thu, 04 Jun 2026
- 07:31:47 -0700 (PDT)
+        bh=B6H/bsprACHYwfP1VnZci/atvKi9rC7jAoAwzWHNDIk=;
+        b=Ki36pezfroNZ00TWgwOyv1bhwKzyXoVErW730CyWzm5FcG5SFdoDEJgmBWIeqbxWZk
+         lXgsrP6YEQQyRBw67qTfBjwPT2XA0XoP3rDmxLpgxLZrGwOCIEd5bgUc8RuYI7kjsHPm
+         sB6k397Sg2oYiCFyaHPFJQA7mAtq4wYrrJMRSEeVouy/rgYOjFUSOrGp28doHVbths0S
+         H3YVmcETocR8ENK5pVeBF+alXPKsa3wDZ806XR6FLMn62lvKn8tKdSDIh1PENoyDLm5+
+         +E86ZOQAkJig7e4pqjpW4RqfQDKF91Ghp5SoCOjeBe+v8+kTC3LF0ieeGLqf8kS5nD7n
+         Aq1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780588408; x=1781193208;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=B6H/bsprACHYwfP1VnZci/atvKi9rC7jAoAwzWHNDIk=;
+        b=bSVrsONYTwfN5LRvqhJ4weYu51kFYMAr8RXmgaSiMHqMnSiQmIBh7pQfApxEah6/zl
+         c83twzTGg3ruK0htx204y2lyjh6nerL9FcaT3wm/5o4CAIGq5YP/hbhSiT9qkrLosHkN
+         ftSqZgfVuWo4ABPjkqh7oz76mFEo89S5RrtglufdyW52WNYzDLOuLQEuo7rp/FOvyIB0
+         Au15rDnZFkayK5EF35Eyl1WZE4JWYaYIxDKkkUjUOofQE3Z2IHYna2Fb46gwSDfLzIdx
+         MDflHceIFVnqizNbWnZx2shhvBiYPDdaWiakRKWxlPfBn2XJmcf1SKwMWnl2xhVadaBA
+         vCXA==
+X-Forwarded-Encrypted: i=1; AFNElJ9+h1xXnLMCqxJCJJ/aGkXbMQgxCKNXnWjjH0cxVfHkel2eOm8QfZxnQh1D3/RkmPIINx/n2ytjIk0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLSAkj1RJ2hWVFBJEbFKJie+AgRfRx8xJGT8rSa3TwqomwxNse
+	DVZJjshGVB/Kf7NLli87nkHTn18+2MIdSkD7Qo6EpsS9qmQSi1HBwPDanl6LKZ4TzWMqK5vPGfO
+	yFdB7Tm+s4uyFqo6Wm6xb2lCIJ++64Ummfq/QGn0v
+X-Gm-Gg: Acq92OGLHEK69HvjgnYYfH39LxCd8L0M7Wq5K3eOSBx7VFLX45PjHk46sdOldzZ3vqm
+	h/aLneQtzfyVbxwg8++aJ3ndGIZssdz6mf74A6rfV5iL2FAvL1UL7GtqOvBbujX2B+xjwbZavJ+
+	LxSdrejkwXz+MVJrMDqCkJY7wI+BB6dGHj4medlcDjPeG0Y2wb32FOk1OlSHjf+XTtuzN+PstJF
+	P+58BBx/r9ragZNrzVezrRHzCHGCSP2UGHe9YGjjOn8mw7bOHGpQGmp0S3Qfxc5xBwz4sMt/p9b
+	Z/acweWx148JcJQrVAWLUTylQg==
+X-Received: by 2002:a05:6512:3186:b0:5aa:7126:c63c with SMTP id
+ 2adb3069b0e04-5aa7c0888ccmr2415181e87.5.1780588407521; Thu, 04 Jun 2026
+ 08:53:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -93,60 +105,119 @@ References: <20260531010107.1953702-1-safinaskar@gmail.com>
  <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
  <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org> <aiEb8CTM-ovMIq7-@1wt.eu>
 In-Reply-To: <aiEb8CTM-ovMIq7-@1wt.eu>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 4 Jun 2026 07:31:30 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
-X-Gm-Features: AVVi8CdMcH2Yi8zy-bOiW7jRaCCsKof-RnAg4JQ3nwUYFdve2Wu3l5Vz6H4KhIU
-Message-ID: <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 4 Jun 2026 08:53:15 -0700
+X-Gm-Features: AVVi8CcFmOEXliFqkwckAyyy2jg3Zlvf93FEoWWD2xBje7cN4CAoI605l5f9FiY
+Message-ID: <CALCETrULMixRGJyGqAAujW7RN6PP2f_Orn2Y_0hpPMjRqQnY7Q@mail.gmail.com>
 Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
 To: Willy Tarreau <w@1wt.eu>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Christian Brauner <brauner@kernel.org>, Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
 	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
 	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
 	David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, 
 	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
 	Jan Kara <jack@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6534-lists,linux-api=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:w@1wt.eu,m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[linux-foundation.org,goodmis.org,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:w@1wt.eu,m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[amacapital.net];
+	FORGED_SENDER(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6535-lists,linux-api=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,goodmis.org,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-foundation.org:from_mime,linux-foundation.org:dkim,mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,1wt.eu:email,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amacapital-net.20251104.gappssmtp.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,goodmis.org:email,1wt.eu:email,man7.org:url,mail.gmail.com:mid,vger.kernel.org:from_smtp,linux.org.uk:email,haproxy.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DEA4A64115B
+X-Rspamd-Queue-Id: 40466641AB6
 
-On Wed, 3 Jun 2026 at 23:32, Willy Tarreau <w@1wt.eu> wrote:
+On Wed, Jun 3, 2026 at 11:32=E2=80=AFPM Willy Tarreau <w@1wt.eu> wrote:
+>
+> On Mon, Jun 01, 2026 at 05:28:25PM -0700, Andrew Morton wrote:
+> > On Mon, 1 Jun 2026 16:04:55 -0400 Steven Rostedt <rostedt@goodmis.org> =
+wrote:
+> >
+> > > On Mon, 1 Jun 2026 18:33:25 +0100
+> > > Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > >
+> > > > On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
+> > > >
+> > > > > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* woul=
+d be
+> > > > > a big simplification.
+> > > >
+> > > > FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> > > > Communications between the kernel and fuse server at least used to
+> > > > seriously want that, so that would be one place to look for unhappy
+> > > > userland...
+> > > >
+> > > > splice-related logics in fs/fuse/dev.c is interesting; another plac=
+e
+> > > > like this is kernel/trace/, but I'm less familiar with that one.
+> > > >
+> > > > rostedt Cc'd (miklos already had been)
+> > >
+> > > Thanks for the Cc. The tracing ring buffer was specifically made to b=
+e used
+> > > by splice and the libtracefs has a lot of code to use it as well. As
+> > > reading the ring buffer literally swaps out the write portion with a =
+blank
+> > > read portion, that portion (sub-buffer) is used to be directly fed in=
+to
+> > > splice, providing a zero-copy of the trace data from the write of the=
+ event
+> > > to going into a file.
+> > >
+> > > trace-cmd defaults to using splice to copy the tracing ring buffer di=
+rectly
+> > > into files to avoid as much copying during live recordings as possibl=
+e.
+> > >
+> > > Whatever changes we make, I would like to make sure there's no regres=
+sions
+> > > in performance of trace-cmd record.
+> >
+> > Well yes, The patchset seems sensible from a quality POV.  But to make
+> > a decision we should first have a decent understanding of its downside
+> > impact.
+> >
+> > I haven't seen a description of that impact in the discussion thus far.
+> > And that description is owed, please.
+> >
+> > I assume a small number of specialized applications are using
+> > vmsplice() to great effect?  What are those applications?  What is the
+> > impact of this change?
+>
+> > Once we are armed with that information, is there some middle ground in
+> > which we de-feature vmsplice()?  Fall back to pread/pwrite in the
+> > tricky cases and still permit vmsplicing if the application is
+> > appropriately restrictive in it usage?
 >
 > I'm using vmsplice() + tee() + splice() in high-performance applications,
 > load generators to be precise, and soon a cache. This is super convenient
@@ -154,42 +225,64 @@ On Wed, 3 Jun 2026 at 23:32, Willy Tarreau <w@1wt.eu> wrote:
 >
 >   - vmsplice() is used to prepare a "master" pipe with data to be sent
 >     over TCP or kTLS
->   - then for each request, we do tee() from this master pipe to per-request
+>   - then for each request, we do tee() from this master pipe to per-reque=
+st
 >     pipes.
 >   - the per-request pipes are those that are used to deliver the data to
 >     the socket via splice().
+>
+> So we effectively use vmsplice(), tee() and splice() here, and for exactl=
+y
+> the reasons they were designed: only play with page refcount and not copy
+> data. The code is here for the curious:
+>
+>    https://git.haproxy.org/?p=3Dhaproxy.git;a=3Dblob;f=3Dsrc/haterm.c
+>
+> and its ancestor is here:
+>
+>    https://github.com/wtarreau/httpterm/blob/master/httpterm.c
+>
+> It simply doubles the network bandwidth compared to not using that.
+> (62 Gbps per core vs 31). I would seriously miss it if I couldn't use
+> this anymore.
+>
 
-So most of those would actually not be affected by any of the existing
-patches: the pipe->socket splice would remain, the tee() code would
-still just take a ref to the page count.
+Wait a moment.  This is neat, but it's literally just a benchmark,
+right?  I skimmed the code, and it doesn't look like a production
+workload, either.  And you manage to get around the awfulness of the
+vmsplice API's complete failure to tell you when it's done with a
+buffer by ... never actually changing the contents of the buffer.  Do
+you have any idea how you would write correct code that uses vmsplice
+for sends and then *ever* mutates the data without literally
+munmapping (or madvise or something) the data do you can safely mutate
+it?
 
-The vmsplice() would change, but looking at your haterm.c sources, it
-looks like it's mostly a fairly small thing ("common_response[]" being
-16kB).
+> I also have mid-term plans for using vmsplice() to deliver contents from
+> a cache to sockets as well via splice(). Right now our cache is split int=
+o
+> too small chunks (1kB) to make that useful, but as soon as we can move to
+> 4kB pages, it will make sense. There the same gains are expected, and I
+> would particularly dislike the idea of no longer being able to implement
+> zero-copy!
 
-That is typically *faster* to just copy than look up pages.
+If I'm understanding you correctly, you see (and measured!) a
+performance improvement, and you would like to use it in production.
 
-HOWEVER.
+It seems to me that this is an excellent opportunity to remember that
+vmsplice gets a performance boost in a highly synthetic situation that
+sort of resembles a cache scenario and then to deprecate vmsplice and
+build something better!  Or discover that we already have something
+better, perhaps :)
 
-It looks like you're actually doing exactly the thing that I thought
-was crazy and wouldn't even work reliably: you change the
-common_response[] contents dynamically *after* the vmsplice, and
-depend on the fact that changing it in user space changes the buffer
-in the pipe too.
+https://man7.org/linux/man-pages/man3/io_uring_prep_send_zc.3.html
 
-So that would break *entirely* with the vmsplice() changes if I read
-the code right (which I might not do) simply because that looks like
-it really does require that "wrutably shared buffer after the fact".
+I see that this can submit a buffer without a syscall (tee + splice is
+*two* syscalls!) and that it has directly addressed what I see as the
+really big deficiency in vmsplice: "This second notification tells the
+application that the memory associated with the send is safe to get
+reused."  If I were writing the user code, I would very much want that
+notification to be an explicit part of the API instead of making a
+wild guess as I think I would need to do with vmsplice.
 
-Interesting.  Because the vmsplice() code uses get_user_pages_fast(),
-and honestly, it never pinned the page reliably to the original source
-- it breaks COW randomly in one direction or the other after fork()
-(and I thouht even after a page-out, but thinking more about it the
-swap cache may have made it work for that case).
-
-Uhhuh. That does look like it makes the vmsplice() changes untenable.
-
-But I may be reading your haproxy code entirely wrong.
-
-               Linus
+--Andy
 
