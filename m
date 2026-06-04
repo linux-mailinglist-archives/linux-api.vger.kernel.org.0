@@ -1,163 +1,172 @@
-Return-Path: <linux-api+bounces-6532-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6533-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id r9jRL0BDIWq7CAEAu9opvQ
-	(envelope-from <linux-api+bounces-6532-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 11:20:00 +0200
+	id VF1+HEeNIWoLIwEAu9opvQ
+	(envelope-from <linux-api+bounces-6533-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 16:35:51 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E7663E76D
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 11:19:59 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CC8640ED4
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 16:35:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="Z4Qk/eMs";
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6532-lists+linux-api=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-api+bounces-6532-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=linux-foundation.org header.s=google header.b=EtivtKQZ;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6533-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6533-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 08CEE30344CA
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 09:06:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D002F32E1A03
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 14:22:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1D23FB070;
-	Thu,  4 Jun 2026 09:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CDB148A2D2;
+	Thu,  4 Jun 2026 14:17:34 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED6D3FB7F3
-	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 09:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C718F48A2B3
+	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 14:17:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780563974; cv=none; b=qJUXrasGjedug65WhteIEmGMNWt4MW0XfNdGElXgbML5dXSqaW2Kf/XICZNdBb+ldNwkqqv45zb+YLI3HtilQY7iZKTC+iMrpZYvQyadhsokFs1JczKuenoG4inCabBMenmIOwp5R6daVHZmMB3Jlvq3wHu1MCILjej+w598tZs=
+	t=1780582654; cv=none; b=dykDuGQeitqAJWnlW4dMIlYylQnVp32e1iCL3BCKId8fiQxhXJ0Q8ddFxVj/Dn1/iPzJzTSPaRUwwE1nGcptha0ZvVN3yCBhnVSvm6sAGNV8VJxK/DCxo//bLfRMhbEU9t+BH9xLS3TJsvTl0jAcdZ7qLFcbi9Ml/QxOmid37dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780563974; c=relaxed/simple;
-	bh=6nC4qMmpp4fUyVsAFDYujq7+sxNujf5CGEPAWJHIlFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TKEniNDDVFmEv4xpjSUt2r7Z3MwPXdFpcPbXmg935mGsTjApdJcKqYt3/0nuyG3SK5VuOq5DQO8AXCpnwQOm+o2kpUJSIJjKeMvKI6EYI5DsGd/oIoFp/Oppp29yMIVUTQdn35pwho1Mw9+J1P22Oa5U8ty0+HfT27CASrM3+3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4Qk/eMs; arc=none smtp.client-ip=209.85.128.52
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490af320e2aso5374375e9.2
-        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 02:06:13 -0700 (PDT)
+	s=arc-20240116; t=1780582654; c=relaxed/simple;
+	bh=Ecbl/t5OYeJ4mb+vVa4qoGM4jTXP3pkfic84pGx71kY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rLOATmzNf7rqcR+6Yt7z9qKW+c2AIYWfTPa6+9IhnZ0ZxYzjrtVEZVm5szOu6/iZYRhlAsmSG7OKEfSs1UFR5hsoOUG3fOE9uDUwKcZgHJ8m4yX9XbgrEmhT1/Mlnp7l6kLMkRMZVQ561iUuAq8eKCZEefIKtAvjvhZ6V4lU1b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=EtivtKQZ; arc=none smtp.client-ip=209.85.218.47
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bf046d4da1fso78160366b.3
+        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 07:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780563972; x=1781168772; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EdFuwsES54dFvGT6zPCTaZ+yF4K8AlHGY+rBuqBIdh4=;
-        b=Z4Qk/eMsRQn5NaOl5EnL49h5mkIDXCd6CVB06Y3pkNHIQBrrOz07RC4i9WNJ7soZ5V
-         ZwZnlbdEhstvH16TCDK3NLc3IDK022X024ITEBaBP7leRrZPYvIKM0a2oZgI8eLPi4hf
-         l6bUS8EAAbKpENkoLhJlvpJaE3SPEuYNQtAyuGwu5GFaav3z27CJASM9RViLgvZnE9iX
-         HnaGV4X3VncpchGb6vO7ALPLhi36EY0JNacWYHGwLG7HcXBXRzq/C0S0jLJRDSq+IYgB
-         Ameqbmz9JWPN6B5sTwrZ27N7L7FPN5xbYHLpuQPyHE4EtAIwP41vpiRcH1y53BQ25zuc
-         Uo0g==
+        d=linux-foundation.org; s=google; t=1780582651; x=1781187451; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
+        b=EtivtKQZ0UaWvmOomgvBh7aW1IGtzIsa+LckJO6Fn7867x5Louh1caqGC+O6AMlo0V
+         577exvdCSWG0rmMLXb6f/xw1us8Bpv9YaOrTck6lFUS6N0Lcq7CrFGs32XG4IPF0IPAs
+         n/QDfh4TcIoRUAMrcKfAfa0yRU1w+t7kptlWQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780563972; x=1781168772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EdFuwsES54dFvGT6zPCTaZ+yF4K8AlHGY+rBuqBIdh4=;
-        b=doaay0WImT/t8IY50YJM4M5oDsIY1zyWkPnJ64ZSawzkLhPGGkIvLqNBv+yO9H7bcI
-         uy6Si+IIPwqSmIVBVbFwrGB4OnNmnSTzn+hGOD3L0BzZ8lDtek4fXAtOio9rrYv65T5f
-         X+K6n9S3c+BKReO/rbGTNFusnmhSErc0aMjQsW7KcTxIAVRTkvVHIkzeoCYkXOa8CTmZ
-         NQpFEmA4In2jgr9XNCvHRASA4TkLEz7v9YzGqsUpdi7DXGakTo0+DdQDe61Zkd+QXW9r
-         qRpL3ovk1so7HA1KS6Cdsfvw2KsObdMIebmEY7WN830l4FpnF1a43g+Nb+7yPit30F3P
-         SPyg==
-X-Forwarded-Encrypted: i=1; AFNElJ8QevJAE3M4ygT3ujG0LKjd28BIXzDDJ+LIW0J7SIp8bwz3RQSxAfwgHd6hvmYZAnPa03iq8A5M4/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhGANmRth/5HqrzOfpYV21DyQv0eOpPGRTqTGnlD5PSnVoZow1
-	3yb30/s8cOS9CByf9hC/ju7GG1SwSdrz0urp6oQ/6sEx1QP6zfr+s85r
-X-Gm-Gg: Acq92OHDyqHAHaZIWPjILotChUqt06SdpcRkZOao1rqYPKNhNnFG2CCi6XlJxfHt35E
-	ZBuGyZ4L0kyKbpHGe0HgH+0wt6JeObhFbWcxjl1BnnsTsm/k0Wprg+YmL8IMBDQ/r1TkXq9NW8F
-	UrYr50o0rvNTJI2yPMYgUIz8nFZcFPNd6um3TLuy/9QblHLiP6AgcDhLYi9AWV0tWwB+h4KgEdW
-	TZGkQ090gdYvpvU6V5O9NJUuG4/sIF6wKmkjY3QIjhyGVltgIeIvB3C0nLA6/OJxU57KM/9VckQ
-	UptsW0j+LC208OIb3p7mZhQ8/LQAGHwwQfdMbmE9LZYDnYrGnG0n8jubONpAwnyfAxkGAXy3/dD
-	NrE9GS29R//Ae6TltwtfIiOsA/umtPZrO0v3/X8qzsv050J7BVg5sgU/iLD0hIoUEaGItzb/kuv
-	i/aa39wWvZQdw1tqD5PAg1G2I8c8UPdpqMF/Cs0yIrYKoejWP2x0n+o+UUg0H5jcryCGFjRjJiQ
-	Jlb+uFk5A==
-X-Received: by 2002:a05:600c:8184:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-490b5eb44f8mr113527135e9.15.1780563971711;
-        Thu, 04 Jun 2026 02:06:11 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b7e6c774sm70203515e9.1.2026.06.04.02.06.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 02:06:11 -0700 (PDT)
-Date: Thu, 4 Jun 2026 10:06:09 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: metze@samba.org, akpm@linux-foundation.org, axboe@kernel.dk,
- brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
- hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
- patches@lists.linux.dev, pfalcato@suse.de, torvalds@linux-foundation.org,
- viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260604100609.6b37f500@pumpkin>
-In-Reply-To: <20260603211736.755139-1-safinaskar@gmail.com>
-References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
-	<20260603211736.755139-1-safinaskar@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1780582651; x=1781187451;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
+        b=ZRGtjAGpaQx/rUnNUupn9sOKGfkGCNGRerI5EH2ZEnW1XIkwelxSz+3Ob9MZZaoewZ
+         VUyEwgFW5OcqnM4r+HpO+qyoOUxtXXNsoiltQMo2JnJIwjHA498fuZgf+xdAdu45Y11p
+         S/17N66kJYSI0v6pv3LYYtivIQv1ADuaUKiK0msGDz9mahA+UjyB2882776Y97Z5Qc3+
+         Zib7ow/DyPSaQfQQNrxoLGJGA2TQr0DR1vPoWSWTj3FZ9NPm12nhDPOfhtevcn3fJWRF
+         ZMD1HpGUmquJtpaRLPx/91OW5hZBmnEDyFtvFJ4u4hF21IeSvLGfU6guqOYSC4DFtjIN
+         Urlw==
+X-Forwarded-Encrypted: i=1; AFNElJ/UytIkwFnCM9ipJ9snuE1OblxxQnnl/4GAzgfRgidUP0BFgB/EW1Y+ArfBkPM/qpKq7a/EaAissME=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVu43MfE815arE8SshSCH1OTasfRm1Fbz/RnA9YfLqgoqwrxFi
+	jhq7fU+bZtJxU9Gw8UzpXj0EV3ekvaWEa9Iezm+myaPddBiiYgPCre/rG4EZ0Q4vUwXHiAZJXXW
+	/Is5Vqy9WuA==
+X-Gm-Gg: Acq92OEDdgDHZtu+qM479AjAhkqGW0z+DuFcv3wCiJrn4AfTWOJUCBQN9qbTmQyKmXG
+	CpY137CJJiRcd2VJQTKvswp7iAIibszhZRnJ1QlSv+v94Ls5HmDtK0NzMg9IlOE9IAWkGzTxmep
+	N3xZdf9aDTXYlv0PkXUHIpzcBFuwFI4zRbVnKeL6Bo8fjIDwS9u2EILg++H9GU5XxYuR/+jPcHA
+	M08KFssxP50+7CPEVLJgVd98UWmT1B4jcvJWNWSQow8bmY1jsx2YfZ4uxs/0sEz2Rknim2L6eJ4
+	slP0IFZ5F739HIilNSZtg1jTyGNd0trdwMNckfbYFt0R4/8BLFJyifptik5kQ5+vGxnG+QqJsgL
+	eV1jVOf9pt/V+EgVMlONRqpV55IdqcM48kv/+gm+cVs04bdixwMzZHuR4ovBPaxUg525ZWtNfsm
+	abRb6LoBxr894MZlsUdM1jtpkXkJ72QjEpRli8IVeEgQ7XRcM659jPSnCRUSOViSi2YNcY43Hbi
+	iq7eCk8FzM=
+X-Received: by 2002:a17:906:9b4b:b0:bf1:1d19:cf95 with SMTP id a640c23a62f3a-bf11d19d67cmr266033166b.12.1780582651186;
+        Thu, 04 Jun 2026 07:17:31 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0553fd86csm310797866b.46.2026.06.04.07.17.28
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 07:17:29 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68ca6f01079so881536a12.0
+        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 07:17:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8Ax731HClflrjDafG9XPGFsXFSDnAEjgYBiGrLTHvXuofhJM904VO1rpKB0HfFfgPTBvHtPJ5DRjc=@vger.kernel.org
+X-Received: by 2002:a05:6402:5296:b0:670:8add:2b8d with SMTP id
+ 4fb4d7f45d1cf-68e72739555mr4177743a12.24.1780582648047; Thu, 04 Jun 2026
+ 07:17:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+ <20260603211736.755139-1-safinaskar@gmail.com> <20260604100609.6b37f500@pumpkin>
+In-Reply-To: <20260604100609.6b37f500@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 07:17:10 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+X-Gm-Features: AVVi8CcQ0yaowxPCFqM7JCGZCz4oCGBQaQ6sAmWXnRpVnXINniRqjS3Vb3FRVpM
+Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org, akpm@linux-foundation.org, 
+	axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com, 
+	hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk, 
+	willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:david.laight.linux@gmail.com,m:safinaskar@gmail.com,m:metze@samba.org,m:akpm@linux-foundation.org,m:axboe@kernel.dk,m:brauner@kernel.org,m:david@kernel.org,m:dhowells@redhat.com,m:hch@infradead.org,m:jack@suse.cz,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:viro@zeniv.linux.org.uk,m:willy@infradead.org,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:metze@samba.org,m:akpm@linux-foundation.org,m:axboe@kernel.dk,m:brauner@kernel.org,m:david@kernel.org,m:dhowells@redhat.com,m:hch@infradead.org,m:jack@suse.cz,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:torvalds@linux-foundation.org,m:viro@zeniv.linux.org.uk,m:willy@infradead.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6533-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[20];
-	FORWARDED(0.00)[lists@lfdr.de];
+	DMARC_NA(0.00)[linux-foundation.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6532-lists,linux-api=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,samba.org,linux-foundation.org,kernel.dk,kernel.org,redhat.com,infradead.org,suse.cz,vger.kernel.org,kvack.org,szeredi.hu,lists.linux.dev,suse.de,zeniv.linux.org.uk];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,samba.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-foundation.org:from_mime,linux-foundation.org:dkim,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D9E7663E76D
+X-Rspamd-Queue-Id: 03CC8640ED4
 
-On Thu,  4 Jun 2026 00:17:36 +0300
-Askar Safin <safinaskar@gmail.com> wrote:
+On Thu, 4 Jun 2026 at 02:06, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> Something needs to ensure that the high 32bits of the fd get masked off
+> on 64bit systems.
 
-> Stefan Metzmacher <metze@samba.org>:
-> > Why is 'int fd' changed to 'unsigned long fd'?  
-> 
-> Because preadv2 and pwritev2 take "unsigned long". I want vmsplice
-> to be as similar as possible to preadv2 and pwritev2.
+That something already exists: CLASS(fd, f)(fd);
 
-Something needs to ensure that the high 32bits of the fd get masked off
-on 64bit systems.
-They can be non-zero in the register that comes from userspace.
+It ignores the top bits, because 'fdget()' takes an 'unsigned int'.
 
--- David
+We have been a bit random in how we declare the system calls in
+general, and we mix 'unsigned int' and 'int' and 'unsigned long'
+pretty much randomly when it comes to file descriptor arguments to
+system calls.
 
-> 
-> > Should that be its own commit if the change is desired?  
-> 
-> Yes, possibly. But this patchset already got to next.
-> 
+fs/read_write.c in particular uses all three cases with no real logic to it all:
 
+  SYSCALL_DEFINE3(lseek, unsigned int, fd, ..
+  SYSCALL_DEFINE3(readv, unsigned long, fd, ..
+  SYSCALL_DEFINE4(sendfile, int, out_fd, ..
+
+but then anything that uses fdget() (through one of the helper classes
+or not) will simply not care.
+
+Does it make sense? Is it pretty? Nope. Does it matter? Also nope.
+
+                  Linus
 
