@@ -1,323 +1,189 @@
-Return-Path: <linux-api+bounces-6540-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6541-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id w3bvJ8u2IWrwMAEAu9opvQ
-	(envelope-from <linux-api+bounces-6540-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 19:32:59 +0200
+	id hhvsFta6IWrmMgEAu9opvQ
+	(envelope-from <linux-api+bounces-6541-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 19:50:14 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10477642512
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 19:32:59 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4E464267E
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 19:50:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amacapital-net.20251104.gappssmtp.com header.s=20251104 header.b=pc+Wnp0p;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6540-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6540-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=jhkiLgO0;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6541-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6541-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 15D3C308D6BD
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 17:26:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8023130118E9
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 17:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB1744C6EFF;
-	Thu,  4 Jun 2026 17:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D394C6F0C;
+	Thu,  4 Jun 2026 17:38:34 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104454BCAB5
-	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 17:26:08 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780593970; cv=pass; b=jZXWDc61Z7pPjMCcCLzQesY63FS6VluTeOa+zEoLhlQqTn6eaawdYx4+vT1IK1DKt8WQB916uCr1HpKr7Z8EvafL+LDvCyLarmifnjjpt0Hw0vvntewfgTlkZKLzMxdo+8ZY2ZU9Y2hnh3A1RojrrFabXr3l/s/+HkPRLLng08M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780593970; c=relaxed/simple;
-	bh=Go/9hYcTJsTk00KMpiEauqrMUG2V1Ijgh9IZbgopL4c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7AtM26DtxSto9I7XGOEwySCLBhcRayVpHfKEH2JB/dNWCLuKbH9/7QmBB3/DovmXjKGs4JqEpOjbduC5LCz2mCMwGkPh9n0ZbhbRSPIDVS1cfln7GvQPQbLskje8KTCfLD7THFOE3viifyr0lghBiaGHZDGngy1ez9YjAf7bRM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=pc+Wnp0p; arc=pass smtp.client-ip=209.85.208.178
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39676d82b7fso10235441fa.0
-        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 10:26:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780593967; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hT54IN0FoSfmVemcgi+NKekmO7aoobooGvGw3S+0y6DaCwhn3eJKDPqd+S7dTRRbwa
-         VFsKYzUuHKjITqHJgw/lghi/uJgR2D/8gpq7YsfRu56csxdgfgg3qUVUk1Bjab5uTn7q
-         LTiBYrBJeSgIGxHF6N/9ZkRtEb1ruT0UCB7gQZeDSlXDkSBBm90YkCJdXNNkcW3IL4HV
-         v+JCbD76innTnUwEBIuwy2llmNdZhR9IgZc2Vh2+VH6fdobPqMlRIjPOCsWDJXP3FR6d
-         SwQTLK3WY8woYQjCWAD006ttKZBhAF4YOkIvP8gAbfPl8mZcNy82qxDMeEOMA+x+aotC
-         BF7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D2Ypl5piwY28pT58DbtYmX3qX3B63YsIgDUM1eIk9WU=;
-        fh=lP+TqlaLAVMbX5o6oylVx0yQiJ1L0DwbbQsqxuWAPss=;
-        b=GhfKGSadggXVuQbHvVpq8iTfhk357eg/pIhlVKVm1ltgVDrV8Hk2VChFjqKUOwEHKN
-         4GGC6u9Vru0vIY7XuuVA1oDsawWT+qDzkfJIrwXRjJJ8LCgYGeNQV2MRGQTgbW26w9WO
-         PKXpLLExUJQMzXGfwNPKBgbYP49XDFovpVXgV1psyfZWCTAfQYj7U4hs4BXn6neuEQW1
-         xkjzrPB1FI25Vl+e7pg5+YxK/r92eat6PRlTK5JKlhN9WzXpgGVzEPhftHkkFNmat1CR
-         Cx45b6zVuF3KcmifMAkNJgG/slPmAHgbj+qbwl3PFbGcYf71PdRFl1FXcsQJ6K/ZLUd4
-         oCZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF19E4949EC
+	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 17:38:32 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780594714; cv=none; b=I3hD/K7zFz5DA+7i2QdWecWV+ZzKHmdPxyHIGIJ8Ilnts5T3fsZVSugPnlMovYEYUl3WXVRoZ9Sg/Wxk9gfBwq7bdHe8ixpON6nwtau8Qw1MTSx7eUFHyI9E0sUm8IBvuVSkWYCgIPorQZFj+f36I4b7bderFenN09ekkEbFP20=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780594714; c=relaxed/simple;
+	bh=v2KH0A+T/5unV0mAelk5zB+47zjGgz9MT7jM30vb1s0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JWU9M70b7mEQBDT4xPiK/iHzHOdvscj+B9mYzLimHbWff5jxj1t7DMr6JrQTiTfoOFB1cAw2p65feNSdwn2etpCoW66rlqGC+HI4ibFmC3vQXJ5u9rE/gdz+xH+RH2Ua/2hiXoZNsYHmbbNVRfwuic5K6O/7JNy1xK5gdmfkg4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jhkiLgO0; arc=none smtp.client-ip=209.85.128.46
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490c1915793so354985e9.2
+        for <linux-api@vger.kernel.org>; Thu, 04 Jun 2026 10:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1780593967; x=1781198767; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780594711; x=1781199511; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D2Ypl5piwY28pT58DbtYmX3qX3B63YsIgDUM1eIk9WU=;
-        b=pc+Wnp0p6kW/80Djax9neBwdMNPiVsExiI3Ofw4GjI1RdXZL4WFaHSR8/G5T98KSSg
-         V7fQ/Tt/b+zMLuhOfP1WSfknAjOyP+8CCaXkLfrfGzYVBpZATX6C41QNukgzafe2f7kR
-         wAGYA7p1ocgghhs32kmqnrtug6dk9TS7QN/za9gtVhf2NqTr83oDFVolLB+LQqDofmCe
-         UIargN8YqLWLrUtkcIb/258MnLPvKshFSDEUs9GK7/nbA0NStTwnc85M+oGbfXP3q8oU
-         TtPCVVOXGn752BEaxNjvBhg61LhsA0iW8QHBTjU1ZIkAp/E0gZMrQh0MPR25/9cv1A3U
-         oVqA==
+        bh=aDxRgk4KLva6cv7jp07s/JuZGm0Suw+6/YbYX6FRPfQ=;
+        b=jhkiLgO02xJY3jbGkLqf6yEze1IG/Ox2jCJZ1yITJxLGtM9U5+0C/k10tCut54S7kg
+         CsAVN3snOFl9+cvyUyIBHJ8hDzhqYT3BOWKrygE95ThTXkwdNctJq9RjXSbVzN30eJ8o
+         dHEB170KdTBrrqCpS1ehtBEXFNsGBvlFKB9RF6iU07j1Rwv/wvmygCq2COzvErF/p5Br
+         mx6Sqt3WLy3dfZ7T61M+uMici202aefJ8L8GLQtOJHoTBem3cAWNWIvlDRwmKtlFP+2A
+         0U5Zfi75t3LFjnLBh0BeDqWKOygVVWoQo8UGHWy6rg7/oXkTm2E+QN5eJqrjJ0Ep58Nl
+         39WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780593967; x=1781198767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780594711; x=1781199511;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=D2Ypl5piwY28pT58DbtYmX3qX3B63YsIgDUM1eIk9WU=;
-        b=IsWm+E9GphdSm69JH05I8guj/YmLoaB3joUHhgN85y3YzipuMlUv1TYXB/S8eI3LNQ
-         ElI307f2T2Drk0f1Dkudn2WqrBCqnyxUwOY748j+9VRBd/BbadgepJYyKWBRICooLaqU
-         6KJy37FVL8lduIm+JOmyteaVypLKrKYj2xO8TYCFoURXkAFSfRMLxQdI/cXoJ0jGcwsU
-         fG0jQ4A4AJ+YYhtXV+iv4XF20sjUSuoqigKLMPSJiKN4+JDu40fgbqZzF3XkEJOYn/bW
-         A7VsxPPGcf2A2H7EAK3zYD9QAqXiRz2pmQcd9CO7xBMdbIU2hYW2m0lafJAbk7XxRbzS
-         xaQA==
-X-Forwarded-Encrypted: i=1; AFNElJ8VvZNhc9ar6c3HU95Hi0U56qidn/YsPaSGgKJ1ZaYPbX0M6t6uaQNaXihsdQmpHSQvsd5/D0cdbmQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNenZZwPU8ZVhgPzBeDXj5iKnilcvjqyPxA0pjDtpLCUnOp5/X
-	Ku3uK9uBMcLSFNfEMtA+eQp3g1/eRmAT2oT9d5jn5nx+HmAPOdKED00gRRnvafgnQ/CEHXdLyXL
-	51SoSRwQhIQ/oNWpjUFBm9ZHU6lCY+4jxI2TP7DZC
-X-Gm-Gg: Acq92OGJfa4U7OGKq+ICltBEbvAMjljCRE6JO1EcmrpuVbtdKykDjbZ7YuZRqrhs6Q5
-	NtS4zYdlcboh/w6SsnQb16MoXnAyrIu4w5sHkIGy3/6X5qJqQinN5Og/KihjMNPhXkewb915vMa
-	ohpvKT7qYVWFk/ziQ+m5Jcvarx4uuNRWYvSX8NKwfZIQU+cWeC2fCoOScjMAF9hDFyDiDq5zo0O
-	BdcxM8Ej/p+W/o+N0yrwWhMMQS9Qhg8/iwXE0TMnyCEGJwzzrMD7OMW9+Kaxxc6rQCuLcZhRjKl
-	wq/3lQot4dUsFSA=
-X-Received: by 2002:a2e:bc0f:0:b0:396:7fcc:6864 with SMTP id
- 38308e7fff4ca-396af184c47mr26680891fa.11.1780593967025; Thu, 04 Jun 2026
- 10:26:07 -0700 (PDT)
+        bh=aDxRgk4KLva6cv7jp07s/JuZGm0Suw+6/YbYX6FRPfQ=;
+        b=mnNTsLWsgWH0GQrMRCtwam/ktsLkKd7tCVsOrAeNZdnFYKyB7S9abkO/pq8sl9c7aL
+         aqmqvjvAu+eW6qT97+GBbeqdQL+ONymr+Fdfwf7TIoKBMRpzNBhIiggg1YikkzJCpxgX
+         qO1vUAmBY8O8VyaVPOUecGC9fDrC9SKzPu5s8miVB1l+fvPvC2M0WjOBQAqwzXTecgSv
+         Jb2CMpa/DZ6E5ZILlpQPOriiz2Y/PmCYEsS/VxS2VSIin3i0O/Xd4dPi5pl0LJevIrAo
+         81ZLoQ7XZTmTc1Vc+4r+7JKnMjAGwJyq6ssv8mmfujlkSNQCeGXJ08ucjrW8iO/ScaTn
+         DAIA==
+X-Forwarded-Encrypted: i=1; AFNElJ9SKhYW1cvOaKvUlJ1Qj+hAT9TkdiYPT6NOi8Ue+GQIgOYcnKm3v3UpArxHDb1h15cR/NKLO8Mun0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyA/FuycedXPhq8JMekF2LrByQFYL3H5laOBnJ3tIa+cqvoaYyW
+	8gCIE8YxetPHggBIyUD9P0cZNhyMDzq0izwrwCByuJJoFZ8ydut/jXA7
+X-Gm-Gg: Acq92OHyjM+qtkobPDy0AdM29QcnF6BG1bsCKqucL4RJkCNzjYvlpcEkzQ2k5/qtm6B
+	dTeB//ihAhVzGq4MPFymtBNNNrOW/yu4YGenGHKS1VqjGmzRpdodcvelw0sv/AI2YJe4ckkL2pN
+	z7qKgyuH1Sal982q6hj4h7tseb6wMaJFP0AM5sf7M2cK64xlPGnyu92WFHL/qKIIj/29FFmTwot
+	ToFS4f6UJIIwHF2fcxC/VZElNqtVcVWnWn5AFiJUEUtAe6qykTQ/M6pzMnZsoRWbE+WKK3Du9vp
+	K7/MYdgVGOcc9XDEt9yTRJ/clDVJ3o237vWqIpaO2AMX9M6V03oD+rL6DaYyD0Uaj0dz3OlnOON
+	JZrobSWGDBxeF9XGhJ1ixlTroxGJHVdMN6NtOnnwZydGhTTC0hA6hjDVH0CccT47KoGhpQ4nyB8
+	1pKltr6BX7QGAtPU59T+GJrytw/j5d/xjFzZXUp4eBjRw7QiJHxKDv7yfHqV2OcI7ioBlXGeI=
+X-Received: by 2002:a05:600c:1c13:b0:490:b642:ce29 with SMTP id 5b1f17b1804b1-490b642cea1mr153777325e9.8.1780594710934;
+        Thu, 04 Jun 2026 10:38:30 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cc140sm105657875e9.9.2026.06.04.10.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 10:38:30 -0700 (PDT)
+Date: Thu, 4 Jun 2026 18:38:29 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org,
+ akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org,
+ david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
+ linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
+ netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
+ viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260604183829.63c35fd9@pumpkin>
+In-Reply-To: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+	<20260603211736.755139-1-safinaskar@gmail.com>
+	<20260604100609.6b37f500@pumpkin>
+	<CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
- <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
- <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
- <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
- <aiEb8CTM-ovMIq7-@1wt.eu> <CALCETrULMixRGJyGqAAujW7RN6PP2f_Orn2Y_0hpPMjRqQnY7Q@mail.gmail.com>
- <aiGjUqI59e966oBu@1wt.eu>
-In-Reply-To: <aiGjUqI59e966oBu@1wt.eu>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 4 Jun 2026 10:25:55 -0700
-X-Gm-Features: AVVi8CcvIM4HOiXbU2YWmKHDS7Pmkfl5RMnbxKamS5RAB8P23IrY-5hOK2SZPKo
-Message-ID: <CALCETrX=DzbbG_ns2Y1A83F_Vpd8NQqZfKr4nUkteGgOLrkngA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Willy Tarreau <w@1wt.eu>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Christian Brauner <brauner@kernel.org>, Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
-	David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, 
-	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[amacapital-net.20251104.gappssmtp.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:w@1wt.eu,m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
-	DMARC_NA(0.00)[amacapital.net];
-	FORGED_SENDER(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_FROM(0.00)[bounces-6541-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:safinaskar@gmail.com,m:metze@samba.org,m:akpm@linux-foundation.org,m:axboe@kernel.dk,m:brauner@kernel.org,m:david@kernel.org,m:dhowells@redhat.com,m:hch@infradead.org,m:jack@suse.cz,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:viro@zeniv.linux.org.uk,m:willy@infradead.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-6540-lists,linux-api=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,samba.org,linux-foundation.org,kernel.dk,kernel.org,redhat.com,infradead.org,suse.cz,vger.kernel.org,kvack.org,szeredi.hu,lists.linux.dev,suse.de,zeniv.linux.org.uk];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amacapital-net.20251104.gappssmtp.com:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luto@amacapital.net,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux-foundation.org,goodmis.org,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-api];
 	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,1wt.eu:email,amacapital-net.20251104.gappssmtp.com:dkim,linux.org.uk:email]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pumpkin:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-foundation.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 10477642512
+X-Rspamd-Queue-Id: 5B4E464267E
 
-On Thu, Jun 4, 2026 at 9:09=E2=80=AFAM Willy Tarreau <w@1wt.eu> wrote:
->
-> On Thu, Jun 04, 2026 at 08:53:15AM -0700, Andy Lutomirski wrote:
-> > On Wed, Jun 3, 2026 at 11:32 PM Willy Tarreau <w@1wt.eu> wrote:
-> > >
-> > > On Mon, Jun 01, 2026 at 05:28:25PM -0700, Andrew Morton wrote:
-> > > > On Mon, 1 Jun 2026 16:04:55 -0400 Steven Rostedt <rostedt@goodmis.o=
-rg> wrote:
-> > > >
-> > > > > On Mon, 1 Jun 2026 18:33:25 +0100
-> > > > > Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > > > >
-> > > > > > On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
-> > > > > >
-> > > > > > > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* =
-would be
-> > > > > > > a big simplification.
-> > > > > >
-> > > > > > FUSE might be interesting - fuse_dev_splice_read() and its ilk.
-> > > > > > Communications between the kernel and fuse server at least used=
- to
-> > > > > > seriously want that, so that would be one place to look for unh=
-appy
-> > > > > > userland...
-> > > > > >
-> > > > > > splice-related logics in fs/fuse/dev.c is interesting; another =
-place
-> > > > > > like this is kernel/trace/, but I'm less familiar with that one=
-.
-> > > > > >
-> > > > > > rostedt Cc'd (miklos already had been)
-> > > > >
-> > > > > Thanks for the Cc. The tracing ring buffer was specifically made =
-to be used
-> > > > > by splice and the libtracefs has a lot of code to use it as well.=
- As
-> > > > > reading the ring buffer literally swaps out the write portion wit=
-h a blank
-> > > > > read portion, that portion (sub-buffer) is used to be directly fe=
-d into
-> > > > > splice, providing a zero-copy of the trace data from the write of=
- the event
-> > > > > to going into a file.
-> > > > >
-> > > > > trace-cmd defaults to using splice to copy the tracing ring buffe=
-r directly
-> > > > > into files to avoid as much copying during live recordings as pos=
-sible.
-> > > > >
-> > > > > Whatever changes we make, I would like to make sure there's no re=
-gressions
-> > > > > in performance of trace-cmd record.
-> > > >
-> > > > Well yes, The patchset seems sensible from a quality POV.  But to m=
-ake
-> > > > a decision we should first have a decent understanding of its downs=
-ide
-> > > > impact.
-> > > >
-> > > > I haven't seen a description of that impact in the discussion thus =
-far.
-> > > > And that description is owed, please.
-> > > >
-> > > > I assume a small number of specialized applications are using
-> > > > vmsplice() to great effect?  What are those applications?  What is =
-the
-> > > > impact of this change?
-> > >
-> > > > Once we are armed with that information, is there some middle groun=
-d in
-> > > > which we de-feature vmsplice()?  Fall back to pread/pwrite in the
-> > > > tricky cases and still permit vmsplicing if the application is
-> > > > appropriately restrictive in it usage?
-> > >
-> > > I'm using vmsplice() + tee() + splice() in high-performance applicati=
-ons,
-> > > load generators to be precise, and soon a cache. This is super conven=
-ient
-> > > and extremely efficient:
-> > >
-> > >   - vmsplice() is used to prepare a "master" pipe with data to be sen=
-t
-> > >     over TCP or kTLS
-> > >   - then for each request, we do tee() from this master pipe to per-r=
-equest
-> > >     pipes.
-> > >   - the per-request pipes are those that are used to deliver the data=
- to
-> > >     the socket via splice().
-> > >
-> > > So we effectively use vmsplice(), tee() and splice() here, and for ex=
-actly
-> > > the reasons they were designed: only play with page refcount and not =
-copy
-> > > data. The code is here for the curious:
-> > >
-> > >    https://git.haproxy.org/?p=3Dhaproxy.git;a=3Dblob;f=3Dsrc/haterm.c
-> > >
-> > > and its ancestor is here:
-> > >
-> > >    https://github.com/wtarreau/httpterm/blob/master/httpterm.c
-> > >
-> > > It simply doubles the network bandwidth compared to not using that.
-> > > (62 Gbps per core vs 31). I would seriously miss it if I couldn't use
-> > > this anymore.
-> > >
+On Thu, 4 Jun 2026 07:17:10 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
+
+> On Thu, 4 Jun 2026 at 02:06, David Laight <david.laight.linux@gmail.com> wrote:
 > >
-> > Wait a moment.  This is neat, but it's literally just a benchmark,
-> > right?
->
-> No, it's a benchmark *tool*: it's being used to stress production code,
-> which is important and super hard at high loads. You place it after your
-> proxy and you measure the performance of the proxy (which is supposed not
-> to be as capable as the testing tools otherwise the methodology revolves
-> to testing the testing tools, which is not the point).
->
-> > I skimmed the code, and it doesn't look like a production
-> > workload, either.  And you manage to get around the awfulness of the
-> > vmsplice API's complete failure to tell you when it's done with a
-> > buffer by ... never actually changing the contents of the buffer.  Do
-> > you have any idea how you would write correct code that uses vmsplice
-> > for sends and then *ever* mutates the data without literally
-> > munmapping (or madvise or something) the data do you can safely mutate
-> > it?
->
-> I'm not sure what you mean here Andy. I *do not* need to change the
-> data, it's just a pre-made pattern.
+> > Something needs to ensure that the high 32bits of the fd get masked off
+> > on 64bit systems.  
+> 
+> That something already exists: CLASS(fd, f)(fd);
+> 
+> It ignores the top bits, because 'fdget()' takes an 'unsigned int'.
+> 
+> We have been a bit random in how we declare the system calls in
+> general, and we mix 'unsigned int' and 'int' and 'unsigned long'
+> pretty much randomly when it comes to file descriptor arguments to
+> system calls.
+> 
+> fs/read_write.c in particular uses all three cases with no real logic to it all:
+> 
+>   SYSCALL_DEFINE3(lseek, unsigned int, fd, ..
+>   SYSCALL_DEFINE3(readv, unsigned long, fd, ..
+>   SYSCALL_DEFINE4(sendfile, int, out_fd, ..
+> 
+> but then anything that uses fdget() (through one of the helper classes
+> or not) will simply not care.
+> 
+> Does it make sense? Is it pretty? Nope. Does it matter? Also nope.
 
-What I mean is: this particular pattern seems limited for use in an
-actual webserver as a opposed to a load-tester.
+I know it has mattered elsewhere, and is easy to get wrong because
+'mostly it works'.
 
-> > Or discover that we already have something better, perhaps :)
-> >
-> > https://man7.org/linux/man-pages/man3/io_uring_prep_send_zc.3.html
->
-> io_uring is different. We tried it "the dirty way" in the past, by
-> emulating a poller, and it's not worth it this way. And in order to
-> do it the right way, it needs to be done totally differently, which
-> has impacts all over the stack. The code in the file pointed to above
-> is just for the httpterm testing feature, but the rest is much more
-> complex.
+At least u32/u64 is reasonably sane - the called function has to ignore
+the high bits (at least on x86).
 
-I'm curious how this kludge does:
+Bool is another matter entirely, (IIRC from a couple of weeks ago)
+gcc will assume that the low 8 bits of the parameter register are
+either 0 or 1 and clang assumes that the low 32 bits are 0 or 1.
+You can't even check with 'if ((u32)bool_param > 1) error()' because
+the compiler 'knows' it can't be false.
+It all dumps you down one of the UB 'rabbit holes'.
 
-https://github.com/amluto/zc_bench
+-- David
 
-I vibe-coded this up without much care, and I don't have the hardware
-needed to actually run it in an interesting manner.  But, on a Linux
-VM on an Apple M4, I can push about 130Gbps on a single core over
-loopback.  In theory this will do zerocopy sends (but not over
-loopback), and I would hope that it runs *faster* than vmsplice + tee.
+> 
+>                   Linus
 
-(I have a fancy workstation that can do a whopping 2.5Gbps.  I could
-probably jury-rig a test over Thunderbolt at higher speeds.  I have
-systems that are not available for this test right now that can do
-10Gbps.  But someone probably needs 40Gbps or better hardware for a
-genuinely interesting test.)
-
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
 
