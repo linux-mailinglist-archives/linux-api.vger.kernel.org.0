@@ -1,214 +1,214 @@
-Return-Path: <linux-api+bounces-6530-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6531-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id L0K0IxjbIGoj8gAAu9opvQ
-	(envelope-from <linux-api+bounces-6530-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 03:55:36 +0200
+	id 82aaLbYdIWoR/QAAu9opvQ
+	(envelope-from <linux-api+bounces-6531-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 08:39:50 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CDC63C4E6
-	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 03:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B3563D477
+	for <lists+linux-api@lfdr.de>; Thu, 04 Jun 2026 08:39:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux-foundation.org header.s=google header.b=ZCyHWoya;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6530-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6530-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=1wt.eu header.s=mail header.b=jpkB2nzY;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6531-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6531-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=1wt.eu;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A22D03027948
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 01:52:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 39E7F303D4F0
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jun 2026 06:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CEA828DB49;
-	Thu,  4 Jun 2026 01:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050143803F5;
+	Thu,  4 Jun 2026 06:32:24 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3E5239085
-	for <linux-api@vger.kernel.org>; Thu,  4 Jun 2026 01:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F7437CD32;
+	Thu,  4 Jun 2026 06:32:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780537956; cv=none; b=m16RMxX2qrYLpB1yiAOUC0SRK/LoBsrgCN3w0oBC9A4N329lyj3hH/FZn2iWT1S0GnirCbG+yDWJsXb7f2qT9mrnsnqaXONDO1fvfovpOJXQQRp/63BNZGP9EbFWJnCEqwIYwZ9fqJfTel/E4fn8P820BJlRcjx+b62HSLYK/oM=
+	t=1780554743; cv=none; b=K9zHa0S3wsmAw3pUubpKwILtQyE4aTh1SqN1CIdoiHlzhy9rOZQKmNgpv9Yz7kvh9jivYu+jAEsO4OV1o0APLIDDHuesew2351g6tdcZMocTHjJ63gD9rINN4QOwpdzkV9bIOPVtEk743YWdmtUu9mcRKuTYgd5D1Q9XeTJKQUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780537956; c=relaxed/simple;
-	bh=n1SkdCcNZQRg1IgD5sSmDSj8j+GpuHeY4/Td660VL9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TwqrE80k5nUEZAWONyqkevxhXtQz1V0h4X3rnCYGgZiLvx/xFExwJLtjYn21RS/RIOXHoNhFZ1aXmxbh3gEO6CdOybQ8AZqQCWaux49vfWgXtsK6SwbT6Nd4htkXwOGdZlz4blC1UbMSftSUhxXTzh3X9GC4kvL/8tUr0/Dp0h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZCyHWoya; arc=none smtp.client-ip=209.85.208.53
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-68ca6f01079so134933a12.0
-        for <linux-api@vger.kernel.org>; Wed, 03 Jun 2026 18:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780537954; x=1781142754; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ti3H/yNlOCN9jiz2PA4OGwlivuSMT91KkxAffb1eRD4=;
-        b=ZCyHWoyagQn4jEw8+2BqwvYDxEsb3NKp8UQt5a7vjIM7b49dA31y5YQ6nLrvmLkxwk
-         m2U87KFya7eSVerBTp1zyFzoBLbCQbyWNqE+Q2NVnA6lCr+jbohqhEDvR2usn7lNca7N
-         tN290XPLwVYPJOb55/oaR6T/LJe5GhmDWXZco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780537954; x=1781142754;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ti3H/yNlOCN9jiz2PA4OGwlivuSMT91KkxAffb1eRD4=;
-        b=L5qiS167nBy2+UsEeWaP7cqkOdg+SlH7Vpw2uZwwV06EOLV8gev30mgNzatSLK6QZ2
-         K29E5Y3h+Yum7psTPkAsO2o9jH2IcOW2q1leEfJ2rzXYP/B1HrHvjtA/lbSAZuqxerpM
-         3o3ngN3LAF1DoRsY8P6J6ZUVzQiNhhSahm7LBcAABNsWEqZJHoDNsdkIrDgs15bC788p
-         YQOhlTB7qNE7s4ekJvf0uXL5fPOk9Wr5XLPv8u9oUbVeldkd+xuoYQRB0ZiJR+cayIez
-         Sl4iAqqkcvS2wewiLwlqeIC9F0rds82oLRy8epxBTXq/8rV1Ps4wB0+xomsGpSqZrQrj
-         YROA==
-X-Forwarded-Encrypted: i=1; AFNElJ/gCdv4mV15F3/GVS+/7UriDBAO3pi8oVT/9IZSdHwM+88r7K85mW4znmIevHMJuKh3uRW/zwJk1aI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoihIM1mRYBiMfZuNltQdMPu+A4uJSEJqm5GEEbVhZJxi20yyr
-	y6VZ3w1MJmyTSUQEnnKuJP/0+I+vv7V5JT/34zSfc3uvUv+gD14n4Gd/wLqoPcrRTo6C1qZEnPt
-	pncIb3P2Gbg==
-X-Gm-Gg: Acq92OHoPhFXwX+OARO/5IN5l0BFj5ojzO92g3zSBj7oo3oyyROoTzfS/8dy1BIQ9j7
-	OE2AJz6SPG2eIGvxHZFGWnuXpeRO1THo0+mAJEi1Tvwk/x82QQ9fqZw97UQVAYqO5S13DQOKZQ+
-	fIP9sy4UuIgIUwExO3ByQm8o/5nNYyIaE/AtgEXL6V+wOiBUyuzBR0tqqQHc/wmjvQFNAfcKcno
-	jYkQcW0i32t5pEba/5FN+UeBObTBcby5WAUeR1/gvCwe2FovJAnt+NGtR+DEd1l9LeGzZh2uhXa
-	WFFPKW1JLY0NhT2AzfGlT4b9K4jYsRcZ2crkTKGeZJCKXEc/Htjp9jrPx1Np3uRSW/11EYktm59
-	ohP5L/wkIY7Qu+DZ78ukOc1v8/5IebIAwP0HfDcHx5JWLkAuMdsPsk+FMuEMsd04qf27H9psQDj
-	E01aId4vBAitlF2p70zoDJH9U2JlYMUD5udkNbtLpsRAYREL4M+bivuLL/vEv5U2EH9Z/YUZQmJ
-	uC4QAUUEywIFubnf1PKkQ==
-X-Received: by 2002:a17:907:3d90:b0:bed:38b8:9b4b with SMTP id a640c23a62f3a-bf0ae3ff64dmr310309666b.27.1780537953705;
-        Wed, 03 Jun 2026 18:52:33 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf055307a35sm230614366b.52.2026.06.03.18.52.32
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 18:52:33 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6886be3d39bso170460a12.3
-        for <linux-api@vger.kernel.org>; Wed, 03 Jun 2026 18:52:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+19sobR0ka/JRuBZRDqa8B1jcNAE4dynp9bOnQvHj6BoYJz1MXq7uxZ/qwhbrMebRjqjUwX0Q7PA0=@vger.kernel.org
-X-Received: by 2002:a05:6402:550a:b0:66d:d2f9:520c with SMTP id
- 4fb4d7f45d1cf-68e72250122mr2844444a12.19.1780537952777; Wed, 03 Jun 2026
- 18:52:32 -0700 (PDT)
+	s=arc-20240116; t=1780554743; c=relaxed/simple;
+	bh=SfnC9yJJuifTGy+OR43943J7ylh76jONzzAr29Kxf08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a8H3R1Euu6iDrq+FJz1Lbsj+Av75SZ7IFHD98zdzlu++AQoHu+VCbABixM1TJXH3UtvuI3GrXX/BoSvIOf2xgKuzJw2q3j4tt2gQYiATq5A2aQMucyiKAIwipr1lV9ASNFBgJdzpai1S4BrkKX0wi5iV8m5nmDJPcgMvZhhZbzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=jpkB2nzY; arc=none smtp.client-ip=51.159.59.229
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1780554737; bh=D9nwLs4KwMwQ80PQ1Q3ExZLliPxSXG1vTX5NNZIw0Hg=;
+	h=From:Message-ID:From;
+	b=jpkB2nzYMYFGJLo2yxhZ7zzA+WhfbH6IPBDq/rnj5kwadTf4T1dykNg7QvtDS3q/f
+	 X1+Gc6B00HW6CKs9VJ9MpDO6InL90L1sxTWsIl/GvAc+96Vwhwlca0ShHaEEmf4bvI
+	 0SMiD+Gpq2qOzkk1UhzhXudoxeVA4OeVV8ZoBGyc=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 989C8C0B73;
+	Thu, 04 Jun 2026 08:32:17 +0200 (CEST)
+Date: Thu, 4 Jun 2026 08:32:16 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@infradead.org>,
+        David Howells <dhowells@redhat.com>,
+        David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+        Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
+        linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <aiEb8CTM-ovMIq7-@1wt.eu>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV>
+ <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com> <20260604004559.1112474-1-safinaskar@gmail.com>
-In-Reply-To: <20260604004559.1112474-1-safinaskar@gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 3 Jun 2026 18:52:15 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgPzxQL9Bdze=qnSa5v8A2D6cPaU0Bi=j4N38+ja1NkzQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Ia6Rugs2gzhFv567LCSFsgwGvMvJbpyqp7BVsPOVMqNGKAIqxMQwoy6bY
-Message-ID: <CAHk-=wgPzxQL9Bdze=qnSa5v8A2D6cPaU0Bi=j4N38+ja1NkzQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Askar Safin <safinaskar@gmail.com>
-Cc: akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org, 
-	david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
-	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[1wt.eu,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+	R_DKIM_ALLOW(-0.20)[1wt.eu:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:akpm@linux-foundation.org,m:axboe@kernel.dk,m:brauner@kernel.org,m:david@kernel.org,m:dhowells@redhat.com,m:hch@infradead.org,m:jack@suse.cz,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:viro@zeniv.linux.org.uk,m:willy@infradead.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6531-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TAGGED_FROM(0.00)[bounces-6530-lists,linux-api=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[w@1wt.eu,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[goodmis.org,zeniv.linux.org.uk,linux-foundation.org,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[w@1wt.eu,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[1wt.eu:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux-foundation.org:from_mime,linux-foundation.org:dkim,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[goodmis.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.org.uk:email,1wt.eu:mid,1wt.eu:from_mime,1wt.eu:dkim,haproxy.org:url,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E3CDC63C4E6
+X-Rspamd-Queue-Id: 11B3563D477
 
-On Wed, 3 Jun 2026 at 17:46, Askar Safin <safinaskar@gmail.com> wrote:
->
-> For example, in vmsplice I do "CLASS(fd, f)(fd)" and then I pass
-> "fd" (i. e. integer) to "do_writev/do_readv". I don't know whether
-> this is okay to do so.
+On Mon, Jun 01, 2026 at 05:28:25PM -0700, Andrew Morton wrote:
+> On Mon, 1 Jun 2026 16:04:55 -0400 Steven Rostedt <rostedt@goodmis.org> wrote:
+> 
+> > On Mon, 1 Jun 2026 18:33:25 +0100
+> > Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > 
+> > > On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
+> > > 
+> > > > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
+> > > > a big simplification.  
+> > > 
+> > > FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> > > Communications between the kernel and fuse server at least used to
+> > > seriously want that, so that would be one place to look for unhappy
+> > > userland...
+> > > 
+> > > splice-related logics in fs/fuse/dev.c is interesting; another place
+> > > like this is kernel/trace/, but I'm less familiar with that one.
+> > > 
+> > > rostedt Cc'd (miklos already had been)
+> > 
+> > Thanks for the Cc. The tracing ring buffer was specifically made to be used
+> > by splice and the libtracefs has a lot of code to use it as well. As
+> > reading the ring buffer literally swaps out the write portion with a blank
+> > read portion, that portion (sub-buffer) is used to be directly fed into
+> > splice, providing a zero-copy of the trace data from the write of the event
+> > to going into a file.
+> > 
+> > trace-cmd defaults to using splice to copy the tracing ring buffer directly
+> > into files to avoid as much copying during live recordings as possible.
+> > 
+> > Whatever changes we make, I would like to make sure there's no regressions
+> > in performance of trace-cmd record.
+> 
+> Well yes, The patchset seems sensible from a quality POV.  But to make
+> a decision we should first have a decent understanding of its downside
+> impact.
+> 
+> I haven't seen a description of that impact in the discussion thus far.
+> And that description is owed, please.
+> 
+> I assume a small number of specialized applications are using
+> vmsplice() to great effect?  What are those applications?  What is the
+> impact of this change?
 
-Oh, good point.
+> Once we are armed with that information, is there some middle ground in
+> which we de-feature vmsplice()?  Fall back to pread/pwrite in the
+> tricky cases and still permit vmsplicing if the application is
+> appropriately restrictive in it usage?
 
-It's ok in the sense that it will work, and it's not really going to
-cause problems, but it does mean that the 'struct file' will be looked
-up twice.
+I'm using vmsplice() + tee() + splice() in high-performance applications,
+load generators to be precise, and soon a cache. This is super convenient
+and extremely efficient:
 
-And *technically* it's a TOCTOU race, where the first time you look it
-up - in the vmsplice() wrapper - it could be one file, and you make
-decisions based on that. And then pass it off to do_writev(), and it
-will look it up again, and now it might be a different file.
+  - vmsplice() is used to prepare a "master" pipe with data to be sent
+    over TCP or kTLS
+  - then for each request, we do tee() from this master pipe to per-request
+    pipes.
+  - the per-request pipes are those that are used to deliver the data to
+    the socket via splice().
 
-Does it *matter*? No. Even if the file changed, and is now something
-else, it's just going to be a different file that the user does
-writev() on. do_writev() will still do all the appropriate safety
-checks etc, so it doesn't really change anything. It just means that
-you could pass what you *think* is a pipe (because you did that
+So we effectively use vmsplice(), tee() and splice() here, and for exactly
+the reasons they were designed: only play with page refcount and not copy
+data. The code is here for the curious:
 
-+       if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
-+               return -EBADF;
+   https://git.haproxy.org/?p=haproxy.git;a=blob;f=src/haterm.c
 
-and by the time do_writev() then looks up the fd again it might be
-something else, and now the user used vmsplice() as a really odd way
-to write to a another non-pipe file instead. But the user could have
-done that with a regular writev(), so it's just the user being silly -
-not something that really confuses the kernel.
+and its ancestor is here:
 
-Coimpletely harmless, in other words.
+   https://github.com/wtarreau/httpterm/blob/master/httpterm.c
 
-But it would probably be *cleaner* to pass in the 'struct file *'
-pointer that you already looked up once instead, and use vfs_writev()
-instead of do_writev().
+It simply doubles the network bandwidth compared to not using that.
+(62 Gbps per core vs 31). I would seriously miss it if I couldn't use
+this anymore.
 
-And I do suspect that the wrapper system call should use the same
+I also have mid-term plans for using vmsplice() to deliver contents from
+a cache to sockets as well via splice(). Right now our cache is split into
+too small chunks (1kB) to make that useful, but as soon as we can move to
+4kB pages, it will make sense. There the same gains are expected, and I
+would particularly dislike the idea of no longer being able to implement
+zero-copy!
 
-   SYSCALL_DEFINE4(vmsplice, int, fd, ..
+Maybe some arrangements are possible though. I'm not seeing any other way
+to achieve the same things differently, but possibly that the base of the
+problem is the easy abuse of vmsplice() to affect the page cache. Maybe
+placing certain restrictions such as he area only being mapped to anonymous
+pages, or anything similar could make sense. In my use case it wouldn't be
+that much of a constraint. Well, for the cache maybe it could be though,
+as it would prevent us from sharing it via persistent storage. Or maybe
+we could require a CAP_BACKED_VMSPLICE to be allowed to vmsplice file-
+backed pages, which could be sufficient to prevent easy LPE each time a
+bug is found ?
 
-that the original used. Because it somebody crazy had the high bits
-set in 'fd', the old vmsplice() system call didn't care, but your new
-emulation system call will actually see the high bits on a 64-bit
-architecture.
+I think that the users of this APIs are rare enough that we can probably
+find a solution that anyone can reasonably adapt to with minimal
+constraints. But most likely each of these few users rely on this
+*a lot*.
 
-Again - that doesn't actually *matter*, because "CLASS(fd)" takes an
-"int fd" and those high bits will be masked out at use time both in
-vmsplice() and in do_readv/writev().
-
-So it won't affect any behavior, but it does look a bit odd in the conversion.
-
-And I already answered Christian wrt the change in behavior: I think
-RWF_NOWAIT should always be set on the writing side - because splice()
-never waited after it filled a pipe - and instead that
-SPLICE_F_NONBLOCK flag should be used before write to check for
-whether we'll wait *before* doing the write like it used to do with
-
-        ret = wait_for_space(pipe, flags);
-
-in vmsplice_to_pipe().
-
-(On the other side, vmsplice_from_pipe() used to do
-pipe_clear_nowait(), but I think that becomes a non-issue with the
-conversion to readv()).
-
-And once you need wait_for_space(), that probably means that the new
-vmsplice() wrapper simpler needs to remain inside fs/splice.c, and we
-just need to make vfs_readv/vfs_writev non-static.
-
-              Linus
+Just my two cents,
+Willy
 
