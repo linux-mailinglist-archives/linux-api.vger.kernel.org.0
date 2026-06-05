@@ -1,197 +1,222 @@
-Return-Path: <linux-api+bounces-6565-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NcfyAO0kI2qejQEAu9opvQ
-	(envelope-from <linux-api+bounces-6565-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 21:35:09 +0200
+	id b8gdBJY0I2qtkQEAu9opvQ
+	(envelope-from <linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 22:41:58 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A9D64AFA3
-	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 21:35:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E76464B32E
+	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 22:41:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=g5KmIlkS;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6565-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6565-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
+	dkim=fail ("headers rsa verify failed") header.d=wii.dev header.s=x header.b=cnA+rOMB;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=wii.dev (policy=quarantine);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8ECDF301913C
-	for <lists+linux-api@lfdr.de>; Fri,  5 Jun 2026 19:35:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0E9093022616
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jun 2026 20:38:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE2EE43E9C3;
-	Fri,  5 Jun 2026 19:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16F593C13FD;
+	Fri,  5 Jun 2026 20:38:10 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta4.mxroute.com (mail-108-mta4.mxroute.com [136.175.108.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7C93CF1EE
-	for <linux-api@vger.kernel.org>; Fri,  5 Jun 2026 19:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A820393DE9
+	for <linux-api@vger.kernel.org>; Fri,  5 Jun 2026 20:38:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780688106; cv=none; b=lQeCVVi5nQRftnXKRvQ8WSHCUuASVKnG2IE6pQ7YAWGAyVXOzVLChjpbd7jc9Od69rpH2/UhVR9QLLFoTEdpE3mFuCh20cEsjdq1gRhfRKCWZQ7dcfrqHbcoIT9MBAeA3NOwjGvgD01RiIu355FVMw2d46bANgVAlKVrUKgIHgQ=
+	t=1780691890; cv=none; b=O30MrYHixSG90poEx1TEMtmav97e5wXfo0CZse27SClPkZtyVrr0NnGrjkg2Kr8pbyakqWLtvLMgbnYpVCNDwDaUhOnDO+vhkLUV+hKbiFTk7lFGahlO9cDTsGu7eo8oT/2cj7sxVPvr/XPto8+ZJ7IZo5MLejfxfhUn4bptbXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780688106; c=relaxed/simple;
-	bh=cEHdvvSNdwEceaJjjNLPDHJB5qJnAkNGBAr1AdGqYtg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=M8Ep1Q/cBiQ4GpzpMmrZMTZoBGQMgoIodOfWd7U6yA51yOIVi4bGlTDTJHLn3v6uepoDZeSSbdCKqAzG49Sl/K8mFikynQZWy5HSe3AmCtcpORP+ivSV38d2AuvLNT16RzOTZGezgf0rEFXfcTNRyS5Wo1vz8f0mJNUfTAXqVAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g5KmIlkS; arc=none smtp.client-ip=170.10.129.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780688104;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e20VlXH0aqUbMsSjeiYD1F+rMEEZP2T5xYCNs93/16g=;
-	b=g5KmIlkSQqW8BLg1BgmU1XSaEaF0f9DF6jZVToXyos/PzYlXeKO2QTGb27BvTfODJPcBWS
-	b3JjLmf3NVinTGE1wuPm46SK23jGhPVXs83bUpsl/qD1WPCe84txwcH0zup1EIb8YbB05n
-	Fp4SUNkAEwFCl4Sh715BhnltxydWXbA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-377-4gD2I__oOQOhPKUCQMI3Cw-1; Fri,
- 05 Jun 2026 15:35:00 -0400
-X-MC-Unique: 4gD2I__oOQOhPKUCQMI3Cw-1
-X-Mimecast-MFC-AGG-ID: 4gD2I__oOQOhPKUCQMI3Cw_1780688097
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 44A29195608B;
-	Fri,  5 Jun 2026 19:34:56 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.48.51])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C9FCE765;
-	Fri,  5 Jun 2026 19:34:50 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Richard Patel <ripatel@wii.dev>
-Cc: x86@kernel.org,  "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Yu-cheng Yu <yu-cheng.yu@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Gleixner <tglx@kernel.org>,  Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>,
- David Laight <david.laight.linux@gmail.com>,
- Andy Lutomirski <luto@kernel.org>,  Kees Cook <kees@kernel.org>,
- Shuah Khan <shuah@kernel.org>,  linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
- linux-api@vger.kernel.org, Arjun Shankar <ashankar@redhat.com>
+	s=arc-20240116; t=1780691890; c=relaxed/simple;
+	bh=mtRFSkWblm61wGrh/wpoZ7P+qtpA7tqnNoCqk9zA3O8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwPxDnIRMXxLVHTJC2W/QAGfwHX6BJadvwSOlWYK9/usaWAZxOo6n0hSJWraJ39tysRv90FfHrjd6MTZ17pVBdgnk2uHpfiIRgDVwbtrjqJmkG2jNdkJG517pn46u90VP0YxMqsusMsbOhvWgKzIOExWonE51x6vswyXo6zpSGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wii.dev; spf=pass smtp.mailfrom=wii.dev; dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b=cnA+rOMB; arc=none smtp.client-ip=136.175.108.4
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta4.mxroute.com (ZoneMTA) with ESMTPSA id 19e997d22bd00067f7.010
+ for <linux-api@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Fri, 05 Jun 2026 20:32:55 +0000
+X-Zone-Loop: 1b92b155840ba66de76f21a0b81b6bc7650139ecf08a
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wii.dev;
+	s=x; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc
+	:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=WcZzNqmpt6jHPh6vf5iW0qnbE08NIl2+GlfUTtZVfjI=; b=cnA+rOMBGmo8XuDqWhFFinwish
+	9fTECOf7ox3lVvB/P8JYFx3kfBDQGOn7SGnwMm0pBKWkn3Q2KKp/6f5yWB/ehThI5dh7ZVExpbAqm
+	agmru/doC17m8GUP6NJtGQM5b5jqr+lJQoc1vpWEXJkdINvQrjT6SvG4GGmGZYR4DcVEn3MQoGdl8
+	7S13simPnPtCwkXOOLe4+1Tzo6c8MYGLgceeEB5NWezUXpnmo8XEvVe0f7Yxb8GspZ2ewGQy70s9T
+	KH6vIgODllVhzkRHTPfZU4yaL7sbiTYMXTqmBCHXFhirB6w+xne7k9+q+kxkcPvJ/PupyLivmur1V
+	dMiFzx3A==;
+Date: Fri, 5 Jun 2026 20:32:40 +0000
+From: Richard Patel <ripatel@wii.dev>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Yu-cheng Yu <yu-cheng.yu@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>, Kees Cook <kees@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
+	linux-api@vger.kernel.org, Arjun Shankar <ashankar@redhat.com>
 Subject: Re: [PATCH v2 0/5] Usermode Indirect Branch Tracking
-In-Reply-To: <20260605184715.3383415-2-ripatel@wii.dev> (Richard Patel's
-	message of "Fri, 5 Jun 2026 18:47:11 +0000")
+Message-ID: <aiMyaJ8zDl76YOVN@wii.dev>
 References: <20260605184715.3383415-2-ripatel@wii.dev>
-Date: Fri, 05 Jun 2026 21:34:46 +0200
-Message-ID: <lhu1pek4w89.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <lhu1pek4w89.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lhu1pek4w89.fsf@oldenburg.str.redhat.com>
+X-Authenticated-Id: ripatel@wii.dev
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [2.54 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[wii.dev : SPF not aligned (relaxed),quarantine];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_REJECT(1.00)[wii.dev:s=x];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6566-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:fweimer@redhat.com,m:x86@kernel.org,m:hpa@zytor.com,m:peterz@infradead.org,m:rick.p.edgecombe@intel.com,m:yu-cheng.yu@intel.com,m:dave.hansen@linux.intel.com,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:david.laight.linux@gmail.com,m:luto@kernel.org,m:kees@kernel.org,m:shuah@kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:libc-alpha@sourceware.org,m:linux-api@vger.kernel.org,m:ashankar@redhat.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[ripatel@wii.dev,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-6565-lists,linux-api=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,zytor.com,infradead.org,intel.com,linux.intel.com,redhat.com,alien8.de,gmail.com,vger.kernel.org,sourceware.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,zytor.com,infradead.org,intel.com,linux.intel.com,redhat.com,alien8.de,gmail.com,vger.kernel.org,sourceware.org];
-	FORGED_RECIPIENTS(0.00)[m:ripatel@wii.dev,m:x86@kernel.org,m:hpa@zytor.com,m:peterz@infradead.org,m:rick.p.edgecombe@intel.com,m:yu-cheng.yu@intel.com,m:dave.hansen@linux.intel.com,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:david.laight.linux@gmail.com,m:luto@kernel.org,m:kees@kernel.org,m:shuah@kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:libc-alpha@sourceware.org,m:linux-api@vger.kernel.org,m:ashankar@redhat.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fweimer@redhat.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[wii.dev:-];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ripatel@wii.dev,linux-api@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oldenburg.str.redhat.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 80A9D64AFA3
+X-Rspamd-Queue-Id: 4E76464B32E
 
-* Richard Patel:
+On Fri, Jun 05, 2026 at 09:34:46PM +0200, Florian Weimer wrote:
 
-> Adds basic support for x86 userspace IBT.
->
-> IBT is part of Intel CET. It requires indirect call and jump targets
-> to start with an endbr{32,64} instruction, otherwise throwing #CP.
->
-> In summary, this patch does 3 things:
-> - Config wiring ensuring supervisor XSAVE contains IBT state
-> - Allow userspace to enable IBT via prctl(PR_CFI_*) for an entire thread
-> - Enable IBT support (ENDBR instructions) in VDSO
->
-> Unlike the arm64 BTI API:
-> - does not support mixed usermode (all or nothing)
-> - does not touch page table code
-> - not enabled automatically (no ELF GNU note parsing)
-> - temporarily disables IBT enforcement when handling signals
-> These can all be cleanly added later.
+> How do you detect that handling a signal is complete and IBT can be
+> re-enabled?  Or is it re-enabled before entering the userspace signal
+> handler?
 
-Adding the ELF GNU note parsing can be added later, but perhaps not
-cleanly.  I'm still a bit worried we might have to rev the markup
-because too many binaries are in circulation that claim compatibility,
-have never been tested, and are actually broken.  If the kernel does not
-look at the ELF bits, things a slightly simpler.
+Hi Florian,
 
-How do you detect that handling a signal is complete and IBT can be
-re-enabled?  Or is it re-enabled before entering the userspace signal
-handler?
+In v1, we backed up the IBT CPU state into the (user-accessible) signal
+frame from FRED/XSAVE, then restored it:
+https://lore.kernel.org/lkml/20260517183024.16292-4-ripatel@wii.dev/
 
-> The main question is whether glibc is happy with this prctl syscall API.
+In v2, when entering the signal handler, the kernel just context switches
+to the new user rip, bypassing IBT checks (continues executing if the
+signal handler does not begin with endbr).
 
-As far as I can tell, the prctl works for glibc.  Re-use of an
-arch_prctl constant might have been problematic, but the series is not
-doing that.
+IBT stays enabled in both designs, just the IBT state is preserved in v1,
+and lost in v2.
 
-> There is one notable gap in this patch series, to do with signals:
->
->   000a: mov rax, 0x100a
->   000f: jmp rax
->   *** signal occurs ***
->   *** signal handler runs, does sigreturn ***
->   100a: nop
->
-> The above sequence does not crash.
->
-> With IBT, it should crash at the nop (because an endr64 is expected there).
-> The IBT state (WAIT_FOR_ENDBR in IA32_U_CET MSR) is not backed up to the
-> signal frame though.  So, when userland does a sigreturn, the CPU has
-> forgotten that it was doing an indirect branch before the signal.
-> (This specifically only occurs with signal handlers that sigreturn.)
->
-> This is because IA32_U_CET is part of XSAVE 'supervisor' state, so
-> regular XSAVE/XRSTOR can't access it.  Doing a manual backup is tricky.
+The same thing happens when doing a sigreturn in v2 (e.g. via trampoline),
+again IBT is not enforced.  IBT stays enabled when doing a siglongjmp,
+though.
 
-That's a bit annoying.  Is this restricted to signal handlers, or does
-it apply to page faults, too?
+Some time in the future, ideally:
+- signal handler is *required* to start with endbr (this is easy)
+- sigreturn as in my asm example enforces endbr after returning from a
+  signal handler to a in-progres indirect branc
+- libc (sig)longjmp is made IBT-compatible
 
-> A related problem is that the signal handler routine is not checked for
-> endbr preamble.
+Btw, I had self-tests for the v1 design, and {signal handle,rt_sigreturn,
+siglongjmp} with {success case,violation} works flawlessly with Fedora 44
+glibc amd64. With glibc i686 I ran into PLT issues, probably my fault.
 
-That's not necessarily a problem because its address cannot be directly
-overwritten in userspace.  Not all indirect branches need to be checked,
-only those that have tweakable targets.  In fact, fewer ENDBR64 markers
-are better (although we wouldn't drop the marker from a signal handler
-specifically, of course).
+It is quite surprised that siglongjmp was working, btw, since the glibc
+longjmp code uses 'jmp *reg' (without notrack prefix). I guess you do an
+endbr64 at the setjmp side?
 
-Thanks,
-Florian
+> > The main question is whether glibc is happy with this prctl syscall API.
+> 
+> As far as I can tell, the prctl works for glibc.  Re-use of an
+> arch_prctl constant might have been problematic, but the series is not
+> doing that.
 
+Nice :-)
+The alternative would have been to bolt on stuff to ARCH_SHSTK, or create
+an entirely new arch_prctl. Open to any API.
+
+> Adding the ELF GNU note parsing can be added later, but perhaps not
+> cleanly.  I'm still a bit worried we might have to rev the markup
+> because too many binaries are in circulation that claim compatibility,
+> have never been tested, and are actually broken.  If the kernel does not
+> look at the ELF bits, things a slightly simpler.
+
+Phew, I was hoping you'd say that.
+
+If you want, I can sketch out glibc IBT enabling and test it on Debian
+and Fedora, which IIRC already emit compile with -fcf-protection=branch
+for all OS packages.
+
+> > There is one notable gap in this patch series, to do with signals:
+> >
+> >   000a: mov rax, 0x100a
+> >   000f: jmp rax
+> >   *** signal occurs ***
+> >   *** signal handler runs, does sigreturn ***
+> >   100a: nop
+> >
+> > The above sequence does not crash.
+> >
+> > With IBT, it should crash at the nop (because an endr64 is expected there).
+> > The IBT state (WAIT_FOR_ENDBR in IA32_U_CET MSR) is not backed up to the
+> > signal frame though.  So, when userland does a sigreturn, the CPU has
+> > forgotten that it was doing an indirect branch before the signal.
+> > (This specifically only occurs with signal handlers that sigreturn.)
+> >
+> > This is because IA32_U_CET is part of XSAVE 'supervisor' state, so
+> > regular XSAVE/XRSTOR can't access it.  Doing a manual backup is tricky.
+> 
+> That's a bit annoying.  Is this restricted to signal handlers, or does
+> it apply to page faults, too?
+
+Only signal handlers, page faults don't reset IBT.
+
+> > A related problem is that the signal handler routine is not checked for
+> > endbr preamble.
+> 
+> That's not necessarily a problem because its address cannot be directly
+> overwritten in userspace.  Not all indirect branches need to be checked,
+> only those that have tweakable targets.  In fact, fewer ENDBR64 markers
+> are better (although we wouldn't drop the marker from a signal handler
+> specifically, of course).
+
+Just one concern I have is that people start relying on signal handlers
+not requiring endbr64, and then a future kernel version breaking them once
+we enforce it.
+
+Really appreciate your review,
+
+-Richard
 
