@@ -1,222 +1,226 @@
-Return-Path: <linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6567-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id b8gdBJY0I2qtkQEAu9opvQ
-	(envelope-from <linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 22:41:58 +0200
+	id q/HUFxA5I2oflAEAu9opvQ
+	(envelope-from <linux-api+bounces-6567-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 23:01:04 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E76464B32E
-	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 22:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30C264B448
+	for <lists+linux-api@lfdr.de>; Fri, 05 Jun 2026 23:01:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=wii.dev header.s=x header.b=cnA+rOMB;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6566-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=wii.dev (policy=quarantine);
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=infinite-source.de header.s=strato-dkim-0002 header.b=QN+LVqd9;
+	dkim=pass header.d=infinite-source.de header.s=strato-dkim-0003 header.b=8WCLaVWz;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6567-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6567-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=infinite-source.de;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E9093022616
-	for <lists+linux-api@lfdr.de>; Fri,  5 Jun 2026 20:38:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6DC0D3028B41
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jun 2026 20:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16F593C13FD;
-	Fri,  5 Jun 2026 20:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA173C4166;
+	Fri,  5 Jun 2026 20:58:05 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-108-mta4.mxroute.com (mail-108-mta4.mxroute.com [136.175.108.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A820393DE9
-	for <linux-api@vger.kernel.org>; Fri,  5 Jun 2026 20:38:08 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780691890; cv=none; b=O30MrYHixSG90poEx1TEMtmav97e5wXfo0CZse27SClPkZtyVrr0NnGrjkg2Kr8pbyakqWLtvLMgbnYpVCNDwDaUhOnDO+vhkLUV+hKbiFTk7lFGahlO9cDTsGu7eo8oT/2cj7sxVPvr/XPto8+ZJ7IZo5MLejfxfhUn4bptbXw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780691890; c=relaxed/simple;
-	bh=mtRFSkWblm61wGrh/wpoZ7P+qtpA7tqnNoCqk9zA3O8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwPxDnIRMXxLVHTJC2W/QAGfwHX6BJadvwSOlWYK9/usaWAZxOo6n0hSJWraJ39tysRv90FfHrjd6MTZ17pVBdgnk2uHpfiIRgDVwbtrjqJmkG2jNdkJG517pn46u90VP0YxMqsusMsbOhvWgKzIOExWonE51x6vswyXo6zpSGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wii.dev; spf=pass smtp.mailfrom=wii.dev; dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b=cnA+rOMB; arc=none smtp.client-ip=136.175.108.4
-Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta4.mxroute.com (ZoneMTA) with ESMTPSA id 19e997d22bd00067f7.010
- for <linux-api@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Fri, 05 Jun 2026 20:32:55 +0000
-X-Zone-Loop: 1b92b155840ba66de76f21a0b81b6bc7650139ecf08a
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wii.dev;
-	s=x; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc
-	:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=WcZzNqmpt6jHPh6vf5iW0qnbE08NIl2+GlfUTtZVfjI=; b=cnA+rOMBGmo8XuDqWhFFinwish
-	9fTECOf7ox3lVvB/P8JYFx3kfBDQGOn7SGnwMm0pBKWkn3Q2KKp/6f5yWB/ehThI5dh7ZVExpbAqm
-	agmru/doC17m8GUP6NJtGQM5b5jqr+lJQoc1vpWEXJkdINvQrjT6SvG4GGmGZYR4DcVEn3MQoGdl8
-	7S13simPnPtCwkXOOLe4+1Tzo6c8MYGLgceeEB5NWezUXpnmo8XEvVe0f7Yxb8GspZ2ewGQy70s9T
-	KH6vIgODllVhzkRHTPfZU4yaL7sbiTYMXTqmBCHXFhirB6w+xne7k9+q+kxkcPvJ/PupyLivmur1V
-	dMiFzx3A==;
-Date: Fri, 5 Jun 2026 20:32:40 +0000
-From: Richard Patel <ripatel@wii.dev>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>, Kees Cook <kees@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
-	linux-api@vger.kernel.org, Arjun Shankar <ashankar@redhat.com>
-Subject: Re: [PATCH v2 0/5] Usermode Indirect Branch Tracking
-Message-ID: <aiMyaJ8zDl76YOVN@wii.dev>
-References: <20260605184715.3383415-2-ripatel@wii.dev>
- <lhu1pek4w89.fsf@oldenburg.str.redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506563A7F4B;
+	Fri,  5 Jun 2026 20:58:01 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780693084; cv=pass; b=F7xU38yboehSljPEAye5rWjJ+P/jXns0Ioasu5a6e70CjE+PFnkKeC49K84rnXElBFtL+E8diznB5zaCqp1trsbuEdjF4PJJnu4pXbWIzdgEmJUBHy2blgjpTK2Zb8btIp3dK+qQ6ENuJFLJZRv/+guSbWZcl3uPNRP5ePoqe6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780693084; c=relaxed/simple;
+	bh=uRYDliO21fd15TPq957TbM5u9FjxvLcB64qva0Hutsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RP37II5Vr3i9M8AxlwSFoep37FBkX/S+eXsvIbREmnN9K5mKqX3Wz96kMXinxZU4IYwSSuoxIDl/Z3yTDeR2R8UndZYarOs8hR1nhlTLd+oTylyoqv+rgilkiJzvuFpGOnAVxdFBpsVbdm9lXKvsBC4lpQgG28KXNLzfMvppx1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=infinite-source.de; spf=none smtp.mailfrom=infinite-source.de; dkim=pass (2048-bit key) header.d=infinite-source.de header.i=@infinite-source.de header.b=QN+LVqd9; dkim=permerror (0-bit key) header.d=infinite-source.de header.i=@infinite-source.de header.b=8WCLaVWz; arc=pass smtp.client-ip=81.169.146.171
+ARC-Seal: i=1; a=rsa-sha256; t=1780692890; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=hh6lIgoTvUllGPKdx4NqM37Z3SF8LMp0ir6sZ5owEEk2q+iyku+p9P7kRvyaP5a5Je
+    M3UWuwAPZA5fbGvy3uj6818OQdtroD2lLFkf3fuRCuFqcd2Xl64nwVAih7smIDfpUn0Q
+    c7Eo7Vv1iGEygwBki/yfC8ZguabC+MPAxuGMTTKNFOWZtSl+bGQfabCP5TcUTI19kB85
+    qNcTuzZgGOb2SJGKRylMVvx1qcHvH1y5+KftAdRHktrEnanFXMb943h2YwSTZn65ERa8
+    GoUBTLXZfEFhl2OCSaUbPdwNnZ9JQFMETWQ7Xx4Il6DCg5V2HwY055f0aUjfSvtVcbM0
+    ZaaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1780692890;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=e5U4ig/uUW/ykznudNtIoLlpAxdXFMDfbHPHK9h+DFI=;
+    b=mW0kw25xNVqlyNoCKiNir7K4Wa6ubcpkH6PCelWgzXQPwunjJMVGM7/LcjVF8YXHy1
+    yqPNxtmPyzg/t4B5lhMhMY+8kmO4A5kem9FUerITV6bn7GumCb4X92HDNo7jBvcyXDe/
+    xi/rzkfvTRpyvV4BJi0xZV4HCsPohirJagixrEroGMqyNHAtdbxcBNNBLttSStQj0CMO
+    iNrispwkk5pcEBWGvpfUMNuFXq711PgaG7p+azV290Qqs0flcOpW1ye+CZ8VFjKRi7j4
+    zKA+ww//vjcofx3SV/4HQaVzT4tkvXmp8xOk1TyouzVXoC5EFRdPY/4ZhdcSm9baL8CF
+    GvLg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1780692890;
+    s=strato-dkim-0002; d=infinite-source.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=e5U4ig/uUW/ykznudNtIoLlpAxdXFMDfbHPHK9h+DFI=;
+    b=QN+LVqd9GFndtvOCtdXeHdLoDQKUV99KE/r4wqHwhZj240RcZNueQdKolOkD1VpIVB
+    Oc8Z0kOpEBJsH80PWib/FOzXyxjgiXNfxRQ9OzBkT5vJ7ee9kYSppu9cZYvrqRiY1WBv
+    s/mGiD7HO9kD+dIFxfOw6XfM6fmVJT/OAHEtLdD91brHmwK5nWO4lPEc6+uqMGlB1882
+    K3FKQvYlosYKDWdudFCB/16Z44IaD9PQXTA/knGRn6InGle36MKg3cc7wAU7muk9sh2v
+    C35CyTzMG/N7ezxeVM0oD2TXAqdAdr3z8vnfk+Fdgg9Wr9xPxx4C3pUsDpcAu9z0jlPj
+    Z8dg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1780692890;
+    s=strato-dkim-0003; d=infinite-source.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=e5U4ig/uUW/ykznudNtIoLlpAxdXFMDfbHPHK9h+DFI=;
+    b=8WCLaVWzkyF+FJqcLNijVyFBuhYUe+qoh+tOXBMn1wQUQAg06PmA5C7puyuyh3N7GY
+    r95LcM6D6YmdR1gmxADQ==
+X-RZG-AUTH: ":LW0Wek7mfO1Vkr5kPgWDvaJNkQpNEn8ylntakOISso1hE0McXX1lsX682SOpskKNgu1vdp7pXN2ayNAkRm8xGwNyBO1pryZlEoFdH8nUdt2z/2Kw21ZBog=="
+Received: from [IPV6:2003:de:f737:c700:4ed4:78b0:5f62:98a7]
+    by smtp.strato.de (RZmta 55.0.1 AUTH)
+    with ESMTPSA id 2b9b8e255Ksn2SU
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 5 Jun 2026 22:54:49 +0200 (CEST)
+Message-ID: <0c9f58f1-52f6-481c-829f-6f5a70ffff7f@infinite-source.de>
+Date: Fri, 5 Jun 2026 22:54:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <lhu1pek4w89.fsf@oldenburg.str.redhat.com>
-X-Authenticated-Id: ripatel@wii.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Linus Torvalds <torvalds@linux-foundation.org>, Willy Tarreau <w@1wt.eu>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Askar Safin <safinaskar@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org,
+ netdev@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
+ David Howells <dhowells@redhat.com>, David Hildenbrand <david@kernel.org>,
+ Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>,
+ patches@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Jan Kara <jack@suse.cz>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+ <aiEb8CTM-ovMIq7-@1wt.eu>
+ <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+ <aiGfgRch99l_5z11@1wt.eu>
+ <CAHk-=wg0e8pP5haNW4qJP1=QwwUEctwjK5k07sv8bskitoMDgg@mail.gmail.com>
+Content-Language: en-US
+From: The 8472 <kernel@infinite-source.de>
+In-Reply-To: <CAHk-=wg0e8pP5haNW4qJP1=QwwUEctwjK5k07sv8bskitoMDgg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.54 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[wii.dev : SPF not aligned (relaxed),quarantine];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[wii.dev:s=x];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[infinite-source.de,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[infinite-source.de:s=strato-dkim-0002,infinite-source.de:s=strato-dkim-0003];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6566-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6567-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:fweimer@redhat.com,m:x86@kernel.org,m:hpa@zytor.com,m:peterz@infradead.org,m:rick.p.edgecombe@intel.com,m:yu-cheng.yu@intel.com,m:dave.hansen@linux.intel.com,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:david.laight.linux@gmail.com,m:luto@kernel.org,m:kees@kernel.org,m:shuah@kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:libc-alpha@sourceware.org,m:linux-api@vger.kernel.org,m:ashankar@redhat.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:w@1wt.eu,m:akpm@linux-foundation.org,m:rostedt@goodmis.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[kernel@infinite-source.de,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,goodmis.org,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,lists.linux.dev,suse.cz];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[ripatel@wii.dev,linux-api@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_CC(0.00)[kernel.org,zytor.com,infradead.org,intel.com,linux.intel.com,redhat.com,alien8.de,gmail.com,vger.kernel.org,sourceware.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[wii.dev:-];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ripatel@wii.dev,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kernel@infinite-source.de,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[infinite-source.de:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,1wt.eu:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4E76464B32E
+X-Rspamd-Queue-Id: B30C264B448
 
-On Fri, Jun 05, 2026 at 09:34:46PM +0200, Florian Weimer wrote:
-
-> How do you detect that handling a signal is complete and IBT can be
-> re-enabled?  Or is it re-enabled before entering the userspace signal
-> handler?
-
-Hi Florian,
-
-In v1, we backed up the IBT CPU state into the (user-accessible) signal
-frame from FRED/XSAVE, then restored it:
-https://lore.kernel.org/lkml/20260517183024.16292-4-ripatel@wii.dev/
-
-In v2, when entering the signal handler, the kernel just context switches
-to the new user rip, bypassing IBT checks (continues executing if the
-signal handler does not begin with endbr).
-
-IBT stays enabled in both designs, just the IBT state is preserved in v1,
-and lost in v2.
-
-The same thing happens when doing a sigreturn in v2 (e.g. via trampoline),
-again IBT is not enforced.  IBT stays enabled when doing a siglongjmp,
-though.
-
-Some time in the future, ideally:
-- signal handler is *required* to start with endbr (this is easy)
-- sigreturn as in my asm example enforces endbr after returning from a
-  signal handler to a in-progres indirect branc
-- libc (sig)longjmp is made IBT-compatible
-
-Btw, I had self-tests for the v1 design, and {signal handle,rt_sigreturn,
-siglongjmp} with {success case,violation} works flawlessly with Fedora 44
-glibc amd64. With glibc i686 I ran into PLT issues, probably my fault.
-
-It is quite surprised that siglongjmp was working, btw, since the glibc
-longjmp code uses 'jmp *reg' (without notrack prefix). I guess you do an
-endbr64 at the setjmp side?
-
-> > The main question is whether glibc is happy with this prctl syscall API.
+On 04/06/2026 17:58, Linus Torvalds wrote:
+> On Thu, 4 Jun 2026 at 08:53, Willy Tarreau <w@1wt.eu> wrote:
+>>
+>>> It looks like you're actually doing exactly the thing that I thought
+>>> was crazy and wouldn't even work reliably: you change the
+>>> common_response[] contents dynamically *after* the vmsplice, and
+>>> depend on the fact that changing it in user space changes the buffer
+>>> in the pipe too.
+>>
+>> No no, it's definitely not doing that (or it's a bug, but it's not
+>> supposed to happen). I'm perfectly aware that one must definitely not
+>> do that, and it's a guarantee the user of vmsplice() must provide.
 > 
-> As far as I can tell, the prctl works for glibc.  Re-use of an
-> arch_prctl constant might have been problematic, but the series is not
-> doing that.
-
-Nice :-)
-The alternative would have been to bolt on stuff to ARCH_SHSTK, or create
-an entirely new arch_prctl. Open to any API.
-
-> Adding the ELF GNU note parsing can be added later, but perhaps not
-> cleanly.  I'm still a bit worried we might have to rev the markup
-> because too many binaries are in circulation that claim compatibility,
-> have never been tested, and are actually broken.  If the kernel does not
-> look at the ELF bits, things a slightly simpler.
-
-Phew, I was hoping you'd say that.
-
-If you want, I can sketch out glibc IBT enabling and test it on Debian
-and Fedora, which IIRC already emit compile with -fcf-protection=branch
-for all OS packages.
-
-> > There is one notable gap in this patch series, to do with signals:
-> >
-> >   000a: mov rax, 0x100a
-> >   000f: jmp rax
-> >   *** signal occurs ***
-> >   *** signal handler runs, does sigreturn ***
-> >   100a: nop
-> >
-> > The above sequence does not crash.
-> >
-> > With IBT, it should crash at the nop (because an endr64 is expected there).
-> > The IBT state (WAIT_FOR_ENDBR in IA32_U_CET MSR) is not backed up to the
-> > signal frame though.  So, when userland does a sigreturn, the CPU has
-> > forgotten that it was doing an indirect branch before the signal.
-> > (This specifically only occurs with signal handlers that sigreturn.)
-> >
-> > This is because IA32_U_CET is part of XSAVE 'supervisor' state, so
-> > regular XSAVE/XRSTOR can't access it.  Doing a manual backup is tricky.
+> Whew, good.
 > 
-> That's a bit annoying.  Is this restricted to signal handlers, or does
-> it apply to page faults, too?
-
-Only signal handlers, page faults don't reset IBT.
-
-> > A related problem is that the signal handler routine is not checked for
-> > endbr preamble.
+> In that case, can you just try the vmsplice patch series (Christian
+> already found a bug, but I don't think it will necessarily matter in
+> practice - famous last words) and that test patch of mine, and see if
+> it all (a) works for you and (b) if you have any numbers for
+> performance that would be *great*.
 > 
-> That's not necessarily a problem because its address cannot be directly
-> overwritten in userspace.  Not all indirect branches need to be checked,
-> only those that have tweakable targets.  In fact, fewer ENDBR64 markers
-> are better (although we wouldn't drop the marker from a signal handler
-> specifically, of course).
+> There aren't many obvious splice users out there, and even if they
+> were to exist they are typically specialized enough that you have to
+> have a real use case to then tell if the patches make a difference in
+> real life or not.
 
-Just one concern I have is that people start relying on signal handlers
-not requiring endbr64, and then a future kernel version breaking them once
-we enforce it.
+In the Rust standard library we use splice as one of several strategies
+in our generic io::copy[0] routine. It selects the strategy[1] based on
+source and sink types.
 
-Really appreciate your review,
+It tries
 
--Richard
+- copy_file_range
+- sendfile
+- splice
+- fallback to userspace read-write loop
+
+sendfile or splice are skipped when we can't uphold the "callers must ensure
+transferred portions in_fd remain unmodified" condition on the manpage,
+which unfortunately includes some particularly desirable combinations of
+sinks and sources (such as mutable files -> socket).
+
+We primarily want this for reflink copies and to avoid the syscall
+overhead of a read-write loop with a small stack buffer.
+
+Any additional zerocopy benefit, when it doesn't lead to unstable data, is
+welcome but not critical. E.g. it'd be nice if sendfile could do the following:
+For a 1MB source and a socket with a 64kB sendbuffer it could zerocopy first ~900kB
+safely and then memcpy the last 64kB to ensure it can't be modified after the
+syscall returns. But a "just memcpy in kernel space instead of zerocopy" flag for
+sendfile would be ok too.
+
+We're currently not making use of vmsplice. In theory we'd like to use it for
+copying from `&'static [u8]` sources since the type upholds the requirements of
+vmsplice, but type specialization currently is not powerful enough to
+select based on this lifetime and it's unclear if it'll ever be.
+
+
+[0] https://doc.rust-lang.org/nightly/std/io/fn.copy.html
+[1] https://github.com/rust-lang/rust/blob/ac6f3a3e778a586854bdbf8f15202e11e2348d9f/library/std/src/sys/io/kernel_copy/linux.rs#L210-L259
+
+> 
+> So you testing that thing would seem to be a great first test of
+> whether any of this is realistic..
+> 
+>                 Linus
+> 
+
 
