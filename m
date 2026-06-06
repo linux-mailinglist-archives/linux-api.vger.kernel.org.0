@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-6571-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6572-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id thgCHNW6I2oHxgEAu9opvQ
-	(envelope-from <linux-api+bounces-6571-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sat, 06 Jun 2026 08:14:45 +0200
+	id fUa7Aje7I2oaxgEAu9opvQ
+	(envelope-from <linux-api+bounces-6572-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 06 Jun 2026 08:16:23 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F7564CAFD
-	for <lists+linux-api@lfdr.de>; Sat, 06 Jun 2026 08:14:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DB664CB15
+	for <lists+linux-api@lfdr.de>; Sat, 06 Jun 2026 08:16:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=jQQv21UN;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6571-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6571-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=L4s7ECxT;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6572-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6572-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C5CCE304D46E
-	for <lists+linux-api@lfdr.de>; Sat,  6 Jun 2026 06:12:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6A534305F58B
+	for <lists+linux-api@lfdr.de>; Sat,  6 Jun 2026 06:12:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67C630C140;
-	Sat,  6 Jun 2026 06:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12EC030C629;
+	Sat,  6 Jun 2026 06:12:41 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D703064B2
-	for <linux-api@vger.kernel.org>; Sat,  6 Jun 2026 06:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470162FD1B6
+	for <linux-api@vger.kernel.org>; Sat,  6 Jun 2026 06:12:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780726335; cv=none; b=EzIOoOqo1h9FqLPMptzJD+C4W1Qmsv4+2kHjxxU53TG08Bz/CmhB5TyAJ1KNXQRjo2F2qopWil8Xcf6seRkwrGsIVV4PoENdOrfG5fvCmkqdh9a0wwx1ahtJqFR+0eq/LsKj3vQxMYMxJsTCRqOrtXN0PSkPqoE82w7sd/meV38=
+	t=1780726361; cv=none; b=aQZ/DNfTAqQQ3s4/9h9S+3T1KVVX5djA9pxZyJy6ondky96H2tvkpbJGQpa4rZSRFN03/sOpT+/nQr9gUQx4d0+ujLfkLtGwsCoxI3UlwXKWGxF6za7rikIdzXK0RbSfIT2FLKdoRjPP6kRFYaLucs+gKHtGb2YYtSUzBMPKAsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780726335; c=relaxed/simple;
-	bh=cFehA3I9prjpPS9MpvxHw5vuJaTELUrjhx5IPWyT2q8=;
+	s=arc-20240116; t=1780726361; c=relaxed/simple;
+	bh=qZiu7fS8kCZwF8htRjH//VRi7MyCn+kxzvosWiYjiV0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JMKkPZOFPblZs84pOTwndT4W07P7UHS4pOwxZ94lIaHyYm98Mlkm/UZ9nwNMhhH2qJL4+UQwhgOtMwIxwErRWqhyB/en+w35tYKBVyCr1tdZ9JqDu7geql5cwulAsb5mdB9mP7ec1GUorC7IuUGOJrJPFfIrHMjUCettXPu3G/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jQQv21UN; arc=none smtp.client-ip=209.85.128.47
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490a765d410so27105535e9.1
-        for <linux-api@vger.kernel.org>; Fri, 05 Jun 2026 23:12:14 -0700 (PDT)
+	 MIME-Version; b=d8cLnAMAxk9NRhQSU92FO31wknV+4cagKiTMGyz38fIgZq+a7FWBnDWE/QFCjQwgpC/YYiNxeBafanJbfjRrQRLMNgR1H/IQIAkMIBfQNLQE4zRXkPeDUMo9lQyYVqSqF8S5rTXW8cuGlMBTQ3atlzqDEbdBEKDfIIZrbG1MzGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L4s7ECxT; arc=none smtp.client-ip=209.85.221.54
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-46015dc517aso2156080f8f.2
+        for <linux-api@vger.kernel.org>; Fri, 05 Jun 2026 23:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780726333; x=1781331133; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780726357; x=1781331157; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ybLyqkJC8PpxOPGtytqXN1jytQgb2AKCO5QalzHljcA=;
-        b=jQQv21UNBBN5dIlIwwGKVgNBTYweSwG9zYIldvHz3X4vjHXFs7Cq11mcHlzjXhav3k
-         k4QfhbCNYy9oOF9FRn1V5pXLvm9WR0peXOsRlnOnuxYD48rXLuq0ts+YKGohwzIion8t
-         9suv7ugADQ2muBnXEWf93lBrTP8adPhGduIhWs/13fRjOxuAlXcCgtLgX4lj7oqYH5Ih
-         DLAtbIZEBJCp7uEglv9Cm6U0VTIWwRjXDHypMmVm9HwpkbbJNqTC9QfklgUz/fuTBKe5
-         1Tj5tYsEGrg1I+tQSiltcZI5nKx8y7JAR4cvt+MTaTNIDr2aql4tgx2nbD1UJnbbvLdh
-         UYWA==
+        bh=VhjLk1CMHsJsOzOKQ1JbfvjErAaIXQv49sV6IFA3w98=;
+        b=L4s7ECxTUjG0RDR3WRK3BqiiobD46Pe2PuXxbGIjV7aQ7oZjPFdSWw9K+z8QGFl9vd
+         ooopF3muoWuT8/+JvGAAQly7+qEYOjvnyirFepJ1O+L2ozkOox3jTYsaWlX59Cm6Jr+b
+         uF69w7fjnJcEPFFSves52eqvnSji2yx1Pq034qcRi8pn0wMhVyR/EhwYyNfkK3pBxhTt
+         xfLpYL4v01Nd/smdKvYZalHR7hMy9sYdamMYZWsRDyep9SNVzk8zm6qofTd4BYKWOD4c
+         EifQHVjNsQG69TrCjxXzvUjJv6LIP5jJTtEfOki8rmwwFw3R1r9qpLpFePMbdgy3P4Uq
+         KEMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780726333; x=1781331133;
+        d=1e100.net; s=20251104; t=1780726357; x=1781331157;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ybLyqkJC8PpxOPGtytqXN1jytQgb2AKCO5QalzHljcA=;
-        b=HgLDdl6yZOBtKgAZpbLBYkScVE/q9bIndFlOjpa3cb5mmkjTanziMVdQQgkEqPph69
-         AGQWdBqdvsrhhl35gjMFGxsaFazcS/AfCWZ4cyh7yBvRhG6JaPFnq/TzifIGIMms9S2I
-         sjaghvJlG9euOtiRxW9iD0WhxCf/gFxXPwmZXaXgPIfgmK3cESarhnFtRIFISf5KQIGu
-         TsiE656Rds/86rjembuICn2I7JkcYAez4w/AnZUoK4IuVdgfTdQqTCWpBrKbcklCAdN6
-         jFyAQGYCI8o08mts8DeDXfukCAY/5O8aqwN9FrQthz2vbUIk09jJE/dxpmJnFE2Yde0h
-         yihw==
-X-Forwarded-Encrypted: i=1; AFNElJ9wnuTxORqAGcEPEM+XlWibofV3J7eeAclQGfbCidZ3OWZi6LlXgOO0O4Xf0ohNIH/oowy47qJrlgM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjkrWwm7H5vVo8JNjxO8cE2Uvd/QAptHfKi1LEIFkCNJxePF0w
-	owkymxtazsltdvQKTA6UBbsZdLYFfbaMT6+n7gwAklHwHq9FehYR4w/J
-X-Gm-Gg: Acq92OGJVCaT2mpT4iq5+6xK6J+OVFCxWLZfSSAyHZuQAlv0RByTkPo/+rBcOq1O5td
-	iZYXi7yKJHPF7wC4VAa1QDrD/XBp/UsuUk7MLWc3HHS5mAywVa9uoNASVbo9noCK1CH4YDDp+Ud
-	48ZfKNJS9PsQf0Q6uqhZuCEom/swiKh0DE0m1WohSbT/iZmBiM8wBE2GsWIq3eiHOafs7KkGLoB
-	eQfRqtVJw0yVvIOCLh1bq5PXzKduZ29KX0qSkyJJHGmLpY0cKheq7lhZIK8oaUz+qiBfgkOY6rf
-	kIFb+ZSuMY9/tGBe2DkSvE9LaIdDZGsDrzLDrj7/I2gRme3dwHdKx8gdj0NSuelWj6esNChu5NV
-	/kBR1dStywnTF9Xenjh4wu1te16g41/Nnl+s6K0uGTOVFdzBHUr8BLwbcn5DnCP/1ugw1R3zeZF
-	7wU05QL4+sGG0+gwKgSHjGzA6sR/Lrtgakaerh/F+L
-X-Received: by 2002:a05:600c:8b0c:b0:490:ba61:7981 with SMTP id 5b1f17b1804b1-490c25c1e4amr103918225e9.23.1780726332629;
-        Fri, 05 Jun 2026 23:12:12 -0700 (PDT)
+        bh=VhjLk1CMHsJsOzOKQ1JbfvjErAaIXQv49sV6IFA3w98=;
+        b=O7ML6E1p0ACCdJu+AkZ8GYQH81qzZJR2zCH1sN47/J9tn/2W3TWfH2h3lFFMW+KaV7
+         /0SAlr/L3Hh4m3kYed7BFLQZr77VoA0zX/pm+4vKlvLZU7VmbTTPTTInp7Aoezeu4e+U
+         GO5hJL1Kcn5kANm6VU+uleA11zOMPfAl+vzRuo5lzIywa/Npr7QSZ5kR0ccoVfVHe0Bq
+         aR3uPmCsC3rhkBExVTcmdGnEcNZQ98pzkQis9yEMx4/2sDdEl/AAmhuMdZc9k1Xxjx+p
+         h0Yf9vQKlc/tmMmnqAM/4n5weylpIegaBtN5gHjxKpulLyZYMa4QtniKC+xM+kxkWwuc
+         kysQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8THPDpCaw/w+gxgfw0bC8KvO0PLnHY+95CfTekPCvFWkKDhJZUUnK8eJywY4pLw+DIZTTzkwFK3ss=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzpty2iKAWWvQCJ73aXvqmtV3oW/Iiad7kxtgcjmvhPeWop4k3r
+	ywEdP5qtI0SIWcFwykNNOmbNmsctN+hq7zDPgTXSRidV6lTWw63MeXL2
+X-Gm-Gg: Acq92OHobmd85oNdIQaD96sXT6+xvQ627a9pei10NAq2qBrrAf7ucVLnOi0KDSh/UnG
+	in7R5Y7VHnesXvtpqiYhP8EcYSdRtevsWIuLw/Ya56rPKf5UYcugI+lbrFHYKvXLBwx5BGqGb5x
+	c9ods09/6l3SjPRkrawo5CZ1+pVcgbauvt3vV6u2ScATSOgJ3f5IokBuix1b+cUPkeC6Kf1ckc6
+	DWJPwwbbasX80vejpcnnFwXkwx25mJADpXHas4yA/4bvxQtJpGTdrvALY4DC4bJgNQprcmpO1fZ
+	pOcCCmzLdOC42ixfn3OTLPYE4dnzZO3kJSpOGGF5hMFrfOya08l+Lz8nHqX3NM+wa1cxzs4MDf5
+	d6+k+mmnLgppFGDyF0Cy8wweAkzmohiR2xAgV956xTkqY974VSXbMr/G4dz8Y5DcbCjg/6iBjoJ
+	/oYHt0WGpoOnxmCcYiDUviTM94GSkbaw==
+X-Received: by 2002:adf:e545:0:b0:45e:e44b:3136 with SMTP id ffacd0b85a97d-4603063a715mr8180799f8f.19.1780726356710;
+        Fri, 05 Jun 2026 23:12:36 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490c2c9ea37sm178712255e9.0.2026.06.05.23.12.10
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f344541sm29667978f8f.22.2026.06.05.23.12.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2026 23:12:12 -0700 (PDT)
+        Fri, 05 Jun 2026 23:12:36 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
@@ -105,9 +105,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Willy Tarreau <w@1wt.eu>,
 	Joanne Koong <joannelkoong@gmail.com>,
 	patches@lists.linux.dev
-Subject: [PATCH 3/5] splice: turn wait_for_space flags argument into bool
-Date: Sat,  6 Jun 2026 06:10:29 +0000
-Message-ID: <20260606061031.3744880-4-safinaskar@gmail.com>
+Subject: [PATCH 4/5] pipe: move wait_for_space to fs/pipe.c and rename it
+Date: Sat,  6 Jun 2026 06:10:30 +0000
+Message-ID: <20260606061031.3744880-5-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
 References: <20260606061031.3744880-1-safinaskar@gmail.com>
@@ -125,13 +125,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6571-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6572-lists,linux-api=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[safinaskar@gmail.com,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[28];
@@ -155,46 +155,93 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-api];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F2F7564CAFD
+X-Rspamd-Queue-Id: 50DB664CB15
 
-I want to do this, because I will move this function to fs/pipe.c.
+This is needed, because I plan to use it in fs/read_write.c.
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- fs/splice.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/pipe.c                 | 17 +++++++++++++++++
+ fs/splice.c               | 19 +------------------
+ include/linux/pipe_fs_i.h |  2 ++
+ 3 files changed, 20 insertions(+), 18 deletions(-)
 
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 9841648c9..c0ccf21b9 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -1451,6 +1451,23 @@ long pipe_fcntl(struct file *file, unsigned int cmd, unsigned int arg)
+ 	return ret;
+ }
+ 
++int pipe_wait_for_space(struct pipe_inode_info *pipe, bool non_block)
++{
++	for (;;) {
++		if (unlikely(!pipe->readers)) {
++			send_sig(SIGPIPE, current, 0);
++			return -EPIPE;
++		}
++		if (!pipe_is_full(pipe))
++			return 0;
++		if (non_block)
++			return -EAGAIN;
++		if (signal_pending(current))
++			return -ERESTARTSYS;
++		pipe_wait_writable(pipe);
++	}
++}
++
+ static const struct super_operations pipefs_ops = {
+ 	.destroy_inode = free_inode_nonrcu,
+ 	.statfs = simple_statfs,
 diff --git a/fs/splice.c b/fs/splice.c
-index 6ddf7dd72..707db2c2c 100644
+index 707db2c2c..d12243d19 100644
 --- a/fs/splice.c
 +++ b/fs/splice.c
-@@ -1239,7 +1239,7 @@ ssize_t splice_file_range(struct file *in, loff_t *ppos, struct file *out,
+@@ -1239,23 +1239,6 @@ ssize_t splice_file_range(struct file *in, loff_t *ppos, struct file *out,
  }
  EXPORT_SYMBOL(splice_file_range);
  
--static int wait_for_space(struct pipe_inode_info *pipe, unsigned flags)
-+static int wait_for_space(struct pipe_inode_info *pipe, bool non_block)
- {
- 	for (;;) {
- 		if (unlikely(!pipe->readers)) {
-@@ -1248,7 +1248,7 @@ static int wait_for_space(struct pipe_inode_info *pipe, unsigned flags)
- 		}
- 		if (!pipe_is_full(pipe))
- 			return 0;
--		if (flags & SPLICE_F_NONBLOCK)
-+		if (non_block)
- 			return -EAGAIN;
- 		if (signal_pending(current))
- 			return -ERESTARTSYS;
-@@ -1268,7 +1268,7 @@ ssize_t splice_file_to_pipe(struct file *in,
+-static int wait_for_space(struct pipe_inode_info *pipe, bool non_block)
+-{
+-	for (;;) {
+-		if (unlikely(!pipe->readers)) {
+-			send_sig(SIGPIPE, current, 0);
+-			return -EPIPE;
+-		}
+-		if (!pipe_is_full(pipe))
+-			return 0;
+-		if (non_block)
+-			return -EAGAIN;
+-		if (signal_pending(current))
+-			return -ERESTARTSYS;
+-		pipe_wait_writable(pipe);
+-	}
+-}
+-
+ static int splice_pipe_to_pipe(struct pipe_inode_info *ipipe,
+ 			       struct pipe_inode_info *opipe,
+ 			       size_t len, unsigned int flags);
+@@ -1268,7 +1251,7 @@ ssize_t splice_file_to_pipe(struct file *in,
  	ssize_t ret;
  
  	pipe_lock(opipe);
--	ret = wait_for_space(opipe, flags);
-+	ret = wait_for_space(opipe, flags & SPLICE_F_NONBLOCK);
+-	ret = wait_for_space(opipe, flags & SPLICE_F_NONBLOCK);
++	ret = pipe_wait_for_space(opipe, flags & SPLICE_F_NONBLOCK);
  	if (!ret)
  		ret = do_splice_read(in, offset, opipe, len, flags);
  	pipe_unlock(opipe);
+diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
+index a1eeed800..be653625d 100644
+--- a/include/linux/pipe_fs_i.h
++++ b/include/linux/pipe_fs_i.h
+@@ -335,4 +335,6 @@ struct pipe_inode_info *get_pipe_info(struct file *file, bool for_splice);
+ int create_pipe_files(struct file **, int);
+ unsigned int round_pipe_size(unsigned int size);
+ 
++int pipe_wait_for_space(struct pipe_inode_info *pipe, bool non_block);
++
+ #endif
 -- 
 2.47.3
 
