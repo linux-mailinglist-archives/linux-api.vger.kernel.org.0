@@ -1,519 +1,167 @@
-Return-Path: <linux-api+bounces-6578-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6579-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id LbtlFL5wJWrgIAIAu9opvQ
-	(envelope-from <linux-api+bounces-6578-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 07 Jun 2026 15:23:10 +0200
+	id yXCxC5urJmqSawIAu9opvQ
+	(envelope-from <linux-api+bounces-6579-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 08 Jun 2026 13:46:35 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF00A650A05
-	for <lists+linux-api@lfdr.de>; Sun, 07 Jun 2026 15:23:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEE3655D24
+	for <lists+linux-api@lfdr.de>; Mon, 08 Jun 2026 13:46:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.beauty header.s=zmail header.b=cgw0GxaV;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6578-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6578-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linux.beauty;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=suse.com header.s=google header.b=CU33JHhO;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6579-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6579-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=suse.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3197E3001FC3
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jun 2026 13:23:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B79D6300846B
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jun 2026 11:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86F1B36E473;
-	Sun,  7 Jun 2026 13:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902A336B048;
+	Mon,  8 Jun 2026 11:40:27 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A42317158;
-	Sun,  7 Jun 2026 13:23:04 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780838586; cv=pass; b=PfPbX3Boj5kFyKUquy+DG+cncw0FbIWK1C7/89jZEO3DQVegqoGvc9All61I9eIwqSXyfGBweVdszB3bOWoCWvecf5Logpn6aroN3lY0zmy/YwpWNzLVkOjqdKCF7DmYl7Umww+j3GJ1w+AKq7OPJaDOXIqN3LKYrmjVCXWslNE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780838586; c=relaxed/simple;
-	bh=r5F2Kc+toV8nalkWkiOrGvNzEJWRjQ4xWOudCDIGf4s=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=FBku6j1jcnh22EcfVDEosQPFaj+otDBMj1M05j586AQhaem0l3AKxeOojtOHqFPU41lVVAYjCmWQskN5NG4D42/xXX1xINj8oRhBtHdiCKg8f23R6hrCKF+BpUHvROcjbjn0xHKb3qRZCT+LMNQkQxBgFJIuRF51Lyna0IYcvjs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=cgw0GxaV; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal: i=1; a=rsa-sha256; t=1780838536; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MhU2rKZcEEU4udEPdDeHuLN9IlYwnt1p1/BhVzyVWRkVzSIMjcuoTafZOgiH08LKW5tOayVimc+zfePrURes2I/kprNOhOsL/V0uhNN5+XWk2EcB1aqWgJ4YtGabseH1Rc94HShkFdc4qnlNfoUcAdQkkqEKZbn86QiF1YgtBVg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1780838536; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=c8zi6w1KcsLgtdWmWEW8oBFp/uYrjVYwQ27JP33BSQM=; 
-	b=S3tZ0w/s2zYTLwp3GqEggDnjZgmSnbwvdHqh0YZ+0CB7jJBKO+qpK7XRkYgPAGKhjTGsuBu8JUioUj/2nO5LLShZj3glTwXz0JT05YnI7vPzb6teO7yNRvgedNb0Jt6Wt5allYMC5PC5BybmzMFZM+x0/VSS4mNvGqjifCAFi3w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780838536;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=c8zi6w1KcsLgtdWmWEW8oBFp/uYrjVYwQ27JP33BSQM=;
-	b=cgw0GxaVBsHNzQoMY2MyrEEQjFILrEJA00aC3ra1p7FfWUPdXTPiajC+DwSpWUA2
-	DoBTiGfVhkanWL4SqIICdl8RSTY/V0t8imtak2NetUogKCKaO3A6TxUMiiyzZrM2Jyb
-	7uBB/7qUc3VifqFHlJrFnuxJsZq2WVvnQwBm5WRo=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1780838529335809.7321442050796; Sun, 7 Jun 2026 06:22:09 -0700 (PDT)
-Date: Sun, 07 Jun 2026 21:22:09 +0800
-From: Li Chen <me@linux.beauty>
-To: "Gabriel Krisman Bertazi" <krisman@suse.de>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-mm" <linux-mm@kvack.org>,
-	"linux-arch" <linux-arch@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"x86" <x86@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
-	"Andy Lutomirski" <luto@kernel.org>,
-	"Thomas Gleixner" <tglx@kernel.org>,
-	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-	"Dave Hansen" <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>
-Message-ID: <19ea23f7926.45a052d5738848.4069075037120141318@linux.beauty>
-In-Reply-To: <87fr31xdz3.fsf@mailhost.krisman.be>
-References: <20260528095235.2491226-1-me@linux.beauty> <87fr31xdz3.fsf@mailhost.krisman.be>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F3536A374
+	for <linux-api@vger.kernel.org>; Mon,  8 Jun 2026 11:40:25 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780918827; cv=none; b=ewRo5EMwybkmDGXP0IeHj6AOHp6Pyvk//msTbLjRxmB/RosdtTWa9oONHNpNs8Uu9eG8jVZyMriNm/Rn1Lmkvow+m0dJYkwuWd+1yRDT7dmucs+cWbMu0fuFcRGHUi2YmxMrGmKYGhQnjn7RxdDEe36JAiMAyYnU2Vi+fDzLYT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780918827; c=relaxed/simple;
+	bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+	h=Message-ID:From:To:Cc:In-Reply-To:Subject:Content-Type:Date; b=uDLueJ+ZP06Ix9sRTNJ1CBHcSQGSeXzkk41wNoE0VJV/7FaRRYX370zCOsKzp09nbS6WbLI+BQw4f3O1P98I0MaEXH0Rc996RT6pnOjUxMksNF29thNqd36wvpkQ01WGvgjkLahgmIBiOgyttfObKmr05e+l9vZTr4h1Ur31a6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CU33JHhO; arc=none smtp.client-ip=209.85.221.46
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef1629ff4so2764862f8f.0
+        for <linux-api@vger.kernel.org>; Mon, 08 Jun 2026 04:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1780918824; x=1781523624; darn=vger.kernel.org;
+        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+        b=CU33JHhOJJpl7G85SmXd37aYDGyPNc1hcQU4q+6OJ/2MUTacmuThcIoEtwOpdud9nR
+         9/HdLyCw/h6jDB7VnA4vDU8ICEQRvuBVcEz/L4CdSZ0GzGJTb1aL4wu6Dgvgw5vBRNyp
+         wA1tJLT+bol7dh3VO+K7B7YxZKMLkw9lCpk52epadCuzaKdyARU4lmYukD8IxlpERS+Q
+         uLUFqKLdIRuOCNN/e1LLwxwOPeJ+e6pVjjQj+injFQHEgDxYRUWWeBaAvQB9sgS8mKbz
+         +8ARhmnOYxUGm2JN95dC+P7KudilAnUI00WGu1vcxdbCtJnLchqiBwacxAHLp3mnBJUR
+         fq9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780918824; x=1781523624;
+        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+        b=EQXs95cn8kU6E8xm6RhaOsvxVEH4tg4gFXWcbyyxlVeyyX3nB+VdcPsF6k4M8iYgJm
+         6XNdds6vGDaZNR3cIHKWB/jie2LMjmCMHeR/LrSsRnJ1MTZT5Jwt4o0/ERHNBO87xDK3
+         DmaPGmDUB8IurFu96hCXIh5f64b0R3pFqx3uw1rTrTXO9NLnV7eD2S4y2gCjQuGWRhFx
+         5nyv+cr1TnKq+NKdwMCLsUhYgg+aJAuO69VtExJGX6Hx0jXpp7txqTwfAcJawBSjdmPs
+         X1/TqXLEW1r+jTV0wuaKp8orUNGYO3dvzS02BqHD69eVBvORHOfJ9HpcsX9yBJYaIsay
+         LRiw==
+X-Forwarded-Encrypted: i=1; AFNElJ87grXJccAYzTdIDAp49YCQ6rX3t0bD1m0qBVKfInB5H+Me4iJvl8XPfQiwQfMokiho04R5woa/L3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpIecXq+MOYFBvYZw1bZi55l/xLLks6bpCDMcRtDnbuTXhRgKj
+	rw1nJPBv+2psMrIA4v4EYiVac6iX9/tlagmKukTGYGpfc8shTbyPW8zv0UX4tUTZ2fI=
+X-Gm-Gg: Acq92OF8pfrshmepV/p7rIp8AfWqaOfd3arCbJzNpSGmnzDY0qqpkjQBayNMzy6K/Ez
+	MQ3QXO+uod/BW0O8YII9M8hHeVq9z3vh0WSfVja6qghUYRzxtu/PB9R1VB6Gj5n65HBvII7KVyN
+	9NC53izfTlv4PKqMTJ1PNgb5ew1dDEGMBo0usJ9AkKtB8T+Qdb13jXNXZGWtL1hFKrbI2NoPEQb
+	ct8Lh3rre168VFf+BkM/TdgdTt9XPeHHKBE0xZkL0JCrjXXmlDpjF6FbIyjYjaStPrgxCuNvWux
+	OxLC/6lcoeiRH+mLSElQ4wzKr7jLNaOIzLSSHSdrim+Km4HnD1wV2Ka+hSIkz8TfLPVAAFoG0FB
+	KqITstcC5TGFv98LADuj6G8MvbBYJrXCcIhK4aM46esl6dp23K0ge8GyMjiwto1p6QHp7xyuG/e
+	pHxTxGr71ENd9KskpBm/I9nlRZD9pgGZYR8uKfeXYmqD65Mmdg7viRTTYY4MB97hFWqTRxBCt9d
+	1Vwtvx9ohVI5Vfb6M5UJ2vTMpXeLMpQBMz7yj8VLZReYg==
+X-Received: by 2002:a05:6000:46cd:b0:460:1492:4f0d with SMTP id ffacd0b85a97d-4603063c591mr15377117f8f.34.1780918824402;
+        Mon, 08 Jun 2026 04:40:24 -0700 (PDT)
+Received: from localhost.localdomain (p200300ef2f13eb00c11aebd17f9598f1.dip0.t-ipconnect.de. [2003:ef:2f13:eb00:c11a:ebd1:7f95:98f1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f2710sm40821903f8f.14.2026.06.08.04.40.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 04:40:24 -0700 (PDT)
+Message-ID: <6a26aa28.283787d8.1f1282.ba36@mx.google.com>
+From: "Andrea Cervesato" <andrea.cervesato@suse.com>
+To: "Askar Safin" <safinaskar@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, "Christian Brauner" <brauner@kernel.org>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "The 8472" <kernel@infinite-source.de>, patches@lists.linux.dev, "David
+ Howells" <dhowells@redhat.com>, linux-mm@kvack.org, "Collin Funk" <collin.funk1@gmail.com>, "Joanne
+ Koong" <joannelkoong@gmail.com>, "Miklos Szeredi" <miklos@szeredi.hu>, "David
+ Laight" <david.laight.linux@gmail.com>, "Matthew Wilcox" <willy@infradead.org>, "Christoph
+ Hellwig" <hch@infradead.org>, "Steven Rostedt" <rostedt@goodmis.org>, fuse-devel@lists.linux.dev, "David
+ Hildenbrand" <david@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>, ltp@lists.linux.it, "Jens
+ Axboe" <axboe@kernel.dk>, "Stefan Metzmacher" <metze@samba.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "Andy
+ Lutomirski" <luto@amacapital.net>, linux-api@vger.kernel.org, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Linus Torvalds" <torvalds@linux-foundation.org>, "Willy
+ Tarreau" <w@1wt.eu>
+In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
+Subject: Re: [LTP] [PATCH 0/5] vmsplice: fix some problems in my previous
+ vmsplice patchset
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jun 2026 11:40:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.15 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[linux.beauty,none];
-	R_DKIM_ALLOW(-0.20)[linux.beauty:s=zmail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[me@linux.beauty,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:krisman@suse.de,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:luto@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	TAGGED_FROM(0.00)[bounces-6579-lists,linux-api=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6578-lists,linux-api=lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:linux-fsdevel@vger.kernel.org,m:brauner@kernel.org,m:viro@zeniv.linux.org.uk,m:jack@suse.cz,m:kernel@infinite-source.de,m:patches@lists.linux.dev,m:dhowells@redhat.com,m:linux-mm@kvack.org,m:collin.funk1@gmail.com,m:joannelkoong@gmail.com,m:miklos@szeredi.hu,m:david.laight.linux@gmail.com,m:willy@infradead.org,m:hch@infradead.org,m:rostedt@goodmis.org,m:fuse-devel@lists.linux.dev,m:david@kernel.org,m:pfalcato@suse.de,m:ltp@lists.linux.it,m:axboe@kernel.dk,m:metze@samba.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:luto@amacapital.net,m:linux-api@vger.kernel.org,m:akpm@linux-foundation.org,m:torvalds@linux-foundation.org,m:w@1wt.eu,m:collinfunk1@gmail.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andrea.cervesato@suse.com,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,zeniv.linux.org.uk,suse.cz,infinite-source.de,lists.linux.dev,redhat.com,kvack.org,gmail.com,szeredi.hu,infradead.org,goodmis.org,suse.de,lists.linux.it,kernel.dk,samba.org,amacapital.net,linux-foundation.org,1wt.eu];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[me@linux.beauty,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.beauty:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrea.cervesato@suse.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,lpc.events:url,suse.de:email]
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,suse.com:dkim,suse.com:from_mime,suse.com:email,mx.google.com:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DF00A650A05
+X-Rspamd-Queue-Id: 2EEE3655D24
 
-Hi Gabriel,
+Hi Askar,
 
-Yes, I looked at Josh's slides and your RFC a few days ago.
+the patch-set doesn't apply:
 
-I agree that io_uring is a very interesting direction, and I can see why it
-fits the "ordered setup operations before exec" model.
+error: fs/read_write.c: does not exist in index
+hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+hint: When you have resolved this problem, run "git am --continue".
+hint: If you prefer to skip this patch, run "git am --skip" instead.
+hint: To restore the original branch and stop patching, run "git am --abort=
+".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Applying: vmsplice: open-code do_writev and do_readv
+Patch failed at 0001 vmsplice: open-code do_writev and do_readv
 
-My current preference is still to first explore a pidfd/pidfs-based builder=
-,
-modeled roughly like fsconfig(). Process creation feels like a core process
-lifecycle API, and I think a normal fd-based syscall interface may be easie=
-r
-for libc, language runtimes, shells,and sandboxing tools to adopt.
+https://github.com/linux-test-project/ltp-agent/actions/runs/27129052434/jo=
+b/80065058557#step:8:21
 
-My hesitation is practical rather than conceptual.Some important
-deployments still disable io_uring entirely; Docker's default seccomp
-profile blocks the io_uring syscalls, and Google has disabled or restricted
-io_uring in ChromeOS, Android app processes, and production servers.
-
-I will study your io_uring work more carefully and compare the two directio=
-ns.
-One possible outcome is that io_uring can drive/share the same builder obje=
-ct later;
-I do not know that yet.
-
-Thanks for pointing this out.
-
- ---- On Fri, 05 Jun 2026 22:24:00 +0800  Gabriel Krisman Bertazi <krisman@=
-suse.de> wrote ---=20
- > Li Chen <me@linux.beauty> writes:
- >=20
- > > Hi,
- > >
- > > This is an early RFC for an idea that is probably still rough in both =
-the
- > > UAPI and implementation details. Sorry for the rough edges; I am sendi=
-ng
- > > it now to check whether this direction is worth pursuing and to get
- > > feedback on the kernel/userspace boundary.
- > >
- > > The series is based on linux-next version 20260518.
- > >
- > > This RFC adds spawn_template, a userspace-controlled exec acceleration
- > > mechanism for runtimes that repeatedly start the same executable with
- > > different argv, envp, and per-spawn file descriptor setup.
- >=20
- > Have you looked at Josh's proposal to do this over io_uring [1] and my
- > implementation of it at [2]?  I think io_uring is a very natural
- > interface for something like this, it will avoid adding a larger API,
- > since you could, in theory, set up the entire new task context using
- > regular io_uring operations in an io workqueue and then starting it woul=
-d
- > be a matter of forking the pre-configured io thread with a new io_uring
- > operation.
- >=20
- > [1]
- > https://lpc.events/event/16/contributions/1213/attachments/1012/1945/io-=
-uring-spawn.pdf
- > [2] https://lwn.net/Articles/1001622/
- >=20
- > >
- > > The main target is agent runtimes. Modern coding agents repeatedly sta=
-rt
- > > short-lived helper tools such as rg, git, sed, awk, python, node, and
- > > shell wrappers while they inspect and edit a workspace. Those runtimes
- > > already know which tools are hot, and they are also the right place to
- > > decide policy. The kernel does not choose names such as rg, git, or se=
-d.
- > > Userspace opts in by creating a template fd for one executable, then u=
-ses
- > > that fd for later spawns. Launchers, shells, and build systems have a
- > > similar repeated-startup shape and could use the same primitive, but t=
-he
- > > agent runtime case is the main motivation for this RFC.
- > >
- > > The mechanism applies to the executable that userspace asks the kernel=
- to
- > > start. If an agent runtime directly starts /usr/bin/rg, the rg executa=
-ble
- > > is the template target. If the runtime starts /usr/bin/bash -c "rg ...=
- |
- > > head", the shell is the template target unless the shell itself opts i=
-n
- > > when it starts rg and head. The kernel does not parse the shell comman=
-d
- > > string or rewrite inner commands into template spawns. Userspace has t=
-o
- > > call spawn_template for those inner commands explicitly:
- > >
- > >     direct exec                 shell wrapper
- > >     -----------                 -------------
- > >     agent                       agent
- > >       template("/usr/bin/rg")     template("/usr/bin/bash")
- > >       spawn rg argv              spawn bash -c "rg ... | head"
- > >
- > >     kernel target: rg          kernel target: bash
- > >     rg startup benefits        rg/head need shell opt-in
- > >
- > > Several agent runtime discussions are moving toward direct argv-style
- > > exec tools for both security and policy clarity. For example, opencode
- > > issue #2206 proposes an exec tool as a safer alternative to a shell-on=
-ly
- > > bash tool:
- > >
- > > https://github.com/anomalyco/opencode/issues/2206
- > >
- > > spawn_template is meant to support both models. Direct exec users can
- > > cache the actual hot tool. Shell-wrapper users can cache the shell and
- > > still reduce shell startup cost. If a shell or an agent runtime later
- > > uses the same API for commands started inside a shell command, those
- > > inner tools can benefit too.
- > >
- > > Each spawn still goes through the normal exec path. The template reuse=
-s
- > > only metadata that can be revalidated before use. Credential preparati=
-on,
- > > permission checks, binary handler checks, secure-exec handling, and LS=
-M
- > > hooks remain on the normal execve path.
- > >
- > > The UAPI has two operations. spawn_template_create() creates an
- > > anonymous-inode template fd from either an executable fd or an absolut=
-e
- > > executable path. spawn_template_spawn() starts one child from that
- > > template, applies per-spawn fd, cwd, and signal actions, and returns b=
-oth
- > > pid and pidfd.
- > >
- > > fd inheritance is deliberately conservative. By default, after the
- > > requested per-spawn actions have run, the child closes fds above stder=
-r.
- > > An agent runtime can still request traditional inheritance explicitly,
- > > but helper tools do not inherit unrelated secret files or sockets by
- > > accident. The create-time actions fields are reserved and rejected in
- > > this RFC because fd numbers are per-process state, not stable reusable
- > > objects. The caller supplies fd actions for each spawn instead.
- > >
- > > A typical agent runtime would keep one template per hot executable and
- > > still build argv, envp, cwd, and pipe wiring for each tool call:
- > >
- > >     rg_tmpl =3D spawn_template_create("/usr/bin/rg");
- > >
- > >     for each search request:
- > >         out_r, out_w =3D pipe_cloexec();
- > >         err_r, err_w =3D pipe_cloexec();
- > >         actions =3D [
- > >             FCHDIR(worktree_fd),
- > >             DUP2(out_w, STDOUT_FILENO),
- > >             DUP2(err_w, STDERR_FILENO),
- > >         ];
- > >         child =3D spawn_template_spawn(rg_tmpl, rg_argv, envp, actions=
-);
- > >         close(out_w);
- > >         close(err_w);
- > >         read out_r and err_r;
- > >         waitid(P_PIDFD, child.pidfd, ...);
- > >
- > > A shell-wrapper runtime would use the same shape with a template for
- > > /usr/bin/bash and argv such as ["/usr/bin/bash", "-c", command]. That
- > > reduces shell startup cost, but it does not cache rg or head inside th=
-at
- > > command unless the shell also opts into spawn_template for commands it
- > > starts internally.
- > >
- > > The template pins the executable and denies writes to that file while =
-the
- > > template fd is alive, so cached executable metadata cannot race with a
- > > writer changing the same inode. This means direct in-place writes to t=
-he
- > > executable can fail while a runtime keeps a template open. It does not
- > > block the common package-manager update pattern where a new inode is
- > > written and then atomically renamed over the old path. In that case th=
-e
- > > old path-created template becomes stale, spawn_template_spawn() reject=
-s
- > > it with ESTALE, and the runtime should close and recreate the template
- > > for the new executable.
- > >
- > >     in-place write              package-manager update
- > >     --------------              ----------------------
- > >     template pins old inode     write new inode
- > >     write(old inode) denied     rename(new, "/usr/bin/rg")
- > >
- > >     cached metadata safe        old template sees path mismatch
- > >                                 spawn_template_spawn() =3D -ESTALE
- > >                                 recreate template for new inode
- > >
- > > Each spawn revalidates executable identity before cached metadata is
- > > used. Path-created templates only accept absolute paths: a relative pa=
-th
- > > such as ./tool depends on cwd, and the same string can name a differen=
-t
- > > file after chdir. For an absolute path template, each spawn reopens th=
-e
- > > path and checks that it still resolves to the executable recorded when
- > > the template was created. If the path now names a replaced file, the
- > > template is stale and userspace should close and recreate it.
- > >
- > > A template fd can be passed over SCM_RIGHTS like any other fd, but thi=
-s
- > > RFC does not treat that as delegation. spawn_template_spawn() only wor=
-ks
- > > while the caller still has the same struct cred object that created th=
-e
- > > template. If another task, or the same task after a credential change,
- > > receives the fd, spawn fails instead of running the executable using t=
-he
- > > creator's launch authority:
- > >
- > >     ordinary fd                         spawn_template fd
- > >     -----------                         -----------------
- > >     A: open log                         A: create rg template
- > >     A -> B: SCM_RIGHTS(fd)              A -> B: SCM_RIGHTS(tfd)
- > >
- > >     B: read(fd) =3D ok                    B: spawn(tfd) =3D -EACCES
- > >                                         B: create own rg template
- > >                                         B: spawn(own_tfd) =3D ok
- > >
- > >     open-file use is delegated          spawn authority is not delegat=
-ed
- > >
- > > The cached state is intentionally small. The template fd keeps the ope=
-ned
- > > main executable file, an optional absolute path string, the creator
- > > credential pointer, and the deny-write state. The executable identity =
-key
- > > records device, inode, size, mode, owner, ctime, and mtime, and is
- > > rechecked before cached metadata is used. The ELF cache keeps only the
- > > main executable's ELF header, program header table, and program header
- > > count.
- > >
- > >     cached in this RFC          not cached in this RFC
- > >     ------------------          ----------------------
- > >     opened main executable      PT_INTERP metadata
- > >     executable identity key     shared-library graph
- > >     main ELF header             VMA layout metadata
- > >     main ELF program headers    cross-process metadata sharing
- > >     creator cred pointer
- > >     deny-write state
- > >
- > > This RFC does not cache ELF interpreter metadata, shared-library
- > > dependency state, or derived mapping-layout state. Shared-library
- > > resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
- > > RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
- > > state. It also does not share cached executable metadata between templ=
-ate
- > > fds created by different processes. Each template owns its small cache=
-d
- > > metadata object in this RFC.
- > >
- > > Performance
- > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- > >
- > > The numbers below come from my separate local autogen-bench project.
- > > autogen-bench uses AutoGen [1] Core as the agent harness: RoutedAgent
- > > instances run under SingleThreadedAgentRuntime, and RPC-style dispatch
- > > fans out concurrent tool-call requests to worker agents. The workload
- > > definitions, generated test files, and subprocess/spawn_template backe=
-nds
- > > are local to autogen-bench.
- > >
- > > The agent-tools preset includes direct tool calls and shell-wrapper fo=
-rms
- > > for:
- > >
- > > rg, grep, sed, awk, cat, head, tail, find, stat, ls, git-status, git-d=
-iff,
- > > python-small, node-small, sh-c, and bash-c.
- > >
- > > The benchmark is launch-heavy but not no-op: it searches generated
- > > Python-like source files, reads sample files, runs small Python and
- > > Node.js programs, and runs git status and git diff in a small reposito=
-ry.
- > > It does not include model inference or long-running tool work, so the
- > > numbers mainly describe the short-tool regime.
- > >
- > > The subprocess column starts each tool call through the existing
- > > userspace launch path. The spawn_template column creates templates for
- > > hot executables and uses spawn_template_spawn() for later calls.
- > >
- > > Total in-flight tool calls stay at 16; only the worker-process split
- > > changes. For example, 4x4 means 4 worker processes with 4 in-flight to=
-ol
- > > calls each. The two time_s values are subprocess/spawn_template wall
- > > times.
- > >
- > > Workload     Calls  subprocess  spawn_template  time_s       Delta
- > > (workers)    calls  calls/s     calls/s         seconds
- > > 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
- > > 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
- > > 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
- > > 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
- > >
- > > The table measures the whole mixed workload, including both process
- > > startup and the short tool work done after exec. Since this workload i=
-s
- > > launch-heavy, the possible launch-side savings include:
- > >
- > > - the template fd keeps an opened executable, avoiding repeated ordina=
-ry
- > >   open/path setup for that executable;
- > > - the kernel can reuse cached main-executable ELF header and program
- > >   header metadata after revalidation;
- > > - the fork-and-exec-style launch is submitted as one
- > >   spawn_template_spawn() operation;
- > > - fd, cwd, and signal actions run in the child kernel path instead of
- > >   being driven one syscall at a time by userspace child glue;
- > > - pid and pidfd are returned by the same operation, reducing some
- > >   runtime-side bookkeeping.
- > >
- > > In local experiments before this RFC, I also tried caching ELF
- > > interpreter metadata and derived ELF mapping-layout metadata. A focuse=
-d
- > > repeated-exec benchmark did not show a stable standalone throughput ga=
-in
- > > for those two optimizations, so this RFC leaves them out and keeps onl=
-y
- > > the main executable metadata cache.
- > >
- > > I also tried sharing main-executable ELF metadata across template fds
- > > created by different processes for the same executable identity. That =
-can
- > > reduce duplicated metadata memory when many agent worker processes cre=
-ate
- > > their own templates for /usr/bin/rg, /usr/bin/git, and similar tools, =
-but
- > > it did not show a stable throughput win in local multi-agent tests. It
- > > also adds cache keying, lifetime, invalidation, credential, and namesp=
-ace
- > > questions to the RFC. This version therefore keeps per-template metada=
-ta
- > > ownership and leaves cross-process sharing out.
- > >
- > > Sorry again for the rough edges in this RFC. I would appreciate feedba=
-ck
- > > on whether this direction is useful and what the right API boundary
- > > should be.
- > >
- > > Thanks,
- > > Li
- > >
- > > [1]: https://github.com/microsoft/autogen
- > >
- > > Li Chen (13):
- > >   exec: factor argument setup out of do_execveat_common()
- > >   exec: add an internal helper for opened executables
- > >   file: expose helpers for in-kernel fd actions
- > >   exec: add spawn template UAPI definitions
- > >   exec: add spawn template file descriptors
- > >   exec: add spawn_template_spawn()
- > >   exec: validate spawn template executable identity
- > >   binfmt_elf: cache ELF metadata for spawn templates
- > >   Documentation: describe spawn templates
- > >   exec: require absolute paths for path-created templates
- > >   exec: let close-range actions target the max fd
- > >   syscalls: add generic spawn template entries
- > >   selftests/exec: cover spawn template basics
- > >
- > >  Documentation/userspace-api/index.rst         |   1 +
- > >  .../userspace-api/spawn_template.rst          | 153 +++
- > >  MAINTAINERS                                   |   6 +
- > >  arch/x86/entry/syscalls/syscall_64.tbl        |   3 +-
- > >  fs/Makefile                                   |   2 +-
- > >  fs/binfmt_elf.c                               | 104 +-
- > >  fs/exec.c                                     | 162 ++-
- > >  fs/file.c                                     |  11 +-
- > >  fs/spawn_template.c                           | 619 +++++++++++
- > >  include/linux/binfmts.h                       |  10 +
- > >  include/linux/fdtable.h                       |   2 +
- > >  include/linux/spawn_template.h                |  72 ++
- > >  include/linux/syscalls.h                      |   7 +
- > >  include/uapi/asm-generic/unistd.h             |   7 +-
- > >  include/uapi/linux/spawn_template.h           |  62 ++
- > >  scripts/syscall.tbl                           |   2 +
- > >  tools/testing/selftests/exec/Makefile         |   1 +
- > >  tools/testing/selftests/exec/spawn_template.c | 997 +++++++++++++++++=
-+
- > >  18 files changed, 2179 insertions(+), 42 deletions(-)
- > >  create mode 100644 Documentation/userspace-api/spawn_template.rst
- > >  create mode 100644 fs/spawn_template.c
- > >  create mode 100644 include/linux/spawn_template.h
- > >  create mode 100644 include/uapi/linux/spawn_template.h
- > >  create mode 100644 tools/testing/selftests/exec/spawn_template.c
- >=20
- > --=20
- > Gabriel Krisman Bertazi
- >=20
+Please update it to a new version after rebasing with the upstream master
+branch.
 
 Regards,
-Li=E2=80=8B
-
+--
+Andrea Cervesato
+SUSE QE Automation Engineer Linux
+andrea.cervesato@suse.com
 
