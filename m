@@ -1,239 +1,242 @@
-Return-Path: <linux-api+bounces-6596-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6597-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aDQYIUrMKWoJdgMAu9opvQ
-	(envelope-from <linux-api+bounces-6596-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2026 22:42:50 +0200
+	id ryu1BE7sKWq8fgMAu9opvQ
+	(envelope-from <linux-api+bounces-6597-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 00:59:26 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E7066CE13
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2026 22:42:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5165E66D44B
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 00:59:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=johnericson.me header.s=fm3 header.b=RnQFdc1e;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="Q RgU8rR";
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6596-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6596-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=johnericson.me;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=qEn4tIWy;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6597-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6597-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EF274303CC67
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2026 20:38:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 06DD130A81AB
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2026 22:59:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1193F47ECCE;
-	Wed, 10 Jun 2026 20:38:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70DE13749F3;
+	Wed, 10 Jun 2026 22:59:23 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FC47DA66;
-	Wed, 10 Jun 2026 20:38:44 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781123926; cv=none; b=GM8uPIp/Jo8kYJcS9UIxQDIblo6M8b4yeF/kU+Gym+h8bfVCjIUS0EMmbf9Q2LrlRE4OBwXF3v3w7wVV/IaGLpLJiFCCNtw/cgO/uxw+jJQ+AVAddXy53/yiUIlQuzsPl9uIA0sInMc1eyl0y/v+IwJ3oVcPlzJmUs8BkdIX76M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781123926; c=relaxed/simple;
-	bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLOabEL2KZLl+I=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ZNziSeedN13SbLDzX2OVPsxyZscJFkaLslRzjVc4mn4j9ibUTasvkxOuvbD0hCNA1JJx1thT1LYQMg28GK/ktkm1/NXyDkpMaJKLdlTEVSbtkKc4heKlBQwr/oohJBuWRn2k0lu8919yNeEtM4uFtWyMLCm5ITQ/P8INZavC52s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=RnQFdc1e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QRgU8rRJ; arc=none smtp.client-ip=202.12.124.137
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.stl.internal (Postfix) with ESMTP id 19C1E1300074;
-	Wed, 10 Jun 2026 16:38:43 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Wed, 10 Jun 2026 16:38:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1781123922; x=1781131122; bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLO
-	abEL2KZLl+I=; b=RnQFdc1ehookfxZskeYaO0LGYH4k+xPtvLoa3oFfYCkoTFn0
-	Ttg7K+wuvRAF0lBdwJlU+xe/XNjGunYkSuKCPEIknEhzPzuR+tLFnZFZp+ktFnRO
-	GtvOk4bBVFEkTto3BzClF+pC5PcukJAHw6OLfB5FVw9Z5v6StXjzNZpCwftoZA11
-	7GUuhQ+gmeG6cxKGRIIT9uYk64vQdXsOt6WnVeKNR88DPEnuo6S6Y9Anrp+fqIR8
-	jgVpp3+hDQgA6vuVO3RnkA6Er8+Jom9IEvjRo+vghEzZwEXK4LAhm3nCvT+bf3px
-	Q5FMMAeS/RTjX/X9FN7Y9OMRbhaFqlVCFS1w2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781123922; x=
-	1781131122; bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLOabEL2KZLl+I=; b=Q
-	RgU8rRJzIa4UEklCAnc+PAwkaoWMsC+u6PhAtkmGDKTEYl2fN+CtlEyzv1P1ToB+
-	epglkq6CbsdgT+alHGBdNXnURyXvky2HS7VQh/nLqR37Y9A134IoyA/ySO7fgvVw
-	Irwz7rIbnthhVKH5fgF0qGxvMs+ifWt6xUHAuevWd4KTckK0lhvTVbrwUNP/Vi5Y
-	WaGSvS1BZE/88VDpoxmxQ323V3szRJuzPKHYsJPfabCCJafHuRo5C743P29RFY1O
-	qCoLP1Hf/ASvZAQCHiNPC2STa8ZxfZaV6Vt/p6XXz0Em9ukXbwLiwm6Bo65rYqPT
-	uGd+rWiwYIfxBVjcJAJiQ==
-X-ME-Sender: <xms:Ucspaq7ROJCg94S7g4ApNvmWiIM15KYk-FwcGKB01eMGISMqqZWXNA>
-    <xme:UcspautuioAppC5EgckFH6FaPBCNDWxu3dOShwhdGeAAVatOQRQ9CxfhwKBfVsEo0
-    oJ7xrGp33oWrk_ayvA1VgPv-bTntZ_dF9hhtHT4Xsj6GS4ENM41VrQL>
-X-ME-Proxy-Cause: dmFkZTGaNeNTQ3G1F1+JWzJkMGql3D6L8AUgdkqFLx0WG5ejhftcD6XNOk17L4aaI3sLyo
-    JMs836zpWnZQRvY3wiKtPAVpFVuFdcwBGOM0exgvpRf4fra7IypSfeU+3Wp4jbrVCLy94M
-    NVooNMv5d55qj5zihBo2bVG0kwGZBVLwYdxuS4ieBQ4SBqpCBRuhhnAtTnBGICpgg0fcIe
-    nR3Hz/EB3Go9W8jzMC6yHEBv8uBcD2hYbb+iMMYQB2o60laEVAFrKuuSjBswonvVOCc3Gk
-    odcH87lSsUh/amBG/pxMLt5RblP2Wa+j2WlJhSp6SQ2RVeTNecZ/Rxy5QSf99EO5UNP9l3
-    Se6+hqZ/tYap9i/epw532BHzfBQkdEs5R9F/V1PLK6u6OgDA9T5ub7dSAmN4fFWW9BO637
-    EbIERqO3LWEweYPxuggu2I8QB5nG/ZPtxX8+uZKMIJcFOMDx8OzGhDh2c0vlu/dO1syAOq
-    svLYMTbXYfn/go0WBEHsfsmnlehos1beHVOBHH3XKslvDcpES7DepH9Ha/h9SZPRPbVkS2
-    v/lbpuDzk+lslHGotkLNybQ6pPEzlJI/q9jq3S7DK94vL5G+5dtvEesArzUM80edCJU8IL
-    O5fGVCoGommkM13WiiVPQnxH6+WuNSjbPGN3yuNQOUgS+iyp4cJJE3EMqvnw
-X-ME-Proxy: <xmx:UcspahQly0uFpZlUjGh--NhkJzJMv4OI3yFazQLn0Zj4Rv8sNw9s1w>
-    <xmx:UcspausIaR3QHHlo8gAv8Huxu_KvqCsyrCHfJZUoXhO-7cMmHCwcMQ>
-    <xmx:UcspavUtHS9qlU_-DywzPzzLAQrh-65e_La29NAujNrxgwZvHINEzg>
-    <xmx:UcspainAboznNphZuC_qA7s4dkyCtpJ5aA7zI5AwFtpde5H2t0LTXA>
-    <xmx:UsspahiyYw0Bh2a2JnJpgkhZM9oZYoc2lr4_FWH1CPIAoGZSxqg4pueu>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 59E002CC0083; Wed, 10 Jun 2026 16:38:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C68369D45
+	for <linux-api@vger.kernel.org>; Wed, 10 Jun 2026 22:59:21 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781132363; cv=pass; b=dQFv1ZMRA7VAw+ykucAsOEblGOhnB4T4HkYd7pat3W/Ckbw6CgTRo6ihaFTTrHF7U67nxnhO3KDOWAYEFw8dB+zDseloGfk00nNNEgSeSvtAQSh8HwzqxYll3ikk8MvPZ+sp34ngU45l19Q6yMrl/zuIiFMM2Ssmr0qlV2+B6ws=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781132363; c=relaxed/simple;
+	bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BqtJW4ZyOZ+KVtoIilTwHHbPw+FMRoS9SYdIdOlN2+80am3jZ9B5/50YdwKeqKYJShmGptY3YelfVU8Q0nXi6vYrj4j1nTnEu1uSHDEoanjAmoHRgjOnYjk2iqGlRMKVYe3QHaQBykM7xl9i/79qdlRbYHTQud0hksONBLQk07w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qEn4tIWy; arc=pass smtp.client-ip=209.85.208.47
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-687ed9aabb3so14432079a12.1
+        for <linux-api@vger.kernel.org>; Wed, 10 Jun 2026 15:59:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781132360; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cqSd6Axrxl7P/5Y4M6Jn8DC/IDKOlZvyZo6tK1LKQ0ib2C+ZY5Vg47muWf0PrULdnh
+         yBzmUihNhVtkQ0xc51YChlGykN7agGbpKsjJNpQL8k+qeP1gsVD2kzwKuBr8WFZ+GSCX
+         r6/oSi/TOfGKh7AEKzsAfW3oENzKnG8nG+N7xEgmOQ9N3KCguhapOzqsjy3mZsVac5A5
+         zk6QY+Iak+BQ5SiOfPCBvOoWChOg/92uKv+Z2yeTHpmJZvvHqkb+yX1HienG/JrbS0dB
+         xg31f4Hjmai9bux4lfqCD+MpC84lq/XWXcei6intucZ9rcC6GonNTIUbOzI4UryZwdeD
+         0kYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        fh=bxsRCrulu0MSSDRoJCI7CweDLAwKDgV+RbR3RNwLkIM=;
+        b=Bocutag8gXpOS9g6tOLKR4paHdfM/YQqDsP0mgM47bWgFgmYbFaV5eO7YUrjiZaFUL
+         hyENzR/kh5+yKQzNjEvcueItJx10EQhf7AqMmdXiQpnufT0M3Dp+weI9hSEAncpVKz7f
+         2k6VPdXpwXrKz0+G1Nx2y/FKvtN/9FmLwh9+pHvCd0tUCwD+iFo+k/yYAjQpwC3L2l6B
+         jT8jZWKYmV46uWlJrBT7OQWkk2cSZCfc+gL0PaHfwZX8U4oGac4y6g3b75D+L5IA4/qx
+         01P6z7tbNSPDeGN8YbHAyhGG9f3DHkuvjKye7dLgWbSbl9Bbsk8SmXxwduj7fUlEypSg
+         RpjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781132360; x=1781737160; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        b=qEn4tIWyzGrvjUgvO574u6bAFB8n1Bu79d+gI2oyFcZSTG2PxL2qFkS7fainrrfrV8
+         JBMIOmi08eKO7E1Aj9XPkaMb/2J2V2mSI7ole22hdtrek8TO+kg6IQXol5thJJGLcXMe
+         TvO4cEC9g7XMzDu8Gbw6Hh4RTK6UDyqZgmnbe9NiDrFgl0sQHcsJgFHeiKnJjdk481Pa
+         w4sUsM1k/OBPwW1b8N0SWLEtBrHQN5WlmEpsaRUJglIosxsDBsE1YWDA5Rex2p+aGKkL
+         kFPkBD5MrcWH4toiaQBJb1V1kvARUTSG8MKzUg5hBPmu5IGHxgP6iZ423hIxmHohe/Ax
+         vulg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781132360; x=1781737160;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        b=N0kb6xzJpjadcRHjU+89POQBTSQfjxAF/O7NXYIg25g4n64egxRiH76Z5WB7Gi7hZJ
+         8RqREWBhIxMtKAgs4ZHEUfXzBK4T/9zV0P08ExUub1qJZrw5A/8/tuaX+AEOB/er/+r0
+         E4gj+qcziSVI4NXaZ2vMtkDrG1eNa1teOjv3LzWvmON57EYr7ouiApac5ErHTc5ifhnT
+         HwlFgLYR1Eu0sUlsyjZV7WsxXUGCOacvhBG/wnq/t66k8YmZfzqVB3WclktFeeqhjpd7
+         aPoxDVq2Y5MDzHDqiYNyrjtrKicjz/I9/RAZsYtswz9yWu3I2keAxETh13RpcrpDAraS
+         vBvg==
+X-Forwarded-Encrypted: i=1; AFNElJ/S6BsDdRbpzbfqc1wAiGSqlVJl6EFJMQ4wPq/G+mNqRzh6UXZUB+DeK4wg8sw5V9sqrXyVyhWqOiA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIPN60yPOphHgznLiYv4zMyAMqooSl0rqafZvhPajUfJk2f5Jm
+	w0rl5Ny7bSP+L7B8qQjobQ0TyD/5h3vOIZAVDNW3186P0GJvoohrxI4FPdnreG0fkMvFhAMN0OE
+	/hglvuWYNJMEqNVlsgDbjWCUDzzSHIPg=
+X-Gm-Gg: Acq92OFXuy7UYI9EcFdXuOdPkYb4khoM6TE7nHpMI6q+pEIl6NYAnBNxmPpLBHISypZ
+	OQtIKILlpkXBGZncw8vqWtG6gxzP+tog9YS20QGPxtu36qkUtZkg6Fva0geaqfJ3W1fQsZCb5zP
+	nV8VFka+VWyMb0Es8YsoseZ829lcX15EK4RhTxxwKMV4vD64hKk7o2zoKjuvyM6o/xoX//cZ8Ur
+	HYafUVNa+kyZ+xLzBnUYFigQ7Kv2BFG/It8fPxG+1strXhVNMQziBvalHbjv09Iy/j3rRvl/NmZ
+	Uuqx3GIFZ9ATcifOZDnR5PiKYJeWxuv6P5Dkl3FSf+dxmXAHfQ==
+X-Received: by 2002:a17:906:6a1c:b0:bf1:ac1d:94b0 with SMTP id
+ a640c23a62f3a-bf373eec601mr1347239866b.35.1781132359944; Wed, 10 Jun 2026
+ 15:59:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AtGJywdvvpER
-Date: Wed, 10 Jun 2026 16:38:21 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Li Chen" <me@linux.beauty>
-Cc: "Andy Lutomirski" <luto@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Al Viro" <viro@zeniv.linux.org.uk>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
- linux-doc <linux-doc@vger.kernel.org>,
- linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Message-Id: <48594f3a-2ae9-4e1c-a575-ae54a6e1536d@app.fastmail.com>
-In-Reply-To: <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
- <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
- <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
- <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
- startup
-Content-Type: text/plain; charset=utf-8
+References: <20260528095235.2491226-1-me@linux.beauty> <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
+ <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+In-Reply-To: <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 11 Jun 2026 00:59:08 +0200
+X-Gm-Features: AVVi8CdthNiQaFys6OtVKdO_jwR53Q5mhKecw8_q9iDf4OCUN-Dc5Jgmeo3bc0c
+Message-ID: <CAGudoHHq-AKfWwRXuVbmz0B3PPK=Z7gW=HeUYOe_8k4fvPJFHA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+To: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.15 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[johnericson.me,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[johnericson.me:s=fm3,messagingengine.com:s=fm1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jannh@google.com,m:brauner@kernel.org,m:me@linux.beauty,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:luto@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[mjguzik@gmail.com,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	TAGGED_FROM(0.00)[bounces-6597-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:me@linux.beauty,m:luto@kernel.org,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-6596-lists,linux-api=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[johnericson.me:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mjguzik@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,johnericson.me:dkim,johnericson.me:from_mime]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 01E7066CE13
+X-Rspamd-Queue-Id: 5165E66D44B
 
-On Wed, Jun 10, 2026, at 8:29 AM, Li Chen wrote:
-> Hi John,
+On Mon, Jun 8, 2026 at 5:02=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
 >
-> [...]
+> On Thu, May 28, 2026 at 2:55=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com>=
+ wrote:
+> > This problem is dear to my heart and I have been pondering it on and of=
+f
+> > for some time now. The entire fork + exec idiom is terrible and needs t=
+o
+> > be retired.
 >
-> Thanks, this helped a lot. I looked at FreeBSD/OpenBSD/XNU after your
-> note. FreeBSD has P_INEXEC, OpenBSD has PS_INEXEC, and XNU seems even
-> closer with P_LINTRANSIT, described as "process in exec or in creation=
-".
-> Linux does not seem to have a single equivalent today: current->in_exe=
-cve
-> is only an LSM hint, while the real synchronization is spread across
-> exec_update_lock, cred_guard_mutex, and the exec path.
-
-Great! Glad to hear my suggestion (and the patch too I linked in the
-other email, I hope?) was useful.
-
-> I am switching my local WIP from the two-fd builder model to one fd,
-> closer to Christian's sketch:
+> It seems to me like vfork+exec is a decent UAPI building block, on
+> which you can build nice-looking userspace APIs, though I agree that
+> this is not an ideal direct interface for application code.
 >
-> fd =3D pidfd_open(0, PIDFD_EMPTY);
-> pidfd_config(fd, ...);
-> pidfd_spawn_run(fd, ...);
+> > Additionally there is a known problem where transiently copied file
+> > descriptors on fork + exec cause a headache in multithreaded programs
+> > doing something like this in parallel. I only did cursory reading, it
+> > seems your patchset keeps the same problem in place.
+>
+> I think we almost have UAPI that would let you avoid this issue?
+> You can use clone() with CLONE_FILES, then unshare the FD table with
+> close_range(3, UINT_MAX, CLOSE_RANGE_UNSHARE). That is not currently
+> implemented to be atomic with stuff that happens on other threads, but
+> if we changed that, and it doesn't provide a good way to carry some
+> FDs across, but it feels to me like this could be fixed with a variant
+> of close_range() that removes O_CLOEXEC FDs except ones listed in an
+> array.
 
-Glad to hear it is also one-fd now.
+Suppose you want to exec a binary with the following fd set:
+0 is /dev/null
+1 is fd 1023 in your process
+2 is fd 1023 in your process
 
-> In my current local version, I still use copy_process(), so the fd poi=
-nts
-> at a real task_struct/pid that is not woken until run.
+You have tons of other fds and you don't want any of them anywhere near thi=
+s.
 
-So this is an interesting thing to think about. My hunch is that
-`copy_process` is, at least in the longer term, still doing too much! In
-particular, `struct kernel_clone_args` has many degrees of freedom, and
-might also make assumptions about preserving more of the parent process
-than is needed in this case.
+Clean interface from my standpoint would avoid any unnecessary
+overhead and would allow you to clearly specify what do you want.
 
-This is a bit tangential, but one thing I have thought about is having
-"null namespaces". I think the current (i.e. existing clone API) default
-of "share with parent process" is a poor security practice (more
-privileges, i.e. sharing, should always be opt-in). But the opposite
-default of "unshare everything" is expensive since creating new
-namespaces is non-free. The goal of the null namespaces would be a cheap
-way of creating a more isolated and unprivileged process =E2=80=94 and "=
-cheap"
-here is literal: a null pointer in `nsproxy`, no allocation, no
-namespace object, no ID. This null state would be what
-`pidfd_open(0, PIDFD_EMPTY)` (using your example above, or really
-whatever the first step is) hands back.
+In this case whatever the interface it should provide the ability to
+map 1023 to 1 and 2 in the child. With the current syscall set you get
+refs taken on these on clone, then you have to manually dup2 these
+which is separate syscalls with extra atomics on top. A fast & elegant
+solution would allow you to tell the kernel directly where to install
+the 2 files.
 
-Then, from that maximally cheap and unprivileged initial state, the
-`pidfd_config(fd, ...);` calls (plural important, I think!) would opt
-into either sharing or unsharing namespaces between the child and parent
-as the parent sees fit.
+Also note in practical terms userspace likes to closefrom/close_range
+anyway to get rid of unwanted fds which happen to not have the cloexec
+bit which is yet another syscall to invoke on the way to exec. A
+better interface would instantly avoid the problem by not copying the
+unwanted fds if not asked. For viability for use as foundation to
+build posix_spawn over it such copying would have to be supported of
+course.
 
-The larger point here is that insofar as there are not good defaults for
-things, there is pressure, whether in step 1 or step 2, to make larger
-everything-at-once configuration. But when we think a bit outside the
-box to create the good defaults where they didn't previously exist, we
-can end up in a situation where a minimal initial blank unstarted
-process, and the builder pattern to initialize it, are more "natural".
+>
+> > There are numerous impactful ways to speed up execs both in terms of
+> > single-threaded cost and their multicore scalability, most of which
+> > would be immediately usable by all programs without an opt-in. imo thes=
+e
+> > needs to be exhausted before something like a "template" can be
+> > considered.
+>
+> (I think probably a large part of this would be stuff that happens in
+> userspace, like dynamic linking.)
 
-> Following
-> Christian's point that existing APIs can handle this not-yet-running c=
-ase
-> with ESRCH, I currently make ordinary pidfd operations that need a real
-> started process return -ESRCH before start.
+I have not investigated userspace, even putting specific APIs aside
+the kernel has *a lot* of avoidable overhead.
 
-Also glad to hear.
+>
+> > Per the above, the primary win would stem from *NOT* messing with mm.
+>
+> As you write below, I think we have that with CLONE_MM? The C function
+> vfork() is kind of a terrible API because of its returns-twice
+> behavior, but I think if process cloning with CLONE_VM|CLONE_VFORK was
+> wrapped by libc in a way similar to clone() (with the child executing
+> a separate handler function), or if it was used in the implementation
+> of some higher-level process-spawning API, it would be a perfectly
+> fine API?
+>
+> Or am I misunderstanding what you mean by "messing with mm"?
+>
 
-> I am not sure yet whether Linux should grow a general exec/creation
-> transition state like that, or whether a narrower future-process
-> lifecycle is enough for this API. I will think more about that when
-> working on the pristine process version.
-
-Sounds good, as I think you can guess, my preference is for "yes", but I
-agree we can see what you end up with in the next patchset and make more
-informed decisions based on that.
-
-Cheers,
-
-John
+I was not aware of this functionality, let's assume it indeed works.
+You still have the file issue described above.
 
