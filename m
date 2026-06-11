@@ -1,287 +1,293 @@
-Return-Path: <linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id x2uECpRUKmr+nQMAu9opvQ
-	(envelope-from <linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 08:24:20 +0200
+	id ic6cI/wEK2qD1QMAu9opvQ
+	(envelope-from <linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 20:57:00 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDF066F001
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 08:24:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 209E86749C8
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 20:57:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=hLQBc8df;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=johnericson.me header.s=fm3 header.b="lqoDUw/k";
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="S xhnnWM";
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=johnericson.me;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0761B3026209
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 06:24:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0C423204673
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 18:55:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474A035F191;
-	Thu, 11 Jun 2026 06:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A07342B733;
+	Thu, 11 Jun 2026 18:55:32 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07602D73A6;
-	Thu, 11 Jun 2026 06:24:13 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781159055; cv=fail; b=mI7u1z05cEOrENQwGYwqpAA6TUqG8e9+2g1D5U0GKnkrpFtCHFtmQwFJBrcIQZCOtck5x+figYOJttElTYNfrRvFE8cMRtO7XuihFR3aWeWw+nz8iEZKYTuAPcrzYyGKo5EiFBai9v2HllAdN3HHGfZuE0Iq7nu7P5CsuEX0vYQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781159055; c=relaxed/simple;
-	bh=jPq5/4WAAPS4J29iFoUG4nu1Ga3P3Ny8sNaXodLFUEg=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=qIZwc94we7XOukseEWdU+R8ktL5ioRj6RCs+CFNlezxsMr5MbmFRRKc1o4r4k95ZMiviAVIJZF6xKd//TeD/Y9byX+HRV8FTr5+lfq0bhylOYpdlFcU7hYWNyMQziw7M58yTmdixCxM1VbzMabMn4xcExOXFUw2X4T5XNQ2xiAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hLQBc8df; arc=fail smtp.client-ip=192.198.163.17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781159053; x=1812695053;
-  h=date:from:to:cc:subject:message-id:
-   content-transfer-encoding:mime-version;
-  bh=jPq5/4WAAPS4J29iFoUG4nu1Ga3P3Ny8sNaXodLFUEg=;
-  b=hLQBc8dfoZLnXaKW2HmoDedU/NdGxf6Un+VfrIedZFThQp5swAw2S8ga
-   VDL6Bi1c7GDmxk01WM67gcZasVsDrYFQFUB+VaXw8KjCXlQhQBQetFOcA
-   kFk5iQbu6frGv5MvK11cSzyRl7VyquPNZCmAMDkKaO8fPm53LB8PhJCqM
-   qpsfiOf8VQQgxNFm44MsJRnIibGBi4q23QIdxZXfSVtracp47fmypFKLM
-   nl78XYbUZIc+ao7nI7s7i6+N9tdnq+DAC0KXLsw39O1wvPhSF0CclNHcW
-   UUljSal9T9BxHd7L5cAIs2eDcoDu9ziBYy8cZMC17IOIyuYuejfswpjdN
-   g==;
-X-CSE-ConnectionGUID: 18wHzJDSR8+f+dfvZf9i5g==
-X-CSE-MsgGUID: jWn3UyxFTdmvnm55DWIH3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81813075"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="81813075"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 23:24:13 -0700
-X-CSE-ConnectionGUID: RMKXXxFoR526xMXoITQM+w==
-X-CSE-MsgGUID: AsSER8NbQjCLti/u/trHww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="251485717"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 23:24:13 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 10 Jun 2026 23:24:12 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 10 Jun 2026 23:24:12 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.43) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 10 Jun 2026 23:24:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oChb4Lhx0tGxQJCYD99qZ4UUS944fPGFOqQUR6Hu8YEYOUeFG4xX+JokstRIMyqdBiFYnwogqKI4/5kZ/UzVNd42t2aXJDxP6AiVEgq0hXPkL/Xd0vTL3IefGDTW1DNdNZggmn0HAoWRuXVdYkkEn8yEvfWZV7NBvBNvufC9v//G/Rn1/j48yoA8uPZRGbwzwyMsAi7WpWNDbr4EzxuUaqUaR/GXsZJbH4rv6LKBQ9HGiRkGiWWPwYOYP6HdaCHudcU329XXEcOTR9HYFto/k7CRZ3PzizVIYRTUvLvVlDUDCX0PG22FEGrCcKaM2IhwnnrQs2lDAmKXfAccDqSvPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4XMy/byEHkafaOk3znmb9L5yziOw4yI/QvH75Jj3VOs=;
- b=nq62xME2dPgwGWCFdKKmS0AgUoVst4FuVlnJH1Cxgg53aYfbYhvHDUvxxwzqRjyMcIR39cejdZj7UKw6FJO5ketbY+M9BXuPVHnXQRs2aq72YrF2VWWiCc4d7+EDKlkI7vEqjtHq07f5KKWZ2tgM8dUhtWKIyvhemDxH7GOuBwr2UyLv2EjjNGlH2eAJCvLXXGp3wtBRk2aQigvcjuJGAG5SJiQAjgJCviSQVNFCNWPbLlsS9KvrCQ+HB0T5/F9dyrWN6xtiyHgUfRglClp8lP11jNzn6wp+4gLIJrCCZ+YL28rOBMKFvO1xAxWGumw6JVG4o0DWQXT/SP02ZQkpyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
- by CO1PR11MB4993.namprd11.prod.outlook.com (2603:10b6:303:6c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Thu, 11 Jun
- 2026 06:24:03 +0000
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707%5]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
- 06:24:03 +0000
-Date: Thu, 11 Jun 2026 14:23:52 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Askar Safin <safinaskar@gmail.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Christian Brauner
-	<brauner@kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: [linux-next:master] [vmsplice]  e2c0b23680:
- stress-ng.vm-splice.vm-splice_calls_per_sec 10.2% regression
-Message-ID: <202606111018.cc992614-lkp@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: s-nail v14.9.25
-X-ClientProxiedBy: KUZPR04CA0012.apcprd04.prod.outlook.com
- (2603:1096:d10:32::7) To PH0PR11MB5832.namprd11.prod.outlook.com
- (2603:10b6:510:141::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF53638333B;
+	Thu, 11 Jun 2026 18:55:29 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781204131; cv=none; b=NYPArHM7xJjC3wZ5DeoZdKc7KCnOZu2WYdQ9fEqdTIN1NRYYqIwcShxO6EQlKRg5WSVs5dTjzdXfGYmK9f/08ZjWrB+BVY0ASDYe2dqeGDbCeEbcWyMy7Rlw5FradKUWsQ9lJWBmg+rB/Xigojx8GCwFx86G9Wj2oBrnaQzm9Qs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781204131; c=relaxed/simple;
+	bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=oyLWxKrD8K3xv2yOeJcMIQzsqZZtGfak581TXN5XCmX8y05DmfX0DDOb09WBbrOZxRJ2WFufJ6cj7XUom3BLhTz9zSjHGUf20hledZqs2nhN056p4a9DyNszzMsEaBWaCVKIae01iXo05DYRAcPwAVOn6yoHkFSIGn7ltehsdcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=lqoDUw/k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SxhnnWMs; arc=none smtp.client-ip=103.168.172.141
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 1652F1380100;
+	Thu, 11 Jun 2026 14:55:29 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Thu, 11 Jun 2026 14:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1781204129; x=1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHd
+	dDy3pi2hdIc=; b=lqoDUw/kVA743bATY9h3WK1dphY3DTGWmWqfS7rSB5GSVn1J
+	as9WBsb+A9PKES5gRpl1K43ImpkJByEQ+OAGA8jgvTajebY1O93d+Ltmq8xdbZmr
+	UpjrbAZH15xpPstw++7hFOY+AQmRLZsb2gRNFyC6VpRAlni/E62ZfUjR+2Y7ilDV
+	5dalJkSjuO6iJHSs2PFitbvp8GbWY+Y4zFxsBDVzhzH13FnV4hN4gX3XoXsGEpU5
+	VX6YHz30fcubjL8dS4nRv3IXpnfilOnuPUp8p3r0TTr6X+SeYW3CB5Ye/Y8JCFpK
+	jE+5fg0CFoxi4Y/BBElq4gToBlMwJqp/uqu9MA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781204129; x=
+	1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=; b=S
+	xhnnWMsEUraepm0he9orZCyxPfx/X2RF4T9x70S85+8jra4FIRU9EW5non7HfVsM
+	Ci2TSpRE8DCnorJZZDCFAJnPbE74cU40UqUFdxQG06Ca0gf4YOU1CcSzAl7STslr
+	hkiKH7TApmoVk+z9PZs+yoayKHgiTZtULPsVqW6Rrfak38XDnPycDho5FKzQBef1
+	CY6QNcMEThwJpZ3k8dCfdqYEOgLqhPFyaSw/8plKCDA4ADs1atRjXiHektoDVGfc
+	fFn8T2+BwlXB/s0NPeOq0qQ16jw7OASdZDZeHmvZZ39x54Pz2OrB2tDyBB1+NgYc
+	5/H2msE/XBzMbGzzvKNHA==
+X-ME-Sender: <xms:oAQralqwuh0eouA59R3_QIwyLFBttjzOXYhOIDERLdIbdk93hF5puA>
+    <xme:oAQraifGdN2-ZAHIe6oNEDRfSEnR6WUhOwyGtPPn4ubpqD8tEdnDMeWgLTUy6Ii6x
+    5vzuFyYmFZ2RIu87ORhcAz6vnLAsYx-tpUTNEZVfRt127tc0NsvnK0>
+X-ME-Proxy-Cause: dmFkZTFYpPOn7LI4ucgrxMRuvUt0Pp7TpsmWzC1UMf5Uv3HNtfQ/V0DF7oE2QhImNcQ7/n
+    hX3+SBSdsUULValjF705kUffDlbULeLEuQLe9sEh2MjAhjTTmycdP5MBvhnGe8dzZvyNon
+    El9MmMNYiTmjnLQ2tcVKntlKTVipyiBsZrqxOGT4HbGXTm+q5nJv2ou/btyVBYEM9hCWwC
+    5GGP97dtjAoQTfqjBznaZdB0rggqqROmubcwr/kzdeAmz621tqJGsS7RdmLEwmGJYTNNOO
+    USKMjLfMmFc65L14V1RzajGF3g6WHSe5i+BYmpu3hA0CfgzgP+VZ8oTuBT+38JRx/yxzgs
+    umnpTqvcNAd1NFNCHjofpW8OHDuMUHWjxpEVBjSNmRctxv64ki/DUB9+G7ogl7t9K3QVjK
+    Ow2Y0fYcjWb7JTEpo/PoDYWzEvTk9XEek3xh+BpzUH00rvEY2PWP7ywJRQTdPoMcVAn7Gn
+    r7cDKLJ65+s64x2Q942+XWGD/zOI1+7LvCGFjOH2uWfyZd0Fv7Ymr+gzCBsMoAv2xkL3T0
+    CqD6YGWIlZSwWzrToYEFEdrCnD2xjZeUFFAtwMMKqgh8H1xdIFhWYk77oCQivDvMMOaL+9
+    Tq0tCHKmG0ElxEfp2Q75UzEXsV7cS5F72NZyHP1i3LMypy67FGfWMnYliP7A
+X-ME-Proxy: <xmx:oAQraroOprWSkLgJ-7djeMHTInI52a640Gjt5LslcKa87iD22lOadQ>
+    <xmx:oAQraoatsZC0BtBctCPgAsy7fxQT3f9fqffQoMXyvPniBkKKuuh1bA>
+    <xmx:oAQralHhcfx828vfIPwoTAB7RPq0-Rlkt4Jh2VvoK2hJ4cYJKq3hrQ>
+    <xmx:oAQramZmlr4zGPtWbXjA0WPzKylSB7mfQzF7M44bZW6o1b9B_bhaGA>
+    <xmx:oQQrarNSduaBJQ-qynqxxgQ-ZwyRh49OZambtOBojf-3vpyXdpA0tC_O>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0C7D62CC0086; Thu, 11 Jun 2026 14:55:28 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|CO1PR11MB4993:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf43496f-3b8c-4d2e-98f6-08dec7820696
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|56012099006|3023799007|11063799006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: RSgw84A46BnzDdcI0fbtiEhwDzMnnudVI9RbjrCRH6R/klV13a90b/7Q+aLyOXnOnIpbvatDSOdfof3nx5I8nbwbE36IzXGlw73rDuxXy4qZPBGnRYhIo436FGqTghHWg/4909yztI6wyXIo5SvTyIP2YDMYDHfCiKKIn9Et+XUumy9OjKaF3rHW3CTc76jW+vhALrh9r8PKdDJ5+/Yg/La2lo9+JBKrwRxYOrUg8jCTAsms29L9LHnJOI1ICtELBBdEI8bqB7NiFIprn4BFNOeeaooBFr7bBvT3LzRvQZSi4PMidFBXWUtYHjamkJ+ob/X/vT2+jLZgH/WQxpybTpm315dA63eYVcjbzrJ8kG0lYjznxyihwCTbFm34YryIaKkjNfwfN/lR4ux3v55yIwNC2jKIjfRH96sQxfypxQGxCK+UviCjt2dxXIJBA3j7+EiIKT2GDv7kUjFDb5MHCLEIc2qH9EOLLIintiMbuORouVUYAWAVNNEkLkAXN84ro+T2ODgbwpgchfNGVH112StlwwPG99K+jPOGjFxpBQZKTtNjkGKLHJN6HQau9TEgidCZ7jB1ZNIFofC8FsSzBiAufcdCAS7q4ezqlUDPUFAE9m+RDv2JP8FE7xjLvVsKjcbVKCIms8hm//pNEbti4PXKgg1bwN5tC1cKMBRlJJCbfjRvuL18FfTFMCxFQJbxcPZukky8ih3BVEu9MCAVJA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(56012099006)(3023799007)(11063799006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?RF7B4vA6JfEkMgQucls3F37TuIXEc9mZp1gp7MYaYw7hrc1hf9Abwii513?=
- =?iso-8859-1?Q?Mny0RRYJnGOeBEJ3iuJZTwMSOOyhNqk59GoqvLKRJfRWBtEATLltNpPBIP?=
- =?iso-8859-1?Q?v+Bz0RyNdSWzOPwRQPagTWe3wKHeITnAMAExAkOTQ+D0tCJImZB/qSt6Zq?=
- =?iso-8859-1?Q?9u2Go5JF9P8gtApfWhMT2ddxyqQDgmpvPRtlBustDm3RXL8S/7/QypWF17?=
- =?iso-8859-1?Q?PpqG3SbyG08+zJrYKBlhMlkmhaSc7HPZ4oubMX/Lb8O+6fyvDznMclJ2Zy?=
- =?iso-8859-1?Q?3r8PLTglhT0i689PbGGqEUJPFxtKpuJuKhjIJuRA5RnZtz60juVlTb0MPh?=
- =?iso-8859-1?Q?8aQVi3upN71oqRCmPN8PO7v6Kh+uWZH/cNWiOZDvrKyt8j/HBfDgewy8Yb?=
- =?iso-8859-1?Q?voRH/TTanreous4S851WppbS/aONadTFYdkoTRgT7gYdTJEDO3SFhn5w4G?=
- =?iso-8859-1?Q?yPdRMFvf5L5yzQxye4u5285G/1qbRPV2tlUc+D38sfB88N/+6kikPkng3g?=
- =?iso-8859-1?Q?mYZYjLV5C6N1zpBdi1ITr38j71acn+2PLhB6KxihxGioP/OYQEarnNiUSv?=
- =?iso-8859-1?Q?vphZghk3EljeCTQkTc/EnoxMgfKiKlk/XlvgIOeGn3GKeBi3ts3zO2qA4p?=
- =?iso-8859-1?Q?rkKl56l3f7zlS1fQOea8MNcVG65IA3um7gNdg8azQ36P/VatvdMJ6NHX4w?=
- =?iso-8859-1?Q?f5ejW5YS5pGV/e0XjxQi6VmDbdPVE38H9FXRoK6op8px8i0OxJhNb/zBFm?=
- =?iso-8859-1?Q?4F69YYAzmI9UfGHsPkUCzVUQ03S7wET2Y81SGeL6Imx7wlc/EmeuYqrqZf?=
- =?iso-8859-1?Q?cwdJqlLSTglABWyWpGmeJyBVTSxWhm40Tnh9xgahSJQikjTl3xs0LzzWwK?=
- =?iso-8859-1?Q?jnUSP81dNmKW2s6k7bhKrDVLq053u9nqqx6pTWYTHtt+JAnwCu2peduw+U?=
- =?iso-8859-1?Q?eseJ9FzU7IpHUFjuULt/jN9Sc7XOb63Z77lMcJr+x9GE6DKCwgSkBDKdfk?=
- =?iso-8859-1?Q?Hl/CRIduUjceqJkEorFSlfeH0cdmbZMfsptx6XV8vINwykV+hHjGtNg6W5?=
- =?iso-8859-1?Q?swbTGf4e7tBtE5Jcdx2I3RcOMc4TnGVOc1E1uy0bTDOUIoxUR/L4d8Lrqq?=
- =?iso-8859-1?Q?VgBRuGNC44Ea+TXqGsA+ZnwFJ/pkjaISEzb8XK92HRLKpjGjCX7EC/ru/M?=
- =?iso-8859-1?Q?HaBE3arZWDTuH4w6wGBgdBTJMKVt659co/sA38+x+xNZQ2raFZZM8SCLV2?=
- =?iso-8859-1?Q?N3CM+3WJNVAVReF8IUDAXbCcm211tJSnf5QEc9MadsdTAQiUaX+EB2aDvp?=
- =?iso-8859-1?Q?Bb1A4XYebjv6ORKgfipZtzgotvrhB0JhJX7zFcuDTNBTYhpm7nioyHD0R8?=
- =?iso-8859-1?Q?w54SU2s6/HwTP8TRuji9ufwrMGC8Cfs4W9UJr0+d4sCJVcFzr6Xb+NihAZ?=
- =?iso-8859-1?Q?9F8QcmWiHAPr+LHuIuJZD1ROk9ujsKcuWIjs0Ds46S37WFVnSoBOTmEPa2?=
- =?iso-8859-1?Q?31Gea14Q+h2YEXlNFcW6QoStHPRzZcQwTo1KvjLJZkfzuAS1x+mNX0A7mK?=
- =?iso-8859-1?Q?hT7DX/VguZz9j4v9TNII0ArllD/EEvf7K8ym/+CzXLIuQGifRWiQNveRzt?=
- =?iso-8859-1?Q?/IeoMjsrjGijtVE78wJfZl6aOR7eQLU41lOqAvJnNTh19TN2pH96p2eIqY?=
- =?iso-8859-1?Q?XLoxNcV0dCAzp3pdFVf1wFkBk4MosyQTBhD6cxUWBE07e5R279KWEVpGt5?=
- =?iso-8859-1?Q?DHIKg6QWj2FTLCuTvPLNMXYoIci6iO+y61M05BhXke1BxOgJO9CyvCgm1A?=
- =?iso-8859-1?Q?wsCL2345rA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: OMu0z9STbq1TWavZl1TznmCf92MwSdDYUXFHz1Jd21XJcLQDnHoYQNLhx0qXXYKkFE+YebF4/2d9cRQMGjm8ZdLjxGzqvY71e24b+6NDQIiH+kHk+ugp83y/Gz6YYBMsuZj1gEvbm6vlN/OQTPyJEatpUp+ZhXHe4WIO7mgtOQn/BpzWlkp8Np8nLOoimPTZCqhUm3l4qaGf6noIDaQQu++K4F+tty6MxCZ4OrP1pxIJmGrAOBHxnKqSe/yURONV/LNTJMdj8sBwcYQn4X21Wu5lsl7/xSuz3oVOvxLgIjC7ii9IOyt96esj9fzSNmHEDb9pyB9dOMYg+lJzUaUkJw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf43496f-3b8c-4d2e-98f6-08dec7820696
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 06:24:00.5529
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /LDuZoY+xENUp2hsTJSz73aMcIY6xdGWH/iLrKoNrNU9buhWlrQgo3ydXd3XOY068xmN/usoLsMoQLZA9gRliA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4993
-X-OriginatorOrg: intel.com
+X-ThreadId: AtGJywdvvpER
+Date: Thu, 11 Jun 2026 14:53:10 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Mateusz Guzik" <mjguzik@gmail.com>, "Li Chen" <me@linux.beauty>
+Cc: "Andy Lutomirski" <luto@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
+ linux-doc <linux-doc@vger.kernel.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+Message-Id: <9033ff42-9ee7-4b93-9570-a5adcd16e826@app.fastmail.com>
+In-Reply-To: 
+ <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+ <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+ <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
+ <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+ <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
+ startup
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.15 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[johnericson.me,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[johnericson.me:s=fm3,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6599-lists,linux-api=lfdr.de];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:oe-lkp@lists.linux.dev,m:lkp@intel.com,m:brauner@kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-api@vger.kernel.org,m:oliver.sang@intel.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[oliver.sang@intel.com,linux-api@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,01.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim,intel.com:email,intel.com:mid,intel.com:from_mime];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[oliver.sang@intel.com,linux-api@vger.kernel.org];
+	TO_DN_ALL(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mjguzik@gmail.com,m:me@linux.beauty,m:luto@kernel.org,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,linux.beauty];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6600-lists,linux-api=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[johnericson.me:+,messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCVD_COUNT_SEVEN(0.00)[10]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,messagingengine.com:dkim,johnericson.me:dkim,johnericson.me:from_mime,vger.kernel.org:from_smtp,app.fastmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8EDF066F001
+X-Rspamd-Queue-Id: 209E86749C8
 
+On Wed, Jun 10, 2026, at 7:40 PM, Mateusz Guzik wrote:
+> [...]
+>
+> As I tried to explain in my previous e-mail this approach does not cut
+> it because of NUMA.
+>
+> Suppose you have a machine with 2 nodes. The parent-to-be is running
+> on node 0 and the child is intended to exec something on node 1.
+>
+> When the parent-to-be allocates and populates stuff, it takes place with
+> memory backed by node 0. If you allocate task_struct, the file table and
+> other frequently used (and modified!) objs in this way, you are
+> guaranteeing performance loss due to interconnect traffic to access it.
+>
+> Trying to add plumbing so that all allocations respect numa placement is
+> probably too cumbersome.
 
+Are we sure that last part is true?
 
-Hello,
+Let's also assume when this stuff was initially implemented, we didn't
+have it. If the basic thrust of this work is to replace functions that
+previously only worked on the current thread with those that worked on
+either arbitrary (not yet started) threads or the current thread, would
+that not prepare us for slowly migrating the allocation choice to
+reflect the node of the target task (new parameter) rather than the node
+of the current task over time?
 
-kernel test robot noticed a 10.2% regression of stress-ng.vm-splice.vm-splice_calls_per_sec on:
+(This assumes the task is pre-placed on a node before it is actually run
+there, and that pre-placement happens as early in the allocation process
+as possible, so subsequent allocations can read off the
+partially-initialized task's node.)
 
+"Slowly migrating" is good here! It doesn't need to be the fastest thing
+out of the gate, but if this new proper spawning API gets popular as I
+think it would, and there is a clear path to optimizing it per the
+above, then I am confident that over the years it will happen.
 
-commit: e2c0b2368081bef7d1f6758cc9e7edde8521237c ("vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2")
-https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+> The primary example for that is looking up the binary to exec in the
+> first place.
+>
+> userspace likes to pass paths which don't exist, meaning checking for
+> the binary before any hard work is a useful optimization. Suppose the
+> binary to be executed is in a container bound with a taskset using
+> node 1 and the content of the fs part of the container is currently
+> fully uncached.
+>
+> When you perform the lookup on node 0, you are populating a bunch of
+> metadata (inode, dentry) using memory from that domain. But the intended
+> user will only execute on node 1, again resulting in a performance loss.
+>
+> In order to not do it you would need to convince VFS to allocate memory
+> elsewhere.
 
-[still regression on linux-next/master 6e845bcb78c95af935094040bd4edc3c2b6dd784]
+One thing I don't get about this is that isn't the cost doing a bunch of
+work searching the PATH for the directories where the executable
+*doesn't* exist? In the case of something like a shell that is going to
+spawn a lot of processes, I would think it is *good* to keep all that
+PATH crawling VFS filling to be on the shell's node, rather than the
+child processes' nodes.
 
-testcase: stress-ng
-config: x86_64-rhel-9.4
-compiler: gcc-14
-test machine: 192 threads 2 sockets Intel(R) Xeon(R) 6740E  CPU @ 2.4GHz (Sierra Forest) with 256G memory
-parameters:
+It is only the executable itself, the final step of the VFS crawl, that
+should be loaded into the other NUMA nodes. Insofar as (unless I am
+missing something) creating the process means finding the inode for the
+executable but not loading those pages, aren't we OK here? Only when the
+new process is actually scheduled and run must the ELF be paged into
+memory, and then that will happen on the correct node.
 
-	nr_threads: 100%
-	testtime: 60s
-	test: vm-splice
-	cpufreq_governor: performance
+> So I stand by my previous claim that ultimately a pristine child has to
+> be created (like in this patch), but which also has to do the work on
+> its own.
 
+I have not been a kernel dev, so my apologies if I am missing things.
+But in conclusion for me, the FS and other resource access patterns of
+*creating a process* vs *that process itself running* do not seem
+necessarily coincident to me. What you are describing as for sure a
+problem might possibly be a *good thing*, if they are in fact quite
+different.
 
+> Suppose there is no explicit placement requested anywhere. Even in that
+> case there are legitimate workloads which will eventually be forced to
+> exec stuff on another node. Even these have a better chance retaining
+> full locality if the child process does all the work.
+>
+> Per my previous message I don't see a clean interface to do it.
+> something quasi-posix_spawn is probably the least bad way out, it will
+> also allow userspace to easily wrap the new thing with posix_spawn
+> itself.
+>
+> Also note there is another issue with the fd-based approach: the fd will
+> get inherited on fork and will hang out in the child afterwards unless
+> explicitly closed. Suppose you have a multithreaded program which likes
+> to both fork(+no exec) and fork+exec. With the fd-based approach you
+> have no means of stopping another thread from grabbing your state thanks
+> to unix defaulting to copying everything. There was an attempt to fix
+> this aspect with O_CLOFORK, but this got rejected.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202606111018.cc992614-lkp@intel.com
+I would think we don't need to worry about clone/fork very much, right?
+I think the premise of your emails, and just about everyone else's in
+this thread too, is that we agree fork+exec is bad, and the problem of
+unnecessarily sharing resources is inherent to fork. Furthermore, I
+think we all agree that while `O_CLOEXEC` and `O_CLOFORK` may help, both
+are unsatisfying solutions because they are opt-out not opt-in, and
+global to the parent process / preexec state (respectively) rather than
+local to the specific fork / exec in question.
 
+pidfds encounter these problems no more than any other
+file-descriptor-based UAPI, right? And I don't think it is good to blame
+any such file-descriptor-based UAPI when fork/exec are at fault.
 
-Details are as below:
--------------------------------------------------------------------------------------------------->
+Maybe during the transition, when some things use fork and some things
+use this new API, stuff will be awkward, but I would rather that just be
+an incentive to complete the transition away from fork, not a reason to
+second-guess the plan.
 
+Once the transition is complete, and everyone is diligently assembling
+their child processes from scratch as is proposed, `O_CLOEXEC` and
+`O_CLOFORK` are both unneeded, and oversharing privileges will be much
+less common simply because "lazy coding"/"minimal typing" will only
+share what is needed --- anything else is more code/keystrokes!
 
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20260611/202606111018.cc992614-lkp@intel.com
+> Whatever exactly happens, NUMA is a sad fact of computing and needs to
+> be accounted for. The approach as proposed not only does not do it, but
+> it actively hinders such deployments.
 
-=========================================================================================
-compiler/cpufreq_governor/kconfig/nr_threads/rootfs/tbox_group/test/testcase/testtime:
-  gcc-14/performance/x86_64-rhel-9.4/100%/debian-13-x86_64-20250902.cgz/lkp-srf-2sp3/vm-splice/stress-ng/60s
+Despite everything I said, I want to be clear that I do agree that NUMA
+performance should be accounted for. Even if the first version isn't as
+great as it could be on that metric, there should be a clear plan for
+how future work can conclusively address it.
 
-commit: 
-  a9f7db50ed ("tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"")
-  e2c0b23680 ("vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2")
+Cheers,
 
-a9f7db50ed2fff96 e2c0b2368081bef7d1f6758cc9e 
----------------- --------------------------- 
-         %stddev     %change         %stddev
-             \          |                \  
-      2122            -2.7%       2064        stress-ng.time.user_time
-  13281641           -10.2%   11928183        stress-ng.vm-splice.MB_per_sec_vm-splice_rate
- 1.183e+10            -4.8%  1.126e+10        stress-ng.vm-splice.ops
- 1.972e+08            -4.8%  1.878e+08        stress-ng.vm-splice.ops_per_sec
-   3.4e+09           -10.2%  3.054e+09        stress-ng.vm-splice.vm-splice_calls_per_sec
-      1397 ±  7%     -21.1%       1103 ± 10%  sched_debug.cfs_rq:/.runnable_avg.max
-      1.28           -22.1%       1.00 ± 44%  turbostat.IPC
-     74419            +3.9%      77317        proc-vmstat.nr_shmem
-    633806            +1.1%     640727        proc-vmstat.numa_local
-    331878 ± 13%     -30.3%     231247 ± 18%  numa-numastat.node0.local_node
-     37379 ± 76%    +241.6%     127705 ± 50%  numa-numastat.node0.other_node
-    298829 ± 14%     +36.1%     406730 ± 10%  numa-numastat.node1.local_node
-    162072 ± 17%     -55.7%      71783 ± 89%  numa-numastat.node1.other_node
-    332129 ± 13%     -30.4%     231269 ± 18%  numa-vmstat.node0.numa_local
-     37379 ± 76%    +241.6%     127705 ± 50%  numa-vmstat.node0.numa_other
-    298881 ± 14%     +36.1%     406833 ± 10%  numa-vmstat.node1.numa_local
-    162072 ± 17%     -55.7%      71783 ± 89%  numa-vmstat.node1.numa_other
-
-
-
-
-Disclaimer:
-Results have been estimated based on internal Intel analysis and are provided
-for informational purposes only. Any difference in system hardware or software
-design or configuration may affect actual performance.
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+John
 
