@@ -1,238 +1,287 @@
-Return-Path: <linux-api+bounces-6598-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vpgqMrz2KWrUgAMAu9opvQ
-	(envelope-from <linux-api+bounces-6598-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 01:43:56 +0200
+	id x2uECpRUKmr+nQMAu9opvQ
+	(envelope-from <linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 08:24:20 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446A266D6A5
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 01:43:56 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDF066F001
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 08:24:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=slxb3N4b;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6598-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6598-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=intel.com header.s=Intel header.b=hLQBc8df;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6599-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 41A55303B7C1
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jun 2026 23:41:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0761B3026209
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 06:24:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D1AF390613;
-	Wed, 10 Jun 2026 23:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474A035F191;
+	Thu, 11 Jun 2026 06:24:15 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2648D38E8A7
-	for <linux-api@vger.kernel.org>; Wed, 10 Jun 2026 23:41:05 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781134866; cv=none; b=fegk3YgONDCqQ3/UG5OxRQl2itcOPHROhcruwqp5YJzlkKJnrS2f5LLmFA07JvLWow20IKjij6EmUNoiqoYF+sHulPgeICu8jMZMfAoedIt3Uknh/7B3mnZCCx562WlLPO9MNrFnkH8mkYgTQySMa5knVB3mM4ecFb/1s6cW3DU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781134866; c=relaxed/simple;
-	bh=WLKFSvoHBAuURbkH0azFPoXH0iTJec2iRBnKyq7YHT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f51lwzHc9LppMbKupguzaBx3pKN9rcPE8s/GzHVwVgRcbAAhkrt2/cOkcCogrj1GQF/hAQVLwPPIEjVbk34FP3rXXuaml9xtn7B9sbwNuwvpaj4EvXiwiuQMlP/ui4ElJ51oBD6GIUqvHMe6ZsBQAr6B7XG18yyMfJgRU7fIRdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=slxb3N4b; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso2607485e9.0
-        for <linux-api@vger.kernel.org>; Wed, 10 Jun 2026 16:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781134863; x=1781739663; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hItbBwzE/UemJbPm5Fn7DOlYpjoWK0GBfBYmIwvZBe8=;
-        b=slxb3N4bFW1Qs3memInulsiDuICRh2Zf9ZsFSF1rVQ6FbolbwDG06y5HMYqDQ+mfpH
-         Q3a9n74hereuyEvM9iVcgruLRnEeLYlPWIqVTVTkbFQ83+4U1mr2LyFN2OisN60VIRIu
-         VM06mzir7DHgGFkA1iRFyBHcrQPA3uBO4eajSfqiPHW/4rHOAioxIjoY1GJYYpI3LIGx
-         7FJFGIL25t2kEN0M90zrhuPf0rbhPVcfcH8Zb4DMekwwgReCijPDrG+wpiTPk2P4G9A5
-         28Py06VePTd2y10Rzca9UJfwv+h/fcBSHPRqr/cr1XhGgvGW3dfrV2xLYomD/lFwAyxl
-         wnGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781134863; x=1781739663;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hItbBwzE/UemJbPm5Fn7DOlYpjoWK0GBfBYmIwvZBe8=;
-        b=NaO+3+Df/4rc5jzuOIt827hnwDdx11im5NWsgK9ZLLADLWemQKTVWbvy3IHpnOkOpE
-         JKQYvDM7P5BoMYhgqm7y6kv8M8Hisd5P0urZZLgA6slJ4UsCbdrzOLIlD8lBv50A3TAe
-         n5GBRK8+nAQ+g9QFuB7Zh3jpGNEvVjhlJOU+VFe2f8OhdpM+LJZNXIB8n4fTjx5MK5E2
-         tJdAe/YgQql6ia+FZU5NOggcXxcGludj4dOfNhhmxjXOqHwTvlIoRkLo2K8MLw8JaLXw
-         Zq4V9geiiuMjDJETfS3MDWOomhDCV7kBKAecb16omWqLUio3j6Zlk/FToCeSVmCPXs2j
-         Ffyg==
-X-Forwarded-Encrypted: i=1; AFNElJ8BzlbqDRZ6tNJPW69MjvedCc1eSQ9jJJmyFhvTvQ1ut7sa6JFayW+j5UcafLfvCWm8bm/EIh/P+sY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkKfYMeRfnamgzTcyAm2eR2YL9rCb56e2FQqwJeg/7jCRVIZ4R
-	Cc7nhmMvvW9Pzx0FkorMdxcb4u5a7xfWiylTLu7fY4C11qBeVuvTVZln
-X-Gm-Gg: Acq92OF6vUxJwye+2WBkDXLpu/ZHCqjnYa6GV07JHFA3KeLlCojWGiNztUWP6P5GKe+
-	rgezpTojbWbCH/ko4k6RsN1ibptSTGdiWootytJQWIq6q/P6CVJTfAY9LBHLl6dIKd2qhiHVRI/
-	mS6S7t4BMnxqLnu6KXYjXcKw18qnWolCNwjNxFI1JRypaTtJWB1VyOs6ZhwzXcCVYiHannIb9Ux
-	U8GQt76w2/Xy3ozTWyG9zG2W7Qq3anWHB9NHfZ7oo5EQZSTNFceSzULN/qq1Kj58PAqqrXaBi+r
-	B5Iam5ljF8JOdECBP3ntHvt+4OwU3oYoK0gt6PqdEKVbgp8zTAuoe+qgPlqKPPMRY7r7wp6nq+F
-	mnuvrZB93JPBlR2ugzQke8eOSHOlflg0+ng9V3inYNENGJzUE1hbwtB3GjbNsLe3f5aq8e3dJFS
-	1FSk1YEyefOjYTKAcsIRe5a+hNprkmhPjCi0TBs+6fw4W2OZGpo9ZZZrN57uR7qAfPVn/i4i6+W
-	AcIt0MsKg==
-X-Received: by 2002:a05:600c:1554:b0:48f:e230:29f4 with SMTP id 5b1f17b1804b1-490e5318363mr872135e9.15.1781134863322;
-        Wed, 10 Jun 2026 16:41:03 -0700 (PDT)
-Received: from f (cst-prg-85-110.cust.vodafone.cz. [46.135.85.110])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e422e321sm4497435e9.0.2026.06.10.16.41.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 16:41:02 -0700 (PDT)
-Date: Thu, 11 Jun 2026 01:40:56 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Li Chen <me@linux.beauty>
-Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-Message-ID: <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
- <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
- <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
- <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07602D73A6;
+	Thu, 11 Jun 2026 06:24:13 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781159055; cv=fail; b=mI7u1z05cEOrENQwGYwqpAA6TUqG8e9+2g1D5U0GKnkrpFtCHFtmQwFJBrcIQZCOtck5x+figYOJttElTYNfrRvFE8cMRtO7XuihFR3aWeWw+nz8iEZKYTuAPcrzYyGKo5EiFBai9v2HllAdN3HHGfZuE0Iq7nu7P5CsuEX0vYQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781159055; c=relaxed/simple;
+	bh=jPq5/4WAAPS4J29iFoUG4nu1Ga3P3Ny8sNaXodLFUEg=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=qIZwc94we7XOukseEWdU+R8ktL5ioRj6RCs+CFNlezxsMr5MbmFRRKc1o4r4k95ZMiviAVIJZF6xKd//TeD/Y9byX+HRV8FTr5+lfq0bhylOYpdlFcU7hYWNyMQziw7M58yTmdixCxM1VbzMabMn4xcExOXFUw2X4T5XNQ2xiAg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hLQBc8df; arc=fail smtp.client-ip=192.198.163.17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781159053; x=1812695053;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:mime-version;
+  bh=jPq5/4WAAPS4J29iFoUG4nu1Ga3P3Ny8sNaXodLFUEg=;
+  b=hLQBc8dfoZLnXaKW2HmoDedU/NdGxf6Un+VfrIedZFThQp5swAw2S8ga
+   VDL6Bi1c7GDmxk01WM67gcZasVsDrYFQFUB+VaXw8KjCXlQhQBQetFOcA
+   kFk5iQbu6frGv5MvK11cSzyRl7VyquPNZCmAMDkKaO8fPm53LB8PhJCqM
+   qpsfiOf8VQQgxNFm44MsJRnIibGBi4q23QIdxZXfSVtracp47fmypFKLM
+   nl78XYbUZIc+ao7nI7s7i6+N9tdnq+DAC0KXLsw39O1wvPhSF0CclNHcW
+   UUljSal9T9BxHd7L5cAIs2eDcoDu9ziBYy8cZMC17IOIyuYuejfswpjdN
+   g==;
+X-CSE-ConnectionGUID: 18wHzJDSR8+f+dfvZf9i5g==
+X-CSE-MsgGUID: jWn3UyxFTdmvnm55DWIH3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81813075"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="81813075"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 23:24:13 -0700
+X-CSE-ConnectionGUID: RMKXXxFoR526xMXoITQM+w==
+X-CSE-MsgGUID: AsSER8NbQjCLti/u/trHww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="251485717"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 23:24:13 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 10 Jun 2026 23:24:12 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 10 Jun 2026 23:24:12 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.43) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 10 Jun 2026 23:24:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oChb4Lhx0tGxQJCYD99qZ4UUS944fPGFOqQUR6Hu8YEYOUeFG4xX+JokstRIMyqdBiFYnwogqKI4/5kZ/UzVNd42t2aXJDxP6AiVEgq0hXPkL/Xd0vTL3IefGDTW1DNdNZggmn0HAoWRuXVdYkkEn8yEvfWZV7NBvBNvufC9v//G/Rn1/j48yoA8uPZRGbwzwyMsAi7WpWNDbr4EzxuUaqUaR/GXsZJbH4rv6LKBQ9HGiRkGiWWPwYOYP6HdaCHudcU329XXEcOTR9HYFto/k7CRZ3PzizVIYRTUvLvVlDUDCX0PG22FEGrCcKaM2IhwnnrQs2lDAmKXfAccDqSvPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4XMy/byEHkafaOk3znmb9L5yziOw4yI/QvH75Jj3VOs=;
+ b=nq62xME2dPgwGWCFdKKmS0AgUoVst4FuVlnJH1Cxgg53aYfbYhvHDUvxxwzqRjyMcIR39cejdZj7UKw6FJO5ketbY+M9BXuPVHnXQRs2aq72YrF2VWWiCc4d7+EDKlkI7vEqjtHq07f5KKWZ2tgM8dUhtWKIyvhemDxH7GOuBwr2UyLv2EjjNGlH2eAJCvLXXGp3wtBRk2aQigvcjuJGAG5SJiQAjgJCviSQVNFCNWPbLlsS9KvrCQ+HB0T5/F9dyrWN6xtiyHgUfRglClp8lP11jNzn6wp+4gLIJrCCZ+YL28rOBMKFvO1xAxWGumw6JVG4o0DWQXT/SP02ZQkpyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
+ by CO1PR11MB4993.namprd11.prod.outlook.com (2603:10b6:303:6c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Thu, 11 Jun
+ 2026 06:24:03 +0000
+Received: from PH0PR11MB5832.namprd11.prod.outlook.com
+ ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
+ ([fe80::106e:78dd:4c96:d707%5]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
+ 06:24:03 +0000
+Date: Thu, 11 Jun 2026 14:23:52 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Askar Safin <safinaskar@gmail.com>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Christian Brauner
+	<brauner@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-api@vger.kernel.org>, <oliver.sang@intel.com>
+Subject: [linux-next:master] [vmsplice]  e2c0b23680:
+ stress-ng.vm-splice.vm-splice_calls_per_sec 10.2% regression
+Message-ID: <202606111018.cc992614-lkp@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: s-nail v14.9.25
+X-ClientProxiedBy: KUZPR04CA0012.apcprd04.prod.outlook.com
+ (2603:1096:d10:32::7) To PH0PR11MB5832.namprd11.prod.outlook.com
+ (2603:10b6:510:141::7)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|CO1PR11MB4993:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf43496f-3b8c-4d2e-98f6-08dec7820696
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|56012099006|3023799007|11063799006|6133799003|18002099003;
+X-Microsoft-Antispam-Message-Info: RSgw84A46BnzDdcI0fbtiEhwDzMnnudVI9RbjrCRH6R/klV13a90b/7Q+aLyOXnOnIpbvatDSOdfof3nx5I8nbwbE36IzXGlw73rDuxXy4qZPBGnRYhIo436FGqTghHWg/4909yztI6wyXIo5SvTyIP2YDMYDHfCiKKIn9Et+XUumy9OjKaF3rHW3CTc76jW+vhALrh9r8PKdDJ5+/Yg/La2lo9+JBKrwRxYOrUg8jCTAsms29L9LHnJOI1ICtELBBdEI8bqB7NiFIprn4BFNOeeaooBFr7bBvT3LzRvQZSi4PMidFBXWUtYHjamkJ+ob/X/vT2+jLZgH/WQxpybTpm315dA63eYVcjbzrJ8kG0lYjznxyihwCTbFm34YryIaKkjNfwfN/lR4ux3v55yIwNC2jKIjfRH96sQxfypxQGxCK+UviCjt2dxXIJBA3j7+EiIKT2GDv7kUjFDb5MHCLEIc2qH9EOLLIintiMbuORouVUYAWAVNNEkLkAXN84ro+T2ODgbwpgchfNGVH112StlwwPG99K+jPOGjFxpBQZKTtNjkGKLHJN6HQau9TEgidCZ7jB1ZNIFofC8FsSzBiAufcdCAS7q4ezqlUDPUFAE9m+RDv2JP8FE7xjLvVsKjcbVKCIms8hm//pNEbti4PXKgg1bwN5tC1cKMBRlJJCbfjRvuL18FfTFMCxFQJbxcPZukky8ih3BVEu9MCAVJA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(56012099006)(3023799007)(11063799006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?RF7B4vA6JfEkMgQucls3F37TuIXEc9mZp1gp7MYaYw7hrc1hf9Abwii513?=
+ =?iso-8859-1?Q?Mny0RRYJnGOeBEJ3iuJZTwMSOOyhNqk59GoqvLKRJfRWBtEATLltNpPBIP?=
+ =?iso-8859-1?Q?v+Bz0RyNdSWzOPwRQPagTWe3wKHeITnAMAExAkOTQ+D0tCJImZB/qSt6Zq?=
+ =?iso-8859-1?Q?9u2Go5JF9P8gtApfWhMT2ddxyqQDgmpvPRtlBustDm3RXL8S/7/QypWF17?=
+ =?iso-8859-1?Q?PpqG3SbyG08+zJrYKBlhMlkmhaSc7HPZ4oubMX/Lb8O+6fyvDznMclJ2Zy?=
+ =?iso-8859-1?Q?3r8PLTglhT0i689PbGGqEUJPFxtKpuJuKhjIJuRA5RnZtz60juVlTb0MPh?=
+ =?iso-8859-1?Q?8aQVi3upN71oqRCmPN8PO7v6Kh+uWZH/cNWiOZDvrKyt8j/HBfDgewy8Yb?=
+ =?iso-8859-1?Q?voRH/TTanreous4S851WppbS/aONadTFYdkoTRgT7gYdTJEDO3SFhn5w4G?=
+ =?iso-8859-1?Q?yPdRMFvf5L5yzQxye4u5285G/1qbRPV2tlUc+D38sfB88N/+6kikPkng3g?=
+ =?iso-8859-1?Q?mYZYjLV5C6N1zpBdi1ITr38j71acn+2PLhB6KxihxGioP/OYQEarnNiUSv?=
+ =?iso-8859-1?Q?vphZghk3EljeCTQkTc/EnoxMgfKiKlk/XlvgIOeGn3GKeBi3ts3zO2qA4p?=
+ =?iso-8859-1?Q?rkKl56l3f7zlS1fQOea8MNcVG65IA3um7gNdg8azQ36P/VatvdMJ6NHX4w?=
+ =?iso-8859-1?Q?f5ejW5YS5pGV/e0XjxQi6VmDbdPVE38H9FXRoK6op8px8i0OxJhNb/zBFm?=
+ =?iso-8859-1?Q?4F69YYAzmI9UfGHsPkUCzVUQ03S7wET2Y81SGeL6Imx7wlc/EmeuYqrqZf?=
+ =?iso-8859-1?Q?cwdJqlLSTglABWyWpGmeJyBVTSxWhm40Tnh9xgahSJQikjTl3xs0LzzWwK?=
+ =?iso-8859-1?Q?jnUSP81dNmKW2s6k7bhKrDVLq053u9nqqx6pTWYTHtt+JAnwCu2peduw+U?=
+ =?iso-8859-1?Q?eseJ9FzU7IpHUFjuULt/jN9Sc7XOb63Z77lMcJr+x9GE6DKCwgSkBDKdfk?=
+ =?iso-8859-1?Q?Hl/CRIduUjceqJkEorFSlfeH0cdmbZMfsptx6XV8vINwykV+hHjGtNg6W5?=
+ =?iso-8859-1?Q?swbTGf4e7tBtE5Jcdx2I3RcOMc4TnGVOc1E1uy0bTDOUIoxUR/L4d8Lrqq?=
+ =?iso-8859-1?Q?VgBRuGNC44Ea+TXqGsA+ZnwFJ/pkjaISEzb8XK92HRLKpjGjCX7EC/ru/M?=
+ =?iso-8859-1?Q?HaBE3arZWDTuH4w6wGBgdBTJMKVt659co/sA38+x+xNZQ2raFZZM8SCLV2?=
+ =?iso-8859-1?Q?N3CM+3WJNVAVReF8IUDAXbCcm211tJSnf5QEc9MadsdTAQiUaX+EB2aDvp?=
+ =?iso-8859-1?Q?Bb1A4XYebjv6ORKgfipZtzgotvrhB0JhJX7zFcuDTNBTYhpm7nioyHD0R8?=
+ =?iso-8859-1?Q?w54SU2s6/HwTP8TRuji9ufwrMGC8Cfs4W9UJr0+d4sCJVcFzr6Xb+NihAZ?=
+ =?iso-8859-1?Q?9F8QcmWiHAPr+LHuIuJZD1ROk9ujsKcuWIjs0Ds46S37WFVnSoBOTmEPa2?=
+ =?iso-8859-1?Q?31Gea14Q+h2YEXlNFcW6QoStHPRzZcQwTo1KvjLJZkfzuAS1x+mNX0A7mK?=
+ =?iso-8859-1?Q?hT7DX/VguZz9j4v9TNII0ArllD/EEvf7K8ym/+CzXLIuQGifRWiQNveRzt?=
+ =?iso-8859-1?Q?/IeoMjsrjGijtVE78wJfZl6aOR7eQLU41lOqAvJnNTh19TN2pH96p2eIqY?=
+ =?iso-8859-1?Q?XLoxNcV0dCAzp3pdFVf1wFkBk4MosyQTBhD6cxUWBE07e5R279KWEVpGt5?=
+ =?iso-8859-1?Q?DHIKg6QWj2FTLCuTvPLNMXYoIci6iO+y61M05BhXke1BxOgJO9CyvCgm1A?=
+ =?iso-8859-1?Q?wsCL2345rA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: OMu0z9STbq1TWavZl1TznmCf92MwSdDYUXFHz1Jd21XJcLQDnHoYQNLhx0qXXYKkFE+YebF4/2d9cRQMGjm8ZdLjxGzqvY71e24b+6NDQIiH+kHk+ugp83y/Gz6YYBMsuZj1gEvbm6vlN/OQTPyJEatpUp+ZhXHe4WIO7mgtOQn/BpzWlkp8Np8nLOoimPTZCqhUm3l4qaGf6noIDaQQu++K4F+tty6MxCZ4OrP1pxIJmGrAOBHxnKqSe/yURONV/LNTJMdj8sBwcYQn4X21Wu5lsl7/xSuz3oVOvxLgIjC7ii9IOyt96esj9fzSNmHEDb9pyB9dOMYg+lJzUaUkJw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf43496f-3b8c-4d2e-98f6-08dec7820696
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 06:24:00.5529
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /LDuZoY+xENUp2hsTJSz73aMcIY6xdGWH/iLrKoNrNU9buhWlrQgo3ydXd3XOY068xmN/usoLsMoQLZA9gRliA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4993
+X-OriginatorOrg: intel.com
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6598-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mjguzik@gmail.com,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:me@linux.beauty,m:mail@johnericson.me,m:luto@kernel.org,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6599-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:oe-lkp@lists.linux.dev,m:lkp@intel.com,m:brauner@kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-api@vger.kernel.org,m:oliver.sang@intel.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[oliver.sang@intel.com,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mjguzik@gmail.com,linux-api@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,01.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim,intel.com:email,intel.com:mid,intel.com:from_mime];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oliver.sang@intel.com,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	RCVD_COUNT_SEVEN(0.00)[10]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 446A266D6A5
+X-Rspamd-Queue-Id: 8EDF066F001
 
-On Wed, Jun 10, 2026 at 08:29:06PM +0800, Li Chen wrote:
->  ---- On Wed, 10 Jun 2026 01:27:47 +0800  John Ericson <mail@johnericson.me> wrote --- 
->  > Hope the above answers your question? I suppose my ideas lean more on the
->  > "future" than "empty" side --- there is indeed a thread in the thread group,
->  > with real VM/namespace/file descriptor etc. state. Moreover, state gets
->  > initialized before the process is started, so the actual start is a pretty
->  > lightweight step of just letting the scheduler know the now-ready process can
->  > be scheduled. The only thing that distinguishes the embryonic process from a
->  > real one is simply that it isn't running --- i.e. isn't (yet) available to be
->  > scheduled --- so the pidfds holders are free to poke at its state.
->  > 
-> 
-> Thanks, this helped a lot. I looked at FreeBSD/OpenBSD/XNU after your
-> note. FreeBSD has P_INEXEC, OpenBSD has PS_INEXEC, and XNU seems even
-> closer with P_LINTRANSIT, described as "process in exec or in creation".
-> Linux does not seem to have a single equivalent today: current->in_execve
-> is only an LSM hint, while the real synchronization is spread across
-> exec_update_lock, cred_guard_mutex, and the exec path.
-> 
-> I am switching my local WIP from the two-fd builder model to one fd,
-> closer to Christian's sketch:
-> 
-> fd = pidfd_open(0, PIDFD_EMPTY);
-> pidfd_config(fd, ...);
-> pidfd_spawn_run(fd, ...);
-> 
-> In my current local version, I still use copy_process(), so the fd points
-> at a real task_struct/pid that is not woken until run. Following
-> Christian's point that existing APIs can handle this not-yet-running case
-> with ESRCH, I currently make ordinary pidfd operations that need a real
-> started process return -ESRCH before start.
-> 
-> I am not sure yet whether Linux should grow a general exec/creation
-> transition state like that, or whether a narrower future-process
-> lifecycle is enough for this API. I will think more about that when
-> working on the pristine process version.
-> 
 
-As I tried to explain in my previous e-mail this approach does not cut
-it because of NUMA.
 
-Suppose you have a machine with 2 nodes. The parent-to-be is running
-on node 0 and the child is intended to exec something on node 1.
+Hello,
 
-When the parent-to-be allocates and populates stuff, it takes place with
-memory backed by node 0. If you allocate task_struct, the file table and
-other frequently used (and modified!) objs in this way, you are
-guaranteeing performance loss due to interconnect traffic to access it.
+kernel test robot noticed a 10.2% regression of stress-ng.vm-splice.vm-splice_calls_per_sec on:
 
-Trying to add plumbing so that all allocations respect numa placement is
-probably too cumbersome.
 
-The primary example for that is looking up the binary to exec in the
-first place.
+commit: e2c0b2368081bef7d1f6758cc9e7edde8521237c ("vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2")
+https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
 
-userspace likes to pass paths which don't exist, meaning checking for
-the binary before any hard work is a useful optimizaiton. Suppose the
-binary to be executed is in a container bound with a taskset using
-node 1 and the content of the fs part of the container is currently
-fully uncached.
+[still regression on linux-next/master 6e845bcb78c95af935094040bd4edc3c2b6dd784]
 
-When you perform the lookup on node 0, you are populating a bunch of
-metadata (inode, dentry) using memory from that domain. But the intended
-user will only execute on node 1, again resulting in a performance loss.
+testcase: stress-ng
+config: x86_64-rhel-9.4
+compiler: gcc-14
+test machine: 192 threads 2 sockets Intel(R) Xeon(R) 6740E  CPU @ 2.4GHz (Sierra Forest) with 256G memory
+parameters:
 
-In order to not do it you would need to convince VFS to allocate memory
-elsewhere.
+	nr_threads: 100%
+	testtime: 60s
+	test: vm-splice
+	cpufreq_governor: performance
 
-So I stand by my previous claim that ultimately a pristine child has to
-be created (like in this patch), but which also has to do the work on
-its own.
 
-Suppose there is no explicit placement requested anywhere. Even in that
-case there are legitimate workloads which will eventually be forced to
-exec stuff on another node. Even these have a better chance retaining
-full locality if the child process does all the work.
 
-Per my previous message I don't see a clean interface to do it.
-something quasi-posix_spawn is probably the least bad way out, it will
-also allow userspace to easily wrap the new thing with posix_spawn
-itself.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202606111018.cc992614-lkp@intel.com
 
-Also note there is another issue with the fd-based approach: the fd will
-get inherited on fork and will hang out in the child afterwards unless
-explicitly closed. Suppose you have a multithreaded program which likes
-to both fork(+no exec) and fork+exec. With the fd-based approach you
-have no means of stopping another thread from grabbing your state thanks
-to unix defaulting to copying everything. There was an attempt to fix
-this aspect with O_CLOFORK, but this got rejected.
 
-Whatever exactly happens, NUMA is a sad fact of computing and needs to
-be accounted for. The approach as proposed not only does not do it, but
-it actively hinders such deployments.
+Details are as below:
+-------------------------------------------------------------------------------------------------->
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20260611/202606111018.cc992614-lkp@intel.com
+
+=========================================================================================
+compiler/cpufreq_governor/kconfig/nr_threads/rootfs/tbox_group/test/testcase/testtime:
+  gcc-14/performance/x86_64-rhel-9.4/100%/debian-13-x86_64-20250902.cgz/lkp-srf-2sp3/vm-splice/stress-ng/60s
+
+commit: 
+  a9f7db50ed ("tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"")
+  e2c0b23680 ("vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2")
+
+a9f7db50ed2fff96 e2c0b2368081bef7d1f6758cc9e 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+      2122            -2.7%       2064        stress-ng.time.user_time
+  13281641           -10.2%   11928183        stress-ng.vm-splice.MB_per_sec_vm-splice_rate
+ 1.183e+10            -4.8%  1.126e+10        stress-ng.vm-splice.ops
+ 1.972e+08            -4.8%  1.878e+08        stress-ng.vm-splice.ops_per_sec
+   3.4e+09           -10.2%  3.054e+09        stress-ng.vm-splice.vm-splice_calls_per_sec
+      1397 ±  7%     -21.1%       1103 ± 10%  sched_debug.cfs_rq:/.runnable_avg.max
+      1.28           -22.1%       1.00 ± 44%  turbostat.IPC
+     74419            +3.9%      77317        proc-vmstat.nr_shmem
+    633806            +1.1%     640727        proc-vmstat.numa_local
+    331878 ± 13%     -30.3%     231247 ± 18%  numa-numastat.node0.local_node
+     37379 ± 76%    +241.6%     127705 ± 50%  numa-numastat.node0.other_node
+    298829 ± 14%     +36.1%     406730 ± 10%  numa-numastat.node1.local_node
+    162072 ± 17%     -55.7%      71783 ± 89%  numa-numastat.node1.other_node
+    332129 ± 13%     -30.4%     231269 ± 18%  numa-vmstat.node0.numa_local
+     37379 ± 76%    +241.6%     127705 ± 50%  numa-vmstat.node0.numa_other
+    298881 ± 14%     +36.1%     406833 ± 10%  numa-vmstat.node1.numa_local
+    162072 ± 17%     -55.7%      71783 ± 89%  numa-vmstat.node1.numa_other
+
+
+
+
+Disclaimer:
+Results have been estimated based on internal Intel analysis and are provided
+for informational purposes only. Any difference in system hardware or software
+design or configuration may affect actual performance.
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
