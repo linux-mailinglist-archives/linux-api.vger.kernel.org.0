@@ -1,58 +1,59 @@
-Return-Path: <linux-api+bounces-6605-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6606-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id q2z4EaEyLGoFNgQAu9opvQ
-	(envelope-from <linux-api+bounces-6605-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:24:01 +0200
+	id bJpuMHkyLGrzNQQAu9opvQ
+	(envelope-from <linux-api+bounces-6606-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:23:21 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2A467AE05
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:24:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEC167ADD7
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:23:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=TfMOnipb;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6605-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6605-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=b+FGMirv;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6606-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6606-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 390BB336C1F5
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 16:21:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 902E031E7B03
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 16:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B45C83D7D60;
-	Fri, 12 Jun 2026 16:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57677384258;
+	Fri, 12 Jun 2026 16:21:12 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB143AEB2B;
-	Fri, 12 Jun 2026 16:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB09D384CEE;
+	Fri, 12 Jun 2026 16:21:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281262; cv=none; b=eDPQSeENbWKepwgAqa59DffQVBwpfiMyXW8z0kMJWF+KZSVfr1XlsfdbEAIriJ0ar0jbaNRlyZ76aMuupI7mGkMK/d7BjjZ52aC5D0T8Ch4Abs9Ldcr/4N3wcN+yrRxNocB+tt5Wepaulk7cM+6CipJEw3wixoecTLO1mysV/XQ=
+	t=1781281272; cv=none; b=POq/eHuFO84on47LVa4PgwLmj9L5O4p6yHP2V2K9Je1aQT+o8oGSgYlIjMAUJbpbdFGYVdkzbKJ722IjT3y0vUVvjSFIDrPWnOrSs/HqIplRUsrorcgfJb4O5XE5SaJtl+aL34yQlM/MzW8Xs3xLKCJWFR4g5Qp1U3Uz/1MXbt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281262; c=relaxed/simple;
-	bh=nE7bnB+P/1MOARpZFIOLH/P2JFIQbq7M9pctlGrvCV0=;
+	s=arc-20240116; t=1781281272; c=relaxed/simple;
+	bh=S6/kJgcdRBdlBUY1QKlod6jYsy5ehFxr72LylAL3tHw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k+VYYlglI5UxruKFi6cubjlp0xJAWzz0Q6/0wLAHH1AMMNpcO78DXKDs7XHnfUn0unGmCm1zsacoEjkXnR42mLDv4V6ww9VP+mX6BuNuG+q4MzjPuKYYqocxUE2CVuhBTc402eyBJpZOH3LjLOvpHijBI6u2xuvvLCkbg3Rl1bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=TfMOnipb; arc=none smtp.client-ip=213.97.179.56
+	 In-Reply-To:To:Cc; b=aV+YwHUkOvW+atWst3dFeL9r+BenkT5m7IPyt3+YaDLy46nbcwoAMVHSqyRdJIGJGgb2hNFGKcjtYa8mlODMSEa2+s4i7QV3rpQb6vafqTMbUiRZMelYrDe0JFQvxv2sQV3zLFl2aYUxIK57UwPmh5oHRFTI73kJtPK/Oalfnvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=b+FGMirv; arc=none smtp.client-ip=213.97.179.56
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VSSjA1e2ihuYKKvGbBvJZXau5qhO8MXM5c+dt4k1Oiw=; b=TfMOnipbCra0jF35oiuYAIqHpy
-	p3uA4YddgEQ5DegPf9CIbAKUYUM5EhCsX6+0EhUHola45xVsdavV+j/SbuzzfRYVBIczV42RpVMMl
-	b8Ifa2UbayeeGCtqbCB0Xq1V5bvF2XMz6HP7+RssAb0diXIyluYS54UspI3bIXqKUKRz5e/fM1DBl
-	5MQB+pJqjbGUUYYlHcKQPPJQnMIkD5SpbK/FcA+QaD7JagxMMD3AB2V78cmKWC3WqvI+X+Wmn2j4C
-	JmEsWq1EFIU3cw4BBERtTjd1+kNT+Ji5h0pYC4ncTizHYR041zOjXwfyn/Dg8cuRLhSVbMz/Akk/K
-	92cT2O9Q==;
+	bh=2P29qc+6UPDY7W0A1wdk8G93G2x2BCG+qxADi0fmd1k=; b=b+FGMirvnScizBjA5g1/q6jNlK
+	lU74NYQq6p4zvp57oHXMebImcwOfBpVNfBGiTCEEQPY4naav1k8rPeVGz43k1sXGo6KlV37f6Fpc6
+	R1CByTE7g+iIi6Ui3rpYGpKgXYm9UaUOIt8pq58mFshwXaK+mUxTV0gqBSj3Zf3sjVFAvVAOTtUeP
+	CPQbu5//AKReZ6hA4jHBCQj90QbHonkcwHa2U41uC7AACCU0ODAggKpKzy4dxZmmtmZUziXkNqUyr
+	SMz6anwcmdP1SW6Z9IpuB5qh+cJkTpzCVhq+NxWNhW9QnLHoI/H3bxPl1ezwFxsT1dziMhPEYHZuP
+	sKyqfIeQ==;
 Received: from [189.78.222.70] (helo=[192.168.15.100])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wY4cq-00GgP4-OX; Fri, 12 Jun 2026 18:20:56 +0200
+	id 1wY4cw-00GgP4-3P; Fri, 12 Jun 2026 18:21:02 +0200
 From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Date: Fri, 12 Jun 2026 13:20:17 -0300
-Subject: [PATCH v3 4/7] lib/string_kunit: Add test for copy_task_comm()
+Date: Fri, 12 Jun 2026 13:20:18 -0300
+Subject: [PATCH v3 5/7] sched: Extend task command name with
+ TASK_COMM_EXT_LEN
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -61,7 +62,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260612-tonyk-long_name-v3-4-7989b66e8a99@igalia.com>
+Message-Id: <20260612-tonyk-long_name-v3-5-7989b66e8a99@igalia.com>
 References: <20260612-tonyk-long_name-v3-0-7989b66e8a99@igalia.com>
 In-Reply-To: <20260612-tonyk-long_name-v3-0-7989b66e8a99@igalia.com>
 To: Peter Zijlstra <peterz@infradead.org>, 
@@ -83,12 +84,12 @@ X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6605-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6606-lists,linux-api=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:rostedt@goodmis.org,m:brauner@kernel.org,m:kees@kernel.org,m:shuah@kernel.org,m:willy@infradead.org,m:mathieu.desnoyers@efficios.com,m:david.laight.linux@gmail.com,m:torvalds@linux-foundation.org,m:akpm@linux-foundation.org,m:laoar.shao@gmail.com,m:andrii.nakryiko@gmail.com,m:arnaldo.melo@gmail.com,m:pmladek@suse.com,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:andrealmeid@igalia.com,m:davidlaightlinux@gmail.com,m:laoarshao@gmail.com,m:andriinakryiko@gmail.com,m:arnaldomelo@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,gmail.com,linux-foundation.org,suse.com];
@@ -109,76 +110,111 @@ X-Spamd-Result: default: False [1.14 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,igalia.com:email,igalia.com:mid,igalia.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,igalia.com:mid,igalia.com:from_mime,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BB2A467AE05
+X-Rspamd-Queue-Id: 4DEC167ADD7
 
-Add a new test for copy_task_comm(). Check if a copy from a task_struct
-works, and special cases when the size of source and destination buffer
-mismatches.
+Command name has been restrict to only 16 bytes, which is too limiting,
+specially when debugging and tracing complex software with thousands of
+threads and the need to differentiate them.
+
+Just as it was done with kthreads in commit 6b59808bfe48 ("workqueue:
+Show the latest workqueue name in /proc/PID/{comm,stat,status}"), support
+long names for userspace threads as well.
+
+To avoid buffer overflows, cap all existing userspace APIs to
+TASK_COMM_LEN, and leave the full extended name for a new interface.
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- lib/tests/string_kunit.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ fs/proc/array.c          |  2 +-
+ include/linux/sched.h    |  3 ++-
+ kernel/sys.c             | 10 +++++-----
+ lib/tests/string_kunit.c |  2 +-
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index c8c3fbd9bfa9..312371eddc7f 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -110,7 +110,7 @@ void proc_task_name(struct seq_file *m, struct task_struct *p, bool escape)
+ 	else if (p->flags & PF_KTHREAD)
+ 		get_kthread_comm(tcomm, sizeof(tcomm), p);
+ 	else
+-		strscpy_pad(tcomm, p->comm);
++		strscpy_pad(tcomm, p->comm, TASK_COMM_LEN);
+ 
+ 	if (escape)
+ 		seq_escape_str(m, tcomm, ESCAPE_SPACE | ESCAPE_SPECIAL, "\n\\");
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 6b9408128fef..a5dc0f4e7975 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -323,6 +323,7 @@ struct user_event_mm;
+  */
+ enum {
+ 	TASK_COMM_LEN = 16,
++	TASK_COMM_EXT_LEN = 64,
+ };
+ 
+ extern void sched_tick(void);
+@@ -1167,7 +1168,7 @@ struct task_struct {
+ 	 * - set it with set_task_comm() to ensure it is always
+ 	 *   NUL-terminated and zero-padded
+ 	 */
+-	char				comm[TASK_COMM_LEN];
++	char				comm[TASK_COMM_EXT_LEN];
+ 
+ 	struct nameidata		*nameidata;
+ 
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 1d5152d2395e..76d77218ab19 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2535,7 +2535,7 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		unsigned long, arg4, unsigned long, arg5)
+ {
+ 	struct task_struct *me = current;
+-	unsigned char comm[sizeof(me->comm)];
++	unsigned char comm[TASK_COMM_LEN];
+ 	long error;
+ 
+ 	error = security_task_prctl(option, arg2, arg3, arg4, arg5);
+@@ -2601,16 +2601,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 			error = -EINVAL;
+ 		break;
+ 	case PR_SET_NAME:
+-		comm[sizeof(me->comm) - 1] = 0;
++		comm[TASK_COMM_LEN - 1] = 0;
+ 		if (strncpy_from_user(comm, (char __user *)arg2,
+-				      sizeof(me->comm) - 1) < 0)
++				      TASK_COMM_LEN - 1) < 0)
+ 			return -EFAULT;
+ 		set_task_comm(me, comm);
+ 		proc_comm_connector(me);
+ 		break;
+ 	case PR_GET_NAME:
+-		strscpy_pad(comm, me->comm);
+-		if (copy_to_user((char __user *)arg2, comm, sizeof(comm)))
++		strscpy_pad(comm, me->comm, TASK_COMM_LEN);
++		if (copy_to_user((char __user *)arg2, comm, TASK_COMM_LEN))
+ 			return -EFAULT;
+ 		break;
+ 	case PR_GET_ENDIAN:
 diff --git a/lib/tests/string_kunit.c b/lib/tests/string_kunit.c
-index 0819ace5b027..b64d7f0e54a3 100644
+index b64d7f0e54a3..5d26029d2d01 100644
 --- a/lib/tests/string_kunit.c
 +++ b/lib/tests/string_kunit.c
-@@ -881,6 +881,43 @@ static void string_bench_strrchr(struct kunit *test)
- 	STRING_BENCH_BUF(test, buf, len, strrchr, buf, '\0');
- }
+@@ -883,7 +883,7 @@ static void string_bench_strrchr(struct kunit *test)
  
-+#define TASK_NAME "task_name"
-+#define TASK_NAME_LEN 9
-+#define TASK_MAX_LEN TASK_COMM_LEN
-+#define SMALLER_LEN TASK_NAME_LEN - 3
-+#define BIGGER_LEN TASK_MAX_LEN + 3
-+
-+static void string_copy_task_comm(struct kunit *test)
-+{
-+	char str[TASK_MAX_LEN] = TASK_NAME, copy[TASK_MAX_LEN],
-+	     smaller_buf[SMALLER_LEN], bigger_buf[BIGGER_LEN];
-+	static struct task_struct task, *tsk = &task;
-+	int len1, len2, i;
-+
-+	/* set and get task name */
-+	set_task_comm(tsk, str);
-+	copy_task_comm(copy, tsk, TASK_COMM_LEN);
-+
-+	len1 = strlen(str);
-+	len2 = strlen(copy);
-+
-+	KUNIT_ASSERT_EQ(test, len1, len2);
-+	KUNIT_ASSERT_EQ(test, len2, TASK_NAME_LEN);
-+	KUNIT_ASSERT_EQ(test, copy[len2], '\0');
-+	KUNIT_ASSERT_TRUE(test, !strcmp(str, copy));
-+
-+	/* copy to a smaller dst buffer */
-+	copy_task_comm(smaller_buf, tsk, sizeof(smaller_buf));
-+	KUNIT_ASSERT_TRUE(test, !strncmp(str, smaller_buf, SMALLER_LEN - 1));
-+	KUNIT_ASSERT_EQ(test, smaller_buf[SMALLER_LEN - 1], '\0');
-+
-+	/* copy to a bigger dst buffer */
-+	copy_task_comm(bigger_buf, tsk, sizeof(bigger_buf));
-+	KUNIT_ASSERT_TRUE(test, !strncmp(str, bigger_buf, TASK_NAME_LEN));
-+	for (i = TASK_NAME_LEN; i < BIGGER_LEN; i++)
-+		KUNIT_ASSERT_EQ(test, bigger_buf[i], '\0');
-+}
-+
- static struct kunit_case string_test_cases[] = {
- 	KUNIT_CASE(string_test_memset16),
- 	KUNIT_CASE(string_test_memset32),
-@@ -910,6 +947,7 @@ static struct kunit_case string_test_cases[] = {
- 	KUNIT_CASE(string_bench_strnlen),
- 	KUNIT_CASE(string_bench_strchr),
- 	KUNIT_CASE(string_bench_strrchr),
-+	KUNIT_CASE(string_copy_task_comm),
- 	{}
- };
+ #define TASK_NAME "task_name"
+ #define TASK_NAME_LEN 9
+-#define TASK_MAX_LEN TASK_COMM_LEN
++#define TASK_MAX_LEN TASK_COMM_EXT_LEN
+ #define SMALLER_LEN TASK_NAME_LEN - 3
+ #define BIGGER_LEN TASK_MAX_LEN + 3
  
 
 -- 
