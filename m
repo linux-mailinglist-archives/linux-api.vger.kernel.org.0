@@ -1,293 +1,246 @@
-Return-Path: <linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6602-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ic6cI/wEK2qD1QMAu9opvQ
-	(envelope-from <linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 20:57:00 +0200
+	id VyHSAUkyLGrdNQQAu9opvQ
+	(envelope-from <linux-api+bounces-6602-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:22:33 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209E86749C8
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 20:57:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CF367ADA8
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 18:22:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=johnericson.me header.s=fm3 header.b="lqoDUw/k";
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="S xhnnWM";
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6600-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=johnericson.me;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=fYXBXKlD;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6602-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6602-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C0C423204673
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jun 2026 18:55:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B461730151CC
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jun 2026 16:20:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A07342B733;
-	Thu, 11 Jun 2026 18:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3113C4175;
+	Fri, 12 Jun 2026 16:20:54 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF53638333B;
-	Thu, 11 Jun 2026 18:55:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C3A3D171E;
+	Fri, 12 Jun 2026 16:20:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781204131; cv=none; b=NYPArHM7xJjC3wZ5DeoZdKc7KCnOZu2WYdQ9fEqdTIN1NRYYqIwcShxO6EQlKRg5WSVs5dTjzdXfGYmK9f/08ZjWrB+BVY0ASDYe2dqeGDbCeEbcWyMy7Rlw5FradKUWsQ9lJWBmg+rB/Xigojx8GCwFx86G9Wj2oBrnaQzm9Qs=
+	t=1781281253; cv=none; b=LjUxyfJg6zJfkMYa6xipKBuJc5htZaJ6IHsEWOxpWK8z6HlRxKK5kSqB1A9o9zH3NGtCmTiefzFgtXCpHtGRkdPBxpIbHQhM+dw1oeOh1Sii4yy+RMt+f4l4fleGlVlNeCYgi1tLlc3ICmDiVOQDJMNW7/LrJEbyrAMY/foip54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781204131; c=relaxed/simple;
-	bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=oyLWxKrD8K3xv2yOeJcMIQzsqZZtGfak581TXN5XCmX8y05DmfX0DDOb09WBbrOZxRJ2WFufJ6cj7XUom3BLhTz9zSjHGUf20hledZqs2nhN056p4a9DyNszzMsEaBWaCVKIae01iXo05DYRAcPwAVOn6yoHkFSIGn7ltehsdcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=lqoDUw/k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SxhnnWMs; arc=none smtp.client-ip=103.168.172.141
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id 1652F1380100;
-	Thu, 11 Jun 2026 14:55:29 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Thu, 11 Jun 2026 14:55:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1781204129; x=1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHd
-	dDy3pi2hdIc=; b=lqoDUw/kVA743bATY9h3WK1dphY3DTGWmWqfS7rSB5GSVn1J
-	as9WBsb+A9PKES5gRpl1K43ImpkJByEQ+OAGA8jgvTajebY1O93d+Ltmq8xdbZmr
-	UpjrbAZH15xpPstw++7hFOY+AQmRLZsb2gRNFyC6VpRAlni/E62ZfUjR+2Y7ilDV
-	5dalJkSjuO6iJHSs2PFitbvp8GbWY+Y4zFxsBDVzhzH13FnV4hN4gX3XoXsGEpU5
-	VX6YHz30fcubjL8dS4nRv3IXpnfilOnuPUp8p3r0TTr6X+SeYW3CB5Ye/Y8JCFpK
-	jE+5fg0CFoxi4Y/BBElq4gToBlMwJqp/uqu9MA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781204129; x=
-	1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=; b=S
-	xhnnWMsEUraepm0he9orZCyxPfx/X2RF4T9x70S85+8jra4FIRU9EW5non7HfVsM
-	Ci2TSpRE8DCnorJZZDCFAJnPbE74cU40UqUFdxQG06Ca0gf4YOU1CcSzAl7STslr
-	hkiKH7TApmoVk+z9PZs+yoayKHgiTZtULPsVqW6Rrfak38XDnPycDho5FKzQBef1
-	CY6QNcMEThwJpZ3k8dCfdqYEOgLqhPFyaSw/8plKCDA4ADs1atRjXiHektoDVGfc
-	fFn8T2+BwlXB/s0NPeOq0qQ16jw7OASdZDZeHmvZZ39x54Pz2OrB2tDyBB1+NgYc
-	5/H2msE/XBzMbGzzvKNHA==
-X-ME-Sender: <xms:oAQralqwuh0eouA59R3_QIwyLFBttjzOXYhOIDERLdIbdk93hF5puA>
-    <xme:oAQraifGdN2-ZAHIe6oNEDRfSEnR6WUhOwyGtPPn4ubpqD8tEdnDMeWgLTUy6Ii6x
-    5vzuFyYmFZ2RIu87ORhcAz6vnLAsYx-tpUTNEZVfRt127tc0NsvnK0>
-X-ME-Proxy-Cause: dmFkZTFYpPOn7LI4ucgrxMRuvUt0Pp7TpsmWzC1UMf5Uv3HNtfQ/V0DF7oE2QhImNcQ7/n
-    hX3+SBSdsUULValjF705kUffDlbULeLEuQLe9sEh2MjAhjTTmycdP5MBvhnGe8dzZvyNon
-    El9MmMNYiTmjnLQ2tcVKntlKTVipyiBsZrqxOGT4HbGXTm+q5nJv2ou/btyVBYEM9hCWwC
-    5GGP97dtjAoQTfqjBznaZdB0rggqqROmubcwr/kzdeAmz621tqJGsS7RdmLEwmGJYTNNOO
-    USKMjLfMmFc65L14V1RzajGF3g6WHSe5i+BYmpu3hA0CfgzgP+VZ8oTuBT+38JRx/yxzgs
-    umnpTqvcNAd1NFNCHjofpW8OHDuMUHWjxpEVBjSNmRctxv64ki/DUB9+G7ogl7t9K3QVjK
-    Ow2Y0fYcjWb7JTEpo/PoDYWzEvTk9XEek3xh+BpzUH00rvEY2PWP7ywJRQTdPoMcVAn7Gn
-    r7cDKLJ65+s64x2Q942+XWGD/zOI1+7LvCGFjOH2uWfyZd0Fv7Ymr+gzCBsMoAv2xkL3T0
-    CqD6YGWIlZSwWzrToYEFEdrCnD2xjZeUFFAtwMMKqgh8H1xdIFhWYk77oCQivDvMMOaL+9
-    Tq0tCHKmG0ElxEfp2Q75UzEXsV7cS5F72NZyHP1i3LMypy67FGfWMnYliP7A
-X-ME-Proxy: <xmx:oAQraroOprWSkLgJ-7djeMHTInI52a640Gjt5LslcKa87iD22lOadQ>
-    <xmx:oAQraoatsZC0BtBctCPgAsy7fxQT3f9fqffQoMXyvPniBkKKuuh1bA>
-    <xmx:oAQralHhcfx828vfIPwoTAB7RPq0-Rlkt4Jh2VvoK2hJ4cYJKq3hrQ>
-    <xmx:oAQramZmlr4zGPtWbXjA0WPzKylSB7mfQzF7M44bZW6o1b9B_bhaGA>
-    <xmx:oQQrarNSduaBJQ-qynqxxgQ-ZwyRh49OZambtOBojf-3vpyXdpA0tC_O>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 0C7D62CC0086; Thu, 11 Jun 2026 14:55:28 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1781281253; c=relaxed/simple;
+	bh=aIV91dcI/jVtnPuxeo7VL7fS08q4nwHAu9cLqjO0NzQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YMmzwiAUtPVbZx/oELefIjxdNeXBJPXT5Jruec3mAn2OhQ07BSSoVZPHca1UQroiCdm1B6Tq6SkQh4zJeG4PZ9ACxHdEkHYNqsbHgV5LxthOSJZGjmutTsOTd+5+msqw+30O8WjHgmykYgH+S7o8abvUxBGl7OpnWlR2AP3LWxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=fYXBXKlD; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=bOoYxWO9Y/+YHiT5OUdexIFUjhWnAvvkqrCAkrMTBJc=; b=fYXBXKlDFX26r2yWhzPnm2Bnlb
+	0xZddDx20/fDCi+EhQ2LyL0x4te5Rh9iRrp7QTttFEc8ItkziOWZG0W3AkEr1xC55uMagjGgr1/tw
+	NPs1RBx2+Al9kmvbzEOgHGOjit1Zeuv4zYlbxeG5007wH3wGGax8+kTnMIwXgO664E5XuLANhBifc
+	q671SbZweaVwykRQKjHnGUNjxZep75FyEjeSE+e2uf/G9NBQ6piDtWudiG3ZJhCmR97b49pkdD93F
+	83y3I8WhdRSWi2aYgLUqI5GMomsdeXgxD1KndT6JcDHpuLRG99t/bGITzWqoz6hRaVYurxvCmYbfn
+	v64gfD4w==;
+Received: from [189.78.222.70] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wY4cU-00GgP4-Mv; Fri, 12 Jun 2026 18:20:34 +0200
+From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v3 0/7] sched: Add support for long task name
+Date: Fri, 12 Jun 2026 13:20:13 -0300
+Message-Id: <20260612-tonyk-long_name-v3-0-7989b66e8a99@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AtGJywdvvpER
-Date: Thu, 11 Jun 2026 14:53:10 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Mateusz Guzik" <mjguzik@gmail.com>, "Li Chen" <me@linux.beauty>
-Cc: "Andy Lutomirski" <luto@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Al Viro" <viro@zeniv.linux.org.uk>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
- linux-doc <linux-doc@vger.kernel.org>,
- linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Message-Id: <9033ff42-9ee7-4b93-9570-a5adcd16e826@app.fastmail.com>
-In-Reply-To: 
- <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
- <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
- <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
- <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
- <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
- startup
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XO0QqCMBQG4FeJXbfYztSyq94jIrZ51JVu4UwS8
+ d3bjKDw8of/fP+ZiMfOoCfHzUQ6HIw3zoYgthuia2krpKYImQCDjKU8o72z4502zlZXK1ukKi9
+ FkkpULOEkXD06LM1rEc+XT/ZPdUPdRyY2auN7143L5MBj76vvV/rAKaNCwwFQypwjnEwlGyN32
+ rUk8gP8AJCsAYiAgDJTRfhQJ3/APM9vg6TusQIBAAA=
+X-Change-ID: 20260516-tonyk-long_name-b9f345aeb041
+To: Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>, willy@infradead.org, 
+ mathieu.desnoyers@efficios.com, David Laight <david.laight.linux@gmail.com>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org, 
+ Yafang Shao <laoar.shao@gmail.com>, andrii.nakryiko@gmail.com, 
+ arnaldo.melo@gmail.com, Petr Mladek <pmladek@suse.com>
+Cc: linux-kernel@vger.kernel.org, kernel-dev@igalia.com, linux-mm@kvack.org, 
+ linux-api@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+X-Mailer: b4 0.15.2
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [1.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[johnericson.me,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[johnericson.me:s=fm3,messagingengine.com:s=fm1];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-6602-lists,linux-api=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:rostedt@goodmis.org,m:brauner@kernel.org,m:kees@kernel.org,m:shuah@kernel.org,m:willy@infradead.org,m:mathieu.desnoyers@efficios.com,m:david.laight.linux@gmail.com,m:torvalds@linux-foundation.org,m:akpm@linux-foundation.org,m:laoar.shao@gmail.com,m:andrii.nakryiko@gmail.com,m:arnaldo.melo@gmail.com,m:pmladek@suse.com,m:linux-kernel@vger.kernel.org,m:kernel-dev@igalia.com,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:andrealmeid@igalia.com,m:davidlaightlinux@gmail.com,m:laoarshao@gmail.com,m:andriinakryiko@gmail.com,m:arnaldomelo@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mjguzik@gmail.com,m:me@linux.beauty,m:luto@kernel.org,m:brauner@kernel.org,m:kees@kernel.org,m:viro@zeniv.linux.org.uk,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-arch@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:x86@kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
+	FREEMAIL_TO(0.00)[infradead.org,redhat.com,linaro.org,goodmis.org,kernel.org,efficios.com,gmail.com,linux-foundation.org,suse.com];
+	FORGED_SENDER(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,linux.beauty];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6600-lists,linux-api=lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mail@johnericson.me,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[johnericson.me:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[andrealmeid@igalia.com,linux-api@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,messagingengine.com:dkim,johnericson.me:dkim,johnericson.me:from_mime,vger.kernel.org:from_smtp,app.fastmail.com:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,igalia.com:mid,igalia.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,msgid.link:url,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 209E86749C8
+X-Rspamd-Queue-Id: 61CF367ADA8
 
-On Wed, Jun 10, 2026, at 7:40 PM, Mateusz Guzik wrote:
-> [...]
->
-> As I tried to explain in my previous e-mail this approach does not cut
-> it because of NUMA.
->
-> Suppose you have a machine with 2 nodes. The parent-to-be is running
-> on node 0 and the child is intended to exec something on node 1.
->
-> When the parent-to-be allocates and populates stuff, it takes place with
-> memory backed by node 0. If you allocate task_struct, the file table and
-> other frequently used (and modified!) objs in this way, you are
-> guaranteeing performance loss due to interconnect traffic to access it.
->
-> Trying to add plumbing so that all allocations respect numa placement is
-> probably too cumbersome.
+* Use case
 
-Are we sure that last part is true?
+When debugging and tracing complex programs with hundreds of threads, 16 bytes
+long thread names are not enough anymore. cmd_line can show a lot of
+characters, but it's not affected by pthread_setname_np() or
+prctl(PR_SET_NAME), so let's give the same love kthreads got with commit
+6b59808bfe48 ("workqueue: Show the latest workqueue name in 
+/proc/PID/{comm,stat,status}"). This work creates a new
+PR_{SET,GET}_EXT_NAME that supports 64 bytes long names.
 
-Let's also assume when this stuff was initially implemented, we didn't
-have it. If the basic thrust of this work is to replace functions that
-previously only worked on the current thread with those that worked on
-either arbitrary (not yet started) threads or the current thread, would
-that not prepare us for slowly migrating the allocation choice to
-reflect the node of the target task (new parameter) rather than the node
-of the current task over time?
+It also introduces a new function copy_task_comm() that ensures that the string
+is always NUL-terminated despite of mismatching sizes of buffers. We can't just
+use strscpy() because it proved to give some overhead[0] in tracing.
 
-(This assumes the task is pre-placed on a node before it is actually run
-there, and that pre-placement happens as early in the allocation process
-as possible, so subsequent allocations can read off the
-partially-initialized task's node.)
+* Patchset
 
-"Slowly migrating" is good here! It doesn't need to be the fastest thing
-out of the gate, but if this new proper spawning API gets popular as I
-think it would, and there is a clear path to optimizing it per the
-above, then I am confident that over the years it will happen.
+Patch 1 is just a minor comment update.
 
-> The primary example for that is looking up the binary to exec in the
-> first place.
->
-> userspace likes to pass paths which don't exist, meaning checking for
-> the binary before any hard work is a useful optimization. Suppose the
-> binary to be executed is in a container bound with a taskset using
-> node 1 and the content of the fs part of the container is currently
-> fully uncached.
->
-> When you perform the lookup on node 0, you are populating a bunch of
-> metadata (inode, dentry) using memory from that domain. But the intended
-> user will only execute on node 1, again resulting in a performance loss.
->
-> In order to not do it you would need to convince VFS to allocate memory
-> elsewhere.
+Patch 2 and 3 do some prep work in order to avoid buffer overflows around
+the kernel, now that current->comm is bigger. It also make sure that if
+the destination buffer is smaller than TASK_COMM_EXT_LEN, it will
+be NUL-terminated.
 
-One thing I don't get about this is that isn't the cost doing a bunch of
-work searching the PATH for the directories where the executable
-*doesn't* exist? In the case of something like a shell that is going to
-spawn a lot of processes, I would think it is *good* to keep all that
-PATH crawling VFS filling to be on the shell's node, rather than the
-child processes' nodes.
+Patch 4 adds a KUnit for the new function copy_task_comm()
 
-It is only the executable itself, the final step of the VFS crawl, that
-should be loaded into the other NUMA nodes. Insofar as (unless I am
-missing something) creating the process means finding the inode for the
-executable but not loading those pages, aren't we OK here? Only when the
-new process is actually scheduled and run must the ELF be paged into
-memory, and then that will happen on the correct node.
+Patch 5 sets current->comm length to TASK_COMM_EXT_LEN and take care of
+making sure that current userspace APIs gets only TASK_COMM_LEN.
 
-> So I stand by my previous claim that ultimately a pristine child has to
-> be created (like in this patch), but which also has to do the work on
-> its own.
+Patch 6 creates new prctl() to set and get all the TASK_COMM_EXT_LEN bytes.
 
-I have not been a kernel dev, so my apologies if I am missing things.
-But in conclusion for me, the FS and other resource access patterns of
-*creating a process* vs *that process itself running* do not seem
-necessarily coincident to me. What you are describing as for sure a
-problem might possibly be a *good thing*, if they are in fact quite
-different.
+Patch 7 adapts the existing selftest for this new interface.
 
-> Suppose there is no explicit placement requested anywhere. Even in that
-> case there are legitimate workloads which will eventually be forced to
-> exec stuff on another node. Even these have a better chance retaining
-> full locality if the child process does all the work.
->
-> Per my previous message I don't see a clean interface to do it.
-> something quasi-posix_spawn is probably the least bad way out, it will
-> also allow userspace to easily wrap the new thing with posix_spawn
-> itself.
->
-> Also note there is another issue with the fd-based approach: the fd will
-> get inherited on fork and will hang out in the child afterwards unless
-> explicitly closed. Suppose you have a multithreaded program which likes
-> to both fork(+no exec) and fork+exec. With the fd-based approach you
-> have no means of stopping another thread from grabbing your state thanks
-> to unix defaulting to copying everything. There was an attempt to fix
-> this aspect with O_CLOFORK, but this got rejected.
+* Testing
 
-I would think we don't need to worry about clone/fork very much, right?
-I think the premise of your emails, and just about everyone else's in
-this thread too, is that we agree fork+exec is bad, and the problem of
-unnecessarily sharing resources is inherent to fork. Furthermore, I
-think we all agree that while `O_CLOEXEC` and `O_CLOFORK` may help, both
-are unsatisfying solutions because they are opt-out not opt-in, and
-global to the parent process / preexec state (respectively) rather than
-local to the specific fork / exec in question.
+selftests/prctl/set-process-name.c survives this patchset, and it was extended
+to the new interface. KUnit test was modified to support copy_task_comm().
 
-pidfds encounter these problems no more than any other
-file-descriptor-based UAPI, right? And I don't think it is good to blame
-any such file-descriptor-based UAPI when fork/exec are at fault.
+I ran the same benchmark as at [0], and the result shows a increase of 0.7% of
+overhead when running `perf stat -r 100 hackbench` with sched trace events
+enabled (`trace-cmd start -e sched`):
 
-Maybe during the transition, when some things use fork and some things
-use this new API, stuff will be awkward, but I would rather that just be
-an incentive to complete the transition away from fork, not a reason to
-second-guess the plan.
+Without this patchset:
 
-Once the transition is complete, and everyone is diligently assembling
-their child processes from scratch as is proposed, `O_CLOEXEC` and
-`O_CLOFORK` are both unneeded, and oversharing privileges will be much
-less common simply because "lazy coding"/"minimal typing" will only
-share what is needed --- anything else is more code/keystrokes!
+ 213,745,340 cycles:u # 0.119 GHz ( +-  0.33% )
 
-> Whatever exactly happens, NUMA is a sad fact of computing and needs to
-> be accounted for. The approach as proposed not only does not do it, but
-> it actively hinders such deployments.
+After:
 
-Despite everything I said, I want to be clear that I do agree that NUMA
-performance should be accounted for. Even if the first version isn't as
-great as it could be on that metric, there should be a clear plan for
-how future work can conclusively address it.
+ 215,111,672 cycles:u # 0.119 GHz ( +-  0.36% )
 
-Cheers,
+* Changes
 
-John
+Since v2:
+ - Add a custom function copy_task_comm() that uses memcpy when possible and
+ fallback to strscpy(). It always ensures that the string in NUL-terminated
+ - Add KUnit test for the new function
+ - Link to v2: https://patch.msgid.link/20260524-tonyk-long_name-v2-0-332f6bd041c4@igalia.com
+
+Since v1:
+ - Replace new strtostr() with strscpy()
+ - Don't replace memcpy in tools/
+ - Link to v1: https://patch.msgid.link/20260517-tonyk-long_name-v1-0-3c282eaa91e2@igalia.com
+
+[0] https://lore.kernel.org/lkml/20260526190625.3f4aca0a@gandalf.local.home/
+
+---
+André Almeida (7):
+      sched: Update get_task_comm() comment
+      treewide: Get rid of get_task_comm()
+      treewide: Replace memcpy(..., current->comm) with copy_task_comm()
+      lib/string_kunit: Add test for copy_task_comm()
+      sched: Extend task command name with TASK_COMM_EXT_LEN
+      prctl: Add support for long user thread names
+      selftests: prctl: Add test for long thread names
+
+ drivers/connector/cn_proc.c                        |  2 +-
+ drivers/dma-buf/sw_sync.c                          |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c   |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  4 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  2 +-
+ drivers/gpu/drm/lima/lima_ctx.c                    |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c            |  2 +-
+ drivers/gpu/drm/panthor/panthor_gem.c              |  2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c            |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  2 +-
+ drivers/hwtracing/stm/core.c                       |  2 +-
+ drivers/tty/tty_audit.c                            |  2 +-
+ fs/binfmt_elf.c                                    |  2 +-
+ fs/binfmt_elf_fdpic.c                              |  2 +-
+ fs/proc/array.c                                    |  2 +-
+ include/linux/coredump.h                           |  2 +-
+ include/linux/sched.h                              | 35 ++++++++++----------
+ include/linux/tracepoint.h                         |  4 +--
+ include/trace/events/block.h                       | 10 +++---
+ include/trace/events/coredump.h                    |  2 +-
+ include/trace/events/f2fs.h                        |  4 +--
+ include/trace/events/oom.h                         |  2 +-
+ include/trace/events/osnoise.h                     |  2 +-
+ include/trace/events/sched.h                       | 10 +++---
+ include/trace/events/signal.h                      |  2 +-
+ include/trace/events/task.h                        |  7 ++--
+ include/uapi/linux/prctl.h                         |  3 ++
+ kernel/audit.c                                     |  6 ++--
+ kernel/auditsc.c                                   |  6 ++--
+ kernel/printk/nbcon.c                              |  2 +-
+ kernel/printk/printk.c                             |  4 +--
+ kernel/sys.c                                       | 23 ++++++++++---
+ lib/tests/string_kunit.c                           | 38 ++++++++++++++++++++++
+ net/bluetooth/hci_sock.c                           |  2 +-
+ net/netfilter/nf_tables_api.c                      |  4 ++-
+ security/integrity/integrity_audit.c               |  3 +-
+ security/ipe/audit.c                               |  3 +-
+ security/landlock/domain.c                         |  2 +-
+ security/lsm_audit.c                               |  7 ++--
+ tools/testing/selftests/prctl/set-process-name.c   | 36 ++++++++++++++++++++
+ 43 files changed, 178 insertions(+), 79 deletions(-)
+---
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+change-id: 20260516-tonyk-long_name-b9f345aeb041
+
+Best regards,
+--  
+André Almeida <andrealmeid@igalia.com>
+
 
