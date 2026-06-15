@@ -1,176 +1,149 @@
-Return-Path: <linux-api+bounces-6610-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6611-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nnXPAejfLmp85gQAu9opvQ
-	(envelope-from <linux-api+bounces-6610-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 14 Jun 2026 19:07:52 +0200
+	id fYf6E92aL2p4DAUAu9opvQ
+	(envelope-from <linux-api+bounces-6611-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jun 2026 08:25:33 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98960681BAF
-	for <lists+linux-api@lfdr.de>; Sun, 14 Jun 2026 19:07:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EEA683C45
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jun 2026 08:25:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=xs4all.nl header.s=xs4all01 header.b=fROLYcuW;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6610-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6610-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=xs4all.nl;
+	dkim=pass header.d=packett.cool header.s=key1 header.b=ircNaqFJ;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6611-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6611-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=packett.cool;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 01B89300AC94
-	for <lists+linux-api@lfdr.de>; Sun, 14 Jun 2026 17:04:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2965930082A6
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jun 2026 06:25:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C523E3CCFBE;
-	Sun, 14 Jun 2026 17:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F612F83A2;
+	Mon, 15 Jun 2026 06:25:20 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D093CC7D3
-	for <linux-api@vger.kernel.org>; Sun, 14 Jun 2026 17:02:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305CC1A6816
+	for <linux-api@vger.kernel.org>; Mon, 15 Jun 2026 06:25:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781456524; cv=none; b=IoxJtgDeeQ6GCK/trqk72YafoEc73VlzD75O4V6G6w4j+ySh+aHi1DP3Swd/Y2lCIUbBgFcT125rjk5uE0tOrpFRi2iRVlO1tYllXMa6hDksdRxcHeMfN4gnjUDmRZfrEvCmB0pyHTK5OYM1FopH6LIVhIyiDbTJQWOyyD8FrZ8=
+	t=1781504720; cv=none; b=pUiH/iR/RuDd5VBSrFqGUNfQCMzb+YFm3Hbgbk1IQjNun+n2R+hhkKOY96A/Pth26RfhD0LsHuaOGgkoZAhpqwYXF1rj5tNebZLFN/lVbqJbkP+0JiW1giH4cq7Dg3D4lTH15OQjQOYDud8LByPrA6t2fBAz2uzKo43imAnacVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781456524; c=relaxed/simple;
-	bh=1yEBQT6Y1d5TFgDp2pHF4WJKK323HHaT+zv6KXIhRp4=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=IgJP9in97no/O9xBQabSt/Ep8CgunKYEQY3rDB+kiDDl8FMH7asfMp3mxuYFRkncqkmHswSR36YuxX67UcESJOxxMpPPnyRDS46WCv65PWNeCAR/boIR2HyW3EbE2GwBwmEn7Sw5fAAzVkAap5fmc1Von3sghigqAjRuEJ3cWo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fROLYcuW; arc=none smtp.client-ip=195.121.94.183
-X-KPN-MessageId: bebca678-6812-11f1-beab-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id bebca678-6812-11f1-beab-005056992ed3;
-	Sun, 14 Jun 2026 19:01:54 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id bebb89fb-6812-11f1-b5d6-0050569981f5;
-	Sun, 14 Jun 2026 19:01:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=TkvuSFDK6/nDk3+azP5M9r9PTBzu0LKFls0/exWqpX8=;
-	b=fROLYcuW/MmOuW2sy783kYo7rm+feBEHs+C3qHQHL9S6++THWI9AwtJqG+4LaypYOb19IzTENIkw1
-	 Qvq7sSrDaERJcdObqp/XSF35FhxZDDgUMXjqMJudxHql4Pe6+O8E9tKXEkSoNP4vbtn4PQYS2yLP3L
-	 mQ5DLnwuS2cOddP0DReP7a8TL9NW1/VmdQCcyZOzjJdsbgwQ+t/T7PhjAH/ebIKGRXCELnOVRFufA2
-	 MobpJQFTrAGoM0R8eTk52bHHXUppDIGHHP+JzM0/QiMTcdHaB+pwR/XlkGF8PJbFndrNPvSPsR+4fQ
-	 X9FI1ygMq9w/GHfm/r9lrFAOBCGy6kQ==
-X-KPN-MID: 33|NgSPb67nQT6AAHKax3tyOezWhYdnnR9+HXDPHlo7VIrxz1Sm/HwtTtT/cL+EokG
- AL8l+YnRW/fN13mJQV02D8g==
-X-CMASSUN: 33|faQlvmG+UzN1DtQfvhBkF70ELGQAYzCoDJur/Rn0K9qKaZCenrq3rSzYRR86mUt
- F9xmPYOWD8j7psBDZ+DUY/g==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id beb0993f-6812-11f1-b8d7-005056995d6c;
-	Sun, 14 Jun 2026 19:01:54 +0200 (CEST)
-Date: Sun, 14 Jun 2026 19:01:54 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Message-ID: <192910058.1683376.1781456514310@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260614164438.2980769-12-jkoolstra@xs4all.nl>
-References: <20260614164438.2980769-1-jkoolstra@xs4all.nl>
- <20260614164438.2980769-12-jkoolstra@xs4all.nl>
-Subject: Re: [PATCH 11/12] vfs: short-circuit MAY_WRITE access for
- O_DIRECTORY opens
+	s=arc-20240116; t=1781504720; c=relaxed/simple;
+	bh=eMpF6TIlf6+lXcDXCRWJ1GSlKGnokAF6Mi84MZza0gc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kdmxhOrLPXpeQhJALV1SVDXW5aB8hgFn1iWQwWGM9N9n+XL506Is9WdduLj5jzKkpokZdLuRB18OxL7ZciVClnvfzb/4q6z4kpxQx9Pjn5x60j1XenVmINj3Od8RpWiGyr0/SrOB5tp2eXtJQBnzobpeWR+Fs8NcqQhSNog5jN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=ircNaqFJ; arc=none smtp.client-ip=91.218.175.184
+Message-ID: <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1781504714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dIagr78v8+wu8I0zN50DJ/gAtpHtsl0YE4lvqsZn4bE=;
+	b=ircNaqFJIqIbLoIQAsKyoXo4rpXEoQiRy6zyFmI9hK3HrAfkw05xW4pZqyr/gEPP8FmgQe
+	YCMXXOF0Ojr6Ke64K6mJnYe9JlDM5n9QaPTquf4RxnS2VJebzilW8irZlVAq2ZBbu8tU3H
+	Ym5nnlp7yvHYcIa6UVoQguJIN6I828BXaZ6Oa3MyWDm++G633gd71/V0K0NJtv18Wf3rcc
+	TGhtZ7HAjNfT3f/melWV8TK5yeAV4SGF18G26grrndY/UhwmBAr77wIkgpV/3r4qCrE+rr
+	yyIzP94mT15QER7XOLBnD39ifvW2hpCx+GHe19vIvRAPUfC7zO4rmCN5XEqkKQ==
+Date: Mon, 15 Jun 2026 03:25:04 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Al Viro <viro@zeniv.linux.org.uk>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Askar Safin
+ <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-api@vger.kernel.org, netdev@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Steven Rostedt <rostedt@goodmis.org>, Joanne Koong <joannelkoong@gmail.com>,
+ fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20260601173325.GH2636677@ZenIV>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[xs4all.nl,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[xs4all.nl:s=xs4all01];
+	DMARC_POLICY_ALLOW(-0.50)[packett.cool,quarantine];
+	R_DKIM_ALLOW(-0.20)[packett.cool:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6610-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6611-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_X_PRIO_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
-	FREEMAIL_FROM(0.00)[xs4all.nl];
-	FORGED_RECIPIENTS(0.00)[m:brauner@kernel.org,m:jack@suse.cz,m:viro@zeniv.linux.org.uk,m:neil@brown.name,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-api@vger.kernel.org,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:viro@zeniv.linux.org.uk,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:safinaskar@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:patches@lists.linux.dev,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,m:rostedt@goodmis.org,m:joannelkoong@gmail.com,m:fuse-devel@lists.linux.dev,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[val@packett.cool,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[xs4all.nl:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,kvack.org,infradead.org,kernel.dk,redhat.com,linux-foundation.org,suse.de,szeredi.hu,lists.linux.dev,suse.cz,goodmis.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jkoolstra@xs4all.nl,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[val@packett.cool,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[packett.cool:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kpc.webmail.kpnmail.nl:mid,xs4all.nl:dkim,xs4all.nl:email,xs4all.nl:from_mime,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 98960681BAF
+X-Rspamd-Queue-Id: B4EEA683C45
+
+Hi,
+
+On 6/1/26 2:33 PM, Al Viro wrote:
+> On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
+>
+>> TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
+>> a big simplification.
+> FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> Communications between the kernel and fuse server at least used to
+> seriously want that, so that would be one place to look for unhappy
+> userland...
+
+speaking of fuse_dev_splice……_write actually, this series has broken 
+xdg-document-portal!
+
+https://github.com/flatpak/xdg-desktop-portal/issues/2026
+
+Specifically what happens is that the EINVAL is returned due to oh.len 
+!= nbytes:
+
+fuse_dev_do_write: oh.len 16400 != nbytes 15526
+
+(where 16400 == 16384 (read len) + 16, 15526 == 15510 (file len) + 16)
+
+After reverting the series, there is no error because oh.len 
+becomes 15526 too.
 
 
-> Op 14-06-2026 18:44 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
-> 
->  
-> Requesting write access on a directory can never succeed. Rather
-> than performing a path-walk to determine whether the target is
-> actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
-> to -ENOTDIR.
-> 
-> Currently O_WRONLY for directories is only blocked in may_open(),
-> which happens after we have the inode for the target, so after any
-> create via O_CREAT|O_DIRECTORY.
-> 
-> The advantage of short-circuiting is that we don't have to add even
-> more logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also,
-> for filesystems that define atomic_open(), handling this cannot even be
-> done at the VFS level, as we can't know ahead of calling
-> ->atomic_open() what the result of the lookup is.
-> 
-> Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  fs/open.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/open.c b/fs/open.c
-> index 5cf8ada58483..be980a737c82 100644
-> --- a/fs/open.c
-> +++ b/fs/open.c
-> @@ -1268,9 +1268,16 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
->  
->  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
->  
-> +	/*
-> +	 * Requesting write access on a directory can never succeed. Rather
-> +	 * than performing a path-walk to determine whether the target is
-> +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
-> +	 * to -ENOTDIR.
-> +	 */
-> +	if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
-> +		return -ENOTDIR;
-> +
->  	if (flags & O_CREAT) {
-> -		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
-> -			return -EISDIR;
->  		op->intent |= LOOKUP_CREATE;
->  		if (flags & O_EXCL) {
->  			op->intent |= LOOKUP_EXCL;
-> -- 
-> 2.54.0
+Thanks,
+~val
 
-Forgot to cc this to linux-api@vger.kernel.org. Hereby cc'ed.
 
