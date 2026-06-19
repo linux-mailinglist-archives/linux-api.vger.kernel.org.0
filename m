@@ -1,81 +1,82 @@
-Return-Path: <linux-api+bounces-6639-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6640-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oLp+DVZ2NWrpwwYAu9opvQ
-	(envelope-from <linux-api+bounces-6639-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 19:03:18 +0200
+	id m5w3NHh2NWr6wwYAu9opvQ
+	(envelope-from <linux-api+bounces-6640-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 19:03:52 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288506A72B6
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 19:03:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDEF6A72C7
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 19:03:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amazon.com header.s=amazoncorp2 header.b=KhwOh5Vm;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6639-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6639-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=amazon.com header.s=amazoncorp2 header.b=Vjbdv5Jn;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6640-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6640-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=amazon.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0764B30093A6
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 17:03:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 44F2A30285F5
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jun 2026 17:03:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 189093B2FD9;
-	Fri, 19 Jun 2026 17:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67ED33B960F;
+	Fri, 19 Jun 2026 17:03:49 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.77.92])
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01F52D23B9;
-	Fri, 19 Jun 2026 17:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275E3331EA7;
+	Fri, 19 Jun 2026 17:03:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781888593; cv=none; b=G9GgwOo8VVc4qWa8eh0TF7ihT9SwCrPgTaBNNv56OtpQ0OMthe5jLThMZO7zbDoD/tYB6tKhGc9qOnazNCWZwU7eDQ4XtOEbd947pZwI7KiUexUU0249Pn72TngURz6Swl2aVvByGDOKvdai+CMjjj6A85flsC8IhmXJfDTtqBY=
+	t=1781888629; cv=none; b=glsuDTAX4jUBiyXCT8VtUL4/GeAuISqIuR7sLzI+LULlMUQh2Zhh40I70fR1Z9RgG06cT2frp9779+WnLrNrCpKCv/5neCn/ouLQEYkO5ZjqO3Y0h8UztmJMmSzrK29uIH81fIs2osxKLhGojelc+SvaLY45VxDSbsSYCHQLGZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781888593; c=relaxed/simple;
-	bh=13vWre6vQErlYBEx+qynCCSlbv+70wjnYaeujfU3S0Y=;
+	s=arc-20240116; t=1781888629; c=relaxed/simple;
+	bh=v8PxMbaiMwCJUKGdaAKzHWMJfeJnRRzS6bHv+pRLCFU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h1/jTvuj9uwPVJ7MKjx1HByGAtiWBisBPpKHE9CUOvCrTg00yz4kPBq6ACYQM37pW28zIzKvy/oTU8e3OF0lKUTADH3ec2X0+2hxEscBjG4u7IFMJzuXLaLOdxCK8rLNjSs36/ciV7by0vpLd0z5eMhEvumAsAvNx63NpR0/zxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=KhwOh5Vm; arc=none smtp.client-ip=44.246.77.92
+	 MIME-Version:Content-Type; b=a6sjlVCODxDeVzD19+HKQpeI2Waxud8b5qpV01b8XjWr2szVC9Q7Il7KAjMkl98rRjX1QexzMFsBBOsj8MvF8i1AprFNoMfqb6+n8KIWefv/u9P9+bI0Td5IiOzgBHSIHAVa0/6k2IviRqSaVeLBJYBCmOfS6rZxm1+XBPZXg8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=Vjbdv5Jn; arc=none smtp.client-ip=52.34.181.151
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1781888591; x=1813424591;
+  t=1781888627; x=1813424627;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=atzZ8mWDYKYmCqJ3ZEoieLR6uL6N2bSl7KXRcSXPq+U=;
-  b=KhwOh5VmxcbTJy47ycNGTSYyvEAnZSN5kf2PyIr3Dg3OkWm+PPf8UG0E
-   f4IqtsQkKvijrJdR/cBAiq1jpFXFfC0YG2SbcmSYd0WgiqUIJ2/1HfC1Q
-   JvGP/il5pWZP2WkNJNaocBAelUVFTtR0pk5Vcn3eiRpQl6ufgOwLhctJs
-   2qXUQgh+ltoj7G0S68lq4xSibYG8FUY5LnX0A1F5yQHAuMUzfki2B8LHY
-   6HygRZGia5c8cqrBG9jf+5Oin4qQl17KOcSXR+bbQ+r74yJwGZN10A+ko
-   66LKYLMtGM5ncglFBkcn8Nxxi59BJBb0syoznz32WS1ECdtUXcJOuhbQK
-   w==;
-X-CSE-ConnectionGUID: HuPOm6j7RC2ElefRHHuqvw==
-X-CSE-MsgGUID: 4ZPXHre+RDuiUjqIxJuoEA==
+  bh=mepCyamqQZfDcmw2jhkUZr/9vR/rYt1RSxhN5Wz6AGQ=;
+  b=Vjbdv5JnnrzUP2P9Vlgp2mAEw6XxPVy8C6MVQcC1Nu78tsP12zJB0jVl
+   avYptFv/maeso9FANi37Bm3bUr5KlV8ClHppqInIMIeaToT2zgCwY12wL
+   XU93i5IFbf5jUdRObjoS4O2AXX8PLASPX681Gl7x+MpjT+MWV0Y9eWqZA
+   KxMsAkLUbXj7+bdP8EKxB+YnBH1h6Pv4KEJpdeqvL+blKKZ1Vrq8UeaZQ
+   /korjp53BxgtDWpUixESHeOS0oqWRzzE4IHAsUJI+5gLrszbep9on9CxT
+   j8d0/alrevUF/N5euCG1eGgh3OFDXURacbOgDWHQZCpVFkFbyFzygLNXT
+   A==;
+X-CSE-ConnectionGUID: Xfgai+1kRI6il4Tx+Ruz5A==
+X-CSE-MsgGUID: vK5bOs3wTmKp3C8LjFHB2Q==
 X-IronPort-AV: E=Sophos;i="6.24,213,1774310400"; 
-   d="scan'208";a="22098218"
+   d="scan'208";a="22090330"
 Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 17:03:11 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:6734]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.63.253:2525] with esmtp (Farcaster)
- id d33150b5-9e74-421f-a3cb-be03f99af074; Fri, 19 Jun 2026 17:03:11 +0000 (UTC)
-X-Farcaster-Flow-ID: d33150b5-9e74-421f-a3cb-be03f99af074
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 17:03:46 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.48:3040]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.233:2525] with esmtp (Farcaster)
+ id 460ae2e6-5eed-4017-b37a-8d8c3dc7ff5c; Fri, 19 Jun 2026 17:03:46 +0000 (UTC)
+X-Farcaster-Flow-ID: 460ae2e6-5eed-4017-b37a-8d8c3dc7ff5c
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 19 Jun 2026 17:03:11 +0000
+ Fri, 19 Jun 2026 17:03:46 +0000
 Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Fri, 19 Jun 2026 17:03:10 +0000
+ Fri, 19 Jun 2026 17:03:45 +0000
 From: Jimmy Zuber <jamz@amazon.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
 CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
 	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
 	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: [PATCH v2 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
-Date: Fri, 19 Jun 2026 17:02:49 +0000
-Message-ID: <20260619170251.1154562-1-jamz@amazon.com>
+Subject: [PATCH v2 1/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
+Date: Fri, 19 Jun 2026 17:02:50 +0000
+Message-ID: <20260619170251.1154562-2-jamz@amazon.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260616151909.916667-1-jamz@amazon.com>
+In-Reply-To: <20260619170251.1154562-1-jamz@amazon.com>
 References: <20260616151909.916667-1-jamz@amazon.com>
+ <20260619170251.1154562-1-jamz@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -84,7 +85,7 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D038UWC004.ant.amazon.com (10.13.139.229) To
+X-ClientProxiedBy: EX19D039UWA004.ant.amazon.com (10.13.139.68) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-10.66 / 15.00];
@@ -94,7 +95,7 @@ X-Spamd-Result: default: False [-10.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -104,12 +105,12 @@ X-Spamd-Result: default: False [-10.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[jamz@amazon.com,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6639-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6640-lists,linux-api=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_NEQ_ENVFROM(0.00)[jamz@amazon.com,linux-api@vger.kernel.org];
 	DKIM_TRACE(0.00)[amazon.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ALIAS_RESOLVED(0.00)[];
@@ -118,64 +119,191 @@ X-Spamd-Result: default: False [-10.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 288506A72B6
+X-Rspamd-Queue-Id: 8DDEF6A72C7
 
-FUSE_SYNCFS (propagating syncfs()/sync() to the server) is currently
-enabled only for virtiofs and fuseblk, since an untrusted server can stall
-sync(). Any FUSE filesystem may buffer data in the server that ought to
-reach storage on sync(); the only thing that should gate it is whether the
-/dev/fuse opener is sufficiently privileged to be trusted to block sync.
+Propagating syncfs()/sync() to a FUSE server via FUSE_SYNCFS lets the
+server flush its own cached or intermediate state when userspace asks the
+filesystem to sync.  This is currently enabled only for virtiofs and
+fuseblk, because an untrusted server can use it to stall sync()
+indefinitely (see commit 2d82ab251ef0 ("virtiofs: propagate sync() to file
+server"), and commit d3906d8f3cee ("fuse: enable FUSE_SYNCFS for all
+fuseblk servers")).  Both of those mount types require host privilege to
+set up, so the server is trusted not to abuse it.
 
-This series lets a plain /dev/fuse server opt in via a new FUSE_HAS_SYNCFS
-INIT flag, honored only when the server opened /dev/fuse with CAP_SYS_ADMIN
-privilege in the initial user namespace -- checked with file_ns_capable() at
-mount time.
+There is nothing virtiofs- or block-specific about wanting to handle
+syncfs(), though.  A plain /dev/fuse server is just as entitled to
+participate in the sync() path -- so that data it has buffered reaches
+stable storage when the user asks for it -- provided it is equally
+trusted.
 
-  Patch 1: the kernel change (UAPI flag + privilege gating).
-  Patch 2: a selftest that speaks the raw FUSE protocol over /dev/fuse, so
-           it can withhold the flag and directly observe whether the
-           FUSE_SYNCFS opcode is forwarded.
+The trust property that virtiofs and fuseblk satisfy is that neither can
+be mounted without CAP_SYS_ADMIN in the initial user namespace (neither
+sets FS_USERNS_MOUNT).  A plain fuse mount does set FS_USERNS_MOUNT, so its
+existence guarantees no such privilege; the privilege has to be checked
+rather than assumed.
 
-A matching libfuse change (FUSE_CAP_SYNCFS negotiation) will be sent to the
-libfuse project once the UAPI flag here is settled.
+Add an opt-in INIT flag, FUSE_HAS_SYNCFS, and honor it only when the
+server opened /dev/fuse with CAP_SYS_ADMIN in the initial user namespace,
+recorded at mount time via file_ns_capable().  This is the same privilege
+that mounting virtiofs or fuseblk requires, applied to the process that
+actually services (and could stall) the connection.  Checking the device
+opener's capability -- rather than the mount's user namespace -- avoids
+treating an unprivileged server that merely happens to run in the initial
+user namespace (e.g. a normal sshfs mount) as trusted.
 
-Changes since v1 [1]:
- - Gate on the privilege of the opener (CAP_SYS_ADMIN in init_user_ns at
-   /dev/fuse open time, via file_ns_capable()) rather than on the mount's
-   user namespace.  Miklos pointed out that the v1 check
-   (fc->user_ns == &init_user_ns) tested a property of the mount, not of
-   the server that actually services -- and can stall -- the connection.
-   Being in the initial user namespace is not itself a privilege
-   (e.g. an ordinary sshfs mount qualifies).  Checking the device opener's
-   capability closes that gap.
- - Selftest: add a case covering exactly that distinction -- a server
-   in the initial user namespace that opened /dev/fuse without
-   CAP_SYS_ADMIN -- which v1 would have wrongly allowed.
+The flag is only advertised to servers that pass this check, so an
+unprivileged server is never invited to opt in (and is ignored by
+fuse_syncfs_enable() if it sets the flag anyway).
 
-Testing: built and booted under QEMU.  The selftest passes all
-four cases, including the new case above (verified that the kernel withholds
-FUSE_SYNCFS while it would have been granted under the v1 check).
+Signed-off-by: Jimmy Zuber <jamz@amazon.com>
+Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
+---
+ fs/fuse/fuse_i.h          |  9 +++++++++
+ fs/fuse/inode.c           | 28 ++++++++++++++++++++++++++++
+ include/uapi/linux/fuse.h | 12 +++++++++++-
+ 3 files changed, 48 insertions(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/20260616151909.916667-1-jamz@amazon.com
-
-Jimmy Zuber (2):
-  fuse: allow FUSE_SYNCFS for privileged userspace servers
-  selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
-
- fs/fuse/fuse_i.h                              |   9 +
- fs/fuse/inode.c                               |  28 ++
- include/uapi/linux/fuse.h                     |  12 +-
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +-
- .../selftests/filesystems/fuse/test_syncfs.c  | 370 ++++++++++++++++++
- 6 files changed, 420 insertions(+), 2 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
-
-
-base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 85f738c53122..3fbe4957e839 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -391,6 +391,7 @@ struct fuse_fs_context {
+ 	bool no_control:1;
+ 	bool no_force_umount:1;
+ 	bool legacy_opts_show:1;
++	bool syncfs_capable:1;
+ 	enum fuse_dax_mode dax_mode;
+ 	unsigned int max_read;
+ 	unsigned int blksize;
+@@ -675,6 +676,14 @@ struct fuse_conn {
+ 	/** @sync_fs: Propagate syncfs() to server */
+ 	unsigned int sync_fs:1;
+ 
++	/**
++	 * @syncfs_capable: the privilege required to honor FUSE_HAS_SYNCFS was
++	 * present when /dev/fuse was opened (CAP_SYS_ADMIN in the initial user
++	 * namespace), i.e. the same privilege that mounting virtiofs/fuseblk
++	 * requires.
++	 */
++	unsigned int syncfs_capable:1;
++
+ 	/** @init_security: Initialize security xattrs when creating a new inode */
+ 	unsigned int init_security:1;
+ 
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index d975073c6029..ba7506b539ae 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -800,6 +800,15 @@ static int fuse_opt_fd(struct fs_context *fsc, struct file *file)
+ 	if (file->f_cred->user_ns != fsc->user_ns)
+ 		return invalfc(fsc, "wrong user namespace for fuse device");
+ 
++	/*
++	 * Record whether the server opened /dev/fuse with CAP_SYS_ADMIN in the
++	 * initial user namespace -- the same privilege that mounting virtiofs
++	 * or fuseblk requires.  Only such servers are trusted to receive
++	 * FUSE_SYNCFS (see fuse_syncfs_enable()).
++	 */
++	ctx->syncfs_capable = file_ns_capable(file, &init_user_ns,
++					      CAP_SYS_ADMIN);
++
+ 	ctx->fud = fuse_dev_grab(file);
+ 
+ 	return 0;
+@@ -1266,6 +1275,16 @@ struct fuse_init_args {
+ 	struct fuse_mount *fm;
+ };
+ 
++/*
++ * A server can stall syncfs()/sync(), so only honor FUSE_HAS_SYNCFS for
++ * servers that opened /dev/fuse with CAP_SYS_ADMIN in the initial user
++ * namespace -- the same privilege required to mount virtiofs or fuseblk.
++ */
++static bool fuse_syncfs_enable(struct fuse_conn *fc, u64 flags)
++{
++	return (flags & FUSE_HAS_SYNCFS) && fc->syncfs_capable;
++}
++
+ static void process_init_reply(struct fuse_args *args, int error)
+ {
+ 	struct fuse_init_args *ia = container_of(args, typeof(*ia), args);
+@@ -1406,6 +1425,9 @@ static void process_init_reply(struct fuse_args *args, int error)
+ 
+ 			if (flags & FUSE_REQUEST_TIMEOUT)
+ 				timeout = arg->request_timeout;
++
++			if (fuse_syncfs_enable(fc, flags))
++				fc->sync_fs = 1;
+ 		} else {
+ 			ra_pages = fc->max_read / PAGE_SIZE;
+ 			fc->no_lock = 1;
+@@ -1473,6 +1495,11 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 		flags |= FUSE_SUBMOUNTS;
+ 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+ 		flags |= FUSE_PASSTHROUGH;
++	/* Only offered to sufficiently privileged servers; see
++	 * fuse_syncfs_enable().
++	 */
++	if (fm->fc->syncfs_capable)
++		flags |= FUSE_HAS_SYNCFS;
+ 
+ 	/*
+ 	 * This is just an information flag for fuse server. No need to check
+@@ -1766,6 +1793,7 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+ 
+ 	fc->default_permissions = ctx->default_permissions;
+ 	fc->allow_other = ctx->allow_other;
++	fc->syncfs_capable = ctx->syncfs_capable;
+ 	fc->user_id = ctx->user_id;
+ 	fc->group_id = ctx->group_id;
+ 	fc->legacy_opts_show = ctx->legacy_opts_show;
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index c13e1f9a2f12..c078c5f0f94e 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -240,6 +240,9 @@
+  *  - add FUSE_COPY_FILE_RANGE_64
+  *  - add struct fuse_copy_file_range_out
+  *  - add FUSE_NOTIFY_PRUNE
++ *
++ *  7.46
++ *  - add FUSE_HAS_SYNCFS opt-in flag for privileged userspace servers
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -275,7 +278,7 @@
+ #define FUSE_KERNEL_VERSION 7
+ 
+ /** Minor version number of this interface */
+-#define FUSE_KERNEL_MINOR_VERSION 45
++#define FUSE_KERNEL_MINOR_VERSION 46
+ 
+ /** The node ID of the root inode */
+ #define FUSE_ROOT_ID 1
+@@ -448,6 +451,12 @@ struct fuse_file_lock {
+  * FUSE_OVER_IO_URING: Indicate that client supports io-uring
+  * FUSE_REQUEST_TIMEOUT: kernel supports timing out requests.
+  *			 init_out.request_timeout contains the timeout (in secs)
++ * FUSE_HAS_SYNCFS: server requests that syncfs()/sync() be propagated as
++ *		FUSE_SYNCFS requests.  Since an untrusted server can use this
++ *		to stall sync(), it is only honored when /dev/fuse was opened
++ *		with CAP_SYS_ADMIN in the initial user namespace (the same
++ *		privilege that mounting virtiofs or fuseblk requires).
++ *		Insufficiently privileged servers ignore it.
+  */
+ #define FUSE_ASYNC_READ		(1 << 0)
+ #define FUSE_POSIX_LOCKS	(1 << 1)
+@@ -495,6 +504,7 @@ struct fuse_file_lock {
+ #define FUSE_ALLOW_IDMAP	(1ULL << 40)
+ #define FUSE_OVER_IO_URING	(1ULL << 41)
+ #define FUSE_REQUEST_TIMEOUT	(1ULL << 42)
++#define FUSE_HAS_SYNCFS		(1ULL << 43)
+ 
+ /**
+  * CUSE INIT request/reply flags
 -- 
 2.50.1
 
