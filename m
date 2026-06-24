@@ -1,55 +1,91 @@
-Return-Path: <linux-api+bounces-6651-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6652-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ioL2BQudO2qHaQgAu9opvQ
-	(envelope-from <linux-api+bounces-6651-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 11:02:03 +0200
+	id Jm67H6fiO2oVewgAu9opvQ
+	(envelope-from <linux-api+bounces-6652-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 15:59:03 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625C86BCC58
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 11:01:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E375A6BEE32
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 15:59:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Cmfji3PW;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6651-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6651-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="mV+//V+B";
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6652-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6652-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D3EF53038057
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 09:00:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E6CF33023070
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jun 2026 13:59:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1DB3A2E12;
-	Wed, 24 Jun 2026 08:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6333B8D4A;
+	Wed, 24 Jun 2026 13:59:01 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0033A1A2D;
-	Wed, 24 Jun 2026 08:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA103B8BBB
+	for <linux-api@vger.kernel.org>; Wed, 24 Jun 2026 13:58:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782291590; cv=none; b=Bc55lRkgWEC+2MKFqS1/SdHVIa+piWj6SWtj0wuOsDrdznck9xlFC5vmCiaz+/Dmr/lpw1QNXe1OdAdFl1rjqv1UDdN9ghkw4R3orlttR/QRbYEsYUtpqXbp+QD479pTbsD9wafOaxnKNubgjkw3BQAH3/QT8I5lMJdrpNApXz0=
+	t=1782309541; cv=none; b=CHPcttupB/ye/EONEBTdcQSE5nOL2LX/FKV+SNbfBydEctJZetQEZOpuBzA9QpvZki9NMB0uKQB4nTgvviTs4dPT55CLVJ7FnJJQv2VNTVOcutgj/0Pus8thI3VB9Yhlxid3FbIbFBY270ArvuS2KIzy47bFs8kXWJoB1lN+1Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782291590; c=relaxed/simple;
-	bh=ETK/3fIWVJgZ66RkvKFMZ1xoiAvUnqVHg8A9UlR6oO4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=hHLdk0ycu2OHmAfj13QPiVL5MhORtVtnq3dBCY6ji4ISmSakj7PCEVyY8Nif+7DfaYYQaVMqYSjff0wJ84dQqkDNWUT9JD+XE2BdN8/Eq8Epctp4lfSvKxSnP+FJ6IvFPg7s9x8yxiTuNPkmKGj7I1pDWHkYKIfsq3vGn7t6N5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cmfji3PW; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E931F00A3D;
-	Wed, 24 Jun 2026 08:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782291587;
-	bh=DCKt4O2HlnFxHy8Mhm2C2zuPcXHOFrNOinuxD1UUcRc=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=Cmfji3PW0AVDGKQ4BufZEBDJWiQm1o8/rQsb7n4IPtwL2Bri4DpGeykggivNXbeKl
-	 bstR8Aj141x+SXVVytHk70wMVpKQ2bDQeC4RGdfuf925UT+hEoMCDYVxscMlqcrn3d
-	 6xnEmkWJdCUcpVMSWDpNGerH9VyGcglmIk/mUCMD0BiEP0cv0fwfWo3JgHR5YPVrnL
-	 Jte9tPT/yzkvqV00w5paETjF56VjF6ALEXGUBYhw0wOJsEeEWA+2CMVQPU75HFlWVo
-	 MQXB30pU37MXc/fscX12cEexVJBV1ND0Xny4mZBk5+ARKMHfjuwtW9baGkR7d+IuXL
-	 XUjSsQ4FUeCjg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 196D839EF964;
-	Wed, 24 Jun 2026 08:59:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1782309541; c=relaxed/simple;
+	bh=rZoy75d1F530K2+ThODvbmPdZCic8tHOaNMPkK37BVc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ntMEk7xnEqpyNey+uqA4c2/ZvMgW5IAumltaNx70WGbzpqU1g5tXv+SL3LLINobuVaLEnWS49GhO2RD1CL1iN79svwTmi1vKBNI1jI8jgxG9pYVOBs1ejfeSJrhgv8GZVlQY9Ux1ptWfN+qwUBJ5kiENaVMLPx182DebbDiiacQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mV+//V+B; arc=none smtp.client-ip=209.85.128.43
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4924593f45dso12181755e9.1
+        for <linux-api@vger.kernel.org>; Wed, 24 Jun 2026 06:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782309538; x=1782914338; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xy3H6Mm52Vr1FVRw8xaYMztW/ew2mK+cmZQhwwKNUmw=;
+        b=mV+//V+BxCtvsA8WDrD8kQNm0frliGCNwyyCYDV8hBontCw8/MfgOGQFuCVQ0SzZ0v
+         CxwjOGpJaudlo/is3ejefrTocpsOJUeMmX2gEob60MBFOVvZrqaesYM4VQ0Qglv+caa3
+         CneBhX5rJzNtT1AWlUqi5qH73vLpAhrdpSJftBpbm4fR4JZO0pFo5G1V1pSlGp7iREAr
+         XYMSppk/b+f7lJ3FBPJor1mZ+3vyctxKtCOAXzvZuMN/Rp47/Orzg49uXLWOvDSoNyKe
+         fjafct5mrzdJLLFk4wCzkLS591BcnRuXuxXtoNcHo7qudWkXewbkTbcRK1GfDIVFRbk0
+         0hlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782309538; x=1782914338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xy3H6Mm52Vr1FVRw8xaYMztW/ew2mK+cmZQhwwKNUmw=;
+        b=IdqdGIn0vQ9ASy4o7aKy/BSpUUGVH152RxPV1MFcJHmUQcoEzGh46zkOyUQc3MPD7L
+         bG24aa0YnGlKt/A/iPqTmKZ0kv31aY18lK7OOG+LhAbMlizZx6Q9ShoWLYiDOWVnpChM
+         /iGkjtVwzxf8m/M/qeh3jDUK3u0GrKa0r2XA0TgXF1EC1sCL2jVxzRFBqQbSXHgd50bb
+         GA6vqDySKddWt+5q5zewW8GCt+T4+fQYdu8xdOpAsHZY2hur/x5Ycq6nELi/H5JqawzP
+         lJaeDBZ2NkUYws0TekHOgQRO5nYQIP9s0p0aLR4S2XzSmjpLEYuCYMeXCBWvHllPQ3IO
+         Ie3A==
+X-Forwarded-Encrypted: i=1; AFNElJ+h/oIjFBEPCDAX978l5xmwahsGrmvla9N7kKh/j80xPK4B4MJS4/KvdyA2ezcFOk6rQbrbZiXsLFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbB7oMqKDnuDHWYMonHXbsJ2ohDutSJX0fwAzVRP+vjQcT7CB5
+	T1+8nwOys5Q+rQpZnYBoCK++P4TBdeSsLmhB5ExE2RpPlFWBBr6qkblZ
+X-Gm-Gg: AfdE7clkAB/AqoR4kyu3Icu+M8537fmjnpWPikWeAku1cuqO2PCr9M2p4sLHVDrpJAo
+	4y+tBEvtj9SjUE7BnmpuJAiLGMLlkShjsesyso6uolqrpvmN0J2OUzaO5A63K0nYRWlgR8j7/Dj
+	5VzZ2dIDf3uoi+HYp1xjT6wYrznsoO/f+ltq6i0HsHa9ZhilVUV8TgHm6WlyRllalui5RL2D8jK
+	M5fiMCD6tHtlfXJHe3B0VhZ4ona6WnPbl++Ni8f7QaVIJYhmmHqFb8SBYVfvDNymrCixrf0Z6Mh
+	G7h0f3B5kqS1LRcGcKxhnPvxFWp9LUnscoRZ5Zr4aNXTusJjegZGR7vt0v8nQ8YS4gVvyOR4u8w
+	d6UY6VnbwBa7rNZlmHnOBMzmpwJpcTl7BzvKU0VaHqs6Cc6QBgkmxLs7wHZtVJKBSM9+AtZU18G
+	phxvkM0/CTdLfe
+X-Received: by 2002:a05:600c:3489:b0:490:b8e6:be40 with SMTP id 5b1f17b1804b1-4926086e5edmr52079765e9.21.1782309538140;
+        Wed, 24 Jun 2026 06:58:58 -0700 (PDT)
+Received: from beast.lan ([2a00:c281:1461:c400:bf16:e4f3:7fa:c2dc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d93eesm6734311f8f.20.2026.06.24.06.58.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 06:58:57 -0700 (PDT)
+From: Boris Shtrasman <borissh1983@gmail.com>
+To: Sebastian Reichel <sre@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Boris Shtrasman <borissh1983@gmail.com>
+Subject: PATCH v2 0/2] Power: supply: Add PbAc, NiZn, RAM, and ZnAr support
+Date: Wed, 24 Jun 2026 16:57:16 +0300
+Message-ID: <20260624135718.286771-1-borissh1983@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -57,128 +93,91 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH v8 00/17] Subject: Exposing case folding
- behavior
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <178229157577.2577930.354083176752004996.git-patchwork-notify@kernel.org>
-Date: Wed, 24 Jun 2026 08:59:35 +0000
-References: <20260217214741.1928576-1-cel@kernel.org>
-In-Reply-To: <20260217214741.1928576-1-cel@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
- pc@manguebit.org, yuezhang.mo@sony.com, cem@kernel.org,
- almaz.alexandrovich@paragon-software.com, adilger.kernel@dilger.ca,
- linux-cifs@vger.kernel.org, sfrench@samba.org, slava@dubeyko.com,
- linux-ext4@vger.kernel.org, linkinjeon@kernel.org, sprasad@microsoft.com,
- frank.li@vivo.com, ronniesahlberg@gmail.com, glaubitz@physik.fu-berlin.de,
- jaegeuk@kernel.org, hirofumi@mail.parknet.co.jp, linux-nfs@vger.kernel.org,
- tytso@mit.edu, linux-api@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, chuck.lever@oracle.com, hansg@kernel.org,
- anna@kernel.org, linux-fsdevel@vger.kernel.org, sj1557.seo@samsung.com,
- trondmy@kernel.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,manguebit.org,sony.com,paragon-software.com,dilger.ca,vger.kernel.org,samba.org,dubeyko.com,microsoft.com,vivo.com,gmail.com,physik.fu-berlin.de,mail.parknet.co.jp,mit.edu,lists.sourceforge.net,chromium.org,oracle.com,samsung.com];
-	TAGGED_FROM(0.00)[bounces-6651-lists,linux-api=lfdr.de,f2fs];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-api@vger.kernel.org];
-	FORGED_SENDER(0.00)[patchwork-bot@kernel.org,linux-api@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	FORGED_RECIPIENTS(0.00)[m:cel@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:pc@manguebit.org,m:yuezhang.mo@sony.com,m:cem@kernel.org,m:almaz.alexandrovich@paragon-software.com,m:adilger.kernel@dilger.ca,m:linux-cifs@vger.kernel.org,m:sfrench@samba.org,m:slava@dubeyko.com,m:linux-ext4@vger.kernel.org,m:linkinjeon@kernel.org,m:sprasad@microsoft.com,m:frank.li@vivo.com,m:ronniesahlberg@gmail.com,m:glaubitz@physik.fu-berlin.de,m:jaegeuk@kernel.org,m:hirofumi@mail.parknet.co.jp,m:linux-nfs@vger.kernel.org,m:tytso@mit.edu,m:linux-api@vger.kernel.org,m:linux-f2fs-devel@lists.sourceforge.net,m:linux-xfs@vger.kernel.org,m:senozhatsky@chromium.org,m:chuck.lever@oracle.com,m:hansg@kernel.org,m:anna@kernel.org,m:linux-fsdevel@vger.kernel.org,m:sj1557.seo@samsung.com,m:trondmy@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6652-lists,linux-api=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sre@kernel.org,m:shuah@kernel.org,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-api@vger.kernel.org,m:borissh1983@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[borissh1983@gmail.com,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[borissh1983@gmail.com,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[chuck.lever.oracle.com:query timed out,linux-api@vger.kernel.org:query timed out];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,sbs-forum.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 625C86BCC58
+X-Rspamd-Queue-Id: E375A6BEE32
 
-Hello:
+These series adds support for PbAc, NiZn, RAM, and ZnAr chemistries as 
+defined in the Smart Battery Data Specification v1.1 (Section 5.1.30 
+DeviceChemistry).
 
-This series was applied to jaegeuk/f2fs.git (dev)
-by Christian Brauner <brauner@kernel.org>:
+Currently, the sbs-battery driver only handles LION, LiP, NiCd and NiMH.
+The Smart Battery specification defines 8 possible values:
+ - Lead Acid (PbAc)
+ - Lithium Ion (LION)
+ - Nickel Cadmium (NiCd)
+ - Nickel Metal Hydride (NiMH)
+ - Nickel Zinc (NiZn)
+ - Rechargeable Alkaline-Manganese (RAM)
+ - Zinc Air (ZnAr)
+ - Lithium Polymer (LiP)
 
-On Tue, 17 Feb 2026 16:47:24 -0500 you wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Following on from
-> 
-> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
-> 
-> I'm attempting to implement enough support in the Linux VFS to
-> enable file services like NFSD and ksmbd (and user space
-> equivalents) to provide the actual status of case folding support
-> in local file systems. The default behavior for local file systems
-> not explicitly supported in this series is to reflect the usual
-> POSIX behaviors:
-> 
-> [...]
+Map the missing specification values to their respective core kernel
+POWER_SUPPLY_TECHNOLOGY definitions and documenation, declare these
+values into selftest. 
 
-Here is the summary with links:
-  - [f2fs-dev,v8,01/17] fs: Move file_kattr initialization to callers
-    (no matching commit)
-  - [f2fs-dev,v8,02/17] fs: Add case sensitivity flags to file_kattr
-    https://git.kernel.org/jaegeuk/f2fs/c/3035e4454142
-  - [f2fs-dev,v8,03/17] fat: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,04/17] exfat: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,05/17] ntfs3: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,06/17] hfs: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,07/17] hfsplus: Report case sensitivity in fileattr_get
-    (no matching commit)
-  - [f2fs-dev,v8,08/17] ext4: Report case sensitivity in fileattr_get
-    (no matching commit)
-  - [f2fs-dev,v8,09/17] xfs: Report case sensitivity in fileattr_get
-    (no matching commit)
-  - [f2fs-dev,v8,10/17] cifs: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,11/17] nfs: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,12/17] f2fs: Add case sensitivity reporting to fileattr_get
-    (no matching commit)
-  - [f2fs-dev,v8,13/17] vboxsf: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,14/17] isofs: Implement fileattr_get for case sensitivity
-    (no matching commit)
-  - [f2fs-dev,v8,15/17] nfsd: Report export case-folding via NFSv3 PATHCONF
-    (no matching commit)
-  - [f2fs-dev,v8,16/17] nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
-    (no matching commit)
-  - [f2fs-dev,v8,17/17] ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
-    (no matching commit)
+In selftest LiMn is moved to the next line to comply with
+checkpatch warning after adding said types.
 
-You are awesome, thank you!
+It is an update for 
+https://lore.kernel.org/linux-pm/ajmc_naB7zYv0SPY@venus.
+
+Link: https://sbs-forum.org/specs/sbdat110.pdf
+Signed-off-by: Boris Shtrasman <borissh1983@gmail.com>
+--
+Changes in V2:
+
+1. Seperate into two patches.
+2. Modify Documenation, self test and sysfs interface. self test is
+updated as the documeation is now mentioning them.
+--
+
+Boris Shtrasman (2):
+  power: supply: Add PbAc, NiZn, RAM, and ZnAr support
+  power: supply: sbs-battery: Add PbAc, NiZn, RAM, and ZnAr support
+
+ Documentation/ABI/testing/sysfs-class-power               | 2 +-
+ drivers/power/supply/power_supply_sysfs.c                 | 4 ++++
+ drivers/power/supply/sbs-battery.c                        | 8 ++++++++
+ include/linux/power_supply.h                              | 4 ++++
+ .../power_supply/test_power_supply_properties.sh          | 3 ++-
+ 5 files changed, 19 insertions(+), 2 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.47.3
 
 
