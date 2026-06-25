@@ -1,46 +1,46 @@
-Return-Path: <linux-api+bounces-6691-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6686-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c0lNOztnPWp+2ggAu9opvQ
-	(envelope-from <linux-api+bounces-6691-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:36:59 +0200
+	id IytwGN5mPWpQ2ggAu9opvQ
+	(envelope-from <linux-api+bounces-6686-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:35:26 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BE16C7DB2
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8E86C7D38
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:35:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=rambus.com header.s=selector1 header.b=oYA5tyZM;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6691-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6691-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=rambus.com header.s=selector1 header.b=trUJSLGl;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6686-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6686-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=rambus.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E66030D94F1
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 17:34:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C4703091407
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 17:34:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652B63EDE7E;
-	Thu, 25 Jun 2026 17:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF4F93ED3A7;
+	Thu, 25 Jun 2026 17:34:17 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11023110.outbound.protection.outlook.com [40.93.201.110])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11020083.outbound.protection.outlook.com [52.101.61.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99503ED138;
-	Thu, 25 Jun 2026 17:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8193EC2DE;
+	Thu, 25 Jun 2026 17:34:14 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782408860; cv=fail; b=GK5/0opWkMLCtyRJZZjPGg/4JbrD4KkZjNlPQrPjpbCZ6Goa+CBfM5k78pAFwJ6pFsOwcUGIUfAEfALyLz5ahIjLeAjg5u7ES1O+9gljS3aXVz5dxtGbbcHyI9LMjcXs6kQeW5oRQAt3cPOafJ5JbRq0wtTwhKQaJuOJDkF/kv8=
+	t=1782408857; cv=fail; b=VoYHLT0OHPAB5uDarETAkUc1XwTVR75M9cW+xQGmWy/GHKX5yJ8HB+jVpbsBdrd+irg03bMX4WjBjQuCDB18SRuiIfqYODSPoeDPGc7sJgegRuWqzLglbRJyBPmW56uzpav0BKtO+//sh4Gv+e32GPgd6/jf9GXSd8/FuoQXh+M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782408860; c=relaxed/simple;
-	bh=UmHFhOHeYV5hnPD+EMle7g8JeBzApZCU+yJ2Ls8RxZc=;
+	s=arc-20240116; t=1782408857; c=relaxed/simple;
+	bh=QQM/9vbC5uArIChxi00TwDx9pmXKjMkssxFLpaUxrAw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lT8Ly67K5ZYnH3XjNEumwbJ/ECCgI+0N2tUfPcHqJ+3ZzMrdnqyCCMZM3ROZBHecPMr5S0Fnner+dST7T2bReTsLKCwZygJU1G8TXPWDWuptVPw1uy8t9ZT12hXmY/vWt5ExlEBEbDtnqocdHukVrEHQ9ZHXS8QWL6SmpN6XpAw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=oYA5tyZM; arc=fail smtp.client-ip=40.93.201.110
+	 MIME-Version:Content-Type; b=gm1+BGbymzt+Yp8ULhJsUdgYbiVKvumFbi5o8q5iDZXFRGilYlnKIXFGwdBXbBuJBRQShb4LHSP/swUkgtp9Lrzx7vMur1Du9BoVksIaPLPEBMEC18hDFiz4YSu9P94DJR/I6OF96tUjUt6z/iO4T662nJBUiRd7o1ofzBb4NOY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=trUJSLGl; arc=fail smtp.client-ip=52.101.61.83
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xAiAqQ7whctunc7ySmDFB+qFKUvLk7NTiK3ppL/jjiMsH/RW66ZjW+9uldfhGnOjoUI6ofg412tEqdbJ1NE1cV/uutaOqB/lJUE8wMyS5gBO5gWP17ouWpPB5yKF0/ECIT2XG9D6BnV67LLFVg0745sUWqNkH3VH6QFOvlxXLtjxOehODtccEcwAMNnzPPI+aAvISsd6YTbVZGOgGApR5mwhevhFcZc3Se1d/NnA8KnHTUsf7SEZ2QuPdOuRfmjZeygX4gZwBhFoP1GECXfEF62cPnB7fKXqC1UOhtGZrcJZPFzPtRhRpgfXoeobLG1LXWsSaRNV98iaJ9JXv70mpQ==
+ b=Kw+VwB9+EZsxe8JJM4hf0U71FDU4oq9PkIiveGaSkAJxubQNctYkzwJL7UP9tpORLOoQdcu4a8CwoYKqbRijvCzSKT/vGD7zNOqa727+QQkNSytkrVm2zBoij43au71yhak/57oeoAcfzq68BfB2nfZ4KQWxaXglRQsxgOSMRWj0/YRnjnpVg5tIrDMv72eha2XE20vqkoh2/tTrN7HGlA+Fks3B305qu5VGvC4hx+z5mVI4jFv50eSc5xfI8e50gL5wXnBcitnHpS/pD5ui1djOJHivlwlo2GPMe27cVISpt9+3d3VZ35iP59ryt88eYdnRJIZZZk+Rz2Fhkp8srA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XfpoXOZdTs/2xcTF4Rta1wqOWocmIUwHAHfOL8nSRoY=;
- b=lZmQ4HYQA83huhG6BM+t8mj7GnL34iOExTFOX/J1H5O7Akcr6DzRnw2lG27HnTAcmFluWuY9YwDRrZVnTpxMQxfCG91Lp/fdo5klJZFKF5gSj66WPlyADU+GWXJgk7XUXmNa1wCi+LOqdMALYS7uqc4+f4bQ3j2cI1QzfZOeq/Ny8VdYWgpqqqTn1F7ctUQj3CLYWSuFuMV5SJ/o6ermO/11H4+FLxskk5MjaihEQFnGVmnCiIsOao1SN/L/GUVoNxecAlFRq58pfw0T8F9N7FkxKRBJNlG7yP3wzpk4ReXm53rr623X++VCDYZpMjc74F2HiRHglWWYVVQJrKrgIg==
+ bh=ZGaJ9P1evt+n8ganIsu+XvQ8vP0siaJ4KVzukKP9CbU=;
+ b=O/wZMVARlEawU0Wj+rin4YA31EIrPNajmC6MeH1HB0g970Yqhn6JqZ5krGlQcQ6eIm12Ep6TS95NEGc1ywsY2GDrm9dUT9eIgI1niWMeAfZTwvef0hyaTWXwxxvn6HzeRInfP+ko2+O0D3xLl4Vjr5obNzBNJ2NANdTeMWqh76pZCwj4Q5tZvcCuEo+ryfiVrcOkBG3XSUFYEgr9hTjE6INx8eNpZRfleix/uVPF+1FycWu4vCYWMomS8IxXxWwMiIUzKTp4fciUV7Cw7lV0nZODfSarc09PiYROr6aKSRt8l+2hflLN0LX0T0eqBeCPEmLvMczfVVlKcbgv4PHU3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
@@ -48,18 +48,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XfpoXOZdTs/2xcTF4Rta1wqOWocmIUwHAHfOL8nSRoY=;
- b=oYA5tyZM0RSYXWKII0fkILad0PRpZxgciHVH5zYV9ShF9pxlTsvyW4/qWqLAptV8hTAHy35+GKUgVmnSC/Ak0W0UeA7b6CCDvEQZKrsSyOT2Oo5VmaVYgAi2C08MjnwzLnKMWIO4MPOfja4PM0spK9s4JQCCW/3Iw80QWfn8653EdVCo/knEXdJzHLMR+zx7EZ+qRJ4wLs7E5MTHhiywXrT2X10uBcY1/jikJrP6R9xtsP5jbOeylpwgjQJQhPLz7Ef9mbuQaaQ3hwJSxQhxcbpoXuyYQAlLqpSBmpDs4w1bJo/QKM2PeewIYyAlztvnInKzwr+Uloqbji6svebezQ==
-Received: from BY5PR04CA0023.namprd04.prod.outlook.com (2603:10b6:a03:1d0::33)
- by BY5PR04MB6849.namprd04.prod.outlook.com (2603:10b6:a03:228::17) with
+ bh=ZGaJ9P1evt+n8ganIsu+XvQ8vP0siaJ4KVzukKP9CbU=;
+ b=trUJSLGleJ8SnvDEHOhKvgTTKJ1jZ8BJzu8HHONA+IvC+/yLm1cEoudsVFYPP2GIAPMF1VKJE0lLCv8Z+8m2IY/vz1d0oghS12gySuRdCbQRUQvmZpsTEbKalApfIAHgYK9o2e9logHcg3n4ktSXnGICbA+vhdb8fDqAGxqKwxBIGlQGcxJ+Yqa8DTLO89xwPFgLZEJZSebHhPYfwaqmu6SeimVUT4I0bHIEelcLMHcyOlupq4N2eaKgX+PcXn+ECvFJuQxvtk0910/a/0RgEZ1s8hHgGc2KvQwEaXUM7q52+YnNot2ZZRWhZ/g0BDqOuX+mTroVeKTbSVnQp+R82Q==
+Received: from PH8PR02CA0008.namprd02.prod.outlook.com (2603:10b6:510:2d0::17)
+ by PH0PR04MB7366.namprd04.prod.outlook.com (2603:10b6:510:1f::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Thu, 25 Jun
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Thu, 25 Jun
  2026 17:34:10 +0000
-Received: from MWH0EPF000A6731.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::7d) by BY5PR04CA0023.outlook.office365.com
- (2603:10b6:a03:1d0::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.16 via Frontend Transport; Thu,
- 25 Jun 2026 17:34:09 +0000
+Received: from CY4PEPF0000FCC1.namprd03.prod.outlook.com
+ (2603:10b6:510:2d0:cafe::ac) by PH8PR02CA0008.outlook.office365.com
+ (2603:10b6:510:2d0::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.17 via Frontend Transport; Thu,
+ 25 Jun 2026 17:34:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
  smtp.mailfrom=rambus.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=rambus.com;
@@ -67,11 +67,11 @@ Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
  192.86.86.210 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.86.86.210; helo=hqxsv-psmtppxy02.rambus.com; pr=C
 Received: from hqxsv-psmtppxy02.rambus.com (192.86.86.210) by
- MWH0EPF000A6731.mail.protection.outlook.com (10.167.249.23) with Microsoft
+ CY4PEPF0000FCC1.mail.protection.outlook.com (10.167.242.103) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
  via Frontend Transport; Thu, 25 Jun 2026 17:34:09 +0000
 Received: from hqxsv-cmdev3-skrishnamoorthy.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
-	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 418861801774;
+	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 5C5A81801777;
 	Thu, 25 Jun 2026 17:34:07 +0000 (UTC)
 From: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
 To: Albert Ou <aou@eecs.berkeley.edu>,
@@ -98,9 +98,9 @@ Cc: Alexandre Ghiti <alex@ghiti.fr>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	sipsupport@rambus.com,
 	Thi Nguyen <thin@rambus.com>
-Subject: [PATCH 13/19] crypto: cmh - add ECDSA/SM2 sig
-Date: Thu, 25 Jun 2026 10:33:21 -0700
-Message-ID: <20260625173328.1140487-14-skrishnamoorthy@rambus.com>
+Subject: [PATCH 14/19] crypto: cmh - add ECDH/X25519 kpp
+Date: Thu, 25 Jun 2026 10:33:22 -0700
+Message-ID: <20260625173328.1140487-15-skrishnamoorthy@rambus.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
 References: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
@@ -113,32 +113,32 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6731:EE_|BY5PR04MB6849:EE_
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC1:EE_|PH0PR04MB7366:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: de16b095-886d-4771-c834-08ded2dff6f5
+X-MS-Office365-Filtering-Correlation-Id: bcdda411-b00a-443d-31bf-08ded2dff715
 X-LD-Processed: bd0ba799-c2b9-413c-9c56-5d1731c4827c,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|7416014|23010399003|376014|921020|22082099003|18002099003|3023799007|56012099006|11063799006;
+	BCL:0;ARA:13230040|376014|7416014|36860700016|82310400026|23010399003|1800799024|921020|22082099003|18002099003|3023799007|56012099006|5023799004|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	JWDAYwwAZL8u2k2jRjNxTl4egenaksy27R8uYkaMpFU5w7E8C7Z51K/Aoo90s3aB3kzoZ9gik18jFIn3SYiXezHmKaF2Vq2L6BnAQxPkUi04z6UbNXcK0DoDQll03dNKK1yTmA6eY+U3JCgCsax57jMKz+LtZo+tU641XSbdrqtSr6btr0bK6x9oawYLxUk9VaqnkJTx880v0/slmc9gI9Vqwum2dPIfyrVt8/QKvKmV1zVp1yzEpj1fd8F7dhNUnRRoui8UeCFQuOpG0tPRXz66gwmIimpgqyhqZXi5pPfEd5qoodLw1cqfk7wRZ1Pv7e51yzS0sP6gUowx75VI65lSYj5I7gvjszqQ7ahVhVVWJgnNsqBSbg1bjLIuG3KreVHi+26xKBikReDBW1YjGKIBtmH/GseyCrBeXFalLAXT5S5EWds12dXhcTQKLuMDjLvXfeMdlp5KXPzHTDQVoMkSkcwCpZgWVmTOCAXRQPWjbk5BMLjbVbXBNJpl+r6/MgEW/biBfC+GjmRbkWJoViZICGOOz/X7wMd9qfHmZ+LN21pdQ3BzKkY1X20OMfb7mk9o/doEKEGrU2WWzc2G+XWls7bH1D3f83XH9MSjFX4MsPdoUbdbyhYpnBulDKAiZHwqaEHgWLB9Ei1xgec1qWDztci8kLlmfKkBJQEeRRBK120/2wil6GswNaXYsh0J2rUprNEZdhe9FdQOmRcVnJ2JB3GiPKwy29R4/ONOYpBKxCtS5Qjr4kkDVqZomaE7
+	Eq0XXexrMsbekaQNYsfXotEPECnUOucrk7h+5gIUMDaZeW6aYxDPEdcZ5mQuRUJh0aaG71rE6ovz8tY3dlppjYBX5SZsHeSJG0v58JFgeuv2BjQ7Tu5kShoTTD7OstM/0QfxM79pCfepg7hSSuAZZjg6/5D5VFsLnL+9HdFb9mHbTDoyKtDVd75ZV0h1tw9DegvekD7c+/idq4uWGd7wS/K+PGRFhnw9LzkxqPaODGzpUoGZuIACwKyiZrzfey8N5vnMdso4gMkyaWd+t+IjDYQ60bsNiFJCgP5wkO7wcfSCBXEuQqq/b4Ek+2p8K7XkRD7DwkJdwAtwIgs2NccwBb/zcTMGlXJlCD/wp6ETRsMPbk4kghS2oRnpCcd6y9H6+nrmuvnMrRXS4FwXBuDktibXHc7tFTUcm8Ms8gxtVE8ZSQBPNcDodkbl8VS6vE9sc7UB1AAUbX5AYdufBDiKoTZOdEM2DVUB3o5jV5lg/WOtUUBW0f/zQlqi30+qnp2xsF5p9XJo5gBWSyVIJ2oQPGzQz+idPLlL+V9xI5U7OVbZ/uMEDCxEu9jicDz4Qw583JIx4+qrwKFAFDOIXeo42JiZmDHlnC5fH2XpbUS44skbNLcaLHwyQgijgBBRa16l0YJT33Cijf0Zg0OUc5iRaiSfLSaZ9Y3JBG95oO2nu65cmzwmMY8K1w+k7tIG/21SwZLHzpEH9Je0MS1q4TRgslOEjssFOaVriMzDkC/JcYfGEDZ/yK72e+yBZJwTGLWk
 X-Forefront-Antispam-Report:
-	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(7416014)(23010399003)(376014)(921020)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(82310400026)(23010399003)(1800799024)(921020)(22082099003)(18002099003)(3023799007)(56012099006)(5023799004)(11063799006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	Kc7AeOUMFQ5TbC0nMnwlQUfsbO3DcmNH3NERwrJuqH6b7n1WaUVhtj155w8lBvJrzGOimNcpRTILgT2JtIqEJmxtoZkFxu9jFWsmlQ+UGncEH3YwuxbfztaI/cd00If8aNsbxlZdr9gIVe6cS+s8VmpVhfGcFWXNEssLAQ4pJUoIgWhfL9nGNg9box3ssCS+Q4elQLMAXGDhPZnJ5m7Xdwps17LDJG5iAVGjd4O43S3bPNPprJJ0c/2+LPECwEjVmuO2kCFrUmpcThe8letevobfmwlkMqtm9PzD3zWO+gQnDqdl2REze/OaT8aLYMHzNuu7bcFCf0JhC+sOQej6Ks3wV2J4PuwMTTh446JNx0kZFevXSePq9Sj1qOQqmxLAB+XUdEp3eltjIVmWQSYjuPpW1f63bTR/LhnoSdjBomRtX0dee+HoztBYea6sVqJy
+	u1VvBBZGHzWwXtRSk1unsZcxxaIxTUoPeWK/VCF67RWyovaDPN60w7RcFg7NiaqdH4DAF2emzBmwWtGyctJhov3SgkJu5rF4EYvC6+JMeiDw2WZX0WNZe8CChtgJ7MKC5mDrvo1YnQ4Ia+e00DCIAdB5pWEujSmxENkOLoSwjmjA9ZxYYA1ciSXBjMoWOoRaNIHDi8mVj8zbVUJILcBt0jE7WHevVLZUV+2dVU8P5VOEPS6cT7pqz7/bOdggG+dIG4zJbGB7FDzdNo5FGNw3C9GIi9WWvQ3OMQD4bZLVXXKCycmUuuB8QZfRyinWNtMnBYmgOfe9SK7EzqI4jgSMjvRWy/WNzJT+vbdlnbB3HpRPm3FDxuzIjNUxxHma9VzicLefpRYxblb2enxMxG4t1n3VtRjTI/hxwiPCj96k+gXf+XcHfrVZsEUWy6Gl7wTN
 X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 17:34:09.4899
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 17:34:09.6427
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: de16b095-886d-4771-c834-08ded2dff6f5
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcdda411-b00a-443d-31bf-08ded2dff715
 X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy02.rambus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000A6731.namprd04.prod.outlook.com
+	CY4PEPF0000FCC1.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6849
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7366
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -154,7 +154,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[skrishnamoorthy@rambus.com,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_FROM(0.00)[bounces-6691-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6686-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -173,15 +173,12 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-api,dt];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 84BE16C7DB2
+X-Rspamd-Queue-Id: BC8E86C7D38
 
 From: Alex Ousherovitch <aousherovitch@rambus.com>
 
-Register ECDSA and SM2 sig algorithms using the CMH PKE core.
-Supports P-256, P-384, P-521, and SM2 curves for sign and verify
-operations.  SM2 is registered as verify-only via the crypto API;
-full SM2 operations (encrypt, decrypt, key exchange) are available
-through the /dev/cmh_mgmt ioctl interface.
+Register ECDH and X25519 kpp algorithms using the CMH PKE core.
+Supports P-256, P-384, and Curve25519 for key agreement.
 
 Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.co=
 m>
@@ -190,103 +187,95 @@ Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
 Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
 Reviewed-by: Thi Nguyen <thin@rambus.com>
 ---
- drivers/crypto/cmh/Makefile        |   3 +-
- drivers/crypto/cmh/cmh_main.c      |   8 +
- drivers/crypto/cmh/cmh_pke_ecdsa.c | 575 +++++++++++++++++++++++++++++
- 3 files changed, 585 insertions(+), 1 deletion(-)
- create mode 100644 drivers/crypto/cmh/cmh_pke_ecdsa.c
+ drivers/crypto/cmh/Makefile       |   3 +-
+ drivers/crypto/cmh/cmh_main.c     |   8 +
+ drivers/crypto/cmh/cmh_pke_ecdh.c | 698 ++++++++++++++++++++++++++++++
+ 3 files changed, 708 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/crypto/cmh/cmh_pke_ecdh.c
 
 diff --git a/drivers/crypto/cmh/Makefile b/drivers/crypto/cmh/Makefile
-index 7afd9852c337..fdbf66b13628 100644
+index fdbf66b13628..a4cea0a56fc1 100644
 --- a/drivers/crypto/cmh/Makefile
 +++ b/drivers/crypto/cmh/Makefile
-@@ -31,7 +31,8 @@ cmh-y :=3D \
-        cmh_ccp_poly.o \
+@@ -32,7 +32,8 @@ cmh-y :=3D \
         cmh_rng.o \
         cmh_pke_common.o \
--       cmh_pke_rsa.o
-+       cmh_pke_rsa.o \
-+       cmh_pke_ecdsa.o
+        cmh_pke_rsa.o \
+-       cmh_pke_ecdsa.o
++       cmh_pke_ecdsa.o \
++       cmh_pke_ecdh.o
 
  # Management ioctl device (/dev/cmh_mgmt): key lifecycle, PKE, PQC ioctls.
  cmh-$(CONFIG_CRYPTO_DEV_CMH_MGMT) +=3D \
 diff --git a/drivers/crypto/cmh/cmh_main.c b/drivers/crypto/cmh/cmh_main.c
-index 8535453342d7..939ff5007755 100644
+index 939ff5007755..ea0f32b941f5 100644
 --- a/drivers/crypto/cmh/cmh_main.c
 +++ b/drivers/crypto/cmh/cmh_main.c
-@@ -281,6 +281,11 @@ static int cmh_probe(struct platform_device *pdev)
+@@ -286,6 +286,11 @@ static int cmh_probe(struct platform_device *pdev)
         if (ret)
-                goto err_pke_rsa_register;
+                goto err_pke_ecdsa_register;
 
-+       /* Register PKE ECDSA/SM2 sig */
-+       ret =3D cmh_pke_ecdsa_register();
++       /* Register PKE ECDH/X25519 kpp */
++       ret =3D cmh_pke_ecdh_register();
 +       if (ret)
-+               goto err_pke_ecdsa_register;
++               goto err_pke_ecdh_register;
 +
         /* Register key management device (/dev/cmh_mgmt) */
         ret =3D cmh_mgmt_register();
         if (ret)
-@@ -293,6 +298,8 @@ static int cmh_probe(struct platform_device *pdev)
+@@ -298,6 +303,8 @@ static int cmh_probe(struct platform_device *pdev)
         return 0;
 
  err_mgmt_register:
-+       cmh_pke_ecdsa_unregister();
-+err_pke_ecdsa_register:
++       cmh_pke_ecdh_unregister();
++err_pke_ecdh_register:
+        cmh_pke_ecdsa_unregister();
+ err_pke_ecdsa_register:
         cmh_pke_rsa_unregister();
- err_pke_rsa_register:
-        cmh_ccp_poly_unregister();
-@@ -351,6 +358,7 @@ static void cmh_remove(struct platform_device *pdev)
+@@ -358,6 +365,7 @@ static void cmh_remove(struct platform_device *pdev)
         cfg =3D &dev->config;
 
         cmh_mgmt_unregister();
-+       cmh_pke_ecdsa_unregister();
++       cmh_pke_ecdh_unregister();
+        cmh_pke_ecdsa_unregister();
         cmh_pke_rsa_unregister();
         cmh_ccp_poly_unregister();
-        cmh_ccp_aead_unregister();
-diff --git a/drivers/crypto/cmh/cmh_pke_ecdsa.c b/drivers/crypto/cmh/cmh_pk=
-e_ecdsa.c
+diff --git a/drivers/crypto/cmh/cmh_pke_ecdh.c b/drivers/crypto/cmh/cmh_pke=
+_ecdh.c
 new file mode 100644
-index 000000000000..6b65f7fb72cc
+index 000000000000..d8b821cc4217
 --- /dev/null
-+++ b/drivers/crypto/cmh/cmh_pke_ecdsa.c
-@@ -0,0 +1,575 @@
++++ b/drivers/crypto/cmh/cmh_pke_ecdh.c
+@@ -0,0 +1,698 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- ECDSA / SM2 Signature Driver (sig_alg, synchronous)
++ * CMH LKM -- ECDH / X25519 kpp Driver
 + *
-+ * Registers "ecdsa-nist-p256", "ecdsa-nist-p384", and "ecdsa-nist-p521"
-+ * sig algorithms with sign, verify, set_pub_key, and set_priv_key callbac=
-ks.
-+ * Registers "sm2" as verify-only (set_pub_key + verify); SM2 sign is
-+ * provided via the cmh_mgmt ioctl path in cmh_pke_sm2.c.
++ * Registers "ecdh-nist-p256", "ecdh-nist-p384", and "curve25519"
++ * kpp algorithms with priority 300.
 + *
-+ * In-kernel consumers typically use verify-only (module signatures, IMA),
-+ * but we provide sign as well for completeness -- matching the CMH eSW
-+ * capability.
++ * - set_secret: decodes private key from kpp_secret + ecdh struct
++ *   (NIST curves) or raw 32-byte scalar (Curve25519).
++ *   Stores in cmh_key_ctx: raw keys written via SYS_REF_TEMP.
++ *   Datastore-referenced keys are only reachable through the ioctl
++ *   path (cmh_mgmt.c).
 + *
-+ * Key format: Public key =3D raw 04 || X || Y (uncompressed).
-+ * Signature format: struct ecdsa_raw_sig (two u64[ECC_MAX_DIGITS] arrays
-+ * in VLI format -- native byte order, LE digit order) for both sign
-+ * output and verify input.  This matches the kernel crypto sig API.
++ * - generate_public_key: PKE_CMD_ECDH_KEYGEN -> outputs X coordinate
++ *   (NIST Weierstrass) or full public key (Edwards/Montgomery).
++ *   For NIST curves, we generate X||Y by calling ECDSA_PUBGEN instead,
++ *   matching the kernel ecdh.c pattern that outputs uncompressed X||Y.
 + *
-+ * Private key via cmh_key_ctx: raw keys written via SYS_REF_TEMP.
-+ * Datastore-referenced keys are only reachable through the ioctl
-+ * path (cmh_mgmt.c).
-+ *
-+ * SM2 note: The SM2 sig entry is verify-only (no sign/set_priv_key).
-+ * SM2 signature verification requires the digest to be SM3(ZA || M)
-+ * where ZA =3D SM3(ENTLA || IDA || a || b || xG || yG || xA || yA).
-+ * The ZA identity pre-hash is the caller's responsibility; the driver
-+ * passes the digest directly to the CMH eSW SM2 verify engine.
++ * - compute_shared_secret: PKE_CMD_ECDH -> shared secret X coordinate.
 + */
 +
 +#include <linux/module.h>
 +#include <linux/kernel.h>
 +#include <linux/slab.h>
-+#include <crypto/sha2.h>
-+#include <crypto/sig.h>
-+#include <crypto/internal/sig.h>
++#include <linux/scatterlist.h>
++#include <crypto/kpp.h>
++#include <crypto/ecdh.h>
++#include <crypto/internal/kpp.h>
 +#include <crypto/internal/ecc.h>
 +
 +#include "cmh_pke.h"
@@ -297,537 +286,654 @@ ks.
 +#include "cmh_key.h"
 +
 +/*
-+ * Number of ECC digits needed for a given coordinate byte length.
-+ * P-256: 4, P-384: 6, P-521/SM2(clen=3D68): 9.
++ * ECDH key format: kpp_secret header + key_size(u16) + key data.
++ * We decode this inline to avoid depending on CONFIG_CRYPTO_ECDH.
 + */
-+static inline unsigned int clen_to_ndigits(u32 clen)
-+{
-+       return DIV_ROUND_UP(clen, sizeof(u64));
-+}
++#define ECDH_KPP_SECRET_MIN_SIZE (sizeof(struct kpp_secret) + sizeof(unsig=
+ned short))
 +
-+struct cmh_ecdsa_tfm_ctx {
-+       struct cmh_key_ctx key;         /* private key (raw only) */
-+       u8 *pub_key;                    /* uncompressed (x, y) without 04 p=
-refix */
-+       u32 pub_key_len;
-+       u32 curve;                      /* PKE_CURVE_* */
-+       u32 clen;                       /* coordinate length in bytes */
++struct cmh_ecdh_tfm_ctx {
++       struct cmh_key_ctx key;
++       u32 curve;              /* PKE_CURVE_* */
++       u32 clen;               /* coordinate length in bytes */
 +};
 +
-+static inline struct cmh_ecdsa_tfm_ctx *cmh_ecdsa_ctx(struct crypto_sig *t=
-fm)
-+{
-+       return crypto_sig_ctx(tfm);
-+}
-+
-+/*
-+ * Convert one VLI component (u64 array, LE digit order, native byte order=
++static inline struct cmh_ecdh_tfm_ctx *cmh_ecdh_ctx(struct crypto_kpp *tfm=
 )
-+ * to big-endian byte array of @out_len bytes.  The VLI value is right-ali=
-gned
-+ * in the output (leading zero bytes if ndigits*8 > out_len are discarded;
-+ * leading zero padding added if ndigits*8 < out_len).
-+ */
-+static void ecdsa_vli_to_be(const u64 *vli, unsigned int ndigits,
-+                           u8 *out, unsigned int out_len)
 +{
-+       unsigned int full_len =3D ndigits * sizeof(u64);
-+       unsigned int i, skip;
-+
-+       memset(out, 0, out_len);
-+
-+       if (full_len <=3D out_len) {
-+               /* VLI fits entirely -- write at right end of out */
-+               u8 *dst =3D out + (out_len - full_len);
-+
-+               for (i =3D 0; i < ndigits; i++)
-+                       put_unaligned_be64(vli[ndigits - 1 - i],
-+                                          &dst[i * sizeof(u64)]);
-+       } else {
-+               /* VLI wider than out -- skip leading (zero) bytes */
-+               u8 tmp[ECC_MAX_BYTES];
-+
-+               for (i =3D 0; i < ndigits; i++)
-+                       put_unaligned_be64(vli[ndigits - 1 - i],
-+                                          &tmp[i * sizeof(u64)]);
-+               skip =3D full_len - out_len;
-+               WARN_ON_ONCE(memchr_inv(tmp, 0, skip));
-+               memcpy(out, tmp + skip, out_len);
-+       }
++       return kpp_tfm_ctx(tfm);
 +}
 +
 +/*
-+ * Convert big-endian byte array to VLI (u64 array, LE digit order).
-+ * Output is zero-filled to @max_digits entries.
-+ */
-+static void ecdsa_be_to_vli(const u8 *in, unsigned int in_len,
-+                           u64 *vli, unsigned int max_digits)
-+{
-+       unsigned int full_len =3D max_digits * sizeof(u64);
-+       u8 tmp[ECC_MAX_BYTES];
-+       unsigned int i;
-+
-+       if (WARN_ON_ONCE(max_digits > ECC_MAX_DIGITS))
-+               max_digits =3D ECC_MAX_DIGITS;
-+
-+       memset(tmp, 0, full_len);
-+       if (in_len <=3D full_len)
-+               memcpy(tmp + (full_len - in_len), in, in_len);
-+       else
-+               memcpy(tmp, in + (in_len - full_len), full_len);
-+
-+       for (i =3D 0; i < max_digits; i++) {
-+               unsigned int off =3D (max_digits - 1 - i) * sizeof(u64);
-+
-+               vli[i] =3D get_unaligned_be64(&tmp[off]);
-+       }
-+}
-+
-+/*
-+ * Extract raw (r || s) big-endian byte arrays from struct ecdsa_raw_sig.
-+ * Each component is written as @clen bytes into @raw_rs.
-+ */
-+static int ecdsa_sig_to_raw(const void *src, unsigned int slen,
-+                           u8 *raw_rs, u32 clen)
-+{
-+       const struct ecdsa_raw_sig *sig =3D src;
-+       unsigned int ndigits =3D clen_to_ndigits(clen);
-+
-+       if (slen !=3D sizeof(struct ecdsa_raw_sig))
-+               return -EINVAL;
-+
-+       ecdsa_vli_to_be(sig->r, ndigits, raw_rs, clen);
-+       ecdsa_vli_to_be(sig->s, ndigits, raw_rs + clen, clen);
-+       return 0;
-+}
-+
-+/*
-+ * Encode raw (r || s) big-endian byte arrays into struct ecdsa_raw_sig.
-+ * Returns sizeof(struct ecdsa_raw_sig) on success.
-+ */
-+static int ecdsa_raw_to_sig(const u8 *raw_rs, u32 clen,
-+                           void *dst, unsigned int dlen)
-+{
-+       struct ecdsa_raw_sig *sig =3D dst;
-+
-+       if (dlen < sizeof(struct ecdsa_raw_sig))
-+               return -ENOSPC;
-+
-+       memset(sig, 0, sizeof(*sig));
-+       ecdsa_be_to_vli(raw_rs, clen, sig->r, ECC_MAX_DIGITS);
-+       ecdsa_be_to_vli(raw_rs + clen, clen, sig->s, ECC_MAX_DIGITS);
-+       return sizeof(struct ecdsa_raw_sig);
-+}
-+
-+/*
-+ * ECDSA verify (synchronous sig_alg)
++ * Per-request context for ECDH/X25519 operations.
 + *
-+ * @src:    struct ecdsa_raw_sig (VLI format)
-+ * @slen:   signature length (must be sizeof(struct ecdsa_raw_sig))
-+ * @digest: hash digest
-+ * @dlen:   digest length
++ * generate_public_key: single-phase async VCQ.
++ * compute_shared_secret: 2-phase async VCQ with callback chaining.
++ *   Phase 1: sys_write(sk) + sys_new(ref) + ecdh(peer) + pflush
++ *            -> phase1 callback reads ref, submits Phase 2.
++ *   Phase 2: sys_data(ref, ss_dma) + sys_flush
++ *            -> phase2 callback extracts shared secret, completes req.
 + *
-+ * Returns 0 on successful verification, negative errno on failure.
++ * Both phases target the same mbx_idx so the DS reference remains
++ * valid, since DS objects are MBX-scoped.
 + */
-+static int cmh_ecdsa_verify(struct crypto_sig *tfm,
-+                           const void *src, unsigned int slen,
-+                           const void *digest, unsigned int dlen)
++struct cmh_ecdh_reqctx {
++       /* Buffers */
++       u8 *pk_buf;             /* keygen: output public key */
++       u8 *sk_buf;             /* private key copy */
++       u8 *peer_buf;           /* compute: peer public key */
++       u8 *ss_buf;             /* compute: shared secret output */
++       u64 *ref_buf;           /* compute: DS ref from Phase 1 */
++       /* DMA handles */
++       dma_addr_t pk_dma;
++       dma_addr_t sk_dma;
++       dma_addr_t peer_dma;
++       dma_addr_t ss_dma;
++       dma_addr_t ref_dma;
++       /* Sizes and params for Phase 2 re-submit */
++       u32 out_len;            /* keygen: public key size */
++       u32 clen;
++       u32 peer_len;
++       u32 sk_len;
++       u32 dma_swap;
++       int mbx_idx;            /* pinned MBX for Phase 2 */
++};
++
++/*
++ * set_secret: NIST curves decode kpp_secret + u16 key_size + raw scalar.
++ * Curve25519 uses raw 32-byte scalar directly.
++ */
++static int cmh_ecdh_set_secret_nist(struct crypto_kpp *tfm,
++                                   const void *buf, unsigned int len)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
-+       u32 clen =3D ctx->clen;
-+       u32 sig_raw_len =3D 2 * clen;
-+       u32 copy_len =3D min_t(u32, dlen, clen);
-+       struct core_dispatch d =3D cmh_core_select_instance(CMH_CORE_PKE);
-+       struct vcq_cmd vcq[PKE_VCQ_CMDS_MIN];
-+       u8 *sig_raw =3D NULL, *dig_buf =3D NULL, *pk_buf =3D NULL, *rp_buf =
-=3D NULL;
-+       dma_addr_t pk_dma, dig_dma, sig_dma, rp_dma;
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
++       const u8 *ptr =3D buf;
++       struct kpp_secret secret;
++       unsigned short key_size;
 +       int ret;
 +
-+       if (!ctx->pub_key)
++       if (!buf || len < ECDH_KPP_SECRET_MIN_SIZE)
 +               return -EINVAL;
 +
-+       sig_raw =3D kzalloc(sig_raw_len, GFP_KERNEL);
-+       dig_buf =3D kzalloc(clen, GFP_KERNEL);
-+       pk_buf =3D kmemdup(ctx->pub_key, ctx->pub_key_len, GFP_KERNEL);
-+       rp_buf =3D kzalloc(clen, GFP_KERNEL);
-+       if (!sig_raw || !dig_buf || !pk_buf || !rp_buf) {
-+               ret =3D -ENOMEM;
-+               goto out_free;
++       memcpy(&secret, ptr, sizeof(secret));
++       ptr +=3D sizeof(secret);
++
++       if (secret.type !=3D CRYPTO_KPP_SECRET_TYPE_ECDH)
++               return -EINVAL;
++       if (len < secret.len)
++               return -EINVAL;
++
++       memcpy(&key_size, ptr, sizeof(key_size));
++       ptr +=3D sizeof(key_size);
++
++       if (key_size =3D=3D 0) {
++               /*
++                * key_size =3D=3D 0: generate a validated random private k=
+ey.
++                * Uses the kernel ECC library (FIPS 186-5 A.2.2) to ensure
++                * the scalar is in the valid range [2, n-3] for the curve.
++                */
++               u64 priv[ECC_MAX_DIGITS];
++               unsigned int ndigits =3D ctx->clen / sizeof(u64);
++               unsigned int curve_id;
++               u8 *rnd;
++
++               if (secret.len !=3D ECDH_KPP_SECRET_MIN_SIZE)
++                       return -EINVAL;
++               if (ndigits > ECC_MAX_DIGITS)
++                       return -EINVAL;
++               /* Reject non-limb-aligned clen to prevent ndigits truncati=
+on */
++               if (ctx->clen % sizeof(u64))
++                       return -EINVAL;
++
++               if (ctx->curve =3D=3D PKE_CURVE_P256)
++                       curve_id =3D ECC_CURVE_NIST_P256;
++               else if (ctx->curve =3D=3D PKE_CURVE_P384)
++                       curve_id =3D ECC_CURVE_NIST_P384;
++               else
++                       return -EINVAL;
++
++               ret =3D ecc_gen_privkey(curve_id, ndigits, priv);
++               if (ret) {
++                       memzero_explicit(priv, sizeof(priv));
++                       return ret;
++               }
++
++               rnd =3D kmalloc(ctx->clen, GFP_KERNEL);
++               if (!rnd) {
++                       memzero_explicit(priv, sizeof(priv));
++                       return -ENOMEM;
++               }
++
++               /* Convert VLI (native LE-digit-order) to big-endian bytes =
+*/
++               ecc_swap_digits(priv, (u64 *)rnd, ndigits);
++               memzero_explicit(priv, sizeof(priv));
++
++               ret =3D cmh_key_setkey_raw(&ctx->key, rnd, ctx->clen,
++                                        CORE_ID_PKE);
++               kfree_sensitive(rnd);
++               return ret;
 +       }
 +
-+       /* Extract raw (r, s) big-endian from VLI signature */
-+       ret =3D ecdsa_sig_to_raw(src, slen, sig_raw, clen);
-+       if (ret)
-+               goto out_free;
++       if (key_size !=3D ctx->clen)
++               return -EINVAL;
 +
-+       /*
-+        * Truncate or zero-pad digest to clen bytes, right-aligned.
-+        * Matches ECDSA bits2int: use leftmost min(dlen, clen) bytes,
-+        * zero-pad on the left when dlen < clen.
-+        */
-+       memcpy(dig_buf + (clen - copy_len), digest, copy_len);
++       if (secret.len !=3D ECDH_KPP_SECRET_MIN_SIZE + key_size)
++               return -EINVAL;
 +
-+       pk_dma =3D cmh_dma_map_single(pk_buf, ctx->pub_key_len, DMA_TO_DEVI=
-CE);
-+       dig_dma =3D cmh_dma_map_single(dig_buf, clen, DMA_TO_DEVICE);
-+       sig_dma =3D cmh_dma_map_single(sig_raw, sig_raw_len, DMA_TO_DEVICE)=
-;
-+       rp_dma =3D cmh_dma_map_single(rp_buf, clen, DMA_FROM_DEVICE);
++       return cmh_key_setkey_raw(&ctx->key, ptr, key_size, CORE_ID_PKE);
++}
 +
-+       if (cmh_dma_map_error(pk_dma) || cmh_dma_map_error(dig_dma) ||
-+           cmh_dma_map_error(sig_dma) || cmh_dma_map_error(rp_dma)) {
-+               ret =3D -ENOMEM;
-+               goto out_unmap;
++static int cmh_ecdh_set_secret_x25519(struct crypto_kpp *tfm,
++                                     const void *buf, unsigned int len)
++{
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
++
++       if (len !=3D pke_curve_clen(PKE_CURVE_25519))
++               return -EINVAL;
++
++       return cmh_key_setkey_raw(&ctx->key, buf, len, CORE_ID_PKE);
++}
++
++static void cmh_ecdh_keygen_complete(void *data, int error)
++{
++       struct kpp_request *req =3D data;
++       struct cmh_ecdh_reqctx *rctx =3D kpp_request_ctx(req);
++
++       if (error =3D=3D -EINPROGRESS) {
++               cmh_complete(&req->base, error);
++               return;
 +       }
 +
-+       vcq_set_header(&vcq[0], PKE_VCQ_CMDS_MIN);
-+       vcq_add_pke_ecdsa_verify(&vcq[1], d.core_id, ctx->curve, clen,
-+                                pk_dma, dig_dma, sig_dma, rp_dma,
-+                                pke_swap_flags(ctx->curve));
-+       vcq_add_pke_flush(&vcq[2], d.core_id);
++       if (!cmh_dma_map_error(rctx->sk_dma))
++               cmh_dma_unmap_single(rctx->sk_dma, rctx->sk_len,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->pk_dma))
++               cmh_dma_unmap_single(rctx->pk_dma, rctx->out_len,
++                                    DMA_FROM_DEVICE);
 +
-+       ret =3D cmh_tm_submit_sync_mbx(vcq, PKE_VCQ_CMDS_MIN, 1, d.mbx_idx)=
-;
++       if (!error) {
++               int nents;
 +
-+out_unmap:
-+       if (!cmh_dma_map_error(rp_dma))
-+               cmh_dma_unmap_single(rp_dma, clen, DMA_FROM_DEVICE);
-+       if (!cmh_dma_map_error(sig_dma))
-+               cmh_dma_unmap_single(sig_dma, sig_raw_len, DMA_TO_DEVICE);
-+       if (!cmh_dma_map_error(dig_dma))
-+               cmh_dma_unmap_single(dig_dma, clen, DMA_TO_DEVICE);
-+       if (!cmh_dma_map_error(pk_dma))
-+               cmh_dma_unmap_single(pk_dma, ctx->pub_key_len, DMA_TO_DEVIC=
-E);
++               nents =3D sg_nents_for_len(req->dst, rctx->out_len);
++               if (nents < 0 ||
++                   sg_copy_from_buffer(req->dst, nents,
++                                       rctx->pk_buf,
++                                       rctx->out_len) !=3D rctx->out_len)
++                       error =3D -EINVAL;
++               else
++                       req->dst_len =3D rctx->out_len;
++       }
 +
-+out_free:
-+       kfree(rp_buf);
-+       kfree(pk_buf);
-+       kfree(sig_raw);
-+       kfree(dig_buf);
-+       return ret;
++       kfree_sensitive(rctx->sk_buf);
++       rctx->sk_buf =3D NULL;
++       kfree(rctx->pk_buf);
++       rctx->pk_buf =3D NULL;
++       cmh_complete(&req->base, error);
 +}
 +
 +/*
-+ * ECDSA sign (synchronous sig_alg)
-+ *
-+ * @src:  hash digest
-+ * @slen: digest length
-+ * @dst:  output buffer for struct ecdsa_raw_sig (VLI format)
-+ * @dlen: output buffer length
-+ *
-+ * Returns sizeof(struct ecdsa_raw_sig) on success, negative errno on fail=
-ure.
++ * generate_public_key: For NIST ECDH, use ECDH_KEYGEN which outputs
++ * the public key X-coordinate.  But the kernel kpp interface expects
++ * uncompressed X||Y, so we use ECDSA_PUBGEN which gives us (X,Y).
++ * For Curve25519, ECDH_KEYGEN gives us the Montgomery u-coordinate
++ * which is the full public key.
 + */
-+static int cmh_ecdsa_sign(struct crypto_sig *tfm,
-+                         const void *src, unsigned int slen,
-+                         void *dst, unsigned int dlen)
++static int cmh_ecdh_generate_public_key(struct kpp_request *req)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct crypto_kpp *tfm =3D crypto_kpp_reqtfm(req);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
++       struct cmh_ecdh_reqctx *rctx =3D kpp_request_ctx(req);
 +       u32 clen =3D ctx->clen;
-+       u32 sig_raw_len =3D 2 * clen;
-+       u32 copy_len =3D min_t(u32, slen, clen);
-+       struct core_dispatch dd;
++       bool is_25519 =3D (ctx->curve =3D=3D PKE_CURVE_25519);
++       u32 out_len =3D is_25519 ? clen : 2 * clen;
 +       struct vcq_cmd vcq[PKE_VCQ_CMDS_MAX];
-+       u8 *dig_buf =3D NULL, *sig_buf =3D NULL, *sk_buf =3D NULL;
-+       dma_addr_t dig_dma, sig_dma, sk_dma;
++       struct core_dispatch dd;
++       u32 swap, dma_swap;
 +       int ret, idx;
++       gfp_t gfp;
 +
 +       if (ctx->key.mode !=3D CMH_KEY_RAW)
 +               return -EINVAL;
-+       if (dlen < sizeof(struct ecdsa_raw_sig))
++       if (req->dst_len < out_len)
 +               return -EINVAL;
 +
-+       dig_buf =3D kzalloc(clen, GFP_KERNEL);
-+       sig_buf =3D kzalloc(sig_raw_len, GFP_KERNEL);
-+       sk_buf =3D kmemdup(ctx->key.raw.data, ctx->key.raw.len, GFP_KERNEL)=
-;
-+       if (!dig_buf || !sig_buf || !sk_buf) {
++       gfp =3D req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
++             GFP_KERNEL : GFP_ATOMIC;
++
++       memset(rctx, 0, sizeof(*rctx));
++       rctx->out_len =3D out_len;
++       rctx->sk_len =3D ctx->key.raw.len;
++       rctx->pk_dma =3D DMA_MAPPING_ERROR;
++       rctx->sk_dma =3D DMA_MAPPING_ERROR;
++
++       rctx->pk_buf =3D kzalloc(out_len, gfp);
++       if (!rctx->pk_buf)
++               return -ENOMEM;
++
++       rctx->pk_dma =3D cmh_dma_map_single(rctx->pk_buf, out_len,
++                                         DMA_FROM_DEVICE);
++       if (cmh_dma_map_error(rctx->pk_dma)) {
 +               ret =3D -ENOMEM;
 +               goto out_free;
 +       }
 +
-+       /*
-+        * Truncate or zero-pad digest to clen bytes, right-aligned.
-+        * Matches ECDSA bits2int: use leftmost min(slen, clen) bytes,
-+        * zero-pad on the left when slen < clen.
-+        */
-+       memcpy(dig_buf + (clen - copy_len), src, copy_len);
++       swap =3D PKE_SWAP_FLAGS;
++       dma_swap =3D pke_swap_flags(ctx->curve);
 +
-+       dig_dma =3D cmh_dma_map_single(dig_buf, clen, DMA_TO_DEVICE);
-+       sig_dma =3D cmh_dma_map_single(sig_buf, sig_raw_len, DMA_FROM_DEVIC=
-E);
-+       sk_dma =3D cmh_dma_map_single(sk_buf, ctx->key.raw.len, DMA_TO_DEVI=
-CE);
++       dd =3D cmh_core_select_instance(CMH_CORE_PKE);
 +
-+       if (cmh_dma_map_error(dig_dma) || cmh_dma_map_error(sig_dma) ||
-+           cmh_dma_map_error(sk_dma)) {
++       rctx->sk_buf =3D kmemdup(ctx->key.raw.data, ctx->key.raw.len, gfp);
++       if (!rctx->sk_buf) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++       rctx->sk_dma =3D cmh_dma_map_single(rctx->sk_buf, ctx->key.raw.len,
++                                         DMA_TO_DEVICE);
++       if (cmh_dma_map_error(rctx->sk_dma)) {
 +               ret =3D -ENOMEM;
 +               goto out_unmap;
 +       }
 +
-+       dd =3D cmh_core_select_instance(CMH_CORE_PKE);
-+
++       vcq_set_header(&vcq[0], PKE_VCQ_CMDS_MAX);
 +       idx =3D 1;
-+       vcq_add_sys_write(&vcq[idx], SYS_REF_TEMP, sk_dma,
++       vcq_add_sys_write(&vcq[idx], SYS_REF_TEMP, rctx->sk_dma,
 +                         SYS_REF_NONE, ctx->key.raw.len,
 +                         ctx->key.raw.sys_type);
-+       vcq[idx].id |=3D pke_swap_flags(ctx->curve);
++       vcq[idx].id |=3D dma_swap;
 +       idx++;
-+       vcq_add_pke_ecdsa_sign(&vcq[idx++], dd.core_id, ctx->curve, clen,
-+                              dig_dma, sig_dma, SYS_REF_TEMP,
-+                              clen, pke_swap_flags(ctx->curve));
++       if (is_25519)
++               vcq_add_pke_ecdh_keygen(&vcq[idx++], dd.core_id, ctx->curve=
+,
++                                       clen, rctx->pk_dma, SYS_REF_TEMP,
++                                       swap);
++       else
++               vcq_add_pke_ecdsa_pubgen(&vcq[idx++], dd.core_id,
++                                        ctx->curve, clen, rctx->pk_dma,
++                                        SYS_REF_TEMP, swap);
 +       vcq_add_pke_flush(&vcq[idx++], dd.core_id);
-+       vcq_set_header(&vcq[0], idx);
 +
-+       ret =3D cmh_tm_submit_sync_mbx(vcq, idx, 1, dd.mbx_idx);
-+       if (!ret) {
-+               /* Sync bounce buffer so CPU sees the DMA-written signature=
- */
-+               cmh_dma_sync_for_cpu(sig_dma, sig_raw_len, DMA_FROM_DEVICE)=
-;
-+
-+               /* Encode raw (r||s) into VLI ecdsa_raw_sig for kernel API =
-*/
-+               ret =3D ecdsa_raw_to_sig(sig_buf, clen, dst, dlen);
-+       }
++       ret =3D cmh_tm_submit_async(vcq, PKE_VCQ_CMDS_MAX, 1, dd.mbx_idx,
++                                 cmh_ecdh_keygen_complete, req,
++                                 !!(req->base.flags &
++                                    CRYPTO_TFM_REQ_MAY_BACKLOG), 0);
++       if (ret =3D=3D -EBUSY)
++               return -EBUSY;
++       if (!ret)
++               return -EINPROGRESS;
 +
 +out_unmap:
-+       if (!cmh_dma_map_error(sk_dma))
-+               cmh_dma_unmap_single(sk_dma, ctx->key.raw.len, DMA_TO_DEVIC=
-E);
-+       if (!cmh_dma_map_error(sig_dma))
-+               cmh_dma_unmap_single(sig_dma, sig_raw_len, DMA_FROM_DEVICE)=
-;
-+       if (!cmh_dma_map_error(dig_dma))
-+               cmh_dma_unmap_single(dig_dma, clen, DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->sk_dma))
++               cmh_dma_unmap_single(rctx->sk_dma, ctx->key.raw.len,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->pk_dma))
++               cmh_dma_unmap_single(rctx->pk_dma, out_len,
++                                    DMA_FROM_DEVICE);
 +
 +out_free:
-+       kfree_sensitive(sk_buf);
-+       kfree(sig_buf);
-+       kfree(dig_buf);
++       kfree_sensitive(rctx->sk_buf);
++       kfree(rctx->pk_buf);
 +       return ret;
 +}
 +
-+static int cmh_ecdsa_set_pub_key(struct crypto_sig *tfm,
-+                                const void *key, unsigned int keylen)
++static void cmh_ecdh_ss_phase2_complete(void *data, int error)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
-+       const u8 *d =3D key;
++       struct kpp_request *req =3D data;
++       struct cmh_ecdh_reqctx *rctx =3D kpp_request_ctx(req);
++
++       if (error =3D=3D -EINPROGRESS) {
++               cmh_complete(&req->base, error);
++               return;
++       }
++
++       if (!cmh_dma_map_error(rctx->ss_dma))
++               cmh_dma_unmap_single(rctx->ss_dma, rctx->clen,
++                                    DMA_FROM_DEVICE);
++
++       if (!error) {
++               int nents;
++
++               nents =3D sg_nents_for_len(req->dst, rctx->clen);
++               if (nents < 0 ||
++                   sg_copy_from_buffer(req->dst, nents,
++                                       rctx->ss_buf,
++                                       rctx->clen) !=3D rctx->clen)
++                       error =3D -EINVAL;
++               else
++                       req->dst_len =3D rctx->clen;
++       }
++
++       kfree(rctx->ref_buf);
++       rctx->ref_buf =3D NULL;
++       kfree_sensitive(rctx->ss_buf);
++       rctx->ss_buf =3D NULL;
++       cmh_complete(&req->base, error);
++}
++
++static void cmh_ecdh_ss_phase1_complete(void *data, int error)
++{
++       struct kpp_request *req =3D data;
++       struct cmh_ecdh_reqctx *rctx =3D kpp_request_ctx(req);
++       struct vcq_cmd vcq[3];
++       int ret;
++
++       if (error =3D=3D -EINPROGRESS) {
++               cmh_complete(&req->base, error);
++               return;
++       }
++
++       /* Phase 1-only resources: sk, peer -- always clean up */
++       if (!cmh_dma_map_error(rctx->sk_dma))
++               cmh_dma_unmap_single(rctx->sk_dma, rctx->sk_len,
++                                    DMA_TO_DEVICE);
++       kfree_sensitive(rctx->sk_buf);
++       rctx->sk_buf =3D NULL;
++
++       if (!cmh_dma_map_error(rctx->peer_dma))
++               cmh_dma_unmap_single(rctx->peer_dma, rctx->peer_len,
++                                    DMA_TO_DEVICE);
++       kfree(rctx->peer_buf);
++       rctx->peer_buf =3D NULL;
++
++       if (error)
++               goto out_cleanup;
++
++       /* Read the DS reference written by Phase 1 */
++       cmh_dma_sync_for_cpu(rctx->ref_dma, sizeof(u64), DMA_FROM_DEVICE);
++       cmh_dma_unmap_single(rctx->ref_dma, sizeof(u64), DMA_FROM_DEVICE);
++       rctx->ref_dma =3D DMA_MAPPING_ERROR;
++
++       /* Phase 2: extract shared secret from DS */
++       vcq_set_header(&vcq[0], 3);
++       vcq_add_sys_data(&vcq[1], *rctx->ref_buf, rctx->ss_dma,
++                        rctx->clen);
++       vcq[1].id |=3D rctx->dma_swap;
++       vcq_add_sys_flush(&vcq[2]);
++
++       ret =3D cmh_tm_submit_async(vcq, 3, 1, rctx->mbx_idx,
++                                 cmh_ecdh_ss_phase2_complete, req,
++                                 true, 0);
++       if (ret =3D=3D -EBUSY || !ret)
++               return;
++
++       error =3D ret;
++
++out_cleanup:
++       if (!cmh_dma_map_error(rctx->ref_dma))
++               cmh_dma_unmap_single(rctx->ref_dma, sizeof(u64),
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->ss_dma))
++               cmh_dma_unmap_single(rctx->ss_dma, rctx->clen,
++                                    DMA_FROM_DEVICE);
++       kfree(rctx->ref_buf);
++       rctx->ref_buf =3D NULL;
++       kfree_sensitive(rctx->ss_buf);
++       rctx->ss_buf =3D NULL;
++       cmh_complete(&req->base, error);
++}
++
++/*
++ * compute_shared_secret: PKE_CMD_ECDH.
++ *
++ * req->src =3D peer public key (X||Y for NIST, raw 32B for Curve25519).
++ * Output =3D shared secret X coordinate (clen bytes).
++ *
++ * The CMH ECDH command stores the shared secret in a DS object,
++ * not directly to DMA.  We create a DS slot with SYS_CMD_NEW,
++ * reference it via SYS_REF_LAST, then extract the result with a
++ * second VCQ submission using SYS_CMD_DATA with the actual ref.
++ */
++static int cmh_ecdh_compute_shared_secret(struct kpp_request *req)
++{
++       struct crypto_kpp *tfm =3D crypto_kpp_reqtfm(req);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
++       struct cmh_ecdh_reqctx *rctx =3D kpp_request_ctx(req);
 +       u32 clen =3D ctx->clen;
-+       u32 raw_clen;
++       bool is_25519 =3D (ctx->curve =3D=3D PKE_CURVE_25519);
++       u32 peer_len =3D is_25519 ? clen : 2 * clen;
++       u32 ss_type =3D SYS_TYPE_SET(SYS_TYPE_FLAG_PT, CORE_ID_PKE);
++       struct vcq_cmd vcq[5];
++       struct core_dispatch dd;
++       u32 swap, dma_swap;
++       int ret, idx, nents;
++       gfp_t gfp;
 +
-+       /* Accept 04 || X || Y (uncompressed point) */
-+       if (keylen < 1 || d[0] !=3D 0x04)
++       if (ctx->key.mode !=3D CMH_KEY_RAW)
 +               return -EINVAL;
-+       d++;
-+       keylen--;
-+
-+       if (keylen & 1)
-+               return -EINVAL;
-+       raw_clen =3D keylen / 2;
-+
-+       /*
-+        * Kernel passes ceil(bits/8) per coordinate (e.g. 66 for P-521),
-+        * but our HW ABI uses clen (ALIGN(66,4)=3D68 for P-521).
-+        * Accept raw_clen <=3D clen and zero-pad on the left.
-+        */
-+       if (raw_clen > clen || raw_clen =3D=3D 0)
++       if (req->src_len < peer_len || req->dst_len < clen)
 +               return -EINVAL;
 +
-+       kfree(ctx->pub_key);
-+       ctx->pub_key =3D NULL;
-+       ctx->pub_key_len =3D 0;
++       gfp =3D req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
++             GFP_KERNEL : GFP_ATOMIC;
 +
-+       ctx->pub_key =3D kzalloc(2 * clen, GFP_KERNEL);
-+       if (!ctx->pub_key)
-+               return -ENOMEM;
++       memset(rctx, 0, sizeof(*rctx));
++       rctx->clen =3D clen;
++       rctx->peer_len =3D peer_len;
++       rctx->sk_len =3D ctx->key.raw.len;
++       rctx->pk_dma =3D DMA_MAPPING_ERROR;
++       rctx->sk_dma =3D DMA_MAPPING_ERROR;
++       rctx->peer_dma =3D DMA_MAPPING_ERROR;
++       rctx->ss_dma =3D DMA_MAPPING_ERROR;
++       rctx->ref_dma =3D DMA_MAPPING_ERROR;
 +
-+       /* Right-align each coordinate to clen bytes */
-+       memcpy(ctx->pub_key + (clen - raw_clen), d, raw_clen);
-+       memcpy(ctx->pub_key + clen + (clen - raw_clen), d + raw_clen,
-+              raw_clen);
-+       ctx->pub_key_len =3D 2 * clen;
-+       return 0;
++       rctx->peer_buf =3D kmalloc(peer_len, gfp);
++       rctx->ss_buf =3D kzalloc(clen, gfp);
++       rctx->ref_buf =3D kzalloc_obj(u64, gfp);
++       if (!rctx->peer_buf || !rctx->ss_buf || !rctx->ref_buf) {
++               ret =3D -ENOMEM;
++               goto out_free;
++       }
++
++       nents =3D sg_nents_for_len(req->src, peer_len);
++       if (nents < 0 ||
++           sg_pcopy_to_buffer(req->src, nents, rctx->peer_buf,
++                              peer_len, 0) !=3D peer_len) {
++               ret =3D -EINVAL;
++               goto out_free;
++       }
++
++       rctx->peer_dma =3D cmh_dma_map_single(rctx->peer_buf, peer_len,
++                                           DMA_TO_DEVICE);
++       rctx->ss_dma =3D cmh_dma_map_single(rctx->ss_buf, clen,
++                                         DMA_FROM_DEVICE);
++       rctx->ref_dma =3D cmh_dma_map_single(rctx->ref_buf, sizeof(u64),
++                                          DMA_FROM_DEVICE);
++
++       if (cmh_dma_map_error(rctx->peer_dma) ||
++           cmh_dma_map_error(rctx->ss_dma) ||
++           cmh_dma_map_error(rctx->ref_dma)) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++
++       swap =3D PKE_SWAP_FLAGS;
++       dma_swap =3D pke_swap_flags(ctx->curve);
++       rctx->dma_swap =3D dma_swap;
++
++       dd =3D cmh_core_select_instance(CMH_CORE_PKE);
++       rctx->mbx_idx =3D dd.mbx_idx;
++
++       rctx->sk_buf =3D kmemdup(ctx->key.raw.data, ctx->key.raw.len, gfp);
++       if (!rctx->sk_buf) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++       rctx->sk_dma =3D cmh_dma_map_single(rctx->sk_buf, ctx->key.raw.len,
++                                         DMA_TO_DEVICE);
++       if (cmh_dma_map_error(rctx->sk_dma)) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++
++       vcq_set_header(&vcq[0], 5);
++       idx =3D 1;
++       vcq_add_sys_write(&vcq[idx], SYS_REF_TEMP, rctx->sk_dma,
++                         SYS_REF_NONE, ctx->key.raw.len,
++                         ctx->key.raw.sys_type);
++       vcq[idx].id |=3D dma_swap;
++       idx++;
++       vcq_add_sys_new(&vcq[idx++], 0, rctx->ref_dma, clen);
++       vcq_add_pke_ecdh(&vcq[idx++], dd.core_id, ctx->curve, clen,
++                        clen, ss_type, rctx->peer_dma,
++                        SYS_REF_TEMP, SYS_REF_LAST, swap);
++       vcq_add_pke_flush(&vcq[idx++], dd.core_id);
++
++       ret =3D cmh_tm_submit_async(vcq, 5, 1, dd.mbx_idx,
++                                 cmh_ecdh_ss_phase1_complete, req,
++                                 !!(req->base.flags &
++                                    CRYPTO_TFM_REQ_MAY_BACKLOG), 0);
++       if (ret =3D=3D -EBUSY)
++               return -EBUSY;
++       if (!ret)
++               return -EINPROGRESS;
++
++out_unmap:
++       if (!cmh_dma_map_error(rctx->sk_dma))
++               cmh_dma_unmap_single(rctx->sk_dma, rctx->sk_len,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->ss_dma))
++               cmh_dma_unmap_single(rctx->ss_dma, clen,
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->ref_dma))
++               cmh_dma_unmap_single(rctx->ref_dma, sizeof(u64),
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->peer_dma))
++               cmh_dma_unmap_single(rctx->peer_dma, peer_len,
++                                    DMA_TO_DEVICE);
++
++out_free:
++       kfree_sensitive(rctx->sk_buf);
++       kfree(rctx->ref_buf);
++       kfree_sensitive(rctx->ss_buf);
++       kfree(rctx->peer_buf);
++       return ret;
 +}
 +
-+static int cmh_ecdsa_set_priv_key(struct crypto_sig *tfm,
-+                                 const void *key, unsigned int keylen)
++static unsigned int cmh_ecdh_max_size(struct crypto_kpp *tfm)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
 +
-+       if (keylen !=3D ctx->clen)
-+               return -EINVAL;
-+
-+       return cmh_key_setkey_raw(&ctx->key, key, keylen, CORE_ID_PKE);
++       /* Max output =3D X||Y for generate_public_key (NIST) */
++       return 2 * ctx->clen;
 +}
 +
-+static unsigned int cmh_ecdsa_key_size(struct crypto_sig *tfm)
++static unsigned int cmh_x25519_max_size(struct crypto_kpp *tfm)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
-+
-+       /* crypto_sig_keysize() returns bits, not bytes */
-+       return pke_curve_bits(ctx->curve);
++       return pke_curve_clen(PKE_CURVE_25519); /* single coordinate */
 +}
 +
-+static unsigned int cmh_ecdsa_max_size(struct crypto_sig *tfm)
++static int cmh_ecdh_p256_init(struct crypto_kpp *tfm)
 +{
-+       return sizeof(struct ecdsa_raw_sig);
-+}
-+
-+static unsigned int cmh_ecdsa_digest_size(struct crypto_sig *tfm)
-+{
-+       /*
-+        * Accept digests up to SHA-512 (64 bytes).  Digests longer
-+        * than the curve order are truncated per ECDSA bits2int.
-+        * Matches kernel ecdsa_digest_size().
-+        */
-+       return SHA512_DIGEST_SIZE;
-+}
-+
-+static int cmh_ecdsa_p256_init(struct crypto_sig *tfm)
-+{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
 +
 +       memset(ctx, 0, sizeof(*ctx));
 +       ctx->curve =3D PKE_CURVE_P256;
 +       ctx->clen =3D pke_curve_clen(PKE_CURVE_P256);
++       tfm->reqsize =3D sizeof(struct cmh_ecdh_reqctx);
 +       return 0;
 +}
 +
-+static int cmh_ecdsa_p384_init(struct crypto_sig *tfm)
++static int cmh_ecdh_p384_init(struct crypto_kpp *tfm)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
 +
 +       memset(ctx, 0, sizeof(*ctx));
 +       ctx->curve =3D PKE_CURVE_P384;
 +       ctx->clen =3D pke_curve_clen(PKE_CURVE_P384);
++       tfm->reqsize =3D sizeof(struct cmh_ecdh_reqctx);
 +       return 0;
 +}
 +
-+static int cmh_ecdsa_p521_init(struct crypto_sig *tfm)
++static int cmh_x25519_init(struct crypto_kpp *tfm)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
 +
 +       memset(ctx, 0, sizeof(*ctx));
-+       ctx->curve =3D PKE_CURVE_P521;
-+       ctx->clen =3D pke_curve_clen(PKE_CURVE_P521);
++       ctx->curve =3D PKE_CURVE_25519;
++       ctx->clen =3D pke_curve_clen(PKE_CURVE_25519);
++       tfm->reqsize =3D sizeof(struct cmh_ecdh_reqctx);
 +       return 0;
 +}
 +
-+static int cmh_sm2_init(struct crypto_sig *tfm)
++static void cmh_ecdh_exit(struct crypto_kpp *tfm)
 +{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
-+
-+       memset(ctx, 0, sizeof(*ctx));
-+       ctx->curve =3D PKE_CURVE_SM2;
-+       ctx->clen =3D pke_curve_clen(PKE_CURVE_SM2);
-+       return 0;
-+}
-+
-+static void cmh_ecdsa_exit(struct crypto_sig *tfm)
-+{
-+       struct cmh_ecdsa_tfm_ctx *ctx =3D cmh_ecdsa_ctx(tfm);
++       struct cmh_ecdh_tfm_ctx *ctx =3D cmh_ecdh_ctx(tfm);
 +
 +       cmh_key_destroy(&ctx->key);
-+       kfree(ctx->pub_key);
-+       ctx->pub_key =3D NULL;
 +}
 +
-+static struct sig_alg cmh_ecdsa_algs[] =3D {
++static struct kpp_alg cmh_ecdh_algs[] =3D {
 +       {
-+               .sign           =3D cmh_ecdsa_sign,
-+               .verify         =3D cmh_ecdsa_verify,
-+               .set_pub_key    =3D cmh_ecdsa_set_pub_key,
-+               .set_priv_key   =3D cmh_ecdsa_set_priv_key,
-+               .key_size       =3D cmh_ecdsa_key_size,
-+               .max_size       =3D cmh_ecdsa_max_size,
-+               .digest_size    =3D cmh_ecdsa_digest_size,
-+               .init           =3D cmh_ecdsa_p256_init,
-+               .exit           =3D cmh_ecdsa_exit,
++               .set_secret             =3D cmh_ecdh_set_secret_nist,
++               .generate_public_key    =3D cmh_ecdh_generate_public_key,
++               .compute_shared_secret  =3D cmh_ecdh_compute_shared_secret,
++               .max_size               =3D cmh_ecdh_max_size,
++               .init                   =3D cmh_ecdh_p256_init,
++               .exit                   =3D cmh_ecdh_exit,
 +               .base =3D {
-+                       .cra_name         =3D "ecdsa-nist-p256",
-+                       .cra_driver_name  =3D "cri-cmh-ecdsa-nist-p256",
++                       .cra_name         =3D "ecdh-nist-p256",
++                       .cra_driver_name  =3D "cri-cmh-ecdh-nist-p256",
 +                       .cra_priority     =3D 300,
++                       .cra_flags        =3D CRYPTO_ALG_ASYNC,
 +                       .cra_module       =3D THIS_MODULE,
-+                       .cra_ctxsize      =3D sizeof(struct cmh_ecdsa_tfm_c=
-tx),
++                       .cra_ctxsize      =3D sizeof(struct cmh_ecdh_tfm_ct=
+x),
 +               },
 +       },
 +       {
-+               .sign           =3D cmh_ecdsa_sign,
-+               .verify         =3D cmh_ecdsa_verify,
-+               .set_pub_key    =3D cmh_ecdsa_set_pub_key,
-+               .set_priv_key   =3D cmh_ecdsa_set_priv_key,
-+               .key_size       =3D cmh_ecdsa_key_size,
-+               .max_size       =3D cmh_ecdsa_max_size,
-+               .digest_size    =3D cmh_ecdsa_digest_size,
-+               .init           =3D cmh_ecdsa_p384_init,
-+               .exit           =3D cmh_ecdsa_exit,
++               .set_secret             =3D cmh_ecdh_set_secret_nist,
++               .generate_public_key    =3D cmh_ecdh_generate_public_key,
++               .compute_shared_secret  =3D cmh_ecdh_compute_shared_secret,
++               .max_size               =3D cmh_ecdh_max_size,
++               .init                   =3D cmh_ecdh_p384_init,
++               .exit                   =3D cmh_ecdh_exit,
 +               .base =3D {
-+                       .cra_name         =3D "ecdsa-nist-p384",
-+                       .cra_driver_name  =3D "cri-cmh-ecdsa-nist-p384",
++                       .cra_name         =3D "ecdh-nist-p384",
++                       .cra_driver_name  =3D "cri-cmh-ecdh-nist-p384",
 +                       .cra_priority     =3D 300,
++                       .cra_flags        =3D CRYPTO_ALG_ASYNC,
 +                       .cra_module       =3D THIS_MODULE,
-+                       .cra_ctxsize      =3D sizeof(struct cmh_ecdsa_tfm_c=
-tx),
++                       .cra_ctxsize      =3D sizeof(struct cmh_ecdh_tfm_ct=
+x),
 +               },
 +       },
 +       {
-+               .sign           =3D cmh_ecdsa_sign,
-+               .verify         =3D cmh_ecdsa_verify,
-+               .set_pub_key    =3D cmh_ecdsa_set_pub_key,
-+               .set_priv_key   =3D cmh_ecdsa_set_priv_key,
-+               .key_size       =3D cmh_ecdsa_key_size,
-+               .max_size       =3D cmh_ecdsa_max_size,
-+               .digest_size    =3D cmh_ecdsa_digest_size,
-+               .init           =3D cmh_ecdsa_p521_init,
-+               .exit           =3D cmh_ecdsa_exit,
++               .set_secret             =3D cmh_ecdh_set_secret_x25519,
++               .generate_public_key    =3D cmh_ecdh_generate_public_key,
++               .compute_shared_secret  =3D cmh_ecdh_compute_shared_secret,
++               .max_size               =3D cmh_x25519_max_size,
++               .init                   =3D cmh_x25519_init,
++               .exit                   =3D cmh_ecdh_exit,
 +               .base =3D {
-+                       .cra_name         =3D "ecdsa-nist-p521",
-+                       .cra_driver_name  =3D "cri-cmh-ecdsa-nist-p521",
++                       .cra_name         =3D "curve25519",
++                       .cra_driver_name  =3D "cri-cmh-curve25519",
 +                       .cra_priority     =3D 300,
++                       .cra_flags        =3D CRYPTO_ALG_ASYNC,
 +                       .cra_module       =3D THIS_MODULE,
-+                       .cra_ctxsize      =3D sizeof(struct cmh_ecdsa_tfm_c=
-tx),
-+               },
-+       },
-+       {
-+               .verify         =3D cmh_ecdsa_verify,
-+               .set_pub_key    =3D cmh_ecdsa_set_pub_key,
-+               .key_size       =3D cmh_ecdsa_key_size,
-+               .max_size       =3D cmh_ecdsa_max_size,
-+               .digest_size    =3D cmh_ecdsa_digest_size,
-+               .init           =3D cmh_sm2_init,
-+               .exit           =3D cmh_ecdsa_exit,
-+               .base =3D {
-+                       .cra_name         =3D "sm2",
-+                       .cra_driver_name  =3D "cri-cmh-sm2",
-+                       .cra_priority     =3D 300,
-+                       .cra_module       =3D THIS_MODULE,
-+                       .cra_ctxsize      =3D sizeof(struct cmh_ecdsa_tfm_c=
-tx),
++                       .cra_ctxsize      =3D sizeof(struct cmh_ecdh_tfm_ct=
+x),
 +               },
 +       },
 +};
 +
 +/**
-+ * cmh_pke_ecdsa_register() - Register ECDSA/SM2 sig algorithms with the c=
-rypto framework
++ * cmh_pke_ecdh_register() - Register ECDH kpp algorithms with the crypto =
+framework
 + *
 + * Return: 0 on success, negative errno on failure.
 + */
-+int cmh_pke_ecdsa_register(void)
++int cmh_pke_ecdh_register(void)
 +{
 +       int ret, i;
 +
-+       for (i =3D 0; i < ARRAY_SIZE(cmh_ecdsa_algs); i++) {
-+               ret =3D crypto_register_sig(&cmh_ecdsa_algs[i]);
++       for (i =3D 0; i < ARRAY_SIZE(cmh_ecdh_algs); i++) {
++               ret =3D crypto_register_kpp(&cmh_ecdh_algs[i]);
 +               if (ret) {
 +                       dev_err(cmh_dev(), "cmh: failed to register %s (%d)=
 \n",
-+                               cmh_ecdsa_algs[i].base.cra_name, ret);
++                               cmh_ecdh_algs[i].base.cra_name, ret);
 +                       goto err_unregister;
 +               }
 +       }
@@ -836,20 +942,20 @@ rypto framework
 +
 +err_unregister:
 +       while (i--)
-+               crypto_unregister_sig(&cmh_ecdsa_algs[i]);
++               crypto_unregister_kpp(&cmh_ecdh_algs[i]);
 +       return ret;
 +}
 +
 +/**
-+ * cmh_pke_ecdsa_unregister() - Unregister ECDSA/SM2 sig algorithms from t=
-he crypto framework
++ * cmh_pke_ecdh_unregister() - Unregister ECDH kpp algorithms from the cry=
+pto framework
 + */
-+void cmh_pke_ecdsa_unregister(void)
++void cmh_pke_ecdh_unregister(void)
 +{
-+       int i =3D ARRAY_SIZE(cmh_ecdsa_algs);
++       int i =3D ARRAY_SIZE(cmh_ecdh_algs);
 +
 +       while (i--)
-+               crypto_unregister_sig(&cmh_ecdsa_algs[i]);
++               crypto_unregister_kpp(&cmh_ecdh_algs[i]);
 +}
 --
 2.43.7
