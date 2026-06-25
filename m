@@ -1,178 +1,194 @@
-Return-Path: <linux-api+bounces-6672-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6673-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 98uEFvfqPGqPuQgAu9opvQ
-	(envelope-from <linux-api+bounces-6672-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 10:46:47 +0200
+	id 1UuNC7jsPGr8uQgAu9opvQ
+	(envelope-from <linux-api+bounces-6673-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 10:54:16 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB70B6C3F29
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 10:46:46 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 213C36C3FDA
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 10:54:15 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ok97cIh0;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6672-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6672-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=TeZSIzER;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6673-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6673-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 42B0F3023D93
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 08:46:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2D0D73006092
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 08:54:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9097383C96;
-	Thu, 25 Jun 2026 08:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C982385D88;
+	Thu, 25 Jun 2026 08:54:11 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AFE383984;
-	Thu, 25 Jun 2026 08:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA487386C18
+	for <linux-api@vger.kernel.org>; Thu, 25 Jun 2026 08:54:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782377187; cv=none; b=U15gScHxHiw0JThLqWnfl4IHxpoJPbUN6eT+RjoBN9/VfkkSd4n1GskvBRSauuudUMGIfh4QitksXyF3RUNdEIR0p3ezgg8eWVCv2BYXq0rMIEivdhemgSWf0IAS8AhbaX7ZDOTvpVkEFqbNPylOaRtBuJuL2Cjl0LjFXToGy6c=
+	t=1782377651; cv=none; b=HPmSebF8QVdyycF2KZSm/eGLKGPkT6JRnQmou431NWmsKSz2JBj1Kb71VVAWmOgjCjZV9nPbGoNRL/2IxYv1WUH38Nq/HBK+2cASDXyNqQqHh3fPb4NjISv4FXBekqKa4hz5AWJF8XUAe6bQKEw9ZL0RRALQaTP4+kCsrnpJ+Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782377187; c=relaxed/simple;
-	bh=YsWVvsn1sNQreH81fkdr6k6n3Rez1QsLl+NDJ/r2GEM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MBnL69pMvqEU+DZ1O8orjSpbNB2eC3eXh7Kfp2bkhInUNgrFQIc8f3FF4SryCDT3hDJ7ocHhGuYLomACVDt/bBogoKoD+9QzO62d40JwwLpoLSiwNANUpp4Hr+3RpIYRIBteIh0wnsvxmoyLvGUzGM1iHHVBDSGQvd3tplYYZAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ok97cIh0; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05471F00A3A;
-	Thu, 25 Jun 2026 08:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782377186;
-	bh=aZukz89MzZ5p8EThN6cn+rwjGOOhpfxIVjRUP7vyd/k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Ok97cIh0kTmIRlWG/kcrHMNiRrpJeUFbRk/N5DSmZrNyM86zUW4nNGSiaXdu+a4f3
-	 MticWIIlZTOwmwqKfiYmeyktRyztwc/3eJnOGTKFXJoly4qaZs9gAk427430sI5pWw
-	 aYX0t95Pgc9d62ZC+Pf3QrL1cB4Zvpzbez5UU5nquJa/2Ye+YJGBwiU+Z/BpjSFrdp
-	 Dqj6dKseqUpPNQhqEVO4PTHA8uaS0FcEpVD2hhZowOJbDh1NSBgw5D150wXNU1ziia
-	 1ttOgsOMfZwsbvLDj8kxNBi9La7+1kOASqMu1tdtS8CRhVjQNJrVby+Mpg6Sj+6xIO
-	 91GT0k20txAhw==
-Message-ID: <89ea76b3-e956-4232-8180-ee3929adf905@kernel.org>
-Date: Thu, 25 Jun 2026 10:46:17 +0200
+	s=arc-20240116; t=1782377651; c=relaxed/simple;
+	bh=07Gz4DVxSchKBz41aocKqPwLf5Q7wYxmqWLTrZ9H6nY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U1y9TtBAICVvjHcaMOS9GPkuHi8r2kgpZ16Vure9cWj9jAsDxMqqk7N/s0vk84JOA0NdgHrpyEsizRG7Xr0qCVkKo3+1O5GvHOUqHOyGPGECcXeqvfyXfnJds0hhbOrYLCyjDXCa8NtB7LbcSTceu17UPEfyut88izhaQ9t5OIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeZSIzER; arc=none smtp.client-ip=209.85.221.47
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-46e30429b10so64266f8f.1
+        for <linux-api@vger.kernel.org>; Thu, 25 Jun 2026 01:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782377648; x=1782982448; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/jDoMmJJU0PpNgF+w3Xx9Gr+Xmtdk7u64RSrEr55CTg=;
+        b=TeZSIzEROk+wXDUJ2H7J9qtITFj/majCzC4RRZwR633P94dRl4K2X4xiaAK7By7ze+
+         K7DEGTJXoevUXfACUrh94xn6QJW/a9k6IusZA+lUxNCYXYF8S42eYkontmM4rq0Na2aQ
+         VAdzE3UF3hq9AN3CidWOXPvSKb8xj/JDx7dUSbkR9TK0a4z59WyHTnjeoB6VqCsbWJCd
+         waHDjV9/lCOJFuenJhABaW6KNlKJAQTtgSEFSccoL/kpVwQ5UPfl1w/boO/W8vAonLkh
+         N+SyAwoJJ5z6KfqBhkwIIquIKvHtokZto2zPXoQgTZiVHXJCs0z+izxUUJ24lECJRKpq
+         ljPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782377648; x=1782982448;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/jDoMmJJU0PpNgF+w3Xx9Gr+Xmtdk7u64RSrEr55CTg=;
+        b=Pr1rHfj3dYq1AojrwpwQ8CqCMwInIZTV7xJDRrPfK/uisZpG5+aavgSQuz8kcoPp0y
+         gtyvZ0gz6d24w9Vn/Ax0YG043Fx8okK2Sd0R5asSrFQrAO8yCMjLAe+vuB0Zlc5Zdc5z
+         AxWJ7MgcKarYpkFE56yyxonWK5shFkDaE+EoznDd940qowsE00/BLYRbtXzpafe+Pt8J
+         Eg2OKBDk+c9C9BtIVFfI14e1DwiSU+CoedJfYksNYs6rmdBe2wbHu5V/vHDS4pCo8VyN
+         AGkjoETFUjcffA46VkbUuNc1LVasFTj7WUWNux/H45XodkflVtytMByXAHjQsBHmbgRn
+         niYQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr4H9RdLlZ3U+YbNklR4i3SBhOet8simSRTxjttToKw7DkL9xdlw7OCoheo02P3aflCTeKXHKbMz1I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZzFKKxswlzoD+M66CKKTCRL5bZo4ZdkNunilYX2kBV3QmqNxe
+	Yy/svTQ6/frWZKaDIftWJJqDtFT02ixIX87Wh1Vf9MRonv7Ds6jrrnwA
+X-Gm-Gg: AfdE7clhhKWRWECi7KAQTMnCrrEM7k5HWQK9BBD9zUlXCJf5ddEuuHDkZTTU+oL4xb2
+	DsstZfFwnChTZWtEzcTlk9kj2qh4hB5ij9RhujfXeio6Pc8yYnGvWPuWxxYfzYjOLrsIyVOnO/9
+	KR+iIOQQoUfJBUQg1MRkp8RRUbElblBcmRlyt9To6SRQ67tUOxXyoCQuvYYNL/isxbGAblEaeYG
+	sOKj26VUtoy+bfNE9k/PFG1CVJqSTyOH8IFU5w4aR4u32GCK18O0vAS40vBINFddf35sKclvnjc
+	gwKnWbBG8px/sw2I1rpBt7Y2jZQM0F2uXm60mzTrBvlrjhYpwDYBUtdy7pHhQmOzH2l3iXG5rh9
+	ge5LpvGF89XORsl15rpDj41L5DMTbJqtWHHMxBjoCqr8Q4JXzx6bZYPimR894h2zqy7/vR3688U
+	tGDBFNSAKD
+X-Received: by 2002:a5d:64e4:0:b0:460:67b7:54f1 with SMTP id ffacd0b85a97d-46dc30e2c21mr2268492f8f.42.1782377648254;
+        Thu, 25 Jun 2026 01:54:08 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46c1ee018e8sm15530598f8f.11.2026.06.25.01.54.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2026 01:54:07 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: avagin@gmail.com
+Cc: akpm@linux-foundation.org,
+	alexander@mihalicyn.com,
+	axboe@kernel.dk,
+	bernd@bsbernd.com,
+	brauner@kernel.org,
+	criu@lists.linux.dev,
+	david@kernel.org,
+	dhowells@redhat.com,
+	fuse-devel@lists.linux.dev,
+	hch@infradead.org,
+	jack@suse.cz,
+	joannelkoong@gmail.com,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	pfalcato@suse.de,
+	rostedt@goodmis.org,
+	safinaskar@gmail.com,
+	torvalds@linux-foundation.org,
+	val@packett.cool,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Thu, 25 Jun 2026 11:53:57 +0300
+Message-ID: <20260625085401.3787887-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CANaxB-xUrLQYGiRJZc4Boi+KX=0TJSWymErNovANVko20fMDVA@mail.gmail.com>
+References: <CANaxB-xUrLQYGiRJZc4Boi+KX=0TJSWymErNovANVko20fMDVA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] vmsplice: fix some problems in my previous
- vmsplice patchset
-To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-api@vger.kernel.org, netdev@vger.kernel.org,
- fuse-devel@lists.linux.dev, Linus Torvalds <torvalds@linux-foundation.org>,
- Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Pedro Falcato <pfalcato@suse.de>,
- Miklos Szeredi <miklos@szeredi.hu>, Andy Lutomirski <luto@amacapital.net>,
- Collin Funk <collin.funk1@gmail.com>,
- David Laight <david.laight.linux@gmail.com>,
- Stefan Metzmacher <metze@samba.org>, The 8472 <kernel@infinite-source.de>,
- Willy Tarreau <w@1wt.eu>, Joanne Koong <joannelkoong@gmail.com>,
- Val Packett <val@packett.cool>, Andrei Vagin <avagin@gmail.com>,
- patches@lists.linux.dev
-References: <20260625083409.3769242-1-safinaskar@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260625083409.3769242-1-safinaskar@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:linux-fsdevel@vger.kernel.org,m:brauner@kernel.org,m:viro@zeniv.linux.org.uk,m:jack@suse.cz,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-api@vger.kernel.org,m:netdev@vger.kernel.org,m:fuse-devel@lists.linux.dev,m:torvalds@linux-foundation.org,m:willy@infradead.org,m:axboe@kernel.dk,m:hch@infradead.org,m:dhowells@redhat.com,m:akpm@linux-foundation.org,m:pfalcato@suse.de,m:miklos@szeredi.hu,m:luto@amacapital.net,m:collin.funk1@gmail.com,m:david.laight.linux@gmail.com,m:metze@samba.org,m:kernel@infinite-source.de,m:w@1wt.eu,m:joannelkoong@gmail.com,m:val@packett.cool,m:avagin@gmail.com,m:patches@lists.linux.dev,m:collinfunk1@gmail.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org,zeniv.linux.org.uk,suse.cz];
-	TAGGED_FROM(0.00)[bounces-6672-lists,linux-api=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[david@kernel.org,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6673-lists,linux-api=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,lists.linux.dev,linux-foundation.org,infradead.org,kernel.dk,redhat.com,suse.de,szeredi.hu,amacapital.net,gmail.com,samba.org,infinite-source.de,1wt.eu,packett.cool];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_RECIPIENTS(0.00)[m:avagin@gmail.com,m:akpm@linux-foundation.org,m:alexander@mihalicyn.com,m:axboe@kernel.dk,m:bernd@bsbernd.com,m:brauner@kernel.org,m:criu@lists.linux.dev,m:david@kernel.org,m:dhowells@redhat.com,m:fuse-devel@lists.linux.dev,m:hch@infradead.org,m:jack@suse.cz,m:joannelkoong@gmail.com,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:rostedt@goodmis.org,m:safinaskar@gmail.com,m:torvalds@linux-foundation.org,m:val@packett.cool,m:viro@zeniv.linux.org.uk,m:willy@infradead.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[safinaskar@gmail.com,linux-api@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,mihalicyn.com,kernel.dk,bsbernd.com,kernel.org,lists.linux.dev,redhat.com,infradead.org,suse.cz,gmail.com,vger.kernel.org,kvack.org,szeredi.hu,suse.de,goodmis.org,packett.cool,zeniv.linux.org.uk];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-api@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-api];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BB70B6C3F29
+X-Rspamd-Queue-Id: 213C36C3FDA
 
-On 6/25/26 10:34, Askar Safin wrote:
-> This patchset is for VFS. Of course, it depends on my previous vmsplice
-> patchset ( https://lore.kernel.org/all/20260531010107.1953702-1-safinaskar@gmail.com/ ).
+Andrei Vagin <avagin@gmail.com>:
+> On Wed, Jun 24, 2026 at 12:12 AM Askar Safin <safinaskar@gmail.com> wrote:
+> > Does CRIU actually rely on ability to do SPLICE_F_NONBLOCK vmsplice into
+> > named fifos? Or this is merely a test?
 > 
-> I fix some problems in my previous patchset.
+> Yes, it does.
 
-I think we concluded that we cannot rip out vmsplice that way at this point, and
-I suspect that Christian will drop that topic branch from -next after -rc1.
+I. e. CRIU relies on that named fifo behavior? Okay, I just sent
+v2 version of my fixes. The patchset contains fix for named fifos.
+
+Please, test that this fixes that named fifo problem.
+
+> I already explained that this isn't just a perfomance degradation, it
+> actually breaks the pre-dump mechanism in CRIU. vmsplice is invoked from
+> our parasite code within the context of a user process, where execution
+> speed is critical. A heavy performance penalty completely invalidates
+> the pre-dump logic, making the feature useless.
+
+This is very unfortunate. But I still want to remove vmsplice.
+
+> At a minimum, we may need to consider a deprecation plan where vmsplice
+> with SPLICE_F_GIFT triggers a warning for a few releases before these
+> changes are applied. Alternatively, we could introduce the proposed
+> behavior alongside a sysctl to fall back to the old behavior and explicitly
+> state that this fallback path will be completely deprecated in a future kernel
+> version.
+
+My patches change not only SPLICE_F_GIFT behavior, but also vmsplice
+behavior in general.
+
+Let other developers decide what to do (i. e. do nothing, remove
+vmsplice now or implement some deprecation scheme).
 
 -- 
-Cheers,
-
-David
+Askar Safin
 
