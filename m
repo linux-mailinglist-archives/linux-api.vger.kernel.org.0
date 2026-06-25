@@ -1,53 +1,50 @@
-Return-Path: <linux-api+bounces-6676-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6677-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qbJAFGUEPWpPvwgAu9opvQ
-	(envelope-from <linux-api+bounces-6676-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 12:35:17 +0200
+	id baeeKzoOPWrKwQgAu9opvQ
+	(envelope-from <linux-api+bounces-6677-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 13:17:14 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1516C4AFC
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 12:35:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F7A6C5089
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 13:17:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YJjiMrZ0;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6676-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6676-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6677-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6677-lists+linux-api=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 53D0E3009164
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 10:35:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 331833051A79
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 11:17:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BE723CF217;
-	Thu, 25 Jun 2026 10:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C24636D51F;
+	Thu, 25 Jun 2026 11:17:01 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F02F373BE7;
-	Thu, 25 Jun 2026 10:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3A3D7D87;
+	Thu, 25 Jun 2026 11:16:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782383715; cv=none; b=nTcfXtl707bPRoj3nb5HonZY/ZYUiMwOY6nYnds4aAzCYcj7ylgkuyjtDXuuK6aWXDeMf0qBIrWavtzS2REQkB3XwUMeMI/T0ZcPExpL8Wctl5sIF2DBIKk7ekDbQGtlhKwJNPl2lrZAk8PwXSWdqVmeL37yaV/NN9mNxAlh1kg=
+	t=1782386220; cv=none; b=mQ5UNTcBRsv71teMyEiPs9Imy6yT8MyyFRXBqedg8pkrYX/AcYUHSJVbiRy7/q/J7kATCzr4/qb9R2Xd2zfhyQhq1KlTj754zYVX4CGarmiEhDFS4UK6E/isSOgspp7fqnpMdjuJSxYUah9akB3rNtexsUojw7+1xdJUi1T4RCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782383715; c=relaxed/simple;
-	bh=SOsOnpo1lZ6bWZX4XsY9NSTrD8/IP6ymVJ80fE0XkxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jNFbD9xqBjAthdcoAcsa0tfOTLLS14ETWEhVQr39pAQwDHv6vepx9b/DcIb6MhTjYiehrKBOeC5Um1p2p7RHqaObONE2Mzqzik8Xpmjha6qKJX8vY9YqJnCk2qYF8U+qQeZgKI8oCoLFIvMY21psQWzxOht/9wubzFGkFhvwWi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJjiMrZ0; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1B61F000E9;
-	Thu, 25 Jun 2026 10:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782383713;
-	bh=9HHE2RTbj2iNotWHLn7MMLQgGzSC89HxckcJ6YJVqXI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=YJjiMrZ0/8wpraKfJb25kF+R9/R7rXS90lxdE9nrUCKr81o6VzQIt71qEISgR6bMW
-	 zuUp2Xzg6xGCSPRvG+u5UcnbLMipCim//ZFlA/VQEw1wGJkAT6rNElx3DjDoVGj3S/
-	 FRhTdpoBidcqc9+Dw120FdCsaJO0tjeSIB//cpJ6Di7OQdkmgVo5b13u4+EgaRZuLI
-	 F+M51h2YPFzy65ntiXhUVZ/x9yXMPSGt/3eXLmlvLhPuTEYcEnHF2lgukpUzHEa55V
-	 gj2tCZdyJ0xpDqI4yiRt3urxerVy1LCephZK9ZhkvyTe5R8BwX1CXHyXiQuOeTCGR/
-	 5rzlOr4q3O4lA==
-Message-ID: <63f7860c-4f5c-4682-8914-27978b9fbfe1@kernel.org>
-Date: Thu, 25 Jun 2026 12:35:04 +0200
+	s=arc-20240116; t=1782386220; c=relaxed/simple;
+	bh=VakRpFkP0PJup2XvzcZ8023FTsjQhHoGF3vq6iI8rCA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MK1yEIBOl8w3VUD+ots4o1V4btO+EZY+ipS9MtPwJZJ0pT/6w5BJu9Ci9QVRwn7+GE14UFQGk1/XZnZtcKdensGomWnrvIVuKgE7YC/k4VrgcsbOBbtQs4o+ATftgqPoWXw1SEVfq+ondnxIIlbP2X65oa+EqZXAPFHlaBknCvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gmGSh4q0nzKHMX7;
+	Thu, 25 Jun 2026 19:15:48 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id D73B440561;
+	Thu, 25 Jun 2026 19:16:49 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgAnKT4fDj1q+9s4DA--.32975S3;
+	Thu, 25 Jun 2026 19:16:49 +0800 (CST)
+Message-ID: <0b7f1a4f-da1c-4297-8099-98d738070ab7@huaweicloud.com>
+Date: Thu, 25 Jun 2026 19:16:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -55,119 +52,155 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] vmsplice: fix some problems in my previous
- vmsplice patchset
-To: Askar Safin <safinaskar@gmail.com>
-Cc: akpm@linux-foundation.org, avagin@gmail.com, axboe@kernel.dk,
- brauner@kernel.org, collin.funk1@gmail.com, david.laight.linux@gmail.com,
- dhowells@redhat.com, fuse-devel@lists.linux.dev, hch@infradead.org,
- jack@suse.cz, joannelkoong@gmail.com, kernel@infinite-source.de,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@amacapital.net,
- metze@samba.org, miklos@szeredi.hu, netdev@vger.kernel.org,
- patches@lists.linux.dev, pfalcato@suse.de, torvalds@linux-foundation.org,
- val@packett.cool, viro@zeniv.linux.org.uk, w@1wt.eu, willy@infradead.org
-References: <89ea76b3-e956-4232-8180-ee3929adf905@kernel.org>
- <20260625101132.3859505-1-safinaskar@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>,
+ Christoph Hellwig <hch@infradead.org>
+Cc: Pankaj Raghav <p.raghav@samsung.com>, linux-xfs@vger.kernel.org,
+ bfoster@redhat.com, lukas@herbolt.com, "Darrick J . Wong"
+ <djwong@kernel.org>, dgc@kernel.org, gost.dev@samsung.com,
+ andres@anarazel.de, kundan.kumar@samsung.com, cem@kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+References: <20260611114029.176200-4-p.raghav@samsung.com>
+ <ajFQPANpajmFuKpi@infradead.org>
+ <kn5dyqdxmsydibpfcurgpom5vwqtwinrz27oenh4pekks6ybdj@wyi4zkh7mogy>
+ <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260625101132.3859505-1-safinaskar@gmail.com>
+In-Reply-To: <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgAnKT4fDj1q+9s4DA--.32975S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuFy5Aw17Kr1fZFW7Ar18Xwb_yoW5GrW5pr
+	ZxWFnayFZFgryUWr1Ivw1DXwn293ykJF17u398W348ZrZ0yF17G3ZF9rW0grWDur1kAF10
+	qF45Ka4xWFy7ZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-6677-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:safinaskar@gmail.com,m:akpm@linux-foundation.org,m:avagin@gmail.com,m:axboe@kernel.dk,m:brauner@kernel.org,m:collin.funk1@gmail.com,m:david.laight.linux@gmail.com,m:dhowells@redhat.com,m:fuse-devel@lists.linux.dev,m:hch@infradead.org,m:jack@suse.cz,m:joannelkoong@gmail.com,m:kernel@infinite-source.de,m:linux-api@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:luto@amacapital.net,m:metze@samba.org,m:miklos@szeredi.hu,m:netdev@vger.kernel.org,m:patches@lists.linux.dev,m:pfalcato@suse.de,m:torvalds@linux-foundation.org,m:val@packett.cool,m:viro@zeniv.linux.org.uk,m:w@1wt.eu,m:willy@infradead.org,m:collinfunk1@gmail.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-6676-lists,linux-api=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[28];
+	DMARC_NA(0.00)[huaweicloud.com];
+	FORGED_RECIPIENTS(0.00)[m:pankaj.raghav@linux.dev,m:hch@infradead.org,m:p.raghav@samsung.com,m:linux-xfs@vger.kernel.org,m:bfoster@redhat.com,m:lukas@herbolt.com,m:djwong@kernel.org,m:dgc@kernel.org,m:gost.dev@samsung.com,m:andres@anarazel.de,m:kundan.kumar@samsung.com,m:cem@kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[yi.zhang@huaweicloud.com,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[david@kernel.org,linux-api@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kernel.dk,kernel.org,redhat.com,lists.linux.dev,infradead.org,suse.cz,infinite-source.de,vger.kernel.org,kvack.org,amacapital.net,samba.org,szeredi.hu,suse.de,packett.cool,zeniv.linux.org.uk,1wt.eu];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yi.zhang@huaweicloud.com,linux-api@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DC1516C4AFC
+X-Rspamd-Queue-Id: 23F7A6C5089
 
-On 6/25/26 12:11, Askar Safin wrote:
-> "David Hildenbrand (Arm)" <david@kernel.org>:
->> I think we concluded that we cannot rip out vmsplice that way at this point, and
->> I suspect that Christian will drop that topic branch from -next after -rc1.
+On 6/18/2026 11:22 AM, Zhang Yi wrote:
+> On 6/17/2026 5:44 PM, Pankaj Raghav (Samsung) wrote:
+>> On Tue, Jun 16, 2026 at 06:31:40AM -0700, Christoph Hellwig wrote:
+>>> [API questions for Zhang and -fsdevel/ -api below)
+>>>
+>>>> +	unsigned int		blksize = i_blocksize(inode);
+>>>> +	loff_t			offset_aligned = round_down(offset, blksize);
+>>>
+>>> I think this actually needs to found up instead of rounding down.
+>>>
+>>>> +	/*
+>>>> +	 * Zero the tail of the old EOF block and any space up to the new
+>>>> +	 * offset.
+>>>> +	 * In the usual truncate path, xfs_falloc_setsize takes care of
+>>>> +	 * zeroing those blocks.
+>>>> +	 */
+>>>> +	if (offset_aligned > old_size) {
+>>>> +		trace_xfs_zero_eof(ip, old_size, offset_aligned - old_size);
+>>>> +		error = xfs_zero_range(ip, old_size, offset_aligned - old_size,
+>>>> +				NULL, &did_zero);
+>>>> +		if (error)
+>>>> +			return error;
+>>>> +	}
+>>>
+>>> ... then this will properly zero from the old i_size to the first block
+>>> boundary after the old size.
+>>
+>> Hmm, right now we do this:
+>>
+>> |----------|----------|----------|
+>>     ^      ^     ^    ^
+>>     |      |     |    |
+>>  old_size  |   offset |
+>>            |          |
+>> 	off_rd       off_ru
+>>
+>> At the moment, we zero out old_size to off_rd and pass offset to
+>> xfs_alloc_file_space. xfs_alloc_file_space rounds down the offset to off_rd.
+>>
+>> What you are proposing is to zero out old_size to off_ru, and pass
+>> off_ru to xfs_alloc_file_space. I don't exactly understand the
+>> difference.
 > 
-> I think my patches still have a chance.
+> IMO, FALLOC_FL_WRITE_ZEROES should handle the unaligned cases, if the
+> 'offset' and 'end' are not block-size aligned, then:
+> 
+> 1) if the two blocks straddling the boundaries have not yet been allocated,
+>    or allocated as unwritten, we should round outward the allocation range
+>    and zero out all allocated blocks, including those two boundary blocks.
+> 2) if the blocks at the boundaries are already in the written state — which
+>    can occur when we call FALLOC_FL_WRITE_ZEROES within the file size. We
+>    should be careful here: we should only zero the ranges [offset, offset_ru)
+>    and [end_rd, end) for the boundary blocks, leaving the already-written
+>    portions of the boundary blocks intact.
+> 
+I've thought about this more and feel that we need to add one more
+scenario here:
 
-I talked to Christian and it doesn't sound like it.
+3) If the blocks at the boundaries are in dirty unwritten or in delay
+   allocated state, it should be handled the same way as scenario 2.
+   Additionally, before returning, we need to flush these two boundary
+   blocks that have been partially zeroed, to ensure that after
+   FALLOC_FL_WRITE_ZEROES, all ranges are in the written state.
 
--- 
-Cheers,
+What do you think?
 
-David
+Best Regards,
+Yi.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
