@@ -1,46 +1,46 @@
-Return-Path: <linux-api+bounces-6690-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6699-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id h93oICVnPWpx2ggAu9opvQ
-	(envelope-from <linux-api+bounces-6690-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:36:37 +0200
+	id 8RBwM+JmPWpW2ggAu9opvQ
+	(envelope-from <linux-api+bounces-6699-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:35:30 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A886C7D92
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:36:37 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6B86C7D49
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 19:35:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=rambus.com header.s=selector1 header.b="4f/doGob";
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6690-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6690-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=rambus.com header.s=selector1 header.b=mz5OcEpC;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6699-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-api+bounces-6699-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=rambus.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 039D330C63F9
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 17:34:45 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1ABEA304B649
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jun 2026 17:34:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E71CA3EDE57;
-	Thu, 25 Jun 2026 17:34:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12523F076C;
+	Thu, 25 Jun 2026 17:34:25 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022095.outbound.protection.outlook.com [40.93.195.95])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11020134.outbound.protection.outlook.com [52.101.193.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C64C3ED136;
-	Thu, 25 Jun 2026 17:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C453EDE68;
+	Thu, 25 Jun 2026 17:34:19 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782408859; cv=fail; b=mi5H0chNlAEIMFcm86qIUAOmH7ElbKhg26s8GMfdZujcURS5rnjHFUpn9ZXJZcl+07c0kqDof5huRfrAvw5Ve9SjB24pwgEz1tFDysnUynOKdKPOpAzJgABvaFBMjAvQ1Ff0+RNyox+zb9F/ISj8GuvPerVVMPXQUNwjodxLhGQ=
+	t=1782408865; cv=fail; b=mM+dDTiBENh9JKp7BdWxJRUCeERHd459dLM5ACurI+4kV/ccM2vk2zHGmLQTYiI4T1i8LxSURPWK0RLZcwmeP8fRuUcnuJbARLeTkZf13wjYT+KQNxTNd2J+J2CjtJyWFh3slixwPjRb73FtSHSGMknW8w2UwjJGbwcn3PyPoew=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782408859; c=relaxed/simple;
-	bh=y4myAVBbg6tolCO+ichHbgF1lO+HixcJ5MeQMWBW62c=;
+	s=arc-20240116; t=1782408865; c=relaxed/simple;
+	bh=rYfDNqNoLONwmac9cJK5Wuk4Nhjzj5Q7FhXzEQD+Ymw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eO+TdDpLq1qoS3SlAlnPfi82ns5sDmVherbWkk+1rH5I7BFDP8whherSTQYqqihDSteiVvhraph2OfyW7VQFN+KdKxtZfCKDX5yCzBRSswYb3f33SZL6wmMFdIlxeuVLkXPlbWQzjocG2Td/oRvGGLZeECPYhuBSbmt21CyOQgc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=4f/doGob; arc=fail smtp.client-ip=40.93.195.95
+	 MIME-Version:Content-Type; b=G1XvUM7bXmgQ7DvkGDJxTNjHvMUQV9JcGjUpmRfQwz2olJnW3g9h4we/kmSif3gL+6VXPZs6gy+LOWWucB12jUzXV/4rdMFKdiL2Ub9Ekkd4cacS7h4DUk416yOEn7/kFA7at2oCZ0bYPx6uTZYdgRcQZbJC/KR1sEhSdH9CxYw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=mz5OcEpC; arc=fail smtp.client-ip=52.101.193.134
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wWGooNz0EUBHSNchFYjO1G8tQq0VUaH0EXHpDN3/QJukcrFQ2sD377Kg93GqhObtJr4BHDpUlaXAABTLiTS+OzkMsy00Sr+q1IFf0+42CW5GeyMN9QbYde858tssqe0g3MkYPGuK1EVowRGXYZ7TavAb8aKB3Mj6cC7sj0eqeJPOh1s0qdTsSYgPKA9iMthzeFAfeHIfiOQlatz9ZFpjo0rvBvTFWvY8f1FiubVtHc/DzILaedeEBvWFeueocAeZPX9v/n9bfn9BYKjTFp7FWZcEEDztD9Nyl+KtoYhUbn01f5ksFNtK/URowr3M4Sjz3Ewzz9aPyXziuBak6dnpnA==
+ b=U4NPZ03wTMdZMZQEP1yO7f7HTWElScsFPrxjoj2/K+xZy05rp4Xu1I4aH2ZpUCuSBrYbuPHdnPT8VHGD7UR1X4+mVtNeWY4HsxXGZFD7pWKIV54ndBhdRsyo1zrE2vpTpeWYX6/nMQEUVZLW1kOZd9f19JvdaR7gNaRiObhdK3AIcMjAP7LQkccmc7vSU0YzTORp4jmWAA/zjrzNbeM5rhCXzdm36lqlC4L+VEmiY0tPNfrxyZj2Z+tx7/LHpFxXzqECyhm96ZsQ60IeCPJsd+FsnT/c4ZAxsZLyLNgGTYjsDTj/89nK8GHTr7ndrBwJtUeeNygHQAy14j1X2uLRvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rohtc3LuMw+G1Efka3OAngS4CQk8ACRmH8Q+BThi3pE=;
- b=MCDzO83vHrcLVp1gyY9l/or7lnGcrS0wH0gfTCqHdHiDOhNieo8yH8JP2JxIQf7HXsW3OAXIlr2D2fWXaRd1+6gNP0AK9usbNiMeGz2DBoyWed9xMWZym3b1AYsvg0uJyJcYDdLHN6iqmrkp69BVCCEKbwQy4LOpNoVt+Ymaj0dXnwr17TelKtamB8bmo0bUtn97h0aRWByMgrz83waqFfVzqMzTHNP9yQTs8u9R1YL1fRPFNNWq4WVtDnboNi4CiNgiyr8yh46oaTqunofAxcrea55WM/D6rKzZs31QMyrXJ1OFsQVlAS4vbbOg+J9WL9cB2ZTCsA3TWvZqnJq+7Q==
+ bh=txAHUbM7yQq+nQhIjfxH21+NYf/2Gzx4wIQ33eNQQRg=;
+ b=GOnvzVJkmNyBRJyIpFogypHMj3CwuasWeVHAEj65f7FG5UHqkAdMJ4pBbEwYJlWe1r8cr9FS+x/rxHJ7+AqI+swE6yiwt2wP8BBfel+NSo03br6OdQfQsPXBFECaWe7LWKWkkcjt0eeHRt2pPR7D6ibfrBIwFnSjNkHGOriv7kwIU2p+iKWqPIoCUBFIlfJi+YV0YSysiAVCR3T96ac6Fvi3NtnpCsbLRhBDZihP5q/Hx4v8VtrWGtFXqx6hWaMbTkY9/quMK/G6vrhbI/klqiz+hrs1RkQToNVcw7MWorEAefE0xcu9OiNaajPXnFY0vwovt6bbhU2ukfAQi8Xf2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
@@ -48,17 +48,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rohtc3LuMw+G1Efka3OAngS4CQk8ACRmH8Q+BThi3pE=;
- b=4f/doGobqR66jRqi0j3kars9LuIMzrCBeZBJI/y3LACYIuyLaneyyV51gmyPBIUtttM1BrjstB1FNlEptLOH/5pAUwCBr1DD7pChH5BIn8bCSu5yiLhWtpR3f3ES0CP9oJYjw/BN3/QxGzJf5Cmc70/MW8LNIeQIxNDdugK5t+WHTlSq4AmhQuXLRqtBUokqk6e9w0it7KGdsV7xkzGOFAA5RZfau1oVmMVndu0CCej/ZAIMpezOpx0a9qjdT1QiyiKPLZ8PQvKx6mjP1L72KbLqJGBq+HdPVMmfVd/Mb+cNC6xnNHIDQcKZtlUrbmtICZ6fqwRo/wDRfzFS0ZcBzg==
-Received: from PH0PR07CA0118.namprd07.prod.outlook.com (2603:10b6:510:4::33)
- by DS6PR04MB9939.namprd04.prod.outlook.com (2603:10b6:8:368::15) with
+ bh=txAHUbM7yQq+nQhIjfxH21+NYf/2Gzx4wIQ33eNQQRg=;
+ b=mz5OcEpCcgpunwoYa18CQChE5yvKL8tCpGXQjzzItqC6Ut3dHMyjLGivw0n5ZE8ZgQrgtLEChQnuJuxUXBnrwqAxzvyrFb7BO7gmTsFGB25T59+2rCPEkya7nqktzOd+eZoiXtrZV+FSLhzkWNJhmHr5OsoLWNhSCjBAnUJXPdwWQaxhywA6EykO0jnQszre8Ff5DNWQ4p4xY/pVCpl5ZTsfwIqRXab+iWYqS3ayfhiFNr3aU7aSLzARB2+yFMGmaRnWobgA8GY1ah9Bv46pdZ/DuQqRoAQXZgg/NNSqn1FcsZ63LqiC2UJ4HvNarwT1BZ6++k/kZv4OUnPfktD+qw==
+Received: from BN9PR03CA0254.namprd03.prod.outlook.com (2603:10b6:408:ff::19)
+ by PH0PR04MB7478.namprd04.prod.outlook.com (2603:10b6:510:4e::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Thu, 25 Jun
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Thu, 25 Jun
  2026 17:34:10 +0000
-Received: from CY4PEPF0000FCC5.namprd03.prod.outlook.com
- (2603:10b6:510:4:cafe::78) by PH0PR07CA0118.outlook.office365.com
- (2603:10b6:510:4::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.17 via Frontend Transport; Thu,
+Received: from BN2PEPF000044A0.namprd02.prod.outlook.com
+ (2603:10b6:408:ff:cafe::9) by BN9PR03CA0254.outlook.office365.com
+ (2603:10b6:408:ff::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.16 via Frontend Transport; Thu,
  25 Jun 2026 17:34:09 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
  smtp.mailfrom=rambus.com; dkim=none (message not signed)
@@ -67,11 +67,11 @@ Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
  192.86.86.210 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.86.86.210; helo=hqxsv-psmtppxy02.rambus.com; pr=C
 Received: from hqxsv-psmtppxy02.rambus.com (192.86.86.210) by
- CY4PEPF0000FCC5.mail.protection.outlook.com (10.167.242.107) with Microsoft
+ BN2PEPF000044A0.mail.protection.outlook.com (10.167.243.151) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
  via Frontend Transport; Thu, 25 Jun 2026 17:34:09 +0000
 Received: from hqxsv-cmdev3-skrishnamoorthy.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
-	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 17533180176E;
+	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 2A6BF1801772;
 	Thu, 25 Jun 2026 17:34:07 +0000 (UTC)
 From: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
 To: Albert Ou <aou@eecs.berkeley.edu>,
@@ -98,9 +98,9 @@ Cc: Alexandre Ghiti <alex@ghiti.fr>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	sipsupport@rambus.com,
 	Thi Nguyen <thin@rambus.com>
-Subject: [PATCH 11/19] crypto: cmh - add DRBG hwrng
-Date: Thu, 25 Jun 2026 10:33:19 -0700
-Message-ID: <20260625173328.1140487-12-skrishnamoorthy@rambus.com>
+Subject: [PATCH 12/19] crypto: cmh - add RSA akcipher
+Date: Thu, 25 Jun 2026 10:33:20 -0700
+Message-ID: <20260625173328.1140487-13-skrishnamoorthy@rambus.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
 References: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
@@ -113,32 +113,32 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC5:EE_|DS6PR04MB9939:EE_
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A0:EE_|PH0PR04MB7478:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a4764024-d582-4a90-78c1-08ded2dff6f6
+X-MS-Office365-Filtering-Correlation-Id: ea51256f-7f9e-400d-2d4e-08ded2dff724
 X-LD-Processed: bd0ba799-c2b9-413c-9c56-5d1731c4827c,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|7416014|376014|1800799024|23010399003|18002099003|22082099003|11063799006|56012099006|921020|6133799003|3023799007;
+	BCL:0;ARA:13230040|376014|7416014|82310400026|23010399003|1800799024|36860700016|921020|56012099006|11063799006|6133799003|18002099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	2n2WBUZyDQioejsGCPrEJARWdxBI0VPPhP1iDHTaiHCpkBMbYz9RfVNap1jsEOV6FGGtlpM99lyS/+hWaCReETGoRbKZbcEuv/+lhQvu1+qZrRrLdz6ivg95ccegqvpey829xSHYEUR7FGee035GJS6qlO0Xp/+2ExCMnlE8ZSOFpfyyO/mzBzMRt3UyqL4SNLDqgi6rIdwX8RYZrgDTOAmpr16tPkSwOtrEJDxxnmbAXhiPG2h65iryy1+YtyIPNOmaQ5gJEQzxRjdGLJG/ySRePRVf9k55Kn5Kro66G4URyKrnxNXrIqaUwL/oviDZElMx/C1GIKAY6jL49b1qPhWAJeYzQgre7vbzm/Lo7QMjIBYS4CGVPRIee+A92sDVLviNjX7pBHH807ayi41gY42WvjayEVdpZ2j3z1VMvw3pzRA9i23l+Vw1UnVNVLsLj2CCYIo3zhC8VNA3ERVkM8s3adKnOc4ndujLr908m1z/wGuUT6Xgcr65FbqYVRDIdarmK91v+Qjib5ynS/Rwz9908uohJrehv4CHc42zD8omtUEprcl1F7hr2EM0G9b88VJ9y1ft2p92aYzuUlD313ZoIR2Qpyj11B1WkgZeFknW9t2Jnp74mIUE4qP6BEtNj2guCMzKkcvNEtFmdUHIcE6GcH8aUcaCcXQBJ+ZtJLd578eyDtZZZIg6FtGzrzEaZVaHWUsH8qgec83KFiFhFRyVXWYDtg/xcZHqblSAgnG6VoPF3cj9PDZh5Me0e1zc
+	9zPjg9CeHLniMAQY0owb6Ef0KH/ooNCBn09+lKLCSAYO/0orCwl53xzGHj7hX/piItW46E5e9iAnuLpX0ilz9YWuWI3zmSYL7OcU6i8pIECUPOHkhoyIzYRVfNnDMhKkYhuB+eCj+2AkP7AgLLb4bgIKBWu1C2Ck/0/xQA6ucTxiAIDWkd55izrCoTbLXHkMKLbY7N1I2MttMdGKXs5USnFHrLPTIEYWn+NxjTbv4WGTgcu2bqw4ghkkI655jRZcLGL41GSnlkYjyLwuepiiywfN0ZoBGrsQ2S3CU3fTbPbSk6+YbDZllutn0Yz4LLKZf/jjzVcSwLcUm0XR/aYk2dMdCtCYlnnXUI4vuW0++LclktB6OkhX08+VyQ2ZCPdwRtc4WxxL2eepH1zW/tVUDiV9xDy1bCvfxD0jxq/BH4jfCgGmpZipQyEdDKdI+c6UFHVEOgWQVCV0SSHJXXRTiDFflo1Mr+IQ0GBGEtzhQyiInBLr6toNrt+/T5VPVu7PPON4nFAzdC87OldnKoxSm1P6HRNfYcV2sVcC724zeBl+JBjR4u1jIikZHgtXfy5T1aOYSa7cQG/B/YA/uEmMkPXhYZOa+0UzJQ3KHbQgs+ai1x91KnsbZnVNrVHGPg1llIZfzSiNa8qTR9P0R72uaDKWgcrxOkYuLlLvW2s5A/iTwz6aCZadigj2V+6hReQKxT1YoOTKydwZwSr2Dg/xXb12MXCay+ZyAntJ21u6AdTWlstxiY6tafcFbcx0Q7N0
 X-Forefront-Antispam-Report:
-	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(7416014)(376014)(1800799024)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(921020)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(23010399003)(1800799024)(36860700016)(921020)(56012099006)(11063799006)(6133799003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	eIAApoSRY52zOG00XcTgjGJY+xuPSHB6aF2JOQN/gWdwnzhG/6NINJcXYJjCOEWNdQ0v/OFHgbl7PoJ+tFtkdBOwCU8cyuPZDEdW6SzWhDQFRZNMLZdsf3jXKXVSQLlMM3RTqiIpNYLdIPn2OZj+o/hBnkDIfoUHBymvpQB2FSO5V+S4rPto/Kx4Zo2Vew1xQXYnuZTQ2tgYYuJeaD0vJm5v+xxBPi0D97sOJ6z8JTRiTo4SHioDfwh8DR3IPhpVHcXx542+53cGl/tMtrR7snhMoePApSbioybTrdtMtGokfHE82oKJ4jLopLhXwlMSVVVZHgK47dvb7EenfqdWXtf6hRj9uOy3ZxhaYi8Y9iJx9JhJaSAUPHrcPZdqGsfxncUnoqxCB42+EtcN37pJuyJH/RYkDdpD75ZebO4WkKgjs42Zxq3TqY3r2UAJeVPo
+	Z59gY+qJBVHa6RaEb9DG2J9nt22NjB0F1AiWpiVv+6V4rJh8c2ot+CKLgsLMDRlwqvHb6q9lwE34b3M39uT8u7ahKBue+uAoL37xzuSwPVvSQQG4vi11xLsf6/PdQv1wRIjowdyda809GSxJqpzXvs9dIHFCJ7aZpraQvSLDwJXcYUP1953axf37FzGkiE2119/Rr9taNJ+F9G/RRMpXJBEBZhRTsO/QXZeRNEm5Wr7XRerp+Fow9jwkFxA0CfQX/thRvV3MxGxwr2yT7nvfmK0/ZWSHW+4ilj1CXvvrS9pxsYIpQ9kxEbMcUNdVSOKUj5ks6WYBrIv/RiiSYCPJ8kl3sO22z760+LmQUFvAEA3t6RadkyPK/m/1Wm9dtAp37QsmbykOrDGy3q76vVi/mROfMQjS3WcskF4T7V3rwOa+MlNzf828/nnXa+A6Sw6v
 X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 17:34:09.4825
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 17:34:09.6756
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4764024-d582-4a90-78c1-08ded2dff6f6
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea51256f-7f9e-400d-2d4e-08ded2dff724
 X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy02.rambus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000FCC5.namprd03.prod.outlook.com
+	BN2PEPF000044A0.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR04MB9939
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7478
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -147,14 +147,14 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[rambus.com,reject];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[rambus.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[skrishnamoorthy@rambus.com,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_FROM(0.00)[bounces-6690-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6699-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -166,20 +166,22 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[skrishnamoorthy@rambus.com,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,cryptography.com:email,vger.kernel.org:from_smtp,rambus.com:url,rambus.com:from_mime,rambus.com:dkim,rambus.com:email,rambus.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,cryptography.com:email,vger.kernel.org:from_smtp,rambus.com:url,rambus.com:from_mime,rambus.com:dkim,rambus.com:email,rambus.com:mid];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-api,dt];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 19A886C7D92
+X-Rspamd-Queue-Id: 9B6B86C7D49
 
 From: Alex Ousherovitch <aousherovitch@rambus.com>
 
-Register the CMH DRBG core (core ID 0x0f) as an hwrng provider.
-The hardware implements a NIST SP 800-90A compliant DRBG with
-automatic self-seeding.
+Register the RSA akcipher algorithm using the CMH PKE core (core ID
+0x0a).  Supports encrypt, decrypt, sign, and verify operations with
+2048, 3072, and 4096-bit keys.  512- and 1024-bit keys are also
+accepted for legacy/test interoperability.  Includes common PKE
+helpers shared by subsequent ECDSA and ECDH patches.
 
 Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.co=
 m>
@@ -188,408 +190,1351 @@ Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
 Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
 Reviewed-by: Thi Nguyen <thin@rambus.com>
 ---
- drivers/crypto/cmh/Makefile   |   3 +-
- drivers/crypto/cmh/cmh_main.c |   9 +
- drivers/crypto/cmh/cmh_rng.c  | 316 ++++++++++++++++++++++++++++++++++
- 3 files changed, 327 insertions(+), 1 deletion(-)
- create mode 100644 drivers/crypto/cmh/cmh_rng.c
+ drivers/crypto/cmh/Makefile         |   4 +-
+ drivers/crypto/cmh/cmh_main.c       |   9 +
+ drivers/crypto/cmh/cmh_pke_common.c | 578 +++++++++++++++++++++++++
+ drivers/crypto/cmh/cmh_pke_rsa.c    | 642 ++++++++++++++++++++++++++++
+ 4 files changed, 1232 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/crypto/cmh/cmh_pke_common.c
+ create mode 100644 drivers/crypto/cmh/cmh_pke_rsa.c
 
 diff --git a/drivers/crypto/cmh/Makefile b/drivers/crypto/cmh/Makefile
-index 4ebd0e1d10bc..1c4cb817424c 100644
+index 1c4cb817424c..7afd9852c337 100644
 --- a/drivers/crypto/cmh/Makefile
 +++ b/drivers/crypto/cmh/Makefile
-@@ -28,7 +28,8 @@ cmh-y :=3D \
-        cmh_sm4_cmac.o \
+@@ -29,7 +29,9 @@ cmh-y :=3D \
         cmh_ccp.o \
         cmh_ccp_aead.o \
--       cmh_ccp_poly.o
-+       cmh_ccp_poly.o \
-+       cmh_rng.o
+        cmh_ccp_poly.o \
+-       cmh_rng.o
++       cmh_rng.o \
++       cmh_pke_common.o \
++       cmh_pke_rsa.o
 
  # Management ioctl device (/dev/cmh_mgmt): key lifecycle, PKE, PQC ioctls.
  cmh-$(CONFIG_CRYPTO_DEV_CMH_MGMT) +=3D \
 diff --git a/drivers/crypto/cmh/cmh_main.c b/drivers/crypto/cmh/cmh_main.c
-index 79df27d43e7e..f31c50168e4a 100644
+index f31c50168e4a..8535453342d7 100644
 --- a/drivers/crypto/cmh/cmh_main.c
 +++ b/drivers/crypto/cmh/cmh_main.c
-@@ -34,6 +34,7 @@
- #include "cmh_cshake.h"
- #include "cmh_kmac.h"
- #include "cmh_sm3.h"
-+#include "cmh_rng.h"
+@@ -38,6 +38,7 @@
  #include "cmh_aes.h"
  #include "cmh_sm4.h"
  #include "cmh_ccp.h"
-@@ -224,6 +225,11 @@ static int cmh_probe(struct platform_device *pdev)
++#include "cmh_pke.h"
+ #include "cmh_mgmt.h"
+ #include "cmh_registers.h"
+ #include "cmh_debugfs.h"
+@@ -275,6 +276,11 @@ static int cmh_probe(struct platform_device *pdev)
         if (ret)
-                goto err_sm3_register;
+                goto err_ccp_poly_register;
 
-+       /* Register hwrng backed by DRBG core */
-+       ret =3D cmh_rng_register(pdev);
++       /* Register PKE RSA akcipher */
++       ret =3D cmh_pke_rsa_register();
 +       if (ret)
-+               goto err_rng_register;
++               goto err_pke_rsa_register;
 +
-        /* Register AES skcipher algorithms */
-        ret =3D cmh_aes_register();
+        /* Register key management device (/dev/cmh_mgmt) */
+        ret =3D cmh_mgmt_register();
         if (ret)
-@@ -299,6 +305,8 @@ static int cmh_probe(struct platform_device *pdev)
- err_aes_aead_register:
-        cmh_aes_unregister();
- err_aes_register:
-+       cmh_rng_unregister();
-+err_rng_register:
-        cmh_sm3_unregister();
- err_sm3_register:
-        cmh_kmac_unregister();
-@@ -344,6 +352,7 @@ static void cmh_remove(struct platform_device *pdev)
-        cmh_aes_cmac_unregister();
-        cmh_aes_aead_unregister();
-        cmh_aes_unregister();
-+       cmh_rng_unregister();
-        cmh_sm3_unregister();
-        cmh_kmac_unregister();
-        cmh_cshake_unregister();
-diff --git a/drivers/crypto/cmh/cmh_rng.c b/drivers/crypto/cmh/cmh_rng.c
+@@ -287,6 +293,8 @@ static int cmh_probe(struct platform_device *pdev)
+        return 0;
+
+ err_mgmt_register:
++       cmh_pke_rsa_unregister();
++err_pke_rsa_register:
+        cmh_ccp_poly_unregister();
+ err_ccp_poly_register:
+        cmh_ccp_aead_unregister();
+@@ -343,6 +351,7 @@ static void cmh_remove(struct platform_device *pdev)
+        cfg =3D &dev->config;
+
+        cmh_mgmt_unregister();
++       cmh_pke_rsa_unregister();
+        cmh_ccp_poly_unregister();
+        cmh_ccp_aead_unregister();
+        cmh_ccp_unregister();
+diff --git a/drivers/crypto/cmh/cmh_pke_common.c b/drivers/crypto/cmh/cmh_p=
+ke_common.c
 new file mode 100644
-index 000000000000..c9693f6cc360
+index 000000000000..ab3e2eb7d3f8
 --- /dev/null
-+++ b/drivers/crypto/cmh/cmh_rng.c
-@@ -0,0 +1,316 @@
++++ b/drivers/crypto/cmh/cmh_pke_common.c
+@@ -0,0 +1,578 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- Hardware RNG (DRBG) Driver
++ * CMH LKM -- PKE Common VCQ Builders
 + *
-+ * Implements a Linux hwrng backed by the CMH DRBG core.  Each .read()
-+ * builds a 3-entry VCQ (header + GENERATE + FLUSH) and submits it
-+ * synchronously through the Transaction Manager.
++ * VCQ builder functions for all PKE core commands.  Each builder
++ * populates a single vcq_cmd slot with the appropriate magic,
++ * command ID, byte-swap flags, and command-specific payload.
 + *
-+ * DRBG configuration (CONFIG) is a management-host operation in the
-+ * CMH security model.  The driver's behaviour is controlled by the
-+ * drbg_config setting (debug-only module parameter):
++ * RSA commands always use PKE_SWAP_FLAGS (VCQ_FLAG_SWAP_BYTES |
++ * VCQ_FLAG_SWAP_WORDS).  EC Weierstrass curves (NIST P-*, Brainpool,
++ * secp256k1, SM2) use PKE_SWAP_FLAGS; Edwards curves (25519, 448)
++ * use no swap flags.  SM2 commands use per-command flags documented
++ * in the eSW ABI.
 + *
-+ *   "auto" (default) -- attempt CONFIG at probe with the hardcoded
-+ *     ratio/strength defaults.  Succeeds in stateless mode (any host may
-+ *     CONFIG) or when this host is the management host in stateful
-+ *     mode.  On -EPERM the driver logs a notice and continues --
-+ *     GENERATE will work once the management host configures the DRBG.
++ * Callers combine these with vcq_set_header() + vcq_add_flush()
++ * and submit via cmh_tm_submit_sync().
++ */
++
++#include <linux/string.h>
++
++#include "cmh_pke.h"
++
++/**
++ * vcq_add_pke_flush() - Add a PKE flush command to a VCQ slot
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
 + *
-+ *   "skip" -- do not issue CONFIG; assume an external management host
-+ *     will configure the DRBG.  hwrng is still registered; .read()
-+ *     returns -EAGAIN until GENERATE succeeds.
++ * Populates @slot with a flush command for the specified PKE core.
++ */
++void vcq_add_pke_flush(struct vcq_cmd *slot, u32 core_id)
++{
++       vcq_add_flush(slot, core_id);
++}
++
++/* RSA */
++
++/**
++ * vcq_add_pke_rsa_enc() - Build a VCQ command for RSA public-key encrypti=
+on
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @bits: RSA key size in bits
++ * @e_len: Length of the public exponent in bytes
++ * @e_dma: DMA address of public exponent buffer
++ * @n_dma: DMA address of modulus buffer
++ * @m_dma: DMA address of plaintext message buffer
++ * @c_dma: DMA address of ciphertext output buffer
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_rsa_enc(struct vcq_cmd *slot, u32 core_id, u32 bits, u32 =
+e_len,
++                        u64 e_dma, u64 n_dma, u64 m_dma, u64 c_dma,
++                        u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_RSA_ENC);
++       slot->hwc.pke.cmd_rsa_enc.bits =3D bits;
++       slot->hwc.pke.cmd_rsa_enc.e_len =3D e_len;
++       slot->hwc.pke.cmd_rsa_enc.e =3D e_dma;
++       slot->hwc.pke.cmd_rsa_enc.n =3D n_dma;
++       slot->hwc.pke.cmd_rsa_enc.m =3D m_dma;
++       slot->hwc.pke.cmd_rsa_enc.c =3D c_dma;
++}
++
++/**
++ * vcq_add_pke_rsa_dec() - Build a VCQ command for RSA private-key decrypt=
+ion
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @bits: RSA key size in bits
++ * @e_len: Length of the public exponent in bytes
++ * @e_dma: DMA address of public exponent buffer
++ * @n_dma: DMA address of modulus buffer
++ * @c_dma: DMA address of ciphertext input buffer
++ * @m_dma: DMA address of plaintext output buffer
++ * @d_ref: Datastore reference for the private exponent
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_rsa_dec(struct vcq_cmd *slot, u32 core_id, u32 bits, u32 =
+e_len,
++                        u64 e_dma, u64 n_dma, u64 c_dma, u64 m_dma,
++                        u64 d_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_RSA_DEC);
++       slot->hwc.pke.cmd_rsa_dec.bits =3D bits;
++       slot->hwc.pke.cmd_rsa_dec.e_len =3D e_len;
++       slot->hwc.pke.cmd_rsa_dec.e =3D e_dma;
++       slot->hwc.pke.cmd_rsa_dec.n =3D n_dma;
++       slot->hwc.pke.cmd_rsa_dec.c =3D c_dma;
++       slot->hwc.pke.cmd_rsa_dec.m =3D m_dma;
++       slot->hwc.pke.cmd_rsa_dec.d =3D d_ref;
++}
++
++/**
++ * vcq_add_pke_rsa_crt_dec() - Build a VCQ command for RSA-CRT decryption
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @bits: RSA key size in bits
++ * @e_len: Length of the public exponent in bytes
++ * @e_dma: DMA address of public exponent buffer
++ * @n_dma: DMA address of modulus buffer
++ * @c_dma: DMA address of ciphertext input buffer
++ * @m_dma: DMA address of plaintext output buffer
++ * @crt_ref: Datastore reference for CRT private key components
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_rsa_crt_dec(struct vcq_cmd *slot, u32 core_id, u32 bits, =
+u32 e_len,
++                            u64 e_dma, u64 n_dma, u64 c_dma, u64 m_dma,
++                            u64 crt_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_RSA_CRT_DEC);
++       slot->hwc.pke.cmd_rsa_crt_dec.bits =3D bits;
++       slot->hwc.pke.cmd_rsa_crt_dec.e_len =3D e_len;
++       slot->hwc.pke.cmd_rsa_crt_dec.e =3D e_dma;
++       slot->hwc.pke.cmd_rsa_crt_dec.n =3D n_dma;
++       slot->hwc.pke.cmd_rsa_crt_dec.c =3D c_dma;
++       slot->hwc.pke.cmd_rsa_crt_dec.m =3D m_dma;
++       slot->hwc.pke.cmd_rsa_crt_dec.crt =3D crt_ref;
++}
++
++/* ECDSA */
++
++/**
++ * vcq_add_pke_ecdsa_verify() - Build a VCQ command for ECDSA signature ve=
+rification
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521)
++ * @dlen: Digest length in bytes
++ * @pk_dma: DMA address of public key buffer
++ * @dig_dma: DMA address of digest buffer
++ * @sig_dma: DMA address of signature buffer
++ * @rp_dma: DMA address of r-prime verification output buffer
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_ecdsa_verify(struct vcq_cmd *slot, u32 core_id, u32 curve=
+, u32 dlen,
++                             u64 pk_dma, u64 dig_dma, u64 sig_dma,
++                             u64 rp_dma, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDSA_VERIFY);
++       slot->hwc.pke.cmd_ecdsa_verify.curve =3D curve;
++       slot->hwc.pke.cmd_ecdsa_verify.digest_len =3D dlen;
++       slot->hwc.pke.cmd_ecdsa_verify.public_key =3D pk_dma;
++       slot->hwc.pke.cmd_ecdsa_verify.digest =3D dig_dma;
++       slot->hwc.pke.cmd_ecdsa_verify.signature =3D sig_dma;
++       slot->hwc.pke.cmd_ecdsa_verify.rprime =3D rp_dma;
++}
++
++/**
++ * vcq_add_pke_ecdsa_sign() - Build a VCQ command for ECDSA signing
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521)
++ * @sklen: Secret key length in bytes
++ * @dig_dma: DMA address of digest buffer
++ * @sig_dma: DMA address of signature output buffer
++ * @sk_ref: Datastore reference for the secret key
++ * @dlen: Digest length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_ecdsa_sign(struct vcq_cmd *slot, u32 core_id, u32 curve, =
+u32 sklen,
++                           u64 dig_dma, u64 sig_dma, u64 sk_ref,
++                           u32 dlen, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDSA_SIGN);
++       slot->hwc.pke.cmd_ecdsa_sign.curve =3D curve;
++       slot->hwc.pke.cmd_ecdsa_sign.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_ecdsa_sign.digest =3D dig_dma;
++       slot->hwc.pke.cmd_ecdsa_sign.signature =3D sig_dma;
++       slot->hwc.pke.cmd_ecdsa_sign.secret_key =3D sk_ref;
++       slot->hwc.pke.cmd_ecdsa_sign.digest_len =3D dlen;
++}
++
++/**
++ * vcq_add_pke_ecdsa_pubgen() - Build a VCQ command for ECDSA public key g=
+eneration
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521)
++ * @sklen: Secret key length in bytes
++ * @pk_dma: DMA address of public key output buffer
++ * @sk_ref: Datastore reference for the secret key
++ * @flags: VCQ command flags
 + *
-+ * The management host (or any privileged user-space process) can also
-+ * reconfigure the DRBG at runtime via CMH_IOCTL_DRBG_CONFIG.
++ * Generates the public key from an existing private key stored in the
++ * datastore.
++ */
++void vcq_add_pke_ecdsa_pubgen(struct vcq_cmd *slot, u32 core_id, u32 curve=
+, u32 sklen,
++                             u64 pk_dma, u64 sk_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDSA_PUBGEN);
++       slot->hwc.pke.cmd_ecdsa_pubgen.curve =3D curve;
++       slot->hwc.pke.cmd_ecdsa_pubgen.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_ecdsa_pubgen.public_key =3D pk_dma;
++       slot->hwc.pke.cmd_ecdsa_pubgen.secret_key =3D sk_ref;
++}
++
++/**
++ * vcq_add_pke_ecdsa_keygen() - Build a VCQ command for ECDSA key pair gen=
+eration
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521)
++ * @sklen: Secret key length in bytes
++ * @sk_ref: Datastore reference for the generated secret key
++ * @sk_type: Datastore type for the secret key object
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_ecdsa_keygen(struct vcq_cmd *slot, u32 core_id, u32 curve=
+, u32 sklen,
++                             u64 sk_ref, u32 sk_type, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDSA_KEYGEN);
++       slot->hwc.pke.cmd_ecdsa_keygen.curve =3D curve;
++       slot->hwc.pke.cmd_ecdsa_keygen.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_ecdsa_keygen.secret_key =3D sk_ref;
++       slot->hwc.pke.cmd_ecdsa_keygen.secret_key_type =3D sk_type;
++}
++
++/* ECDH */
++
++/**
++ * vcq_add_pke_ecdh_keygen() - Build a VCQ command for ECDH key pair gener=
+ation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521, X25519, X448)
++ * @sklen: Secret key length in bytes
++ * @pkx_dma: DMA address of public key X-coordinate output buffer
++ * @sk_ref: Datastore reference for the generated secret key
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_ecdh_keygen(struct vcq_cmd *slot, u32 core_id, u32 curve,=
+ u32 sklen,
++                            u64 pkx_dma, u64 sk_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDH_KEYGEN);
++       slot->hwc.pke.cmd_ecdh_keygen.curve =3D curve;
++       slot->hwc.pke.cmd_ecdh_keygen.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_ecdh_keygen.public_key_x =3D pkx_dma;
++       slot->hwc.pke.cmd_ecdh_keygen.secret_key =3D sk_ref;
++}
++
++/**
++ * vcq_add_pke_ecdh() - Build a VCQ command for ECDH shared secret computa=
+tion
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (e.g. NIST P-256, P-384, P-521, X25519, X448)
++ * @sklen: Secret key length in bytes
++ * @sslen: Shared secret length in bytes
++ * @ss_type: Datastore type for the shared secret object
++ * @peer_dma: DMA address of peer public key buffer
++ * @sk_ref: Datastore reference for the local secret key
++ * @ss_ref: Datastore reference for the computed shared secret
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_ecdh(struct vcq_cmd *slot, u32 core_id, u32 curve, u32 sk=
+len,
++                     u32 sslen, u32 ss_type, u64 peer_dma, u64 sk_ref,
++                     u64 ss_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_ECDH);
++       slot->hwc.pke.cmd_ecdh.curve =3D curve;
++       slot->hwc.pke.cmd_ecdh.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_ecdh.shared_secret_len =3D sslen;
++       slot->hwc.pke.cmd_ecdh.shared_secret_type =3D ss_type;
++       slot->hwc.pke.cmd_ecdh.peer_key_x =3D peer_dma;
++       slot->hwc.pke.cmd_ecdh.secret_key =3D sk_ref;
++       slot->hwc.pke.cmd_ecdh.shared_secret =3D ss_ref;
++}
++
++/* EdDSA */
++
++/**
++ * vcq_add_pke_eddsa_verify() - Build a VCQ command for EdDSA signature ve=
+rification
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (Ed25519 or Ed448)
++ * @dlen: Digest (message) length in bytes
++ * @pky_dma: DMA address of public key Y-coordinate buffer
++ * @dig_dma: DMA address of digest buffer
++ * @sig_dma: DMA address of signature buffer
++ * @rp_dma: DMA address of r-prime verification output buffer
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_eddsa_verify(struct vcq_cmd *slot, u32 core_id, u32 curve=
+, u32 dlen,
++                             u64 pky_dma, u64 dig_dma, u64 sig_dma,
++                             u64 rp_dma, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_EDDSA_VERIFY);
++       slot->hwc.pke.cmd_eddsa_verify.curve =3D curve;
++       slot->hwc.pke.cmd_eddsa_verify.digest_len =3D dlen;
++       slot->hwc.pke.cmd_eddsa_verify.public_key_y =3D pky_dma;
++       slot->hwc.pke.cmd_eddsa_verify.digest =3D dig_dma;
++       slot->hwc.pke.cmd_eddsa_verify.signature =3D sig_dma;
++       slot->hwc.pke.cmd_eddsa_verify.rprime =3D rp_dma;
++}
++
++/**
++ * vcq_add_pke_eddsa_sign() - Build a VCQ command for EdDSA signing
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (Ed25519 or Ed448)
++ * @sklen: Secret key length in bytes
++ * @dig_dma: DMA address of digest (message) buffer
++ * @sig_dma: DMA address of signature output buffer
++ * @sk_ref: Datastore reference for the secret key
++ * @dlen: Digest (message) length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_eddsa_sign(struct vcq_cmd *slot, u32 core_id, u32 curve, =
+u32 sklen,
++                           u64 dig_dma, u64 sig_dma, u64 sk_ref,
++                           u32 dlen, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_EDDSA_SIGN);
++       slot->hwc.pke.cmd_eddsa_sign.curve =3D curve;
++       slot->hwc.pke.cmd_eddsa_sign.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_eddsa_sign.digest =3D dig_dma;
++       slot->hwc.pke.cmd_eddsa_sign.signature =3D sig_dma;
++       slot->hwc.pke.cmd_eddsa_sign.secret_key =3D sk_ref;
++       slot->hwc.pke.cmd_eddsa_sign.digest_len =3D dlen;
++}
++
++/**
++ * vcq_add_pke_eddsa_pubgen() - Build a VCQ command for EdDSA public key g=
+eneration
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (Ed25519 or Ed448)
++ * @sklen: Secret key length in bytes
++ * @pky_dma: DMA address of public key Y-coordinate output buffer
++ * @sk_ref: Datastore reference for the secret key
++ * @flags: VCQ command flags
++ *
++ * Generates the public key from an existing private key stored in the
++ * datastore.
++ */
++void vcq_add_pke_eddsa_pubgen(struct vcq_cmd *slot, u32 core_id, u32 curve=
+, u32 sklen,
++                             u64 pky_dma, u64 sk_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_EDDSA_PUBGEN);
++       slot->hwc.pke.cmd_eddsa_pubgen.curve =3D curve;
++       slot->hwc.pke.cmd_eddsa_pubgen.secret_key_len =3D sklen;
++       slot->hwc.pke.cmd_eddsa_pubgen.public_key_y =3D pky_dma;
++       slot->hwc.pke.cmd_eddsa_pubgen.secret_key =3D sk_ref;
++}
++
++/**
++ * vcq_add_pke_eddsa_keygen_sca() - Build a VCQ command for EdDSA SCA key =
+generation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @curve: Curve identifier (Ed448)
++ * @sk_ref: Datastore reference for the input secret key
++ * @sca_sk_ref: Datastore reference for the SCA-masked output key
++ *
++ * Blinds an Ed448 private key into a side-channel-protected masked
++ * form.  No byte-swap flags are used (CRI reference uses flags=3D0).
++ */
++void vcq_add_pke_eddsa_keygen_sca(struct vcq_cmd *slot, u32 core_id, u32 c=
+urve,
++                                 u64 sk_ref, u64 sca_sk_ref)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, 0, 1,
++                             PKE_CMD_EDDSA_PRIV_KEYGEN_SCA);
++       slot->hwc.pke.cmd_eddsa_keygen_sca.curve =3D curve;
++       slot->hwc.pke.cmd_eddsa_keygen_sca.secret_key =3D sk_ref;
++       slot->hwc.pke.cmd_eddsa_keygen_sca.sca_secret_key =3D sca_sk_ref;
++}
++
++/* SM2 */
++
++/**
++ * vcq_add_pke_sm2_ecdh_keygen() - Build a VCQ command for SM2 ECDH epheme=
+ral key generation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @nonce_dma: DMA address of nonce input buffer
++ * @session_key_dma: DMA address of session key output buffer
++ * @nonce_len: Nonce length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_ecdh_keygen(struct vcq_cmd *slot, u32 core_id, u64 no=
+nce_dma,
++                                u64 session_key_dma, u32 nonce_len, u32 fl=
+ags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1,
++                             PKE_CMD_SM2_ECDH_KEYGEN);
++       slot->hwc.pke.cmd_sm2_ecdh_keygen.nonce =3D nonce_dma;
++       slot->hwc.pke.cmd_sm2_ecdh_keygen.session_key =3D session_key_dma;
++       slot->hwc.pke.cmd_sm2_ecdh_keygen.nonce_len =3D nonce_len;
++}
++
++/**
++ * vcq_add_pke_sm2_ecdh() - Build a VCQ command for SM2 ECDH shared secret=
+ computation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @nonce_len: Nonce length in bytes
++ * @private_key_len: Private key length in bytes
++ * @nonce_dma: DMA address of nonce buffer
++ * @peer_pk_dma: DMA address of peer public key buffer
++ * @peer_sk_dma: DMA address of peer session key buffer
++ * @priv_ref: Datastore reference for the local private key
++ * @sp_ref: Datastore reference for the shared point output
++ * @sp_type: Datastore type for the shared point object
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_ecdh(struct vcq_cmd *slot, u32 core_id, u32 nonce_len=
+,
++                         u32 private_key_len, u64 nonce_dma,
++                         u64 peer_pk_dma, u64 peer_sk_dma,
++                         u64 priv_ref, u64 sp_ref, u32 sp_type, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_ECDH);
++       slot->hwc.pke.cmd_sm2_ecdh.nonce_len =3D nonce_len;
++       slot->hwc.pke.cmd_sm2_ecdh.private_key_len =3D private_key_len;
++       slot->hwc.pke.cmd_sm2_ecdh.nonce =3D nonce_dma;
++       slot->hwc.pke.cmd_sm2_ecdh.peer_public_key =3D peer_pk_dma;
++       slot->hwc.pke.cmd_sm2_ecdh.peer_session_key =3D peer_sk_dma;
++       slot->hwc.pke.cmd_sm2_ecdh.private_key =3D priv_ref;
++       slot->hwc.pke.cmd_sm2_ecdh.shared_point =3D sp_ref;
++       slot->hwc.pke.cmd_sm2_ecdh.shared_point_type =3D sp_type;
++}
++
++/**
++ * vcq_add_pke_sm2_dec_point() - Build a VCQ command for SM2 decryption po=
+int multiplication
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @ct_len: Ciphertext length in bytes
++ * @pk_len: Private key length in bytes
++ * @ct_dma: DMA address of ciphertext input buffer
++ * @dp_dma: DMA address of decryption point output buffer
++ * @priv_ref: Datastore reference for the private key
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_dec_point(struct vcq_cmd *slot, u32 core_id, u32 ct_l=
+en,
++                              u32 pk_len, u64 ct_dma, u64 dp_dma,
++                              u64 priv_ref, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_DEC_POINT);
++       slot->hwc.pke.cmd_sm2_dec_point.ciphertext_len =3D ct_len;
++       slot->hwc.pke.cmd_sm2_dec_point.private_key_len =3D pk_len;
++       slot->hwc.pke.cmd_sm2_dec_point.ciphertext =3D ct_dma;
++       slot->hwc.pke.cmd_sm2_dec_point.dec_point =3D dp_dma;
++       slot->hwc.pke.cmd_sm2_dec_point.private_key =3D priv_ref;
++}
++
++/**
++ * vcq_add_pke_sm2_enc_point() - Build a VCQ command for SM2 encryption po=
+int multiplication
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @nonce_dma: DMA address of nonce buffer
++ * @pk_dma: DMA address of public key buffer
++ * @ct_dma: DMA address of ciphertext header output buffer
++ * @ep_dma: DMA address of encryption point output buffer
++ * @nonce_len: Nonce length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_enc_point(struct vcq_cmd *slot, u32 core_id, u64 nonc=
+e_dma,
++                              u64 pk_dma, u64 ct_dma, u64 ep_dma,
++                              u32 nonce_len, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_ENC_POINT);
++       slot->hwc.pke.cmd_sm2_enc_point.nonce =3D nonce_dma;
++       slot->hwc.pke.cmd_sm2_enc_point.public_key =3D pk_dma;
++       slot->hwc.pke.cmd_sm2_enc_point.ciphertext =3D ct_dma;
++       slot->hwc.pke.cmd_sm2_enc_point.enc_point =3D ep_dma;
++       slot->hwc.pke.cmd_sm2_enc_point.nonce_len =3D nonce_len;
++}
++
++/**
++ * vcq_add_pke_sm2_id_digest() - Build a VCQ command for SM2 identity dige=
+st computation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @id_dma: DMA address of identity string buffer
++ * @pk_dma: DMA address of public key buffer
++ * @dig_dma: DMA address of digest output buffer
++ * @id_len: Identity string length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_id_digest(struct vcq_cmd *slot, u32 core_id, u64 id_d=
+ma,
++                              u64 pk_dma, u64 dig_dma, u32 id_len,
++                              u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_ID_DIGEST);
++       slot->hwc.pke.cmd_sm2_id_digest.id =3D id_dma;
++       slot->hwc.pke.cmd_sm2_id_digest.public_key =3D pk_dma;
++       slot->hwc.pke.cmd_sm2_id_digest.digest =3D dig_dma;
++       slot->hwc.pke.cmd_sm2_id_digest.id_len =3D id_len;
++}
++
++/**
++ * vcq_add_pke_sm2_ecdh_hash() - Build a VCQ command for SM2 ECDH key deri=
+vation hash
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @peer_dig_dma: DMA address of peer identity digest buffer
++ * @dig_dma: DMA address of local identity digest buffer
++ * @sp_ref: Datastore reference for the shared point
++ * @sk_ref: Datastore reference for the derived shared key output
++ * @sk_type: Datastore type for the shared key object
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_ecdh_hash(struct vcq_cmd *slot, u32 core_id, u64 peer=
+_dig_dma,
++                              u64 dig_dma, u64 sp_ref, u64 sk_ref,
++                              u32 sk_type, u32 flags)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_ECDH_HASH);
++       slot->hwc.pke.cmd_sm2_ecdh_hash.peer_id_digest =3D peer_dig_dma;
++       slot->hwc.pke.cmd_sm2_ecdh_hash.id_digest =3D dig_dma;
++       slot->hwc.pke.cmd_sm2_ecdh_hash.shared_point =3D sp_ref;
++       slot->hwc.pke.cmd_sm2_ecdh_hash.shared_key =3D sk_ref;
++       slot->hwc.pke.cmd_sm2_ecdh_hash.shared_key_type =3D sk_type;
++}
++
++/**
++ * vcq_add_pke_sm2_dec_hash() - Build a VCQ command for SM2 decryption has=
+h verification
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @ct_dma: DMA address of ciphertext input buffer
++ * @dp_dma: DMA address of decryption point buffer
++ * @pt_dma: DMA address of plaintext output buffer
++ * @ct_len: Ciphertext length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_dec_hash(struct vcq_cmd *slot, u32 core_id, u64 ct_dm=
+a,
++                             u64 dp_dma, u64 pt_dma, u32 ct_len, u32 flags=
+)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_DEC_HASH);
++       slot->hwc.pke.cmd_sm2_dec_hash.ciphertext =3D ct_dma;
++       slot->hwc.pke.cmd_sm2_dec_hash.dec_point =3D dp_dma;
++       slot->hwc.pke.cmd_sm2_dec_hash.plaintext =3D pt_dma;
++       slot->hwc.pke.cmd_sm2_dec_hash.ciphertext_len =3D ct_len;
++}
++
++/**
++ * vcq_add_pke_sm2_enc_hash() - Build a VCQ command for SM2 encryption has=
+h computation
++ * @slot: VCQ command slot to populate
++ * @core_id: PKE hardware core ID
++ * @msg_dma: DMA address of plaintext message buffer
++ * @ep_dma: DMA address of encryption point buffer
++ * @ct_dma: DMA address of ciphertext output buffer
++ * @msg_len: Message length in bytes
++ * @flags: VCQ command flags
++ */
++void vcq_add_pke_sm2_enc_hash(struct vcq_cmd *slot, u32 core_id, u64 msg_d=
+ma,
++                             u64 ep_dma, u64 ct_dma, u32 msg_len, u32 flag=
+s)
++{
++       memset(slot, 0, sizeof(*slot));
++       slot->magic =3D VCQ_CMD_MAGIC;
++       slot->id =3D VCQ_CMD_ID(core_id, flags, 1, PKE_CMD_SM2_ENC_HASH);
++       slot->hwc.pke.cmd_sm2_enc_hash.message =3D msg_dma;
++       slot->hwc.pke.cmd_sm2_enc_hash.enc_point =3D ep_dma;
++       slot->hwc.pke.cmd_sm2_enc_hash.ciphertext =3D ct_dma;
++       slot->hwc.pke.cmd_sm2_enc_hash.message_len =3D msg_len;
++}
+diff --git a/drivers/crypto/cmh/cmh_pke_rsa.c b/drivers/crypto/cmh/cmh_pke_=
+rsa.c
+new file mode 100644
+index 000000000000..010f8bd98f0d
+--- /dev/null
++++ b/drivers/crypto/cmh/cmh_pke_rsa.c
+@@ -0,0 +1,642 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
++ * CMH LKM -- RSA akcipher Driver
++ *
++ * Registers "rsa" akcipher algorithm with the Linux crypto subsystem
++ * (priority 300, overrides software rsa-generic at 100).
++ *
++ * Raw RSA operations only (m^e mod n / c^d mod n).  The kernel's
++ * pkcs1pad() template wraps this for PKCS#1 v1.5 / PSS / OAEP.
++ *
++ * Key format: DER-encoded ASN.1, parsed by kernel rsa_parse_pub_key()
++ * / rsa_parse_priv_key() helpers.
++ *
++ * Private key via cmh_key_ctx: raw keys written via SYS_REF_TEMP.
++ * Datastore-referenced keys are only reachable through the ioctl
++ * path (cmh_mgmt.c).
 + */
 +
 +#include <linux/module.h>
 +#include <linux/kernel.h>
-+#include <linux/hw_random.h>
 +#include <linux/slab.h>
-+#include <linux/platform_device.h>
++#include <linux/scatterlist.h>
++#include <crypto/akcipher.h>
++#include <crypto/internal/akcipher.h>
++#include <crypto/internal/rsa.h>
 +
-+#include "cmh_rng.h"
-+#include "cmh_vcq.h"
++#include "cmh_pke.h"
++#include "cmh_sys.h"
++#include "cmh_sys_abi.h"
 +#include "cmh_txn.h"
 +#include "cmh_dma.h"
-+#include "cmh_sys.h"
-+#include "cmh_config.h"
++#include "cmh_key.h"
 +
-+/* VCQ layout for .read(): header + GENERATE + FLUSH =3D 3 entries. */
-+#define DRBG_READ_VCQ_CMDS     3
-+
-+/* VCQ layout for CONFIG: header + RESET + CONFIG + FLUSH =3D 4 entries. *=
-/
-+#define DRBG_CONFIG_VCQ_CMDS   4
-+
-+/*
-+ * Linux hwrng quality is expressed in bits of entropy per 1024 bits of
-+ * input.  The kernel clamps to this maximum; mirror it here so our
-+ * MODULE_PARM_DESC and clamp logic stay in sync.
-+ */
-+#define CMH_HWRNG_QUALITY_MAX  1024
-+
-+/* Module parameters */
-+
-+static int hwrng_quality;
-+module_param(hwrng_quality, int, 0444);
-+MODULE_PARM_DESC(hwrng_quality,
-+                "hwrng quality (0=3Dno CRNG seeding, 1-1024=3Denable; defa=
-ult: 0)");
-+
-+#ifdef CONFIG_CRYPTO_DEV_CMH_DEBUG
-+static char *drbg_config =3D "auto";
-+module_param(drbg_config, charp, 0444);
-+MODULE_PARM_DESC(drbg_config,
-+                "[debug] DRBG config at probe: \"auto\"=3Dattempt CONFIG, =
-\"skip\"=3Dassume external (default: auto)");
-+#else
-+static const char *drbg_config =3D "auto";
-+#endif
-+
-+/*
-+ * DRBG parameters -- hardcoded to production defaults.
-+ * Entropy ratio 0 =3D 1:1 (full entropy), security strength 0x10 =3D 256-=
-bit.
-+ */
-+#define CMH_DRBG_ENTROPY_RATIO         0
-+#define CMH_DRBG_SECURITY_STRENGTH     0x10
-+
-+static unsigned int drbg_timeout_ms =3D 500;
-+
-+/* VCQ Builders */
-+
-+static void vcq_add_drbg_generate(struct vcq_cmd *slot, u64 dst_phys, u32 =
-len)
-+{
-+       memset(slot, 0, sizeof(*slot));
-+       slot->magic =3D VCQ_CMD_MAGIC;
-+       slot->id =3D VCQ_CMD_ID(CORE_ID_DRBG, 0, 1, DRBG_CMD_GENERATE);
-+       slot->hwc.drbg.cmd_generate.dst =3D dst_phys;
-+       slot->hwc.drbg.cmd_generate.len =3D len;
-+}
-+
-+/*
-+ * Maximum bytes per DRBG GENERATE request.  The kernel calls .read()
-+ * repeatedly to fill larger requests, so capping here is safe.
-+ * 32 bytes matches the 256-bit security strength natural output size.
-+ */
-+#define CMH_DRBG_MAX_GENERATE  32U
-+
-+/* hwrng .read() callback */
-+
-+static int cmh_rng_read(struct hwrng *rng, void *data, size_t max, bool wa=
-it)
-+{
-+       struct cmh_dma_orphan *orphan;
-+       struct vcq_cmd vcq[DRBG_READ_VCQ_CMDS];
-+       dma_addr_t dma_addr;
-+       void *dmabuf;
-+       size_t nbytes;
-+       int ret;
-+
-+       if (max =3D=3D 0)
-+               return 0;
-+
-+       /*
-+        * Our path uses GFP_KERNEL allocations and synchronous VCQ
-+        * submission -- both may sleep.  When the caller indicates
-+        * non-blocking context (!wait), return 0 ("no data yet") so
-+        * the hwrng core retries later.
-+        */
-+       if (!wait)
-+               return 0;
-+
-+       nbytes =3D min_t(size_t, max, CMH_DRBG_MAX_GENERATE);
-+
-+       orphan =3D kmalloc_obj(*orphan, GFP_KERNEL);
-+       if (!orphan)
-+               return -ENOMEM;
-+
-+       dmabuf =3D kmalloc(nbytes, GFP_KERNEL);
-+       if (!dmabuf) {
-+               kfree(orphan);
-+               return -ENOMEM;
-+       }
-+
-+       dma_addr =3D cmh_dma_map_single(dmabuf, nbytes, DMA_FROM_DEVICE);
-+       if (cmh_dma_map_error(dma_addr)) {
-+               kfree(dmabuf);
-+               kfree(orphan);
-+               return -ENOMEM;
-+       }
-+
-+       orphan->buf  =3D dmabuf;
-+       orphan->addr =3D dma_addr;
-+       orphan->len  =3D nbytes;
-+       orphan->dir  =3D DMA_FROM_DEVICE;
-+
-+       vcq_set_header(&vcq[0], DRBG_READ_VCQ_CMDS);
-+       vcq_add_drbg_generate(&vcq[1], dma_addr, nbytes);
-+       vcq_add_flush(&vcq[2], CORE_ID_DRBG);
-+
-+       /*
-+        * Use the noabort variant: if the MBX is occupied by a slow
-+        * operation (e.g. SLH-DSA sign at 120 s), we must not issue
-+        * MBX_COMMAND_ABORT -- that would kill the unrelated in-flight
-+        * VCQ.  On timeout with an in-flight VCQ (-EINPROGRESS), the
-+        * orphan callback defers DMA cleanup until the RH fires.
-+        */
-+       ret =3D cmh_tm_submit_sync_noabort(vcq, DRBG_READ_VCQ_CMDS, 1,
-+                                        msecs_to_jiffies(drbg_timeout_ms),
-+                                        cmh_dma_orphan_free, orphan);
-+       if (ret =3D=3D -EINPROGRESS) {
-+               /* Orphan callback owns dmabuf -- will free on VCQ completi=
-on */
-+               return -EAGAIN;
-+       }
-+
-+       /* Normal path or cancelled-from-queue: caller owns DMA */
-+       cmh_dma_unmap_single(dma_addr, nbytes, DMA_FROM_DEVICE);
-+       kfree(orphan);
-+
-+       if (ret) {
-+               /*
-+                * Only translate known transient conditions to -EAGAIN
-+                * so the hwrng subsystem retries later.  Propagate
-+                * unexpected failures unchanged to avoid masking real
-+                * faults and causing indefinite retry loops.
-+                */
-+               switch (ret) {
-+               case -EAGAIN:
-+               case -EBUSY:
-+               case -ETIMEDOUT:
-+               case -EIO:
-+               /*
-+                * -ENODEV: the TM is not running -- occurs when the
-+                * hwrng kthread (PF_NOFREEZE, not frozen during
-+                * suspend) calls .read() while the device is suspended.
-+                * Treat as transient: the TM restarts on resume.
-+                */
-+               case -ENODEV:
-+                       dev_dbg_ratelimited(cmh_dev(),
-+                                           "rng: transient DRBG failure (r=
-c=3D%d)\n",
-+                                           ret);
-+                       kfree(dmabuf);
-+                       return -EAGAIN;
-+               default:
-+                       dev_err_ratelimited(cmh_dev(),
-+                                           "rng: DRBG generate failed (rc=
-=3D%d)\n",
-+                                           ret);
-+                       kfree(dmabuf);
-+                       return ret;
-+               }
-+       }
-+
-+       memcpy(data, dmabuf, nbytes);
-+       kfree(dmabuf);
-+
-+       return nbytes;
-+}
-+
-+/* Registration */
-+
-+static bool cmh_rng_registered;
-+
-+static struct hwrng cmh_hwrng =3D {
-+       .name =3D "cri-cmh-drbg",
-+       .read =3D cmh_rng_read,
++struct cmh_rsa_tfm_ctx {
++       struct cmh_key_ctx key;         /* private key (raw d only) */
++       u8 *n;                          /* modulus (big-endian) */
++       u8 *e;                          /* public exponent (big-endian) */
++       size_t n_sz;
++       size_t e_sz;
++       u32 bits;                       /* key size in bits */
 +};
 +
-+/**
-+ * cmh_rng_register() - Register the CMH hardware RNG device
-+ * @pdev: Platform device for the CMH accelerator
++static inline struct cmh_rsa_tfm_ctx *cmh_rsa_ctx(struct crypto_akcipher *=
+tfm)
++{
++       return akcipher_tfm_ctx(tfm);
++}
++
++struct cmh_rsa_reqctx {
++       u8 *e_buf;
++       u8 *n_buf;
++       u8 *m_buf;
++       u8 *c_buf;
++       u8 *d_buf;              /* dec only: private key copy */
++       dma_addr_t e_dma;
++       dma_addr_t n_dma;
++       dma_addr_t m_dma;
++       dma_addr_t c_dma;
++       dma_addr_t d_dma;
++       u32 key_bytes;
++       u32 e_padded;
++       u32 n_sz;
++       u32 d_len;              /* dec only */
++};
++
++static u32 cmh_rsa_key_bits(size_t n_sz)
++{
++       /*
++        * Only accept exact modulus sizes supported by the hardware.
++        * The programmed RSA width must match the actual modulus buffer
++        * length; rounding a shorter modulus up to the next size would
++        * let the device read past the end of the DMA buffer.
++        */
++       switch (n_sz) {
++       case 64:
++               return 512;
++       case 128:
++               return 1024;
++       case 256:
++               return 2048;
++       case 384:
++               return 3072;
++       case 512:
++               return 4096;
++       default:
++               return 0;
++       }
++}
++
++static void cmh_rsa_enc_complete(void *data, int error)
++{
++       struct akcipher_request *req =3D data;
++       struct cmh_rsa_reqctx *rctx =3D akcipher_request_ctx(req);
++
++       if (error =3D=3D -EINPROGRESS) {
++               cmh_complete(&req->base, error);
++               return;
++       }
++
++       if (!cmh_dma_map_error(rctx->c_dma))
++               cmh_dma_unmap_single(rctx->c_dma, rctx->key_bytes,
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->m_dma))
++               cmh_dma_unmap_single(rctx->m_dma, rctx->key_bytes,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->n_dma))
++               cmh_dma_unmap_single(rctx->n_dma, rctx->n_sz,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->e_dma))
++               cmh_dma_unmap_single(rctx->e_dma, rctx->e_padded,
++                                    DMA_TO_DEVICE);
++
++       if (!error) {
++               int nents;
++
++               nents =3D sg_nents_for_len(req->dst, rctx->key_bytes);
++               if (nents < 0 ||
++                   sg_copy_from_buffer(req->dst, nents,
++                                       rctx->c_buf,
++                                       rctx->key_bytes) !=3D rctx->key_byt=
+es)
++                       error =3D -EINVAL;
++               else
++                       req->dst_len =3D rctx->key_bytes;
++       }
++
++       kfree(rctx->c_buf);
++       rctx->c_buf =3D NULL;
++       kfree_sensitive(rctx->m_buf);
++       rctx->m_buf =3D NULL;
++       kfree(rctx->n_buf);
++       rctx->n_buf =3D NULL;
++       kfree(rctx->e_buf);
++       rctx->e_buf =3D NULL;
++       cmh_complete(&req->base, error);
++}
++
++/*
++ * RSA encrypt: c =3D m^e mod n (public key operation)
++ * Also used for signature verification (verify =3D encrypt for raw RSA).
++ */
++static int cmh_rsa_enc(struct akcipher_request *req)
++{
++       struct crypto_akcipher *tfm =3D crypto_akcipher_reqtfm(req);
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++       struct cmh_rsa_reqctx *rctx =3D akcipher_request_ctx(req);
++       u32 key_bytes =3D ctx->bits / 8;
++       u32 e_padded =3D ALIGN(ctx->e_sz, 4);
++       struct core_dispatch d =3D cmh_core_select_instance(CMH_CORE_PKE);
++       struct vcq_cmd vcq[PKE_VCQ_CMDS_MIN];
++       int ret, nents;
++       gfp_t gfp;
++
++       if (!ctx->n || !ctx->e)
++               return -EINVAL;
++       if (req->src_len > key_bytes || req->dst_len < key_bytes)
++               return -EINVAL;
++
++       gfp =3D req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
++             GFP_KERNEL : GFP_ATOMIC;
++
++       memset(rctx, 0, sizeof(*rctx));
++       rctx->key_bytes =3D key_bytes;
++       rctx->e_padded =3D e_padded;
++       rctx->n_sz =3D ctx->n_sz;
++       rctx->e_dma =3D DMA_MAPPING_ERROR;
++       rctx->n_dma =3D DMA_MAPPING_ERROR;
++       rctx->m_dma =3D DMA_MAPPING_ERROR;
++       rctx->c_dma =3D DMA_MAPPING_ERROR;
++
++       rctx->e_buf =3D kzalloc(e_padded, gfp);
++       rctx->n_buf =3D kmemdup(ctx->n, ctx->n_sz, gfp);
++       rctx->m_buf =3D kzalloc(key_bytes, gfp);
++       rctx->c_buf =3D kzalloc(key_bytes, gfp);
++       if (!rctx->e_buf || !rctx->n_buf || !rctx->m_buf || !rctx->c_buf) {
++               ret =3D -ENOMEM;
++               goto out_free;
++       }
++
++       memcpy(rctx->e_buf + e_padded - ctx->e_sz, ctx->e, ctx->e_sz);
++
++       nents =3D sg_nents_for_len(req->src, req->src_len);
++       if (nents < 0 ||
++           sg_pcopy_to_buffer(req->src, nents,
++                              rctx->m_buf + key_bytes - req->src_len,
++                              req->src_len, 0) !=3D req->src_len) {
++               ret =3D -EINVAL;
++               goto out_free;
++       }
++
++       rctx->e_dma =3D cmh_dma_map_single(rctx->e_buf, e_padded,
++                                        DMA_TO_DEVICE);
++       rctx->n_dma =3D cmh_dma_map_single(rctx->n_buf, ctx->n_sz,
++                                        DMA_TO_DEVICE);
++       rctx->m_dma =3D cmh_dma_map_single(rctx->m_buf, key_bytes,
++                                        DMA_TO_DEVICE);
++       rctx->c_dma =3D cmh_dma_map_single(rctx->c_buf, key_bytes,
++                                        DMA_FROM_DEVICE);
++
++       if (cmh_dma_map_error(rctx->e_dma) ||
++           cmh_dma_map_error(rctx->n_dma) ||
++           cmh_dma_map_error(rctx->m_dma) ||
++           cmh_dma_map_error(rctx->c_dma)) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++
++       vcq_set_header(&vcq[0], PKE_VCQ_CMDS_MIN);
++       vcq_add_pke_rsa_enc(&vcq[1], d.core_id, ctx->bits, e_padded,
++                           rctx->e_dma, rctx->n_dma, rctx->m_dma,
++                           rctx->c_dma, PKE_SWAP_FLAGS);
++       vcq_add_pke_flush(&vcq[2], d.core_id);
++
++       ret =3D cmh_tm_submit_async(vcq, PKE_VCQ_CMDS_MIN, 1, d.mbx_idx,
++                                 cmh_rsa_enc_complete, req,
++                                 !!(req->base.flags &
++                                    CRYPTO_TFM_REQ_MAY_BACKLOG), 0);
++       if (ret =3D=3D -EBUSY)
++               return -EBUSY;
++       if (!ret)
++               return -EINPROGRESS;
++
++out_unmap:
++       if (!cmh_dma_map_error(rctx->c_dma))
++               cmh_dma_unmap_single(rctx->c_dma, key_bytes,
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->m_dma))
++               cmh_dma_unmap_single(rctx->m_dma, key_bytes,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->n_dma))
++               cmh_dma_unmap_single(rctx->n_dma, ctx->n_sz,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->e_dma))
++               cmh_dma_unmap_single(rctx->e_dma, e_padded,
++                                    DMA_TO_DEVICE);
++
++out_free:
++       kfree(rctx->c_buf);
++       kfree_sensitive(rctx->m_buf);
++       kfree(rctx->n_buf);
++       kfree(rctx->e_buf);
++       return ret;
++}
++
++static void cmh_rsa_dec_complete(void *data, int error)
++{
++       struct akcipher_request *req =3D data;
++       struct cmh_rsa_reqctx *rctx =3D akcipher_request_ctx(req);
++
++       if (error =3D=3D -EINPROGRESS) {
++               cmh_complete(&req->base, error);
++               return;
++       }
++
++       if (!cmh_dma_map_error(rctx->d_dma))
++               cmh_dma_unmap_single(rctx->d_dma, rctx->d_len,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->m_dma))
++               cmh_dma_unmap_single(rctx->m_dma, rctx->key_bytes,
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->c_dma))
++               cmh_dma_unmap_single(rctx->c_dma, rctx->key_bytes,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->n_dma))
++               cmh_dma_unmap_single(rctx->n_dma, rctx->n_sz,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->e_dma))
++               cmh_dma_unmap_single(rctx->e_dma, rctx->e_padded,
++                                    DMA_TO_DEVICE);
++
++       if (!error) {
++               int nents;
++
++               nents =3D sg_nents_for_len(req->dst, rctx->key_bytes);
++               if (nents < 0 ||
++                   sg_copy_from_buffer(req->dst, nents,
++                                       rctx->m_buf,
++                                       rctx->key_bytes) !=3D rctx->key_byt=
+es)
++                       error =3D -EINVAL;
++               else
++                       req->dst_len =3D rctx->key_bytes;
++       }
++
++       kfree_sensitive(rctx->d_buf);
++       rctx->d_buf =3D NULL;
++       kfree_sensitive(rctx->m_buf);
++       rctx->m_buf =3D NULL;
++       kfree(rctx->c_buf);
++       rctx->c_buf =3D NULL;
++       kfree(rctx->n_buf);
++       rctx->n_buf =3D NULL;
++       kfree(rctx->e_buf);
++       rctx->e_buf =3D NULL;
++       cmh_complete(&req->base, error);
++}
++
++/*
++ * RSA decrypt: m =3D c^d mod n (private key operation)
++ * Also used for signing (sign =3D decrypt for raw RSA).
 + *
-+ * Reads hwrng quality from device tree and module parameters, validates
-+ * DRBG configuration, optionally sends a DRBG CONFIG VCQ to firmware,
-+ * and registers the hwrng device with the kernel hwrng framework.
++ * Private key 'd' is written via SYS_REF_TEMP inline.
++ */
++static int cmh_rsa_dec(struct akcipher_request *req)
++{
++       struct crypto_akcipher *tfm =3D crypto_akcipher_reqtfm(req);
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++       struct cmh_rsa_reqctx *rctx =3D akcipher_request_ctx(req);
++       u32 key_bytes =3D ctx->bits / 8;
++       u32 e_padded =3D ALIGN(ctx->e_sz, 4);
++       struct vcq_cmd vcq[PKE_VCQ_CMDS_MAX];
++       struct core_dispatch dd;
++       int ret, idx, nents;
++       gfp_t gfp;
++
++       if (ctx->key.mode !=3D CMH_KEY_RAW)
++               return -EINVAL;
++       if (!ctx->n || !ctx->e)
++               return -EINVAL;
++       if (req->src_len > key_bytes || req->dst_len < key_bytes)
++               return -EINVAL;
++
++       gfp =3D req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
++             GFP_KERNEL : GFP_ATOMIC;
++
++       memset(rctx, 0, sizeof(*rctx));
++       rctx->key_bytes =3D key_bytes;
++       rctx->e_padded =3D e_padded;
++       rctx->n_sz =3D ctx->n_sz;
++       rctx->e_dma =3D DMA_MAPPING_ERROR;
++       rctx->n_dma =3D DMA_MAPPING_ERROR;
++       rctx->m_dma =3D DMA_MAPPING_ERROR;
++       rctx->c_dma =3D DMA_MAPPING_ERROR;
++       rctx->d_dma =3D DMA_MAPPING_ERROR;
++
++       rctx->e_buf =3D kzalloc(e_padded, gfp);
++       rctx->n_buf =3D kmemdup(ctx->n, ctx->n_sz, gfp);
++       rctx->c_buf =3D kzalloc(key_bytes, gfp);
++       rctx->m_buf =3D kzalloc(key_bytes, gfp);
++       if (!rctx->e_buf || !rctx->n_buf || !rctx->c_buf || !rctx->m_buf) {
++               ret =3D -ENOMEM;
++               goto out_free;
++       }
++
++       memcpy(rctx->e_buf + e_padded - ctx->e_sz, ctx->e, ctx->e_sz);
++
++       nents =3D sg_nents_for_len(req->src, req->src_len);
++       if (nents < 0 ||
++           sg_pcopy_to_buffer(req->src, nents,
++                              rctx->c_buf + key_bytes - req->src_len,
++                              req->src_len, 0) !=3D req->src_len) {
++               ret =3D -EINVAL;
++               goto out_free;
++       }
++
++       rctx->e_dma =3D cmh_dma_map_single(rctx->e_buf, e_padded,
++                                        DMA_TO_DEVICE);
++       rctx->n_dma =3D cmh_dma_map_single(rctx->n_buf, ctx->n_sz,
++                                        DMA_TO_DEVICE);
++       rctx->c_dma =3D cmh_dma_map_single(rctx->c_buf, key_bytes,
++                                        DMA_TO_DEVICE);
++       rctx->m_dma =3D cmh_dma_map_single(rctx->m_buf, key_bytes,
++                                        DMA_FROM_DEVICE);
++
++       if (cmh_dma_map_error(rctx->e_dma) ||
++           cmh_dma_map_error(rctx->n_dma) ||
++           cmh_dma_map_error(rctx->c_dma) ||
++           cmh_dma_map_error(rctx->m_dma)) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++
++       dd =3D cmh_core_select_instance(CMH_CORE_PKE);
++
++       rctx->d_buf =3D kmemdup(ctx->key.raw.data, ctx->key.raw.len, gfp);
++       if (!rctx->d_buf) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++       rctx->d_len =3D ctx->key.raw.len;
++
++       rctx->d_dma =3D cmh_dma_map_single(rctx->d_buf, ctx->key.raw.len,
++                                        DMA_TO_DEVICE);
++       if (cmh_dma_map_error(rctx->d_dma)) {
++               ret =3D -ENOMEM;
++               goto out_unmap;
++       }
++
++       idx =3D 1;
++       vcq_add_sys_write(&vcq[idx], SYS_REF_TEMP, rctx->d_dma,
++                         SYS_REF_NONE, ctx->key.raw.len,
++                         ctx->key.raw.sys_type);
++       vcq[idx].id |=3D PKE_SWAP_FLAGS;
++       idx++;
++       vcq_add_pke_rsa_dec(&vcq[idx++], dd.core_id, ctx->bits, e_padded,
++                           rctx->e_dma, rctx->n_dma, rctx->c_dma,
++                           rctx->m_dma, SYS_REF_TEMP, PKE_SWAP_FLAGS);
++       vcq_add_pke_flush(&vcq[idx++], dd.core_id);
++       vcq_set_header(&vcq[0], idx);
++
++       ret =3D cmh_tm_submit_async(vcq, idx, 1, dd.mbx_idx,
++                                 cmh_rsa_dec_complete, req,
++                                 !!(req->base.flags &
++                                    CRYPTO_TFM_REQ_MAY_BACKLOG), 0);
++       if (ret =3D=3D -EBUSY)
++               return -EBUSY;
++       if (!ret)
++               return -EINPROGRESS;
++
++out_unmap:
++       if (!cmh_dma_map_error(rctx->d_dma))
++               cmh_dma_unmap_single(rctx->d_dma, rctx->d_len,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->m_dma))
++               cmh_dma_unmap_single(rctx->m_dma, key_bytes,
++                                    DMA_FROM_DEVICE);
++       if (!cmh_dma_map_error(rctx->c_dma))
++               cmh_dma_unmap_single(rctx->c_dma, key_bytes,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->n_dma))
++               cmh_dma_unmap_single(rctx->n_dma, ctx->n_sz,
++                                    DMA_TO_DEVICE);
++       if (!cmh_dma_map_error(rctx->e_dma))
++               cmh_dma_unmap_single(rctx->e_dma, e_padded,
++                                    DMA_TO_DEVICE);
++
++out_free:
++       kfree_sensitive(rctx->d_buf);
++       kfree_sensitive(rctx->m_buf);
++       kfree(rctx->c_buf);
++       kfree(rctx->n_buf);
++       kfree(rctx->e_buf);
++       return ret;
++}
++
++static int cmh_rsa_set_pub_key(struct crypto_akcipher *tfm,
++                              const void *key, unsigned int keylen)
++{
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++       struct rsa_key rsa =3D {};
++       int ret;
++
++       ret =3D rsa_parse_pub_key(&rsa, key, keylen);
++       if (ret)
++               return ret;
++
++       /* Strip ASN.1 leading zero padding from modulus */
++       while (rsa.n_sz > 0 && rsa.n[0] =3D=3D 0) {
++               rsa.n++;
++               rsa.n_sz--;
++       }
++
++       ctx->bits =3D cmh_rsa_key_bits(rsa.n_sz);
++       if (!ctx->bits)
++               return -EINVAL;
++
++       kfree(ctx->n);
++       kfree(ctx->e);
++       ctx->n =3D NULL;
++       ctx->e =3D NULL;
++       ctx->n_sz =3D 0;
++       ctx->e_sz =3D 0;
++
++       ctx->n =3D kmemdup(rsa.n, rsa.n_sz, GFP_KERNEL);
++       ctx->e =3D kmemdup(rsa.e, rsa.e_sz, GFP_KERNEL);
++       if (!ctx->n || !ctx->e) {
++               kfree(ctx->n);
++               kfree(ctx->e);
++               ctx->n =3D NULL;
++               ctx->e =3D NULL;
++               return -ENOMEM;
++       }
++
++       ctx->n_sz =3D rsa.n_sz;
++       ctx->e_sz =3D rsa.e_sz;
++
++       return 0;
++}
++
++static int cmh_rsa_set_priv_key(struct crypto_akcipher *tfm,
++                               const void *key, unsigned int keylen)
++{
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++       struct rsa_key rsa =3D {};
++       u32 key_bytes;
++       u8 *d_padded;
++       int ret;
++
++       ret =3D rsa_parse_priv_key(&rsa, key, keylen);
++       if (ret)
++               return ret;
++
++       /* Strip ASN.1 leading zero padding from modulus */
++       while (rsa.n_sz > 0 && rsa.n[0] =3D=3D 0) {
++               rsa.n++;
++               rsa.n_sz--;
++       }
++
++       ctx->bits =3D cmh_rsa_key_bits(rsa.n_sz);
++       if (!ctx->bits || !rsa.d_sz)
++               return -EINVAL;
++
++       key_bytes =3D ctx->bits / 8;
++
++       /* Strip ASN.1 leading zero padding from private exponent */
++       while (rsa.d_sz > 0 && rsa.d[0] =3D=3D 0) {
++               rsa.d++;
++               rsa.d_sz--;
++       }
++
++       if (!rsa.d_sz || rsa.d_sz > key_bytes)
++               return -EINVAL;
++
++       kfree(ctx->n);
++       kfree(ctx->e);
++       ctx->n =3D NULL;
++       ctx->e =3D NULL;
++       ctx->n_sz =3D 0;
++       ctx->e_sz =3D 0;
++
++       ctx->n =3D kmemdup(rsa.n, rsa.n_sz, GFP_KERNEL);
++       ctx->e =3D kmemdup(rsa.e, rsa.e_sz, GFP_KERNEL);
++       if (!ctx->n || !ctx->e) {
++               ret =3D -ENOMEM;
++               goto err;
++       }
++
++       ctx->n_sz =3D rsa.n_sz;
++       ctx->e_sz =3D rsa.e_sz;
++
++       /*
++        * Left-pad d to key_bytes (big-endian alignment).
++        * The CMH eSW resolves SYS_REF_TEMP by checking
++        * hdr->len >=3D key_bytes, so the written buffer must
++        * be at least key_bytes wide.
++        */
++       d_padded =3D kzalloc(key_bytes, GFP_KERNEL);
++       if (!d_padded) {
++               ret =3D -ENOMEM;
++               goto err;
++       }
++       memcpy(d_padded + key_bytes - rsa.d_sz, rsa.d, rsa.d_sz);
++
++       ret =3D cmh_key_setkey_raw(&ctx->key, d_padded, key_bytes,
++                                CORE_ID_PKE);
++       kfree_sensitive(d_padded);
++       if (ret)
++               goto err;
++
++       return 0;
++err:
++       kfree(ctx->n);
++       kfree(ctx->e);
++       ctx->n =3D NULL;
++       ctx->e =3D NULL;
++       ctx->n_sz =3D 0;
++       ctx->e_sz =3D 0;
++       ctx->bits =3D 0;
++       return ret;
++}
++
++static unsigned int cmh_rsa_max_size(struct crypto_akcipher *tfm)
++{
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++
++       return ctx->n_sz;
++}
++
++static int cmh_rsa_init_tfm(struct crypto_akcipher *tfm)
++{
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++
++       memset(ctx, 0, sizeof(*ctx));
++       tfm->reqsize =3D sizeof(struct cmh_rsa_reqctx);
++       return 0;
++}
++
++static void cmh_rsa_exit_tfm(struct crypto_akcipher *tfm)
++{
++       struct cmh_rsa_tfm_ctx *ctx =3D cmh_rsa_ctx(tfm);
++
++       cmh_key_destroy(&ctx->key);
++       kfree(ctx->n);
++       kfree(ctx->e);
++       ctx->n =3D NULL;
++       ctx->e =3D NULL;
++}
++
++/*
++ * Raw RSA stays as akcipher (encrypt/decrypt only).  The kernel's
++ * rsassa-pkcs1 sig template wraps our akcipher for sign/verify,
++ * matching the upstream split (rsa.c =3D akcipher,
++ * rsassa-pkcs1.c =3D sig template).
++ */
++static struct akcipher_alg cmh_rsa_alg =3D {
++       .encrypt        =3D cmh_rsa_enc,
++       .decrypt        =3D cmh_rsa_dec,
++       .set_pub_key    =3D cmh_rsa_set_pub_key,
++       .set_priv_key   =3D cmh_rsa_set_priv_key,
++       .max_size       =3D cmh_rsa_max_size,
++       .init           =3D cmh_rsa_init_tfm,
++       .exit           =3D cmh_rsa_exit_tfm,
++       .base =3D {
++               .cra_name         =3D "rsa",
++               .cra_driver_name  =3D "cri-cmh-rsa",
++               .cra_priority     =3D 300,
++               .cra_flags        =3D CRYPTO_ALG_ASYNC,
++               .cra_module       =3D THIS_MODULE,
++               .cra_ctxsize      =3D sizeof(struct cmh_rsa_tfm_ctx),
++       },
++};
++
++static bool cmh_rsa_registered;
++
++/**
++ * cmh_pke_rsa_register() - Register RSA akcipher algorithm with the crypt=
+o framework
 + *
 + * Return: 0 on success, negative errno on failure.
 + */
-+int cmh_rng_register(struct platform_device *pdev)
++int cmh_pke_rsa_register(void)
 +{
 +       int ret;
 +
-+       cmh_hwrng.quality =3D hwrng_quality;
-+
-+       if (cmh_hwrng.quality > CMH_HWRNG_QUALITY_MAX)
-+               cmh_hwrng.quality =3D CMH_HWRNG_QUALITY_MAX;
-+
-+       /*
-+        * DRBG CONFIG is a management-host operation.  In "auto" mode,
-+        * attempt it -- this succeeds in stateless mode (any host) or
-+        * when we are the management host in stateful mode.  On -EPERM
-+        * (not management host) we continue without error -- GENERATE
-+        * will work once the management host configures the DRBG.
-+        *
-+        * In "skip" mode, do not issue CONFIG -- assume the management
-+        * host has already configured (or will configure) the DRBG.
-+        */
-+       if (strcmp(drbg_config, "skip") !=3D 0) {
-+               struct vcq_cmd cfg_vcq[DRBG_CONFIG_VCQ_CMDS];
-+
-+               if (strcmp(drbg_config, "auto") !=3D 0)
-+                       dev_warn(&pdev->dev,
-+                                "rng: unrecognized drbg_config=3D\"%s\", t=
-reating as \"auto\"\n",
-+                                drbg_config);
-+
-+               vcq_set_header(&cfg_vcq[0], DRBG_CONFIG_VCQ_CMDS);
-+               vcq_add_drbg_reset(&cfg_vcq[1]);
-+               vcq_add_drbg_config(&cfg_vcq[2], CMH_DRBG_ENTROPY_RATIO,
-+                                   CMH_DRBG_SECURITY_STRENGTH);
-+               vcq_add_flush(&cfg_vcq[3], CORE_ID_DRBG);
-+               ret =3D cmh_tm_submit_sync(cfg_vcq, DRBG_CONFIG_VCQ_CMDS, 1=
-);
-+               if (ret =3D=3D -EPERM)
-+                       dev_notice(&pdev->dev,
-+                                  "rng: DRBG config not permitted (not man=
-agement host); assuming external configuration\n");
-+               else if (ret)
-+                       dev_warn(&pdev->dev,
-+                                "rng: DRBG config failed (rc=3D%d)\n", ret=
-);
-+               else
-+                       dev_info(&pdev->dev,
-+                                "rng: DRBG configured (ratio=3D%u strength=
-=3D0x%02x)\n",
-+                                CMH_DRBG_ENTROPY_RATIO,
-+                                CMH_DRBG_SECURITY_STRENGTH);
-+       } else {
-+               dev_info(&pdev->dev,
-+                        "rng: DRBG config skipped (drbg_config=3Dskip); as=
-suming external configuration\n");
-+       }
-+
-+       ret =3D hwrng_register(&cmh_hwrng);
++       ret =3D crypto_register_akcipher(&cmh_rsa_alg);
 +       if (ret) {
-+               dev_err(&pdev->dev, "rng: hwrng_register failed (rc=3D%d)\n=
-",
++               dev_err(cmh_dev(),
++                       "cmh: failed to register rsa akcipher (%d)\n",
 +                       ret);
 +               return ret;
 +       }
 +
-+       dev_info(&pdev->dev,
-+                "rng: registered cri-cmh-drbg (quality=3D%d timeout=3D%ums=
-)\n",
-+                cmh_hwrng.quality, drbg_timeout_ms);
-+
-+       cmh_rng_registered =3D true;
++       cmh_rsa_registered =3D true;
 +       return 0;
 +}
 +
 +/**
-+ * cmh_rng_unregister() - Unregister the CMH hardware RNG device
-+ *
-+ * Unregisters the hwrng device from the kernel hwrng framework if it
-+ * was previously registered.
++ * cmh_pke_rsa_unregister() - Unregister RSA akcipher algorithm from the c=
+rypto framework
 + */
-+void cmh_rng_unregister(void)
++void cmh_pke_rsa_unregister(void)
 +{
-+       if (!cmh_rng_registered)
-+               return;
-+       hwrng_unregister(&cmh_hwrng);
-+       cmh_rng_registered =3D false;
-+       dev_info(cmh_dev(), "rng: unregistered cri-cmh-drbg\n");
++       if (cmh_rsa_registered)
++               crypto_unregister_akcipher(&cmh_rsa_alg);
++       cmh_rsa_registered =3D false;
 +}
-+
-+/* -- debugfs timeout accessor ------------------------------------------ =
-*/
-+
-+#ifdef CONFIG_CRYPTO_DEV_CMH_DEBUG
-+/**
-+ * cmh_rng_timeout_drbg_ptr() - Return pointer to drbg_timeout_ms for debu=
-gfs
-+ *
-+ * Exposes the DRBG operation timeout for runtime tuning via debugfs
-+ * config/ directory.
-+ *
-+ * Return: pointer to the static drbg_timeout_ms variable.
-+ */
-+unsigned int *cmh_rng_timeout_drbg_ptr(void) { return &drbg_timeout_ms; }
-+#endif
 --
 2.43.7
 
