@@ -1,143 +1,139 @@
-Return-Path: <linux-api+bounces-6724-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6725-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TIXNBPg7Qmqh2QkAu9opvQ
-	(envelope-from <linux-api+bounces-6724-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 11:33:44 +0200
+	id KgG8NI9JQmoK4AkAu9opvQ
+	(envelope-from <linux-api+bounces-6725-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 12:31:43 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913406D842D
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 11:33:43 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75FB26D8EBF
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 12:31:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DlT8vxH5;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6724-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6724-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jHr2ajkK;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6725-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-api+bounces-6725-lists+linux-api=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B9D0F3148539
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 09:23:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E6553300F459
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 10:31:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B8230C177;
-	Mon, 29 Jun 2026 09:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AE03B71D6;
+	Mon, 29 Jun 2026 10:31:41 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F51253B42;
-	Mon, 29 Jun 2026 09:19:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26328CF5D;
+	Mon, 29 Jun 2026 10:31:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782724766; cv=none; b=FQb8vHP4WbwuGzMR/+jYmm5jXMoe21RvhQ8gTIqXjhaOzium6ANjKGfZD5/jeK0tJ/IqIXAhHZzRHGGUGYNPnQeJQGJZnhn/yb9M7ggJCIlWcFeSyq+3AH91xFg15OacA2Z8j5A5opaYUoDikd3gzdlujVBUCvrUTjn2vwavxTA=
+	t=1782729101; cv=none; b=g5P+RUvGAaD5EqJ8EsmbP1zh1b+Nr01rYdHjlBvc0lltWYXyCQvDmTn2caTUJTlMMowwy9a5kO3B57mkBzPoHnYQYbBWDhX2EI2mb3iDGB7kU59ix2ye+Il+kDZo2U2l+laYgC8gKdo48M8PQ1Yp3L+Joq3q+xA9kMrwkOmTibU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782724766; c=relaxed/simple;
-	bh=uR8HO3H1zUPtr8G0Zp6+Ktn5lJGREnqvWcuZOYXRlPU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=dgXfhKyZBgG/lYd0fSU8v5+PvGUsWMCyF28zNFmFI1JhNe6NsecIXPv6GEP49Q2X3WEu5LkXzIXf2usMhFQhkWKkbRlW9aovqr8CgBv/zF6FPmy7tcQNB7ZnsbgtEwQcPBtQ4ZrBnmglAkSkyHtBsEhLAzCep9p4jGZnJy6WNdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DlT8vxH5; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A001F000E9;
-	Mon, 29 Jun 2026 09:19:19 +0000 (UTC)
+	s=arc-20240116; t=1782729101; c=relaxed/simple;
+	bh=ytkV7hcokUzl4TuVl61zJBHjebIrKvs1gvmLCTFBA4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OEkuBKawSWeyh9IlB9/0ZZmegzQf6BOuavsBsrp7vLReDkSuE+3IVUz3QaW0n9yFVA9tQBadslNeM45M55KBBrXLvbtedyGjppZtVlhAYWsshXrbSHdxNtnxo0KZe7y+MQoSCZQYSnH4NJmJfCqlgcxJT61KwN+brg0eTHIihUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHr2ajkK; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D3511F000E9;
+	Mon, 29 Jun 2026 10:31:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782724765;
-	bh=VQkmJ6O0KdU+araY9cEcdEV3lY4ZmztKgNlix5k27sE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=DlT8vxH5utORFwzr7vxs+1ZC5b8cxQsTqXOya1AQqsce5YpoKelp2QpHlKA+nkhWr
-	 7GteQ5CCSkyd6M4WMmbss+2aU0e7CTZBjtyjalrXpN7xoqYsfmQ4YcjkOkkrNlMZsj
-	 aHUPmsQMrOP8L+mvilChS1rcJupw+08A7A2GMjHi2QbXp6JKC0fXQrr8wk/Li1RPLm
-	 qWhJpFAPQbPJJdW7ennikm1IF8S60n6fbWDjGGlLwbeFdllm4IkkixKHY3cBn4AA+O
-	 KULJr9DbVfZhjJfd4kLHKCccrfrrIri+zo1kBioSQjDpj9A9QKvwf6ng4eIjLmo07F
-	 wZjGFw8eu9+4w==
+	s=k20260515; t=1782729100;
+	bh=RT8yWbDeKwEmQZtLq+f3M6TtP8uGbz5p5b/YTk59k20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jHr2ajkK5owuB7Yg5VBd8ULJvukLZc0+xaFZn/wsJViqPHbC9njU4HVpn5wJAKk6x
+	 +R5BjVoBKzOlU9a133aFg9AXxhtbF0JdeoJYLsfKsQh7KAnAxM6DWSNjgm0Wn24Lt1
+	 a5KUjVFBy7m+r4edcTwIkFZtI1kKdHGEVb/jaY3Udcn4ILRowdiOP/a4fQfPzzkiQI
+	 QZ5+6nlh5c7hwhOHz76VYMGiMrHN5gCgGw/aneIU1YFsgAyTqSnaNVnJlVUFh63twf
+	 cdF9+r26nvDhX/xi9HGymnUTYj+l4sg8VgupcQE+iCk60ftbAtG6LyKY1gHhRilmj5
+	 GeCqdLhXq6iWA==
+Date: Mon, 29 Jun 2026 12:31:33 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>, 
+	Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, 
+	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>
+Subject: Re: [RFC] Null Namespaces
+Message-ID: <20260629-parabel-kraut-waldsee-a4ebfab949ee@brauner>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <CALCETrWhXNetw-BsAaoyT31suMmjYLdMh9MAuLB2Lvk2ac-31g@mail.gmail.com>
+ <CALCETrU3bgUxp0k1y-U-uL0-fW2016Gmsyu9O_=830czEUGMcQ@mail.gmail.com>
+ <103524f8-1658-41df-88e9-cf49c628a721@app.fastmail.com>
+ <20260625011023.GM2636677@ZenIV>
+ <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
+ <20260626001538.GO2636677@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH 2/3] fs: support tasks with a null root or cwd
-From: Christian Brauner <brauner@kernel.org>
-To: John Ericson <John.Ericson@Obsidian.Systems>
-Cc: Andy Lutomirski <luto@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- David Howells <dhowells@redhat.com>, Chuck Lever <cel@kernel.org>, 
- Jeff Layton <jlayton@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
- David Laight <david.laight.linux@gmail.com>, 
- "H. Peter Anvin" <hpa@zytor.com>, Li Chen <me@linux.beauty>, 
- Cong Wang <cwang@multikernel.io>, Arnd Bergmann <arnd@arndb.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, 
- Sergei Zimmerman <sergei@zimmerman.foo>, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, 
- linux-arch <linux-arch@vger.kernel.org>, 
- LKML <linux-kernel@vger.kernel.org>, 
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
- linux-api <linux-api@vger.kernel.org>, netfs <netfs@lists.linux.dev>, 
- linux-nfs <linux-nfs@vger.kernel.org>, John Ericson <mail@JohnEricson.me>
-In-Reply-To: <20260629065934.1425479-3-John.Ericson@Obsidian.Systems>
-References: <20260629065934.1425479-1-John.Ericson@Obsidian.Systems>
- <20260629065934.1425479-3-John.Ericson@Obsidian.Systems>
-Date: Mon, 29 Jun 2026 11:19:15 +0200
-Message-Id: <20260629-defizit-typisch-maulkorb-53953a5a8510@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=671; i=brauner@kernel.org;
- h=from:subject:message-id; bh=uR8HO3H1zUPtr8G0Zp6+Ktn5lJGREnqvWcuZOYXRlPU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ5WUwXTTaTvvSu4GfWn46fsm+2i02PPX5V3fPyPSuXV
- Um/VI4t7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIHgsjw9vuM9WOryfL1B8p
- EdhZaip++9T67xH3L3D9DL2+57k1iwkjw6I6jRv3djYmpZ9h/3HlgfilKdZNPNODDkZzHUh5lL3
- +KhMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260626001538.GO2636677@ZenIV>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:John.Ericson@Obsidian.Systems,m:luto@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:dhowells@redhat.com,m:cel@kernel.org,m:jlayton@kernel.org,m:skhan@linuxfoundation.org,m:david.laight.linux@gmail.com,m:hpa@zytor.com,m:me@linux.beauty,m:cwang@multikernel.io,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:corbet@lwn.net,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:netfs@lists.linux.dev,m:linux-nfs@vger.kernel.org,m:mail@JohnEricson.me,m:davidlaightlinux@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
+	TO_DN_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6725-lists,linux-api=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:viro@zeniv.linux.org.uk,m:mail@johnericson.me,m:luto@kernel.org,m:me@linux.beauty,m:cwang@multikernel.io,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6724-lists,linux-api=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,redhat.com,linuxfoundation.org,gmail.com,zytor.com,linux.beauty,multikernel.io,arndb.de,alien8.de,linux.intel.com,lwn.net,zimmerman.foo,vger.kernel.org,lists.linux.dev,JohnEricson.me];
+	FREEMAIL_CC(0.00)[johnericson.me,kernel.org,linux.beauty,multikernel.io,vger.kernel.org,arndb.de,redhat.com,alien8.de,linux.intel.com,zytor.com,suse.cz,lwn.net,linuxfoundation.org,zimmerman.foo,gmail.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,brauner:mid]
+	TAGGED_RCPT(0.00)[linux-api];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,brauner:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 913406D842D
+X-Rspamd-Queue-Id: 75FB26D8EBF
 
-> A task's root directory (`fs->root`) and current working directory
-> (`fs->pwd`) are normally established by `chroot(2)`/`pivot_root(2)` and
-> `chdir(2)`/`fchdir(2)` (or inherited across `fork(2)`). Allow either to
-> instead be the null path, as documented in `struct fs_struct`. The two
-> are independent: a task may opt out of one, the other, or both.
+> So supply a library of your own and try to convince people to use it
+> instead of libc.  You'll have to anyway, seeing that a large and
 
-No, absolutely we're not going to have tasks with struct path's in their
-struct fs_struct that have NULL members in them. struct path is used
-insanely widely in the kernel this is just an an open invitation for a
-slew of security bugs. Not going to happen.
+I agree. And in fact that is what we've been doing:
 
--- 
-Christian Brauner <brauner@kernel.org>
+https://github.com/cyphar/libpathrs
+
+I also plan on splitting the chase*() machinery in systemd out as
+a separate C library as well:
+
+https://github.com/systemd/systemd/blob/104750fd60da4c563650785e272a7ce0a6694d01/src/basic/chase.c#L238
+
+> hard-to-predict part of libc will be non-functional.  Which syscalls
+> are used by your library is entirely up to you.
+> 
+> Would that kind of thing added kernel-side assist the development of such
+> library?  Maybe, but I wouldn't bet too much on that - if you start from
+
+It wouldn't really and we haven't needed it for that.
 
