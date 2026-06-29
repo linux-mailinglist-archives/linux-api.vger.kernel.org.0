@@ -1,183 +1,216 @@
-Return-Path: <linux-api+bounces-6718-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6719-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id l2ldKV7eQGpMiwkAu9opvQ
-	(envelope-from <linux-api+bounces-6718-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Sun, 28 Jun 2026 10:42:06 +0200
+	id XyNSKvAYQmqY0AkAu9opvQ
+	(envelope-from <linux-api+bounces-6719-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 09:04:16 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8910A6D36E9
-	for <lists+linux-api@lfdr.de>; Sun, 28 Jun 2026 10:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249096D6B24
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 09:04:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=afEyoG7H;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6718-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-api+bounces-6718-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b=BHZdM1h7;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6719-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-api+bounces-6719-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=obsidian.systems (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0359C30058DF
-	for <lists+linux-api@lfdr.de>; Sun, 28 Jun 2026 08:42:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5CAE03020BFD
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jun 2026 07:00:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4E2E37419B;
-	Sun, 28 Jun 2026 08:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B079A3A8FE6;
+	Mon, 29 Jun 2026 06:59:55 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16112F0C62;
-	Sun, 28 Jun 2026 08:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFA139BFE1;
+	Mon, 29 Jun 2026 06:59:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782636122; cv=none; b=LzRAAJ0ZhnVYiZHXR3YWFpa2oQkTDp/Cfqvl32LYM03G1QNiVG9wYLZqKYzN0J/gEFRWkbs1FwnwfH9CQ/B1sQzxRkewXIqbxEbVDJr0nv0nvbzkkr5U0EjhWa+2lhF4KK29WkMZgWp9IwcZmWEKrWqhXy1eLSsR0vdKWzEaYrU=
+	t=1782716395; cv=none; b=ccfjqgs3j/bonGQNVrqlO19pb2u4KUMl1gMliD9BhvCZ19TAhAB1fJ/pnWKObqM1rQ4Jii6/KHhYej8MnX9X8o+ic5ddHErpWNh27+MOC7TmLFgi1QrKFs4MAT8Yixx3sSOW7tJfqNq7bYpCfDLNBSQvERlQ5n5nXO0wrlBccw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782636122; c=relaxed/simple;
-	bh=dw/lGv1u3Lv5xeoGtgMzlxFSTqpFonsNuG+PhX1LHdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HId+zOCy8cHyUIm+mDwctHabfzOnbcvcOKigiZg1DN7oCp8bckefHjbNtvo980smtarjQSQvcJzAZW9uzG3GRTbKhwYVs30KUyOxSK6Yj7BYQvijyCzWiXAn0CNIvGJNQQOmPI9sC5wXvUbTdrYXl9m1zVoDGmedci1LeMmpPCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afEyoG7H; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D7B1F000E9;
-	Sun, 28 Jun 2026 08:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782636121;
-	bh=bCKnwMfrXZz+g37EJ+TFMnIZa/Yzua6c1+9WVaqAyf0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=afEyoG7HoZ5pCVWP3Gd2mvK4Y5ZjixxblF89Psqh5ydny60oHAbYGwqM6DNkeC1Bl
-	 cYsVK9ijvei7VNM5K/KenAFrklEwX+GHOyqGQjymKMHX88X3PtfQZozJ91FR1sBrp3
-	 8GUUVQRK9yQeGCLswvHuH/49SV+faPfb8XYgJxb8QZuLp4w7zbS5n4s4DIa7KFwcHD
-	 oy2qnvjLzYJEUjdws5Y+FI6HZTbnnzcjlJyXp8Xa7U9DZMtQ/DY7x6pQoBpPx+3n22
-	 75eo2ylbBOvERcS1V7Sj/Cpncx99wySS2/f95WDJFVGWldSms+TOn6xQCY0Xlwt7E+
-	 zF1SfLtxYNRfg==
-Message-ID: <1594185d-130d-467e-8061-8cd888f0d3b8@kernel.org>
-Date: Sun, 28 Jun 2026 10:41:43 +0200
+	s=arc-20240116; t=1782716395; c=relaxed/simple;
+	bh=tYsHBzQ2vOQXcrOetqIt8QTpdhuvILhgntCm0fGFWQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=knU9Qx08w9+Q9E6I9yhXvK+PWXsjfIdffeHoLG8HsrJEaNaSEGZC8b4p8q8vgAyuNF4ALLziAA8bE0C/vRByEx6f1UV05p6x7vUEo6pTC45ktzq2h8jby3osMBbDmgAw7aGVuSXLgBgQ86t9OVuVO/8uL61/nGNblQqR2fxyQyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=Obsidian.Systems; spf=fail smtp.mailfrom=Obsidian.Systems; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BHZdM1h7; arc=none smtp.client-ip=103.168.172.142
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 6597A1380199;
+	Mon, 29 Jun 2026 02:59:53 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 29 Jun 2026 02:59:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1782716393; x=1782723593; bh=yKchnWIun08ZH/dza01bJYYLCZ3CGuAhcKX
+	8fKBHQq8=; b=BHZdM1h7EBPAVqQBkpLLAi88Pyo+X2kqC/LnqsFSTk3glr2jqWg
+	GqIkvvSznKPZoOrGWEmpsPD+Qbgg5lsnCbHKVk3q2FhKFRtzjZdGOo2JU8dyGG7y
+	66JRkl6NBPsLCWuIvGesQYahTV/B+0qhYsm1v/seClIaXdV1+o8A0yp9yThUC1CB
+	LBy31wo6FfVKma1jxxFqYgs+mUwp71WtsshK8nRB+VbqSkVpYbOhRReK9L+IfoZX
+	TNkdJuxdIksn2I8zoYarC1OzwqSJ1FIt6DF7kG9baR7tBV2bB/TcZPqyUHbf33vq
+	iEu/PGySY+4QnMgzKzsrWUEuQhmDuIs9h6A==
+X-ME-Sender: <xms:5xdCagzsFueOF7noMHyCTf4kiChlI-8KLFnZC9PCmfZxogdqmoa4CA>
+    <xme:5xdCam6I2pNTfoa1gUQDRC714pNU_7quuJ37nYBcVDyZDE2KYrazFpoRn363dX9ZO
+    I7W5g7nyAzNub6VC9LtPSlAeYmemmNJu5O99F0f-NjXX3dlceQOcnw>
+X-ME-Received: <xmr:5xdCah2ZIM5rY3dhehEJP-78RbE591i5ZZA2tfQwjYBiWGQrk5xCX8L7vZLz8isWFXvgwz5lfdKqYM8WlfSNOhA7hF6sHSZAd7ofmw>
+X-ME-Proxy-Cause: dmFkZTG1MzZNIK/9LeMFIaDGsEfvFNo5AvCYGQDHW+g20Nu9ip4TV3nJ7p59RrHd/M78Hu
+    Tp0tmf0jRIUShBiZMlJYf1knZYI21dsvCzMUUkvMby4qr5+GyT4SrKsaT7Au0nty91uRZo
+    +0N0Od7YjXaw1Ge3foZofxXn5LVncJbLeoxaqP6M9RQsfpyke9fd6wdzqtzyygbsVzCNgU
+    FkqSO5gWpGFZ7zkIBEZzol7+2F8f+lnnSm9E96SpcfsZYHrEYIyBWXWrKffH727ICfhi2e
+    exm19riPEN6Sq4uUFYYA1BHaHccnvLVIZOT3aoVUoQcDZ6zCfm+1C1D29P9b6OkzVl1mKx
+    YtGDyDyBMsqn9DlqQS8o3FOKpSed+ky+G+N4VqSlWkdCKSn7ol/cAUydRn1SbmgZFXVv5/
+    xlRyu0nIKJ32bblV4W80J0qrB8mcIx06ZsaFginCPIop4dl+rhV7faHKHCDm3WzMk5YzBo
+    RH1tZXKRWd4E0jMvz49bY80paH9WkV0dmV8eN8JoDFPg0RYii2W0p16wd4iMIXWgiQprfG
+    fVBVqHQqQTMwJ0mDpewZC07EFG/WTVjZ+ePCpSdDlMGTSW29EFmL7zg1bTOmeJGF4Rlr6Z
+    TbCY7jI7h9ay+yJPKsC3e0NctMPkxhPnstNr4surhjdc58oitBvM6OV6JoBA
+X-ME-Proxy: <xmx:5xdCav0yswmb9mhUmQWj5jG9tuFFQYt73H1Lz3jW2Saujb7zHcvqyw>
+    <xmx:5xdCagcqymsI4lnM6qRbvXTbr7ToZMTVfj96h_q5ut7osQczYFcB4w>
+    <xmx:5xdCapIw3VAmdhYyGINTcxjJeqsP-6WE3TMeB6qaca7RwJckj2eYsg>
+    <xmx:5xdCan-FKRbHRVqantc7u6i9lippIRP9-wb4cZgkoE1NWL8cXf0LSg>
+    <xmx:6RdCal7ITYN3Qzl8b69T3cgnmcXrTimMkfzW3JrfsPjg8ll8zdVpofwL>
+Feedback-ID: i91b946ab:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Jun 2026 02:59:51 -0400 (EDT)
+From: John Ericson <John.Ericson@Obsidian.Systems>
+To: "Andy Lutomirski" <luto@kernel.org>,	"Al Viro" <viro@zeniv.linux.org.uk>,
+	"Christian Brauner" <brauner@kernel.org>,	"Jan Kara" <jack@suse.cz>,
+	"David Howells" <dhowells@redhat.com>,	"Chuck Lever" <cel@kernel.org>,
+	"Jeff Layton" <jlayton@kernel.org>,
+	"Shuah Khan" <skhan@linuxfoundation.org>,
+	"David Laight" <david.laight.linux@gmail.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,	"Li Chen" <me@linux.beauty>,
+	"Cong Wang" <cwang@multikernel.io>,	"Arnd Bergmann" <arnd@arndb.de>,
+	"Thomas Gleixner" <tglx@kernel.org>,	"Ingo Molnar" <mingo@redhat.com>,
+	"Borislav Petkov" <bp@alien8.de>,
+	"Dave Hansen" <dave.hansen@linux.intel.com>,
+	"Jonathan Corbet" <corbet@lwn.net>,	"Kees Cook" <kees@kernel.org>,
+	"Sergei Zimmerman" <sergei@zimmerman.foo>,
+	"Farid Zakaria" <farid.m.zakaria@gmail.com>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-api <linux-api@vger.kernel.org>,	netfs <netfs@lists.linux.dev>,
+	linux-nfs <linux-nfs@vger.kernel.org>
+Cc: John Ericson <mail@JohnEricson.me>
+Subject: [RFC PATCH 0/3] fs: support tasks with a null root or cwd
+Date: Mon, 29 Jun 2026 02:58:19 -0400
+Message-ID: <20260629065934.1425479-1-John.Ericson@Obsidian.Systems>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/19] MAINTAINERS: add Rambus CryptoManager Hub (CMH)
-To: "Krishnamoorthy, Saravanakrishnan" <skrishnamoorthy@rambus.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>,
- "Ousherovitch, Alex" <aousherovitch@rambus.com>,
- Conor Dooley <conor+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Herbert Xu <herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- Rob Herring <robh@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Alexandre Ghiti <alex@ghiti.fr>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, SIPSupport <sipsupport@rambus.com>,
- "Nguyen, Thi" <thin@rambus.com>
-References: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
- <20260625173328.1140487-20-skrishnamoorthy@rambus.com>
- <20260626-lush-eel-of-election-5fcbde@quoll>
- <SA1PR04MB985196991689AF3F3DCD349BC2EB2@SA1PR04MB9851.namprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <SA1PR04MB985196991689AF3F3DCD349BC2EB2@SA1PR04MB9851.namprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [1.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[messagingengine.com:s=fm1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[obsidian.systems : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6718-lists,linux-api=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-api@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:skrishnamoorthy@rambus.com,m:aou@eecs.berkeley.edu,m:aousherovitch@rambus.com,m:conor+dt@kernel.org,m:davem@davemloft.net,m:herbert@gondor.apana.org.au,m:corbet@lwn.net,m:krzk+dt@kernel.org,m:palmer@dabbelt.com,m:pjw@kernel.org,m:robh@kernel.org,m:shuah@kernel.org,m:alex@ghiti.fr,m:devicetree@vger.kernel.org,m:Joel.Wittenauer@cryptography.com,m:linux-api@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:skhan@linuxfoundation.org,m:sipsupport@rambus.com,m:thin@rambus.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-6719-lists,linux-api=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,redhat.com,linuxfoundation.org,gmail.com,zytor.com,linux.beauty,multikernel.io,arndb.de,alien8.de,linux.intel.com,lwn.net,zimmerman.foo,vger.kernel.org,lists.linux.dev];
+	FORGED_RECIPIENTS(0.00)[m:luto@kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:dhowells@redhat.com,m:cel@kernel.org,m:jlayton@kernel.org,m:skhan@linuxfoundation.org,m:david.laight.linux@gmail.com,m:hpa@zytor.com,m:me@linux.beauty,m:cwang@multikernel.io,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:corbet@lwn.net,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:netfs@lists.linux.dev,m:linux-nfs@vger.kernel.org,m:mail@JohnEricson.me,m:davidlaightlinux@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[John.Ericson@Obsidian.Systems,linux-api@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-api@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[John.Ericson@Obsidian.Systems,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
+	DKIM_TRACE(0.00)[messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-api,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-api];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,johnericson.me:email,vger.kernel.org:from_smtp,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8910A6D36E9
+X-Rspamd-Queue-Id: 249096D6B24
 
-On 26/06/2026 19:22, Krishnamoorthy, Saravanakrishnan wrote:
-> Hi Krzysztof,
-> 
-> Thanks for the review - all fair, and we'll fix them in v2:
-> 
-> Drop L: sipsupport@rambus.com (keeping only linux-crypto).
-> Drop the T: line - we don't maintain a tree; the driver will go through the crypto tree.
-> 
-> Yes, Joel and Thi reviewed and acknowledged with the statement of oversight.
+From: John Ericson <mail@JohnEricson.me>
 
+This patch series allows processes to avoid having a root directory
+and/or a working directory. The actual implementation is in the second
+patch. The first patch just prepares some documentation. (Are struct
+fields documented like this? Would this be good regardless?) And the
+third patch adds unit tests.
 
-Do not top post, please.
+I have tested these patches by `kunit.py run`-ing my new test suite.
 
-Best regards,
-Krzysztof
+The motivation is discussed at length in the thread starting with [1].
+This patch would be the first in a series trying to allow for
+less-privileged and more cheaply less-privileged processes than we have
+today, by nulling out their namespace fields (or similar) so they do not
+belong to any namespaces. This specific change is a prelude (in spirit,
+it might actually be orthogonal in practice) to nulling out the mount
+namespace, so that the process does not "belong" to any mount namespace.
+
+Nothing creates such a task yet; the new UAPIs that would take advantage
+of this feature are left as future work. It may not be appropriate to
+submit such a "dead-code" patch, but I wanted to demonstrate just how
+easy this change is (along with at least a unit test to exercise it),
+before getting into UAPI designs.
+
+The marquee new UAPI around this would, I hope, be the new non-fork-exec
+process spawning API Li Chen started in [2]. The idea would be that,
+instead of doing process initialization in the child post-fork, it is
+done from the parent, against (my terminology) an "embryonic" (not yet
+runnable; withheld from the schedule) process. These null fields
+(`struct path` to directories in this patch, pointers to namespaces in
+the latter patches to be written) allow for lightweight and minimally
+privileged initial embryonic processes, allowing for good performance
+(don't preemptively allocate things the caller may not want) and abiding
+by the "principle of least privilege" (initialization should always
+grant, not take away, privileges and resources from the embryonic
+process).
+
+So far in the linked discussion, the alternative that best addresses my
+motivation is using the new "nullfs" for the root directory and cwd.
+Practically, that is almost as good -- reading and statting the
+directory will work, but it will reliably be and remain empty regardless
+of how privileged the caller is. The downside is simply that we would
+like those operations also to fail, to more readily signal to developers
+and users (human or agent, for that matter) that the working directory
+and root directory should be avoided, and paths should instead always be
+paired with a file descriptor and used with `*at` or other modern UAPIs.
+
+[1]: https://lore.kernel.org/all/a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com/
+
+[2]: https://lore.kernel.org/all/20260528095235.2491226-1-me@linux.beauty/
+
+John Ericson (3):
+  fs: Add documentation to some `struct fs_struct` fields
+  fs: support tasks with a null root or cwd
+  fs: add KUnit tests for tasks with a null root or cwd
+
+ fs/Kconfig                     |  11 +++
+ fs/cachefiles/daemon.c         |   6 +-
+ fs/d_path.c                    |   6 +-
+ fs/fhandle.c                   |   3 +
+ fs/fs_struct.c                 |   4 +
+ fs/namei.c                     |  22 ++++-
+ fs/proc/base.c                 |   8 +-
+ fs/tests/null_root_cwd_kunit.c | 147 +++++++++++++++++++++++++++++++++
+ include/linux/fs_struct.h      |  29 ++++++-
+ 9 files changed, 228 insertions(+), 8 deletions(-)
+ create mode 100644 fs/tests/null_root_cwd_kunit.c
+
+-- 
+2.51.2
+
 
