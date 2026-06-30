@@ -1,184 +1,228 @@
-Return-Path: <linux-api+bounces-6733-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6734-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Aqi8IkJtQ2r/YAoAu9opvQ
-	(envelope-from <linux-api+bounces-6733-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 09:16:18 +0200
+	id npSxKp9yQ2o5YgoAu9opvQ
+	(envelope-from <linux-api+bounces-6734-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 09:39:11 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAF66E1058
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 09:16:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D9B6E13C9
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 09:39:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lF6Bhj9O;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6733-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6733-lists+linux-api=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=linutronix.de header.s=2020 header.b="eOCI/CT9";
+	dkim=pass header.d=linutronix.de header.s=2020e header.b=Btvx2I53;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6734-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6734-lists+linux-api=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linutronix.de;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 42F553021EA3
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 07:14:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3BCFD30068C4
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jun 2026 07:38:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFC6C3D330C;
-	Tue, 30 Jun 2026 07:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74B0B39A04C;
+	Tue, 30 Jun 2026 07:38:40 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5D53D1CCF;
-	Tue, 30 Jun 2026 07:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FAB28C86C;
+	Tue, 30 Jun 2026 07:38:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782803678; cv=none; b=HVfPvK2P1CqQmWqC9pG3kfT95Pb5hq7TSs8AVnwru3hcKug+8FC4OSZ+bQR7CNA+pil/KacQnOOnldsLDAWx/EbiO9AuGRZtVTVPaA7FyOVa8J+aTavh/MgwqvfZ4MgYf2C0oFvbNDaN5u5jzGK7duIuqFdezomArtaiPl9N8/M=
+	t=1782805120; cv=none; b=mkcEo2TYjoPJk7+8r4EFEIkU5G31JpeY64W5w/jix3gBlkh+B2WJw/ei/kra83+bTJZbabwDvqZoLUjjWIPv0PDZxyNh9Cr17jJXmbVrPSI7/rUo8zDOjf+ZOEuoouqh5nd6tjGzuD2f8tUJeOFdXFyrGbiIDZnaVAcDvVOptSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782803678; c=relaxed/simple;
-	bh=VICWaE9WUXW2LWdO5r9lbkxHnC+JwXq4KpepnM7pCA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkJXs8BC9pvEm3+f77B9V7EvylyQh9161F8W/HW6QQuuCBFoYe9gaOG1SHwcq6zBHReOq9kNEk1YmidGEof+6vhuKBzMq7X3ykgZU8XxhsTOH7pxDeqsUtFXQj8EQofqqNtK0bdMZzwjDFBLKmumHMOEr/hgi3rXOlJKB5cws0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lF6Bhj9O; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE601F00A3A;
-	Tue, 30 Jun 2026 07:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782803677;
-	bh=+QSVg6eV+J0zaLkGpTTo7MZ6WXU0ihg0UHJ87/LB+6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lF6Bhj9OoogKud4iTtoRksj3SG8/hInr72NpOxv+PftPWGHJV4EyNPyxPsqL7ND/T
-	 HPxN3DCwTGHq+fQubufrypHawzwGcB3ChEl6hr8v+CNSILbRcCHoGoNHOkcQuuloko
-	 OhuMoeWIy23ruLd/DRjYuxPubIpK4OvaVWx7qzPh2ndE8B9L2q5pUqWSMpWzrHn+By
-	 Uj3NVRJjqGt+fY1aoLJRe9EYTho5ZESjxfkVBNGRFaSm8oNFQOQTQzmKJ6OnXYTk05
-	 R9KMYRv0T8qLJRR0Q0meWmz0yOZ2eudt4x3nCrzXpfOpqkGl0BD+1RdHQAciG5MVB7
-	 pB5lWonGYgsdQ==
-Date: Tue, 30 Jun 2026 09:14:30 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: John Ericson <mail@johnericson.me>
-Cc: Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, 
-	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
-	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260630-kippen-jobaussicht-restriktionen-2149cc663b22@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
- <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
+	s=arc-20240116; t=1782805120; c=relaxed/simple;
+	bh=m2BcXDvYAEp5y0PpYqR0UFKrjTCsaqAcLwRl/QjXAqE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dxoc8QoLzamt+gLUPqlaghy8XeVhWne34rptMftU3d7ZNLX4j80Uq2h7OewA8HIfmKv2xcqH7+0d1IzVoXZr0p9n2Q5kgk94cHHn/2JfE7RV0DNdagPFG68MSCNCi+uH/MlfumY0KJ/u5madMDKoqrUn/12xBz5na1elN0xX7mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eOCI/CT9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Btvx2I53; arc=none smtp.client-ip=193.142.43.55
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782805117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NdrwOPwwg5sl/G/VlKLy2BfD96hcOiYwx38KP81p2To=;
+	b=eOCI/CT9Al8F9+zzbCaSRdLDNuKZdO0uWTKoB2tZnMKpW1yRESHHgZD76EC03YhgbvMlmi
+	C/n2LhQNqFCMC/bxvchp20eA9IqpSqZDnBvD0VhQ3jrlrliiSBJK8TN9LGDK3c7+oUCUyH
+	JQHBtevBRk+3re8OHUO/TRxNx/+CQrdChPFl1jCUdTrl7YimwZ87ITGoC7febatJzajsny
+	jxXixUhadxsuYrlw+AoXiXfzMWLHxR+n4MXrkfjQy6UmrrFpIkIR6VulXnsXF5xEKJTkZV
+	JkefOTZCE6s85sFs5lbc8HYEZ/jFZqxqDfzv1zm2+ctf23qBxLCLRwxs8w4bbg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782805117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NdrwOPwwg5sl/G/VlKLy2BfD96hcOiYwx38KP81p2To=;
+	b=Btvx2I53nZX8nXAICG9CUa/B6i7cJ363iMeh2cME3M8TJhPuIOpoqqppMxRTzXXToY8W+x
+	ya7jeQWHyt9zVQBQ==
+Subject: [PATCH v2 0/9] vDSO: Respect COMPAT_32BIT_TIME
+Date: Tue, 30 Jun 2026 09:38:29 +0200
+Message-Id: <20260630-vdso-compat_32bit_time-v2-0-520d194640dd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQqDMBAFf0VybkqygcT21P8oIlHXulATSdJgE
+ f+9qT33OANv3sYiBsLIrtXGAmaK5F0BOFWsn6x7IKehMAMBWkipeB6i572fF5taBR2lNtGMHGt
+ RG63wYrRlZbwEHGk9wvem8EQx+fA+frL82l8SwPxLZskFV6OAWlvT2V7dnuReKXhH63lA1uz7/
+ gHqMwZqwAAAAA==
+X-Change-ID: 20260113-vdso-compat_32bit_time-e808763e976a
+To: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Russell King <linux@armlinux.org.uk>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>
+Cc: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org, 
+ Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, 
+ sparclinux@vger.kernel.org
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782805116; l=3999;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=m2BcXDvYAEp5y0PpYqR0UFKrjTCsaqAcLwRl/QjXAqE=;
+ b=MmLqPk6DUhP7wmz102JYzJAuqPgG4TQxTMFC0bnmH6DgjsgVPzlCAJG/20f/m5qxrZq2ldo9i
+ GdipLSy/PXsD0YkIipY0BiFwCqtAP78WuzVzlQnXVwNuMroRwsWymi+
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:luto@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux@armlinux.org.uk,m:catalin.marinas@arm.com,m:will@kernel.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:npiggin@gmail.com,m:chleroy@kernel.org,m:tsbogend@alpha.franken.de,m:vincenzo.frascino@arm.com,m:jstultz@google.com,m:sboyd@kernel.org,m:davem@davemloft.net,m:andreas@gaisler.com,m:thomas.weissschuh@linutronix.de,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linuxppc-dev@lists.ozlabs.org,m:linux-mips@vger.kernel.org,m:arnd@arndb.de,m:linux-api@vger.kernel.org,m:sparclinux@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-6734-lists,linux-api=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_TO(0.00)[kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,armlinux.org.uk,arm.com,linux.ibm.com,ellerman.id.au,gmail.com,alpha.franken.de,google.com,davemloft.net,gaisler.com];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-6733-lists,linux-api=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mail@johnericson.me,m:me@linux.beauty,m:cwang@multikernel.io,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:arnd@arndb.de,m:luto@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:viro@zeniv.linux.org.uk,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux.beauty,multikernel.io,vger.kernel.org,arndb.de,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,suse.cz,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,zimmerman.foo,gmail.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,brauner:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8AAF66E1058
+X-Rspamd-Queue-Id: 17D9B6E13C9
 
-On Mon, Jun 29, 2026 at 10:50:38PM -0400, John Ericson wrote:
-> On Mon, Jun 29, 2026, at 7:45 AM, Christian Brauner wrote:
-> > But I guess the even simpler model would be to copy what I've been doing
-> > for pidfs:
-> >
-> > [...]
-> >
-> > we then add fchroot() (overdue anyway) and then teach both fchdir() and
-> > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
-> > and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> > process via seccomp and it's locked in forever as well.
-> 
-> This looks good! It delivers most of what I want, and I do want to be
-> very clear that while I am responding to your comments on my patch
-> below, I would still be very pleased if we just did this, much more than
-> I am pleased with the status quo.
-> 
-> (And also, yes, good to create the long-overdue fchroot regardless of
-> what we do here.)
-> 
-> > Nothing here requires you to NULL anything and I oppose this on code
-> > sanity reasons alone. We shoud absolutely not start to stash any NULL
-> > pointers in core kernel objects such as struct path that are used
-> > everywhere.
-> 
-> Before we do the "pidfd style" nullfs route, I want to make one thing
-> clear about my patch: I was *not* trying to relax the invariant across
-> the board that (live) `struct path` should only contain non-null
-> pointers. Rather, I just want `struct fs_struct` to contain ("morally")
-> `Option<struct path>`. My use of the null pointer was merely me doing
-> the sort of ragged union packing that, for example, Rust does. I think
-> as a matter of A_B_I (emphasis on "binary"), this is fine, and not
-> going to cause Armageddon --- `struct path` is widely used, but `struct
-> fs_struct` is (as far as I can tell) not.
-> 
-> All that said, as a matter of A_P_I (emphasis on "program"), I do see
-> your point that it's too easy for someone to not read my comment, and
-> then `struct path` with null pointers starts leaking all over the place,
-> making a big mess. I think a simple enough fix is to just use another C
-> encoding, such as a union, for `Option<struct path>`.
-> 
-> For example:
-> 
->     union optional_path {
->         struct {
->             void *p0, *p1; /* must be null */
->         } __randomize_layout null_path;
->         struct path path; /* both fields must be non-null */
->     };
-> 
-> To continue saving space, or --- if relying on the overlap of
-> `null_path` and `path.mnt` is too sketchy --- making a bona fide tagged
-> union:
-> 
->     struct optional_path {
->         enum {
->             OPTIONAL_PATH_ABSENT,
->             OPTIONAL_PATH_PRESENT,
->         } tag;
->         union {
->             struct {} null_path;
->             struct path path;
->         };
->     };
+If CONFIG_COMPAT_32BIT_TIME is disabled then the vDSO should not
+provide any 32-bit time related functionality. This is the intended
+effect of the kconfig option and also the fallback system calls would
+also not be implemented.
 
-I think Al is about to have a stroke reading this... and I might too.
-I agree with the sentiment I disagree with the details of this and
-touching the whole kernel for this. You know what the easy solution is:
-don't allow a struct path to be empty...
+Currently the kconfig option does not affect the gettimeofday() syscall,
+so also keep that in the vDSO.
+
+I also tried to introduce some helpers to avoid much of the ifdeffery,
+but due to the high variance in the architecture-specific glue code
+these would need to handle they ended up being worse than the current
+proposal.
+
+As a side-effect this will make the self-tests more reliable,
+as there is now always a matching syscall available for each vDSO function.
+
+clock_gettime_time64() was only introduced in v6.19, so libc implementations
+are likely not using it yet.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v2:
+- Also handle SPARC.
+- Drop MIPS cleanup patches.
+- Also handle gettimeofday().
+- Add more static validations.
+- Rebase on v7.2-rc1.
+- Link to v1: https://lore.kernel.org/r/20260227-vdso-compat_32bit_time-v1-0-3f0286a7bac3@linutronix.de
+
+To: Andy Lutomirski <luto@kernel.org>
+To: Thomas Gleixner <tglx@kernel.org>
+To: Ingo Molnar <mingo@redhat.com>
+To: Borislav Petkov <bp@alien8.de>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+To: x86@kernel.org
+To: H. Peter Anvin <hpa@zytor.com>
+To: Russell King <linux@armlinux.org.uk>
+To: Catalin Marinas <catalin.marinas@arm.com>
+To: Will Deacon <will@kernel.org>
+To: Madhavan Srinivasan <maddy@linux.ibm.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+To: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: John Stultz <jstultz@google.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: "David S. Miller" <davem@davemloft.net>
+To: Andreas Larsson <andreas@gaisler.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-mips@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-api@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+
+---
+Thomas Weißschuh (9):
+      time: Respect COMPAT_32BIT_TIME for old time type functions
+      vdso/gettimeofday: Validate system call existence for time() and gettimeofday()
+      x86/vdso: Respect COMPAT_32BIT_TIME
+      arm64: vdso32: Respect COMPAT_32BIT_TIME
+      ARM: VDSO: Respect COMPAT_32BIT_TIME
+      powerpc/vdso: Respect COMPAT_32BIT_TIME
+      MIPS: VDSO: Respect COMPAT_32BIT_TIME
+      sparc: vdso: Respect COMPAT_32BIT_TIME
+      vdso/gettimeofday: Verify COMPAT_32BIT_TIME interactions
+
+ arch/arm/vdso/vdso.lds.S                    |  2 ++
+ arch/arm/vdso/vgettimeofday.c               | 14 ++++++++------
+ arch/arm64/kernel/vdso32/vdso.lds.S         |  2 ++
+ arch/arm64/kernel/vdso32/vgettimeofday.c    | 14 ++++++++------
+ arch/mips/vdso/vdso.lds.S                   |  2 ++
+ arch/mips/vdso/vgettimeofday.c              |  3 +++
+ arch/powerpc/kernel/vdso/gettimeofday.S     |  8 ++++++++
+ arch/powerpc/kernel/vdso/vdso32.lds.S       | 10 ++++++----
+ arch/powerpc/kernel/vdso/vgettimeofday.c    | 16 ++++++++++------
+ arch/sparc/vdso/vclock_gettime.c            |  4 ++++
+ arch/sparc/vdso/vdso32/vdso32.lds.S         |  6 ++++--
+ arch/x86/entry/vdso/common/vclock_gettime.c | 20 ++++++++++++--------
+ arch/x86/entry/vdso/vdso32/vdso32.lds.S     |  2 ++
+ kernel/sys_ni.c                             |  4 ++++
+ kernel/time/time.c                          | 24 ++++++++++++++++++++----
+ lib/vdso/gettimeofday.c                     | 20 ++++++++++++++++++++
+ 16 files changed, 115 insertions(+), 36 deletions(-)
+---
+base-commit: e6da2429169af9b33f3629b69905d89bb5ee9e64
+change-id: 20260113-vdso-compat_32bit_time-e808763e976a
+
+Best regards,
+--  
+Thomas Weißschuh (Schneider Electric) <thomas.weissschuh@linutronix.de>
+
 
