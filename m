@@ -1,276 +1,214 @@
-Return-Path: <linux-api+bounces-6777-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6778-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IoJmDsnFS2oaaAEAu9opvQ
-	(envelope-from <linux-api+bounces-6777-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Mon, 06 Jul 2026 17:12:09 +0200
+	id oopRL07yS2oIdgEAu9opvQ
+	(envelope-from <linux-api+bounces-6778-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Mon, 06 Jul 2026 20:22:06 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CB6712697
-	for <lists+linux-api@lfdr.de>; Mon, 06 Jul 2026 17:12:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1744471471A
+	for <lists+linux-api@lfdr.de>; Mon, 06 Jul 2026 20:22:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cwtRtKXJ;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6777-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6777-lists+linux-api=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=google.com header.s=20251104 header.b=EmYQtEHC;
+	dmarc=pass (policy=reject) header.from=google.com;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6778-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6778-lists+linux-api=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7E3CD3094AD2
-	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2026 14:52:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9BCE7303E4F5
+	for <lists+linux-api@lfdr.de>; Mon,  6 Jul 2026 16:32:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FAC41DEC1;
-	Mon,  6 Jul 2026 14:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F306388883;
+	Mon,  6 Jul 2026 16:32:58 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B054241A78A;
-	Mon,  6 Jul 2026 14:52:17 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783349540; cv=none; b=i9FClhoWlvjSpDUq2PPS5A/kHZD6SMg4eIUgofGrPFBTUjyO/rHwd64m79OKbAjpcYxDGcx2Et2XXoenfB3GwnuPePwtdXhvmJb4wOzTMjaxJvofXqGcG8+MoasZjMbCOrf/RK7CPFBbcg4CrTy+u/oXySYaOIAIYRKWjyPhm5E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783349540; c=relaxed/simple;
-	bh=E+N1CaT9P1kQXtoXwW/tR+bSIibes4Ncw4kAADx02D4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dnqmy7UqiyLRNv75+vsZ9HO2jukGOS3b3TtG6/Wk5+YNN3JDdVLimtDsJ99IB3FZdv+725zi+TffL7EgebbTPHNvaBSiZHzyWZ85v0ktmDbthK3xaHDAxmDn5mNE/cof3ncCzgbQDzt9pxAAbTqdtyG4IW8ewcKEAl4lKEwL6aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cwtRtKXJ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C531F000E9;
-	Mon,  6 Jul 2026 14:52:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783349537;
-	bh=XBYL8V/PO921SnCtewae6ZrWrVk/vZQSAffys4XbIb4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cwtRtKXJT50Y8kC5OnYLlHnY42Yw236rPJhuKc6D9swJ0h3SrTb5BAzIjDdiB2r8Z
-	 oWB1s4wYurkTLh6uSVzaQQXTsu/Tkh4teBSLIqpsIe+p9Ld0Eebe7ez7RAWsFf2PnU
-	 LYSStlWpMHZ+B7h9M+afLAUbrduMZ2uv7sPRgqv9DZnVkS6e1XvErRYvSsnt+3yY1G
-	 P8oGRVd2D1aA9+Pq1yj68M3chTW8JVgUJ7L9xxrqRSXxHJ9fNKNLzPhSW8BPQVbFfu
-	 O7GAvmhW8DT1sBIPHInCWskUgGnv0bTa5lvA9YKTa/rbRZQ0qtl/aSPM2p+X+0G4KL
-	 iINuLW3u0iDLg==
-Date: Mon, 6 Jul 2026 16:52:10 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, 
-	Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
-	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
- <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
- <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655863AFD0C
+	for <linux-api@vger.kernel.org>; Mon,  6 Jul 2026 16:32:56 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783355578; cv=pass; b=m05JdcxJZv71+vIi7vZx9oYwJV6ia56jCuIWNakd7D8skmoLGVsrwNAfOjMPAedPLO6ac22Zuv3pBnAEW9UdF96G7sfPSCQM6vuxV4raQpPMN2Fc2IL/2cxUiv6h+xVmmag6tsKqo5MPjZ/ArtrEzk9V869FIOsJ3EpIWjg9h00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783355578; c=relaxed/simple;
+	bh=t4c/prX2kM47f73KS173peuhIQJkJQX0xyrhbtLBLqc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gnoI9rMhn60xoBW9LSYIX/a4fbT74tDjmELkJo+D/s001kLGcfUObb3QZebnaN7546STmvBrGjC5iwEx/qhaiJ2zW/07A/0na/SBs26oIiejvblKFBOVv1s7KK+TVTZFZYzJmWh1OeFWZDwHSS31/fh+cr1BSzjbw5ECg6AGwsQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EmYQtEHC; arc=pass smtp.client-ip=209.85.208.49
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-69a45011a92so1070a12.0
+        for <linux-api@vger.kernel.org>; Mon, 06 Jul 2026 09:32:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783355575; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PL4UkjO16HPRKyCAnAJPrjnOturdKlIUCih1I2SqIf2udYO+AKL6gKXAhX/9SKZXX2
+         YxbA1TIUCHlPMjV1PD8BnoGsrQl3geIqtP+6VEpkW0EECcJ0lNn6GFMvG/Fu0pNq6GgR
+         j4I7ZSCQh9o4wXKNByGOgavgqky8PKA75EGbHnKAQz7ubwtw12SdwFHQXIluzFQAgRcw
+         iVm+xhmjhQVcDYSox9G6USQoCkD5+RLanzWsavtzzEI7hMnn0ffRYAnhv9MDyNWUm/hD
+         n59BxhDTRLbibM+NGFb8Pqu5qFWZHp1Ugjimtw/+VOI8CY7xpy5rxxKqRD/UeP5JmUCp
+         IWZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2UNDUGiqVvt711IXtO4cz//8EytDsjGbLNuNJRhGABA=;
+        fh=eILIqzxG4658r3MMkihHovaUAdYsMLWPOlZ5rZPueqc=;
+        b=YTmFBqjwLDsdxpjlA4Rs39uRX+3Nalu+F6wvdI66PMm/drh4+IRroNnNabFNgy+wob
+         Vm51rQJRtuoPbWvic8bilWLZq//f6iwgbfSWME4/8pRn8iDvofkuNbKtAcn2r2yZ25Qq
+         wr4UhRk5WkpukCnwKc6uA3PdvNvYD02fzk3IQJogTpQFq/1w9V1IBz5/+4ziqyUinsaU
+         y24cxSMPF62WUglPGv/pNLjae8CqNm+XQV/q4V1rkyBNX8tjuuS/Iv60f+Rggx7Yztuz
+         u2tsGHXa+3MoeV0EvnUYDcnVNGM3tMqErtEK9ADAln+IjTQaP6dayUQ60eoE3Jrblq+l
+         p//A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783355575; x=1783960375; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2UNDUGiqVvt711IXtO4cz//8EytDsjGbLNuNJRhGABA=;
+        b=EmYQtEHC3rJK9HuS6kuhKNlf3FDP85kdds1TVxEbvBE2CqtRgDgemp5I9xUh9tnBu2
+         Pmm0OgtS3uY0N6QsXw910miH8lxqm0bfHjPUhL4Ek4JBY/zoqbl9BkzdUqaA0+5tD5RY
+         rNO7Q//VJ149kJcW/XbNYcj9t9FzcZOHRhA7SmFrY/sKor2xHrbqUgtQtSVmh2TSjyBg
+         JwYG6Qc5DXlYY+dByxKM3AGG8A8irZgfL7etu+XqHtZtwqifu/muoHjp628twd5cB6Mj
+         kWqdZlIk4igcZMHlTl22SlmXY0Niy5uHDkuTGPbHsXrpYvXzGyUDAI0JWBvdEefs12KE
+         tSuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783355575; x=1783960375;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2UNDUGiqVvt711IXtO4cz//8EytDsjGbLNuNJRhGABA=;
+        b=Z4BPElPBBZJBvBuJKkxNKivh9tHcU2pceZMIjs+DiGChtw9GIUT7dAhTmPvSdTFZuU
+         TZcF0NliajoSwC43sRqwFoA5hlM5L+2FF/KhwAG3hSY5rOuBqVMSB/eDUzuTd6uSM3tI
+         ElwTZDTcAdMIpo3HLL+t6l5RBGE0Qnp2PuDVMCv1UuA75IWRIgNRPLWK32UDamvXFJmY
+         AWOOrRKgdGfG/DnVqaJKWweMIsgx0JggPBUD1l639TaGOxhx3JgL4CNCJGu2tkbrF6KR
+         PhTwk4Xo4bOmqVnMffLQpveBazLYmaNV2BWadm5jgkgYL0P1j0fEJYWxQkCBrStQg/n0
+         jHaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoK3Xc6xpv9L1Uk+RdDN7Zd28ySmB1HumxfXco57A3vDc4pub1Xkg5bAWIbytBmx0o+5JWU+xmvElw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB0iEPL9tJkwtYlVNWdxsGiNdcHSvohPntEimhzMeCBi2zUWS6
+	iR/X8ovfuCE/k8o6juJZsf0yM82XtWM2OWTPpoF9E1Wl3wKJUJojuunjWJop9W05sk7BBW7TePo
+	t+waVRdKnwCFS2ivIbur88tyvc6J48eAzmJdrS4i0
+X-Gm-Gg: AfdE7cm6kiAKzcBh9T4I+qtBcSeD3iOTMDtU6BmhhqsiZpDPytFhB2bQBGlJTh9u9WN
+	NmKGdDo0G7kWMcxRMUdc0Lub+cnCSqY/zxVlTDUwlhQ9OG1Id18kZwEHNnq824we0TbOXVu4e4k
+	5iPyZ8z7G5jsPlKR20V4kG2im64JeDwKVST8ZNeUt1G7Jg6T8gjLv9kaJbL+UrgK4Vxi+FRnLiU
+	kpHreoNi0LLvLC0+UL1laZ7FMD/7Zr8Q3Ok5hcGIp8W3DjZsoK/BIntTTj0+Z7vQ3lkum48+bxS
+	TCxvur1Cu1N8fwkE3rA//mjdBaw3RdQ1LCN89LA9RGQa5Fgm1T72pJptgg==
+X-Received: by 2002:a05:6402:a2c6:20b0:698:aaf6:88ed with SMTP id
+ 4fb4d7f45d1cf-69a8d5ed3bfmr4552a12.3.1783355574513; Mon, 06 Jul 2026 09:32:54
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner> <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+ <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner> <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
+In-Reply-To: <20260706-dabei-radeln-glitzer-71ecb835029c@brauner>
+From: Jann Horn <jannh@google.com>
+Date: Mon, 6 Jul 2026 18:32:18 +0200
+X-Gm-Features: AVVi8CeD6mwq1gcY0rcYzICnjlSpXjKTO3gnqdNJY9gW__HUf8Q1MpIvTqehCOI
+Message-ID: <CAG48ez0sh7vEzBxtaG1HCJ0bmUMmhF_JR3=xXcc4+vpfB6LUOQ@mail.gmail.com>
+Subject: Re: [RFC] Null Namespaces
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
+	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-6778-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FORGED_RECIPIENTS(0.00)[m:luto@kernel.org,m:jannh@google.com,m:mail@johnericson.me,m:me@linux.beauty,m:cwang@multikernel.io,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:viro@zeniv.linux.org.uk,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jannh@google.com,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6777-lists,linux-api=lfdr.de];
-	FORGED_SENDER(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_RECIPIENTS(0.00)[m:brauner@kernel.org,m:luto@kernel.org,m:mail@johnericson.me,m:me@linux.beauty,m:cwang@multikernel.io,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:arnd@arndb.de,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:hpa@zytor.com,m:jack@suse.cz,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:viro@zeniv.linux.org.uk,m:kees@kernel.org,m:sergei@zimmerman.foo,m:farid.m.zakaria@gmail.com,m:faridmzakaria@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[google.com:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-api@vger.kernel.org];
-	FREEMAIL_CC(0.00)[google.com,johnericson.me,linux.beauty,multikernel.io,vger.kernel.org,arndb.de,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,suse.cz,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,zimmerman.foo,gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[jannh@google.com,linux-api@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,johnericson.me,linux.beauty,multikernel.io,vger.kernel.org,arndb.de,redhat.com,alien8.de,linux.intel.com,zytor.com,suse.cz,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,zimmerman.foo,gmail.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,brauner:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C3CB6712697
+X-Rspamd-Queue-Id: 1744471471A
 
-On Thu, Jul 02, 2026 at 11:34:01AM +0200, Christian Brauner wrote:
-> On Mon, Jun 29, 2026 at 02:06:55PM -0700, Andy Lutomirski wrote:
-> > On Mon, Jun 29, 2026 at 4:45 AM Christian Brauner <brauner@kernel.org> wrote:
-> > >
-> > 
-> > > But I guess the even simpler model would be to copy what I've been doing
-> > > for pidfs:
-> > >
-> > > +static struct path nullfs_root_path = {};
-> > > +
-> > > +void nullfs_get_root(struct path *path)
-> > > +{
-> > > +       *path = nullfs_root_path;
-> > > +       path_get(path);
-> > > +}
-> > > +
-> > >  static void __init init_mount_tree(void)
-> > >  {
-> > >         struct vfsmount *mnt, *nullfs_mnt;
-> > > @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
-> > >         /* Mount mutable rootfs on top of nullfs. */
-> > >         root.mnt                = nullfs_mnt;
-> > >         root.dentry             = nullfs_mnt->mnt_root;
-> > > +       nullfs_root_path.mnt    = nullfs_mnt;
-> > > +       pidfs_root_path.dentry  = nullfs_mnt->mnt_root;
-> > >
-> > >         LOCK_MOUNT_EXACT(mp, &root);
-> > >         if (unlikely(IS_ERR(mp.parent)))
-> > > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> > > index aadfbf6e0cb3..f55c87c70b78 100644
-> > > --- a/include/uapi/linux/fcntl.h
-> > > +++ b/include/uapi/linux/fcntl.h
-> > > @@ -124,6 +124,7 @@ struct delegation {
-> > >
-> > >  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs filesystem */
-> > >  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs filesystem */
-> > > +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs filesystem */
-> > >  #define FD_INVALID                     -10009 /* Invalid file descriptor: -10000 - EBADF = -10009 */
-> > >
-> > >  /* Generic flags for the *at(2) family of syscalls. */
-> > >
-> > > we then add fchroot() (overdue anyway) and then teach both fchdir() and
-> > > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
-> > > and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> > > process via seccomp and it's locked in forever as well.
-> > >
-> > 
-> > One thing comes to mind that might need a bit of care: this would give
-> > an API for any task to get an fd to a directory that lives in the init
-> > mount namespace.  It's not at all obvious to me that this is dangerous
-> > or even observable (you're not about to find a setuid program in
-> > nullfs), but I think it's at least worth a tiny bit of consideration.
-> 
-> Yes, I thought about this as well. But it doesn't have to be this way.
-> Every mount namespaces has nullfs as it's root ever since I introduced
-> it. Which means FD_NULLFS_ROOT can also just mean "nullfs within that
-> specific mount namespace". That's fine.
-> 
-> For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
-> SB_KERNMOUNT which means it's logically distinct from every mount
-> namespace. I think that might be the right thing to do. I need to spend
-> one or more brain cycles on this though.
+On Mon, Jul 6, 2026 at 4:52=E2=80=AFPM Christian Brauner <brauner@kernel.or=
+g> wrote:
+> I think the straightforward solution to FD_NULLFS_ROOT would be to just:
+>
+> - make it always available
+> - refer to the caller's mount namespace nullfs
+> - work with fchroot()/fchdir()
+>
+> So I considered two chroot() use-cases for the sake of simplicity:
+>
+> (1) You want to isolate yourself for the sake of lookup
+>
+> (2) You want to isolate yourself to assemble a "private mount tree" but
+>     not really be in a separate namespace (very odd use-case... but it
+>     helps to make a point).
+>
+> The problem with this approach is that everyone who chroots into the
+> nullfs root would suffer from the problem that any mount on top of it is
+> still visible. So that kinda makes it pointless for both (1) and (2).
+>
+> Also all mounts that someone else would do would also be visible
+> allowing multiple chroot()ers to affect each others state. That also
+> would somewhat defeat the purpose of the chroot(). So I'm not convinced
+> this is what we should do.
+>
+> IOW, I think FD_NULLFS_ROOT to chroot to the nullfs of your mount
+> namespace is mostly useless and just not workable for unprivileged
+> fchroot().
+>
+> Instead, this made me consider whether it wouldn't make more sense to
+> allow unprivileged mount namespace unsharing for both CLONE_EMPTY_MNTNS
+> and UNSHARE_EMPTY_MNTNS. Look, there's no real risk at all. It is
+> literally just placing the caller into a new mount namespace with only
+> nullfs in there. I fail to see any attack vector here. It's literally
+> self-sandboxing and you give up access to anything that you didn't have
+> a file descriptor open for. It's actually a bonus, because you don't
+> need to use userns for this. You just throw away your filesystem state.
 
-I had to take a long drive on Sunday and I kept thinking about both
-FD_NULLFS_ROOT and FD_FAILFS_ROOT and ofc there are some things to
-consider/discuss.
+I mostly agree, though we might want to gate this on no_new_privs just
+to be sure - you could theoretically have a setuid root program that
+gives the caller more privileges if it can't find its config file.
+That's kind of a far-fetched scenario, and in reality it would
+probably fail because the dynamic linker can't be found, but there is
+precedent for other sandboxing stuff also requiring no_new_privs, so
+we might as well require that here, too...
 
-I think the straightforward solution to FD_NULLFS_ROOT would be to just:
+(I think it actually might be fine to just make chroot entirely
+unprivileged as long as no_new_privs is set, but I don't think we
+should actually do that, that would just be unnecessarily playing with
+fire and would probably confuse some security monitoring tools or
+such.)
 
-- make it always available
-- refer to the caller's mount namespace nullfs
-- work with fchroot()/fchdir()
-
-So I considered two chroot() use-cases for the sake of simplicity:
-
-(1) You want to isolate yourself for the sake of lookup
-
-(2) You want to isolate yourself to assemble a "private mount tree" but
-    not really be in a separate namespace (very odd use-case... but it
-    helps to make a point).
-
-The problem with this approach is that everyone who chroots into the
-nullfs root would suffer from the problem that any mount on top of it is
-still visible. So that kinda makes it pointless for both (1) and (2).
-
-Also all mounts that someone else would do would also be visible
-allowing multiple chroot()ers to affect each others state. That also
-would somewhat defeat the purpose of the chroot(). So I'm not convinced
-this is what we should do.
-
-IOW, I think FD_NULLFS_ROOT to chroot to the nullfs of your mount
-namespace is mostly useless and just not workable for unprivileged
-fchroot().
-
-Instead, this made me consider whether it wouldn't make more sense to
-allow unprivileged mount namespace unsharing for both CLONE_EMPTY_MNTNS
-and UNSHARE_EMPTY_MNTNS. Look, there's no real risk at all. It is
-literally just placing the caller into a new mount namespace with only
-nullfs in there. I fail to see any attack vector here. It's literally
-self-sandboxing and you give up access to anything that you didn't have
-a file descriptor open for. It's actually a bonus, because you don't
-need to use userns for this. You just throw away your filesystem state.
-
-FD_FAILFS_ROOT on the other hand should work fine. It would be a shared
-single fs with SB_KERNMOUNT and you can't do anything at all:
-
-- no lookup
-- no creation (duh)
-- no stat
-- no mounting
-
-We could certainly allow a chroot() into this which would mean from that
-point onward all your lookup bust be relative to a given file
-descriptor. Anything that requires absolute paths would fail. Which also
-means any absolute symlink would fail afaict. It's kinda like an
-fs_struct variant of: RESOLVE_BENEATH where a FD_FAILFS_ROOT fs_struct
-forces you to provide an actual dirfd...
-
-chroot()ing back into anything non-empty would necessarily require
-CAP_SYS_CHROOT. And since you're chroot()ed you can't unshare a userns.
-So the only way to get out of this is by having access to a file
-descriptor to a mount namespace that the caller has privilege over and
-can setns() into. So it's mostly a "throw-away-the-key" moment. 
-
-> > But if this happens, maybe we could finally land one of the patches to
-> > enable unprivileged chroot?  It's been tried a few times.
-> > 
-> > https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.1327858005.git.luto@amacapital.net/
-> > 
-> > https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
-> > 
-> > I think the need for it has reduced a tiny bit with user namespaces,
-> > as you can sort of emulate it by unsharing your user namespace and
-> > thus getting enough privilege, but this is rather heavyweight and
-> > limiting.
-> 
-> I think we could make that work with both FD_NULLFS_ROOT and
-> FD_FAILFS_ROOT...
-> 
-> > 
-> > 
-> > If all of the above landed, then the old chroot /var/empty kludge that
-> > security-minded programs have done for decades could finally be
-> > modernized and not require any privilege :)
-> 
-> I think I like it.
-> 
-> > Hmm, thinking aloud: every now and then someone brings up the idea of
-> > having an fd (really an OFD) that points to a file or a directory but
-> > carries less in the way of permissions/capabilities than the usual
-> > OFDs.  If we had a way to make an OFD to a directory that forced
-> > RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
-> > restriction to anything you open using it, and if an unprivileged
-> > process could chroot itself to nullfs, then we would be getting quite
-> > close to what Capsicum can do.
-> 
-> Next steps. I hear you volunteering...
-
-Thanks for the braindump. I need to find time to process it all.
+We should probably also reject if current_chrooted() is true, for the
+same reason we reject userns creation when that's true.
 
