@@ -1,98 +1,95 @@
-Return-Path: <linux-api+bounces-6799-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6800-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nU66MtmeTmpmQwIAu9opvQ
-	(envelope-from <linux-api+bounces-6799-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 21:02:49 +0200
+	id fi4jHveoTmqDRgIAu9opvQ
+	(envelope-from <linux-api+bounces-6800-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 21:45:59 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640DB729C43
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 21:02:49 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1566729F7A
+	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 21:45:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="Glm/llwh";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6799-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6799-lists+linux-api=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=szeredi.hu header.s=google header.b=LW6ZqAC4;
+	dmarc=pass (policy=quarantine) header.from=szeredi.hu;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6800-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6800-lists+linux-api=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2FFD93057760
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2026 19:02:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E0341303C66C
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2026 19:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 859A335FF6E;
-	Wed,  8 Jul 2026 19:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D4F3ACF1D;
+	Wed,  8 Jul 2026 19:45:15 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BDC31619C
-	for <linux-api@vger.kernel.org>; Wed,  8 Jul 2026 19:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8B83A1A5D
+	for <linux-api@vger.kernel.org>; Wed,  8 Jul 2026 19:45:13 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783537328; cv=pass; b=I196d+GFbOEzHP7datwhgWj2p/0Qk6qLgVkCK7uJrH2PteO6bcCmn5KY5ebGzYr5fEbZqpEUAqQJhVVWfUfGdBW9bBBKSs77huKFHU651o21xsxEB9TDWgOo4irab16QOI/bExmfj8oZ7Np63ip4EVHBqXofbwB14UbPTsEM0sU=
+	t=1783539915; cv=pass; b=MyH+aAITIpyQI1caFDgDdzfx/j7Kc0BS8dmPwP3TE3sbgBW0fpyN26VZg3u+sCsu6v3GtTJ92GlpKOXJ5Hz6XB8M8+8Wk3WQZbQGr7gkIc685QRIaw5uTPv5OFKI8eA4R10lcwknXijB+sE/vQ8rIh4X137DEnvgmdFPpAtYQj0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783537328; c=relaxed/simple;
-	bh=RrokN5hI2xrJP0hSZASJxB0o58XKatfrhNPDXueAhYg=;
+	s=arc-20240116; t=1783539915; c=relaxed/simple;
+	bh=JaB8MKARUyOluTUTKfGfO9Fwrtc8Ku2njk8Dxn08suU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TBqyXD1CxAEQNNDvBWs/w8jlaGda4b4Ah1tyqs9EbBrhKCoDJa69Zciz8YOr0M6Wzc9zur6m11ubp/6NVh863W5MyyqmfmpPf9kTUzXd/TAJ8evN503gg6lXyt8DZ7aZ+ZxgUpDw/+TqAIOc7greDu/XCXs5xs6dQrwWACQtxTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Glm/llwh; arc=pass smtp.client-ip=209.85.208.48
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-698bf053053so1861125a12.3
-        for <linux-api@vger.kernel.org>; Wed, 08 Jul 2026 12:02:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783537325; cv=none;
+	 To:Cc:Content-Type; b=VgWL0fsEDCi/ObISlT68aAqHFywk6m/99gJsYQeh0YHqkyoj3apbVKmyrwQ+HFmBV8HP+J8fj1GfjZrkf2DiXZfTG5zcXDzw+DoLIRJUGr/a8IY1IJ2Ay92SebQT98Dgh17r8QyairQCAgLKML6zwg94UzD+kpnDh5M9UgYidk4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=LW6ZqAC4; arc=pass smtp.client-ip=209.85.160.176
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c0c68aa31so7534961cf.3
+        for <linux-api@vger.kernel.org>; Wed, 08 Jul 2026 12:45:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783539912; cv=none;
         d=google.com; s=arc-20260327;
-        b=oKFF8O7bHflboSpRy1nBnOYeABb0dUGHTVPtmyOaAUvSOdEgQYG8jdx2riHhZ9qHcd
-         m9g7eUmB8P+kXlo9/GEWFDdPbya5uFja/HM+mL4KOhA+PKuw3PeJf8LheoyX1gp/Fx4A
-         tjd0Eo9ksZN1WfVtITM+XqqyU0XyRVhoT3Z/Rb6ogt6+0WSBmatptym2Lo0LePtF8Ezq
-         WJ7RBiocdcaJ/hifjq30hm1XHYM4vINnXsDCvpoVjEzNCMSE5ESY93I9QwjwuzMwHL5Z
-         in22dJDZINTHW1X8ZM62Y4ORNqvKDyZukDtm7Y4bAzLMl3TPKYkdQkXuSnW2v9wbfMLS
-         GtnQ==
+        b=IvhaIYHhEMZR4XJHYKfWJJmJhMxEHdkJra0ISq6QC2lXQd7ysjeqem5RIQPHARxfjs
+         ZobrOAyOYt6Y567eC5XbEhOvNcOvlbm3OuCSSJoE8RDLKxpmfROzuxAZrJDxU4WjBbTz
+         LEaSpa36Zi3NXyTj0+hoB1wzRDk4PMdxYUFl6ORe1yIXOTJrVCoj5tYa50wTHDuz648o
+         1doSE/9YCDnxRWv1/EFKP5Nk5wj/SrqUE5XBlH4d0tY/xdl48Id9r2RV5ZP60rMD3Ovb
+         vyrFQAhptVV5zDJkxpkaqYf6uZhbzERUYAXEi+SnqAQrRD2nu6s96fiw2QX9gpkEmwa+
+         oLKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=h6p7iFMPL0RnoW5Oom2GXslSbFev5CUALqnSA0TrUcg=;
-        fh=jVwfkPAuPWqGa149hhgv7NrWlTd9xadR9cn8VVSgAGU=;
-        b=EEDcSdmv06H5P+KOgT/oya/XrrehtcD3WhKEQel3A2JMUG+2IgrplJqj8xS3OQGnX9
-         4WW4n3RYKESlOfSjBbBD3N7htUoYiUYKI0wpqfK9grwdVn+aIHt1/Jn6Gbty+IzfO7w+
-         UaZr9Lon97Mit2iC3uftV0t9E/xQ9dWcVHkTZgiqqUDhcq4HtM3DSxXDTXEF71gYOgR7
-         PPNnwJGz7kCaSP/7MIFDIQctoKlYlBZaz22jRku4CdXzrGHE0V5XNizHUgYKvi1jFJmm
-         9Gr4kUxm7NT/Fda+1f35sNdzas6WqnqL3WL0/C6/jXluuNK1oXcIsYwXrTsnLVz/vJZW
-         tdQA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BRAVl1LUxqDgkvoB9BijEMJL+fVxc4zMfLM5kk+MyrU=;
+        fh=i9jcMdoYpkXh4BvXXeh0M46scUKjEiRIrdwFpoxpW9Y=;
+        b=s6zMAGCOTV6MvfUS0XqftezD45LHM5jAXOzeA2nR9xFEHHxNiKeLrbFafApuBKXmT5
+         PgeDiWFakzNOWtLxmS1aSvmnZa7fGAJ/klBgJiDoHp/J44OdR+XYUZ6GJ4nUn5HQ89Us
+         ksg4RaZHoe9dgpEsXgXa1CrvP/ws6GiblE+TnUat2L137b8PCl/9Q0qnymUDsVpe7yaV
+         LGoPE1ZCg+YGnaAqN89Kk/qcrJdkz0O9C10dYPLjWCQ+niR7k4WBaja2bFIBMX5ulsIY
+         /onNVqpS7RxYIyhH4dbsOl+k8R5NJUN3gqxN1MOnnyFd9ih8HGkuyx1BBLHy1WytLGwn
+         Di6A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783537325; x=1784142125; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=h6p7iFMPL0RnoW5Oom2GXslSbFev5CUALqnSA0TrUcg=;
-        b=Glm/llwhmN/OqN4srBrldQ2ar8nOoVYOXQIzgUAQusWDAUbWpUwfXvP7QQfe4hkzoC
-         6T/1wWq6ZNv49ZgET+xVVQSy2BN8YuxH2ZQBTCI9FVUMS3kwODjqebtAoJxFSmhKKNLM
-         26/dxR/PyXTA4pftE5BznuI2QJ9J8kd/1iis8BTs4fXPRzTV2okI6hfdEdafzGZS0Try
-         t/7iH6EVPIQDdvm8s2MIflJ78xi2Ceh3zPPB6y9EXOcq/3MwuQnb6nH7H3JoowV58uRo
-         c2Ct1hRUgr8w6j7fAa/f8XIFy1Bwj5Q+kIo1xLn5oKxdJnEK00J1cLUkxzco0vC5m49z
-         kJFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783537325; x=1784142125;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1783539912; x=1784144712; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=h6p7iFMPL0RnoW5Oom2GXslSbFev5CUALqnSA0TrUcg=;
-        b=OaNawWM19XEV6bUMaIw1q/GDV3JlwQ2Sdsl8uvXGzhB7Ewg0ncLKD6L4zhA9H5KYuw
-         1c88B8QWfRQY1DtT2MWyjldTMGMO1mW958kwKeNiOwq8UM0XwFChUkXvLSVh4f3e+4ov
-         lvCU03Tlg7KUSk8laLTauJZU+6+mLLWUR7KJfIDaIw5LZ0rBDU7e+mrf69kUpET/UH30
-         fCZQgE44CwdMxaFtUbHpbH3nF7GGVcWuE5IJ2nb0Ujlugbb+vSRbWysUDaa+KPNCGDkQ
-         oCviRapEHWD2y1A7+6hcWjXXe9qb5ESs5qh7b5xGtjfhhQNAVoki6sC+mCa2OMZX7WVW
-         E4Cg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7uPdoDa1FIOuMPnqLWLVjCGsg+lqwH2nV55DQzqYyfTQgMdyCauzbPG78oM5pgXhpJbz/SNXz3T8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTCHCwK14uNpG3UzdBO9oNfwazvxbS+KEbEc6Y9MzxP4ILnp6H
-	VNll0WqwwL5ELkIcfNsg0NQV7QrE9viR/VhXoxewlYv09EDy72Amx2iPSpsdUPjwNljX8o0uQlf
-	ZiZQ75PxnSkUjkS3iAijLj8Xpk9OxUFE=
-X-Gm-Gg: AfdE7cnIcvb2VAUr+nSbyLP/nD07nx/qcxhAaIfEsUNdi0kvoLUGLlGS7gp6eD+3TPB
-	BtSgIsEjLYTV+cGthEuQO3UTHN8BQD2eUm0vAcT9cLWApoV4zmzRrU4YQT4i2byC17uyqOh6psr
-	JEITp31nfSABiCZG8VqfeWtqFEBgyYBS1B3JLQrs6abk5A8pGI489/fcoWRfI8GSwkLyVXLoJRP
-	DSzX4FWWdw45csLfX3o+t0iigUY2Z3RizpePPdhY2Y2sESHjkRS3YlPp5wglLUtSd2p7Gin0A==
-X-Received: by 2002:a05:6402:1f89:b0:69a:9355:ec35 with SMTP id
- 4fb4d7f45d1cf-69ab44b5e42mr1817377a12.41.1783537325129; Wed, 08 Jul 2026
- 12:02:05 -0700 (PDT)
+        bh=BRAVl1LUxqDgkvoB9BijEMJL+fVxc4zMfLM5kk+MyrU=;
+        b=LW6ZqAC4FbxbBm8HLLrTFWWlXoMUJ9CUp2FdEycrQL1F9NefHq0xM2Dq9eWhVKBmjh
+         JHlkEl3qhrEXAXf46hGh6OVto2prj6QX52fAtlIl8quaqYYWRzrpiCxZOloGEaHqXIQR
+         G9sgax2w4irmb4tkY2CyHmQKLbv6l+q/VWoL8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783539912; x=1784144712;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BRAVl1LUxqDgkvoB9BijEMJL+fVxc4zMfLM5kk+MyrU=;
+        b=RnFuCEpoa7Ns7pfI/tbMFkAaYG7l/av2xq+4ghLSyNeSXRcBBUTh/R43bJs9643Azt
+         Nh0Yv4Xf4vQGFy9gNiTbintB91pqGZlKtcOZzvkoaWIpm1BR14ymAQJXx3tXu+TZGJN+
+         UHuYt6fRSoXm2+Gk8LDjV3AC7fa7BG9serRf9mgokx5s6fcpvRh+Gcuvl6lywx1aZiZ6
+         MACUG1jalBTHcUAhXcZLSS8b4YPrxH1AOibLLSGDofai8IkUxsRWqSTvhsiJm/0uEms6
+         ZRzXCqJoCWCPjbNODeZwuNKQ0EB1FSj0mmhXmR8noOGU7vZedVJYuyPEeCtbyX5/SLcw
+         rYww==
+X-Forwarded-Encrypted: i=1; AHgh+RphBdU75qqNDfs7tbaJCVMWT4EXtfB6Tb6bVKGuvs64RyavVnRPh1Ac5lmI2DuRKLn53qXSZk9cQi4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYpkvB2wQwaoGH6495EJTr8TKkGk0Edcdusu2duEXnV42u6H8f
+	A4HmxLCR4jH+Mwqnfsooa1PkcM6xCowYyfIDRhZVf6JqB2bFz/MsDDngQPLqS01YW8gAiya3fc7
+	unB9CcyG9lrMQa1PQC7xpxCgSFrV9bsk/Ia1R+t7M+Q==
+X-Gm-Gg: AfdE7cmHHWez63A37hPOXTf5ksBCmgVTpQ9IwYdG+Yh0kf0OPX9DuJPr9ZaqRILxlLV
+	3/Zl4cRJ5Rx7UudlB6PlIMP3x9vYQ0lAmUjW7IdKiZumiqlZu19M6gDs9AFvfA82Trg4fw5GtGl
+	8vf03OJg2Ek1uQHs3evFoXQwtIPHZo8XYGaMy2Kp3ZRbh6GjjDNzu6dNnDBldIPZw0eDjfMa/2/
+	xc9uy/cPjvXyPUTxm3wehsmVz5gccvnJsB3x8iQSfVAPjuhi+EQRCAxOEcd5p/apv3iz+5zSVry
+	z7zlHF5D8yHplDzzRRMyupWn9NrjN2HDAV6zfQ==
+X-Received: by 2002:a05:622a:2282:b0:51c:4eb:b586 with SMTP id
+ d75a77b69052e-51c8b2bcca6mr44081721cf.3.1783539912501; Wed, 08 Jul 2026
+ 12:45:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -104,78 +101,64 @@ References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGM
  <87wlv57dt1.fsf@redhat.com> <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
  <87o6gh79yi.fsf@redhat.com>
 In-Reply-To: <87o6gh79yi.fsf@redhat.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 8 Jul 2026 21:01:53 +0200
-X-Gm-Features: AVVi8CcH_8D2AVPgSdZmur5rdOwKhUpVaCHJD-tULtZMblV_EPw4hJoYlLj59_k
-Message-ID: <CAOQ4uxgbNhdzKN7tvRmFDpt-8CZWh9pVcMLv25HxJzA0_0WfSg@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 8 Jul 2026 21:45:01 +0200
+X-Gm-Features: AVVi8CfEBqDFsxEsCKynN2toUTD0jqsYUgCkXMmD75nSowC3aB39c38nRzYyz0U
+Message-ID: <CAJfpegvUEEbFnCa1N9k3gMXpw46YFpWuta=G6brON1=xU36bgw@mail.gmail.com>
 Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
 To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, 
-	linux-erofs mailing list <linux-erofs@lists.ozlabs.org>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[szeredi.hu,quarantine];
+	R_DKIM_ALLOW(-0.20)[szeredi.hu:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-6799-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6800-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gscrivan@redhat.com,m:miklos@szeredi.hu,m:linux-unionfs@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:hsiangkao@linux.alibaba.com,m:linux-erofs@lists.ozlabs.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[amir73il@gmail.com,linux-api@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:gscrivan@redhat.com,m:linux-unionfs@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:amir73il@gmail.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,zeniv.linux.org.uk,kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[amir73il@gmail.com,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[szeredi.hu:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,szeredi.hu:from_mime,szeredi.hu:email,szeredi.hu:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 640DB729C43
+X-Rspamd-Queue-Id: D1566729F7A
 
-On Wed, Jul 8, 2026 at 5:55=E2=80=AFPM Giuseppe Scrivano <gscrivan@redhat.c=
-om> wrote:
+On Wed, 8 Jul 2026 at 17:55, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 >
 > Miklos Szeredi <miklos@szeredi.hu> writes:
 >
-> > On Wed, 8 Jul 2026 at 16:32, Giuseppe Scrivano <gscrivan@redhat.com> wr=
-ote:
+> > On Wed, 8 Jul 2026 at 16:32, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 > >
 > >> Amir suggested to add that functionality when I've asked for some
-> >> feedback before sending the patch here.  I am fine to drop it if this =
-is
+> >> feedback before sending the patch here.  I am fine to drop it if this is
 > >> the consensus although I see its utility from user space.
-
-I was thinking that getting the number of layers or info would be
-a good idea to complement getting a layer fd.
-
-I agree that the same information is probably available via statmount
-by parsing the upperdir/lowerdir/datadir mount options.
-
 > >
 > > How about a completely different interface:
 > >
-> > int get_fd_opt(const char *name, unsigned int index, unsigned int flags=
-);
+> > int get_fd_opt(const char *name, unsigned int index, unsigned int flags);
 > >
 > > Enumerating layers would be as easy as passing an index stating from
 > > zero and stopping when -ERANGE is received.
@@ -184,41 +167,23 @@ by parsing the upperdir/lowerdir/datadir mount options.
 > > fs specific ioctls.
 >
 > Is a new syscall really justified for such a narrow use case?
->
 
-I feel the same way.
+That's the reason I advocate pseudo fs based solutions.  Let's see, we
+had a proposal to use openat(), something. like:
 
-Giuseppe,
+openat(base_fd, "mount/options/lowerdir+/0", O_ALT | O_PATH);
 
-Could you add some high level context in this thread on why you need
-this functionality.
-I think it's this composefs-rs work. right?
-https://github.com/giuseppe/composefs-rs/commits/reuse-mounts-and-prevent-g=
-c-overlay/
+Meaning that O_ALT switches to an alternative/meta namespace that is
+based on the given fd and in that meta namespace the tree under mount/
+represents the attributes of the mount that base_fd is on.
 
-I must say this seems a bit upside down to me.
+See this post from Linus as well:
 
-If you want to keep a pool of mounted erofs images, you could do that
-in userspace -
-create a service that indexes mounted erofs images by unique mount point pa=
-ths.
-Then you can introspect the overlayfs mount options referring to those
-mount points.
+  https://lore.kernel.org/all/CAHk-=wjzLmMRf=QG-n+1HnxWCx4KTQn9+OhVvUSJ=ZCQd6Y1WA@mail.gmail.com/
 
-Going through the kernel to get an fd and reuse that fd for a new
-overlayfs mount
-sounds like a strange way of accomplishing this.
-
-If the overlayfs mounter is unprivileged, it would have to go through
-systemd-mountfsd
-to request a mount of erofs trusted image, right?
-
-Can't the same service provide the "is_image_mounted" query which provides
-the mount path?
-
-I am not against introspection of overlayfs, but I'd like to understand
-the use cases before finalizing the uapi.
+The statmount api took a different route, but for getting an O_PATH
+file this would be a very natural interface without added syscalls.
 
 Thanks,
-Amir.
+Miklos
 
