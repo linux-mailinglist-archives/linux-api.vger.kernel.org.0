@@ -1,70 +1,74 @@
-Return-Path: <linux-api+bounces-6781-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6782-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id w1T3EwYaTmoODQIAu9opvQ
-	(envelope-from <linux-api+bounces-6781-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 11:36:06 +0200
+	id 1RY3OhEaTmoWDQIAu9opvQ
+	(envelope-from <linux-api+bounces-6782-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 11:36:17 +0200
 X-Original-To: lists+linux-api@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90BA723CA1
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 11:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B5C723CAF
+	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 11:36:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=KkZc25gT;
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=iD81Yika;
 	dmarc=pass (policy=quarantine) header.from=redhat.com;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6781-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6781-lists+linux-api=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6782-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6782-lists+linux-api=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 819C3301FCBE
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2026 09:35:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C996930285C7
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2026 09:35:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82D741A798;
-	Wed,  8 Jul 2026 09:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DF15419313;
+	Wed,  8 Jul 2026 09:35:01 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54633E92A0
-	for <linux-api@vger.kernel.org>; Wed,  8 Jul 2026 09:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952933F8231
+	for <linux-api@vger.kernel.org>; Wed,  8 Jul 2026 09:34:57 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783503298; cv=none; b=hkYfAnhUqr1KHpF/FDzZYE4yj1rD0zxXEb+aqJHRBqBuA+xxH67G1iI1qmAC3jVV+xZUH+DVA0WzUuo/OL1lrtbL5Xm+yXqtkyDeobXrO8cefxiNHd/CCglIf1y/sEYHGyK6VWGTX9SVa+TVlGeTr4KjJigaI6qLKTxa6FbRDGQ=
+	t=1783503300; cv=none; b=tWv4D1355KGaqUHVkgnEe/Ft9Bpz7mV55NbCkviYLpq/LwbCde8bW2dz+diuKHm0kyEpZ5cu91c0THZmMio7miR+SuLGHY7hhRSGG12mUCiekHJO8hJtRIJypsiQXXIlKTXuFRoDPn9WRp7dJU3r5JSmFvt3DJE400EIe7IABKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783503298; c=relaxed/simple;
-	bh=beVtjXrWuYofT5C9A2ZJDghifOTh4tK5f37wTOg0H/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SIn+bwa72TLzqI6x1OhxN1nIcSnH81LMD3+D1bZrey5yqPxTWPgkGaaZ+IllkIxK+5yJE6i+8gy4NGt5fn5/0PPVTyHh43Or+F2GhqDgpJfZjaHJmrbc6OyJejEzxX+6/i9y8qfOUyJUTz2wqbUWsP4sD387WtpPzqdzTN9a6eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KkZc25gT; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1783503300; c=relaxed/simple;
+	bh=WY65FZp5xgPsf5dPtrbZYNcqyY4fbRjboVxgRvDOWUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=emB5jUpZCS0Y50C/GcHQtQoCSpjvfig/Iz6lPpe2MwjbJ8+swcxiFYfE11UJkAvnHl6EEmpLPwr0KAPYFqW4+XEuX+TYPtJGrh2BwKlU3KuqBqbKZ1Er4oqmqFhw1A85lyDgVIb1sBw18d1pZwGIUTbFJXwEokazVO8XPxnv3OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iD81Yika; arc=none smtp.client-ip=170.10.129.124
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783503294;
+	s=mimecast20190719; t=1783503296;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LSGrhlD0yn8NtGRpP/yuLz9/lKXd3YZ5anjPExUEXbM=;
-	b=KkZc25gTjMWRneQywrCnuQvrF9qgwQYE/zq6wsEEgnzKLeIeYPmx3MeVYlHNmCpxAV7ixF
-	3W0alUYXj8ijw3a5sb+gRbgMf5JKDmwjwX2dOlwXGGeWeTrK/d7AWQcNNYBLMwlHa3knNc
-	IKGgfB/zE7xxVfguPcjbNz+kTdKaeuc=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W8ArRWsRiz74um4VX+cF6VY0Yq/5FxxLKqrkr4Kch6M=;
+	b=iD81Yika2ToasJtukpTeu/zPbAYzitIlm1DoEtu/SxkgmQpxKbBRNL4nHUqsWagYBh14Yh
+	eVH3P2rg6bpprh07iah0vlCMq6dXWZumZLcXyqM+GBdCdZnFSDyJLHlM7Jut7fohDyQGzz
+	oSb19CVErKCdONwp8cuxxjdOe95phqk=
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-257-1jWkn7APP-qkLQEIcXgpAg-1; Wed,
- 08 Jul 2026 05:34:51 -0400
-X-MC-Unique: 1jWkn7APP-qkLQEIcXgpAg-1
-X-Mimecast-MFC-AGG-ID: 1jWkn7APP-qkLQEIcXgpAg_1783503290
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-339-tT1Y3egvOZWD-oh3xDqXmw-1; Wed,
+ 08 Jul 2026 05:34:53 -0400
+X-MC-Unique: tT1Y3egvOZWD-oh3xDqXmw-1
+X-Mimecast-MFC-AGG-ID: tT1Y3egvOZWD-oh3xDqXmw_1783503292
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 391EB1956068;
-	Wed,  8 Jul 2026 09:34:50 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3AEB51955F7C;
+	Wed,  8 Jul 2026 09:34:52 +0000 (UTC)
 Received: from oxygen.redhat.com (unknown [10.44.33.242])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EAC481955F43;
-	Wed,  8 Jul 2026 09:34:48 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0352F1955F43;
+	Wed,  8 Jul 2026 09:34:50 +0000 (UTC)
 From: Giuseppe Scrivano <gscrivan@redhat.com>
 To: linux-erofs@lists.ozlabs.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-api@vger.kernel.org
-Subject: [PATCH 0/2] erofs: fd-based source and backing file introspection
-Date: Wed,  8 Jul 2026 11:34:25 +0200
-Message-ID: <20260708093446.3370200-1-gscrivan@redhat.com>
+Subject: [PATCH 1/2] erofs: accept source file descriptor via fsconfig
+Date: Wed,  8 Jul 2026 11:34:26 +0200
+Message-ID: <20260708093446.3370200-2-gscrivan@redhat.com>
+In-Reply-To: <20260708093446.3370200-1-gscrivan@redhat.com>
+References: <20260708093446.3370200-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -91,7 +95,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:linux-erofs@lists.ozlabs.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6781-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6782-lists,linux-api=lfdr.de];
 	RCPT_COUNT_THREE(0.00)[3];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MIME_TRACE(0.00)[0:+];
@@ -107,32 +111,101 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C90BA723CA1
+X-Rspamd-Queue-Id: 81B5C723CAF
 
-This series adds two features to erofs for file-backed mounts:
+Add fsparam_fd("source") so that userspace can pass an already-opened
+file descriptor instead of a path string.  When the fd is provided via
+fsconfig(FSCONFIG_SET_FD, "source", NULL, fd), it is stored directly
+in sbi->dif0.file and erofs_fc_get_tree() skips the filp_open() call.
 
-1. Accept a source file descriptor via fsconfig(FSCONFIG_SET_FD,
-  "source", NULL, fd) as an alternative to a path string.  This is
-  useful when the backing file isn't reachable by path in the caller's
-  mount namespace.  For example, composefs reusing an already-mounted
-  erofs image's backing file.
+This is useful for mount namespaces where the backing file may not be
+reachable by path, and for tools that already hold an fd to the image
+(e.g. composefs reusing an erofs mount's backing file).
 
-2. Add an EROFS_IOC_GET_SOURCE_FD ioctl that returns a file descriptor
-  to the backing image file.  This allows userspace to retrieve the
-  backing file from an existing erofs mount without needing to know or
-  parse the original source path.
+Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+---
+ fs/erofs/super.c | 36 +++++++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
-Giuseppe Scrivano (2):
-  erofs: accept source file descriptor via fsconfig
-  erofs: add ioctl to retrieve the backing source file descriptor
-
- fs/erofs/inode.c           | 25 +++++++++++++++++++++++++
- fs/erofs/super.c           | 36 +++++++++++++++++++++++++-----------
- include/uapi/linux/erofs.h |  9 +++++++++
- 3 files changed, 59 insertions(+), 11 deletions(-)
- create mode 100644 include/uapi/linux/erofs.h
-
---
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 86fa5c6a0c70..8ad1689f74b2 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+ enum {
+ 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+ 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
++	Opt_source_fd,
+ };
+ 
+ static const struct constant_table erofs_param_cache_strategy[] = {
+@@ -413,6 +414,7 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+ 	fsparam_flag_no("directio",	Opt_directio),
+ 	fsparam_u64("fsoffset",		Opt_fsoffset),
+ 	fsparam_flag("inode_share",	Opt_inode_share),
++	fsparam_fd("source",		Opt_source_fd),
+ 	{}
+ };
+ 
+@@ -524,6 +526,15 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 		else
+ 			set_opt(&sbi->opt, INODE_SHARE);
+ 		break;
++	case Opt_source_fd:
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE)) {
++			errorfc(fc, "source fd option not supported");
++			return -EINVAL;
++		}
++		if (sbi->dif0.file)
++			fput(sbi->dif0.file);
++		sbi->dif0.file = get_file(param->file);
++		break;
+ 	}
+ 	return 0;
+ }
+@@ -752,14 +763,18 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int erofs_fc_get_tree(struct fs_context *fc)
+ {
+-	int ret;
++	struct erofs_sb_info *sbi = fc->s_fs_info;
+ 
+-	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+-		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+-			GET_TREE_BDEV_QUIET_LOOKUP : 0);
+-	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
+-		struct erofs_sb_info *sbi = fc->s_fs_info;
++	if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) || !sbi->dif0.file) {
+ 		struct file *file;
++		int ret;
++
++		ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
++			IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
++				GET_TREE_BDEV_QUIET_LOOKUP : 0);
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ||
++		    ret != -ENOTBLK)
++			return ret;
+ 
+ 		if (!fc->source)
+ 			return invalf(fc, "No source specified");
+@@ -767,12 +782,11 @@ static int erofs_fc_get_tree(struct fs_context *fc)
+ 		if (IS_ERR(file))
+ 			return PTR_ERR(file);
+ 		sbi->dif0.file = file;
+-
+-		if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
+-		    sbi->dif0.file->f_mapping->a_ops->read_folio)
+-			return get_tree_nodev(fc, erofs_fc_fill_super);
+ 	}
+-	return ret;
++	if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
++	    sbi->dif0.file->f_mapping->a_ops->read_folio)
++		return get_tree_nodev(fc, erofs_fc_fill_super);
++	return -EINVAL;
+ }
+ 
+ static int erofs_fc_reconfigure(struct fs_context *fc)
+-- 
 2.55.0
 
 
