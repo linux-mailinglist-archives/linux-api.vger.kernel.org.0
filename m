@@ -1,46 +1,46 @@
-Return-Path: <linux-api+bounces-6822-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6824-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BBDGI+4FUGozsAIAu9opvQ
-	(envelope-from <linux-api+bounces-6822-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 22:34:54 +0200
+	id Vx2EAIkGUGpmsAIAu9opvQ
+	(envelope-from <linux-api+bounces-6824-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 22:37:29 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5FE7356D1
-	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 22:34:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 296E5735781
+	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 22:37:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=rambus.com header.s=selector1 header.b=LOpw7iEv;
+	dkim=pass header.d=rambus.com header.s=selector1 header.b=mqslxc4U;
 	dmarc=pass (policy=reject) header.from=rambus.com;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6822-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6822-lists+linux-api=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6824-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6824-lists+linux-api=lfdr.de@vger.kernel.org";
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3923D303A665
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2026 20:32:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8072630E1A00
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2026 20:32:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1524E3DEFFA;
-	Thu,  9 Jul 2026 20:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D9673E168C;
+	Thu,  9 Jul 2026 20:31:50 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11020080.outbound.protection.outlook.com [52.101.201.80])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11020091.outbound.protection.outlook.com [52.101.46.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B363CCFD0;
-	Thu,  9 Jul 2026 20:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C139C3D6662;
+	Thu,  9 Jul 2026 20:31:36 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783629103; cv=fail; b=uBj7JXIFBVNB34hAtgwyA0syVG5/HBgN6XmJH7T5GWNj7lUuC7nDJXWBkK/Keeu9yTUE3ju432/fysoNgk5vZeRV9mAHNJzoNehd34+acBWwDJ4nBh/D47grv81a8qwQjEPSla4dHUqo7/KEqn74jbshoyJv9U13B7Nl5ODtVbc=
+	t=1783629109; cv=fail; b=s2zOUWxuzHIeJaYJjV2DJ9mYff523aqW0G3hrZHxvnUMAw3aln2UrEf+IxmiG/USCUMiBGJNOIje9GQKH3cClySKQ89FIWPlJAsnNpAXYl4zqfni/dHY4OgDDUYC8Hqdh1ke93GcAT3XE3sxzuG6vcvkRZHnKSSoqIlqZLGMvdg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783629103; c=relaxed/simple;
-	bh=CviorbAl5Ru5WdbCGiskCwP8xuRSCTqXq3IWnbhQE2M=;
+	s=arc-20240116; t=1783629109; c=relaxed/simple;
+	bh=Y7QyB1zCiiXkczroWLw6/5gqtCqXr4Lf6yROpDxINTU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N/qMqOEajEmIHXePZOhELbKUH2OSIpti1huxlaAS0CijTB6IKaT43dOYre4ZfnuxcbwAGuOXK+1t4vGv7+0iFDjB9TW1ahnDcw1h2tbCKGMtulV4KjkrhcfTeH4GOSXQFgFDPP6ws8T/kD8p8cKBKNM2wGtvNl9aEHkc8jRXD5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=LOpw7iEv; arc=fail smtp.client-ip=52.101.201.80
+	 MIME-Version:Content-Type; b=nA1SgzmyHD5CHANf4CzSIRjV9eIl0THOaEXy2hICqubTCq9C+Op4NzIqm+wn1GZazyguW9um5AE0Vo6cUmoFlq+swr+l5zV7rTgaCc+nPEvQk1PZtFEN++25+FaMbSM8d73pEy6BCphdA14FB/VZOVqMTnrmTvLh61l6b1Q5ikc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=mqslxc4U; arc=fail smtp.client-ip=52.101.46.91
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F4X5K0FG2X5rZ+NaMABJyMF5ick84N/RIaY9N8QODvXq7MrjETJg0kCLZ2EoV7hgZ+BoVikvzJJec0Qppjo6SL2G5tAZmiGdtG+TabYFTyjFjYVT+kxyCZz5dmvnyzwyb6l7y7iV0EmhKESftWtvWT5SNsIIRD8vEdGM0TYraVIH/CZWaGKb+iO0rVu+rO+xjiBFq4wuxwLCQZVzgxft0cmxZFXRaBuUZ6nYE1Y4nbZqlweAdBlipX1Ipr7mn+Ti1AmP4E1gKbm9Ca56EqSI38Rhx2mJRLERMFwP7D+5WF4RSOCibnnc2Wympe7+cTW78eVkwcB17zu+cWMtz2yL6Q==
+ b=OIAP6fpIeNvIBL//rrW/6A5dp+TcCkxLefrbaX+bEbOA2QvQMd3cuwgDFJXHk7E+JZcy9UqdClTgKTW4EcxywfS6gp30eZK9g7tmsI/iAxf74bNDXxhzmYEbq0+D52HCnZCxafl8Uf76/U6kU1Vay34PmeczYcw8rJLUC2sXb5eZhh1JkFkdzCSzkfcEStCOd67PEcGHmMXVwUV0EXu98xIwDNQbTPNfukNiiWQQ/DOexAb/jK2CuejOwee4d7AkX6cthAcXxXPhhDtD8ddIJ/V1ZrSMJwYIPCZA5kz+Z3jrVFP6CZZM2/TxHxOVn/2I8r7IcjvFrtzCjgoFeH38tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=spNmC5ZjwJ6xN9qzI1wxf8izoOVkvDvdYfNmQ4Dd+UI=;
- b=NTQUk9dvWKd2VHtwvj0a0YoAu7//pyzYdytWzREJuSQ9hXT316aOERwk47Bj/cCO6Duf6ecByw+rnWoyjZp+pEqA8jSM7YqX5UcsbeIsD6fEGBa1WjVr27yFUpuFbB1TGq6JJ2HELxilvZG82Y64Agf51hVNMMsydxBLz04qtx+oj10C0DUnVAHuJIrMGmCM6qImnnStOydHq9AE6qIb9Tqr1j+fGT345C4+Z9K/wLq2lhaMDlY4XaaoSEn9nHLBCypMyERVTKz83SqPXsJzf5R8onI5PNwsxKPufdIRAFcaXtCrGa4hXrwCZLu1I75OZG3HrUH9pOtIsIsFAuD1pA==
+ bh=y9+TfplXdHNRipoMb72JmDLA9mVXYasIez8jVKAG9pc=;
+ b=epTazykLpcmAb3HfOIcpf7Jv74U5qvvi33L/jwZd1HQuT7LsJCBP729Ep8SUBZreZ2kW8ImRz9wMfbnHJJ4A4BB/PR06zyw7tM//bvQ2Y5nFyc8nSq3wT9oxHsZHzzh7SrSOKAw2o2/wrDqQAg532Z9AK4mUlnrnIPtxJJMTBeA9qr+OFxLAqiSxSpNl7q2lqOF2BCcvkzZF2wog5kZe28bRGqyxJXrYrKgcts7gdZBNF5YrcKZjf8pgNsti9rZ1ts8ppBTg/64lM42YAQT+0qkzu2UQEW/QrV9HlhDeSGes5V5lxtKk2wlSyYepWAflIFBwORkwCAOtZlvcUr7N3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
@@ -48,17 +48,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spNmC5ZjwJ6xN9qzI1wxf8izoOVkvDvdYfNmQ4Dd+UI=;
- b=LOpw7iEvdTZNcy/I6QL+dkLkvGWA/CsxPUF2uR6Oebi/Sn8D8m6DrZEwv52tKCaEZKY+38mSCQdoGAPEjixuwBpVfRMpzvtsojpI9fuB4enDOsiWc45idP12JBcVxXTYliin7eCgF0EV38PbBeB8sn99dk0pudEc243GPkwffY1aV/KNzKPOPH7kx+x87wSfmmYJ6BFsfCmWK4++d5Y4Aw3O5GcZSA42lSn8uqOWNv/mdkI2U1NkxO9k6HkRsME1b7n7eOAGdur47iYHHFil0aNbDrHk759oAtMQ8Ek1IlaXJozeaOGjy3S6mwalvmaCsV9Xs0+FasT7EQkQl7XEqA==
-Received: from LV3P220CA0012.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:234::17)
- by MN2PR04MB6350.namprd04.prod.outlook.com (2603:10b6:208:1a1::20) with
+ bh=y9+TfplXdHNRipoMb72JmDLA9mVXYasIez8jVKAG9pc=;
+ b=mqslxc4Ud2nGyaCNu5Xi+SCSstQFW9kxPD8zsFtaMiV2vO6+yPwRC515hEMDoLtbKpR9WQYGFAFliU7VkPrZM98eLaAb6mPN6vsC74EqD3Lvddi/fTjP69tYUDW5h7c0WwFKa6UIVAPIBlxk0HCz1mH/becqauK57m/m8lLUrj+82NFczuxz2y3s0GcAG+yKwHeCw75SfLtXyXCxQib3OmlZoqRxdI53B09j9soO6keMb7tB8nKDmrzgk6kYU8iYwtFoJ/k+yGU9mnOyxaMJ+IRkgmuQ+R0Njlbb6YB5SIteov7snINXynlIOfr9AN1pJsRtIyNdTQGMh2Gwx1GslA==
+Received: from BY5PR03CA0030.namprd03.prod.outlook.com (2603:10b6:a03:1e0::40)
+ by PH7PR04MB8484.namprd04.prod.outlook.com (2603:10b6:510:2a5::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.16; Thu, 9 Jul
- 2026 20:31:24 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:408:234:cafe::98) by LV3P220CA0012.outlook.office365.com
- (2603:10b6:408:234::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.12 via Frontend Transport; Thu, 9
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
+ 2026 20:31:26 +0000
+Received: from CO1PEPF000075F4.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0:cafe::2a) by BY5PR03CA0030.outlook.office365.com
+ (2603:10b6:a03:1e0::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.18 via Frontend Transport; Thu, 9
  Jul 2026 20:31:24 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
  smtp.mailfrom=rambus.com; dkim=none (message not signed)
@@ -67,11 +67,11 @@ Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
  192.86.86.210 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.86.86.210; helo=hqxsv-psmtppxy02.rambus.com; pr=C
 Received: from hqxsv-psmtppxy02.rambus.com (192.86.86.210) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
+ CO1PEPF000075F4.mail.protection.outlook.com (10.167.249.43) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Thu, 9 Jul 2026 20:31:24 +0000
+ via Frontend Transport; Thu, 9 Jul 2026 20:31:23 +0000
 Received: from hqxsv-cmdev3-skrishnamoorthy.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
-	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 68D1C1801774;
+	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id 74CAB1801777;
 	Thu,  9 Jul 2026 20:31:21 +0000 (UTC)
 From: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
 To: Albert Ou <aou@eecs.berkeley.edu>,
@@ -97,9 +97,9 @@ Cc: Alexandre Ghiti <alex@ghiti.fr>,
 	linux-riscv@lists.infradead.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Thi Nguyen <thin@rambus.com>
-Subject: [PATCH v2 16/19] crypto: cmh - add SLH-DSA/LMS/XMSS (HCQ)
-Date: Thu,  9 Jul 2026 13:30:34 -0700
-Message-ID: <20260709203037.1884436-17-skrishnamoorthy@rambus.com>
+Subject: [PATCH v2 17/19] Documentation: ioctl: add CMH ioctl documentation and register 'J'
+Date: Thu,  9 Jul 2026 13:30:35 -0700
+Message-ID: <20260709203037.1884436-18-skrishnamoorthy@rambus.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
 References: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
@@ -112,31 +112,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|MN2PR04MB6350:EE_
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F4:EE_|PH7PR04MB8484:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 66f93c41-50e6-438a-93ef-08deddf90b96
+X-MS-Office365-Filtering-Correlation-Id: 4afc070b-6e97-43f0-a952-08deddf90b4f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700016|23010399003|22082099003|18002099003|56012099006|11063799006|3023799007|921020|6133799003;
+	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|23010399003|7416014|376014|56012099006|6133799003|22082099003|18002099003|11063799006|3023799007|921020;
 X-Microsoft-Antispam-Message-Info:
-	oWSl0pqoymS2fN11ANymVuxPEX/KlVoy3wYF648tul+8fX9OAqP0yKj0TZ8D0btOjFlMd1OReqtaNqpIswb2VtEJqI/kT11mJdBPY9taSVqaHRuu8o7mZL8vNi+AHKC9UgCvHLYw8KYp25FwfWTxqk45nL/DuqdXZ2IyNJbvLMcmWJNxRy2GbI7YI5PVwcccf3fFVO3PZVU19akMxfd7bBIJp0eZ8vBlwQ8YqI019LWbt8b3CEH6tnNX80vjIUIn8WOYV7GDR/d4qKEo+Cc6dWiTUKapeAKh0/hdsfis7+bQ0tltJtrfHvS3pHrAId+5Gr9cfBt94u7GJWSd/l6BOagLU8ukpBud1USVeefnXZ4UFU67z1SdgUKBdglIgMbYArOqenPgWT8ItB0NhkuDTsHacmYNEENEDRBUV1LkcRuWNHxqG/Bi2Acvwd/JvfV0WLYM158Z7RvuGv2eKLVqiz1DaFUJyJIZTzuLRF0sJW5XzP9l4OWEhmjMHBxaFeEdQbqWh//VlwoTfoC0pr7GSZut334Xo7nbIDb7+82EUUonOVK8iHrvOEdPuOBn2EWjJnyvCNUOpsw5oX/kVQ5n+4WmZAQ2DqmbjVBYiV0wSC5pqrSNOhDEoOY0S7LYFzWM//hki36lR5o0qylDvtYbc3h4XXu9Z4EjR6LKAGiWBUo0mfE1xvHHYR/drM6EBPR6sz1MH2k127d2PvuzL755i5QXHd/VPuUzjT/Trpni1c+4eZAAaBZpQEC/WmnJBFjN
+	akKRDtob+Yy9haGt6IJBjruit9LwdbrkwqeTLZiQDIBV3FL6TEKrqeqPYeYIkj3Ucfz81IKDPNDGMK+LbvNDL4sD/+Habsg1TYL3x+qZOrmwvj0JhRQRwaoOnSFGObS5L4Uf9AckonHld/iSgwufUCiuRV4i8ZXkdg8vYw2jt4b1qqWs5uoC/DdcQpmSyhcHT+8508aqVOSdz42JKoCA4+RkOtTrjwiSBfy3W0DADsPdiRwA2nSAPWnhyP4h8j3Yznh+sYCfkwkBUzO4xWFF/W2TDkRSe2dSCIWHYzqBYmPkO1xNHHZRqvSgSaQkUgilzWmV8PKzRhcka+xw3OWZ18/G3tYRWOvnybAhMYjtBpPeKNdsRjTsiik5cC7Ob99Mh6wIyCNKqWOZq7ncqXrL2HLRcGwhuGKx6U912Vt2zi1+icGyH4P/Xxe88s9tikilMBkOpnyKS8QAEPJAu/KYA4TK3wz2TVm/sNJfO6GDHBjmD1QzUmH3ZsgURqAh1Y3FRD9+irqWwkuvDxGbCfAEJbAvwUf6pdUL2GQFX8h4etZLDrrxPEC251Ed05EYCYM2WPl4mh3URBIVP/aSF4HHR5mzsqpoCThXK2jrK15k1zPsjQ26lhDdGc5FFiQn+NfZpMl1HTaUJmxsmq4ry1masEuOvauEN+N6ixyT+lskO0KN8wPbRf2kxAM6lzQ76GhyiMJ5A3zUaUpYbX1wtehOI1iuQYJGIZ4gIwbzMGbjKGJ0awWmadQaVGSxgv4+pNl3
 X-Forefront-Antispam-Report:
-	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700016)(23010399003)(22082099003)(18002099003)(56012099006)(11063799006)(3023799007)(921020)(6133799003);DIR:OUT;SFP:1102;
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(23010399003)(7416014)(376014)(56012099006)(6133799003)(22082099003)(18002099003)(11063799006)(3023799007)(921020);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	kT7mPHUVjPzLjs8yS5DlMnq5FYvMN5G/ifOLjbB4F1h1anlV/04gWmsexJHJYQ2lZJ9tXWD7YJymbSbVl/2RSRBKbUn/MJ66nHo/fAiKNTVVwvcgA0CM+HckOTb/LNsNpplzCGDAXsfYB5trIWhBwr2LcBTnIDBi0h5Js90Qx1zyU9Fh/JrKYFaQcw/xtlj4Ub6FYIwv4VhaNVRc9Rn+xDNC6vJyNh2obOBjt3GrWBgrpZ9STjScBulQzdWNybawJteFMFN0Su42Lp3l2LL/B1Waw8W77wJxoSljzv7P8IvJXwgtcG6BlC57Lvz2WSJpXEcuoM+B4UwCDPnmeYmIKoTZnFbu3GiRd62vcNdtv4EYzH4fGwR7m6lh5/ZG5lIcZ/112H6hCIJShyVslxj/pwkA9oVbVxg3ZlD0FV6QkQaoaQTUggXCHxIO3kc5HZbQ
+	gJh2a6WB/ouwOaI5FoskLUk/CBF3gOGtb+NrJfVgBSkkqPJp9Dh5M4X1BZWtgxKVrtckzMiTcgKOs1gLRxuqCnLg7eL/IB9FYKXfrCmGQh7YOCx5piRQG8O8DJbexZZW8gWCTIFcJhqiUOqNV3cndK5GvzApyde4GaflmbGIjGtVGnJjLxejvP8JujWxSpGpq3afoNiswHTqHTV7KNyvADiyNMMfaQyfZLovIYUfVwd9Y0PZhK22be6sq7AcyLhVbwYdj+MSMtPMCvwlOsUoVjfYASXxHbgwU88Qvao0Z3Neubs34CVDbxY08R4gaav841ZejK53utHyjb9z/gQZGyYRlESUJRwTw5Fa6GvQfvxBvv00bNv4oHz8hOBrp2MJn55rYrd37ccnRmM6m71xJT1CvndtOgfKOADDJ2mgdJxZmDHJh7lwy4sym4KkeDHa
 X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 20:31:24.1757
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 20:31:23.8428
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66f93c41-50e6-438a-93ef-08deddf90b96
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4afc070b-6e97-43f0-a952-08deddf90b4f
 X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy02.rambus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004682.namprd03.prod.outlook.com
+	CO1PEPF000075F4.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6350
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR04MB8484
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -145,14 +145,14 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[rambus.com,reject];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[rambus.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[skrishnamoorthy@rambus.com,linux-api@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[23];
-	TAGGED_FROM(0.00)[bounces-6822-lists,linux-api=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6824-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -164,24 +164,26 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[skrishnamoorthy@rambus.com,linux-api@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,rambus.com:from_mime,rambus.com:email,rambus.com:mid,rambus.com:dkim,cryptography.com:email,vger.kernel.org:from_smtp];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,rambus.com:from_mime,rambus.com:email,rambus.com:mid,rambus.com:dkim,cryptography.com:email,vger.kernel.org:from_smtp];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-api,dt];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DE5FE7356D1
+X-Rspamd-Queue-Id: 296E5735781
 
 From: Alex Ousherovitch <aousherovitch@rambus.com>
 
-Register SLH-DSA, LMS, LMS-HSS, XMSS, and XMSS-MT algorithms
-using the CMH HCQ core (core ID 0x08).  SLH-DSA is registered as a
-sig algorithm with sign and verify support.  LMS, LMS-HSS, XMSS,
-and XMSS-MT are registered as verify-only sig algorithms: their
-stateful signing semantics (one-time-key private state the signer
-must track) are not modeled by the kernel crypto API, so only
-verification is exposed.
+Add Documentation/userspace-api/ioctl/cmh_mgmt.rst documenting the
+ioctl commands on the /dev/cmh_mgmt misc device for the CRI
+CryptoManager Hub (CMH) hardware crypto accelerator driver.  Covers
+key management, KIC key derivation, PKE (RSA, ECDSA, ECDH, EdDSA),
+PQC (ML-KEM, ML-DSA, SLH-DSA), SM2, EAC, and DRBG.  Link the page
+into the userspace-api/ioctl index toctree.
+
+Register ioctl magic number 'J' (0x4A) in ioctl-number.rst.  The
+driver uses ioctls 0x01-0x40.
 
 Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
 Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
@@ -189,1258 +191,981 @@ Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
 Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
 Reviewed-by: Thi Nguyen <thin@rambus.com>
 ---
- drivers/crypto/cmh/Makefile         |   6 +-
- drivers/crypto/cmh/cmh_hcq.c        | 313 +++++++++++++++++++++++
- drivers/crypto/cmh/cmh_main.c       |  24 ++
- drivers/crypto/cmh/cmh_pqc_lms.c    | 230 +++++++++++++++++
- drivers/crypto/cmh/cmh_pqc_slhdsa.c | 377 ++++++++++++++++++++++++++++
- drivers/crypto/cmh/cmh_pqc_xmss.c   | 230 +++++++++++++++++
- 6 files changed, 1179 insertions(+), 1 deletion(-)
- create mode 100644 drivers/crypto/cmh/cmh_hcq.c
- create mode 100644 drivers/crypto/cmh/cmh_pqc_lms.c
- create mode 100644 drivers/crypto/cmh/cmh_pqc_slhdsa.c
- create mode 100644 drivers/crypto/cmh/cmh_pqc_xmss.c
+ .../userspace-api/ioctl/cmh_mgmt.rst          | 941 ++++++++++++++++++
+ Documentation/userspace-api/ioctl/index.rst   |   1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ 3 files changed, 943 insertions(+)
+ create mode 100644 Documentation/userspace-api/ioctl/cmh_mgmt.rst
 
-diff --git a/drivers/crypto/cmh/Makefile b/drivers/crypto/cmh/Makefile
-index 3425eb65d653..c3332804a9d7 100644
---- a/drivers/crypto/cmh/Makefile
-+++ b/drivers/crypto/cmh/Makefile
-@@ -36,7 +36,11 @@ cmh-y := \
- 	cmh_pke_ecdh.o \
- 	cmh_qse.o \
- 	cmh_pqc_mldsa.o \
--	cmh_pqc_sizes.o
-+	cmh_pqc_sizes.o \
-+	cmh_hcq.o \
-+	cmh_pqc_slhdsa.o \
-+	cmh_pqc_lms.o \
-+	cmh_pqc_xmss.o
- 
- # Management ioctl device (/dev/cmh_mgmt): key lifecycle, PKE, PQC ioctls.
- cmh-$(CONFIG_CRYPTO_DEV_CMH_MGMT) += \
-diff --git a/drivers/crypto/cmh/cmh_hcq.c b/drivers/crypto/cmh/cmh_hcq.c
+diff --git a/Documentation/userspace-api/ioctl/cmh_mgmt.rst b/Documentation/userspace-api/ioctl/cmh_mgmt.rst
 new file mode 100644
-index 000000000000..8fc3a5cb0f9f
+index 000000000000..b0968ba6b153
 --- /dev/null
-+++ b/drivers/crypto/cmh/cmh_hcq.c
-@@ -0,0 +1,313 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- HCQ Core VCQ Builders
-+ *
-+ * VCQ builder functions for SLH-DSA, LMS, and XMSS commands.
-+ * Each function populates a single vcq_cmd slot.  Callers assemble
-+ * complete VCQs with header + command(s) + flush, then submit via
-+ * cmh_tm_submit_sync().
-+ */
++++ b/Documentation/userspace-api/ioctl/cmh_mgmt.rst
+@@ -0,0 +1,941 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <linux/string.h>
++=============================================
++CMH Key Management ioctl Interface (cmh_mgmt)
++=============================================
 +
-+#include "cmh_sys.h"
++:Author: Cryptography Research, Inc. (CRI)
++:Maintainer: linux-crypto@vger.kernel.org
 +
-+/* -- HCQ flush -- */
++Introduction
++============
 +
-+/**
-+ * vcq_add_hcq_flush() - Build an HCQ flush VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ */
-+void vcq_add_hcq_flush(struct vcq_cmd *slot, u32 core_id)
-+{
-+	vcq_add_flush(slot, core_id);
-+}
++The ``/dev/cmh_mgmt`` character device provides user-space access to key
++management, key derivation, public-key, and post-quantum cryptographic
++operations on the CryptoManager Hub (CMH) hardware accelerator.
 +
-+/* -- SLH-DSA -- */
++The device is created by the ``cmh`` kernel module as a ``misc_device``.
++All operations are synchronous -- the ioctl blocks until the hardware
++completes.  Opening the device requires ``CAP_SYS_ADMIN``.
 +
-+/**
-+ * vcq_add_hcq_slhdsa_keygen() - Build an SLH-DSA key generation VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @seed_len: Length of seed buffer in bytes
-+ * @pk_len: Length of public key buffer in bytes
-+ * @sk_len: Length of secret key buffer in bytes
-+ * @seed: DMA address of seed input buffer
-+ * @pk: DMA address of public key output buffer
-+ * @sk: DMA address of secret key output buffer
-+ */
-+void vcq_add_hcq_slhdsa_keygen(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+			       u32 seed_len, u32 pk_len, u32 sk_len,
-+			       u64 seed, u64 pk, u64 sk)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_SLHDSA_KEYGEN);
-+	slot->hwc.hcq.cmd_slhdsa_keygen.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.seed_len = seed_len;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.pk_len = pk_len;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.sk_len = sk_len;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.seed = seed;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.pk = pk;
-+	slot->hwc.hcq.cmd_slhdsa_keygen.sk = sk;
-+}
++All ioctl argument structures are versioned: user space sets the
++``version`` field to ``CMH_MGMT_V1`` (currently 1).  This allows the
++driver to extend structures in the future without breaking the ABI.
 +
-+/**
-+ * vcq_add_hcq_slhdsa_sign() - Build an SLH-DSA signing VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @ctx_len: Length of context string in bytes
-+ * @add_random: DMA address of additional randomness buffer
-+ * @msg: DMA address of message buffer
-+ * @ctx: DMA address of context string buffer
-+ * @sk: DMA address of secret key buffer
-+ * @sig: DMA address of signature output buffer
-+ */
-+void vcq_add_hcq_slhdsa_sign(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+			     u32 msg_len, u32 ctx_len,
-+			     u64 add_random, u64 msg, u64 ctx,
-+			     u64 sk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_SLHDSA_SIGN);
-+	slot->hwc.hcq.cmd_slhdsa_sign.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_sign.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_sign.add_random = add_random;
-+	slot->hwc.hcq.cmd_slhdsa_sign.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_sign.context = ctx;
-+	slot->hwc.hcq.cmd_slhdsa_sign.sk = sk;
-+	slot->hwc.hcq.cmd_slhdsa_sign.sig = sig;
-+	slot->hwc.hcq.cmd_slhdsa_sign.context_len = ctx_len;
-+}
++Data types and ioctl numbers are defined in
++``<uapi/linux/cmh_mgmt_ioctl.h>``.  The ioctl type letter is ``'J'``
++(0x4A).
 +
-+/**
-+ * vcq_add_hcq_slhdsa_sign_internal() - Build an SLH-DSA internal signing VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @add_random: DMA address of additional randomness buffer
-+ * @msg: DMA address of message buffer
-+ * @sk: DMA address of secret key buffer
-+ * @sig: DMA address of signature output buffer
-+ */
-+void vcq_add_hcq_slhdsa_sign_internal(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+				      u32 msg_len, u64 add_random,
-+				      u64 msg, u64 sk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_SLHDSA_SIGN_INTERNAL);
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.add_random = add_random;
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.sk = sk;
-+	slot->hwc.hcq.cmd_slhdsa_sign_internal.sig = sig;
-+}
++Error Handling
++==============
 +
-+/**
-+ * vcq_add_hcq_slhdsa_verify() - Build an SLH-DSA verification VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @ctx_len: Length of context string in bytes
-+ * @msg: DMA address of message buffer
-+ * @ctx: DMA address of context string buffer
-+ * @pk: DMA address of public key buffer
-+ * @sig: DMA address of signature buffer to verify
-+ */
-+void vcq_add_hcq_slhdsa_verify(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+			       u32 msg_len, u32 ctx_len,
-+			       u64 msg, u64 ctx, u64 pk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_SLHDSA_VERIFY);
-+	slot->hwc.hcq.cmd_slhdsa_verify.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_verify.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_verify.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_verify.context = ctx;
-+	slot->hwc.hcq.cmd_slhdsa_verify.pk = pk;
-+	slot->hwc.hcq.cmd_slhdsa_verify.sig = sig;
-+	slot->hwc.hcq.cmd_slhdsa_verify.context_len = ctx_len;
-+}
++Unless otherwise noted, all ioctls return 0 on success and a negative
++errno on failure.  Common error codes:
 +
-+/**
-+ * vcq_add_hcq_slhdsa_sign_prehash() - Build an SLH-DSA prehash signing VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @cmd: VCQ command ID (sign-prehash variant)
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @prehash_algo: Prehash algorithm identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @ctx_len: Length of context string in bytes
-+ * @add_random: DMA address of additional randomness buffer
-+ * @msg: DMA address of message buffer
-+ * @ctx: DMA address of context string buffer
-+ * @sk: DMA address of secret key buffer
-+ * @sig: DMA address of signature output buffer
-+ */
-+void vcq_add_hcq_slhdsa_sign_prehash(struct vcq_cmd *slot, u32 core_id,
-+				     u32 cmd, u32 param_set, u32 prehash_algo,
-+				     u32 msg_len, u32 ctx_len,
-+				     u64 add_random, u64 msg, u64 ctx,
-+				     u64 sk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, cmd);
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.prehash_algo = prehash_algo;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.context_len = ctx_len;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.add_random = add_random;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.context = ctx;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.sk = sk;
-+	slot->hwc.hcq.cmd_slhdsa_sign_prehash.sig = sig;
-+}
++========== =============================================================
++``EINVAL`` Invalid ``version`` field, unsupported parameter, or
++           out-of-range length.
++``EFAULT`` Failed to copy data to/from user space.
++``ENOMEM`` Kernel memory allocation failed.
++``EIO``    Hardware returned an error (eSW command failure).
++``ENOENT`` Key not found (``KEY_FIND``, ``KEY_LIST``).
++========== =============================================================
 +
-+/**
-+ * vcq_add_hcq_slhdsa_verify_prehash() - Build an SLH-DSA prehash verify VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @cmd: VCQ command ID (verify-prehash variant)
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @prehash_algo: Prehash algorithm identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @ctx_len: Length of context string in bytes
-+ * @msg: DMA address of message buffer
-+ * @ctx: DMA address of context string buffer
-+ * @pk: DMA address of public key buffer
-+ * @sig: DMA address of signature buffer to verify
-+ */
-+void vcq_add_hcq_slhdsa_verify_prehash(struct vcq_cmd *slot, u32 core_id,
-+				       u32 cmd, u32 param_set, u32 prehash_algo,
-+				       u32 msg_len, u32 ctx_len,
-+				       u64 msg, u64 ctx, u64 pk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, cmd);
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.prehash_algo = prehash_algo;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.context_len = ctx_len;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.context = ctx;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.pk = pk;
-+	slot->hwc.hcq.cmd_slhdsa_verify_prehash.sig = sig;
-+}
++Datastore Concepts
++==================
 +
-+/**
-+ * vcq_add_hcq_slhdsa_verify_internal() - Build an SLH-DSA internal verify VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @msg_len: Length of message buffer in bytes
-+ * @msg: DMA address of message buffer
-+ * @pk: DMA address of public key buffer
-+ * @sig: DMA address of signature buffer to verify
-+ */
-+void vcq_add_hcq_slhdsa_verify_internal(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+					u32 msg_len, u64 msg, u64 pk, u64 sig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1,
-+			      HCQ_CMD_SLHDSA_VERIFY_INTERNAL);
-+	slot->hwc.hcq.cmd_slhdsa_verify_internal.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_verify_internal.message_len = msg_len;
-+	slot->hwc.hcq.cmd_slhdsa_verify_internal.message = msg;
-+	slot->hwc.hcq.cmd_slhdsa_verify_internal.pk = pk;
-+	slot->hwc.hcq.cmd_slhdsa_verify_internal.sig = sig;
-+}
++The CMH hardware maintains an embedded datastore managed by the eSW
++firmware.  Objects in the datastore are identified by a 64-bit reference
++(``ref``) and optionally by a 64-bit Content ID (``cid``).
 +
-+/**
-+ * vcq_add_hcq_slhdsa_pubgen() - Build an SLH-DSA public key generation VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @param_set: SLH-DSA parameter set identifier
-+ * @sk_len: Length of secret key buffer in bytes
-+ * @sk: DMA address of secret key input buffer
-+ * @pk: DMA address of public key output buffer
-+ */
-+void vcq_add_hcq_slhdsa_pubgen(struct vcq_cmd *slot, u32 core_id, u32 param_set,
-+			       u32 sk_len, u64 sk, u64 pk)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_SLHDSA_PUBGEN);
-+	slot->hwc.hcq.cmd_slhdsa_pubgen.parameter_set = param_set;
-+	slot->hwc.hcq.cmd_slhdsa_pubgen.sk_len = sk_len;
-+	slot->hwc.hcq.cmd_slhdsa_pubgen.sk = sk;
-+	slot->hwc.hcq.cmd_slhdsa_pubgen.pk = pk;
-+}
++Two storage classes exist:
 +
-+/* -- LMS -- */
++**Temporary (SYS_REF_TEMP)**
++  Lifetime is scoped to a single mailbox slot.  The eSW firmware
++  reclaims the object when the slot is reused.  Used for raw-key
++  provisioning via ``KEY_NEW`` + ``KEY_WRITE``.
 +
-+/**
-+ * vcq_add_hcq_lms_verify() - Build an LMS/HSS signature verify VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @lms_hss: LMS/HSS mode flag (0 = LMS, 1 = HSS)
-+ * @pk_len: Length of public key buffer in bytes
-+ * @sig_len: Length of signature buffer in bytes
-+ * @dig_len: Length of digest buffer in bytes
-+ * @pk: DMA address of public key buffer
-+ * @sig: DMA address of signature buffer
-+ * @dig: DMA address of digest buffer
-+ */
-+void vcq_add_hcq_lms_verify(struct vcq_cmd *slot, u32 core_id, u32 lms_hss,
-+			    u32 pk_len, u32 sig_len, u32 dig_len,
-+			    u64 pk, u64 sig, u64 dig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_LMS_VERIFY);
-+	slot->hwc.hcq.cmd_lms_verify.lms_hss = lms_hss;
-+	slot->hwc.hcq.cmd_lms_verify.pk_len = pk_len;
-+	slot->hwc.hcq.cmd_lms_verify.sig_len = sig_len;
-+	slot->hwc.hcq.cmd_lms_verify.dig_len = dig_len;
-+	slot->hwc.hcq.cmd_lms_verify.pk = pk;
-+	slot->hwc.hcq.cmd_lms_verify.sig = sig;
-+	slot->hwc.hcq.cmd_lms_verify.dig = dig;
-+}
++**Persistent (SYS_REF_PERSIST)**
++  Survives across mailbox slots.  Requires explicit deletion via
++  ``KEY_DELETE``.  Identified by CID; resolved to a per-mailbox ref
++  via ``KEY_FIND``.
 +
-+/* -- XMSS -- */
++Mailbox Dispatch
++================
 +
-+/**
-+ * vcq_add_hcq_xmss_verify() - Build an XMSS/XMSS^MT signature verify VCQ command
-+ * @slot: VCQ command slot to populate
-+ * @core_id: Hardware core ID for dispatch
-+ * @xmss_mt: XMSS/XMSS^MT mode flag (0 = XMSS, 1 = XMSS^MT)
-+ * @pk_len: Length of public key buffer in bytes
-+ * @sig_len: Length of signature buffer in bytes
-+ * @dig_len: Length of digest buffer in bytes
-+ * @pk: DMA address of public key buffer
-+ * @sig: DMA address of signature buffer
-+ * @dig: DMA address of digest buffer
-+ */
-+void vcq_add_hcq_xmss_verify(struct vcq_cmd *slot, u32 core_id, u32 xmss_mt,
-+			     u32 pk_len, u32 sig_len, u32 dig_len,
-+			     u64 pk, u64 sig, u64 dig)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+	slot->magic = VCQ_CMD_MAGIC;
-+	slot->id = VCQ_CMD_ID(core_id, 0, 1, HCQ_CMD_XMSS_VERIFY);
-+	slot->hwc.hcq.cmd_xmss_verify.xmss_mt = xmss_mt;
-+	slot->hwc.hcq.cmd_xmss_verify.pk_len = pk_len;
-+	slot->hwc.hcq.cmd_xmss_verify.sig_len = sig_len;
-+	slot->hwc.hcq.cmd_xmss_verify.dig_len = dig_len;
-+	slot->hwc.hcq.cmd_xmss_verify.pk = pk;
-+	slot->hwc.hcq.cmd_xmss_verify.sig = sig;
-+	slot->hwc.hcq.cmd_xmss_verify.dig = dig;
-+}
-diff --git a/drivers/crypto/cmh/cmh_main.c b/drivers/crypto/cmh/cmh_main.c
-index bb81e2767974..0b5d22daec67 100644
---- a/drivers/crypto/cmh/cmh_main.c
-+++ b/drivers/crypto/cmh/cmh_main.c
-@@ -303,6 +303,21 @@ static int cmh_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_pqc_mldsa_register;
++All ``/dev/cmh_mgmt`` ioctls are submitted on a single management
++mailbox.  This is a structural requirement of the eSW datastore model,
++not a tunable:
++
++* Datastore access control is **per-mailbox**.  ``KEY_NEW`` grants the
++  creating mailbox read/write/execute access; other mailboxes have none
++  until granted.  The returned 64-bit ``ref`` encodes a randomised
++  offset and does **not** carry the owning mailbox, so an operation that
++  receives only a ``ref`` (``KEY_GRANT``, ``KEY_READ``, ``KEY_DELETE``,
++  ``DS_EXPORT``) cannot itself determine which mailbox owns the object.
++  Using one fixed management mailbox guarantees that a key's create,
++  modify, grant, read and hardware-held-key compute steps all share the
++  mailbox that holds its access rights, without exposing mailbox
++  identity in the UABI.  User space may still widen a key's access to
++  additional mailboxes via ``KEY_GRANT``.
++
++* The eSW ``SYS_REF_TEMP`` scratch store is per-mailbox and persists
++  across ioctl calls, so a multi-step flow that derives into
++  ``SYS_REF_TEMP`` (for example a ``KIC_*`` derivation) and later
++  consumes it (``DS_EXPORT`` with ``wrap_key = SYS_REF_TEMP``) requires
++  both calls to use the same mailbox.
++
++Per-core ``cri,mbx`` device-tree affinity applies to the *stateless*
++in-kernel crypto API path, which carries no datastore state between
++requests and is balanced across mailboxes by the driver.
++
++Key Types
++=========
++
++The ``ds_type`` field in ``KEY_NEW`` and ``KEY_WRITE`` selects the
++datastore object type.  Values are defined as ``CMH_DS_*`` constants:
++
++=================================  =====  ==============================
++Constant                           Value  Description
++=================================  =====  ==============================
++``CMH_DS_RAW_VALUE``               1      Raw byte array
++``CMH_DS_AES_KEY``                 2      AES key (128/192/256-bit)
++``CMH_DS_AES_XTS_KEY``             3      AES-XTS key (256/512-bit)
++``CMH_DS_HMAC_KEY``                4      HMAC key
++``CMH_DS_KMAC_KEY``                5      KMAC key
++``CMH_DS_SM4_KEY``                 6      SM4 key (128-bit)
++``CMH_DS_CHACHA20_KEY``            7      ChaCha20 key (256-bit)
++``CMH_DS_RSA_PRIV_KEY``            10     RSA private key
++``CMH_DS_RSA_PUB_KEY``             11     RSA public key
++``CMH_DS_RSA_CRT_KEY``             12     RSA CRT private key
++``CMH_DS_ECDSA_PRIV_KEY``          13     ECDSA private key
++``CMH_DS_ECDSA_PUB_KEY``           14     ECDSA public key
++``CMH_DS_ECDH_PRIV_KEY``           15     ECDH private key
++``CMH_DS_EDDSA_PRIV_KEY``          16     EdDSA private key
++``CMH_DS_SHARED_SECRET``           17     Shared secret
++``CMH_DS_SM2_PRIV_KEY``            18     SM2 private key
++``CMH_DS_ML_KEM_DK``               20     ML-KEM decapsulation key
++``CMH_DS_ML_DSA_SK``               21     ML-DSA secret key
++``CMH_DS_SLHDSA_SK``               25     SLH-DSA secret key
++=================================  =====  ==============================
++
++Key Flags
++=========
++
++The ``flags`` field in ``KEY_NEW`` and ``KEY_WRITE`` is a bitmask:
++
++==================  ===========  ========================================
++Flag                Bit          Description
++==================  ===========  ========================================
++``CMH_FLAG_PT``     16           Key can be read as plaintext
++``CMH_FLAG_XC``     17           Key can be exported over XC bus
++``CMH_FLAG_SCA``    18           SCA key stored in 2 shares
++==================  ===========  ========================================
++
++Elliptic Curve IDs
++==================
++
++Curve identifiers for PKE operations (``curve`` field):
++
++==========================  =====
++Constant                    Value
++==========================  =====
++``CMH_CURVE_P192``          0x01
++``CMH_CURVE_P224``          0x02
++``CMH_CURVE_P256``          0x03
++``CMH_CURVE_P384``          0x04
++``CMH_CURVE_P521``          0x05
++``CMH_CURVE_SECP256K1``     0x07
++``CMH_CURVE_BP192R1``       0x11
++``CMH_CURVE_BP224R1``       0x12
++``CMH_CURVE_BP256R1``       0x13
++``CMH_CURVE_BP320R1``       0x14
++``CMH_CURVE_BP384R1``       0x15
++``CMH_CURVE_BP512R1``       0x16
++``CMH_CURVE_SM2``           0x18
++``CMH_CURVE_25519``         0x21
++``CMH_CURVE_448``           0x22
++==========================  =====
++
++Key Management ioctls
++=====================
++
++CMH_IOCTL_KEY_NEW
++-----------------
++
++Create a new empty datastore object.
++
++:Direction: ``_IOWR``
++:Number: 0x01
++:Argument: ``struct cmh_ioctl_key_new``
++
++::
++
++  struct cmh_ioctl_key_new {
++      __u32 version;     /* must be CMH_MGMT_V1 */
++      __u32 ds_type;     /* CMH_DS_* key type */
++      __u32 len;         /* key length in bytes */
++      __u32 flags;       /* CMH_FLAG_* */
++      __u64 cid;         /* caller ID (name) for the key */
++      __u64 ref;         /* [out] key reference */
++  };
++
++The returned ``ref`` is used in subsequent ``KEY_WRITE``, ``KEY_READ``,
++and crypto operation ioctls.
++
++CMH_IOCTL_KEY_NEW_RANDOM
++------------------------
++
++Create a new datastore object filled with hardware-generated random data.
++
++:Direction: ``_IOWR``
++:Number: 0x0B
++:Argument: ``struct cmh_ioctl_key_new``
++
++Same structure as ``KEY_NEW``.  The hardware DRBG fills the object with
++``len`` random bytes.
++
++CMH_IOCTL_KEY_WRITE
++-------------------
++
++Write key material into a previously created datastore object.
++
++:Direction: ``_IOW``
++:Number: 0x02
++:Argument: ``struct cmh_ioctl_key_write``
++
++::
++
++  struct cmh_ioctl_key_write {
++      __u32 version;
++      __u32 len;         /* key data length */
++      __u32 ds_type;     /* CMH_DS_* key type */
++      __u32 flags;       /* CMH_FLAG_* */
++      __u64 ref;         /* key reference from KEY_NEW */
++      __u64 wrap_key;    /* wrapping key ref (CMH_REF_NONE = plaintext) */
++      __u64 data;        /* user-space pointer to key material */
++  };
++
++If ``wrap_key`` is ``CMH_REF_NONE`` (0), key material is written in
++plaintext.  Otherwise, the data is unwrapped using the specified
++wrapping key.
++
++CMH_IOCTL_KEY_READ
++------------------
++
++Read key material from a datastore object.
++
++:Direction: ``_IOWR``
++:Number: 0x03
++:Argument: ``struct cmh_ioctl_key_read``
++
++::
++
++  struct cmh_ioctl_key_read {
++      __u32 version;
++      __u32 len;         /* buffer length */
++      __u64 ref;         /* key reference */
++      __u64 wrap_key;    /* wrapping key ref (CMH_REF_NONE = plaintext) */
++      __u64 data;        /* user-space pointer to output buffer */
++      __u32 out_len;     /* [out] actual bytes written */
++      __u32 __reserved;
++  };
++
++Plaintext reads require the ``CMH_FLAG_PT`` attribute on the key.
++The eSW prepends a 16-byte header (``CMH_SYS_WRAP_HDR_SIZE``) even
++for plaintext reads; the output buffer must accommodate this.  The
++output overhead is ``CMH_DS_EXPORT_OVERHEAD_PLAIN`` (16 bytes) for
++plaintext reads and ``CMH_DS_EXPORT_OVERHEAD_WRAPPED`` (48 bytes:
++16-byte header + 16-byte nonce + 16-byte tag) for wrapped reads.
++
++CMH_IOCTL_KEY_FIND
++------------------
++
++Resolve a Content ID to a datastore reference.
++
++:Direction: ``_IOWR``
++:Number: 0x04
++:Argument: ``struct cmh_ioctl_key_find``
++
++::
++
++  struct cmh_ioctl_key_find {
++      __u32 version;
++      __u32 __reserved;
++      __u64 cid;         /* caller ID to search for */
++      __u64 ref;         /* [out] resolved key reference */
++      __u32 len;         /* [out] key length */
++      __u32 type;        /* [out] key type */
++  };
++
++Returns ``-ENOENT`` if no object with the given CID exists.
++
++CMH_IOCTL_KEY_LIST
++------------------
++
++Iterate datastore objects.
++
++:Direction: ``_IOWR``
++:Number: 0x0E
++:Argument: ``struct cmh_ioctl_key_list``
++
++::
++
++  struct cmh_ioctl_key_list {
++      __u32 version;
++      __u32 __reserved;
++      __u64 start_ref;   /* starting DS reference (0 = first) */
++      __u64 ref;         /* [out] object reference */
++      __u64 cid;         /* [out] caller ID */
++      __u32 len;         /* [out] object length */
++      __u32 type;        /* [out] object type */
++  };
++
++Pass ``start_ref=0`` to begin from the first object.  On return, pass
++the returned ``ref`` as ``start_ref`` in the next call.  Iteration ends
++when ``ref == 0``.
++
++CMH_IOCTL_KEY_GRANT
++-------------------
++
++Set per-mailbox access permissions on a datastore object.
++
++:Direction: ``_IOW``
++:Number: 0x05
++:Argument: ``struct cmh_ioctl_key_grant``
++
++::
++
++  struct cmh_ioctl_key_grant {
++      __u32 version;
++      __u32 __reserved;
++      __u64 ref;         /* key reference */
++      __u64 read;        /* per-MBX read permission bitfield */
++      __u64 write;       /* per-MBX write permission bitfield */
++      __u64 execute;     /* per-MBX execute permission bitfield */
++  };
++
++CMH_IOCTL_KEY_DELETE
++--------------------
++
++Delete a datastore object (persistent keys only).
++
++:Direction: ``_IOW``
++:Number: 0x06
++:Argument: ``struct cmh_ioctl_key_grant``
++
++Uses the same structure as ``KEY_GRANT``; only the ``ref`` field is
++used.
++
++Datastore Export/Import ioctls
++==============================
++
++CMH_IOCTL_DS_EXPORT
++-------------------
++
++Export the entire datastore as an encrypted blob.
++
++:Direction: ``_IOWR``
++:Number: 0x07
++:Argument: ``struct cmh_ioctl_ds_export``
++
++::
++
++  struct cmh_ioctl_ds_export {
++      __u32 version;
++      __u32 len;         /* buffer length */
++      __u64 cid;         /* caller ID for response tagging */
++      __u64 wrap_key;    /* wrapping key ref (CMH_REF_NONE = plaintext) */
++      __u64 data;        /* user-space pointer to output buffer */
++      __u32 out_len;     /* [out] actual bytes written */
++      __u32 __reserved;
++  };
++
++CMH_IOCTL_DS_IMPORT
++-------------------
++
++Import a previously exported datastore blob.
++
++:Direction: ``_IOW``
++:Number: 0x08
++:Argument: ``struct cmh_ioctl_ds_import``
++
++::
++
++  struct cmh_ioctl_ds_import {
++      __u32 version;
++      __u32 len;         /* blob length */
++      __u64 wrap_key;    /* wrapping key ref (CMH_REF_NONE = plaintext) */
++      __u64 data;        /* user-space pointer to import blob */
++  };
++
++Key Derivation ioctls (KIC)
++===========================
++
++The Key Initialization Core (KIC) provides hardware key derivation from
++OTP-provisioned base keys.  Up to 8 base keys are available
++(``CMH_KIC_KEY1`` through ``CMH_KIC_KEY8``).
++
++CMH_IOCTL_KIC_HKDF1
++--------------------
++
++HKDF-based key derivation (single-step, label only).
++
++:Direction: ``_IOWR``
++:Number: 0x09
++:Argument: ``struct cmh_ioctl_kic_hkdf1``
++
++::
++
++  struct cmh_ioctl_kic_hkdf1 {
++      __u32 version;
++      __u32 key_len;     /* output key length */
++      __u64 base_key;    /* KIC base key reference */
++      __u64 cid;         /* CID for the new DS entry */
++      __u64 label;       /* user-space pointer to label data */
++      __u32 label_len;   /* label length in bytes */
++      __u32 flags;       /* CMH_KIC_FLAG_* */
++      __u64 ref;         /* [out] derived key reference */
++  };
++
++If ``CMH_KIC_FLAG_TEMP`` is set, the result is stored in the temporary
++datastore (not persistent).
++
++CMH_IOCTL_KIC_HKDF2
++--------------------
++
++HKDF-based key derivation (two-step, with salt key).
++
++:Direction: ``_IOWR``
++:Number: 0x0A
++:Argument: ``struct cmh_ioctl_kic_hkdf2``
++
++::
++
++  struct cmh_ioctl_kic_hkdf2 {
++      __u32 version;
++      __u32 key_len;
++      __u64 base_key;
++      __u64 salt_key;    /* salt key reference (CMH_REF_NONE = no salt) */
++      __u64 cid;
++      __u64 label;
++      __u32 label_len;
++      __u32 flags;
++      __u64 ref;         /* [out] derived key reference */
++  };
++
++CMH_IOCTL_KIC_AES_CMAC_KDF
++---------------------------
++
++AES-CMAC-based key derivation (NIST SP 800-108).
++
++:Direction: ``_IOWR``
++:Number: 0x0C
++:Argument: ``struct cmh_ioctl_kic_aes_cmac_kdf``
++
++::
++
++  struct cmh_ioctl_kic_aes_cmac_kdf {
++      __u32 version;
++      __u32 key_len;     /* base & output key length (must be 32) */
++      __u64 base_key;
++      __u64 cid;
++      __u64 label;
++      __u32 label_len;
++      __u32 flags;
++      __u64 ref;         /* [out] derived key reference */
++  };
++
++CMH_IOCTL_KIC_DKEK_DERIVE
++--------------------------
++
++Derive a Device Key Encryption Key (DKEK) for secure key export.
++
++:Direction: ``_IOWR``
++:Number: 0x0D
++:Argument: ``struct cmh_ioctl_kic_dkek_derive``
++
++::
++
++  struct cmh_ioctl_kic_dkek_derive {
++      __u32 version;
++      __u32 host_id;     /* target host ID (0 = caller's own) */
++      __u64 base_key;
++      __u64 cid;
++      __u64 metadata;    /* user-space pointer to metadata */
++      __u32 metadata_len;
++      __u32 flags;
++      __u64 ref;         /* [out] derived KEK reference */
++  };
++
++PKE (Public Key Engine) ioctls
++==============================
++
++RSA Operations
++--------------
++
++CMH_IOCTL_PKE_RSA_ENC
++~~~~~~~~~~~~~~~~~~~~~~
++
++RSA public-key encryption.
++
++:Direction: ``_IOWR``
++:Number: 0x10
++:Argument: ``struct cmh_ioctl_pke_rsa_enc``
++
++The public key (e, n) is passed as raw user-space buffers.
++
++CMH_IOCTL_PKE_RSA_DEC
++~~~~~~~~~~~~~~~~~~~~~~
++
++RSA private-key decryption using a datastore key reference.
++
++:Direction: ``_IOWR``
++:Number: 0x11
++:Argument: ``struct cmh_ioctl_pke_rsa_dec``
++
++CMH_IOCTL_PKE_RSA_CRT_DEC
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++RSA CRT private-key decryption (faster, uses CRT key format).
++
++:Direction: ``_IOWR``
++:Number: 0x12
++:Argument: ``struct cmh_ioctl_pke_rsa_crt_dec``
++
++CMH_IOCTL_PKE_RSA_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate an RSA key pair in hardware.
++
++:Direction: ``_IOWR``
++:Number: 0x13
++:Argument: ``struct cmh_ioctl_pke_rsa_keygen``
++
++Returns private key and optional CRT key as datastore references.
++The modulus is written back to user space.
++
++ECDSA Operations
++----------------
++
++CMH_IOCTL_PKE_ECDSA_SIGN
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++ECDSA signature generation using a datastore private key.
++
++:Direction: ``_IOWR``
++:Number: 0x14
++:Argument: ``struct cmh_ioctl_pke_ecdsa_sign``
++
++CMH_IOCTL_PKE_ECDH
++~~~~~~~~~~~~~~~~~~~
++
++Compute ECDH shared secret from a peer public key and a datastore
++private key.
++
++:Direction: ``_IOWR``
++:Number: 0x16
++:Argument: ``struct cmh_ioctl_pke_ecdh``
++
++If ``CMH_PKE_FLAG_DS_RESULT`` is set, the shared secret is stored in
++the datastore and a reference is returned instead of raw bytes.
++
++CMH_IOCTL_PKE_ECDH_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Derive a public key from a datastore private key.
++
++:Direction: ``_IOWR``
++:Number: 0x17
++:Argument: ``struct cmh_ioctl_pke_ecdh_keygen``
++
++EdDSA Operations
++----------------
++
++CMH_IOCTL_PKE_EDDSA_SIGN
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++EdDSA (Ed25519/Ed448) signature generation.
++
++:Direction: ``_IOWR``
++:Number: 0x18
++:Argument: ``struct cmh_ioctl_pke_eddsa_sign``
++
++Note: the ``digest`` field is the full message (pure EdDSA), not a
++pre-computed hash.
++
++CMH_IOCTL_PKE_EDDSA_VERIFY
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++EdDSA signature verification.
++
++:Direction: ``_IOW``
++:Number: 0x19
++:Argument: ``struct cmh_ioctl_pke_eddsa_verify``
++
++EC Key Management
++-----------------
++
++CMH_IOCTL_PKE_EC_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate an EC private key in the hardware datastore.
++
++:Direction: ``_IOWR``
++:Number: 0x1A
++:Argument: ``struct cmh_ioctl_pke_ec_keygen``
++
++CMH_IOCTL_PKE_EC_PUBGEN
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Derive the public key from a datastore private key.
++
++:Direction: ``_IOWR``
++:Number: 0x1B
++:Argument: ``struct cmh_ioctl_pke_ec_pubgen``
++
++CMH_IOCTL_PKE_EDDSA_KEYGEN_SCA
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate a 2-share SCA-protected Ed448 private key.
++
++:Direction: ``_IOWR``
++:Number: 0x1C
++:Argument: ``struct cmh_ioctl_pke_eddsa_keygen_sca``
++
++Post-Quantum Cryptography (PQC) ioctls
++=======================================
++
++PQC operations support the following flags in the ``flags`` field:
++
++============================  ====  ====================================
++Flag                          Bit   Description
++============================  ====  ====================================
++``CMH_QSE_FLAG_MASKED``       0     Use masked (SCA-resistant) HW path
++``CMH_QSE_FLAG_DS_REF``       1     Store key output in DS, return ref
++``CMH_QSE_FLAG_HW_RNG``       2     Use HW RNG for seed/randomness
++============================  ====  ====================================
++
++ML-KEM (FIPS 203)
++-----------------
++
++CMH_IOCTL_ML_KEM_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate an ML-KEM key pair.
++
++:Direction: ``_IOWR``
++:Number: 0x20
++:Argument: ``struct cmh_ioctl_ml_kem_keygen``
++
++Security parameter ``k`` selects the strength: 2 (ML-KEM-512),
++3 (ML-KEM-768), or 4 (ML-KEM-1024).
++
++CMH_IOCTL_ML_KEM_ENC
++~~~~~~~~~~~~~~~~~~~~~
++
++ML-KEM encapsulation.  Produces ciphertext and shared secret.
++
++:Direction: ``_IOWR``
++:Number: 0x21
++:Argument: ``struct cmh_ioctl_ml_kem_enc``
++
++CMH_IOCTL_ML_KEM_DEC
++~~~~~~~~~~~~~~~~~~~~~
++
++ML-KEM decapsulation.  Recovers shared secret from ciphertext.
++
++:Direction: ``_IOWR``
++:Number: 0x22
++:Argument: ``struct cmh_ioctl_ml_kem_dec``
++
++ML-DSA (FIPS 204)
++-----------------
++
++CMH_IOCTL_ML_DSA_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate an ML-DSA key pair.
++
++:Direction: ``_IOWR``
++:Number: 0x23
++:Argument: ``struct cmh_ioctl_ml_dsa_keygen``
++
++Security parameter ``mode`` selects the strength: 2 (ML-DSA-44),
++3 (ML-DSA-65), or 5 (ML-DSA-87).
++
++.. note::
++
++   When ``CMH_QSE_FLAG_DS_REF`` keeps the secret key in the datastore,
++   the public key returned in ``pk`` is the only copy: there is no
++   operation to derive the public key from the secret-key reference
++   for ML-DSA.  User space must persist ``pk`` at keygen time.
++
++CMH_IOCTL_ML_DSA_SIGN
++~~~~~~~~~~~~~~~~~~~~~~
++
++ML-DSA signature generation.
++
++:Direction: ``_IOWR``
++:Number: 0x24
++:Argument: ``struct cmh_ioctl_ml_dsa_sign``
++
++If ``mlen`` is set to ``CMH_ML_DSA_MLEN_EXTERNAL_MU`` (0xFFFFFFFF),
++the ``m`` pointer is interpreted as a 64-byte pre-hashed mu value
++(ExternalMu mode).
++
++CMH_IOCTL_SLHDSA_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate an SLH-DSA key pair.
++
++:Direction: ``_IOWR``
++:Number: 0x28
++:Argument: ``struct cmh_ioctl_slhdsa_keygen``
++
++.. note::
++
++   When ``CMH_QSE_FLAG_DS_REF`` keeps the secret key in the datastore,
++   the public key returned in ``pk`` is the only copy: there is no
++   operation to derive the public key from the secret-key reference
++   for SLH-DSA.  User space must persist ``pk`` at keygen time.
++
++CMH_IOCTL_SLHDSA_SIGN
++~~~~~~~~~~~~~~~~~~~~~~
++
++SLH-DSA signature generation (pure mode).
++
++:Direction: ``_IOWR``
++:Number: 0x29
++:Argument: ``struct cmh_ioctl_slhdsa_sign``
++
++CMH_IOCTL_SLHDSA_SIGN_PREHASH
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++SLH-DSA pre-hash signature generation.
++
++:Direction: ``_IOWR``
++:Number: 0x2D
++:Argument: ``struct cmh_ioctl_slhdsa_sign_prehash``
++
++The ``prehash_algo`` field selects the hash algorithm
++(``CMH_SLHDSA_PREHASH_SHA256``, etc.).
++
++CMH_IOCTL_SM2_ENC_POINT
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x33
++:Argument: ``struct cmh_ioctl_sm2_enc_point``
++
++CMH_IOCTL_SM2_ENC_HASH
++~~~~~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x37
++:Argument: ``struct cmh_ioctl_sm2_enc_hash``
++
++CMH_IOCTL_SM2_DEC_POINT
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x32
++:Argument: ``struct cmh_ioctl_sm2_dec_point``
++
++CMH_IOCTL_SM2_DEC_HASH
++~~~~~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x36
++:Argument: ``struct cmh_ioctl_sm2_dec_hash``
++
++SM2 Key Exchange (GM/T 0003.3)
++------------------------------
++
++The key exchange protocol is a multi-step flow:
++
++1. ``EC_KEYGEN(CMH_CURVE_SM2)`` -- generate a long-lived private key.
++2. ``EC_PUBGEN`` -- derive the public key.
++3. ``SM2_ID_DIGEST`` -- compute the SM3 identity digest (ZA).
++4. ``SM2_ECDH_KEYGEN`` -- generate an ephemeral session key.
++5. Exchange session keys with the peer.
++6. ``SM2_ECDH`` -- compute the shared point.
++7. ``SM2_ECDH_HASH`` -- derive the shared key from the shared point
++   and both parties' ZA digests.
++
++CMH_IOCTL_SM2_ECDH_KEYGEN
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x30
++:Argument: ``struct cmh_ioctl_sm2_ecdh_keygen``
++
++``nonce_len`` must be 0 or 32.  If ``nonce_len=0``, the hardware
++generates the ephemeral scalar and writes it back to the ``nonce``
++buffer.
++
++CMH_IOCTL_SM2_ECDH
++~~~~~~~~~~~~~~~~~~~
++
++:Direction: ``_IOWR``
++:Number: 0x31
++:Argument: ``struct cmh_ioctl_sm2_ecdh``
++
++If ``shared_point_ref`` points to a non-zero value, the shared point
++is kept in the datastore for use by ``SM2_ECDH_HASH``.
++
++CMH_IOCTL_SM2_ID_DIGEST
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Compute the SM3 identity digest (ZA) for a public key and identity
++string.
++
++:Direction: ``_IOWR``
++:Number: 0x34
++:Argument: ``struct cmh_ioctl_sm2_id_digest``
++
++CMH_IOCTL_SM2_ECDH_HASH
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++Derive the shared key from the shared point and ZA digests.
++
++:Direction: ``_IOWR``
++:Number: 0x35
++:Argument: ``struct cmh_ioctl_sm2_ecdh_hash``
++
++.. important::
++
++   The digest fields use **absolute** ordering per GM/T 0003.3, not
++   relative own/peer ordering.  Both parties must pass:
++
++   - ``peer_id_digest`` = Z_A (initiator's digest) -- hashed first
++   - ``id_digest`` = Z_B (responder's digest) -- hashed second
++
++Hardware Management ioctls
++==========================
++
++CMH_IOCTL_EAC_READ
++-------------------
++
++Read and clear the hardware Error and Alarm Controller registers.
++
++:Direction: ``_IOWR``
++:Number: 0x0F
++:Argument: ``struct cmh_ioctl_eac_read``
++
++::
++
++  struct cmh_ioctl_eac_read {
++      __u32 version;
++      __u32 __reserved;
++      __u64 mailbox_notification;
++      __u32 hw_error;
++      __u32 hw_nmi;
++      __u32 hw_panic;
++      __u32 safety_fatal;
++      __u32 safety_notification;
++      __u32 sw_info0;
++      __u32 sw_info1;
++      __u32 sram_bank_errors[4];
++      __u32 __pad;
++  };
++
++The eSW atomically reads and clears the registers on each call.
++Successive reads show only new events since the last read.
++
++CMH_IOCTL_DRBG_CONFIG
++----------------------
++
++Configure the hardware DRBG before first use.
++
++:Direction: ``_IOW``
++:Number: 0x40
++:Argument: ``struct cmh_ioctl_drbg_config``
++
++::
++
++  struct cmh_ioctl_drbg_config {
++      __u32 version;
++      __u32 entropy_ratio;       /* CMH_DRBG_RATIO_* */
++      __u32 security_strength;   /* CMH_DRBG_STRENGTH_* */
++      __u32 __reserved;
++  };
++
++This is a management operation normally performed once at system
++startup.  Must be called before any ``hwrng`` reads or DRBG generate
++operations.
++
++ioctl Number Summary
++====================
++
++======================================  ====  ====  =========================================
++ioctl                                   Dir   Seq   Argument
++======================================  ====  ====  =========================================
++``CMH_IOCTL_KEY_NEW``                   IOWR  0x01  ``cmh_ioctl_key_new``
++``CMH_IOCTL_KEY_WRITE``                 IOW   0x02  ``cmh_ioctl_key_write``
++``CMH_IOCTL_KEY_READ``                  IOWR  0x03  ``cmh_ioctl_key_read``
++``CMH_IOCTL_KEY_FIND``                  IOWR  0x04  ``cmh_ioctl_key_find``
++``CMH_IOCTL_KEY_GRANT``                 IOW   0x05  ``cmh_ioctl_key_grant``
++``CMH_IOCTL_KEY_DELETE``                IOW   0x06  ``cmh_ioctl_key_grant``
++``CMH_IOCTL_DS_EXPORT``                 IOWR  0x07  ``cmh_ioctl_ds_export``
++``CMH_IOCTL_DS_IMPORT``                 IOW   0x08  ``cmh_ioctl_ds_import``
++``CMH_IOCTL_KIC_HKDF1``                 IOWR  0x09  ``cmh_ioctl_kic_hkdf1``
++``CMH_IOCTL_KIC_HKDF2``                 IOWR  0x0A  ``cmh_ioctl_kic_hkdf2``
++``CMH_IOCTL_KEY_NEW_RANDOM``            IOWR  0x0B  ``cmh_ioctl_key_new``
++``CMH_IOCTL_KIC_AES_CMAC_KDF``          IOWR  0x0C  ``cmh_ioctl_kic_aes_cmac_kdf``
++``CMH_IOCTL_KIC_DKEK_DERIVE``           IOWR  0x0D  ``cmh_ioctl_kic_dkek_derive``
++``CMH_IOCTL_KEY_LIST``                  IOWR  0x0E  ``cmh_ioctl_key_list``
++``CMH_IOCTL_EAC_READ``                  IOWR  0x0F  ``cmh_ioctl_eac_read``
++``CMH_IOCTL_PKE_RSA_ENC``               IOWR  0x10  ``cmh_ioctl_pke_rsa_enc``
++``CMH_IOCTL_PKE_RSA_DEC``               IOWR  0x11  ``cmh_ioctl_pke_rsa_dec``
++``CMH_IOCTL_PKE_RSA_CRT_DEC``           IOWR  0x12  ``cmh_ioctl_pke_rsa_crt_dec``
++``CMH_IOCTL_PKE_RSA_KEYGEN``            IOWR  0x13  ``cmh_ioctl_pke_rsa_keygen``
++``CMH_IOCTL_PKE_ECDSA_SIGN``            IOWR  0x14  ``cmh_ioctl_pke_ecdsa_sign``
++``CMH_IOCTL_PKE_ECDH``                  IOWR  0x16  ``cmh_ioctl_pke_ecdh``
++``CMH_IOCTL_PKE_ECDH_KEYGEN``           IOWR  0x17  ``cmh_ioctl_pke_ecdh_keygen``
++``CMH_IOCTL_PKE_EDDSA_SIGN``            IOWR  0x18  ``cmh_ioctl_pke_eddsa_sign``
++``CMH_IOCTL_PKE_EDDSA_VERIFY``          IOW   0x19  ``cmh_ioctl_pke_eddsa_verify``
++``CMH_IOCTL_PKE_EC_KEYGEN``             IOWR  0x1A  ``cmh_ioctl_pke_ec_keygen``
++``CMH_IOCTL_PKE_EC_PUBGEN``             IOWR  0x1B  ``cmh_ioctl_pke_ec_pubgen``
++``CMH_IOCTL_PKE_EDDSA_KEYGEN_SCA``      IOWR  0x1C  ``cmh_ioctl_pke_eddsa_keygen_sca``
++``CMH_IOCTL_ML_KEM_KEYGEN``             IOWR  0x20  ``cmh_ioctl_ml_kem_keygen``
++``CMH_IOCTL_ML_KEM_ENC``                IOWR  0x21  ``cmh_ioctl_ml_kem_enc``
++``CMH_IOCTL_ML_KEM_DEC``                IOWR  0x22  ``cmh_ioctl_ml_kem_dec``
++``CMH_IOCTL_ML_DSA_KEYGEN``             IOWR  0x23  ``cmh_ioctl_ml_dsa_keygen``
++``CMH_IOCTL_ML_DSA_SIGN``               IOWR  0x24  ``cmh_ioctl_ml_dsa_sign``
++``CMH_IOCTL_SLHDSA_KEYGEN``             IOWR  0x28  ``cmh_ioctl_slhdsa_keygen``
++``CMH_IOCTL_SLHDSA_SIGN``               IOWR  0x29  ``cmh_ioctl_slhdsa_sign``
++``CMH_IOCTL_SLHDSA_SIGN_PREHASH``       IOWR  0x2D  ``cmh_ioctl_slhdsa_sign_prehash``
++``CMH_IOCTL_SM2_ECDH_KEYGEN``           IOWR  0x30  ``cmh_ioctl_sm2_ecdh_keygen``
++``CMH_IOCTL_SM2_ECDH``                  IOWR  0x31  ``cmh_ioctl_sm2_ecdh``
++``CMH_IOCTL_SM2_DEC_POINT``             IOWR  0x32  ``cmh_ioctl_sm2_dec_point``
++``CMH_IOCTL_SM2_ENC_POINT``             IOWR  0x33  ``cmh_ioctl_sm2_enc_point``
++``CMH_IOCTL_SM2_ID_DIGEST``             IOWR  0x34  ``cmh_ioctl_sm2_id_digest``
++``CMH_IOCTL_SM2_ECDH_HASH``             IOWR  0x35  ``cmh_ioctl_sm2_ecdh_hash``
++``CMH_IOCTL_SM2_DEC_HASH``              IOWR  0x36  ``cmh_ioctl_sm2_dec_hash``
++``CMH_IOCTL_SM2_ENC_HASH``              IOWR  0x37  ``cmh_ioctl_sm2_enc_hash``
++``CMH_IOCTL_DRBG_CONFIG``               IOW   0x40  ``cmh_ioctl_drbg_config``
++======================================  ====  ====  =========================================
++
++Migration Plan
++==============
++
++Several ioctl commands provide operations that may gain dedicated kernel
++crypto API bindings in the future.  When those APIs land, the driver will
++register through them and the corresponding ioctls will be deprecated
++(retained for backward compatibility but no longer the primary interface):
++
++- **EdDSA** (``CMH_IOCTL_PKE_EDDSA_*``): will migrate to the kernel ``sig``
++  API once ed25519/ed448 algorithm types are accepted upstream.
++
++- **ML-KEM** (``CMH_IOCTL_ML_KEM_*``): will migrate to the kernel KEM API
++  once the in-flight KEM subsystem series lands.
++
++- **Key lifecycle** (``CMH_IOCTL_KEY_*``): will evaluate integration with
++  the kernel KEYS subsystem (trusted-keys / encrypted-keys) as a follow-up
++  series.
++
++Operations that are inherently vendor-specific (EAC Chip Authentication,
++KIC key derivation, SM2 key exchange, DRBG configuration, datastore
++export/import) will remain as ioctls permanently -- they have no
++corresponding kernel abstraction and are not expected to gain one.
+diff --git a/Documentation/userspace-api/ioctl/index.rst b/Documentation/userspace-api/ioctl/index.rst
+index 475675eae086..bf88bb6b9a6f 100644
+--- a/Documentation/userspace-api/ioctl/index.rst
++++ b/Documentation/userspace-api/ioctl/index.rst
+@@ -12,4 +12,5 @@ IOCTLs
+    ioctl-decoding
  
-+	/* Register PQC SLH-DSA */
-+	ret = cmh_pqc_slhdsa_register();
-+	if (ret)
-+		goto err_pqc_slhdsa_register;
-+
-+	/* Register PQC LMS */
-+	ret = cmh_pqc_lms_register();
-+	if (ret)
-+		goto err_pqc_lms_register;
-+
-+	/* Register PQC XMSS */
-+	ret = cmh_pqc_xmss_register();
-+	if (ret)
-+		goto err_pqc_xmss_register;
-+
- 	/* Register key management device (/dev/cmh_mgmt) */
- 	ret = cmh_mgmt_register();
- 	if (ret)
-@@ -315,6 +330,12 @@ static int cmh_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_mgmt_register:
-+	cmh_pqc_xmss_unregister();
-+err_pqc_xmss_register:
-+	cmh_pqc_lms_unregister();
-+err_pqc_lms_register:
-+	cmh_pqc_slhdsa_unregister();
-+err_pqc_slhdsa_register:
- 	cmh_pqc_mldsa_unregister();
- err_pqc_mldsa_register:
- 	cmh_pke_ecdh_unregister();
-@@ -379,6 +400,9 @@ static void cmh_remove(struct platform_device *pdev)
- 	cfg = &dev->config;
- 
- 	cmh_mgmt_unregister();
-+	cmh_pqc_xmss_unregister();
-+	cmh_pqc_lms_unregister();
-+	cmh_pqc_slhdsa_unregister();
- 	cmh_pqc_mldsa_unregister();
- 	cmh_pke_ecdh_unregister();
- 	cmh_pke_ecdsa_unregister();
-diff --git a/drivers/crypto/cmh/cmh_pqc_lms.c b/drivers/crypto/cmh/cmh_pqc_lms.c
-new file mode 100644
-index 000000000000..13b2e26aa7bd
---- /dev/null
-+++ b/drivers/crypto/cmh/cmh_pqc_lms.c
-@@ -0,0 +1,230 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- LMS/HSS Signature Driver (verify-only, sig_alg, synchronous)
-+ *
-+ * Registers "lms" and "lms-hss" sig algorithms with verify-only
-+ * callbacks.  Sign is not supported (stateful signature -- key
-+ * management must happen externally).
-+ *
-+ * Verify: src = raw signature, digest = message bytes
-+ * Public key: raw pk bytes (variable length, set via set_pub_key)
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <crypto/sig.h>
-+#include <crypto/internal/sig.h>
-+
-+#include "cmh_sys.h"
-+#include "cmh_hcq_abi.h"
-+#include "cmh_txn.h"
-+#include "cmh_dma.h"
-+#include "cmh_pqc.h"
-+
-+#define LMS_VCQ_CMDS	3	/* header + cmd + flush */
-+
-+struct cmh_lms_tfm_ctx {
-+	u8 *pub_key;
-+	u32 pub_key_len;
-+	u32 lms_hss;		/* 0 = LMS, 1 = LMS-HSS */
-+};
-+
-+static inline struct cmh_lms_tfm_ctx *cmh_lms_ctx(struct crypto_sig *tfm)
-+{
-+	return crypto_sig_ctx(tfm);
-+}
-+
-+/*
-+ * LMS/HSS verify (synchronous sig_alg)
-+ *
-+ * @src:    raw signature
-+ * @slen:   signature length
-+ * @digest: message bytes
-+ * @dlen:   message length
-+ *
-+ * Returns 0 on successful verification, negative errno on failure.
-+ */
-+static int cmh_lms_verify(struct crypto_sig *tfm,
-+			  const void *src, unsigned int slen,
-+			  const void *digest, unsigned int dlen)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+	struct core_dispatch d = cmh_core_select_instance(CMH_CORE_HCQ);
-+	struct vcq_cmd vcq[LMS_VCQ_CMDS];
-+	u8 *sig_buf = NULL, *m_buf = NULL, *pk_buf = NULL;
-+	dma_addr_t sig_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t m_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t pk_dma = DMA_MAPPING_ERROR;
-+	int ret;
-+
-+	if (!ctx->pub_key)
-+		return -EINVAL;
-+	if (!slen || slen > LMS_MAX_SIG_LEN)
-+		return -EINVAL;
-+	if (!dlen || dlen > LMS_MAX_MSG_LEN)
-+		return -EINVAL;
-+
-+	sig_buf = kmemdup(src, slen, GFP_KERNEL);
-+	m_buf = kmemdup(digest, dlen, GFP_KERNEL);
-+	pk_buf = kmemdup(ctx->pub_key, ctx->pub_key_len, GFP_KERNEL);
-+	if (!sig_buf || !m_buf || !pk_buf) {
-+		ret = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	sig_dma = cmh_dma_map_single(sig_buf, slen, DMA_TO_DEVICE);
-+	m_dma = cmh_dma_map_single(m_buf, dlen, DMA_TO_DEVICE);
-+	pk_dma = cmh_dma_map_single(pk_buf, ctx->pub_key_len, DMA_TO_DEVICE);
-+
-+	if (cmh_dma_map_error(sig_dma) || cmh_dma_map_error(m_dma) ||
-+	    cmh_dma_map_error(pk_dma)) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+
-+	vcq_set_header(&vcq[0], LMS_VCQ_CMDS);
-+	vcq_add_hcq_lms_verify(&vcq[1], d.core_id, ctx->lms_hss,
-+			       ctx->pub_key_len, slen, dlen,
-+			       pk_dma, sig_dma, m_dma);
-+	vcq_add_hcq_flush(&vcq[2], d.core_id);
-+
-+	/* LMS verify traverses Merkle hash chains -- inherently slow */
-+	ret = cmh_tm_submit_sync_tmo(vcq, LMS_VCQ_CMDS, 1, d.mbx_idx,
-+				     cmh_tm_slow_op_timeout_jiffies());
-+
-+out_unmap:
-+	if (!cmh_dma_map_error(pk_dma))
-+		cmh_dma_unmap_single(pk_dma, ctx->pub_key_len, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(m_dma))
-+		cmh_dma_unmap_single(m_dma, dlen, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(sig_dma))
-+		cmh_dma_unmap_single(sig_dma, slen, DMA_TO_DEVICE);
-+
-+out_free:
-+	kfree(pk_buf);
-+	kfree(m_buf);
-+	kfree(sig_buf);
-+	return ret;
-+}
-+
-+static int cmh_lms_set_pub_key(struct crypto_sig *tfm,
-+			       const void *key, unsigned int keylen)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+
-+	if (!keylen || keylen > LMS_MAX_PK_LEN)
-+		return -EINVAL;
-+
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+	ctx->pub_key_len = 0;
-+
-+	ctx->pub_key = kmemdup(key, keylen, GFP_KERNEL);
-+	if (!ctx->pub_key)
-+		return -ENOMEM;
-+
-+	ctx->pub_key_len = keylen;
-+	return 0;
-+}
-+
-+static unsigned int cmh_lms_key_size(struct crypto_sig *tfm)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+
-+	return ctx->pub_key_len * 8;
-+}
-+
-+static int cmh_lms_init(struct crypto_sig *tfm)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+
-+	memset(ctx, 0, sizeof(*ctx));
-+	return 0;
-+}
-+
-+static int cmh_lms_hss_init(struct crypto_sig *tfm)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+
-+	memset(ctx, 0, sizeof(*ctx));
-+	ctx->lms_hss = 1;
-+	return 0;
-+}
-+
-+static void cmh_lms_exit(struct crypto_sig *tfm)
-+{
-+	struct cmh_lms_tfm_ctx *ctx = cmh_lms_ctx(tfm);
-+
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+}
-+
-+static struct sig_alg cmh_lms_algs[] = {
-+	{
-+		.verify		= cmh_lms_verify,
-+		.set_pub_key	= cmh_lms_set_pub_key,
-+		.key_size	= cmh_lms_key_size,
-+		.init		= cmh_lms_init,
-+		.exit		= cmh_lms_exit,
-+		.base = {
-+			.cra_name	  = "lms",
-+			.cra_driver_name  = "cri-cmh-lms",
-+			.cra_priority	  = 300,
-+			.cra_module	  = THIS_MODULE,
-+			.cra_ctxsize	  = sizeof(struct cmh_lms_tfm_ctx),
-+		},
-+	},
-+	{
-+		.verify		= cmh_lms_verify,
-+		.set_pub_key	= cmh_lms_set_pub_key,
-+		.key_size	= cmh_lms_key_size,
-+		.init		= cmh_lms_hss_init,
-+		.exit		= cmh_lms_exit,
-+		.base = {
-+			.cra_name	  = "lms-hss",
-+			.cra_driver_name  = "cri-cmh-lms-hss",
-+			.cra_priority	  = 300,
-+			.cra_module	  = THIS_MODULE,
-+			.cra_ctxsize	  = sizeof(struct cmh_lms_tfm_ctx),
-+		},
-+	},
-+};
-+
-+/**
-+ * cmh_pqc_lms_register() - Register LMS/LMS-HSS sig algorithms with the crypto framework
-+ *
-+ * Return: 0 on success, negative errno on failure.
-+ */
-+int cmh_pqc_lms_register(void)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(cmh_lms_algs); i++) {
-+		ret = crypto_register_sig(&cmh_lms_algs[i]);
-+		if (ret) {
-+			dev_err(cmh_dev(), "cmh: failed to register %s (%d)\n",
-+				cmh_lms_algs[i].base.cra_name, ret);
-+			goto err_unregister;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_unregister:
-+	while (i--)
-+		crypto_unregister_sig(&cmh_lms_algs[i]);
-+	return ret;
-+}
-+
-+/**
-+ * cmh_pqc_lms_unregister() - Unregister LMS/LMS-HSS sig algorithms from the crypto framework
-+ */
-+void cmh_pqc_lms_unregister(void)
-+{
-+	int i = ARRAY_SIZE(cmh_lms_algs);
-+
-+	while (i--)
-+		crypto_unregister_sig(&cmh_lms_algs[i]);
-+}
-diff --git a/drivers/crypto/cmh/cmh_pqc_slhdsa.c b/drivers/crypto/cmh/cmh_pqc_slhdsa.c
-new file mode 100644
-index 000000000000..9cc8cdb442b2
---- /dev/null
-+++ b/drivers/crypto/cmh/cmh_pqc_slhdsa.c
-@@ -0,0 +1,377 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- SLH-DSA Signature Driver (sig_alg, synchronous)
-+ *
-+ * Registers SLH-DSA sig algorithms for all 12 parameter sets
-+ * (SHAKE/SHA2 x 128/192/256 x s/f) with sign and verify callbacks.
-+ *
-+ * Key format:
-+ *   Public key  = raw pk bytes (2*n bytes)
-+ *   Private key = raw sk bytes (4*n)
-+ *
-+ * Sign: src = message, dst = raw signature
-+ * Verify: src = raw signature, digest = message bytes
-+ *
-+ * Private keys are raw (written to SYS_REF_TEMP per-operation).
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/unaligned.h>
-+#include <crypto/sig.h>
-+#include <crypto/internal/sig.h>
-+
-+#include "cmh_sys.h"
-+#include "cmh_qse_abi.h"
-+#include "cmh_hcq_abi.h"
-+#include "cmh_txn.h"
-+#include "cmh_dma.h"
-+#include "cmh_key.h"
-+#include "cmh_pqc.h"
-+
-+struct cmh_slhdsa_tfm_ctx {
-+	struct cmh_key_ctx key;		/* private key (raw sk bytes) */
-+	u8 *pub_key;
-+	u32 pub_key_len;
-+	u32 param_set;			/* HCQ_SLHDSA_SHAKE_128S .. SHA2_256F */
-+};
-+
-+static inline struct cmh_slhdsa_tfm_ctx *cmh_slhdsa_ctx(struct crypto_sig *tfm)
-+{
-+	return crypto_sig_ctx(tfm);
-+}
-+
-+/*
-+ * SLH-DSA sign (synchronous sig_alg)
-+ *
-+ * @src:  message bytes
-+ * @slen: message length
-+ * @dst:  signature output buffer
-+ * @dlen: output buffer length
-+ *
-+ * Returns signature length on success, negative errno on failure.
-+ * Uses raw private keys written to SYS_REF_TEMP per-operation.
-+ */
-+static int cmh_slhdsa_sign(struct crypto_sig *tfm,
-+			   const void *src, unsigned int slen,
-+			   void *dst, unsigned int dlen)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+	u32 sig_sz = slhdsa_get_sig_size(ctx->param_set);
-+	u32 sk_sz = slhdsa_sk_size(ctx->param_set);
-+	struct vcq_cmd vcq[HCQ_VCQ_CMDS_MAX]; /* raw: hdr+write+sign+flush */
-+	u32 vcq_count;
-+	u8 *m_buf = NULL, *sig_buf = NULL, *sk_buf = NULL;
-+	dma_addr_t m_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t sig_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t sk_dma = DMA_MAPPING_ERROR;
-+	int ret, idx;
-+
-+	if (ctx->key.mode == CMH_KEY_NONE)
-+		return -EINVAL;
-+	if (dlen < sig_sz)
-+		return -EINVAL;
-+	if (!slen || slen > SLHDSA_MAX_MSG_LEN)
-+		return -EINVAL;
-+
-+	m_buf = kmemdup(src, slen, GFP_KERNEL);
-+	sig_buf = kzalloc(sig_sz, GFP_KERNEL);
-+	if (!m_buf || !sig_buf) {
-+		ret = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	m_dma = cmh_dma_map_single(m_buf, slen, DMA_TO_DEVICE);
-+	sig_dma = cmh_dma_map_single(sig_buf, sig_sz, DMA_FROM_DEVICE);
-+	if (cmh_dma_map_error(m_dma) || cmh_dma_map_error(sig_dma)) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+
-+	sk_dma = DMA_MAPPING_ERROR;
-+	idx = 0;
-+
-+	struct core_dispatch d;
-+
-+	d = cmh_core_select_instance(CMH_CORE_HCQ);
-+
-+	if (ctx->key.raw.len != sk_sz) {
-+		ret = -EINVAL;
-+		goto out_unmap;
-+	}
-+	sk_buf = kmemdup(ctx->key.raw.data, ctx->key.raw.len,
-+			 GFP_KERNEL);
-+	if (!sk_buf) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+	sk_dma = cmh_dma_map_single(sk_buf, sk_sz, DMA_TO_DEVICE);
-+	if (cmh_dma_map_error(sk_dma)) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+
-+	vcq_count = HCQ_VCQ_CMDS_MIN + 1;
-+	vcq_set_header(&vcq[idx++], vcq_count);
-+	vcq_add_sys_write(&vcq[idx++], SYS_REF_TEMP, sk_dma,
-+			  SYS_REF_NONE, sk_sz,
-+			  ctx->key.raw.sys_type);
-+	vcq_add_hcq_slhdsa_sign_internal(&vcq[idx++], d.core_id,
-+					 ctx->param_set,
-+					 slen, 0,
-+					 m_dma, SYS_REF_TEMP,
-+					 sig_dma);
-+	vcq_add_hcq_flush(&vcq[idx++], d.core_id);
-+
-+	ret = cmh_tm_submit_sync_tmo(vcq, vcq_count, 1, d.mbx_idx,
-+				     cmh_tm_slow_op_timeout_jiffies());
-+
-+	if (!ret) {
-+		/* Sync bounce buffer so CPU sees the DMA-written signature */
-+		cmh_dma_sync_for_cpu(sig_dma, sig_sz, DMA_FROM_DEVICE);
-+		memcpy(dst, sig_buf, sig_sz);
-+		ret = sig_sz;
-+	}
-+
-+out_unmap:
-+	if (sk_buf) {
-+		if (!cmh_dma_map_error(sk_dma))
-+			cmh_dma_unmap_single(sk_dma, sk_sz, DMA_TO_DEVICE);
-+		kfree_sensitive(sk_buf);
-+	}
-+	if (!cmh_dma_map_error(sig_dma))
-+		cmh_dma_unmap_single(sig_dma, sig_sz, DMA_FROM_DEVICE);
-+	if (!cmh_dma_map_error(m_dma))
-+		cmh_dma_unmap_single(m_dma, slen, DMA_TO_DEVICE);
-+
-+out_free:
-+	kfree(sig_buf);
-+	kfree(m_buf);
-+	return ret;
-+}
-+
-+/*
-+ * SLH-DSA verify (synchronous sig_alg)
-+ *
-+ * @src:    raw signature
-+ * @slen:   signature length
-+ * @digest: message bytes
-+ * @dlen:   message length
-+ *
-+ * Returns 0 on successful verification, negative errno on failure.
-+ */
-+static int cmh_slhdsa_verify(struct crypto_sig *tfm,
-+			     const void *src, unsigned int slen,
-+			     const void *digest, unsigned int dlen)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+	u32 sig_sz = slhdsa_get_sig_size(ctx->param_set);
-+	u32 pk_sz = slhdsa_pk_size(ctx->param_set);
-+	struct core_dispatch d = cmh_core_select_instance(CMH_CORE_HCQ);
-+	struct vcq_cmd vcq[HCQ_VCQ_CMDS_MIN];
-+	u8 *sig_buf = NULL, *m_buf = NULL, *pk_buf = NULL;
-+	dma_addr_t sig_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t m_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t pk_dma = DMA_MAPPING_ERROR;
-+	int ret;
-+
-+	if (!ctx->pub_key)
-+		return -EINVAL;
-+	if (slen != sig_sz)
-+		return -EINVAL;
-+	if (!dlen || dlen > SLHDSA_MAX_MSG_LEN)
-+		return -EINVAL;
-+
-+	sig_buf = kmemdup(src, slen, GFP_KERNEL);
-+	m_buf = kmemdup(digest, dlen, GFP_KERNEL);
-+	pk_buf = kmemdup(ctx->pub_key, pk_sz, GFP_KERNEL);
-+	if (!sig_buf || !m_buf || !pk_buf) {
-+		ret = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	sig_dma = cmh_dma_map_single(sig_buf, sig_sz, DMA_TO_DEVICE);
-+	m_dma = cmh_dma_map_single(m_buf, dlen, DMA_TO_DEVICE);
-+	pk_dma = cmh_dma_map_single(pk_buf, pk_sz, DMA_TO_DEVICE);
-+
-+	if (cmh_dma_map_error(sig_dma) || cmh_dma_map_error(m_dma) ||
-+	    cmh_dma_map_error(pk_dma)) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+
-+	vcq_set_header(&vcq[0], HCQ_VCQ_CMDS_MIN);
-+	vcq_add_hcq_slhdsa_verify_internal(&vcq[1], d.core_id, ctx->param_set,
-+					   dlen, m_dma, pk_dma, sig_dma);
-+	vcq_add_hcq_flush(&vcq[2], d.core_id);
-+
-+	/* SLH-DSA verify recomputes hyper-tree hashes -- inherently slow */
-+	ret = cmh_tm_submit_sync_tmo(vcq, HCQ_VCQ_CMDS_MIN, 1, d.mbx_idx,
-+				     cmh_tm_slow_op_timeout_jiffies());
-+
-+out_unmap:
-+	if (!cmh_dma_map_error(pk_dma))
-+		cmh_dma_unmap_single(pk_dma, pk_sz, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(m_dma))
-+		cmh_dma_unmap_single(m_dma, dlen, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(sig_dma))
-+		cmh_dma_unmap_single(sig_dma, sig_sz, DMA_TO_DEVICE);
-+
-+out_free:
-+	kfree(pk_buf);
-+	kfree(m_buf);
-+	kfree(sig_buf);
-+	return ret;
-+}
-+
-+static int cmh_slhdsa_set_pub_key(struct crypto_sig *tfm,
-+				  const void *key, unsigned int keylen)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+	u32 expected = slhdsa_pk_size(ctx->param_set);
-+
-+	if (keylen != expected)
-+		return -EINVAL;
-+
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+	ctx->pub_key_len = 0;
-+
-+	ctx->pub_key = kmemdup(key, keylen, GFP_KERNEL);
-+	if (!ctx->pub_key)
-+		return -ENOMEM;
-+
-+	ctx->pub_key_len = keylen;
-+	return 0;
-+}
-+
-+static int cmh_slhdsa_set_priv_key(struct crypto_sig *tfm,
-+				   const void *key, unsigned int keylen)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+
-+	/* Raw sk (4*n bytes) */
-+	if (keylen != slhdsa_sk_size(ctx->param_set))
-+		return -EINVAL;
-+
-+	return cmh_key_setkey_raw(&ctx->key, key, keylen, CORE_ID_HCQ);
-+}
-+
-+static unsigned int cmh_slhdsa_key_size(struct crypto_sig *tfm)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+
-+	/* crypto_sig_keysize() returns bits, not bytes */
-+	return slhdsa_pk_size(ctx->param_set) * 8;
-+}
-+
-+static unsigned int cmh_slhdsa_max_size(struct crypto_sig *tfm)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+
-+	return slhdsa_get_sig_size(ctx->param_set);
-+}
-+
-+static void cmh_slhdsa_exit(struct crypto_sig *tfm)
-+{
-+	struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);
-+
-+	cmh_key_destroy(&ctx->key);
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+}
-+
-+/* Generate init functions for all 12 parameter sets */
-+#define SLHDSA_INIT(ps_val)						\
-+	static int cmh_slhdsa_init_##ps_val(struct crypto_sig *tfm)	\
-+	{								\
-+		struct cmh_slhdsa_tfm_ctx *ctx = cmh_slhdsa_ctx(tfm);	\
-+		memset(ctx, 0, sizeof(*ctx));				\
-+		ctx->param_set = ps_val;				\
-+		return 0;						\
-+	}
-+
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_128S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_128F)
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_192S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_192F)
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_256S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHAKE_256F)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_128S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_128F)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_192S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_192F)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_256S)
-+SLHDSA_INIT(HCQ_SLHDSA_SHA2_256F)
-+
-+#define SLHDSA_ALG(name, drv, ps_val) {					\
-+		.sign		= cmh_slhdsa_sign,			\
-+		.verify		= cmh_slhdsa_verify,			\
-+		.set_pub_key	= cmh_slhdsa_set_pub_key,		\
-+		.set_priv_key	= cmh_slhdsa_set_priv_key,		\
-+		.key_size	= cmh_slhdsa_key_size,			\
-+		.max_size	= cmh_slhdsa_max_size,			\
-+		.init		= cmh_slhdsa_init_##ps_val,		\
-+		.exit		= cmh_slhdsa_exit,			\
-+		.base = {						\
-+			.cra_name	  = name,			\
-+			.cra_driver_name  = drv,			\
-+			.cra_priority	  = 300,			\
-+			.cra_module	  = THIS_MODULE,		\
-+			.cra_ctxsize	  = sizeof(struct cmh_slhdsa_tfm_ctx), \
-+		},							\
-+	}
-+
-+static struct sig_alg cmh_slhdsa_algs[] = {
-+	SLHDSA_ALG("slh-dsa-shake-128s", "cri-cmh-slh-dsa-shake-128s", HCQ_SLHDSA_SHAKE_128S),
-+	SLHDSA_ALG("slh-dsa-shake-128f", "cri-cmh-slh-dsa-shake-128f", HCQ_SLHDSA_SHAKE_128F),
-+	SLHDSA_ALG("slh-dsa-shake-192s", "cri-cmh-slh-dsa-shake-192s", HCQ_SLHDSA_SHAKE_192S),
-+	SLHDSA_ALG("slh-dsa-shake-192f", "cri-cmh-slh-dsa-shake-192f", HCQ_SLHDSA_SHAKE_192F),
-+	SLHDSA_ALG("slh-dsa-shake-256s", "cri-cmh-slh-dsa-shake-256s", HCQ_SLHDSA_SHAKE_256S),
-+	SLHDSA_ALG("slh-dsa-shake-256f", "cri-cmh-slh-dsa-shake-256f", HCQ_SLHDSA_SHAKE_256F),
-+	SLHDSA_ALG("slh-dsa-sha2-128s",  "cri-cmh-slh-dsa-sha2-128s",  HCQ_SLHDSA_SHA2_128S),
-+	SLHDSA_ALG("slh-dsa-sha2-128f",  "cri-cmh-slh-dsa-sha2-128f",  HCQ_SLHDSA_SHA2_128F),
-+	SLHDSA_ALG("slh-dsa-sha2-192s",  "cri-cmh-slh-dsa-sha2-192s",  HCQ_SLHDSA_SHA2_192S),
-+	SLHDSA_ALG("slh-dsa-sha2-192f",  "cri-cmh-slh-dsa-sha2-192f",  HCQ_SLHDSA_SHA2_192F),
-+	SLHDSA_ALG("slh-dsa-sha2-256s",  "cri-cmh-slh-dsa-sha2-256s",  HCQ_SLHDSA_SHA2_256S),
-+	SLHDSA_ALG("slh-dsa-sha2-256f",  "cri-cmh-slh-dsa-sha2-256f",  HCQ_SLHDSA_SHA2_256F),
-+};
-+
-+/**
-+ * cmh_pqc_slhdsa_register() - Register SLH-DSA akcipher algorithms with the crypto framework
-+ *
-+ * Return: 0 on success, negative errno on failure.
-+ */
-+int cmh_pqc_slhdsa_register(void)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(cmh_slhdsa_algs); i++) {
-+		ret = crypto_register_sig(&cmh_slhdsa_algs[i]);
-+		if (ret) {
-+			dev_err(cmh_dev(), "cmh: failed to register %s (%d)\n",
-+				cmh_slhdsa_algs[i].base.cra_name, ret);
-+			goto err_unregister;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_unregister:
-+	while (i--)
-+		crypto_unregister_sig(&cmh_slhdsa_algs[i]);
-+	return ret;
-+}
-+
-+/**
-+ * cmh_pqc_slhdsa_unregister() - Unregister SLH-DSA akcipher algorithms from the crypto framework
-+ */
-+void cmh_pqc_slhdsa_unregister(void)
-+{
-+	int i = ARRAY_SIZE(cmh_slhdsa_algs);
-+
-+	while (i--)
-+		crypto_unregister_sig(&cmh_slhdsa_algs[i]);
-+}
-diff --git a/drivers/crypto/cmh/cmh_pqc_xmss.c b/drivers/crypto/cmh/cmh_pqc_xmss.c
-new file mode 100644
-index 000000000000..433ffcd6463d
---- /dev/null
-+++ b/drivers/crypto/cmh/cmh_pqc_xmss.c
-@@ -0,0 +1,230 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
-+ * CMH LKM -- XMSS/XMSS-MT Signature Driver (verify-only, sig_alg, synchronous)
-+ *
-+ * Registers "xmss" and "xmss-mt" sig algorithms with verify-only
-+ * callbacks.  Sign is not supported (stateful signature -- key
-+ * management must happen externally).
-+ *
-+ * Verify: src = raw signature, digest = message bytes
-+ * Public key: raw pk bytes (variable length, set via set_pub_key)
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <crypto/sig.h>
-+#include <crypto/internal/sig.h>
-+
-+#include "cmh_sys.h"
-+#include "cmh_hcq_abi.h"
-+#include "cmh_txn.h"
-+#include "cmh_dma.h"
-+#include "cmh_pqc.h"
-+
-+#define XMSS_VCQ_CMDS	3	/* header + cmd + flush */
-+
-+struct cmh_xmss_tfm_ctx {
-+	u8 *pub_key;
-+	u32 pub_key_len;
-+	u32 xmss_mt;		/* 0 = XMSS, 1 = XMSS-MT */
-+};
-+
-+static inline struct cmh_xmss_tfm_ctx *cmh_xmss_ctx(struct crypto_sig *tfm)
-+{
-+	return crypto_sig_ctx(tfm);
-+}
-+
-+/*
-+ * XMSS/XMSS-MT verify (synchronous sig_alg)
-+ *
-+ * @src:    raw signature
-+ * @slen:   signature length
-+ * @digest: message bytes
-+ * @dlen:   message length
-+ *
-+ * Returns 0 on successful verification, negative errno on failure.
-+ */
-+static int cmh_xmss_verify(struct crypto_sig *tfm,
-+			   const void *src, unsigned int slen,
-+			   const void *digest, unsigned int dlen)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+	struct core_dispatch d = cmh_core_select_instance(CMH_CORE_HCQ);
-+	struct vcq_cmd vcq[XMSS_VCQ_CMDS];
-+	u8 *sig_buf = NULL, *m_buf = NULL, *pk_buf = NULL;
-+	dma_addr_t sig_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t m_dma = DMA_MAPPING_ERROR;
-+	dma_addr_t pk_dma = DMA_MAPPING_ERROR;
-+	int ret;
-+
-+	if (!ctx->pub_key)
-+		return -EINVAL;
-+	if (!slen || slen > XMSS_MAX_SIG_LEN)
-+		return -EINVAL;
-+	if (!dlen || dlen > XMSS_MAX_MSG_LEN)
-+		return -EINVAL;
-+
-+	sig_buf = kmemdup(src, slen, GFP_KERNEL);
-+	m_buf = kmemdup(digest, dlen, GFP_KERNEL);
-+	pk_buf = kmemdup(ctx->pub_key, ctx->pub_key_len, GFP_KERNEL);
-+	if (!sig_buf || !m_buf || !pk_buf) {
-+		ret = -ENOMEM;
-+		goto out_free;
-+	}
-+
-+	sig_dma = cmh_dma_map_single(sig_buf, slen, DMA_TO_DEVICE);
-+	m_dma = cmh_dma_map_single(m_buf, dlen, DMA_TO_DEVICE);
-+	pk_dma = cmh_dma_map_single(pk_buf, ctx->pub_key_len, DMA_TO_DEVICE);
-+
-+	if (cmh_dma_map_error(sig_dma) || cmh_dma_map_error(m_dma) ||
-+	    cmh_dma_map_error(pk_dma)) {
-+		ret = -ENOMEM;
-+		goto out_unmap;
-+	}
-+
-+	vcq_set_header(&vcq[0], XMSS_VCQ_CMDS);
-+	vcq_add_hcq_xmss_verify(&vcq[1], d.core_id, ctx->xmss_mt,
-+				ctx->pub_key_len, slen, dlen,
-+				pk_dma, sig_dma, m_dma);
-+	vcq_add_hcq_flush(&vcq[2], d.core_id);
-+
-+	/* XMSS verify traverses Merkle hash chains -- inherently slow */
-+	ret = cmh_tm_submit_sync_tmo(vcq, XMSS_VCQ_CMDS, 1, d.mbx_idx,
-+				     cmh_tm_slow_op_timeout_jiffies());
-+
-+out_unmap:
-+	if (!cmh_dma_map_error(pk_dma))
-+		cmh_dma_unmap_single(pk_dma, ctx->pub_key_len, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(m_dma))
-+		cmh_dma_unmap_single(m_dma, dlen, DMA_TO_DEVICE);
-+	if (!cmh_dma_map_error(sig_dma))
-+		cmh_dma_unmap_single(sig_dma, slen, DMA_TO_DEVICE);
-+
-+out_free:
-+	kfree(pk_buf);
-+	kfree(m_buf);
-+	kfree(sig_buf);
-+	return ret;
-+}
-+
-+static int cmh_xmss_set_pub_key(struct crypto_sig *tfm,
-+				const void *key, unsigned int keylen)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+
-+	if (!keylen || keylen > XMSS_MAX_PK_LEN)
-+		return -EINVAL;
-+
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+	ctx->pub_key_len = 0;
-+
-+	ctx->pub_key = kmemdup(key, keylen, GFP_KERNEL);
-+	if (!ctx->pub_key)
-+		return -ENOMEM;
-+
-+	ctx->pub_key_len = keylen;
-+	return 0;
-+}
-+
-+static unsigned int cmh_xmss_key_size(struct crypto_sig *tfm)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+
-+	return ctx->pub_key_len * 8;
-+}
-+
-+static int cmh_xmss_init(struct crypto_sig *tfm)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+
-+	memset(ctx, 0, sizeof(*ctx));
-+	return 0;
-+}
-+
-+static int cmh_xmss_mt_init(struct crypto_sig *tfm)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+
-+	memset(ctx, 0, sizeof(*ctx));
-+	ctx->xmss_mt = 1;
-+	return 0;
-+}
-+
-+static void cmh_xmss_exit(struct crypto_sig *tfm)
-+{
-+	struct cmh_xmss_tfm_ctx *ctx = cmh_xmss_ctx(tfm);
-+
-+	kfree(ctx->pub_key);
-+	ctx->pub_key = NULL;
-+}
-+
-+static struct sig_alg cmh_xmss_algs[] = {
-+	{
-+		.verify		= cmh_xmss_verify,
-+		.set_pub_key	= cmh_xmss_set_pub_key,
-+		.key_size	= cmh_xmss_key_size,
-+		.init		= cmh_xmss_init,
-+		.exit		= cmh_xmss_exit,
-+		.base = {
-+			.cra_name	  = "xmss",
-+			.cra_driver_name  = "cri-cmh-xmss",
-+			.cra_priority	  = 300,
-+			.cra_module	  = THIS_MODULE,
-+			.cra_ctxsize	  = sizeof(struct cmh_xmss_tfm_ctx),
-+		},
-+	},
-+	{
-+		.verify		= cmh_xmss_verify,
-+		.set_pub_key	= cmh_xmss_set_pub_key,
-+		.key_size	= cmh_xmss_key_size,
-+		.init		= cmh_xmss_mt_init,
-+		.exit		= cmh_xmss_exit,
-+		.base = {
-+			.cra_name	  = "xmss-mt",
-+			.cra_driver_name  = "cri-cmh-xmss-mt",
-+			.cra_priority	  = 300,
-+			.cra_module	  = THIS_MODULE,
-+			.cra_ctxsize	  = sizeof(struct cmh_xmss_tfm_ctx),
-+		},
-+	},
-+};
-+
-+/**
-+ * cmh_pqc_xmss_register() - Register XMSS/XMSS-MT sig algorithms with the crypto framework
-+ *
-+ * Return: 0 on success, negative errno on failure.
-+ */
-+int cmh_pqc_xmss_register(void)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(cmh_xmss_algs); i++) {
-+		ret = crypto_register_sig(&cmh_xmss_algs[i]);
-+		if (ret) {
-+			dev_err(cmh_dev(), "cmh: failed to register %s (%d)\n",
-+				cmh_xmss_algs[i].base.cra_name, ret);
-+			goto err_unregister;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_unregister:
-+	while (i--)
-+		crypto_unregister_sig(&cmh_xmss_algs[i]);
-+	return ret;
-+}
-+
-+/**
-+ * cmh_pqc_xmss_unregister() - Unregister XMSS/XMSS-MT sig algorithms from the crypto framework
-+ */
-+void cmh_pqc_xmss_unregister(void)
-+{
-+	int i = ARRAY_SIZE(cmh_xmss_algs);
-+
-+	while (i--)
-+		crypto_unregister_sig(&cmh_xmss_algs[i]);
-+}
+    cdrom
++   cmh_mgmt
+    hdio
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 3f0ef1e27eb0..220417eb32a9 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -170,6 +170,7 @@ Code  Seq#    Include File                                             Comments
+ 'I'   all    linux/isdn.h                                              conflict!
+ 'I'   00-0F  drivers/isdn/divert/isdn_divert.h                         conflict!
+ 'I'   40-4F  linux/mISDNif.h                                           conflict!
++'J'   01-40  uapi/linux/cmh_mgmt_ioctl.h                               CRI CryptoManager Hub (CMH)
+ 'K'   all    linux/kd.h
+ 'L'   00-1F  linux/loop.h                                              conflict!
+ 'L'   10-1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                        conflict!
 -- 
 2.43.7
 
