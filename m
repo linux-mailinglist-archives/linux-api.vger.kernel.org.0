@@ -1,267 +1,161 @@
-Return-Path: <linux-api+bounces-6804-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6805-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aSOLDia4TmrDSwIAu9opvQ
-	(envelope-from <linux-api+bounces-6804-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 22:50:46 +0200
+	id mjBvBps7T2o4cgIAu9opvQ
+	(envelope-from <linux-api+bounces-6805-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 08:11:39 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6177C72A540
-	for <lists+linux-api@lfdr.de>; Wed, 08 Jul 2026 22:50:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DDD72D000
+	for <lists+linux-api@lfdr.de>; Thu, 09 Jul 2026 08:11:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=Pi3O664O;
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6804-lists+linux-api=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-api+bounces-6804-lists+linux-api=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=szeredi.hu header.s=google header.b=NFAqoqmz;
+	dmarc=pass (policy=quarantine) header.from=szeredi.hu;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6805-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-api+bounces-6805-lists+linux-api=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DFBF930D0F3F
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jul 2026 20:45:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2F2D93024A00
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jul 2026 06:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25B7E3EB114;
-	Wed,  8 Jul 2026 20:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D5C3AFD01;
+	Thu,  9 Jul 2026 06:11:33 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540273EB7E5
-	for <linux-api@vger.kernel.org>; Wed,  8 Jul 2026 20:45:40 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783543542; cv=none; b=GrtUgJPBWuZ2dkomBgOUEJgrcy0PNPgdXIXlkmIN/PgocgoId+W/7uGA5+H9qj/WO4Z4xsNoWb6tDHpPvmIjJ2SNAeAwJwmzDtHB31iHX6nFs+dhdkGWEA2Z40Q2aameyPL2DnP1GxVMKG/MZS9S3gPIRezDb44OzzqFMn8lh9A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783543542; c=relaxed/simple;
-	bh=HqIB2Kot+cSx6M46cVPe/gTQ8inr8AvF9kCYwuMxRpU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HzHtYGb5wab/ttUe+ErCopxG4XqaWfUGgEg7eguDnk3uL/6Lw6tQGe2lKKDX3K1IwGe4xFQxYWPZsCoHp4z218XQPIkzxsnBdYPQywmtadRgHujH6nTOGIDiPTawxy/5HkXH5zZlncgWgHAqOqeI6oC3M3nSowIOhO621MmE9+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pi3O664O; arc=none smtp.client-ip=170.10.133.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783543539;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUGOXr6bxTzxRUQM7JAmFPIE9TMkzlb5J7p/wDZven8=;
-	b=Pi3O664OywhAPYp+V+KQv2OJUcMzF7uabWRkikrc2dIddJHJTQPqwb5v0w9ru8aF0b3oYS
-	2xbAduK2A6j//SVuB2NUQcuNDVJTMmjA9Cc+yxmoyWE0X9qY8VoAlq/1X26SpTNaVH9tMb
-	YPvWWYUGidf4sd+KGap1Xw2Jh5/FSIQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-136-KDo1jjHIMWOaypUKFyLqkQ-1; Wed,
- 08 Jul 2026 16:45:36 -0400
-X-MC-Unique: KDo1jjHIMWOaypUKFyLqkQ-1
-X-Mimecast-MFC-AGG-ID: KDo1jjHIMWOaypUKFyLqkQ_1783543535
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 13B781800630;
-	Wed,  8 Jul 2026 20:45:35 +0000 (UTC)
-Received: from localhost (unknown [10.44.33.4])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 894853692D;
-	Wed,  8 Jul 2026 20:45:34 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>,  linux-unionfs@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-api@vger.kernel.org
-Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
-In-Reply-To: <CAJfpegvtd--TEQP9CVjSZuosU4meELdzhTV9oFo6joR1f4Dpgw@mail.gmail.com>
-	(Miklos Szeredi's message of "Wed, 8 Jul 2026 16:01:38 +0200")
-References: <20260708095831.3381978-1-gscrivan@redhat.com>
-	<CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
-	<878q7l8y4y.fsf@redhat.com>
-	<CAOQ4uxiiVsp0BsdqfH3rCrpP6fBi-vTyfXd-TcVmFcS34MxzUQ@mail.gmail.com>
-	<871pdd8ukx.fsf@redhat.com>
-	<CAJfpegvtd--TEQP9CVjSZuosU4meELdzhTV9oFo6joR1f4Dpgw@mail.gmail.com>
-Date: Wed, 08 Jul 2026 22:45:32 +0200
-Message-ID: <87bjch6wib.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364793AF670
+	for <linux-api@vger.kernel.org>; Thu,  9 Jul 2026 06:11:30 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783577493; cv=pass; b=u2rfsLinIZLG6bb4hnAcTONFNklSe6efwWlkVJ+STTmQ+yy+kUowgjPybeP9Rci6YM7E18sCzF4iAJzuMN4ga1Mtq2LGYLi0P0GWVasbSEnvqfZUtYnxecB4p6phzXY8NS7XTuff5vOsBeeDGIZUcWL0yaSklIW/yebG12KZPZw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783577493; c=relaxed/simple;
+	bh=9b1pHcb4tDFl3SXA5D25rB9XkxaOPF8WHE8yxdA4mAY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sg+MWjAtGTN+ib9+w+qD8uSeN8WHql1c9gIb+UciOV3JHyBk6tCJFGH1kpWnrB/WybhIwqptvFsaUolxDr67KILq3A+EhpevrcGOKzyhOsFADxoPurPVP/kCbbu1AtcP4Tg34LAXjZcSknNtctqMAXTHfxiDjScZxFeVQ6ztR+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=NFAqoqmz; arc=pass smtp.client-ip=209.85.160.178
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c15bf5000so7008491cf.3
+        for <linux-api@vger.kernel.org>; Wed, 08 Jul 2026 23:11:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783577490; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dDMaiZntPbk6kkQn6E+FB4kT1k0XMkw0h/6HDoe+p2wXY+6s/y1UFcQ+yJF017BqFp
+         l0bhgOmcwtSLIAoMllXmwbUVZdLWwLDqvFCT5UwFga2wQgiSC447QSoAi/tEX+zF/m24
+         lAx1eFYE/ePhd4kVt/fbIpROraq7hnH8WCFcjhiuRO7MyIoghZIxVH9TeM6inhB4vWmA
+         ccYjJwdQ95lFAcrPke//0xyoEyEKeNC5XUOGDdyhSoFxc+RS51eKkxCWxHfnLgCOiqjE
+         Oo/L2bW4IFuETaj4d+qz9rHycwaVwaZvlnN8qR48CGVeVg6miw6MKkR7OcD6rD/9Abhq
+         Ehiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        fh=RUYRg62HRhPSMUmSJc04avY+gd7dX3tRAUAGeNt2fbk=;
+        b=eziZJheKS0LS0LTqj1PG1gmFNXWFxaHDRv8hVHLPxKFeGs/X4v0Ig9Uv5vmc7DZYvn
+         gvh6LrPCdCwIp3CEL5I6KB/+DRnL2grrJrVry+1VGft+ZvLDpc+o4mFc7/2t0U4OPww7
+         lh/TaqyFnIrSNxHFe8hMePeKdderDjnPvCNyy/dbHzg/RIklbBcG4hNmAe/SjGqgJkNU
+         e98nF24hbCT1PLjIBabiWF9B7zVgE5plUi/FT2ng8y8nxCsbqdT6MzOQOCql29v7rod0
+         fXteY84SOp/A90eFXjUg4I5Z6IajgFpiSO03cl3QvsCWIn4zZonRjkRoD1SmXxa78YFn
+         zjsA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1783577490; x=1784182290; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        b=NFAqoqmzRE+v4seoIqH9pEOna0l9VfjuaIKSQx/vXdYmNcQjtGl9v5loyKJWQtQjOg
+         YI9YzoSz6bD7CRsfmfRXInTQ9QcnPVcbUGLg0/1eJ/zdUm7vHyrHNTglOBqZo36HrWUk
+         orSqDqWGcruhNcI0qT2gS+OzJRTG33wCbHxy4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783577490; x=1784182290;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        b=e/OIsnqg++yf2CNhUq/pvjVofq4jYjPmTvQXZYU92jr33pV8DC0jOZlsrRHVYAoLxD
+         YKlaxRraP0XcUNTTLg7ySlCV9YThYijZRBSWvSJppON0MWyFl0WrxB1gCI88l5TOHoLl
+         fAhvtRrPkfKVyj7SqE+d31w7854iCJcVdu/tJYKlDmpUQrKLf20eZI32HulYZLkpSrX8
+         tM/876Ld6SwqoX3NCEFs7Gy2zk7IjtJscyivchpaTPcaQ8y5QzZ5ZY0hJJkkSF+6KRP9
+         SPXUp+dB8NOhiIvp23FBpdiTxhMDNk5+b3OeKoqyjTRs5Ublfo4qVvNoHu5Yyx8Pmeqd
+         3/HQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq4psimKkcTvTxJs5IEkL5LYVTCnfIhYYOWNvaPDph22RxcMXLjN6tv0/78PCQLfFIwvD0+0ziN8w0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyewfjBXam0dWjcPcqKUJnPKBCmwZB5UbxEiqc2pUicWpCtlVl7
+	j/xfD63mhkGYSQGqiUdpBGaGwYU/zDNeWJouem0M1ol9Qgkr+V7D3IVwtFecGLh+SDpRdXyzwGN
+	wdYySRsnpw5JA3Ih8jUi2KvDKUTKyTmA43V98fe0k8Q==
+X-Gm-Gg: AfdE7clqyCi1rOkABhCk+D4SHevQxoD+Lp97pGfSXV1wknUG/+xBWEAQq4BSLiQyL97
+	Pa19+wL85qd7csc6zwfJGEoiSBGJ4vEtP1dyQiaF+12Yf2znYPZus3zOhTdZV5ADBMbsMwwcRcG
+	qmCCqyj9xQKZsIz0Zc0AZFE/0WMlPuktDzry5CMQs750LVA6DSoi7cspeDwJsWxAo6p8p7po5a4
+	8A6sRrTl6yKgVoWBk85drxQLXMTIg3SiPyd2r6JoaeSedSU6hzAGpbsYAog6S5+P5DzWkOcPFso
+	NzP7KV6BRbkpjrjymQHtk34bby4=
+X-Received: by 2002:a05:622a:2cd:b0:51a:126c:c6d9 with SMTP id
+ d75a77b69052e-51c8b431bf6mr60467911cf.26.1783577489970; Wed, 08 Jul 2026
+ 23:11:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
+ <878q7l8y4y.fsf@redhat.com> <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
+ <87wlv57dt1.fsf@redhat.com> <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
+ <87o6gh79yi.fsf@redhat.com> <CAJfpegvUEEbFnCa1N9k3gMXpw46YFpWuta=G6brON1=xU36bgw@mail.gmail.com>
+ <87fr1t6wyt.fsf@redhat.com>
+In-Reply-To: <87fr1t6wyt.fsf@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 9 Jul 2026 08:11:17 +0200
+X-Gm-Features: AVVi8CcVEq2J0Va4XFUVsVlovcTwuzY96sGW-KM_Jfd0atcnoi0NWAC1g8xQ0Hc
+Message-ID: <CAJfpeguPzVqm7JqJhe2CpfHMcAiETGT4_e84cFBEWESr5RpEGg@mail.gmail.com>
+Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[szeredi.hu,quarantine];
+	R_DKIM_ALLOW(-0.20)[szeredi.hu:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-6804-lists,linux-api=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-6805-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:gscrivan@redhat.com,m:linux-unionfs@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:amir73il@gmail.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,zeniv.linux.org.uk,kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER(0.00)[gscrivan@redhat.com,linux-api@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:miklos@szeredi.hu,m:amir73il@gmail.com,m:linux-unionfs@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gscrivan@redhat.com,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
+	DKIM_TRACE(0.00)[szeredi.hu:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TAGGED_RCPT(0.00)[linux-api];
-	RCPT_COUNT_FIVE(0.00)[5]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,szeredi.hu:from_mime,szeredi.hu:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6177C72A540
+X-Rspamd-Queue-Id: 62DDD72D000
 
-Miklos Szeredi <miklos@szeredi.hu> writes:
+On Wed, 8 Jul 2026 at 22:35, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 
-> On Wed, 8 Jul 2026 at 15:44, Giuseppe Scrivano <gscrivan@redhat.com> wrot=
-e:
->>
->> Amir Goldstein <amir73il@gmail.com> writes:
->>
->> > On Wed, Jul 8, 2026 at 2:31=E2=80=AFPM Giuseppe Scrivano <gscrivan@red=
-hat.com> wrote:
->> >>
->> >> Miklos Szeredi <miklos@szeredi.hu> writes:
->> >>
->> >> > On Wed, 8 Jul 2026 at 12:00, Giuseppe Scrivano <gscrivan@redhat.com=
-> wrote:
->> >> >>
->> >> >> Add two ioctls to overlay filesystem to allow userspace to retrieve
->> >> >> information about the overlay layers:
->> >> >>
->> >> >> OVL_IOC_OPEN_LAYER:     return an O_PATH fd to the root of a layer.
->> >> >>                         arg =3D=3D 0 returns the upper layer (-ENO=
-ENT if
->> >> >>                         no upper is configured), arg >=3D 1 returns
->> >> >>                         lower layers (-ENOENT if index is out of
->> >> >>                         range).
->> >> >
->> >> > We could do this with a plain open() call.  Something like the magic
->> >> > symlinks we have under /proc/PID/fd/.   Question is where could the=
-se
->> >> > live...
->> >>
->> >> is there any existing user of such a mechanism?  I don't see any mount
->> >> specific info under /proc or /sys.
->> >>
->> >> >
->> >> >> OVL_IOC_GET_LAYERS_INFO: copy a struct ovl_layers_info to userspace
->> >> >>                         with numlower, numlowerdata, and has_upper.
->> >> >
->> >> > Isn't this info obtainable via statmount(2) already?  If not, it
->> >> > should be there, instead of a specialized ioctl.
->> >>
->> >> no that is not exposed by statmount and I don't see any way to export
->> >> file system specific data through it.  Do you've anything in mind?
->> >>
->> >> >> --- a/fs/overlayfs/ovl_entry.h
->> >> >> +++ b/fs/overlayfs/ovl_entry.h
->> >> >> @@ -35,6 +35,8 @@ struct ovl_layer {
->> >> >>         struct vfsmount *mnt;
->> >> >>         /* Trap in ovl inode cache */
->> >> >>         struct inode *trap;
->> >> >> +       /* Keeps the original fsmount file alive for OVL_IOC_OPEN_=
-LAYER */
->> >> >> +       struct file *origin;
->> >> >
->> >> > Don't need to keep the file open: the only info missing is the
->> >> > original vfsmount, everything else is already there to reconstruct =
-the
->> >> > file.
->> >>
->> >> I didn't manage to get that to work.  As soon as the userspace process
->> >> closes the mount fd that was passed to fsconfig, the anonymous mount
->> >> namespace is destroyed and dissolve_on_fput sets mnt->mnt_ns to NULL.
->> >>
->> >> So whenever I try to use this mount again from userspace, it is not
->> >> usable because the mount namespace is empty, causing check_mnt() to
->> >> fail.
->> >>
->> >> Do you have any suggestions on how to solve this problem?
->> >
->> > The suggestion was to store origin->f_path->mnt instead of storing ori=
-gin file,
->> > because you only end up using the origin vfsmount.
->>
->> the reason I am keeping the file and not just the vfsmount is that the
->> file is what keeps the mount namespace alive (preventing
->> dissolve_on_fput from fire).
->>
->> Should we export open_detached_copy from fs/namespace.c?  I've not
->> tested it, but it might work.  Are there other ways to solve it that I
->> am not seeing?
->
-> Using an anon namespace sounds good to me, that means the original
-> vfsmount isn't needed at all.
->
-> Not sure if it's okay for the case where the original ns is not anon,
-> but we can save the vfsmount in that case if it turns out to be a
-> problem.
->
-> Thanks,
-> Miklos
+> Would you be OK with the ioctl as a solution that works today, and
+> duplicate it when an alternative API materializes?
 
-for this to work, I need something like:
+Let me have a go at the pseudo fs interface first.  I can probably do
+a quick 'n dirty prototype within a couple of days and see what
+reaction it gets...
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 3d5cd5bf3b05..138d15ab37ef 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3091,6 +3091,52 @@ static struct file *open_detached_copy(struct path *=
-path, unsigned int flags)
- 	return file;
- }
-=20
-+struct file *open_detached_copy_internal(struct path *path)
-+{
-+	struct mnt_namespace *ns, *mnt_ns =3D current->nsproxy->mnt_ns;
-+	struct mount *mnt;
-+	struct file *file;
-+
-+	ns =3D alloc_mnt_ns(mnt_ns->user_ns, true);
-+	if (IS_ERR(ns))
-+		return ERR_CAST(ns);
-+
-+	guard(namespace_excl)();
-+
-+	mnt =3D clone_mnt(real_mount(path->mnt), path->dentry,
-+			CL_COPY_MNT_NS_FILE);
-+	if (IS_ERR(mnt)) {
-+		free_mnt_ns(ns);
-+		return ERR_CAST(mnt);
-+	}
-+
-+	mnt_add_to_ns(ns, mnt);
-+	ns->nr_mounts++;
-+	ns->root =3D mnt;
-+
-+	mntput(path->mnt);
-+	path->mnt =3D mntget(&mnt->mnt);
-+	file =3D dentry_open(path, O_PATH, current_cred());
-+	if (IS_ERR(file))
-+		dissolve_on_fput(path->mnt);
-+	else
-+		file->f_mode |=3D FMODE_NEED_UNMOUNT;
-+	return file;
-+}
-+EXPORT_SYMBOL_GPL(open_detached_copy_internal);
-+
- enum mount_copy_flags_t {
- 	MOUNT_COPY_RECURSIVE    =3D (1 << 0),
- 	MOUNT_COPY_NEW		=3D (1 << 1),
-
-is this acceptable?
-
-Regards,
-Giuseppe
-
+Thanks,
+Miklos
 
