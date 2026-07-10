@@ -1,201 +1,244 @@
-Return-Path: <linux-api+bounces-6829-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-6830-lists+linux-api=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-api@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XKheB9E4UWrpAwMAu9opvQ
-	(envelope-from <linux-api+bounces-6829-lists+linux-api=lfdr.de@vger.kernel.org>)
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jul 2026 20:24:17 +0200
+	id +hSqONB8UWr5FQMAu9opvQ
+	(envelope-from <linux-api+bounces-6830-lists+linux-api=lfdr.de@vger.kernel.org>)
+	for <lists+linux-api@lfdr.de>; Sat, 11 Jul 2026 01:14:24 +0200
 X-Original-To: lists+linux-api@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1639773D564
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jul 2026 20:24:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4D273FB9B
+	for <lists+linux-api@lfdr.de>; Sat, 11 Jul 2026 01:14:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=szeredi.hu header.s=google header.b="FlVCE/pd";
-	dmarc=pass (policy=quarantine) header.from=szeredi.hu;
-	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6829-lists+linux-api=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-api+bounces-6829-lists+linux-api=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=rambus.com header.s=selector1 header.b="1B/q9c7Q";
+	dmarc=pass (policy=reject) header.from=rambus.com;
+	spf=pass (mail.lfdr.de: domain of "linux-api+bounces-6830-lists+linux-api=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-api+bounces-6830-lists+linux-api=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1EE19300A27D
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jul 2026 18:24:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CCF7D301464F
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jul 2026 23:14:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC495379C21;
-	Fri, 10 Jul 2026 18:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5687E40961B;
+	Fri, 10 Jul 2026 23:14:20 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022127.outbound.protection.outlook.com [40.93.195.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF17C35AC07
-	for <linux-api@vger.kernel.org>; Fri, 10 Jul 2026 18:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEA9340A46;
+	Fri, 10 Jul 2026 23:14:18 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783707839; cv=pass; b=Jq+pE6k66zu4NQnqAGS97gdfWZd/zylQrqOSnfEi1+EQcp5D+ao/mCo1BxEUX3qcrJiR/m0xWDx+VXozV66zprflLCSRdJI9TgeQ2TAxuFoa6UI7UyMo3VOWvpvtRgeGguPk6V3MG21Qywtv4Y4QK6XIwcaR6qO1TICD5ZxWt/E=
+	t=1783725260; cv=fail; b=jZepRbUBxmQ0TZi4d/PWH0ul2zIBEgMJCcuxgY8LPqMcZBNf28h4KV0vLJEF8KezVMSa74rOiI5gw25KvlnqIbsZ8g9vboexO29US7nC9gxRVjZUSc3Lq4Aw1aVc9nV+PneOl6BFKbDSOZ0aPTuE64LMGI463Q4H0E41qhc96oE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783707839; c=relaxed/simple;
-	bh=NxfR+RtpV98Uyvh4Vv0TesUuCBi39GQnAHBSA0RW5do=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnRAJXD5bgFtQ6DO75Ax5HkqXNla7hbzHxpBZoWuOiPmDbl5o0cIQOS1ljRlLKOUIx8aSLhXKp8PRDT6AQ0WFR87MKJcOrn/tRH7R0piO3ns5ullkgID5ClBky/C1wUisrSAlbQnaEvfhKy1TfRGXbBwas0WTOYwqfbgzce1LDk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=FlVCE/pd; arc=pass smtp.client-ip=209.85.160.173
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c21495722so5968351cf.3
-        for <linux-api@vger.kernel.org>; Fri, 10 Jul 2026 11:23:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783707837; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dzN/eD9zbNDjCppw996TBk1SYGV0M0UL6pPsLSLIQ1ChaYkdZgA0XwHUSRsGK3Hu3o
-         jHWLgh5hwIK9ALYEQubLcv1ScJW/x7h0GBASxJzBHLMF38RchDzHT1grFi3VqhqjQYwm
-         LP8XpXdP+ioDZrDJtmk4irQjYzFfQ7UGDS9CxA0JopfbTg5x4zVBnOpr+nh9wICKuM7L
-         j0PhxMqhADtQ+c+KsVEynmyGEMCFG0S9e9P6RvY5fGdkYhtSjfccVWYNPr5EeYre9dh2
-         Tw83hu+9EjpCxtX6HSLqy3JorKpD7QSy2DXq9tK4PZot5PxAlfDEx/HqyuAkw53ZeEAZ
-         cFrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1S5jxvfvOLQgAIm7INh0Q2705ObnY2r648KNCWkCwDU=;
-        fh=cB42ZcKaf4M9/boC3OuraBr/Crf3twN9T3Zwr4S4LRg=;
-        b=K9evSZzyD/Tcz4xZZ7MPe4p/TT5p6RTg7/XMPD4CICC7ui7r/tGa2nsrs6XI96HX9i
-         ohrMmvgnVaE8dfgJqGiskb86t5fvaK19G0LWS9FI8KHzhKWNYZfKZWvBJmSixQ3t2Qy1
-         1oM2sT3Ma6xnU5GfyyAWDH+RA4rSe9Z6IuD4SteDCZebmpI4sdK9yqkuKKDNJBwJ79BB
-         CWYiWcF5KCpSN7bnXfTkad6DhAj7NhoSpvXLhnc4QjSXJ6GeAIvp/OtbMH3enyfd+40c
-         7zHlKVTwYUs9+kzUaJQEtIrNVO8iVz9oGDkLwmSs0ehMZvIbH7x+q8qd+sgunqYg2yLz
-         rzWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1783707837; x=1784312637; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1S5jxvfvOLQgAIm7INh0Q2705ObnY2r648KNCWkCwDU=;
-        b=FlVCE/pdO0oFWx0ONgxLwk/drsbgQg7zpgWJMKhtfHZDdoEaa+2qz7EepyldY88hjI
-         UWpOHmwG7/DbggaRisYcEnI9WId1Gl1S2W2C6RgnnmefSb7jFo1lQmuLNVYOUMyp9Jcl
-         D/ZaAGSd9/U5YwU2UrFeVuuXcS5i1OexwYRm4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783707837; x=1784312637;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1S5jxvfvOLQgAIm7INh0Q2705ObnY2r648KNCWkCwDU=;
-        b=dfkZAS5d5QfAhQOZf62B8OhRipoNzmAa/vm4Z2V+j6vj43SIUcb4z7NsFpYpTnonKS
-         cQKD/pwOwsWrmX3v7024BEWJWB4j5OiqPtzBod13c0vc7MGALMLlo6X5RhVSKR3OYvSR
-         2Efx04dp8YImjGQy07CG+bYBTg1+CFRXQzRRWYcgm8sZwx3NVRt57hCyFWvh3xl60yHU
-         +S2aq+Fu9HjfAM5Uc+wHCccbL5TEzm8pvWkZXtU0b/QIhk1GFs8ySB4jZwNtAUr0p+AC
-         5kCj9QEWbuSs6XdQdtrOXkCJbEmLym4Muu7Yf++s0T2l7mEiu6vA585Hc+yLEDYLEOtv
-         9++w==
-X-Forwarded-Encrypted: i=1; AHgh+RoveSt6a0Lsd9tGTT62cnveL3PHZqFNfsfO17TuV4rc1lESGCDkc7okQ1Vq86ApyiMsudfAnvtvRVg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZLICaeswpFBGu0t1AsM2JTeHaUU513G39csvJ+GGX7AFjWKvI
-	/lp6PyDeyhDhI9deiUsrhV+kfsRyeEmNiJbG5j28Wh3n0CZYKDAstGDAWLLvyqix9Ohe1kCGDBU
-	hXF2H8jYEe8wMiBcwYtTDu3HLZ70Jp9HUsYSErOUaUg==
-X-Gm-Gg: AfdE7cnLaV8YEOQnb4SacjHUAQ53o1uzvihGY4tgh8yQ9x4ZJ0dAsELI4k7wRpcjgxO
-	gbCuxFxuWmMU5bUaQj+qaEnVunT7SqNRn731Zw8RqUCedxXw/QVexVcLsNtZAICqp7vnK4Y4Wjm
-	CVvOxRXnr+wx26CdM8NiH7lzUSQMzkbac8x+QScRyBB0A8RJ61I+xZi1CcGH9H4f6jeVruChcZK
-	41IArvEiww+29ISp+8+tCX/f4dCkRQObimdV/1oGSvYFszDirN3gGHlk5RICfv7D4uWllJwmpaa
-	/Ppv5cP/hxY1x0Th6rcFYWGqwg7WdU+RJwSz9A==
-X-Received: by 2002:a05:622a:5a05:b0:51c:14f5:8f9c with SMTP id
- d75a77b69052e-51cbf15ff18mr692361cf.27.1783707832090; Fri, 10 Jul 2026
- 11:23:52 -0700 (PDT)
+	s=arc-20240116; t=1783725260; c=relaxed/simple;
+	bh=JI1nOgpMbHbZz9QBC7nmNhlcJEMqsGjSWesFDJnuluM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UtMI4cg+394DQKhj4J13Ij87jtfHffXh6fTDYxWyV1W7gJPq8awzWr5v5ofoohut9WEkna/zPFaXjh3G6OAQJ04v8eIVhIU42Zeavkqxp5qVbVbTHSCj1DXEsqOPxJduukBV7+yiX7eyxmxewIceJUt+aUOpwRjB9OYXo7nHeL8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=1B/q9c7Q; arc=fail smtp.client-ip=40.93.195.127
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fMB7nhjXOkqAu+fWCaQf6UKRAOu+eWxSJySUSfffkCdWpcjXElbgAyLhREL6syuQ4TVYC8tr/xrFdCgsnbRC0z9GbSb2Ep7/G7AX2jhVkI5Rp9ndAKYFFI208usgN566X1SU08Zp9dACxK5hzj/ltq1AG7p6BYQjAKCZ6VDVSWR3KGsaO+hOKMosV8fmw00fLax/gfSjbUjlw7STFH2qrZcvddbOKT70RzzzH7yWIIK7bqnOG3rWYsUfTUg/okCp2x4bZzX+lHSWfaW82cNniYH02MtlqmMCNUXQy5jjeDWvVPUCEGwUV/4OF9HS+a1ZCxqeI7w4rPhz3tKFfb7R6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JI1nOgpMbHbZz9QBC7nmNhlcJEMqsGjSWesFDJnuluM=;
+ b=Hy3xmbh25gIvdFWtSXEYEF0FlfNkQ8403KWtunhuZyhkyhVxW8uWOqqYJ6VCa1gvjhC1PalSNfL8NeKI/0lTgwHzMGYM9UeB/CAJAFCcxTWEda3hL4KYe8L7/8yKFi1W2HoPP8rOqtlkj1PfWxjFdXR8OBt3MgIvtYNqMnJDMwNlj8B9DNpQOhn+agcSyms7fZD7/FVjLGdKCzHg5f+/qb1YywFESYgF71zcVpF1JsPRMKa6BnbpT1mdVxMPjLN1RdnaXuakZIEbTY4jcVEk15Xh28BVoxKC+prQsam/4mVRSULQ2Wr/odovQnX9D2S80ASwfdG8OnNiEImEXWvj1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
+ dkim=pass header.d=rambus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JI1nOgpMbHbZz9QBC7nmNhlcJEMqsGjSWesFDJnuluM=;
+ b=1B/q9c7Q4c9YqYDyr3O40QaFPu3AWlyeBKWGuZKp8pFYiEekr0Zm+1aZSPZ+OlNQkaknb66qQSV9J14qNK+Y0+n/+pfLjPCD7iRwFMYXzjcsZlaHYJbEJFnJF3HTSuXP703kvH0CLfEDb+8rosz92XR/ILWfMbTb5L5f/G5mTzzyCKFCcNPOuOYFA21Uc+E0nCXxOjVCNuTMKqyGMdHrL6yI8VONx1DK3OhRlRtT7w85ejRtiruk6r8wO3uV8vlnzhxBBsKiU0c/lkWEnrf1SYxQXTr7dM4Nu6neTFR68BXg07Ggz0+kIGhmLYHH6swuEAOi/HbpjE6VQhwo625MaA==
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com (2603:10b6:806:398::17)
+ by PH0PR04MB8279.namprd04.prod.outlook.com (2603:10b6:510:105::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.18; Fri, 10 Jul
+ 2026 23:14:12 +0000
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196]) by SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196%6]) with mapi id 15.21.0181.017; Fri, 10 Jul 2026
+ 23:14:12 +0000
+From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+To: Conor Dooley <conor.dooley@microchip.com>, "Krishnamoorthy,
+ Saravanakrishnan" <skrishnamoorthy@rambus.com>
+CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Herbert Xu
+	<herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul
+ Walmsley <pjw@kernel.org>, Rob Herring <robh@kernel.org>, Shuah Khan
+	<shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "Wittenauer, Joel"
+	<Joel.Wittenauer@cryptography.com>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, Shuah Khan <skhan@linuxfoundation.org>,
+	"Nguyen, Thi" <thin@rambus.com>
+Subject: RE: [PATCH v2 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Topic: [PATCH v2 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Index: AQHdD+HshuImNmj2q0GDF9X/lpOPwbZmdM8AgADs7vA=
+Date: Fri, 10 Jul 2026 23:14:11 +0000
+Message-ID:
+ <SA3PR04MB9001E7DC9B2D4788EDCE2390D7FD2@SA3PR04MB9001.namprd04.prod.outlook.com>
+References: <20260709203037.1884436-1-skrishnamoorthy@rambus.com>
+ <20260709203037.1884436-2-skrishnamoorthy@rambus.com>
+ <20260710-siding-unmatched-5e066fbe4c01@wendy>
+In-Reply-To: <20260710-siding-unmatched-5e066fbe4c01@wendy>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-product: dlpe-windows
+dlp-version: 11.11.2.117
+dlp-reaction: no-action
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR04MB9001:EE_|PH0PR04MB8279:EE_
+x-ms-office365-filtering-correlation-id: 3d81d6f3-1286-4f69-8186-08deded8f3f9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|38070700021|56012099006|4143699003|11063799006|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ cKElAf2hElcTrc30MNdglEnoajQqDxXtzsqfpiiB6zBA3K2g0M6hNpR4UFd/cKLDwCYEBeVRYNZPCiGhuZgVB+BzitikIwNaZQdgT+5opstrLBwFIb4MkyNY3WWGo9KPEWzoc2PG9fWEShtznbFoauBUJO3gFh+czFcv81zjo8bE3690uLJ8TB3bMFNh7wI5rakJc1sMviOE+XTIAQgCUDmH8BzzqHeCKM8oFVMOKM0vHHlyO/DeA8UNFY97J22ufIVdCQVB5p6Rda0kXkhzTiL7Z/INLUCiCFtEg1h+4CPhbdBSxb5W1yMRN4XJEeAIrO0TwEjrXSsgmXQD+/twsMiGoslUjSkyhhCaMkjSxwTseJ3YM+B5JwBhQ7AGk9cl+2Ic1DYu3iTtsY3s2vrhVvsd0vcaUQYqhmvvZ2kSmozkolFyrKw3ky/zYP6fXIgdvkfFHkmZIYAiytRl4HA8VKDqxDi8NIxaeT5WWgYLe4nDk4EUhVk5SoWgzfqNNNH6ASduclEgL0YkiMeCOwQgDNWimk6DQhqc2pw8dnMB1XZzpXSq1nunWyhs5Vk+6gFa2THfgBc3jDH3Fqz6eu42zkA6+Xze+vprTYJr+5VMAmWiK97p+j+UiXha5mjlGstv2w/3U/rlNOpR/mxvzWF5jDoqXgO4w9kHb0oPqcwmoAdrbaMdw9Mwib5oJRx99fGkleGBtK1At8L5Yl6SBVuaICwwYoiMIkXb5Ro7I8g86AA=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR04MB9001.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(38070700021)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?zg89MWmfEpDkNexMjoRsJdbDAbiDg59nAjSJZL/4vLiKPs/K5GovK0idWtno?=
+ =?us-ascii?Q?4nSMfxUCwvA1TVD7iKV+Avi/5LijHxI8f5ttY2xIQajFseQYJY/lweqgpBf1?=
+ =?us-ascii?Q?5XD/NDJ+9CsUJgQAOvGsXKIvSc/TYtWFO856mem+VGktwddsjD9mw/Wq75Tp?=
+ =?us-ascii?Q?1MwpBJQgW6tHwiVqNULyZVRwTgdjjg3A4EN67hVcQvVTIiVM5+kOo6QsM0Oy?=
+ =?us-ascii?Q?LADcM4oP7U9V1MPcUeweSXRFqHdoyv1KS2OL0MTtCcBnGytEVwlF2ePw07Gs?=
+ =?us-ascii?Q?IRG5Dz4D3Ao70AyRfFkiiefqWXbpoh931arzNADL4tc/6n/RrMfJHx6bpZHV?=
+ =?us-ascii?Q?aNOiu+to3V22jd9c37VYoyGlfFFGmzzoNTLO2R+cku58bv5TanBClbFh2Mq6?=
+ =?us-ascii?Q?DsN4/w5QtANSKeYad/KQTD31O331EvhqxWNsILV4y17WpOFV7zntMutvNKkx?=
+ =?us-ascii?Q?waTrbMrIo4eSBcW24qUlca+NDP6GQ8EDFPigfaKceVbjwX+kNPzV0D9q50UH?=
+ =?us-ascii?Q?bAxQ2zoPBQkDOJ/g4ahbBqKxLAhy4KBRFx69SfD/g5WvyrYQ7i1LxBJHPzRY?=
+ =?us-ascii?Q?9PRGCU+L9jrEuOfN2k4UFA+UtWbMamLVLDkn+ED0ouwD2r5+6uVz1BQuD3Xy?=
+ =?us-ascii?Q?W35/kd5Ih8G1r3BqwcoEFBBBKMGJQExiULeT8bVsf6tZmLcvJR4c/uISaAIy?=
+ =?us-ascii?Q?MU3mh9nRJuyTtDhB1us2YYryGPGG9B3Doi8xnSbJygh7KX16ER+Z1pFf/P7V?=
+ =?us-ascii?Q?7ffFvafdDDwp8XFPeW1QJDkxHwpIXhKB527JG/AA30R84M8cMy+VC53KSuZU?=
+ =?us-ascii?Q?ZNkyh1syLyMCCUAuC/Bm9CpUX3qoQTo9T/Wz5Kpm4foPlBE+VRXpnkIfD2nA?=
+ =?us-ascii?Q?xMOUthOVfBoVhJ7YZchoU/AiQGrOvOch1wAgV9Q0jFKJAh0i5cC2IoBUkDwQ?=
+ =?us-ascii?Q?PQ0B2j7xkbOuzCfpGjAfRvPMsTl2Qu/5Cv8SUhR/ZJhnF/52cTRB5ndhVUIY?=
+ =?us-ascii?Q?fIkfSh62DisxoVjPH0V+c6jg9f82NhaP1bhxHmITWkRfOWiGdrmQxBbFnadW?=
+ =?us-ascii?Q?WZSR8+wRvAl/4MLQAm6o5h38qX9WicA1NNaxIcvM7pPFV8mEZQoSrqGqSWEV?=
+ =?us-ascii?Q?WMmxOLsj+n6ZI/hwwRqk97JxF92EOAqKrfBT0qO+oJf6ghFZoIzeYC6epEMs?=
+ =?us-ascii?Q?3POYDEz26IsG5xQl3NKB1xc9hVaH8wQMroPocRYBh/DGcOTzKSh6/Mo1wBZH?=
+ =?us-ascii?Q?QLoF1oxIZ9KI/kXWrvsCBAkgraGjbEf3/D0xsNeHEvc3YC1x28Gs4a3AcEvK?=
+ =?us-ascii?Q?2ekWP7f/jWuV5F+EvTdPAxKzgKnn3qeS8LyE2hXgrerNpWOYERUmbb6KpXBH?=
+ =?us-ascii?Q?2OGDgY3Ny7ZkPh6acz+f/QHslJkRQQDl5dpJWXcDqdIvAwR4/nW2KSL88DIM?=
+ =?us-ascii?Q?B7ueiDdmQobBIdVxSTEE8Y8k6nuHTu8Qk5ZC6Tpn5Ho6eABCFy/gtCadTgJX?=
+ =?us-ascii?Q?KATdgwpQg7UWpBealJvsRsEa6HU3M+2UrvS4fLDMapz4oAAa/yKNTaxw7gDR?=
+ =?us-ascii?Q?AnPPkmyVkvvTygo7j0hO6wwa5bt9fDmFg07VUCRZK0IFJbMZQWp1oIVaAhBG?=
+ =?us-ascii?Q?4FFRdw2Jv6CNDoxrFX69XUoRpyZ42fNYBOIJMHG4uXMzhCSaDT/OuBBFjnN6?=
+ =?us-ascii?Q?QWRE8s03zHrbJhZM/ri/GIcgm+FUsl60ktfgCF2bmjPTDWguiMs0eWolWKo2?=
+ =?us-ascii?Q?GoA6ZCjkWg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
- <878q7l8y4y.fsf@redhat.com> <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
- <87wlv57dt1.fsf@redhat.com> <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
- <87o6gh79yi.fsf@redhat.com> <CAJfpegvUEEbFnCa1N9k3gMXpw46YFpWuta=G6brON1=xU36bgw@mail.gmail.com>
- <CAOQ4uxgZuJ+=RQDh3577H7PFAfYyF=wRJ55aPuuUW814Htrmbw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgZuJ+=RQDh3577H7PFAfYyF=wRJ55aPuuUW814Htrmbw@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 10 Jul 2026 20:23:41 +0200
-X-Gm-Features: AVVi8CcKiWkm6xoKpO6GLoDQetvLN0tImMPwxwYtq4HkU1puSjal02fIPnnUZPc
-Message-ID: <CAJfpegvGnr2a3u9qTEVgZyUpeYF0FoRg8xzyGg1wfw88Os5rMw@mail.gmail.com>
-Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Giuseppe Scrivano <gscrivan@redhat.com>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Daan De Meyer <daan.j.demeyer@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR04MB9001.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d81d6f3-1286-4f69-8186-08deded8f3f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2026 23:14:12.0688
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PUbuGh22NwrSEbGxQqb2+hwmWkaheiiISUQ8ylUhdelsOjElDbM0FbVMigZjFzINUBnkeJj7OqrWYznYHFlV+FYSj8fERMV8aNA1c+J/394=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB8279
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[szeredi.hu,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
-	R_DKIM_ALLOW(-0.20)[szeredi.hu:s=google];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[rambus.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[rambus.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-6830-lists,linux-api=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-6829-lists,linux-api=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:amir73il@gmail.com,m:gscrivan@redhat.com,m:linux-unionfs@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-api@vger.kernel.org,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:daan.j.demeyer@gmail.com,m:daanjdemeyer@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:conor.dooley@microchip.com,m:skrishnamoorthy@rambus.com,m:aou@eecs.berkeley.edu,m:conor+dt@kernel.org,m:davem@davemloft.net,m:herbert@gondor.apana.org.au,m:corbet@lwn.net,m:krzk+dt@kernel.org,m:palmer@dabbelt.com,m:pjw@kernel.org,m:robh@kernel.org,m:shuah@kernel.org,m:alex@ghiti.fr,m:devicetree@vger.kernel.org,m:Joel.Wittenauer@cryptography.com,m:linux-api@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:skhan@linuxfoundation.org,m:thin@rambus.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_SENDER(0.00)[aousherovitch@rambus.com,linux-api@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[redhat.com,vger.kernel.org,zeniv.linux.org.uk,kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miklos@szeredi.hu,linux-api@vger.kernel.org];
-	DKIM_TRACE(0.00)[szeredi.hu:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-api];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aousherovitch@rambus.com,linux-api@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[rambus.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,szeredi.hu:from_mime,szeredi.hu:dkim]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-api,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,rambus.com:from_mime,rambus.com:dkim,vger.kernel.org:from_smtp,SA3PR04MB9001.namprd04.prod.outlook.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1639773D564
+X-Rspamd-Queue-Id: 3D4D273FB9B
 
-On Thu, 9 Jul 2026 at 16:32, Amir Goldstein <amir73il@gmail.com> wrote:
+On Fri, Jul 10, 2026 at 1:59 AM, Conor Dooley <conor.dooley@microchip.com> =
+wrote:
 
-> Ack for this, but please don't use mount/options/... it's a bit ugly
-> because most mount options are not opan-able.
+> This company no longer exists, you should probably introduce a rambus
+> vendor prefix instead.
 
-True, but I was thinking of doing this as a reverse fsconfig() thing.
+Cryptography Research, Inc. does still exist -- it's now a wholly-owned
+subsidiary of Rambus (our co-maintainer is @cryptography.com). The
+prefix names the IP originator, which is consistent with existing
+subsidiary/acquired-vendor prefixes in the tree (e.g. al =3D Annapurna
+Labs under Amazon, mstar noted as acquired by MediaTek, fsl, cavium,
+xlnx). We'd prefer to keep "cri" on that basis, and can annotate the
+description as "Cryptography Research, Inc. (a Rambus company)" to make
+the ownership explicit. Happy to switch if you feel strongly.
 
-> Please stick to something logical like "fs/layers/N" corresponding to
-> ovl_fs::layers, where layer 0 is reserved for upper.
-> We could also support opening by aliases fs/layers/upper->0 etc,
-> but no rush IMO.
+> This property seems like it could be replaced by having a reg entry
+> for each mailbox.
 
-Layer numbering has been internal to overlayfs to date.  I'd prefer to
-keep the layer enumeration that is external, which is the mount option
-interface.  Works for EROFS as well.
+Agreed -- v3 will make each mailbox a subnode with its own reg window
+and drop cri,mbx-instances.
 
-> What I am contemplating is whether we should implement
-> introspection of the ovl_entry stack for merge dirs in addition or instead
-> introspection of fs/layers.
+> This looks like it should be deducible from a device-specific
+> compatible. [slots/strides]
 
-Interesting.
+These aren't fixed per silicon -- they're the per-mailbox layout of the
+VCQ rings in host DMA memory, chosen at platform integration and
+programmed by the driver into the mailbox QUEUE/SLOTS/STRIDE registers.
+They can differ per mailbox on the same silicon, so a compatible can't
+encode them. v3 will keep them as optional, defaulted properties on the
+per-mailbox subnodes.
 
-> IIRC, the root dir stack does NOT hold references to lowerdata dirs,
-> so support for "fs/layers/N" is still needed.
+> This whole subnode thing seems like it is only required because you
+> don't have device-specific compatibles [cores].
 
-So let's just stick with the per-superblock layering for now, which is
-reflected in the mount options.
+Core presence is actually discoverable at runtime from the CORE_ENABLE
+register, so v3 will drop the per-core child nodes entirely and probe
+for enabled cores -- no per-variant compatible needed.
 
->
-> For directories we could implement "real/0..N" with aliases
-> real/upper->0 real/origin->1.
->
-> For a regular file we could have constant aliases real/upper->0
-> real/lower->1 real/lowerdata->2 and/or dynamic aliases
-> real/data->{0,1,2}, real/metadata->{0,1}, real/origin->{0,1}.
->
-> Those could be used to implement "revert to origin".
-> Specifically, I think Daan asked for it during the last LSFMM.
-> Although I don't think we currently store the original lowerdata
-> in ovl_entry when lookup is done post data copy up.
+> this could probably be handled via reg-names? [affinity]
 
-I'm trying to focus on the "return an O_PATH descriptor for stacked
-layers" for now.  It avoids having to deal with opening files or
-directories within the O_ALT namespace, since magic symlink following
-is used.
+Yes -- v3 will express affinity per mailbox (a "role" of a specific core
+type for a dedicated mailbox, or "generic" for the round-robin pool),
+which is the subnode analog of your reg-names idea. One caveat: this
+cleanly covers 1:1 core-to-mailbox dedication plus a shared pool; a
+mailbox dedicated to several specific cores would need multiple role
+tokens.
 
-Thanks,
-Miklos
+Thanks -- this restructures nicely.
 
